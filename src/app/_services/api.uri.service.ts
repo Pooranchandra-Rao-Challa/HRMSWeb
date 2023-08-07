@@ -1,3 +1,3 @@
 
-export const LOGIN_URI = " ";
-export const REFRESH_TOKEN_URI = " "
+export const LOGIN_URI = "Security/Login";
+export const REFRESH_TOKEN_URI = "Security/Refresh";

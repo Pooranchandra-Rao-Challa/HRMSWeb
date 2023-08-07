@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
                         if (resp.isLoginSuccess && !resp.isFirstTimeLogin) {
                             this.messageService.add({ severity: 'success', key: 'myToast', summary: 'Success!', detail: 'Signing in...!' });
                             setTimeout(() => {
-                                this.router.navigate(['dashboard']);
+                                this.router.navigate(['./dashboard']);
                             }, 1000);
                         }
                         else if (resp.isLoginSuccess && resp.isFirstTimeLogin) {

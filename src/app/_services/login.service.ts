@@ -3,6 +3,13 @@ import { BehaviorSubject, Observable ,of, switchMap,} from 'rxjs';
 import { LoginModel, ResponseModel } from '../_models/login.model';
 import { ApiHttpService } from './api.http.service';
 import { LOGIN_URI, REFRESH_TOKEN_URI } from './api.uri.service';
+import Swal from 'sweetalert2'
+import { ALERT_CODES } from '../_alerts/alertmessage.service';
+import { environment } from 'src/environments/environment';
+import { HttpHeaders } from '@angular/common/http';
+import jwtdecode from 'jwt-decode'
+import { Router } from '@angular/router';
+
 
 
 export class LogInSuccessModel{
@@ -15,7 +22,18 @@ export class LogInSuccessModel{
 })
 export class LoginService extends ApiHttpService {
   private respSubject?: BehaviorSubject<ResponseModel>;
+  ApiUrl: string = environment.ApiUrl;
+  private userIP: string;
+  private userSubject: BehaviorSubject<any>;
+  public user: Observable<any>;
+   private refreshTokenTimer;
+  private router: Router;
   
+  public get userValue(): any {
+    if (this.userSubject != undefined)
+      return this.userSubject.getValue();
+    else return undefined;
+  }
 
   public Authenticate(data: LoginModel): Observable<LogInSuccessModel> {
     return this.post<ResponseModel>(LOGIN_URI, data).pipe(
@@ -32,15 +50,150 @@ export class LoginService extends ApiHttpService {
     )
   }
 
-  public RefreshToken(data: ResponseModel):Observable<boolean>{
-    return this.post<ResponseModel>(REFRESH_TOKEN_URI, data).pipe(
-      switchMap(resp => {
-        this.saveToken((resp as ResponseModel))
-        localStorage.setItem("respModel", JSON.stringify(resp as ResponseModel))
-        this.respSubject = new BehaviorSubject<ResponseModel>(resp as ResponseModel);
-        return of<boolean>(true)
-      }),
-    )
+  // public RefreshToken(data: ResponseModel):Observable<boolean>{
+  //   return this.post<ResponseModel>(REFRESH_TOKEN_URI, data).pipe(
+  //     switchMap(resp => {
+  //       this.saveToken((resp as ResponseModel))
+  //       localStorage.setItem("respModel", JSON.stringify(resp as ResponseModel))
+  //       this.respSubject = new BehaviorSubject<ResponseModel>(resp as ResponseModel);
+  //       return of<boolean>(true)
+  //     }),
+  //   )
+  // }
+  
+  refreshToken() {
+    var url = this.ApiUrl + 'refreshtoken';
+    const headers = new HttpHeaders({
+      "Content-Type": "application/json",
+      "Authorization": this.userValue.JwtToken
+    });
+    this.post<any>(url, { Refresh: this.userValue.RefreshToken, UserIP: this.userIP }, { headers: headers })
+      .subscribe((resp) => {
+        if (resp) {
+          const u = resp as any;
+          this.userValue.JwtToken = u.JwtToken;
+          this.userValue.RefreshToken = u.RefreshToken;
+          this.userSubject = new BehaviorSubject<any>(this.userValue);
+          localStorage.setItem('user', JSON.stringify(this.userValue));
+          this.startRefreshTokenTimer();
+        }
+
+      })
+  }
+
+  // resetSessionMonitor;
+  openRefeshDialog() {
+    let timerInterval
+    this.UserIp().subscribe(resp => {
+      this.userIP = resp.ip;
+      Swal.fire({
+        title: 'Do you want extend the session?',
+        html: 'Session will close in <b></b> seconds.',
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: 'Refresh Session',
+        denyButtonText: `Revoke Session`,
+        timer: 60000,
+        timerProgressBar: true,
+        didOpen: () => {
+          Swal.showLoading(Swal.getDenyButton())
+          const b = Swal.getHtmlContainer().querySelector('b')
+          timerInterval = setInterval(() => {
+            b.textContent = Math.floor(Swal.getTimerLeft() / 1000) + ''
+          }, 100)
+        },
+        willClose: () => {
+          clearInterval(timerInterval);
+
+        },
+        customClass: {
+          confirmButton: 'confirm-refresh-session',
+          container: 'swal2-container-high-zindex',
+        }
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          clearInterval(timerInterval);
+          this.refreshToken();
+        } else
+          if (result.dismiss === Swal.DismissReason.timer) {
+            this.revokeToken(ALERT_CODES["HRMS002"]);
+          }
+      })
+    });
+
+  }
+
+  revokeToken(error: any = '') {
+    if (!this.userValue || !this.userValue.JwtToken) {
+      this.stopRefreshTokenTimer();
+      return;
+    }
+
+    var url = this.ApiUrl + 'revoketoken';
+    const headers = new HttpHeaders({
+      "Content-Type": "application/json",
+      "Authorization": this.userValue.JwtToken
+    });
+    
+    this.post<any>(url, { Refresh: this.userValue.RefreshToken, UserIP: this.userIP }, { headers: headers })
+      .subscribe({
+        next: (resp) => {
+          this.stopRefreshTokenTimer();
+          localStorage.removeItem('user');
+          if (error != '' && error != null)
+            localStorage.setItem('message', error);
+          this.router.navigate(['/account/home'])
+        },
+        error: (error1) => {
+          console.log(error1);
+          this.stopRefreshTokenTimer();
+          localStorage.removeItem('user');
+          // if (error != '' && error != null)
+          //   localStorage.setItem('message', JSON.stringify(error.message));
+          this.router.navigate(['/account/home']);
+        },
+        complete: () => {
+        }
+      }
+
+      );
+  }
+
+  logout(error: any = '') {
+    this.revokeToken(error);
+  }
+
+  isLoggedIn() {
+    if (!this.userValue) return false;
+    if (!this.userValue.JwtToken) return false;
+    const jwtToken = jwtdecode(this.userValue.JwtToken) as unknown as any;
+    const exp = new Date(jwtToken.exp * 1000);
+    const iat = new Date(jwtToken.iat * 1000);
+    const nbf = new Date(jwtToken.nbf * 1000);
+    exp.setSeconds(0);
+    iat.setSeconds(0);
+    nbf.setSeconds(0);
+    console.log(exp);
+    const today = new Date();
+    const flag = today >= nbf && today >= iat && today <= exp;
+    return flag
+  }
+
+  public startRefreshTokenTimer() {
+    const jwtToken = jwtdecode(this.userValue.JwtToken) as unknown as any;
+    const expires = new Date(jwtToken.exp * 1000);
+    const timeout = expires.getTime() - (new Date()).getTime() - 60000;
+    if (this.refreshTokenTimer) this.clearTimer();
+    this.refreshTokenTimer = setTimeout(() => this.openRefeshDialog(), timeout);
+  }
+
+  public clearTimer() {
+    clearTimeout(this.refreshTokenTimer);
+  }
+
+  private stopRefreshTokenTimer() {
+    clearTimeout(this.refreshTokenTimer);
   }
 }
 

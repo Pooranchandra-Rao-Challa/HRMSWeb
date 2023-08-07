@@ -100,7 +100,8 @@
           </svg>
         </a>
         <h3 class=" topbar_title mb-4">HRMS Admin</h3>
-        <form [formGroup]="fbloginForm" >
+        <p-toast key="myToast"></p-toast>
+        <form [formGroup]="fbloginForm"  (ngSubmit)="onSubmit()">
         <div class="flex flex-column mt-4">
           <span class="p-input-icon-left w-full mb-4">
             <i class="pi pi-envelope"></i>
@@ -110,8 +111,14 @@
             <i class="pi pi-lock"></i>
             <input id="password" type="password" pInputText class="w-full md:w-25rem text-color-secondary surface-50 border-200" placeholder="Password" formControlName="password" />
           </span>
-          <button pButton pRipple label="Sign In" class="w-full mb-4" [routerLink]="['/dashboard/admin']"></button>
-          <a  [routerLink]="['/auth/forgotpassword']"  class="font-medium text-sm text-300">Forget Password?</a>
+          <div class="flex align-items-center justify-content-between mb-5 gap-5">
+            <div class="flex align-items-center">
+                <p-checkbox id="rememberme1" [binary]="true" styleClass="mr-2"></p-checkbox>
+                <label for="rememberme1">Remember me</label>
+            </div>
+            <a class="font-medium no-underline ml-2 text-right cursor-pointer" style="color: var(--primary-color)" [routerLink]="['/auth/forgotpassword']">Forgot Password?</a>
+          </div>
+          <button pButton pRipple label="Sign In" class="w-full p-3 text-xl" type="submit" [disabled]="submitted ? true : false" ></button>
           <!-- <p class="font-medium text-400 m-0 mt-6">Don’t you have an account, <a href="#" class="text-primary cursor-pointer">sign in</a> --
           </p>-->
         </div>
