@@ -9,8 +9,10 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 @NgModule({
     declarations: [AppComponent],
     imports: [AppRoutingModule, AppLayoutModule, EmployeeRoutingModule],
-    providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy },
-        { provide: HTTP_INTERCEPTORS, useClass: HrmsAPIInterceptor, multi: true },],
+    providers: [
+        // { provide: HTTP_INTERCEPTORS, useClass: HrmsAPIInterceptor, multi: true },
+        { provide: LocationStrategy, useClass: HashLocationStrategy },
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule {}

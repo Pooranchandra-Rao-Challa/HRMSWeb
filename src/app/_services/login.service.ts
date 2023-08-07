@@ -36,6 +36,7 @@ export class LoginService extends ApiHttpService {
   }
 
   public Authenticate(data: LoginModel): Observable<LogInSuccessModel> {
+    debugger
     return this.post<ResponseModel>(LOGIN_URI, data).pipe(
       switchMap(resp => {
         this.saveToken((resp as ResponseModel))
@@ -50,16 +51,16 @@ export class LoginService extends ApiHttpService {
     )
   }
 
-  // public RefreshToken(data: ResponseModel):Observable<boolean>{
-  //   return this.post<ResponseModel>(REFRESH_TOKEN_URI, data).pipe(
-  //     switchMap(resp => {
-  //       this.saveToken((resp as ResponseModel))
-  //       localStorage.setItem("respModel", JSON.stringify(resp as ResponseModel))
-  //       this.respSubject = new BehaviorSubject<ResponseModel>(resp as ResponseModel);
-  //       return of<boolean>(true)
-  //     }),
-  //   )
-  // }
+  public RefreshToken(data: ResponseModel):Observable<boolean>{
+    return this.post<ResponseModel>(REFRESH_TOKEN_URI, data).pipe(
+      switchMap(resp => {
+        this.saveToken((resp as ResponseModel))
+        localStorage.setItem("respModel", JSON.stringify(resp as ResponseModel))
+        this.respSubject = new BehaviorSubject<ResponseModel>(resp as ResponseModel);
+        return of<boolean>(true)
+      }),
+    )
+  }
   
   refreshToken() {
     var url = this.ApiUrl + 'refreshtoken';
@@ -81,7 +82,7 @@ export class LoginService extends ApiHttpService {
       })
   }
 
-  // resetSessionMonitor;
+  resetSessionMonitor;
   openRefeshDialog() {
     let timerInterval
     this.UserIp().subscribe(resp => {
