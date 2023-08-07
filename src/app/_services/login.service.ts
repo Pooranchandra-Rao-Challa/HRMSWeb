@@ -28,7 +28,7 @@ export class LoginService extends ApiHttpService {
   public user: Observable<any>;
    private refreshTokenTimer;
   private router: Router;
-  
+
   public get userValue(): any {
     if (this.userSubject != undefined)
       return this.userSubject.getValue();
@@ -60,7 +60,7 @@ export class LoginService extends ApiHttpService {
   //     }),
   //   )
   // }
-  
+
   refreshToken() {
     var url = this.ApiUrl + 'refreshtoken';
     const headers = new HttpHeaders({
@@ -135,7 +135,7 @@ export class LoginService extends ApiHttpService {
       "Content-Type": "application/json",
       "Authorization": this.userValue.JwtToken
     });
-    
+
     this.post<any>(url, { Refresh: this.userValue.RefreshToken, UserIP: this.userIP }, { headers: headers })
       .subscribe({
         next: (resp) => {
