@@ -1,0 +1,531 @@
+<div class="col-12">
+    <div class="card">
+        <!-- Toolbar -->
+        <p-toolbar styleClass="p-mb-4">
+            <ng-template pTemplate="left">
+                <h4>Assets</h4>
+            </ng-template>
+            <ng-template pTemplate="right">
+                <button pButton pRipple label="New Asset" icon="pi pi-plus" class="p-button-primary p-mr-2"
+                    (click)="addAssetsDialog()"></button>
+            </ng-template>
+        </p-toolbar>
+        <!-- dialog -->
+        <p-dialog header="Assets" [(visible)]="dialog" [modal]="true" showEffect="fade"
+            [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '60%'}" (onHide)="onClose()">
+            <div class="flex flex-column align-items-center justify-content-center">
+                <form [formGroup]="fbassets">
+                    <div class="col-12 roles-container">
+                        <div class="p-fluid p-formgrid grid">
+                            <div class="field col-12 md:col-4">
+                                <label>Asset Name:<sup class="p-error">*</sup></label>&nbsp;
+                                <input pInputText id="assetname" type="text" formControlName="name"
+                                    placeholder="Enter Asset Name" #assetname alphaNumeric />
+                            </div>
+                            <div class="field col-12 md:col-4">
+                                <span>
+                                    <label>Purchased Date:<sup class="p-error">*</sup></label>&nbsp;
+                                    <input pInputText id="purchaseddate" formControlName="purchasedDate"
+                                        placeholder="Enter Purchased Date" />
+                                </span>
+                            </div>
+                            <div class="field col-12 md:col-4">
+                                <label>Model Number:<sup class="p-error">*</sup></label>&nbsp;
+                                <input pInputText id="modelnumber" formControlName="modelNumber"
+                                    placeholder="Enter Model Number" #modelnumber alphaOnly />
+                            </div>
+                            <div class="field col-12 md:col-4">
+                                <label>Manufacturer:<sup class="p-error">*</sup></label>&nbsp;
+                                <input pInputText id="manufacturer" type="text" formControlName="manufacturer"
+                                    placeholder="Enter Manufacturer" #manufacturer alphaOnly />
+                            </div>
+                            <div class="field col-12 md:col-4">
+                                <label>Serial Number:<sup class="p-error">*</sup></label>&nbsp;
+                                <input pInputText id="serialnumber" type="text" formControlName="serialNumber"
+                                    placeholder="Enter Serial Number " />
+                            </div>
+                            <div class="field col-12 md:col-4">
+                                <label>Warranty:<sup class="p-error">*</sup></label>&nbsp;
+                                <input pInputText id="warranty" type="text" formControlName="warranty"
+                                    placeholder="Enter Warranty " />
+                            </div>
+                            <div class="field col-12 md:col-4">
+                                <label>Add Value:<sup class="p-error">*</sup></label>&nbsp;
+                                <input pInputText id="addvalue" type="text" formControlName="addValue"
+                                    placeholder="Enter Add Value" />
+                            </div>
+                            <div class="field col-12 md:col-4">
+                                <label htmlFor="description">Description:</label>
+                                <input pInputText id="description" type="text" #description formControlName="description"
+                                    placeholder="Enter Description" />
+                            </div>
+                            <div class="field col-12 md:col-4">
+                                <label htmlFor="status">Status:</label>
+                                <input pInputText id="status" type="text" #status formControlName="status"
+                                    placeholder="Enter Status" />
+                            </div>
+                        </div>
+                        
+                        <!-- <div class=" col-12 md:col-4 mt-2">
+                                <div class=" button-container">
+                                    <p-button type="button" label="Add Assets Details" (click)="addassetsDetails()">
+                                    </p-button>
+                                </div>
+                            </div> -->
+                        <!--                                 
+                            <div class="col-12 scrolling_content" formArrayName="assetsDetails" *ngIf="ShowassetsDetails">
+                                <p-table #dt2 [value]="faassetsDetail().controls" dataKey="id" [rows]="10" [rowHover]="true"
+                                    *ngIf="ShowassetsDetails"
+                                    styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
+                                    [paginator]="false" [autoLayout]="true" responsiveLayout="scroll"
+                                    [rowsPerPageOptions]="[10,25,50]">>
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <th>Leave Title<sup class="p-error">*</sup> </th>
+                                            <th>From Date <sup class="p-error">*</sup></th>
+                                            <th>To Date <sup class="p-error">*</sup></th>
+                                            <th>Leave Description<sup class="p-error">*</sup></th>
+                                            <th *ngIf="fbassets.controls['assetsDetails'].value.length > 1"></th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-asset let-assetsDetailsIndex="rowIndex">
+                                        <tr [formGroupName]="assetsDetailsIndex">
+                                            <td class="vertical-align-top">
+                                                <input pInputText class="form-control" formControlName="name">
+                                            </td>
+                                            <td class="vertical-align-top">
+                                                <input pInputText class="form-control" formControlName="purchasedDate"
+                                                    placeholder="Enter Date">
+                                            </td>
+                                            <td class="vertical-align-top">
+                                               
+                                            </td>
+                                            <td class="vertical-align-top">
+                                                
+                                            </td>
+                                            <td *ngIf="fbassets.controls['assetsDetails'].value.length > 1">
+                                                <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer"
+                                                    *ngIf="!this.faassetsDetail().controls[assetsDetailsIndex].get('id')?.value"
+                                                    (click)="faassetsDetail().removeAt(assetsDetailsIndex)"></i>
+                                                <i class="pi pi-fw pi-verified text-3xl"
+                                                    *ngIf="this.faassetsDetail().controls[assetsDetailsIndex].get('id')?.value"></i>
+                                            </td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </div> -->
+                    </div>
+                </form>
+
+            </div>
+            <ng-template pTemplate="footer">
+                <div class="col-4" style="float:right">
+                    <button pButton pRipple type="submit" [label]="submitLabel" class="p-button-raised p-button-primary"
+                        (click)="onSubmit()"></button>
+                </div>
+            </ng-template>
+        </p-dialog>
+
+        <!-- table -->
+        <p-table #dtassets [value]="assets" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
+            styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [showCurrentPageReport]="true" [globalFilterFields]="globalFilterFields" [autoLayout]="true"
+            responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]">
+            <ng-template pTemplate="caption">
+                <div class="flex justify-content-between flex-column sm:flex-row">
+                    <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
+                        (click)="clear(dtassets)"></button>
+                    <span class="p-input-icon-left mb-2">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" #filter (input)="onGlobalFilter(dtassets, $event)"
+                            placeholder="Search Keyword" class="w-full" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width:5px"></th>
+                    <th *ngFor="let col of headers" [pSortableColumn]="col.header">
+                        {{col?.label}}
+                        <p-columnFilter type="text" [field]="col.header" display="menu"></p-columnFilter>
+                        <p-sortIcon [field]="col.header"></p-sortIcon>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-asset>
+                <tr>
+                    <td><button pButton pRipple icon="pi pi-pencil" style="padding: 0px;"
+                            class="p-element p-ripple p-button-text p-button p-component mr-2 "
+                            (click)="editAssets(assets)"></button></td>
+                    <td>
+                        {{ asset.name }}
+                    </td>
+                    <td>
+                        {{ asset.purchasedDate }}
+                    </td>
+                    <td>
+                        {{ asset.modelNumber }}
+                    </td>
+                    <td>
+                        {{ asset.manufacturer}}
+                    </td>
+                    <td>
+                        {{ asset.serialNumber }}
+                    </td>
+                    <td>
+                        {{asset.warranty}}
+                    </td>
+                    <td>
+                        {{asset.addValue}}
+                    </td>
+                    <td>
+                        {{asset.description}}
+                    </td>
+                    <td>
+                        {{asset.status}}
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td class="md:text-center m-5" colspan="8">No leave Found.</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
+
+<!-- <div class="col-12">
+    <div class="card">
+        <p-toolbar styleClass="p-mb-4">
+            <ng-template pTemplate="left">
+                <h4>Assets</h4>
+            </ng-template>
+            <ng-template pTemplate="right">
+                <button pButton pRipple label="New Assets" icon="pi pi-plus" class="p-button-primary p-mr-2"
+                    (click)="addAssetsDialog()"></button>
+            </ng-template>
+        </p-toolbar>
+        <p-dialog header="Assets" [(visible)]="dialog" [modal]="true" showEffect="fade"
+            [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}" (onHide)="onClose()">
+            <div class="flex flex-column align-items-center justify-content-center">
+                <form [formGroup]="fbassets">
+                    <div class="grid">
+                        <div class="col-12">
+                            <div class="p-fluid p-formgrid grid">
+                                <div class="field col-12 md:col-6">
+                                    <label>Asset Name:<sup class="p-error">*</sup></label>&nbsp;
+                                    <input pInputText id="assetname" type="text" formControlName="name"
+                                        placeholder="Enter Asset Name" #assetname alphaNumeric
+                                        [ngClass]="{ 'is-invalid ng-dirty': assetsFormControls['name'].touched && assetsFormControls['name'].errors }" />
+                                    <div class="flex">
+                                        <div class="align-left w-60" style="width:70%">
+                                            <span
+                                                *ngIf="assetsFormControls['name'].touched && assetsFormControls['name'].invalid">
+                                                <div class="ng-invalid ng-touched p-error"
+                                                    *ngIf="assetsFormControls['name'].errors?.['required']">
+                                                    Please Enter Asset Name.</div>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="field col-12 md:col-6">
+                                    <span>
+                                        <label>Purchased Date:<sup class="p-error">*</sup></label>&nbsp;
+                                        <input pInputText id="purchaseddate" formControlName="purchasedDate"
+                                            placeholder="Enter Purchased Date" />
+                                    </span>
+                                </div>
+                                <div class="field col-12 md:col-6">
+                                    <label>Model Number:<sup class="p-error">*</sup></label>&nbsp;
+                                    <input pInputText id="modelnumber" formControlName="modelNumber"
+                                        placeholder="Enter Model Number" #modelnumber alphaOnly />
+                                </div>
+                                <div class="field col-12 md:col-6">
+                                    <label>Manufacturer:<sup class="p-error">*</sup></label>&nbsp;
+                                    <input pInputText id="manufacturer" type="text" formControlName="manufacturer"
+                                        placeholder="Enter Manufacturer" #manufacturer alphaOnly />
+                                </div>
+                                <div class="field col-12 md:col-6">
+                                    <label>Serial Number:<sup class="p-error">*</sup></label>&nbsp;
+                                    <input pInputText id="serialnumber" type="text" formControlName="serialNumber"
+                                        placeholder="Enter Serial Number " />
+                                </div>
+                                <div class="field col-12 md:col-6">
+                                    <label>Warranty:<sup class="p-error">*</sup></label>&nbsp;
+                                    <input pInputText id="warranty" type="text" formControlName="warranty"
+                                        placeholder="Enter Warranty " />
+                                </div>
+                                <div class="field col-12 md:col-6">
+                                    <label>Add Value:<sup class="p-error">*</sup></label>&nbsp;
+                                    <input pInputText id="addvalue" type="text" formControlName="addValue"
+                                        placeholder="Enter Add Value" />
+                                </div>
+                                <div class="field col-12 md:col-6">
+                                    <label htmlFor="description">Description:</label>
+                                    <input pInputText id="description" type="text" #description
+                                        formControlName="description" placeholder="Enter Description" />
+                                </div>
+                                <div class="field col-12 md:col-6">
+                                    <label htmlFor="status">Status:</label>
+                                    <input pInputText id="status" type="text" #status formControlName="status"
+                                        placeholder="Enter Status" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form> -->
+<!-- <form [formGroup]="fbleave">
+                    <div class="grid">
+                        <div class="col-12 roles-container">
+                            <div class="p-fluid p-formgrid grid">
+                                <div class="field col-12 md:col-4">
+                                    <label>Leave Title:<sup class="p-error">*</sup></label>&nbsp;
+                                    <input pInputText id="title" type="text" formControlName="leaveTitle"
+                                        placeholder="Enter Leave Title" />
+                                </div>
+                                <div class="field col-12 md:col-4">
+                                    <label>From Date:<sup class="p-error">*</sup></label>&nbsp;
+                                    <input pInputText id="fromdate" type="date" formControlName="fromDate"
+                                        placeholder="Enter Date" />
+                                </div>
+                                <div class="field col-12 md:col-4">
+                                    <label>To Date:<sup class="p-error">*</sup></label>&nbsp;
+                                    <input pInputText id="todate" type="date" formControlName="toDate"
+                                        placeholder="Enter Date" />
+                                </div>
+                                <div class="field col-12 md:col-4">
+                                    <label>Leave Description:<sup class="p-error">*</sup></label>&nbsp;
+                                    <input pInputText id="description" type="text" formControlName="leaveDescription"
+                                        placeholder="Enter Leave Description" />
+                                </div>
+                                <div class=" col-12 md:col-4 mt-2">
+                                    <div class=" button-container">
+                                        <p-button type="button" label="Add Assets Details" (click)="addassetsDetails()">
+                                        </p-button>
+                                    </div>
+                                </div>
+                                <div class="col-12 scrolling_content" formArrayName="assetsDetails"
+                                    *ngIf="ShowassetsDetails">
+                                    <p-table #dt2 [value]="faassetsDetail().controls" dataKey="id" [rows]="10"
+                                        [rowHover]="true" *ngIf="ShowleaveDetails"
+                                        styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
+                                        [paginator]="false" [autoLayout]="true" responsiveLayout="scroll"
+                                        [rowsPerPageOptions]="[10,25,50]">>
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>Leave Title<sup class="p-error">*</sup> </th>
+                                                <th>From Date <sup class="p-error">*</sup></th>
+                                                <th>To Date <sup class="p-error">*</sup></th>
+                                                <th>Leave Description<sup class="p-error">*</sup></th>
+                                                <th *ngIf="fbassets.controls['assetsDetails'].value.length > 1"></th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-leave let-leaveDetailsIndex="rowIndex">
+                                            <tr [formGroupName]="leaveDetailsIndex">
+                                                <td class="vertical-align-top">
+                                                    <input pInputText class="form-control" formControlName="leaveTitle">
+                                                </td>
+                                                <td class="vertical-align-top">
+                                                    <input pInputText class="form-control" formControlName="fromDate"
+                                                        placeholder="Enter Date">
+                                                </td>
+                                                <td class="vertical-align-top">
+                                                    <input pInputText class="form-control" formControlName="toDate"
+                                                        placeholder="Enter Date">
+                                                </td>
+                                                <td class="vertical-align-top">
+                                                    <input pInputText class="form-control"
+                                                        formControlName="leaveDescription"
+                                                        placeholder="Enter Leave Description">
+                                                </td>
+                                                <td *ngIf="fbassets.controls['assetsDetails'].value.length > 1">
+                                                    <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer"
+                                                        *ngIf="!this.faassetsDetail().controls[leaveDetailsIndex].get('id')?.value"
+                                                        (click)="faassetsDetail().removeAt(leaveDetailsIndex)"></i>
+                                                    <i class="pi pi-fw pi-verified text-3xl"
+                                                        *ngIf="this.faassetsDetail().controls[leaveDetailsIndex].get('id')?.value"></i>
+                                                </td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form> -->
+<!-- 
+            </div>
+            <ng-template pTemplate="footer">
+                <div class="col-4" style="float:right">
+                    <button pButton pRipple type="submit" [label]="submitLabel" class="p-button-raised p-button-primary"
+                        (click)="onSubmit()"></button>
+                </div>
+            </ng-template>
+        </p-dialog> 
+
+        <p-table #dtasset [value]="assets" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
+            styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [showCurrentPageReport]="true" [globalFilterFields]="globalFilterFields" [autoLayout]="true"
+            responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]">
+            <ng-template pTemplate="caption">
+                <div class="flex justify-content-between flex-column sm:flex-row">
+                    <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
+                        (click)="clear(dtasset)"></button>
+                    <span class="p-input-icon-left mb-2">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" #filter (input)="onGlobalFilter(dtasset, $event)"
+                            placeholder="Search Keyword" class="w-full" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width:5px;"></th>
+                    <th *ngFor="let col of headers" [pSortableColumn]="col.header">
+                        {{col?.label}}
+                        <p-columnFilter type="text" [field]="col.header" display="menu"></p-columnFilter>
+                        <p-sortIcon [field]="col.header"></p-sortIcon>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-asset>
+                <tr>
+                    <td><button pButton pRipple icon="pi pi-pencil" style="padding: 0px;"
+                            class="p-element p-ripple p-button-text p-button p-component mr-2 "
+                            (click)="editAssets(assets)"></button></td>
+                    <td>
+                        {{ asset.name }}
+                    </td>
+                    <td>
+                        {{ asset.purchasedDate }}
+                    </td>
+                    <td>
+                        {{ asset.modelNumber }}
+                    </td>
+                    <td>
+                        {{ asset.manufacturer}}
+                    </td>
+                    <td>
+                        {{ asset.serialNumber }}
+                    </td>
+                    <td>
+                        {{asset.warranty}}
+                    </td>
+                    <td>
+                        {{asset.addValue}}
+                    </td>
+                    <td>
+                        {{asset.description}}
+                    </td>
+                    <td>
+                        {{asset.status}}
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td class="text-center m-5" colspan="18">No Users Found.</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>-->
+
+
+
+
+<!-- <div>
+    <div class="card">
+        
+
+        <div class="grid mb-5">
+            <div class="col-12 md:col-4 mb-5">
+                <div class="flex flex-column align-items-center">
+                    <span class="inline-flex align-items-center justify-content-center border-circle w-5rem h-5rem bg-primary-100 mb-5">
+                        <i class="pi pi-power-off text-4xl text-primary-700"></i>
+                    </span>
+                    <div class="text-2xl mb-3 font-medium">Getting Started</div>
+                    <ul class="list-none m-0 p-0 text-center">
+                        <li class="line-height-3 mb-1"><a class="text-color-secondary hover:text-primary cursor-pointer">Lorem ipsum dolor</a></li>
+                        <li class="line-height-3 mb-1"><a class="text-color-secondary hover:text-primary cursor-pointer">Consectetur adipiscing elit</a></li>
+                        <li class="line-height-3 mb-3"><a class="text-color-secondary hover:text-primary cursor-pointer">Sed do eiusmod tempor</a></li>
+                        <li><a class="text-primary hover:underline cursor-pointer font-medium">View all</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-12 md:col-4 mb-5">
+                <div class="flex flex-column align-items-center">
+                    <span class="inline-flex align-items-center justify-content-center border-circle w-5rem h-5rem bg-primary-100 mb-5">
+                        <i class="pi pi-arrows-h text-4xl text-primary-700"></i>
+                    </span>
+                    <div class="text-2xl mb-3 font-medium">Transactions</div>
+                    <ul class="list-none m-0 p-0 text-center">
+                        <li class="line-height-3 mb-1"><a class="text-color-secondary hover:text-primary cursor-pointer">Lorem ipsum dolor</a></li>
+                        <li class="line-height-3 mb-1"><a class="text-color-secondary hover:text-primary cursor-pointer">Consectetur adipiscing elit</a></li>
+                        <li class="line-height-3 mb-3"><a class="text-color-secondary hover:text-primary cursor-pointer">Sed do eiusmod tempor</a></li>
+                        <li><a class="text-primary hover:underline cursor-pointer font-medium">View all</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-12 md:col-4 mb-5">
+                <div class="flex flex-column align-items-center">
+                    <span class="inline-flex align-items-center justify-content-center border-circle w-5rem h-5rem bg-primary-100 mb-5">
+                        <i class="pi pi-user text-4xl text-primary-700"></i>
+                    </span>
+                    <div class="text-2xl mb-3 font-medium">Profile</div>
+                    <ul class="list-none m-0 p-0 text-center">
+                        <li class="line-height-3 mb-1"><a class="text-color-secondary hover:text-primary cursor-pointer">Lorem ipsum dolor</a></li>
+                        <li class="line-height-3 mb-1"><a class="text-color-secondary hover:text-primary cursor-pointer">Consectetur adipiscing elit</a></li>
+                        <li class="line-height-3 mb-3"><a class="text-color-secondary hover:text-primary cursor-pointer">Sed do eiusmod tempor</a></li>
+                        <li><a class="text-primary hover:underline cursor-pointer font-medium">View all</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-12 md:col-4 mb-5">
+                <div class="flex flex-column align-items-center">
+                    <span class="inline-flex align-items-center justify-content-center border-circle w-5rem h-5rem bg-primary-100 mb-5">
+                        <i class="pi pi-money-bill text-4xl text-primary-700"></i>
+                    </span>
+                    <div class="text-2xl mb-3 font-medium">Billing</div>
+                    <ul class="list-none m-0 p-0 text-center">
+                        <li class="line-height-3 mb-1"><a class="text-color-secondary hover:text-primary cursor-pointer">Lorem ipsum dolor</a></li>
+                        <li class="line-height-3 mb-1"><a class="text-color-secondary hover:text-primary cursor-pointer">Consectetur adipiscing elit</a></li>
+                        <li class="line-height-3 mb-3"><a class="text-color-secondary hover:text-primary cursor-pointer">Sed do eiusmod tempor</a></li>
+                        <li><a class="text-primary hover:underline cursor-pointer font-medium">View all</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-12 md:col-4 mb-5">
+                <div class="flex flex-column align-items-center">
+                    <span class="inline-flex align-items-center justify-content-center border-circle w-5rem h-5rem bg-primary-100 mb-5">
+                        <i class="pi pi-database text-4xl text-primary-700"></i>
+                    </span>
+                    <div class="text-2xl mb-3 font-medium">Integrations</div>
+                    <ul class="list-none m-0 p-0 text-center">
+                        <li class="line-height-3 mb-1"><a class="text-color-secondary hover:text-primary cursor-pointer">Lorem ipsum dolor</a></li>
+                        <li class="line-height-3 mb-1"><a class="text-color-secondary hover:text-primary cursor-pointer">Consectetur adipiscing elit</a></li>
+                        <li class="line-height-3 mb-3"><a class="text-color-secondary hover:text-primary cursor-pointer">Sed do eiusmod tempor</a></li>
+                        <li><a class="text-primary hover:underline cursor-pointer font-medium">View all</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-12 md:col-4 mb-5">
+                <div class="flex flex-column align-items-center">
+                    <span class="inline-flex align-items-center justify-content-center border-circle w-5rem h-5rem bg-primary-100 mb-5">
+                        <i class="pi pi-lock text-4xl text-primary-700"></i>
+                    </span>
+                    <div class="text-2xl mb-3 font-medium">Security</div>
+                    <ul class="list-none m-0 p-0 text-center">
+                        <li class="line-height-3 mb-1"><a class="text-color-secondary hover:text-primary cursor-pointer">Lorem ipsum dolor</a></li>
+                        <li class="line-height-3 mb-1"><a class="text-color-secondary hover:text-primary cursor-pointer">Consectetur adipiscing elit</a></li>
+                        <li class="line-height-3 mb-3"><a class="text-color-secondary hover:text-primary cursor-pointer">Sed do eiusmod tempor</a></li>
+                        <li><a class="text-primary hover:underline cursor-pointer font-medium">View all</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->

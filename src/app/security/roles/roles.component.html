@@ -1,0 +1,115 @@
+<div class="col-12">
+  <div class="card">
+    <!-- Toolbar -->
+    <p-toolbar styleClass="p-mb-4">
+      <ng-template pTemplate="left">
+        <h4>Roles</h4>
+      </ng-template>
+      <ng-template pTemplate="right">
+        <button pButton pRipple label="New Roles" icon="pi pi-plus" class="p-button-primary p-mr-2"
+          (click)="initRole({})"></button>
+      </ng-template>
+    </p-toolbar>
+
+    <!-- table -->
+    <p-table #dt1 [value]="roles" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true"
+      styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true"
+      [globalFilterFields]="globalFilterFields" [autoLayout]="true" responsiveLayout="scroll"
+      [rowsPerPageOptions]="[10,25,50]" [tableStyle]="{ width: 'autoLayout'}">
+      <ng-template pTemplate="caption">
+        <div class="flex justify-content-between flex-column sm:flex-row">
+          <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
+            (click)="clear(dt1)"></button>
+          <span class="p-input-icon-left mb-2">
+            <i class="pi pi-search"></i>
+            <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Search Keyword"
+              class="w-full" />
+          </span>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width:5px;"></th>
+          <th *ngFor="let col of headers" [pSortableColumn]="col.header">
+            {{col?.label}}
+            <p-columnFilter type="text" [field]="col.header" display="menu"></p-columnFilter>
+            <p-sortIcon [field]="col.header"></p-sortIcon>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-roles>
+        <tr>
+          <td><button pButton pRipple icon="pi pi-pencil" style="padding: 0px;"
+              class="p-element p-ripple p-button-text p-button p-component" (click)="editRole()"></button></td>
+          <td *ngFor="let col of headers" [ngClass]="col?.field == 'isActive' ? 'text-center' : ''">
+            <span *ngIf="col?.field != 'createdAt' && col?.field != 'isActive'">{{roles[col.field]}}</span>
+            <span *ngIf="col?.field == 'createdAt'">
+              {{roles[col.field] }}
+            </span>
+            <span *ngIf="col?.field == 'isActive'">
+              <p-checkbox name="isActive" value="isActive" [binary]="true" [(ngModel)]="roles[col.field]"
+                [disabled]="true">
+              </p-checkbox>
+            </span>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td class="md:text-center m-5" colspan="9">No Roles Found.</td>
+        </tr>
+      </ng-template>
+    </p-table>
+
+    <!-- Dialog  -->
+
+    <p-dialog header="Role" [(visible)]="dialog" [modal]="true" showEffect="fade"
+      [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: 'auto'}">
+      <div class="flex flex-column align-items-center justify-content-center">
+        <form [formGroup]="roleForm" (ngSubmit)="onSubmit()">
+          <div class="grid">
+            <div class="col-12 roles-container">
+              <div class="p-fluid p-formgrid grid">
+                <div class="field col-12 md:col-4">
+                  <label>Code:<sup class="p-error">*</sup></label>&nbsp;
+                  <input pInputText id="code" type="text" formControlName="code" placeholder="Enter Role Code" />
+                </div>
+                <div class="field col-12 md:col-4">
+                  <label>Name:<sup class="p-error">*</sup></label>&nbsp;
+                  <input pInputText id="name" type="text" formControlName="name" placeholder="Enter Role Name" />
+                </div>
+                <div class="field col-12 md:col-4">
+                  <label>Is Active:<sup class="p-error">*</sup></label><br>
+                  &nbsp;<p-inputSwitch formControlName="isActive">
+                  </p-inputSwitch>
+                </div>
+                <div class="field col-12">
+                  <label>Permissions:<sup class="p-error">*</sup></label><br>
+                  <div class="grid col-12">
+                    <p-accordion *ngFor="let screen of screens"
+                      class="col-12 xl:col-3 md:col-6 sm:col-6 accordion_roles" [multiple]="false">
+                      <p-accordionTab [header]="screen" [selected]="false" [cache]="false">
+                        <div class="col-12 role-accordian-view">
+                          <p-inputSwitch>
+                          </p-inputSwitch>
+                          <label for="ny">hello</label>
+                        </div>
+                      </p-accordionTab>
+                    </p-accordion>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <ng-template pTemplate="footer">
+        <div class="col-4" style="float:right">
+          <button pButton pRipple type="submit" [label]="submitLabel" class="p-button-raised p-button-primary"
+            (click)="onSubmit()"></button>
+        </div>
+      </ng-template>
+    </p-dialog>
+  </div>
+</div>

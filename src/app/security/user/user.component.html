@@ -1,0 +1,144 @@
+<div class="card">
+    <!-- Table -->
+    <p-table #dt1 [value]="employees" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true"
+        styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true"
+        [globalFilterFields]="globalFilterFields" [autoLayout]="true" responsiveLayout="scroll"
+        [rowsPerPageOptions]="[10,25,50]" [tableStyle]="{ width: 'layoutcontent'}">
+        <ng-template pTemplate="caption">
+
+            <div class="flex justify-content-between flex-column sm:flex-row">
+                <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
+                    (click)="clear(dt1)"></button>
+                <span class="p-input-icon-left mb-2">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)"
+                        placeholder="Search Keyword" class="w-full" />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width:5px;"></th>
+                <th *ngFor="let col of headers" [pSortableColumn]="col.header">
+                    {{col?.label}}
+                    <p-columnFilter type="text" [field]="col.header" display="menu"></p-columnFilter>
+                    <p-sortIcon [field]="col.header"></p-sortIcon>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-employee>
+            <tr>
+                <td><button pButton pRipple icon="pi pi-pencil" style="padding: 0px;"
+                        class="p-element p-ripple p-button-text p-button p-component mr-2 "
+                        (click)="showUser(employee)"></button></td>
+                <td>
+                    {{ employee.empname }}
+                </td>
+                <td>
+                    {{ employee.empcode }}
+                </td>
+                <td>
+                    {{ employee.dob }}
+                </td>
+                <td>
+                    {{ employee.designation}}
+                </td>
+                <td>
+                    {{ employee.gender }}
+                </td>
+                <td>
+                    {{employee.doj}}
+                </td>
+                <td>
+                    {{employee.email}}
+                </td>
+                <td>
+                    {{employee.phoneno}}
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td class="text-center m-5" colspan="18">No Users Found.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <!-- Dailog -->
+    <p-dialog header="Edit User" [(visible)]="dialog" [modal]="true" showEffect="fade"
+        [breakpoints]="{'960px': '50%', '640px': '80%'}" [style]="{width: '50%'}" (onHide)="userForm.reset()">
+        <ng-template pTemplate="content">
+            <div class="flex flex-column align-items-center justify-content-center">
+                <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="tpt_form" autocomplete="off">
+                    <p-tabView orientation="left" class="users-container user_form" style="min-width:700px;">
+                        <p-tabPanel header="User Info" class="line-height-3 m-0 col-12 ">
+                            <div class="grid">
+                                <div class="col-12">
+                                    <p-fieldset [toggleable]="true" legend="User Info" class="line-height-3 m-0 mb-5">
+                                        <div class="p-fluid p-formgrid grid">
+                                            <div class="field col-12 md:col-6">
+                                                <label>User Name:<sup class="p-error">*</sup></label>&nbsp;
+                                                <input pInputText id="username" type="text" formControlName="empname"
+                                                    placeholder="Enter User Name" #username alphaNumeric />
+                                            </div>
+                                            <div class="field col-12 md:col-6">
+                                                <span>
+                                                    <label>Code:<sup class="p-error">*</sup></label>&nbsp;
+                                                    <input pInputText id="code" formControlName="empcode"
+                                                        placeholder="Enter Code" />
+                                                </span>
+                                            </div>
+                                            <div class="field col-12 md:col-6">
+                                                <label>Dob:<sup class="p-error">*</sup></label>&nbsp;
+                                                <p-calendar formControlName="dob" placeholder="Enter DOB"
+                                                    [showIcon]="true"></p-calendar>
+                                            </div>
+                                            <div class="field col-12 md:col-6">
+                                                <label>Designation:<sup class="p-error">*</sup></label>&nbsp;
+                                                <input pInputText id="designation" type="text"
+                                                    formControlName="designation" placeholder="Enter Designation"
+                                                    #designation alphaOnly />
+                                            </div>
+                                            <div class="field col-12 md:col-6">
+                                                <label>Gender:<sup class="p-error">*</sup></label>&nbsp;
+                                                <input pInputText id="gender" type="text" formControlName="gender"
+                                                    placeholder="Enter Email Id" />
+                                            </div>
+                                            <div class="field col-12 md:col-6">
+                                                <label>Doj:<sup class="p-error">*</sup></label>&nbsp;
+                                                <p-calendar formControlName="doj" placeholder="Enter DOJ"
+                                                    [showIcon]="true"></p-calendar>
+                                            </div>
+                                            <div class="field col-12 md:col-6">
+                                                <label>Email:<sup class="p-error">*</sup></label>&nbsp;
+                                                <input pInputText id="email" type="text" formControlName="email"
+                                                    placeholder="Enter Email Id" />
+                                            </div>
+                                            <div class="field col-12 md:col-6">
+                                                <label htmlFor="phoneno">Mobile Number:</label>
+                                                <input pInputText id="phoneno" type="text" #phoneno
+                                                    formControlName="phoneno" placeholder="Enter Mobile Number" />
+                                            </div>
+                                        </div>
+                                    </p-fieldset><br />
+                                </div>
+                            </div>
+                        </p-tabPanel>
+                        <p-tabPanel header="User Roles" class="line-height-3 m-0 ">
+                            <div class="grid col-12">
+                                <p-inputSwitch [trueValue]="false" [falseValue]="true" placeholder="IP Active"
+                                    formControlName="iprestriction" class="col-12"></p-inputSwitch>
+                            </div>
+                        </p-tabPanel>
+                    </p-tabView>
+                </form>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="footer">
+            <div class="col-6" style="float:right">
+                <button pButton pRipple type="submit" [label]="submitLabel" class="p-button-raised p-button-primary"
+                    (click)="onSubmit()" [disabled]="userForm.invalid">Update User</button>
+            </div>
+        </ng-template>
+    </p-dialog>
+</div>

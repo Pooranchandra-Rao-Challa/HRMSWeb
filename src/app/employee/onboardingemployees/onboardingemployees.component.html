@@ -1,0 +1,92 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <p-dataView #dv [value]="employees" [paginator]="true" [rows]="12" filterBy="name" [sortField]="sortField"
+                [sortOrder]="sortOrder" layout="grid">
+                <ng-template pTemplate="header">
+                    <div class="flex flex-column md:flex-row md:justify-content-between gap-2">
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input type="search" pInputText placeholder="Search by Name"
+                                (input)="onFilter(dv, $event)" />
+                        </span>
+                        <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+                        <p-button class="p-element p-ripple p-button p-component p-2 pt-0 pb-0" (click)="showDialog()"
+                            icon="pi pi-plus" label="Add Employee"></p-button>
+
+                    </div>
+                </ng-template>
+                <ng-template let-employee pTemplate="listItem">
+                    <div class="col-12">
+                        <div class="flex flex-column md:flex-row align-items-center p-3 w-full">
+                            <img [src]="'assets/demo/images/employee/' + employee.image" [alt]="employee.empname"
+                                class="my-4 md:my-0 w-10 md:w-10rem shadow-2 mr-2" />
+                            <div class="flex-1 flex flex-column align-items-center text-center md:text-left">
+                                <div class="font-bold text-sm">{{ employee.empname }}</div>
+                                <div class="mb-2">{{ employee.empcode }}</div>
+                                <div class="mb-2">{{ employee.designation }}</div>
+                                <div class="mb-2">{{ employee.email }}</div>
+                                <div class="mb-2">{{ employee.phoneno }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+
+
+                <ng-template let-employee pTemplate="gridItem">
+                    <div class="col-12 md:col-4 lg:col-3 sm:col-6">
+                        <div class="card m-2 border-1 surface-border">
+                            <div class="grid  m-0 pb-2 ">
+                                <div class="col-4 p-1 employee_profile_pic_div">
+                                    <img [src]="'assets/demo/images/employee/' + employee.image"
+                                        [alt]="employee.empname" class=" shadow-2 my-1 mx-0 employee_profile_pic"
+                                        style="width:100%;" />
+                                    <span class="text-600 font-medium text-md"><i
+                                            class="pi pi-users text-500 text-primary text-1xl  pb-1"></i> :
+                                        {{employee.gender}} </span><br />
+                                </div>
+                                <div class="col-8 p-1 px-2 employee_info">
+                                    <div class="text-xl font-bold">{{ employee.empname }}</div>
+
+                                    <span class="text-600 font-medium text-md"><i
+                                            class="pi pi-id-card text-300 text-primary text-1xl pb-1"></i> :
+                                        {{employee.empcode}} </span><br />
+                                    <span class="text-600 font-medium text-md"><i
+                                            class="pi pi-calendar text-300 text-primary text-1xl  pb-1"></i> :
+                                        {{employee.dob}} </span><br />
+                                    <span class="text-600 font-medium text-md"><i
+                                            class="pi pi-star text-500 text-primary text-1xl  pb-1"></i> :
+                                        {{employee.designation}} </span><br />
+
+                                    <span class="text-600 font-medium text-md"><i
+                                            class="pi pi-calendar text-500 text-primary text-1xl pb-1"> DOJ </i> :
+                                        {{employee.doj}} </span><br />
+
+                                </div>
+                            </div>
+                            <div class="grid m-0 ">
+                                <div class="relative col-9 p-0 mb-3  employee_info">
+                                    <span class="text-600 font-medium text-md"><i
+                                            class="pi  text-500 text-primary text-1xl pb-1">Pending </i> :
+                                        Family Details, Experience Details </span>
+                                </div>
+                                <div class="mb-3 col-3 p-0">
+                                    <button pbutton="" pripple="" type="button" label="Primary"
+                                        routerLink="/employee/viewemployees" routerLinkActive="router-link-active"
+                                        class="p-element p-ripple p-button-text p-button p-component view_profile_button"
+                                        ng-reflect-label="Primary"><span class="p-button-label pi pi-chevron-right">
+                                        </span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-dataView>
+        </div>
+    </div>
+</div>
+<p-dialog header="Add Employee" [(visible)]="visible" [modal]="true" [style]="{ width: '75%' }" [draggable]="false"
+    [resizable]="false" (onHide)="cancelModel()" class="on_boarding_form">
+    <p-steps [model]="newEmployeeSteps"></p-steps>
+    <router-outlet></router-outlet>
+</p-dialog>
