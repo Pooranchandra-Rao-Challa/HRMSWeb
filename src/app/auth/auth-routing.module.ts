@@ -3,7 +3,6 @@ import { RouterModule } from '@angular/router';
 import { AccessdeniedComponent } from './accessdenied/accessdenied.component';
 import { ErrorComponent } from './error/error.component';
 import { LockScreenComponent } from './lockscreen/lockscreen.component';
-import { LoginComponent } from './login/login.component';
 import { NewPasswordComponent } from './newpassword/newpassword.component';
 
 @NgModule({
