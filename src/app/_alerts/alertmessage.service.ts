@@ -22,6 +22,6 @@ export const ALERT_CODES: { [key: string]: string } = {
 
   // login
   'HRMS001': 'Your session is closed, so, need to sign in before continuing.',
-  'HRMS002': 'Your session is auto closed.',
+  'HRMS002': 'Your session is closed.',
 
 }
