@@ -9,13 +9,15 @@ import { AccessdeniedComponent } from './accessdenied/accessdenied.component';
 import { AppConfigModule } from '../layout/config/app.config.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HrmsAPIInterceptor } from '../_helpers/hrms.api.interceptor';
+import { SecurityquestionsComponent } from './securityquestions/securityquestions.component';
 
 @NgModule({
     declarations: [
         NewPasswordComponent,
         LockScreenComponent,
         ErrorComponent,
-        AccessdeniedComponent
+        AccessdeniedComponent,
+        SecurityquestionsComponent
     ],
     imports: [CommonModule, AuthRoutingModule,PrimengModule,AppConfigModule],
     providers:[{ provide: HTTP_INTERCEPTORS, useClass: HrmsAPIInterceptor, multi: true }]

@@ -98,6 +98,10 @@ export class UserQuestionDto {
   userAnswer?: string
   userName?: string;
 }
+export class SecureQuestionDto {
+  questionId?: number
+  question?: string
+}
 export class Assets {
   id?: number;
   code?: string;
