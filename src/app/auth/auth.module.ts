@@ -7,6 +7,8 @@ import { LockScreenComponent } from './lockscreen/lockscreen.component';
 import { ErrorComponent } from './error/error.component';
 import { AccessdeniedComponent } from './accessdenied/accessdenied.component';
 import { AppConfigModule } from '../layout/config/app.config.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HrmsAPIInterceptor } from '../_helpers/hrms.api.interceptor';
 
 @NgModule({
     declarations: [
@@ -15,6 +17,8 @@ import { AppConfigModule } from '../layout/config/app.config.module';
         ErrorComponent,
         AccessdeniedComponent
     ],
-    imports: [CommonModule, AuthRoutingModule,PrimengModule,AppConfigModule]
+    imports: [CommonModule, AuthRoutingModule,PrimengModule,AppConfigModule],
+    providers:[{ provide: HTTP_INTERCEPTORS, useClass: HrmsAPIInterceptor, multi: true }]
+
 })
 export class AuthModule {}

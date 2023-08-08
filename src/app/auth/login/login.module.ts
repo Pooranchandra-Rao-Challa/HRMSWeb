@@ -10,8 +10,7 @@ import { AppConfigModule } from 'src/app/layout/config/app.config.module';
 import { PasswordModule } from 'primeng/password';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { HrmsAPIInterceptor } from 'src/app/_helpers/hrms.api.interceptor';
+
 
 @NgModule({
     imports: [CommonModule,
@@ -25,6 +24,6 @@ import { HrmsAPIInterceptor } from 'src/app/_helpers/hrms.api.interceptor';
         ReactiveFormsModule,
         ToastModule],
     declarations: [LoginComponent],
-    providers: [MessageService,{ provide: HTTP_INTERCEPTORS, useClass: HrmsAPIInterceptor, multi: true }],
+    providers: [MessageService],
 })
 export class LoginModule { }
