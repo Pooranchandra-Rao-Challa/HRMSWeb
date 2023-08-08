@@ -6,13 +6,15 @@ import { AppLayoutModule } from './layout/app.layout.module';
 import { EmployeeRoutingModule } from './employee/employee-routing.module';
 import { HrmsAPIInterceptor } from './_helpers/hrms.api.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthModule } from './auth/auth.module';
+import { AuthRoutingModule } from './auth/auth-routing.module';
 @NgModule({
     declarations: [AppComponent],
-    imports: [AppRoutingModule, AppLayoutModule, EmployeeRoutingModule],
+    imports: [AppRoutingModule, AppLayoutModule, EmployeeRoutingModule, AuthRoutingModule],
     providers: [
         // { provide: HTTP_INTERCEPTORS, useClass: HrmsAPIInterceptor, multi: true },
-        { provide: LocationStrategy, useClass: HashLocationStrategy },
-    ],
+        
+],
     bootstrap: [AppComponent]
 })
 export class AppModule {}
