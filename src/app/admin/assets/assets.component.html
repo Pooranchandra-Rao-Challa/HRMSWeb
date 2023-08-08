@@ -18,6 +18,35 @@
                     <div class="col-12 roles-container">
                         <div class="p-fluid p-formgrid grid">
                             <div class="field col-12 md:col-4">
+                                <label>Code:<sup class="p-error">*</sup></label>&nbsp;
+                                <input pInputText id="code" type="text" formControlName="code"
+                                    placeholder="Enter Code" #assetname alphaNumeric />
+                            </div>
+                            <div class="field col-12 md:col-4">
+                                <label>Enter Asset Category:<sup class="p-error">*</sup></label>&nbsp;
+                                <p-dropdown [options]="assetsCategory" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select Asset"
+                                formControlName="assetCategory" optionValue="code">
+                                 <ng-template let-asset pTemplate="item">
+                                    <div class="country-item">
+                                       <div>{{ asset.name }}</div>
+                                    </div>
+                                 </ng-template>
+                               </p-dropdown>
+                            </div>
+                            <div class="field col-12 md:col-4">
+                                <label>Enter AssetType:<sup class="p-error">*</sup></label>&nbsp;
+                                <p-dropdown [options]="assetsList" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select Asset"
+                                formControlName="assetType" optionValue="code">
+                                 <ng-template let-asset pTemplate="item">
+                                    <div class="country-item">
+                                       <div>{{ asset.name }}</div>
+                                    </div>
+                                 </ng-template>
+                               </p-dropdown>
+                            </div>
+                            
+                           
+                            <div class="field col-12 md:col-4">
                                 <label>Asset Name:<sup class="p-error">*</sup></label>&nbsp;
                                 <input pInputText id="assetname" type="text" formControlName="name"
                                     placeholder="Enter Asset Name" #assetname alphaNumeric />
@@ -25,8 +54,7 @@
                             <div class="field col-12 md:col-4">
                                 <span>
                                     <label>Purchased Date:<sup class="p-error">*</sup></label>&nbsp;
-                                    <input pInputText id="purchaseddate" formControlName="purchasedDate"
-                                        placeholder="Enter Purchased Date" />
+                                    <p-calendar inputId="purchaseddate" placeholder="Enter Purchased Date" formControlName="purchasedDate"></p-calendar>
                                 </span>
                             </div>
                             <div class="field col-12 md:col-4">
@@ -56,14 +84,14 @@
                             </div>
                             <div class="field col-12 md:col-4">
                                 <label htmlFor="description">Description:</label>
-                                <input pInputText id="description" type="text" #description formControlName="description"
-                                    placeholder="Enter Description" />
+                                <textarea inputId="description" rows="3" cols="30" pInputTextarea formControlName="description" placeholder="Enter Description"></textarea>
                             </div>
                             <div class="field col-12 md:col-4">
-                                <label htmlFor="status">Status:</label>
-                                <input pInputText id="status" type="text" #status formControlName="status"
-                                    placeholder="Enter Status" />
+                                <label>Is Active:<sup class="p-error">*</sup></label><br>
+                                &nbsp;<p-inputSwitch formControlName="isActive">
+                                </p-inputSwitch>
                             </div>
+                            
                         </div>
                     </div>
                 </form>
@@ -87,7 +115,6 @@
                         <th pSortableColumn="">ID <p-sortIcon field=""></p-sortIcon></th>
                         <th pSortableColumn="">Assest Type<p-sortIcon field=""></p-sortIcon></th>
                         <th pSortableColumn="">Assest Category <p-sortIcon field=""></p-sortIcon></th>
-                        <th></th>
                     </tr>
                     
             </ng-template>
@@ -106,10 +133,6 @@
                     <td>{{ assest.id }}</td>
                     <td>{{ assest.assestType }}</td>
                     <td>{{assest.category}}</td>
-                    <td>
-                        <button pButton pRipple label="Edit"  class="p-button-primary p-mr-2"
-                        (click)="addAssetsDialog()"></button>
-                    </td>
                 </tr>
             </ng-template>
             <ng-template pTemplate="rowexpansion" let-assest>
@@ -119,6 +142,7 @@
                             <p-table [value]="assest.list" dataKey="id">
                                 <ng-template pTemplate="header">
                                     <tr>
+                                        <th style="width:5px;"></th>
                                         <th *ngFor="let col of headers" [pSortableColumn]="col.header">
                                             {{col?.label}}
                                             <p-columnFilter type="text" [field]="col.header" display="menu"></p-columnFilter>
@@ -128,6 +152,8 @@
                                 </ng-template>
                                 <ng-template pTemplate="body" let-list>
                                     <tr>
+                                        <td><button pButton pRipple icon="pi pi-pencil" style="padding: 0px;"
+                                            class="p-element p-ripple p-button-text p-button p-component" (click)="addAssetsDialog()"></button></td>
                                         <td>{{ list.name }}</td>
                                         <td>{{ list.purchasedDate }}</td>
                                         <td>{{ list.modelNumber }}</td>
