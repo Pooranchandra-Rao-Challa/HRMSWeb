@@ -609,7 +609,7 @@
         {
          "id":1,
          "assestType":"Monitor",
-         "category ":"Gadgets",
+         "category":"Gadgets",
          "list":[
             {
                 "id": "50",
@@ -868,7 +868,7 @@
         {
             "id":2,
             "assestType":"Keyboard",
-            "category ":"Gadgets",
+            "category":"Gadgets",
             "list":[
                {
                    "id": "50",
@@ -964,13 +964,13 @@
            },
         {
             "id":3,
-            "assestType":"CPU",
-            "category ":"Gadgets",
+            "assestType":"Mouse",
+            "category":"Gadgets",
             "list":[
                {
                    "id": "50",
                    "code": "AST101",
-                   "name": "CPU",
+                   "name": "Mouse",
                    "purchasedDate": "09-01-2020",
                    "modelNumber": "75SM9400PTA",
                    "manufacturer": "LG",
@@ -988,7 +988,7 @@
                {
                    "id": "51",
                    "code": "AST102",
-                   "name": "CPU",
+                   "name": "Mouse",
                    "purchasedDate": "09-01-2020",
                    "modelNumber": "85SM9400PTA",
                    "manufacturer": "HP",
@@ -1006,7 +1006,7 @@
                {
                    "id": "52",
                    "code": "AST103",
-                   "name": "CPU",
+                   "name": "Mouse",
                    "purchasedDate": "09-01-2020",
                    "modelNumber": "65SM9400PTA",
                    "manufacturer": "LG",
@@ -1024,7 +1024,7 @@
                {
                    "id": "53",
                    "code": "AST104",
-                   "name": "CPU",
+                   "name": "Mouse",
                    "purchasedDate": "09-01-2020",
                    "modelNumber": "22SM9400PTA",
                    "manufacturer": "HP",
@@ -1042,7 +1042,7 @@
                {
                    "id": "54",
                    "code": "AST105",
-                   "name": "CPU",
+                   "name": "Mouse",
                    "purchasedDate": "09-01-2020",
                    "modelNumber": "34SM9400PTA",
                    "manufacturer": "LG",
@@ -1058,7 +1058,104 @@
                    "updatedBy": ""
                }
             ]
-           }
+           },
+           {
+               "id":4,
+               "assestType":"CPU",
+               "category":"Gadgets",
+               "list":[
+                  {
+                      "id": "50",
+                      "code": "AST101",
+                      "name": "CPU",
+                      "purchasedDate": "09-01-2020",
+                      "modelNumber": "75SM9400PTA",
+                      "manufacturer": "LG",
+                      "serialNumber": "908KCYQM3690",
+                      "warranty": "5",
+                      "addValue": "12000",
+                      "description": "",
+                      "status": "Good",
+                      "isActive": "",
+                      "createdAt": "",
+                      "updatedAt": "",
+                      "createdBy": "",
+                      "updatedBy": ""
+                  },
+                  {
+                      "id": "51",
+                      "code": "AST102",
+                      "name": "CPU",
+                      "purchasedDate": "09-01-2020",
+                      "modelNumber": "85SM9400PTA",
+                      "manufacturer": "HP",
+                      "serialNumber": "608KCYQM3690",
+                      "warranty": "5",
+                      "addValue": "12000",
+                      "description": "",
+                      "status": "Good",
+                      "isActive": "",
+                      "createdAt": "",
+                      "updatedAt": "",
+                      "createdBy": "",
+                      "updatedBy": ""
+                  },
+                  {
+                      "id": "52",
+                      "code": "AST103",
+                      "name": "CPU",
+                      "purchasedDate": "09-01-2020",
+                      "modelNumber": "65SM9400PTA",
+                      "manufacturer": "LG",
+                      "serialNumber": "308KCYQM3690",
+                      "warranty": "5",
+                      "addValue": "12000",
+                      "description": "",
+                      "status": "Good",
+                      "isActive": "",
+                      "createdAt": "",
+                      "updatedAt": "",
+                      "createdBy": "",
+                      "updatedBy": ""
+                  },
+                  {
+                      "id": "53",
+                      "code": "AST104",
+                      "name": "CPU",
+                      "purchasedDate": "09-01-2020",
+                      "modelNumber": "22SM9400PTA",
+                      "manufacturer": "HP",
+                      "serialNumber": "418KCYQM3690",
+                      "warranty": "5",
+                      "addValue": "12000",
+                      "description": "",
+                      "status": "Good",
+                      "isActive": "",
+                      "createdAt": "",
+                      "updatedAt": "",
+                      "createdBy": "",
+                      "updatedBy": ""
+                  },
+                  {
+                      "id": "54",
+                      "code": "AST105",
+                      "name": "CPU",
+                      "purchasedDate": "09-01-2020",
+                      "modelNumber": "34SM9400PTA",
+                      "manufacturer": "LG",
+                      "serialNumber": "898KCYQM3690",
+                      "warranty": "5",
+                      "addValue": "12000",
+                      "description": "",
+                      "status": "Good",
+                      "isActive": "",
+                      "createdAt": "",
+                      "updatedAt": "",
+                      "createdBy": "",
+                      "updatedBy": ""
+                  }
+               ]
+              }
         
     ],
     "project": [
