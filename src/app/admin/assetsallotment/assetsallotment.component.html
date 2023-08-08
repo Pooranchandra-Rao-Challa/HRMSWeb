@@ -10,6 +10,8 @@
                             <input type="text" pInputText placeholder="Search by Name" (input)="onFilter(dv, $event)" />
                         </span>
                         <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+                        <p-button class="p-element p-ripple p-button p-component p-2 pt-0 pb-0" (click)="showDialog()"
+                            icon="pi pi-plus" label="Asset Assigned"></p-button>
                     </div>
                 </ng-template>
                 <ng-template let-employee pTemplate="listItem">
@@ -61,33 +63,133 @@
                                     </span><br />
                                 </div>
                                 <div class="mb-3 col-3 p-0">
-                                    <button pbutton="" pripple="" type="button" label="Primary" (click)="showDialog()"
+                                    <button pbutton="" pripple="" type="button" label="Primary"
+                                        (click)="addAssetsDialog()"
                                         class="p-element p-ripple p-button-text p-button p-component view_profile_button"
                                         ng-reflect-label="Primary"><span class="p-button-label pi pi-chevron-right">
                                         </span>
                                     </button>
-                                    <p-dialog header="Assets Details" [(visible)]="visible" [style]="{width: '60vw'}">
-                                        <div class="card">
-                                            <div>
-                                                <span>Monitor :</span>
-                                            </div>
-                                            <div>
-                                                <span>CPU :</span>
-                                            </div>
-                                            <div>
-                                                <span>Mouse :</span>
-                                            </div>
-                                            <div>
-                                                <span>KeyBoard :</span>
-                                            </div>
-                                        </div>
-                                    </p-dialog>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </ng-template>
             </p-dataView>
+            <!-- P-Dialog for Assets Details -->
+            <p-dialog header="Assets Details" [(visible)]="dialog" [style]="{width: '50vw'}" (onHide)="onClose()">
+                <div class="col-12 ">
+                    <div class="grid">
+                        <div class="col-4">
+                            <div class="m-2 card border-1 surface-border">
+                                <div class="text-xl font-bold">Monitor</div>
+                                <span class="text-600 font-medium text-sm">
+                                    Assigned On
+                                </span><br />
+                                <span class="text-600 font-medium text-sm">
+                                    Comment
+                                </span><br />
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="m-2 card border-1 surface-border">
+                                <div class="text-xl font-bold">CPU</div>
+                                <span class="text-600 font-medium text-sm">
+                                    Assigned On
+                                </span><br />
+                                <span class="text-600 font-medium text-sm">
+                                    Comment
+                                </span><br />
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="m-2 card border-1 surface-border">
+                                <div class="text-xl font-bold">KeyBoard</div>
+                                <span class="text-600 font-medium text-sm">
+                                    Assigned On
+                                </span><br />
+                                <span class="text-600 font-medium text-sm">
+                                    Comment
+                                </span><br />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 ">
+                    <div class="grid">
+                        <div class="col-4">
+                            <div class="m-2 card border-1 surface-border">
+                                <div class="text-xl font-bold">Mouse</div>
+                                <span class="text-600 font-medium text-sm">
+                                    Assigned On
+                                </span><br />
+                                <span class="text-600 font-medium text-sm">
+                                    Comment
+                                </span><br />
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="m-2 card border-1 surface-border">
+                                <div class="text-xl font-bold">HeadSet</div>
+                                <span class="text-600 font-medium text-sm">
+                                    Assigned On
+                                </span><br />
+                                <span class="text-600 font-medium text-sm">
+                                    Comment
+                                </span><br />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </p-dialog>
+            <!-- P-Dialog for Assigned Assets -->
+
+            <p-dialog header="Assets" [(visible)]="visible" [breakpoints]="{'960px': '70%', '640px': '80%'}"
+                [style]="{width: '50%'}" (onHide)="onClose()">
+                <div class="flex flex-column align-items-center justify-content-center">
+                    <form [formGroup]="fbassets">
+                        <div class="col-12 roles-container">
+                            <div class="p-fluid p-formgrid grid">
+                                <div class="field col-12 md:col-4">
+                                    <label>Employee Id:<sup class="p-error">*</sup></label>&nbsp;
+                                    <input pInputText id="employeeid" type="text" placeholder="Enter Employee Id"
+                                        #employeeid />
+                                </div>
+                                <div class="field col-12 md:col-4">
+                                    <label>Asset Type:<sup class="p-error">*</sup></label>&nbsp;
+                                    <input pInputText id="assettype" type="text" placeholder="Enter Asset Type"
+                                        #assetid />
+                                </div>
+                                <div class="field col-12 md:col-4">
+                                    <label>Asset Category:<sup class="p-error">*</sup></label>&nbsp;
+                                    <input pInputText id="assetcategory" type="text" placeholder="Enter Asset Category"
+                                        #assetid />
+                                </div>
+                                <div class="field col-12 md:col-4">
+                                    <label>Asset Name:<sup class="p-error">*</sup></label>&nbsp;
+                                    <input pInputText id="assetname" type="text" formControlName="name"
+                                        placeholder="Enter Asset Name" #assetname />
+                                </div>
+                                <div class="field col-12 md:col-4">
+                                    <label>Comment:<sup class="p-error">*</sup></label>&nbsp;
+                                    <textarea rows="5" cols="30" placeholder="Enter Comment" pInputTextarea></textarea>
+                                </div>
+                                <div class="field col-12 md:col-4">
+                                    <label>Assigned On:<sup class="p-error">*</sup></label>&nbsp;
+                                    <p-calendar [(ngModel)]="date" [showIcon]="true" placeholder="Enter Assigned On">
+                                    </p-calendar>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+                <ng-template pTemplate="footer">
+                    <div class="col-4" style="float:right">
+                        <button pButton pRipple type="submit" label="Asset Assigned"
+                            class="p-button-raised p-button-primary" (click)="onSubmit()"></button>
+                    </div>
+                </ng-template>
+            </p-dialog>
         </div>
     </div>
 </div>

@@ -36,6 +36,7 @@ import { OrderListModule } from 'primeng/orderlist';
 import { PickListModule } from 'primeng/picklist';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { StepsModule } from 'primeng/steps';
+import { PasswordModule } from 'primeng/password';
 @NgModule({
     exports: [
         ReactiveFormsModule,
@@ -74,7 +75,8 @@ import { StepsModule } from 'primeng/steps';
         OrderListModule,
         PickListModule,
         RadioButtonModule,
-        StepsModule
+        StepsModule,
+        PasswordModule
     ]
 
 })
