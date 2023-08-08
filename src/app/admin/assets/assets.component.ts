@@ -24,6 +24,18 @@ export class AssetsComponent {
   addfields: any;
   faassetsDetails!: FormArray;
   ShowassetsDetails: boolean = false;
+  selectedAsset: string | undefined;
+  assetsList = [
+    { name: 'Mouse', code: 'MU' },
+    { name: 'CPU', code: 'CP' },
+    { name: 'Monitor', code: 'MO' },
+    { name: 'Keyboard', code: 'KY' },
+    { name: 'HeadSet', code: 'HS' },
+];
+assetsCategory = [
+  { name: 'Gadgets', code: 'GD' },
+  { name: 'Fixed Assets', code: 'FA' }
+];
   constructor(private securityService: SecurityService, private formbuilder: FormBuilder) {
 
   }
@@ -56,6 +68,8 @@ export class AssetsComponent {
     this.addfields = []
     this.fbassets = this.formbuilder.group({
       code: new FormControl('', [Validators.required]),
+      assetType:new FormControl('',[Validators.required]),
+      assetCategory:new FormControl('',[Validators.required]),
       name: new FormControl('', [Validators.required]),
       purchasedDate: new FormControl('', [Validators.required]),
       modelNumber: new FormControl('', [Validators.required]),
@@ -65,7 +79,7 @@ export class AssetsComponent {
       addValue: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required]),
       status: new FormControl('', [Validators.required]),
-      isActive: new FormControl('', [Validators.required]),
+      isActive: [true, (Validators.requiredTrue)],
       createdAt: new FormControl('', [Validators.required]),
       updatedAt: new FormControl('', [Validators.required]),
       createdBy: new FormControl('', [Validators.required]),
