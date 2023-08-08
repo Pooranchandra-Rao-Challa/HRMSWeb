@@ -1,165 +1,312 @@
 <div class="col-12">
-    <div class="card">
-      <!-- Toolbar -->
-      <p-toolbar styleClass="p-mb-4">
-        <ng-template pTemplate="left">
-          <h4>Projects</h4>
-        </ng-template>
-        <ng-template pTemplate="right">
-          <button pButton pRipple label="Add New Project" icon="pi pi-plus" class="p-button-primary p-mr-2" (click)="addProjectDialog()"></button>
-        </ng-template>
-      </p-toolbar>
-      <!-- dialog -->
-      <p-dialog header="Project Details" [(visible)]="dialog" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '60%'}">
-        <div class="flex flex-column align-items-center justify-content-center">
-          <form [formGroup]="fbproject">
-            <div class="grid">
-              <div class="col-12 roles-container">
-                <div class="p-fluid p-formgrid grid">
-                  <div class="field col-12 md:col-4">
-                    <label>Code: <sup class="p-error">*</sup>
-                    </label>&nbsp; <input pInputText id="code" type="text" formControlName="code" placeholder="Enter Code" #code [maxlength]="20" alphaNumeric />
-                  </div>
-                  <div class="field col-12 md:col-4">
-                    <label>Name: <sup class="p-error">*</sup>
-                    </label>&nbsp; <input pInputText id="name" type="text" formControlName="name" placeholder="Enter Name" #name alphaOnly />
-                  </div>
-                  <div class="field col-12 md:col-4">
-                    <label>Start Date: <sup class="p-error">*</sup>
-                    </label>&nbsp; <p-calendar inputId="calendar" placeholder="Enter Project staring Date" formControlName="startDate"></p-calendar>
-                  </div>
-                  <div class="field col-12 md:col-4">
-                    <label for="textarea">Description <sup class="p-error">*</sup>
-                    </label>&nbsp; <textarea inputId="textarea" rows="3" cols="30" pInputTextarea formControlName="description"></textarea>
-                  </div>
-                  <div class="field col-12 md:col-4">
-                    <label>Manager Name: <sup class="p-error">*</sup>
-                    </label>
-                    <input pInputText id="name" type="text" formControlName="managerName" placeholder="Enter Manager Name" #name alphaOnly />
-                  </div>
-                  <div class="field col-12 md:col-4">
-                    <label>Is Active: <sup class="p-error">*</sup>
-                    </label>
-                    <br> &nbsp; <p-inputSwitch formControlName="isActive"></p-inputSwitch>
-                  </div>
+  <div class="card">
+    <!-- Toolbar -->
+    <p-toolbar styleClass="p-mb-4">
+      <ng-template pTemplate="left">
+        <h4>Projects</h4>
+      </ng-template>
+      <ng-template pTemplate="right">
+        <button pButton pRipple label="Add New Project" icon="pi pi-plus" class="p-button-primary p-mr-2"
+          (click)="addProjectDialog()"></button>
+      </ng-template>
+    </p-toolbar>
+    <!-- dialog -->
+    <p-dialog header="Project Details" [(visible)]="dialog" [modal]="true" showEffect="fade"
+      [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '60%'}">
+      <div class="flex flex-column align-items-center justify-content-center">
+        <form [formGroup]="fbproject">
+          <div class="grid">
+            <div class="col-12 roles-container">
+              <div class="p-fluid p-formgrid grid">
+                <div class="field col-12 md:col-4">
+                  <label>Code: <sup class="p-error">*</sup>
+                  </label>&nbsp; <input pInputText id="code" type="text" formControlName="code" placeholder="Enter Code"
+                    #code [maxlength]="20" alphaNumeric />
                 </div>
-                <h5>Client Details</h5>
-                <div class="p-fluid p-formgrid grid">
-                  <div class="field col-12 md:col-4">
-                    <label>Company Full Name: <sup class="p-error">*</sup>
-                    </label>&nbsp; <input pInputText id="name" type="text" placeholder="Enter Full Name" alphaOnly formControlName="companyFullName" />
-                  </div>
-                  <div class="field col-12 md:col-4">
-                    <label>CIN/GST No: <sup class="p-error">*</sup>
-                    </label>&nbsp; <input pInputText id="name" type="text" placeholder="Enter CIS/GST No" formControlName="gstNo" />
-                  </div>
-                  <div class="field col-12 md:col-4">
-                    <label>POC Name: <sup class="p-error">*</sup>
-                    </label>&nbsp; <input pInputText id="name" type="text" placeholder="Enter POC Name" alphaOnly formControlName="clientPocName" />
-                  </div>
-                  <div class="field col-12 md:col-4">
-                    <label>POC Ph.no: <sup class="p-error">*</sup>
-                    </label>&nbsp; <input pInputText id="name" type="text" placeholder="Enter Name" formControlName="clientPocNo" />
-                  </div>
-                  <div class="field col-12 md:col-4">
-                    <label>Address: <sup class="p-error">*</sup>
-                    </label>&nbsp; <input pInputText id="name" type="text" placeholder="Enter Name" formControlName="address" />
-                  </div>
+                <div class="field col-12 md:col-4">
+                  <label>Name: <sup class="p-error">*</sup>
+                  </label>&nbsp; <input pInputText id="name" type="text" formControlName="name" placeholder="Enter Name"
+                    #name alphaOnly />
+                </div>
+                <div class="field col-12 md:col-4">
+                  <label>Start Date: <sup class="p-error">*</sup>
+                  </label>&nbsp; <p-calendar inputId="calendar" placeholder="Enter Project staring Date"
+                    formControlName="startDate"></p-calendar>
+                </div>
+                <div class="field col-12 md:col-4">
+                  <label for="textarea">Description <sup class="p-error">*</sup>
+                  </label>&nbsp; <textarea inputId="textarea" rows="3" cols="30" pInputTextarea
+                    formControlName="description"></textarea>
+                </div>
+                <div class="field col-12 md:col-4">
+                  <label>Manager Name: <sup class="p-error">*</sup>
+                  </label>
+                  <input pInputText id="name" type="text" formControlName="managerName" placeholder="Enter Manager Name"
+                    #name alphaOnly />
+                </div>
+                <div class="field col-12 md:col-4">
+                  <label>Is Active: <sup class="p-error">*</sup>
+                  </label>
+                  <br> &nbsp; <p-inputSwitch formControlName="isActive"></p-inputSwitch>
+                </div>
+              </div>
+              <h5>Client Details</h5>
+              <div class="p-fluid p-formgrid grid">
+                <div class="field col-12 md:col-4">
+                  <label>Company Full Name: <sup class="p-error">*</sup>
+                  </label>&nbsp; <input pInputText id="name" type="text" placeholder="Enter Full Name" alphaOnly
+                    formControlName="companyFullName" />
+                </div>
+                <div class="field col-12 md:col-4">
+                  <label>CIN/GST No: <sup class="p-error">*</sup>
+                  </label>&nbsp; <input pInputText id="name" type="text" placeholder="Enter CIS/GST No"
+                    formControlName="gstNo" />
+                </div>
+                <div class="field col-12 md:col-4">
+                  <label>POC Name: <sup class="p-error">*</sup>
+                  </label>&nbsp; <input pInputText id="name" type="text" placeholder="Enter POC Name" alphaOnly
+                    formControlName="clientPocName" />
+                </div>
+                <div class="field col-12 md:col-4">
+                  <label>POC Ph.no: <sup class="p-error">*</sup>
+                  </label>&nbsp; <input pInputText id="name" type="text" placeholder="Enter Name"
+                    formControlName="clientPocNo" />
+                </div>
+                <div class="field col-12 md:col-4">
+                  <label>Address: <sup class="p-error">*</sup>
+                  </label>&nbsp; <input pInputText id="name" type="text" placeholder="Enter Name"
+                    formControlName="address" />
                 </div>
               </div>
             </div>
-          </form>
-        </div>
-        <ng-template pTemplate="footer">
-          <div class="col-4" style="float:right">
-            <button pButton pRipple type="submit" [label]="submitLabel" class="p-button-raised p-button-primary" (click)="onSubmit()"></button>
           </div>
-        </ng-template>
-      </p-dialog>
-      <!-- Projects View -->
-      <div class=" card">
-        <div class="grid mb-5">
-          <div class="col-12 md:col-4 mb-5" *ngFor="let project of projects">
-            <div class="list-none m-0 p-0 text-center">
-              <img [src]="project.img" alt="img" [style]="{width: '300px'}" class="inline-flex align-items-center justify-content-center border-circle w-5rem h-5rem bg-primary-100 mb-5">
-              <div class="text-2xl mb-3 font-medium">
-                <a class="cursor-pointer" (click)="showDialog()">{{project.name}} </a>
-                <button pButton pRipple icon="pi pi-pencil" class="p-element p-ripple p-button-text p-button-primary p-component m-0 p-0" (click)="editProjectDialog()"></button>
-              </div>
-              <p class="line-height-3 mb-3">{{project.description}}</p>
-              <!-- Project Details Dialog -->
-              <p-dialog header="Project Details" [(visible)]="visible" [style]="{width: '60vw'}">
-                <div class="card">
-                  <div class="grid">
-                    <div class="col-12 lg:col-3">
-                      <div class="fex">
-                        <div class="col text-center">
-                          <img [src]="project.img" class="w-10 align-items-center border-transparent border-round" />
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-12 lg:col-9">
-                        
-                      <div class=" grid " style="text-align: left;">
-                        <div class="col-12 lg:col-12 "><span class="text-primary font-bold text-900">Project Name</span>: {{project.name}} </div>
-                        <div class="col-12 lg:col-12 "><span class="text-primary font-bold text-900">Project Manager</span>: {{project.manager}} </div>
-                        <div class="col-12 lg:col-12 "><span class="text-primary font-bold text-900">Project Start Date</span>: {{project.startDate}} </div>
-                        <div class="col-12 lg:col-12 "><span class="text-primary font-bold text-900">Project Description</span>:<br/> {{project.description}} </div>
-                        
-                      </div>
-                      
-                    </div>
-                    
-                  </div>
-                  <p-tabView>
-                    <p-tabPanel header="Client Details ">
-                      <div class="grid">
-                        <div class="col-12">
-                          <div class="card">
-                            <ul class="list-none p-0 m-0 text-600 mb-7 text-600">
-                              <li class="mb-3">
-                                <span class="font-semibold">Company Full Name :</span>{{project.ComapanyFullName}}
-                              </li>
-                              <li class="mb-3">
-                                <span class="font-semibold">CIN/GST No :</span>{{project.clientGSTNo}}
-                              </li>
-                              <li class="mb-3">
-                                <span class="font-semibold">POC Name :</span>{{project.clientPOCName}}
-                              </li>
-                              <li class="mb-3">
-                                <span class="font-semibold">POC Ph.No :</span>{{project.clientPOCPhNo}}
-                              </li>
-                              <li class="mb-3">
-                                <span class="font-semibold">Address :</span>{{project.clientAddress}}
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    </p-tabPanel>
-                    <p-tabPanel header="Team Members ">
-                      <div class="grid">
-                        <div class="col-12">
-                          <div class="card">
-                            <ul class="list-none py-0 pl-3 m-0 text-600 mb-3">
-                              <li class="mb-2">Japan - JPY 2,500.</li>
-                              <li class="mb-2">Europe - EUR 10</li>
-                              <li class="mb-2">Switzerland - CHF 10</li>
-                              <li class="mb-2">Canada - CAD 25</li>
-                              <li class="mb-2">USA - USD 20</li>
-                              <li class="mb-2">Australia - AUD 30</li>
-                              <li class="mb-2">United Kingdom - GBP 10</li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    </p-tabPanel>
-                  </p-tabView>
-                </div>
-              </p-dialog>
+        </form>
+      </div>
+      <ng-template pTemplate="footer">
+        <div class="col-4" style="float:right">
+          <button pButton pRipple type="submit" [label]="submitLabel" class="p-button-raised p-button-primary"
+            (click)="onSubmit()"></button>
+        </div>
+      </ng-template>
+    </p-dialog>
+    <!-- Projects View -->
+    <div class=" card">
+      <div class="grid mb-5">
+        <div class="col-12 md:col-4 mb-5" *ngFor="let project of projects">
+          <div class="list-none m-0 p-0 text-center">
+            <img [src]="project.img" alt="img" [style]="{width: '300px'}"
+              class="inline-flex align-items-center justify-content-center border-circle w-5rem h-5rem bg-primary-100 mb-5">
+            <div class="text-2xl mb-3 font-medium">
+              <a class="cursor-pointer" (click)="showDialog()">{{project.name}} </a>
+              <button pButton pRipple icon="pi pi-pencil"
+                class="p-element p-ripple p-button-text p-button-primary p-component m-0 p-0"
+                (click)="editProjectDialog()"></button>
             </div>
+            <p class="line-height-3 mb-3">{{project.description}}</p>
+            <!-- Project Details Dialog -->
+            <p-dialog header="Project Details" [(visible)]="visible" [style]="{width: '60vw'}">
+              <div class="card">
+                <div class="grid">
+                  <div class="col-12 lg:col-3">
+                    <div class="fex">
+                      <div class="col text-center">
+                        <img [src]="project.img" class="w-10 align-items-center border-transparent border-round" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 lg:col-9">
+
+                    <div class=" grid " style="text-align: left;">
+                      <div class="col-12 lg:col-12 "><span class="text-primary font-bold text-900">Project Name</span>:
+                        {{project.name}} </div>
+                      <div class="col-12 lg:col-12 "><span class="text-primary font-bold text-900">Project
+                          Manager</span>: {{project.manager}} </div>
+                      <div class="col-12 lg:col-12 "><span class="text-primary font-bold text-900">Project Start
+                          Date</span>: {{project.startDate}} </div>
+                      <div class="col-12 lg:col-12 "><span class="text-primary font-bold text-900">Project
+                          Description</span>:<br /> {{project.description}} </div>
+
+                    </div>
+
+                  </div>
+
+                </div>
+                <p-tabView>
+                  <p-tabPanel header="Client Details ">
+                    <div class="grid">
+                      <div class="col-12">
+                        <div class="card">
+                          <ul class="list-none p-0 m-0 text-600 mb-7 text-600">
+                            <li class="mb-3">
+                              <span class="font-semibold">Company Full Name :</span>{{project.ComapanyFullName}}
+                            </li>
+                            <li class="mb-3">
+                              <span class="font-semibold">CIN/GST No :</span>{{project.clientGSTNo}}
+                            </li>
+                            <li class="mb-3">
+                              <span class="font-semibold">POC Name :</span>{{project.clientPOCName}}
+                            </li>
+                            <li class="mb-3">
+                              <span class="font-semibold">POC Ph.No :</span>{{project.clientPOCPhNo}}
+                            </li>
+                            <li class="mb-3">
+                              <span class="font-semibold">Address :</span>{{project.clientAddress}}
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </p-tabPanel>
+                  <p-tabPanel header="Team Members ">
+                    <div class="col-12">
+                      <div class="grid">
+                        <div class="col-4">
+                          <div class="m-2 card border-1 surface-border">
+                            <img src="assets/demo/images/employee/bamboo-watch.jpg "
+                              class="my-4 md:my-0 w-10 md:w-10rem shadow-2 mr-2" />
+                            <div class="text-xl font-bold">Sadikh</div>
+                            <span class="text-600 font-medium text-sm">
+                              EmpId :CIS1001
+                            </span><br />
+                            <span class="text-600 font-medium text-sm">
+                              Designation : UI Developer
+                            </span><br />
+                          </div>
+                        </div>
+                        <div class="col-4">
+                          <div class="m-2 card border-1 surface-border">
+                            <img src="assets/demo/images/employee/brown-purse.jpg "
+                              class="my-4 md:my-0 w-10 md:w-10rem shadow-2 mr-2" />
+                            <div class="text-xl font-bold">Karthik</div>
+                            <span class="text-600 font-medium text-sm">
+                              EmpId :CIS1002
+                            </span><br />
+                            <span class="text-600 font-medium text-sm">
+                              Designation : Full Stack
+                            </span><br />
+                          </div>
+                        </div>
+                        <div class="col-4">
+                          <div class="m-2 card border-1 surface-border">
+                            <img src="assets/demo/images/employee/bracelet.jpg "
+                              class="my-4 md:my-0 w-10 md:w-10rem shadow-2 mr-2" />
+                            <div class="text-xl font-bold">Pandu</div>
+                            <span class="text-600 font-medium text-sm">
+                              EmpId :CIS1003
+                            </span><br />
+                            <span class="text-600 font-medium text-sm">
+                              Designation : Tester
+                            </span><br />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="grid">
+                        <div class="col-4">
+                          <div class="m-2 card border-1 surface-border">
+                            <img src="assets/demo/images/employee/blue-t-shirt.jpg "
+                              class="my-4 md:my-0 w-10 md:w-10rem shadow-2 mr-2" />
+                            <div class="text-xl font-bold">Ranjith</div>
+                            <span class="text-600 font-medium text-sm">
+                              EmpId : CIS1004
+                            </span><br />
+                            <span class="text-600 font-medium text-sm">
+                              Designation : Tester
+                            </span><br />
+                          </div>
+                        </div>
+                        <div class="col-4">
+                          <div class="m-2 card border-1 surface-border">
+                            <img src="assets/demo/images/employee/blue-band.jpg "
+                              class="my-4 md:my-0 w-10 md:w-10rem shadow-2 mr-2" />
+                            <div class="text-xl font-bold">Hima</div>
+                            <span class="text-600 font-medium text-sm">
+                              EmpId : CIS1009
+                            </span><br />
+                            <span class="text-600 font-medium text-sm">
+                              Designation : Full Stack
+                            </span><br />
+                          </div>
+                        </div>
+                        <div class="col-4">
+                          <div class="m-2 card border-1 surface-border">
+                            <img src="assets/demo/images/employee/black-watch.jpg "
+                              class="my-4 md:my-0 w-10 md:w-10rem shadow-2 mr-2" />
+                            <div class="text-xl font-bold">Soumya</div>
+                            <span class="text-600 font-medium text-sm">
+                              EmpId :CIS1006
+                            </span><br />
+                            <span class="text-600 font-medium text-sm">
+                              Designation : Backend Developer
+                            </span><br />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="grid">
+                        <div class="col-4">
+                          <div class="m-2 card border-1 surface-border">
+                            <img src="assets/demo/images/employee/chakra-bracelet.jpg "
+                              class="my-4 md:my-0 w-10 md:w-10rem shadow-2 mr-2" />
+                            <div class="text-xl font-bold">Ramya</div>
+                            <span class="text-600 font-medium text-sm">
+                              EmpId : CIS1004
+                            </span><br />
+                            <span class="text-600 font-medium text-sm">
+                              Designation : Frontend Developer
+                            </span><br />
+                          </div>
+                        </div>
+                        <div class="col-4">
+                          <div class="m-2 card border-1 surface-border">
+                            <img src="assets/demo/images/employee/black-watch.jpg"
+                              class="my-4 md:my-0 w-10 md:w-10rem shadow-2 mr-2" />
+                            <div class="text-xl font-bold">Madhuri</div>
+                            <span class="text-600 font-medium text-sm">
+                              EmpId :CIS1008
+                            </span><br />
+                            <span class="text-600 font-medium text-sm">
+                              Designation : Frontend Developer
+                            </span><br />
+                          </div>
+                        </div>
+                        <div class="col-4">
+                          <div class="m-2 card border-1 surface-border">
+                            <img src="assets/demo/images/employee/product-list-2-1.png"
+                              class="my-4 md:my-0 w-10 md:w-10rem shadow-2 mr-2" />
+                            <div class="text-xl font-bold">Renuka</div>
+                            <span class="text-600 font-medium text-sm">
+                              EmpId :CIS1006
+                            </span><br />
+                            <span class="text-600 font-medium text-sm">
+                              Designation : Backend Developer
+                            </span><br />
+                          </div>
+                        </div>
+                        <div class="col-4">
+                          <div class="m-2 card border-1 surface-border">
+                            <img src="assets/demo/images/employee/bracelet.jpg "
+                              class="my-4 md:my-0 w-10 md:w-10rem shadow-2 mr-2" />
+                            <div class="text-xl font-bold">Manikanta</div>
+                            <span class="text-600 font-medium text-sm">
+                              EmpId :CIS1001
+                            </span><br />
+                            <span class="text-600 font-medium text-sm">
+                              Designation : Frontend Developer
+                            </span><br />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </p-tabPanel>
+                </p-tabView>
+              </div>
+            </p-dialog>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
