@@ -605,6 +605,48 @@
             "leaveDescription": "I am suffering from fever"
         }
     ],
+    "security":[
+        {
+            "questionId":"11",
+            "question":"What was your maths teacher's surname in your 8th year of school?"
+        },
+        {
+            "questionId":"12",
+            "question":"What is your date of birth?"
+        },
+        {
+            "questionId":"13",
+            "question":"What is your favorite movie?"
+        },
+        {
+            "questionId":"14",
+            "question":"What city were you born in?"
+        },
+        {
+            "questionId":"15",
+            "question":"What is the name of your first pet?"
+        },
+        {
+            "questionId":"16",
+            "question":"Who was your childhood hero?"
+        },
+        {
+            "questionId":"17",
+            "question":"What is your surname name?"
+        },
+        {
+            "questionId":"18",
+            "question":"What was your favorite subject in high school?"
+        },
+        {
+            "questionId":"19",
+            "question":"What is the title and artist of your favorite song?"
+        },
+        {
+            "questionId":"20",
+            "question":"What is your first vehicle license plate number?"
+        }
+    ],
     "assets": [
         {
          "id":1,

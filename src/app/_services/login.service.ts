@@ -1,18 +1,19 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable ,of, switchMap,} from 'rxjs';
+import { BehaviorSubject, Observable, of, switchMap, } from 'rxjs';
 import { LoginModel, ResponseModel } from '../_models/login.model';
 import { ApiHttpService } from './api.http.service';
-import { LOGIN_URI, REFRESH_TOKEN_URI } from './api.uri.service';
+import { LOGIN_URI, REFRESH_TOKEN_URI, REVOKE_TOKEN_URI } from './api.uri.service';
 import Swal from 'sweetalert2'
 import { ALERT_CODES } from '../_alerts/alertmessage.service';
 import { environment } from 'src/environments/environment';
 import { HttpHeaders } from '@angular/common/http';
 import jwtdecode from 'jwt-decode'
 import { Router } from '@angular/router';
+import { JwtService } from './jwt.service';
 
 
 
-export class LogInSuccessModel{
+export class LogInSuccessModel {
   isFirstTimeLogin: boolean = false;
   isLoginSuccess: boolean = false;
   hasSecureQuestions: boolean = false;
@@ -26,7 +27,7 @@ export class LoginService extends ApiHttpService {
   private userIP: string;
   private userSubject: BehaviorSubject<any>;
   public user: Observable<any>;
-   private refreshTokenTimer;
+  private refreshTokenTimer;
   private router: Router;
 
   public get userValue(): any {
@@ -36,7 +37,6 @@ export class LoginService extends ApiHttpService {
   }
 
   public Authenticate(data: LoginModel): Observable<LogInSuccessModel> {
-    debugger
     return this.post<ResponseModel>(LOGIN_URI, data).pipe(
       switchMap(resp => {
         this.saveToken((resp as ResponseModel))
@@ -45,44 +45,36 @@ export class LoginService extends ApiHttpService {
         const model: LogInSuccessModel = {
           isFirstTimeLogin: this.IsFirstTimeLogin,
           isLoginSuccess: true,
-          hasSecureQuestions: this.HasQuestions}
+          hasSecureQuestions: this.HasQuestions
+        }
         return of<LogInSuccessModel>(model)
       })
     )
   }
 
-  public RefreshToken(data: ResponseModel):Observable<boolean>{
-    return this.post<ResponseModel>(REFRESH_TOKEN_URI, data).pipe(
-      switchMap(resp => {
-        this.saveToken((resp as ResponseModel))
-        localStorage.setItem("respModel", JSON.stringify(resp as ResponseModel))
-        this.respSubject = new BehaviorSubject<ResponseModel>(resp as ResponseModel);
-        return of<boolean>(true)
-      }),
-    )
-  }
-  
   refreshToken() {
-    var url = this.ApiUrl + 'refreshtoken';
+    var url = this.ApiUrl + 'Refresh';
     const headers = new HttpHeaders({
       "Content-Type": "application/json",
-      "Authorization": this.userValue.JwtToken
+      "Authorization": this.jwtService.JWTToken
     });
-    this.post<any>(url, { Refresh: this.userValue.RefreshToken, UserIP: this.userIP }, { headers: headers })
+    this.getWithId<any>(REFRESH_TOKEN_URI, this.jwtService.RefreshToken, { headers: headers })
       .subscribe((resp) => {
         if (resp) {
           const u = resp as any;
-          this.userValue.JwtToken = u.JwtToken;
-          this.userValue.RefreshToken = u.RefreshToken;
-          this.userSubject = new BehaviorSubject<any>(this.userValue);
-          localStorage.setItem('user', JSON.stringify(this.userValue));
+          const tokens = {
+            accessToken: u.accessToken,
+            refreshToken: u.refreshToken
+          }
+          this.jwtService.SaveToken(tokens);
+          //   this.userSubject = new BehaviorSubject<any>(this.userValue);
+          //   localStorage.setItem('user', JSON.stringify(this.userValue));
           this.startRefreshTokenTimer();
         }
-
       })
   }
 
-  resetSessionMonitor;
+  // resetSessionMonitor;
   openRefeshDialog() {
     let timerInterval
     this.UserIp().subscribe(resp => {
@@ -115,7 +107,7 @@ export class LoginService extends ApiHttpService {
         /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
           clearInterval(timerInterval);
-          this.refreshToken();
+          this.refreshToken;
         } else
           if (result.dismiss === Swal.DismissReason.timer) {
             this.revokeToken(ALERT_CODES["HRMS002"]);
@@ -126,33 +118,31 @@ export class LoginService extends ApiHttpService {
   }
 
   revokeToken(error: any = '') {
-    if (!this.userValue || !this.userValue.JwtToken) {
+    if (!this.jwtService.JWTToken) {
       this.stopRefreshTokenTimer();
       return;
     }
-
-    var url = this.ApiUrl + 'revoketoken';
+    var url = this.ApiUrl + 'Revoke';
     const headers = new HttpHeaders({
       "Content-Type": "application/json",
-      "Authorization": this.userValue.JwtToken
+      "Authorization": this.jwtService.JWTToken
     });
 
-    this.post<any>(url, { Refresh: this.userValue.RefreshToken, UserIP: this.userIP }, { headers: headers })
+    this.getWithId<any>(REVOKE_TOKEN_URI, this.jwtService.RefreshToken, { headers: headers })
       .subscribe({
         next: (resp) => {
           this.stopRefreshTokenTimer();
-          localStorage.removeItem('user');
           if (error != '' && error != null)
             localStorage.setItem('message', error);
-          this.router.navigate(['/account/home'])
+          this.jwtService.Logout();
         },
         error: (error1) => {
           console.log(error1);
           this.stopRefreshTokenTimer();
-          localStorage.removeItem('user');
-          // if (error != '' && error != null)
-          //   localStorage.setItem('message', JSON.stringify(error.message));
-          this.router.navigate(['/account/home']);
+          //   localStorage.removeItem('user');
+          if (error != '' && error != null)
+            localStorage.setItem('message', JSON.stringify(error.message));
+          this.jwtService.Logout();
         },
         complete: () => {
         }
@@ -166,27 +156,26 @@ export class LoginService extends ApiHttpService {
   }
 
   isLoggedIn() {
-    if (!this.userValue) return false;
-    if (!this.userValue.JwtToken) return false;
-    const jwtToken = jwtdecode(this.userValue.JwtToken) as unknown as any;
+    if (!this.jwtService.JWTToken) return false;
+    const jwtToken = this.jwtService.JWTToken as unknown as any;
     const exp = new Date(jwtToken.exp * 1000);
-    const iat = new Date(jwtToken.iat * 1000);
-    const nbf = new Date(jwtToken.nbf * 1000);
-    exp.setSeconds(0);
+    const iat = new Date(jwtToken.iat);
+    const nbf = new Date(jwtToken.nbf);
+    // exp.setSeconds(0);
     iat.setSeconds(0);
     nbf.setSeconds(0);
-    console.log(exp);
     const today = new Date();
     const flag = today >= nbf && today >= iat && today <= exp;
     return flag
   }
 
   public startRefreshTokenTimer() {
-    const jwtToken = jwtdecode(this.userValue.JwtToken) as unknown as any;
+    const jwtToken = jwtdecode(this.jwtService.JWTToken) as unknown as any;
     const expires = new Date(jwtToken.exp * 1000);
     const timeout = expires.getTime() - (new Date()).getTime() - 60000;
     if (this.refreshTokenTimer) this.clearTimer();
     this.refreshTokenTimer = setTimeout(() => this.openRefeshDialog(), timeout);
+    this.isLoggedIn();
   }
 
   public clearTimer() {
