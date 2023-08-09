@@ -186,15 +186,17 @@
                             </div>
                             <div class="field col-12 md:col-4">
                                 <label>Enter Asset Name:<sup class="p-error">*</sup></label>&nbsp;
-                                <p-dropdown [options]="assetsName" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select Asset  Name" 
+                                <!-- <p-dropdown [options]="assetsName" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select Asset  Name" 
                                 formControlName="assetName" optionValue="code">
                                  <ng-template let-asset pTemplate="item">
                                     <div class="country-item">
                                        <div>{{ asset.name }}</div>
                                     </div>
                                  </ng-template>
-                               </p-dropdown>
+                               </p-dropdown> -->
+                               <p-multiSelect [options]="assetsList" formControlName="assetName" optionLabel="name"  placeholder="Select Asset  Name" ></p-multiSelect>
                             </div>
+                           
                                 <div class="field col-12 md:col-4">
                                     <label>Comment:<sup class="p-error">*</sup></label>&nbsp;
                                     <textarea rows="5" cols="30" placeholder="Enter Comment" formControlName="comment" pInputTextarea></textarea>

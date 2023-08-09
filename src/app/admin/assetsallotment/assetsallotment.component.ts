@@ -48,13 +48,7 @@ assetsCategory = [
   { name: 'Gadgets', code: 'GD' },
   { name: 'Fixed Assets', code: 'FA' }
 ];
-assetsName = [
-  { name: 'Mouse', code: 'MU' },
-  { name: 'CPU', code: 'CP' },
-  { name: 'Monitor', code: 'MO' },
-  { name: 'Keyboard', code: 'KY' },
-  { name: 'HeadSet', code: 'HS' }
-];
+
   assetsForm() {
     this.fbassets = this.formbuilder.group({
       empId: new FormControl('', [Validators.required]),
