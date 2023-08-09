@@ -126,7 +126,6 @@ export class LoginService extends ApiHttpService {
                     this.jwtService.Logout();
                 },
                 error: (error1) => {
-                    console.log(error1);
                     this.stopRefreshTokenTimer();
                     //   localStorage.removeItem('user');
                     if (error != '' && error != null)

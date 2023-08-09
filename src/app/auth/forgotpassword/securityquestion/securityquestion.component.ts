@@ -23,7 +23,6 @@ export class SecurityquestionComponent {
 
 
     ngOnInit(): void {
-        debugger
         this.userName = this.activatedRoute.snapshot.queryParams['username'];
         this.securityService.UserSecurityQuestions(this.userName!).pipe(
             catchError((error) => {
@@ -49,7 +48,6 @@ export class SecurityquestionComponent {
     }
 
     navigateToNext() {
-        debugger
         let flag = true;
         this.userQuestions.forEach(question => {
             if (flag)

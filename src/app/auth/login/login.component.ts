@@ -36,7 +36,6 @@ export class LoginComponent implements OnInit {
     }
     onSubmit() {
         this.submitted = true;
-        console.log(this.fbloginForm.value);
         this.loginService.Authenticate(this.fbloginForm.value as LoginModel)
             .subscribe(
                 {
@@ -68,7 +67,7 @@ export class LoginComponent implements OnInit {
                     }
                 });
     }
-    
+
     get dark(): boolean {
         return this.layoutService.config.colorScheme !== 'light';
     }
