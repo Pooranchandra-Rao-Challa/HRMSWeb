@@ -9,7 +9,7 @@ import { MessageService } from 'primeng/api';
   // styleUrls: ['./upload-documents.component.scss']
 })
 export class UploadDocumentsComponent {
-  constructor(private router: Router, private messageService: MessageService){} uploadedFiles: any[] = [];
+  constructor(private router: Router, ){} uploadedFiles: any[] = [];
 
   // constructor(private messageService: MessageService) {}
 
@@ -18,13 +18,12 @@ export class UploadDocumentsComponent {
           this.uploadedFiles.push(file);
       }
 
-      this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded' });
+      // this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded' });
   }
 
   onBasicUpload() {
-      this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded with Basic Mode' });
+      // this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded with Basic Mode' });
   }
-
   navigateToPrev() {
     this.router.navigate(['employee/onboardingemployee/experiencedetails'])
   }
@@ -32,4 +31,11 @@ export class UploadDocumentsComponent {
   navigateToNext() {
     this.router.navigate(['employee/onboardingemployee/finalsubmit'])
   }
+  // navigateToPrev() {
+  //   this.router.navigate(['employee/onboardingemployee/experiencedetails'])
+  // }
+
+  // navigateToNext() {
+  //   this.router.navigate(['employee/onboardingemployee/finalsubmit'])
+  // }
 }

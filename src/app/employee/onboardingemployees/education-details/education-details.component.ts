@@ -46,7 +46,7 @@ if (this.fbEducationDetails.valid) {
       this.educationDetails.push(educationData); 
       this.clearForm();
       this.ShowlookupDetails = true;
-      console.log(this.educationDetails,'educationDetails')
+      // console.log(this.educationDetails,'educationDetails')
     }
   }
   // removeEducationEntry(index: number) {
