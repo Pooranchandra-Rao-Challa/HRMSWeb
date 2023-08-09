@@ -37,23 +37,22 @@ Courses=[
       gradingsystem: new FormControl(''),
       cgpa: new FormControl(''),
     });
-   
+
   }
-  
+
   saveEducationDetails(){
 if (this.fbEducationDetails.valid) {
       const educationData = this.fbEducationDetails.value;
-      this.educationDetails.push(educationData); 
+      this.educationDetails.push(educationData);
       this.clearForm();
       this.ShowlookupDetails = true;
-      // console.log(this.educationDetails,'educationDetails')
     }
   }
   // removeEducationEntry(index: number) {
   //   this.educationDetails.splice(index, 1);
   // }
     clearForm() {
-    this.fbEducationDetails.reset(); 
+    this.fbEducationDetails.reset();
   }
   navigateToPrev() {
     this.router.navigate(['employee/onboardingemployee/basicdetails'])

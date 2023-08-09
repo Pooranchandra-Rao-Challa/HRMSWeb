@@ -17,11 +17,10 @@ export class HrmsAPIInterceptor implements HttpInterceptor {
   constructor(private jwtService: JwtService, private loginService: LoginService, private messageService: MessageService, public loaderService: LoaderService) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    debugger
     const isApiUrl = request.url.startsWith(environment.ApiUrl);
     const currentUser = this.loginService.userValue;
     const isLoggedIn = this.loginService.isLoggedIn();
-  
+
     if (isLoggedIn && isApiUrl) {
       //this.authenticationService.refreshToken();
       const req = request.clone({
