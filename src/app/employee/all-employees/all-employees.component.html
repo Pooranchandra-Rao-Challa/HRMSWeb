@@ -1,7 +1,7 @@
 <div class="grid">
     <div class="col-12">
         <div class="card">
-            <p-dataView #dv [value]="employees" [paginator]="true" [rows]="12" filterBy="name" [sortField]="sortField"
+            <p-dataView #dv [value]="employees"  [rows]="12" filterBy="name" [sortField]="sortField"
                 [sortOrder]="sortOrder" layout="grid">
                 <ng-template pTemplate="header">
                     <div class="flex flex-column md:flex-row md:justify-content-between gap-2">
@@ -13,24 +13,41 @@
                         <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
                     </div>
                 </ng-template>
-                <ng-template let-employee pTemplate="listItem">
-                    <div class="col-12">
-                        <div class="flex flex-column md:flex-row align-items-center p-3 w-full">
-                            <img [src]="'assets/demo/images/employee/' + employee.image" [alt]="employee.empname"
-                                class="my-4 md:my-0 w-10 md:w-10rem shadow-2 mr-2" />
-                            <div class="flex-1 flex flex-column align-items-center text-center md:text-left">
-                                <div class="font-bold text-sm">{{ employee.empname }}</div>
-                                <div class="mb-2">{{ employee.empcode }}</div>
-                                <div class="mb-2">{{ employee.designation }}</div>
-                                <div class="mb-2">{{ employee.email }}</div>
-                                <div class="mb-2">{{ employee.phoneno }}</div>
-                            </div>
-                        </div>
+                <ng-template let-employee pTemplate="listItem" >
+                    <div class="col-12" *ngIf="isFirstItem(employee)">
+                        
+                        <p-table #dt1 [value]="employees" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true"
+                        styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true"
+                        [globalFilterFields]="globalFilterFields" [autoLayout]="true" responsiveLayout="scroll"
+                        [rowsPerPageOptions]="[10,25,50]" [tableStyle]="{ width: 'autoLayout'}" >
+                      
+                        <ng-template pTemplate="header" >
+                          <tr>
+                            <th *ngFor="let col of headers" [pSortableColumn]="col.header">
+                              {{col?.label}}
+                              <p-columnFilter type="text" [field]="col.header" display="menu"></p-columnFilter>
+                              <p-sortIcon [field]="col.header"></p-sortIcon>
+                            </th>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-employee>
+                          <tr>
+                            <td *ngFor="let col of headers" >
+                                {{employee[col.field] }}
+                            </td>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                          <tr>
+                            <td class="md:text-center m-5" colspan="9">No Employess Found.</td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
                     </div>
                 </ng-template>
 
-
-                <ng-template let-employee pTemplate="gridItem">
+                <ng-template let-employee pTemplate="gridItem" >
                     <div class="col-12 md:col-4 lg:col-3 sm:col-6">
                         <div class="card m-2 border-1 surface-border">
                             <div class=" mb-3 grid">
