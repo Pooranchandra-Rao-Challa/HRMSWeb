@@ -10,20 +10,21 @@ import { AppConfigModule } from 'src/app/layout/config/app.config.module';
 import { PasswordModule } from 'primeng/password';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { SecurityService } from 'src/app/_services/security.service';
 
 
 @NgModule({
     imports: [CommonModule,
         LoginRoutingModule,
         ButtonModule,
-         InputTextModule,
+        InputTextModule,
         CheckboxModule,
-        AppConfigModule, 
+        AppConfigModule,
         FormsModule,
         PasswordModule,
         ReactiveFormsModule,
         ToastModule],
     declarations: [LoginComponent],
-    providers: [MessageService],
+    providers: [MessageService, SecurityService],
 })
 export class LoginModule { }

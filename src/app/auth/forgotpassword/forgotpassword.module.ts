@@ -9,10 +9,12 @@ import { SecurityquestionComponent } from './securityquestion/securityquestion.c
 import { SuccessmsgComponent } from './successmsg/successmsg.component';
 import { UsernameComponent } from './username/username.component';
 import { ChangepasswordComponent } from './changepassword/changepassword.component';
+import { MessageService } from 'primeng/api';
 @NgModule({
     imports: [CommonModule, PrimengModule, ForgotPasswordRoutingModule, AppConfigModule],
     declarations: [ForgotPasswordComponent, ChangepasswordComponent, RequestforgotpasswordComponent, SecurityquestionComponent, SuccessmsgComponent, UsernameComponent,
 
-    ]
+    ],
+    providers: [MessageService]
 })
 export class ForgotPasswordModule { }
