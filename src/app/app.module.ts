@@ -12,8 +12,7 @@ import { AuthRoutingModule } from './auth/auth-routing.module';
     declarations: [AppComponent],
     imports: [AppRoutingModule, AppLayoutModule, EmployeeRoutingModule, AuthRoutingModule],
     providers: [
-        // { provide: HTTP_INTERCEPTORS, useClass: HrmsAPIInterceptor, multi: true },
-        
+        // { provide: HTTP_INTERCEPTORS, useClass: HrmsAPIInterceptor, multi: true },   
 ],
     bootstrap: [AppComponent]
 })

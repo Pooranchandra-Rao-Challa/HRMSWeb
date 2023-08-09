@@ -17,6 +17,7 @@ import { StepsModule } from 'primeng/steps';
 import { UploadDocumentsComponent } from './onboardingemployees/upload-documents/upload-documents.component';
 import { FinalSubmitComponent } from './onboardingemployees/final-submit/final-submit.component';
 import { FamilyDeatilsComponent } from './onboardingemployees/family-deatils/family-deatils.component';
+import { FileUploadModule } from 'primeng/fileupload';
 
 
 
@@ -41,7 +42,8 @@ import { FamilyDeatilsComponent } from './onboardingemployees/family-deatils/fam
     ListDemoRoutingModule,
     EmployeeRoutingModule,
     StepsModule,
-    PrimengModule
+    PrimengModule,
+    FileUploadModule
   ]
 })
 export class EmployeeModule { }

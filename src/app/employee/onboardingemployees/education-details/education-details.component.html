@@ -64,7 +64,7 @@
                 </div>
                 <div class="field col-12 md:col-4">
                     <span>
-                        <button pButton pRipple style="float: right" (click)="saveEducationDetails()">Save Education Details</button>
+                        <button pButton pRipple  (click)="saveEducationDetails()">Save Education Details</button>
                     </span>
                 </div>
             </div>
@@ -103,6 +103,16 @@
       </ng-template>
     </p-table>
   </div>
-
-  <p-button  pRipple style="float: left" (click)="navigateToPrev()">Navigate to Previous</p-button>
-  <p-button style="float: right" (click)="navigateToNext()">Navigate to Next</p-button>
+  
+<div class="grid">
+    <div class="field col-4 ">
+        <p-button  (click)="navigateToPrev()">Family Details</p-button>
+    </div> 
+    <div class="field col-4 "></div>
+<div class="field col-4  ">
+    <p-button class="text-center" (click)="navigateToNext()">Experience Details</p-button>
+</div>  
+</div>
+  
+  <!-- <p-button  pRipple  (click)="navigateToPrev()">Navigate to Previous</p-button>
+  <p-button  (click)="navigateToNext()">Navigate to Next</p-button> -->

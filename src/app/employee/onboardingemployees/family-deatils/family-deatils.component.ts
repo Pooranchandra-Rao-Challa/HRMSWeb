@@ -56,6 +56,7 @@ export class FamilyDeatilsComponent implements OnInit{
       name: new FormControl(familyDetails.name, [Validators.required]),
       relationShip: new FormControl(familyDetails.relationShip, [Validators.required]),
       mobileNo: new FormControl(familyDetails.mobileNo, [Validators.required]),
+      Address: new FormControl(familyDetails.Address, [Validators.required]),
     });
   }
   
