@@ -29,7 +29,7 @@ export class SecurityquestionComponent {
             catchError((error) => {
                 this.messageService.add({ severity: 'error', key: 'myToast', summary: 'Error', detail: "Invalid User Name" });
                 this.interval = setInterval(() => {
-                    this.router.navigate(['auth/forgotpassword/username']);
+                    this.navigateToPrev();
                 }, 2000);
                 return throwError(error); // Re-throw the error to propagate it further if needed
             })
@@ -37,8 +37,8 @@ export class SecurityquestionComponent {
             next: (resp) => {
                 this.userQuestions = resp as unknown as UserQuestionDto[];
                 if (this.userQuestions.length < 1) {
-                    this.messageService.add({ severity: 'error', key: 'myToast', summary: 'Error', detail: "Invalid User Name!" });
-                    this.navigateToPrev();
+                    this.messageService.add({ severity: 'error', key: 'myToast', summary: 'Error', detail: "You have no security questions, So please contact to your admin." });
+                    // this.navigateToPrev();
                 }
             }
         })
