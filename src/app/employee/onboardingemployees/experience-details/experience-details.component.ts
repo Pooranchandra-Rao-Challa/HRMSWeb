@@ -38,7 +38,6 @@ export class ExperienceDetailsComponent {
     this.selectedOption = option;
   }
   addexperienceDetails() {
-    console.log(this.ShowexperienceDetails)
     this.ShowexperienceDetails = true;
     this.faexperienceDetails = this.fbexperience.get("experienceDetails") as FormArray
     this.faexperienceDetails.push(this.generaterow())

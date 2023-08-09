@@ -11,12 +11,13 @@
       </ng-template>
     </p-toolbar>
     <!-- dialog -->
-    <p-dialog header="Project Details" [(visible)]="dialog" [modal]="true" showEffect="fade"
-      [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '60%'}">
+    <p-dialog [(visible)]="dialog" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}"
+      [style]="{width: '80%'}">
       <div class="flex flex-column align-items-center justify-content-center">
         <form [formGroup]="fbproject">
           <div class="grid">
             <div class="col-12 roles-container">
+              <h5>Project Details</h5>
               <div class="p-fluid p-formgrid grid">
                 <div class="field col-12 md:col-4">
                   <label>Code: <sup class="p-error">*</sup>
@@ -76,6 +77,26 @@
                   <label>Address: <sup class="p-error">*</sup>
                   </label>&nbsp; <input pInputText id="name" type="text" placeholder="Enter Name"
                     formControlName="address" />
+                </div>
+              </div>
+              <h5>Employee Details</h5>
+              <div class="p-fluid p-formgrid grid">
+                <div class="field col-12 md:col-4">
+                  <label>Employee Id:<sup class="p-error">*</sup></label>&nbsp;
+                  <p-multiSelect [options]="employees" formControlName="id" optionLabel="empname"
+                    placeholder="Select Employee">
+
+                  </p-multiSelect>
+                </div>
+                <div class="field col-12 md:col-4">
+                  <label>Employee Name: <sup class="p-error">*</sup>
+                  </label>&nbsp; <input pInputText id="name" type="text" placeholder="Enter Employee Name" alphaOnly
+                    formControlName="empname" />
+                </div>
+                <div class="field col-12 md:col-4">
+                  <label>Designation:<sup class="p-error">*</sup>
+                  </label>&nbsp; <input pInputText id="name" type="text" placeholder="Enter Designation"
+                    formControlName="designation" />
                 </div>
               </div>
             </div>

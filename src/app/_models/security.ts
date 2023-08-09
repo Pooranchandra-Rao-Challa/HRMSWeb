@@ -1,5 +1,5 @@
 
-  export class UserViewDto {
+export class UserViewDto {
     userId?: string
     userName?: string
     firstName?: string
