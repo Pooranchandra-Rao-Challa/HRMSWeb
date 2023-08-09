@@ -1,6 +1,6 @@
 <div class="card">
     <!-- Table -->
-    <p-table #dt1 [value]="employees" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
+    <p-table #dt1 [value]="" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true"
         styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true"
         [globalFilterFields]="globalFilterFields" [autoLayout]="true" responsiveLayout="scroll"
@@ -78,46 +78,31 @@
                                         <div class="p-fluid p-formgrid grid">
                                             <div class="field col-12 md:col-6">
                                                 <label>User Name:<sup class="p-error">*</sup></label>&nbsp;
-                                                <input pInputText id="username" type="text" formControlName="empname"
+                                                <input pInputText id="username" type="text" formControlName="userName"
                                                     placeholder="Enter User Name" #username alphaNumeric />
                                             </div>
                                             <div class="field col-12 md:col-6">
                                                 <span>
                                                     <label>Code:<sup class="p-error">*</sup></label>&nbsp;
-                                                    <input pInputText id="code" formControlName="empcode"
+                                                    <input pInputText id="code" formControlName="firstName"
                                                         placeholder="Enter Code" />
                                                 </span>
                                             </div>
                                             <div class="field col-12 md:col-6">
                                                 <label>Dob:<sup class="p-error">*</sup></label>&nbsp;
-                                                <p-calendar formControlName="dob" placeholder="Enter DOB"
+                                                <p-calendar formControlName="lastName" placeholder="Enter DOB"
                                                     [showIcon]="true"></p-calendar>
                                             </div>
                                             <div class="field col-12 md:col-6">
                                                 <label>Designation:<sup class="p-error">*</sup></label>&nbsp;
                                                 <input pInputText id="designation" type="text"
-                                                    formControlName="designation" placeholder="Enter Designation"
+                                                    formControlName="email" placeholder="Enter Designation"
                                                     #designation alphaOnly />
                                             </div>
                                             <div class="field col-12 md:col-6">
                                                 <label>Gender:<sup class="p-error">*</sup></label>&nbsp;
-                                                <input pInputText id="gender" type="text" formControlName="gender"
+                                                <input pInputText id="gender" type="text" formControlName="mobileNumber"
                                                     placeholder="Enter Email Id" />
-                                            </div>
-                                            <div class="field col-12 md:col-6">
-                                                <label>Doj:<sup class="p-error">*</sup></label>&nbsp;
-                                                <p-calendar formControlName="doj" placeholder="Enter DOJ"
-                                                    [showIcon]="true"></p-calendar>
-                                            </div>
-                                            <div class="field col-12 md:col-6">
-                                                <label>Email:<sup class="p-error">*</sup></label>&nbsp;
-                                                <input pInputText id="email" type="text" formControlName="email"
-                                                    placeholder="Enter Email Id" />
-                                            </div>
-                                            <div class="field col-12 md:col-6">
-                                                <label htmlFor="phoneno">Mobile Number:</label>
-                                                <input pInputText id="phoneno" type="text" #phoneno
-                                                    formControlName="phoneno" placeholder="Enter Mobile Number" />
                                             </div>
                                         </div>
                                     </p-fieldset><br />

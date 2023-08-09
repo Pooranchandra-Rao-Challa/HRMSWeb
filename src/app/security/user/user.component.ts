@@ -3,8 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { SortEvent } from 'primeng/api';
 import { Table } from 'primeng/table';
+import { UserViewDto } from 'src/app/_models/security';
 import { Employee } from 'src/app/demo/api/security';
-import { SecurityService } from 'src/app/demo/service/security.service';
+import { SecurityService } from 'src/app/_services/security.service';
 export interface ITableHeader {
   field: string;
   header: string;
@@ -18,10 +19,10 @@ export interface ITableHeader {
   ]
 })
 export class UserComponent implements OnInit {
-  constructor(private securityService: SecurityService, private formbuilder: FormBuilder) {
+  constructor(private securityService:SecurityService, private formbuilder: FormBuilder) {
 
   }
-  employees: Employee[] = [];
+  users: UserViewDto[] = [];
   globalFilterFields: string[] = ['empname', 'empcode', 'dob', 'designation', 'gender', 'doj', 'email', 'phoneno'];
   userForm!: FormGroup;
   dialog: boolean = false;
@@ -36,22 +37,29 @@ export class UserComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.securityService.getEmployees().then(
-      (data: Employee[]) =>
-      (this.employees = data,
-        console.log(data))
-    );
+   this.initUsers();
     this.userForm = this.formbuilder.group({
-      id: [''],
-      empname: new FormControl('', [Validators.required]),
-      empcode: new FormControl('', [Validators.required]),
-      dob: ['', (Validators.required)],
-      designation: new FormControl('', [Validators.required]),
-      gender: new FormControl('', [Validators.required]),
-      doj: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required]),
-      phoneno: ['', (Validators.required)]
+      userId: [''],
+      userName: new FormControl(''),
+      firstName: new FormControl(),
+      email: [''],
+      mobileNumber: new FormControl(''),
+      roleName: new FormControl(''),
+      isActive: new FormControl(''),
+      createdAt: ['', (Validators.required)]
     });
+  }
+
+
+  initUsers() {
+    this.securityService.GetUsers().subscribe(resp => {
+      this.users = resp as unknown as UserViewDto[];
+      console.log(this.users);
+      
+    // this.users.sort((a, b) => (a.userName || "").localeCompare(b.userName || ""))
+      // console.log(this.users);
+
+    })
   }
   customSort(event: SortEvent) {
     event.data.sort((data1: { [x: string]: any; }, data2: { [x: string]: any; }) => {
@@ -70,14 +78,16 @@ export class UserComponent implements OnInit {
   }
 
   headers: ITableHeader[] = [
-    { field: 'empname', header: 'empname', label: 'Name' },
-    { field: 'empcode', header: 'empcode', label: 'Code' },
-    { field: 'dob', header: 'dob', label: 'Dob' },
-    { field: 'designation', header: 'designation', label: 'Designation' },
-    { field: 'gender', header: 'gender', label: 'Gender' },
-    { field: 'doj', header: 'doj', label: 'DOJ' },
-    { field: 'email', header: 'email', label: 'Email' },
-    { field: 'phoneno', header: 'phoneno', label: 'Mobile Number' }
+    { field: 'UserName', header: 'User Name', label: 'User Name' },
+    { field: 'FirstName', header: 'First Name', label: 'First Name'},
+    { field: 'LastName', header: 'Last Name', label: 'Last Name' },
+    { field: 'Email', header: 'Email', label: 'Email' },
+    { field: 'MobileNumber', header: 'Mobile Number', label: 'Mobile Number'},
+    { field: 'Role Id', header: 'Role Id', label: 'Role Id' },
+    { field: 'Role Name', header: 'Role Name', label: 'Role Name' },
+    { field: 'IsActive', header: 'IsActive', label: 'Is Active' },
+    { field: 'CreatedAt', header: 'Created At', label: 'Created At' },
+
   ];
   onSubmit() {
     if (this.userForm.valid) {
