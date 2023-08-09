@@ -74,6 +74,7 @@
                     </div>
                 </ng-template>
             </p-dataView>
+
             <!-- P-Dialog for Assets Details -->
             <p-dialog header="Assets Details" [(visible)]="dialog" [style]="{width: '50vw'}" (onHide)="onClose()">
                 <div class="col-12 ">
@@ -148,33 +149,61 @@
                     <form [formGroup]="fbassets">
                         <div class="col-12 roles-container">
                             <div class="p-fluid p-formgrid grid">
+                               
                                 <div class="field col-12 md:col-4">
                                     <label>Employee Id:<sup class="p-error">*</sup></label>&nbsp;
-                                    <input pInputText id="employeeid" type="text" placeholder="Enter Employee Id"
-                                        #employeeid />
+                                    <p-dropdown [options]="employees" formControlName="empId" optionLabel="empcode" [filter]="true" filterBy="empcode,empname" [showClear]="true" placeholder="Select Employee"
+                                     optionValue="empcode">
+                                     <ng-template let-employee pTemplate="item">
+                                        <div class="country-item">
+                                            <div>{{ employee.empcode }}</div>
+                                           <div>{{ employee.empname }}</div>
+                                        </div>
+                                     </ng-template>
+                                   </p-dropdown>
                                 </div>
                                 <div class="field col-12 md:col-4">
-                                    <label>Asset Type:<sup class="p-error">*</sup></label>&nbsp;
-                                    <input pInputText id="assettype" type="text" placeholder="Enter Asset Type"
-                                        #assetid />
-                                </div>
-                                <div class="field col-12 md:col-4">
-                                    <label>Asset Category:<sup class="p-error">*</sup></label>&nbsp;
-                                    <input pInputText id="assetcategory" type="text" placeholder="Enter Asset Category"
-                                        #assetid />
-                                </div>
-                                <div class="field col-12 md:col-4">
-                                    <label>Asset Name:<sup class="p-error">*</sup></label>&nbsp;
-                                    <input pInputText id="assetname" type="text" formControlName="name"
-                                        placeholder="Enter Asset Name" #assetname />
-                                </div>
+                                <label>Enter Asset Category:<sup class="p-error">*</sup></label>&nbsp;
+                                <p-dropdown [options]="assetsCategory" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select Asset Category"
+                                formControlName="assetCategory" optionValue="code">
+                                 <ng-template let-asset pTemplate="item">
+                                    <div class="country-item">
+                                       <div>{{ asset.name }}</div>
+                                    </div>
+                                 </ng-template>
+                               </p-dropdown>
+                            </div>
+                            <div class="field col-12 md:col-4">
+                                <label>Enter AssetType:<sup class="p-error">*</sup></label>&nbsp;
+                                <p-dropdown [options]="assetsList" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select Asset Type"
+                                formControlName="assetType" optionValue="code">
+                                 <ng-template let-asset pTemplate="item">
+                                    <div class="country-item">
+                                       <div>{{ asset.name }}</div>
+                                    </div>
+                                 </ng-template>
+                               </p-dropdown>
+                            </div>
+                            <div class="field col-12 md:col-4">
+                                <label>Enter Asset Name:<sup class="p-error">*</sup></label>&nbsp;
+                                <!-- <p-dropdown [options]="assetsName" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select Asset  Name" 
+                                formControlName="assetName" optionValue="code">
+                                 <ng-template let-asset pTemplate="item">
+                                    <div class="country-item">
+                                       <div>{{ asset.name }}</div>
+                                    </div>
+                                 </ng-template>
+                               </p-dropdown> -->
+                               <p-multiSelect [options]="assetsList" formControlName="assetName" optionLabel="name"  placeholder="Select Asset  Name" ></p-multiSelect>
+                            </div>
+                           
                                 <div class="field col-12 md:col-4">
                                     <label>Comment:<sup class="p-error">*</sup></label>&nbsp;
-                                    <textarea rows="5" cols="30" placeholder="Enter Comment" pInputTextarea></textarea>
+                                    <textarea rows="5" cols="30" placeholder="Enter Comment" formControlName="comment" pInputTextarea></textarea>
                                 </div>
                                 <div class="field col-12 md:col-4">
                                     <label>Assigned On:<sup class="p-error">*</sup></label>&nbsp;
-                                    <p-calendar [(ngModel)]="date" [showIcon]="true" placeholder="Enter Assigned On">
+                                    <p-calendar [(ngModel)]="date" [showIcon]="true" placeholder="Enter Assigned On" formControlName="assignedOn">
                                     </p-calendar>
                                 </div>
                             </div>
