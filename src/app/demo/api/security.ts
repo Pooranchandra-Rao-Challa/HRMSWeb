@@ -82,6 +82,7 @@ export class familyDetailViewDto {
   name?: string;
   relationShip: string;
   mobileNo: number;
+  Address: any;
 }
 export class ForgotUserPasswordDto {
   UserName?: string
