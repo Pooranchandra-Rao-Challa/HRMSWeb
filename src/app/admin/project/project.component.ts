@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ProjectDetailsDto } from 'src/app/demo/api/security';
+import { Employee, ProjectDetailsDto } from 'src/app/demo/api/security';
 import { SecurityService } from 'src/app/demo/service/security.service';
 
 
@@ -10,16 +10,18 @@ import { SecurityService } from 'src/app/demo/service/security.service';
   styles: ['']
 })
 export class ProjectComponent implements OnInit{
-
+employees: Employee[]= [];
 projects: ProjectDetailsDto[] = [];
 visible: boolean=false;
 fbproject!: FormGroup;
+userForm!:FormGroup;
 dialog: boolean;
 submitLabel!: string;
 constructor(private projectService:SecurityService,private formbuilder:FormBuilder){}
 
 ngOnInit(){
  this.initProjects();
+ this.initEmployees();
  this.fbproject = this.formbuilder.group({
   code: new FormControl('', [Validators.required]),
   name: new FormControl('', [Validators.required]),
@@ -31,9 +33,14 @@ ngOnInit(){
   gstNo:new FormControl('',[Validators.required]),
   clientPocName:new FormControl('',[Validators.required]),
   clientPocNo:new FormControl('',[Validators.required]),
-  address:new FormControl('',[Validators.required])
+  address:new FormControl('',[Validators.required]),
+   id: new FormControl('', [Validators.required]),
+  empname: new FormControl('', [Validators.required]),
+  empcode: new FormControl('', [Validators.required]),
+  designation: new FormControl('', [Validators.required]),
  });
 }
+
 
 showDialog() {
   this.visible = true;
@@ -45,7 +52,9 @@ onSubmit(){
 initProjects(){
   this.projectService.getprojects().then((data: ProjectDetailsDto[]) => (this.projects = data));
 }
-
+initEmployees(){
+  this.projectService.getEmployees().then((data:Employee[])=> (this.employees =data));
+}
 addProjectDialog(){
   this.dialog = true;
   this.submitLabel = "Add Project";
