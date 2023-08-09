@@ -152,7 +152,7 @@
                                
                                 <div class="field col-12 md:col-4">
                                     <label>Employee Id:<sup class="p-error">*</sup></label>&nbsp;
-                                    <p-dropdown [options]="employees" formControlName="empId" optionLabel="empcode" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select Employee"
+                                    <p-dropdown [options]="employees" formControlName="empId" optionLabel="empcode" [filter]="true" filterBy="empcode,empname" [showClear]="true" placeholder="Select Employee"
                                      optionValue="empcode">
                                      <ng-template let-employee pTemplate="item">
                                         <div class="country-item">
