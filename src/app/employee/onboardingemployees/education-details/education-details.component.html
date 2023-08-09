@@ -64,7 +64,7 @@
                 </div>
                 <div class="field col-12 md:col-4">
                     <span>
-                        <button pButton pRipple  (click)="saveEducationDetails()">Save Education Details</button>
+                        <button pButton pRipple (click)="saveEducationDetails()">Save Education Details</button>
                     </span>
                 </div>
             </div>
@@ -73,46 +73,42 @@
 </form>
 <!-- table -->
 <div class="col-12 scrolling_content" *ngIf="ShowlookupDetails">
-    <p-table dataKey="id" [rows]="10"  [rowHover]="true"  [value]="educationDetails"
-      styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="false" [autoLayout]="true"
-      responsiveLayout="scroll" [rowsPerPageOptions]="[10, 25, 50]">
-      <ng-template pTemplate="header">
-        <tr>
-          <th>Course</th>
-          <th>State</th>
-          <th>School/College Name</th>
-          <th>Board/University Name</th>
-          <th>Stream</th>
-          <th>Year of pass</th>
-          <th>Grading System</th>
-          <th>CGPA/Percentage System</th>
-         
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-educationData let-i="index">
-        <tr>
-          <td>{{ educationData.course }}</td>
-          <td>{{ educationData.state }}</td>
-          <td>{{ educationData.school }}</td>
-          <td>{{ educationData.board }}</td>
-          <td>{{ educationData.stream }}</td>
-          <td>{{ educationData.yearofpass | date:'yyyy' }}</td>
-          <td>{{ educationData.gradingsystem }}</td>
-          <td>{{ educationData.cgpa }}</td>
-        </tr>
-      </ng-template>
+    <p-table dataKey="id" [rows]="10" [rowHover]="true" [value]="educationDetails"
+        styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="false" [autoLayout]="true"
+        responsiveLayout="scroll" [rowsPerPageOptions]="[10, 25, 50]">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Course</th>
+                <th>State</th>
+                <th>School/College Name</th>
+                <th>Board/University Name</th>
+                <th>Stream</th>
+                <th>Year of pass</th>
+                <th>Grading System</th>
+                <th>CGPA/Percentage System</th>
+
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-educationData let-i="index">
+            <tr>
+                <td>{{ educationData.course }}</td>
+                <td>{{ educationData.state }}</td>
+                <td>{{ educationData.school }}</td>
+                <td>{{ educationData.board }}</td>
+                <td>{{ educationData.stream }}</td>
+                <td>{{ educationData.yearofpass | date:'yyyy' }}</td>
+                <td>{{ educationData.gradingsystem }}</td>
+                <td>{{ educationData.cgpa }}</td>
+            </tr>
+        </ng-template>
     </p-table>
-  </div>
-  
+</div>
 <div class="grid">
     <div class="field col-4 ">
-        <p-button  (click)="navigateToPrev()">Family Details</p-button>
-    </div> 
+        <p-button (click)="navigateToPrev()">Family Details</p-button>
+    </div>
     <div class="field col-4 "></div>
-<div class="field col-4  ">
-    <p-button class="text-center" (click)="navigateToNext()">Experience Details</p-button>
-</div>  
+    <div class="field col-4  ">
+        <p-button class="text-center" (click)="navigateToNext()">Experience Details</p-button>
+    </div>
 </div>
-  
-  <!-- <p-button  pRipple  (click)="navigateToPrev()">Navigate to Previous</p-button>
-  <p-button  (click)="navigateToNext()">Navigate to Next</p-button> -->

@@ -1,86 +1,91 @@
-
 <form [formGroup]="fbbasicDetails">
-<div class="grid mt-3">
-    <div class="col-12 roles-container">
-        <div class="p-fluid p-formgrid grid">
-            <div class="field col-12 md:col-4">
+    <div class="grid mt-3">
+        <div class="col-12 roles-container">
+            <div class="p-fluid p-formgrid grid">
+                <div class="field col-12 md:col-4">
                     <span class="p-float-label">
-                        <input type="text" id="inputtext" pInputText  formControlName="firstName"/>
+                        <input type="text" id="inputtext" pInputText formControlName="firstName" />
                         <label for="inputtext">First Name<sup class="p-error">*</sup></label>
                     </span>
-                   
+
+                </div>
+                <div class="field col-12 md:col-4">
+                    <span class="p-float-label">
+                        <input type="text" id="inputtext1" pInputText formControlName="middleName" />
+                        <label for="inputtext1">Middle Name</label>
+                    </span>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <span class="p-float-label">
+                        <input type="text" id="inputtext2" pInputText formControlName="lastName" />
+                        <label for="inputtext2">Last Name<sup class="p-error">*</sup></label>
+                    </span>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <span class="p-float-label">
+                        <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [options]="genders" optionLabel="name"
+                            formControlName="gender"></p-dropdown>
+                        <label for="dropdown">Gender<sup class="p-error">*</sup></label>
+                    </span>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <span class="p-float-label">
+                        <p-dropdown inputId="dropdown2" [autoDisplayFirst]="false" [options]="BloodGroup"
+                            optionLabel="name" formControlName="bloodGroup"></p-dropdown>
+                        <label for="dropdown2">Blood Group<sup class="p-error">*</sup></label>
+                    </span>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <span class="p-float-label">
+                        <p-dropdown inputId="dropdown1" [autoDisplayFirst]="false" [options]="MaritalStatus"
+                            optionLabel="name" formControlName="maritalStatus"></p-dropdown>
+                        <label for="dropdown1">Marital status<sup class="p-error">*</sup></label>
+                    </span>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <span class="p-float-label">
+                        <input type="text" id="inputtext3" pInputText formControlName="mobileNo" />
+                        <label for="inputtext3">Mobile No.<sup class="p-error">*</sup></label>
+                    </span>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <span class="p-float-label">
+                        <input type="text" id="inputtext" pInputText formControlName="AlternativePhNo" />
+                        <label for="inputtext">Alternative Mobile No.</label>
+                    </span>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <span class="p-float-label">
+                        <input type="text" id="inputtext" pInputText formControlName="email" />
+                        <label for="inputtext">Email ID<sup class="p-error">*</sup></label>
+                    </span>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <span class="p-float-label">
+                        <textarea inputId="textarea" rows="3" cols="30" pInputTextarea
+                            formControlName="currentAddress"></textarea>
+                        <label for="textarea">Current Address<sup class="p-error">*</sup></label>
+                    </span>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <span class="p-float-label">
+                        <textarea inputId="textarea" rows="3" cols="30" pInputTextarea
+                            formControlName="permanentAddress"></textarea>
+                        <label for="textarea">Permanent Address<sup class="p-error">*</sup></label>
+                    </span>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <span class="p-float-label">
+                        <p-multiSelect inputId="multiselect" [options]="skills" optionLabel="name" [filter]="false"
+                            display="chip" formControlName="skills"></p-multiSelect>
+                        <label for="multiselect">Skills<sup class="p-error">*</sup></label>
+                    </span>
+                </div>
+                <br>
+                <div class="field col-12">
+                    <p-button (click)="navigateToNext()">Family Details </p-button>
+                </div>
             </div>
-            <div class="field col-12 md:col-4">
-                <span class="p-float-label">
-                    <input type="text" id="inputtext1" pInputText  formControlName="middleName"/>
-                    <label for="inputtext1">Middle Name</label>
-                </span>
-            </div>
-            <div class="field col-12 md:col-4">
-                <span class="p-float-label">
-                    <input type="text" id="inputtext2" pInputText  formControlName="lastName"/>
-                    <label for="inputtext2">Last Name<sup class="p-error">*</sup></label>
-                </span>
-            </div>
-            <div class="field col-12 md:col-4">
-                <span class="p-float-label">
-                    <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [options]="genders"  optionLabel="name" formControlName="gender"></p-dropdown>
-                    <label for="dropdown">Gender<sup class="p-error">*</sup></label>
-                </span>
-            </div>
-            <div class="field col-12 md:col-4">
-                <span class="p-float-label">
-                    <p-dropdown inputId="dropdown2" [autoDisplayFirst]="false" [options]="BloodGroup"  optionLabel="name" formControlName="bloodGroup"></p-dropdown>
-                    <label for="dropdown2">Blood Group<sup class="p-error">*</sup></label>
-                </span>
-            </div>
-            <div class="field col-12 md:col-4">
-                <span class="p-float-label">
-                    <p-dropdown inputId="dropdown1" [autoDisplayFirst]="false" [options]="MaritalStatus"  optionLabel="name" formControlName="maritalStatus"></p-dropdown>
-                    <label for="dropdown1">Marital status<sup class="p-error">*</sup></label>
-                </span>
-            </div>
-            <div class="field col-12 md:col-4">
-                <span class="p-float-label">
-                    <input type="text" id="inputtext3" pInputText formControlName="mobileNo"/>
-                    <label for="inputtext3">Mobile No.<sup class="p-error">*</sup></label>
-                </span>
-            </div>
-            <div class="field col-12 md:col-4">
-                <span class="p-float-label">
-                    <input type="text" id="inputtext" pInputText  formControlName="AlternativePhNo"/>
-                    <label for="inputtext">Alternative Mobile No.</label>
-                </span>
-            </div>
-            <div class="field col-12 md:col-4">
-                <span class="p-float-label">
-                    <input type="text" id="inputtext" pInputText formControlName="email" />
-                    <label for="inputtext">Email ID<sup class="p-error">*</sup></label>
-                </span>
-            </div>
-            <div class="field col-12 md:col-4">
-                <span class="p-float-label">
-                    <textarea inputId="textarea" rows="3" cols="30" pInputTextarea formControlName="currentAddress"></textarea>
-                    <label for="textarea">Current Address<sup class="p-error">*</sup></label>
-                </span>
-            </div>
-            <div class="field col-12 md:col-4">
-                <span class="p-float-label">
-                    <textarea inputId="textarea" rows="3" cols="30" pInputTextarea formControlName="permanentAddress"></textarea>
-                    <label for="textarea">Permanent Address<sup class="p-error">*</sup></label>
-                </span>
-            </div>
-            <div class="field col-12 md:col-4">
-                <span class="p-float-label">
-                    <p-multiSelect inputId="multiselect" [options]="skills"  optionLabel="name" [filter]="false"  display="chip" formControlName="skills"></p-multiSelect>
-                    <label for="multiselect">Skills<sup class="p-error">*</sup></label>
-                </span>
-            </div>
-            <br>
-            <div class="field col-12 ">
-                <p-button style="float: right" (click)="navigateToNext()">Family Details </p-button>
-            </div>            
         </div>
     </div>
-</div>   
-</form>             
+</form>
