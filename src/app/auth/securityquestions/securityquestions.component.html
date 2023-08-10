@@ -220,7 +220,7 @@
                     </ng-template>
                 </p-dialog>
                 <button pButton pRipple label="Submit Questions" [disabled]="securityDto.length<2"
-                    class=" p-mr-2 m-5 sQuestion"></button>
+                    class=" p-mr-2 m-5 sQuestion" (click)="onSubmit()"></button>
             </div>
         </div>
        </div>
