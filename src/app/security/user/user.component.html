@@ -1,6 +1,6 @@
 <div class="card">
     <!-- Table -->
-    <p-table #dt1 [value]="" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
+    <p-table #dt1 [value]="users" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true"
         styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true"
         [globalFilterFields]="globalFilterFields" [autoLayout]="true" responsiveLayout="scroll"
@@ -27,35 +27,44 @@
                 </th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-employee>
+        <ng-template pTemplate="body" let-user>
             <tr>
                 <td><button pButton pRipple icon="pi pi-pencil" style="padding: 0px;"
                         class="p-element p-ripple p-button-text p-button p-component mr-2 "
-                        (click)="showUser(employee)"></button></td>
+                        (click)="showUser(user)"></button></td>
+
+                        <td>
+                            {{user.userId}}
+                        </td>
                 <td>
-                    {{ employee.empname }}
+                    {{ user.userName }}
                 </td>
                 <td>
-                    {{ employee.empcode }}
+                    {{ user.firstName }}
                 </td>
                 <td>
-                    {{ employee.dob }}
+                    {{ user.lastName }}
                 </td>
                 <td>
-                    {{ employee.designation}}
+                    {{ user.email}}
                 </td>
                 <td>
-                    {{ employee.gender }}
+                    {{ user.mobileNumber }}
+                </td>
+                
+                <td>
+                    {{user.roleName
+                    }}
                 </td>
                 <td>
-                    {{employee.doj}}
+                    {{user.isActive
+                    }}
                 </td>
                 <td>
-                    {{employee.email}}
+                    {{user.createdAt
+                    }}
                 </td>
-                <td>
-                    {{employee.phoneno}}
-                </td>
+                
             </tr>
         </ng-template>
         <ng-template pTemplate="emptymessage">

@@ -89,12 +89,12 @@ permissions:any;
   }
 
   headers: ITableHeader[] = [
+    { field: 'Role Id', header: 'Role Id', label: 'Role Id' },
     { field: 'userName', header: 'userName', label: 'User Name' },
     { field: 'FirstName', header: 'First Name', label: 'First Name'},
     { field: 'LastName', header: 'Last Name', label: 'Last Name' },
     { field: 'Email', header: 'Email', label: 'Email' },
     { field: 'MobileNumber', header: 'Mobile Number', label: 'Mobile Number'},
-    { field: 'Role Id', header: 'Role Id', label: 'Role Id' },
     { field: 'Role Name', header: 'Role Name', label: 'Role Name' },
     { field: 'IsActive', header: 'IsActive', label: 'Is Active' },
     { field: 'CreatedAt', header: 'Created At', label: 'Created At' },
@@ -110,7 +110,7 @@ permissions:any;
   get userFormControls() {
     return this.userForm.controls;
   }
-  showUser(employee: Employee) {
+  showUser(user: UserViewDto) {
     this.dialog = true;
   }
 }
