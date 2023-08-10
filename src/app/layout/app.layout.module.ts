@@ -21,6 +21,7 @@ import { AppMenuitemComponent } from './app.menuitem.component';
 import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { StyleClassModule } from 'primeng/styleclass';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @NgModule({
     declarations: [AppLayoutComponent, AppBreadcrumbComponent, AppSidebarComponent, AppTopbarComponent, AppProfileSidebarComponent, AppMenuComponent, AppMenuitemComponent],
@@ -39,7 +40,8 @@ import { StyleClassModule } from 'primeng/styleclass';
         RippleModule,
         RouterModule,
         AppConfigModule,
-        ButtonModule
+        ButtonModule,
+        ProgressSpinnerModule
     ]
 })
 export class AppLayoutModule {}
