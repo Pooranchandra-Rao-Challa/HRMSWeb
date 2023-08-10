@@ -8,6 +8,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HrmsAPIInterceptor } from '../_helpers/hrms.api.interceptor';
 import { SecurityquestionsComponent } from './securityquestions/securityquestions.component';
 import { SharedModule } from '../_shared/shared.module';
+import { SettingsComponent } from './settings/settings.component';
 
 @NgModule({
     declarations: [
@@ -15,7 +16,8 @@ import { SharedModule } from '../_shared/shared.module';
         LockScreenComponent,
         ErrorComponent,
         AccessdeniedComponent,
-        SecurityquestionsComponent
+        SecurityquestionsComponent,
+        SettingsComponent
     ],
     imports: [
         AuthRoutingModule,

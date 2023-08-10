@@ -1,9 +1,9 @@
 <div class="content-container col-12">
     <div class="grid">
         <form class="col-12">
-            <label for="username" class="block text-900 font-medium text-md required mb-1 mt-5">User Name</label>
+            <!-- <label for="username" class="block text-900 font-medium text-md required mb-1 mt-5">User Name</label> -->
             <input id="username" type="text" [(ngModel)]="userName" placeholder="Enter User Name"
-                [ngModelOptions]="{standalone:true}" pInputText class="w-full md:w-100 " #username="ngModel"
+                [ngModelOptions]="{standalone:true}" pInputText class="w-full md:w-100 mt-5 " #username="ngModel"
                 style="padding:1rem" required>
             <span *ngIf="!userName && (username.dirty || username.touched)">
                 <div class="ng-invalid ng-touched p-error">

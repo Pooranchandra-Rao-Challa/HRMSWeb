@@ -75,6 +75,7 @@ export class Leave {
   leaveTitle?: string;
   fromDate?: string;
   toDate?: string;
+  numberOfDays?:number;
   leaveDescription?: string;
 }
 export class familyDetailViewDto {

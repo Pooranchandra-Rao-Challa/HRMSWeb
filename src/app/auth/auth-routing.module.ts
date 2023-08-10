@@ -5,11 +5,13 @@ import { ErrorComponent } from './error/error.component';
 import { LockScreenComponent } from './lockscreen/lockscreen.component';
 import { NewPasswordComponent } from './newpassword/newpassword.component';
 import { SecurityquestionsComponent } from './securityquestions/securityquestions.component';
+import { SettingsComponent } from './settings/settings.component';
 
 @NgModule({
     imports: [
         RouterModule.forChild([
             { path: 'error', data: { breadcrumb: 'Error' }, component: ErrorComponent },
+            { path: 'settings', data: { breadcrumb: 'Error' }, component: SettingsComponent },
             { path: 'access', data: { breadcrumb: 'Access' }, component: AccessdeniedComponent },
             { path: 'login', loadChildren: () => import('./login/login.module').then((m) => m.LoginModule) },
             { path: 'forgotpassword', loadChildren: () => import('./forgotpassword/forgotpassword.module').then((m) => m.ForgotPasswordModule) },
