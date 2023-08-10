@@ -45,3 +45,18 @@ export class ForgotUserPasswordDto {
     UserQuestions?: UserQuestionDto[]
 }
   
+export class SecureQuestionDto {
+    questionId?: number;
+    question?: string;
+}
+
+export class CreateUserQuestionDto {
+    userQuestionId?: number;
+    userId?: number;
+    questionId?: number;
+    question?: string;
+    answer?: string;
+    userName?: string;
+}
+
+
