@@ -42,14 +42,7 @@ export class JwtService {
     localStorage.setItem(TOKEN_KEY, tokens.accessToken || "")
     this.saveRefreshToken(tokens);
   }
-  public get Permissions(): any {
-    debugger
-    const jwt = this.DecodedJWT;
-    if (!jwt || jwt == "") return {};
-    return JSON.parse(jwt.Permissions)
-  }
-
-  public get IsLoggedIn(): boolean {
+    public get IsLoggedIn(): boolean {
     return true && this.DecodedJWT != undefined;
   }
   public get Permissions(): any {
