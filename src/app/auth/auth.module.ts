@@ -5,10 +5,10 @@ import { LockScreenComponent } from './lockscreen/lockscreen.component';
 import { ErrorComponent } from './error/error.component';
 import { AccessdeniedComponent } from './accessdenied/accessdenied.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { HrmsAPIInterceptor } from '../_helpers/hrms.api.interceptor';
 import { SecurityquestionsComponent } from './securityquestions/securityquestions.component';
 import { SharedModule } from '../_shared/shared.module';
 import { SettingsComponent } from './settings/settings.component';
+import { AlertmessageService } from '../_alerts/alertmessage.service';
 
 @NgModule({
     declarations: [
@@ -23,7 +23,7 @@ import { SettingsComponent } from './settings/settings.component';
         AuthRoutingModule,
         SharedModule
     ],
-    providers:[{ provide: HTTP_INTERCEPTORS, useClass: HrmsAPIInterceptor, multi: true }]
+    providers:[AlertmessageService]
 
 })
 export class AuthModule {}

@@ -18,10 +18,63 @@ export class AlertmessageService {
 
 }
 
+/**
+ * Please add here more screens info when developer finds new.
+ *
+ */
+
+/**
+ * MessageTypes: Success: S Error: E Waring: W,I: Info,Titles: T
+ * ---------------------------------------------------------------------------
+ *
+ * ---------------------------------------------------------------------------
+ * Login forms; L
+ * ---------------------------------------------------------------------------
+ * Modules;
+ * ---------------------------------------------------------------------------
+ * Settings : SE
+ * Security : S
+ *
+ * ---------------------------------------------------------------------------
+ * Settings Screens
+ *
+ * Change Password : CP
+ * Security Questions : SQ
+ *
+ * ---------------------------------------------------------------------------
+ * Security Screens
+ *
+ * Users: U
+ * Roles: R
+ *
+ * ---------------------------------------------------------------------------
+ * Admin Screens
+ *
+ *
+ * ---------------------------------------------------
+ * If the screens has more funcitonal items then
+ * Like in settings use frist letter as code, if same
+ * code is comming more times then use two letters
+ * If two words use to letters
+ * ---------------------------------------------------
+ * ---------------------------------------------------
+ * Errors Number should be three digits like.. 001
+ *
+ * Example if Messages for Setting screen of providers the Message like M2J001
+ * On any change in the above counter should be initialized.
+ */
+
 export const ALERT_CODES: { [key: string]: string } = {
 
   // login
   'HRMS001': 'Your session is closed, so, need to sign in before continuing.',
   'HRMS002': 'Your session is closed.',
+
+  // settings
+  // change password
+  'SSECP001': 'Password Updated Successfully',
+  'ESECP001': 'Invalid Current Password',
+
+
 
 }
