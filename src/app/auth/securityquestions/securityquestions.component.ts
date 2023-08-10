@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { SecureQuestionDto } from 'src/app/demo/api/security';
-import { SecurityService } from 'src/app/demo/service/security.service';
+import { MessageService } from 'primeng/api';
+import { CreateUserQuestionDto, SecureQuestionDto } from 'src/app/_models/security';
+import { JwtService } from 'src/app/_services/jwt.service';
+import { SecurityService } from 'src/app/_services/security.service';
+import jwtdecode from 'jwt-decode';
 
 export interface IHeader {
   field: string;
@@ -18,7 +21,6 @@ export class SecurityDto {
   id?: number;
   SecurityQuestions?: string;
   Answer?: string;
-
 }
 @Component({
   selector: 'app-securityquestions',
@@ -40,9 +42,8 @@ export class SecurityquestionsComponent {
   constructor(
     private formbuilder: FormBuilder,
     private securityService: SecurityService,
-
-
-  ) {
+    private messageService: MessageService,
+    private jwtService:JwtService) {
     this.securityquestions = [
       { code: 1, name: 'What city were you born in?' },
       { code: 2, name: 'What is the name of your first pet?' },
@@ -64,16 +65,18 @@ export class SecurityquestionsComponent {
     this.qstnSubmitLabel = "Add";
     this.securityDialog = true;
   }
+
   initGetSecureQuestions() {
-    this.securityService.GetSecureQuestions().then((data: SecureQuestionDto[]) => (this.getSecureQuestions = data));
-
+    this.securityService.GetSecureQuestions().subscribe((resp) => {
+      this.getSecureQuestions = resp as unknown as SecureQuestionDto[];
+      console.log('getSecureQuestions', this.getSecureQuestions)
+      this.allSecureQuestions = [...this.getSecureQuestions];
+    });
   }
-  ngOnInit(): void {
 
+  ngOnInit(): void {
     this.initGetSecureQuestions();
   }
-
-
 
   editSecurity(security: SecurityDto) {
     this.security = { ...security };
@@ -91,8 +94,6 @@ export class SecurityquestionsComponent {
     this.submitted = false;
   }
 
-
-
   onChange(event: any) {
     this.security.id = this.getSecureQuestions[this.getSecureQuestions.findIndex(item => item.question === event.value)].questionId;
     this.getSecureQuestions.splice(this.getSecureQuestions.findIndex(item => item.question === event.value), 1);
@@ -105,15 +106,18 @@ export class SecurityquestionsComponent {
       if (this.security.id) {
         if (this.findIndexById(this.security.id) >= 0) {
           this.securityDto[this.findIndexById(this.security.id)] = this.security;
+          this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
         }
         else {
           this.securityDto.push(this.security);
+          this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000 });
         }
       }
       this.securityDto = [...this.securityDto];
       this.securityDialog = false;
       this.security = {};
     }
+
   }
 
   findIndexById(id: number): number {
@@ -125,6 +129,29 @@ export class SecurityquestionsComponent {
       }
     }
     return index;
+  }
+
+  onSubmit() {
+    debugger;
+    if (this.securityDto.length >= 2) {
+      const jwtToken = jwtdecode(this.jwtService.JWTToken) as unknown as any;
+      const username = jwtToken.GivenName; 
+      const userId = jwtToken.Id;    
+      const createUserQuestions: CreateUserQuestionDto[] = this.securityDto.map(security => {
+        return {
+          question: security.SecurityQuestions,
+          answer: security.Answer,
+          // questionId: security.id,
+          userQuestionId:security.id,
+          username: jwtToken.GivenName, 
+          userId: jwtToken.Id,    
+        };
+      });
+      this.securityService
+        .CreateSecurityQuestions(createUserQuestions)
+        .subscribe((resp) =>
+          console.log(resp));
+    }
   }
 }
 

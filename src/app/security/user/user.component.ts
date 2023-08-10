@@ -1,11 +1,12 @@
 import { HttpEvent } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { SortEvent } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { UserViewDto } from 'src/app/_models/security';
 import { Employee } from 'src/app/demo/api/security';
 import { SecurityService } from 'src/app/_services/security.service';
+import { JwtService } from 'src/app/_services/jwt.service';
 export interface ITableHeader {
   field: string;
   header: string;
@@ -19,25 +20,34 @@ export interface ITableHeader {
   ]
 })
 export class UserComponent implements OnInit {
-  constructor(private securityService:SecurityService, private formbuilder: FormBuilder) {
+
+  constructor(private securityService:SecurityService, 
+    private formbuilder: FormBuilder,
+    private jwtService:JwtService) {
 
   }
   users: UserViewDto[] = [];
   globalFilterFields: string[] = ['empname', 'empcode', 'dob', 'designation', 'gender', 'doj', 'email', 'phoneno'];
   userForm!: FormGroup;
+permissions:any;
   dialog: boolean = false;
   submitLabel!: string;
   trueValue: any;
-  falseValue: any
+  falseValue: any;
+
+
   clear(table: Table) {
     table.clear();
+
   }
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
 
   ngOnInit() {
+    this.permissions = this.jwtService.Permissions
    this.initUsers();
+  
     this.userForm = this.formbuilder.group({
       userId: [''],
       userName: new FormControl(''),
@@ -58,8 +68,9 @@ export class UserComponent implements OnInit {
       
     // this.users.sort((a, b) => (a.userName || "").localeCompare(b.userName || ""))
       // console.log(this.users);
-
+  
     })
+ 
   }
   customSort(event: SortEvent) {
     event.data.sort((data1: { [x: string]: any; }, data2: { [x: string]: any; }) => {
@@ -78,7 +89,7 @@ export class UserComponent implements OnInit {
   }
 
   headers: ITableHeader[] = [
-    { field: 'UserName', header: 'User Name', label: 'User Name' },
+    { field: 'userName', header: 'userName', label: 'User Name' },
     { field: 'FirstName', header: 'First Name', label: 'First Name'},
     { field: 'LastName', header: 'Last Name', label: 'Last Name' },
     { field: 'Email', header: 'Email', label: 'Email' },
