@@ -1,15 +1,161 @@
 <div class="col-12">
     <div class="card">
-        <!-- Toolbar -->
-        <p-toolbar styleClass="p-mb-4">
-            <ng-template pTemplate="left">
-                <h4>Settings</h4>
-            </ng-template>
-            <ng-template pTemplate="right">
-                <!-- <button pButton pRipple label="New Asset" icon="pi pi-plus" class="p-button-primary p-mr-2"
-                    (click)="addAssetsDialog()"></button> -->
-            </ng-template>
-        </p-toolbar>
-        <h3 style="text-align: center;" class="p-5 m-5">Page Under Construction</h3>
+        <p-toast key="tst"></p-toast>
+
+        <p-tabView orientation="left" class="users-container">
+            <p-tabPanel header="Change Password" class="line-height-3 m-0 col-12">
+                <!-- <h3 class="m-5">Change Password </h3> -->
+                <div class="grid ">
+                    <form [formGroup]="fbChangePassword" class="col-4 col-offset-4 align-self-center">
+                        <label for="password" class="block text-900 font-medium text-md required mb-1 mt-5">Current
+                            Password:</label>
+                        <input id="password" type="password" formControlName="password" placeholder="Password"
+                            pInputText class="w-full md:w-100  mb-2"
+                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['password'].touched && FormControls['password'].errors }">
+                        <span *ngIf="FormControls['password'].touched && FormControls['password'].invalid">
+                            <div class="ng-invalid ng-touched p-error"
+                                *ngIf="FormControls['password'].errors?.['required']">
+                                Please Enter Current Password.</div>
+                        </span>
+
+                        <label for="newPassword" class="block text-900 font-medium text-md required mb-1 mt-2">New
+                            Password:</label>
+                        <input id="newPassword" type="password" formControlName="newPassword" placeholder="Password"
+                            pInputText class="w-full md:w-100  mb-2"
+                            pattern="^(?!.* )(?=.*\d)(?=.*[A-Z])(?=.*[!@#$%^&*_=+-]).{8,15}$"
+                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['newPassword'].touched && FormControls['newPassword'].errors }">
+                        <span *ngIf="FormControls['newPassword'].touched && FormControls['newPassword'].invalid">
+                            <div class="ng-invalid ng-touched p-error"
+                                *ngIf="FormControls['newPassword'].errors?.['required']">
+                                Please Enter New Password.</div>
+                            <div class="ng-invalid ng-touched p-error"
+                                *ngIf="FormControls['newPassword'].errors?.['pattern']">New
+                                Password must be 1 lower & upper case
+                                characters and numbers with special characters between 8 to 15 length</div>
+                        </span>
+
+                        <label for="confirmPassword"
+                            class="block text-900 font-medium text-md required mb-1 mt-2">Confirm
+                            Password:</label>
+                        <input id="confirmPassword" formControlName="confirmPassword" type="password"
+                            formControlName="confirmPassword" placeholder="Confirm Password" pInputText
+                            class="w-full md:w-100  mb-2"
+                            pattern="^(?!.* )(?=.*\d)(?=.*[A-Z])(?=.*[!@#$%^&*_=+-]).{8,15}$"
+                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['confirmPassword'].touched && FormControls['confirmPassword'].errors }">
+                        <span
+                            *ngIf="FormControls['confirmPassword'].touched && FormControls['confirmPassword'].invalid">
+                            <div class="ng-invalid ng-touched p-error"
+                                *ngIf="FormControls['confirmPassword'].errors?.['required']">
+                                Please Enter Confirm Password.</div>
+                            <div class="ng-invalid ng-touched p-error"
+                                *ngIf="FormControls['confirmPassword'].errors?.['pattern']">
+                                Confirm Password must be 1 lower & upper case
+                                characters and numbers with special characters between 8 to 15 length</div>
+                            <div class="ng-invalid ng-touched p-error"
+                                *ngIf="FormControls['confirmPassword'].errors?.['confirmedValidator']">Password and
+                                Confirm Password
+                                must be match.</div>
+                        </span>
+                        <button pButton pRipple label="Change Password" class="w-full p-3 text-md mt-3"
+                            [disabled]="fbChangePassword.invalid" (click)="onChangePassword()"></button>
+                    </form>
+                </div>
+            </p-tabPanel>
+
+            <p-tabPanel header="Edit Security Questions" class="line-height-3 m-0 col-12">
+                <div class="cad p-5 pt-0">
+                    <div class="note">
+                        <p class="head_note">Note:</p>
+                        <ol>
+                            <li>Minimum two questions need to be answered out of 15 questions for recovering the
+                                password when you lost it.</li>
+                            <li>When you selected more questions while recovering a password system randomly request 2
+                                questions only </li>
+                        </ol>
+                    </div>
+                    <p-toolbar>
+                        <ng-template pTemplate="left">
+                        </ng-template>
+                        <ng-template pTemplate="right">
+                            <button pButton pRipple label="Add New Question" icon="pi pi-plus"
+                                class="p-button-success p-mr-2" (click)="addSecurityQuestion()"></button>
+                        </ng-template>
+                    </p-toolbar>
+
+                    <!-- table -->
+                    <p-table #dt [value]="userQuestions" dataKey="id" [rowHover]="true"
+                        styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [autoLayout]="true"
+                        responsiveLayout="scroll" [tableStyle]="{ width: 'autoLayout'}">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th></th>
+                                <th pSortableColumn="SecurityQuestions">Security Questions
+                                </th>
+                                <th pSortableColumn="Answer">Answer
+                                </th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-securityQuestion>
+                            <tr>
+                                <td><button pButton pRipple icon="pi pi-pencil"
+                                        class="p-element p-ripple p-button-text p-button p-component m-2"
+                                        (click)="editSecurityQuestion(securityQuestion)"></button>
+                                    <button pButton pRipple icon="pi pi-trash"
+                                        class="p-element p-ripple p-button-text p-button p-component m-2"
+                                        (click)="deleteSecurityQuestion(securityQuestion.question)"
+                                        *ngIf="userQuestions.length>2"></button>
+                                </td>
+                                <td>{{securityQuestion.question}}</td>
+                                <td>{{securityQuestion.answer}}</td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td class="md:text-center" colspan="8">Questions Not Yet Added, Must Need To Add 2
+                                    Questions.</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+
+                    <p-dialog [(visible)]="showDialog" [style]="{ width: '550px' }" header="Security Question"
+                        [modal]="true" styleClass="p-fluid">
+                        <ng-template pTemplate="content">
+                            <!-- <from [formGroup]="fbSecureQue"> -->
+                            <div class="p-field mb-3 ">
+                                <label class="required" for="SecurityQuestions">Question</label>
+                                <p-dropdown name="SecurityQuestions" placeholder="Select Question"
+                                    [options]="getSecureQuestions" optionValue="question" optionLabel="question"
+                                    [(ngModel)]="security.question" appendTo="body" #drop="ngModel" class="pt-5">
+                                </p-dropdown>
+                                <span *ngIf="!security.question && (drop.dirty || drop.touched)">
+                                    <div class="ng-invalid ng-touched p-error">
+                                        Please Select Question.</div>
+                                </span>
+                            </div>
+                            <div class="p-field mb-3">
+                                <label class="required" for="Answer">Answer</label>
+                                <input type="text" pInputText name="Answer" placeholder="Enter Answer"
+                                    [(ngModel)]="security.answer" required #answer="ngModel" />
+                                <span *ngIf="!security.answer && (answer.dirty || answer.touched)">
+                                    <div class="ng-invalid ng-touched p-error">
+                                        Please Enter Answer.</div>
+                                </span>
+                            </div>
+                            <!-- </from> -->
+                        </ng-template>
+                        <ng-template pTemplate="footer">
+                            <div class="col-4" style="float:right">
+                                <button pButton pRipple type="submit" class="p-button-raised p-button-success"
+                                    (click)="saveSecurityQuestions()"
+                                    [disabled]="!security.answer || !security.question">{{qstnSubmitLabel}}</button>
+                            </div>
+                        </ng-template>
+                    </p-dialog>
+                    <button pButton pRipple label="Update Questions" [disabled]="userQuestions.length<2"
+                        class="p-button-success p-mr-2 m-5 sQuestion" (click)="onSubmit()"></button>
+                </div>
+            </p-tabPanel>
+        </p-tabView>
+
     </div>
 </div>
