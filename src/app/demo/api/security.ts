@@ -19,16 +19,7 @@ export interface Employee {
   pfEligible?: string;
   esiEligible?: string;
 }
-export class RoleViewDto {
-  roleId?: string
-  name?: string
-  code?: string
-  isActive?: boolean
-  createdBy?: string
-  createdAt?: string
-  updatedBy?: string
-  updatedAt?: string
-}
+
 export class LookUpHeaderDto {
   code?: string;
   name?: string;
