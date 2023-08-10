@@ -2,14 +2,11 @@ import { OnInit } from '@angular/core';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Table } from 'primeng/table';
-import { RoleViewDto } from 'src/app/demo/api/security';
-import { SecurityService } from 'src/app/demo/service/security.service';
 
-export interface ITableHeader {
-  field: string;
-  header: string;
-  label: string;
-}
+import { ITableHeader } from 'src/app/_models/common';
+import { RoleDto, RolePermissionDto, RoleViewDto } from 'src/app/_models/security';
+import { JwtService } from 'src/app/_services/jwt.service';
+import { SecurityService } from 'src/app/_services/security.service';
 
 @Component({
   selector: 'app-roles',
@@ -23,12 +20,16 @@ export class RolesComponent implements OnInit {
   submitLabel!: string;
   screens: string[] = [];
   roles: RoleViewDto[] = [];
-  // role: RoleDto = {}
-  // permissions: RolePermissionDto[] = [];
+  role: RoleDto = {}
+  permission: any;
+  permissions: RolePermissionDto[] = [];
 
-  constructor(private formbuilder: FormBuilder, private securityService: SecurityService) { }
+
+
+  constructor(private formbuilder: FormBuilder, private securityService: SecurityService, private jwtService: JwtService) { }
 
   ngOnInit(): void {
+    this.permission = this.jwtService.Permissions;
     this.roleForm = this.formbuilder.group({
       roleId: [''],
       code: new FormControl('', [Validators.required]),
@@ -43,23 +44,29 @@ export class RolesComponent implements OnInit {
     return this.roleForm.controls;
   }
 
+  onGlobalFilter(table: Table, event: Event) {
+    table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+  }
+
   intiRoles() {
-    this.securityService.getRoles().then((data: RoleViewDto[]) => (this.roles = data));
+
+    this.securityService.GetRoles().subscribe(resp => {
+      this.roles = resp as unknown as RoleViewDto[];
+      console.log(this.roles);
+    });
   }
 
   headers: ITableHeader[] = [
-    { field: 'name', header: 'name', label: 'Name' },
+    { field: 'roleName', header: 'roleName', label: 'Name' },
     { field: 'isActive', header: 'isActive', label: 'Is Active' },
     { field: 'createdAt', header: 'createdAt', label: 'Created Date' },
   ];
-
-
 
   showDialog() {
     this.roleForm.reset();
     this.dialog = true;
   }
-  editRole(){
+  editRole() {
     this.showDialog();
     this.screens = [];
     this.submitLabel = "Update Role";
@@ -67,7 +74,7 @@ export class RolesComponent implements OnInit {
   initRole(role: RoleViewDto) {
     this.showDialog();
     this.screens = [];
-      this.submitLabel = "Add Role";
+    this.submitLabel = "Add Role";
   }
 
 
@@ -76,9 +83,6 @@ export class RolesComponent implements OnInit {
     this.filter.nativeElement.value = '';
   }
 
-  onGlobalFilter(table: Table, event: Event) {
-    table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
-  }
 
   showRoles() {
     this.dialog = true;

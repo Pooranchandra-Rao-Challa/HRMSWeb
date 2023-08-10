@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Assets, Employee, Leave, LookUpHeaderDto, ProjectDetailsDto, RoleViewDto, SecureQuestionDto } from '../api/security';
+import { RoleViewDto } from 'src/app/_models/security';
+import { Assets, Employee, Leave, LookUpHeaderDto, ProjectDetailsDto,  SecureQuestionDto } from '../api/security';
 
 @Injectable({
     providedIn: 'root'

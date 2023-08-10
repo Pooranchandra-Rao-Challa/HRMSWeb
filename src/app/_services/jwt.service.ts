@@ -45,6 +45,11 @@ export class JwtService {
   public get IsLoggedIn(): boolean {
     return true && this.DecodedJWT != undefined;
   }
+  public get Permissions(): any {
+    const jwt = this.DecodedJWT;
+    if (!jwt || jwt == "") return {};
+    return JSON.parse(jwt.Permissions)
+  }
   public Logout() {
     localStorage.removeItem("respModel");
     localStorage.removeItem(TOKEN_KEY);

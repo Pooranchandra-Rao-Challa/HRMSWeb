@@ -18,7 +18,26 @@ export class UserViewDto {
     userAnswer?: string
     userName?: string;
 }
-
+export class RoleViewDto {
+  roleId?: string;
+  roleName?: string;
+  isActive?: boolean;
+  createdAt?: string;
+}
+export class RolePermissionDto {
+  permissionId?: string
+  label?: string
+  screenName?: string
+  displayName?: string
+  assigned?: boolean = false;
+}
+export class RoleDto {
+  roleId?: string
+  name?: string
+  code?: string
+  isActive?: boolean
+ 
+}
 export class ForgotUserPasswordDto {
     UserName?: string
     Password?: string
