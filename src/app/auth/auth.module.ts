@@ -4,10 +4,10 @@ import { NewPasswordComponent } from './newpassword/newpassword.component';
 import { LockScreenComponent } from './lockscreen/lockscreen.component';
 import { ErrorComponent } from './error/error.component';
 import { AccessdeniedComponent } from './accessdenied/accessdenied.component';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SecurityquestionsComponent } from './securityquestions/securityquestions.component';
 import { SharedModule } from '../_shared/shared.module';
 import { SettingsComponent } from './settings/settings.component';
+import { ToastModule } from 'primeng/toast';
 import { AlertmessageService } from '../_alerts/alertmessage.service';
 
 @NgModule({
@@ -17,13 +17,12 @@ import { AlertmessageService } from '../_alerts/alertmessage.service';
         ErrorComponent,
         AccessdeniedComponent,
         SecurityquestionsComponent,
-        SettingsComponent
-    ],
+        SettingsComponent],
     imports: [
         AuthRoutingModule,
-        SharedModule
+        SharedModule,
+        ToastModule,
     ],
-    providers:[AlertmessageService]
-
+    providers: [AlertmessageService]
 })
-export class AuthModule {}
+export class AuthModule { }

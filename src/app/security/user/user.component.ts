@@ -7,6 +7,7 @@ import { UserViewDto } from 'src/app/_models/security';
 import { Employee } from 'src/app/demo/api/security';
 import { SecurityService } from 'src/app/_services/security.service';
 import { JwtService } from 'src/app/_services/jwt.service';
+import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 export interface ITableHeader {
   field: string;
   header: string;
@@ -21,33 +22,36 @@ export interface ITableHeader {
 })
 export class UserComponent implements OnInit {
 
-  constructor(private securityService:SecurityService, 
+  constructor(private securityService: SecurityService,
     private formbuilder: FormBuilder,
-    private jwtService:JwtService) {
+    private jwtService: JwtService) {
 
   }
   users: UserViewDto[] = [];
-  globalFilterFields: string[] = ['empname', 'empcode', 'dob', 'designation', 'gender', 'doj', 'email', 'phoneno'];
+  globalFilterFields: string[] = ['userId', 'userName', 'firstName', 'lastName', 'email', 'mobileNumber', 'roleName', 'email'];
   userForm!: FormGroup;
-permissions:any;
+  permissions: any;
   dialog: boolean = false;
   submitLabel!: string;
   trueValue: any;
   falseValue: any;
+  mediumDate: string = MEDIUM_DATE;
 
+  headers: ITableHeader[] = [
+    { field: 'userId', header: 'userId', label: 'User Id' },
+    { field: 'userName', header: 'userName', label: 'User Name' },
+    { field: 'firstName', header: 'firstName', label: 'First Name' },
+    { field: 'lastName', header: 'lastName', label: 'Last Name' },
+    { field: 'email', header: 'email', label: 'Email' },
+    { field: 'mobileNumber', header: 'mobileNumber', label: 'Mobile Number' },
+    { field: 'roleName', header: 'roleName', label: 'Role Name' },
+    { field: 'isActive', header: 'isActive', label: 'Is Active' },
+    { field: 'createdAt', header: 'createdAt', label: 'Created At' },
 
-  clear(table: Table) {
-    table.clear();
-
-  }
-  onGlobalFilter(table: Table, event: Event) {
-    table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
-  }
-
+  ];
   ngOnInit() {
     this.permissions = this.jwtService.Permissions
-   this.initUsers();
-  
+    this.initUsers();
     this.userForm = this.formbuilder.group({
       userId: [''],
       userName: new FormControl(''),
@@ -60,17 +64,17 @@ permissions:any;
     });
   }
 
-
   initUsers() {
     this.securityService.GetUsers().subscribe(resp => {
       this.users = resp as unknown as UserViewDto[];
-      console.log(this.users);
-      
-    // this.users.sort((a, b) => (a.userName || "").localeCompare(b.userName || ""))
-      // console.log(this.users);
-  
     })
- 
+  }
+  onSubmit() {
+    if (this.userForm.valid) {
+      console.log(this.userForm.value);
+      this.dialog = false;
+      this.userForm.reset();
+    }
   }
   customSort(event: SortEvent) {
     event.data.sort((data1: { [x: string]: any; }, data2: { [x: string]: any; }) => {
@@ -82,35 +86,21 @@ permissions:any;
       else if (value1 != null && value2 == null) result = 1;
       else if (value1 == null && value2 == null) result = 0;
       else if (typeof value1 === 'string' && typeof value2 === 'string') result = value1.localeCompare(value2);
-      else result = value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
-
+      else result = value1 < value2 ? -1 : value1 > value2 ? 1 : 0
       return event.order * result;
     });
   }
-
-  headers: ITableHeader[] = [
-    { field: 'userName', header: 'userName', label: 'User Name' },
-    { field: 'FirstName', header: 'First Name', label: 'First Name'},
-    { field: 'LastName', header: 'Last Name', label: 'Last Name' },
-    { field: 'Email', header: 'Email', label: 'Email' },
-    { field: 'MobileNumber', header: 'Mobile Number', label: 'Mobile Number'},
-    { field: 'Role Id', header: 'Role Id', label: 'Role Id' },
-    { field: 'Role Name', header: 'Role Name', label: 'Role Name' },
-    { field: 'IsActive', header: 'IsActive', label: 'Is Active' },
-    { field: 'CreatedAt', header: 'Created At', label: 'Created At' },
-
-  ];
-  onSubmit() {
-    if (this.userForm.valid) {
-      console.log(this.userForm.value);
-      this.dialog = false;
-      this.userForm.reset();
-    }
-  }
+  
   get userFormControls() {
     return this.userForm.controls;
   }
-  showUser(employee: Employee) {
+  showUser(user: UserViewDto) {
     this.dialog = true;
+  }
+  clear(table: Table) {
+    table.clear();
+  }
+  onGlobalFilter(table: Table, event: Event) {
+    table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
 }

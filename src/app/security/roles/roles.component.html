@@ -38,17 +38,17 @@
           </th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-roles>
+      <ng-template pTemplate="body" let-role>
         <tr>
           <td><button pButton pRipple icon="pi pi-pencil" style="padding: 0px;"
               class="p-element p-ripple p-button-text p-button p-component" (click)="editRole()"></button></td>
           <td *ngFor="let col of headers" [ngClass]="col?.field == 'isActive' ? 'text-center' : ''">
-            <span *ngIf="col?.field != 'createdAt' && col?.field != 'isActive'">{{roles[col.field]}}</span>
+            <span *ngIf="col?.field != 'createdAt' && col?.field != 'isActive'">{{role[col.field]}}</span>
             <span *ngIf="col?.field == 'createdAt'">
-              {{roles[col.field] }}
+              {{role[col.field] }}
             </span>
             <span *ngIf="col?.field == 'isActive'">
-              <p-checkbox name="isActive" value="isActive" [binary]="true" [(ngModel)]="roles[col.field]"
+              <p-checkbox name="isActive" value="isActive" [binary]="true" [(ngModel)]="role[col.field]"
                 [disabled]="true">
               </p-checkbox>
             </span>
@@ -72,12 +72,8 @@
             <div class="col-12 roles-container">
               <div class="p-fluid p-formgrid grid">
                 <div class="field col-12 md:col-4">
-                  <label>Code:<sup class="p-error">*</sup></label>&nbsp;
-                  <input pInputText id="code" type="text" formControlName="code" placeholder="Enter Role Code" />
-                </div>
-                <div class="field col-12 md:col-4">
                   <label>Name:<sup class="p-error">*</sup></label>&nbsp;
-                  <input pInputText id="name" type="text" formControlName="name" placeholder="Enter Role Name" />
+                  <input pInputText id="name" type="text" formControlName="Name" placeholder="Enter Role Name" />
                 </div>
                 <div class="field col-12 md:col-4">
                   <label>Is Active:<sup class="p-error">*</sup></label><br>

@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { CreateUserQuestionDto, SecureQuestionDto } from 'src/app/_models/security';
 import { JwtService } from 'src/app/_services/jwt.service';
 import { SecurityService } from 'src/app/_services/security.service';
 import jwtdecode from 'jwt-decode';
+import { Table } from 'primeng/table';
+import { Router } from '@angular/router';
 
 export interface IHeader {
   field: string;
@@ -29,8 +31,10 @@ export class SecurityDto {
   ]
 })
 export class SecurityquestionsComponent {
-  getSecureQuestions: SecureQuestionDto[] = []
-  allSecureQuestions: SecureQuestionDto[] = []
+  @ViewChild('securityTable') securityTable!: Table;
+  createUserQuestions: CreateUserQuestionDto[] = [];
+  getSecureQuestions: SecureQuestionDto[] = [];
+  allSecureQuestions: SecureQuestionDto[] = [];
   securityquestions: SecurQuestion[];
   selectedQuestion!: SecurQuestion;
   securityDto: SecurityDto[] = [];
@@ -43,7 +47,8 @@ export class SecurityquestionsComponent {
     private formbuilder: FormBuilder,
     private securityService: SecurityService,
     private messageService: MessageService,
-    private jwtService:JwtService) {
+    private jwtService: JwtService,
+    private router: Router,) {
     this.securityquestions = [
       { code: 1, name: 'What city were you born in?' },
       { code: 2, name: 'What is the name of your first pet?' },
@@ -56,7 +61,6 @@ export class SecurityquestionsComponent {
   headers: IHeader[] = [
     { field: 'SecurityQuestions', header: 'SecurityQuestions', label: 'Security Questions' },
     { field: 'Answer', header: 'Answer', label: 'Answer' },
-
   ];
 
   openNew() {
@@ -100,24 +104,22 @@ export class SecurityquestionsComponent {
   }
 
   saveSecurity() {
-    // this.deleteMsg(event);
     this.submitted = true;
     if (this.security.Answer?.trim()) {
       if (this.security.id) {
         if (this.findIndexById(this.security.id) >= 0) {
           this.securityDto[this.findIndexById(this.security.id)] = this.security;
-          this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
+          this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Security Question Updated', life: 3000 });
         }
         else {
           this.securityDto.push(this.security);
-          this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000 });
+          this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Security Question Created', life: 3000 });
         }
       }
       this.securityDto = [...this.securityDto];
       this.securityDialog = false;
       this.security = {};
     }
-
   }
 
   findIndexById(id: number): number {
@@ -135,23 +137,28 @@ export class SecurityquestionsComponent {
     debugger;
     if (this.securityDto.length >= 2) {
       const jwtToken = jwtdecode(this.jwtService.JWTToken) as unknown as any;
-      const username = jwtToken.GivenName; 
-      const userId = jwtToken.Id;    
+      const username = jwtToken.GivenName;
+      const userId = jwtToken.Id;
       const createUserQuestions: CreateUserQuestionDto[] = this.securityDto.map(security => {
         return {
           question: security.SecurityQuestions,
           answer: security.Answer,
-          // questionId: security.id,
-          userQuestionId:security.id,
-          username: jwtToken.GivenName, 
-          userId: jwtToken.Id,    
+          username: username,
+          userId: userId,
+          questionId: security.id,
         };
       });
       this.securityService
         .CreateSecurityQuestions(createUserQuestions)
-        .subscribe((resp) =>
-          console.log(resp));
+        .subscribe((resp) => {
+          this.createUserQuestions = resp as unknown as CreateUserQuestionDto[];
+          console.log(createUserQuestions)
+          this.messageService.add({ severity: 'success', key: 'myToast', summary: 'Success!', detail: 'Security Questions Added Successfully...!' });
+          this.securityDto = [];
+          this.router.navigate(['./dashboard/admin']);
+        })
     }
   }
 }
+
 

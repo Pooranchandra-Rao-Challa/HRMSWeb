@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { URI_ENDPOINT, URI_ENDPOINT_WITH_ID, URI_ENDPOINT_WITH_PARAMS } from 'src/environments/environment';
@@ -6,6 +6,7 @@ import { ResponseModel } from '../_models/login.model';
 import { JwtService } from './jwt.service';
 
 const TOKEN_KEY = 'auth-token';
+
 @Injectable({
   providedIn: 'root'
 })

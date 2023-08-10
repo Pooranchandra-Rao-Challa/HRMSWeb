@@ -65,10 +65,10 @@ export class AlertmessageService {
  */
 
 export const ALERT_CODES: { [key: string]: string } = {
+ 
 
-  // login
-  'HRMS001': 'Your session is closed, so, need to sign in before continuing.',
-  'HRMS002': 'Your session is closed.',
+  // securityquestions screen 
+'ASCUQ001':'Security Questions Added Successfully',
 
   // settings
   // change password
