@@ -67,5 +67,10 @@ export class JwtService {
     const jwt = this.DecodedJWT;
     return jwt.ThemeName;
   }
+
+  public get GivenName(): string {
+    const jwt = this.DecodedJWT;
+    return jwt.GivenName;
+  }
 }
 

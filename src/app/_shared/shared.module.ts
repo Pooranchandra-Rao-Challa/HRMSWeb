@@ -1,4 +1,5 @@
 import { CommonModule } from "@angular/common";
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AppConfigModule } from "../layout/config/app.config.module";
@@ -12,24 +13,26 @@ import { PrimengModule } from "./primeng.module";
 
 @NgModule({
     declarations: [
-      AlphaDirective,
-      AlphaNumericDirective,
-      NumericDirective,
-      AddressDirective,
-      NumericInputDirective
+        AlphaDirective,
+        AlphaNumericDirective,
+        NumericDirective,
+        AddressDirective,
+        NumericInputDirective
     ],
     exports: [
-      CommonModule,
-      FormsModule,
-      ReactiveFormsModule,
-      AppConfigModule,
-      PrimengModule,
-      AlphaDirective,
-      AlphaNumericDirective,
-      NumericDirective,
-      AddressDirective,
-      NumericInputDirective
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        AppConfigModule,
+        PrimengModule,
+        AlphaDirective,
+        AlphaNumericDirective,
+        NumericDirective,
+        AddressDirective,
+        NumericInputDirective
     ],
-    providers: [AlertmessageService]
-  })
-  export class SharedModule { }
+    providers: [
+        AlertmessageService
+    ]
+})
+export class SharedModule { }

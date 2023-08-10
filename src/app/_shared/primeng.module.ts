@@ -37,6 +37,7 @@ import { PickListModule } from 'primeng/picklist';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { StepsModule } from 'primeng/steps';
 import { PasswordModule } from 'primeng/password';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
 @NgModule({
     exports: [
         ReactiveFormsModule,
@@ -76,7 +77,8 @@ import { PasswordModule } from 'primeng/password';
         PickListModule,
         RadioButtonModule,
         StepsModule,
-        PasswordModule
+        PasswordModule,
+        ProgressSpinnerModule
     ]
 
 })

@@ -7,3 +7,4 @@ export const USER_SECURITY_QUESTIONS_URI = "Security/UserQuestions";
 export const FORGOT_PASSWORD_URI = "Security/ForgotPassword";
 export const GET_SECURITY_QUESTIONS_URI ="Security/SecureQuestions"
 export const CREATE_SECURITY_QUESTIONS_URI = "Security/CreateUserQuestion"
+export const CHANGE_PASSWORD_URI = "Security/ChangePassword";

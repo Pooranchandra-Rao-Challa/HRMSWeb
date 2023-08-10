@@ -8,8 +8,8 @@ export class UserViewDto {
     roleName?: string
     isActive?: boolean
     createdAt?: string
-  }
-  export class UserQuestionDto {
+}
+export class UserQuestionDto {
     userQuestionId?: number
     userId?: string
     questionId?: number
@@ -25,7 +25,7 @@ export class ForgotUserPasswordDto {
     ConfirmPassword?: string;
     UserQuestions?: UserQuestionDto[]
 }
-  
+
 export class SecureQuestionDto {
     questionId?: number;
     question?: string;
@@ -40,4 +40,9 @@ export class CreateUserQuestionDto {
     userName?: string;
 }
 
-
+export class ChangePasswordDto {
+    // UserName?: string
+    CurrentPassword?: string
+    NewPassword?: string
+    ConfirmPassword?: string;
+}

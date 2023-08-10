@@ -47,11 +47,7 @@ export class LoginService extends ApiHttpService {
     }
 
     refreshToken() {
-        const headers = new HttpHeaders({
-            "Content-Type": "application/json",
-            "Authorization": this.jwtService.JWTToken
-        });
-        this.getWithParams<any>(REFRESH_TOKEN_URI, [encodeURIComponent(this.jwtService.RefreshToken)], { headers: headers })
+        this.getWithParams<any>(REFRESH_TOKEN_URI, [encodeURIComponent(this.jwtService.RefreshToken)])
             .subscribe((resp) => {
                 if (resp) {
                     const u = resp as any;
@@ -65,6 +61,15 @@ export class LoginService extends ApiHttpService {
                     this.startRefreshTokenTimer();
                 }
             })
+    }
+
+    RefreshToken(data: ResponseModel): Observable<boolean> {
+        return this.getWithParams<any>(REFRESH_TOKEN_URI, [encodeURIComponent(data.refreshToken)]).pipe(
+            switchMap(resp => {
+                this.saveToken((resp as ResponseModel))
+                return of<boolean>(true)
+              }),
+            )
     }
 
     // resetSessionMonitor;
