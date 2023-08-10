@@ -43,7 +43,6 @@ export class JwtService {
     this.saveRefreshToken(tokens);
   }
   public get Permissions(): any {
-    debugger
     const jwt = this.DecodedJWT;
     if (!jwt || jwt == "") return {};
     return JSON.parse(jwt.Permissions)
