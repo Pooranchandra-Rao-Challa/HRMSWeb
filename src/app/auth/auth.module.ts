@@ -9,6 +9,8 @@ import { HrmsAPIInterceptor } from '../_helpers/hrms.api.interceptor';
 import { SecurityquestionsComponent } from './securityquestions/securityquestions.component';
 import { SharedModule } from '../_shared/shared.module';
 import { SettingsComponent } from './settings/settings.component';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
     declarations: [
@@ -17,13 +19,13 @@ import { SettingsComponent } from './settings/settings.component';
         ErrorComponent,
         AccessdeniedComponent,
         SecurityquestionsComponent,
-        SettingsComponent
-    ],
+        SettingsComponent],
     imports: [
         AuthRoutingModule,
-        SharedModule
+        SharedModule,
+        ToastModule,
     ],
-    providers:[{ provide: HTTP_INTERCEPTORS, useClass: HrmsAPIInterceptor, multi: true }]
+    providers:[MessageService,{ provide: HTTP_INTERCEPTORS, useClass: HrmsAPIInterceptor, multi: true }]
 
 })
 export class AuthModule {}
