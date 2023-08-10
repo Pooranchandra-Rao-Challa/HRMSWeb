@@ -88,5 +88,7 @@
 <p-dialog header="Add Employee" [(visible)]="visible" [modal]="true" [style]="{ width: '75%' }" [draggable]="false"
     [resizable]="false" (onHide)="cancelModel()" class="on_boarding_form">
     <p-steps [model]="newEmployeeSteps"></p-steps>
-    <router-outlet></router-outlet>
+    <div class="p-5" style="min-height:500px;">
+        <router-outlet></router-outlet>
+    </div>  
 </p-dialog>
