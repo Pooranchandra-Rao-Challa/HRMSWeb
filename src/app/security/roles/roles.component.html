@@ -1,5 +1,6 @@
 <div class="col-12">
   <div class="card">
+    <p-toast key="tst"></p-toast>
     <!-- Toolbar -->
     <p-toolbar styleClass="p-mb-4">
       <ng-template pTemplate="left">
@@ -71,11 +72,37 @@
           <div class="grid">
             <div class="col-12 roles-container">
               <div class="p-fluid p-formgrid grid">
-                <div class="field col-12 md:col-4">
+                <div class="field col-12 md:col-6">
                   <label>Name:<sup class="p-error">*</sup></label>&nbsp;
-                  <input pInputText id="name" type="text" formControlName="Name" placeholder="Enter Role Name" />
+                  <input pInputText id="name" type="text" formControlName="Name" placeholder="Enter Role Name"
+                    placeholder="Enter Name" #name alphaOnly [maxlength]="maxLength.name"
+                    [ngClass]="{ 'is-invalid ng-dirty': roleFormControls['Name'].touched && roleFormControls['Name'].errors }" />
+                  <div class="flex">
+                    <div class="align-left w-60" style="width:70%">
+                      <span
+                        *ngIf="roleFormControls['Name'].touched && roleFormControls['Name'].errors?.['notUniqueName']">
+                        <div class="ng-invalid ng-touched p-error">
+                          Branch name must be unique.
+                        </div>
+                      </span>
+                      <span *ngIf="roleFormControls['Name'].touched && roleFormControls['Name'].invalid">
+                        <div class="ng-invalid ng-touched p-error"
+                          *ngIf="roleFormControls['Name'].errors?.['required']">
+                          Please Enter Name.</div>
+                        <div class="ng-invalid ng-touched p-error" *ngIf="roleFormControls['Name'].errors?.['pattern']">
+                          Name Should Contains Alphabets.</div>
+                        <div class="ng-invalid ng-touched p-error"
+                          *ngIf="roleFormControls['Name'].errors?.['minlength']">
+                          Name Min Characters Is 2.</div>
+                      </span>
+                    </div>
+                    <div class="align-right w-40" style="width:30%; text-align:right;">
+                      <small>{{name.value.length}}/{{maxLength.name}}</small>
+                    </div>
+                  </div>
                 </div>
-                <div class="field col-12 md:col-4">
+
+                <div class="field col-12 md:col-6">
                   <label>Is Active:<sup class="p-error">*</sup></label><br>
                   &nbsp;<p-inputSwitch formControlName="isActive">
                   </p-inputSwitch>

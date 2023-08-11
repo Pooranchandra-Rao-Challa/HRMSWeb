@@ -75,6 +75,7 @@ export const ALERT_CODES: { [key: string]: string } = {
   'SSECP001': 'Password Updated Successfully',
   'ESECP001': 'Invalid Current Password',
 
-
+  'SMR001': 'Roles Add Successfully',
+  'SMR002': 'Roles Update Successfully',
 
 }

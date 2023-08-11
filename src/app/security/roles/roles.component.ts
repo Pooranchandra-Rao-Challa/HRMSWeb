@@ -4,8 +4,9 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Table } from 'primeng/table';
 import { Observable } from 'rxjs';
+import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 
-import { ITableHeader } from 'src/app/_models/common';
+import { ITableHeader, MaxLength } from 'src/app/_models/common';
 import { RoleDto, RolePermissionDto, RoleViewDto } from 'src/app/_models/security';
 import { JwtService } from 'src/app/_services/jwt.service';
 import { SecurityService } from 'src/app/_services/security.service';
@@ -26,10 +27,11 @@ export class RolesComponent implements OnInit {
   permission: any;
   permissions: RolePermissionDto[] = [];
   addFlag: boolean = true;
+  maxLength: MaxLength = new MaxLength();
 
 
-
-  constructor(private formbuilder: FormBuilder, private securityService: SecurityService, private jwtService: JwtService) { }
+  constructor(private formbuilder: FormBuilder, 
+    private alertMessage:AlertmessageService, private securityService: SecurityService, private jwtService: JwtService) { }
 
   ngOnInit(): void {
     this.permission = this.jwtService.Permissions;
@@ -125,6 +127,7 @@ export class RolesComponent implements OnInit {
           this.roleForm.reset();
           this.dialog = false;
           this.intiRoles();
+          this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "SMR001" : "SMR002"]);
         }
       })
     }
