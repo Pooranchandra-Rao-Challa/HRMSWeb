@@ -114,10 +114,10 @@
                     <p-accordion *ngFor="let screen of screens"
                       class="col-12 xl:col-3 md:col-6 sm:col-6 accordion_roles" [multiple]="false">
                       <p-accordionTab [header]="screen" [selected]="false" [cache]="false">
-                        <div class="col-12 role-accordian-view">
-                          <p-inputSwitch>
+                        <div class="col-12 role-accordian-view" *ngFor="let permission of getPermissions(screen)">
+                          <p-inputSwitch [(ngModel)]="permission.assigned" [ngModelOptions]="{standalone: true}">
                           </p-inputSwitch>
-                          <label for="ny">hello</label>
+                          <label for="ny">{{permission.displayName}}</label>
                         </div>
                       </p-accordionTab>
                     </p-accordion>

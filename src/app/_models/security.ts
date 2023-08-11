@@ -36,7 +36,7 @@ export class RoleDto {
   roleId?: string
   roleName?: string
   isActive?: boolean
-
+  permissions?: RolePermissionDto[]
 }
 export class ForgotUserPasswordDto {
   UserName?: string
