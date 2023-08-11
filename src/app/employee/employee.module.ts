@@ -16,6 +16,7 @@ import { FinalSubmitComponent } from './onboardingemployees/final-submit/final-s
 import { FamilyDeatilsComponent } from './onboardingemployees/family-deatils/family-deatils.component';
 import { FileUploadModule } from 'primeng/fileupload';
 import { SharedModule } from '../_shared/shared.module';
+import { AddressComponent } from './onboardingemployees/address/address.component';
 
 
 
@@ -32,7 +33,8 @@ import { SharedModule } from '../_shared/shared.module';
     ExperienceDetailsComponent,
     UploadDocumentsComponent,
     FinalSubmitComponent,
-    FamilyDeatilsComponent
+    FamilyDeatilsComponent,
+    AddressComponent
   ],
 
   imports: [

@@ -41,9 +41,9 @@
                     </div>
                 </div>
 
-                <div class="col-12 scrolling_content" formArrayName="familyDetails" *ngIf="ShowFamilyDetails">
+                <div class="col-12 scrolling_content" formArrayName="familyDetails" *ngIf="showFamilyDetails">
                     <p-table #dt2 [value]=" faFamilyDetail().controls" dataKey="id" [rows]="10" [rowHover]="true"
-                        *ngIf="ShowFamilyDetails" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
+                        *ngIf="showFamilyDetails" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
                         [paginator]="false" [autoLayout]="true" responsiveLayout="scroll"
                         [rowsPerPageOptions]="[10,25,50]">>
                         <ng-template pTemplate="header">
@@ -85,11 +85,11 @@
                     </p-table>
                 </div>
                 <div class="field col-4 ">
-                    <p-button (click)="navigateToPrev()">Personal Details</p-button>
+                    <p-button (click)="navigateToPrev()">Experience Details</p-button>
                 </div>
                 <div class="field col-4 "></div>
                 <div class="field col-4  ">
-                    <p-button class="text-center" (click)="navigateToNext()">Education Details</p-button>
+                    <p-button class="text-center" (click)="navigateToNext()">Address Details</p-button>
                 </div>
             </div>
         </div>

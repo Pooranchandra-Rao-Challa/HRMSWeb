@@ -4,6 +4,7 @@ import { AllEmployeesComponent } from './all-employees/all-employees.component';
 import { AttendanceComponent } from './attendance/attendance.component';
 import { LeavesComponent } from './leaves/leaves.component';
 import { NotificationsComponent } from './notifications/notifications.component';
+import { AddressComponent } from './onboardingemployees/address/address.component';
 import { BasicDetailsComponent } from './onboardingemployees/basic-details/basic-details.component';
 import { EducationDetailsComponent } from './onboardingemployees/education-details/education-details.component';
 import { ExperienceDetailsComponent } from './onboardingemployees/experience-details/experience-details.component';
@@ -25,6 +26,7 @@ const routes: Routes = [];
       {
         path: 'onboardingemployee', data: { breadcrumb: 'On-Boarding Employees' }, component: OnboardingemployeesComponent,
         children: [
+          {path:'addressdetails',component:AddressComponent},
           { path: 'basicdetails', component: BasicDetailsComponent },
           { path: 'educationdetails', component: EducationDetailsComponent },
           { path: 'experiencedetails', component: ExperienceDetailsComponent },

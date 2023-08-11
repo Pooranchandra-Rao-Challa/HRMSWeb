@@ -68,6 +68,6 @@ export class BasicDetailsComponent implements OnInit{
   
 
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/familydetails'] );
+    this.router.navigate(['employee/onboardingemployee/educationdetails'] );
   }
 }

@@ -20,7 +20,6 @@ export class HRMSAPIInterceptor implements HttpInterceptor {
         private messageService: MessageService) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        debugger
         this.loaderService.isLoading.next(true);
         const isApiUrl = request.url.startsWith(environment.ApiUrl);
         const isLoggedIn = this.jwtService.IsLoggedIn;

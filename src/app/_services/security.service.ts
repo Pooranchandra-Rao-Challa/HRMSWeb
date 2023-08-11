@@ -1,25 +1,31 @@
 import { Injectable } from "@angular/core";
 // import { ForgotUserPasswordDto, UserQuestionDto, UserViewDto } from "../_models/security";
 import { ApiHttpService } from "./api.http.service";
-import { CHANGE_PASSWORD_URI, CREATE_ROLE_URI, CREATE_SECURITY_QUESTIONS_URI, FORGOT_PASSWORD_URI, GET_ROLES_URI, GET_SECURITY_QUESTIONS_URI, GET_USERS_URI,  GET_USER_QUESTIONS_URI, UPDATE_USER_QUESTIONS_URI, } from "./api.uri.service";
-import { ChangePasswordDto, CreateUserQuestionDto, ForgotUserPasswordDto, RoleDto, RoleViewDto, SecureQuestionDto, UpdateUserQuestionDto, UserQuestionDto, UserViewDto, } from "../_models/security";
+import { CHANGE_PASSWORD_URI, CREATE_ROLE_URI, CREATE_SECURITY_QUESTIONS_URI, FORGOT_PASSWORD_URI, GET_PERMISSIONS_URI, GET_ROLES_URI, GET_ROLE_PERMISSIONS_URI, GET_SECURITY_QUESTIONS_URI, GET_USERS_URI, GET_USER_QUESTIONS_URI, UPDATE_ROLE_URI, UPDATE_USER_QUESTIONS_URI, UPDATE_USER_URI,} from "./api.uri.service";
+import { ChangePasswordDto, CreateUserQuestionDto, ForgotUserPasswordDto, RoleDto, RolePermissionDto, RoleViewDto, SecureQuestionDto, UpdateUserQuestionDto, UserQuestionDto, UserUpdateDto, UserViewDto } from "../_models/security";
 
 @Injectable({ providedIn: 'root' })
 
 export class SecurityService extends ApiHttpService {
-    UpdateRole(value: any): import("rxjs").Observable<import("@angular/common/http").HttpEvent<RoleDto>> {
-        throw new Error('Method not implemented.');
-    }
-
     public UserSecurityQuestions(userName: string) {
         return this.getWithParams<UserQuestionDto>(GET_USER_QUESTIONS_URI, [userName]);
     }
     public GetUsers() {
         return this.get<UserViewDto[]>(GET_USERS_URI);
     }
+    public UpdateUser(user: UserUpdateDto) {
+        return this.post<any>(UPDATE_USER_URI, user);
+    }
 
     public ForgotPassword(forgotDto: ForgotUserPasswordDto) {
         return this.post(FORGOT_PASSWORD_URI, forgotDto);
+    }
+
+    public GetPermissions() {
+        return this.get<RolePermissionDto[]>(GET_PERMISSIONS_URI);
+    }
+    public GetRoleWithPermissions(roleId: string) {
+        return this.getWithId(GET_ROLE_PERMISSIONS_URI, roleId);
     }
 
     public GetRoles() {
@@ -27,6 +33,9 @@ export class SecurityService extends ApiHttpService {
     }
     public CreateRole(roleDto: RoleDto) {
         return this.post<any>(CREATE_ROLE_URI, roleDto);
+    }
+    public UpdateRole(roleDto: RoleDto) {
+        return this.post<RoleDto>(UPDATE_ROLE_URI, roleDto);
     }
 
     public GetSecureQuestions() {
