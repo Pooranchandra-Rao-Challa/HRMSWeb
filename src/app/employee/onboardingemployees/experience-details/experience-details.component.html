@@ -16,7 +16,7 @@
     </div>
     <br>
 
-    <div *ngIf="selectedOption=='Experience'">
+    <div *ngIf="selectedOption=='Experience'" style="height: 80%;overflow-y: scroll;overflow-x: hidden;">
         <div>
             <form [formGroup]="fbexperience">
                 <div class="grid">
@@ -103,11 +103,11 @@
     </div>
 </div>
 <div class="grid">
-    <div class="field col-4 ">
+    <div class="field col-4 m-0">
         <p-button (click)="navigateToPrev()">Education Details</p-button>
     </div>
-    <div class="field col-4 "></div>
-    <div class="field col-4  ">
-        <p-button class="text-center" (click)="navigateToNext()">Documents Details</p-button>
+    <div class="field col-4 m-0"></div>
+    <div class="field col-4  m-0">
+        <p-button class="text-center" (click)="navigateToNext()">Family Details</p-button>
     </div>
 </div>

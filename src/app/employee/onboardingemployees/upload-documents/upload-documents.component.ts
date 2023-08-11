@@ -25,11 +25,11 @@ export class UploadDocumentsComponent {
       // this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded with Basic Mode' });
   }
   navigateToPrev() {
-    this.router.navigate(['employee/onboardingemployee/experiencedetails'])
+    this.router.navigate(['employee/onboardingemployee/addressdetails'])
   }
 
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/finalsubmit'])
+    this.router.navigate(['employee/onboardingemployee/finalsubmission'])
   }
   // navigateToPrev() {
   //   this.router.navigate(['employee/onboardingemployee/experiencedetails'])
