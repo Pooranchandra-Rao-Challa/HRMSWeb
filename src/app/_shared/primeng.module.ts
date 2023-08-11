@@ -38,6 +38,7 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { StepsModule } from 'primeng/steps';
 import { PasswordModule } from 'primeng/password';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
+import {TooltipModule} from 'primeng/tooltip';
 @NgModule({
     exports: [
         ReactiveFormsModule,
@@ -78,7 +79,8 @@ import {ProgressSpinnerModule} from 'primeng/progressspinner';
         RadioButtonModule,
         StepsModule,
         PasswordModule,
-        ProgressSpinnerModule
+        ProgressSpinnerModule,
+        TooltipModule
     ]
 
 })

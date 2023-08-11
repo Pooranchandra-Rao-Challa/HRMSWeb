@@ -68,8 +68,8 @@ export class LoginService extends ApiHttpService {
             switchMap(resp => {
                 this.saveToken((resp as ResponseModel))
                 return of<boolean>(true)
-              }),
-            )
+            }),
+        )
     }
 
     // resetSessionMonitor;
@@ -164,6 +164,7 @@ export class LoginService extends ApiHttpService {
     public startRefreshTokenTimer() {
         const jwtToken = jwtdecode(this.jwtService.JWTToken) as unknown as any;
         console.log(jwtToken);
+        console.log(this.jwtService.Permissions);
         const expires = new Date(jwtToken.exp * 1000);
         console.log('Session Timeout: ' + expires)
         const timeout = expires.getTime() - (new Date()).getTime() - 60000;

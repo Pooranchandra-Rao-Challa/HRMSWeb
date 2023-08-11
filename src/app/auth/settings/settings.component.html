@@ -11,11 +11,16 @@
                             Password:</label>
                         <input id="password" type="password" formControlName="password" placeholder="Password"
                             pInputText class="w-full md:w-100  mb-2"
+                            pattern="^(?!.* )(?=.*\d)(?=.*[A-Z])(?=.*[!@#$%^&*_=+-]).{8,15}$"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['password'].touched && FormControls['password'].errors }">
                         <span *ngIf="FormControls['password'].touched && FormControls['password'].invalid">
                             <div class="ng-invalid ng-touched p-error"
                                 *ngIf="FormControls['password'].errors?.['required']">
                                 Please Enter Current Password.</div>
+                            <div class="ng-invalid ng-touched p-error"
+                                *ngIf="FormControls['password'].errors?.['pattern']">
+                                Password must be 1 lower & upper case
+                                characters and numbers with special characters between 8 to 15 length</div>
                         </span>
 
                         <label for="newPassword" class="block text-900 font-medium text-md required mb-1 mt-2">New
