@@ -40,7 +40,7 @@
                     <span *ngIf="col?.field == 'createdAt'">
                         {{user[col.field] | date: 'mediumDate'}}
                     </span>
-                    <span *ngIf="col?.field == 'isActive'">
+                    <span *ngIf="col?.field === 'isActive'">
                         <p-checkbox name="isActive" value="isActive" [binary]="true" [(ngModel)]="user[col.field]"
                             [disabled]="true">
                         </p-checkbox>
@@ -56,56 +56,32 @@
     </p-table>
     <!-- Dailog -->
     <p-dialog header="Edit User" [(visible)]="dialog" [modal]="true" showEffect="fade"
-        [breakpoints]="{'960px': '50%', '640px': '80%'}" [style]="{width: '50%'}" (onHide)="userForm.reset()">
+        [breakpoints]="{'960px': '50%', '640px': '80%'}" [style]="{width: '30%'}" (onHide)="userForm.reset()">
         <ng-template pTemplate="content">
             <div class="flex flex-column align-items-center justify-content-center">
                 <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="tpt_form" autocomplete="off">
-                    <p-tabView orientation="left" class="users-container user_form" style="min-width:700px;">
-                        <p-tabPanel header="User Info" class="line-height-3 m-0 col-12 ">
-                            <div class="grid">
-                                <div class="col-12">
-                                    <p-fieldset [toggleable]="true" legend="User Info" class="line-height-3 m-0 mb-5">
-                                        <div class="p-fluid p-formgrid grid">
-                                            <div class="field col-12 md:col-6">
-                                                <label>User Name:<sup class="p-error">*</sup></label>&nbsp;
-                                                <input pInputText id="username" type="text" formControlName="userName"
-                                                    placeholder="Enter User Name" #username alphaNumeric />
-                                            </div>
-                                            <div class="field col-12 md:col-6">
-                                                <span>
-                                                    <label>Code:<sup class="p-error">*</sup></label>&nbsp;
-                                                    <input pInputText id="code" formControlName="firstName"
-                                                        placeholder="Enter Code" />
-                                                </span>
-                                            </div>
-                                            <div class="field col-12 md:col-6">
-                                                <label>LastName:<sup class="p-error">*</sup></label>&nbsp;
-                                                <input pInputText id="gender" type="lastName" formControlName="lastName"
-                                                    placeholder="Enter Email Id" />
-                                            </div>
-                                            <div class="field col-12 md:col-6">
-                                                <label>Designation:<sup class="p-error">*</sup></label>&nbsp;
-                                                <input pInputText id="designation" type="text" formControlName="email"
-                                                    placeholder="Enter Designation" #designation alphaOnly />
-                                            </div>
-                                            <div class="field col-12 md:col-6">
-                                                <label>Gender:<sup class="p-error">*</sup></label>&nbsp;
-                                                <input pInputText id="gender" type="text" formControlName="mobileNumber"
-                                                    placeholder="Enter Email Id" />
-                                            </div>
-                                        </div>
-                                    </p-fieldset><br />
-                                </div>
+                    <div class="grid">
+                        <div class="col-12 roles-container">
+                          <div class="p-fluid p-formgrid grid">
+                            <div class="field col-12 md:col-8">
+                                <div class="field col-12 md:col-6">                                            
+                                    <label>Relationship Type:<sup class="p-error">*</sup></label>
+                                  <p-dropdown placeholder="Select Roll" optionLabel="roleName" [options]="roles"
+                                   optionValue="roleId"  formControlName="roleId" >
+                                   </p-dropdown>                                           
+                                  </div>
                             </div>
-                        </p-tabPanel>
-                        <p-tabPanel header="User Roles" class="line-height-3 m-0 ">
-                            <div class="grid col-12">
-                                <p-inputSwitch [trueValue]="false" [falseValue]="true" placeholder="IP Active"
-                                    class="col-12"></p-inputSwitch>
+                            <div class="field col-12 md:col-2">
+                              <label>Is Active:<sup class="p-error">*</sup></label><br>
+                              &nbsp;<p-inputSwitch formControlName="isActive">
+                              </p-inputSwitch>
                             </div>
-                        </p-tabPanel>
-                    </p-tabView>
+                            
+                          </div>
+                        </div>
+                      </div>
                 </form>
+
             </div>
         </ng-template>
         <ng-template pTemplate="footer">

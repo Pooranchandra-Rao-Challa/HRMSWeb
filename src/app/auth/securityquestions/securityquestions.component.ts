@@ -83,9 +83,13 @@ export class SecurityquestionsComponent {
   }
 
   editSecurity(security: SecurityDto) {
-    this.security = { ...security };
+    this.security = security;
     this.qstnSubmitLabel = "Update";
     this.securityDialog = true;
+    this.getSecureQuestions.push({
+      questionId: this.security.id,
+      question: this.security.SecurityQuestions 
+    });
   }
 
   deleteSecurity(question: String) {
@@ -107,13 +111,13 @@ export class SecurityquestionsComponent {
     this.submitted = true;
     if (this.security.Answer?.trim()) {
       if (this.security.id) {
-        if (this.findIndexById(this.security.id) >= 0) {
-          this.securityDto[this.findIndexById(this.security.id)] = this.security;
+        const index = this.findIndexById(this.security.id);
+        if (index >= 0) {
+          this.securityDto[index] = this.security;
           this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Security Question Updated', life: 3000 });
-        }
-        else {
-          this.securityDto.push(this.security);
-          this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Security Question Created', life: 3000 });
+        } else {
+         this.securityDto.push(this.security);
+         this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Security Question Created', life: 3000 });
         }
       }
       this.securityDto = [...this.securityDto];
@@ -121,7 +125,7 @@ export class SecurityquestionsComponent {
       this.security = {};
     }
   }
-
+  
   findIndexById(id: number): number {
     let index = -1;
     for (let i = 0; i < this.securityDto.length; i++) {
