@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { SortEvent } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { UserViewDto } from 'src/app/_models/security';
+import { RoleViewDto, UserUpdateDto, UserViewDto } from 'src/app/_models/security';
 import { Employee } from 'src/app/demo/api/security';
 import { SecurityService } from 'src/app/_services/security.service';
 import { JwtService } from 'src/app/_services/jwt.service';
@@ -13,7 +13,6 @@ export interface ITableHeader {
   header: string;
   label: string;
 }
-
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
@@ -21,22 +20,24 @@ export interface ITableHeader {
   ]
 })
 export class UserComponent implements OnInit {
-
   constructor(private securityService: SecurityService,
     private formbuilder: FormBuilder,
     private jwtService: JwtService) {
-
   }
   users: UserViewDto[] = [];
+  user:UserUpdateDto[]=[];
   globalFilterFields: string[] = ['userId', 'userName', 'firstName', 'lastName', 'email', 'mobileNumber', 'roleName', 'email'];
   userForm!: FormGroup;
+  roles: RoleViewDto[] = [];
+  screens: string[] = [];
   permissions: any;
+  selectedUser: UserViewDto = {
+  };
   dialog: boolean = false;
   submitLabel!: string;
   trueValue: any;
   falseValue: any;
   mediumDate: string = MEDIUM_DATE;
-
   headers: ITableHeader[] = [
     { field: 'userId', header: 'userId', label: 'User Id' },
     { field: 'userName', header: 'userName', label: 'User Name' },
@@ -47,11 +48,11 @@ export class UserComponent implements OnInit {
     { field: 'roleName', header: 'roleName', label: 'Role Name' },
     { field: 'isActive', header: 'isActive', label: 'Is Active' },
     { field: 'createdAt', header: 'createdAt', label: 'Created At' },
-
   ];
   ngOnInit() {
     this.permissions = this.jwtService.Permissions
     this.initUsers();
+     this.intiRoles()
     this.userForm = this.formbuilder.group({
       userId: [''],
       userName: new FormControl(''),
@@ -59,21 +60,48 @@ export class UserComponent implements OnInit {
       email: [''],
       mobileNumber: new FormControl(''),
       roleName: new FormControl(''),
+      roleId:new FormControl(''),
       isActive: new FormControl(''),
       createdAt: ['', (Validators.required)]
     });
-  }
-
+   }
   initUsers() {
     this.securityService.GetUsers().subscribe(resp => {
       this.users = resp as unknown as UserViewDto[];
     })
   }
+  intiRoles() {
+    this.securityService.GetRoles().subscribe(resp => {
+      this.roles = resp as unknown as RoleViewDto[];
+      console.log(this.roles);
+    });
+  }
+
+  editUser(user: UserViewDto) {
+    this.userForm.patchValue({
+      userId: user.userId,
+      userName: user.userName,
+      firstName: user.firstName,
+      email: user.email,
+      mobileNumber: user.mobileNumber,
+      roleName: user.roleName,
+      roleId: user.roleId,
+      isActive: user.isActive,
+      createdAt: user.createdAt
+    });
+  }
   onSubmit() {
     if (this.userForm.valid) {
       console.log(this.userForm.value);
-      this.dialog = false;
-      this.userForm.reset();
+      const updatedUser = { ...this.selectedUser, ...this.userForm.value };
+      this.securityService.UpdateUser(updatedUser).subscribe(resp => {
+        if (resp) {
+          console.log(resp);
+          this.dialog = false;
+          this.userForm.reset();
+          this.initUsers();
+        }
+      });
     }
   }
   customSort(event: SortEvent) {
@@ -95,6 +123,8 @@ export class UserComponent implements OnInit {
     return this.userForm.controls;
   }
   showUser(user: UserViewDto) {
+    this.selectedUser = user;
+    this.editUser(user);
     this.dialog = true;
   }
   clear(table: Table) {

@@ -12,3 +12,4 @@ export const GET_SECURITY_QUESTIONS_URI ="Security/SecureQuestions"
 export const CREATE_SECURITY_QUESTIONS_URI = "Security/CreateUserQuestion"
 export const CHANGE_PASSWORD_URI = "Security/ChangePassword";
 export const GET_ROLES_URI = "Security/GetRoles";
+export const UPDATE_USER_URI = "Security/UpdateUser";
