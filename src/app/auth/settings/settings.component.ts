@@ -3,12 +3,19 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
-import { SecureQuestionDto, UserQuestionDto } from 'src/app/_models/security';
+import { SecureQuestionDto, UpdateUserQuestionDto, UserQuestionDto } from 'src/app/_models/security';
 import { SecurityService } from 'src/app/_services/security.service';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { ConfirmedValidator } from 'src/app/_validators/confirmValidator';
 import { HttpHeaders } from '@angular/common/http';
 import { catchError, throwError } from 'rxjs';
+import jwtdecode from 'jwt-decode';
+
+export class SecurityDto {
+    id?: number;
+    SecurityQuestions?: string;
+    Answer?: string;
+  }
 
 @Component({
     selector: 'app-settings',
@@ -18,6 +25,8 @@ import { catchError, throwError } from 'rxjs';
 export class SettingsComponent {
     getSecureQuestions: SecureQuestionDto[] = []
     allSecureQuestions: SecureQuestionDto[] = []
+    updateQuestions: UpdateUserQuestionDto[] =[]
+    securityDto: SecurityDto[] = [];
     // selectedQuestion!: SecurQuestion;
     // userQuestions: UserQuestionDto[] = [];
     // changePassword: ChangePasswordDto = {}
@@ -161,13 +170,14 @@ export class SettingsComponent {
         return index;
     }
 
-    onSubmit() {
-        //   this.securityService.CreateSecurityQuestions(this.userQuestions).subscribe((resp) => {
-        //     if (resp) {
-        //       this.getUserQuestionsAndAnswers();
-        //       this.alertMessage.displayAlertMessage(ALERT_CODES["SSESQ002"]);
-        //     }
-        //   });
+     onSubmit() {
+          this.securityService.UpdateSecurityQuestions(this.updateQuestions).subscribe((resp) => {
+            this.updateQuestions = resp as unknown as UpdateUserQuestionDto[];
+            console.log( 'this.updateQuestions',this.updateQuestions)
+            if (resp) {
+              this.getUserQuestionsAndAnswers();
+              this.messageService.add({ severity: 'success', key: 'myToast', summary: 'Success!', detail: 'Security Questions Updated Successfully...!' });
+            }
+          });
     }
-
 }

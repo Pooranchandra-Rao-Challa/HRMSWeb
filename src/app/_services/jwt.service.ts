@@ -35,7 +35,7 @@ export class JwtService {
   public get IsFirstTimeLogin(): boolean {
     const jwt = this.DecodedJWT;
     if (!jwt || jwt == "") return false;
-    return jwt.IsFirstTimeLogin > 0;
+    return jwt.IsFirstTimeLogin === true;
   }
   public SaveToken(tokens: ResponseModel) {
     localStorage.removeItem(TOKEN_KEY)

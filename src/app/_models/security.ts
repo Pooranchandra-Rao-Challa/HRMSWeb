@@ -15,9 +15,9 @@ export class UserQuestionDto {
   questionId?: number
   question?: string
   answer?: string
-  userAnswer?: string
   userName?: string;
 }
+
 export class RoleViewDto {
   roleId?: string;
   roleName?: string;
@@ -63,4 +63,11 @@ export class ChangePasswordDto {
     CurrentPassword?: string
     NewPassword?: string
     ConfirmPassword?: string;
+}
+
+export class UpdateUserQuestionDto{
+  userQuestionId?: number;
+  userId? : string;
+  questionId?: number;
+  answer?: string;
 }

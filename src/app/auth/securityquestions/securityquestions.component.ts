@@ -88,7 +88,7 @@ export class SecurityquestionsComponent {
     this.securityDialog = true;
     this.getSecureQuestions.push({
       questionId: this.security.id,
-      question: this.security.SecurityQuestions 
+      question: this.security.SecurityQuestions
     });
   }
 
@@ -116,8 +116,8 @@ export class SecurityquestionsComponent {
           this.securityDto[index] = this.security;
           this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Security Question Updated', life: 3000 });
         } else {
-         this.securityDto.push(this.security);
-         this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Security Question Created', life: 3000 });
+          this.securityDto.push(this.security);
+          this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Security Question Created', life: 3000 });
         }
       }
       this.securityDto = [...this.securityDto];
@@ -125,7 +125,7 @@ export class SecurityquestionsComponent {
       this.security = {};
     }
   }
-  
+
   findIndexById(id: number): number {
     let index = -1;
     for (let i = 0; i < this.securityDto.length; i++) {
@@ -138,7 +138,6 @@ export class SecurityquestionsComponent {
   }
 
   onSubmit() {
-    debugger;
     if (this.securityDto.length >= 2) {
       const jwtToken = jwtdecode(this.jwtService.JWTToken) as unknown as any;
       const username = jwtToken.GivenName;
@@ -156,7 +155,6 @@ export class SecurityquestionsComponent {
         .CreateSecurityQuestions(createUserQuestions)
         .subscribe((resp) => {
           this.createUserQuestions = resp as unknown as CreateUserQuestionDto[];
-          console.log(createUserQuestions)
           this.messageService.add({ severity: 'success', key: 'myToast', summary: 'Success!', detail: 'Security Questions Added Successfully...!' });
           this.securityDto = [];
           this.router.navigate(['./dashboard/admin']);
