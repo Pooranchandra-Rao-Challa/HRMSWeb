@@ -1,6 +1,11 @@
 <div class="card">
+
+    <!-- Loader -->
+<div *ngIf="!isDataLoaded">
+    <p>Loading...</p>
+  </div>
     <!-- Table -->
-    <p-table #dtUsers [value]="users" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
+    <p-table #dtUsers [value]="users"  dataKey="id"  [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true"
         styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true"
         [globalFilterFields]="globalFilterFields" [autoLayout]="true" responsiveLayout="scroll"
@@ -19,7 +24,7 @@
         </ng-template>
         <ng-template pTemplate="header">
             <tr>
-                <th style="width:5px;"></th>
+                <th style="width:px;"></th>
                 <th *ngFor="let col of headers" [pSortableColumn]="col.header">
                     {{col?.label}}
                     <p-columnFilter type="text" [field]="col.header" display="menu"></p-columnFilter>
@@ -40,43 +45,43 @@
                     <span *ngIf="col?.field == 'createdAt'">
                         {{user[col.field] | date: 'mediumDate'}}
                     </span>
-                    <span *ngIf="col?.field === 'isActive'">
+                    <span *ngIf="col?.field == 'isActive'">
                         <p-checkbox name="isActive" value="isActive" [binary]="true" [(ngModel)]="user[col.field]"
                             [disabled]="true">
                         </p-checkbox>
                     </span>
+
+        
                 </td>
             </tr>
         </ng-template>
         <ng-template pTemplate="emptymessage">
             <tr>
-                <td class="text-center m-5" colspan="18">No Users Found.</td>
+                <td class="text-center m-5" colspan="18" *ngIf="users.length === 0">No Users Found.</td>
             </tr>
         </ng-template>
     </p-table>
+  
+      
     <!-- Dailog -->
     <p-dialog header="Edit User" [(visible)]="dialog" [modal]="true" showEffect="fade"
-        [breakpoints]="{'960px': '50%', '640px': '80%'}" [style]="{width: '30%'}" (onHide)="userForm.reset()">
+        [breakpoints]="{'960px': '50%', '640px': '70%'}" [style]="{width: '30%'}" (onHide)="userForm.reset()">
         <ng-template pTemplate="content">
             <div class="flex flex-column align-items-center justify-content-center">
                 <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="tpt_form" autocomplete="off">
                     <div class="grid">
-                        <div class="col-12 roles-container">
+                        <div class="col-12">
                           <div class="p-fluid p-formgrid grid">
-                            <div class="field col-12 md:col-8">
-                                <div class="field col-12 md:col-6">                                            
-                                    <label>Relationship Type:<sup class="p-error">*</sup></label>
-                                  <p-dropdown placeholder="Select Roll" optionLabel="roleName" [options]="roles"
-                                   optionValue="roleId"  formControlName="roleId" >
-                                   </p-dropdown>                                           
-                                  </div>
+                            <div class="field col-12 md:col-9">
+                                <label>Relationship Type:<sup class="p-error">*</sup></label>
+                                <p-dropdown placeholder="Select Roll" optionLabel="roleName" [options]="roles"
+                                 optionValue="roleId"  formControlName="roleId" appendTo="body">
+                                 </p-dropdown> 
                             </div>
-                            <div class="field col-12 md:col-2">
-                              <label>Is Active:<sup class="p-error">*</sup></label><br>
-                              &nbsp;<p-inputSwitch formControlName="isActive">
-                              </p-inputSwitch>
+                            <div class="field col-12 md:col-3">
+                                <label>Is Active:</label><br>
+                                <p-inputSwitch formControlName="isActive"></p-inputSwitch>
                             </div>
-                            
                           </div>
                         </div>
                       </div>
