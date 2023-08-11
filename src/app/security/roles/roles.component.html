@@ -41,8 +41,8 @@
       </ng-template>
       <ng-template pTemplate="body" let-role>
         <tr>
-          <td><button pButton pRipple icon="pi pi-pencil" style="padding: 0px;"
-              class="p-element p-ripple p-button-text p-button p-component" (click)="editRole()"></button></td>
+          <td><button pButton pRipple icon="pi pi-pencil" style="padding: 0px;" (click)="initRole(role)"
+              class="p-element p-ripple p-button-text p-button p-component"></button></td>
           <td *ngFor="let col of headers" [ngClass]="col?.field == 'isActive' ? 'text-center' : ''">
             <span *ngIf="col?.field != 'createdAt' && col?.field != 'isActive'">{{role[col.field]}}</span>
             <span *ngIf="col?.field == 'createdAt'">
@@ -74,25 +74,26 @@
               <div class="p-fluid p-formgrid grid">
                 <div class="field col-12 md:col-6">
                   <label>Name:<sup class="p-error">*</sup></label>&nbsp;
-                  <input pInputText id="name" type="text" formControlName="Name" placeholder="Enter Role Name"
+                  <input pInputText id="name" type="text" formControlName="roleName" placeholder="Enter Role Name"
                     placeholder="Enter Name" #name alphaOnly [maxlength]="maxLength.name"
-                    [ngClass]="{ 'is-invalid ng-dirty': roleFormControls['Name'].touched && roleFormControls['Name'].errors }" />
+                    [ngClass]="{ 'is-invalid ng-dirty': roleFormControls['roleName'].touched && roleFormControls['roleName'].errors }" />
                   <div class="flex">
                     <div class="align-left w-60" style="width:70%">
                       <span
-                        *ngIf="roleFormControls['Name'].touched && roleFormControls['Name'].errors?.['notUniqueName']">
+                        *ngIf="roleFormControls['roleName'].touched && roleFormControls['roleName'].errors?.['notUniqueName']">
                         <div class="ng-invalid ng-touched p-error">
-                          Branch name must be unique.
+                          Role name must be unique.
                         </div>
                       </span>
-                      <span *ngIf="roleFormControls['Name'].touched && roleFormControls['Name'].invalid">
+                      <span *ngIf="roleFormControls['roleName'].touched && roleFormControls['roleName'].invalid">
                         <div class="ng-invalid ng-touched p-error"
-                          *ngIf="roleFormControls['Name'].errors?.['required']">
+                          *ngIf="roleFormControls['roleName'].errors?.['required']">
                           Please Enter Name.</div>
-                        <div class="ng-invalid ng-touched p-error" *ngIf="roleFormControls['Name'].errors?.['pattern']">
+                        <div class="ng-invalid ng-touched p-error"
+                          *ngIf="roleFormControls['roleName'].errors?.['pattern']">
                           Name Should Contains Alphabets.</div>
                         <div class="ng-invalid ng-touched p-error"
-                          *ngIf="roleFormControls['Name'].errors?.['minlength']">
+                          *ngIf="roleFormControls['roleName'].errors?.['minlength']">
                           Name Min Characters Is 2.</div>
                       </span>
                     </div>

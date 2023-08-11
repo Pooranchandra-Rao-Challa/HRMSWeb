@@ -1,16 +1,12 @@
 import { Injectable } from "@angular/core";
 // import { ForgotUserPasswordDto, UserQuestionDto, UserViewDto } from "../_models/security";
 import { ApiHttpService } from "./api.http.service";
-import { CHANGE_PASSWORD_URI, CREATE_ROLE_URI, CREATE_SECURITY_QUESTIONS_URI, FORGOT_PASSWORD_URI, GET_ROLES_URI, GET_SECURITY_QUESTIONS_URI, GET_USERS_URI, UPDATE_USER_URI, USER_SECURITY_QUESTIONS_URI } from "./api.uri.service";
+import { CHANGE_PASSWORD_URI, CREATE_ROLE_URI, CREATE_SECURITY_QUESTIONS_URI, FORGOT_PASSWORD_URI, GET_ROLES_URI, GET_SECURITY_QUESTIONS_URI, GET_USERS_URI, UPDATE_ROLE_URI, UPDATE_USER_URI, USER_SECURITY_QUESTIONS_URI } from "./api.uri.service";
 import { ChangePasswordDto, CreateUserQuestionDto, ForgotUserPasswordDto, RoleDto, RoleViewDto, SecureQuestionDto, UserQuestionDto, UserUpdateDto, UserViewDto } from "../_models/security";
 
 @Injectable({ providedIn: 'root' })
 
 export class SecurityService extends ApiHttpService {
-    UpdateRole(value: any): import("rxjs").Observable<import("@angular/common/http").HttpEvent<RoleDto>> {
-        throw new Error('Method not implemented.');
-    }
-
     public UserSecurityQuestions(userName: string) {
         return this.getWithParams<UserQuestionDto>(USER_SECURITY_QUESTIONS_URI, [userName]);
     }
@@ -31,6 +27,9 @@ export class SecurityService extends ApiHttpService {
     public CreateRole(roleDto: RoleDto) {
         return this.post<any>(CREATE_ROLE_URI, roleDto);
     }
+    public UpdateRole(roleDto: RoleDto) {
+        return this.post<RoleDto>(UPDATE_ROLE_URI, roleDto);
+      }
 
     public GetSecureQuestions() {
         return this.get<SecureQuestionDto[]>(GET_SECURITY_QUESTIONS_URI);

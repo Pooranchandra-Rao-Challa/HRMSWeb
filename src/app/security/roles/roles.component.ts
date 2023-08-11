@@ -30,16 +30,14 @@ export class RolesComponent implements OnInit {
   maxLength: MaxLength = new MaxLength();
 
 
-  constructor(private formbuilder: FormBuilder, 
-    private alertMessage:AlertmessageService, private securityService: SecurityService, private jwtService: JwtService) { }
+  constructor(private formbuilder: FormBuilder,
+    private alertMessage: AlertmessageService, private securityService: SecurityService) { }
 
   ngOnInit(): void {
-    this.permission = this.jwtService.Permissions;
     this.roleForm = this.formbuilder.group({
       roleId: [''],
-      Name: new FormControl('', [Validators.required]),
-      isActive: [true, (Validators.requiredTrue)],
-      permissions: []
+      roleName: new FormControl('', [Validators.required]),
+      isActive: [true],
     });
     this.intiRoles();
   }
@@ -58,16 +56,6 @@ export class RolesComponent implements OnInit {
       console.log(this.roles);
     });
   }
-
-  initPermissoins() {
-    // this.securityService.GetPermissions().subscribe(resp => {
-    //   this.permissions = resp as unknown as RolePermissionDto[];
-    //   this.role.permissions = this.permissions;
-    //   this.roleForm.setValue(this.role);
-    //   this.role.permissions?.forEach(p => p.assigned = false);
-    //   this.screensInPermissions();
-    // });
-  }
   headers: ITableHeader[] = [
     { field: 'roleName', header: 'roleName', label: 'Name' },
     { field: 'isActive', header: 'isActive', label: 'Is Active' },
@@ -79,23 +67,17 @@ export class RolesComponent implements OnInit {
     if (role.roleId != null) {
       this.addFlag = false;
       this.submitLabel = "Update Role";
-      // this.securityService.GetRoleWithPermissions(role.roleId).subscribe(resp => {
-      //   this.role.roleId = role.roleId
-      //   this.role.code = role.code
-      //   this.role.name = role.name;
-      //   this.role.isActive = role.isActive;
-      //   this.role.permissions = (resp as unknown as RoleDto).permissions;
-      //   this.roleForm.setValue(this.role);
-      //   this.screensInPermissions()
-      // })
+      this.role.roleId = role.roleId
+      this.role.roleName = role.roleName;
+      this.role.isActive = role.isActive;
+      this.roleForm.setValue(this.role);
     } else {
       this.submitLabel = "Add Role";
       this.addFlag = false;
       this.role = {};
       this.role.roleId = "";
-      this.role.Name = "";
+      this.role.roleName = "";
       this.role.isActive = false;
-      this.initPermissoins();
 
     }
   }
@@ -107,17 +89,9 @@ export class RolesComponent implements OnInit {
     this.roleForm.reset();
     this.dialog = true;
   }
-  editRole() {
-    this.showDialog();
-    this.screens = [];
-    this.submitLabel = "Update Role";
-  }
   clear(table: Table) {
     table.clear();
     this.filter.nativeElement.value = '';
-  }
-  showRoles() {
-    this.dialog = true;
   }
   onSubmit() {
     if (this.roleForm.valid) {

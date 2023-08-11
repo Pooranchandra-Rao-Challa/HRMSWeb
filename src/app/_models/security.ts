@@ -34,7 +34,7 @@ export class RolePermissionDto {
 }
 export class RoleDto {
   roleId?: string
-  Name?: string
+  roleName?: string
   isActive?: boolean
 
 }
