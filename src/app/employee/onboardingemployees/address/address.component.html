@@ -1,0 +1,129 @@
+<form [formGroup]="fbAddressDetails">
+    <div class="grid mt-3">
+        <div class="col-12 roles-container">
+            <div class="p-fluid p-formgrid grid">
+                <div class="field col-12 md:col-4">
+                    <span class="p-float-label">
+                        <input type="text" id="inputtext" pInputText formControlName="AddressLine1" />
+                        <label for="inputtext">AddressLine1<sup class="p-error">*</sup></label>
+                    </span>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <span class="p-float-label">
+                        <input type="text" id="inputtext" pInputText formControlName="AddressLine2" />
+                        <label for="inputtext">AddressLine2<sup class="p-error">*</sup></label>
+                    </span>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <span class="p-float-label">
+                        <input type="text" id="inputtext" pInputText formControlName="Landmark" />
+                        <label for="inputtext">Landmark<sup class="p-error">*</sup></label>
+                    </span>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <span class="p-float-label">
+                        <input type="text" id="inputtext" pInputText formControlName="ZIPCode" />
+                        <label for="inputtext">ZIP Code<sup class="p-error">*</sup></label>
+                    </span>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <span class="p-float-label">
+                        <input type="text" id="inputtext" pInputText formControlName="City" />
+                        <label for="inputtext">City<sup class="p-error">*</sup></label>
+                    </span>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <span class="p-float-label">
+                        <p-dropdown inputId="dropdown" formControlName="State" [autoDisplayFirst]="false"
+                            [options]="State" optionLabel="statename"></p-dropdown>
+                        <label for="dropdown">State<sup class="p-error">*</sup></label>
+                    </span>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <span class="p-float-label">
+                        <input type="text" id="inputtext" pInputText formControlName="Country" />
+                        <label for="inputtext">Country<sup class="p-error">*</sup></label>
+                    </span>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <div class="button-container">
+                        <p-button type="button" label="Add New Address" (click)="addNewAddress()">
+                        </p-button>
+                    </div>
+                </div>
+                <div class="col-12 scrolling_content" formArrayName="addressDetails" *ngIf="showAddressDetails">
+                    <p-table #dt2 [value]=" faAddressDetail().controls" dataKey="id" [rows]="10" [rowHover]="true"
+                        *ngIf="showAddressDetails" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
+                        [paginator]="false" [autoLayout]="true" responsiveLayout="scroll"
+                        [rowsPerPageOptions]="[10,25,50]">>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Address Line1<sup class="p-error">*</sup> </th>
+                                <th>Address Line2 <sup class="p-error">*</sup></th>
+                                <th>Landmark<sup class="p-error">*</sup></th>
+                                <th>ZIP Code<sup class="p-error">*</sup></th>
+                                <th>City<sup class="p-error">*</sup></th>
+                                <th>State<sup class="p-error">*</sup></th>
+                                <th>Country<sup class="p-error">*</sup></th>
+                                <th *ngIf="fbAddressDetails.controls['addressDetails'].value.length > 1"></th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-address let-addressDetailsIndex="rowIndex">
+                            <tr [formGroupName]="addressDetailsIndex">
+                                <td class="vertical-align-top">
+                                    <input type="text" id="inputtext" pInputText formControlName="AddressLine1"
+                                        placeholder="Enter Address Line1" />
+                                </td>
+                                <td class="vertical-align-top">
+                                    <input type="text" id="inputtext" pInputText formControlName="AddressLine2"
+                                        placeholder="Enter Address Line2" />
+                                </td>
+                                <td class="vertical-align-top">
+                                    <input type="text" id="inputtext" pInputText formControlName="Landmark"
+                                        placeholder="Enter Landmark" />
+                                </td>
+                                <td class="vertical-align-top">
+                                    <input type="text" id="inputtext" pInputText formControlName="ZIPCode"
+                                        placeholder="Enter ZIP Code" />
+                                </td>
+                                <td class="vertical-align-top">
+                                    <input type="text" id="inputtext" pInputText formControlName="City"
+                                        placeholder="Enter City" />
+                                </td>
+                                <td class="vertical-align-top">
+                                    <input type="text" id="inputtext" pInputText formControlName="State"
+                                        placeholder="Enter State" />
+                                </td>
+                                <td class="vertical-align-top">
+                                    <input type="text" id="inputtext" pInputText formControlName="Country"
+                                        placeholder="Enter Country" />
+                                </td>
+                                <td *ngIf="fbAddressDetails.controls['addressDetails'].value.length > 1">
+                                    <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer"
+                                        *ngIf="!this.faAddressDetail().controls[addressDetailsIndex].get('id')?.value"
+                                        (click)="faAddressDetail().removeAt(addressDetailsIndex)"></i>
+                                    <i class="pi pi-fw pi-verified text-3xl"
+                                        *ngIf="this.faAddressDetail().controls[addressDetailsIndex].get('id')?.value"></i>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+                <div class="field col-4 ">
+                    <p-button (click)="navigateToPrev()">Family Details</p-button>
+                </div>
+                <div class="field col-4 "></div>
+                <div class="field col-4  ">
+                    <p-button class="text-center" (click)="navigateToNext()">Upload Documents</p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<!-- <div class="field col-4 ">
+    <p-button (click)="navigateToPrev()">Family Details</p-button>
+</div>
+<div class="field col-4 "></div>
+<div class="field col-4  ">
+    <p-button class="text-center" (click)="navigateToNext()">Upload Documents</p-button>
+</div> -->

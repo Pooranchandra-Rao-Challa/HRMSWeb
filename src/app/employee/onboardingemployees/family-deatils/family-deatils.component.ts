@@ -13,15 +13,14 @@ interface General {
   templateUrl: './family-deatils.component.html',
   styleUrls: []
 })
-export class FamilyDeatilsComponent implements OnInit{
+export class FamilyDeatilsComponent implements OnInit {
   relationshipStatus: General[] | undefined;
-  fbfamilyDetails:FormGroup;
-  ShowFamilyDetails: boolean;
+  fbfamilyDetails: FormGroup;
   fafamilyDetails!: FormArray;
   showFamilyDetails: boolean = true;
   submitLabel: string;
-  
-  constructor(private router: Router, private route: ActivatedRoute,private formbuilder:FormBuilder){}
+
+  constructor(private router: Router, private route: ActivatedRoute, private formbuilder: FormBuilder) { }
 
   ngOnInit() {
     this.relationshipStatus = [
@@ -31,52 +30,52 @@ export class FamilyDeatilsComponent implements OnInit{
       { name: 'Daughter', code: 'daughter' },
       { name: 'Son', code: 'son' },
       { name: 'Sister', code: 'sister' }];
-      this.initFamily();
-      this.addFamilyMembers();
+    this.initFamily();
+    this.addFamilyMembers();
   }
 
   faFamilyDetail(): FormArray {
     return this.fbfamilyDetails.get("familyDetails") as FormArray
   }
-  
-  initFamily(){
-    this.fbfamilyDetails=this.formbuilder.group({
+
+  initFamily() {
+    this.fbfamilyDetails = this.formbuilder.group({
       name: new FormControl('', [Validators.required]),
-      relationShip:new FormControl('', [Validators.required]),
-      mobileNo:new FormControl('', [Validators.required]),
-      Address:new FormControl('', [Validators.required]),
-      Nominee:new FormControl(true, [Validators.required]),
+      relationShip: new FormControl('', [Validators.required]),
+      mobileNo: new FormControl('', [Validators.required]),
+      Address: new FormControl('', [Validators.required]),
+      Nominee: new FormControl(true, [Validators.required]),
       familyDetails: this.formbuilder.array([])
     });
   }
 
   generaterow(familyDetails: familyDetailViewDto = new familyDetailViewDto()): FormGroup {
-    return this.formbuilder.group({   
-      id:new FormControl(familyDetails.id),
+    return this.formbuilder.group({
+      id: new FormControl(familyDetails.id),
       name: new FormControl(familyDetails.name, [Validators.required]),
       relationShip: new FormControl(familyDetails.relationShip, [Validators.required]),
       mobileNo: new FormControl(familyDetails.mobileNo, [Validators.required]),
       Address: new FormControl(familyDetails.Address, [Validators.required]),
     });
   }
-  
+
   clearForm() {
-    this.fbfamilyDetails.reset(); 
+    this.fbfamilyDetails.reset();
   }
 
   addFamilyMembers() {
-    this.ShowFamilyDetails = true;
+    this.showFamilyDetails = true;
     this.fafamilyDetails = this.fbfamilyDetails.get("familyDetails") as FormArray
     this.fafamilyDetails.push(this.generaterow())
-    
+
   }
   navigateToPrev() {
-    this.router.navigate(['employee/onboardingemployee/basicdetails'])
+    this.router.navigate(['employee/onboardingemployee/experiencedetails'])
   }
 
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/educationdetails'])
+    this.router.navigate(['employee/onboardingemployee/addressdetails'])
   }
- 
- 
+
+
 }

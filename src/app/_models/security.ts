@@ -6,6 +6,7 @@ export class UserViewDto {
   email?: string
   mobileNumber?: any
   roleName?: string
+  roleId?:any
   isActive?: boolean
   createdAt?: string
 }
@@ -15,9 +16,9 @@ export class UserQuestionDto {
   questionId?: number
   question?: string
   answer?: string
-  userAnswer?: string
   userName?: string;
 }
+
 export class RoleViewDto {
   roleId?: string;
   roleName?: string;
@@ -33,9 +34,9 @@ export class RolePermissionDto {
 }
 export class RoleDto {
   roleId?: string
-  Name?: string
+  roleName?: string
   isActive?: boolean
-
+  permissions?: RolePermissionDto[]
 }
 export class ForgotUserPasswordDto {
   UserName?: string
@@ -64,3 +65,22 @@ export class ChangePasswordDto {
     NewPassword?: string
     ConfirmPassword?: string;
 }
+
+export class UpdateUserQuestionDto{
+  userQuestionId?: number;
+  userId? : string;
+  questionId?: number;
+  answer?: string;
+}
+export class UserUpdateDto {
+  userId?: string
+  roleId?: string
+  firstName?: string
+  password?: string
+  lastName?: string
+  userName?: string
+  email?: string
+  mobileNumber?: string
+  isActive?: boolean
+  createdAt: string
+  }

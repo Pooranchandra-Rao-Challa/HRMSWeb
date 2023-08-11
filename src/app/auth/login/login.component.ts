@@ -34,12 +34,13 @@ export class LoginComponent implements OnInit {
             password: new FormControl('', Validators.required)
         });
     }
-    onSubmit() {
+    onSubmit() {    
         this.submitted = true;
         this.loginService.Authenticate(this.fbloginForm.value as LoginModel)
             .subscribe(
                 {
                     next: (resp: LogInSuccessModel) => {
+                        debugger;
                         if (resp.isLoginSuccess && !resp.isFirstTimeLogin) {
                             this.messageService.add({ severity: 'success', key: 'myToast', summary: 'Success!', detail: 'Signing in...!' });
                             setTimeout(() => {
@@ -49,6 +50,7 @@ export class LoginComponent implements OnInit {
                         }
                         else if (resp.isLoginSuccess && resp.isFirstTimeLogin) {
                             // redirect the call to take secure questions form user.
+                            this.router.navigate(['./auth/security']);
                         } else {
                             this.submitted = false;
                         }

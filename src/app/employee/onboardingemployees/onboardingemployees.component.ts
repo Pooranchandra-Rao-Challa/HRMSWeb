@@ -43,16 +43,20 @@ export class OnboardingemployeesComponent {
         routerLink: 'basicdetails',
       },
       {
-        label: 'Family Details',
-        routerLink: 'familydetails',
-      },
-      {
         label: 'Education Details',
         routerLink: 'educationdetails',
       },
       {
         label: 'Experience Details',
         routerLink: 'experiencedetails',
+      },
+      {
+        label: 'Family Details',
+        routerLink: 'familydetails',
+      },
+      {
+        label: 'Address Details',
+        routerLink:'addressdetails',
       },
       {
         label: 'Upload Documents',
