@@ -78,4 +78,6 @@ export const ALERT_CODES: { [key: string]: string } = {
   'SMR001': 'Roles Add Successfully',
   'SMR002': 'Roles Update Successfully',
 
+  'SMU002': 'User Update Successfully',
+
 }

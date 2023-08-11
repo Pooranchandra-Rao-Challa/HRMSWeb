@@ -3,6 +3,7 @@ import { SecurityRoutingModule } from './security-routing.module';
 import { UserComponent } from './user/user.component';
 import { RolesComponent } from './roles/roles.component';
 import { SharedModule } from '../_shared/shared.module';
+import { PrimengModule } from '../_shared/primeng.module';
 
 @NgModule({
     declarations: [
@@ -11,7 +12,8 @@ import { SharedModule } from '../_shared/shared.module';
     ],
     imports: [
         SecurityRoutingModule,
-        SharedModule
+        SharedModule,
+        PrimengModule
     ],
     exports: [
         UserComponent,
