@@ -8,6 +8,7 @@ import { Employee } from 'src/app/demo/api/security';
 import { SecurityService } from 'src/app/_services/security.service';
 import { JwtService } from 'src/app/_services/jwt.service';
 import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
+import { ALERT_CODES, AlertmessageService } from 'src/app/_alerts/alertmessage.service';
 
 // Define the interface for the table header
 export interface ITableHeader {
@@ -23,11 +24,13 @@ export interface ITableHeader {
 })
 
 export class UserComponent implements OnInit {
-  constructor(private securityService: SecurityService,
+  constructor(
+    private securityService: SecurityService,
     private formbuilder: FormBuilder,
-    private jwtService: JwtService) {
+    private jwtService: JwtService,
+    private alertMessage: AlertmessageService) {
   }
-// Declare class variables
+  // Declare class variables
   users: UserViewDto[] = [];
   user: UserUpdateDto[] = [];
   @ViewChild('filter') filter!: ElementRef;
@@ -38,9 +41,7 @@ export class UserComponent implements OnInit {
   selectedUser: UserViewDto = {};
   dialog: boolean = false;
   submitLabel!: string;
-  mediumDate: string = MEDIUM_DATE;
-  isDataLoaded: boolean = false;;
-
+  mediumDate: string = MEDIUM_DATE
 
   headers: ITableHeader[] = [
     { field: 'userId', header: 'userId', label: 'User Id' },
@@ -71,24 +72,20 @@ export class UserComponent implements OnInit {
       createdAt: [''],
     })
   }
-// Fetch users from the service
+  // Fetch users from the service
   initUsers() {
-  
     this.securityService.GetUsers().subscribe(resp => {
       this.users = resp as unknown as UserViewDto[];
-      this.isDataLoaded = true;
-      console.log(this.users);
-      
+      console.log('Users List', this.users);
     })
   }
-// Fetch roles from the service
+  // Fetch roles from the service
   intiRoles() {
     this.securityService.GetRoles().subscribe(resp => {
       this.roles = resp as unknown as RoleViewDto[];
-
     });
   }
-// Edit user by patching the form values
+  // Edit user by patching the form values
   editUser(user: UserViewDto) {
     this.userForm.patchValue({
       userId: user.userId,
@@ -100,12 +97,13 @@ export class UserComponent implements OnInit {
       roleId: user.roleId,
       isActive: user.isActive,
       createdAt: user.createdAt
+
     });
   }
-// Submit form handler
+  // Submit form handler
   onSubmit() {
     if (this.userForm.value) {
-      console.log(this.userForm.value);
+      console.log('Submited Log', this.userForm.value);
       const updatedUser = { ...this.selectedUser, ...this.userForm.value };
       this.securityService.UpdateUser(updatedUser).subscribe(resp => {
         if (resp) {
@@ -113,6 +111,7 @@ export class UserComponent implements OnInit {
           this.dialog = false;
           this.userForm.reset();
           this.initUsers();
+          this.alertMessage.displayAlertMessage(ALERT_CODES["SMU002"]);
         }
       });
     }
@@ -121,18 +120,19 @@ export class UserComponent implements OnInit {
   get userFormControls() {
     return this.userForm.controls;
   }
-   // Function to show user details
+  // Function to show user details
   showUser(user: UserViewDto) {
     this.selectedUser = user;
     this.editUser(user);
     this.dialog = true;
+
   }
-   // Function to clear the table
+  // Function to clear the table
   clear(table: Table) {
     table.clear();
     this.filter.nativeElement.value = '';
   }
-   // Function to filter the table globally
+  // Function to filter the table globally
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }

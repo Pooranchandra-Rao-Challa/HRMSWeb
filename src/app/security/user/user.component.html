@@ -1,17 +1,12 @@
 <div class="card">
-
-    <!-- Loader -->
-<div *ngIf="!isDataLoaded">
-    <p>Loading...</p>
-  </div>
+    <p-toast key="tst"></p-toast>
     <!-- Table -->
-    <p-table #dtUsers [value]="users"  dataKey="id"  [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
+    <p-table #dtUsers [value]="users" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true"
         styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true"
         [globalFilterFields]="globalFilterFields" [autoLayout]="true" responsiveLayout="scroll"
         [rowsPerPageOptions]="[10,25,50]" [tableStyle]="{ width: 'layoutcontent'}">
         <ng-template pTemplate="caption">
-
             <div class="flex justify-content-between flex-column sm:flex-row">
                 <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
                     (click)="clear(dtUsers)"></button>
@@ -50,8 +45,6 @@
                             [disabled]="true">
                         </p-checkbox>
                     </span>
-
-        
                 </td>
             </tr>
         </ng-template>
@@ -61,8 +54,6 @@
             </tr>
         </ng-template>
     </p-table>
-  
-      
     <!-- Dailog -->
     <p-dialog header="Edit User" [(visible)]="dialog" [modal]="true" showEffect="fade"
         [breakpoints]="{'960px': '50%', '640px': '70%'}" [style]="{width: '30%'}" (onHide)="userForm.reset()">
@@ -71,22 +62,20 @@
                 <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="tpt_form" autocomplete="off">
                     <div class="grid">
                         <div class="col-12">
-                          <div class="p-fluid p-formgrid grid">
-                            <div class="field col-12 md:col-9">
-                                <label>Relationship Type:<sup class="p-error">*</sup></label>
-                                <p-dropdown placeholder="Select Roll" optionLabel="roleName" [options]="roles"
-                                 optionValue="roleId"  formControlName="roleId" appendTo="body">
-                                 </p-dropdown> 
+                            <div class="p-fluid p-formgrid grid">
+                                <div class="field col-12 md:col-9">
+                                    <label>Role Name:<sup class="p-error">*</sup></label>
+                                    <p-dropdown placeholder="Select Role" [options]="roles" optionLabel="roleName"
+                                        formControlName="roleId" optionValue="roleId" appendTo="body"></p-dropdown>
+                                </div>
+                                <div class="field col-12 md:col-3">
+                                    <label>Is Active:</label><br>
+                                    <p-inputSwitch formControlName="isActive"></p-inputSwitch>
+                                </div>
                             </div>
-                            <div class="field col-12 md:col-3">
-                                <label>Is Active:</label><br>
-                                <p-inputSwitch formControlName="isActive"></p-inputSwitch>
-                            </div>
-                          </div>
                         </div>
-                      </div>
+                    </div>
                 </form>
-
             </div>
         </ng-template>
         <ng-template pTemplate="footer">
