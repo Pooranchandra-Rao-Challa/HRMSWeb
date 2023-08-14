@@ -111,7 +111,7 @@ export class SettingsComponent {
 
     editSecurityQuestion(security: UserQuestionDto) {
         this.onFilterSelection(security);
-        this.security = { ...security };
+        this.security = security;
         this.qstnSubmitLabel = "Update";
         this.showDialog = true;
         this.addFlag = false;
@@ -126,21 +126,29 @@ export class SettingsComponent {
         this.showDialog = false;
         this.submitted = false;
     }
+    onChange(event: any) {
+        this.security.questionId = this.getSecureQuestions[this.getSecureQuestions.findIndex(item => item.question === event.value)].questionId;
+        this.getSecureQuestions.splice(this.getSecureQuestions.findIndex(item => item.question === event.value), 1);
+      }
 
     saveSecurityQuestions() {
+        debugger
         this.submitted = true;
-        if (this.security.userQuestionId) {
-            if (this.findIndexById(this.security.userQuestionId) >= 0) {
-                this.userQuestions[this.findIndexById(this.security.userQuestionId)] = this.security;
+        if (this.security.answer?.trim()) {
+            if (this.security.questionId) {
+                const index = this.findIndexById(this.security.questionId);
+                if (index >= 0) {
+                    this.userQuestions[index] = this.security;
+                    this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Security Question Updated', life: 3000 });
+                } else {
+                    this.userQuestions.push(this.security);
+                    this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Security Question Created', life: 3000 });
+                }
             }
+            this.userQuestions = this.userQuestions;
+            this.showDialog = false;
+            this.security = {};
         }
-        else {
-            this.userQuestions.push(this.security);
-        }
-        this.onFilterSelection(this.security);
-        this.userQuestions = [...this.userQuestions];
-        this.showDialog = false;
-        this.security = {};
     }
 
     onFilterSelection(security: UserQuestionDto) {
@@ -162,7 +170,7 @@ export class SettingsComponent {
     findIndexById(id: number): number {
         let index = -1;
         for (let i = 0; i < this.userQuestions.length; i++) {
-            if (this.userQuestions[i].userQuestionId === id) {
+            if (this.userQuestions[i].questionId === id) {
                 index = i;
                 break;
             }
@@ -170,14 +178,30 @@ export class SettingsComponent {
         return index;
     }
 
-     onSubmit() {
-          this.securityService.UpdateSecurityQuestions(this.updateQuestions).subscribe((resp) => {
-            this.updateQuestions = resp as unknown as UpdateUserQuestionDto[];
-            console.log( 'this.updateQuestions',this.updateQuestions)
-            if (resp) {
-              this.getUserQuestionsAndAnswers();
-              this.messageService.add({ severity: 'success', key: 'myToast', summary: 'Success!', detail: 'Security Questions Updated Successfully...!' });
-            }
-          });
+    onSubmit() {
+        const jwtToken = jwtdecode(this.jwtService.JWTToken) as unknown as any;
+        const username = jwtToken.GivenName;
+        const userId = jwtToken.Id;
+        console.log(this.userQuestions);
+        this.userQuestions = this.userQuestions.map(security => {
+            return {
+                userQuestionId: security.userQuestionId || null,
+                answer: security.answer,
+                username: username,
+                userId: userId,
+                questionId: security.questionId,
+            };
+        });
+        this.securityService
+            .UpdateSecurityQuestions(this.userQuestions)
+            .subscribe((resp) => {
+                if (Array.isArray(resp)) {
+                    this.userQuestions = resp as UpdateUserQuestionDto[];
+                    console.log('this.updateQuestions', this.userQuestions);
+                    this.getUserQuestionsAndAnswers();
+                    this.messageService.add({ severity: 'success', key: 'myToast', summary: 'Success!', detail: 'Security Questions Updated Successfully...!' });
+                }
+            });
+
     }
 }
