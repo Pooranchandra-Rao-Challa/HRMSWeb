@@ -66,7 +66,7 @@ export class RolesComponent implements OnInit {
   initRole(role: RoleViewDto) {
     this.showDialog();
     this.screens = [];
-    if (role.roleId != null) {
+    if (role.roleId != null) {    
       this.addFlag = false;
       this.submitLabel = "Update Role";
       this.securityService.GetRoleWithPermissions(role.roleId).subscribe(resp => {

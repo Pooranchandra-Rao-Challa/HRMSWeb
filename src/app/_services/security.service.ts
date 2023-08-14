@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 // import { ForgotUserPasswordDto, UserQuestionDto, UserViewDto } from "../_models/security";
 import { ApiHttpService } from "./api.http.service";
-import { CHANGE_PASSWORD_URI, CREATE_ROLE_URI, CREATE_SECURITY_QUESTIONS_URI, FORGOT_PASSWORD_URI, GET_PERMISSIONS_URI, GET_ROLES_URI, GET_ROLE_PERMISSIONS_URI, GET_SECURITY_QUESTIONS_URI, GET_USERS_URI, GET_USER_QUESTIONS_URI, UPDATE_ROLE_URI, UPDATE_USER_QUESTIONS_URI, UPDATE_USER_URI,} from "./api.uri.service";
+import { CHANGE_PASSWORD_URI, CREATE_ROLE_URI, CREATE_SECURITY_QUESTIONS_URI, Delete_USER_URI, FORGOT_PASSWORD_URI, GET_PERMISSIONS_URI, GET_ROLES_URI, GET_ROLE_PERMISSIONS_URI, GET_SECURITY_QUESTIONS_URI, GET_USERS_URI, GET_USER_QUESTIONS_URI, UPDATE_ROLE_URI, UPDATE_USER_QUESTIONS_URI, UPDATE_USER_URI,} from "./api.uri.service";
 import { ChangePasswordDto, CreateUserQuestionDto, ForgotUserPasswordDto, RoleDto, RolePermissionDto, RoleViewDto, SecureQuestionDto, UpdateUserQuestionDto, UserQuestionDto, UserUpdateDto, UserViewDto } from "../_models/security";
 
 @Injectable({ providedIn: 'root' })
@@ -16,6 +16,10 @@ export class SecurityService extends ApiHttpService {
     public UpdateUser(user: UserUpdateDto) {
         return this.post<any>(UPDATE_USER_URI, user);
     }
+    public DeleteUser(user: UserUpdateDto) {
+        return this.put<any>(Delete_USER_URI, user);
+    }
+
 
     public ForgotPassword(forgotDto: ForgotUserPasswordDto) {
         return this.post(FORGOT_PASSWORD_URI, forgotDto);

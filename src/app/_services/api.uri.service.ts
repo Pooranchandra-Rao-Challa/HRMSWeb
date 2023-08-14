@@ -16,3 +16,5 @@ export const UPDATE_USER_QUESTIONS_URI= "Security/UpdateUserQuestion";
 export const UPDATE_USER_URI = "Security/UpdateUser";
 export const GET_PERMISSIONS_URI = "Security/GetPermissions"
 export const GET_ROLE_PERMISSIONS_URI = "Security/GetRolePermissions"
+export const Delete_USER_URI = "Security/DeleteUser";
+
