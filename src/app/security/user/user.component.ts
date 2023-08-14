@@ -68,7 +68,7 @@ export class UserComponent implements OnInit {
       mobileNumber: new FormControl(null),
       roleName: new FormControl(null),
       roleId: new FormControl(''),
-      isActive: new FormControl(),
+      isActive: [true],
       createdAt: [''],
     })
   }
@@ -105,15 +105,26 @@ export class UserComponent implements OnInit {
     if (this.userForm.value) {
       console.log('Submited Log', this.userForm.value);
       const updatedUser = { ...this.selectedUser, ...this.userForm.value };
-      this.securityService.UpdateUser(updatedUser).subscribe(resp => {
-        if (resp) {
-          console.log(resp);
-          this.dialog = false;
-          this.userForm.reset();
-          this.initUsers();
-          this.alertMessage.displayAlertMessage(ALERT_CODES["SMU002"]);
-        }
-      });
+      if (updatedUser.isActive == false) {
+        this.securityService.DeleteUser(updatedUser).subscribe(resp => {
+          if (resp) {
+            this.dialog = false;
+            this.userForm.reset();
+            this.initUsers();
+            this.alertMessage.displayAlertMessage(ALERT_CODES["SDU003"]);
+          }
+        });
+      }
+      else {
+        this.securityService.UpdateUser(updatedUser).subscribe(resp => {
+          if (resp) {
+            this.dialog = false;
+            this.userForm.reset();
+            this.initUsers();
+            this.alertMessage.displayAlertMessage(ALERT_CODES["SMU002"]);
+          }
+        });
+      }
     }
   }
 
