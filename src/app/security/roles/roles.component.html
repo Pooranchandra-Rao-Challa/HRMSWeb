@@ -74,26 +74,26 @@
               <div class="p-fluid p-formgrid grid">
                 <div class="field col-12 md:col-6">
                   <label>Name:<sup class="p-error">*</sup></label>&nbsp;
-                  <input pInputText id="Role_roleName" type="text" formControlName="roleName" placeholder="Enter Role Name"
+                  <input pInputText id="Role_roleName" type="text" formControlName="name" placeholder="Enter Role Name"
                     #name alphaOnly [maxlength]="maxLength.name"
-                    [ngClass]="{ 'is-invalid ng-dirty': roleFormControls['roleName'].touched && roleFormControls['roleName'].errors }" />
+                    [ngClass]="{ 'is-invalid ng-dirty': roleFormControls['name'].touched && roleFormControls['name'].errors }" />
                   <div class="flex">
                     <div class="align-left w-60" style="width:70%">
                       <span
-                        *ngIf="roleFormControls['roleName'].touched && roleFormControls['roleName'].errors?.['notUniqueName']">
+                        *ngIf="roleFormControls['name'].touched && roleFormControls['name'].errors?.['notUniqueName']">
                         <div class="ng-invalid ng-touched p-error">
                           Role name must be unique.
                         </div>
                       </span>
-                      <span *ngIf="roleFormControls['roleName'].touched && roleFormControls['roleName'].invalid">
+                      <span *ngIf="roleFormControls['name'].touched && roleFormControls['name'].invalid">
                         <div class="ng-invalid ng-touched p-error"
-                          *ngIf="roleFormControls['roleName'].errors?.['required']">
+                          *ngIf="roleFormControls['name'].errors?.['required']">
                           Please Enter Name.</div>
                         <div class="ng-invalid ng-touched p-error"
-                          *ngIf="roleFormControls['roleName'].errors?.['pattern']">
+                          *ngIf="roleFormControls['name'].errors?.['pattern']">
                           Name Should Contains Alphabets.</div>
                         <div class="ng-invalid ng-touched p-error"
-                          *ngIf="roleFormControls['roleName'].errors?.['minlength']">
+                          *ngIf="roleFormControls['name'].errors?.['minlength']">
                           Name Min Characters Is 2.</div>
                       </span>
                     </div>

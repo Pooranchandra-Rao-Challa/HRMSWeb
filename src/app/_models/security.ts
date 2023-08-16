@@ -21,7 +21,7 @@ export class UserQuestionDto {
 
 export class RoleViewDto {
   roleId?: string;
-  roleName?: string;
+  name?: string;
   isActive?: boolean;
   createdAt?: string;
 }
@@ -34,7 +34,7 @@ export class RolePermissionDto {
 }
 export class RoleDto {
   roleId?: string
-  roleName?: string
+  name?: string
   isActive?: boolean
   permissions?: RolePermissionDto[]
 }
