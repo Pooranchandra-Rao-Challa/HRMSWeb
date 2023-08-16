@@ -79,6 +79,8 @@ export class UserComponent implements OnInit {
   intiRoles() {
     this.securityService.GetRoles().subscribe(resp => {
       this.roles = resp as unknown as RoleViewDto[];
+      console.log('role list',this.roles);
+      
     });
   }
   // Edit user by patching the form values
