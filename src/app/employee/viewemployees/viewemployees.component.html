@@ -54,12 +54,100 @@
                         Script</span>
                     <span
                         class="p-element p-ripple p-button-outlined p-button-help p-button p-component list_button">Angular</span>
+                    <button pButton pRipple icon="pi pi-pencil" style="padding: 0px;"
+                        class="p-element p-ripple p-button-text p-button p-component mr-2"
+                        (click)="showDialog()"></button>
                 </div>
             </div>
         </div>
+        <!-- p-dialog -->
+
+        <p-dialog header="CIS202214" [(visible)]="dialog" [modal]="true" showEffect="fade"
+            [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
+            <div class="flex flex-column align-items-center justify-content-center">
+                <form [formGroup]="personalDetails">
+                    <div class="grid">
+                        <div class="col-12 roles-container">
+                            <div class="p-fluid p-formgrid grid">
+                                <div class="field col-12 md:col-4">
+                                    <label>Name:<sup class="p-error">*</sup></label>&nbsp;
+                                    <input pInputText id="name" #name placeholder="Enter Name" type="text"
+                                        formControlName="Name" />
+                                </div>
+                                <div class="field col-12 md:col-4">
+                                    <label>Gender:<sup class="p-error">*</sup></label>&nbsp;
+                                    <p-dropdown id="gender" #gender placeholder="Select Gender" [options]="genders"
+                                        optionLabel="name" formControlName="Gender"></p-dropdown>
+                                </div>
+                                <div class="field col-12 md:col-4">
+                                    <label>Blood Group: :<sup class="p-error">*</sup></label>&nbsp;
+                                    <input pInputText id="bloodGroup" #bloodgroup placeholder="Enter Blood Group"
+                                        type="text" formControlName="BloodGroup" />
+                                </div>
+                                <div class="field col-12 md:col-4">
+                                    <label>Mobile Number :<sup class="p-error">*</sup></label>&nbsp;
+                                    <input pInputText id="mobileNumber" #mobilenumber placeholder="Enter Mobile Number"
+                                        type="text" formControlName="MobileNumber" />
+                                </div>
+                                <div class="field col-12 md:col-4">
+                                    <label>Alt Mobile Number :<sup class="p-error">*</sup></label>&nbsp;
+                                    <input pInputText id="alternateMobileNumber" #alternateMobileNumber
+                                        placeholder="Enter Alternate Mobile Number" type="text"
+                                        formControlName="AltMobileNumber" />
+                                </div>
+                                <div class="field col-12 md:col-4">
+                                    <label>DOB:</label>&nbsp;
+                                    <p-calendar [showIcon]="true" placeholder="Select Dob" formControlName="DOB">
+                                    </p-calendar>
+                                </div>
+                                <div class="field col-12 md:col-4">
+                                    <label>Certificate DOB:</label>&nbsp;
+                                    <p-calendar [showIcon]="true" placeholder="Select Certificate Dob"
+                                        formControlName="CertificateDOB"></p-calendar>
+                                </div>
+                                <div class="field col-12 md:col-4">
+                                    <label>Marital Status:<sup class="p-error">*</sup></label>&nbsp;
+                                    <p-dropdown id="maritalStatus" #maritalStatus placeholder="Enter Marital Status"
+                                        [options]="status" optionLabel="name" formControlName="MaritalStatus">
+                                    </p-dropdown>
+                                </div>
+                                <div class="field col-12 md:col-4">
+                                    <label>Email ID:<sup class="p-error">*</sup></label>&nbsp;
+                                    <input pInputText id="emailId" #emailId placeholder="Enter Email Id" type="text"
+                                        formControlName="EmailID" />
+                                </div>
+                                <div class="field col-12 md:col-4">
+                                    <label>Current Address:<sup class="p-error">*</sup></label>&nbsp;
+                                    <input pInputText id="currentAddress" #currentAddress
+                                        placeholder="Enter Current Address" type="text"
+                                        formControlName="CurrentAddress" />
+                                </div>
+                                <div class="field col-12 md:col-4">
+                                    <label>Permanent Address:<sup class="p-error">*</sup></label>&nbsp;
+                                    <input pInputText id="permanentAddress" #permanentAddress
+                                        placeholder="Enter Permanent Address" type="text"
+                                        formControlName="PermanentAddress" />
+                                </div>
+                                <div class="field col-12 md:col-4">
+                                    <label>Skill Set:<sup class="p-error">*</sup></label>&nbsp;
+                                    <p-multiSelect id="skillSet" #skillSet placeholder="Select Skills"
+                                        [options]="skillSets" optionLabel="name" formControlName="SkillSet">
+                                    </p-multiSelect>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <ng-template pTemplate="footer">
+                <div class="col-4" style="float:right">
+                    <button pButton pRipple type="submit" label="Update Personal Details"
+                        class="p-button-raised p-button-primary"></button>
+                </div>
+            </ng-template>
+        </p-dialog>
         <div class="col-12 lg:col-4 py-3 lg:pl-6">
             <div class="">
-
                 <div class="grid p-3">
                     <div class="col-12 "><span class="text-primary font-bold text-900">Shift </span>: Day </div>
                     <div class="col-12 "><span class="text-primary font-bold text-900">Office Email ID</span>:
@@ -70,14 +158,80 @@
                         Developer </div>
                     <div class="col-12 "><span class="text-primary font-bold text-900">Reported to </span>: S Poorna
                         (Project Manager) </div>
+                    <div class="col-12 "><span class="text-primary font-bold text-900">Project</span>: JIVA </div>
                     <div class="col-12 "><span class="text-primary font-bold text-900">PF Eligible </span>: YES </div>
-                    <div class="col-12 "><span class="text-primary font-bold text-900">ESI Elgible </span>: NO </div>
+                    <div class="col-12 "><span class="text-primary font-bold text-900">ESI Elgible </span>: NO
+                        <button pButton pRipple icon="pi pi-pencil" style="padding: 0px;"
+                            class="p-element p-ripple p-button-text p-button p-component mr-2"
+                            (click)="Dialog()"></button>
+                    </div>
 
                     <br />
                     <!-- <p-chart type="doughnut" [data]="pieData" [options]="pieOptions" height="140px" width="140px"></p-chart> -->
                 </div>
             </div>
-
+            <!-- p-dialog -->
+            <p-dialog header="CIS202214"  [(visible)]="visible" [modal]="true" showEffect="fade"
+                [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
+                <div class="flex flex-column align-items-center justify-content-center">
+                    <form [formGroup]="OfficialDetails">
+                        <div class="grid">
+                            <div class="col-12 roles-container">
+                                <div class="p-fluid p-formgrid grid">
+                                    <div class="field col-12 md:col-4">
+                                        <label>Shift :<sup class="p-error">*</sup></label>&nbsp;
+                                        <p-dropdown id="shift" #shift placeholder="Select Shifts" [options]="shifts"
+                                            optionLabel="type" formControlName="Shift"></p-dropdown>
+                                    </div>
+                                    <div class="field col-12 md:col-4">
+                                        <label>Office Email ID:<sup class="p-error">*</sup></label>&nbsp;
+                                        <input pInputText id="officeEmailId" #officeEmailId
+                                            placeholder="Enter Office Email Id" type="text"
+                                            formControlName="OfficeEmailID" />
+                                    </div>
+                                    <div class="field col-12 md:col-4">
+                                        <label>Joining Date:</label>&nbsp;
+                                        <p-calendar [showIcon]="true" placeholder="Select Joining Date"
+                                            formControlName="JoiningDate"></p-calendar>
+                                    </div>
+                                    <div class="field col-12 md:col-4">
+                                        <label>Designation:<sup class="p-error">*</sup></label>&nbsp;
+                                        <p-dropdown id="designation" placeholder="Select Designation"
+                                            [options]="designation" optionLabel="name" formControlName="Designation">
+                                        </p-dropdown>
+                                    </div>
+                                    <div class="field col-12 md:col-4">
+                                        <label>Reported To:<sup class="p-error">*</sup></label>&nbsp;
+                                        <input pInputText id="reportedTo" #reportedTo placeholder="Enter Reported To"
+                                            type="text" formControlName="ReportedTo" />
+                                    </div>
+                                    <div class="field col-12 md:col-4">
+                                        <label>Project Name:<sup class="p-error">*</sup></label>&nbsp;
+                                        <input pInputText id="projectName" #projectName placeholder="Enter Project Name"
+                                            type="text" formControlName="ProjectName" />
+                                    </div>
+                                    <div class="field col-12 md:col-4">
+                                        <label>PF Eligible:<sup class="p-error">*</sup></label>&nbsp;
+                                        <input pInputText id="pfEligible" #pfEligible placeholder="Enter PF Eligible"
+                                            type="text" formControlName="PFEligible" />
+                                    </div>
+                                    <div class="field col-12 md:col-4">
+                                        <label>ESI Eligible:<sup class="p-error">*</sup></label>&nbsp;
+                                        <input pInputText id="esiEligible" #esiEligible placeholder="Enter ESI Eligible"
+                                            type="text" formControlName="ESIEligible" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <ng-template pTemplate="footer">
+                    <div class="col-4" style="float:right">
+                        <button pButton pRipple type="submit" label="Update Official Details"
+                            class="p-button-raised p-button-primary"></button>
+                    </div>
+                </ng-template>
+            </p-dialog>
         </div>
     </div>
 
@@ -135,7 +289,7 @@
                         <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
                             <!-- <li class="mb-3"><span class="font-semibold">School Name :</span> School Name .</li>
                             <li class="mb-3"><span class="font-semibold">YOP:</span> 2006</li> -->
-                            <li><span class="font-semibold pb-2">From  :</span> 12-06-2016</li>
+                            <li><span class="font-semibold pb-2">From :</span> 12-06-2016</li>
                             <li><span class="font-semibold pb-2">To :</span> 16-08-2018 </li>
                             <li><span class="font-semibold mb-1">Designation :</span> Fresher & Jr UI Developer </li>
                         </ul>
@@ -148,7 +302,7 @@
                         <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
                             <!-- <li class="mb-3"><span class="font-semibold">School Name :</span> School Name .</li>
                             <li class="mb-3"><span class="font-semibold">YOP:</span> 2006</li> -->
-                            <li><span class="font-semibold">From  :</span> 12-06-2016</li>
+                            <li><span class="font-semibold">From :</span> 12-06-2016</li>
                             <li><span class="font-semibold">To :</span> 16-08-2018 </li>
                             <li><span class="font-semibold">Designation :</span> Fresher & Jr UI Developer </li>
                         </ul>
@@ -161,7 +315,7 @@
                         <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
                             <!-- <li class="mb-3"><span class="font-semibold">School Name :</span> School Name .</li>
                             <li class="mb-3"><span class="font-semibold">YOP:</span> 2006</li> -->
-                            <li><span class="font-semibold">From  :</span> 12-06-2016</li>
+                            <li><span class="font-semibold">From :</span> 12-06-2016</li>
                             <li><span class="font-semibold">To :</span> 16-08-2018 </li>
                             <li><span class="font-semibold">Designation :</span> Fresher & Jr UI Developer </li>
                         </ul>
@@ -194,7 +348,49 @@
 
             </div>
         </p-tabPanel>
-
+        <p-tabPanel header="Address Details ">
+            <div class="grid">
+                <div class="col-12 lg:col-4">
+                    <div class="card">
+                        <div class="text-900 font-bold text-2xl text-primary mb-1 mt-2">10th Class</div>
+                        <div class="text-500  text-1xl mb-1 mt-1">Secondary Board of Andhra Pradesh</div>
+                        <ul class="list-none p-0 m-0 text-600 mb-7 text-600">
+                            <li class="mb-3"><span class="font-semibold">School Name :</span> School Name .</li>
+                            <li class="mb-3"><span class="font-semibold">YOP:</span> 2006</li>
+                            <li><span class="font-semibold">Grading System :</span> CGPA</li>
+                            <li><span class="font-semibold">Score/Percentage :</span> 8 </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-12 lg:col-4">
+                    <div class="card">
+                        <div class="text-900 font-bold text-2xl text-primary mb-1 mt-2">12th Class</div>
+                        <div class="text-500  text-1xl mb-1 mt-1"> Board of Intermediate Andhra Pradesh</div>
+                        <ul class="list-none p-0 m-0 text-600 mb-5 text-600">
+                            <li class="mb-3"><span class="font-semibold">Collage Name :</span> School Name .</li>
+                            <li class="mb-3"><span class="font-semibold">Stream :</span> MPC .</li>
+                            <li class="mb-3"><span class="font-semibold">YOP:</span> 2006</li>
+                            <li><span class="font-semibold">Grading System :</span> CGPA</li>
+                            <li><span class="font-semibold">Score/Percentage :</span> 8 </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-12 lg:col-4">
+                    <div class="card">
+                        <div class="text-900 font-bold text-2xl mb-1 text-primary mt-2">Degree</div>
+                        <div class="text-500  text-1xl mb-1 mt-1"> JNTU</div>
+                        <ul class="list-none p-0 m-0 text-600 mb-2 text-600">
+                            <li class="mb-3"><span class="font-semibold">Collage Name :</span> Srikalahasthishware
+                                Institute of Technology (SKIT) .</li>
+                            <li class="mb-3"><span class="font-semibold">Stream :</span> CSE</li>
+                            <li class="mb-3"><span class="font-semibold">YOP:</span> 2013</li>
+                            <li><span class="font-semibold">Grading System :</span> Percentage</li>
+                            <li><span class="font-semibold">Score/Percentage :</span> 65% </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </p-tabPanel>
 
         <p-tabPanel header="Upload Documents">
             <div class="text-900 font-bold text-3xl mb-4 mt-2">Shipping Placeholder</div>
