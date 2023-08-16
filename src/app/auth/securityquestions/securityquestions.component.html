@@ -193,10 +193,10 @@
             <ng-template pTemplate="content">
               <div class="p-field mb-3 ">
                 <label for="SecurityQuestions">Security Questions</label><br /><br />
-                <p-dropdown name="SecurityQuestions" id="SecurityQuestions" [options]="getSecureQuestions" (onChange)="onChange($event)"
-                  [(ngModel)]="security.SecurityQuestions" appendTo="body" optionValue="question" 
-                  placeholder="Select a Security Questions" optionLabel="question" [showClear]="true" #drop="ngModel"
-                  class="pt-5">
+                <p-dropdown name="SecurityQuestions" id="SecurityQuestions" [options]="getSecureQuestions"
+                  (onChange)="onChange($event)" [(ngModel)]="security.SecurityQuestions" appendTo="body"
+                  optionValue="question" placeholder="Select a Security Questions" optionLabel="question"
+                  [showClear]="true" #drop="ngModel" class="pt-5">
                 </p-dropdown>
                 <small class="p-invalid p-error"
                   *ngIf="!security.SecurityQuestions && (drop.dirty || drop.touched)">Select a
@@ -204,8 +204,8 @@
               </div>
               <div class="p-field mb-3">
                 <label for="Answer">Answer</label>
-                <input type="text" pInputText name="Answer" id="Answer" [(ngModel)]="security.Answer" required class="mt-3"
-                  #answer="ngModel" />
+                <input type="text" pInputText name="Answer" id="Answer" [(ngModel)]="security.Answer" required
+                  class="mt-3" #answer="ngModel" />
                 <small class="p-invalid p-error" *ngIf="!security.Answer && (answer.dirty || answer.touched)">Answer is
                   required.</small>
               </div>

@@ -6,7 +6,8 @@
             <p-tabPanel id="change-password-panel" header="Change Password" class="line-height-3 m-0 col-12">
                 <!-- <h3 class="m-5">Change Password </h3> -->
                 <div class="grid">
-                    <form id="fbChangePassword" [formGroup]="fbChangePassword" class="col-4 col-offset-4 align-self-center">
+                    <form id="fbChangePassword" [formGroup]="fbChangePassword"
+                        class="col-4 col-offset-4 align-self-center">
                         <label for="password" class="block text-900 font-medium text-md required mb-1 mt-5">Current
                             Password:</label>
                         <input id="password" type="password" formControlName="password" placeholder="Password"
@@ -61,8 +62,9 @@
                                 Confirm Password
                                 must be match.</div>
                         </span>
-                        <button id="changePasswordBtn" pButton pRipple label="Change Password" class="w-full p-3 text-md mt-3"
-                            [disabled]="fbChangePassword.invalid" (click)="onChangePassword()"></button>
+                        <button id="changePasswordBtn" pButton pRipple label="Change Password"
+                            class="w-full p-3 text-md mt-3" [disabled]="fbChangePassword.invalid"
+                            (click)="onChangePassword()"></button>
                     </form>
                 </div>
             </p-tabPanel>
@@ -128,7 +130,8 @@
                             <!-- <from [formGroup]="fbSecureQue"> -->
                             <div class="p-field mb-3 ">
                                 <label class="required" for="SecurityQuestions">Question</label>
-                                <p-dropdown name="SecurityQuestions" id="SecurityQuestions" placeholder="Select Question" (onChange)="onChange($event)"
+                                <p-dropdown name="SecurityQuestions" id="SecurityQuestions"
+                                    placeholder="Select Question" (onChange)="onChange($event)"
                                     [options]="getSecureQuestions" optionValue="question" optionLabel="question"
                                     [(ngModel)]="security.question" appendTo="body" #drop="ngModel" class="pt-5">
                                 </p-dropdown>

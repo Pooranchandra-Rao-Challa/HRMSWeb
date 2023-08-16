@@ -32,7 +32,6 @@ export class SecurityDto {
   ]
 })
 export class SecurityquestionsComponent {
-  @ViewChild('securityTable') securityTable!: Table;
   createUserQuestions: CreateUserQuestionDto[] = [];
   getSecureQuestions: SecureQuestionDto[] = [];
   allSecureQuestions: SecureQuestionDto[] = [];
@@ -49,16 +48,7 @@ export class SecurityquestionsComponent {
     private securityService: SecurityService,
     private alertMessage: AlertmessageService,
     private jwtService: JwtService,
-    private router: Router,) {
-    this.securityquestions = [
-      { code: 1, name: 'What city were you born in?' },
-      { code: 2, name: 'What is the name of your first pet?' },
-      { code: 3, name: 'What is the title and artist of your favorite song?' },
-      { code: 4, name: 'What is your astrological sign?' },
-      { code: 5, name: 'What is your date of birth?' }
-    ];
-    this.selectedQuestion = this.securityquestions[0];
-  }
+    private router: Router,) {}
   headers: IHeader[] = [
     { field: 'SecurityQuestions', header: 'SecurityQuestions', label: 'Security Questions' },
     { field: 'Answer', header: 'Answer', label: 'Answer' },
@@ -74,7 +64,6 @@ export class SecurityquestionsComponent {
   initGetSecureQuestions() {
     this.securityService.GetSecureQuestions().subscribe((resp) => {
       this.getSecureQuestions = resp as unknown as SecureQuestionDto[];
-      console.log('getSecureQuestions', this.getSecureQuestions)
       this.allSecureQuestions = [...this.getSecureQuestions];
     });
   }
@@ -155,15 +144,15 @@ export class SecurityquestionsComponent {
       this.securityService
         .CreateSecurityQuestions(createUserQuestions)
         .subscribe((resp) => {
-          if(resp){
+          if (resp) {
             this.createUserQuestions = resp as unknown as CreateUserQuestionDto[];
             this.alertMessage.displayAlertMessage(ALERT_CODES["SSESQ001"]);
             this.securityDto = [];
             this.router.navigate(['./dashboard/admin']);
           }
-         else{
-          this.alertMessage.displayErrorMessage(ALERT_CODES["SSESQ002"]);
-         }
+          else {
+            this.alertMessage.displayErrorMessage(ALERT_CODES["SSESQ002"]);
+          }
         })
     }
   }

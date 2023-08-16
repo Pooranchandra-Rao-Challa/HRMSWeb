@@ -11,11 +11,6 @@ import { HttpHeaders } from '@angular/common/http';
 import { catchError, throwError } from 'rxjs';
 import jwtdecode from 'jwt-decode';
 
-export class SecurityDto {
-    id?: number;
-    SecurityQuestions?: string;
-    Answer?: string;
-}
 
 @Component({
     selector: 'app-settings',
@@ -26,7 +21,6 @@ export class SettingsComponent {
     getSecureQuestions: SecureQuestionDto[] = []
     allSecureQuestions: SecureQuestionDto[] = []
     updateQuestions: UserQuestionDto[] = []
-    securityDto: SecurityDto[] = [];
     // selectedQuestion!: SecurQuestion;
     // userQuestions: UserQuestionDto[] = [];
     // changePassword: ChangePasswordDto = {}
@@ -40,7 +34,6 @@ export class SettingsComponent {
     isUpdating: boolean = false;
 
     constructor(
-        private messageService: MessageService,
         private formbuilder: FormBuilder,
         private securityService: SecurityService,
         public layoutService: LayoutService,
@@ -208,7 +201,7 @@ export class SettingsComponent {
                     this.getUserQuestionsAndAnswers();
                     this.isUpdating = false;
                 }
-                else{
+                else {
                     this.alertMessage.displayErrorMessage(ALERT_CODES["SSESQ002"]);
                 }
 
