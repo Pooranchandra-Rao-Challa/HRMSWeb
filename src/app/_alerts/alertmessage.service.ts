@@ -68,16 +68,21 @@ export const ALERT_CODES: { [key: string]: string } = {
  
 
   // securityquestions screen 
-'ASCUQ001':'Security Questions Added Successfully',
+'SCUQ001':'Security Questions Added Successfully',
 
   // settings
   // change password
   'SSECP001': 'Password Updated Successfully',
   'ESECP001': 'Invalid Current Password',
-
+  
+  // updatesecurityquestions
+  'SSESQ001': 'Security Questions Updated Successfully',
+  'SSESQ002':'Security Questions Updated Faild',
+  'SSESQ003': 'Security Questions Added Successfully',
+ 
   'SMR001': 'Roles Add Successfully',
   'SMR002': 'Roles Update Successfully',
 
   'SMU002': 'User Update Successfully',
-
+  
 }
