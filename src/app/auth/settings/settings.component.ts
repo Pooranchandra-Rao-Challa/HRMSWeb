@@ -10,6 +10,7 @@ import { ConfirmedValidator } from 'src/app/_validators/confirmValidator';
 import { HttpHeaders } from '@angular/common/http';
 import { catchError, throwError } from 'rxjs';
 import jwtdecode from 'jwt-decode';
+import { UpdateStatusService } from 'src/app/_services/updatestatus.service';
 
 export class SecurityDto {
     id?: number;
@@ -45,8 +46,12 @@ export class SettingsComponent {
         private securityService: SecurityService,
         public layoutService: LayoutService,
         private jwtService: JwtService,
-        private alertMessage: AlertmessageService
-    ) { }
+        private alertMessage: AlertmessageService,
+        private updateStatusService: UpdateStatusService
+    ) {
+        // Function to update isUpdating value
+        this.updateStatusService.setIsUpdating(this.isUpdating);
+    }
 
     ngOnInit(): void {
         this.initGetSecureQuestions();
@@ -157,6 +162,8 @@ export class SettingsComponent {
         this.showDialog = false;
         this.security = {};
         this.isUpdating = true;
+        // Function to update isUpdating value
+        this.updateStatusService.setIsUpdating(this.isUpdating);
     }
 
     onFilterSelection(security: UserQuestionDto) {
@@ -208,8 +215,11 @@ export class SettingsComponent {
                     this.alertMessage.displayAlertMessage(ALERT_CODES["SSESQ001"]);
                     this.getUserQuestionsAndAnswers();
                     this.isUpdating = false;
+                    // Function to update isUpdating value
+                    this.updateStatusService.setIsUpdating(this.isUpdating);
+
                 }
-                else{
+                else {
                     this.alertMessage.displayErrorMessage(ALERT_CODES["SSESQ002"]);
                 }
 
