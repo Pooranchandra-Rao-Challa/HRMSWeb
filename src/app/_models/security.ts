@@ -65,13 +65,6 @@ export class ChangePasswordDto {
     NewPassword?: string
     ConfirmPassword?: string;
 }
-
-export class UpdateUserQuestionDto{
-  userQuestionId?: number;
-  userId? : string;
-  questionId?: number;
-  answer?: string;
-}
 export class UserUpdateDto {
   userId?: string
   roleId?: string

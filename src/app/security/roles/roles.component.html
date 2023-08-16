@@ -7,7 +7,7 @@
         <h4>Roles</h4>
       </ng-template>
       <ng-template pTemplate="right">
-        <button pButton pRipple label="New Roles" icon="pi pi-plus" class="p-button-primary p-mr-2"
+        <button pButton pRipple label="New Roles" icon="pi pi-plus" class="p-button-primary p-mr-2" id="Role_addRole"
           (click)="initRole({})"></button>
       </ng-template>
     </p-toolbar>
@@ -21,10 +21,10 @@
       <ng-template pTemplate="caption">
         <div class="flex justify-content-between flex-column sm:flex-row">
           <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
-            (click)="clear(dt1)"></button>
+            (click)="clear(dt1)" id="Role_clearSearchField"></button>
           <span class="p-input-icon-left mb-2">
             <i class="pi pi-search"></i>
-            <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Search Keyword"
+            <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Search Keyword" id="Role_roleSearch"
               class="w-full" />
           </span>
         </div>
@@ -46,7 +46,7 @@
           <td *ngFor="let col of headers" [ngClass]="col?.field == 'isActive' ? 'text-center' : ''">
             <span *ngIf="col?.field != 'createdAt' && col?.field != 'isActive'">{{role[col.field]}}</span>
             <span *ngIf="col?.field == 'createdAt'">
-              {{role[col.field] }}
+              {{role[col.field] | date: mediumDate }}
             </span>
             <span *ngIf="col?.field == 'isActive'">
               <p-checkbox name="isActive" value="isActive" [binary]="true" [(ngModel)]="role[col.field]"
@@ -68,14 +68,14 @@
     <p-dialog header="Role" [(visible)]="dialog" [modal]="true" showEffect="fade"
       [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: 'auto'}">
       <div class="flex flex-column align-items-center justify-content-center">
-        <form [formGroup]="roleForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="roleForm" (ngSubmit)="onSubmit()" id="Role_roleForm">
           <div class="grid">
             <div class="col-12 roles-container">
               <div class="p-fluid p-formgrid grid">
                 <div class="field col-12 md:col-6">
                   <label>Name:<sup class="p-error">*</sup></label>&nbsp;
-                  <input pInputText id="name" type="text" formControlName="roleName" placeholder="Enter Role Name"
-                    placeholder="Enter Name" #name alphaOnly [maxlength]="maxLength.name"
+                  <input pInputText id="Role_roleName" type="text" formControlName="roleName" placeholder="Enter Role Name"
+                    #name alphaOnly [maxlength]="maxLength.name"
                     [ngClass]="{ 'is-invalid ng-dirty': roleFormControls['roleName'].touched && roleFormControls['roleName'].errors }" />
                   <div class="flex">
                     <div class="align-left w-60" style="width:70%">
@@ -105,7 +105,7 @@
 
                 <div class="field col-12 md:col-6">
                   <label>Is Active:<sup class="p-error">*</sup></label><br>
-                  &nbsp;<p-inputSwitch formControlName="isActive">
+                  &nbsp;<p-inputSwitch formControlName="isActive" id="Role_roleIsActive">
                   </p-inputSwitch>
                 </div>
                 <div class="field col-12">
@@ -115,8 +115,9 @@
                       class="col-12 xl:col-3 md:col-6 sm:col-6 accordion_roles" [multiple]="false">
                       <p-accordionTab [header]="screen" [selected]="false" [cache]="false">
                         <div class="col-12 role-accordian-view" *ngFor="let permission of getPermissions(screen)">
-                          <p-inputSwitch [(ngModel)]="permission.assigned" [ngModelOptions]="{standalone: true}">
+                          <p-inputSwitch [(ngModel)]="permission.assigned" [ngModelOptions]="{standalone: true}" id="Role_{{permission.displayName}}">
                           </p-inputSwitch>
+                          
                           <label for="ny">{{permission.displayName}}</label>
                         </div>
                       </p-accordionTab>
@@ -130,7 +131,7 @@
       </div>
       <ng-template pTemplate="footer">
         <div class="col-4" style="float:right">
-          <button pButton pRipple type="submit" [label]="submitLabel" class="p-button-raised p-button-primary"
+          <button pButton pRipple type="submit" [label]="submitLabel" class="p-button-raised p-button-primary" id="Role_roleSubmitButton"
             (click)="onSubmit()"></button>
         </div>
       </ng-template>

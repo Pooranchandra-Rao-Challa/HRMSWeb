@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
-import { SecureQuestionDto, UpdateUserQuestionDto, UserQuestionDto } from 'src/app/_models/security';
+import { SecureQuestionDto, UserQuestionDto } from 'src/app/_models/security';
 import { SecurityService } from 'src/app/_services/security.service';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { ConfirmedValidator } from 'src/app/_validators/confirmValidator';
@@ -25,7 +25,7 @@ export class SecurityDto {
 export class SettingsComponent {
     getSecureQuestions: SecureQuestionDto[] = []
     allSecureQuestions: SecureQuestionDto[] = []
-    updateQuestions: UpdateUserQuestionDto[] = []
+    updateQuestions: UserQuestionDto[] = []
     securityDto: SecurityDto[] = [];
     // selectedQuestion!: SecurQuestion;
     // userQuestions: UserQuestionDto[] = [];
@@ -139,10 +139,10 @@ export class SettingsComponent {
                 const index = this.findIndexById(this.security.questionId);
                 if (index >= 0) {
                     this.userQuestions[index] = this.security;
-                    this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Security Question Updated', life: 3000 });
+                    this.alertMessage.displayAlertMessage(ALERT_CODES["SSESQ001"]);
                 } else {
                     this.userQuestions.push(this.security);
-                    this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Security Question Created', life: 3000 });
+                    this.alertMessage.displayAlertMessage(ALERT_CODES["SSESQ003"]);
                 }
             }
             this.userQuestions = this.userQuestions;
@@ -190,26 +190,29 @@ export class SettingsComponent {
         const jwtToken = jwtdecode(this.jwtService.JWTToken) as unknown as any;
         const username = jwtToken.GivenName;
         const userId = jwtToken.Id;
-        console.log(this.userQuestions);
         this.userQuestions = this.userQuestions.map(security => {
             return {
-                userQuestionId: security.userQuestionId || null,
+                userQuestionId: security.userQuestionId,
                 answer: security.answer,
-                username: username,
+                userName: username,
                 userId: userId,
                 questionId: security.questionId,
+                question: security.question,
             };
         });
         this.securityService
             .UpdateSecurityQuestions(this.userQuestions)
             .subscribe((resp) => {
-                if (Array.isArray(resp)) {
-                    this.userQuestions = resp as UpdateUserQuestionDto[];
-                    console.log('this.updateQuestions', this.userQuestions);
+                if (resp) {
+                    this.userQuestions = resp as unknown as UserQuestionDto[];
+                    this.alertMessage.displayAlertMessage(ALERT_CODES["SSESQ001"]);
                     this.getUserQuestionsAndAnswers();
-                    this.messageService.add({ severity: 'success', key: 'myToast', summary: 'Success!', detail: 'Security Questions Updated Successfully...!' });
                     this.isUpdating = false;
                 }
+                else{
+                    this.alertMessage.displayErrorMessage(ALERT_CODES["SSESQ002"]);
+                }
+
             });
 
     }
