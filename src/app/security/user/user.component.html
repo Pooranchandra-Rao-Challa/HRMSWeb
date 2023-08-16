@@ -5,7 +5,7 @@
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true"
         styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true"
         [globalFilterFields]="globalFilterFields" [autoLayout]="true" responsiveLayout="scroll"
-        [rowsPerPageOptions]="[10,25,50]" [tableStyle]="{ width: 'layoutcontent'}">
+        [rowsPerPageOptions]="[10,25,50]" [tableStyle]="{ width: 'layoutcontent'}" stickyHeader="true">
         <ng-template pTemplate="caption">
             <div class="flex justify-content-between flex-column sm:flex-row">
                 <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
@@ -19,7 +19,7 @@
         </ng-template>
         <ng-template pTemplate="header">
             <tr>
-                <th style="width:px;"></th>
+                <th *ngIf="permissions?.CanManageUsers"></th>
                 <th *ngFor="let col of headers" [pSortableColumn]="col.header">
                     {{col?.label}}
                     <p-columnFilter type="text" [field]="col.header" display="menu"></p-columnFilter>
@@ -29,7 +29,7 @@
         </ng-template>
         <ng-template pTemplate="body" let-user>
             <tr>
-                <td><button pButton pRipple icon="pi pi-pencil" style="padding: 0px;"
+                <td *ngIf="permissions?.CanManageUsers" ><button pButton pRipple icon="pi pi-pencil" style="padding: 0px;"
                         class="p-element p-ripple p-button-text p-button p-component mr-2 "
                         (click)="showUser(user)"></button></td>
                 <td *ngFor="let col of headers" [ngClass]="col?.field == 'isActive' ? 'text-center' : ''">

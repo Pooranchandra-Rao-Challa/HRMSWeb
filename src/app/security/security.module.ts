@@ -5,6 +5,7 @@ import { RolesComponent } from './roles/roles.component';
 import { SharedModule } from '../_shared/shared.module';
 import { PrimengModule } from '../_shared/primeng.module';
 
+
 @NgModule({
     declarations: [
         UserComponent,
