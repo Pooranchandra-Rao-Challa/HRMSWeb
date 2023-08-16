@@ -7,6 +7,7 @@ import { SecurityService } from 'src/app/_services/security.service';
 import jwtdecode from 'jwt-decode';
 import { Table } from 'primeng/table';
 import { Router } from '@angular/router';
+import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 
 export interface IHeader {
   field: string;
@@ -46,7 +47,7 @@ export class SecurityquestionsComponent {
   constructor(
     private formbuilder: FormBuilder,
     private securityService: SecurityService,
-    private messageService: MessageService,
+    private alertMessage: AlertmessageService,
     private jwtService: JwtService,
     private router: Router,) {
     this.securityquestions = [
@@ -114,10 +115,10 @@ export class SecurityquestionsComponent {
         const index = this.findIndexById(this.security.id);
         if (index >= 0) {
           this.securityDto[index] = this.security;
-          this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Security Question Updated', life: 3000 });
+          this.alertMessage.displayAlertMessage(ALERT_CODES["SSESQ001"]);
         } else {
           this.securityDto.push(this.security);
-          this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Security Question Created', life: 3000 });
+          this.alertMessage.displayAlertMessage(ALERT_CODES["SSESQ003"]);
         }
       }
       this.securityDto = [...this.securityDto];
@@ -154,10 +155,15 @@ export class SecurityquestionsComponent {
       this.securityService
         .CreateSecurityQuestions(createUserQuestions)
         .subscribe((resp) => {
-          this.createUserQuestions = resp as unknown as CreateUserQuestionDto[];
-          this.messageService.add({ severity: 'success', key: 'myToast', summary: 'Success!', detail: 'Security Questions Added Successfully...!' });
-          this.securityDto = [];
-          this.router.navigate(['./dashboard/admin']);
+          if(resp){
+            this.createUserQuestions = resp as unknown as CreateUserQuestionDto[];
+            this.alertMessage.displayAlertMessage(ALERT_CODES["SSESQ001"]);
+            this.securityDto = [];
+            this.router.navigate(['./dashboard/admin']);
+          }
+         else{
+          this.alertMessage.displayErrorMessage(ALERT_CODES["SSESQ002"]);
+         }
         })
     }
   }
