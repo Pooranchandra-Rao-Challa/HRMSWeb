@@ -15,7 +15,7 @@ export class SecurityDto {
     id?: number;
     SecurityQuestions?: string;
     Answer?: string;
-  }
+}
 
 @Component({
     selector: 'app-settings',
@@ -25,7 +25,7 @@ export class SecurityDto {
 export class SettingsComponent {
     getSecureQuestions: SecureQuestionDto[] = []
     allSecureQuestions: SecureQuestionDto[] = []
-    updateQuestions: UpdateUserQuestionDto[] =[]
+    updateQuestions: UpdateUserQuestionDto[] = []
     securityDto: SecurityDto[] = [];
     // selectedQuestion!: SecurQuestion;
     // userQuestions: UserQuestionDto[] = [];
@@ -37,6 +37,7 @@ export class SettingsComponent {
     fbChangePassword!: FormGroup;
     userQuestions: UserQuestionDto[] = [];
     addFlag!: boolean;
+    isUpdating: boolean = false;
 
     constructor(
         private messageService: MessageService,
@@ -129,10 +130,9 @@ export class SettingsComponent {
     onChange(event: any) {
         this.security.questionId = this.getSecureQuestions[this.getSecureQuestions.findIndex(item => item.question === event.value)].questionId;
         this.getSecureQuestions.splice(this.getSecureQuestions.findIndex(item => item.question === event.value), 1);
-      }
+    }
 
     saveSecurityQuestions() {
-        debugger
         this.submitted = true;
         if (this.security.answer?.trim()) {
             if (this.security.questionId) {
@@ -149,6 +149,14 @@ export class SettingsComponent {
             this.showDialog = false;
             this.security = {};
         }
+        else {
+            this.userQuestions.push(this.security);
+        }
+        this.onFilterSelection(this.security);
+        this.userQuestions = [...this.userQuestions];
+        this.showDialog = false;
+        this.security = {};
+        this.isUpdating = true;
     }
 
     onFilterSelection(security: UserQuestionDto) {
@@ -200,6 +208,7 @@ export class SettingsComponent {
                     console.log('this.updateQuestions', this.userQuestions);
                     this.getUserQuestionsAndAnswers();
                     this.messageService.add({ severity: 'success', key: 'myToast', summary: 'Success!', detail: 'Security Questions Updated Successfully...!' });
+                    this.isUpdating = false;
                 }
             });
 
