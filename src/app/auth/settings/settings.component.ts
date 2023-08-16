@@ -160,7 +160,6 @@ export class SettingsComponent {
         this.onFilterSelection(this.security);
         this.userQuestions = [...this.userQuestions];
         this.showDialog = false;
-        this.security = {};
         this.isUpdating = true;
         // Function to update isUpdating value
         this.updateStatusService.setIsUpdating(this.isUpdating);

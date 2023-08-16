@@ -106,16 +106,18 @@ export class UserComponent implements OnInit {
       console.log('Submited Log', this.userForm.value);
       const updatedUser = { ...this.selectedUser, ...this.userForm.value };
       if (updatedUser.isActive == false) {
+         // Call the DeleteUser method if the user is inactive
         this.securityService.DeleteUser(updatedUser).subscribe(resp => {
           if (resp) {
             this.dialog = false;
             this.userForm.reset();
             this.initUsers();
-            this.alertMessage.displayAlertMessage(ALERT_CODES["SDU003"]);
+            this.alertMessage.displayAlertMessage(ALERT_CODES["SMU001"]);
           }
         });
       }
       else {
+        // Call the UpdateUser method if the user is active
         this.securityService.UpdateUser(updatedUser).subscribe(resp => {
           if (resp) {
             this.dialog = false;
