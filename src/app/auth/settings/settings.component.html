@@ -6,8 +6,7 @@
             <p-tabPanel id="change-password-panel" header="Change Password" class="line-height-3 m-0 col-12">
                 <!-- <h3 class="m-5">Change Password </h3> -->
                 <div class="grid">
-                    <form id="fbChangePassword" [formGroup]="fbChangePassword"
-                        class="col-4 col-offset-4 align-self-center">
+                    <form id="fb-change-password" [formGroup]="fbChangePassword" class="col-4 col-offset-4 align-self-center">
                         <label for="password" class="block text-900 font-medium text-md required mb-1 mt-5">Current
                             Password:</label>
                         <input id="password" type="password" formControlName="password" placeholder="Password"
@@ -26,7 +25,7 @@
 
                         <label for="newPassword" class="block text-900 font-medium text-md required mb-1 mt-2">New
                             Password:</label>
-                        <input id="newPassword" type="password" formControlName="newPassword" placeholder="Password"
+                        <input id="new-password" type="password" formControlName="newPassword" placeholder="Password"
                             pInputText class="w-full md:w-100  mb-2"
                             pattern="^(?!.* )(?=.*\d)(?=.*[A-Z])(?=.*[!@#$%^&*_=+-]).{8,15}$"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['newPassword'].touched && FormControls['newPassword'].errors }">
@@ -43,7 +42,7 @@
                         <label for="confirmPassword"
                             class="block text-900 font-medium text-md required mb-1 mt-2">Confirm
                             Password:</label>
-                        <input id="confirmPassword" formControlName="confirmPassword" type="password"
+                        <input id="confirm-password" formControlName="confirmPassword" type="password"
                             formControlName="confirmPassword" placeholder="Confirm Password" pInputText
                             class="w-full md:w-100  mb-2"
                             pattern="^(?!.* )(?=.*\d)(?=.*[A-Z])(?=.*[!@#$%^&*_=+-]).{8,15}$"
@@ -62,9 +61,8 @@
                                 Confirm Password
                                 must be match.</div>
                         </span>
-                        <button id="changePasswordBtn" pButton pRipple label="Change Password"
-                            class="w-full p-3 text-md mt-3" [disabled]="fbChangePassword.invalid"
-                            (click)="onChangePassword()"></button>
+                        <button id="update-change-password" pButton pRipple label="Change Password" class="w-full p-3 text-md mt-3"
+                            [disabled]="fbChangePassword.invalid" (click)="onChangePassword()"></button>
                     </form>
                 </div>
             </p-tabPanel>

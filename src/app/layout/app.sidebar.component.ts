@@ -1,4 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { LayoutService } from './service/app.layout.service';
 
 @Component({
@@ -8,7 +9,11 @@ import { LayoutService } from './service/app.layout.service';
 export class AppSidebarComponent {
     timeout: any = null;
     @ViewChild('menuContainer') menuContainer!: ElementRef;
-    constructor(public layoutService: LayoutService, public el: ElementRef) {}
+    isUpdating: boolean;
+
+    constructor(public layoutService: LayoutService,
+        public el: ElementRef,
+        private router: Router) { }
 
     onMouseEnter() {
         if (!this.layoutService.state.anchored) {
@@ -30,5 +35,9 @@ export class AppSidebarComponent {
 
     anchor() {
         this.layoutService.state.anchored = !this.layoutService.state.anchored;
+    }
+
+    onCalibrageLogo() {
+        this.router.navigate(['./dashboard/admin']);
     }
 }

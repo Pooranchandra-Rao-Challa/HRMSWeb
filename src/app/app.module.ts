@@ -8,7 +8,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthModule } from './auth/auth.module';
 import { AuthRoutingModule } from './auth/auth-routing.module';
 import { MessageService } from 'primeng/api';
-import { HRMSAPIInterceptor } from './_helpers/HRMS.api.interceptor';
+import { HRMSAPIInterceptor } from './_helpers/hrms.api.interceptor';
 @NgModule({
     declarations: [AppComponent],
     imports: [AppRoutingModule, AppLayoutModule, EmployeeRoutingModule, AuthRoutingModule],
