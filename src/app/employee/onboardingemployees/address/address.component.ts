@@ -78,7 +78,6 @@ export class AddressComponent {
   }
 
   addNewAddress() {
-    debugger
     this.showAddressDetails = true;
     this.faAddressDetails = this.fbAddressDetails.get("addressDetails") as FormArray
     this.faAddressDetails.push(this.generaterow())

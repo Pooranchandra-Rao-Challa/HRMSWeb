@@ -37,6 +37,7 @@ export class SettingsComponent {
     fbChangePassword!: FormGroup;
     userQuestions: UserQuestionDto[] = [];
     addFlag!: boolean;
+    isUpdating: boolean = false;
 
     constructor(
         private messageService: MessageService,
@@ -141,6 +142,7 @@ export class SettingsComponent {
         this.userQuestions = [...this.userQuestions];
         this.showDialog = false;
         this.security = {};
+        this.isUpdating = true;
     }
 
     onFilterSelection(security: UserQuestionDto) {
@@ -177,6 +179,7 @@ export class SettingsComponent {
             if (resp) {
               this.getUserQuestionsAndAnswers();
               this.messageService.add({ severity: 'success', key: 'myToast', summary: 'Success!', detail: 'Security Questions Updated Successfully...!' });
+              this.isUpdating = false;
             }
           });
     }
