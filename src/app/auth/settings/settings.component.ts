@@ -155,7 +155,6 @@ export class SettingsComponent {
         this.onFilterSelection(this.security);
         this.userQuestions = [...this.userQuestions];
         this.showDialog = false;
-        this.security = {};
         this.isUpdating = true;
     }
 
