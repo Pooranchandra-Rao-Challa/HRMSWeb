@@ -68,7 +68,7 @@ export const ALERT_CODES: { [key: string]: string } = {
  
 
   // securityquestions screen 
-'ASCUQ001':'Security Questions Added Successfully',
+'SCUQ001':'Security Questions Added Successfully',
 
   // settings
   // change password
@@ -77,7 +77,14 @@ export const ALERT_CODES: { [key: string]: string } = {
 
   'SMR001': 'Role Added Successfully',
   'SMR002': 'Role Updated Successfully',
+  
+  // updatesecurityquestions
+  'SSESQ001': 'Security Questions Updated Successfully',
+  'SSESQ002':'Security Questions Updated Faild',
+  'SSESQ003': 'Security Questions Added Successfully',
+ 
 
   'SMU002': 'User Update Successfully',
-
+  'SMU001':  "User has been successfully Soft Deleted"
+  
 }

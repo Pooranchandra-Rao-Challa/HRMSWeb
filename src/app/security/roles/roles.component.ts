@@ -5,6 +5,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Table } from 'primeng/table';
 import { Observable } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
+import { SHORT_DATE } from 'src/app/_helpers/date.formate.pipe';
 
 import { ITableHeader, MaxLength } from 'src/app/_models/common';
 import { RoleDto, RolePermissionDto, RoleViewDto } from 'src/app/_models/security';
@@ -28,7 +29,7 @@ export class RolesComponent implements OnInit {
   permissions: RolePermissionDto[] = [];
   addFlag: boolean = true;
   maxLength: MaxLength = new MaxLength();
-
+  mediumDate: string = SHORT_DATE;
 
   constructor(private formbuilder: FormBuilder,private jwtService:JwtService,
     private alertMessage: AlertmessageService, private securityService: SecurityService) { }
@@ -55,14 +56,15 @@ export class RolesComponent implements OnInit {
   intiRoles() {
     this.securityService.GetRoles().subscribe(resp => {
       this.roles = resp as unknown as RoleViewDto[];
-      console.log(this.roles);
     });
   }
+
   headers: ITableHeader[] = [
     { field: 'roleName', header: 'roleName', label: 'Name' },
     { field: 'isActive', header: 'isActive', label: 'Is Active' },
     { field: 'createdAt', header: 'createdAt', label: 'Created Date' },
   ];
+
   initRole(role: RoleViewDto) {
     this.showDialog();
     this.screens = [];
@@ -79,7 +81,7 @@ export class RolesComponent implements OnInit {
       })
     } else {
       this.submitLabel = "Add Role";
-      this.addFlag = false;
+      this.addFlag = true;
       this.role = {};
       this.role.roleId = "";
       this.role.roleName = "";
@@ -134,6 +136,7 @@ export class RolesComponent implements OnInit {
   }
 
 }
+
 function getDistinct<T, K extends keyof T>(data: T[], property: K): T[K][] {
   const allValues = data.reduce((values: T[K][], current) => {
     if (current[property]) {
