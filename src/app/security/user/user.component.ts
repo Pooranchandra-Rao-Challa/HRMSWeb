@@ -79,6 +79,7 @@ export class UserComponent implements OnInit {
     }, error => {
       this.loading = false;
     })
+    
   }
   // Fetch roles from the service
   intiRoles() {
