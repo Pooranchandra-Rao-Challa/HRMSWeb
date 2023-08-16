@@ -40,7 +40,6 @@ export class LoginComponent implements OnInit {
             .subscribe(
                 {
                     next: (resp: LogInSuccessModel) => {
-                        debugger
                         if (resp.isLoginSuccess && resp.hasSecureQuestions) {
                             this.messageService.add({ severity: 'success', key: 'myToast', summary: 'Success!', detail: 'Signing in...!' });
                             setTimeout(() => {

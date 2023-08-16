@@ -4,7 +4,7 @@
     <div class="grid">
         <form class="col-12">
             <div class="col-12 p-0" *ngFor="let question of userQuestions">
-                <label class="block text-900 font-medium text-md mb-1 mt-5">{{question.question}}</label>
+                <label class="block text-900 font-medium text-md required mb-1 mt-5">{{question.question}}</label>
                 <input id="useranswer" [(ngModel)]="question.userAnswer" #useranswer="ngModel" [ngModelOptions]="{standalone:true}"
                     type="text" placeholder="Enter Answer" pInputText class="w-full md:w-100" required>
                 <span *ngIf="!question.userAnswer && (useranswer.dirty || useranswer.touched)">

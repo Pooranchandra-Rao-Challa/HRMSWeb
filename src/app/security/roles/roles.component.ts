@@ -38,7 +38,7 @@ export class RolesComponent implements OnInit {
     this.permission = this.jwtService.Permissions;
     this.roleForm = this.formbuilder.group({
       roleId: [''],
-      roleName: new FormControl('', [Validators.required]),
+      name: new FormControl('', [Validators.required]),
       isActive: [true],
       permissions: []
     });
@@ -60,7 +60,7 @@ export class RolesComponent implements OnInit {
   }
 
   headers: ITableHeader[] = [
-    { field: 'roleName', header: 'roleName', label: 'Name' },
+    { field: 'name', header: 'name', label: 'Name' },
     { field: 'isActive', header: 'isActive', label: 'Is Active' },
     { field: 'createdAt', header: 'createdAt', label: 'Created Date' },
   ];
@@ -73,7 +73,7 @@ export class RolesComponent implements OnInit {
       this.submitLabel = "Update Role";
       this.securityService.GetRoleWithPermissions(role.roleId).subscribe(resp => {
       this.role.roleId = role.roleId
-      this.role.roleName = role.roleName;
+      this.role.name = role.name;
       this.role.isActive = role.isActive;
       this.role.permissions = (resp as unknown as RoleDto).permissions;
       this.roleForm.setValue(this.role);
@@ -84,7 +84,7 @@ export class RolesComponent implements OnInit {
       this.addFlag = true;
       this.role = {};
       this.role.roleId = "";
-      this.role.roleName = "";
+      this.role.name = "";
       this.role.isActive = true;
       this.initPermissoins();
     }

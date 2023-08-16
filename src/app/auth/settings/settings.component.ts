@@ -12,11 +12,6 @@ import { catchError, throwError } from 'rxjs';
 import jwtdecode from 'jwt-decode';
 import { UpdateStatusService } from 'src/app/_services/updatestatus.service';
 
-export class SecurityDto {
-    id?: number;
-    SecurityQuestions?: string;
-    Answer?: string;
-}
 
 @Component({
     selector: 'app-settings',
@@ -27,7 +22,6 @@ export class SettingsComponent {
     getSecureQuestions: SecureQuestionDto[] = []
     allSecureQuestions: SecureQuestionDto[] = []
     updateQuestions: UserQuestionDto[] = []
-    securityDto: SecurityDto[] = [];
     // selectedQuestion!: SecurQuestion;
     // userQuestions: UserQuestionDto[] = [];
     // changePassword: ChangePasswordDto = {}
@@ -41,7 +35,6 @@ export class SettingsComponent {
     isUpdating: boolean = false;
 
     constructor(
-        private messageService: MessageService,
         private formbuilder: FormBuilder,
         private securityService: SecurityService,
         public layoutService: LayoutService,
