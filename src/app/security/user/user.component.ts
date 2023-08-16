@@ -1,10 +1,7 @@
-import { HttpEvent } from '@angular/common/http';
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { SortEvent } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { RoleViewDto, UserUpdateDto, UserViewDto } from 'src/app/_models/security';
-import { Employee } from 'src/app/demo/api/security';
 import { SecurityService } from 'src/app/_services/security.service';
 import { JwtService } from 'src/app/_services/jwt.service';
 import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
@@ -76,7 +73,6 @@ export class UserComponent implements OnInit {
   initUsers() {
     this.securityService.GetUsers().subscribe(resp => {
       this.users = resp as unknown as UserViewDto[];
-      console.log('Users List', this.users);
     })
   }
   // Fetch roles from the service
@@ -102,8 +98,7 @@ export class UserComponent implements OnInit {
   }
   // Submit form handler
   onSubmit() {
-    if (this.userForm.value) {
-      console.log('Submited Log', this.userForm.value);
+    if (this.userForm.valid) {
       const updatedUser = { ...this.selectedUser, ...this.userForm.value };
       if (updatedUser.isActive == false) {
          // Call the DeleteUser method if the user is inactive
