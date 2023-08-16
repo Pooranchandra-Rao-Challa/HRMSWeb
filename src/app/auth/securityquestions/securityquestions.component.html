@@ -150,7 +150,7 @@
             <ng-template pTemplate="left">
             </ng-template>
             <ng-template pTemplate="right">
-              <button pButton pRipple label="Add New Question " icon="pi pi-plus" class=" p-mr-2"
+              <button pButton pRipple label="Add New Question " id="add-dialog" icon="pi pi-plus" class=" p-mr-2"
                 (click)="openNew()"></button>
             </ng-template>
           </p-toolbar>
@@ -169,10 +169,10 @@
             </ng-template>
             <ng-template pTemplate="body" let-securityQuesion>
               <tr>
-                <td><button pButton pRipple icon="pi pi-pencil"
+                <td><button pButton pRipple icon="pi pi-pencil" id="edit-dialog"
                     class="p-element p-ripple p-button-text p-button p-component"
                     (click)="editSecurity(securityQuesion)"></button>
-                  <button pButton pRipple icon="pi pi-trash" (click)="deleteSecurity(securityQuesion.SecurityQuestions)"
+                  <button pButton pRipple icon="pi pi-trash" id="delete" (click)="deleteSecurity(securityQuesion.SecurityQuestions)"
                     class="p-element p-ripple p-button-text p-button p-component"></button>
                 </td>
                 <td>{{securityQuesion.SecurityQuestions}}</td>
@@ -212,12 +212,12 @@
             </ng-template>
             <ng-template pTemplate="footer">
               <div class="col-4" style="float:right">
-                <button pButton pRipple type="submit" class="p-button-raised" (click)="saveSecurity()"
+                <button pButton pRipple type="submit" id="create-new-security-questions" class="p-button-raised" (click)="saveSecurity()"
                   [disabled]="!security.Answer || !security.SecurityQuestions">{{qstnSubmitLabel}}</button>
               </div>
             </ng-template>
           </p-dialog>
-          <button pButton pRipple label="Submit Questions" [disabled]="securityDto.length<2"
+          <button pButton pRipple label="Submit Questions" id="add-new-security-questions" [disabled]="securityDto.length<2"
             class=" p-mr-2 m-5 sQuestion" (click)="onSubmit()"></button>
         </div>
       </div>
