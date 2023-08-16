@@ -38,6 +38,7 @@ export class UserComponent implements OnInit {
   selectedUser: UserViewDto = {};
   dialog: boolean = false;
   submitLabel!: string;
+  loading: boolean = false;
   mediumDate: string = MEDIUM_DATE
 
   headers: ITableHeader[] = [
@@ -71,16 +72,20 @@ export class UserComponent implements OnInit {
   }
   // Fetch users from the service
   initUsers() {
+    this.loading = true;
     this.securityService.GetUsers().subscribe(resp => {
       this.users = resp as unknown as UserViewDto[];
+      this.loading = false;
+    }, error => {
+      this.loading = false;
     })
   }
   // Fetch roles from the service
   intiRoles() {
     this.securityService.GetRoles().subscribe(resp => {
       this.roles = resp as unknown as RoleViewDto[];
-      console.log('role list',this.roles);
-      
+      console.log('role list', this.roles);
+
     });
   }
   // Edit user by patching the form values
@@ -103,7 +108,7 @@ export class UserComponent implements OnInit {
     if (this.userForm.valid) {
       const updatedUser = { ...this.selectedUser, ...this.userForm.value };
       if (updatedUser.isActive == false) {
-         // Call the DeleteUser method if the user is inactive
+        // Call the DeleteUser method if the user is inactive
         this.securityService.DeleteUser(updatedUser).subscribe(resp => {
           if (resp) {
             this.dialog = false;
@@ -126,7 +131,6 @@ export class UserComponent implements OnInit {
       }
     }
   }
-
   get userFormControls() {
     return this.userForm.controls;
   }

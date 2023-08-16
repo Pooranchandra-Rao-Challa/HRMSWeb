@@ -50,7 +50,8 @@
         </ng-template>
         <ng-template pTemplate="emptymessage">
             <tr>
-                <td class="text-center m-5" colspan="18" *ngIf="users.length === 0">No Users Found.</td>
+                <td class="text-center m-5" colspan="18" *ngIf="loading">Loading....</td>
+                <td class="text-center m-5" colspan="18" *ngIf="!loading && users.length === 0">No Users Found.</td>
             </tr>
         </ng-template>
     </p-table>
