@@ -84,5 +84,6 @@ export const ALERT_CODES: { [key: string]: string } = {
   'SMR002': 'Roles Update Successfully',
 
   'SMU002': 'User Update Successfully',
+  'SMU001':  "User has been successfully Soft Deleted"
   
 }
