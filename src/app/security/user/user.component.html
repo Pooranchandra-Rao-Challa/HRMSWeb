@@ -56,19 +56,19 @@
     </p-table>
     <!-- Dailog -->
     <p-dialog header="Edit User" [(visible)]="dialog" [modal]="true" showEffect="fade"
-        [breakpoints]="{'960px': '50%', '640px': '70%'}" [style]="{width: '30%'}" (onHide)="userForm.reset()">
+        [breakpoints]="{'960px': '70%', '640px': '70%'}" [style]="{width: '30%'}" (onHide)="userForm.reset()">
         <ng-template pTemplate="content">
             <div class="flex flex-column align-items-center justify-content-center">
-                <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="tpt_form" autocomplete="off">
+                <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="tpt_form" class="w-100" autocomplete="off">
                     <div class="grid">
                         <div class="col-12">
                             <div class="p-fluid p-formgrid grid">
-                                <div class="field col-12 md:col-9">
+                                <div class="field col-12 md:col-8">
                                     <label>Role Name:<sup class="p-error">*</sup></label>
-                                    <p-dropdown placeholder="Select Role" [options]="roles" optionLabel="roleName"
+                                    <p-dropdown placeholder="Select Role" [options]="roles" class="w-100" optionLabel="roleName"
                                         formControlName="roleId" optionValue="roleId" appendTo="body"></p-dropdown>
                                 </div>
-                                <div class="field col-12 md:col-3">
+                                <div class="field col-12 md:col-4">
                                     <label>Is Active:</label><br>
                                     <p-inputSwitch formControlName="isActive"></p-inputSwitch>
                                 </div>
