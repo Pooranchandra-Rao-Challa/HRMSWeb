@@ -27,7 +27,7 @@ export class AddressComponent {
       { statename: 'Andhra Pradesh', code: 'ap' },
       { statename: 'Telangana', code: 'ts' }
     ];
-    this.initFamily();
+    this.initAddress();
 
     this.addNewAddress();
   }
@@ -36,7 +36,7 @@ export class AddressComponent {
     return this.fbAddressDetails.get("addressDetails") as FormArray
   }
 
-  initFamily() {
+  initAddress() {
     this.fbAddressDetails = this.formbuilder.group({
       Id: [''],
       AddressLine1: new FormControl('', [Validators.required]),

@@ -15,13 +15,14 @@ export class AppMenuComponent implements OnInit {
     GroupPermission(groupName: string): boolean {
         switch (groupName) {
           case 'Security':
-            return this.jwtService.Permissions.CanViewUsers;
+            return this.jwtService.Permissions.CanViewUsers || this.jwtService.Permissions.CanViewRoles
           default:
             return false;
         }
       }
 
     ngOnInit() {
+            console.log(this.jwtService.Permissions);
         this.model = [
             {
                 label: '',
@@ -30,7 +31,7 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'Dashboard',
                         icon: 'pi pi-fw pi-home',
-                        routerLink: ['dashboard/admin']
+                        routerLink: ['dashboard/admin'],permission: true
                     },
                     // {
                     //     label: 'Student',
@@ -53,7 +54,7 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'Roles',
                         icon: 'pi pi-fw pi-users',
-                        routerLink: ['security/roles']
+                        routerLink: ['security/roles'], permission: this.jwtService.Permissions.CanViewRoles
                     },
 
                 ]

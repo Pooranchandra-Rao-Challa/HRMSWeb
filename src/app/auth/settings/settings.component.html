@@ -82,7 +82,7 @@
                         <ng-template pTemplate="left">
                         </ng-template>
                         <ng-template pTemplate="right">
-                            <button pButton pRipple label="Add New Question" icon="pi pi-plus"
+                            <button pButton pRipple label="Add New Question" icon="pi pi-plus" id="add-dialog"
                                 class="p-button-success p-mr-2" (click)="addSecurityQuestion()"></button>
                         </ng-template>
                     </p-toolbar>
@@ -102,10 +102,10 @@
                         </ng-template>
                         <ng-template pTemplate="body" let-securityQuestion>
                             <tr>
-                                <td><button pButton pRipple icon="pi pi-pencil"
+                                <td><button pButton pRipple icon="pi pi-pencil" id="edit-dialog"
                                         class="p-element p-ripple p-button-text p-button p-component m-2"
                                         (click)="editSecurityQuestion(securityQuestion)"></button>
-                                    <button pButton pRipple icon="pi pi-trash"
+                                    <button pButton pRipple icon="pi pi-trash" id="delete"
                                         class="p-element p-ripple p-button-text p-button p-component m-2"
                                         (click)="deleteSecurityQuestion(securityQuestion.question)"
                                         *ngIf="userQuestions.length>2"></button>
@@ -152,13 +152,13 @@
                         <ng-template pTemplate="footer">
                             <div class="col-4" style="float:right">
                                 <button pButton pRipple type="submit" class="p-button-raised p-button-success"
-                                    (click)="saveSecurityQuestions()"
+                                    (click)="saveSecurityQuestions()" id="user-questions"
                                     [disabled]="!security.answer || !security.question">{{qstnSubmitLabel}}</button>
                             </div>
                         </ng-template>
                     </p-dialog>
                     <button pButton pRipple label="Update Questions" [disabled]="userQuestions.length<2"
-                        class="p-button-success p-mr-2 m-5 sQuestion" (click)="onSubmit()"></button>
+                        class="p-button-success p-mr-2 m-5 sQuestion" id="update-user-questions" (click)="onSubmit()"></button>
                 </div>
             </p-tabPanel>
         </p-tabView>
