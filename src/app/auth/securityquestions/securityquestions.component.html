@@ -189,11 +189,11 @@
 
           <!-- p-dialog -->
           <p-dialog [(visible)]="securityDialog" [style]="{ width: '550px' }" header="Select Security Question"
-            [modal]="true" styleClass="p-fluid">
+            [modal]="true" styleClass="p-fluid" (onHide)="clearSelection()">
             <ng-template pTemplate="content">
               <div class="p-field mb-3 ">
                 <label for="SecurityQuestions">Security Questions</label><br /><br />
-                <p-dropdown name="SecurityQuestions" id="SecurityQuestions" [options]="getSecureQuestions"
+                <p-dropdown  name="SecurityQuestions" id="SecurityQuestions" [options]="secureQuestions | async"
                   (onChange)="onChange($event)" [(ngModel)]="security.SecurityQuestions" appendTo="body"
                   optionValue="question" placeholder="Select a Security Questions" optionLabel="question"
                   [showClear]="true" #drop="ngModel" class="pt-5">
