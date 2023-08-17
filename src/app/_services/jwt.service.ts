@@ -70,5 +70,10 @@ export class JwtService {
     const jwt = this.DecodedJWT;
     return jwt.GivenName;
   }
+
+  public get UserId(): string {
+    const jwt = this.DecodedJWT;
+    return jwt.id;
+  }
 }
 

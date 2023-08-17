@@ -52,7 +52,7 @@ export class SecureQuestionDto {
 
 export class CreateUserQuestionDto {
   userQuestionId?: number;
-  userId?: number;
+  userId?: string;
   questionId?: number;
   question?: string;
   answer?: string;
