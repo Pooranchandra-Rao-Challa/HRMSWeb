@@ -1,154 +1,182 @@
 <div class="col-12">
-    <div class="card">
-      <!-- Toolbar -->
-      <p-toolbar styleClass="p-mb-4">
-        <ng-template pTemplate="left">
-          <h4>Assets</h4>
-        </ng-template>
-        <ng-template pTemplate="right">
-          <button pButton pRipple label="New Asset" icon="pi pi-plus" class="p-button-primary p-mr-2" (click)="addAssetsDialog()"></button>
-        </ng-template>
-      </p-toolbar>
-      <!-- dialog -->
-      <p-dialog header="Assets" [(visible)]="dialog" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '60%'}" (onHide)="onClose()">
-        <div class="flex flex-column align-items-center justify-content-center">
-          <form [formGroup]="fbassets">
-            <div class="col-12 roles-container">
-              <div class="p-fluid p-formgrid grid">
-                <div class="field col-12 md:col-4">
-                  <label>Code: <sup class="p-error">*</sup>
-                  </label>&nbsp; <input pInputText id="code" type="text" formControlName="code" placeholder="Enter Code" #assetname alphaNumeric />
-                </div>
-                <div class="field col-12 md:col-4">
-                  <label>Enter Asset Category: <sup class="p-error">*</sup>
-                  </label>&nbsp; <p-dropdown [options]="assetsCategory" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select Asset" formControlName="assetCategory" optionValue="code">
-                    <ng-template let-asset pTemplate="item">
-                      <div class="country-item">
-                        <div>{{ asset.name }}</div>
-                      </div>
-                    </ng-template>
-                  </p-dropdown>
-                </div>
-                <div class="field col-12 md:col-4">
-                  <label>Enter AssetType: <sup class="p-error">*</sup>
-                  </label>&nbsp; <p-dropdown [options]="assetsList" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select Asset" formControlName="assetType" optionValue="code">
-                    <ng-template let-asset pTemplate="item">
-                      <div class="country-item">
-                        <div>{{ asset.name }}</div>
-                      </div>
-                    </ng-template>
-                  </p-dropdown>
-                </div>
-                <div class="field col-12 md:col-4">
-                  <label>Asset Name: <sup class="p-error">*</sup>
-                  </label>&nbsp; <input pInputText id="assetname" type="text" formControlName="name" placeholder="Enter Asset Name" #assetname alphaNumeric />
-                </div>
-                <div class="field col-12 md:col-4">
-                  <span>
-                    <label>Purchased Date: <sup class="p-error">*</sup>
-                    </label>&nbsp; <p-calendar inputId="purchaseddate" placeholder="Enter Purchased Date" formControlName="purchasedDate"></p-calendar>
-                  </span>
-                </div>
-                <div class="field col-12 md:col-4">
-                  <label>Model Number:</label>&nbsp; <input pInputText id="modelnumber" formControlName="modelNumber" placeholder="Enter Model Number" #modelnumber alphaOnly />
-                </div>
-                <div class="field col-12 md:col-4">
-                  <label>Manufacturer: <sup class="p-error">*</sup>
-                  </label>&nbsp; <input pInputText id="manufacturer" type="text" formControlName="manufacturer" placeholder="Enter Manufacturer" #manufacturer alphaOnly />
-                </div>
-                <div class="field col-12 md:col-4">
-                  <label>Serial Number:</label>&nbsp; <input pInputText id="serialnumber" type="text" formControlName="serialNumber" placeholder="Enter Serial Number " />
-                </div>
-                <div class="field col-12 md:col-4">
-                  <label>Warranty:</label>&nbsp; <input pInputText id="warranty" type="text" formControlName="warranty" placeholder="Enter Warranty " />
-                </div>
-                <div class="field col-12 md:col-4">
-                  <label>Add Value: <sup class="p-error">*</sup>
-                  </label>&nbsp; <input pInputText id="addvalue" type="text" formControlName="addValue" placeholder="Enter Add Value" />
-                </div>
-                <div class="field col-12 md:col-4">
-                  <label htmlFor="description">Description:</label>
-                  <textarea inputId="description" rows="3" cols="30" pInputTextarea formControlName="description" placeholder="Enter Description"></textarea>
-                </div>
-                <div class="field col-12 md:col-4">
-                  <label>Is Active: <sup class="p-error">*</sup>
-                  </label>
-                  <br> &nbsp; <p-inputSwitch formControlName="isActive"></p-inputSwitch>
-                </div>
+  <div class="card">
+    <!-- Toolbar -->
+    <p-toolbar styleClass="p-mb-4">
+      <ng-template pTemplate="left">
+        <h4>Assets</h4>
+      </ng-template>
+      <ng-template pTemplate="right">
+        <button pButton pRipple label="New Asset" icon="pi pi-plus" class="p-button-primary p-mr-2"
+          (click)="addAssetsDialog()"></button>
+      </ng-template>
+    </p-toolbar>
+    <!-- dialog -->
+    <p-dialog header="Assets" [(visible)]="dialog" [modal]="true" showEffect="fade"
+      [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '60%'}" (onHide)="onClose()">
+      <div class="flex flex-column align-items-center justify-content-center">
+        <form [formGroup]="fbassets">
+          <div class="col-12 roles-container">
+            <div class="p-fluid p-formgrid grid">
+              <div class="field col-12 md:col-4">
+                <label>Code: <sup class="p-error">*</sup>
+                </label>&nbsp; <input pInputText id="code" type="text" formControlName="code" placeholder="Enter Code"
+                  #assetname alphaNumeric />
+              </div>
+              <div class="field col-12 md:col-4">
+                <label>Enter Asset Category: <sup class="p-error">*</sup>
+                </label>&nbsp; <p-dropdown [options]="assetsCategory" optionLabel="name" [filter]="true" filterBy="name"
+                  [showClear]="true" placeholder="Select Asset" formControlName="assetCategory" optionValue="code">
+                  <ng-template let-asset pTemplate="item">
+                    <div class="country-item">
+                      <div>{{ asset.name }}</div>
+                    </div>
+                  </ng-template>
+                </p-dropdown>
+              </div>
+              <div class="field col-12 md:col-4">
+                <label>Enter AssetType: <sup class="p-error">*</sup>
+                </label>&nbsp; <p-dropdown [options]="assetsList" optionLabel="name" [filter]="true" filterBy="name"
+                  [showClear]="true" placeholder="Select Asset" formControlName="assetType" optionValue="code">
+                  <ng-template let-asset pTemplate="item">
+                    <div class="country-item">
+                      <div>{{ asset.name }}</div>
+                    </div>
+                  </ng-template>
+                </p-dropdown>
+              </div>
+              <div class="field col-12 md:col-4">
+                <label>Asset Name: <sup class="p-error">*</sup>
+                </label>&nbsp; <input pInputText id="assetname" type="text" formControlName="name"
+                  placeholder="Enter Asset Name" #assetname alphaNumeric />
+              </div>
+              <div class="field col-12 md:col-4">
+                <span>
+                  <label>Purchased Date: <sup class="p-error">*</sup>
+                  </label>&nbsp; <p-calendar inputId="purchaseddate" placeholder="Enter Purchased Date"
+                    formControlName="purchasedDate"></p-calendar>
+                </span>
+              </div>
+              <div class="field col-12 md:col-4">
+                <label>Model Number:</label>&nbsp; <input pInputText id="modelnumber" formControlName="modelNumber"
+                  placeholder="Enter Model Number" #modelnumber alphaOnly />
+              </div>
+              <div class="field col-12 md:col-4">
+                <label>Manufacturer: <sup class="p-error">*</sup>
+                </label>&nbsp; <input pInputText id="manufacturer" type="text" formControlName="manufacturer"
+                  placeholder="Enter Manufacturer" #manufacturer alphaOnly />
+              </div>
+              <div class="field col-12 md:col-4">
+                <label>Serial Number:</label>&nbsp; <input pInputText id="serialnumber" type="text"
+                  formControlName="serialNumber" placeholder="Enter Serial Number " />
+              </div>
+              <div class="field col-12 md:col-4">
+                <label>Warranty:</label>&nbsp; <input pInputText id="warranty" type="text" formControlName="warranty"
+                  placeholder="Enter Warranty " />
+              </div>
+              <div class="field col-12 md:col-4">
+                <label>Add Value: <sup class="p-error">*</sup>
+                </label>&nbsp; <input pInputText id="addvalue" type="text" formControlName="addValue"
+                  placeholder="Enter Add Value" />
+              </div>
+              <div class="field col-12 md:col-4">
+                <label htmlFor="description">Description:</label>
+                <textarea inputId="description" rows="3" cols="30" pInputTextarea formControlName="description"
+                  placeholder="Enter Description"></textarea>
+              </div>
+              <div class="field col-12 md:col-4">
+                <label>Is Active: <sup class="p-error">*</sup>
+                </label>
+                <br> &nbsp; <p-inputSwitch formControlName="isActive"></p-inputSwitch>
               </div>
             </div>
-          </form>
-        </div>
-        <ng-template pTemplate="footer">
-          <div class="col-4" style="float:right">
-            <button pButton pRipple type="submit" [label]="submitLabel" class="p-button-raised p-button-primary" (click)="onSubmit()"></button>
           </div>
-        </ng-template>
-      </p-dialog>
-      <!-- table -->
-      <p-table [value]="assets" dataKey="name" [tableStyle]="{ 'min-width': '60rem' }">
-        <ng-template pTemplate="header">
-          <tr>
-            <th style="width: 5rem"></th>
-            <th pSortableColumn="">ID <p-sortIcon field=""></p-sortIcon>
-            </th>
-            <th pSortableColumn="">Assest Type <p-sortIcon field=""></p-sortIcon>
-            </th>
-            <th pSortableColumn="">Assest Category <p-sortIcon field=""></p-sortIcon>
-            </th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-assest let-expanded="expanded">
-          <tr>
-            <td>
-              <button type="button" pButton pRipple [pRowToggler]="assest" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
-            </td>
-            <td>{{ assest.id }}</td>
-            <td>{{ assest.assestType }}</td>
-            <td>{{assest.category}}</td>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="rowexpansion" let-assest>
-          <tr>
-            <td colspan="7">
-              <div class="p-3">
-                <p-table [value]="assest.list" dataKey="id" [tableStyle]="{ width: 'max-content'}">
-                  <ng-template pTemplate="header">
-          <tr>
-            <th style="width:5px;"></th>
-            <th *ngFor="let col of headers" [pSortableColumn]="col.header">
-              {{col?.label}}
-              <p-columnFilter type="text" [field]="col.header" display="menu"></p-columnFilter>
-              <p-sortIcon [field]="col.header"></p-sortIcon>
-            </th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-list>
-          <tr>
-            <td>
-              <button pButton pRipple icon="pi pi-pencil" style="padding: 0px;" class="p-element p-ripple p-button-text p-button p-component" (click)="addAssetsDialog()"></button>
-            </td>
-            <td>{{ list.name }}</td>
-            <td>{{ list.purchasedDate }}</td>
-            <td>{{ list.modelNumber }}</td>
-            <td>{{ list.manufacturer }}</td>
-            <td>{{ list.serialNumber }}</td>
-            <td>{{ list.warranty }}</td>
-            <td>{{ list.addValue }}</td>
-            <td>{{ list.description }}</td>
-            <td>{{ list.status }}</td>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="emptymessage">
-          <tr>
-            <td colspan="6">There are no order for this product yet.</td>
-          </tr>
-        </ng-template>
-      </p-table>
-    </div>
-    </td>
-    </tr>
-    </ng-template>
+        </form>
+      </div>
+      <ng-template pTemplate="footer">
+        <div class="col-4" style="float:right">
+          <button pButton pRipple type="submit" [label]="submitLabel" class="p-button-raised p-button-primary"
+            (click)="onSubmit()"></button>
+        </div>
+      </ng-template>
+    </p-dialog>
+    <!-- table -->
+    <p-table #dtlookup [value]="assets" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
+      [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [showCurrentPageReport]="true" [globalFilterFields]="globalFilterFields" [autoLayout]="true"
+      responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]">
+      <!-- <p-table [value]="assets" dataKey="name" [tableStyle]="{ 'min-width': '60rem' }"> -->
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 5rem"></th>
+          <th pSortableColumn="">ID <p-sortIcon field=""></p-sortIcon>
+          </th>
+          <th pSortableColumn="">Assest Type <p-sortIcon field=""></p-sortIcon>
+          </th>
+          <th pSortableColumn="">Assest Category <p-sortIcon field=""></p-sortIcon>
+          </th>
+          <th>Action
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-assest let-expanded="expanded">
+        <tr>
+          <td>
+            <button type="button" pButton pRipple [pRowToggler]="assest"
+              class="p-button-text p-button-rounded p-button-plain"
+              [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+          </td>
+          <td>{{ assest.id }}</td>
+          <td>{{ assest.assestType }}</td>
+          <td>{{assest.category}}</td>
+          <td><i class="pi pi-times-circle" style="font-size: 2rem"></i>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="rowexpansion" let-assest>
+        <tr>
+          <td colspan="7">
+            <div class="p-3">
+              <p-table [value]="assest.list" dataKey="id">
+                <ng-template pTemplate="header">
+        <tr>
+          <th style="width:5px;"></th>
+          <th style="width:5px;"></th>
+          <th *ngFor="let col of headers" [pSortableColumn]="col.header">
+            {{col?.label}}
+            <p-columnFilter type="text" [field]="col.header" display="menu"></p-columnFilter>
+            <p-sortIcon [field]="col.header"></p-sortIcon>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-list>
+        <tr>
+          <td > <button pButton pRipple icon="pi pi-pencil" style="padding: 0px;"
+              class="p-element p-ripple p-button-text p-button p-component" (click)="addAssetsDialog()"></button></td>
+          <td>
+            <button pButton pRipple icon="pi pi-trash" id="delete"
+              class="p-element p-ripple p-button-text p-button p-component"></button>
+          </td>
+          <td>{{ list.name }}</td>
+          <td>{{ list.purchasedDate }}</td>
+          <td>{{ list.modelNumber }}</td>
+          <td>{{ list.manufacturer }}</td>
+          <td>{{ list.serialNumber }}</td>
+          <td>{{ list.warranty }}</td>
+          <td>{{ list.addValue }}</td>
+          <td>{{ list.description }}</td>
+          <td>{{ list.status }}</td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="6">There are no order for this product yet.</td>
+        </tr>
+      </ng-template>
     </p-table>
   </div>
-  </div>
+  </td>
+  </tr>
+  </ng-template>
+  </p-table>
+</div>
+</div>
