@@ -100,28 +100,36 @@
       </ng-template>
     </p-dialog>
     <!-- table -->
-    <p-table [value]="assets" dataKey="name" [tableStyle]="{ 'min-width': '60rem' }">
+    <p-table #dtlookup [value]="assets" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
+      [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [showCurrentPageReport]="true" [globalFilterFields]="globalFilterFields" [autoLayout]="true"
+      responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]">
+      <!-- <p-table [value]="assets" dataKey="name" [tableStyle]="{ 'min-width': '60rem' }"> -->
       <ng-template pTemplate="header">
         <tr>
           <th style="width: 5rem"></th>
           <th pSortableColumn="">ID <p-sortIcon field=""></p-sortIcon>
           </th>
-          <th pSortableColumn="">Assest Type <p-sortIcon field=""></p-sortIcon>
+          <th pSortableColumn="">Asset Type <p-sortIcon field=""></p-sortIcon>
           </th>
-          <th pSortableColumn="">Assest Category <p-sortIcon field=""></p-sortIcon>
+          <th pSortableColumn="">Asset Category <p-sortIcon field=""></p-sortIcon>
+          </th>
+          <th>count
           </th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-assest let-expanded="expanded">
+      <ng-template pTemplate="body" let-asset let-expanded="expanded">
         <tr>
           <td>
-            <button type="button" pButton pRipple [pRowToggler]="assest"
+            <button type="button" pButton pRipple [pRowToggler]="asset"
               class="p-button-text p-button-rounded p-button-plain"
               [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
           </td>
-          <td>{{ assest.id }}</td>
-          <td>{{ assest.assestType }}</td>
-          <td>{{assest.category}}</td>
+          <td>{{ asset.id }}</td>
+          <td>{{ asset.assestType }}</td>
+          <td>{{asset.category}}</td>
+          <td>{{asset.list.length}}
+          </td>
         </tr>
       </ng-template>
       <ng-template pTemplate="rowexpansion" let-assest>
@@ -132,6 +140,7 @@
                 <ng-template pTemplate="header">
         <tr>
           <th style="width:5px;"></th>
+          <th style="width:5px;"></th>
           <th *ngFor="let col of headers" [pSortableColumn]="col.header">
             {{col?.label}}
             <p-columnFilter type="text" [field]="col.header" display="menu"></p-columnFilter>
@@ -141,9 +150,11 @@
       </ng-template>
       <ng-template pTemplate="body" let-list>
         <tr>
+          <td > <button pButton pRipple icon="pi pi-pencil" style="padding: 0px;"
+              class="p-element p-ripple p-button-text p-button p-component" (click)="addAssetsDialog()"></button></td>
           <td>
-            <button pButton pRipple icon="pi pi-pencil" style="padding: 0px;"
-              class="p-element p-ripple p-button-text p-button p-component" (click)="addAssetsDialog()"></button>
+            <button pButton pRipple icon="pi pi-trash" id="delete"
+              class="p-element p-ripple p-button-text p-button p-component"></button>
           </td>
           <td>{{ list.name }}</td>
           <td>{{ list.purchasedDate }}</td>
