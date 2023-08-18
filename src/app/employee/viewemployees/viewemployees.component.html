@@ -1,896 +1,788 @@
 <div class="card">
     <div class="grid mb-3">
-        <div class="col-12 lg:col-2">
-            <div class="fex">
-                <!-- <div class="flex flex-column w-2 justify-content-between" style="row-gap: 1rem">
-                    <img
-                        *ngFor="let image of images; let i = index"
-                        [ngClass]="{ 'border-primary': selectedImageIndex === i }"
-                        src="assets/demo/images/ecommerce/productoverview/{{ image }}"
-                        class="w-full cursor-pointer border-2 border-transparent transition-colors transition-duration-150 border-round"
-                        (click)="selectedImageIndex = i"
-                    />
-                </div> -->
-                <div class="col text-center">
-                    <img src="assets/demo/images/ecommerce/productoverview/{{ images[selectedImageIndex] }}"
-                        class="w-10 align-items-center border-transparent border-round" />
-
-                </div>
-                <div class=" align-items-center text-xl text-center font-medium text-900 mb-1">P Ravindra Kumar </div>
-                <div class=" align-items-center text-md text-center font-medium text-500 mb-1 text-secondary">Sr Angular
-                    developer </div>
-                <span class="text-900 font-medium text-primary text-center text-3xl block">CIS202214</span>
-            </div>
+      <div class="col-12 lg:col-2">
+        <div class="fex">
+          <!-- <div class="flex flex-column w-2 justify-content-between" style="row-gap: 1rem"><img
+                          *ngFor="let image of images; let i = index"
+                          [ngClass]="{ 'border-primary': selectedImageIndex === i }"
+                          src="assets/demo/images/ecommerce/productoverview/{{ image }}"
+                          class="w-full cursor-pointer border-2 border-transparent transition-colors transition-duration-150 border-round"
+                          (click)="selectedImageIndex = i"
+                      /></div> -->
+          <div class="col text-center">
+            <img src="assets/demo/images/ecommerce/productoverview/{{ images[selectedImageIndex] }}" class="w-10 align-items-center border-transparent border-round" />
+          </div>
+          <div class=" align-items-center text-xl text-center font-medium text-900 mb-1">P Ravindra Kumar </div>
+          <div class=" align-items-center text-md text-center font-medium text-500 mb-1 text-secondary">Sr Angular developer </div>
+          <span class="text-900 font-medium text-primary text-center text-3xl block">CIS202214</span>
         </div>
-
-        <div class="col-12 lg:col-6 py-3 lg:pl-2">
-            <div class="grid p-3">
-                <div class="col-12 lg:col-6 "><span class="text-primary font-bold text-900">Gender</span>: Male </div>
-                <div class="col-12 lg:col-6 "><span class="text-primary font-bold text-900">Blood Group</span>: O+
-                </div>
-                <div class="col-12 lg:col-6 "><span class="text-primary font-bold text-900">Mobile Number </span>: +91
-                    8008223651 </div>
-                <div class="col-12 lg:col-6"><span class="text-primary font-bold text-900">Alt Mobile Number </span>:
-                    +91 8008223651 </div>
-                <div class="col-12 lg:col-6 "><span class="text-primary font-bold text-900">DOB</span>: 07-06-1991
-                </div>
-                <div class="col-12 lg:col-6 "><span class="text-primary font-bold text-900">Certificate DOB</span>:
-                    10-06-1991 </div>
-                <div class="col-12 lg:col-6 "><span class="text-primary font-bold text-900">Marital Status</span>:
-                    Married </div>
-                <div class="col-12 lg:col-6 "><span class="text-primary font-bold text-900">Email ID</span>:
-                    ravikumar@gmail.com </div>
-                <div class="col-12 lg:col-12 "><span class="text-primary font-bold text-900">Current Address</span>:
-                    Arunodaya Residencymithila nagr, Pragathi Nagar, Hyderabad, Telangana 500072 </div>
-                <div class="col-12 "><span class="text-primary font-bold text-900">Permanent Address</span>: INRHYTHM
-                    Towers, 4th Floor– 4A , Plot No: 1023,Gurukul Society, Khanamet, VLG, 500081 </div>
-                <div class="col-12 "><span class="text-primary font-bold text-900">Skill Sets</span>:
-                    <span
-                        class="p-element p-ripple p-button-outlined p-button-help p-button p-component list_button">HTML</span>
-                    <span
-                        class="p-element p-ripple p-button-outlined p-button-help p-button p-component list_button">CSS</span>
-                    <span
-                        class="p-element p-ripple p-button-outlined p-button-help p-button p-component list_button">JAva
-                        Script</span>
-                    <span
-                        class="p-element p-ripple p-button-outlined p-button-help p-button p-component list_button">Angular</span>
-                    <button pButton pRipple icon="pi pi-pencil" style="padding: 0px;"
-                        class="p-element p-ripple p-button-text p-button p-component mr-2"
-                        (click)="showDialog()"></button>
-                </div>
-            </div>
+      </div>
+      <div class="col-12 lg:col-6 py-3 lg:pl-2">
+        <div class="grid p-3 position-relative">
+            <h5 class="col-12">
+                Basic Details
+            </h5>
+           <hr/>
+          <div class="col-12 lg:col-6 ">
+            <span class="text-primary font-bold text-900">Gender</span>: Male
+          </div>
+          <div class="col-12 lg:col-6 ">
+            <span class="text-primary font-bold text-900">Blood Group</span>: O+
+          </div>
+          <div class="col-12 lg:col-6 ">
+            <span class="text-primary font-bold text-900">Mobile Number </span>: +91 8008223651
+          </div>
+          <div class="col-12 lg:col-6">
+            <span class="text-primary font-bold text-900">Alt Mobile Number </span>: +91 8008223651
+          </div>
+          <div class="col-12 lg:col-6 ">
+            <span class="text-primary font-bold text-900">DOB</span>: 07-06-1991
+          </div>
+          <div class="col-12 lg:col-6 ">
+            <span class="text-primary font-bold text-900">Certificate DOB</span>: 10-06-1991
+          </div>
+          <div class="col-12 lg:col-6 ">
+            <span class="text-primary font-bold text-900">Marital Status</span>: Married
+          </div>
+          <div class="col-12 lg:col-6 ">
+            <span class="text-primary font-bold text-900">Email ID</span>: ravikumar@gmail.com
+          </div>
+          <!-- <div class="col-12 lg:col-12 "><span class="text-primary font-bold text-900">Current Address</span>:
+                      Arunodaya Residencymithila nagr, Pragathi Nagar, Hyderabad, Telangana 500072 </div><div class="col-12 "><span class="text-primary font-bold text-900">Permanent Address</span>: INRHYTHM
+                      Towers, 4th Floor– 4A , Plot No: 1023,Gurukul Society, Khanamet, VLG, 500081 </div> -->
+          <div class="col-12 ">
+            <span class="text-primary font-bold text-900">Skill Sets</span>: <span class="p-element p-ripple p-button-outlined p-button-help p-button p-component list_button">HTML</span>
+            <span class="p-element p-ripple p-button-outlined p-button-help p-button p-component list_button">CSS</span>
+            <span class="p-element p-ripple p-button-outlined p-button-help p-button p-component list_button">JAva Script</span>
+            <span class="p-element p-ripple p-button-outlined p-button-help p-button p-component list_button">Angular</span>
+          </div>
+          <button pButton pRipple icon="pi pi-pencil" class="p-element p-ripple p-button-text p-button p-component mr-2 float-button" (click)="showDialog()"></button>
         </div>
-        <!-- p-dialog -->
-
-        <p-dialog header="CIS202214" [(visible)]="dialog" [modal]="true" showEffect="fade"
-            [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
-            <div class="flex flex-column align-items-center justify-content-center">
-                <form [formGroup]="personalDetails">
-                    <div class="grid">
-                        <div class="col-12 roles-container">
-                            <div class="p-fluid p-formgrid grid">
-                                <div class="field col-12 md:col-4">
-                                    <label>Name:<sup class="p-error">*</sup></label>&nbsp;
-                                    <input pInputText id="name" #name placeholder="Enter Name" type="text"
-                                        formControlName="Name" />
-                                </div>
-                                <div class="field col-12 md:col-4">
-                                    <label>Gender:<sup class="p-error">*</sup></label>&nbsp;
-                                    <p-dropdown id="gender" #gender placeholder="Select Gender" [options]="genders"
-                                        optionLabel="name" formControlName="Gender"></p-dropdown>
-                                </div>
-                                <div class="field col-12 md:col-4">
-                                    <label>Blood Group: :<sup class="p-error">*</sup></label>&nbsp;
-                                    <input pInputText id="bloodGroup" #bloodgroup placeholder="Enter Blood Group"
-                                        type="text" formControlName="BloodGroup" />
-                                </div>
-                                <div class="field col-12 md:col-4">
-                                    <label>Mobile Number :<sup class="p-error">*</sup></label>&nbsp;
-                                    <input pInputText id="mobileNumber" #mobilenumber placeholder="Enter Mobile Number"
-                                        type="text" formControlName="MobileNumber" />
-                                </div>
-                                <div class="field col-12 md:col-4">
-                                    <label>Alt Mobile Number :<sup class="p-error">*</sup></label>&nbsp;
-                                    <input pInputText id="alternateMobileNumber" #alternateMobileNumber
-                                        placeholder="Enter Alternate Mobile Number" type="text"
-                                        formControlName="AltMobileNumber" />
-                                </div>
-                                <div class="field col-12 md:col-4">
-                                    <label>DOB:</label>&nbsp;
-                                    <p-calendar [showIcon]="true" placeholder="Select Dob" formControlName="DOB">
-                                    </p-calendar>
-                                </div>
-                                <div class="field col-12 md:col-4">
-                                    <label>Certificate DOB:</label>&nbsp;
-                                    <p-calendar [showIcon]="true" placeholder="Select Certificate Dob"
-                                        formControlName="CertificateDOB"></p-calendar>
-                                </div>
-                                <div class="field col-12 md:col-4">
-                                    <label>Marital Status:<sup class="p-error">*</sup></label>&nbsp;
-                                    <p-dropdown id="maritalStatus" #maritalStatus placeholder="Enter Marital Status"
-                                        [options]="status" optionLabel="name" formControlName="MaritalStatus">
-                                    </p-dropdown>
-                                </div>
-                                <div class="field col-12 md:col-4">
-                                    <label>Email ID:<sup class="p-error">*</sup></label>&nbsp;
-                                    <input pInputText id="emailId" #emailId placeholder="Enter Email Id" type="text"
-                                        formControlName="EmailID" />
-                                </div>
-                                <div class="field col-12 md:col-4">
-                                    <label>Current Address:<sup class="p-error">*</sup></label>&nbsp;
-                                    <input pInputText id="currentAddress" #currentAddress
-                                        placeholder="Enter Current Address" type="text"
-                                        formControlName="CurrentAddress" />
-                                </div>
-                                <div class="field col-12 md:col-4">
-                                    <label>Permanent Address:<sup class="p-error">*</sup></label>&nbsp;
-                                    <input pInputText id="permanentAddress" #permanentAddress
-                                        placeholder="Enter Permanent Address" type="text"
-                                        formControlName="PermanentAddress" />
-                                </div>
-                                <div class="field col-12 md:col-4">
-                                    <label>Skill Set:<sup class="p-error">*</sup></label>&nbsp;
-                                    <p-multiSelect id="skillSet" #skillSet placeholder="Select Skills"
-                                        [options]="skillSets" optionLabel="name" formControlName="SkillSet">
-                                    </p-multiSelect>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+      </div>
+      <!-- p-dialog -->
+      <div class="col-12 lg:col-4 py-3 lg:pl-6">
+        <div class="">
+          <div class="grid p-3  position-relative">
+            <h5 class="col-12">
+                Office Details
+            </h5>
+            <div class="col-12">
+              <span class="text-primary font-bold text-900">Shift </span>: Day
             </div>
-            <ng-template pTemplate="footer">
-                <div class="col-4" style="float:right">
-                    <button pButton pRipple type="submit" label="Update Personal Details"
-                        class="p-button-raised p-button-primary"></button>
-                </div>
-            </ng-template>
-        </p-dialog>
-        <div class="col-12 lg:col-4 py-3 lg:pl-6">
-            <div class="">
-                <div class="grid p-3">
-                    <div class="col-12 "><span class="text-primary font-bold text-900">Shift </span>: Day </div>
-                    <div class="col-12 "><span class="text-primary font-bold text-900">Office Email ID</span>:
-                        ravikumar@gmail.com </div>
-                    <div class="col-12 "><span class="text-primary font-bold text-900">Joining Date</span>: 01-06-2021
-                    </div>
-                    <div class="col-12 "><span class="text-primary font-bold text-900">Designation</span>: Sr Angular
-                        Developer </div>
-                    <div class="col-12 "><span class="text-primary font-bold text-900">Reported to </span>: S Poorna
-                        (Project Manager) </div>
-                    <div class="col-12 "><span class="text-primary font-bold text-900">Project</span>: JIVA </div>
-                    <div class="col-12 "><span class="text-primary font-bold text-900">PF Eligible </span>: YES </div>
-                    <div class="col-12 "><span class="text-primary font-bold text-900">ESI Elgible </span>: NO
-                        <button pButton pRipple icon="pi pi-pencil" style="padding: 0px;"
-                            class="p-element p-ripple p-button-text p-button p-component mr-2"
-                            (click)="Dialog()"></button>
-                    </div>
-
-                    <br />
-                    <!-- <p-chart type="doughnut" [data]="pieData" [options]="pieOptions" height="140px" width="140px"></p-chart> -->
-                </div>
+            <div class="col-12">
+              <span class="text-primary font-bold text-900">Office Email ID</span>: ravikumar@gmail.com
             </div>
-            <!-- p-dialog -->
-            <p-dialog header="CIS202214" [(visible)]="visible" [modal]="true" showEffect="fade"
-                [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
-                <div class="flex flex-column align-items-center justify-content-center">
-                    <form [formGroup]="OfficialDetails">
-                        <div class="grid">
-                            <div class="col-12 roles-container">
-                                <div class="p-fluid p-formgrid grid">
-                                    <div class="field col-12 md:col-4">
-                                        <label>Shift :<sup class="p-error">*</sup></label>&nbsp;
-                                        <p-dropdown id="shift" #shift placeholder="Select Shifts" [options]="shifts"
-                                            optionLabel="type" formControlName="Shift"></p-dropdown>
-                                    </div>
-                                    <div class="field col-12 md:col-4">
-                                        <label>Office Email ID:<sup class="p-error">*</sup></label>&nbsp;
-                                        <input pInputText id="officeEmailId" #officeEmailId
-                                            placeholder="Enter Office Email Id" type="text"
-                                            formControlName="OfficeEmailID" />
-                                    </div>
-                                    <div class="field col-12 md:col-4">
-                                        <label>Joining Date:</label>&nbsp;
-                                        <p-calendar [showIcon]="true" placeholder="Select Joining Date"
-                                            formControlName="JoiningDate"></p-calendar>
-                                    </div>
-                                    <div class="field col-12 md:col-4">
-                                        <label>Designation:<sup class="p-error">*</sup></label>&nbsp;
-                                        <p-dropdown id="designation" placeholder="Select Designation"
-                                            [options]="designation" optionLabel="name" formControlName="Designation">
-                                        </p-dropdown>
-                                    </div>
-                                    <div class="field col-12 md:col-4">
-                                        <label>Reported To:<sup class="p-error">*</sup></label>&nbsp;
-                                        <input pInputText id="reportedTo" #reportedTo placeholder="Enter Reported To"
-                                            type="text" formControlName="ReportedTo" />
-                                    </div>
-                                    <div class="field col-12 md:col-4">
-                                        <label>Project Name:<sup class="p-error">*</sup></label>&nbsp;
-                                        <input pInputText id="projectName" #projectName placeholder="Enter Project Name"
-                                            type="text" formControlName="ProjectName" />
-                                    </div>
-                                    <div class="field col-12 md:col-4">
-                                        <label>PF Eligible:<sup class="p-error">*</sup></label>&nbsp;
-                                        <input pInputText id="pfEligible" #pfEligible placeholder="Enter PF Eligible"
-                                            type="text" formControlName="PFEligible" />
-                                    </div>
-                                    <div class="field col-12 md:col-4">
-                                        <label>ESI Eligible:<sup class="p-error">*</sup></label>&nbsp;
-                                        <input pInputText id="esiEligible" #esiEligible placeholder="Enter ESI Eligible"
-                                            type="text" formControlName="ESIEligible" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <ng-template pTemplate="footer">
-                    <div class="col-4" style="float:right">
-                        <button pButton pRipple type="submit" label="Update Official Details"
-                            class="p-button-raised p-button-primary"></button>
-                    </div>
-                </ng-template>
-            </p-dialog>
+            <div class="col-12">
+              <span class="text-primary font-bold text-900">Joining Date</span>: 01-06-2021
+            </div>
+            <!-- <div class="col-12 "><span class="text-primary font-bold text-900">Designation</span>: Sr Angular
+                          Developer </div> -->
+            <div class="col-12">
+              <span class="text-primary font-bold text-900">Reported to </span>: S Poorna (Project Manager)
+            </div>
+            <div class="col-12">
+              <span class="text-primary font-bold text-900">Project</span>: JIVA
+            </div>
+            <div class="col-6">
+              <span class="text-primary font-bold text-900">PF Eligible </span>: YES
+            </div>
+            <div class="col-6">
+              <span class="text-primary font-bold text-900">ESI Elgible </span>: NO
+            </div>
+            <button pButton pRipple icon="pi pi-pencil" class="p-element p-ripple p-button-text p-button p-component mr-2 float-button" (click)="Dialog()"></button>
+            <br />
+            <!-- <p-chart type="doughnut" [data]="pieData" [options]="pieOptions" height="140px" width="140px"></p-chart> -->
+          </div>
         </div>
+      </div>
     </div>
-
     <p-tabView>
-        <p-tabPanel header="Education Details ">
-            <div class="grid">
-                <div class="col-12 lg:col-4">
-                    <div class="card">
-                        <div class="text-900 font-bold text-2xl text-primary mb-1 mt-2">10th Class</div>
-                        <div class="text-500  text-1xl mb-1 mt-1">Secondary Board of Andhra Pradesh</div>
-                        <ul class="list-none p-0 m-0 text-600 mb-7 text-600">
-                            <li class="mb-3"><span class="font-semibold">School Name :</span> School Name .</li>
-                            <li class="mb-3"><span class="font-semibold">YOP:</span> 2006</li>
-                            <li><span class="font-semibold">Grading System :</span> CGPA</li>
-                            <li><span class="font-semibold">Score/Percentage :</span> 8 </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-12 lg:col-4">
-                    <div class="card">
-                        <div class="text-900 font-bold text-2xl text-primary mb-1 mt-2">12th Class</div>
-                        <div class="text-500  text-1xl mb-1 mt-1"> Board of Intermediate Andhra Pradesh</div>
-                        <ul class="list-none p-0 m-0 text-600 mb-5 text-600">
-                            <li class="mb-3"><span class="font-semibold">Collage Name :</span> School Name .</li>
-                            <li class="mb-3"><span class="font-semibold">Stream :</span> MPC .</li>
-                            <li class="mb-3"><span class="font-semibold">YOP:</span> 2006</li>
-                            <li><span class="font-semibold">Grading System :</span> CGPA</li>
-                            <li><span class="font-semibold">Score/Percentage :</span> 8 </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-12 lg:col-4">
-                    <div class="card" style="text-align: center;">
-                        <button pButton pRipple icon="pi pi-plus"
-                            class="p-element p-ripple p-button-text p-button p-component mr-2"
-                            (click)="ShowEducationDetails()"></button>
-                    </div>
-                </div>
-                <!-- p-dialog -->
-                <p-dialog header="Education Details" [(visible)]="Education" [modal]="true" showEffect="fade"
-                    [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
-                    <div class="flex flex-column align-items-center justify-content-center">
-                        <form [formGroup]="fbEducationDetails" autocomplete="off">
-                            <div class="grid mt-3">
-                                <div class="col-12 roles-container">
-                                    <div class="p-fluid p-formgrid grid">
-                                        <div class="field col-12 md:col-4">
-                                            <span class="p-float-label">
-                                                <p-dropdown inputId="dropdown" [autoDisplayFirst]="false"
-                                                    [options]="Courses" formControlName="course" optionLabel="name">
-                                                </p-dropdown>
-                                                <label for="inputtext">Course<sup class="p-error">*</sup></label>
-                                            </span>
-
-                                        </div>
-                                        <div class="field col-12 md:col-4">
-                                            <span class="p-float-label">
-                                                <p-dropdown inputId="dropdown" [autoDisplayFirst]="false"
-                                                    [options]="States" formControlName="state" optionLabel="name">
-                                                </p-dropdown>
-                                                <label for="dropdown">State<sup class="p-error">*</sup></label>
-                                            </span>
-
-                                        </div>
-                                        <div class="field col-12 md:col-4">
-                                            <span class="p-float-label">
-                                                <input type="text" id="inputtext" pInputText formControlName="school" />
-                                                <label for="inputtext">School/College Name<sup
-                                                        class="p-error">*</sup></label>
-                                            </span>
-
-                                        </div>
-                                        <div class="field col-12 md:col-4">
-                                            <span class="p-float-label">
-                                                <input type="text" id="inputtext" pInputText formControlName="board">
-                                                <label for="inputtext">Board/University Name<sup
-                                                        class="p-error">*</sup></label>
-                                            </span>
-
-                                        </div>
-                                        <div class="field col-12 md:col-4">
-                                            <span class="p-float-label">
-                                                <input type="text" id="inputtext" pInputText formControlName="stream">
-                                                <label for="inputtext">Stream<sup class="p-error">*</sup></label>
-                                            </span>
-
-                                        </div>
-                                        <div class="field col-12 md:col-4">
-                                            <span class="p-float-label">
-                                                <p-calendar [yearNavigator]="true" [yearRange]="'1996:2025'"
-                                                    [readonlyInput]="true" [showIcon]="true" dateFormat="yy"
-                                                    formControlName="yearofpass">
-                                                </p-calendar>
-                                                <label for="inputtext">Year of pass<sup class="p-error">*</sup></label>
-                                            </span>
-
-                                        </div>
-                                        <div class="field col-12 md:col-4">
-                                            <span class="p-float-label">
-                                                <input type="text" id="inputtext" pInputText
-                                                    formControlName="gradingsystem">
-                                                <label for="inputtext">Grading System<sup
-                                                        class="p-error">*</sup></label>
-                                            </span>
-
-                                        </div>
-                                        <div class="field col-12 md:col-4">
-                                            <span class="p-float-label">
-                                                <input type="text" id="inputtext" pInputText formControlName="cgpa">
-                                                <label for="inputtext">CGPA/Percentage System<sup
-                                                        class="p-error">*</sup></label>
-                                            </span>
-
-                                        </div>
-                                        <div class="field col-12 md:col-4">
-                                            <span>
-                                                <button pButton pRipple (click)="saveEducationDetails()">Save Education
-                                                    Details</button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                        <!-- table -->
-                        <div class="col-12 scrolling_content" *ngIf="ShoweducationDetails">
-                            <p-table dataKey="id" [rows]="10" [rowHover]="true" [value]="educationDetails"
-                                styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
-                                [paginator]="false" [autoLayout]="true" responsiveLayout="scroll"
-                                [rowsPerPageOptions]="[10, 25, 50]">
-                                <ng-template pTemplate="header">
-                                    <tr>
-                                        <th>Course</th>
-                                        <th>State</th>
-                                        <th>School/College Name</th>
-                                        <th>Board/University Name</th>
-                                        <th>Stream</th>
-                                        <th>Year of pass</th>
-                                        <th>Grading System</th>
-                                        <th>CGPA/Percentage System</th>
-                                    </tr>
-                                </ng-template>
-                                <ng-template pTemplate="body" let-educationData let-i="index">
-                                    <tr>
-                                        <td>{{ educationData.course }}</td>
-                                        <td>{{ educationData.state }}</td>
-                                        <td>{{ educationData.school }}</td>
-                                        <td>{{ educationData.board }}</td>
-                                        <td>{{ educationData.stream }}</td>
-                                        <td>{{ educationData.yearofpass | date:'yyyy' }}</td>
-                                        <td>{{ educationData.gradingsystem }}</td>
-                                        <td>{{ educationData.cgpa }}</td>
-                                    </tr>
-                                </ng-template>
-                            </p-table>
-
-                        </div>
-                    </div>
-                </p-dialog>
+      <p-tabPanel header="Education Details ">
+        <div class="grid">
+          <div class="col-12 lg:col-4">
+            <div class="card">
+              <div class="text-900 font-bold text-2xl text-primary mb-1 mt-2">10th Class</div>
+              <div class="text-500  text-1xl mb-1 mt-1">Secondary Board of Andhra Pradesh</div>
+              <ul class="list-none p-0 m-0 text-600 mb-7 text-600">
+                <li class="mb-3">
+                  <span class="font-semibold">School Name :</span> School Name .
+                </li>
+                <li class="mb-3">
+                  <span class="font-semibold">YOP:</span> 2006
+                </li>
+                <li>
+                  <span class="font-semibold">Grading System :</span> CGPA
+                </li>
+                <li>
+                  <span class="font-semibold">Score/Percentage :</span> 8
+                </li>
+              </ul>
             </div>
-
-        </p-tabPanel>
-        <p-tabPanel header="Work Experience ">
-            <div class="grid">
-                <div class="col-12 lg:col-4">
-                    <div class="card">
-                        <div class="text-900 font-bold text-2xl text-primary mb-1 mt-2">Company 1</div>
-                        <!-- <div class="text-500  text-1xl mb-1 mt-1">Secondary Board of Andhra Pradesh</div> -->
-                        <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
-                            <!-- <li class="mb-3"><span class="font-semibold">School Name :</span> School Name .</li>
-                            <li class="mb-3"><span class="font-semibold">YOP:</span> 2006</li> -->
-                            <li><span class="font-semibold pb-2">From :</span> 12-06-2016</li>
-                            <li><span class="font-semibold pb-2">To :</span> 16-08-2018 </li>
-                            <li><span class="font-semibold mb-1">Designation :</span> Fresher & Jr UI Developer </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-12 lg:col-4">
-                    <div class="card">
-                        <div class="text-900 font-bold text-2xl text-primary mb-1 mt-2">Company 2</div>
-                        <!-- <div class="text-500  text-1xl mb-1 mt-1">Secondary Board of Andhra Pradesh</div> -->
-                        <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
-                            <!-- <li class="mb-3"><span class="font-semibold">School Name :</span> School Name .</li>
-                            <li class="mb-3"><span class="font-semibold">YOP:</span> 2006</li> -->
-                            <li><span class="font-semibold">From :</span> 12-06-2016</li>
-                            <li><span class="font-semibold">To :</span> 16-08-2018 </li>
-                            <li><span class="font-semibold">Designation :</span> Fresher & Jr UI Developer </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-12 lg:col-4">
-                    <div class="card" style="text-align: center;">
-                        <button pButton pRipple icon="pi pi-plus"
-                            class="p-element p-ripple p-button-text p-button p-component mr-2"
-                            (click)="showExperienceDetails()"></button>
-                    </div>
-                </div>
-                <!-- p-dialog -->
-                <p-dialog header="Experience Details" [(visible)]="Experience" [modal]="true" showEffect="fade"
-                    [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
-                    <div class="flex flex-column align-items-center justify-content-center">
-                        <form [formGroup]="fbexperience">
-                            <div class="grid">
-                                <div class="col-12 roles-container">
-                                    <div class="p-fluid p-formgrid grid">
-                                        <div class="field col-12 md:col-4">
-                                            <label>Company Name:<sup class="p-error">*</sup></label>&nbsp;
-                                            <input pInputText id="companyname" type="text" formControlName="companyName"
-                                                placeholder="Enter Company Name" />
-                                        </div>
-                                        <div class="field col-12 md:col-4">
-                                            <label>From Date:<sup class="p-error">*</sup></label>&nbsp;
-                                            <p-calendar [showIcon]="true" formControlName="fromDate"
-                                                placeholder="Select From Date">
-                                            </p-calendar>
-                                        </div>
-                                        <div class="field col-12 md:col-4">
-                                            <label>To Date:<sup class="p-error">*</sup></label>&nbsp;
-                                            <p-calendar [showIcon]="true" formControlName="toDate"
-                                                placeholder="Select To Date">
-                                            </p-calendar>
-                                        </div>
-                                        <div class="field col-12 md:col-4">
-                                            <label>Designation:<sup class="p-error">*</sup></label>&nbsp;
-                                            <input pInputText id="designation" type="text" formControlName="designation"
-                                                placeholder="Enter Designation" />
-                                        </div>
-                                        <div class=" col-12 md:col-4 mt-2">
-                                            <div class=" button-container">
-                                                <p-button type="button" label="Add Experience Details"
-                                                    (click)="addexperienceDetails()">
-                                                </p-button>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 scrolling_content" formArrayName="experienceDetails"
-                                            *ngIf="ShowexperienceDetails">
-                                            <p-table #dt2 [value]="faexperienceDetail().controls" dataKey="id"
-                                                [rows]="10" [rowHover]="true" *ngIf="ShowexperienceDetails"
-                                                styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
-                                                [paginator]="false" [autoLayout]="true" responsiveLayout="scroll"
-                                                [rowsPerPageOptions]="[10,25,50]">>
-                                                <ng-template pTemplate="header">
-                                                    <tr>
-                                                        <th>Company Name<sup class="p-error">*</sup> </th>
-                                                        <th>From Date <sup class="p-error">*</sup></th>
-                                                        <th>To Date <sup class="p-error">*</sup></th>
-                                                        <th>Designation<sup class="p-error">*</sup></th>
-                                                        <th
-                                                            *ngIf="fbexperience.controls['experienceDetails'].value.length > 1">
-                                                        </th>
-                                                    </tr>
-                                                </ng-template>
-                                                <ng-template pTemplate="body" let-experience
-                                                    let-experienceDetailsIndex="rowIndex">
-                                                    <tr [formGroupName]="experienceDetailsIndex">
-                                                        <td class="vertical-align-top">
-                                                            <input pInputText class="form-control"
-                                                                formControlName="companyName">
-                                                        </td>
-                                                        <td class="vertical-align-top">
-                                                            <input pInputText class="form-control"
-                                                                formControlName="fromDate"
-                                                                placeholder="Select from Date">
-                                                        </td>
-                                                        <td class="vertical-align-top">
-                                                            <input pInputText class="form-control"
-                                                                formControlName="toDate" placeholder="Select to Date">
-                                                        </td>
-                                                        <td class="vertical-align-top">
-                                                            <input pInputText class="form-control"
-                                                                formControlName="designation"
-                                                                placeholder="Enter Designation">
-                                                        </td>
-                                                        <td
-                                                            *ngIf="fbexperience.controls['experienceDetails'].value.length > 1">
-                                                            <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer"
-                                                                *ngIf="!this.faexperienceDetail().controls[experienceDetailsIndex].get('id')?.value"
-                                                                (click)="faexperienceDetail().removeAt(experienceDetailsIndex)"></i>
-                                                            <i class="pi pi-fw pi-verified text-3xl"
-                                                                *ngIf="this.faexperienceDetail().controls[experienceDetailsIndex].get('id')?.value"></i>
-                                                        </td>
-                                                    </tr>
-                                                </ng-template>
-                                            </p-table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </p-dialog>
+          </div>
+          <div class="col-12 lg:col-4">
+            <div class="card">
+              <div class="text-900 font-bold text-2xl text-primary mb-1 mt-2">12th Class</div>
+              <div class="text-500  text-1xl mb-1 mt-1"> Board of Intermediate Andhra Pradesh</div>
+              <ul class="list-none p-0 m-0 text-600 mb-5 text-600">
+                <li class="mb-3">
+                  <span class="font-semibold">Collage Name :</span> School Name .
+                </li>
+                <li class="mb-3">
+                  <span class="font-semibold">Stream :</span> MPC .
+                </li>
+                <li class="mb-3">
+                  <span class="font-semibold">YOP:</span> 2006
+                </li>
+                <li>
+                  <span class="font-semibold">Grading System :</span> CGPA
+                </li>
+                <li>
+                  <span class="font-semibold">Score/Percentage :</span> 8
+                </li>
+              </ul>
             </div>
-        </p-tabPanel>
-        <p-tabPanel header="Family Details ">
-            <div class="grid">
-                <div class="col-12 lg:col-4">
-                    <span class="text-900 block mb-3 font-bold">Size and Fit</span>
-                    <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
-                        <li class="mb-3"><span class="font-semibold">Leo vel:</span> Egestas congue.</li>
-                        <li class="mb-3"><span class="font-semibold">Sociis natoque:</span> Parturient montes nascetur.
-                        </li>
-                        <li><span class="font-semibold">Suspendisse in:</span> Purus sit amet volutpat.</li>
-                    </ul>
-                </div>
-                <div class="col-12 lg:col-4">
-                    <span class="text-900 block mb-3 font-bold">Size and Fit</span>
-                    <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
-                        <li class="mb-3"><span class="font-semibold">Leo vel:</span> Egestas congue.</li>
-                        <li class="mb-3"><span class="font-semibold">Sociis natoque:</span> Parturient montes nascetur.
-                        </li>
-                        <li><span class="font-semibold">Suspendisse in:</span> Purus sit amet volutpat.</li>
-                    </ul>
-                </div>
-                <div class="col-12 lg:col-4">
-                    <button pButton pRipple icon="pi pi-plus"
-                        class="p-element p-ripple p-button-text p-button p-component mr-2"
-                        (click)="showFamilyDetails()"></button>
-                </div>
-                <p-dialog header="Family Details" [(visible)]="Family" [modal]="true" showEffect="fade"
-                    [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
-                    <div class="flex flex-column align-items-center justify-content-center">
-                        <form [formGroup]="fbfamilyDetails">
-                            <div class="grid mt-3">
-                                <div class="col-12 roles-container">
-                                    <div class="p-fluid p-formgrid grid">
-                                        <div class="field col-12 md:col-4">
-                                            <span class="p-float-label">
-                                                <input type="text" id="inputtext" pInputText formControlName="name" />
-                                                <label for="inputtext">Name<sup class="p-error">*</sup></label>
-                                            </span>
-                                        </div>
-                                        <div class="field col-12 md:col-4">
-                                            <span class="p-float-label">
-                                                <p-dropdown inputId="dropdown" [autoDisplayFirst]="false"
-                                                    [options]="relationshipStatus" optionLabel="name"
-                                                    formControlName="relationShip"></p-dropdown>
-                                                <label for="dropdown">RelationshipStatus<sup
-                                                        class="p-error">*</sup></label>
-                                            </span>
-                                        </div>
-                                        <div class="field col-12 md:col-4">
-                                            <span class="p-float-label">
-                                                <input type="text" id="inputtext1" pInputText
-                                                    formControlName="mobileNo" />
-                                                <label for="inputtext1">Mobile No.<sup class="p-error">*</sup></label>
-                                            </span>
-                                        </div>
-                                        <div class="field col-12 md:col-4">
-                                            <span class="p-float-label">
-                                                <textarea inputId="textarea" rows="3" cols="30" pInputTextarea
-                                                    formControlName="Address"></textarea>
-                                                <label for="textarea">Address<sup class="p-error">*</sup></label>
-                                            </span>
-                                        </div>
-                                        <div class="field col-12 md:col-4">
-                                            <span class="p-float-label">
-                                                <label for="binary" class="ml-3">Make him/her as Nominee<sup
-                                                        class="p-error">*</sup></label>
-                                                <p-checkbox [binary]="true" id="binary" class="mr-2"
-                                                    formControlName="Nominee"></p-checkbox>
-                                            </span>
-                                        </div>
-                                        <div class="d-flex flex-row justify-content-center col-12 md:col-4 mt-2">
-                                            <div class="button-container">
-                                                <p-button type="button" label="Add Family Members"
-                                                    (click)="addFamilyMembers()">
-                                                </p-button>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-12 scrolling_content" formArrayName="familyDetails"
-                                            *ngIf="showFamilyDetails">
-                                            <p-table #dt2 [value]=" faFamilyDetail().controls" dataKey="id" [rows]="10"
-                                                [rowHover]="true" *ngIf="showFamilyDetails"
-                                                styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
-                                                [paginator]="false" [autoLayout]="true" responsiveLayout="scroll"
-                                                [rowsPerPageOptions]="[10,25,50]">>
-                                                <ng-template pTemplate="header">
-                                                    <tr>
-                                                        <th>Name<sup class="p-error">*</sup> </th>
-                                                        <th>Relationship <sup class="p-error">*</sup></th>
-                                                        <th>Mobile No<sup class="p-error">*</sup></th>
-                                                        <th>Address<sup class="p-error">*</sup></th>
-                                                        <th
-                                                            *ngIf="fbfamilyDetails.controls['familyDetails'].value.length > 1">
-                                                        </th>
-                                                    </tr>
-                                                </ng-template>
-                                                <ng-template pTemplate="body" let-family
-                                                    let-familyDetailsIndex="rowIndex">
-                                                    <tr [formGroupName]="familyDetailsIndex">
-                                                        <td class="vertical-align-top">
-                                                            <input pInputText class="form-control"
-                                                                formControlName="name" placeholder="Enter Name">
-                                                        </td>
-                                                        <td class="vertical-align-top">
-                                                            <input pInputText class="form-control"
-                                                                formControlName="relationShip"
-                                                                placeholder="Enter RelatipnShip">
-                                                        </td>
-                                                        <td class="vertical-align-top">
-                                                            <input pInputText class="form-control"
-                                                                formControlName="mobileNo" placeholder="Enter MobileNo">
-                                                        </td>
-                                                        <td class="vertical-align-top">
-                                                            <input pInputText class="form-control"
-                                                                formControlName="Address" placeholder="Enter Address">
-                                                        </td>
-                                                        <td
-                                                            *ngIf="fbfamilyDetails.controls['familyDetails'].value.length > 1">
-                                                            <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer"
-                                                                *ngIf="!this.faFamilyDetail().controls[familyDetailsIndex].get('id')?.value"
-                                                                (click)="faFamilyDetail().removeAt(familyDetailsIndex)"></i>
-                                                            <i class="pi pi-fw pi-verified text-3xl"
-                                                                *ngIf="this.  faFamilyDetail().controls[familyDetailsIndex].get('id')?.value"></i>
-                                                        </td>
-                                                    </tr>
-                                                </ng-template>
-                                            </p-table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </p-dialog>
+          </div>
+          <div class="col-12 lg:col-4">
+            <div class="card text-center">
+              <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-text p-button p-component m-5 p-5" (click)="ShowEducationDetails()"> Add/Edit Eduction Details</button>
             </div>
-        </p-tabPanel>
-        <p-tabPanel header="Address Details ">
-            <div class="grid">
-                <div class="col-12 lg:col-4">
-                    <div class="card">
-                        <div class="text-900 font-bold text-2xl text-primary mb-1 mt-2">10th Class</div>
-                        <div class="text-500  text-1xl mb-1 mt-1">Secondary Board of Andhra Pradesh</div>
-                        <ul class="list-none p-0 m-0 text-600 mb-7 text-600">
-                            <li class="mb-3"><span class="font-semibold">School Name :</span> School Name .</li>
-                            <li class="mb-3"><span class="font-semibold">YOP:</span> 2006</li>
-                            <li><span class="font-semibold">Grading System :</span> CGPA</li>
-                            <li><span class="font-semibold">Score/Percentage :</span> 8 </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-12 lg:col-4">
-                    <div class="card">
-                        <div class="text-900 font-bold text-2xl text-primary mb-1 mt-2">12th Class</div>
-                        <div class="text-500  text-1xl mb-1 mt-1"> Board of Intermediate Andhra Pradesh</div>
-                        <ul class="list-none p-0 m-0 text-600 mb-5 text-600">
-                            <li class="mb-3"><span class="font-semibold">Collage Name :</span> School Name .</li>
-                            <li class="mb-3"><span class="font-semibold">Stream :</span> MPC .</li>
-                            <li class="mb-3"><span class="font-semibold">YOP:</span> 2006</li>
-                            <li><span class="font-semibold">Grading System :</span> CGPA</li>
-                            <li><span class="font-semibold">Score/Percentage :</span> 8 </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-12 lg:col-4">
-                    <div class="card">
-                        <button pButton pRipple icon="pi pi-plus"
-                            class="p-element p-ripple p-button-text p-button p-component mr-2"
-                            (click)="showAddressDetails()"></button>
-                    </div>
-                </div>
-                <!-- p-dialog -->
-                <p-dialog header="Address Details" [(visible)]="Address" [modal]="true" showEffect="fade"
-                    [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
-                    <div class="flex flex-column align-items-center justify-content-center">
-                        <form [formGroup]="fbAddressDetails">
-                            <div class="grid mt-3">
-                                <div class="col-12 roles-container">
-                                    <div class="p-fluid p-formgrid grid">
-                                        <div class="field col-12 md:col-4">
-                                            <span class="p-float-label">
-                                                <input type="text" id="inputtext" pInputText
-                                                    formControlName="AddressLine1" />
-                                                <label for="inputtext">AddressLine1<sup class="p-error">*</sup></label>
-                                            </span>
-                                        </div>
-                                        <div class="field col-12 md:col-4">
-                                            <span class="p-float-label">
-                                                <input type="text" id="inputtext" pInputText
-                                                    formControlName="AddressLine2" />
-                                                <label for="inputtext">AddressLine2<sup class="p-error">*</sup></label>
-                                            </span>
-                                        </div>
-                                        <div class="field col-12 md:col-4">
-                                            <span class="p-float-label">
-                                                <input type="text" id="inputtext" pInputText
-                                                    formControlName="Landmark" />
-                                                <label for="inputtext">Landmark<sup class="p-error">*</sup></label>
-                                            </span>
-                                        </div>
-                                        <div class="field col-12 md:col-4">
-                                            <span class="p-float-label">
-                                                <input type="text" id="inputtext" pInputText
-                                                    formControlName="ZIPCode" />
-                                                <label for="inputtext">ZIP Code<sup class="p-error">*</sup></label>
-                                            </span>
-                                        </div>
-                                        <div class="field col-12 md:col-4">
-                                            <span class="p-float-label">
-                                                <input type="text" id="inputtext" pInputText formControlName="City" />
-                                                <label for="inputtext">City<sup class="p-error">*</sup></label>
-                                            </span>
-                                        </div>
-                                        <div class="field col-12 md:col-4">
-                                            <span class="p-float-label">
-                                                <p-dropdown inputId="dropdown" formControlName="State"
-                                                    [autoDisplayFirst]="false" [options]="State"
-                                                    optionLabel="statename"></p-dropdown>
-                                                <label for="dropdown">State<sup class="p-error">*</sup></label>
-                                            </span>
-                                        </div>
-                                        <div class="field col-12 md:col-4">
-                                            <span class="p-float-label">
-                                                <input type="text" id="inputtext" pInputText
-                                                    formControlName="Country" />
-                                                <label for="inputtext">Country<sup class="p-error">*</sup></label>
-                                            </span>
-                                        </div>
-                                        <div class="field col-12 md:col-4">
-                                            <div class="button-container">
-                                                <p-button type="button" label="Add New Address"
-                                                    (click)="addNewAddress()">
-                                                </p-button>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 scrolling_content" formArrayName="addressDetails"
-                                            *ngIf="showAddressDetails">
-                                            <p-table #dt2 [value]=" faAddressDetail().controls" dataKey="id" [rows]="10"
-                                                [rowHover]="true" *ngIf="showAddressDetails"
-                                                styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
-                                                [paginator]="false" [autoLayout]="true" responsiveLayout="scroll"
-                                                [rowsPerPageOptions]="[10,25,50]">>
-                                                <ng-template pTemplate="header">
-                                                    <tr>
-                                                        <th>Address Line1<sup class="p-error">*</sup> </th>
-                                                        <th>Address Line2 <sup class="p-error">*</sup></th>
-                                                        <th>Landmark<sup class="p-error">*</sup></th>
-                                                        <th>ZIP Code<sup class="p-error">*</sup></th>
-                                                        <th>City<sup class="p-error">*</sup></th>
-                                                        <th>State<sup class="p-error">*</sup></th>
-                                                        <th>Country<sup class="p-error">*</sup></th>
-                                                        <th
-                                                            *ngIf="fbAddressDetails.controls['addressDetails'].value.length > 1">
-                                                        </th>
-                                                    </tr>
-                                                </ng-template>
-                                                <ng-template pTemplate="body" let-address
-                                                    let-addressDetailsIndex="rowIndex">
-                                                    <tr [formGroupName]="addressDetailsIndex">
-                                                        <td class="vertical-align-top">
-                                                            <input type="text" id="inputtext" pInputText
-                                                                formControlName="AddressLine1"
-                                                                placeholder="Enter Address Line1" />
-                                                        </td>
-                                                        <td class="vertical-align-top">
-                                                            <input type="text" id="inputtext" pInputText
-                                                                formControlName="AddressLine2"
-                                                                placeholder="Enter Address Line2" />
-                                                        </td>
-                                                        <td class="vertical-align-top">
-                                                            <input type="text" id="inputtext" pInputText
-                                                                formControlName="Landmark"
-                                                                placeholder="Enter Landmark" />
-                                                        </td>
-                                                        <td class="vertical-align-top">
-                                                            <input type="text" id="inputtext" pInputText
-                                                                formControlName="ZIPCode"
-                                                                placeholder="Enter ZIP Code" />
-                                                        </td>
-                                                        <td class="vertical-align-top">
-                                                            <input type="text" id="inputtext" pInputText
-                                                                formControlName="City" placeholder="Enter City" />
-                                                        </td>
-                                                        <td class="vertical-align-top">
-                                                            <input type="text" id="inputtext" pInputText
-                                                                formControlName="State" placeholder="Enter State" />
-                                                        </td>
-                                                        <td class="vertical-align-top">
-                                                            <input type="text" id="inputtext" pInputText
-                                                                formControlName="Country" placeholder="Enter Country" />
-                                                        </td>
-                                                        <td
-                                                            *ngIf="fbAddressDetails.controls['addressDetails'].value.length > 1">
-                                                            <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer"
-                                                                *ngIf="!this.faAddressDetail().controls[addressDetailsIndex].get('id')?.value"
-                                                                (click)="faAddressDetail().removeAt(addressDetailsIndex)"></i>
-                                                            <i class="pi pi-fw pi-verified text-3xl"
-                                                                *ngIf="this.faAddressDetail().controls[addressDetailsIndex].get('id')?.value"></i>
-                                                        </td>
-                                                    </tr>
-                                                </ng-template>
-                                            </p-table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </p-dialog>
+          </div>
+        </div>
+      </p-tabPanel>
+      <p-tabPanel header="Work Experience ">
+        <div class="grid">
+          <div class="col-12 lg:col-4">
+            <div class="card">
+              <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">Company Name 1</div>
+              <!-- <div class="text-500  text-1xl mb-1 mt-1">Secondary Board of Andhra Pradesh</div> -->
+              <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
+                <!-- <li class="mb-3"><span class="font-semibold">School Name :</span> School Name .</li><li class="mb-3"><span class="font-semibold">YOP:</span> 2006</li> -->
+                <li class="mb-2">
+                  <span class="font-semibold ">From :</span> 12-06-2016
+                </li>
+                <li class="mb-2">
+                  <span class="font-semibold ">To :</span> 16-08-2018
+                </li>
+                <li class="mb-2">
+                  <span class="font-semibold mb-1">Designation :</span> Fresher & Jr UI Developer
+                </li>
+              </ul>
             </div>
-        </p-tabPanel>
-
-        <p-tabPanel header="Upload Documents">
-            <div class="grid">
-                <div class="col-12 md:col-6">
-                    <button pButton pRipple icon="pi pi-plus"
-                        class="p-element p-ripple p-button-text p-button p-component mr-2"
-                        (click)="showDocumentsDetails()"></button>
-                </div>
-                <!-- p-dialog -->
-                <p-dialog header="Documents Details" [(visible)]="Documents" [modal]="true" showEffect="fade"
-                    [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: 'auto'}">
-                    <div class="flex flex-column align-items-center justify-content-center">
-                        <div class="grid">
-                            <div class="col-12 p-5 mt-4">
-                                <p-fileUpload name="demo[]" url="./upload.php" (onUpload)="onUpload($event)"
-                                    [multiple]="true" accept="image/*" [maxFileSize]="1000000">
-                                    <ng-template pTemplate="content">
-                                        <ul *ngIf="uploadedFiles.length">
-                                            <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }}
-                                                bytes</li>
-                                        </ul>
-                                    </ng-template>
-                                </p-fileUpload>
-                            </div>
-                        </div>
-                    </div>
-                </p-dialog>
+          </div>
+          <div class="col-12 lg:col-4">
+            <div class="card">
+              <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">Company Name 2</div>
+              <!-- <div class="text-500  text-1xl mb-1 mt-1">Secondary Board of Andhra Pradesh</div> -->
+              <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
+                <!-- <li class="mb-3"><span class="font-semibold">School Name :</span> School Name .</li><li class="mb-3"><span class="font-semibold">YOP:</span> 2006</li> -->
+                <li class="mb-2">
+                  <span class="font-semibold ">From :</span> 12-06-2016
+                </li>
+                <li class="mb-2">
+                  <span class="font-semibold ">To :</span> 16-08-2018
+                </li>
+                <li class="mb-2">
+                  <span class="font-semibold mb-1">Designation :</span> Fresher & Jr UI Developer
+                </li>
+              </ul>
             </div>
-        </p-tabPanel>
-        <p-tabPanel header="Assets">
-            <div class="text-900 font-bold text-3xl mb-4 mt-2">Shipping Placeholder</div>
-            <p class="line-height-3 text-600 p-0 mx-0 mt-0 mb-4">
-                Mattis aliquam faucibus purus in massa tempor nec feugiat nisl. Justo donec enim diam vulputate ut
-                pharetra. Tempus egestas sed sed risus. Feugiat sed lectus vestibulum mattis. Tristique nulla aliquet
-                enim tortor at auctor urna nunc.
-                Habitant morbi tristique senectus et. Facilisi nullam vehicula ipsum.
-            </p>
-
-            <div class="grid">
-                <div class="col-12 md:col-6">
-                    <span class="text-900 block font-bold mb-3 font-bold">Shipping Costs</span>
-                    <ul class="py-0 pl-3 m-0 text-600 mb-3">
-                        <li class="mb-2">Japan - JPY 2,500.</li>
-                        <li class="mb-2">Europe - EUR 10</li>
-                        <li class="mb-2">Switzerland - CHF 10</li>
-                        <li class="mb-2">Canada - CAD 25</li>
-                        <li class="mb-2">USA - USD 20</li>
-                        <li class="mb-2">Australia - AUD 30</li>
-                        <li class="mb-2">United Kingdom - GBP 10</li>
-                    </ul>
-                </div>
-                <div class="col-12 md:col-6">
-                    <span class="text-900 block font-bold mb-3">Return Policy</span>
-                    <p class="line-height-3 text-600 p-0 m-0">Pharetra et ultrices neque ornare aenean euismod elementum
-                        nisi. Diam phasellus vestibulum lorem sed. Mattis molestie a iaculis at.</p>
-                </div>
+          </div>
+          <div class="col-12 lg:col-4">
+            <div class="card text-center">
+              <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-text p-button p-component m-3 p-5" (click)="showExperienceDetails()"> Add/Edit Work Experience </button>
             </div>
-        </p-tabPanel>
+          </div>
+        </div>
+      </p-tabPanel>
+      <p-tabPanel header="Family Details ">
+        <div class="grid">
+          <div class="col-12 lg:col-4">
+            <span class="text-900 block mb-3 font-bold">Size and Fit</span>
+            <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
+              <li class="mb-3">
+                <span class="font-semibold">Leo vel:</span> Egestas congue.
+              </li>
+              <li class="mb-3">
+                <span class="font-semibold">Sociis natoque:</span> Parturient montes nascetur.
+              </li>
+              <li>
+                <span class="font-semibold">Suspendisse in:</span> Purus sit amet volutpat.
+              </li>
+            </ul>
+          </div>
+          <div class="col-12 lg:col-4">
+            <span class="text-900 block mb-3 font-bold">Size and Fit</span>
+            <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
+              <li class="mb-3">
+                <span class="font-semibold">Leo vel:</span> Egestas congue.
+              </li>
+              <li class="mb-3">
+                <span class="font-semibold">Sociis natoque:</span> Parturient montes nascetur.
+              </li>
+              <li>
+                <span class="font-semibold">Suspendisse in:</span> Purus sit amet volutpat.
+              </li>
+            </ul>
+          </div>
+          <div class="col-12 lg:col-4">
+            <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-text p-button p-component p-5 m-5" (click)="showFamilyDetails()"> Add/Edit Family Member</button>
+          </div>
+        </div>
+      </p-tabPanel>
+      <p-tabPanel header="Address Details ">
+        <div class="grid">
+          <div class="col-12 lg:col-4">
+            <div class="card">
+              <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">Current Address</div> Arunodaya Residencymithila nagr, Pragathi Nagar, Hyderabad, Telangana 500072
+            </div>
+          </div>
+          <div class="col-12 lg:col-4">
+            <div class="card">
+              <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">Permanent Address</div> Arunodaya Residencymithila nagr, Pragathi Nagar, Hyderabad, Telangana 500072
+            </div>
+          </div>
+          <div class="col-12 lg:col-4">
+            <div class="card text-center">
+              <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-text p-button p-component p-4 m-2" (click)="showAddressDetails()"></button>
+            </div>
+          </div>
+        </div>
+      </p-tabPanel>
+      <p-tabPanel header="Upload Documents">
+        <div class="grid">
+          <div class="col-12 md:col-6">
+            <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-text p-button p-component mr-2" (click)="showDocumentsDetails()"></button>
+          </div>
+        </div>
+      </p-tabPanel>
+      <p-tabPanel header="Assets">
+        <div class="text-900 font-bold text-3xl mb-4 mt-2">Shipping Placeholder</div>
+        <p class="line-height-3 text-600 p-0 mx-0 mt-0 mb-4"> Mattis aliquam faucibus purus in massa tempor nec feugiat nisl. Justo donec enim diam vulputate ut pharetra. Tempus egestas sed sed risus. Feugiat sed lectus vestibulum mattis. Tristique nulla aliquet enim tortor at auctor urna nunc. Habitant morbi tristique senectus et. Facilisi nullam vehicula ipsum. </p>
+        <div class="grid">
+          <div class="col-12 md:col-6">
+            <span class="text-900 block font-bold mb-3 font-bold">Shipping Costs</span>
+            <ul class="py-0 pl-3 m-0 text-600 mb-3">
+              <li class="mb-2">Japan - JPY 2,500.</li>
+              <li class="mb-2">Europe - EUR 10</li>
+              <li class="mb-2">Switzerland - CHF 10</li>
+              <li class="mb-2">Canada - CAD 25</li>
+              <li class="mb-2">USA - USD 20</li>
+              <li class="mb-2">Australia - AUD 30</li>
+              <li class="mb-2">United Kingdom - GBP 10</li>
+            </ul>
+          </div>
+          <div class="col-12 md:col-6">
+            <span class="text-900 block font-bold mb-3">Return Policy</span>
+            <p class="line-height-3 text-600 p-0 m-0">Pharetra et ultrices neque ornare aenean euismod elementum nisi. Diam phasellus vestibulum lorem sed. Mattis molestie a iaculis at.</p>
+          </div>
+        </div>
+      </p-tabPanel>
     </p-tabView>
-</div>
+  </div>
+  <p-dialog header="CIS202214" [(visible)]="dialog" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
+    <div class="flex flex-column align-items-center justify-content-center">
+      <form [formGroup]="personalDetails">
+        <div class="grid">
+          <div class="col-12 roles-container">
+            <div class="p-fluid p-formgrid grid">
+              <div class="field col-12 md:col-4">
+                <label>Name: <sup class="p-error">*</sup>
+                </label>&nbsp; <input pInputText id="name" #name placeholder="Enter Name" type="text" formControlName="Name" />
+              </div>
+              <div class="field col-12 md:col-4">
+                <label>Gender: <sup class="p-error">*</sup>
+                </label>&nbsp; <p-dropdown id="gender" #gender placeholder="Select Gender" [options]="genders" optionLabel="name" formControlName="Gender"></p-dropdown>
+              </div>
+              <div class="field col-12 md:col-4">
+                <label>Blood Group: : <sup class="p-error">*</sup>
+                </label>&nbsp; <input pInputText id="bloodGroup" #bloodgroup placeholder="Enter Blood Group" type="text" formControlName="BloodGroup" />
+              </div>
+              <div class="field col-12 md:col-4">
+                <label>Mobile Number : <sup class="p-error">*</sup>
+                </label>&nbsp; <input pInputText id="mobileNumber" #mobilenumber placeholder="Enter Mobile Number" type="text" formControlName="MobileNumber" />
+              </div>
+              <div class="field col-12 md:col-4">
+                <label>Alt Mobile Number : <sup class="p-error">*</sup>
+                </label>&nbsp; <input pInputText id="alternateMobileNumber" #alternateMobileNumber placeholder="Enter Alternate Mobile Number" type="text" formControlName="AltMobileNumber" />
+              </div>
+              <div class="field col-12 md:col-4">
+                <label>DOB:</label>&nbsp; <p-calendar [showIcon]="true" placeholder="Select Dob" formControlName="DOB"></p-calendar>
+              </div>
+              <div class="field col-12 md:col-4">
+                <label>Certificate DOB:</label>&nbsp; <p-calendar [showIcon]="true" placeholder="Select Certificate Dob" formControlName="CertificateDOB"></p-calendar>
+              </div>
+              <div class="field col-12 md:col-4">
+                <label>Marital Status: <sup class="p-error">*</sup>
+                </label>&nbsp; <p-dropdown id="maritalStatus" #maritalStatus placeholder="Enter Marital Status" [options]="status" optionLabel="name" formControlName="MaritalStatus"></p-dropdown>
+              </div>
+              <div class="field col-12 md:col-4">
+                <label>Email ID: <sup class="p-error">*</sup>
+                </label>&nbsp; <input pInputText id="emailId" #emailId placeholder="Enter Email Id" type="text" formControlName="EmailID" />
+              </div>
+              <!-- <div class="field col-12 md:col-4"><label>Current Address:<sup class="p-error">*</sup></label>&nbsp;
+                          <input pInputText id="currentAddress" #currentAddress
+                              placeholder="Enter Current Address" type="text"
+                              formControlName="CurrentAddress" /></div><div class="field col-12 md:col-4"><label>Permanent Address:<sup class="p-error">*</sup></label>&nbsp;
+                          <input pInputText id="permanentAddress" #permanentAddress
+                              placeholder="Enter Permanent Address" type="text"
+                              formControlName="PermanentAddress" /></div> -->
+              <div class="field col-12 md:col-4">
+                <label>Skill Set: <sup class="p-error">*</sup>
+                </label>&nbsp; <p-multiSelect id="skillSet" #skillSet placeholder="Select Skills" [options]="skillSets" optionLabel="name" formControlName="SkillSet"></p-multiSelect>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <ng-template pTemplate="footer">
+      <div class="col-4" style="float:right">
+        <button pButton pRipple type="submit" label="Update Personal Details" class="p-button-raised p-button-primary"></button>
+      </div>
+    </ng-template>
+  </p-dialog>
+  <!-- p-dialog Education-->
+  <p-dialog header="Education Details" [(visible)]="Education" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
+    <div class="flex flex-column align-items-center justify-content-center">
+      <form [formGroup]="fbEducationDetails" autocomplete="off">
+        <div class="grid mt-3">
+          <div class="col-12 roles-container">
+            <div class="p-fluid p-formgrid grid">
+              <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                  <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [options]="Courses" formControlName="course" optionLabel="name"></p-dropdown>
+                  <label for="inputtext">Course <sup class="p-error">*</sup>
+                  </label>
+                </span>
+              </div>
+              <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                  <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [options]="States" formControlName="state" optionLabel="name"></p-dropdown>
+                  <label for="dropdown">State <sup class="p-error">*</sup>
+                  </label>
+                </span>
+              </div>
+              <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                  <input type="text" id="inputtext" pInputText formControlName="school" />
+                  <label for="inputtext">School/College Name <sup class="p-error">*</sup>
+                  </label>
+                </span>
+              </div>
+              <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                  <input type="text" id="inputtext" pInputText formControlName="board">
+                  <label for="inputtext">Board/University Name <sup class="p-error">*</sup>
+                  </label>
+                </span>
+              </div>
+              <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                  <input type="text" id="inputtext" pInputText formControlName="stream">
+                  <label for="inputtext">Stream <sup class="p-error">*</sup>
+                  </label>
+                </span>
+              </div>
+              <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                  <p-calendar [yearNavigator]="true" [yearRange]="'1996:2025'" [readonlyInput]="true" [showIcon]="true" dateFormat="yy" formControlName="yearofpass"></p-calendar>
+                  <label for="inputtext">Year of pass <sup class="p-error">*</sup>
+                  </label>
+                </span>
+              </div>
+              <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                  <input type="text" id="inputtext" pInputText formControlName="gradingsystem">
+                  <label for="inputtext">Grading System <sup class="p-error">*</sup>
+                  </label>
+                </span>
+              </div>
+              <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                  <input type="text" id="inputtext" pInputText formControlName="cgpa">
+                  <label for="inputtext">CGPA/Percentage System <sup class="p-error">*</sup>
+                  </label>
+                </span>
+              </div>
+              <div class="field col-12 md:col-4">
+                <span>
+                  <button pButton pRipple (click)="saveEducationDetails()">Save Education Details</button>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      <!-- table -->
+      <div class="col-12 scrolling_content" *ngIf="ShoweducationDetails">
+        <p-table dataKey="id" [rows]="10" [rowHover]="true" [value]="educationDetails" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="false" [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10, 25, 50]">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Course</th>
+              <th>State</th>
+              <th>School/College Name</th>
+              <th>Board/University Name</th>
+              <th>Stream</th>
+              <th>Year of pass</th>
+              <th>Grading System</th>
+              <th>CGPA/Percentage System</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-educationData let-i="index">
+            <tr>
+              <td>{{ educationData.course }}</td>
+              <td>{{ educationData.state }}</td>
+              <td>{{ educationData.school }}</td>
+              <td>{{ educationData.board }}</td>
+              <td>{{ educationData.stream }}</td>
+              <td>{{ educationData.yearofpass | date:'yyyy' }}</td>
+              <td>{{ educationData.gradingsystem }}</td>
+              <td>{{ educationData.cgpa }}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </p-dialog>
+  <!-- p-dialog office Details-->
+  <p-dialog header="CIS202214" [(visible)]="visible" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
+    <div class="flex flex-column align-items-center justify-content-center">
+      <form [formGroup]="OfficialDetails">
+        <div class="grid">
+          <div class="col-12 roles-container">
+            <div class="p-fluid p-formgrid grid">
+              <div class="field col-12 md:col-4">
+                <label>Shift : <sup class="p-error">*</sup>
+                </label>&nbsp; <p-dropdown id="shift" #shift placeholder="Select Shifts" [options]="shifts" optionLabel="type" formControlName="Shift"></p-dropdown>
+              </div>
+              <div class="field col-12 md:col-4">
+                <label>Office Email ID: <sup class="p-error">*</sup>
+                </label>&nbsp; <input pInputText id="officeEmailId" #officeEmailId placeholder="Enter Office Email Id" type="text" formControlName="OfficeEmailID" />
+              </div>
+              <div class="field col-12 md:col-4">
+                <label>Joining Date:</label>&nbsp; <p-calendar [showIcon]="true" placeholder="Select Joining Date" formControlName="JoiningDate"></p-calendar>
+              </div>
+              <div class="field col-12 md:col-4">
+                <label>Designation: <sup class="p-error">*</sup>
+                </label>&nbsp; <p-dropdown id="designation" placeholder="Select Designation" [options]="designation" optionLabel="name" formControlName="Designation"></p-dropdown>
+              </div>
+              <div class="field col-12 md:col-4">
+                <label>Reported To: <sup class="p-error">*</sup>
+                </label>&nbsp; <input pInputText id="reportedTo" #reportedTo placeholder="Enter Reported To" type="text" formControlName="ReportedTo" />
+              </div>
+              <div class="field col-12 md:col-4">
+                <label>Project Name: <sup class="p-error">*</sup>
+                </label>&nbsp; <input pInputText id="projectName" #projectName placeholder="Enter Project Name" type="text" formControlName="ProjectName" />
+              </div>
+              <div class="field col-12 md:col-4">
+                <label>PF Eligible: <sup class="p-error">*</sup>
+                </label>&nbsp; <input pInputText id="pfEligible" #pfEligible placeholder="Enter PF Eligible" type="text" formControlName="PFEligible" />
+              </div>
+              <div class="field col-12 md:col-4">
+                <label>ESI Eligible: <sup class="p-error">*</sup>
+                </label>&nbsp; <input pInputText id="esiEligible" #esiEligible placeholder="Enter ESI Eligible" type="text" formControlName="ESIEligible" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <ng-template pTemplate="footer">
+      <div class="col-4" style="float:right">
+        <button pButton pRipple type="submit" label="Update Official Details" class="p-button-raised p-button-primary"></button>
+      </div>
+    </ng-template>
+  </p-dialog>
+  <!-- p-dialog Work Experience -->
+  <p-dialog header="Experience Details" [(visible)]="Experience" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
+    <div class="flex flex-column align-items-center justify-content-center">
+      <form [formGroup]="fbexperience">
+        <div class="grid">
+          <div class="col-12 roles-container">
+            <div class="p-fluid p-formgrid grid">
+              <div class="field col-12 md:col-4">
+                <label>Company Name: <sup class="p-error">*</sup>
+                </label>&nbsp; <input pInputText id="companyname" type="text" formControlName="companyName" placeholder="Enter Company Name" />
+              </div>
+              <div class="field col-12 md:col-4">
+                <label>From Date: <sup class="p-error">*</sup>
+                </label>&nbsp; <p-calendar [showIcon]="true" formControlName="fromDate" placeholder="Select From Date"></p-calendar>
+              </div>
+              <div class="field col-12 md:col-4">
+                <label>To Date: <sup class="p-error">*</sup>
+                </label>&nbsp; <p-calendar [showIcon]="true" formControlName="toDate" placeholder="Select To Date"></p-calendar>
+              </div>
+              <div class="field col-12 md:col-4">
+                <label>Designation: <sup class="p-error">*</sup>
+                </label>&nbsp; <input pInputText id="designation" type="text" formControlName="designation" placeholder="Enter Designation" />
+              </div>
+              <div class=" col-12 md:col-4 mt-2">
+                <div class=" button-container">
+                  <p-button type="button" label="Add Experience Details" (click)="addexperienceDetails()"></p-button>
+                </div>
+              </div>
+              <div class="col-12 scrolling_content" formArrayName="experienceDetails" *ngIf="ShowexperienceDetails">
+                <p-table #dt2 [value]="faexperienceDetail().controls" dataKey="id" [rows]="10" [rowHover]="true" *ngIf="ShowexperienceDetails" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="false" [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]">> <ng-template pTemplate="header">
+                    <tr>
+                      <th>Company Name <sup class="p-error">*</sup>
+                      </th>
+                      <th>From Date <sup class="p-error">*</sup>
+                      </th>
+                      <th>To Date <sup class="p-error">*</sup>
+                      </th>
+                      <th>Designation <sup class="p-error">*</sup>
+                      </th>
+                      <th *ngIf="fbexperience.controls['experienceDetails'].value.length > 1"></th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-experience let-experienceDetailsIndex="rowIndex">
+                    <tr [formGroupName]="experienceDetailsIndex">
+                      <td class="vertical-align-top">
+                        <input pInputText class="form-control" formControlName="companyName">
+                      </td>
+                      <td class="vertical-align-top">
+                        <input pInputText class="form-control" formControlName="fromDate" placeholder="Select from Date">
+                      </td>
+                      <td class="vertical-align-top">
+                        <input pInputText class="form-control" formControlName="toDate" placeholder="Select to Date">
+                      </td>
+                      <td class="vertical-align-top">
+                        <input pInputText class="form-control" formControlName="designation" placeholder="Enter Designation">
+                      </td>
+                      <td *ngIf="fbexperience.controls['experienceDetails'].value.length > 1">
+                        <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer" *ngIf="!this.faexperienceDetail().controls[experienceDetailsIndex].get('id')?.value" (click)="faexperienceDetail().removeAt(experienceDetailsIndex)"></i>
+                        <i class="pi pi-fw pi-verified text-3xl" *ngIf="this.faexperienceDetail().controls[experienceDetailsIndex].get('id')?.value"></i>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </p-dialog>
+  <!-- p-dialog Family Details-->
+  <p-dialog header="Family Details" [(visible)]="Family" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
+    <div class="flex flex-column align-items-center justify-content-center">
+      <form [formGroup]="fbfamilyDetails">
+        <div class="grid mt-3">
+          <div class="col-12 roles-container">
+            <div class="p-fluid p-formgrid grid">
+              <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                  <input type="text" id="inputtext" pInputText formControlName="name" />
+                  <label for="inputtext">Name <sup class="p-error">*</sup>
+                  </label>
+                </span>
+              </div>
+              <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                  <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [options]="relationshipStatus" optionLabel="name" formControlName="relationShip"></p-dropdown>
+                  <label for="dropdown">RelationshipStatus <sup class="p-error">*</sup>
+                  </label>
+                </span>
+              </div>
+              <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                  <input type="text" id="inputtext1" pInputText formControlName="mobileNo" />
+                  <label for="inputtext1">Mobile No. <sup class="p-error">*</sup>
+                  </label>
+                </span>
+              </div>
+              <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                  <textarea inputId="textarea" rows="3" cols="30" pInputTextarea formControlName="Address"></textarea>
+                  <label for="textarea">Address <sup class="p-error">*</sup>
+                  </label>
+                </span>
+              </div>
+              <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                  <label for="binary" class="ml-3">Make him/her as Nominee <sup class="p-error">*</sup>
+                  </label>
+                  <p-checkbox [binary]="true" id="binary" class="mr-2" formControlName="Nominee"></p-checkbox>
+                </span>
+              </div>
+              <div class="d-flex flex-row justify-content-center col-12 md:col-4 mt-2">
+                <div class="button-container">
+                  <p-button type="button" label="Add Family Members" (click)="addFamilyMembers()"></p-button>
+                </div>
+              </div>
+              <div class="col-12 scrolling_content" formArrayName="familyDetails" *ngIf="showFamilyDetails">
+                <p-table #dt2 [value]=" faFamilyDetail().controls" dataKey="id" [rows]="10" [rowHover]="true" *ngIf="showFamilyDetails" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="false" [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]">> <ng-template pTemplate="header">
+                    <tr>
+                      <th>Name <sup class="p-error">*</sup>
+                      </th>
+                      <th>Relationship <sup class="p-error">*</sup>
+                      </th>
+                      <th>Mobile No <sup class="p-error">*</sup>
+                      </th>
+                      <th>Address <sup class="p-error">*</sup>
+                      </th>
+                      <th *ngIf="fbfamilyDetails.controls['familyDetails'].value.length > 1"></th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-family let-familyDetailsIndex="rowIndex">
+                    <tr [formGroupName]="familyDetailsIndex">
+                      <td class="vertical-align-top">
+                        <input pInputText class="form-control" formControlName="name" placeholder="Enter Name">
+                      </td>
+                      <td class="vertical-align-top">
+                        <input pInputText class="form-control" formControlName="relationShip" placeholder="Enter RelatipnShip">
+                      </td>
+                      <td class="vertical-align-top">
+                        <input pInputText class="form-control" formControlName="mobileNo" placeholder="Enter MobileNo">
+                      </td>
+                      <td class="vertical-align-top">
+                        <input pInputText class="form-control" formControlName="Address" placeholder="Enter Address">
+                      </td>
+                      <td *ngIf="fbfamilyDetails.controls['familyDetails'].value.length > 1">
+                        <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer" *ngIf="!this.faFamilyDetail().controls[familyDetailsIndex].get('id')?.value" (click)="faFamilyDetail().removeAt(familyDetailsIndex)"></i>
+                        <i class="pi pi-fw pi-verified text-3xl" *ngIf="this.  faFamilyDetail().controls[familyDetailsIndex].get('id')?.value"></i>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </p-dialog>
+  <!-- p-dialog Address Details -->
+  <p-dialog header="Address Details" [(visible)]="Address" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
+    <div class="flex flex-column align-items-center justify-content-center">
+      <form [formGroup]="fbAddressDetails">
+        <div class="grid mt-3">
+          <div class="col-12 roles-container">
+            <div class="p-fluid p-formgrid grid">
+              <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                  <input type="text" id="inputtext" pInputText formControlName="AddressLine1" />
+                  <label for="inputtext">AddressLine1 <sup class="p-error">*</sup>
+                  </label>
+                </span>
+              </div>
+              <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                  <input type="text" id="inputtext" pInputText formControlName="AddressLine2" />
+                  <label for="inputtext">AddressLine2 <sup class="p-error">*</sup>
+                  </label>
+                </span>
+              </div>
+              <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                  <input type="text" id="inputtext" pInputText formControlName="Landmark" />
+                  <label for="inputtext">Landmark <sup class="p-error">*</sup>
+                  </label>
+                </span>
+              </div>
+              <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                  <input type="text" id="inputtext" pInputText formControlName="ZIPCode" />
+                  <label for="inputtext">ZIP Code <sup class="p-error">*</sup>
+                  </label>
+                </span>
+              </div>
+              <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                  <input type="text" id="inputtext" pInputText formControlName="City" />
+                  <label for="inputtext">City <sup class="p-error">*</sup>
+                  </label>
+                </span>
+              </div>
+              <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                  <p-dropdown inputId="dropdown" formControlName="State" [autoDisplayFirst]="false" [options]="State" optionLabel="statename"></p-dropdown>
+                  <label for="dropdown">State <sup class="p-error">*</sup>
+                  </label>
+                </span>
+              </div>
+              <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                  <input type="text" id="inputtext" pInputText formControlName="Country" />
+                  <label for="inputtext">Country <sup class="p-error">*</sup>
+                  </label>
+                </span>
+              </div>
+              <div class="field col-12 md:col-4">
+                <div class="button-container">
+                  <p-button type="button" label="Add New Address" (click)="addNewAddress()"></p-button>
+                </div>
+              </div>
+              <div class="col-12 scrolling_content" formArrayName="addressDetails" *ngIf="showAddressDetails">
+                <p-table #dt2 [value]=" faAddressDetail().controls" dataKey="id" [rows]="10" [rowHover]="true" *ngIf="showAddressDetails" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="false" [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]">> <ng-template pTemplate="header">
+                    <tr>
+                      <th>Address Line1 <sup class="p-error">*</sup>
+                      </th>
+                      <th>Address Line2 <sup class="p-error">*</sup>
+                      </th>
+                      <th>Landmark <sup class="p-error">*</sup>
+                      </th>
+                      <th>ZIP Code <sup class="p-error">*</sup>
+                      </th>
+                      <th>City <sup class="p-error">*</sup>
+                      </th>
+                      <th>State <sup class="p-error">*</sup>
+                      </th>
+                      <th>Country <sup class="p-error">*</sup>
+                      </th>
+                      <th *ngIf="fbAddressDetails.controls['addressDetails'].value.length > 1"></th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-address let-addressDetailsIndex="rowIndex">
+                    <tr [formGroupName]="addressDetailsIndex">
+                      <td class="vertical-align-top">
+                        <input type="text" id="inputtext" pInputText formControlName="AddressLine1" placeholder="Enter Address Line1" />
+                      </td>
+                      <td class="vertical-align-top">
+                        <input type="text" id="inputtext" pInputText formControlName="AddressLine2" placeholder="Enter Address Line2" />
+                      </td>
+                      <td class="vertical-align-top">
+                        <input type="text" id="inputtext" pInputText formControlName="Landmark" placeholder="Enter Landmark" />
+                      </td>
+                      <td class="vertical-align-top">
+                        <input type="text" id="inputtext" pInputText formControlName="ZIPCode" placeholder="Enter ZIP Code" />
+                      </td>
+                      <td class="vertical-align-top">
+                        <input type="text" id="inputtext" pInputText formControlName="City" placeholder="Enter City" />
+                      </td>
+                      <td class="vertical-align-top">
+                        <input type="text" id="inputtext" pInputText formControlName="State" placeholder="Enter State" />
+                      </td>
+                      <td class="vertical-align-top">
+                        <input type="text" id="inputtext" pInputText formControlName="Country" placeholder="Enter Country" />
+                      </td>
+                      <td *ngIf="fbAddressDetails.controls['addressDetails'].value.length > 1">
+                        <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer" *ngIf="!this.faAddressDetail().controls[addressDetailsIndex].get('id')?.value" (click)="faAddressDetail().removeAt(addressDetailsIndex)"></i>
+                        <i class="pi pi-fw pi-verified text-3xl" *ngIf="this.faAddressDetail().controls[addressDetailsIndex].get('id')?.value"></i>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </p-dialog>
+  <!-- p-dialog Upload Documents -->
+  <p-dialog header="Documents Details" [(visible)]="Documents" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: 'auto'}">
+    <div class="flex flex-column align-items-center justify-content-center">
+      <div class="grid">
+        <div class="col-12 p-5 mt-4">
+          <p-fileUpload name="demo[]" url="./upload.php" (onUpload)="onUpload($event)" [multiple]="true" accept="image/*" [maxFileSize]="1000000">
+            <ng-template pTemplate="content">
+              <ul *ngIf="uploadedFiles.length">
+                <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
+              </ul>
+            </ng-template>
+          </p-fileUpload>
+        </div>
+      </div>
+    </div>
+  </p-dialog>

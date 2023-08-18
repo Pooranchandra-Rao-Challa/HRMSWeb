@@ -130,3 +130,13 @@ $gutter: 1rem; //for primeflex grid system
     content: '*' !important;
     color: red !important;
   }
+
+  .position-relative{
+    position: relative !important;
+  }
+  .float-button{
+    position: absolute;
+    right: 0;
+    border-radius: 10px;
+    border-radius: 55px !important;
+  }
