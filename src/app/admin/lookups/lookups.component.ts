@@ -15,7 +15,7 @@ export interface ITableHeader {
 })
 
 export class LookupsComponent implements OnInit {
-  globalFilterFields: string[] = ['code', 'name', 'isActive', 'createdBy', 'updatedBy', 'createdAt', 'updatedAt']
+  globalFilterFields: string[] = ['code', 'name', 'isActive', 'createdAt']
   @ViewChild('filter') filter!: ElementRef;
   dialog: boolean = false;
   fblookup!: FormGroup;
@@ -28,9 +28,13 @@ export class LookupsComponent implements OnInit {
   constructor(private formbuilder: FormBuilder, private lookupservice: SecurityService) { }
 
   headers: ITableHeader[] = [
+    { field: 'code', header: 'code', label: 'Code' },
     { field: 'name', header: 'name', label: 'Name' },
     { field: 'isActive', header: 'isActive', label: 'Is Active' },
     { field: 'createdAt', header: 'createdAt', label: 'Created Date' },
+    { field: 'createdBy', header: 'createdBy', label: 'Created By' },
+    { field: 'updatedAt', header: 'updatedAt', label: 'Updated Date' },
+    { field: 'updatedBy', header: 'updatedBy', label: 'Updated By' },
   ];
 
 
