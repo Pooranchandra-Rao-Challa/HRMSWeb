@@ -88,7 +88,7 @@
                     </p-toolbar>
 
                     <!-- table -->
-                    <p-table #dt [value]="userQuestions" dataKey="id" [rowHover]="true"
+                    <p-table [value]="userQuestions" dataKey="id" [rowHover]="true"
                         styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [autoLayout]="true"
                         responsiveLayout="scroll" [tableStyle]="{ width: 'autoLayout'}">
                         <ng-template pTemplate="header">
@@ -123,14 +123,14 @@
                     </p-table>
 
                     <p-dialog [(visible)]="showDialog" [style]="{ width: '550px' }" header="Security Question"
-                        [modal]="true" styleClass="p-fluid">
+                        [modal]="true" styleClass="p-fluid"  (onHide)="clearSelection()">
                         <ng-template pTemplate="content">
                             <!-- <from [formGroup]="fbSecureQue"> -->
                             <div class="p-field mb-3 ">
                                 <label class="required" for="SecurityQuestions">Question</label>
-                                <p-dropdown name="SecurityQuestions" id="SecurityQuestions"
+                                <p-dropdown name="SecurityQuestions" id="SecurityQuestions" 
                                     placeholder="Select Question" (onChange)="onChange($event)"
-                                    [options]="getSecureQuestions" optionValue="question" optionLabel="question"
+                                    [options]="secureQuestions | async" optionValue="question" optionLabel="question"
                                     [(ngModel)]="security.question" appendTo="body" #drop="ngModel" class="pt-5">
                                 </p-dropdown>
                                 <span *ngIf="!security.question && (drop.dirty || drop.touched)">

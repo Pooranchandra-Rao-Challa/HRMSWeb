@@ -142,8 +142,6 @@ export class SecurityquestionsComponent {
                     this.alertMessage.displayErrorMessage(ALERT_CODES["SSESQ002"]);
                 }
             })
-
-
     }
 }
 

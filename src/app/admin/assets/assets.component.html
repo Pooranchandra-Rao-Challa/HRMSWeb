@@ -110,25 +110,25 @@
           <th style="width: 5rem"></th>
           <th pSortableColumn="">ID <p-sortIcon field=""></p-sortIcon>
           </th>
-          <th pSortableColumn="">Assest Type <p-sortIcon field=""></p-sortIcon>
+          <th pSortableColumn="">Asset Type <p-sortIcon field=""></p-sortIcon>
           </th>
-          <th pSortableColumn="">Assest Category <p-sortIcon field=""></p-sortIcon>
+          <th pSortableColumn="">Asset Category <p-sortIcon field=""></p-sortIcon>
           </th>
-          <th>Action
+          <th>count
           </th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-assest let-expanded="expanded">
+      <ng-template pTemplate="body" let-asset let-expanded="expanded">
         <tr>
           <td>
-            <button type="button" pButton pRipple [pRowToggler]="assest"
+            <button type="button" pButton pRipple [pRowToggler]="asset"
               class="p-button-text p-button-rounded p-button-plain"
               [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
           </td>
-          <td>{{ assest.id }}</td>
-          <td>{{ assest.assestType }}</td>
-          <td>{{assest.category}}</td>
-          <td><i class="pi pi-times-circle" style="font-size: 2rem"></i>
+          <td>{{ asset.id }}</td>
+          <td>{{ asset.assestType }}</td>
+          <td>{{asset.category}}</td>
+          <td>{{asset.list.length}}
           </td>
         </tr>
       </ng-template>
