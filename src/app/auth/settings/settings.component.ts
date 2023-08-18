@@ -218,4 +218,12 @@ export class SettingsComponent {
             });
 
     }
+
+    ngOnDestroy() {
+        if (this.isUpdating) {
+            this.isUpdating = false;
+            // Function to update isUpdating value
+            this.updateStatusService.setIsUpdating(this.isUpdating);
+        }
+    }
 }
