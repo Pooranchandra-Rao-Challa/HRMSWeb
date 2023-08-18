@@ -32,7 +32,6 @@ export class SecurityDto {
     ]
 })
 export class SecurityquestionsComponent {
-    //createUserQuestions: CreateUserQuestionDto[] = [];
     allSecureQuestions: SecureQuestionDto[] = [];
     secureQuestions: BehaviorSubject<SecureQuestionDto[]> = new BehaviorSubject([]);
     securityDto: SecurityDto[] = [];
@@ -64,8 +63,6 @@ export class SecurityquestionsComponent {
         this.securityService.GetSecureQuestions().subscribe((resp) => {
             this.allSecureQuestions = resp as unknown as SecureQuestionDto[];
             this.secureQuestions.next(this.allSecureQuestions);
-            console.log(this.allSecureQuestions);
-
         });
     }
 
@@ -122,7 +119,6 @@ export class SecurityquestionsComponent {
 
 
     onSubmit() {
-
         const username = this.jwtService.GivenName;
         const userId = this.jwtService.UserId;
         const createUserQuestions: CreateUserQuestionDto[] = this.securityDto.map(security => {
@@ -138,7 +134,6 @@ export class SecurityquestionsComponent {
             .CreateSecurityQuestions(createUserQuestions)
             .subscribe((resp) => {
                 if (resp) {
-                    //this.createUserQuestions = resp as unknown as CreateUserQuestionDto[];
                     this.alertMessage.displayAlertMessage(ALERT_CODES["SSESQ001"]);
                     this.securityDto = [];
                     this.router.navigate(['./dashboard/admin']);

@@ -73,7 +73,7 @@ export class JwtService {
 
   public get UserId(): string {
     const jwt = this.DecodedJWT;
-    return jwt.id;
+    return jwt.Id;
   }
 }
 
