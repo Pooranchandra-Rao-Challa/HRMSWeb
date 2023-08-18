@@ -8,7 +8,7 @@ import { SecurityService } from 'src/app/_services/security.service';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { ConfirmedValidator } from 'src/app/_validators/confirmValidator';
 import { HttpHeaders } from '@angular/common/http';
-import { catchError, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, throwError } from 'rxjs';
 import jwtdecode from 'jwt-decode';
 import { UpdateStatusService } from 'src/app/_services/updatestatus.service';
 
@@ -19,19 +19,15 @@ import { UpdateStatusService } from 'src/app/_services/updatestatus.service';
     // styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent {
-    getSecureQuestions: SecureQuestionDto[] = []
+    secureQuestions: BehaviorSubject<SecureQuestionDto[]> = new BehaviorSubject([]);
     allSecureQuestions: SecureQuestionDto[] = []
-    updateQuestions: UserQuestionDto[] = []
-    // selectedQuestion!: SecurQuestion;
-    // userQuestions: UserQuestionDto[] = [];
-    // changePassword: ChangePasswordDto = {}
-    security!: UserQuestionDto;
+    userQuestions: UserQuestionDto[] = [];
+    oldSecurity: UserQuestionDto = {}
+    security: UserQuestionDto = {};
     showDialog: boolean = false;
     submitted: boolean = true;
-    qstnSubmitLabel: String = "Add";
+    qstnSubmitLabel: String;
     fbChangePassword!: FormGroup;
-    userQuestions: UserQuestionDto[] = [];
-    addFlag!: boolean;
     isUpdating: boolean = false;
 
     constructor(
@@ -56,14 +52,7 @@ export class SettingsComponent {
         this.securityService.UserSecurityQuestions(this.jwtService.GivenName).subscribe({
             next: (resp) => {
                 this.userQuestions = resp as unknown as UserQuestionDto[];
-                this.filterSecurityQuestion(this.userQuestions);
             }
-        });
-    }
-
-    filterSecurityQuestion(userQuestions: UserQuestionDto[]) {
-        this.userQuestions.forEach(userQuestion => {
-            this.getSecureQuestions = this.getSecureQuestions.filter(x => x.question != userQuestion.question) as UserQuestionDto[];
         });
     }
 
@@ -72,13 +61,12 @@ export class SettingsComponent {
         this.submitted = false;
         this.qstnSubmitLabel = "Add";
         this.showDialog = true;
-        this.addFlag = true;
     }
 
     initGetSecureQuestions() {
         this.securityService.GetSecureQuestions().subscribe((resp) => {
-            this.getSecureQuestions = resp as unknown as SecureQuestionDto[];
-            this.allSecureQuestions = [...this.getSecureQuestions];
+            this.allSecureQuestions = resp as unknown as SecureQuestionDto[];
+            this.secureQuestions.next(this.allSecureQuestions);
         });
     }
 
@@ -108,17 +96,22 @@ export class SettingsComponent {
         });
     }
 
-    editSecurityQuestion(security: UserQuestionDto) {
-        this.onFilterSelection(security);
-        this.security = security;
+    editSecurityQuestion(s: UserQuestionDto) {
+        Object.assign(this.security, s);
+        Object.assign(this.oldSecurity, s);
         this.qstnSubmitLabel = "Update";
         this.showDialog = true;
-        this.addFlag = false;
+        this.resetSecureQuestions(this.security);
     }
 
     deleteSecurityQuestion(question: String) {
         this.userQuestions.splice(this.userQuestions.findIndex(item => item.question === question), 1);
-        this.userQuestions = [...this.userQuestions];
+        this.resetSecureQuestions();
+    }
+
+    resetSecureQuestions(security: UserQuestionDto = {}) {
+        let test = this.allSecureQuestions.filter((value => this.userQuestions.findIndex(question => question.question === value.question) == -1 || value.question === security.question));
+        this.secureQuestions.next(test);
     }
 
     hideDialog() {
@@ -126,69 +119,35 @@ export class SettingsComponent {
         this.submitted = false;
     }
     onChange(event: any) {
-        this.security.questionId = this.getSecureQuestions[this.getSecureQuestions.findIndex(item => item.question === event.value)].questionId;
-        this.getSecureQuestions.splice(this.getSecureQuestions.findIndex(item => item.question === event.value), 1);
+        this.security.questionId = this.allSecureQuestions[this.allSecureQuestions.findIndex(item => item.question === event.value)].questionId;
+    }
+
+    clearSelection() {
+        this.showDialog = false;
+        this.security = {};
+        this.oldSecurity = {};
+        this.resetSecureQuestions();
     }
 
     saveSecurityQuestions() {
         this.submitted = true;
-        if (this.security.answer?.trim()) {
-            if (this.security.questionId) {
-                const index = this.findIndexById(this.security.questionId);
-                if (index >= 0) {
-                    this.userQuestions[index] = this.security;
-                    this.alertMessage.displayAlertMessage(ALERT_CODES["SSESQ001"]);
-                } else {
-                    this.userQuestions.push(this.security);
-                    this.alertMessage.displayAlertMessage(ALERT_CODES["SSESQ003"]);
-                }
+        if (this.security.answer?.trim() && this.security.questionId) {
+            let selectedIndex = this.userQuestions.findIndex(value => value.question == this.oldSecurity.question)
+            if (selectedIndex == -1) {
+                this.userQuestions.push(this.security);
+            } else {
+                this.userQuestions[selectedIndex] = this.security;
             }
-            this.userQuestions = this.userQuestions;
-            this.showDialog = false;
-            this.security = {};
+            this.clearSelection();
         }
-        else {
-            this.userQuestions.push(this.security);
-        }
-        this.onFilterSelection(this.security);
-        this.userQuestions = [...this.userQuestions];
-        this.showDialog = false;
         this.isUpdating = true;
         // Function to update isUpdating value
         this.updateStatusService.setIsUpdating(this.isUpdating);
     }
 
-    onFilterSelection(security: UserQuestionDto) {
-        if (!this.addFlag) {
-            let tempData = this.getSecureQuestions.filter(x => x.question == security.question) as UserQuestionDto[];
-            if (tempData.length == 0) {
-                let params = {
-                    questionId: security.questionId,
-                    question: security.question
-                }
-                this.getSecureQuestions.push(params);
-            }
-        }
-        else {
-            this.getSecureQuestions.splice(this.getSecureQuestions.findIndex(item => item.question === this.security.question), 1);
-        }
-    }
-
-    findIndexById(id: number): number {
-        let index = -1;
-        for (let i = 0; i < this.userQuestions.length; i++) {
-            if (this.userQuestions[i].questionId === id) {
-                index = i;
-                break;
-            }
-        }
-        return index;
-    }
-
     onSubmit() {
-        const jwtToken = jwtdecode(this.jwtService.JWTToken) as unknown as any;
-        const username = jwtToken.GivenName;
-        const userId = jwtToken.Id;
+        const username = this.jwtService.GivenName;
+        const userId = this.jwtService.UserId;
         this.userQuestions = this.userQuestions.map(security => {
             return {
                 userQuestionId: security.userQuestionId,
@@ -203,13 +162,11 @@ export class SettingsComponent {
             .UpdateSecurityQuestions(this.userQuestions)
             .subscribe((resp) => {
                 if (resp) {
-                    this.userQuestions = resp as unknown as UserQuestionDto[];
                     this.alertMessage.displayAlertMessage(ALERT_CODES["SSESQ001"]);
                     this.getUserQuestionsAndAnswers();
                     this.isUpdating = false;
                     // Function to update isUpdating value
                     this.updateStatusService.setIsUpdating(this.isUpdating);
-
                 }
                 else {
                     this.alertMessage.displayErrorMessage(ALERT_CODES["SSESQ002"]);
