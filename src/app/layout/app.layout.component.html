@@ -1,4 +1,8 @@
-<div class="layout-container layout-light-topbar layout-static layout-sidebar-active layout-sidebar-anchored" [ngClass]="containerClass">
+<div class="layout-container layout-light-topbar layout-static layout-sidebar-active layout-sidebar-anchored"
+    [ngClass]="containerClass">
+    <div class="progress-spinner" *ngIf="loaderService?.isLoading | async">
+        <p-progressSpinner></p-progressSpinner>
+    </div>
     <app-topbar></app-topbar>
     <!-- <app-config></app-config> -->
     <div class="layout-content-wrapper">

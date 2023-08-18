@@ -35,15 +35,20 @@ export class JwtService {
   public get IsFirstTimeLogin(): boolean {
     const jwt = this.DecodedJWT;
     if (!jwt || jwt == "") return false;
-    return jwt.IsFirstTimeLogin > 0;
+    return jwt.IsFirstTimeLogin === true;
   }
   public SaveToken(tokens: ResponseModel) {
     localStorage.removeItem(TOKEN_KEY)
     localStorage.setItem(TOKEN_KEY, tokens.accessToken || "")
     this.saveRefreshToken(tokens);
   }
-  public get IsLoggedIn(): boolean {
+    public get IsLoggedIn(): boolean {
     return true && this.DecodedJWT != undefined;
+  }
+  public get Permissions(): any {
+    const jwt = this.DecodedJWT;
+    if (!jwt || jwt == "") return {};
+    return JSON.parse(jwt.Permissions)
   }
   public Logout() {
     localStorage.removeItem("respModel");
@@ -59,6 +64,16 @@ export class JwtService {
   public get ThemeName(): string {
     const jwt = this.DecodedJWT;
     return jwt.ThemeName;
+  }
+
+  public get GivenName(): string {
+    const jwt = this.DecodedJWT;
+    return jwt.GivenName;
+  }
+
+  public get UserId(): string {
+    const jwt = this.DecodedJWT;
+    return jwt.Id;
   }
 }
 

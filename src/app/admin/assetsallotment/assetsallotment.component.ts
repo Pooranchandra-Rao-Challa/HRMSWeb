@@ -36,24 +36,27 @@ export class AssetsallotmentComponent {
     this.securityService.getEmployees().then((data) => (this.employees = data));
 
   }
+
+  assetsList = [
+    { name: 'Mouse', code: 'MU' },
+    { name: 'CPU', code: 'CP' },
+    { name: 'Monitor', code: 'MO' },
+    { name: 'Keyboard', code: 'KY' },
+    { name: 'HeadSet', code: 'HS' },
+];
+assetsCategory = [
+  { name: 'Gadgets', code: 'GD' },
+  { name: 'Fixed Assets', code: 'FA' }
+];
+
   assetsForm() {
     this.fbassets = this.formbuilder.group({
-      code: new FormControl('', [Validators.required]),
-      name: new FormControl('', [Validators.required]),
-      purchasedDate: new FormControl('', [Validators.required]),
-      modelNumber: new FormControl('', [Validators.required]),
-      manufacturer: new FormControl('', [Validators.required]),
-      serialNumber: new FormControl('', [Validators.required]),
-      warranty: new FormControl('', [Validators.required]),
-      addValue: new FormControl('', [Validators.required]),
-      description: new FormControl('', [Validators.required]),
-      status: new FormControl('', [Validators.required]),
-      isActive: new FormControl('', [Validators.required]),
-      createdAt: new FormControl('', [Validators.required]),
-      updatedAt: new FormControl('', [Validators.required]),
-      createdBy: new FormControl('', [Validators.required]),
-      updatedBy: new FormControl('', [Validators.required]),
-      assetsDetails: this.formbuilder.array([])
+      empId: new FormControl('', [Validators.required]),
+      assetCategory:new FormControl('', [Validators.required]),
+      assetType:new FormControl('', [Validators.required]),
+      assetName:new FormControl('', [Validators.required]),
+      comment:new FormControl('', [Validators.required]),
+      assignedOn:new FormControl('', [Validators.required]),
     });
   }
 

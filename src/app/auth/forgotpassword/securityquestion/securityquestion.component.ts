@@ -1,26 +1,80 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { catchError, throwError } from 'rxjs';
 import { UserQuestionDto } from 'src/app/demo/api/security';
+import { SecurityService } from 'src/app/_services/security.service';
 
 @Component({
-  selector: 'app-securityquestion',
-  templateUrl: './securityquestion.component.html',
-  styles: [
-  ]
+    selector: 'app-securityquestion',
+    templateUrl: './securityquestion.component.html',
+    styles: [
+    ]
 })
 export class SecurityquestionComponent {
-  userQuestions: UserQuestionDto[] = []
-  userName?: string;
+    userQuestions: UserQuestionDto[] = []
+    userName?: string;
+    interval: any;
 
-  constructor(private router: Router) { }
+    constructor(private router: Router,
+        private securityService: SecurityService,
+        private messageService: MessageService,
+        private activatedRoute: ActivatedRoute) { }
 
-  navigateToPrev() {
-    this.router.navigate(['auth/forgotpassword/username']);
-  }
 
-  navigateToNext() {
-    this.router.navigate(['auth/forgotpassword/changepassword'])
-  }
+    ngOnInit(): void {
+        this.userName = this.activatedRoute.snapshot.queryParams['username'];
+        this.securityService.UserSecurityQuestions(this.userName!).pipe(
+            catchError((error) => {
+                this.messageService.add({ severity: 'error', key: 'myToast', summary: 'Error', detail: "Invalid User Name" });
+                this.interval = setInterval(() => {
+                    this.navigateToPrev();
+                }, 2000);
+                return throwError(error); // Re-throw the error to propagate it further if needed
+            })
+        ).subscribe({
+            next: (resp) => {
+                this.userQuestions = resp as unknown as UserQuestionDto[];
+                if (this.userQuestions.length < 1) {
+                    this.messageService.add({ severity: 'error', key: 'myToast', summary: 'Error', detail: "You have no security questions, So please contact to your admin." });
+                    // this.navigateToPrev();
+                }
+            }
+        })
+    }
+
+    navigateToPrev() {
+        this.router.navigate(['auth/forgotpassword/username']);
+    }
+
+    navigateToNext() {
+        let flag = true;
+        this.userQuestions.forEach(question => {
+            if (flag)
+                flag = question.answer == question.userAnswer;
+        });
+        if (flag)
+            this.router.navigate(['auth/forgotpassword/changepassword'], { queryParams: { username: this.userName } })
+        else this.messageService.add({ severity: 'error', key: 'myToast', summary: 'Error', detail: "Entered Answer Is Incorrect" });
+
+    }
+
+    onDisabled(): boolean {
+        var securityAnswerCount = 0;
+        this.userQuestions.forEach(question => {
+            if (question.userAnswer) {
+                securityAnswerCount = securityAnswerCount + 1;
+            }
+        });
+        if (securityAnswerCount == 2) {
+            return false;
+        }
+        else return true;
+    }
+
+    ngOnDestroy() {
+        clearInterval(this.interval);
+    }
 
 }
 

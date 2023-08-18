@@ -1,17 +1,20 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { URI_ENDPOINT, URI_ENDPOINT_WITH_ID, URI_ENDPOINT_WITH_PARAMS } from 'src/environments/environment';
 import { ResponseModel } from '../_models/login.model';
 import { JwtService } from './jwt.service';
 
+const TOKEN_KEY = 'auth-token';
+
 @Injectable({
   providedIn: 'root'
 })
+
 export class ApiHttpService {
 
   constructor(private http: HttpClient,
-    private jwtService: JwtService ){}
+    public jwtService: JwtService ){}
   
   public get<T>(uri: string, options?: any) {
     return this.http.get<T>(URI_ENDPOINT(uri), options)
@@ -48,7 +51,6 @@ export class ApiHttpService {
       );
   }
   public post<T>(uri: string, data: any, options?: any) {
-    debugger;
     return this.http.post<T>(URI_ENDPOINT(uri), data, options)
       .pipe(
         catchError(error => {
@@ -66,7 +68,6 @@ export class ApiHttpService {
 
   public getWithParams<T>(uri: string,params:any[], options?: any) {
     console.log(URI_ENDPOINT_WITH_PARAMS(uri,params));
-
     return this.http.get<T>(URI_ENDPOINT_WITH_PARAMS(uri,params), options)
       .pipe(
         catchError(error => {
@@ -119,3 +120,5 @@ export class ApiHttpService {
   }
 
 }
+
+

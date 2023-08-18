@@ -1,15 +1,16 @@
+import { HttpEvent } from '@angular/common/http';
 import { OnInit } from '@angular/core';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Table } from 'primeng/table';
-import { RoleViewDto } from 'src/app/demo/api/security';
-import { SecurityService } from 'src/app/demo/service/security.service';
+import { Observable } from 'rxjs';
+import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
+import { SHORT_DATE } from 'src/app/_helpers/date.formate.pipe';
 
-export interface ITableHeader {
-  field: string;
-  header: string;
-  label: string;
-}
+import { ITableHeader, MaxLength } from 'src/app/_models/common';
+import { RoleDto, RolePermissionDto, RoleViewDto } from 'src/app/_models/security';
+import { JwtService } from 'src/app/_services/jwt.service';
+import { SecurityService } from 'src/app/_services/security.service';
 
 @Component({
   selector: 'app-roles',
@@ -23,17 +24,22 @@ export class RolesComponent implements OnInit {
   submitLabel!: string;
   screens: string[] = [];
   roles: RoleViewDto[] = [];
-  // role: RoleDto = {}
-  // permissions: RolePermissionDto[] = [];
+  role: RoleDto = {}
+  permission: any;
+  permissions: RolePermissionDto[] = [];
+  addFlag: boolean = true;
+  maxLength: MaxLength = new MaxLength();
+  mediumDate: string = SHORT_DATE;
 
-  constructor(private formbuilder: FormBuilder, private securityService: SecurityService) { }
+  constructor(private formbuilder: FormBuilder,private jwtService:JwtService,
+    private alertMessage: AlertmessageService, private securityService: SecurityService) { }
 
   ngOnInit(): void {
+    this.permission = this.jwtService.Permissions;
     this.roleForm = this.formbuilder.group({
       roleId: [''],
-      code: new FormControl('', [Validators.required]),
       name: new FormControl('', [Validators.required]),
-      isActive: [true, (Validators.requiredTrue)],
+      isActive: [true],
       permissions: []
     });
     this.intiRoles();
@@ -43,8 +49,14 @@ export class RolesComponent implements OnInit {
     return this.roleForm.controls;
   }
 
+  onGlobalFilter(table: Table, event: Event) {
+    table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+  }
+
   intiRoles() {
-    this.securityService.getRoles().then((data: RoleViewDto[]) => (this.roles = data));
+    this.securityService.GetRoles().subscribe(resp => {
+      this.roles = resp as unknown as RoleViewDto[];
+    });
   }
 
   headers: ITableHeader[] = [
@@ -53,39 +65,86 @@ export class RolesComponent implements OnInit {
     { field: 'createdAt', header: 'createdAt', label: 'Created Date' },
   ];
 
-
-
+  initRole(role: RoleViewDto) {
+    this.showDialog();
+    this.screens = [];
+    if (role.roleId != null) {    
+      this.addFlag = false;
+      this.submitLabel = "Update Role";
+      this.securityService.GetRoleWithPermissions(role.roleId).subscribe(resp => {
+      this.role.roleId = role.roleId
+      this.role.name = role.name;
+      this.role.isActive = role.isActive;
+      this.role.permissions = (resp as unknown as RoleDto).permissions;
+      this.roleForm.setValue(this.role);
+      this.screensInPermissions()
+      })
+    } else {
+      this.submitLabel = "Add Role";
+      this.addFlag = true;
+      this.role = {};
+      this.role.roleId = "";
+      this.role.name = "";
+      this.role.isActive = true;
+      this.initPermissoins();
+    }
+  }
+  saveRole(): Observable<HttpEvent<RoleDto>> {
+    if (!this.role.roleId) return this.securityService.CreateRole(this.roleForm.value)
+    else return this.securityService.UpdateRole(this.roleForm.value)
+  }
   showDialog() {
     this.roleForm.reset();
     this.dialog = true;
   }
-  editRole(){
-    this.showDialog();
-    this.screens = [];
-    this.submitLabel = "Update Role";
-  }
-  initRole(role: RoleViewDto) {
-    this.showDialog();
-    this.screens = [];
-      this.submitLabel = "Add Role";
-  }
-
-
   clear(table: Table) {
     table.clear();
     this.filter.nativeElement.value = '';
   }
-
-  onGlobalFilter(table: Table, event: Event) {
-    table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+  initPermissoins() {
+    this.securityService.GetPermissions().subscribe(resp => {
+      this.permissions = resp as unknown as RolePermissionDto[];
+      this.role.permissions = this.permissions;
+      this.roleForm.setValue(this.role);
+      this.role.permissions?.forEach(p => p.assigned = false);
+      this.screensInPermissions();
+    });
   }
-
-  showRoles() {
-    this.dialog = true;
+  screensInPermissions() {
+    this.screens = getDistinct(this.role?.permissions || [], "screenName") as string[];
+    this.screens.sort((a, b) => (a || "").localeCompare(b || ""))
   }
-
   onSubmit() {
-
+    if (this.roleForm.valid) {
+      console.log(this.roleForm.value);
+      this.saveRole().subscribe(resp => {
+        if (resp) {
+          this.roleForm.reset();
+          this.dialog = false;
+          this.intiRoles();
+          this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "SMR001" : "SMR002"]);
+        }
+      })
+    }
+    else {
+      this.roleForm.markAllAsTouched();
+    }
+  }
+  
+  getPermissions(screen: string) {
+    return this.role?.permissions?.filter(fn => fn.screenName == screen)
   }
 
 }
+
+function getDistinct<T, K extends keyof T>(data: T[], property: K): T[K][] {
+  const allValues = data.reduce((values: T[K][], current) => {
+    if (current[property]) {
+      values.push(current[property]);
+    }
+    return values;
+  }, []);
+
+  return [...new Set(allValues)];
+}
+

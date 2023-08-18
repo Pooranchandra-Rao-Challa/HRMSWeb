@@ -68,7 +68,6 @@ export class BasicDetailsComponent implements OnInit{
   
 
   navigateToNext() {
-    console.log(this.fbbasicDetails.value)
-    this.router.navigate(['employee/onboardingemployee/familydetails'] );
+    this.router.navigate(['employee/onboardingemployee/educationdetails'] );
   }
 }

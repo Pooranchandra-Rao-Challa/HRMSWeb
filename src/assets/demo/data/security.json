@@ -557,59 +557,92 @@
     "leave": [
         {
             "id": "20",
-            "leaveTitle": "CL",
+            "leaveTitle": "Casual Leave",
             "fromDate": "14-08-2023",
             "toDate": "14-08-2023",
+            "numberOfDays":"2",
             "leaveDescription": "I am suffering from fever"
         },
         {
             "id": "21",
-            "leaveTitle": "WFH",
+            "leaveTitle": "Work From Home",
             "fromDate": "14-08-2023",
             "toDate": "14-08-2023",
+            "numberOfDays":"3",
             "leaveDescription": "Due to rain unable to come to office"
         },
         {
             "id": "22",
-            "leaveTitle": "CL",
+            "leaveTitle": "Personal Leave",
             "fromDate": "14-08-2023",
             "toDate": "14-08-2023",
+            "numberOfDays":"3",
             "leaveDescription": "I am suffering from fever"
         },
         {
             "id": "23",
-            "leaveTitle": "WFH",
+            "leaveTitle": "Medical Leave",
             "fromDate": "14-08-2023",
             "toDate": "14-08-2023",
+            "numberOfDays":"3",
             "leaveDescription": "Due to rain unable to come to office"
         },
         {
             "id": "24",
-            "leaveTitle": "CL",
+            "leaveTitle": "Loss Of Pay",
             "fromDate": "14-08-2023",
             "toDate": "14-08-2023",
+            "numberOfDays":"2",
             "leaveDescription": "I am suffering from fever"
+        }
+    ],
+    "security":[
+        {
+            "questionId":"11",
+            "question":"What was your maths teacher's surname in your 8th year of school?"
         },
         {
-            "id": "25",
-            "leaveTitle": "WFH",
-            "fromDate": "14-08-2023",
-            "toDate": "14-08-2023",
-            "leaveDescription": "Due to rain unable to come to office"
+            "questionId":"12",
+            "question":"What is your date of birth?"
         },
         {
-            "id": "26",
-            "leaveTitle": "CL",
-            "fromDate": "14-08-2023",
-            "toDate": "14-08-2023",
-            "leaveDescription": "I am suffering from fever"
+            "questionId":"13",
+            "question":"What is your favorite movie?"
+        },
+        {
+            "questionId":"14",
+            "question":"What city were you born in?"
+        },
+        {
+            "questionId":"15",
+            "question":"What is the name of your first pet?"
+        },
+        {
+            "questionId":"16",
+            "question":"Who was your childhood hero?"
+        },
+        {
+            "questionId":"17",
+            "question":"What is your surname name?"
+        },
+        {
+            "questionId":"18",
+            "question":"What was your favorite subject in high school?"
+        },
+        {
+            "questionId":"19",
+            "question":"What is the title and artist of your favorite song?"
+        },
+        {
+            "questionId":"20",
+            "question":"What is your first vehicle license plate number?"
         }
     ],
     "assets": [
         {
          "id":1,
          "assestType":"Monitor",
-         "category ":"Gadgets",
+         "category":"Gadgets",
          "list":[
             {
                 "id": "50",
@@ -868,7 +901,7 @@
         {
             "id":2,
             "assestType":"Keyboard",
-            "category ":"Gadgets",
+            "category":"Gadgets",
             "list":[
                {
                    "id": "50",
@@ -964,13 +997,13 @@
            },
         {
             "id":3,
-            "assestType":"CPU",
-            "category ":"Gadgets",
+            "assestType":"Mouse",
+            "category":"Gadgets",
             "list":[
                {
                    "id": "50",
                    "code": "AST101",
-                   "name": "CPU",
+                   "name": "Mouse",
                    "purchasedDate": "09-01-2020",
                    "modelNumber": "75SM9400PTA",
                    "manufacturer": "LG",
@@ -988,7 +1021,7 @@
                {
                    "id": "51",
                    "code": "AST102",
-                   "name": "CPU",
+                   "name": "Mouse",
                    "purchasedDate": "09-01-2020",
                    "modelNumber": "85SM9400PTA",
                    "manufacturer": "HP",
@@ -1006,7 +1039,7 @@
                {
                    "id": "52",
                    "code": "AST103",
-                   "name": "CPU",
+                   "name": "Mouse",
                    "purchasedDate": "09-01-2020",
                    "modelNumber": "65SM9400PTA",
                    "manufacturer": "LG",
@@ -1024,7 +1057,7 @@
                {
                    "id": "53",
                    "code": "AST104",
-                   "name": "CPU",
+                   "name": "Mouse",
                    "purchasedDate": "09-01-2020",
                    "modelNumber": "22SM9400PTA",
                    "manufacturer": "HP",
@@ -1042,7 +1075,7 @@
                {
                    "id": "54",
                    "code": "AST105",
-                   "name": "CPU",
+                   "name": "Mouse",
                    "purchasedDate": "09-01-2020",
                    "modelNumber": "34SM9400PTA",
                    "manufacturer": "LG",
@@ -1058,7 +1091,104 @@
                    "updatedBy": ""
                }
             ]
-           }
+           },
+           {
+               "id":4,
+               "assestType":"CPU",
+               "category":"Gadgets",
+               "list":[
+                  {
+                      "id": "50",
+                      "code": "AST101",
+                      "name": "CPU",
+                      "purchasedDate": "09-01-2020",
+                      "modelNumber": "75SM9400PTA",
+                      "manufacturer": "LG",
+                      "serialNumber": "908KCYQM3690",
+                      "warranty": "5",
+                      "addValue": "12000",
+                      "description": "",
+                      "status": "Good",
+                      "isActive": "",
+                      "createdAt": "",
+                      "updatedAt": "",
+                      "createdBy": "",
+                      "updatedBy": ""
+                  },
+                  {
+                      "id": "51",
+                      "code": "AST102",
+                      "name": "CPU",
+                      "purchasedDate": "09-01-2020",
+                      "modelNumber": "85SM9400PTA",
+                      "manufacturer": "HP",
+                      "serialNumber": "608KCYQM3690",
+                      "warranty": "5",
+                      "addValue": "12000",
+                      "description": "",
+                      "status": "Good",
+                      "isActive": "",
+                      "createdAt": "",
+                      "updatedAt": "",
+                      "createdBy": "",
+                      "updatedBy": ""
+                  },
+                  {
+                      "id": "52",
+                      "code": "AST103",
+                      "name": "CPU",
+                      "purchasedDate": "09-01-2020",
+                      "modelNumber": "65SM9400PTA",
+                      "manufacturer": "LG",
+                      "serialNumber": "308KCYQM3690",
+                      "warranty": "5",
+                      "addValue": "12000",
+                      "description": "",
+                      "status": "Good",
+                      "isActive": "",
+                      "createdAt": "",
+                      "updatedAt": "",
+                      "createdBy": "",
+                      "updatedBy": ""
+                  },
+                  {
+                      "id": "53",
+                      "code": "AST104",
+                      "name": "CPU",
+                      "purchasedDate": "09-01-2020",
+                      "modelNumber": "22SM9400PTA",
+                      "manufacturer": "HP",
+                      "serialNumber": "418KCYQM3690",
+                      "warranty": "5",
+                      "addValue": "12000",
+                      "description": "",
+                      "status": "Good",
+                      "isActive": "",
+                      "createdAt": "",
+                      "updatedAt": "",
+                      "createdBy": "",
+                      "updatedBy": ""
+                  },
+                  {
+                      "id": "54",
+                      "code": "AST105",
+                      "name": "CPU",
+                      "purchasedDate": "09-01-2020",
+                      "modelNumber": "34SM9400PTA",
+                      "manufacturer": "LG",
+                      "serialNumber": "898KCYQM3690",
+                      "warranty": "5",
+                      "addValue": "12000",
+                      "description": "",
+                      "status": "Good",
+                      "isActive": "",
+                      "createdAt": "",
+                      "updatedAt": "",
+                      "createdBy": "",
+                      "updatedBy": ""
+                  }
+               ]
+              }
         
     ],
     "project": [
@@ -1136,7 +1266,7 @@
             "createdAt": "2023-03-17T14:05:26.98",
             "updatedBy": "CIS",
             "createdBy": "CIS",
-            "img": "https://www.fresherprofiles.com/student/assets/svg/logos/logo-blue.png"
+            "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFXpIRCtdXtcXHLJSxKH8TJQSJimffFXpKWr9piB4IaB-hPzliCXrAYLTIVy6upzh__xg&usqp=CAU"
         },
         {
             "id": 2,

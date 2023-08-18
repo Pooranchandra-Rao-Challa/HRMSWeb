@@ -1,19 +1,22 @@
-<div class="content-container col-12">
+<p-toast key="myToast"></p-toast>
+
+<div class="content-container col-12 text-left" *ngIf="userQuestions.length > 0">
     <div class="grid">
         <form class="col-12">
-            <div class="col-12 p-0">
-                <label class="block text-900 font-medium text-md mb-1 mt-5">What is your surname name?</label>
-                <input type="text" placeholder="Enter Answer" pInputText class="w-full md:w-100" required>
-                <br>
-                <label class="block text-900 font-medium text-md mb-1 mt-5">What was your favorite subject in high
-                    school?</label>
-                <input type="text" placeholder="Enter Answer" pInputText class="w-full md:w-100" required>
+            <div class="col-12 p-0" *ngFor="let question of userQuestions">
+                <label class="block text-900 font-medium text-md required mb-1 mt-5">{{question.question}}</label>
+                <input id="useranswer" [(ngModel)]="question.userAnswer" #useranswer="ngModel" [ngModelOptions]="{standalone:true}"
+                    type="text" placeholder="Enter Answer" pInputText class="w-full md:w-100" required>
+                <span *ngIf="!question.userAnswer && (useranswer.dirty || useranswer.touched)">
+                    <div class="ng-invalid ng-touched p-error">
+                        Please Enter Answer.</div>
+                </span>
             </div>
             <div class="grid mt-3">
-                <div class="col-6"><button pButton pRipple label="Back to  User Name" class="w-full p-3 text-md"
+                <div class="col-6"><button id="prev-button" pButton pRipple label="Back to  User Name" class="w-full p-3 text-md"
                         (click)="navigateToPrev()"></button></div>
-                <div class="col-6"><button pButton pRipple label="Next" class="w-full p-3  text-md"
-                        (click)="navigateToNext()"></button></div>
+                <div class="col-6"><button id="submit-button" pButton pRipple label="Next" [disabled]="onDisabled()"
+                        class="w-full p-3  text-md" (click)="navigateToNext()"></button></div>
             </div>
         </form>
     </div>

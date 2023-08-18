@@ -1,3 +1,21 @@
-<p>upload-documents works!</p>
-<p-button style="float: left" (click)="navigateToPrev()">Navigate to Previous</p-button>
-<p-button style="float: right" (click)="navigateToNext()">Navigate to Next</p-button>
+<div class="grid">
+    <div class="col-12 p-5 mt-4">
+        <p-fileUpload name="demo[]" url="./upload.php" (onUpload)="onUpload($event)" [multiple]="true" accept="image/*"
+            [maxFileSize]="1000000">
+            <ng-template pTemplate="content">
+                <ul *ngIf="uploadedFiles.length">
+                    <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
+                </ul>
+            </ng-template>
+        </p-fileUpload>
+    </div>
+</div>
+<br>
+<div class="grid">
+    <div class="field col-4 ">
+        <p-button (click)="navigateToPrev()">Address Details</p-button>
+    </div>
+    <div class="field col-4 "></div>
+    <div class="field col-4  ">
+        <p-button class="text-center" (click)="navigateToNext()">Final Submission</p-button>
+    </div>

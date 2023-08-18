@@ -19,16 +19,7 @@ export interface Employee {
   pfEligible?: string;
   esiEligible?: string;
 }
-export class RoleViewDto {
-  roleId?: string
-  name?: string
-  code?: string
-  isActive?: boolean
-  createdBy?: string
-  createdAt?: string
-  updatedBy?: string
-  updatedAt?: string
-}
+
 export class LookUpHeaderDto {
   code?: string;
   name?: string;
@@ -50,18 +41,18 @@ export class LookupDetailViewDto {
   // lookupName?: string;
 
 }
- export class ProjectDetailsDto{
-   id:number
-   code: string
-   name: string
-   manager:string
-   startDate:string
-   ComapanyFullName:string
-   clientGSTNo:number
-   clientPOCPhNo:number
-   clientPOCName:string
-   clientAddress:string
-  description:string
+export class ProjectDetailsDto {
+  id: number
+  code: string
+  name: string
+  manager: string
+  startDate: string
+  ComapanyFullName: string
+  clientGSTNo: number
+  clientPOCPhNo: number
+  clientPOCName: string
+  clientAddress: string
+  description: string
   isActive?: boolean;
   updatedAt?: Date;
   createdAt?: Date;
@@ -75,6 +66,7 @@ export class Leave {
   leaveTitle?: string;
   fromDate?: string;
   toDate?: string;
+  numberOfDays?: number;
   leaveDescription?: string;
 }
 export class familyDetailViewDto {
@@ -82,6 +74,7 @@ export class familyDetailViewDto {
   name?: string;
   relationShip: string;
   mobileNo: number;
+  Address: any;
 }
 export class ForgotUserPasswordDto {
   UserName?: string
@@ -97,6 +90,10 @@ export class UserQuestionDto {
   answer?: string
   userAnswer?: string
   userName?: string;
+}
+export class SecureQuestionDto {
+  questionId?: number
+  question?: string
 }
 export class Assets {
   id?: number;
@@ -115,4 +112,19 @@ export class Assets {
   updatedAt?: Date;
   createdBy?: string;
   updatedBy?: string;
+}
+export class Address {
+  Id?: number;
+  AddressLine1?: string;
+  AddressLine2?: string;
+  Landmark?: string;
+  ZIPCode?: string;
+  City?: string;
+  State?: string;
+  Country?: string;
+  IsActive?: string;
+  CreatedAt?: Date;
+  UpdatedAt?: Date;
+  CreatedBy?: string;
+  UpdatedBy?: string;
 }

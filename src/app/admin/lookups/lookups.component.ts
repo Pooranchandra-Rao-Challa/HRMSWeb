@@ -43,7 +43,7 @@ export class LookupsComponent implements OnInit {
   }
   intiRoles() {
     this.lookupservice.getlookup().then((data: LookUpHeaderDto[]) => (this.lookup = data));
-    
+
   }
   lookupForm() {
     this.addfields = []
@@ -86,7 +86,6 @@ export class LookupsComponent implements OnInit {
     this.dialog = true;
   }
   addLookupDetails() {
-    console.log(this.ShowlookupDetails)
     this.ShowlookupDetails = true;
     this.falookUpDetails = this.fblookup.get("lookUpDetails") as FormArray
     this.falookUpDetails.push(this.generaterow())

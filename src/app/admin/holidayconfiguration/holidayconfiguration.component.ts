@@ -28,10 +28,10 @@ export class HolidayconfigurationComponent {
   constructor(private formbuilder: FormBuilder, private leaveservice: SecurityService) { }
 
   headers: ITableHeader[] = [
-    { field: 'leaveTitle', header: 'leaveTitle', label: 'Leave Title' },
+    { field: 'leaveTitle', header: 'leaveTitle', label: 'Holiday Title' },
     { field: 'fromDate', header: 'fromDate', label: 'From Date' },
     { field: 'toDate', header: 'toDate', label: 'To Date' },
-    { field: 'leaveDescription', header: 'leaveDescription', label: 'Leave Description' },
+    { field: 'leaveDescription', header: 'leaveDescription', label: 'Holiday Description' },
   ];
 
 
@@ -90,7 +90,7 @@ export class HolidayconfigurationComponent {
   }
   addLeaveDialog() {
     this.addLeaveDetails();
-    this.submitLabel = "Add Leave";
+    this.submitLabel = "Add Holiday";
     this.dialog = true;
 
   }
@@ -101,9 +101,9 @@ export class HolidayconfigurationComponent {
   }
   editLeave(leave: any) {
     this.addLeaveDetails();
-    this.submitLabel = "Add Leave";
+    this.submitLabel = "Add Holiday";
     this.dialog = true;
-    this.submitLabel = "Update Leave";
+    this.submitLabel = "Update Holiday";
 
   }
   onSubmit() { }

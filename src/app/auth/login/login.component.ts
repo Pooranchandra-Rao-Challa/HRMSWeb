@@ -35,23 +35,20 @@ export class LoginComponent implements OnInit {
         });
     }
     onSubmit() {
-        debugger
         this.submitted = true;
-        console.log(this.fbloginForm.value);
         this.loginService.Authenticate(this.fbloginForm.value as LoginModel)
             .subscribe(
                 {
                     next: (resp: LogInSuccessModel) => {
-
-                        if (resp.isLoginSuccess && !resp.isFirstTimeLogin) {
-
+                        if (resp.isLoginSuccess && resp.hasSecureQuestions) {
                             this.messageService.add({ severity: 'success', key: 'myToast', summary: 'Success!', detail: 'Signing in...!' });
                             setTimeout(() => {
-                                this.router.navigate(['./dashboard']);
+                                this.router.navigate(['./dashboard/admin']);
                             }, 1000);
+                            this.loginService.startRefreshTokenTimer();
                         }
-                        else if (resp.isLoginSuccess && resp.isFirstTimeLogin) {
-                            // redirect the call to take secure questions form user.
+                        else if (resp.isLoginSuccess && !resp.hasSecureQuestions) {
+                            this.router.navigate(['./auth/security']);
                         } else {
                             this.submitted = false;
                         }
@@ -70,6 +67,7 @@ export class LoginComponent implements OnInit {
                     }
                 });
     }
+
     get dark(): boolean {
         return this.layoutService.config.colorScheme !== 'light';
     }

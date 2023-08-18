@@ -1,5 +1,7 @@
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
+import { LayoutService } from './service/app.layout.service';
+import { JwtService } from '../_services/jwt.service';
 
 @Component({
     selector: 'app-menu',
@@ -8,7 +10,19 @@ import { Component } from '@angular/core';
 export class AppMenuComponent implements OnInit {
     model: any[] = [];
 
+    constructor(public layoutService: LayoutService, private jwtService: JwtService){}
+
+    GroupPermission(groupName: string): boolean {
+        switch (groupName) {
+          case 'Security':
+            return this.jwtService.Permissions.CanViewUsers || this.jwtService.Permissions.CanViewRoles
+          default:
+            return false;
+        }
+      }
+
     ngOnInit() {
+            console.log(this.jwtService.Permissions);
         this.model = [
             {
                 label: '',
@@ -17,7 +31,7 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'Dashboard',
                         icon: 'pi pi-fw pi-home',
-                        routerLink: ['dashboard/admin']
+                        routerLink: ['dashboard/admin'],permission: true
                     },
                     // {
                     //     label: 'Student',
@@ -29,16 +43,18 @@ export class AppMenuComponent implements OnInit {
             {
                 label: 'Security',
                 icon: 'pi pi-user',
+                permission: this.GroupPermission('Security'),
                 items: [
                     {
                         label: 'Users',
                         icon: 'pi pi-fw pi-user',
-                        routerLink: ['security/users']
+                        routerLink: ['security/users'],
+                        permission: this.jwtService.Permissions.CanViewUsers
                     },
                     {
                         label: 'Roles',
                         icon: 'pi pi-fw pi-users',
-                        routerLink: ['security/roles']
+                        routerLink: ['security/roles'], permission: this.jwtService.Permissions.CanViewRoles
                     },
 
                 ]

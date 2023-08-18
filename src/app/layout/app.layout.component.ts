@@ -1,6 +1,7 @@
-import { Component, OnDestroy, Renderer2, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, Renderer2, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
+import { LoaderService } from '../_services/loader.service';
 import { MenuService } from './app.menu.service';
 import { AppSidebarComponent } from './app.sidebar.component';
 import { AppTopbarComponent } from './app.topbar.component';
@@ -21,7 +22,8 @@ export class AppLayoutComponent implements OnDestroy {
 
     @ViewChild(AppTopbarComponent) appTopbar!: AppTopbarComponent;
 
-    constructor(private menuService: MenuService, public layoutService: LayoutService, public renderer: Renderer2, public router: Router) {
+    constructor(private menuService: MenuService, public layoutService: LayoutService, public renderer: Renderer2, public router: Router, public loaderService: LoaderService,
+        private cdref: ChangeDetectorRef) {
         this.overlayMenuOpenSubscription = this.layoutService.overlayOpen$.subscribe(() => {
             if (!this.menuOutsideClickListener) {
                 this.menuOutsideClickListener = this.renderer.listen('document', 'click', (event) => {
@@ -55,6 +57,10 @@ export class AppLayoutComponent implements OnDestroy {
             this.hideMenu();
         });
     }
+
+    ngAfterContentChecked() {
+        this.cdref.detectChanges();
+      }
 
     blockBodyScroll(): void {
         if (document.body.classList) {
