@@ -165,12 +165,12 @@
                 <tr>
                     <td *ngFor="let col of headers" [ngClass]="col?.field == 'isActive' ? 'text-center' : ''">
                         <span
-                            *ngIf="col?.field != 'createdAt' && col?.field != 'updatedAt' && col?.field != 'isActive'">{{lookup[col.field]}}</span>
+                            *ngIf="col?.field != 'createdAt' && col?.field != 'updatedAt' && col?.field != 'isActive'">{{list[col.field]}}</span>
                         <span *ngIf="col?.field == 'createdAt' || col?.field == 'updatedAt'">
-                            {{lookup[col.field] | date:'dd-mm-yy' }}
+                            {{list[col.field] | date:'dd-mm-yy' }}
                         </span>
                         <span *ngIf="col?.field == 'isActive'">
-                            <p-checkbox name="isActive" value="isActive" [binary]="true" [(ngModel)]="lookup[col.field]"
+                            <p-checkbox name="isActive" value="isActive" [binary]="true" [(ngModel)]="list[col.field]"
                                 [disabled]="true">
                             </p-checkbox>
                         </span>
