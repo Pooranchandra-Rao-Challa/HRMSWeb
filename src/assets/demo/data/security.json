@@ -739,43 +739,43 @@
     "leave": [
         {
             "id": "20",
-            "leaveTitle": "Casual Leave",
+            "leaveTitle": "Sankranti",
             "fromDate": "14-08-2023",
             "toDate": "14-08-2023",
             "numberOfDays": "2",
-            "leaveDescription": "I am suffering from fever"
+            "leaveDescription": "Festival"
         },
         {
             "id": "21",
-            "leaveTitle": "Work From Home",
+            "leaveTitle": "Ramzan",
             "fromDate": "14-08-2023",
-            "toDate": "14-08-2023",
+            "toDate": "-",
             "numberOfDays": "3",
-            "leaveDescription": "Due to rain unable to come to office"
+            "leaveDescription": "Festival"
         },
         {
             "id": "22",
-            "leaveTitle": "Personal Leave",
+            "leaveTitle": "Deppavali",
             "fromDate": "14-08-2023",
             "toDate": "14-08-2023",
             "numberOfDays": "3",
-            "leaveDescription": "I am suffering from fever"
+            "leaveDescription": "-"
         },
         {
             "id": "23",
-            "leaveTitle": "Medical Leave",
+            "leaveTitle": "Christmas",
             "fromDate": "14-08-2023",
-            "toDate": "14-08-2023",
+            "toDate": "-",
             "numberOfDays": "3",
-            "leaveDescription": "Due to rain unable to come to office"
+            "leaveDescription": "festival"
         },
         {
             "id": "24",
-            "leaveTitle": "Loss Of Pay",
+            "leaveTitle": "Deshara",
             "fromDate": "14-08-2023",
             "toDate": "14-08-2023",
             "numberOfDays": "2",
-            "leaveDescription": "I am suffering from fever"
+            "leaveDescription": "Festival"
         }
     ],
     "security": [
