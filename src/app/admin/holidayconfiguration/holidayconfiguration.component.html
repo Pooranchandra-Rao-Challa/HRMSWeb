@@ -89,8 +89,8 @@
             <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="clear(dtleave)"></button>
             <div class="field text-center m-0">
               <label>Year: 
-              </label><br/>
-              &nbsp; <p-inputSwitch formControlName="isActive" ></p-inputSwitch>
+              </label>
+              &nbsp;  <p-dropdown [options]="years" placeholder="Select a Year"  [(ngModel)]="selectedYear" optionLabel="year"></p-dropdown>
           </div>
             <span class="p-input-icon-left mb-2">
               <i class="pi pi-search"></i>

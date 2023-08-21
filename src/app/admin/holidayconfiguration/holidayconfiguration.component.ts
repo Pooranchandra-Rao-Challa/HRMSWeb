@@ -5,6 +5,10 @@ import { Leave, LookUpHeaderDto } from 'src/app/demo/api/security';
 import { SecurityService } from 'src/app/demo/service/security.service';
 import { ITableHeader } from '../lookups/lookups.component';
 
+export interface Year{ 
+      year:string;
+      code:string;
+}
 @Component({
   selector: 'app-holidayconfiguration',
   templateUrl: './holidayconfiguration.component.html',
@@ -21,6 +25,8 @@ export class HolidayconfigurationComponent {
   maxLength: any;
   faleaveDetails!: FormArray;
   date: Date | undefined;
+  selectedYear : Year |undefined;
+  years: Year[] | undefined;
 
   leave: Leave[] = [];
   ShowleaveDetails: boolean = false;
@@ -38,6 +44,12 @@ export class HolidayconfigurationComponent {
   ngOnInit(): void {
     this.leaveForm();
     this.initLeave();
+    this.years = [
+      { year: '2019', code: 'NY' },
+      { year: '2020', code: 'TW' },
+      { year: '2021', code: 'TW1' },
+      { year: '2023', code: 'TW3' }
+  ];
   }
   get FormControls() {
     return this.fbleave.controls;
