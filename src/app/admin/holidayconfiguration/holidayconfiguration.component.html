@@ -49,7 +49,7 @@
                           <th *ngIf="fbleave.controls['leaveDetails'].value.length > 1"></th>
                         </tr>
                       </ng-template>
-                      <ng-template pTemplate="body" let-leave let-leaveDetailsIndex="rowIndex">
+                      <ng-template pTemplate="body" let-leave let-leaveDetailsIndex="rowIndex" *ngFor="let detailCtrl of faleaveDetail().controls; index as i">
                         <tr [formGroupName]="leaveDetailsIndex">
                           <td class="vertical-align-top">
                             <input pInputText class="form-control" formControlName="leaveTitle" placeholder="Enter Holiday Title">
@@ -65,7 +65,7 @@
                           </td>
                           <td *ngIf="fbleave.controls['leaveDetails'].value.length > 1">
                             <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer" *ngIf="!this.faleaveDetail().controls[leaveDetailsIndex].get('id')?.value" (click)="faleaveDetail().removeAt(leaveDetailsIndex)"></i>
-                            <i class="pi pi-fw pi-verified text-3xl" *ngIf="this.faleaveDetail().controls[leaveDetailsIndex].get('id')?.value"></i>
+                            <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer" *ngIf="this.faleaveDetail().controls[leaveDetailsIndex].get('id')?.value" (click)="faleaveDetail().removeAt(leaveDetailsIndex)"></i>
                           </td>
                         </tr>
                       </ng-template>
@@ -83,7 +83,7 @@
         </ng-template>
       </p-dialog>
       <!-- table -->
-      <p-table #dtleave [value]="leave" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true" [globalFilterFields]="globalFilterFields" [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]">
+      <p-table #dtleave [value]="holiday" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true" [globalFilterFields]="globalFilterFields" [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]">
         <ng-template pTemplate="caption">
           <div class="flex justify-content-between flex-column sm:flex-row">
             <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="clear(dtleave)"></button>
