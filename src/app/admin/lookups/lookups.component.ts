@@ -1,14 +1,15 @@
+import { HttpEvent } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Table } from 'primeng/table';
-import { LookupDetailViewDto, LookUpHeaderDto } from 'src/app/demo/api/security';
-import { SecurityService } from 'src/app/demo/service/security.service';
+import { Observable } from 'rxjs';
+import { FormArrayValidationForDuplication } from 'src/app/_common/unique-branch-validators';
+import { LookupDetailsDto, LookupDetailViewDto, LookUpHeaderDto, LookupViewDto } from 'src/app/_models/admin';
+import { ITableHeader } from 'src/app/_models/common';
+import { AdminService } from 'src/app/_services/admin.service';
+import { MAX_LENGTH_20, MIN_LENGTH_2, RG_ALPHA_NUMERIC, RG_ALPHA_ONLY } from 'src/app/_shared/regex';
 
-export interface ITableHeader {
-  field: string;
-  header: string;
-  label: string;
-}
+
 @Component({
   selector: 'app-lookup',
   templateUrl: './lookups.component.html'
@@ -21,13 +22,16 @@ export class LookupsComponent implements OnInit {
   fblookup!: FormGroup;
   falookUpDetails!: FormArray;
   addfields: any;
+  addFlag: boolean = true;
   submitLabel!: string;
   maxLength: any;
-  lookup: LookUpHeaderDto[] = [];
+  lookups: LookupViewDto[] = [];
+  lookup: LookUpHeaderDto = new LookUpHeaderDto();
   ShowlookupDetails: boolean = false;
-  constructor(private formbuilder: FormBuilder, private lookupservice: SecurityService) { }
+  isLookupChecked: boolean = false;
+  constructor(private formbuilder: FormBuilder, private adminService: AdminService) { }
 
-  headers: ITableHeader[] = [
+  lookupHeader: ITableHeader[] = [
     { field: 'code', header: 'code', label: 'Code' },
     { field: 'name', header: 'name', label: 'Name' },
     { field: 'isActive', header: 'isActive', label: 'Is Active' },
@@ -36,26 +40,50 @@ export class LookupsComponent implements OnInit {
     { field: 'updatedAt', header: 'updatedAt', label: 'Updated Date' },
     { field: 'updatedBy', header: 'updatedBy', label: 'Updated By' },
   ];
+  lookupDetailsHeader: ITableHeader[] = [
+    { field: 'Code', header: 'Code', label: 'Code' },
+    { field: 'Name', header: 'Name', label: 'Name' },
+    { field: 'Description', header: 'Description', label: 'Description' },
+    { field: 'IsActive', header: 'IsActive', label: 'Is Active' },
+    { field: 'CreatedAt', header: 'CreatedAt', label: 'Created Date' },
+    { field: 'CreatedBy', header: 'CreatedBy', label: 'Created By' },
+    { field: 'UpdatedAt', header: 'UpdatedAt', label: 'Updated Date' },
+    { field: 'UpdatedBy', header: 'UpdatedBy', label: 'Updated By' },
+  ]
 
 
   ngOnInit(): void {
     this.lookupForm();
-    this.intiRoles();
+    this.onChangeisLookupChecked();
+
   }
   get FormControls() {
     return this.fblookup.controls;
   }
-  intiRoles() {
-    this.lookupservice.getlookup().then((data: LookUpHeaderDto[]) => (this.lookup = data));
-
+  onChangeisLookupChecked() {
+    this.GetLookUp(this.isLookupChecked)
   }
+  // getmethod
+  GetLookUp(isbool: boolean) {
+
+    this.adminService.GetLookUp(isbool).subscribe((resp) => {
+      this.lookups = resp as unknown as LookupViewDto[];
+      this.lookups.forEach(element => {
+        element.expandLookupDetails = JSON.parse(element.lookupDetails) as unknown as LookupDetailsDto[];
+      });
+      console.log(this.lookups);
+    })
+  }
+
+
   lookupForm() {
     this.addfields = []
     this.fblookup = this.formbuilder.group({
-      code: new FormControl('', [Validators.required]),
-      name: new FormControl('', [Validators.required]),
+      lookUpId: [null],
+      code: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_NUMERIC), Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_20)]),
+      name: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
       isActive: [null],
-      lookUpDetails: this.formbuilder.array([])
+      lookUpDetails: this.formbuilder.array([], FormArrayValidationForDuplication())
     });
   }
 
@@ -65,10 +93,11 @@ export class LookupsComponent implements OnInit {
       lookupDetailId: [lookupDetail.lookupDetailId],
       code: new FormControl(lookupDetail.code, [Validators.required,]),
       name: new FormControl(lookupDetail.name, [Validators.required, Validators.minLength(2)]),
-      remarks: new FormControl(lookupDetail.remarks, []),
-      listingorder: new FormControl(lookupDetail.listingorder, [Validators.required,]),
       isActive: [lookupDetail.isActive],
     })
+  }
+  formArrayControls(i: number, formControlName: string) {
+    return this.falookupDetails().controls[i].get(formControlName);
   }
 
   falookupDetails(): FormArray {
@@ -120,3 +149,11 @@ export class LookupsComponent implements OnInit {
   onSubmit() { }
 
 }
+function lookupId(lookupId: any) {
+  throw new Error('Function not implemented.');
+}
+
+function param1(lookupId: (lookupId: any) => void, param1: any) {
+  throw new Error('Function not implemented.');
+}
+

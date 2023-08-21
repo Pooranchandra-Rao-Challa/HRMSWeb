@@ -17,4 +17,6 @@ export const UPDATE_USER_URI = "Security/UpdateUser";
 export const GET_PERMISSIONS_URI = "Security/GetPermissions"
 export const GET_ROLE_PERMISSIONS_URI = "Security/GetRolePermissions"
 export const Delete_USER_URI = "Security/DeleteUser";
-
+export const GET_LOOKUP_URI = "Lookup/GetLookups/";
+export const CREATE_LOOKUP_URI="Lookup/CreateLookup";
+export const UPDATE_LOOKUP_URI ="Lookup/UpdateLookup";
