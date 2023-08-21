@@ -1,191 +1,156 @@
 <div class="col-12">
     <div class="card">
-        <!-- Toolbar -->
-        <p-toolbar styleClass="p-mb-4">
-            <ng-template pTemplate="left">
-                <h4>Lookups</h4>
-            </ng-template>
-            <ng-template pTemplate="right">
-                <button pButton pRipple label="New Lookup" icon="pi pi-plus" class="p-button-primary p-mr-2"
-                    (click)="addLookupDialog()"></button>
-            </ng-template>
-        </p-toolbar>
-        <!-- dialog -->
-        <p-dialog header="Lookup" [(visible)]="dialog" [modal]="true" showEffect="fade"
-            [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}" (onHide)="onClose()">
-            <div class="flex flex-column align-items-center justify-content-center">
-                <form [formGroup]="fblookup">
-                    <div class="grid">
-                        <div class="col-12 roles-container">
-                            <div class="p-fluid p-formgrid grid">
-                                <div class="field col-12 md:col-4">
-                                    <label>Code:<sup class="p-error">*</sup></label>&nbsp;
-                                    <input pInputText id="code" type="text" formControlName="code"
-                                        placeholder="Enter Code" #code alphaNumeric />
-                                    <div class="text-right">
-                                        <small>{{code.value.length}}/20</small>
-                                    </div>
-                                </div>
-                                <div class="field col-12 md:col-4">
-                                    <label>Name:<sup class="p-error">*</sup></label>&nbsp;
-                                    <input pInputText id="name" type="text" formControlName="name"
-                                        placeholder="Enter Name" #name alphaOnly />
-                                </div>
-                                <div class="field col-12 md:col-4">
-                                    <label>Is Active:<sup class="p-error">*</sup></label><br>
-                                    &nbsp;<p-inputSwitch formControlName="isActive">
-                                    </p-inputSwitch>
-                                </div>
-                                <div class="d-flex flex-row justify-content-center col-12 md:col-4 mt-2">
-                                    <div class="button-container">
-                                        <p-button type="button" label="Add Lookup Details" (click)="addLookupDetails()">
-                                        </p-button>
-                                    </div>
-                                </div>
-                                <div class="col-12 scrolling_content" formArrayName="lookUpDetails"
-                                    *ngIf="ShowlookupDetails">
-                                    <p-table #dt2 [value]=" falookupDetails().controls" dataKey="id" [rows]="10"
-                                        [rowHover]="true"
-                                        styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
-                                        [paginator]="false" [autoLayout]="true" responsiveLayout="scroll"
-                                        [rowsPerPageOptions]="[10,25,50]">>
-                                        <ng-template pTemplate="header">
-                                            <tr>
-                                                <th>Code<sup class="p-error">*</sup> </th>
-                                                <th>Name <sup class="p-error">*</sup></th>
-                                                <th *ngIf="fblookup.controls['lookUpDetails'].value.length > 1"></th>
-                                            </tr>
-                                        </ng-template>
-                                        <ng-template pTemplate="body" let-lookUp let-lookUpDetailsIndex="rowIndex">
-                                            <tr [formGroupName]="lookUpDetailsIndex">
-                                                <td class="vertical-align-top">
-                                                    <input pInputText class="form-control" formControlName="code"
-                                                        placeholder="Enter Code">
-                                                </td>
-                                                <td class="vertical-align-top">
-                                                    <input pInputText class="form-control" formControlName="name"
-                                                        placeholder="Enter Name">
-                                                </td>
-                                                <td *ngIf="fblookup.controls['lookUpDetails'].value.length > 1">
-                                                    <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer"
-                                                        *ngIf="!this.  falookupDetails().controls[lookUpDetailsIndex].get('lookupId')?.value"
-                                                        (click)="  falookupDetails().removeAt(lookUpDetailsIndex)"></i>
-                                                    <i class="pi pi-fw pi-verified text-3xl"
-                                                        *ngIf="this.  falookupDetails().controls[lookUpDetailsIndex].get('lookupId')?.value"></i>
-                                                </td>
-                                            </tr>
-                                        </ng-template>
-                                    </p-table>
-                                </div>
-                            </div>
-                        </div>
+      <!-- Toolbar -->
+      <p-toolbar styleClass="p-mb-4">
+        <ng-template pTemplate="left">
+          <h4>Lookups</h4>
+        </ng-template>
+        <ng-template pTemplate="right">
+          <button pButton pRipple label="New Lookup" icon="pi pi-plus" class="p-button-primary p-mr-2" (click)="addLookupDialog()"></button>
+        </ng-template>
+      </p-toolbar>
+      <!-- dialog -->
+      <p-dialog header="Lookup" [(visible)]="dialog" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}" (onHide)="onClose()">
+        <div class="flex flex-column align-items-center justify-content-center">
+          <form [formGroup]="fblookup">
+            <div class="grid">
+              <div class="col-12 roles-container">
+                <div class="p-fluid p-formgrid grid">
+                  <div class="field col-12 md:col-4">
+                    <label>Code: <sup class="p-error">*</sup>
+                    </label>&nbsp; <input pInputText id="code" type="text" formControlName="code" placeholder="Enter Code" #code alphaNumeric />
+                    <div class="text-right">
+                      <small>{{code.value.length}}/20</small>
                     </div>
-                </form>
-
+                  </div>
+                  <div class="field col-12 md:col-4">
+                    <label>Name: <sup class="p-error">*</sup>
+                    </label>&nbsp; <input pInputText id="name" type="text" formControlName="name" placeholder="Enter Name" #name alphaOnly />
+                  </div>
+                  <div class="field col-12 md:col-4">
+                    <label>Is Active: <sup class="p-error">*</sup>
+                    </label>
+                    <br> &nbsp; <p-inputSwitch formControlName="isActive"></p-inputSwitch>
+                  </div>
+                  <div class="d-flex flex-row justify-content-center col-12 md:col-4 mt-2">
+                    <div class="button-container">
+                      <p-button type="button" label="Add Lookup Details" (click)="addLookupDetails()"></p-button>
+                    </div>
+                  </div>
+                  <div class="col-12 scrolling_content" formArrayName="lookUpDetails" *ngIf="ShowlookupDetails">
+                    <p-table #dt2 [value]=" falookupDetails().controls" dataKey="id" [rows]="10" [rowHover]="true" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="false" [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]">> <ng-template pTemplate="header">
+                        <tr>
+                          <th>Code <sup class="p-error">*</sup>
+                          </th>
+                          <th>Name <sup class="p-error">*</sup>
+                          </th>
+                          <th *ngIf="fblookup.controls['lookUpDetails'].value.length > 1"></th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-lookUp let-lookUpDetailsIndex="rowIndex">
+                        <tr [formGroupName]="lookUpDetailsIndex">
+                          <td class="vertical-align-top">
+                            <input pInputText class="form-control" formControlName="code" placeholder="Enter Code">
+                          </td>
+                          <td class="vertical-align-top">
+                            <input pInputText class="form-control" formControlName="name" placeholder="Enter Name">
+                          </td>
+                          <td *ngIf="fblookup.controls['lookUpDetails'].value.length > 1">
+                            <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer" *ngIf="!this.  falookupDetails().controls[lookUpDetailsIndex].get('lookupId')?.value" (click)="  falookupDetails().removeAt(lookUpDetailsIndex)"></i>
+                            <i class="pi pi-fw pi-verified text-3xl" *ngIf="this.  falookupDetails().controls[lookUpDetailsIndex].get('lookupId')?.value"></i>
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </div>
+              </div>
             </div>
-            <ng-template pTemplate="footer">
-                <div class="col-4" style="float:right">
-                    <button pButton pRipple type="submit" [label]="submitLabel" class="p-button-raised p-button-primary"
-                        (click)="onSubmit()"></button>
-                </div>
-            </ng-template>
-        </p-dialog>
-
-        <!-- table -->
-        <p-table #dtlookup [value]="lookup" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="true"
-            [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-            styleClass="p-datatable-gridlines  p-datatable-sm" [style]="{width: 'auto'}" [showCurrentPageReport]="true"
-            [globalFilterFields]="globalFilterFields" [autoLayout]="true" responsiveLayout="scroll"
-            [rowsPerPageOptions]="[10,25,50]">
-            <ng-template pTemplate="caption">
-                <div class="flex justify-content-between flex-column sm:flex-row">
-                    <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
-                        (click)="clear(dtlookup)"></button>
-                    <span class="p-input-icon-left mb-2">
-                        <i class="pi pi-search"></i>
-                        <input pInputText type="text" #filter (input)="onGlobalFilter(dtlookup, $event)"
-                            placeholder="Search Keyword" class="w-full" />
-                    </span>
-                </div>
-            </ng-template>
-            <ng-template pTemplate="header">
-                <tr>
-                    <th style="width: 5rem"></th>
-                    <th *ngFor="let col of headers" [pSortableColumn]="col.header">
-                        {{col?.label}}
-                        <p-columnFilter type="text" [field]="col.header" display="menu"></p-columnFilter>
-                        <p-sortIcon [field]="col.header"></p-sortIcon>
-                    </th>
-                    <th style="width:5px;"></th>
-                </tr>
-            </ng-template>
-
-            <ng-template pTemplate="body" let-lookup let-expanded="expanded">
-                <tr>
-                    <td>
-                        <button type="button" pButton pRipple [pRowToggler]="lookup"
-                            class="p-button-text p-button-rounded p-button-plain"
-                            [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
-                    </td>
-                    <td *ngFor="let col of headers" [ngClass]="col?.field == 'isActive' ? 'text-center' : ''">
-                        <span
-                            *ngIf="col?.field != 'createdAt' && col?.field != 'updatedAt' && col?.field != 'isActive'">{{lookup[col.field]}}</span>
-                        <span *ngIf="col?.field == 'createdAt' || col?.field == 'updatedAt'">
-                            {{lookup[col.field] | date:'dd-mm-yy' }}
-                        </span>
-                        <span *ngIf="col?.field == 'isActive'">
-                            <p-checkbox name="isActive" value="isActive" [binary]="true" [(ngModel)]="lookup[col.field]"
-                                [disabled]="true">
-                            </p-checkbox>
-                        </span>
-                    </td>
-
-                    <td>
-                        <button pButton pRipple icon="pi pi-pencil" style="padding: 0px;"
-                            class="p-element p-ripple p-button-text p-button p-component"
-                            (click)="addLookupDialog()"></button>
-                    </td>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="rowexpansion" let-lookup>
-                <tr>
-                    <td colspan="9">
-                        <div class="p-5">
-                            <p-table [value]="lookup.list" dataKey="id">
-                                <ng-template pTemplate="header">
-                <tr>
-                    <th style *ngFor="let col of headers" [pSortableColumn]="col.header">
-                        {{col?.label}}
-                        <p-columnFilter type="text" [field]="col.header" display="menu"></p-columnFilter>
-                        <p-sortIcon [field]="col.header"></p-sortIcon>
-                    </th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-list>
-                <tr>
-                    <td *ngFor="let col of headers" [ngClass]="col?.field == 'isActive' ? 'text-center' : ''">
-                        <span
-                            *ngIf="col?.field != 'createdAt' && col?.field != 'updatedAt' && col?.field != 'isActive'">{{list[col.field]}}</span>
-                        <span *ngIf="col?.field == 'createdAt' || col?.field == 'updatedAt'">
-                            {{list[col.field] | date:'dd-mm-yy' }}
-                        </span>
-                        <span *ngIf="col?.field == 'isActive'">
-                            <p-checkbox name="isActive" value="isActive" [binary]="true" [(ngModel)]="list[col.field]"
-                                [disabled]="true">
-                            </p-checkbox>
-                        </span>
-                    </td>
-            </ng-template>
-            <ng-template pTemplate="emptymessage">
-                <tr>
-                    <td class="md:text-center m-5" colspan="8">No Lookup Found.</td>
-                </tr>
-            </ng-template>
-        </p-table>
+          </form>
+        </div>
+        <ng-template pTemplate="footer">
+          <div class="col-4" style="float:right">
+            <button pButton pRipple type="submit" [label]="submitLabel" class="p-button-raised p-button-primary" (click)="onSubmit()"></button>
+          </div>
+        </ng-template>
+      </p-dialog>
+      <!-- table -->
+      <p-table #dtlookup [value]="lookup" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="true" [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" styleClass="p-datatable-gridlines  p-datatable-sm" [style]="{width: 'auto'}" [showCurrentPageReport]="true" [globalFilterFields]="globalFilterFields" [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]">
+        <ng-template pTemplate="caption">
+          <div class="flex justify-content-between flex-column sm:flex-row">
+            <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="clear(dtlookup)"></button>
+            <span class="p-input-icon-left mb-2">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" #filter (input)="onGlobalFilter(dtlookup, $event)" placeholder="Search Keyword" class="w-full" />
+            </span>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 5rem"></th>
+            <th *ngFor="let col of headers" [pSortableColumn]="col.header">
+              {{col?.label}}
+              <p-columnFilter type="text" [field]="col.header" display="menu"></p-columnFilter>
+              <p-sortIcon [field]="col.header"></p-sortIcon>
+            </th>
+            <th style="width:5px;">Action</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-lookup let-expanded="expanded">
+          <tr>
+            <td>
+              <button type="button" pButton pRipple [pRowToggler]="lookup" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+            </td>
+            <td *ngFor="let col of headers" [ngClass]="col?.field == 'isActive' ? 'text-center' : ''">
+              <span *ngIf="col?.field != 'createdAt' && col?.field != 'updatedAt' && col?.field != 'isActive'">{{lookup[col.field]}}</span>
+              <span *ngIf="col?.field == 'createdAt' || col?.field == 'updatedAt'">
+                {{lookup[col.field] | date:'dd-mm-yy' }}
+              </span>
+              <span *ngIf="col?.field == 'isActive'">
+                <p-checkbox name="isActive" value="isActive" [binary]="true" [(ngModel)]="lookup[col.field]" [disabled]="true"></p-checkbox>
+              </span>
+            </td>
+            <td>
+              <button pButton pRipple icon="pi pi-pencil" style="padding: 0px;" class="p-element p-ripple p-button-text p-button p-component" (click)="addLookupDialog()"></button>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="rowexpansion" let-lookup>
+          <tr>
+            <td colspan="9" class="p-0">
+              <div class="p-0">
+                <p-table [value]="lookup.list" dataKey="id">
+                  <ng-template pTemplate="header">
+          <tr>
+            <th style *ngFor="let col of headers" [pSortableColumn]="col.header">
+              {{col?.label}}
+              <p-columnFilter type="text" [field]="col.header" display="menu"></p-columnFilter>
+              <p-sortIcon [field]="col.header"></p-sortIcon>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-list>
+          <tr>
+            <td *ngFor="let col of headers" [ngClass]="col?.field == 'isActive' ? 'text-center' : ''">
+              <span *ngIf="col?.field != 'createdAt' && col?.field != 'updatedAt' && col?.field != 'isActive'">{{list[col.field]}}</span>
+              <span *ngIf="col?.field == 'createdAt' || col?.field == 'updatedAt'">
+                {{list[col.field] | date:'dd-mm-yy' }}
+              </span>
+              <span *ngIf="col?.field == 'isActive'">
+                <p-checkbox name="isActive" value="isActive" [binary]="true" [(ngModel)]="list[col.field]" [disabled]="true"></p-checkbox>
+              </span>
+            </td>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td class="md:text-center m-5" colspan="8">No Lookup Found.</td>
+          </tr>
+        </ng-template>
+      </p-table>
     </div>
     </td>
     </tr>
     </ng-template>
-    </p-table>
-</div>
-</div>
+      </p-table>
+    </div>
+  </div>
