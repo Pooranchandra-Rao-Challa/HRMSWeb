@@ -16,4 +16,17 @@ export class AdminService extends ApiHttpService {
   public Createlookup() {
     // return this.get<LookUpHeaderDto[]>(CREATE_LOOKUP_URI);
   }
+
+  public getHolidays() {
+    //return this.get<HglViewDto[]>(GET_Holiday_URI);
+  }
+
+   public CreateHoliday(holiday:any) { //HolidayDto 
+    //return this.post<HolidayDto>(CREATE_Holiday_URI, holiday);
+  }
+
+  public UpdateHoliday(holiday:any) { //HolidayDto 
+   // return this.post<HolidayDto>(UPDATE_Holiday_URI, holiday);
+
+  }
 }
