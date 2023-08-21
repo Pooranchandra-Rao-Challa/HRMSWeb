@@ -139,14 +139,39 @@
           <span class="p-input-icon-left w-full mb-4">
             <i class="pi pi-envelope"></i>
             <input id="email" type="text" pInputText
-              class="w-full md:w-25rem text-color-secondary surface-50 border-200" placeholder="Email"
-              formControlName="userName" />
-          </span>
+              class="w-full md:w-25rem text-color-secondary surface-50 border-200" placeholder="Email" maxlength="50"
+              formControlName="userName"  alphaOnly  [ngClass]="{ 'is-invalid ng-dirty': FormControls['userName'].touched && FormControls['userName'].errors}"/>
+              <div class="flex">
+                <div class="align-left w-60" style="width:70%">
+                  <span *ngIf="FormControls['userName'].touched && FormControls['userName'].invalid">
+                    <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['userName'].errors?.['required']">
+                      Please Enter User Name.</div>
+                    <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['userName'].errors?.['minlength']">
+                      User Name Min Length Is 5.</div>
+                    <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['userName'].errors?.['maxlength']">
+                      User Name Max Length Is 50.</div>
+                    <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['userName'].errors?.['pattern']">
+                      User Name Should Contains Alphabets & Numbers.</div>
+                  </span>
+                </div>
+              </div>
+          </span> 
           <span class="p-input-icon-left w-full mb-4">
             <i class="pi pi-lock"></i>
             <input id="password" type="password" pInputText
               class="w-full md:w-25rem text-color-secondary surface-50 border-200" placeholder="Password"
-              formControlName="password" />
+              formControlName="password" maxlength="20" 
+               [ngClass]="{ 'is-invalid ng-dirty': FormControls['password'].touched && FormControls['password'].errors}"/>
+               <div class="flex">
+                <div class="align-left w-60" style="width:70%">
+                  <span *ngIf="FormControls['password'].touched && FormControls['password'].invalid">
+                    <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['password'].errors?.['required']">
+                      Please Enter Password.</div>
+                    <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['password'].errors?.['minlength']">
+                      Password Min Length Is 8.</div>
+                  </span>
+                </div>
+              </div>
           </span>
           <div class="flex align-items-center justify-content-between mb-5 gap-5">
             <div class="flex align-items-center">

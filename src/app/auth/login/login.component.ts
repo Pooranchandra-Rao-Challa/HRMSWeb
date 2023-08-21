@@ -6,6 +6,7 @@ import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { LoginModel } from 'src/app/_models/login.model';
 import { JwtService } from 'src/app/_services/jwt.service';
 import { LoginService, LogInSuccessModel } from 'src/app/_services/login.service';
+import { MAX_LENGTH_50, MIN_LENGTH_5, MIN_LENGTH_8, RG_ALPHA_NUMERIC } from 'src/app/_shared/regex';
 import { URI_ENDPOINT_WITH_PARAMS } from 'src/environments/environment';
 
 @Component({
@@ -30,10 +31,14 @@ export class LoginComponent implements OnInit {
 
     loginForm() {
         this.fbloginForm = new FormGroup({
-            userName: new FormControl('', Validators.required),
-            password: new FormControl('', Validators.required)
+            userName: new FormControl(null, [Validators.required, Validators.pattern(RG_ALPHA_NUMERIC), Validators.minLength(MIN_LENGTH_5), Validators.maxLength( MAX_LENGTH_50)]),
+            password: new FormControl(null,[ Validators.required,Validators.minLength(MIN_LENGTH_8)])
         });
     }
+
+    get FormControls() {
+        return this.fbloginForm.controls;
+      }
     onSubmit() {
         this.submitted = true;
         this.loginService.Authenticate(this.fbloginForm.value as LoginModel)

@@ -17,7 +17,9 @@ export const RG_DECIMAL=/^\d+(\.\d{1,3})?$/;
 /* Min and Max lengths */
 export const MIN_LENGTH_2 = 2;
 export const MIN_LENGTH_6 = 6;
+export const MIN_LENGTH_5 = 5;
 export const MIN_LENGTH_11 = 11;
+export const MIN_LENGTH_8 = 8;
 
 export const MAX_LENGTH_2 = 2;
 export const MAX_LENGTH_3 = 3;

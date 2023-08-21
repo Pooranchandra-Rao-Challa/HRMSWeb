@@ -4,7 +4,9 @@ import { SortEvent } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Assets } from 'src/app/demo/api/security';
 import { SecurityService } from 'src/app/demo/service/security.service';
-import { ITableHeader } from 'src/app/security/user/user.component';
+import { ITableHeader } from 'src/app/_models/common';
+import { MAX_LENGTH_6, MIN_LENGTH_2, RG_ALPHA_NUMERIC } from 'src/app/_shared/regex';
+
 
 @Component({
   selector: 'app-assets',
@@ -13,14 +15,13 @@ import { ITableHeader } from 'src/app/security/user/user.component';
   ]
 })
 export class AssetsComponent {
-
   @ViewChild('filter') filter!: ElementRef;
-
   assets: Assets[] = [];
-  globalFilterFields: string[] = ['name', 'purchasedDate', 'modelNumber', 'manufacturer', 'serialNumber', 'warranty', 'addValue', 'description', 'status'];
+  globalFilterFields: string[] = ['assetsType', 'assetsCategory', 'count', 'assetName', 'PurchasedDate', 'ModelNumber', 'Manufacturer',
+    'SerialNumber', 'Warranty', 'AddValue', 'Description', 'Status', 'isActive'];
   fbassets!: FormGroup;
   dialog: boolean = false;
-  submitLabel!: string ;
+  submitLabel!: string;
   addfields: any;
   faassetsDetails!: FormArray;
   ShowassetsDetails: boolean = false;
@@ -31,16 +32,21 @@ export class AssetsComponent {
     { name: 'Monitor', code: 'MO' },
     { name: 'Keyboard', code: 'KY' },
     { name: 'HeadSet', code: 'HS' },
-];
-assetsCategory = [
-  { name: 'Gadgets', code: 'GD' },
-  { name: 'Fixed Assets', code: 'FA' }
-];
+  ];
+  assetsCategory = [
+    { name: 'Gadgets', code: 'GD' },
+    { name: 'Fixed Assets', code: 'FA' }
+  ];
   constructor(private securityService: SecurityService, private formbuilder: FormBuilder) {
 
   }
-  headers: ITableHeader[] = [
-    { field: 'Name', header: 'Name', label: 'Name' },
+  AssetsTable: ITableHeader[] = [
+    { field: 'assetsType', header: 'assetsType', label: 'Assets Type' },
+    { field: 'assetsCategory', header: 'assetsCategory', label: 'AssetsCategory' },
+    { field: 'count', header: 'count', label: 'Count' },
+  ];
+  AssetsTypeTable: ITableHeader[] = [
+    { field: 'assetName', header: 'assetName', label: 'Asset Name' },
     { field: 'PurchasedDate', header: 'PurchasedDate', label: 'PurchasedDate' },
     { field: 'ModelNumber', header: 'ModelNumber', label: 'ModelNumber' },
     { field: 'Manufacturer', header: 'Manufacturer', label: 'Manufacturer' },
@@ -49,67 +55,38 @@ assetsCategory = [
     { field: 'AddValue', header: 'AddValue', label: 'AddValue' },
     { field: 'Description', header: 'Description', label: 'Description' },
     { field: 'Status', header: 'Status', label: 'Status' },
+    { field: 'isActive', header: 'isActive', label: 'Is Active' },
   ];
 
   ngOnInit() {
     this.assetsForm();
     this.initassets();
   }
-  get assetsFormControls() {
+  get FormControls() {
     return this.fbassets.controls;
   }
   initassets() {
     this.securityService.getassets().then(
       (data: Assets[]) =>
-      (this.assets = data)
+        (this.assets = data)
     );
   }
   assetsForm() {
-    this.addfields = []
     this.fbassets = this.formbuilder.group({
-      code: new FormControl('', [Validators.required]),
-      assetType:new FormControl('',[Validators.required]),
-      assetCategory:new FormControl('',[Validators.required]),
-      name: new FormControl('', [Validators.required]),
-      purchasedDate: new FormControl('', [Validators.required]),
-      modelNumber: new FormControl('', [Validators.required]),
-      manufacturer: new FormControl('', [Validators.required]),
-      serialNumber: new FormControl('', [Validators.required]),
-      warranty: new FormControl('', [Validators.required]),
-      addValue: new FormControl('', [Validators.required]),
-      description: new FormControl('', [Validators.required]),
-      status: new FormControl('', [Validators.required]),
+      code: new FormControl(null, [Validators.required, Validators.pattern(RG_ALPHA_NUMERIC), Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_6)]),
+      assetType: new FormControl(null, [Validators.required]),
+      assetCategory: new FormControl(null, [Validators.required]),
+      assetname: new FormControl(null, [Validators.required]),
+      purchasedDate: new FormControl(null, [Validators.required]),
+      modelNumber: new FormControl(null),
+      manufacturer: new FormControl(null, [Validators.required]),
+      serialNumber: new FormControl(null),
+      warranty: new FormControl(null),
+      addValue: new FormControl(null, [Validators.required]),
+      description: new FormControl(null),
+      status: new FormControl(null, [Validators.required]),
       isActive: [true, (Validators.requiredTrue)],
-      createdAt: new FormControl('', [Validators.required]),
-      updatedAt: new FormControl('', [Validators.required]),
-      createdBy: new FormControl('', [Validators.required]),
-      updatedBy: new FormControl('', [Validators.required]),
-      assetsDetails: this.formbuilder.array([])
     });
-  }
-  generaterow(assetsDetails: Assets = new Assets()): FormGroup {
-    return this.formbuilder.group({
-      id: [assetsDetails.id],
-      code: new FormControl(assetsDetails.code, [Validators.required]),
-      name: new FormControl(assetsDetails.name, [Validators.required]),
-      purchasedDate: new FormControl(assetsDetails.purchasedDate, [Validators.required]),
-      modelNumber: new FormControl(assetsDetails.modelNumber, [Validators.required]),
-      manufacturer: new FormControl(assetsDetails.manufacturer, [Validators.required]),
-      serialNumber: new FormControl(assetsDetails.serialNumber, [Validators.required]),
-      warranty: new FormControl(assetsDetails.warranty, [Validators.required]),
-      addValue: new FormControl(assetsDetails.addValue, [Validators.required]),
-      description: new FormControl(assetsDetails.description, [Validators.required]),
-      status: new FormControl(assetsDetails.status, [Validators.required]),
-      isActive: new FormControl(assetsDetails.isActive, [Validators.required]),
-      createdAt: new FormControl(assetsDetails.createdAt, [Validators.required]),
-      updatedAt: new FormControl(assetsDetails.updatedAt, [Validators.required]),
-      createdBy: new FormControl(assetsDetails.createdBy, [Validators.required]),
-      updatedBy: new FormControl(assetsDetails.updatedBy, [Validators.required]),
-
-    })
-  }
-  faassetsDetail(): FormArray {
-    return this.fbassets.get("assetsDetails") as FormArray
   }
 
   onGlobalFilter(table: Table, event: Event) {
@@ -125,14 +102,8 @@ assetsCategory = [
     this.fbassets.reset();
     this.dialog = true;
   }
-  addassetsDetails() {
-    this.ShowassetsDetails = true;
-    this.faassetsDetails = this.fbassets.get("assetsDetails") as FormArray
-    this.faassetsDetails.push(this.generaterow())
-
-  }
+  
   addAssetsDialog() {
-    this.addassetsDetails();
     this.submitLabel = "Add Assets";
     this.dialog = true;
 
@@ -140,14 +111,10 @@ assetsCategory = [
   onClose() {
     this.fbassets.reset();
     this.ShowassetsDetails = false;
-    this.faassetsDetail().clear();
   }
   editAssets(assets: any) {
-    this.addassetsDetails();
-    this.submitLabel = "Add Assets";
     this.dialog = true;
     this.submitLabel = "Update Assets";
-
   }
   onSubmit() { }
 

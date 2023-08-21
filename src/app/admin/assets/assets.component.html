@@ -6,74 +6,153 @@
         <h4>Assets</h4>
       </ng-template>
       <ng-template pTemplate="right">
-        <button pButton pRipple label="New Asset" icon="pi pi-plus" class="p-button-primary p-mr-2" (click)="addAssetsDialog()"></button>
+        <button pButton pRipple label="New Asset" icon="pi pi-plus" class="p-button-primary p-mr-2"
+          (click)="addAssetsDialog()"></button>
       </ng-template>
     </p-toolbar>
     <!-- dialog -->
-    <p-dialog header="Assets" [(visible)]="dialog" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '60%'}" (onHide)="onClose()">
+    <p-dialog header="Assets" [(visible)]="dialog" [modal]="true" showEffect="fade"
+      [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '60%'}" (onHide)="onClose()">
       <div class="flex flex-column align-items-center justify-content-center">
         <form [formGroup]="fbassets">
           <div class="col-12 roles-container">
             <div class="p-fluid p-formgrid grid">
               <div class="field col-12 md:col-4">
-                <label>Code: <sup class="p-error">*</sup>
-                </label>&nbsp; <input pInputText id="code" type="text" formControlName="code" placeholder="Enter Code" #assetname alphaNumeric />
+                <label>Code: <sup class="p-error">*</sup></label>
+                <input pInputText id="code" type="text" formControlName="code" placeholder="Enter Code" alphaNumeric
+                  maxlength="6"
+                  [ngClass]="{ 'is-invalid ng-dirty': FormControls['code'].touched && FormControls['code'].errors}" />
+                <div class="flex">
+                  <div class="align-left w-60" style="width:70%">
+                    <span *ngIf="FormControls['code'].touched && FormControls['code'].invalid">
+                      <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['code'].errors?.['required']">
+                        Please Enter Code.</div>
+                      <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['code'].errors?.['minlength']">
+                        Code Min Length Is 2.</div>
+                      <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['code'].errors?.['maxlength']">
+                        Code Max Length Is 6.</div>
+                      <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['code'].errors?.['pattern']">
+                        Code Should Contains Alphabets & Numbers.</div>
+                    </span>
+                  </div>
+                  <!-- <div class="align-right w-40" style="width:30%; text-align:right;">
+                    <small>{{code.value.length}}/6</small>
+                  </div> -->
+                </div>
               </div>
               <div class="field col-12 md:col-4">
-                <label>Enter Asset Category: <sup class="p-error">*</sup>
-                </label>&nbsp; <p-dropdown [options]="assetsCategory" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select Asset" formControlName="assetCategory" optionValue="code">
-                  <ng-template let-asset pTemplate="item">
-                    <div class="country-item">
-                      <div>{{ asset.name }}</div>
-                    </div>
-                  </ng-template>
+                <label>Enter Asset Category: <sup class="p-error">*</sup></label>
+                <p-dropdown [options]="assetsCategory" optionLabel="name" [filter]="true" filterBy="name"
+                  [showClear]="true" placeholder="Select Asset" formControlName="assetCategory" optionValue="code"
+                  [ngClass]="{ 'is-invalid ng-dirty': FormControls['assetCategory'].touched && FormControls['assetCategory'].errors}">
                 </p-dropdown>
-              </div>
-              <div class="field col-12 md:col-4">
-                <label>Enter AssetType: <sup class="p-error">*</sup>
-                </label>&nbsp; <p-dropdown [options]="assetsList" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select Asset" formControlName="assetType" optionValue="code">
-                  <ng-template let-asset pTemplate="item">
-                    <div class="country-item">
-                      <div>{{ asset.name }}</div>
-                    </div>
-                  </ng-template>
-                </p-dropdown>
-              </div>
-              <div class="field col-12 md:col-4">
-                <label>Asset Name: <sup class="p-error">*</sup>
-                </label>&nbsp; <input pInputText id="assetname" type="text" formControlName="name" placeholder="Enter Asset Name" #assetname alphaNumeric />
-              </div>
-              <div class="field col-12 md:col-4">
-                <span>
-                  <label>Purchased Date: <sup class="p-error">*</sup>
-                  </label>&nbsp; <p-calendar inputId="purchaseddate" placeholder="Enter Purchased Date" formControlName="purchasedDate"></p-calendar>
+                <span *ngIf="FormControls['assetCategory'].touched && FormControls['assetCategory'].invalid">
+                  <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['assetCategory'].errors?.['required']">
+                    Please Select Asset Category.
+                  </div>
                 </span>
               </div>
               <div class="field col-12 md:col-4">
-                <label>Model Number:</label>&nbsp; <input pInputText id="modelnumber" formControlName="modelNumber" placeholder="Enter Model Number" #modelnumber alphaOnly />
+                <label>Enter Asset Type: <sup class="p-error">*</sup></label>
+                <p-dropdown [options]="assetsList" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true"
+                  placeholder="Select Asset" formControlName="assetType" optionValue="code"
+                  [ngClass]="{ 'is-invalid ng-dirty': FormControls['assetType'].touched && FormControls['assetType'].errors}">
+                </p-dropdown>
+                <span *ngIf="FormControls['assetType'].touched && FormControls['assetType'].invalid">
+                  <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['assetType'].errors?.['required']">
+                    Please Select Asset Type.
+                  </div>
+                </span>
               </div>
               <div class="field col-12 md:col-4">
-                <label>Manufacturer: <sup class="p-error">*</sup>
-                </label>&nbsp; <input pInputText id="manufacturer" type="text" formControlName="manufacturer" placeholder="Enter Manufacturer" #manufacturer alphaOnly />
+                <label>Asset Name: <sup class="p-error">*</sup></label>
+                <input pInputText id="assetname" type="text" formControlName="assetname" placeholder="Enter Asset Name"
+                  alphaNumeric
+                  [ngClass]="{ 'is-invalid ng-dirty': FormControls['assetname'].touched && FormControls['assetname'].errors}" />
+                <div class="flex">
+                  <div class="align-left w-60" style="width:70%">
+                    <span *ngIf="FormControls['assetname'].touched && FormControls['assetname'].invalid">
+                      <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['assetname'].errors?.['required']">
+                        Please Enter Asset Name.</div>
+                      <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['assetname'].errors?.['pattern']">
+                        Name
+                        Should Contains Alphabets.</div>
+                      <div class="ng-invalid ng-touched p-error"
+                        *ngIf="FormControls['assetname'].errors?.['minlength']">
+                        Name Min Characters Is 2.</div>
+                    </span>
+                  </div>
+                  <!-- <div class="align-right w-40" style="width:30%; text-align:right;">
+                <small>{{name.value.length}}/50</small>
+              </div> -->
+                </div>
               </div>
               <div class="field col-12 md:col-4">
-                <label>Serial Number:</label>&nbsp; <input pInputText id="serialnumber" type="text" formControlName="serialNumber" placeholder="Enter Serial Number " />
+                <label>Purchased Date: <sup class="p-error">*</sup></label>
+                <p-calendar inputId="purchaseddate" id="purchaseddate" placeholder="Enter Purchased Date"
+                  formControlName="purchasedDate"
+                  [ngClass]="{ 'is-invalid ng-dirty': FormControls['purchasedDate'].touched && FormControls['purchasedDate'].errors}">
+                </p-calendar>
+                <span *ngIf="FormControls['purchasedDate'].touched && FormControls['purchasedDate'].invalid">
+                  <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['purchasedDate'].errors?.['required']">
+                    Please Select Purchased Date.
+                  </div>
+                </span>
               </div>
               <div class="field col-12 md:col-4">
-                <label>Warranty:</label>&nbsp; <input pInputText id="warranty" type="text" formControlName="warranty" placeholder="Enter Warranty " />
+                <label>Model Number:</label>
+                <input pInputText id="modelnumber" formControlName="modelNumber" placeholder="Enter Model Number" />
               </div>
               <div class="field col-12 md:col-4">
-                <label>Add Value: <sup class="p-error">*</sup>
-                </label>&nbsp; <input pInputText id="addvalue" type="text" formControlName="addValue" placeholder="Enter Add Value" />
+                <label>Manufacturer: <sup class="p-error">*</sup></label>
+                <input pInputText id="manufacturer" type="text" formControlName="manufacturer"
+                  placeholder="Enter Manufacturer" alphaOnly
+                  [ngClass]="{ 'is-invalid ng-dirty': FormControls['manufacturer'].touched && FormControls['manufacturer'].errors}" />
+                <span *ngIf="FormControls['manufacturer'].touched && FormControls['manufacturer'].invalid">
+                  <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['manufacturer'].errors?.['required']">
+                    Please Enter Manufacturer.
+                  </div>
+                </span>
+              </div>
+              <div class="field col-12 md:col-4">
+                <label>Serial Number:</label>
+                <input pInputText id="serialnumber" type="text" formControlName="serialNumber"
+                  placeholder="Enter Serial Number " />
+              </div>
+              <div class="field col-12 md:col-4">
+                <label>Warranty:</label>
+                <input pInputText id="warranty" type="text" formControlName="warranty" placeholder="Enter Warranty " />
+              </div>
+              <div class="field col-12 md:col-4">
+                <label>Add Value: <sup class="p-error">*</sup></label>
+                <input pInputText id="addvalue" type="text" formControlName="addValue" placeholder="Enter Add Value"
+                  [ngClass]="{ 'is-invalid ng-dirty': FormControls['addValue'].touched && FormControls['addValue'].errors}" />
+                <span *ngIf="FormControls['addValue'].touched && FormControls['addValue'].invalid">
+                  <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['addValue'].errors?.['required']">
+                    Please Enter Add Value.
+                  </div>
+                </span>
+              </div>
+              <div class="field col-12 md:col-4">
+                <label>Status: <sup class="p-error">*</sup></label>
+                <input pInputText id="status" type="text" formControlName="status" placeholder="Enter Status"
+                  [ngClass]="{ 'is-invalid ng-dirty': FormControls['status'].touched && FormControls['status'].errors}" />
+                <span *ngIf="FormControls['status'].touched && FormControls['status'].invalid">
+                  <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['status'].errors?.['required']">
+                    Please Enter Status.
+                  </div>
+                </span>
               </div>
               <div class="field col-12 md:col-4">
                 <label htmlFor="description">Description:</label>
-                <textarea inputId="description" rows="3" cols="30" pInputTextarea formControlName="description" placeholder="Enter Description"></textarea>
+                <textarea inputId="description" id="description" rows="3" cols="30" pInputTextarea
+                  formControlName="description" placeholder="Enter Description"></textarea>
               </div>
               <div class="field col-12 md:col-4">
-                <label>Is Active: <sup class="p-error">*</sup>
+                <label>Is Active:
                 </label>
-                <br> &nbsp; <p-inputSwitch formControlName="isActive"></p-inputSwitch>
+                <br>
+                <p-inputSwitch formControlName="isActive"></p-inputSwitch>
               </div>
             </div>
           </div>
@@ -81,33 +160,46 @@
       </div>
       <ng-template pTemplate="footer">
         <div class="col-4" style="float:right">
-          <button pButton pRipple type="submit" [label]="submitLabel" class="p-button-raised p-button-primary" (click)="onSubmit()"></button>
+          <button pButton pRipple type="submit" [label]="submitLabel" class="p-button-raised p-button-primary"
+            (click)="onSubmit()"></button>
         </div>
       </ng-template>
     </p-dialog>
     <!-- table -->
-    <p-table #dtlookup [value]="assets" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false" [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true" [globalFilterFields]="globalFilterFields" [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]">
-      <!-- <p-table [value]="assets" dataKey="name" [tableStyle]="{ 'min-width': '60rem' }"> -->
+    <p-table #dtAssets [value]="assets" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
+      [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      styleClass="p-datatable-gridlines  p-datatable-sm" [style]="{width: 'auto'}" [showCurrentPageReport]="true"
+      [globalFilterFields]="globalFilterFields" [autoLayout]="true" responsiveLayout="scroll"
+      [rowsPerPageOptions]="[10,25,50]">
+      <ng-template pTemplate="caption">
+        <div class="flex justify-content-between flex-column sm:flex-row">
+          <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
+            (click)="clear(dtAssets)"></button>
+          <span class="p-input-icon-left mb-2">
+            <i class="pi pi-search"></i>
+            <input pInputText type="text" #filter (input)="onGlobalFilter(dtAssets, $event)"
+              placeholder="Search Keyword" class="w-full" />
+          </span>
+        </div>
+      </ng-template>
       <ng-template pTemplate="header">
         <tr>
-          <th style="width: 5rem"></th>
-          <th pSortableColumn="">ID <p-sortIcon field=""></p-sortIcon>
-          </th>
-          <th pSortableColumn="">Asset Type <p-sortIcon field=""></p-sortIcon>
-          </th>
-          <th pSortableColumn="">Asset Category <p-sortIcon field=""></p-sortIcon>
-          </th>
-          <th pSortableColumn="">Count <p-sortIcon field=""></p-sortIcon>
+          <th></th>
+          <th *ngFor="let col of AssetsTable" [pSortableColumn]="col.header">
+            {{col?.label}}
+            <p-columnFilter type="text" [field]="col.header" display="menu"></p-columnFilter>
+            <p-sortIcon [field]="col.header"></p-sortIcon>
           </th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-asset let-expanded="expanded">
         <tr>
           <td>
-            <button type="button" pButton pRipple [pRowToggler]="asset" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+            <button type="button" pButton pRipple [pRowToggler]="asset"
+              class="p-button-text p-button-rounded p-button-plain"
+              [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
           </td>
-          <td>{{ asset.id }}</td>
-          <td>{{ asset.assestType }}</td>
+          <td>{{asset.assestType }}</td>
           <td>{{asset.category}}</td>
           <td>{{asset.list.length}}
           </td>
@@ -117,12 +209,11 @@
         <tr>
           <td colspan="7" class="p-0">
             <div class="p-0">
-              <p-table [value]="assest.list" dataKey="id"  [tableStyle]="{ width: 'max-content'}">
+              <p-table [value]="assest.list" dataKey="id" [tableStyle]="{ width: 'max-content'}">
                 <ng-template pTemplate="header">
         <tr>
           <th style="width:5px;">Actions</th>
-         
-          <th *ngFor="let col of headers" [pSortableColumn]="col.header">
+          <th *ngFor="let col of AssetsTypeTable" [pSortableColumn]="col.header">
             {{col?.label}}
             <p-columnFilter type="text" [field]="col.header" display="menu"></p-columnFilter>
             <p-sortIcon [field]="col.header"></p-sortIcon>
@@ -133,11 +224,13 @@
         <tr>
           <td>
             <div class="flex">
-              <button pButton pRipple icon="pi pi-pencil" style="padding: 0px;" class="p-element p-ripple p-button-text p-button p-component col-6" (click)="addAssetsDialog()"></button>
-              <button pButton pRipple icon="pi pi-trash" id="delete" class="p-element p-ripple p-button-text p-button p-component col-6 "></button>
+              <button pButton pRipple icon="pi pi-pencil" style="padding: 0px;"
+                class="p-element p-ripple p-button-text p-button p-component col-6"
+                (click)="editAssets($event)"></button>
+              <button pButton pRipple icon="pi pi-trash" id="delete"
+                class="p-element p-ripple p-button-text p-button p-component col-6 "></button>
             </div>
           </td>
-           
           <td>{{ list.name }}</td>
           <td>{{ list.purchasedDate }}</td>
           <td>{{ list.modelNumber }}</td>
@@ -147,11 +240,18 @@
           <td>{{ list.addValue }}</td>
           <td>{{ list.description }}</td>
           <td>{{ list.status }}</td>
+          <!-- <td *ngFor="let col of AssetsTypeTable" [ngClass]="col?.field == 'isActive' ? 'text-center' : ''">
+            <span *ngIf="col?.field == 'isActive'">
+              <p-checkbox name="isActive" value="isActive" [binary]="true" [(ngModel)]="list[col.field]"
+                  [disabled]="true">
+              </p-checkbox>
+          </span>
+          </td> -->
         </tr>
       </ng-template>
       <ng-template pTemplate="emptymessage">
         <tr>
-          <td colspan="6">There are no order for this product yet.</td>
+          <td class="md:text-center m-5" colspan="8">No Assets Found.</td>
         </tr>
       </ng-template>
     </p-table>
