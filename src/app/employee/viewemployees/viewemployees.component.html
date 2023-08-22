@@ -277,6 +277,25 @@
           </div>
         </div>
       </p-tabPanel>
+      <p-tabPanel header="Bank Details">
+        <div class="grid">
+          <div class="col-12 lg:col-4">
+            <div class="card">
+              <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">Current Address</div> Arunodaya Residencymithila nagr, Pragathi Nagar, Hyderabad, Telangana 500072
+            </div>
+          </div>
+          <div class="col-12 lg:col-4">
+            <div class="card">
+              <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">Permanent Address</div> Arunodaya Residencymithila nagr, Pragathi Nagar, Hyderabad, Telangana 500072
+            </div>
+          </div>
+          <div class="col-12 lg:col-4">
+            <div class="card text-center">
+              <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-text p-button p-component p-4 m-2" (click)="showBankDetails()"></button>
+            </div>
+          </div>
+        </div>
+      </p-tabPanel>
     </p-tabView>
   </div>
   <p-dialog header="CIS202214" [(visible)]="dialog" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">

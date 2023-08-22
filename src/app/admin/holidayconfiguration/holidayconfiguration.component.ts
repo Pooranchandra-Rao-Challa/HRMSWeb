@@ -27,6 +27,7 @@ export class HolidayconfigurationComponent {
   globalFilterFields: string[] = ['leaveTitle', 'date', 'leaveDescription']
   @ViewChild('filter') filter!: ElementRef;
   dialog: boolean = false;
+  editDialog: boolean = false;
   fbleave!: FormGroup;
   addfields: any;
   submitLabel!: string;
@@ -123,31 +124,11 @@ export class HolidayconfigurationComponent {
 
   editLeave(holiday: any) {
     // Load the selected holiday into the form
-    this.fbleave.patchValue({
-      holidayId: holiday.holidayId,
-      title: holiday.title,
-      fromDate: holiday.fromDate,
-      toDate: holiday.toDate,
-      description: holiday.description,
-      isActive:holiday.isActive
-    });
-    // Clear the existing FormArray
-    this.faleaveDetail().clear();
-    // For each leaveDetail in the selected holiday, push a FormGroup into the FormArray
-    holiday.leaveDetails.forEach((leaveDetail: any) => {
-      this.faleaveDetail().push(this.formbuilder.group({
-        holidayId: new FormControl(leaveDetail.holidayId),
-        title: new FormControl(leaveDetail.title),
-        fromDate: new FormControl(leaveDetail.fromDate),
-        toDate: new FormControl(leaveDetail.toDate),
-        description: new FormControl(leaveDetail.description, []),
-        isActive: new FormControl(leaveDetail.isActive, [])
-      }));
-    });
     this.submitLabel = "Update Holiday";
-    this.dialog = true;
+    this.editDialog = true;
     this.addFlag = false;
   }
+  
   saveHoliday(): Observable<HttpEvent<any>> {
     const leaveDetails = this.fbleave.get('leaveDetails').value;
     return this.AdminService.CreateHoliday(leaveDetails);

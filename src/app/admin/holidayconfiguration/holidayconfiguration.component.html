@@ -92,6 +92,45 @@
           </div>
         </ng-template>
       </p-dialog>
+
+
+
+      <p-dialog header="Holiday" [(visible)]="editDialog" [modal]="true" showEffect="fade"  [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}" (onHide)="onClose()">
+        <div class="flex flex-column align-items-center justify-content-center">
+          <form [formGroup]="fbleave"(ngSubmit)="onSubmit()" >
+            <div class="grid">
+              <div class="col-12 roles-container">
+                <div class="p-fluid p-formgrid grid">
+                  <div class="field col-12 md:col-4">
+                    <label>Holiday Title: <sup class="p-error">*</sup>
+                    </label>&nbsp; <input pInputText id="title" type="text" formControlName="title" placeholder="Enter Holiday Title" />
+                  </div>
+                  <div class="field col-12 md:col-4">
+                    <label>From Date: <sup class="p-error">*</sup>
+                    </label>&nbsp; <p-calendar formControlName="fromDate" placeholder="Enter From Date" [showIcon]="true"></p-calendar>
+                  </div>
+                  <div class="field col-12 md:col-4">
+                    <label>To Date:</label>&nbsp; <p-calendar [showIcon]="true" formControlName="toDate" placeholder="Enter To Date"></p-calendar>
+                  </div>
+                  <div class="field col-12 md:col-4">
+                    <label>Holiday Description: <sup class="p-error">*</sup>
+                    </label>&nbsp; <input pInputText id="description" type="text" formControlName="description" placeholder="Enter Holiday Description" />
+                  </div>
+                  <div class="field col-12 md:col-4">
+                    <label class="required">Is Active:</label><br>
+                    <p-inputSwitch formControlName="isActive" id="isActive"></p-inputSwitch>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <ng-template pTemplate="footer">
+          <div class="col-4" style="float:right">
+            <button pButton pRipple type="submit" [label]="submitLabel" class="p-button-raised p-button-primary" (click)="onSubmit()"></button>
+          </div>
+        </ng-template>
+      </p-dialog>
       <!-- table -->
       <p-table #dtleave [value]="holidays" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true" [globalFilterFields]="globalFilterFields" [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]">
         <ng-template pTemplate="caption">
