@@ -165,7 +165,7 @@ export class HolidayconfigurationComponent {
   }
   addLeaveDialog() {
     this.addLeaveDetails();
-    this.submitLabel = "Add Holiday";
+    this.submitLabel = "Add Holidays";
     this.dialog = true;
 
   }
