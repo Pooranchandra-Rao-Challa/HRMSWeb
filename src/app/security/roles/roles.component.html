@@ -7,7 +7,7 @@
         <h4>Roles</h4>
       </ng-template>
       <ng-template pTemplate="right">
-        <button pButton pRipple label="New Roles" icon="pi pi-plus" class="p-button-primary p-mr-2" id="Role_addRole"
+        <button pButton pRipple label="New Role" icon="pi pi-plus" class="p-button-primary p-mr-2" id="Role_addRole"
           (click)="initRole({})"></button>
       </ng-template>
     </p-toolbar>
@@ -66,7 +66,7 @@
     <!-- Dialog  -->
 
     <p-dialog header="Role" [(visible)]="dialog" [modal]="true" showEffect="fade"
-      [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: 'auto'}">
+      [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '50%'}">
       <div class="flex flex-column align-items-center justify-content-center">
         <form [formGroup]="roleForm" (ngSubmit)="onSubmit()" id="Role_roleForm">
           <div class="grid">
@@ -75,7 +75,7 @@
                 <div class="field col-12 md:col-6">
                   <label class="required">Name:</label>&nbsp;
                   <input pInputText id="Role_roleName" type="text" formControlName="name" placeholder="Enter Role Name"
-                    #name alphaOnly [maxlength]="maxLength.name"
+                    #name alphaOnly [maxlength]="maxLength.name" 
                     [ngClass]="{ 'is-invalid ng-dirty': roleFormControls['name'].touched && roleFormControls['name'].errors }" />
                   <div class="flex">
                     <div class="align-left w-60" style="width:70%">
@@ -131,7 +131,7 @@
       </div>
       <ng-template pTemplate="footer">
         <div class="col-4" style="float:right">
-          <button pButton pRipple type="submit" [label]="submitLabel" class="p-button-raised p-button-primary" id="Role_roleSubmitButton"
+          <button pButton pRipple type="submit" [label]="submitLabel" [disabled]="!this.roleForm.valid" class="p-button-raised p-button-primary" id="Role_roleSubmitButton"
             (click)="onSubmit()"></button>
         </div>
       </ng-template>

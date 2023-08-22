@@ -1,5 +1,5 @@
 /* Regular Expersions */
-export const RG_ALPHA_ONLY = /^[a-zA-Z()]+(\s+[a-zA-Z()]+)*$/;
+export const RG_ALPHA_ONLY = /^[^\s].*[^\s][a-zA-Z()]+(\s+[a-zA-Z()]+)*$/;
 export const RG_NUMERIC_ONLY = '[0-9]*';
 export const RG_ALPHA_NUMERIC = /^[-a-zA-Z0-9-]+(\s+[-a-zA-Z0-9-]+)*$/;
 export const RG_PHONE_NO = '^[5-9][0-9]{9}$';
