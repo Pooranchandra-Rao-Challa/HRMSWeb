@@ -10,15 +10,15 @@
         </ng-template>
       </p-toolbar>
       <!-- dialog -->
-      <p-dialog header="Holiday" [(visible)]="dialog" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}" (onHide)="onClose()">
+      <p-dialog header="Holiday" [(visible)]="dialog" [modal]="true" showEffect="fade"  [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}" (onHide)="onClose()">
         <div class="flex flex-column align-items-center justify-content-center">
-          <form [formGroup]="fbleave">
+          <form [formGroup]="fbleave"(ngSubmit)="onSubmit()" >
             <div class="grid">
               <div class="col-12 roles-container">
                 <div class="p-fluid p-formgrid grid">
                   <div class="field col-12 md:col-4">
                     <label>Holiday Title: <sup class="p-error">*</sup>
-                    </label>&nbsp; <input pInputText id="title" type="text" formControlName="leaveTitle" placeholder="Enter Holiday Title" />
+                    </label>&nbsp; <input pInputText id="title" type="text" formControlName="title" placeholder="Enter Holiday Title" />
                   </div>
                   <div class="field col-12 md:col-4">
                     <label>From Date: <sup class="p-error">*</sup>
@@ -29,14 +29,18 @@
                   </div>
                   <div class="field col-12 md:col-4">
                     <label>Holiday Description: <sup class="p-error">*</sup>
-                    </label>&nbsp; <input pInputText id="description" type="text" formControlName="leaveDescription" placeholder="Enter Holiday Description" />
+                    </label>&nbsp; <input pInputText id="description" type="text" formControlName="description" placeholder="Enter Holiday Description" />
+                  </div>
+                  <div class="field col-12 md:col-4">
+                    <label class="required">Is Active:</label><br>
+                    <p-inputSwitch formControlName="isActive" id="isActive"></p-inputSwitch>
                   </div>
                   <div class=" col-12 md:col-4 mt-2">
                     <div class=" button-container mt-5">
-                      <p-button type="button" label="Add Holiday" (click)="addLeaveDetails()"></p-button>
+                      <p-button type="button" label="Add Holiday" [disabled]="!fbleave.valid" [disabled]="!fbleave.get('title').valid || !fbleave.get('fromDate').valid || !fbleave.get('toDate').valid || !fbleave.get('description').valid" (click)="addLeaveDetails()"></p-button>
                     </div>
                   </div>
-                  <div class="col-12 scrolling_content" formArrayName="leaveDetails" *ngIf="ShowleaveDetails">
+                  <div class="col-12 scrolling_content" formArrayName="leaveDetails" >
                     <p-table #dt2 [value]="faleaveDetail().controls" dataKey="id" [rows]="10" [rowHover]="true" *ngIf="ShowleaveDetails" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="false" [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]">> <ng-template pTemplate="header">
                         <tr>
                           <th>Holiday Title <sup class="p-error">*</sup>
@@ -46,13 +50,14 @@
                           <th>To Date </th>
                           <th>Holiday Description <sup class="p-error">*</sup>
                           </th>
-                          <th *ngIf="fbleave.controls['leaveDetails'].value.length > 1"></th>
+                          <th>Is Active </th>
+                         
                         </tr>
                       </ng-template>
-                      <ng-template pTemplate="body" let-leave let-leaveDetailsIndex="rowIndex" *ngFor="let detailCtrl of faleaveDetail().controls; index as i">
-                        <tr [formGroupName]="leaveDetailsIndex">
+                      <ng-template pTemplate="body" let-leave let-leaveDetailsIndex="rowIndex" >
+                        <tr [formGroupName]="leaveDetailsIndex" >
                           <td class="vertical-align-top">
-                            <input pInputText class="form-control" formControlName="leaveTitle" placeholder="Enter Holiday Title">
+                            <input pInputText class="form-control" formControlName="title" placeholder="Holiday Title" >
                           </td>
                           <td class="vertical-align-top">
                             <input pInputText class="form-control" formControlName="fromDate" placeholder="Enter From Date">
@@ -61,8 +66,13 @@
                             <input pInputText class="form-control" formControlName="toDate" placeholder="Enter To Date">
                           </td>
                           <td class="vertical-align-top">
-                            <input pInputText class="form-control" formControlName="leaveDescription" placeholder="Enter Holilday Description">
+                            <input pInputText class="form-control" formControlName="description" placeholder="Enter Holilday Description">
                           </td>
+                          <td class="vertical-align-top">
+                            <label class="required">Is Active:</label><br>
+                            <p-inputSwitch formControlName="isActive" id="isActive"></p-inputSwitch>
+                          </td>
+                          
                           <td *ngIf="fbleave.controls['leaveDetails'].value.length > 1">
                             <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer" *ngIf="!this.faleaveDetail().controls[leaveDetailsIndex].get('id')?.value" (click)="faleaveDetail().removeAt(leaveDetailsIndex)"></i>
                             <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer" *ngIf="this.faleaveDetail().controls[leaveDetailsIndex].get('id')?.value" (click)="faleaveDetail().removeAt(leaveDetailsIndex)"></i>
@@ -83,14 +93,14 @@
         </ng-template>
       </p-dialog>
       <!-- table -->
-      <p-table #dtleave [value]="holiday" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true" [globalFilterFields]="globalFilterFields" [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]">
+      <p-table #dtleave [value]="holidays" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true" [globalFilterFields]="globalFilterFields" [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]">
         <ng-template pTemplate="caption">
           <div class="flex justify-content-between flex-column sm:flex-row">
             <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="clear(dtleave)"></button>
             <div class="field text-center m-0">
               <label>Year: 
               </label>
-              &nbsp;  <p-dropdown [options]="years" placeholder="Select a Year"  [(ngModel)]="selectedYear" optionLabel="year"></p-dropdown>
+              &nbsp;  <p-dropdown [options]="years" placeholder="Select a Year"  [(ngModel)]="selectedYear"  (onChange)="initHoliday()" optionLabel="year"></p-dropdown>
           </div>
             <span class="p-input-icon-left mb-2">
               <i class="pi pi-search"></i>
@@ -113,18 +123,19 @@
             <td>
               <button pButton pRipple icon="pi pi-pencil" style="padding: 0px;" class="p-element p-ripple p-button-text p-button p-component mr-2 " (click)="editLeave(leave)"></button>
             </td>
-            <td>
-              {{ leave.leaveTitle }}
+          
+            <td *ngFor="let col of headers" [ngClass]="col?.field == 'isActive' ? 'text-center' : ''">
+              <span *ngIf="col?.field != 'createdAt' && col?.field != 'updatedAt' && col?.field != 'fromDate' && col?.field != 'toDate' && col?.field != 'isActive'">{{leave[col.field]}}</span>
+              <span *ngIf="col?.field == 'createdAt' || col?.field == 'updatedAt' || col?.field == 'fromDate' || col?.field == 'toDate'">
+                {{leave[col.field] | date: 'mediumDate' }}
+              </span>
+              <span *ngIf="col?.field == 'isActive'">
+                <p-checkbox name="isActive" value="isActive" [binary]="true" [(ngModel)]="leave[col.field]"
+                  [disabled]="true">
+                </p-checkbox>
+              </span>
             </td>
-            <td>
-              {{ leave.fromDate}}
-            </td>
-            <td>
-              {{leave.toDate}}
-            </td>
-            <td>
-              {{ leave.leaveDescription }}
-            </td>
+        
           </tr>
         </ng-template>
         <ng-template pTemplate="emptymessage">

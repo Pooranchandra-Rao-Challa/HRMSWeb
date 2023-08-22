@@ -8,6 +8,8 @@ import { HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ALERT_CODES, AlertmessageService } from 'src/app/_alerts/alertmessage.service';
 import { ITableHeader } from 'src/app/_models/common';
+import { HolidayDto, HolidaysViewDto } from 'src/app/_models/admin';
+import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 
 interface Year {
   year: string;
@@ -20,7 +22,8 @@ interface Year {
   ]
 })
 export class HolidayconfigurationComponent {
-  holidays: any
+  holidays: HolidaysViewDto[] = [];
+  holiday:any
   globalFilterFields: string[] = ['leaveTitle', 'date', 'leaveDescription']
   @ViewChild('filter') filter!: ElementRef;
   dialog: boolean = false;
@@ -30,11 +33,12 @@ export class HolidayconfigurationComponent {
   maxLength: any;
   faleaveDetails!: FormArray;
   date: Date | undefined;
-  holiday: any;
+  addRow = false;
   addFlag: boolean = true;
   ShowleaveDetails: boolean = false;
-   selectedYear : Year |undefined;
+  selectedYear : Year |undefined;
   years: Year[] | undefined;
+  mediumDate: string = MEDIUM_DATE
 
 
   constructor(
@@ -43,25 +47,33 @@ export class HolidayconfigurationComponent {
     private alertMessage: AlertmessageService) { }
 
   headers: ITableHeader[] = [
-    { field: 'leaveTitle', header: 'leaveTitle', label: 'Holiday Title' },
+    { field: 'title', header: 'title', label: 'Holiday Title' },
     { field: 'fromDate', header: 'fromDate', label: 'From Date' },
     { field: 'toDate', header: 'toDate', label: 'To Date' },
-    { field: 'leaveDescription', header: 'leaveDescription', label: 'Holiday Description' },
+    { field: 'description', header: 'description', label: 'Holiday Description' },
+    { field: 'isActive', header: 'isActive', label: 'IsActive' },
+    { field: 'createdAt', header: 'createdAt', label: 'Created At' },
+    { field: 'createdBy', header: 'createdBy', label: 'Created By' },
+    { field: 'updatedAt', header: 'updatedAt', label: 'Updated At' },
+    { field: 'updatedBy', header: 'updatedBy', label: 'Updated By' },
   ];
 
   ngOnInit(): void {
     this.leaveForm();
-	this. initializeYears();
-    // this.initHoliday() 
+    
+	this.initializeYears();
+  this.selectedYear = this.years.find(y => y.year === '2023');
+     this.initHoliday() 
   }
   leaveForm() {
     this.addfields = []
     this.fbleave = this.formbuilder.group({
-      id: [],
-      leaveTitle: new FormControl('', [Validators.required]),
-      fromDate: new FormControl('', [Validators.required]),
-      toDate: new FormControl('', [Validators.required]),
-      leaveDescription: new FormControl('', [Validators.required]),
+      holidayId:null,
+      title: new FormControl(''),
+      fromDate: new FormControl(''),
+      toDate: new FormControl(''),
+      description: new FormControl(''),
+      isActive:true,
       leaveDetails: this.formbuilder.array([])
     });
   }
@@ -70,101 +82,99 @@ export class HolidayconfigurationComponent {
     return this.fbleave.get("leaveDetails") as FormArray
   }
   addLeaveDetails() {
-    this.ShowleaveDetails = true;
-    this.addFlag = true;
+      this.ShowleaveDetails = true;
     // Push current values into the FormArray
     this.faleaveDetail().push(this.generaterow(this.fbleave.getRawValue()));
-    
+
     // Reset form controls for the next entry
     this.fbleave.patchValue({
-      id: [],
-      leaveTitle: '',
+      holidayId:null,
+      title: '',
       fromDate: '',
       toDate: '', 
-      leaveDescription: ''
+      description: '',
+      isActive:true,
     });
-   
   }
-  generaterow(leaveDetails: Leave = new Leave()): FormGroup {
-    if (!this.addFlag) this.holidays.id = this.holiday.id;
+  generaterow(leaveDetails: HolidaysViewDto = new HolidaysViewDto()): FormGroup {
+    if (!this.addFlag) this.holidays= this.holiday.holidayId;
     return this.formbuilder.group({
-      id: new FormControl(leaveDetails.id, [Validators.required]),
-      leaveTitle: new FormControl(leaveDetails.leaveTitle, [Validators.required]),
-      fromDate: new FormControl(leaveDetails.fromDate, [Validators.required]),
-      toDate: new FormControl(leaveDetails.toDate, [Validators.required]),
-      leaveDescription: new FormControl(leaveDetails.leaveDescription, []),
+      holidayId: new FormControl(leaveDetails.holidayId),
+      title: new FormControl(leaveDetails.title,),
+      fromDate: new FormControl(leaveDetails.fromDate,),
+      toDate: new FormControl(leaveDetails.toDate,),
+      description: new FormControl(leaveDetails.description, []),
+      isActive:new FormControl(leaveDetails.isActive, [])
     })
   }
-  // Get form array controls for the specified index and form control name
   formArrayControls(i: number, formControlName: string) {
     return this.faleaveDetail().controls[i].get(formControlName);
   }
   get FormControls() {
     return this.fbleave.controls;
   }
-  // initHoliday() {
-  //   this.AdminService.getHolidays().subscribe((resp) => {
-  //     this.holidays = resp as unknown as HolidayViewDto[];
-  //   });
-  // }
+  initHoliday() {
+    const year = this.selectedYear.year;
+    this.AdminService.GetHolidays(year).subscribe((resp) => {
+      this.holidays = resp as unknown as HolidaysViewDto[];
+      console.log(this.holidays);
+    });
+  }
 
   editLeave(holiday: any) {
     // Load the selected holiday into the form
     this.fbleave.patchValue({
-      id: holiday.id,
-      leaveTitle: holiday.leaveTitle,
+      holidayId: holiday.holidayId,
+      title: holiday.title,
       fromDate: holiday.fromDate,
       toDate: holiday.toDate,
-      leaveDescription: holiday.leaveDescription
+      description: holiday.description,
+      isActive:holiday.isActive
     });
-
     // Clear the existing FormArray
     this.faleaveDetail().clear();
-
     // For each leaveDetail in the selected holiday, push a FormGroup into the FormArray
     holiday.leaveDetails.forEach((leaveDetail: any) => {
       this.faleaveDetail().push(this.formbuilder.group({
-        id: new FormControl(leaveDetail.id, [Validators.required]),
-        leaveTitle: new FormControl(leaveDetail.leaveTitle, [Validators.required]),
-        fromDate: new FormControl(leaveDetail.fromDate, [Validators.required]),
-        toDate: new FormControl(leaveDetail.toDate, [Validators.required]),
-        leaveDescription: new FormControl(leaveDetail.leaveDescription, [])
+        holidayId: new FormControl(leaveDetail.holidayId),
+        title: new FormControl(leaveDetail.title),
+        fromDate: new FormControl(leaveDetail.fromDate),
+        toDate: new FormControl(leaveDetail.toDate),
+        description: new FormControl(leaveDetail.description, []),
+        isActive: new FormControl(leaveDetail.isActive, [])
       }));
     });
-
     this.submitLabel = "Update Holiday";
     this.dialog = true;
     this.addFlag = false;
   }
-  saveHoliday() { }
-  // saveHoliday(): Observable<HttpEvent<any>> {
-  //    if (this.addFlag) return this.AdminService.CreateHoliday(this.fbleave.value);
-  //  else return this.AdminService.UpdateHoliday(this.fbleave.value);
-  // }
-
-  onSubmit() {
-    console.log(this.fbleave.value);
-    // if (this.fbleave.valid) {
-    //   this.saveHoliday().subscribe((resp) => {
-    //     if (resp) {
-    //       this.initHoliday();
-    //       this.leaveForm();
-    //       this.dialog = false;
-    //       this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "SMAMHG001" : "SMAMHG002"]);
-    //     }
-    //   });
-    // } else {
-    //   this.fbleave.markAllAsTouched();
-    // }
-
+  saveHoliday(): Observable<HttpEvent<any>> {
+    const leaveDetails = this.fbleave.get('leaveDetails').value;
+    return this.AdminService.CreateHoliday(leaveDetails);
   }
 
+  onSubmit() {
+    if ( this.faleaveDetail().length > 0) {
+      this.saveHoliday().subscribe((resp) => {
+        if (resp) {
+          this.initHoliday();
+          this.leaveForm();
+          this.dialog = false;
+          this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "SMAMHG001" : "SMAMHG002"]);
+        }
+      });
+    } else {
+      if (this.faleaveDetail().length === 0) {
+        alert("Please add at least one record.");
+      }
+      this.fbleave.markAllAsTouched();
+    }
+  }
   showDialog() {
     this.fbleave.reset();
     this.dialog = true;
   }
   addLeaveDialog() {
-    this.addLeaveDetails();
     this.submitLabel = "Add Holidays";
     this.dialog = true;
 
@@ -173,6 +183,7 @@ export class HolidayconfigurationComponent {
     this.fbleave.reset();
     this.ShowleaveDetails = false;
     this.faleaveDetail().clear();
+
   }
 
   initializeYears(): void {

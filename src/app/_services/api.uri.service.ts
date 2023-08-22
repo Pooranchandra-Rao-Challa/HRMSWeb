@@ -20,3 +20,6 @@ export const Delete_USER_URI = "Security/DeleteUser";
 export const GET_LOOKUP_URI = "Lookup/GetLookups/";
 export const CREATE_LOOKUP_URI="Lookup/CreateLookup";
 export const UPDATE_LOOKUP_URI ="Lookup/UpdateLookup";
+export const GET_HOLIDAY_URI ="Admin/GetHolidays/";
+export const CREATE_HOLIDAY_URI = "Admin/CreateHoliday";
+
