@@ -117,11 +117,10 @@
       </ng-template>
     </p-dialog>
     <!-- table -->
-    <p-table #dtlookup [value]="lookups" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="true"
+    <p-table #dtlookup [value]="lookups" dataKey="name" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="true"
       [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
       styleClass="p-datatable-gridlines  p-datatable-sm" [style]="{width: 'auto'}" [showCurrentPageReport]="true"
-      [globalFilterFields]="globalFilterFields" [autoLayout]="true" responsiveLayout="scroll" expandableRows="true"
-      rowExpandMode="single" [rowsPerPageOptions]="[10,25,50]">
+      [globalFilterFields]="globalFilterFields" [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]">
       <ng-template pTemplate="caption">
         <div class="flex justify-content-between flex-column sm:flex-row">
           <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
@@ -154,7 +153,7 @@
           <td>
             <button type="button" pButton pRipple [pRowToggler]="lookup"
               class="p-button-text p-button-rounded p-button-plain"
-              [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" (click)="lookup.toggleRow($event)"></button>
+              [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" ></button>
           </td>
           <td *ngFor="let col of lookupHeader" [ngClass]="col?.field == 'isActive' ? 'text-center' : ''">
             <span
