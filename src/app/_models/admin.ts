@@ -96,3 +96,27 @@ export class AssetsDto {
   isActive?: boolean;
 }
 
+export class HolidaysViewDto {
+  holidayId?: number
+  title?: string
+  description?: string
+  fromDate?: string
+  toDate?: string
+  isActive?: boolean
+  createdAt?: string
+  createdBy?: string
+  updatedAt?: string
+  updatedBy?: string
+}
+export class HolidayDto {
+  createdAt?: string
+  updatedAt?: string
+  createdBy?: string
+  updatedBy?: string
+  holidayId?: number
+  title?: string
+  description?: string
+  fromDate?: string
+  toDate?: string
+  isActive?: boolean
+}
