@@ -98,7 +98,7 @@
 
       <p-dialog header="Holiday" [(visible)]="editDialog" [modal]="true" showEffect="fade"  [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}" (onHide)="onClose()">
         <div class="flex flex-column align-items-center justify-content-center">
-          <form [formGroup]="fbleave"(ngSubmit)="onSubmit()" >
+         <form [formGroup]="holidayForm" (ngSubmit)="onSubmit()">
             <div class="grid">
               <div class="col-12 roles-container">
                 <div class="p-fluid p-formgrid grid">
@@ -161,7 +161,7 @@
         <ng-template pTemplate="body" let-leave>
           <tr>
             <td>
-              <button pButton pRipple icon="pi pi-pencil" style="padding: 0px;" class="p-element p-ripple p-button-text p-button p-component mr-2 " (click)="editLeave(leave)"></button>
+              <button pButton pRipple icon="pi pi-pencil" style="padding: 0px;" class="p-element p-ripple p-button-text p-button p-component mr-2 " (click)="editHoliday(leave)"></button>
             </td>
           
             <td *ngFor="let col of headers" [ngClass]="col?.field == 'isActive' ? 'text-center' : ''">

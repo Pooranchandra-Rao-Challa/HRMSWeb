@@ -27,6 +27,7 @@ export class HolidayconfigurationComponent {
   dialog: boolean = false;
   editDialog: boolean = false;
   fbleave!: FormGroup;
+  holidayForm!: FormGroup;
   addfields: any;
   submitLabel!: string;
   maxLength: any;
@@ -37,6 +38,7 @@ export class HolidayconfigurationComponent {
   ShowleaveDetails: boolean = false;
   selectedYear: Year | undefined;
   years: Year[] | undefined;
+  holidayToEdit: HolidaysViewDto;
   mediumDate: string = MEDIUM_DATE
 
 
@@ -59,10 +61,10 @@ export class HolidayconfigurationComponent {
 
   ngOnInit(): void {
     this.leaveForm();
-
     this.initializeYears();
     this.selectedYear = this.years.find(y => y.year === '2023');
-    this.initHoliday()
+    this.initHoliday();
+    this.initForm() ;
   }
   leaveForm() {
     this.addfields = []
@@ -112,6 +114,16 @@ export class HolidayconfigurationComponent {
   get FormControls() {
     return this.fbleave.controls;
   }
+  initForm() {
+    this.holidayForm = new FormGroup({
+      id: new FormControl(null), 
+      title: new FormControl('', Validators.required),
+      fromDate: new FormControl('', Validators.required),
+      toDate: new FormControl(''),
+      description: new FormControl('', Validators.required),
+      isActive: new FormControl(false)
+    });
+  }
   initHoliday() {
     const year = this.selectedYear.year;
     this.AdminService.GetHolidays(year).subscribe((resp) => {
@@ -120,9 +132,21 @@ export class HolidayconfigurationComponent {
     });
   }
 
-  editLeave(holiday: any) {
-    // Load the selected holiday into the form
-   
+  
+  editHoliday(holiday: HolidaysViewDto) {
+    // Set holiday to edit
+    this.holidayToEdit = holiday;
+    
+    // Patch form values
+    this.holidayForm.patchValue({
+      id: holiday.holidayId,
+      title: holiday.title,
+      fromDate: holiday.fromDate, 
+      toDate: holiday.toDate,
+      description: holiday.description,
+      isActive: holiday.isActive
+    });
+    // Open dialog
     this.submitLabel = "Update Holiday";
     this.editDialog = true;
     this.addFlag = false;
@@ -133,21 +157,25 @@ export class HolidayconfigurationComponent {
     return this.AdminService.CreateHoliday(leaveDetails);
   }
   onSubmit() {
-    if (this.faleaveDetail().length > 0) {
-      this.saveHoliday().subscribe((resp) => {
-        if (resp) {
-          this.initHoliday();
+    const holiday = this.holidayForm.value;
+    if (holiday.id) { 
+      // Update
+      this.AdminService.CreateHoliday([{ ...holiday,}]).subscribe(res => {
+        this.initHoliday();
+        this.editDialog = false;
+      });
+  
+    } else {
+      // Create
+      this.saveHoliday().subscribe(res => {
+        this.initHoliday();
           this.leaveForm();
           this.dialog = false;
-          this.alertMessage.displayAlertMessage(ALERT_CODES["SMU001"]);
-        }
+        this.editDialog = false;
+        this.alertMessage.displayAlertMessage(ALERT_CODES["SMU001"]);
       });
-    } else {
-      if (this.faleaveDetail().length === 0) {
-        alert("Please add at least one record.");
-      }
-      this.fbleave.markAllAsTouched();
     }
+  
   }
   showDialog() {
     this.fbleave.reset();

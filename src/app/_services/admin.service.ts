@@ -23,7 +23,7 @@ export class AdminService extends ApiHttpService {
     return this.get<HolidaysViewDto[]>(url);
   }
 
-  public CreateHoliday(holidayDto:HolidayDto) {
+  public CreateHoliday(holidayDto:HolidayDto[]) {
     return this.post<HolidayDto>(CREATE_HOLIDAY_URI, holidayDto);
   }
   public UpdateHoliday(holiday:any) { //HolidayDto 
