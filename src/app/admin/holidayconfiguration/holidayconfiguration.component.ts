@@ -1,8 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Table } from 'primeng/table';
-import { Leave, LookUpHeaderDto } from 'src/app/demo/api/security';
-import { SecurityService } from 'src/app/demo/service/security.service';
 import { AdminService } from 'src/app/_services/admin.service';
 import { HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -23,7 +21,7 @@ interface Year {
 })
 export class HolidayconfigurationComponent {
   holidays: HolidaysViewDto[] = [];
-  holiday:any
+  holiday: any
   globalFilterFields: string[] = ['leaveTitle', 'date', 'leaveDescription']
   @ViewChild('filter') filter!: ElementRef;
   dialog: boolean = false;
@@ -37,7 +35,7 @@ export class HolidayconfigurationComponent {
   addRow = false;
   addFlag: boolean = true;
   ShowleaveDetails: boolean = false;
-  selectedYear : Year |undefined;
+  selectedYear: Year | undefined;
   years: Year[] | undefined;
   mediumDate: string = MEDIUM_DATE
 
@@ -61,20 +59,20 @@ export class HolidayconfigurationComponent {
 
   ngOnInit(): void {
     this.leaveForm();
-    
-	this.initializeYears();
-  this.selectedYear = this.years.find(y => y.year === '2023');
-     this.initHoliday() 
+
+    this.initializeYears();
+    this.selectedYear = this.years.find(y => y.year === '2023');
+    this.initHoliday()
   }
   leaveForm() {
     this.addfields = []
     this.fbleave = this.formbuilder.group({
-      holidayId:null,
-      title: new FormControl(''),
-      fromDate: new FormControl(''),
-      toDate: new FormControl(''),
-      description: new FormControl(''),
-      isActive:true,
+      holidayId: null,
+      title: new FormControl('', Validators.required),
+      fromDate: new FormControl('', Validators.required),
+      toDate: new FormControl('', Validators.required),
+      description: new FormControl('', Validators.required),
+      isActive: true,
       leaveDetails: this.formbuilder.array([])
     });
   }
@@ -83,29 +81,29 @@ export class HolidayconfigurationComponent {
     return this.fbleave.get("leaveDetails") as FormArray
   }
   addLeaveDetails() {
-      this.ShowleaveDetails = true;
+    this.ShowleaveDetails = true;
     // Push current values into the FormArray
     this.faleaveDetail().push(this.generaterow(this.fbleave.getRawValue()));
 
     // Reset form controls for the next entry
     this.fbleave.patchValue({
-      holidayId:null,
+      holidayId: null,
       title: '',
       fromDate: '',
-      toDate: '', 
+      toDate: '',
       description: '',
-      isActive:true,
+      isActive: true,
     });
   }
   generaterow(leaveDetails: HolidaysViewDto = new HolidaysViewDto()): FormGroup {
-    if (!this.addFlag) this.holidays= this.holiday.holidayId;
+    if (!this.addFlag) this.holidays = this.holiday.holidayId;
     return this.formbuilder.group({
       holidayId: new FormControl(leaveDetails.holidayId),
       title: new FormControl(leaveDetails.title,),
       fromDate: new FormControl(leaveDetails.fromDate,),
       toDate: new FormControl(leaveDetails.toDate,),
       description: new FormControl(leaveDetails.description, []),
-      isActive:new FormControl(leaveDetails.isActive, [])
+      isActive: new FormControl(leaveDetails.isActive, [])
     })
   }
   formArrayControls(i: number, formControlName: string) {
@@ -124,6 +122,7 @@ export class HolidayconfigurationComponent {
 
   editLeave(holiday: any) {
     // Load the selected holiday into the form
+   
     this.submitLabel = "Update Holiday";
     this.editDialog = true;
     this.addFlag = false;
@@ -133,15 +132,14 @@ export class HolidayconfigurationComponent {
     const leaveDetails = this.fbleave.get('leaveDetails').value;
     return this.AdminService.CreateHoliday(leaveDetails);
   }
-
   onSubmit() {
-    if ( this.faleaveDetail().length > 0) {
+    if (this.faleaveDetail().length > 0) {
       this.saveHoliday().subscribe((resp) => {
         if (resp) {
           this.initHoliday();
           this.leaveForm();
           this.dialog = false;
-          this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "SMAMHG001" : "SMAMHG002"]);
+          this.alertMessage.displayAlertMessage(ALERT_CODES["SMU001"]);
         }
       });
     } else {
@@ -166,13 +164,13 @@ export class HolidayconfigurationComponent {
     this.faleaveDetail().clear();
 
   }
-
   initializeYears(): void {
     this.years = [
       { year: '2019', code: 'NY' },
       { year: '2020', code: 'TW' },
-      { year: '2021', code: 'TW1' },
-      { year: '2023', code: 'TW3' }
+      { year: '2022', code: 'TW1' },
+      { year: '2023', code: 'TW3' },
+
     ];
   }
   onGlobalFilter(table: Table, event: Event) {
