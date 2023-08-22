@@ -20,3 +20,6 @@ export const Delete_USER_URI = "Security/DeleteUser";
 export const GET_LOOKUP_URI = "Admin/GetLookups/";
 export const CREATE_LOOKUP_URI="Admin/CreateLookup";
 export const UPDATE_LOOKUP_URI ="Admin/UpdateLookup";
+export const GET_ASSETS_URI = "Admin/GetAssetsDetails";
+export const CREATE_ASSESTS_URI ="Admin/CreateAsset";
+export const UPDATE_ASSESTS_URI ="";

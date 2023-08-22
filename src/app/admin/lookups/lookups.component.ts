@@ -145,6 +145,7 @@ export class LookupsComponent implements OnInit {
     this.submitLabel = "Update Lookup";
 
   }
+ 
   onSubmit() { }
 
 }
