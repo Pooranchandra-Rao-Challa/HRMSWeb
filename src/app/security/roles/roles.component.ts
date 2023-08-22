@@ -49,7 +49,13 @@ export class RolesComponent implements OnInit {
   get roleFormControls() {
     return this.roleForm.controls;
   }
-
+  
+  restrictSpaces(event: KeyboardEvent) {
+    if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {
+      event.preventDefault();
+    }
+  }
+  
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
