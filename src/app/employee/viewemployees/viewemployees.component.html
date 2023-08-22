@@ -279,20 +279,8 @@
       </p-tabPanel>
       <p-tabPanel header="Bank Details">
         <div class="grid">
-          <div class="col-12 lg:col-4">
-            <div class="card">
-              <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">Current Address</div> Arunodaya Residencymithila nagr, Pragathi Nagar, Hyderabad, Telangana 500072
-            </div>
-          </div>
-          <div class="col-12 lg:col-4">
-            <div class="card">
-              <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">Permanent Address</div> Arunodaya Residencymithila nagr, Pragathi Nagar, Hyderabad, Telangana 500072
-            </div>
-          </div>
-          <div class="col-12 lg:col-4">
-            <div class="card text-center">
-              <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-text p-button p-component p-4 m-2" (click)="showBankDetails()"></button>
-            </div>
+          <div class="col-12 md:col-6">
+            <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-text p-button p-component mr-2" (click)="showBankDetails()"></button>
           </div>
         </div>
       </p-tabPanel>
@@ -361,6 +349,108 @@
     </ng-template>
   </p-dialog>
   <!-- p-dialog Education-->
+  <p-dialog header="Education Details" [(visible)]="Education" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
+    <div class="flex flex-column align-items-center justify-content-center">
+      <form [formGroup]="fbEducationDetails" autocomplete="off">
+        <div class="grid mt-3">
+          <div class="col-12 roles-container">
+            <div class="p-fluid p-formgrid grid">
+              <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                  <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [options]="Courses" formControlName="course" optionLabel="name"></p-dropdown>
+                  <label for="inputtext">Course <sup class="p-error">*</sup>
+                  </label>
+                </span>
+              </div>
+              <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                  <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [options]="States" formControlName="state" optionLabel="name"></p-dropdown>
+                  <label for="dropdown">State <sup class="p-error">*</sup>
+                  </label>
+                </span>
+              </div>
+              <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                  <input type="text" id="inputtext" pInputText formControlName="school" />
+                  <label for="inputtext">School/College Name <sup class="p-error">*</sup>
+                  </label>
+                </span>
+              </div>
+              <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                  <input type="text" id="inputtext" pInputText formControlName="board">
+                  <label for="inputtext">Board/University Name <sup class="p-error">*</sup>
+                  </label>
+                </span>
+              </div>
+              <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                  <input type="text" id="inputtext" pInputText formControlName="stream">
+                  <label for="inputtext">Stream <sup class="p-error">*</sup>
+                  </label>
+                </span>
+              </div>
+              <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                  <p-calendar [yearNavigator]="true" [yearRange]="'1996:2025'" [readonlyInput]="true" [showIcon]="true" dateFormat="yy" formControlName="yearofpass"></p-calendar>
+                  <label for="inputtext">Year of pass <sup class="p-error">*</sup>
+                  </label>
+                </span>
+              </div>
+              <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                  <input type="text" id="inputtext" pInputText formControlName="gradingsystem">
+                  <label for="inputtext">Grading System <sup class="p-error">*</sup>
+                  </label>
+                </span>
+              </div>
+              <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                  <input type="text" id="inputtext" pInputText formControlName="cgpa">
+                  <label for="inputtext">CGPA/Percentage System <sup class="p-error">*</sup>
+                  </label>
+                </span>
+              </div>
+              <div class="field col-12 md:col-4">
+                <span>
+                  <button pButton pRipple (click)="saveEducationDetails()">Save Education Details</button>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      <!-- table -->
+      <div class="col-12 scrolling_content" *ngIf="ShoweducationDetails">
+        <p-table dataKey="id" [rows]="10" [rowHover]="true" [value]="educationDetails" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="false" [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10, 25, 50]">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Course</th>
+              <th>State</th>
+              <th>School/College Name</th>
+              <th>Board/University Name</th>
+              <th>Stream</th>
+              <th>Year of pass</th>
+              <th>Grading System</th>
+              <th>CGPA/Percentage System</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-educationData let-i="index">
+            <tr>
+              <td>{{ educationData.course }}</td>
+              <td>{{ educationData.state }}</td>
+              <td>{{ educationData.school }}</td>
+              <td>{{ educationData.board }}</td>
+              <td>{{ educationData.stream }}</td>
+              <td>{{ educationData.yearofpass | date:'yyyy' }}</td>
+              <td>{{ educationData.gradingsystem }}</td>
+              <td>{{ educationData.cgpa }}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </p-dialog>
   <p-dialog header="Education Details" [(visible)]="Education" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
     <div class="flex flex-column align-items-center justify-content-center">
       <form [formGroup]="fbEducationDetails" autocomplete="off">
@@ -804,4 +894,43 @@
         </div>
       </div>
     </div>
+  </p-dialog>
+  <!-- BankDetails -->
+  <p-dialog header="Bank Details" [(visible)]="bankDetails" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '50%'}">
+    <div class="flex flex-column align-items-center justify-content-center">
+      <form [formGroup]="fbBankDetails">
+        <div class="grid mt-3">
+          <div class="col-12 roles-container">
+            <div class="p-fluid p-formgrid grid">
+              <div class="field col-12 md:col-6">
+                <span class="p-float-label">
+                  <input type="text" id="inputtext" pInputText formControlName="AccountNo" />
+                  <label for="inputtext">AccountNo <sup class="p-error">*</sup>
+                  </label>
+                </span>
+              </div>
+              <div class="field col-12 md:col-6">
+                <span class="p-float-label">
+                  <input type="text" id="inputtext1" pInputText formControlName="IFSCCode" />
+                  <label for="inputtext1">IFSCCode:<sup class="p-error">*</sup>
+                  </label>
+                </span>
+              </div>
+              <div class="field col-12 md:col-6">
+                <span class="p-float-label">
+                  <input type="text" id="inputtext1" pInputText formControlName="BranchName" />
+                  <label for="inputtext1">BranchName:<sup class="p-error">*</sup>
+                  </label>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <ng-template pTemplate="footer">
+      <div class="col-4" style="float:right">
+        <button pButton pRipple type="submit" label="Add Bank Details" class="p-button-raised p-button-primary"></button>
+      </div>
+    </ng-template>
   </p-dialog>
