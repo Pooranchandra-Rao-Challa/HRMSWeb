@@ -279,9 +279,47 @@
       </p-tabPanel>
       <p-tabPanel header="Bank Details">
         <div class="grid">
-          <div class="col-12 md:col-6">
-            <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-text p-button p-component mr-2" (click)="showBankDetails()"></button>
+          <div class="col-12 lg:col-4">
+            <div class="card">
+              <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">Bank Details 1</div>
+              <!-- <div class="text-500  text-1xl mb-1 mt-1">Secondary Board of Andhra Pradesh</div> -->
+              <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
+                <!-- <li class="mb-3"><span class="font-semibold">School Name :</span> School Name .</li><li class="mb-3"><span class="font-semibold">YOP:</span> 2006</li> -->
+                <li class="mb-2">
+                  <span class="font-semibold ">AccountNo :</span> 154432432132132
+                </li>
+                <li class="mb-2">
+                  <span class="font-semibold ">IFSCCode :</span> 1654654654
+                </li>
+                <li class="mb-2">
+                  <span class="font-semibold mb-1">BranchName :</span> ICICI Bank
+                </li>
+              </ul>
+            </div>
           </div>
+          <div class="col-12 lg:col-4">
+            <div class="card">
+              <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">Bank Details 2</div>
+              <!-- <div class="text-500  text-1xl mb-1 mt-1">Secondary Board of Andhra Pradesh</div> -->
+              <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
+                <!-- <li class="mb-3"><span class="font-semibold">School Name :</span> School Name .</li><li class="mb-3"><span class="font-semibold">YOP:</span> 2006</li> -->
+                <li class="mb-2">
+                  <span class="font-semibold ">AccountNo :</span> 154432432132132
+                </li>
+                <li class="mb-2">
+                  <span class="font-semibold ">IFSCCode :</span> 1654654654
+                </li>
+                <li class="mb-2">
+                  <span class="font-semibold mb-1">BranchName :</span> ICICI Bank
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-12 lg:col-4">
+            <div class="card text-center">
+              <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-text p-button p-component mr-2" (click)="showBankDetails()"></button>    </div>
+          </div>
+          
         </div>
       </p-tabPanel>
     </p-tabView>
@@ -897,6 +935,7 @@
   </p-dialog>
   <!-- BankDetails -->
   <p-dialog header="Bank Details" [(visible)]="bankDetails" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '50%'}">
+    
     <div class="flex flex-column align-items-center justify-content-center">
       <form [formGroup]="fbBankDetails">
         <div class="grid mt-3">
