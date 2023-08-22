@@ -3,7 +3,6 @@ import { HolidayDto, HolidaysViewDto, LookUpHeaderDto, LookupViewDto } from '../
 import { ApiHttpService } from './api.http.service';
 import { CREATE_HOLIDAY_URI, CREATE_LOOKUP_URI, GET_HOLIDAY_URI, GET_LOOKUP_URI, UPDATE_LOOKUP_URI } from './api.uri.service';
 // import { CREATE_LOOKUP_URI } from './api.uri.service';
-
 @Injectable({
   providedIn: 'root'
 })

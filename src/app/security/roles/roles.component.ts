@@ -11,13 +11,14 @@ import { ITableHeader, MaxLength } from 'src/app/_models/common';
 import { RoleDto, RolePermissionDto, RoleViewDto } from 'src/app/_models/security';
 import { JwtService } from 'src/app/_services/jwt.service';
 import { SecurityService } from 'src/app/_services/security.service';
+import { MAX_LENGTH_50, MIN_LENGTH_2, RG_ALPHA_ONLY } from 'src/app/_shared/regex';
 
 @Component({
   selector: 'app-roles',
   templateUrl: './roles.component.html'
 })
 export class RolesComponent implements OnInit {
-  globalFilterFields: string[] = ['name', 'isActive', 'createdAt'];
+  globalFilterFields: string[] = ['name', 'isActive', 'createdAt', "CreatedBy", "UpdatedDate", "UpdatedBy"];
   dialog: boolean = false;
   @ViewChild('filter') filter!: ElementRef;
   roleForm!: FormGroup;
@@ -38,7 +39,7 @@ export class RolesComponent implements OnInit {
     this.permission = this.jwtService.Permissions;
     this.roleForm = this.formbuilder.group({
       roleId: [''],
-      name: new FormControl('', [Validators.required]),
+      name: new FormControl('', [Validators.required,Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
       isActive: [true],
       permissions: []
     });
@@ -48,7 +49,13 @@ export class RolesComponent implements OnInit {
   get roleFormControls() {
     return this.roleForm.controls;
   }
-
+  
+  restrictSpaces(event: KeyboardEvent) {
+    if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {
+      event.preventDefault();
+    }
+  }
+  
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
@@ -63,6 +70,9 @@ export class RolesComponent implements OnInit {
     { field: 'name', header: 'name', label: 'Name' },
     { field: 'isActive', header: 'isActive', label: 'Is Active' },
     { field: 'createdAt', header: 'createdAt', label: 'Created Date' },
+    { field: 'CreatedBy', header: 'CreatedBy', label: 'Created By' },
+    { field: 'UpdatedDate', header: 'UpdatedDate', label: ' Updated Date' },
+    { field: 'UpdatedBy', header: 'UpdatedBy', label: 'Updated By' }
   ];
 
   initRole(role: RoleViewDto) {
