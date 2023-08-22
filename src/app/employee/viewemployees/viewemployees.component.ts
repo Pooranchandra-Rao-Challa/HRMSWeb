@@ -70,12 +70,14 @@ export class ViewemployeesComponent {
   Education: boolean = false;
   Experience: boolean = false;
   Family: boolean = false;
+  bankDetails:boolean=false;
   Address: boolean = false;
   Documents: boolean = false;
   skillSets!: Skills[];
   personalDetails !: FormGroup;
   OfficialDetails !: FormGroup;
   fbEducationDetails!: FormGroup;
+  fbBankDetails!: FormGroup;
   educationDetails: any[] = [];
   ShoweducationDetails: boolean = false;
   uploadedFiles: any[] = [];
@@ -98,6 +100,10 @@ export class ViewemployeesComponent {
   showFamilyDetails() {
     this.Family = true;
     this.fbfamilyDetails.reset();
+  }
+  showBankDetails(){
+     this.bankDetails=true;
+     this.fbBankDetails.reset();
   }
   showAddressDetails() {
     this.Address = true;
@@ -161,6 +167,12 @@ export class ViewemployeesComponent {
       PermanentAddress: new FormControl('', [Validators.required]),
       SkillSet: new FormControl('', [Validators.required]),
     });
+    this.fbBankDetails=this.formbuilder.group({
+      AccountNo:new FormControl('', [Validators.required]),
+      IFSCCode:new FormControl('', [Validators.required]),
+      BranchName:new FormControl('', [Validators.required])
+    });
+
     this.OfficialDetails = this.formbuilder.group({
       Id: new FormControl('', [Validators.required]),
       Shift: new FormControl('', [Validators.required]),
@@ -182,6 +194,7 @@ export class ViewemployeesComponent {
       gradingsystem: new FormControl(''),
       cgpa: new FormControl(''),
     });
+
 
     this.experienceForm();
     this.addexperienceDetails();

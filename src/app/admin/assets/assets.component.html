@@ -43,7 +43,7 @@
               <div class="field col-12 md:col-4">
                 <label>Enter Asset Category: <sup class="p-error">*</sup></label>
                 <p-dropdown [options]="assetsCategory" optionLabel="name" [filter]="true" filterBy="name"
-                  [showClear]="true" placeholder="Select Asset" formControlName="assetCategory" optionValue="code"
+                  [showClear]="true" placeholder="Select Asset" formControlName="assetCategory" optionValue="AssetCategoryId"
                   [ngClass]="{ 'is-invalid ng-dirty': FormControls['assetCategory'].touched && FormControls['assetCategory'].errors}">
                 </p-dropdown>
                 <span *ngIf="FormControls['assetCategory'].touched && FormControls['assetCategory'].invalid">
@@ -55,7 +55,7 @@
               <div class="field col-12 md:col-4">
                 <label>Enter Asset Type: <sup class="p-error">*</sup></label>
                 <p-dropdown [options]="assetsList" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true"
-                  placeholder="Select Asset" formControlName="assetType" optionValue="code"
+                  placeholder="Select Asset" formControlName="assetType" optionValue="AssetTypeId"
                   [ngClass]="{ 'is-invalid ng-dirty': FormControls['assetType'].touched && FormControls['assetType'].errors}">
                 </p-dropdown>
                 <span *ngIf="FormControls['assetType'].touched && FormControls['assetType'].invalid">
@@ -104,7 +104,7 @@
                 <input pInputText id="modelnumber" formControlName="modelNumber" placeholder="Enter Model Number" />
               </div>
               <div class="field col-12 md:col-4">
-                <label>Manufacturer: <sup class="p-error">*</sup></label>
+                <label>Manufacturer: </label>
                 <input pInputText id="manufacturer" type="text" formControlName="manufacturer"
                   placeholder="Enter Manufacturer" alphaOnly
                   [ngClass]="{ 'is-invalid ng-dirty': FormControls['manufacturer'].touched && FormControls['manufacturer'].errors}" />
@@ -124,7 +124,7 @@
                 <input pInputText id="warranty" type="text" formControlName="warranty" placeholder="Enter Warranty " />
               </div>
               <div class="field col-12 md:col-4">
-                <label>Add Value: <sup class="p-error">*</sup></label>
+                <label>Add Value: </label>
                 <input pInputText id="addvalue" type="text" formControlName="addValue" placeholder="Enter Add Value"
                   [ngClass]="{ 'is-invalid ng-dirty': FormControls['addValue'].touched && FormControls['addValue'].errors}" />
                 <span *ngIf="FormControls['addValue'].touched && FormControls['addValue'].invalid">
@@ -135,11 +135,13 @@
               </div>
               <div class="field col-12 md:col-4">
                 <label>Status: <sup class="p-error">*</sup></label>
-                <input pInputText id="status" type="text" formControlName="status" placeholder="Enter Status"
-                  [ngClass]="{ 'is-invalid ng-dirty': FormControls['status'].touched && FormControls['status'].errors}" />
+                <p-dropdown [options]="statusList" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true"
+                  placeholder="Select Status" formControlName="status" optionValue="StatusId"
+                  [ngClass]="{ 'is-invalid ng-dirty': FormControls['assetType'].touched && FormControls['assetType'].errors}">
+                </p-dropdown>
                 <span *ngIf="FormControls['status'].touched && FormControls['status'].invalid">
                   <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['status'].errors?.['required']">
-                    Please Enter Status.
+                    Please Select Status.
                   </div>
                 </span>
               </div>
@@ -161,12 +163,12 @@
       <ng-template pTemplate="footer">
         <div class="col-4" style="float:right">
           <button pButton pRipple type="submit" [label]="submitLabel" class="p-button-raised p-button-primary"
-            (click)="onSubmit()"></button>
+            (click)="onSubmit()" [disabled]="fbassets.invalid"></button>
         </div>
       </ng-template>
     </p-dialog>
     <!-- table -->
-    <p-table #dtAssets [value]="assets" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
+    <p-table #dtAssets [value]="assets" dataKey="assetType" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
       [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
       styleClass="p-datatable-gridlines  p-datatable-sm" [style]="{width: 'auto'}" [showCurrentPageReport]="true"
       [globalFilterFields]="globalFilterFields" [autoLayout]="true" responsiveLayout="scroll"
@@ -185,7 +187,7 @@
       <ng-template pTemplate="header">
         <tr>
           <th></th>
-          <th *ngFor="let col of AssetsTable" [pSortableColumn]="col.header">
+          <th *ngFor="let col of AssetsheaderTable" [pSortableColumn]="col.header">
             {{col?.label}}
             <p-columnFilter type="text" [field]="col.header" display="menu"></p-columnFilter>
             <p-sortIcon [field]="col.header"></p-sortIcon>
@@ -199,17 +201,18 @@
               class="p-button-text p-button-rounded p-button-plain"
               [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
           </td>
-          <td>{{asset.assestType }}</td>
-          <td>{{asset.category}}</td>
-          <td>{{asset.list.length}}
+          <td *ngFor="let col of AssetsheaderTable">
+            <span>
+              {{asset[col.field]}}
+            </span>
           </td>
         </tr>
       </ng-template>
       <ng-template pTemplate="rowexpansion" let-assest>
         <tr>
-          <td colspan="7" class="p-0">
+          <td colspan="10" class="p-0">
             <div class="p-0">
-              <p-table [value]="assest.list" dataKey="id" [tableStyle]="{ width: 'max-content'}">
+              <p-table [value]="assest.expandassets"  [columns]="AssetsTypeTable" dataKey="AssetId" [tableStyle]="{ width: 'max-content'}">
                 <ng-template pTemplate="header">
         <tr>
           <th style="width:5px;">Actions</th>
@@ -220,7 +223,7 @@
           </th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-list>
+      <ng-template pTemplate="body" let-assetstypes>
         <tr>
           <td>
             <div class="flex">
@@ -231,33 +234,33 @@
                 class="p-element p-ripple p-button-text p-button p-component col-6 "></button>
             </div>
           </td>
-          <td>{{ list.name }}</td>
-          <td>{{ list.purchasedDate }}</td>
-          <td>{{ list.modelNumber }}</td>
-          <td>{{ list.manufacturer }}</td>
-          <td>{{ list.serialNumber }}</td>
-          <td>{{ list.warranty }}</td>
-          <td>{{ list.addValue }}</td>
-          <td>{{ list.description }}</td>
-          <td>{{ list.status }}</td>
-          <!-- <td *ngFor="let col of AssetsTypeTable" [ngClass]="col?.field == 'isActive' ? 'text-center' : ''">
-            <span *ngIf="col?.field == 'isActive'">
-              <p-checkbox name="isActive" value="isActive" [binary]="true" [(ngModel)]="list[col.field]"
-                  [disabled]="true">
-              </p-checkbox>
+          <td *ngFor="let col of AssetsTypeTable" [ngClass]="col?.field == 'IsActive' ? 'text-center' : ''" >
+            <span
+            *ngIf="col?.field != 'UpdatedAt' && col?.field != 'CreatedAt' && col?.field != 'PurchasedDate'&& col?.field != 'IsActive'">{{assetstypes[col.field]}}</span>
+          <span *ngIf="col?.field == 'CreatedAt' || col?.field == 'UpdatedAt' || col?.field == 'PurchasedDate'">
+            {{assetstypes[col.field] | date:mediumDate}}
           </span>
-          </td> -->
+          <span *ngIf="col?.field == 'IsActive'">
+            <p-checkbox name="isActive" value="IsActive" [binary]="true" [(ngModel)]="assetstypes[col.field]"
+              [disabled]="true"></p-checkbox>
+          </span>
+          </td>
         </tr>
       </ng-template>
       <ng-template pTemplate="emptymessage">
         <tr>
-          <td class="md:text-center m-5" colspan="8">No Assets Found.</td>
+          <td class="md:text-center m-5" colspan="12">No Assets Details Found.</td>
         </tr>
       </ng-template>
     </p-table>
   </div>
   </td>
   </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td class="md:text-center m-5" colspan="8">No Assets Found.</td>
+    </tr>
   </ng-template>
   </p-table>
 </div>

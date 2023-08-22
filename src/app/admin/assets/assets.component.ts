@@ -1,10 +1,14 @@
+import { HttpEvent } from '@angular/common/http';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { SortEvent } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { Assets } from 'src/app/demo/api/security';
-import { SecurityService } from 'src/app/demo/service/security.service';
+import { Observable } from 'rxjs';
+import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
+import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
+import { AssetsDetailsViewDto, AssetsDto, AssetsViewDto } from 'src/app/_models/admin';
 import { ITableHeader } from 'src/app/_models/common';
+import { AdminService } from 'src/app/_services/admin.service';
 import { MAX_LENGTH_6, MIN_LENGTH_2, RG_ALPHA_NUMERIC } from 'src/app/_shared/regex';
 
 
@@ -16,37 +20,42 @@ import { MAX_LENGTH_6, MIN_LENGTH_2, RG_ALPHA_NUMERIC } from 'src/app/_shared/re
 })
 export class AssetsComponent {
   @ViewChild('filter') filter!: ElementRef;
-  assets: Assets[] = [];
+  assets: AssetsViewDto[] = [];
   globalFilterFields: string[] = ['assetsType', 'assetsCategory', 'count', 'assetName', 'PurchasedDate', 'ModelNumber', 'Manufacturer',
     'SerialNumber', 'Warranty', 'AddValue', 'Description', 'Status', 'isActive'];
   fbassets!: FormGroup;
+  mediumDate: string = MEDIUM_DATE;
+  addFlag: boolean;
   dialog: boolean = false;
   submitLabel!: string;
-  addfields: any;
-  faassetsDetails!: FormArray;
   ShowassetsDetails: boolean = false;
-  selectedAsset: string | undefined;
   assetsList = [
-    { name: 'Mouse', code: 'MU' },
+    { name: 'Mouse', code: 'MU',AssetTypeId:8 },
     { name: 'CPU', code: 'CP' },
     { name: 'Monitor', code: 'MO' },
     { name: 'Keyboard', code: 'KY' },
     { name: 'HeadSet', code: 'HS' },
   ];
   assetsCategory = [
-    { name: 'Gadgets', code: 'GD' },
+    { name: 'Gadgets', code: 'GD' ,AssetCategoryId:16},
     { name: 'Fixed Assets', code: 'FA' }
   ];
-  constructor(private securityService: SecurityService, private formbuilder: FormBuilder) {
+  statusList = [
+    { name: 'Good', code: 'GUD' ,StatusId:20},
+    { name: 'Bad', code: 'BD' },
+  ];
+  constructor(private adminService: AdminService, private formbuilder: FormBuilder, 
+     private alertMessage: AlertmessageService,) {
 
   }
-  AssetsTable: ITableHeader[] = [
-    { field: 'assetsType', header: 'assetsType', label: 'Assets Type' },
-    { field: 'assetsCategory', header: 'assetsCategory', label: 'AssetsCategory' },
+  AssetsheaderTable: ITableHeader[] = [
+    { field: 'assetType', header: 'assetType', label: 'Assets Type' },
+    { field: 'assetCategory', header: 'assetCategory', label: 'Assets Category' },
     { field: 'count', header: 'count', label: 'Count' },
   ];
   AssetsTypeTable: ITableHeader[] = [
-    { field: 'assetName', header: 'assetName', label: 'Asset Name' },
+    { field: 'Code', header: 'Code', label: 'Code' },
+    { field: 'Name', header: 'Name', label: 'Asset Name' },
     { field: 'PurchasedDate', header: 'PurchasedDate', label: 'PurchasedDate' },
     { field: 'ModelNumber', header: 'ModelNumber', label: 'ModelNumber' },
     { field: 'Manufacturer', header: 'Manufacturer', label: 'Manufacturer' },
@@ -55,7 +64,11 @@ export class AssetsComponent {
     { field: 'AddValue', header: 'AddValue', label: 'AddValue' },
     { field: 'Description', header: 'Description', label: 'Description' },
     { field: 'Status', header: 'Status', label: 'Status' },
-    { field: 'isActive', header: 'isActive', label: 'Is Active' },
+    { field: 'IsActive', header: 'IsActive', label: 'Is Active' },
+    { field: 'CreatedAt', header: 'CreatedAt', label: 'Created Date' },
+    { field: 'CreatedBy', header: 'CreatedBy', label: 'Created By' },
+    { field: 'UpdatedAt', header: 'UpdatedAt', label: 'Updated Date' },
+    { field: 'UpdatedBy', header: 'UpdatedBy', label: 'Updated By' },
   ];
 
   ngOnInit() {
@@ -66,10 +79,12 @@ export class AssetsComponent {
     return this.fbassets.controls;
   }
   initassets() {
-    this.securityService.getassets().then(
-      (data: Assets[]) =>
-        (this.assets = data)
-    );
+    this.adminService.GetAssets().subscribe((resp) => {
+      this.assets = resp as unknown as AssetsViewDto[];
+      this.assets.forEach(element => {
+        element.expandassets = JSON.parse(element.assets) as unknown as AssetsDetailsViewDto[];
+      });
+    })
   }
   assetsForm() {
     this.fbassets = this.formbuilder.group({
@@ -79,13 +94,13 @@ export class AssetsComponent {
       assetname: new FormControl(null, [Validators.required]),
       purchasedDate: new FormControl(null, [Validators.required]),
       modelNumber: new FormControl(null),
-      manufacturer: new FormControl(null, [Validators.required]),
+      manufacturer: new FormControl(null),
       serialNumber: new FormControl(null),
       warranty: new FormControl(null),
-      addValue: new FormControl(null, [Validators.required]),
+      addValue: new FormControl(null),
       description: new FormControl(null),
       status: new FormControl(null, [Validators.required]),
-      isActive: [true, (Validators.requiredTrue)],
+      isActive: [null, (Validators.required)],
     });
   }
 
@@ -105,6 +120,7 @@ export class AssetsComponent {
   
   addAssetsDialog() {
     this.submitLabel = "Add Assets";
+    this.addFlag = true;
     this.dialog = true;
 
   }
@@ -113,9 +129,24 @@ export class AssetsComponent {
     this.ShowassetsDetails = false;
   }
   editAssets(assets: any) {
+    this.addFlag = true;
     this.dialog = true;
     this.submitLabel = "Update Assets";
   }
-  onSubmit() { }
 
+  saveAssets(): Observable<HttpEvent<AssetsDto>> {
+    if (this.addFlag) return this.adminService.CreateAssets(this.fbassets.value)
+    else return this.adminService.UpdateAssets(this.fbassets.value)
+  }
+
+  onSubmit() { 
+      this.saveAssets().subscribe(resp => {
+        if (resp) {
+          this.initassets();
+          this.onClose();
+          this.dialog = false;
+          this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "AAS001" : "AAS002"]);
+        }
+      })
+  }
 }

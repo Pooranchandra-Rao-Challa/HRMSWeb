@@ -23,7 +23,10 @@ export class RoleViewDto {
   roleId?: string;
   name?: string;
   isActive?: boolean;
-  createdAt?: string;
+  createdBy?: string
+  createdAt?: string
+  updatedBy?: string
+  updatedAt?: string
 }
 export class RolePermissionDto {
   permissionId?: string
