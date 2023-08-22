@@ -211,7 +211,7 @@ export class LookupsComponent implements OnInit {
     this.lookup.name = lookup.name;
     // this.fblookup.controls['name'].setValue(lookup.name);
     //  this.fblookup.controls['name'].disable();
-    // this.lookup.isActive = lookup.isActive;
+    this.lookup.isActive = lookup.isActive;
     // this.lookup.lookupDetails = this.lookupDetails ? this.lookupDetails : [];
 
     // this.lookup.lookupDetails = this.lookupDetails ? [this.lookupDetails] : [];
