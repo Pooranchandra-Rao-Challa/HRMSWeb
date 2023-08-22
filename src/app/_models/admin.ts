@@ -1,10 +1,10 @@
 export class LookUpHeaderDto {
-  lookUpId!: number;
+  lookupId?: number;
   lookupDetailId?: number;
   code?: string;
   name?: string;
   isActive?: boolean;
-  lookUpDetails?: LookupDetailsDto[];
+  lookupDetails?:LookupDetailsDto[];
 }
 
 export class LookupViewDto {
@@ -21,16 +21,16 @@ export class LookupViewDto {
 }
 
 export class LookupDetailsDto {
-  lookupDetailId?: number;
-  code?: string;
-  name?: string;
-  lookupId?: number;
-  description?: string;
-  isActive?: boolean;
-  updatedAt?: Date;
-  createdAt?: Date;
-  updatedBy?: string;
-  createdBy?: string;
+  LookupDetailId?: number;
+  Code?: string;
+  Name?: string;
+  LookupId?: number;
+  Description?: string;
+  IsActive?: boolean;
+  UpdatedAt?: Date;
+  CreatedAt?: Date;
+  UpdatedBy?: string;
+  CreatedBy?: string;
 }
 export class LookupDetailViewDto {
   lookupId?: number;
@@ -40,6 +40,7 @@ export class LookupDetailViewDto {
   description?: string;
   lookupName?: string;
   isActive?: boolean;
+  lookupDetails?: LookupDetailsDto[];
   updatedAt?: Date;
   createdAt?: Date;
   updatedBy?: string;

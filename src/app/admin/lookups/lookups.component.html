@@ -1,5 +1,6 @@
 <div class="col-12">
   <div class="card">
+    <p-toast key="tst"></p-toast>
     <!-- Toolbar -->
     <p-toolbar styleClass="p-mb-4">
       <ng-template pTemplate="left">
@@ -11,14 +12,14 @@
       </ng-template>
     </p-toolbar>
     <!-- dialog -->
-    <p-dialog header="Lookup" [(visible)]="dialog" [modal]="true" showEffect="fade"
-      [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: 'auto%'}" (onHide)="onClose()">
+    <p-dialog header="Lookup" [(visible)]="showDialog" [modal]="true" showEffect="fade"
+      [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '50%'}" (onHide)="onClose()">
       <div class="flex flex-column align-items-center justify-content-center">
         <form [formGroup]="fblookup">
           <div class="grid">
             <div class="col-12 roles-container">
               <div class="p-fluid p-formgrid grid">
-                <div class="field col-12 md:col-4">
+                <div class="field col-12 md:col-6">
                   <label class="required">Code:
                   </label>&nbsp; <input pInputText id="code" type="text" formControlName="code" placeholder="Enter Code"
                     #code [maxlength]="20" alphaNumeric
@@ -41,7 +42,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="field col-12 md:col-4">
+                <div class="field col-12 md:col-6">
                   <label class="required">Name:
                   </label>&nbsp; <input pInputText id="name" type="text" formControlName="name" placeholder="Enter Name"
                     #name alphaOnly [maxlength]="30"
@@ -62,12 +63,12 @@
                     </div>
                   </div>
                 </div>
-                <div class="field col-12 md:col-4">
+                <div class="field col-12 md:col-6">
                   <label class="required">Is Active:
                   </label>
                   <br> &nbsp; <p-inputSwitch formControlName="isActive"></p-inputSwitch>
                 </div>
-                <div class="d-flex flex-row justify-content-center col-12 md:col-4 mt-2">
+                <div class="d-flex flex-row justify-content-center col-12 md:col-6 mt-2">
                   <div class="button-container">
                     <p-button type="button" label="Add Lookup Details" (click)="addLookupDetails()"></p-button>
                   </div>
@@ -88,10 +89,60 @@
                     <ng-template pTemplate="body" let-lookUp let-lookUpDetailsIndex="rowIndex">
                       <tr [formGroupName]="lookUpDetailsIndex">
                         <td class="vertical-align-top">
-                          <input pInputText class="form-control" formControlName="code" placeholder="Enter Code">
+                          <input pInputText class="form-control" formControlName="code" #Code placeholder="Enter Code"
+                            [maxlength]="20" [ngClass]="{'is-invalid ng-dirty': formArrayControls(lookUpDetailsIndex, 'code')?.touched &&
+                                formArrayControls(lookUpDetailsIndex, 'code')?.errors }">
+                          <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                              <span *ngIf="formArrayControls(lookUpDetailsIndex,'code')?.errors?.['notUnique']">
+                                <div class="ng-invalid ng-touched p-error">
+                                  lookUp Details Code Must Be Unique.
+                                </div>
+                              </span>
+                              <span
+                                *ngIf="formArrayControls(lookUpDetailsIndex,'code')?.touched && formArrayControls(lookUpDetailsIndex,'code')?.invalid">
+                                <div class="ng-invalid ng-touched p-error"
+                                  *ngIf="formArrayControls(lookUpDetailsIndex,'code')?.errors?.['required']">
+                                  Please Enter Code.</div>
+                                <div class="ng-invalid ng-touched p-error"
+                                  *ngIf="formArrayControls(lookUpDetailsIndex,'code')?.errors?.['maxlength']">
+                                  Code Max Length Is 20 </div>
+                                <div class="ng-invalid ng-touched p-error"
+                                  *ngIf="formArrayControls(lookUpDetailsIndex,'code')?.errors?.['pattern']">
+                                  Code Should Contains Alphabets & Numbers.</div>
+                              </span>
+                            </div>
+                            <div class="align-right w-40" style="width:30%; text-align:right;">
+                              <small>{{Code.value.length}}/20 </small>
+                            </div>
+                          </div>
                         </td>
                         <td class="vertical-align-top">
-                          <input pInputText class="form-control" formControlName="name" placeholder="Enter Name">
+                          <input pInputText class="form-control" formControlName="name" placeholder="Enter Name" #name
+                            [ngClass]="{'is-invalid ng-dirty': formArrayControls(lookUpDetailsIndex,'name')?.touched &&
+                  formArrayControls(lookUpDetailsIndex,'name')?.errors }" [maxlength]="20">
+
+                          <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                              <span *ngIf="formArrayControls(lookUpDetailsIndex,'name')?.errors?.['notUnique']">
+                                <div class="ng-invalid ng-touched p-error">
+                                  lookUp Details Name Must Be Unique.
+                                </div>
+                              </span>
+                              <span
+                                *ngIf="formArrayControls(lookUpDetailsIndex,'name')?.touched &&formArrayControls(lookUpDetailsIndex,'name')?.invalid">
+                                <div class="ng-invalid ng-touched p-error"
+                                  *ngIf="formArrayControls(lookUpDetailsIndex,'name')?.errors?.['required']">
+                                  Please Enter Name.</div>
+                                <div class="ng-invalid ng-touched p-error"
+                                  *ngIf="formArrayControls(lookUpDetailsIndex,'name')?.errors?.['minlength']">
+                                  Name Min Length Is 2.</div>
+                              </span>
+                            </div>
+                            <div class="align-right w-40" style="width:30%; text-align:right;">
+                              <small>{{name.value.length}}/30</small>
+                            </div>
+                          </div>
                         </td>
                         <td *ngIf="fblookup.controls['lookUpDetails'].value.length > 1">
                           <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer"
@@ -111,16 +162,17 @@
       </div>
       <ng-template pTemplate="footer">
         <div class="col-4" style="float:right">
-          <button pButton pRipple type="submit" [label]="submitLabel" class="p-button-raised p-button-primary"
+          <button pButton pRipple type="submit" label="{{submitLabel}}" class="p-button-raised p-button-primary"
             [disabled]="fblookup.invalid" (click)="onSubmit()"></button>
         </div>
       </ng-template>
     </p-dialog>
     <!-- table -->
-    <p-table #dtlookup [value]="lookups" dataKey="name" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="true"
+    <p-table #dtlookup [value]="lookups" dataKey="lookupId" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="true"
       [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
       styleClass="p-datatable-gridlines  p-datatable-sm" [style]="{width: 'auto'}" [showCurrentPageReport]="true"
-      [globalFilterFields]="globalFilterFields" [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]">
+      [globalFilterFields]="globalFilterFields" [autoLayout]="true" responsiveLayout="scroll" rowExpandMode="single"
+      [rowsPerPageOptions]="[10,25,50]">
       <ng-template pTemplate="caption">
         <div class="flex justify-content-between flex-column sm:flex-row">
           <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
@@ -153,7 +205,7 @@
           <td>
             <button type="button" pButton pRipple [pRowToggler]="lookup"
               class="p-button-text p-button-rounded p-button-plain"
-              [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" ></button>
+              [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
           </td>
           <td *ngFor="let col of lookupHeader" [ngClass]="col?.field == 'isActive' ? 'text-center' : ''">
             <span
@@ -168,8 +220,13 @@
           </td>
           <td>
             <button pButton pRipple icon="pi pi-pencil" style="padding: 0px;"
-              class="p-element p-ripple p-button-text p-button p-component" (click)="addLookupDialog()"></button>
+              class="p-element p-ripple p-button-text p-button p-component" (click)=" editLookUp(lookup)"></button>
           </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td class="md:text-center m-5" colspan="8">No Lookup Found.</td>
         </tr>
       </ng-template>
       <ng-template pTemplate="rowexpansion" let-lookup>
@@ -187,13 +244,13 @@
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-lookupDetails>
+        <!-- {{lookup.lookupDetails |json}} -->
         <tr>
-
           <td *ngFor="let col of lookupDetailsHeader" [ngClass]="col?.field == 'IsActive' ? 'text-center' : ''">
             <span
-              *ngIf="col?.field != 'createdAt' && col?.field != 'updatedAt' && col?.field != 'IsActive'">{{lookupDetails[col.field]}}</span>
-            <span *ngIf="col?.field == 'createdAt' || col?.field == 'updatedAt'">
-              {{lookupDetails[col.field]}}
+              *ngIf="col?.field != 'CreatedAt' && col?.field != 'UpdatedAt' && col?.field != 'IsActive'">{{lookupDetails[col.field]}}</span>
+            <span *ngIf="col?.field == 'CreatedAt' || col?.field == 'UpdatedAt'">
+              {{lookupDetails[col.field] | date:'dd-mm-yy'}}
             </span>
             <span *ngIf="col?.field == 'IsActive'">
               <p-checkbox name="IsActive" value="IsActive" [binary]="true" [(ngModel)]="lookupDetails[col.field]"
@@ -203,7 +260,7 @@
       </ng-template>
       <ng-template pTemplate="emptymessage">
         <tr>
-          <td class="md:text-center m-5" colspan="8">No Lookup Found.</td>
+          <td class="md:text-center m-5" colspan="9">No Lookup Found.</td>
         </tr>
       </ng-template>
     </p-table>

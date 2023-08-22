@@ -49,7 +49,7 @@
                           <th *ngIf="fbleave.controls['leaveDetails'].value.length > 1"></th>
                         </tr>
                       </ng-template>
-                      <ng-template pTemplate="body" let-leave let-leaveDetailsIndex="rowIndex" *ngFor="let detailCtrl of faleaveDetail().controls; index as i">
+                      <ng-template  pTemplate="body" let-leave let-leaveDetailsIndex="rowIndex" *ngFor="let detailCtrl of faleaveDetail().controls; index as i">
                         <tr [formGroupName]="leaveDetailsIndex">
                           <td class="vertical-align-top">
                             <input pInputText class="form-control" formControlName="leaveTitle" placeholder="Enter Holiday Title">

@@ -2,7 +2,8 @@ import { HttpEvent } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Table } from 'primeng/table';
-import { Observable } from 'rxjs';
+import { elementAt, Observable } from 'rxjs';
+import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { FormArrayValidationForDuplication } from 'src/app/_common/unique-branch-validators';
 import { LookupDetailsDto, LookupDetailViewDto, LookUpHeaderDto, LookupViewDto } from 'src/app/_models/admin';
 import { ITableHeader } from 'src/app/_models/common';
@@ -18,7 +19,7 @@ import { MAX_LENGTH_20, MIN_LENGTH_2, RG_ALPHA_NUMERIC, RG_ALPHA_ONLY } from 'sr
 export class LookupsComponent implements OnInit {
   globalFilterFields: string[] = ['code', 'name', 'isActive', 'createdAt']
   @ViewChild('filter') filter!: ElementRef;
-  dialog: boolean = false;
+  showDialog: boolean = false;
   fblookup!: FormGroup;
   falookUpDetails!: FormArray;
   addfields: any;
@@ -26,10 +27,12 @@ export class LookupsComponent implements OnInit {
   submitLabel!: string;
   maxLength: any;
   lookups: LookupViewDto[] = [];
+  lookupDetails: LookupDetailViewDto = new LookupDetailViewDto();
   lookup: LookUpHeaderDto = new LookUpHeaderDto();
   ShowlookupDetails: boolean = false;
-  isLookupChecked: boolean = false;
-  constructor(private formbuilder: FormBuilder, private adminService: AdminService) { }
+  isLookupChecked: boolean = true;
+  isbool: boolean;
+  constructor(private formbuilder: FormBuilder, private adminService: AdminService, private alertMessage: AlertmessageService) { }
 
   lookupHeader: ITableHeader[] = [
     { field: 'code', header: 'code', label: 'Code' },
@@ -73,26 +76,84 @@ export class LookupsComponent implements OnInit {
       console.log(this.lookups);
     })
   }
-
-
   lookupForm() {
     this.addfields = []
     this.fblookup = this.formbuilder.group({
-      lookUpId: [null],
+      lookupId: [0],
       code: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_NUMERIC), Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_20)]),
       name: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
-      isActive: [null],
+      isActive: [true],
       lookUpDetails: this.formbuilder.array([], FormArrayValidationForDuplication())
     });
   }
+  //  post lookup 
+  savelookup(): Observable<HttpEvent<LookUpHeaderDto>> {
+    if (this.addFlag) {
+      return this.adminService.CreateLookUp(this.fblookup.value)
+    }
+    else return this.adminService.UpdateLookUp(this.fblookup.value)
+  }
 
+  isUniqueLookupCode() {
+    const existingLookupCodes = this.lookups.filter(lookup =>
+      lookup.code === this.fblookup.value.code &&
+      lookup.lookupId !== this.fblookup.value.lookUpId
+    )
+    return existingLookupCodes.length > 0;
+  }
+
+  isUniqueLookupName() {
+    const existingLookupNames = this.lookups.filter(lookup =>
+      lookup.name === this.fblookup.value.name &&
+      lookup.lookupId !== this.fblookup.value.lookUpId
+    )
+    return existingLookupNames.length > 0;
+  }
+  onSubmit() {
+    if (this.fblookup.valid) {
+      if (this.addFlag) {
+        if (this.isUniqueLookupCode()) {
+          this.alertMessage.displayErrorMessage(
+            `Lookup Code :"${this.fblookup.value.code}" Already Exists.`
+          );
+        } else if (this.isUniqueLookupName()) {
+          this.alertMessage.displayErrorMessage(
+            `Lookup Name :"${this.fblookup.value.name}" Already Exists.`
+          );
+        } else {
+          this.save();
+        }
+      } else {
+        this.save();
+      }
+    } else {
+      this.fblookup.markAllAsTouched();
+    }
+  }
+
+  save() {
+    if (this.fblookup.valid) {
+      this.savelookup().subscribe(resp => {
+        if (resp) {
+          debugger
+          this.GetLookUp(true);
+          this.onClose();
+          this.showDialog = false;
+          this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "SML001" : "SML002"]);
+        }
+      })
+    }
+    else {
+      this.fblookup.markAllAsTouched();
+    }
+  }
   generaterow(lookupDetail: LookupDetailViewDto = new LookupDetailViewDto()): FormGroup {
     return this.formbuilder.group({
-      lookupId: [lookupDetail.lookupId],
-      lookupDetailId: [lookupDetail.lookupDetailId],
+      lookupId: [0],
+      lookupDetailId: [0],
       code: new FormControl(lookupDetail.code, [Validators.required,]),
       name: new FormControl(lookupDetail.name, [Validators.required, Validators.minLength(2)]),
-      isActive: [lookupDetail.isActive],
+      isActive: [lookupDetail.isActive = true],
     })
   }
   formArrayControls(i: number, formControlName: string) {
@@ -113,10 +174,6 @@ export class LookupsComponent implements OnInit {
   }
 
 
-  showDialog() {
-    this.fblookup.reset();
-    this.dialog = true;
-  }
   addLookupDetails() {
     this.ShowlookupDetails = true;
     this.falookUpDetails = this.fblookup.get("lookUpDetails") as FormArray
@@ -128,7 +185,7 @@ export class LookupsComponent implements OnInit {
     this.fblookup.controls['name'].enable();
     this.fblookup.controls['isActive'].setValue(true);
     this.submitLabel = "Add Lookup";
-    this.dialog = true;
+    this.showDialog = true;
 
   }
   onClose() {
@@ -136,15 +193,35 @@ export class LookupsComponent implements OnInit {
     this.ShowlookupDetails = false;
     this.falookupDetails().clear();
   }
-  editLookUp(role: any) {
-    this.addLookupDetails();
-    this.fblookup.controls['name'].enable();
-    this.fblookup.controls['isActive'].setValue(true);
-    this.submitLabel = "Add Lookup";
-    this.dialog = true;
-    this.submitLabel = "Update Lookup";
+  // initlookupDetails(lookupId: number) {
+  //   this.adminService.GetlookupDetails(lookupId).subscribe((resp) => {
+  //     this.lookupDetails = resp as unknown as LookupDetailViewDto;
+  //     console.log(this.lookupDetails);
+  //     this.lookupDetails.lookupDetails?.forEach((lookupDetails: LookupDetailViewDto)=> {
+  //       this.falookupDetails().push(this.generaterow(lookupDetails));
+  //     })
+  //   })
+  // }
+  editLookUp(lookup: LookupViewDto) {
+    this.GetLookUp(this.isbool)
+    // this.initlookupDetails(lookup.lookupId);
+    this.lookup.lookupId = lookup.lookupId;
+    this.lookup.lookupDetailId = lookup.lookupId;
+    this.lookup.code = lookup.code;
+    this.lookup.name = lookup.name;
+    // this.fblookup.controls['name'].setValue(lookup.name);
+    //  this.fblookup.controls['name'].disable();
+    // this.lookup.isActive = lookup.isActive;
+    // this.lookup.lookupDetails = this.lookupDetails ? this.lookupDetails : [];
 
+    // this.lookup.lookupDetails = this.lookupDetails ? [this.lookupDetails] : [];
+
+    // this.lookup.lookupDetails = this.lookupDetails ? [] : this.lookupDetails;
+    this.fblookup.patchValue(this.lookup);
+    this.addFlag = false;
+    this.submitLabel = "Update Lookup";
+    this.showDialog = true;
+    this.ShowlookupDetails = true;
   }
-  onSubmit() { }
 
 }

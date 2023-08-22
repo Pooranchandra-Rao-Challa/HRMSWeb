@@ -85,6 +85,8 @@ export const ALERT_CODES: { [key: string]: string } = {
  
 
   'SMU002': 'User Update Successfully',
-  'SMU001':  "User has been successfully Soft Deleted"
-  
+  'SMU001':  "User has been successfully Soft Deleted",
+  //LookUps
+  'SML001':'Lookup Added Successfully',
+  'SML002':'Lookup Updated Successfully'
 }
