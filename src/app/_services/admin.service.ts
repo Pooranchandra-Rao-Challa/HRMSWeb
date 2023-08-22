@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { LookUpHeaderDto, LookupViewDto } from '../_models/admin';
 import { ApiHttpService } from './api.http.service';
 import { CREATE_LOOKUP_URI, GET_LOOKUP_URI, UPDATE_LOOKUP_URI } from './api.uri.service';
-// import { CREATE_LOOKUP_URI } from './api.uri.service';
 
 @Injectable({
   providedIn: 'root'

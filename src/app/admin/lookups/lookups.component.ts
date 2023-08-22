@@ -65,7 +65,6 @@ export class LookupsComponent implements OnInit {
   }
   // getmethod
   GetLookUp(isbool: boolean) {
-
     this.adminService.GetLookUp(isbool).subscribe((resp) => {
       this.lookups = resp as unknown as LookupViewDto[];
       this.lookups.forEach(element => {
@@ -149,11 +148,3 @@ export class LookupsComponent implements OnInit {
   onSubmit() { }
 
 }
-function lookupId(lookupId: any) {
-  throw new Error('Function not implemented.');
-}
-
-function param1(lookupId: (lookupId: any) => void, param1: any) {
-  throw new Error('Function not implemented.');
-}
-

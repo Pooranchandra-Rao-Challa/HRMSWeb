@@ -12,7 +12,7 @@
     </p-toolbar>
     <!-- dialog -->
     <p-dialog header="Lookup" [(visible)]="dialog" [modal]="true" showEffect="fade"
-      [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}" (onHide)="onClose()">
+      [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: 'auto%'}" (onHide)="onClose()">
       <div class="flex flex-column align-items-center justify-content-center">
         <form [formGroup]="fblookup">
           <div class="grid">
@@ -154,7 +154,7 @@
           <td>
             <button type="button" pButton pRipple [pRowToggler]="lookup"
               class="p-button-text p-button-rounded p-button-plain"
-              [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+              [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" (click)="lookup.toggleRow($event)"></button>
           </td>
           <td *ngFor="let col of lookupHeader" [ngClass]="col?.field == 'isActive' ? 'text-center' : ''">
             <span
@@ -177,7 +177,7 @@
         <tr>
           <td colspan="9" class="p-0">
             <div class="p-0">
-              <p-table [value]="lookup.expandLookupDetails" [columns]="lookupDetailsHeader" dataKey="id">
+              <p-table [value]="lookup.expandLookupDetails" [columns]="lookupDetailsHeader">
                 <ng-template pTemplate="header">
         <tr>
           <th style *ngFor="let col of lookupDetailsHeader" [pSortableColumn]="col.header">
