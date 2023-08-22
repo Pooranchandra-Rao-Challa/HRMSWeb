@@ -22,3 +22,7 @@ export const CREATE_LOOKUP_URI="Lookup/CreateLookup";
 export const UPDATE_LOOKUP_URI ="Lookup/UpdateLookup";
 export const GET_HOLIDAY_URI ="Admin/GetHolidays/";
 export const CREATE_HOLIDAY_URI = "Admin/CreateHoliday";
+export const GET_ASSETS_URI = "Admin/GetAssetsDetails";
+export const CREATE_ASSESTS_URI ="Admin/CreateAsset";
+export const UPDATE_ASSESTS_URI ="";
+

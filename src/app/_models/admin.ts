@@ -45,6 +45,57 @@ export class LookupDetailViewDto {
   updatedBy?: string;
   createdBy?: string;
 }
+
+export class AssetsViewDto {
+  assetTypeId?: number;
+  assetType?: string;
+  assetCategoryId?: number;
+  assetCategory?: string;
+  assets?: string;
+  expandassets?: AssetsDetailsViewDto[]
+}
+
+export class AssetsDetailsViewDto {
+  assetId?: number;
+  code?: string;
+  name?: string;
+  assetTypeId?: number;
+  assetType?: string;
+  assetCategoryId?: number;
+  assetCategory?: string;
+  purchasedDate?: Date;
+  modelNumber?: string;
+  manufacturer?: string;
+  serialNumber?: number;
+  warranty?: string;
+  addValue?: number;
+  description?: string;
+  statusId?: number;
+  status?: string;
+  isActive?: boolean;
+  createdAt?: Date;
+  createdBy?: string;
+  updatedAt?: Date;
+  updatedBy?: string;
+}
+
+export class AssetsDto {
+  assetId?: number;
+  code?: string;
+  name?: string;
+  assetTypeId?: number;
+  assetCategoryId?: number;
+  purchasedDate?: number;
+  modelNumber?: string;
+  manufacturer?: string;
+  serialNumber?: string;
+  warranty?: string;
+  addValue?: number;
+  description?: string;
+  statusId?: number;
+  isActive?: boolean;
+}
+
 export class HolidaysViewDto {
   holidayId?: number
   title?: string
