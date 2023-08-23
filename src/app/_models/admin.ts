@@ -101,8 +101,8 @@ export class HolidaysViewDto {
   holidayId?: number
   title?: string
   description?: string
-  fromDate?: string
-  toDate?: string
+  fromDate?: Date
+  toDate?: Date
   isActive?: boolean
   createdAt?: string
   createdBy?: string
@@ -114,7 +114,7 @@ export class HolidayDto {
   updatedAt?: string
   createdBy?: string
   updatedBy?: string
-  holidayId?: number
+  holidayId: any
   title?: string
   description?: string
   fromDate?: string
