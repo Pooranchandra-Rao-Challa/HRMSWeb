@@ -17,11 +17,11 @@ import { NgModule } from '@angular/core';
     JobdesignComponent,
     RecruitmentComponent,
     ProjectComponent,
-    AssetsallotmentComponent
+    AssetsallotmentComponent,
   ],
   imports: [
     AdminRoutingModule,
-    SharedModule
+    SharedModule,
   ]
 })
 export class AdminModule { }

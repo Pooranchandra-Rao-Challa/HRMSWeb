@@ -57,44 +57,44 @@ export class AssetsViewDto {
 }
 
 export class AssetsDetailsViewDto {
-  assetId?: number;
-  code?: string;
-  name?: string;
-  assetTypeId?: number;
-  assetType?: string;
-  assetCategoryId?: number;
-  assetCategory?: string;
-  purchasedDate?: Date;
-  modelNumber?: string;
-  manufacturer?: string;
-  serialNumber?: number;
-  warranty?: string;
-  addValue?: number;
-  description?: string;
-  statusId?: number;
-  status?: string;
-  isActive?: boolean;
-  createdAt?: Date;
-  createdBy?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  AssetId?: number;
+  Code?: string;
+  Name?: string;
+  AssetTypeId?: number;
+  AssetType?: string;
+  AssetCategoryId?: number;
+  AssetCategory?: string;
+  PurchasedDate?: Date;
+  ModelNumber?: string;
+  Manufacturer?: string;
+  SerialNumber?: string;
+  Warranty?: string;
+  AddValue?: number;
+  Description?: string;
+  StatusId?: number;
+  Status?: string;
+  IsActive?: boolean;
+  CreatedAt?: Date;
+  CreatedBy?: string;
+  UpdatedAt?: Date;
+  UpdatedBy?: string;
 }
 
 export class AssetsDto {
-  assetId?: number;
-  code?: string;
-  name?: string;
-  assetTypeId?: number;
-  assetCategoryId?: number;
-  purchasedDate?: number;
-  modelNumber?: string;
-  manufacturer?: string;
-  serialNumber?: string;
-  warranty?: string;
-  addValue?: number;
-  description?: string;
-  statusId?: number;
-  isActive?: boolean;
+  AssetId?: number;
+  Code?: string;
+  Name?: string;
+  AssetTypeId?: number;
+  AssetCategoryId?: number;
+  PurchasedDate?:  Date;
+  ModelNumber?: string;
+  Manufacturer?: string;
+  SerialNumber?: string;
+  Warranty?: string;
+  AddValue?: number;
+  Description?: string;
+  StatusId?: number;
+  IsActive?: boolean;
 }
 
 export class HolidaysViewDto {
