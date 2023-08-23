@@ -93,5 +93,9 @@ export const ALERT_CODES: { [key: string]: string } = {
 
   // Assets
   'AAS001': 'Assets Added Successfully',
-  'AAS002': 'Assets Updated Successfully'
+  'AAS002': 'Assets Updated Successfully',
+   //HOLIDAY
+   'SMH001': 'Holiday Added Successfully',
+   'SMH002': 'Holiday Updated Successfully',
+   'SMH003':'Please add at least one Holiday detail.'
 }
