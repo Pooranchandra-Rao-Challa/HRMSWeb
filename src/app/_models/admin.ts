@@ -4,7 +4,7 @@ export class LookUpHeaderDto {
   code?: string;
   name?: string;
   isActive?: boolean;
-  lookupDetails?:LookupDetailsDto[];
+  lookupDetails?: LookupDetailsDto[];
 }
 
 export class LookupViewDto {
@@ -34,12 +34,13 @@ export class LookupDetailsDto {
 }
 export class LookupDetailViewDto {
   lookupId?: number;
+  lookupDetailId?: number;
   code?: string;
   name?: string;
   description?: string;
   lookupName?: string;
   isActive?: boolean;
-  lookupDetails:string;
+  lookupDetails: string;
   expandLookupDetails?: LookupDetailsDto[];
   updatedAt?: Date;
   createdAt?: Date;
@@ -86,7 +87,7 @@ export class AssetsDto {
   Name?: string;
   AssetTypeId?: number;
   AssetCategoryId?: number;
-  PurchasedDate?:  Date;
+  PurchasedDate?: Date;
   ModelNumber?: string;
   Manufacturer?: string;
   SerialNumber?: string;

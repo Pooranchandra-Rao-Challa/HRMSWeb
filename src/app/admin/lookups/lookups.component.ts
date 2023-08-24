@@ -73,7 +73,6 @@ export class LookupsComponent implements OnInit {
       this.lookups.forEach(element => {
         element.expandLookupDetails = JSON.parse(element.lookupDetails) as unknown as LookupDetailsDto[];
       });
-      console.log(this.lookups);
     })
   }
   restrictSpaces(event: KeyboardEvent) {
@@ -98,11 +97,13 @@ export class LookupsComponent implements OnInit {
     }
     else return this.adminService.UpdateLookUp(this.fblookup.value)
   }
-
+  isLookupIdReadonly(): boolean {
+    return this.fblookup.get('lookupId').value !== null;
+  }
   isUniqueLookupCode() {
     const existingLookupCodes = this.lookups.filter(lookup =>
       lookup.code === this.fblookup.value.code &&
-      lookup.lookupId !== this.fblookup.value.lookUpId
+      lookup.lookupId !== this.fblookup.value.lookupId
     )
     return existingLookupCodes.length > 0;
   }
@@ -110,7 +111,7 @@ export class LookupsComponent implements OnInit {
   isUniqueLookupName() {
     const existingLookupNames = this.lookups.filter(lookup =>
       lookup.name === this.fblookup.value.name &&
-      lookup.lookupId !== this.fblookup.value.lookUpId
+      lookup.lookupId !== this.fblookup.value.lookupId
     )
     return existingLookupNames.length > 0;
   }
@@ -140,7 +141,6 @@ export class LookupsComponent implements OnInit {
     if (this.fblookup.valid) {
       this.savelookup().subscribe(resp => {
         if (resp) {
-          debugger
           this.GetLookUp(false);
           this.onClose();
           this.showDialog = false;
@@ -154,8 +154,8 @@ export class LookupsComponent implements OnInit {
   }
   generaterow(lookupDetail: LookupDetailViewDto = new LookupDetailViewDto()): FormGroup {
     return this.formbuilder.group({
-      lookupId: [0],
-      lookupDetailId: [0],
+      lookupId: [lookupDetail.lookupId],
+      lookupDetailId: [lookupDetail.lookupDetailId],
       code: new FormControl(lookupDetail.code, [Validators.required,]),
       name: new FormControl(lookupDetail.name, [Validators.required, Validators.minLength(2)]),
       isActive: [lookupDetail.isActive = true],
@@ -187,6 +187,7 @@ export class LookupsComponent implements OnInit {
   }
   addLookupDialog() {
     this.addLookupDetails();
+    this.fblookup.controls['code'].enable();
     this.fblookup.controls['name'].enable();
     this.fblookup.controls['isActive'].setValue(true);
     this.submitLabel = "Add Lookup";
@@ -211,8 +212,10 @@ export class LookupsComponent implements OnInit {
     this.lookup.lookupId = lookup.lookupId;
     this.lookup.code = lookup.code;
     this.lookup.name = lookup.name;
+    this.fblookup.controls['code'].disable();
+    this.fblookup.controls['name'].disable();
     this.lookup.isActive = lookup.isActive;
-    this.lookup.lookupDetails = this.lookupDetails.expandLookupDetails;
+    this.lookup.lookupDetails = lookup.expandLookupDetails;
     this.fblookup.patchValue(lookup);
     this.addFlag = false;
     this.submitLabel = "Update Lookup";
