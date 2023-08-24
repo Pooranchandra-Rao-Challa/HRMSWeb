@@ -1,8 +1,8 @@
 <div class="content-container col-12">
     <div class="grid">
-        <form class="col-12">
+        <form class="col-12" (ngSubmit)="navigateToNext()">
             <label for="username" class="block text-900 font-medium text-md required mb-1 mt-5">User Name</label>
-            <input id="username" type="text" [(ngModel)]="userName" placeholder="Enter User Name"
+            <input id="username" type="text" [(ngModel)]="userName" placeholder="Enter User Name" [maxLength]="256"
                 [ngModelOptions]="{standalone:true}" pInputText class="w-full md:w-100 mt-5 " #username="ngModel"
                 style="padding:1rem" required>
             <span *ngIf="!userName && (username.dirty || username.touched)">
