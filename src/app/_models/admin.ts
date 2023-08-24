@@ -4,7 +4,7 @@ export class LookUpHeaderDto {
   code?: string;
   name?: string;
   isActive?: boolean;
-  lookupDetails?:LookupDetailsDto[];
+  lookupDetails?: LookupDetailsDto[];
 }
 
 export class LookupViewDto {
@@ -34,12 +34,13 @@ export class LookupDetailsDto {
 }
 export class LookupDetailViewDto {
   lookupId?: number;
+  lookupDetailId?: number;
   code?: string;
   name?: string;
   description?: string;
   lookupName?: string;
   isActive?: boolean;
-  lookupDetails:string;
+  lookupDetails: string;
   expandLookupDetails?: LookupDetailsDto[];
   updatedAt?: Date;
   createdAt?: Date;
@@ -57,44 +58,44 @@ export class AssetsViewDto {
 }
 
 export class AssetsDetailsViewDto {
-  AssetId?: number;
-  Code?: string;
-  Name?: string;
-  AssetTypeId?: number;
-  AssetType?: string;
-  AssetCategoryId?: number;
-  AssetCategory?: string;
-  PurchasedDate?: Date;
-  ModelNumber?: string;
-  Manufacturer?: string;
-  SerialNumber?: string;
-  Warranty?: string;
-  AddValue?: number;
-  Description?: string;
-  StatusId?: number;
-  Status?: string;
-  IsActive?: boolean;
-  CreatedAt?: Date;
-  CreatedBy?: string;
-  UpdatedAt?: Date;
-  UpdatedBy?: string;
+  assetId?: number;
+  code?: string;
+  name?: string;
+  assetTypeId?: number;
+  assetType?: string;
+  assetCategoryId?: number;
+  assetCategory?: string;
+  purchasedDate?: Date;
+  modelNumber?: string;
+  manufacturer?: string;
+  serialNumber?: string;
+  warranty?: string;
+  addValue?: number;
+  description?: string;
+  statusId?: number;
+  status?: string;
+  isActive?: boolean;
+  createdAt?: Date;
+  createdBy?: string;
+  updatedAt?: Date;
+  updatedBy?: string;
 }
 
 export class AssetsDto {
-  AssetId?: number;
-  Code?: string;
-  Name?: string;
-  AssetTypeId?: number;
-  AssetCategoryId?: number;
-  PurchasedDate?:  Date;
-  ModelNumber?: string;
-  Manufacturer?: string;
-  SerialNumber?: string;
-  Warranty?: string;
-  AddValue?: number;
-  Description?: string;
-  StatusId?: number;
-  IsActive?: boolean;
+  assetId?: number;
+  code?: string;
+  name?: string;
+  assetTypeId?: number;
+  assetCategoryId?: number;
+  purchasedDate?:  Date;
+  modelNumber?: string;
+  manufacturer?: string;
+  serialNumber?: string;
+  warranty?: string;
+  addValue?: number;
+  description?: string;
+  statusId?: number;
+  isActive?: boolean;
 }
 
 export class HolidaysViewDto {

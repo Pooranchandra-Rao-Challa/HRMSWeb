@@ -21,13 +21,37 @@
               <div class="p-fluid p-formgrid grid">
                 <div class="field col-12 md:col-4">
                   <label>Holiday Title: <sup class="p-error">*</sup>
-                  </label>&nbsp; <input pInputText id="title" type="text" formControlName="title"
-                    placeholder="Enter Holiday Title" />
-                </div>
+                  </label>&nbsp; <input pInputText #title id="title" type="text" formControlName="title"
+                  alphaOnly [maxlength]="maxLength.title"
+                    placeholder="Enter Holiday Title" [ngClass]="{ 'is-invalid ng-dirty': FormControls['title'].touched && FormControls['title'].errors }"/>
+                    <div class="flex">
+                      <div class="align-left w-60" style="width:70%">
+                        <span *ngIf="FormControls['title'].touched && FormControls['title'].invalid">
+                          <div class="ng-invalid ng-touched p-error"
+                            *ngIf="FormControls['title'].errors?.['required']">
+                            Please Enter Title.</div>
+                          <div class="ng-invalid ng-touched p-error"
+                            *ngIf="FormControls['title'].errors?.['minlength']">
+                            Title Min Characters Is 2.</div>
+                          <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['title'].errors?.['pattern']">
+                            Title Should Contains Only Alphabets.</div>
+                        </span>
+                      </div>
+                      <div class="align-right w-40" style="width:30%; text-align:right;">
+                        <small>{{title.value.length}}/{{maxLength.title}}</small>
+                      </div>
+                    </div>
+                  </div>
                 <div class="field col-12 md:col-4">
                   <label>From Date: <sup class="p-error">*</sup>
                   </label>&nbsp; <p-calendar formControlName="fromDate" placeholder="Enter From Date" [showIcon]="true"
-                    appendTo="body"></p-calendar>
+                    appendTo="body"[ngClass]="{ 'is-invalid ng-dirty': FormControls['fromDate'].touched && FormControls['fromDate'].errors }">
+                  </p-calendar>
+                  <span *ngIf="FormControls['fromDate'].touched && FormControls['fromDate'].invalid">
+                    <div class="ng-invalid ng-touched p-error"
+                      *ngIf="FormControls['fromDate'].errors?.['required']">
+                      Please Select FromDate.</div>
+                  </span>
                 </div>
                 <div class="field col-12 md:col-4">
                   <label>To Date:</label>&nbsp; <p-calendar formControlName="toDate" placeholder="Enter To Date"
@@ -35,9 +59,27 @@
                 </div>
                 <div class="field col-12 md:col-4">
                   <label>Holiday Description: <sup class="p-error">*</sup>
-                  </label>&nbsp; <input pInputText id="description" type="text" formControlName="description"
-                    placeholder="Enter Holiday Description" />
+                  </label>&nbsp; <input pInputText id="description" type="text" formControlName="description" #description placeholder="Enter Holiday Description"
+                  [ngClass]="{ 'is-invalid ng-dirty': FormControls['description'].touched && FormControls['description'].errors }" />
+                  <div class="flex">
+                    <div class="align-left w-60" style="width:70%">
+                      <span *ngIf="FormControls['description'].touched && FormControls['description'].invalid">
+                        <div class="ng-invalid ng-touched p-error"
+                          *ngIf="FormControls['description'].errors?.['required']">
+                          Please Enter Name.</div>
+                        <div class="ng-invalid ng-touched p-error"
+                          *ngIf="FormControls['description'].errors?.['minlength']">
+                          Name Min Characters Is 2.</div>
+                        <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['description'].errors?.['pattern']">
+                          Name Should Contains Only Alphabets.</div>
+                      </span>
+                    </div>
+                    <div class="align-right w-40" style="width:30%; text-align:right;">
+                      <small>{{description.value.length}}/{{maxLength.description}}</small>
+                    </div>
                 </div>
+              </div>
+        
                 <div class="field col-12 md:col-4">
                   <label class="required">Is Active:</label><br>
                   <p-inputSwitch formControlName="isActive" id="isActive"></p-inputSwitch>
