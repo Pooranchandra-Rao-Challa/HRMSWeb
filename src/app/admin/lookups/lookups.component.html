@@ -15,6 +15,7 @@
     <p-dialog header="Lookup" [(visible)]="showDialog" [modal]="true" showEffect="fade"
       [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '50%'}" (onHide)="onClose()">
       <div class="flex flex-column align-items-center justify-content-center">
+      
         <form [formGroup]="fblookup">
           <div class="grid">
             <div class="col-12 roles-container">
@@ -22,7 +23,7 @@
                 <div class="field col-12 md:col-6">
                   <label class="required">Code:
                   </label>&nbsp; <input pInputText id="code" type="text" formControlName="code" placeholder="Enter Code"
-                    #code [maxlength]="20" alphaNumeric
+                    #code [maxlength]="20" alphaNumeric  (keydown)="restrictSpaces($event)" 
                     [ngClass]="{ 'is-invalid ng-dirty': FormControls['code'].touched && FormControls['code'].errors }" />
                   <div class="flex">
                     <div class="align-left w-60" style="width:70%">
@@ -45,7 +46,7 @@
                 <div class="field col-12 md:col-6">
                   <label class="required">Name:
                   </label>&nbsp; <input pInputText id="name" type="text" formControlName="name" placeholder="Enter Name"
-                    #name alphaOnly [maxlength]="30"
+                    #name alphaOnly [maxlength]="30"  (keydown)="restrictSpaces($event)" 
                     [ngClass]="{ 'is-invalid ng-dirty': FormControls['name'].touched && FormControls['name'].errors }" />
                   <div class="flex">
                     <div class="align-left w-60" style="width:70%">
@@ -89,7 +90,7 @@
                     <ng-template pTemplate="body" let-lookUp let-lookUpDetailsIndex="rowIndex">
                       <tr [formGroupName]="lookUpDetailsIndex">
                         <td class="vertical-align-top">
-                          <input pInputText class="form-control" formControlName="code" #Code placeholder="Enter Code"
+                          <input pInputText class="form-control" formControlName="code" #Code placeholder="Enter Code"  (keydown)="restrictSpaces($event)"
                             [maxlength]="20" [ngClass]="{'is-invalid ng-dirty': formArrayControls(lookUpDetailsIndex, 'code')?.touched &&
                                 formArrayControls(lookUpDetailsIndex, 'code')?.errors }">
                           <div class="flex">
@@ -118,7 +119,7 @@
                           </div>
                         </td>
                         <td class="vertical-align-top">
-                          <input pInputText class="form-control" formControlName="name" placeholder="Enter Name" #name
+                          <input pInputText class="form-control" formControlName="name" placeholder="Enter Name" #name  (keydown)="restrictSpaces($event)"
                             [ngClass]="{'is-invalid ng-dirty': formArrayControls(lookUpDetailsIndex,'name')?.touched &&
                   formArrayControls(lookUpDetailsIndex,'name')?.errors }" [maxlength]="20">
 

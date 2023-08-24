@@ -21,26 +21,26 @@ export class LookupViewDto {
 }
 
 export class LookupDetailsDto {
-  LookupDetailId?: number;
-  Code?: string;
-  Name?: string;
-  LookupId?: number;
-  Description?: string;
-  IsActive?: boolean;
-  UpdatedAt?: Date;
-  CreatedAt?: Date;
-  UpdatedBy?: string;
-  CreatedBy?: string;
+  lookupDetailId?: number;
+  code?: string;
+  name?: string;
+  lookupId?: number;
+  description?: string;
+  isActive?: boolean;
+  updatedAt?: Date;
+  createdAt?: Date;
+  updatedBy?: string;
+  createdBy?: string;
 }
 export class LookupDetailViewDto {
   lookupId?: number;
-  lookupDetailId?: number;
   code?: string;
   name?: string;
   description?: string;
   lookupName?: string;
   isActive?: boolean;
-  lookupDetails?: LookupDetailsDto[];
+  lookupDetails:string;
+  expandLookupDetails?: LookupDetailsDto[];
   updatedAt?: Date;
   createdAt?: Date;
   updatedBy?: string;
@@ -101,8 +101,8 @@ export class HolidaysViewDto {
   holidayId?: number
   title?: string
   description?: string
-  fromDate?: Date
-  toDate?: Date
+  fromDate?: any
+  toDate?: any
   isActive?: boolean
   createdAt?: string
   createdBy?: string
