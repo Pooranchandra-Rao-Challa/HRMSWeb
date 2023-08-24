@@ -1,53 +1,43 @@
 import { HttpEvent } from '@angular/common/http';
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { SortEvent } from 'primeng/api';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Table } from 'primeng/table';
 import { Observable } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
-import { AssetsDetailsViewDto, AssetsDto, AssetsViewDto } from 'src/app/_models/admin';
+import { AssetsDetailsViewDto, AssetsDto, AssetsViewDto, LookupDetailViewDto } from 'src/app/_models/admin';
 import { ITableHeader } from 'src/app/_models/common';
 import { AdminService } from 'src/app/_services/admin.service';
+import { LookupService } from 'src/app/_services/lookup.service';
 import { MAX_LENGTH_6, MIN_LENGTH_2, RG_ALPHA_NUMERIC } from 'src/app/_shared/regex';
 
 
 @Component({
   selector: 'app-assets',
   templateUrl: './assets.component.html',
-  styles: [
-  ]
 })
 export class AssetsComponent {
-  @ViewChild('filter') filter!: ElementRef;
-  assets: AssetsViewDto[] = [];
   globalFilterFields: string[] = ['assetsType', 'assetsCategory', 'count', 'assetName', 'PurchasedDate', 'ModelNumber', 'Manufacturer',
     'SerialNumber', 'Warranty', 'AddValue', 'Description', 'Status', 'isActive'];
+  @ViewChild('filter') filter!: ElementRef;
+  assetTypes: LookupDetailViewDto[] = [];
+  assetCategories: LookupDetailViewDto[] = [];
+  assetstatus: LookupDetailViewDto[] = [];
+  assets: AssetsViewDto[] = [];
+  asset = new AssetsDto();
   fbassets!: FormGroup;
   mediumDate: string = MEDIUM_DATE;
   addFlag: boolean;
   dialog: boolean = false;
   submitLabel!: string;
   ShowassetsDetails: boolean = false;
-  assetsList = [
-    { name: 'Mouse', code: 'MU',AssetTypeId:8 },
-    { name: 'CPU', code: 'CP' },
-    { name: 'Monitor', code: 'MO' },
-    { name: 'Keyboard', code: 'KY' },
-    { name: 'HeadSet', code: 'HS' },
-  ];
-  assetsCategory = [
-    { name: 'Gadgets', code: 'GD' ,AssetCategoryId:16},
-    { name: 'Fixed Assets', code: 'FA' }
-  ];
-  statusList = [
-    { name: 'Good', code: 'GUD' ,StatusId:20},
-    { name: 'Bad', code: 'BD' },
-  ];
-  constructor(private adminService: AdminService, private formbuilder: FormBuilder, 
-     private alertMessage: AlertmessageService,) {
-
+  messageService: any;
+  deletedialog:boolean;
+  deleteAsset:any;
+  constructor(private adminService: AdminService, private formbuilder: FormBuilder,
+    private alertMessage: AlertmessageService, private lookupService: LookupService,) {
   }
+
   AssetsheaderTable: ITableHeader[] = [
     { field: 'assetType', header: 'assetType', label: 'Assets Type' },
     { field: 'assetCategory', header: 'assetCategory', label: 'Assets Category' },
@@ -73,12 +63,30 @@ export class AssetsComponent {
 
   ngOnInit() {
     this.assetsForm();
-    this.initassets();
+    this.initAssets();
+    this.initAssetTypes();
+    this.initAssetCategories();
+    this.initStatus();
   }
-  get FormControls() {
-    return this.fbassets.controls;
+
+  initAssetTypes() {
+    this.lookupService.AssetTypes().subscribe((resp) => {
+      this.assetTypes = resp as unknown as LookupDetailViewDto[];
+    });
   }
-  initassets() {
+  initAssetCategories() {
+    this.lookupService.AssetCategories().subscribe((resp) => {
+      this.assetCategories = resp as unknown as LookupDetailViewDto[];
+    });
+  }
+
+  initStatus() {
+    this.lookupService.AssetStatus().subscribe((resp) => {
+      this.assetstatus = resp as unknown as LookupDetailViewDto[];
+    });
+  }
+
+  initAssets() {
     this.adminService.GetAssets().subscribe((resp) => {
       this.assets = resp as unknown as AssetsViewDto[];
       this.assets.forEach(element => {
@@ -86,22 +94,28 @@ export class AssetsComponent {
       });
     })
   }
+
   assetsForm() {
     this.fbassets = this.formbuilder.group({
-      code: new FormControl(null, [Validators.required, Validators.pattern(RG_ALPHA_NUMERIC), Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_6)]),
-      assetType: new FormControl(null, [Validators.required]),
-      assetCategory: new FormControl(null, [Validators.required]),
-      assetname: new FormControl(null, [Validators.required]),
-      purchasedDate: new FormControl(null, [Validators.required]),
-      modelNumber: new FormControl(null),
-      manufacturer: new FormControl(null),
-      serialNumber: new FormControl(null),
-      warranty: new FormControl(null),
-      addValue: new FormControl(null),
-      description: new FormControl(null),
-      status: new FormControl(null, [Validators.required]),
-      isActive: [null, (Validators.required)],
+      AssetId: new FormControl(null),
+      Code: new FormControl(null, [Validators.required, Validators.pattern(RG_ALPHA_NUMERIC), Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_6)]),
+      AssetTypeId: new FormControl(null, [Validators.required]),
+      AssetCategoryId: new FormControl(null, [Validators.required]),
+      Name: new FormControl(null, [Validators.required]),
+      PurchasedDate: new FormControl(null, [Validators.required]),
+      ModelNumber: new FormControl(null),
+      Manufacturer: new FormControl(null),
+      SerialNumber: new FormControl(null),
+      Warranty: new FormControl(null),
+      AddValue: new FormControl(null),
+      Description: new FormControl(null),
+      StatusId: new FormControl(null, [Validators.required]),
+      IsActive: [null],
     });
+  }
+
+  get FormControls() {
+    return this.fbassets.controls;
   }
 
   onGlobalFilter(table: Table, event: Event) {
@@ -117,7 +131,12 @@ export class AssetsComponent {
     this.fbassets.reset();
     this.dialog = true;
   }
-  
+ 
+  Dialog(assetstypes){
+    this.deleteAsset=assetstypes;
+    this.deletedialog = true;
+    
+  }
   addAssetsDialog() {
     this.submitLabel = "Add Assets";
     this.addFlag = true;
@@ -128,8 +147,49 @@ export class AssetsComponent {
     this.fbassets.reset();
     this.ShowassetsDetails = false;
   }
-  editAssets(assets: any) {
-    this.addFlag = true;
+  deleted(){
+    this.deletedialog =false
+  }
+  deleteassettype(){
+    debugger
+    this.asset.AssetId = this.deleteAsset.AssetId;
+    this.asset.Code = this.deleteAsset.Code;
+    this.asset.Name = this.deleteAsset.Name;
+    this.asset.AssetTypeId = this.deleteAsset.AssetTypeId;
+    this.asset.AssetCategoryId = this.deleteAsset.AssetCategoryId;
+    this.asset.PurchasedDate = this.deleteAsset.PurchasedDate;
+    this.asset.ModelNumber = this.deleteAsset.ModelNumber;
+    this.asset.Manufacturer = this.deleteAsset.Manufacturer;
+    this.asset.SerialNumber = this.deleteAsset.SerialNumber;
+    this.asset.Warranty = this.deleteAsset.Warranty;
+    this.asset.AddValue = this.deleteAsset.AddValue;
+    this.asset.Description = this.deleteAsset.Description;
+    this.asset.StatusId = this.deleteAsset.StatusId;
+    this.asset.IsActive = false;
+    this.fbassets.patchValue(this.asset);
+    
+
+    this.addFlag = false;
+  this.onSubmit();
+  this.deletedialog =false
+  }
+  editAssets(assets: AssetsDetailsViewDto) {
+    this.asset.AssetId = assets.AssetId;
+    this.asset.Code = assets.Code;
+    this.asset.Name = assets.Name;
+    this.asset.AssetTypeId = assets.AssetTypeId;
+    this.asset.AssetCategoryId = assets.AssetCategoryId;
+    this.asset.PurchasedDate = assets.PurchasedDate;
+    this.asset.ModelNumber = assets.ModelNumber;
+    this.asset.Manufacturer = assets.Manufacturer;
+    this.asset.SerialNumber = assets.SerialNumber;
+    this.asset.Warranty = assets.Warranty;
+    this.asset.AddValue = assets.AddValue;
+    this.asset.Description = assets.Description;
+    this.asset.StatusId = assets.StatusId;
+    this.asset.IsActive = assets.IsActive;
+    this.fbassets.patchValue(this.asset);
+    this.addFlag = false;
     this.dialog = true;
     this.submitLabel = "Update Assets";
   }
@@ -139,14 +199,15 @@ export class AssetsComponent {
     else return this.adminService.UpdateAssets(this.fbassets.value)
   }
 
-  onSubmit() { 
-      this.saveAssets().subscribe(resp => {
-        if (resp) {
-          this.initassets();
-          this.onClose();
-          this.dialog = false;
-          this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "AAS001" : "AAS002"]);
-        }
-      })
+  onSubmit() {
+    this.saveAssets().subscribe(resp => {
+      if (resp) {
+        this.initAssets();
+        this.onClose();
+        this.dialog = false;
+        this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "AAS001" : "AAS002"]);
+      }
+    })
   }
+  
 }

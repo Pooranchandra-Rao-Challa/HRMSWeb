@@ -24,6 +24,9 @@ export const GET_LOOKUP_DETAILS_URI ='Admin/GetLookupDetails';
 export const GET_HOLIDAY_URI ="Admin/GetHolidays/";
 export const CREATE_HOLIDAY_URI = "Admin/CreateHoliday";
 export const GET_ASSETS_URI = "Admin/GetAssetsDetails";
-export const CREATE_ASSESTS_URI ="Admin/CreateAsset";
-export const UPDATE_ASSESTS_URI ="";
+export const CREATE_ASSETS_URI ="Admin/CreateAsset";
+export const UPDATE_ASSETS_URI ="Admin/UpdateAsset";
 
+export const LOOKUP_ASSET_TYPE_URI ="Lookup/AssetTypes";
+export const LOOKUP_ASSET_CATEGORIES_URI ="Lookup/AssetCategories";
+export const LOOKUP_ASSET_STATUS_URI ="Lookup/Status"
