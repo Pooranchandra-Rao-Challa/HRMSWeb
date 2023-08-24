@@ -90,12 +90,12 @@ export const ALERT_CODES: { [key: string]: string } = {
   'SML001':'Lookup Added Successfully',
   'SML002':'Lookup Updated Successfully',
 
-
   // Assets
   'AAS001': 'Assets Added Successfully',
   'AAS002': 'Assets Updated Successfully',
+
    //HOLIDAY
    'SMH001': 'Holiday Added Successfully',
    'SMH002': 'Holiday Updated Successfully',
-   'SMH003':'Please add at least one Holiday detail.'
+   'SMH003':'This date is already a holiday.'
 }

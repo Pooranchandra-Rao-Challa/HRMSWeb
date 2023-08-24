@@ -39,7 +39,7 @@ export class AdminService extends ApiHttpService {
 }
 
 public CreateAssets(assets: AssetsDto) {
-  return this.post<AssetsDto>(CREATE_ASSETS_URI, assets);
+  return this.post<AssetsDto>(CREATE_ASSETS_URI, assets ,{ responseType: 'text' });
 }
 
 public UpdateAssets(assets: AssetsDto) {
