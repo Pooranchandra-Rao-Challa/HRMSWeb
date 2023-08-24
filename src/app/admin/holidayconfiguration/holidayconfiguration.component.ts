@@ -5,11 +5,12 @@ import { AdminService } from 'src/app/_services/admin.service';
 import { HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ALERT_CODES, AlertmessageService } from 'src/app/_alerts/alertmessage.service';
-import { ITableHeader } from 'src/app/_models/common';
+import { ITableHeader, MaxLength } from 'src/app/_models/common';
 import { HolidayDto, HolidaysViewDto } from 'src/app/_models/admin';
 import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { DateValidators } from 'src/app/_validators/dateRangeValidator';
 import { isNullOrUndefined } from 'util';
+import { MIN_LENGTH_2, RG_ALPHA_ONLY } from 'src/app/_shared/regex';
 interface Year {
   year: string;
   code: string;
@@ -30,7 +31,7 @@ export class HolidayconfigurationComponent {
   fbleave!: FormGroup;
   holidayForm!: FormGroup;
   submitLabel!: string;
-  maxLength: any;
+  maxLength: MaxLength = new MaxLength();
   addFlag: boolean = true;
   ShowleaveDetails: boolean = false;
   selectedYear: Year | undefined;
@@ -63,11 +64,11 @@ export class HolidayconfigurationComponent {
   leaveForm() {
     this.fbleave = this.formbuilder.group({
       holidayId: null,
-      title: new FormControl('', Validators.required),
-      fromDate: new FormControl('', Validators.required),
+      title: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
+      fromDate: [null, (Validators.required)],
       toDate: new FormControl(null, Validators.required),
-      description: new FormControl('', Validators.required),
-      isActive: true,
+      description:new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
+      isActive: new FormControl([true], Validators.required),
       leaveDetails: this.formbuilder.array([])
     }, {
       validators: Validators.compose([
@@ -91,6 +92,9 @@ export class HolidayconfigurationComponent {
       description: '',
       isActive: true,
     });
+    // Clear validation errors
+    this.fbleave.markAsPristine();
+    this.fbleave.markAsUntouched();
   }
   generaterow(leaveDetails: HolidaysViewDto = new HolidaysViewDto()): FormGroup {
     return this.formbuilder.group({
@@ -130,6 +134,15 @@ export class HolidayconfigurationComponent {
       console.log(this.holidays);
     });
   }
+
+  dateValidator(control: FormControl): {[s: string]: boolean} {
+    const date = control.value as Date;
+    if (this.holidays.some(holiday => new Date(holiday.fromDate).getTime() === date.getTime())) {
+      return { 'dateExists': true };
+    }
+    return null;
+  }
+
   deleteassettype() {
     this.holidayToEdit = this.holiday;
     this.holiday = new HolidayDto();
@@ -146,8 +159,9 @@ export class HolidayconfigurationComponent {
   }
   editHoliday(holiday: HolidaysViewDto) {
     this.holidayToEdit = holiday;
-    const fromDate = new Date(holiday.fromDate);
-    const toDate = new Date(holiday.toDate);
+    // Formatting the dates
+    const fromDate = FORMAT_DATE(new Date(holiday.fromDate));
+    const toDate = FORMAT_DATE(new Date(holiday.toDate));
     this.holidayForm.setValue({
       holidayId: holiday.holidayId,
       title: holiday.title,
@@ -170,6 +184,7 @@ export class HolidayconfigurationComponent {
     if (holiday.holidayId) {
       this.AdminService.CreateHoliday([{ ...holiday, }]).subscribe(res => {
         this.initHoliday();
+        this.leaveForm();
         this.editDialog = false;
         this.alertMessage.displayAlertMessage(ALERT_CODES["SMH002"]);
       });
