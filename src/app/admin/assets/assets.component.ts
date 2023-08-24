@@ -32,8 +32,8 @@ export class AssetsComponent {
   submitLabel!: string;
   ShowassetsDetails: boolean = false;
   messageService: any;
-  deletedialog:boolean;
-  deleteAsset:any;
+  deletedialog: boolean;
+  deleteAsset: any;
   constructor(private adminService: AdminService, private formbuilder: FormBuilder,
     private alertMessage: AlertmessageService, private lookupService: LookupService,) {
   }
@@ -131,11 +131,11 @@ export class AssetsComponent {
     this.fbassets.reset();
     this.dialog = true;
   }
- 
-  Dialog(assetstypes){
-    this.deleteAsset=assetstypes;
+
+  Dialog(assetstypes) {
+    this.deleteAsset = assetstypes;
     this.deletedialog = true;
-    
+
   }
   addAssetsDialog() {
     this.submitLabel = "Add Assets";
@@ -147,11 +147,10 @@ export class AssetsComponent {
     this.fbassets.reset();
     this.ShowassetsDetails = false;
   }
-  deleted(){
-    this.deletedialog =false
+  deleted() {
+    this.deletedialog = false
   }
-  deleteassettype(){
-    debugger
+  deleteassettype() {
     this.asset.AssetId = this.deleteAsset.AssetId;
     this.asset.Code = this.deleteAsset.Code;
     this.asset.Name = this.deleteAsset.Name;
@@ -167,11 +166,9 @@ export class AssetsComponent {
     this.asset.StatusId = this.deleteAsset.StatusId;
     this.asset.IsActive = false;
     this.fbassets.patchValue(this.asset);
-    
-
     this.addFlag = false;
-  this.onSubmit();
-  this.deletedialog =false
+    this.onSubmit();
+    this.deletedialog = false
   }
   editAssets(assets: AssetsDetailsViewDto) {
     this.asset.AssetId = assets.AssetId;
@@ -209,5 +206,5 @@ export class AssetsComponent {
       }
     })
   }
-  
+
 }

@@ -25,7 +25,7 @@ export class HolidayconfigurationComponent {
   globalFilterFields: string[] = ['title', 'fromDate', 'toDate', 'toDate', 'description', 'createdAt', 'updatedAt', 'updatedBy', 'createdBy']
   @ViewChild('filter') filter!: ElementRef;
   dialog: boolean = false;
-  holiday: any
+  holiday:  any
   editDialog: boolean = false;
   fbleave!: FormGroup;
   holidayForm!: FormGroup;
@@ -37,6 +37,8 @@ export class HolidayconfigurationComponent {
   years: Year[] | undefined;
   holidayToEdit: HolidaysViewDto;
   mediumDate: string = MEDIUM_DATE
+  deletedialog:boolean;
+  deleteAsset:any
   constructor(
     private formbuilder: FormBuilder,
     private AdminService: AdminService,
@@ -113,7 +115,7 @@ export class HolidayconfigurationComponent {
       fromDate: new FormControl('', Validators.required),
       toDate: new FormControl(''),
       description: new FormControl('', Validators.required),
-      isActive: new FormControl(false)
+      isActive: new FormControl(''),
     },
       {
         validators: Validators.compose([
@@ -127,6 +129,20 @@ export class HolidayconfigurationComponent {
       this.holidays = resp as unknown as HolidaysViewDto[];
       console.log(this.holidays);
     });
+  }
+  deleteassettype() {
+    this.holidayToEdit = this.holiday;
+    this.holiday = new HolidayDto();
+    this.holiday.holidayId = this.deleteAsset.holidayId;
+    this.holiday.title = this.deleteAsset.title;
+    this.holiday.fromDate = this.deleteAsset.fromDate;
+    this.holiday.toDate = this.deleteAsset.toDate;
+    this.holiday.description = this.deleteAsset.description;
+    this.holiday.isActive = false; // Set isActive to false when deleting
+    this.holidayForm .patchValue(this.holiday);
+    this.onSubmit();
+    this.addFlag = false;
+    this.deletedialog = false;
   }
   editHoliday(holiday: HolidaysViewDto) {
     this.holidayToEdit = holiday;
@@ -152,8 +168,6 @@ export class HolidayconfigurationComponent {
   onSubmit() {
     const holiday = this.holidayForm.value;
     if (holiday.holidayId) {
-      holiday.fromDate = FORMAT_DATE(holiday.fromDate);
-    holiday.toDate = FORMAT_DATE(holiday.toDate);
       this.AdminService.CreateHoliday([{ ...holiday, }]).subscribe(res => {
         this.initHoliday();
         this.editDialog = false;
@@ -168,6 +182,17 @@ export class HolidayconfigurationComponent {
         this.alertMessage.displayAlertMessage(ALERT_CODES["SMH001"]);
       });
     }
+  }
+  confirmDelete(){
+    this.deletedialog = true;
+  }
+  Dialog(leave:any){
+    this.deleteAsset = leave;
+    this.deletedialog = true;
+    
+  }
+  deleted(){
+    this.deletedialog =false
   }
   showDialog() {
     this.fbleave.reset();
