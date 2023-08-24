@@ -208,7 +208,7 @@ export class LookupsComponent implements OnInit {
   }
   editLookUp(lookup: LookupViewDto) {
     this.initlookupDetails(lookup.lookupId);
-    console.log(this.initlookupDetails);
+    this.lookup.lookupId = lookup.lookupId;
     this.lookup.code = lookup.code;
     this.lookup.name = lookup.name;
     this.lookup.isActive = lookup.isActive;
