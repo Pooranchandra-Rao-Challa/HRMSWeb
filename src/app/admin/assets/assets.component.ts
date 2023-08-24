@@ -17,7 +17,7 @@ import { MAX_LENGTH_6, MIN_LENGTH_2, RG_ALPHA_NUMERIC } from 'src/app/_shared/re
   templateUrl: './assets.component.html',
 })
 export class AssetsComponent {
-  globalFilterFields: string[] = ['assetsType', 'assetsCategory', 'count', 'assetName', 'PurchasedDate', 'ModelNumber', 'Manufacturer',
+  globalFilterFields: string[] = ['assetType', 'assetCategory', 'count', 'assetName', 'PurchasedDate', 'ModelNumber', 'Manufacturer',
     'SerialNumber', 'Warranty', 'AddValue', 'Description', 'Status', 'isActive'];
   @ViewChild('filter') filter!: ElementRef;
   assetTypes: LookupDetailViewDto[] = [];
@@ -31,9 +31,9 @@ export class AssetsComponent {
   dialog: boolean = false;
   submitLabel!: string;
   ShowassetsDetails: boolean = false;
-  messageService: any;
   deletedialog: boolean;
-  deleteAsset: any;
+  deleteAsset = new AssetsDetailsViewDto();
+
   constructor(private adminService: AdminService, private formbuilder: FormBuilder,
     private alertMessage: AlertmessageService, private lookupService: LookupService,) {
   }
@@ -44,21 +44,21 @@ export class AssetsComponent {
     { field: 'count', header: 'count', label: 'Count' },
   ];
   AssetsTypeTable: ITableHeader[] = [
-    { field: 'Code', header: 'Code', label: 'Code' },
-    { field: 'Name', header: 'Name', label: 'Asset Name' },
-    { field: 'PurchasedDate', header: 'PurchasedDate', label: 'PurchasedDate' },
-    { field: 'ModelNumber', header: 'ModelNumber', label: 'ModelNumber' },
-    { field: 'Manufacturer', header: 'Manufacturer', label: 'Manufacturer' },
-    { field: 'SerialNumber', header: 'SerialNumber', label: 'SerialNumber' },
-    { field: 'Warranty', header: 'Warranty', label: 'Warranty' },
-    { field: 'AddValue', header: 'AddValue', label: 'AddValue' },
-    { field: 'Description', header: 'Description', label: 'Description' },
-    { field: 'Status', header: 'Status', label: 'Status' },
-    { field: 'IsActive', header: 'IsActive', label: 'Is Active' },
-    { field: 'CreatedAt', header: 'CreatedAt', label: 'Created Date' },
-    { field: 'CreatedBy', header: 'CreatedBy', label: 'Created By' },
-    { field: 'UpdatedAt', header: 'UpdatedAt', label: 'Updated Date' },
-    { field: 'UpdatedBy', header: 'UpdatedBy', label: 'Updated By' },
+    { field: 'code', header: 'code', label: 'Code' },
+    { field: 'name', header: 'name', label: 'Asset Name' },
+    { field: 'purchasedDate', header: 'purchasedDate', label: 'PurchasedDate' },
+    { field: 'modelNumber', header: 'modelNumber', label: 'ModelNumber' },
+    { field: 'manufacturer', header: 'manufacturer', label: 'Manufacturer' },
+    { field: 'serialNumber', header: 'serialNumber', label: 'SerialNumber' },
+    { field: 'warranty', header: 'warranty', label: 'Warranty' },
+    { field: 'addValue', header: 'addValue', label: 'AddValue' },
+    { field: 'description', header: 'description', label: 'Description' },
+    { field: 'status', header: 'status', label: 'Status' },
+    { field: 'isActive', header: 'isActive', label: 'Is Active' },
+    { field: 'createdAt', header: 'createdAt', label: 'Created Date' },
+    { field: 'createdBy', header: 'createdBy', label: 'Created By' },
+    { field: 'updatedAt', header: 'updatedAt', label: 'Updated Date' },
+    { field: 'updatedBy', header: 'updatedBy', label: 'Updated By' },
   ];
 
   ngOnInit() {
@@ -97,20 +97,20 @@ export class AssetsComponent {
 
   assetsForm() {
     this.fbassets = this.formbuilder.group({
-      AssetId: new FormControl(null),
-      Code: new FormControl(null, [Validators.required, Validators.pattern(RG_ALPHA_NUMERIC), Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_6)]),
-      AssetTypeId: new FormControl(null, [Validators.required]),
-      AssetCategoryId: new FormControl(null, [Validators.required]),
-      Name: new FormControl(null, [Validators.required]),
-      PurchasedDate: new FormControl(null, [Validators.required]),
-      ModelNumber: new FormControl(null),
-      Manufacturer: new FormControl(null),
-      SerialNumber: new FormControl(null),
-      Warranty: new FormControl(null),
-      AddValue: new FormControl(null),
-      Description: new FormControl(null),
-      StatusId: new FormControl(null, [Validators.required]),
-      IsActive: [null],
+      assetId: new FormControl(null),
+      code: new FormControl(null, [Validators.required, Validators.pattern(RG_ALPHA_NUMERIC), Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_6)]),
+      assetTypeId: new FormControl(null, [Validators.required]),
+      assetCategoryId: new FormControl(null, [Validators.required]),
+      name: new FormControl(null, [Validators.required]),
+      purchasedDate: new FormControl(null, [Validators.required]),
+      modelNumber: new FormControl(null),
+      manufacturer: new FormControl(null),
+      serialNumber: new FormControl(null),
+      warranty: new FormControl(null),
+      addValue: new FormControl(null),
+      description: new FormControl(null),
+      statusId: new FormControl(null, [Validators.required]),
+      isActive: [null],
     });
   }
 
@@ -132,59 +132,62 @@ export class AssetsComponent {
     this.dialog = true;
   }
 
-  Dialog(assetstypes) {
-    this.deleteAsset = assetstypes;
-    this.deletedialog = true;
-
-  }
   addAssetsDialog() {
     this.submitLabel = "Add Assets";
     this.addFlag = true;
     this.dialog = true;
-
   }
+  
   onClose() {
     this.fbassets.reset();
     this.ShowassetsDetails = false;
   }
+
   deleted() {
     this.deletedialog = false
   }
+
+  Dialog(assetstypes:AssetsDetailsViewDto) {
+    this.deleteAsset = assetstypes;
+    this.deletedialog = true;
+  }
+
   deleteassettype() {
-    this.asset.AssetId = this.deleteAsset.AssetId;
-    this.asset.Code = this.deleteAsset.Code;
-    this.asset.Name = this.deleteAsset.Name;
-    this.asset.AssetTypeId = this.deleteAsset.AssetTypeId;
-    this.asset.AssetCategoryId = this.deleteAsset.AssetCategoryId;
-    this.asset.PurchasedDate = this.deleteAsset.PurchasedDate;
-    this.asset.ModelNumber = this.deleteAsset.ModelNumber;
-    this.asset.Manufacturer = this.deleteAsset.Manufacturer;
-    this.asset.SerialNumber = this.deleteAsset.SerialNumber;
-    this.asset.Warranty = this.deleteAsset.Warranty;
-    this.asset.AddValue = this.deleteAsset.AddValue;
-    this.asset.Description = this.deleteAsset.Description;
-    this.asset.StatusId = this.deleteAsset.StatusId;
-    this.asset.IsActive = false;
+    this.asset.assetId = this.deleteAsset.assetId;
+    this.asset.code = this.deleteAsset.code;
+    this.asset.name = this.deleteAsset.name;
+    this.asset.assetTypeId = this.deleteAsset.assetTypeId;
+    this.asset.assetCategoryId = this.deleteAsset.assetCategoryId;
+    this.asset.purchasedDate = this.deleteAsset.purchasedDate;
+    this.asset.modelNumber = this.deleteAsset.modelNumber;
+    this.asset.manufacturer = this.deleteAsset.manufacturer;
+    this.asset.serialNumber = this.deleteAsset.serialNumber;
+    this.asset.warranty = this.deleteAsset.warranty;
+    this.asset.addValue = this.deleteAsset.addValue;
+    this.asset.description = this.deleteAsset.description;
+    this.asset.statusId = this.deleteAsset.statusId;
+    this.asset.isActive = false;
     this.fbassets.patchValue(this.asset);
     this.addFlag = false;
     this.onSubmit();
     this.deletedialog = false
   }
+
   editAssets(assets: AssetsDetailsViewDto) {
-    this.asset.AssetId = assets.AssetId;
-    this.asset.Code = assets.Code;
-    this.asset.Name = assets.Name;
-    this.asset.AssetTypeId = assets.AssetTypeId;
-    this.asset.AssetCategoryId = assets.AssetCategoryId;
-    this.asset.PurchasedDate = assets.PurchasedDate;
-    this.asset.ModelNumber = assets.ModelNumber;
-    this.asset.Manufacturer = assets.Manufacturer;
-    this.asset.SerialNumber = assets.SerialNumber;
-    this.asset.Warranty = assets.Warranty;
-    this.asset.AddValue = assets.AddValue;
-    this.asset.Description = assets.Description;
-    this.asset.StatusId = assets.StatusId;
-    this.asset.IsActive = assets.IsActive;
+    this.asset.assetId = assets.assetId;
+    this.asset.code = assets.code;
+    this.asset.name = assets.name;
+    this.asset.assetTypeId = assets.assetTypeId;
+    this.asset.assetCategoryId = assets.assetCategoryId;
+    this.asset.purchasedDate = new Date(assets.purchasedDate);
+    this.asset.modelNumber = assets.modelNumber;
+    this.asset.manufacturer = assets.manufacturer;
+    this.asset.serialNumber = assets.serialNumber;
+    this.asset.warranty = assets.warranty;
+    this.asset.addValue = assets.addValue;
+    this.asset.description = assets.description;
+    this.asset.statusId = assets.statusId;
+    this.asset.isActive = assets.isActive;
     this.fbassets.patchValue(this.asset);
     this.addFlag = false;
     this.dialog = true;
