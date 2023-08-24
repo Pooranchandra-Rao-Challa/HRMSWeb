@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AssetsDto, AssetsViewDto, HolidayDto, HolidaysViewDto, LookUpHeaderDto, LookupViewDto } from '../_models/admin';
+import { AssetsDto, AssetsViewDto, HolidayDto, HolidaysViewDto, LookupDetailViewDto, LookUpHeaderDto, LookupViewDto } from '../_models/admin';
 import { ApiHttpService } from './api.http.service';
-import { CREATE_ASSESTS_URI, CREATE_HOLIDAY_URI, CREATE_LOOKUP_URI, GET_ASSETS_URI, GET_HOLIDAY_URI, GET_LOOKUP_URI, UPDATE_ASSESTS_URI, UPDATE_LOOKUP_URI } from './api.uri.service';
+import { CREATE_ASSESTS_URI, CREATE_HOLIDAY_URI, CREATE_LOOKUP_URI, GET_ASSETS_URI, GET_HOLIDAY_URI, GET_LOOKUP_DETAILS_URI, GET_LOOKUP_URI, UPDATE_ASSESTS_URI, UPDATE_LOOKUP_URI } from './api.uri.service';
 // import { CREATE_LOOKUP_URI } from './api.uri.service';
 @Injectable({
   providedIn: 'root'
@@ -9,7 +9,7 @@ import { CREATE_ASSESTS_URI, CREATE_HOLIDAY_URI, CREATE_LOOKUP_URI, GET_ASSETS_U
 export class AdminService extends ApiHttpService {
   // lookup
   public GetLookUp(isbool) {
-    return this.get<LookupViewDto[]>(GET_LOOKUP_URI + isbool);
+    return this.get<LookupViewDto[]>(GET_LOOKUP_URI+'/' + isbool);
   }
   public CreateLookUp(lookup: LookUpHeaderDto) {
     return this.post<LookUpHeaderDto>(CREATE_LOOKUP_URI, lookup );
@@ -18,7 +18,7 @@ export class AdminService extends ApiHttpService {
     return this.post<LookUpHeaderDto>(UPDATE_LOOKUP_URI, lookup);
   }
   public GetlookupDetails(lookupId: number) {
-    return this.getWithId<LookupViewDto[]>(GET_LOOKUP_URI, lookupId);
+    return this.getWithId<LookupDetailViewDto[]>(GET_LOOKUP_DETAILS_URI,lookupId);
   }
 
   public GetHolidays(year: string) {

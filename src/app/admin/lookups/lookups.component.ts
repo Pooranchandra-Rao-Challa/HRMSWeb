@@ -30,7 +30,7 @@ export class LookupsComponent implements OnInit {
   lookupDetails: LookupDetailViewDto = new LookupDetailViewDto();
   lookup: LookUpHeaderDto = new LookUpHeaderDto();
   ShowlookupDetails: boolean = false;
-  isLookupChecked: boolean = true;
+  isLookupChecked: boolean = false;
   isbool: boolean;
   constructor(private formbuilder: FormBuilder, private adminService: AdminService, private alertMessage: AlertmessageService) { }
 
@@ -186,38 +186,29 @@ export class LookupsComponent implements OnInit {
     this.fblookup.controls['isActive'].setValue(true);
     this.submitLabel = "Add Lookup";
     this.showDialog = true;
-
   }
   onClose() {
     this.fblookup.reset();
     this.ShowlookupDetails = false;
     this.falookupDetails().clear();
   }
-  // initlookupDetails(lookupId: number) {
-  //   this.adminService.GetlookupDetails(lookupId).subscribe((resp) => {
-  //     this.lookupDetails = resp as unknown as LookupDetailViewDto;
-  //     console.log(this.lookupDetails);
-  //     this.lookupDetails.lookupDetails?.forEach((lookupDetails: LookupDetailViewDto)=> {
-  //       this.falookupDetails().push(this.generaterow(lookupDetails));
-  //     })
-  //   })
-  // }
+  initlookupDetails(lookupId: number) {
+    this.adminService.GetlookupDetails(lookupId).subscribe((resp) => {
+      this.lookupDetails = resp[0] as unknown as LookupDetailViewDto;
+      this.lookupDetails.expandLookupDetails = JSON.parse(this.lookupDetails.lookupDetails);
+      this.lookupDetails.expandLookupDetails.forEach((lookupDetails: LookupDetailViewDto) => {
+        this.falookupDetails().push(this.generaterow(lookupDetails));
+      })
+    });
+  }
   editLookUp(lookup: LookupViewDto) {
-    this.GetLookUp(this.isbool)
-    // this.initlookupDetails(lookup.lookupId);
+    this.initlookupDetails(lookup.lookupId);
     this.lookup.lookupId = lookup.lookupId;
-    this.lookup.lookupDetailId = lookup.lookupId;
     this.lookup.code = lookup.code;
     this.lookup.name = lookup.name;
-    // this.fblookup.controls['name'].setValue(lookup.name);
-    //  this.fblookup.controls['name'].disable();
     this.lookup.isActive = lookup.isActive;
-    // this.lookup.lookupDetails = this.lookupDetails ? this.lookupDetails : [];
-
-    // this.lookup.lookupDetails = this.lookupDetails ? [this.lookupDetails] : [];
-
-    // this.lookup.lookupDetails = this.lookupDetails ? [] : this.lookupDetails;
-    this.fblookup.patchValue(this.lookup);
+    this.lookup.lookupDetails = this.lookupDetails.expandLookupDetails;
+    this.fblookup.patchValue(lookup);
     this.addFlag = false;
     this.submitLabel = "Update Lookup";
     this.showDialog = true;
@@ -225,3 +216,4 @@ export class LookupsComponent implements OnInit {
   }
 
 }
+
