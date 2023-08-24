@@ -31,16 +31,6 @@ export class LookupDetailsDto {
   createdAt?: Date;
   updatedBy?: string;
   createdBy?: string;
-  // LookupDetailId?: number;
-  // Code?: string;
-  // Name?: string;
-  // LookupId?: number;
-  // Description?: string;
-  // IsActive?: boolean;
-  // UpdatedAt?: Date;
-  // CreatedAt?: Date;
-  // UpdatedBy?: string;
-  // CreatedBy?: string;
 }
 export class LookupDetailViewDto {
   lookupId?: number;
