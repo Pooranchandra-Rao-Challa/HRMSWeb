@@ -9,7 +9,7 @@ import { ITableHeader, MaxLength } from 'src/app/_models/common';
 import { HolidayDto, HolidaysViewDto } from 'src/app/_models/admin';
 import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { DateValidators } from 'src/app/_validators/dateRangeValidator';
-import { isNullOrUndefined } from 'util';
+import { of } from 'rxjs';
 import { MIN_LENGTH_2, RG_ALPHA_ONLY } from 'src/app/_shared/regex';
 interface Year {
   year: string;
@@ -135,14 +135,6 @@ export class HolidayconfigurationComponent {
     });
   }
 
-  dateValidator(control: FormControl): {[s: string]: boolean} {
-    const date = control.value as Date;
-    if (this.holidays.some(holiday => new Date(holiday.fromDate).getTime() === date.getTime())) {
-      return { 'dateExists': true };
-    }
-    return null;
-  }
-
   deleteassettype() {
     this.holidayToEdit = this.holiday;
     this.holiday = new HolidayDto();
@@ -175,28 +167,34 @@ export class HolidayconfigurationComponent {
     this.addFlag = false;
   }
   saveHoliday(): Observable<HttpEvent<any>> {
+    // Get the holidays from the form array
     const leaveDetails = this.fbleave.get('leaveDetails').value;
-    return this.AdminService.CreateHoliday(leaveDetails);
-  }
-
-  onSubmit() {
-    const holiday = this.holidayForm.value;
-    if (holiday.holidayId) {
-      this.AdminService.CreateHoliday([{ ...holiday, }]).subscribe(res => {
-        this.initHoliday();
-        this.leaveForm();
-        this.editDialog = false;
-        this.alertMessage.displayAlertMessage(ALERT_CODES["SMH002"]);
-      });
-    } else {
-      this.saveHoliday().subscribe(res => {
-        this.initHoliday();
-        this.leaveForm();
-        this.dialog = false;
-        this.editDialog = false;
-        this.alertMessage.displayAlertMessage(ALERT_CODES["SMH001"]);
-      });
+    const EditleaveDetails = this.holidayForm.value;
+    if (this.submitLabel === "Add Holidays") {
+      this.fbleave.get('leaveDetails').value.fromDate = FORMAT_DATE(new Date( this.fbleave.get('leaveDetails').value.fromDate));
+      this.fbleave.get('leaveDetails').value.fromDate= FORMAT_DATE(new Date( this.fbleave.get('leaveDetails').value.toDate));
+      const combinedDetails = [...leaveDetails];
+      return this.AdminService.CreateHoliday(combinedDetails);
     }
+    // If we are updating an existing holiday
+    else if (this.submitLabel === "Update Holiday") {
+      this.holidayForm.value.fromDate = FORMAT_DATE(new Date(this.holidayForm.value.fromDate));
+      this.holidayForm.value.toDate = FORMAT_DATE(new Date(this.holidayForm.value.toDate));
+      return this.AdminService.CreateHoliday([EditleaveDetails]);
+    }
+    else {
+      return of();
+    }
+  }
+  
+  onSubmit() {
+    this.saveHoliday().subscribe(res => {
+      this.initHoliday();
+      this.leaveForm();
+      this.dialog = false;
+      this.editDialog = false;
+      this.alertMessage.displayAlertMessage(ALERT_CODES["SMH001"]);
+    });
   }
   confirmDelete(){
     this.deletedialog = true;
