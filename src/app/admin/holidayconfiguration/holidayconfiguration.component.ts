@@ -9,7 +9,7 @@ import { ITableHeader, MaxLength } from 'src/app/_models/common';
 import { HolidayDto, HolidaysViewDto } from 'src/app/_models/admin';
 import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { DateValidators } from 'src/app/_validators/dateRangeValidator';
-import { isNullOrUndefined } from 'util';
+import { of } from 'rxjs';
 import { MIN_LENGTH_2, RG_ALPHA_ONLY } from 'src/app/_shared/regex';
 interface Year {
   year: string;
@@ -40,11 +40,13 @@ export class HolidayconfigurationComponent {
   mediumDate: string = MEDIUM_DATE
   deletedialog:boolean;
   deleteAsset:any
+
   constructor(
     private formbuilder: FormBuilder,
     private AdminService: AdminService,
     private alertMessage: AlertmessageService) { }
 
+// Define table headers
   headers: ITableHeader[] = [
     { field: 'title', header: 'title', label: 'Holiday Title' },
     { field: 'fromDate', header: 'fromDate', label: 'From Date' },
@@ -61,24 +63,22 @@ export class HolidayconfigurationComponent {
     this.initHoliday();
     this.initForm();
   }
-  leaveForm() {
-    this.fbleave = this.formbuilder.group({
-      holidayId: null,
-      title: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
-      fromDate: [null, (Validators.required)],
-      toDate: new FormControl(null, Validators.required),
-      description:new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
-      isActive: new FormControl([true], Validators.required),
-      leaveDetails: this.formbuilder.array([])
-    }, {
-      validators: Validators.compose([
-        DateValidators.dateRangeValidator('fromDate', 'toDate', { 'fromDate': true }),
-      ])
-    });
-  }
-  faleaveDetail(): FormArray {
-    return this.fbleave.get("leaveDetails") as FormArray
-  }
+// Initialize form with form controls
+leaveForm() {
+  this.fbleave = this.formbuilder.group({
+    holidayId: null,
+    title: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
+    fromDate: [null, [Validators.required, this.dateValidator.bind(this)]],
+    toDate: new FormControl(null, Validators.required),
+    description: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
+    isActive: new FormControl([true], Validators.required),
+    leaveDetails: this.formbuilder.array([])
+  }, {
+    validators: Validators.compose([
+      DateValidators.dateRangeValidator('fromDate', 'toDate', { 'fromDate': true }),
+    ])
+  });
+}
   addLeaveDetails() {
     this.ShowleaveDetails = true;
     // Push current values into the FormArray
@@ -96,6 +96,10 @@ export class HolidayconfigurationComponent {
     this.fbleave.markAsPristine();
     this.fbleave.markAsUntouched();
   }
+  faleaveDetail(): FormArray {
+    return this.fbleave.get("leaveDetails") as FormArray
+  }
+  // Method to generate a FormGroup for a single row in the leaveDetails array
   generaterow(leaveDetails: HolidaysViewDto = new HolidaysViewDto()): FormGroup {
     return this.formbuilder.group({
       holidayId: new FormControl(leaveDetails.holidayId),
@@ -112,6 +116,7 @@ export class HolidayconfigurationComponent {
   get FormControls() {
     return this.fbleave.controls;
   }
+  // Method to initialize the holidayForm FormGroup for edit purposes
   initForm() {
     this.holidayForm = new FormGroup({
       holidayId: new FormControl(),
@@ -127,6 +132,7 @@ export class HolidayconfigurationComponent {
         ])
       });
   }
+  // Method to initialize holidays based on the selected year
   initHoliday() {
     const year = this.selectedYear.year;
     this.AdminService.GetHolidays(year).subscribe((resp) => {
@@ -134,16 +140,8 @@ export class HolidayconfigurationComponent {
       console.log(this.holidays);
     });
   }
-
-  dateValidator(control: FormControl): {[s: string]: boolean} {
-    const date = control.value as Date;
-    if (this.holidays.some(holiday => new Date(holiday.fromDate).getTime() === date.getTime())) {
-      return { 'dateExists': true };
-    }
-    return null;
-  }
-
-  deleteassettype() {
+   // Method to delete a holiday (Is Active False)
+  deleteHoliday() {
     this.holidayToEdit = this.holiday;
     this.holiday = new HolidayDto();
     this.holiday.holidayId = this.deleteAsset.holidayId;
@@ -152,14 +150,15 @@ export class HolidayconfigurationComponent {
     this.holiday.toDate = this.deleteAsset.toDate;
     this.holiday.description = this.deleteAsset.description;
     this.holiday.isActive = false; // Set isActive to false when deleting
-    this.holidayForm .patchValue(this.holiday);
+    this.submitLabel = "Delete Holiday"
+    this.holidayForm.patchValue(this.holiday);
     this.onSubmit();
     this.addFlag = false;
     this.deletedialog = false;
   }
+ // Method to edit an existing holiday
   editHoliday(holiday: HolidaysViewDto) {
     this.holidayToEdit = holiday;
-    // Formatting the dates
     const fromDate = FORMAT_DATE(new Date(holiday.fromDate));
     const toDate = FORMAT_DATE(new Date(holiday.toDate));
     this.holidayForm.setValue({
@@ -174,29 +173,48 @@ export class HolidayconfigurationComponent {
     this.editDialog = true;
     this.addFlag = false;
   }
+   // Method to save a holiday (either new or edited)
   saveHoliday(): Observable<HttpEvent<any>> {
     const leaveDetails = this.fbleave.get('leaveDetails').value;
-    return this.AdminService.CreateHoliday(leaveDetails);
-  }
-
-  onSubmit() {
-    const holiday = this.holidayForm.value;
-    if (holiday.holidayId) {
-      this.AdminService.CreateHoliday([{ ...holiday, }]).subscribe(res => {
-        this.initHoliday();
-        this.leaveForm();
-        this.editDialog = false;
-        this.alertMessage.displayAlertMessage(ALERT_CODES["SMH002"]);
+    const EditleaveDetails = this.holidayForm.value;
+    // If we are adding a new holiday
+    if (this.submitLabel === "Add Holidays") {
+      leaveDetails.forEach(detail => {
+        detail.fromDate = FORMAT_DATE(new Date(detail.fromDate));
+        detail.toDate = FORMAT_DATE(new Date(detail.toDate));
       });
-    } else {
-      this.saveHoliday().subscribe(res => {
-        this.initHoliday();
-        this.leaveForm();
-        this.dialog = false;
-        this.editDialog = false;
-        this.alertMessage.displayAlertMessage(ALERT_CODES["SMH001"]);
-      });
+      return this.AdminService.CreateHoliday(leaveDetails);
     }
+    // If we are updating or deleting an existing holiday
+    else if (this.submitLabel === "Update Holiday" || this.submitLabel === "Delete Holiday") {
+      EditleaveDetails.fromDate = FORMAT_DATE(new Date(EditleaveDetails.fromDate));
+      EditleaveDetails.toDate = FORMAT_DATE(new Date(EditleaveDetails.toDate));
+      return this.AdminService.CreateHoliday([EditleaveDetails]);
+    }
+    else {
+      return of();
+    }
+  }
+  // Method to submit the holiday form
+  onSubmit() {
+    this.saveHoliday().subscribe(res => {
+      this.initHoliday();
+      this.leaveForm();
+      this.dialog = false;
+      this.editDialog = false;
+      this.alertMessage.displayAlertMessage(ALERT_CODES["SMH001"]);
+    });
+  }
+  dateValidator(control: FormControl): {[s: string]: boolean} {
+    const date = new Date(control.value);
+    for (const holiday of this.holidays) {
+      if (new Date(holiday.fromDate).getTime() === date.getTime()) {
+        const dateString = date.toLocaleDateString(); // format the date as a string
+        this.alertMessage.displayErrorMessage(`The selected date '(${dateString})' already exists as a holiday named '(${holiday.title})'.`);
+        return { 'dateExists': true };
+      }
+    }
+    return null;
   }
   confirmDelete(){
     this.deletedialog = true;
@@ -216,7 +234,6 @@ export class HolidayconfigurationComponent {
   addLeaveDialog() {
     this.submitLabel = "Add Holidays";
     this.dialog = true;
-
   }
   onClose() {
     this.fbleave.reset();
@@ -224,6 +241,7 @@ export class HolidayconfigurationComponent {
     this.faleaveDetail().clear();
 
   }
+   // Initialize the years array
   initializeYears(): void {
     this.years = [
       { year: '2019', code: 'NY' },

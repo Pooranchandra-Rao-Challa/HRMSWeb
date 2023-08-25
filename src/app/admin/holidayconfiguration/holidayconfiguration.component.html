@@ -42,16 +42,18 @@
                       </div>
                     </div>
                   </div>
-                <div class="field col-12 md:col-4">
-                  <label>From Date: <sup class="p-error">*</sup>
-                  </label>&nbsp; <p-calendar formControlName="fromDate" placeholder="Enter From Date" [showIcon]="true"
-                    appendTo="body"[ngClass]="{ 'is-invalid ng-dirty': FormControls['fromDate'].touched && FormControls['fromDate'].errors }">
-                  </p-calendar>
-                  <span *ngIf="FormControls['fromDate'].touched && FormControls['fromDate'].invalid">
-                    <div class="ng-invalid ng-touched p-error"
-                      *ngIf="FormControls['fromDate'].errors?.['required']">
-                      Please Select FromDate.</div>
-                  </span>
+                  <div class="field col-12 md:col-4">
+                    <label>From Date: <sup class="p-error">*</sup></label>&nbsp; 
+                    <p-calendar formControlName="fromDate" placeholder="Enter From Date" [showIcon]="true"
+                        appendTo="body" [ngClass]="{ 'is-invalid ng-dirty': fbleave.get('fromDate').touched && fbleave.get('fromDate').errors }">
+                    </p-calendar>
+                    <span *ngIf="fbleave.get('fromDate').touched && fbleave.get('fromDate').invalid">
+                        <div class="ng-invalid ng-touched p-error" *ngIf="fbleave.get('fromDate').errors?.['required']">
+                            Please Select FromDate.</div>
+                        <div *ngIf="fbleave.get('fromDate').touched && fbleave.get('fromDate').errors?.['dateExists']"class="ng-invalid ng-touched p-error">
+                            This date is already a holiday.
+                        </div>
+                    </span>
                 </div>
                 <div class="field col-12 md:col-4">
                   <label>To Date:</label>&nbsp; <p-calendar formControlName="toDate" placeholder="Enter To Date"
@@ -197,16 +199,16 @@
         </div>
       </ng-template>
     </p-dialog>
-     <!-- delete dialog -->
-     <p-dialog header="Delete" [(visible)]="deletedialog" [modal]="true" showEffect="fade"
-     [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '40%'}" (onHide)="deleted()">
-      <h5>Are you sure you want to delete...!</h5>
-      <ng-template pTemplate="footer">
-       <div class="col-4" style="float:right">
-         <button pButton pRipple type="submit" label="YES" (click)="deleteassettype()" class="p-button-raised p-button-primary"></button>
-         <button pButton pRipple type="submit" label="NO"  (click)="deleted()" class="p-button-raised p-button-primary"></button>
-       </div>
-     </ng-template>
+    <!-- delete dialog -->
+<p-dialog header="Delete" [(visible)]="deletedialog" [modal]="true" showEffect="fade"
+[breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '40%'}" (onHide)="deleted()">
+  <h5>Are you sure you want to delete...!</h5>
+  <ng-template pTemplate="footer">
+    <div class="col-4" style="float:right">
+      <button pButton pRipple type="submit" label="YES"  (click)="deleteHoliday()" class="p-button-raised p-button-primary"></button>
+      <button pButton pRipple type="submit" label="NO"  (click)="deleted()" class="p-button-raised p-button-primary"></button>
+    </div>
+  </ng-template>
 </p-dialog>
     <!-- table -->
     <p-table #dtleave [value]="holidays" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
