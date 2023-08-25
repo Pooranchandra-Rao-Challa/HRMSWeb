@@ -212,8 +212,6 @@ export class LookupsComponent implements OnInit {
     this.lookup.lookupId = lookup.lookupId;
     this.lookup.code = lookup.code;
     this.lookup.name = lookup.name;
-    this.fblookup.controls['code'].disable();
-    this.fblookup.controls['name'].disable();
     this.lookup.isActive = lookup.isActive;
     this.lookup.lookupDetails = lookup.expandLookupDetails;
     this.fblookup.patchValue(lookup);
