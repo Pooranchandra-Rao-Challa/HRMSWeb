@@ -27,6 +27,11 @@ export const GET_ASSETS_URI = "Admin/GetAssetsDetails";
 export const CREATE_ASSETS_URI ="Admin/CreateAsset";
 export const UPDATE_ASSETS_URI ="Admin/UpdateAsset";
 
+
+// BEGIN LOOKUPS
+
 export const LOOKUP_ASSET_TYPE_URI ="Lookup/AssetTypes";
 export const LOOKUP_ASSET_CATEGORIES_URI ="Lookup/AssetCategories";
-export const LOOKUP_ASSET_STATUS_URI ="Lookup/Status"
+export const LOOKUP_ASSET_STATUS_URI ="Lookup/Status";
+
+// END LOOKUPS
