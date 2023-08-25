@@ -9,7 +9,7 @@
                     <form id="fb-change-password" [formGroup]="fbChangePassword" class="col-4 col-offset-4 align-self-center">
                         <label for="password" class="block text-900 font-medium text-md required mb-1 mt-5">Current
                             Password:</label>
-                        <input id="password" type="password" formControlName="password" placeholder="Password"
+                        <input id="password" type="password" formControlName="password" placeholder="Current Password"
                             pInputText class="w-full md:w-100  mb-2"
                             pattern="^(?!.* )(?=.*\d)(?=.*[A-Z])(?=.*[!@#$%^&*_=+-]).{8,15}$" [maxlength]="20"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['password'].touched && FormControls['password'].errors }">
@@ -25,7 +25,7 @@
 
                         <label for="newPassword" class="block text-900 font-medium text-md required mb-1 mt-2">New
                             Password:</label>
-                        <input id="new-password" type="password" formControlName="newPassword" placeholder="Password"
+                        <input id="new-password" type="password" formControlName="newPassword" placeholder="New Password"
                             pInputText class="w-full md:w-100  mb-2"
                             pattern="^(?!.* )(?=.*\d)(?=.*[A-Z])(?=.*[!@#$%^&*_=+-]).{8,15}$" [maxlength]="20"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['newPassword'].touched && FormControls['newPassword'].errors }">
