@@ -40,6 +40,10 @@ export class RoleDto {
   name?: string
   isActive?: boolean
   permissions?: RolePermissionDto[]
+  createdBy?: string
+  createdAt?: string
+  updatedBy?: string
+  updatedAt?: string
 }
 export class ForgotUserPasswordDto {
   UserName?: string

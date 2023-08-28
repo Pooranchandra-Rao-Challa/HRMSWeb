@@ -89,14 +89,14 @@
                     <ng-template pTemplate="body" let-lookUp let-lookUpDetailsIndex="rowIndex">
                       <tr [formGroupName]="lookUpDetailsIndex">
                         <td class="vertical-align-top">
-                          <input pInputText class="form-control" formControlName="code" #Code placeholder="Enter Code"
+                          <input pInputText class="form-control" formControlName="code" #Code placeholder="Enter Code" alphaNumeric
                             (keydown)="restrictSpaces($event)" [maxlength]="20" [ngClass]="{'is-invalid ng-dirty': formArrayControls(lookUpDetailsIndex, 'code')?.touched &&
                                 formArrayControls(lookUpDetailsIndex, 'code')?.errors }" id="Lookup_lookupDetaisCode">
                           <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                               <span *ngIf="formArrayControls(lookUpDetailsIndex,'code')?.errors?.['notUnique']">
                                 <div class="ng-invalid ng-touched p-error">
-                                  LookUp Details Code Must Be Unique.
+                                  lookUp Details Code Must Be Unique.
                                 </div>
                               </span>
                               <span
@@ -107,9 +107,6 @@
                                 <div class="ng-invalid ng-touched p-error"
                                   *ngIf="formArrayControls(lookUpDetailsIndex,'code')?.errors?.['maxlength']">
                                   Code Max Length Is 20 </div>
-                                <div class="ng-invalid ng-touched p-error"
-                                  *ngIf="formArrayControls(lookUpDetailsIndex,'code')?.errors?.['pattern']">
-                                  Code Should Contains Alphabets & Numbers.</div>
                               </span>
                             </div>
                             <div class="align-right w-40" style="width:30%; text-align:right;">
@@ -118,16 +115,16 @@
                           </div>
                         </td>
                         <td class="vertical-align-top">
-                          <input pInputText class="form-control" formControlName="name" placeholder="Enter Name" #name
+                          <input pInputText class="form-control" formControlName="name" placeholder="Enter Name" #name alphaOnly
                             (keydown)="restrictSpaces($event)" [ngClass]="{'is-invalid ng-dirty': formArrayControls(lookUpDetailsIndex,'name')?.touched &&
-                  formArrayControls(lookUpDetailsIndex,'name')?.errors }" [maxlength]="20"
+                  formArrayControls(lookUpDetailsIndex,'name')?.errors }" [maxlength]="50"
                             id="Lookup_lookupDetailsName">
 
                           <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                               <span *ngIf="formArrayControls(lookUpDetailsIndex,'name')?.errors?.['notUnique']">
                                 <div class="ng-invalid ng-touched p-error">
-                                  LookUp Details Name Must Be Unique.
+                                  lookUp Details Name Must Be Unique.
                                 </div>
                               </span>
                               <span
@@ -164,7 +161,7 @@
       <ng-template pTemplate="footer">
         <div class="col-4" style="float:right">
           <button pButton pRipple type="submit" label="{{submitLabel}}" class="p-button-raised p-button-primary"
-            id="Lookup_lookupSubmit" [disabled]="fblookup.invalid" (click)="onSubmit()"></button>
+            id="Lookup_lookupSubmit" disabled="fblookup.invalid" (click)="onSubmit()"></button>
         </div>
       </ng-template>
     </p-dialog>
