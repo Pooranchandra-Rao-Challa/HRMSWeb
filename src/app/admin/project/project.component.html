@@ -62,7 +62,7 @@
                 <div class="field col-12 md:col-4">
                   <label>Company Full Name: <sup class="p-error">*</sup>
                   </label>&nbsp;
-                  <p-autoComplete [(ngModel)]="selectedItem" [suggestions]="suggestions" (completeMethod)="search($event)"></p-autoComplete>
+                  <p-autoComplete  [suggestions]="suggestions" (completeMethod)="search($event)"></p-autoComplete>
                    <!-- <input pInputText id="name" type="text" placeholder="Enter Full Name" alphaOnly
                     formControlName="companyFullName" /> -->
                 </div>
