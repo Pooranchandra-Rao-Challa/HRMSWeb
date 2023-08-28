@@ -83,6 +83,9 @@ leaveForm() {
 }
   addLeaveDetails() {
     this.ShowleaveDetails = true;
+    if (this.fbleave.invalid) {
+      return;
+    }
     // Push current values into the FormArray
     this.faleaveDetail().push(this.generaterow(this.fbleave.getRawValue()));
     // Reset form controls for the next entry
