@@ -1,5 +1,6 @@
 <div class="col-12">
   <div class="card">
+    <p-toast key="tst"></p-toast>
     <!-- Toolbar -->
     <p-toolbar styleClass="p-mb-4">
       <ng-template pTemplate="left">
@@ -19,8 +20,8 @@
             <div class="p-fluid p-formgrid grid">
               <div class="field col-12 md:col-4">
                 <label>Code: <sup class="p-error">*</sup></label>
-                <input pInputText id="code" type="text" formControlName="code" class="form-control" placeholder="Enter Code" alphaNumeric
-                  maxlength="6"
+                <input pInputText id="code" type="text" formControlName="code" class="form-control"
+                  placeholder="Enter Code" alphaNumeric maxlength="6"
                   [ngClass]="{ 'is-invalid ng-dirty': FormControls['code'].touched && FormControls['code'].errors}" />
                 <div class="flex">
                   <div class="align-left w-60" style="width:70%">
@@ -43,11 +44,13 @@
               <div class="field col-12 md:col-4">
                 <label>Enter Asset Category: <sup class="p-error">*</sup></label>
                 <p-dropdown [options]="assetCategories" optionLabel="name" [filter]="true" filterBy="name"
-                  [showClear]="true" placeholder="Select Asset" formControlName="assetCategoryId" optionValue="lookupDetailId"
+                  [showClear]="true" placeholder="Select Asset" formControlName="assetCategoryId"
+                  optionValue="lookupDetailId"
                   [ngClass]="{ 'is-invalid ng-dirty': FormControls['assetCategoryId'].touched && FormControls['assetCategoryId'].errors}">
                 </p-dropdown>
                 <span *ngIf="FormControls['assetCategoryId'].touched && FormControls['assetCategoryId'].invalid">
-                  <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['assetCategoryId'].errors?.['required']">
+                  <div class="ng-invalid ng-touched p-error"
+                    *ngIf="FormControls['assetCategoryId'].errors?.['required']">
                     Please Select Asset Category.
                   </div>
                 </span>
@@ -77,8 +80,7 @@
                       <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['name'].errors?.['pattern']">
                         Name
                         Should Contains Alphabets.</div>
-                      <div class="ng-invalid ng-touched p-error"
-                        *ngIf="FormControls['name'].errors?.['minlength']">
+                      <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['name'].errors?.['minlength']">
                         Name Min Characters Is 2.</div>
                     </span>
                   </div>
@@ -135,8 +137,8 @@
               </div>
               <div class="field col-12 md:col-4">
                 <label>Status: <sup class="p-error">*</sup></label>
-                <p-dropdown [options]="assetstatus" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true"
-                  placeholder="Select Status" formControlName="statusId" optionValue="lookupDetailId"
+                <p-dropdown [options]="assetstatus" optionLabel="name" [filter]="true" filterBy="name"
+                  [showClear]="true" placeholder="Select Status" formControlName="statusId" optionValue="lookupDetailId"
                   [ngClass]="{ 'is-invalid ng-dirty': FormControls['statusId'].touched && FormControls['statusId'].errors}">
                 </p-dropdown>
                 <span *ngIf="FormControls['statusId'].touched && FormControls['statusId'].invalid">
@@ -169,14 +171,16 @@
     </p-dialog>
     <!-- delete dialog -->
     <p-dialog header="Delete" [(visible)]="deletedialog" [modal]="true" showEffect="fade"
-    [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '40%'}" (onHide)="deleted()">
-     <h5>Are you sure you want to delete...!</h5>
-     <ng-template pTemplate="footer">
-      <div class="col-4" style="float:right">
-        <button pButton pRipple type="submit" label="YES" (click)="deleteassettype()" class="p-button-raised p-button-primary"></button>
-        <button pButton pRipple type="submit" label="NO"  (click)="deleted()" class="p-button-raised p-button-primary"></button>
-      </div>
-    </ng-template>
+      [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '40%'}" (onHide)="deleted()">
+      <h5>Are you sure you want to delete...!</h5>
+      <ng-template pTemplate="footer">
+        <div class="col-4" style="float:right">
+          <button pButton pRipple type="submit" label="YES" (click)="deleteassettype()"
+            class="p-button-raised p-button-primary"></button>
+          <button pButton pRipple type="submit" label="NO" (click)="deleted()"
+            class="p-button-raised p-button-primary"></button>
+        </div>
+      </ng-template>
     </p-dialog>
     <!-- table -->
     <p-table #dtAssets [value]="assets" dataKey="assetType" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
@@ -223,7 +227,8 @@
         <tr>
           <td colspan="10" class="p-0">
             <div class="p-0">
-              <p-table [value]="assest.expandassets"  [columns]="AssetsTypeTable" dataKey="assetId" [tableStyle]="{ width: 'max-content'}">
+              <p-table [value]="assest.expandassets" [columns]="AssetsTypeTable" dataKey="assetId"
+                [tableStyle]="{ width: 'max-content'}">
                 <ng-template pTemplate="header">
         <tr>
           <th style="width:5px;">Actions</th>
@@ -245,16 +250,16 @@
                 class="p-element p-ripple p-button-text p-button p-component col-6 "></button>
             </div>
           </td>
-          <td *ngFor="let col of AssetsTypeTable" [ngClass]="col?.field == 'isActive' ? 'text-center' : ''" >
-            <span
-            *ngIf="col?.field != 'updatedAt' && col?.field != 'createdAt' && col?.field != 'purchasedDate'&& col?.field != 'isActive'">{{assetstypes[col.field]}}</span>
-          <span *ngIf="col?.field == 'createdAt' || col?.field == 'updatedAt' || col?.field == 'purchasedDate'">
-            {{assetstypes[col.field] | date:mediumDate}}
-          </span>
-          <span *ngIf="col?.field == 'isActive'">
-            <p-checkbox name="isActive" value="isActive" [binary]="true" [(ngModel)]="assetstypes[col.field]"
-              [disabled]="true"></p-checkbox>
-          </span>
+          <td *ngFor="let col of AssetsTypeTable" [ngClass]="col?.field == 'isActive'? 'text-center' : ''">
+            <span *ngIf="col?.field != 'updatedAt' && col?.field != 'createdAt' && col?.field != 'purchasedDate'&& col?.field != 'isAssigned' 
+              && col?.field != 'isActive'">{{assetstypes[col.field]}}</span>
+            <span *ngIf="col?.field == 'createdAt' || col?.field == 'updatedAt' || col?.field == 'purchasedDate'">
+              {{assetstypes[col.field] | date:mediumDate}}
+            </span>
+            <span *ngIf="col?.field == 'isActive'">
+              <p-checkbox name="isActive" value="isActive" [binary]="true" [(ngModel)]="assetstypes[col.field]"
+                [disabled]="true"></p-checkbox>
+            </span>
           </td>
         </tr>
       </ng-template>
