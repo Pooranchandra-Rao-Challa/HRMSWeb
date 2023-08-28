@@ -139,7 +139,7 @@
           <span class="p-input-icon-left w-full mb-1 ">
             <i class="pi pi-envelope"></i>
             <input id="email" type="text" pInputText
-              class="w-full md:w-25rem text-color-secondary surface-50 border-200" placeholder="Email" maxlength="50"
+              class="w-full md:w-25rem text-color-secondary surface-50 " placeholder="Email" maxlength="50"
               formControlName="userName"  alphaOnly  [ngClass]="{ 'is-invalid ng-dirty': FormControls['userName'].touched && FormControls['userName'].errors}"/>
           </span> 
           <div class="flex mb-4 p-1">
@@ -159,7 +159,7 @@
           <span class="p-input-icon-left w-full">
             <i class="pi pi-lock"></i>
             <input id="password" type="password" pInputText
-              class="w-full md:w-25rem text-color-secondary surface-50 border-200" placeholder="Password"
+              class="w-full md:w-25rem text-color-secondary surface-50" placeholder="Password"
               formControlName="password" maxlength="20" 
                [ngClass]="{ 'is-invalid ng-dirty': FormControls['password'].touched && FormControls['password'].errors}"/>
           </span>
