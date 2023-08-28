@@ -44,15 +44,15 @@
           <td><button pButton pRipple icon="pi pi-pencil" style="padding: 0px;" (click)="initRole(role)" id="Role_roleEdit"
               class="p-element p-ripple p-button-text p-button p-component"></button></td>
           <td *ngFor="let col of headers" [ngClass]="col?.field == 'isActive' ? 'text-center' : ''">
-            <span *ngIf="col?.field != 'createdAt' && col?.field != 'isActive'">{{role[col.field]}}</span>
-            <span *ngIf="col?.field == 'createdAt'">
-              {{role[col.field] | date: mediumDate }}
-            </span>
-            <span *ngIf="col?.field == 'isActive'">
-              <p-checkbox name="isActive" value="isActive" [binary]="true" [(ngModel)]="role[col.field]"
-                [disabled]="true">
-              </p-checkbox>
-            </span>
+            <span
+            *ngIf="col?.field != 'createdAt' && col?.field != 'updatedAt' && col?.field != 'isActive'">{{role[col.field]}}</span>
+          <span *ngIf="col?.field == 'createdAt' || col?.field == 'updatedAt'">
+            {{role[col.field] | date: mediumDate }}
+          </span>
+          <span *ngIf="col?.field == 'isActive'">
+            <p-checkbox name="isActive" value="isActive" [binary]="true" [(ngModel)]="role[col.field]"
+              [disabled]="true"></p-checkbox>
+          </span>
           </td>
         </tr>
       </ng-template>

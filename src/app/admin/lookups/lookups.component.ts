@@ -32,6 +32,7 @@ export class LookupsComponent implements OnInit {
   ShowlookupDetails: boolean = false;
   isLookupChecked: boolean = false;
   isbool: boolean;
+
   constructor(private formbuilder: FormBuilder, private adminService: AdminService, private alertMessage: AlertmessageService) { }
 
   lookupHeader: ITableHeader[] = [
