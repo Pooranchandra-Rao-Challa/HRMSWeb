@@ -24,7 +24,6 @@ export class LookupDetailsDto {
   lookupDetailId?: number;
   code?: string;
   name?: string;
-  lookupId?: number;
   description?: string;
   isActive?: boolean;
   updatedAt?: Date;
@@ -111,14 +110,10 @@ export class HolidaysViewDto {
   updatedBy?: string
 }
 export class HolidayDto {
-  createdAt?: string
-  updatedAt?: string
-  createdBy?: string
-  updatedBy?: string
   holidayId: any
   title?: string
   description?: string
-  fromDate?: string
-  toDate?: string
+  fromDate?: any
+  toDate?: any
   isActive?: boolean
 }

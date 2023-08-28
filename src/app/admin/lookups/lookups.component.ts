@@ -91,7 +91,7 @@ export class LookupsComponent implements OnInit {
       lookUpDetails: this.formbuilder.array([], FormArrayValidationForDuplication())
     });
   }
-  //  post lookup 
+  //  post lookup
   savelookup(): Observable<HttpEvent<LookUpHeaderDto>> {
     if (this.addFlag) {
       return this.adminService.CreateLookUp(this.fblookup.value)
@@ -209,12 +209,9 @@ export class LookupsComponent implements OnInit {
     });
   }
   editLookUp(lookup: LookupViewDto) {
-    this.initlookupDetails(lookup.lookupId);
-    this.lookup.lookupId = lookup.lookupId;
-    this.lookup.code = lookup.code;
-    this.lookup.name = lookup.name;
-    this.lookup.isActive = lookup.isActive;
-    this.lookup.lookupDetails = lookup.expandLookupDetails;
+    lookup.expandLookupDetails.forEach((lookupDetails: LookupDetailViewDto) => {
+        this.falookupDetails().push(this.generaterow(lookupDetails));
+      })
     this.fblookup.patchValue(lookup);
     this.addFlag = false;
     this.submitLabel = "Update Lookup";
