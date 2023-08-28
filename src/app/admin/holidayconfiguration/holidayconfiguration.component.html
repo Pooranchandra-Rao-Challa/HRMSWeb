@@ -44,7 +44,7 @@
                   </div>
                   <div class="field col-12 md:col-4">
                     <label>From Date: <sup class="p-error">*</sup></label>&nbsp; 
-                    <p-calendar formControlName="fromDate" id="fromDate" placeholder="Enter From Date" [showIcon]="true"
+                    <p-calendar formControlName="fromDate" id="fromDate" placeholder="Select From Date" [showIcon]="true"
                         appendTo="body" [ngClass]="{ 'is-invalid ng-dirty': fbleave.get('fromDate').touched && fbleave.get('fromDate').errors }">
                     </p-calendar>
                     <span *ngIf="fbleave.get('fromDate').touched && fbleave.get('fromDate').invalid">
@@ -56,7 +56,7 @@
                     </span>
                 </div>
                 <div class="field col-12 md:col-4">
-                  <label>To Date:</label>&nbsp; <p-calendar formControlName="toDate"  id="toDate" placeholder="Enter To Date"
+                  <label>To Date:</label>&nbsp; <p-calendar formControlName="toDate"  id="toDate" placeholder="Select To Date"
                     [showIcon]="true" appendTo="body"></p-calendar>
                 </div>
                 <div class="field col-12 md:col-4">
