@@ -75,11 +75,12 @@ export class UserComponent implements OnInit {
     this.loading = true;
     this.securityService.GetUsers().subscribe(resp => {
       this.users = resp as unknown as UserViewDto[];
+      console.log('getting list',this.users);
       this.loading = false;
     }, error => {
       this.loading = false;
     })
-    
+
   }
   // Fetch roles from the service
   intiRoles() {
@@ -108,30 +109,18 @@ export class UserComponent implements OnInit {
   onSubmit() {
     if (this.userForm.valid) {
       const updatedUser = { ...this.selectedUser, ...this.userForm.value };
-      if (updatedUser.isActive == false) {
-        // Call the DeleteUser method if the user is inactive
-        this.securityService.DeleteUser(updatedUser).subscribe(resp => {
-          if (resp) {
-            this.dialog = false;
-            this.userForm.reset();
-            this.initUsers();
-            this.alertMessage.displayAlertMessage(ALERT_CODES["SMU001"]);
-          }
-        });
+      this.securityService.UpdateUser(updatedUser).subscribe(resp => {
+        if (resp) {
+          this.dialog = false;
+          this.userForm.reset();
+          this.initUsers();
+          this.alertMessage.displayAlertMessage(ALERT_CODES["SMU002"]);
+        }
       }
-      else {
-        // Call the UpdateUser method if the user is active
-        this.securityService.UpdateUser(updatedUser).subscribe(resp => {
-          if (resp) {
-            this.dialog = false;
-            this.userForm.reset();
-            this.initUsers();
-            this.alertMessage.displayAlertMessage(ALERT_CODES["SMU002"]);
-          }
-        });
-      }
+      )
     }
   }
+
   get userFormControls() {
     return this.userForm.controls;
   }

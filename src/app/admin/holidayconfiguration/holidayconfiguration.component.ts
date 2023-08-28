@@ -52,7 +52,7 @@ export class HolidayconfigurationComponent {
     { field: 'fromDate', header: 'fromDate', label: 'From Date' },
     { field: 'toDate', header: 'toDate', label: 'To Date' },
     { field: 'description', header: 'description', label: 'Holiday Description' },
-    { field: 'isActive', header: 'isActive', label: 'IsActive' },
+    { field: 'isActive', header: 'isActive', label: 'Is Active' },
     { field: 'createdAt', header: 'createdAt', label: 'Created At' },
     { field: 'updatedAt', header: 'updatedAt', label: 'Updated At' },
   ];
