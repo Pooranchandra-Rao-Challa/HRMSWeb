@@ -175,17 +175,17 @@
         <div class="flex justify-content-between flex-column sm:flex-row">
           <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
             (click)="clear(dtlookup)" id="Lookup_clearFilter"></button>
-          <div class="field text-center m-0">
-            <label>Un Active Records:
-            </label><br />
-            &nbsp; <p-inputSwitch [(ngModel)]="isLookupChecked" (onChange)="onChangeisLookupChecked()"
-              id="Lookup_lookupUnActive"></p-inputSwitch>
-          </div>
-          <span class="p-input-icon-left mb-2">
-            <i class="pi pi-search"></i>
-            <input pInputText type="text" #filter (input)="onGlobalFilter(dtlookup, $event)" id="Lookup_lookupSearch"
-              placeholder="Search Keyword" class="w-full" />
-          </span>
+            <div class="field text-center m-0 mx-2">
+              <label>in Active Records
+              </label><br />
+              &nbsp; <p-inputSwitch [(ngModel)]="isLookupChecked" (onChange)="onChangeisLookupChecked()"
+                id="Lookup_lookupUnActive"></p-inputSwitch>
+            </div>
+            <span class="p-input-icon-left mb-2">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" #filter (input)="onGlobalFilter(dtlookup, $event)" id="Lookup_lookupSearch"
+                placeholder="Search Keyword" class="w-full" />
+            </span>
         </div>
       </ng-template>
       <ng-template pTemplate="header">
@@ -226,7 +226,7 @@
       </ng-template>
       <ng-template pTemplate="emptymessage">
         <tr>
-          <td class="md:text-center m-5" colspan="8">No Lookup Found.</td>
+          <td class="md:text-center m-5" colspan="9">No Lookup Found.</td>
         </tr>
       </ng-template>
       <ng-template pTemplate="rowexpansion" let-lookup>

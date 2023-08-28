@@ -53,15 +53,17 @@ export class HolidayconfigurationComponent {
     { field: 'toDate', header: 'toDate', label: 'To Date' },
     { field: 'description', header: 'description', label: 'Holiday Description' },
     { field: 'isActive', header: 'isActive', label: 'Is Active' },
-    { field: 'createdAt', header: 'createdAt', label: 'Created At' },
-    { field: 'updatedAt', header: 'updatedAt', label: 'Updated At' },
+    { field: 'createdAt', header: 'createdAt', label: 'Created Date'},
+    { field: 'createdBy', header: 'createdBy', label: 'Created By'},
+    { field: 'updatedAt', header: 'updatedAt', label: 'Updated Date' },
+    { field: 'updatedBy', header: 'updatedBy', label: 'Updated By' },
   ];
   ngOnInit(): void {
     this.leaveForm();
     this.initializeYears();
     this.selectedYear = this.years.find(y => y.year === '2023');
     this.initHoliday();
-    this.initForm();
+    this.initHolidayForm();
   }
 // Initialize form with form controls
 leaveForm() {
@@ -81,6 +83,9 @@ leaveForm() {
 }
   addLeaveDetails() {
     this.ShowleaveDetails = true;
+    if (this.fbleave.invalid) {
+      return;
+    }
     // Push current values into the FormArray
     this.faleaveDetail().push(this.generaterow(this.fbleave.getRawValue()));
     // Reset form controls for the next entry
@@ -117,7 +122,7 @@ leaveForm() {
     return this.fbleave.controls;
   }
   // Method to initialize the holidayForm FormGroup for edit purposes
-  initForm() {
+  initHolidayForm() {
     this.holidayForm = new FormGroup({
       holidayId: new FormControl(),
       title: new FormControl('', Validators.required),

@@ -2,19 +2,19 @@ import { Injectable } from '@angular/core';
 import { MessageService } from 'primeng/api';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class AlertmessageService {
 
-  constructor(private service: MessageService) { }
+    constructor(private service: MessageService) { }
 
-  displayAlertMessage(message: string) {
-    this.service.add({ key: 'tst', severity: 'success', summary: 'Success Message', detail: message, life: 5000 });
-  }
+    displayAlertMessage(message: string) {
+        this.service.add({ key: 'tst', severity: 'success', summary: 'Success Message', detail: message, life: 5000 });
+    }
 
-  displayErrorMessage(message: string) {
-    this.service.add({ key: 'tst', severity: 'error', summary: 'Error Message', detail: message, life: 5000 });
-  }
+    displayErrorMessage(message: string) {
+        this.service.add({ key: 'tst', severity: 'error', summary: 'Error Message', detail: message, life: 5000 });
+    }
 
 }
 
@@ -34,6 +34,7 @@ export class AlertmessageService {
  * ---------------------------------------------------------------------------
  * Settings : SE
  * Security : S
+ * Admin : A
  *
  * ---------------------------------------------------------------------------
  * Settings Screens
@@ -49,7 +50,15 @@ export class AlertmessageService {
  *
  * ---------------------------------------------------------------------------
  * Admin Screens
+ * Lookup : L
+ * Holiday Configuration : HC
+ * Assets : A
  *
+ *
+ * ---------------------------------------------------------------------------
+ * Assets screens
+ * Assets : A
+ * Assets Allotment : AA
  *
  * ---------------------------------------------------
  * If the screens has more funcitonal items then
@@ -67,35 +76,40 @@ export class AlertmessageService {
 export const ALERT_CODES: { [key: string]: string } = {
 
 
-  // securityquestions screen 
-  'SCUQ001': 'Security Questions Added Successfully',
+    // securityquestions screen
+    'SCUQ001': 'Security Questions Added Successfully',
 
-  // settings
-  // change password
-  'SSECP001': 'Password Updated Successfully',
-  'ESECP001': 'Invalid Current Password',
+    // settings
+    // change password
+    'SSECP001': 'Password Updated Successfully',
+    'ESECP001': 'Invalid Current Password',
 
-  'SMR001': 'Role Added Successfully',
-  'SMR002': 'Role Updated Successfully',
+    'SMR001': 'Role Added Successfully',
+    'SMR002': 'Role Updated Successfully',
 
-  // updatesecurityquestions
-  'SSESQ001': 'Security Questions Updated Successfully',
-  'SSESQ002': 'Security Questions Updated Faild',
-  'SSESQ003': 'Security Questions Added Successfully',
+    // updatesecurityquestions
+    'SSESQ001': 'Security Questions Updated Successfully',
+    'SSESQ002': 'Security Questions Updated Faild',
+    'SSESQ003': 'Security Questions Added Successfully',
 
 
-  'SMU002': 'User Update Successfully',
-  'SMU001':  "User has been successfully Soft Deleted",
-  //LookUps
-  'SML001':'Lookup Added Successfully',
-  'SML002':'Lookup Updated Successfully',
+    'SMU002': 'User Update Successfully',
+    'SMU001': "User has been successfully Soft Deleted",
+    //LookUps
+    'SML001': 'Lookup Added Successfully',
+    'SML002': 'Lookup Updated Successfully',
 
-  // Assets
-  'AAS001': 'Assets Added Successfully',
-  'AAS002': 'Assets Updated Successfully',
+    // Assets
+    'AAS001': 'Assets Added Successfully',
+    'AAS002': 'Assets Updated Successfully',
 
-   //HOLIDAY
-   'SMH001': 'Holiday Added Successfully',
-   'SMH002': 'Holiday Updated Successfully',
-   'SMH003':'This date is already a holiday.'
+    // Asset Allotment
+    'SAAAA001': 'Asset Allotment Added Successfully',
+    'SAAAA002': 'Assets Allotment Unassigned Successfully',
+    'EAAAA001': 'Asset Allotment Save Failed',
+
+    //HOLIDAY
+    'SMH001': 'Holiday Added Successfully',
+    'SMH002': 'Holiday Updated Successfully',
+    'SMH003': 'This date is already a holiday.'
 }

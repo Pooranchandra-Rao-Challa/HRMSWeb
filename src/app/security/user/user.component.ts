@@ -42,7 +42,6 @@ export class UserComponent implements OnInit {
   mediumDate: string = MEDIUM_DATE
 
   headers: ITableHeader[] = [
-    { field: 'userId', header: 'userId', label: 'User Id' },
     { field: 'userName', header: 'userName', label: 'User Name' },
     { field: 'firstName', header: 'firstName', label: 'First Name' },
     { field: 'lastName', header: 'lastName', label: 'Last Name' },
@@ -50,7 +49,10 @@ export class UserComponent implements OnInit {
     { field: 'mobileNumber', header: 'mobileNumber', label: 'Mobile Number' },
     { field: 'roleName', header: 'roleName', label: 'Role Name' },
     { field: 'isActive', header: 'isActive', label: 'Is Active' },
-    { field: 'createdAt', header: 'createdAt', label: 'Created At' },
+    { field: 'createdAt', header: 'createdAt', label: 'Created Date'},
+    { field: 'createdBy', header: 'createdBy', label: 'Created By'},
+    { field: 'updatedAt', header: 'updatedAt', label: 'Updated Date' },
+    { field: 'updatedBy', header: 'updatedBy', label: 'Updated By' },
   ];
 
   ngOnInit() {
@@ -75,7 +77,8 @@ export class UserComponent implements OnInit {
     this.loading = true;
     this.securityService.GetUsers().subscribe(resp => {
       this.users = resp as unknown as UserViewDto[];
-      console.log('getting list',this.users);
+      console.log('usersList:',this.users);
+      
       this.loading = false;
     }, error => {
       this.loading = false;
@@ -86,8 +89,6 @@ export class UserComponent implements OnInit {
   intiRoles() {
     this.securityService.GetRoles().subscribe(resp => {
       this.roles = resp as unknown as RoleViewDto[];
-      console.log('role list', this.roles);
-
     });
   }
   // Edit user by patching the form values
@@ -120,7 +121,6 @@ export class UserComponent implements OnInit {
       )
     }
   }
-
   get userFormControls() {
     return this.userForm.controls;
   }

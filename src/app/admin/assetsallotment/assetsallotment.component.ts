@@ -6,7 +6,10 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { ThisReceiver } from '@angular/compiler';
 import { LookupService } from 'src/app/_services/lookup.service';
 import { AdminService } from 'src/app/_services/admin.service';
-import { AssetsByAssetTypeIdViewDto } from 'src/app/_models/admin/assetsallotment';
+import { AssetAllotmentDto, AssetsByAssetTypeIdViewDto } from 'src/app/_models/admin/assetsallotment';
+import { Observable } from 'rxjs';
+import { HttpEvent } from '@angular/common/http';
+import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 
 @Component({
     selector: 'app-assetsallotment',
@@ -24,12 +27,15 @@ export class AssetsallotmentComponent {
     submitLabel!: string;
     showAssetDetails: boolean = false;
     showAssetAllotment: boolean = false;
+    showUnassignAsset: boolean = false;
     employees: Employee[] = [];
+    addFlag: boolean;
 
     constructor(private securityService: SecurityService,
         private formbuilder: FormBuilder,
         private adminService: AdminService,
-        private lookupService: LookupService) { }
+        private lookupService: LookupService,
+        private alertMessage: AlertmessageService) { }
 
 
     ngOnInit() {
@@ -71,11 +77,13 @@ export class AssetsallotmentComponent {
 
     assetAllotmentForm() {
         this.fbAssetAllotment = this.formbuilder.group({
-            empId: new FormControl('', [Validators.required]),
+            employeeId: new FormControl(null, [Validators.required]),
             assetCategoryId: new FormControl('', [Validators.required]),
             assetTypeId: new FormControl('', [Validators.required]),
             assetId: new FormControl('', [Validators.required]),
             assignedOn: new FormControl('', [Validators.required]),
+            revokedOn: new FormControl(''),
+            reasonForRevoke: new FormControl('')
             // comment: new FormControl('', [Validators.required]),
         });
     }
@@ -95,6 +103,7 @@ export class AssetsallotmentComponent {
     addAssestAllotment() {
         this.fbAssetAllotment.controls['assignedOn'].setValue(new Date());
         this.showAssetAllotment = true;
+        this.addFlag = true;
     }
 
     addAssetsDialog() {
@@ -102,6 +111,27 @@ export class AssetsallotmentComponent {
         this.onClose();
     }
 
-    onSubmit() { }
+    saveAssetAllotment(): Observable<HttpEvent<AssetAllotmentDto>> {
+        if (this.addFlag) return this.adminService.CreateAssetAllotment(this.fbAssetAllotment.value)
+        else return null; this.adminService.UpdateAssets(this.fbAssetAllotment.value)
+    }
+
+    onSubmit() {
+        console.log(this.fbAssetAllotment.value);
+        this.fbAssetAllotment.controls['employeeId'].setValue(2);
+        this.saveAssetAllotment().subscribe((resp) => {
+            if (resp) {
+                console.log(resp);
+                this.onClose();
+                this.showAssetAllotment = false;
+                this.alertMessage.displayAlertMessage(ALERT_CODES["SAAAA001"]);
+            }
+            else this.alertMessage.displayErrorMessage(ALERT_CODES["EAAAA001"]);
+        });
+    }
+
+    unAssignedAsset() {
+        this.showUnassignAsset = true;
+    }
 
 }

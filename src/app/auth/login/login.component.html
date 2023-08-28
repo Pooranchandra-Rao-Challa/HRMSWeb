@@ -136,52 +136,52 @@
       <p-toast key="myToast"></p-toast>
       <form [formGroup]="fbloginForm" (ngSubmit)="onSubmit()">
         <div class="flex flex-column mt-4">
-          <span class="p-input-icon-left w-full mb-4">
+          <span class="p-input-icon-left w-full mb-1 ">
             <i class="pi pi-envelope"></i>
             <input id="email" type="text" pInputText
-              class="w-full md:w-25rem text-color-secondary surface-50 border-200" placeholder="Email" maxlength="50"
+              class="w-full md:w-25rem text-color-secondary surface-50 " placeholder="Email" maxlength="50"
               formControlName="userName"  alphaOnly  [ngClass]="{ 'is-invalid ng-dirty': FormControls['userName'].touched && FormControls['userName'].errors}"/>
-              <div class="flex">
-                <div class="align-left w-60">
-                  <span *ngIf="FormControls['userName'].touched && FormControls['userName'].invalid">
-                    <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['userName'].errors?.['required']">
-                      Please Enter User Name.</div>
-                    <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['userName'].errors?.['minlength']">
-                      User Name Min Length Is 5.</div>
-                    <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['userName'].errors?.['maxlength']">
-                      User Name Max Length Is 50.</div>
-                    <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['userName'].errors?.['pattern']">
-                      User Name Should Contains Alphabets & Numbers.</div>
-                  </span>
-                </div>
-              </div>
           </span> 
-          <span class="p-input-icon-left w-full mb-4">
+          <div class="flex mb-4 p-1">
+            <div class="align-left w-60">
+              <span *ngIf="FormControls['userName'].touched && FormControls['userName'].invalid">
+                <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['userName'].errors?.['required']">
+                  Please Enter User Name.</div>
+                <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['userName'].errors?.['minlength']">
+                  User Name Min Length Is 5.</div>
+                <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['userName'].errors?.['maxlength']">
+                  User Name Max Length Is 50.</div>
+                <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['userName'].errors?.['pattern']">
+                  User Name Should Contains Alphabets & Numbers.</div>
+              </span>
+            </div>
+          </div>
+          <span class="p-input-icon-left w-full">
             <i class="pi pi-lock"></i>
             <input id="password" type="password" pInputText
-              class="w-full md:w-25rem text-color-secondary surface-50 border-200" placeholder="Password"
+              class="w-full md:w-25rem text-color-secondary surface-50" placeholder="Password"
               formControlName="password" maxlength="20" 
                [ngClass]="{ 'is-invalid ng-dirty': FormControls['password'].touched && FormControls['password'].errors}"/>
-               <div class="flex">
-                <div class="align-left w-40" >
-                  <span *ngIf="FormControls['password'].touched && FormControls['password'].invalid">
-                    <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['password'].errors?.['required']">
-                      Please Enter Password.</div>
-                    <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['password'].errors?.['minlength']">
-                      Password Min Length Is 8.</div>
-                  </span>
-                </div>
-              </div>
           </span>
-          <div class="flex align-items-center justify-content-between mb-5 gap-5">
+          <div class="flex  mb-4 p-1">
+            <div class="align-left w-40" >
+              <span *ngIf="FormControls['password'].touched && FormControls['password'].invalid">
+                <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['password'].errors?.['required']">
+                  Please Enter Password.</div>
+                <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['password'].errors?.['minlength']">
+                  Password Min Length Is 8.</div>
+              </span>
+            </div>
+          </div>
+          <div class="align-items-right text-right mb-5 gap-5">
             <!-- <div class="flex align-items-center">
               <p-checkbox id="rememberme1"  formControlName="rememberMe" [binary]="true" styleClass="mr-2"></p-checkbox>
               <label for="rememberme1">Remember me</label>
             </div> -->
-            <a class="font-medium no-underline ml-2 text-right cursor-pointer" style="color: var(--primary-color)"
+            <a class="font-medium no-underline ml-2  align-items-right text-right" style="color: var(--primary-color)"
               [routerLink]="['/auth/forgotpassword']">Forgot Password?</a>
           </div>
-          <button pButton pRipple label="Sign In" class="w-full p-3 text-xl" id="signin" type="submit"
+          <button pButton pRipple label="Sign In" class="w-full p-2 text-xl" id="signin" type="submit"
             [disabled]="submitted ? true : false"></button>
           <!-- <p class="font-medium text-400 m-0 mt-6">Don’t you have an account, <a href="#" class="text-primary cursor-pointer">sign in</a> --
           </p>-->
