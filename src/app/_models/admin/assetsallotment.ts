@@ -15,3 +15,8 @@ export interface AssetAllotmentViewDto {
     comment: string;
     isActive: boolean;
 }
+
+export interface AssetsByAssetTypeIdViewDto {
+    assetId: number;
+    name: string;
+}

@@ -54,27 +54,28 @@
               <h5>Client Details</h5>
               <div class="p-fluid p-formgrid grid">
                 <div class="field col-12 md:col-4">
+                  <label>Name: <sup class="p-error">*</sup>
+                  </label>&nbsp;
+                   <input pInputText id="name" type="text" placeholder="Enter Name" alphaOnly
+                    formControlName="companyFullName" />
+                </div>
+                <div class="field col-12 md:col-4">
                   <label>Company Full Name: <sup class="p-error">*</sup>
                   </label>&nbsp;
-                  <p-autoComplete [suggestions]="suggestions" (completeMethod)="search($event)"></p-autoComplete>
+                  <p-autoComplete  [suggestions]="suggestions" (completeMethod)="search($event)"></p-autoComplete>
+                   <!-- <input pInputText id="name" type="text" placeholder="Enter Full Name" alphaOnly
+                    formControlName="companyFullName" /> -->
                 </div>
                 <div class="field col-12 md:col-4">
-                  <label>Client Name: <sup class="p-error">*</sup>
+                  <label>Email: <sup class="p-error">*</sup>
                   </label>&nbsp;
-                  <input pInputText id="name" type="text" placeholder="Enter Name" alphaOnly
-                    formControlName="companyFullName" />
-                </div>
-                
-                <div class="field col-12 md:col-4">
-                  <label>Client Email Id: <sup class="p-error">*</sup>
-                  </label>&nbsp;
-                  <input pInputText id="name" type="text" placeholder="Enter email address" alphaOnly
+                   <input pInputText id="name" type="text" placeholder="Enter email address" alphaOnly
                     formControlName="companyFullName" />
                 </div>
                 <div class="field col-12 md:col-4">
-                  <label>Client Mobile No: <sup class="p-error">*</sup>
+                  <label>Mobile No: <sup class="p-error">*</sup>
                   </label>&nbsp;
-                  <input pInputText id="name" type="text" placeholder="Enter Mobile Number" alphaOnly
+                   <input pInputText id="name" type="text" placeholder="Enter Mobile Number" alphaOnly
                     formControlName="companyFullName" />
                 </div>
                 <div class="field col-12 md:col-4">
@@ -104,7 +105,15 @@
                     formControlName="address"></textarea>
                      
                 </div>
+<<<<<<< HEAD
                 
+=======
+                <div class="field col-12 md:col-4">
+                  <label>Is Active: <sup class="p-error">*</sup>
+                  </label>
+                  <br> &nbsp; <p-inputSwitch formControlName="isActive"></p-inputSwitch>
+                </div>
+>>>>>>> 4595da023d1daa5624903f7557e3dcef514834ed
               </div>
               <h5>Employee Details</h5>
               <div class="p-fluid p-formgrid grid">
@@ -114,6 +123,7 @@
                     placeholder="Select Employee">
                   </p-multiSelect>
                 </div>
+<<<<<<< HEAD
               </div>
 
 
@@ -131,6 +141,38 @@
                 </div>
               </div>
 
+=======
+              </div>  
+              
+              <div class="grid">
+              <div class="col-12">
+                <div class="grid">
+                  <div class="col-4" *ngFor="let employee of this.fbproject.get('id').value">
+                    <div class="m-2 card border-1 surface-border">
+                      <div class="text-xl font-bold">{{employee.empname}}</div>
+                          <span class="text-600 font-medium text-sm">
+                            EmpId : {{employee.empcode}}
+                          </span><br />
+                          <span class="text-600 font-medium text-sm">
+                            Designation : {{employee.designation}}
+                          </span><br />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>         
+                <!-- <div class="field col-12 md:col-4">
+                  <label>Employee Name: <sup class="p-error">*</sup>
+                  </label>&nbsp; <input pInputText id="name" type="text" placeholder="Enter Employee Name" alphaOnly
+                    formControlName="empname" />
+                </div>
+                <div class="field col-12 md:col-4">
+                  <label>Designation:<sup class="p-error">*</sup>
+                  </label>&nbsp; <input pInputText id="name" type="text" placeholder="Enter Designation"
+                    formControlName="designation" />
+                </div> -->
+              
+>>>>>>> 4595da023d1daa5624903f7557e3dcef514834ed
             </div>
           </div>
         </form>

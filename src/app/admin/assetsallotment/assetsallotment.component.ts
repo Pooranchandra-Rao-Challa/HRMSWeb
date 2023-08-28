@@ -5,6 +5,8 @@ import { Assets, Employee, LookupDetailViewDto } from 'src/app/demo/api/security
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ThisReceiver } from '@angular/compiler';
 import { LookupService } from 'src/app/_services/lookup.service';
+import { AdminService } from 'src/app/_services/admin.service';
+import { AssetsByAssetTypeIdViewDto } from 'src/app/_models/admin/assetsallotment';
 
 @Component({
     selector: 'app-assetsallotment',
@@ -15,8 +17,7 @@ import { LookupService } from 'src/app/_services/lookup.service';
 export class AssetsallotmentComponent {
     assetTypes: LookupDetailViewDto[] = [];
     assetCategories: LookupDetailViewDto[] = [];
-    date: Date | undefined;
-    color1: string = 'Bluegray';
+    assets: AssetsByAssetTypeIdViewDto[] = [];
     sortField: string = '';
     sortOrder: number = 0;
     fbAssetAllotment!: FormGroup;
@@ -27,6 +28,7 @@ export class AssetsallotmentComponent {
 
     constructor(private securityService: SecurityService,
         private formbuilder: FormBuilder,
+        private adminService: AdminService,
         private lookupService: LookupService) { }
 
 
@@ -49,6 +51,12 @@ export class AssetsallotmentComponent {
         });
     }
 
+    getAssetsByAssetType(assetTypeId: number) {
+        this.adminService.GetAssetsByAssetType(assetTypeId).subscribe((resp) => {
+            this.assets = resp as unknown as AssetsByAssetTypeIdViewDto[];
+        });
+    }
+
     assetsList = []
     //     { name: 'Mouse', code: 'MU' },
     //     { name: 'CPU', code: 'CP' },
@@ -68,7 +76,7 @@ export class AssetsallotmentComponent {
             assetTypeId: new FormControl('', [Validators.required]),
             assetId: new FormControl('', [Validators.required]),
             assignedOn: new FormControl('', [Validators.required]),
-            comment: new FormControl('', [Validators.required]),
+            // comment: new FormControl('', [Validators.required]),
         });
     }
 
@@ -84,7 +92,8 @@ export class AssetsallotmentComponent {
         this.fbAssetAllotment.reset();
     }
 
-    showDialog() {
+    addAssestAllotment() {
+        this.fbAssetAllotment.controls['assignedOn'].setValue(new Date());
         this.showAssetAllotment = true;
     }
 

@@ -152,7 +152,7 @@
       </div>
       <ng-template pTemplate="footer">
         <div class="col-4" style="float:right">
-          <button pButton pRipple type="submit" id="submit-btn" [label]="submitLabel" class="p-button-raised p-button-primary"
+          <button pButton pRipple type="submit" id="submit-btn" [label]="submitLabel" [disabled]="this.fbleave.get('leaveDetails').value.length === 0 " class="p-button-raised p-button-primary"
             (click)="onSubmit()"></button>
         </div>
       </ng-template>
@@ -273,7 +273,7 @@
       </ng-template>
       <ng-template pTemplate="emptymessage">
         <tr>
-          <td class="md:text-center m-5" colspan="8">No Holiday Found.</td>
+          <td class="md:text-center m-5" colspan="8">No Holidays Found.</td>
         </tr>
       </ng-template>
     </p-table>
