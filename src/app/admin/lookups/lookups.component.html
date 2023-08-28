@@ -59,7 +59,7 @@
                       </span>
                     </div>
                     <div class="align-right w-40" style="width:30%; text-align:right;">
-                      <small>{{name.value.length}}/30</small>
+                      <small>{{name.value.length}}/50</small>
                     </div>
                   </div>
                 </div>
@@ -96,7 +96,7 @@
                             <div class="align-left w-60" style="width:70%">
                               <span *ngIf="formArrayControls(lookUpDetailsIndex,'code')?.errors?.['notUnique']">
                                 <div class="ng-invalid ng-touched p-error">
-                                  lookUp Details Code Must Be Unique.
+                                  LookUp Details Code Must Be Unique.
                                 </div>
                               </span>
                               <span
@@ -127,7 +127,7 @@
                             <div class="align-left w-60" style="width:70%">
                               <span *ngIf="formArrayControls(lookUpDetailsIndex,'name')?.errors?.['notUnique']">
                                 <div class="ng-invalid ng-touched p-error">
-                                  lookUp Details Name Must Be Unique.
+                                  LookUp Details Name Must Be Unique.
                                 </div>
                               </span>
                               <span
@@ -141,7 +141,7 @@
                               </span>
                             </div>
                             <div class="align-right w-40" style="width:30%; text-align:right;">
-                              <small>{{name.value.length}}/30</small>
+                              <small>{{name.value.length}}/50</small>
                             </div>
                           </div>
                         </td>
@@ -164,7 +164,7 @@
       <ng-template pTemplate="footer">
         <div class="col-4" style="float:right">
           <button pButton pRipple type="submit" label="{{submitLabel}}" class="p-button-raised p-button-primary"
-            id="Lookup_lookupSubmit" disabled="fblookup.invalid" (click)="onSubmit()"></button>
+            id="Lookup_lookupSubmit" [disabled]="fblookup.invalid" (click)="onSubmit()"></button>
         </div>
       </ng-template>
     </p-dialog>
