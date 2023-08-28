@@ -161,7 +161,7 @@
       <ng-template pTemplate="footer">
         <div class="col-4" style="float:right">
           <button pButton pRipple type="submit" label="{{submitLabel}}" class="p-button-raised p-button-primary"
-            id="Lookup_lookupSubmit" disabled="fblookup.invalid" (click)="onSubmit()"></button>
+            id="Lookup_lookupSubmit" [disabled]="fblookup.invalid" (click)="onSubmit()"></button>
         </div>
       </ng-template>
     </p-dialog>
