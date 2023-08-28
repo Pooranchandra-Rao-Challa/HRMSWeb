@@ -18,7 +18,7 @@ import { MAX_LENGTH_50, MIN_LENGTH_2, RG_ALPHA_ONLY } from 'src/app/_shared/rege
   templateUrl: './roles.component.html'
 })
 export class RolesComponent implements OnInit {
-  globalFilterFields: string[] = ['name', 'isActive', 'createdAt', "CreatedBy", "UpdatedDate", "UpdatedBy"];
+  globalFilterFields: string[] = ['name', 'isActive', 'createdAt', "createdBy", "updatedDate", "updatedBy"];
   dialog: boolean = false;
   @ViewChild('filter') filter!: ElementRef;
   roleForm!: FormGroup;
@@ -44,6 +44,7 @@ export class RolesComponent implements OnInit {
       permissions: []
     });
     this.intiRoles();
+    console.log(this.roles)
   }
 
   get roleFormControls() {
@@ -70,9 +71,9 @@ export class RolesComponent implements OnInit {
     { field: 'name', header: 'name', label: 'Name' },
     { field: 'isActive', header: 'isActive', label: 'Is Active' },
     { field: 'createdAt', header: 'createdAt', label: 'Created Date' },
-    { field: 'CreatedBy', header: 'CreatedBy', label: 'Created By' },
-    { field: 'UpdatedDate', header: 'UpdatedDate', label: ' Updated Date' },
-    { field: 'UpdatedBy', header: 'UpdatedBy', label: 'Updated By' }
+    { field: 'createdBy', header: 'createdBy', label: 'Created By' },
+    { field: 'updatedAt', header: 'updatedAt', label: ' Updated Date' },
+    { field: 'updatedBy', header: 'updatedBy', label: 'Updated By' }
   ];
 
   initRole(role: RoleViewDto) {

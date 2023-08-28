@@ -53,8 +53,10 @@ export class HolidayconfigurationComponent {
     { field: 'toDate', header: 'toDate', label: 'To Date' },
     { field: 'description', header: 'description', label: 'Holiday Description' },
     { field: 'isActive', header: 'isActive', label: 'Is Active' },
-    { field: 'createdAt', header: 'createdAt', label: 'Created At' },
-    { field: 'updatedAt', header: 'updatedAt', label: 'Updated At' },
+    { field: 'createdAt', header: 'createdAt', label: 'Created Date'},
+    { field: 'createdBy', header: 'createdBy', label: 'Created By'},
+    { field: 'updatedAt', header: 'updatedAt', label: 'Updated Date' },
+    { field: 'updatedBy', header: 'updatedBy', label: 'Updated By' },
   ];
   ngOnInit(): void {
     this.leaveForm();
@@ -81,6 +83,9 @@ leaveForm() {
 }
   addLeaveDetails() {
     this.ShowleaveDetails = true;
+    if (this.fbleave.invalid) {
+      return;
+    }
     // Push current values into the FormArray
     this.faleaveDetail().push(this.generaterow(this.fbleave.getRawValue()));
     // Reset form controls for the next entry

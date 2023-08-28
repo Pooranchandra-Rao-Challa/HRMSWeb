@@ -49,7 +49,10 @@ export class UserComponent implements OnInit {
     { field: 'mobileNumber', header: 'mobileNumber', label: 'Mobile Number' },
     { field: 'roleName', header: 'roleName', label: 'Role Name' },
     { field: 'isActive', header: 'isActive', label: 'Is Active' },
-    { field: 'createdAt', header: 'createdAt', label: 'Created At' },
+    { field: 'createdAt', header: 'createdAt', label: 'Created Date'},
+    { field: 'createdBy', header: 'createdBy', label: 'Created By'},
+    { field: 'updatedAt', header: 'updatedAt', label: 'Updated Date' },
+    { field: 'updatedBy', header: 'updatedBy', label: 'Updated By' },
   ];
 
   ngOnInit() {
@@ -74,6 +77,8 @@ export class UserComponent implements OnInit {
     this.loading = true;
     this.securityService.GetUsers().subscribe(resp => {
       this.users = resp as unknown as UserViewDto[];
+      console.log('usersList:',this.users);
+      
       this.loading = false;
     }, error => {
       this.loading = false;

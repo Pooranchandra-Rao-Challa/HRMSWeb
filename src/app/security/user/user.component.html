@@ -37,7 +37,7 @@
                         *ngIf="col?.field != 'createdAt' && col?.field != 'updatedAt' && col?.field != 'isGross' && col?.field != 'isDumpYard' && col?.field != 'ipRestriction' && col?.field != 'isTare' && col?.field != 'createdAt' && col?.field != 'isActive'">
                         {{user[col.field]}}
                     </span>
-                    <span *ngIf="col?.field == 'createdAt'">
+                    <span *ngIf="col?.field == 'createdAt' || col?.field == 'updatedAt'">
                         {{user[col.field] | date: 'mediumDate'}}
                     </span>
                     <span *ngIf="col?.field == 'isActive'">
@@ -51,7 +51,7 @@
         <ng-template pTemplate="emptymessage">
             <tr>
                 <td class="text-center m-5" colspan="18" *ngIf="loading">Loading....</td>
-                <td class="text-center m-5" colspan="18">No Users Found.</td>
+                <td class="text-center m-5" colspan="18" >No Users Found.</td>
             </tr>
         </ng-template>
     </p-table>
