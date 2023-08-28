@@ -55,13 +55,37 @@
               <div class="p-fluid p-formgrid grid">
                 <div class="field col-12 md:col-4">
                   <label>Company Full Name: <sup class="p-error">*</sup>
-                  </label>&nbsp; <input pInputText id="name" type="text" placeholder="Enter Full Name" alphaOnly
+                  </label>&nbsp;
+                  <p-autoComplete [suggestions]="suggestions" (completeMethod)="search($event)"></p-autoComplete>
+                </div>
+                <div class="field col-12 md:col-4">
+                  <label>Client Name: <sup class="p-error">*</sup>
+                  </label>&nbsp;
+                  <input pInputText id="name" type="text" placeholder="Enter Name" alphaOnly
+                    formControlName="companyFullName" />
+                </div>
+                
+                <div class="field col-12 md:col-4">
+                  <label>Client Email Id: <sup class="p-error">*</sup>
+                  </label>&nbsp;
+                  <input pInputText id="name" type="text" placeholder="Enter email address" alphaOnly
+                    formControlName="companyFullName" />
+                </div>
+                <div class="field col-12 md:col-4">
+                  <label>Client Mobile No: <sup class="p-error">*</sup>
+                  </label>&nbsp;
+                  <input pInputText id="name" type="text" placeholder="Enter Mobile Number" alphaOnly
                     formControlName="companyFullName" />
                 </div>
                 <div class="field col-12 md:col-4">
                   <label>CIN/GST No: <sup class="p-error">*</sup>
                   </label>&nbsp; <input pInputText id="name" type="text" placeholder="Enter CIS/GST No"
                     formControlName="gstNo" />
+                </div>
+                <div class="field col-12 md:col-4">
+                  <label>Is Active: <sup class="p-error">*</sup>
+                  </label>
+                  <br> &nbsp; <p-inputSwitch formControlName="isActive"></p-inputSwitch>
                 </div>
                 <div class="field col-12 md:col-4">
                   <label>POC Name: <sup class="p-error">*</sup>
@@ -74,10 +98,13 @@
                     formControlName="clientPocNo" />
                 </div>
                 <div class="field col-12 md:col-4">
-                  <label>Address: <sup class="p-error">*</sup>
-                  </label>&nbsp; <input pInputText id="name" type="text" placeholder="Enter Name"
-                    formControlName="address" />
+                  <label>Client Address: <sup class="p-error">*</sup>
+                  </label>&nbsp;
+                  <textarea inputId="textarea" rows="3" cols="30" pInputTextarea
+                    formControlName="address"></textarea>
+                     
                 </div>
+                
               </div>
               <h5>Employee Details</h5>
               <div class="p-fluid p-formgrid grid">
@@ -85,20 +112,25 @@
                   <label>Employee Id:<sup class="p-error">*</sup></label>&nbsp;
                   <p-multiSelect [options]="employees" formControlName="id" optionLabel="empname"
                     placeholder="Select Employee">
-
                   </p-multiSelect>
                 </div>
-                <!-- <div class="field col-12 md:col-4">
-                  <label>Employee Name: <sup class="p-error">*</sup>
-                  </label>&nbsp; <input pInputText id="name" type="text" placeholder="Enter Employee Name" alphaOnly
-                    formControlName="empname" />
-                </div>
-                <div class="field col-12 md:col-4">
-                  <label>Designation:<sup class="p-error">*</sup>
-                  </label>&nbsp; <input pInputText id="name" type="text" placeholder="Enter Designation"
-                    formControlName="designation" />
-                </div> -->
               </div>
+
+
+              <div class="grid">
+                <div class="col-12 md:col-4" *ngFor="let employee of this.fbproject.get('id').value">
+                  <div class="m-2 card border-1 surface-border">
+                    <div class="text-xl font-bold">{{employee.empname}}</div>
+                    <span class="text-600 font-medium text-sm">
+                      EmpId : {{employee.empcode}}
+                    </span><br />
+                    <span class="text-600 font-medium text-sm">
+                      Designation : {{employee.designation}}
+                    </span><br />
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
         </form>
