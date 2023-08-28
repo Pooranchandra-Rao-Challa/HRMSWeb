@@ -44,7 +44,7 @@
               <div class="field col-12 md:col-4">
                 <label>Enter Asset Category: <sup class="p-error">*</sup></label>
                 <p-dropdown [options]="assetCategories" optionLabel="name" [filter]="true" filterBy="name"
-                  [showClear]="true" placeholder="Select Asset" formControlName="assetCategoryId"
+                  [showClear]="true" placeholder="Select Asset Category" formControlName="assetCategoryId"
                   optionValue="lookupDetailId"
                   [ngClass]="{ 'is-invalid ng-dirty': FormControls['assetCategoryId'].touched && FormControls['assetCategoryId'].errors}">
                 </p-dropdown>
@@ -58,7 +58,7 @@
               <div class="field col-12 md:col-4">
                 <label>Enter Asset Type: <sup class="p-error">*</sup></label>
                 <p-dropdown [options]="assetTypes" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true"
-                  placeholder="Select Asset" formControlName="assetTypeId" optionValue="lookupDetailId"
+                  placeholder="Select Asset Type" formControlName="assetTypeId" optionValue="lookupDetailId"
                   [ngClass]="{ 'is-invalid ng-dirty': FormControls['assetTypeId'].touched && FormControls['assetTypeId'].errors}">
                 </p-dropdown>
                 <span *ngIf="FormControls['assetTypeId'].touched && FormControls['assetTypeId'].invalid">
