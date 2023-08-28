@@ -34,14 +34,22 @@ export class ProjectComponent implements OnInit {
       clientPocName: new FormControl('', [Validators.required]),
       clientPocNo: new FormControl('', [Validators.required]),
       address: new FormControl('', [Validators.required]),
-      id: new FormControl('', [Validators.required]),
+      id: new FormControl([], [Validators.required]),
       empname: new FormControl('', [Validators.required]),
       empcode: new FormControl('', [Validators.required]),
       designation: new FormControl('', [Validators.required]),
     });
   }
 
+  items: any[] | undefined;
 
+  selectedItem: any;
+
+  suggestions: any[] | undefined;
+
+  search(event) {
+      this.suggestions = [...Array(10).keys()].map(item => event.query + '-' + item);
+  }
   showDialog() {
     this.visible = true;
   }
