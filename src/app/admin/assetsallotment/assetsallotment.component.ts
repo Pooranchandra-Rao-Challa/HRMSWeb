@@ -1,75 +1,107 @@
 import { Component } from '@angular/core';
 import { DataView } from 'primeng/dataview';
 import { SecurityService } from 'src/app/demo/service/security.service';
-import { Assets, Employee } from 'src/app/demo/api/security';
+import { Assets, Employee, LookupDetailViewDto } from 'src/app/demo/api/security';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ThisReceiver } from '@angular/compiler';
+import { LookupService } from 'src/app/_services/lookup.service';
+import { AdminService } from 'src/app/_services/admin.service';
+import { AssetsByAssetTypeIdViewDto } from 'src/app/_models/admin/assetsallotment';
 
 @Component({
-  selector: 'app-assetsallotment',
-  templateUrl: './assetsallotment.component.html',
-  styles: [
-  ]
+    selector: 'app-assetsallotment',
+    templateUrl: './assetsallotment.component.html',
+    styles: [
+    ]
 })
 export class AssetsallotmentComponent {
-  date: Date | undefined;
-  color1: string = 'Bluegray';
-  sortField: string = '';
-  sortOrder: number = 0;
-  fbassets!: FormGroup;
-  submitLabel!: string;
-  dialog: boolean = false;
-  visible: boolean = false;
-  showDialog() {
-    this.visible = true;
+    assetTypes: LookupDetailViewDto[] = [];
+    assetCategories: LookupDetailViewDto[] = [];
+    assets: AssetsByAssetTypeIdViewDto[] = [];
+    sortField: string = '';
+    sortOrder: number = 0;
+    fbAssetAllotment!: FormGroup;
+    submitLabel!: string;
+    showAssetDetails: boolean = false;
+    showAssetAllotment: boolean = false;
+    employees: Employee[] = [];
 
-  }
-
-  employees: Employee[] = [];
-
-
-  constructor(private securityService: SecurityService, private formbuilder: FormBuilder) { }
+    constructor(private securityService: SecurityService,
+        private formbuilder: FormBuilder,
+        private adminService: AdminService,
+        private lookupService: LookupService) { }
 
 
-  ngOnInit() {
-    this.assetsForm();
-    this.securityService.getEmployees().then((data) => (this.employees = data));
+    ngOnInit() {
+        this.assetAllotmentForm();
+        this.securityService.getEmployees().then((data) => (this.employees = data));
+        this.initAssetCategories();
+        this.initAssetTypes();
+    }
 
-  }
+    initAssetCategories() {
+        this.lookupService.AssetCategories().subscribe((resp) => {
+            this.assetCategories = resp as unknown as LookupDetailViewDto[];
+        });
+    }
 
-  assetsList = [
-    { name: 'Mouse', code: 'MU' },
-    { name: 'CPU', code: 'CP' },
-    { name: 'Monitor', code: 'MO' },
-    { name: 'Keyboard', code: 'KY' },
-    { name: 'HeadSet', code: 'HS' },
-];
-assetsCategory = [
-  { name: 'Gadgets', code: 'GD' },
-  { name: 'Fixed Assets', code: 'FA' }
-];
+    initAssetTypes() {
+        this.lookupService.AssetTypes().subscribe((resp) => {
+            this.assetTypes = resp as unknown as LookupDetailViewDto[];
+        });
+    }
 
-  assetsForm() {
-    this.fbassets = this.formbuilder.group({
-      empId: new FormControl('', [Validators.required]),
-      assetCategory:new FormControl('', [Validators.required]),
-      assetType:new FormControl('', [Validators.required]),
-      assetName:new FormControl('', [Validators.required]),
-      comment:new FormControl('', [Validators.required]),
-      assignedOn:new FormControl('', [Validators.required]),
-    });
-  }
+    getAssetsByAssetType(assetTypeId: number) {
+        this.adminService.GetAssetsByAssetType(assetTypeId).subscribe((resp) => {
+            this.assets = resp as unknown as AssetsByAssetTypeIdViewDto[];
+        });
+    }
 
-  onFilter(dv: DataView, event: Event) {
-    dv.filter((event.target as HTMLInputElement).value);
-  }
-  onClose() {
-    this.fbassets.reset();
-  }
-  addAssetsDialog() {
-    this.dialog = true;
-    this.onClose();
-  }
-  onSubmit() { }
+    assetsList = []
+    //     { name: 'Mouse', code: 'MU' },
+    //     { name: 'CPU', code: 'CP' },
+    //     { name: 'Monitor', code: 'MO' },
+    //     { name: 'Keyboard', code: 'KY' },
+    //     { name: 'HeadSet', code: 'HS' },
+    // ];
+    // assetsCategory = [
+    //     { name: 'Gadgets', code: 'GD' },
+    //     { name: 'Fixed Assets', code: 'FA' }
+    // ];
+
+    assetAllotmentForm() {
+        this.fbAssetAllotment = this.formbuilder.group({
+            empId: new FormControl('', [Validators.required]),
+            assetCategoryId: new FormControl('', [Validators.required]),
+            assetTypeId: new FormControl('', [Validators.required]),
+            assetId: new FormControl('', [Validators.required]),
+            assignedOn: new FormControl('', [Validators.required]),
+            // comment: new FormControl('', [Validators.required]),
+        });
+    }
+
+    get FormControls() {
+        return this.fbAssetAllotment.controls;
+    }
+
+    onFilter(dv: DataView, event: Event) {
+        dv.filter((event.target as HTMLInputElement).value);
+    }
+
+    onClose() {
+        this.fbAssetAllotment.reset();
+    }
+
+    addAssestAllotment() {
+        this.fbAssetAllotment.controls['assignedOn'].setValue(new Date());
+        this.showAssetAllotment = true;
+    }
+
+    addAssetsDialog() {
+        this.showAssetDetails = true;
+        this.onClose();
+    }
+
+    onSubmit() { }
 
 }

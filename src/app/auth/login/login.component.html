@@ -142,7 +142,7 @@
               class="w-full md:w-25rem text-color-secondary surface-50 border-200" placeholder="Email" maxlength="50"
               formControlName="userName"  alphaOnly  [ngClass]="{ 'is-invalid ng-dirty': FormControls['userName'].touched && FormControls['userName'].errors}"/>
               <div class="flex">
-                <div class="align-left w-60" style="width:70%">
+                <div class="align-left w-60">
                   <span *ngIf="FormControls['userName'].touched && FormControls['userName'].invalid">
                     <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['userName'].errors?.['required']">
                       Please Enter User Name.</div>
@@ -163,7 +163,7 @@
               formControlName="password" maxlength="20" 
                [ngClass]="{ 'is-invalid ng-dirty': FormControls['password'].touched && FormControls['password'].errors}"/>
                <div class="flex">
-                <div class="align-left w-60" style="width:70%">
+                <div class="align-left w-40" >
                   <span *ngIf="FormControls['password'].touched && FormControls['password'].invalid">
                     <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['password'].errors?.['required']">
                       Please Enter Password.</div>
@@ -174,10 +174,10 @@
               </div>
           </span>
           <div class="flex align-items-center justify-content-between mb-5 gap-5">
-            <div class="flex align-items-center">
-              <p-checkbox id="rememberme1" [binary]="true" styleClass="mr-2"></p-checkbox>
+            <!-- <div class="flex align-items-center">
+              <p-checkbox id="rememberme1"  formControlName="rememberMe" [binary]="true" styleClass="mr-2"></p-checkbox>
               <label for="rememberme1">Remember me</label>
-            </div>
+            </div> -->
             <a class="font-medium no-underline ml-2 text-right cursor-pointer" style="color: var(--primary-color)"
               [routerLink]="['/auth/forgotpassword']">Forgot Password?</a>
           </div>

@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Table } from 'primeng/table';
 import { Observable } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
-import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
+import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { AssetsDetailsViewDto, AssetsDto, AssetsViewDto, LookupDetailViewDto } from 'src/app/_models/admin';
 import { ITableHeader } from 'src/app/_models/common';
 import { AdminService } from 'src/app/_services/admin.service';
@@ -46,7 +46,7 @@ export class AssetsComponent {
   AssetsTypeTable: ITableHeader[] = [
     { field: 'code', header: 'code', label: 'Code' },
     { field: 'name', header: 'name', label: 'Asset Name' },
-    { field: 'purchasedDate', header: 'purchasedDate', label: 'PurchasedDate' },
+    { field: 'purchasedDate', header: 'purchasedDate', label: 'Purchased Date' },
     { field: 'modelNumber', header: 'modelNumber', label: 'ModelNumber' },
     { field: 'manufacturer', header: 'manufacturer', label: 'Manufacturer' },
     { field: 'serialNumber', header: 'serialNumber', label: 'SerialNumber' },
@@ -88,11 +88,14 @@ export class AssetsComponent {
 
   initAssets() {
     this.adminService.GetAssets().subscribe((resp) => {
+      console.log( resp,' this.assets');
       this.assets = resp as unknown as AssetsViewDto[];
       this.assets.forEach(element => {
         element.expandassets = JSON.parse(element.assets) as unknown as AssetsDetailsViewDto[];
       });
     })
+
+    
   }
 
   assetsForm() {
@@ -110,7 +113,7 @@ export class AssetsComponent {
       addValue: new FormControl(null),
       description: new FormControl(null),
       statusId: new FormControl(null, [Validators.required]),
-      isActive: [null],
+      isActive: (null),
     });
   }
 
@@ -137,7 +140,7 @@ export class AssetsComponent {
     this.addFlag = true;
     this.dialog = true;
   }
-  
+
   onClose() {
     this.fbassets.reset();
     this.ShowassetsDetails = false;
@@ -147,7 +150,7 @@ export class AssetsComponent {
     this.deletedialog = false
   }
 
-  Dialog(assetstypes:AssetsDetailsViewDto) {
+  Dialog(assetstypes: AssetsDetailsViewDto) {
     this.deleteAsset = assetstypes;
     this.deletedialog = true;
   }
@@ -200,7 +203,8 @@ export class AssetsComponent {
   }
 
   onSubmit() {
-    this.saveAssets().subscribe(resp => {
+    this.fbassets.value.purchasedDate = FORMAT_DATE(this.fbassets.value.purchasedDate);
+    this.saveAssets().subscribe(resp => { 
       if (resp) {
         this.initAssets();
         this.onClose();
