@@ -17,7 +17,7 @@ import { MAX_LENGTH_20, MIN_LENGTH_2, RG_ALPHA_NUMERIC, RG_ALPHA_ONLY } from 'sr
 })
 
 export class LookupsComponent implements OnInit {
-  globalFilterFields: string[] = ['code', 'name', 'isActive', 'createdAt']
+  globalFilterFields: string[] = ['code', 'name', 'isActive', 'createdAt','createdBy','updatedAt','updatedBy']
   @ViewChild('filter') filter!: ElementRef;
   showDialog: boolean = false;
   fblookup!: FormGroup;

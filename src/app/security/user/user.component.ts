@@ -42,7 +42,6 @@ export class UserComponent implements OnInit {
   mediumDate: string = MEDIUM_DATE
 
   headers: ITableHeader[] = [
-    { field: 'userId', header: 'userId', label: 'User Id' },
     { field: 'userName', header: 'userName', label: 'User Name' },
     { field: 'firstName', header: 'firstName', label: 'First Name' },
     { field: 'lastName', header: 'lastName', label: 'Last Name' },
@@ -79,14 +78,12 @@ export class UserComponent implements OnInit {
     }, error => {
       this.loading = false;
     })
-    
+
   }
   // Fetch roles from the service
   intiRoles() {
     this.securityService.GetRoles().subscribe(resp => {
       this.roles = resp as unknown as RoleViewDto[];
-      console.log('role list', this.roles);
-
     });
   }
   // Edit user by patching the form values
@@ -108,28 +105,15 @@ export class UserComponent implements OnInit {
   onSubmit() {
     if (this.userForm.valid) {
       const updatedUser = { ...this.selectedUser, ...this.userForm.value };
-      if (updatedUser.isActive == false) {
-        // Call the DeleteUser method if the user is inactive
-        this.securityService.DeleteUser(updatedUser).subscribe(resp => {
-          if (resp) {
-            this.dialog = false;
-            this.userForm.reset();
-            this.initUsers();
-            this.alertMessage.displayAlertMessage(ALERT_CODES["SMU001"]);
-          }
-        });
+      this.securityService.UpdateUser(updatedUser).subscribe(resp => {
+        if (resp) {
+          this.dialog = false;
+          this.userForm.reset();
+          this.initUsers();
+          this.alertMessage.displayAlertMessage(ALERT_CODES["SMU002"]);
+        }
       }
-      else {
-        // Call the UpdateUser method if the user is active
-        this.securityService.UpdateUser(updatedUser).subscribe(resp => {
-          if (resp) {
-            this.dialog = false;
-            this.userForm.reset();
-            this.initUsers();
-            this.alertMessage.displayAlertMessage(ALERT_CODES["SMU002"]);
-          }
-        });
-      }
+      )
     }
   }
   get userFormControls() {

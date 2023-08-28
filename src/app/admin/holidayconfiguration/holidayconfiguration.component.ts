@@ -52,7 +52,7 @@ export class HolidayconfigurationComponent {
     { field: 'fromDate', header: 'fromDate', label: 'From Date' },
     { field: 'toDate', header: 'toDate', label: 'To Date' },
     { field: 'description', header: 'description', label: 'Holiday Description' },
-    { field: 'isActive', header: 'isActive', label: 'IsActive' },
+    { field: 'isActive', header: 'isActive', label: 'Is Active' },
     { field: 'createdAt', header: 'createdAt', label: 'Created At' },
     { field: 'updatedAt', header: 'updatedAt', label: 'Updated At' },
   ];
@@ -61,7 +61,7 @@ export class HolidayconfigurationComponent {
     this.initializeYears();
     this.selectedYear = this.years.find(y => y.year === '2023');
     this.initHoliday();
-    this.initForm();
+    this.initHolidayForm();
   }
 // Initialize form with form controls
 leaveForm() {
@@ -117,7 +117,7 @@ leaveForm() {
     return this.fbleave.controls;
   }
   // Method to initialize the holidayForm FormGroup for edit purposes
-  initForm() {
+  initHolidayForm() {
     this.holidayForm = new FormGroup({
       holidayId: new FormControl(),
       title: new FormControl('', Validators.required),
