@@ -68,12 +68,12 @@
                       <span *ngIf="FormControls['description'].touched && FormControls['description'].invalid">
                         <div class="ng-invalid ng-touched p-error"
                           *ngIf="FormControls['description'].errors?.['required']">
-                          Please Enter Name.</div>
+                          Please Enter description.</div>
                         <div class="ng-invalid ng-touched p-error"
                           *ngIf="FormControls['description'].errors?.['minlength']">
-                          Name Min Characters Is 2.</div>
+                          description Min Characters Is 2.</div>
                         <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['description'].errors?.['pattern']">
-                          Name Should Contains Only Alphabets.</div>
+                          description Should Contains Only Alphabets.</div>
                       </span>
                     </div>
                     <div class="align-right w-40" style="width:30%; text-align:right;">
@@ -117,11 +117,11 @@
                           <input pInputText class="form-control" id="FotmArray-title" formControlName="title" placeholder="Holiday Title">
                         </td>
                         <td class="vertical-align-top">
-                          <p-calendar formControlName="fromDate" id="FotmArray-fromDate" placeholder="Enter From Date" [showIcon]="true"
+                          <p-calendar formControlName="fromDate" id="FotmArray-fromDate" placeholder="Select From Date" [showIcon]="true"
                             appendTo="body"></p-calendar>
                         </td>
                         <td class="vertical-align-top">
-                          <p-calendar formControlName="toDate"  id="FotmArray-toDate" placeholder="Enter To Date" [showIcon]="true"
+                          <p-calendar formControlName="toDate"  id="FotmArray-toDate" placeholder="Select To Date" [showIcon]="true"
                             appendTo="body"></p-calendar>
                         </td>
                         <td class="vertical-align-top">
