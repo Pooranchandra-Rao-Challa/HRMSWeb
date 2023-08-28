@@ -20,7 +20,7 @@ export const MIN_LENGTH_6 = 6;
 export const MIN_LENGTH_5 = 5;
 export const MIN_LENGTH_11 = 11;
 export const MIN_LENGTH_8 = 8;
-
+export const MAX_LENGTH_7 =7;
 export const MAX_LENGTH_2 = 2;
 export const MAX_LENGTH_3 = 3;
 export const MAX_LENGTH_6 = 6;
@@ -30,6 +30,6 @@ export const MAX_LENGTH_20 = 20;
 export const MAX_LENGTH_30 = 30;
 export const MAX_LENGTH_50 = 50;
 export const MAX_LENGTH_25 = 25;
-
+export const MAX_LENGTH_256 = 256;
 export const MIN_ACCNO = 9;
 export const MIN_AADHAAR = 12;
