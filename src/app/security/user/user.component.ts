@@ -42,7 +42,6 @@ export class UserComponent implements OnInit {
   mediumDate: string = MEDIUM_DATE
 
   headers: ITableHeader[] = [
-    { field: 'userId', header: 'userId', label: 'User Id' },
     { field: 'userName', header: 'userName', label: 'User Name' },
     { field: 'firstName', header: 'firstName', label: 'First Name' },
     { field: 'lastName', header: 'lastName', label: 'Last Name' },
@@ -75,7 +74,6 @@ export class UserComponent implements OnInit {
     this.loading = true;
     this.securityService.GetUsers().subscribe(resp => {
       this.users = resp as unknown as UserViewDto[];
-      console.log('getting list',this.users);
       this.loading = false;
     }, error => {
       this.loading = false;
@@ -86,8 +84,6 @@ export class UserComponent implements OnInit {
   intiRoles() {
     this.securityService.GetRoles().subscribe(resp => {
       this.roles = resp as unknown as RoleViewDto[];
-      console.log('role list', this.roles);
-
     });
   }
   // Edit user by patching the form values
@@ -120,7 +116,6 @@ export class UserComponent implements OnInit {
       )
     }
   }
-
   get userFormControls() {
     return this.userForm.controls;
   }
