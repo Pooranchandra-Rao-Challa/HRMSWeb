@@ -7,7 +7,7 @@
                 <h4>Holiday Configuration</h4>
             </ng-template>
             <ng-template pTemplate="right">
-                <button pButton pRipple label="Add Holiday" id="addHolidayButton" icon="pi pi-plus"
+                <button *ngIf="!isPastYearSelected()" pButton pRipple label="Add Holiday" id="addHolidayButton" icon="pi pi-plus"
                     class="p-button-primary p-mr-2" (click)="showDialog1({},ViewDialogs.add)"></button>
             </ng-template>
         </p-toolbar>
@@ -47,7 +47,7 @@
                                 </div>
                                 <div class="field col-12 md:col-4">
                                     <label>From Date: <sup class="p-error">*</sup></label>&nbsp;
-                                    <p-calendar formControlName="fromDate" id="fromDate" placeholder="Select From Date"
+                                    <p-calendar formControlName="fromDate" id="fromDate"  [minDate]="minDateValue" placeholder="Select From Date"
                                         [showIcon]="true" appendTo="body"
                                         [ngClass]="{ 'is-invalid ng-dirty': fbHoliday.get('fromDate').touched && fbHoliday.get('fromDate').errors }">
                                     </p-calendar>
@@ -62,7 +62,7 @@
                                     </span>
                                 </div>
                                 <div class="field col-12 md:col-4">
-                                    <label>To Date:</label>&nbsp; <p-calendar formControlName="toDate" id="toDate"
+                                    <label>To Date:</label>&nbsp; <p-calendar formControlName="toDate" [minDate]="minDateValue" id="toDate"
                                         placeholder="Select To Date" [showIcon]="true" appendTo="body"></p-calendar>
                                 </div>
                                 <div class="field col-12 md:col-4">
@@ -129,12 +129,12 @@
                                                         formControlName="title" placeholder="Holiday Title">
                                                 </td>
                                                 <td class="vertical-align-top">
-                                                    <p-calendar formControlName="fromDate" id="FotmArray-fromDate"
+                                                    <p-calendar formControlName="fromDate" [minDate]="minDateValue" id="FotmArray-fromDate"
                                                         placeholder="Select From Date" [showIcon]="true"
                                                         appendTo="body"></p-calendar>
                                                 </td>
                                                 <td class="vertical-align-top">
-                                                    <p-calendar formControlName="toDate" id="FotmArray-toDate"
+                                                    <p-calendar formControlName="toDate" [minDate]="minDateValue" id="FotmArray-toDate"
                                                         placeholder="Select To Date" [showIcon]="true"
                                                         appendTo="body"></p-calendar>
                                                 </td>
@@ -189,11 +189,11 @@
                                 </div>
                                 <div class="field col-12 md:col-4">
                                     <label>From Date: <sup class="p-error">*</sup>
-                                    </label>&nbsp; <p-calendar formControlName="fromDate" id="edit-fromDate"
+                                    </label>&nbsp; <p-calendar formControlName="fromDate" [minDate]="minDateValue" id="edit-fromDate"
                                         placeholder="Enter From Date" [showIcon]="true" appendTo="body"></p-calendar>
                                 </div>
                                 <div class="field col-12 md:col-4">
-                                    <label>To Date:</label>&nbsp; <p-calendar [showIcon]="true" id="edit-toDate"
+                                    <label>To Date:</label>&nbsp; <p-calendar [showIcon]="true"  [minDate]="minDateValue" id="edit-toDate"
                                         formControlName="toDate" placeholder="Enter To Date"
                                         appendTo="body"></p-calendar>
                                 </div>

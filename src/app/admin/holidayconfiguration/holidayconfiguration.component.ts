@@ -44,6 +44,9 @@ export class HolidayconfigurationComponent {
   mediumDate: string = MEDIUM_DATE
   currentDialog: ViewDialogs = ViewDialogs.none;
   ViewDialogs = ViewDialogs;
+  minDateValue:any;
+
+  
 
   constructor(
     private formbuilder: FormBuilder,
@@ -68,6 +71,7 @@ export class HolidayconfigurationComponent {
     this.selectedYear = this.years.find(y => y.year === '2023');
     this.initHoliday();
     this.initHolidayForm();
+    this.minDateValue = new Date();
   }
   // Initialize form with form controls
   holidayForm() {
@@ -221,6 +225,11 @@ export class HolidayconfigurationComponent {
     const currentDate = new Date();
     const fromDate = new Date(date);
     return fromDate < currentDate;
+  }
+  isPastYearSelected(): boolean {
+    const currentYear = new Date().getFullYear();
+    const selectedYear = Number(this.selectedYear?.year);
+    return selectedYear < currentYear;
   }
   onClose() {
     this.fbHoliday.reset();
