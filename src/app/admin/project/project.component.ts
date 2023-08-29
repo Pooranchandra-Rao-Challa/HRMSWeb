@@ -1,7 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Employee, ProjectDetailsDto } from 'src/app/demo/api/security';
+import { Employee } from 'src/app/demo/api/security';
 import { SecurityService } from 'src/app/demo/service/security.service';
+import { AlertmessageService } from 'src/app/_alerts/alertmessage.service';
+import { ProjectViewDto } from 'src/app/_models/admin';
+import { AdminService } from 'src/app/_services/admin.service';
+import { JwtService } from 'src/app/_services/jwt.service';
 
 
 @Component({
@@ -11,15 +15,19 @@ import { SecurityService } from 'src/app/demo/service/security.service';
 })
 export class ProjectComponent implements OnInit {
   employees: Employee[] = [];
-  projects: ProjectDetailsDto[] = [];
+  projects: ProjectViewDto[] = [];
   visible: boolean = false;
   fbproject!: FormGroup;
   userForm!: FormGroup;
+  permission: any;
   dialog: boolean;
   submitLabel!: string;
-  constructor(private projectService: SecurityService, private formbuilder: FormBuilder) { }
+  projectDetails:any={};
+  constructor(private projectService: SecurityService, private formbuilder: FormBuilder,private adminService: AdminService, private alertMessage: AlertmessageService,
+    private jwtService:JwtService) { }
 
   ngOnInit() {
+    this.permission = this.jwtService.Permissions;
     this.initProjects();
     this.initEmployees();
     this.fbproject = this.formbuilder.group({
@@ -47,21 +55,30 @@ export class ProjectComponent implements OnInit {
   search(event) {
       this.suggestions = [...Array(10).keys()].map(item => event.query + '-' + item);
   }
-  showDialog() {
+  showDialog(projectDetails) {
     this.visible = true;
+    debugger
+    this.projectDetails=projectDetails;
+    console.log(this.projectDetails)
   }
   onSubmit() {
 
   }
 
   initProjects() {
-    this.projectService.getprojects().then((data: ProjectDetailsDto[]) => (this.projects = data));
+    this.adminService.GetProjects().subscribe(resp => {
+      this.projects= resp as unknown as ProjectViewDto[];
+      console.log(resp);
+    });
   }
+
   initEmployees() {
-    this.projectService.getEmployees().then((data: Employee[]) => (this.employees = data));
+    this.projectService.getEmployees().then((data: Employee[]) => (this.employees = data,console.log(data)));
   }
+
   addProjectDialog() {
     this.dialog = true;
+  
     this.submitLabel = "Add Project";
     this.fbproject.reset();
   }

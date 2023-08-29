@@ -143,77 +143,90 @@
                   </div>
                 </div>
               </div>
-                  <div class="field col-12 md:col-4">
-                    <label>Serial Number:</label>
-                    <input pInputText id="serialnumber" type="text" formControlName="serialNumber"
-                      placeholder="Enter Serial Number " maxlength="20" numericOnly #serialNumber />
-                      <div class="flex">
-                        <div class="align-left w-60" style="width:70%">
-                          <span *ngIf="FormControls['serialNumber'].touched && FormControls['serialNumber'].invalid">
-                            <div class="ng-invalid ng-touched p-error"
-                              *ngIf="FormControls['serialNumber'].errors?.['maxlength']">
-                              Serial Number Max Characters Is 20.</div>
-                          </span>
-                        </div>
-                        <div class="align-right w-40" style="width:30%; text-align:right;">
-                          <small>{{serialNumber.value.length}}/20</small>
-                        </div>
-                      </div>
+              <div class="field col-12 md:col-4">
+                <label>Serial Number:</label>
+                <input pInputText id="serialnumber" type="text" formControlName="serialNumber"
+                  placeholder="Enter Serial Number " maxlength="20" numericOnly #serialNumber />
+                <div class="flex">
+                  <div class="align-left w-60" style="width:70%">
+                    <span *ngIf="FormControls['serialNumber'].touched && FormControls['serialNumber'].invalid">
+                      <div class="ng-invalid ng-touched p-error"
+                        *ngIf="FormControls['serialNumber'].errors?.['maxlength']">
+                        Serial Number Max Characters Is 20.</div>
+                    </span>
                   </div>
-                  <div class="field col-12 md:col-4">
-                    <label>Warranty(Months):</label>
-                    <input pInputText id="warranty" type="text" maxlength="3" numericOnly formControlName="warranty"
-                      placeholder="Enter Warranty " />
-                      <div class="flex">
-                        <div class="align-left w-60" style="width:70%">
-                          <span *ngIf="FormControls['serialNumber'].touched && FormControls['serialNumber'].invalid">
-                            <div class="ng-invalid ng-touched p-error"
-                              *ngIf="FormControls['serialNumber'].errors?.['maxlength']">
-                              Serial Number Max Characters Is 20.</div>
-                          </span>
-                        </div>
-                        <div class="align-right w-40" style="width:30%; text-align:right;">
-                          <small>{{serialNumber.value.length}}/20</small>
-                        </div>
-                      </div>
+                  <div class="align-right w-40" style="width:30%; text-align:right;">
+                    <small>{{serialNumber.value.length}}/20</small>
                   </div>
-                  <div class="field col-12 md:col-4">
-                    <label>Add Value:</label>
-                    <input pInputText id="addValue" type="text" formControlName="addValue" placeholder="Enter Add Value"
-                      [ngClass]="{ 'is-invalid ng-dirty': FormControls['addValue'].touched && FormControls['addValue'].errors}" />
+                </div>
+              </div>
+              <div class="field col-12 md:col-4">
+                <label>Warranty(Months):</label>
+                <input pInputText id="warranty" type="text" maxlength="3" numericOnly formControlName="warranty"
+                  placeholder="Enter Warranty " #warranty />
+                <div class="flex">
+                  <div class="align-left w-60" style="width:70%">
+                    <span *ngIf="FormControls['warranty'].touched && FormControls['warranty'].invalid">
+                      <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['warranty'].errors?.['maxlength']">
+                        Warranty Max Characters Is 3.</div>
+                    </span>
+                  </div>
+                  <div class="align-right w-40" style="width:30%; text-align:right;">
+                    <small>{{warranty.value.length}}/3</small>
+                  </div>
+                </div>
+              </div>
+              <div class="field col-12 md:col-4">
+                <label>Add Value:</label>
+                <input pInputText id="addValue" type="text" maxlength="7" #addValue numericOnly
+                  formControlName="addValue" placeholder="Enter Add Value"
+                  [ngClass]="{ 'is-invalid ng-dirty': FormControls['addValue'].touched && FormControls['addValue'].errors}" />
+                <div class="flex">
+                  <div class="align-left w-60" style="width:70%">
                     <span *ngIf="FormControls['addValue'].touched && FormControls['addValue'].invalid">
                       <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['addValue'].errors?.['required']">
                         Please Enter Add Value.
                       </div>
                     </span>
                   </div>
-                  <div class="field col-12 md:col-4">
-                    <label>Status: <sup class="p-error">*</sup></label>
-                    <p-dropdown [options]="assetstatus" optionLabel="name" [filter]="true" filterBy="name"
-                      [showClear]="true" placeholder="Select Status" formControlName="statusId"
-                      optionValue="lookupDetailId"
-                      [ngClass]="{ 'is-invalid ng-dirty': FormControls['statusId'].touched && FormControls['statusId'].errors}">
-                    </p-dropdown>
-                    <span *ngIf="FormControls['statusId'].touched && FormControls['statusId'].invalid">
-                      <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['statusId'].errors?.['required']">
-                        Please Select Status.
-                      </div>
-                    </span>
-                  </div>
-                  <div class="field col-12 md:col-4">
-                    <label htmlFor="description">Description:</label>
-                    <textarea inputId="description" id="description" rows="3" cols="30" pInputTextarea maxlength="256"
-                      formControlName="description" placeholder="Enter Description"></textarea>
-
-                  </div>
-                  <div class="field col-12 md:col-4">
-                    <label>Is Active:
-                    </label>
-                    <br>
-                    <p-inputSwitch formControlName="isActive"></p-inputSwitch>
+                  <div class="align-right w-40" style="width:30%; text-align:right;">
+                    <small>{{addValue.value.length}}/7</small>
                   </div>
                 </div>
               </div>
+              <div class="field col-12 md:col-4">
+                <label>Status: <sup class="p-error">*</sup></label>
+                <p-dropdown [options]="assetstatus" optionLabel="name" [filter]="true" filterBy="name"
+                  [showClear]="true" placeholder="Select Status" formControlName="statusId" optionValue="lookupDetailId"
+                  [ngClass]="{ 'is-invalid ng-dirty': FormControls['statusId'].touched && FormControls['statusId'].errors}">
+                </p-dropdown>
+                <span *ngIf="FormControls['statusId'].touched && FormControls['statusId'].invalid">
+                  <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['statusId'].errors?.['required']">
+                    Please Select Status.
+                  </div>
+                </span>
+              </div>
+              <div class="field col-12 md:col-4">
+                <label htmlFor="description">Description:</label>
+                <textarea inputId="description" id="description" rows="3" maxlength="256" #description cols="30"
+                  pInputTextarea maxlength="256" formControlName="description"
+                  placeholder="Enter Description"></textarea>
+                <div class="flex">
+                  <div class="align-left w-60" style="width:70%">
+                  </div>
+                  <div class="align-right w-40" style="width:30%; text-align:right;">
+                    <small>{{description.value.length}}/256</small>
+                  </div>
+                </div>
+              </div>
+              <div class="field col-12 md:col-4">
+                <label>Is Active:
+                </label>
+                <br>
+                <p-inputSwitch formControlName="isActive"></p-inputSwitch>
+              </div>
+            </div>
+          </div>
         </form>
       </div>
       <ng-template pTemplate="footer">
@@ -226,7 +239,7 @@
     <!-- delete dialog -->
     <p-dialog header="Delete" [(visible)]="deletedialog" [modal]="true" showEffect="fade"
       [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '40%'}" (onHide)="deleted()">
-      <h5>Are you sure you want to delete...!</h5>
+      <h6>Are You Sure You Want To In Activate The Asset...!</h6>
       <ng-template pTemplate="footer">
         <div class="col-4" style="float:right">
           <button pButton pRipple type="submit" label="YES" (click)="deleteassettype()"

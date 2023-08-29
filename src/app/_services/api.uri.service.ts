@@ -28,6 +28,7 @@ export const CREATE_ASSETS_URI = "Admin/CreateAsset";
 export const UPDATE_ASSETS_URI = "Admin/UpdateAsset";
 export const GET_ASSETS_BY_ASSETTYPE_URI = "Admin/GetAssetsBasedonType";
 export const CREATE_ASSET_ALLOTMENT_URI = "Admin/CreateAssetAllotment";
+export const GET_ASSET_ALLOTMENTS_URI = "Admin/GetAssetAllotmentDetails";
 
 
 // BEGIN LOOKUPS
@@ -37,3 +38,5 @@ export const LOOKUP_ASSET_CATEGORIES_URI = "Lookup/AssetCategories";
 export const LOOKUP_ASSET_STATUS_URI = "Lookup/Status";
 
 // END LOOKUPS
+
+export const GET_PROJECTS_URI="Admin/GetProjectDetails";

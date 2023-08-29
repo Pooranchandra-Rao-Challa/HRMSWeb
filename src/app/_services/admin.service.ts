@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { AssetsDto, AssetsViewDto, HolidayDto, HolidaysViewDto,LookupViewDto } from '../_models/admin';
-import { AssetAllotmentDto, AssetsByAssetTypeIdViewDto } from '../_models/admin/assetsallotment';
+import { AssetsDto, AssetsViewDto, HolidayDto, HolidaysViewDto,LookupViewDto, ProjectViewDto } from '../_models/admin';
+import { AssetAllotmentDto, AssetAllotmentViewDto, AssetsByAssetTypeIdViewDto } from '../_models/admin/assetsallotment';
 import { ApiHttpService } from './api.http.service';
 import {
     CREATE_ASSETS_URI, CREATE_HOLIDAY_URI, CREATE_LOOKUP_URI, GET_ASSETS_BY_ASSETTYPE_URI, GET_ASSETS_URI, GET_HOLIDAY_URI,
-    GET_LOOKUP_DETAILS_URI, GET_LOOKUP_URI, UPDATE_ASSETS_URI, UPDATE_LOOKUP_URI, CREATE_ASSET_ALLOTMENT_URI
+    GET_LOOKUP_DETAILS_URI, GET_LOOKUP_URI, UPDATE_ASSETS_URI, UPDATE_LOOKUP_URI, CREATE_ASSET_ALLOTMENT_URI, GET_PROJECTS_URI, GET_ASSET_ALLOTMENTS_URI
 } from './api.uri.service';
 // import { CREATE_LOOKUP_URI } from './api.uri.service';
 @Injectable({
@@ -43,7 +43,7 @@ export class AdminService extends ApiHttpService {
     }
 
     public CreateAssets(assets: AssetsDto) {
-        return this.post<AssetsDto>(CREATE_ASSETS_URI, assets, { responseType: 'text' });
+        return this.post<AssetsDto>(CREATE_ASSETS_URI, assets);
     }
 
     public UpdateAssets(assets: AssetsDto) {
@@ -58,6 +58,13 @@ export class AdminService extends ApiHttpService {
 
     public CreateAssetAllotment(assetAllotment: AssetAllotmentDto) {
         return this.post<AssetAllotmentDto>(CREATE_ASSET_ALLOTMENT_URI, assetAllotment);
+    }
+    public GetProjects() {
+        return this.get<ProjectViewDto[]>(GET_PROJECTS_URI);
+    }
+
+    public GetAssetAllotments(employeeId: number) {
+        return this.getWithId<AssetAllotmentViewDto[]>(GET_ASSET_ALLOTMENTS_URI, employeeId);
     }
 
 }
