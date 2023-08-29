@@ -5,6 +5,7 @@ import { SecurityService } from 'src/app/demo/service/security.service';
 import { AlertmessageService } from 'src/app/_alerts/alertmessage.service';
 import { ProjectViewDto } from 'src/app/_models/admin';
 import { AdminService } from 'src/app/_services/admin.service';
+import { JwtService } from 'src/app/_services/jwt.service';
 
 
 @Component({
@@ -18,12 +19,15 @@ export class ProjectComponent implements OnInit {
   visible: boolean = false;
   fbproject!: FormGroup;
   userForm!: FormGroup;
+  permission: any;
   dialog: boolean;
   submitLabel!: string;
-  projectDetails:any;
-  constructor(private projectService: SecurityService, private formbuilder: FormBuilder,private adminService: AdminService, private alertMessage: AlertmessageService) { }
+  projectDetails:any={};
+  constructor(private projectService: SecurityService, private formbuilder: FormBuilder,private adminService: AdminService, private alertMessage: AlertmessageService,
+    private jwtService:JwtService) { }
 
   ngOnInit() {
+    this.permission = this.jwtService.Permissions;
     this.initProjects();
     this.initEmployees();
     this.fbproject = this.formbuilder.group({
@@ -53,6 +57,7 @@ export class ProjectComponent implements OnInit {
   }
   showDialog(projectDetails) {
     this.visible = true;
+    debugger
     this.projectDetails=projectDetails;
     console.log(this.projectDetails)
   }
@@ -63,7 +68,7 @@ export class ProjectComponent implements OnInit {
   initProjects() {
     this.adminService.GetProjects().subscribe(resp => {
       this.projects= resp as unknown as ProjectViewDto[];
-      console.log(resp[0].name);
+      console.log(resp);
     });
   }
 
@@ -73,6 +78,7 @@ export class ProjectComponent implements OnInit {
 
   addProjectDialog() {
     this.dialog = true;
+  
     this.submitLabel = "Add Project";
     this.fbproject.reset();
   }
