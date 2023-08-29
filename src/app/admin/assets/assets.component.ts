@@ -28,6 +28,7 @@ export class AssetsComponent {
   fbassets!: FormGroup;
   mediumDate: string = MEDIUM_DATE;
   addFlag: boolean;
+  addFlag1: boolean;
   dialog: boolean = false;
   submitLabel!: string;
   ShowassetsDetails: boolean = false;
@@ -88,7 +89,6 @@ export class AssetsComponent {
 
   initAssets() {
     this.adminService.GetAssets().subscribe((resp) => {
-      console.log(resp, ' this.assets');
       this.assets = resp as unknown as AssetsViewDto[];
       this.assets.forEach(element => {
         element.expandassets = JSON.parse(element.assets) as unknown as AssetsDetailsViewDto[];
@@ -172,6 +172,7 @@ export class AssetsComponent {
     this.asset.isActive = false;
     this.fbassets.patchValue(this.asset);
     this.addFlag = false;
+    this.addFlag1 = true;
     this.onSubmit();
     this.deletedialog = false
   }
@@ -194,6 +195,7 @@ export class AssetsComponent {
     this.fbassets.patchValue(this.asset);
     this.addFlag = false;
     this.dialog = true;
+    this.addFlag1 = false;
     this.submitLabel = "Update Assets";
   }
 
@@ -209,10 +211,14 @@ export class AssetsComponent {
         this.initAssets();
         this.onClose();
         this.dialog = false;
-        this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "AAS001" : "AAS002"]);
+        if (this.addFlag) {
+          this.alertMessage.displayAlertMessage(ALERT_CODES["AAS001"]);
+        } else {
+          this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag1 ? "AAS003" : "AAS002"]);
+        }
       }
       else {
-        this.alertMessage.displayErrorMessage(ALERT_CODES["AAS003"])
+        this.alertMessage.displayErrorMessage(ALERT_CODES["AAS004"])
       }
     })
   }

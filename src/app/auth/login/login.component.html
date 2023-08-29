@@ -139,8 +139,8 @@
           <span class="p-input-icon-left w-full mb-1 ">
             <i class="pi pi-envelope"></i>
             <input id="email" type="text" pInputText
-              class="w-full md:w-25rem text-color-secondary surface-50 " placeholder="Email" maxlength="50"
-              formControlName="userName"  alphaOnly  [ngClass]="{ 'is-invalid ng-dirty': FormControls['userName'].touched && FormControls['userName'].errors}"/>
+              class="w-full md:w-25rem text-color-secondary surface-50 " placeholder="Email" 
+              formControlName="userName"  [ngClass]="{ 'is-invalid ng-dirty': FormControls['userName'].touched && FormControls['userName'].errors}"/>
           </span> 
           <div class="flex mb-4 p-1">
             <div class="align-left w-60">

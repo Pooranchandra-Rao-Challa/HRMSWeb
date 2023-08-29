@@ -102,7 +102,8 @@ export const ALERT_CODES: { [key: string]: string } = {
     // Assets
     'AAS001': 'Asset Added Successfully',
     'AAS002': 'Asset Updated Successfully',
-    'AAS003': 'Asset Save Failed',
+    'AAS003': 'Asset Inactivate Successfully',
+    'AAS004': 'Asset Save Failed',
 
     // Asset Allotment
     'SAAAA001': 'Asset Allotment Added Successfully',
