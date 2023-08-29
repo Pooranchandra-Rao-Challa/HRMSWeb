@@ -1,10 +1,19 @@
 <div class="card" id="main-card" >
     <p-toast key="tst"></p-toast>
     <!-- Table -->
+    <p-toolbar styleClass="p-mb-4">
+        <ng-template pTemplate="left">
+          <h4>Users</h4>
+        </ng-template>
+        <ng-template pTemplate="right">
+          <!-- <button pButton pRipple label="New Role" icon="pi pi-plus" class="p-button-primary p-mr-2" id="Role_addRole"
+            (click)="initRole({})" *ngIf="permission?.CanManageRoles"></button> -->
+        </ng-template>
+      </p-toolbar>
     <p-table #dtUsers [value]="users" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
     styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true"
-    [globalFilterFields]="globalFilterFields" [autoLayout]="true" responsiveLayout="scroll"
+    [globalFilterFields]="globalFilterFields" [autoLayout]="true" responsiveLayout="scroll"  [tableStyle]="{ width: 'max-content'}"
     [rowsPerPageOptions]="[10,25,50]">
     <ng-template pTemplate="caption">
             <div class="flex justify-content-between flex-column sm:flex-row">
