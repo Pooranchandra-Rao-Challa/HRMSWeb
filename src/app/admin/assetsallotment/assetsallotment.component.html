@@ -61,7 +61,7 @@
                                 </div>
                             </div>
                             <div class="grid">
-                                <div class="relative col-9 p-0 mb-3  employee_info">
+                                <div class="relative col-8 p-0 mb-3  employee_info">
                                     <span class="text-600 font-medium text-md">
                                         <i class="pi pi-at text-500 text-primary text-1xl pb-1"></i> :
                                         {{employee.email}}
@@ -73,12 +73,18 @@
                                     </span>
                                     <br />
                                 </div>
-                                <div class="mb-3 col-3 p-0">
+                                <div class="mb-3 flex col-4 p-0">
                                     <button pbutton="" pripple="" type="button" label="Primary"
                                         (click)="viewAssetAllotments(employee.id)"
                                         class="p-element p-ripple p-button-text p-button p-component view_profile_button"
                                         ng-reflect-label="Primary">
                                         <span class="p-button-label pi pi-chevron-right"></span>
+                                    </button>
+                                    <button pbutton="" pripple="" type="button" label="Primary"
+                                        (click)="viewAssetAllotments(employee.id)"
+                                        class="p-element p-ripple p-button-text p-button p-component view_profile_button"
+                                        ng-reflect-label="Primary">
+                                        <span class="p-button-label pi pi-plus"></span>
                                     </button>
                                 </div>
                             </div>
@@ -90,9 +96,9 @@
             <!-- P-Dialog for Assets Details -->
             <p-dialog header="Assets Details" [(visible)]="showAssetDetails" [modal]="true" showEffect="fade"
                 [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '60%'}" (onHide)="onClose()">
-                <div class="col-12 ">
-                    <div class="grid">
-                        <p-button class="p-element p-ripple p-button p-component p-2 pt-0 pb-0"
+                <div class="col-12 text-right align-items-right">
+                    <div class="gri align-items-right text-right">
+                        <p-button class="p-element align-items-right text-right p-button p-component p-2 pt-0 pb-0"
                             (click)="addAssestAllotment()" icon="pi pi-plus"></p-button>
                     </div>
                 </div>
