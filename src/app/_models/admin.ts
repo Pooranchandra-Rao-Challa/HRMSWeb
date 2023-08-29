@@ -1,11 +1,3 @@
-export class LookUpHeaderDto {
-  lookupId?: number;
-  lookupDetailId?: number;
-  code?: string;
-  name?: string;
-  isActive?: boolean;
-  lookupDetails?: LookupDetailsDto[];
-}
 
 export class LookupViewDto {
   lookupId?: number;
@@ -21,32 +13,17 @@ export class LookupViewDto {
 }
 
 export class LookupDetailsDto {
-  lookupDetailId?: number;
-  code?: string;
-  name?: string;
-  description?: string;
-  isActive?: boolean;
-  updatedAt?: Date;
-  createdAt?: Date;
-  updatedBy?: string;
-  createdBy?: string;
-}
-export class LookupDetailViewDto {
   lookupId?: number;
   lookupDetailId?: number;
   code?: string;
   name?: string;
   description?: string;
-  lookupName?: string;
   isActive?: boolean;
-  lookupDetails: string;
-  expandLookupDetails?: LookupDetailsDto[];
   updatedAt?: Date;
   createdAt?: Date;
   updatedBy?: string;
   createdBy?: string;
 }
-
 export class AssetsViewDto {
   assetTypeId?: number;
   assetType?: string;

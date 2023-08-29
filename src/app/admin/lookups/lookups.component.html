@@ -22,7 +22,8 @@
                 <div class="field col-12 md:col-6">
                   <label class="required">Code:
                   </label>&nbsp; <input pInputText id="Lookup_lookupCode" type="text" formControlName="code"
-                    placeholder="Enter Code" #code [maxlength]="20" alphaNumeric (keydown)="restrictSpaces($event)"
+                    [readonly]="FormControls['lookupId'].value!== null" placeholder="Enter Code" #code [maxlength]="20"
+                    alphaNumeric (keydown)="restrictSpaces($event)"
                     [ngClass]="{ 'is-invalid ng-dirty': FormControls['code'].touched && FormControls['code'].errors }" />
                   <div class="flex">
                     <div class="align-left w-60" style="width:70%">
@@ -45,7 +46,8 @@
                 <div class="field col-12 md:col-6">
                   <label class="required">Name:
                   </label>&nbsp; <input pInputText id="Lookup_lookupName" type="text" formControlName="name"
-                    placeholder="Enter Name" #name alphaOnly [maxlength]="30" (keydown)="restrictSpaces($event)"
+                    [readonly]="FormControls['lookupId'].value!== null" placeholder="Enter Name" #name alphaOnly
+                    [maxlength]="30" (keydown)="restrictSpaces($event)"
                     [ngClass]="{ 'is-invalid ng-dirty': FormControls['name'].touched && FormControls['name'].errors }" />
                   <div class="flex">
                     <div class="align-left w-60" style="width:70%">
@@ -83,14 +85,18 @@
                         </th>
                         <th class="required">Name
                         </th>
+                        <th class="required">Description
+                        </th>
+                        <th class="required">Is Active
+                        </th>
                         <th *ngIf="fblookup.controls['lookUpDetails'].value.length > 1"></th>
                       </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-lookUp let-lookUpDetailsIndex="rowIndex">
                       <tr [formGroupName]="lookUpDetailsIndex">
                         <td class="vertical-align-top">
-                          <input pInputText class="form-control" formControlName="code" #Code placeholder="Enter Code" alphaNumeric
-                            (keydown)="restrictSpaces($event)" [maxlength]="20" [ngClass]="{'is-invalid ng-dirty': formArrayControls(lookUpDetailsIndex, 'code')?.touched &&
+                          <input pInputText class="form-control" formControlName="code" #Code placeholder="Enter Code"
+                            alphaNumeric (keydown)="restrictSpaces($event)" [maxlength]="20" [ngClass]="{'is-invalid ng-dirty': formArrayControls(lookUpDetailsIndex, 'code')?.touched &&
                                 formArrayControls(lookUpDetailsIndex, 'code')?.errors }" id="Lookup_lookupDetaisCode">
                           <div class="flex">
                             <div class="align-left w-60" style="width:70%">
@@ -115,8 +121,8 @@
                           </div>
                         </td>
                         <td class="vertical-align-top">
-                          <input pInputText class="form-control" formControlName="name" placeholder="Enter Name" #name alphaOnly
-                            (keydown)="restrictSpaces($event)" [ngClass]="{'is-invalid ng-dirty': formArrayControls(lookUpDetailsIndex,'name')?.touched &&
+                          <input pInputText class="form-control" formControlName="name" placeholder="Enter Name" #name
+                            alphaOnly (keydown)="restrictSpaces($event)" [ngClass]="{'is-invalid ng-dirty': formArrayControls(lookUpDetailsIndex,'name')?.touched &&
                   formArrayControls(lookUpDetailsIndex,'name')?.errors }" [maxlength]="50"
                             id="Lookup_lookupDetailsName">
 
@@ -142,12 +148,41 @@
                             </div>
                           </div>
                         </td>
+                        <td class="vertical-align-top">
+                          <input pInputText class="form-control" formControlName="description"
+                            placeholder="Enter Description" #description alphaOnly (keydown)="restrictSpaces($event)"
+                            [ngClass]="{'is-invalid ng-dirty': formArrayControls(lookUpDetailsIndex,'name')?.touched &&
+                  formArrayControls(lookUpDetailsIndex,'name')?.errors }" [maxlength]="50"
+                            id="Lookup_lookupDetailsDescription">
+
+                          <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                              <span *ngIf="formArrayControls(lookUpDetailsIndex,'description')?.errors?.['notUnique']">
+                                <div class="ng-invalid ng-touched p-error">
+                                  lookUp Details Name Must Be Unique.
+                                </div>
+                              </span>
+                              <span
+                                *ngIf="formArrayControls(lookUpDetailsIndex,'description')?.touched &&formArrayControls(lookUpDetailsIndex,'description')?.invalid">
+                                <div class="ng-invalid ng-touched p-error"
+                                  *ngIf="formArrayControls(lookUpDetailsIndex,'description')?.errors?.['required']">
+                                  Please Enter Description.</div>
+                              </span>
+                            </div>
+                            <div class="align-right w-40" style="width:30%; text-align:right;">
+                              <small>{{description.value.length}}/50</small>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <p-inputSwitch formControlName="isActive" id="Lookup_lookupDetailsIsActive"></p-inputSwitch>
+                        </td>
                         <td *ngIf="fblookup.controls['lookUpDetails'].value.length > 1">
                           <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer"
-                            *ngIf="!this.  falookupDetails().controls[lookUpDetailsIndex].get('lookupId')?.value"
+                            *ngIf="!this.falookupDetails().controls[lookUpDetailsIndex].get('lookupId')?.value"
                             (click)="  falookupDetails().removeAt(lookUpDetailsIndex)"></i>
                           <i class="pi pi-fw pi-verified text-3xl"
-                            *ngIf="this.  falookupDetails().controls[lookUpDetailsIndex].get('lookupId')?.value"></i>
+                            *ngIf="this.falookupDetails().controls[lookUpDetailsIndex].get('lookupId')?.value"></i>
                         </td>
                       </tr>
                     </ng-template>
@@ -168,27 +203,31 @@
     <!-- table -->
     <p-table #dtlookup [value]="lookups" dataKey="lookupId" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="true"
       [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-      styleClass="p-datatable-gridlines  p-datatable-sm" [style]="{width: 'auto'}" [showCurrentPageReport]="true"
-      [globalFilterFields]="globalFilterFields" [autoLayout]="true" responsiveLayout="scroll" rowExpandMode="single"
-      [rowsPerPageOptions]="[10,25,50]">
+      [columns]="selectedColumns" styleClass="p-datatable-gridlines  p-datatable-sm" [style]="{width: 'auto'}"
+      [showCurrentPageReport]="true" [globalFilterFields]="globalFilterFields" [autoLayout]="true"
+      responsiveLayout="scroll" rowExpandMode="single" [rowsPerPageOptions]="[10,25,50]">
       <ng-template pTemplate="caption">
         <div class="flex justify-content-between flex-column sm:flex-row">
           <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
             (click)="clear(dtlookup)" id="Lookup_clearFilter"></button>
-            <div class="field text-center m-0 mx-2">
-              <label>in Active Records
-              </label><br />
-              &nbsp; <p-inputSwitch [(ngModel)]="isLookupChecked" (onChange)="onChangeisLookupChecked()"
-                id="Lookup_lookupUnActive"></p-inputSwitch>
-            </div>
-            <span class="p-input-icon-left mb-2">
-              <i class="pi pi-search"></i>
-              <input pInputText type="text" #filter (input)="onGlobalFilter(dtlookup, $event)" id="Lookup_lookupSearch"
-                placeholder="Search Keyword" class="w-full" />
-            </span>
+          <p-multiSelect [options]="selectedColumnHeader" [(ngModel)]="selectedColumns" optionLabel="label"
+            id="lookup_ColumnSelection" selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}"
+            placeholder="Choose Columns">
+          </p-multiSelect>
+          <div class="field text-center m-0 mx-2">
+            <label>in Active Records
+            </label><br />
+            &nbsp; <p-inputSwitch [(ngModel)]="isLookupChecked" (onChange)="onChangeisLookupChecked()"
+              id="Lookup_lookupUnActive"></p-inputSwitch>
+          </div>
+          <span class="p-input-icon-left mb-2">
+            <i class="pi pi-search"></i>
+            <input pInputText type="text" #filter (input)="onGlobalFilter(dtlookup, $event)" id="Lookup_lookupSearch"
+              placeholder="Search Keyword" class="w-full" />
+          </span>
         </div>
       </ng-template>
-      <ng-template pTemplate="header">
+      <ng-template pTemplate="header" let-columns>
         <tr>
           <th style="width: 5rem"></th>
           <th *ngFor="let col of lookupHeader" [pSortableColumn]="col.header">
@@ -197,25 +236,33 @@
             </p-columnFilter>
             <p-sortIcon [field]="col.header"></p-sortIcon>
           </th>
+          <th *ngFor="let col of columns" [pSortableColumn]="col.header">
+            {{col?.label}}
+            <p-columnFilter id="Lookup_lookupColumnFilter" type="text" [field]="col.header" display="menu">
+            </p-columnFilter>
+            <p-sortIcon [field]="col.header"></p-sortIcon>
+          </th>
           <th style="width:5px;">Action</th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-lookup let-expanded="expanded">
+      <ng-template pTemplate="body" let-lookup let-expanded="expanded" let-columns="columns">
         <tr>
           <td>
             <button type="button" pButton pRipple [pRowToggler]="lookup" id="Lookup_lookupToggleButton"
-              class="p-button-text p-button-rounded p-button-plain"
+              class="p-button-text  p-1"
               [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
           </td>
-          <td *ngFor="let col of lookupHeader" [ngClass]="col?.field == 'isActive' ? 'text-center' : ''">
+          <td>{{lookup.code}}</td>
+          <td>{{lookup.name}}</td>
+          <td [ngClass]="'isActive' ? 'text-center' : ''">
+            <p-checkbox name="isActive" value="isActive" [(ngModel)]="lookup['isActive']" [binary]="true"
+              [disabled]="true"></p-checkbox>
+          </td>
+          <td *ngFor="let col of columns" [ngClass]="col?.field == 'isActive' ? 'text-center' : ''">
             <span
               *ngIf="col?.field != 'createdAt' && col?.field != 'updatedAt' && col?.field != 'isActive'">{{lookup[col.field]}}</span>
             <span *ngIf="col?.field == 'createdAt' || col?.field == 'updatedAt'">
-              {{lookup[col.field] | date:'dd-mm-yy' }}
-            </span>
-            <span *ngIf="col?.field == 'isActive'">
-              <p-checkbox name="isActive" value="isActive" [binary]="true" [(ngModel)]="lookup[col.field]"
-                [disabled]="true"></p-checkbox>
+              {{lookup[col.field] | date: 'mediumDate' }}
             </span>
           </td>
           <td>
@@ -250,7 +297,7 @@
             <span
               *ngIf="col?.field != 'createdAt' && col?.field != 'updatedAt' && col?.field != 'isActive'">{{lookupDetails[col.field]}}</span>
             <span *ngIf="col?.field == 'createdAt' || col?.field == 'updatedAt'">
-              {{lookupDetails[col.field] | date:'dd-mm-yy'}}
+              {{lookupDetails[col.field] | date: 'mediumDate' }}
             </span>
             <span *ngIf="col?.field == 'isActive'">
               <p-checkbox name="isActive" value="isActive" [binary]="true" [(ngModel)]="lookupDetails[col.field]"
