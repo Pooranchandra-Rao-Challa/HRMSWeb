@@ -156,19 +156,8 @@ export class AssetsComponent {
   }
 
   deleteassettype() {
-    this.asset.assetId = this.deleteAsset.assetId;
-    this.asset.code = this.deleteAsset.code;
-    this.asset.name = this.deleteAsset.name;
-    this.asset.assetTypeId = this.deleteAsset.assetTypeId;
-    this.asset.assetCategoryId = this.deleteAsset.assetCategoryId;
+    this.asset = this.deleteAsset
     this.asset.purchasedDate = new Date(this.deleteAsset.purchasedDate);
-    this.asset.modelNumber = this.deleteAsset.modelNumber;
-    this.asset.manufacturer = this.deleteAsset.manufacturer;
-    this.asset.serialNumber = this.deleteAsset.serialNumber;
-    this.asset.warranty = this.deleteAsset.warranty;
-    this.asset.addValue = this.deleteAsset.addValue;
-    this.asset.description = this.deleteAsset.description;
-    this.asset.statusId = this.deleteAsset.statusId;
     this.asset.isActive = false;
     this.fbassets.patchValue(this.asset);
     this.addFlag = false;
@@ -178,20 +167,8 @@ export class AssetsComponent {
   }
 
   editAssets(assets: AssetsDetailsViewDto) {
-    this.asset.assetId = assets.assetId;
-    this.asset.code = assets.code;
-    this.asset.name = assets.name;
-    this.asset.assetTypeId = assets.assetTypeId;
-    this.asset.assetCategoryId = assets.assetCategoryId;
+    this.asset = assets;
     this.asset.purchasedDate = new Date(assets.purchasedDate);
-    this.asset.modelNumber = assets.modelNumber;
-    this.asset.manufacturer = assets.manufacturer;
-    this.asset.serialNumber = assets.serialNumber;
-    this.asset.warranty = assets.warranty;
-    this.asset.addValue = assets.addValue;
-    this.asset.description = assets.description;
-    this.asset.statusId = assets.statusId;
-    this.asset.isActive = assets.isActive;
     this.fbassets.patchValue(this.asset);
     this.addFlag = false;
     this.dialog = true;
