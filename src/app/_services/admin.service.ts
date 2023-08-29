@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AssetsDto, AssetsViewDto, HolidayDto, HolidaysViewDto, LookupDetailViewDto, LookUpHeaderDto, LookupViewDto } from '../_models/admin';
+import { AssetsDto, AssetsViewDto, HolidayDto, HolidaysViewDto,LookupViewDto } from '../_models/admin';
 import { AssetAllotmentDto, AssetsByAssetTypeIdViewDto } from '../_models/admin/assetsallotment';
 import { ApiHttpService } from './api.http.service';
 import {
@@ -15,15 +15,15 @@ export class AdminService extends ApiHttpService {
     public GetLookUp(isbool) {
         return this.get<LookupViewDto[]>(GET_LOOKUP_URI + '/' + isbool);
     }
-    public CreateLookUp(lookup: LookUpHeaderDto) {
-        return this.post<LookUpHeaderDto>(CREATE_LOOKUP_URI, lookup);
+    public CreateLookUp(lookup: LookupViewDto) {
+        return this.post<LookupViewDto>(CREATE_LOOKUP_URI, lookup);
     }
-    public UpdateLookUp(lookup: LookUpHeaderDto) {
-        return this.post<LookUpHeaderDto>(UPDATE_LOOKUP_URI, lookup);
+    public UpdateLookUp(lookup: LookupViewDto) {
+        return this.post<LookupViewDto>(UPDATE_LOOKUP_URI, lookup);
     }
-    public GetlookupDetails(lookupId: number) {
-        return this.getWithId<LookupDetailViewDto[]>(GET_LOOKUP_DETAILS_URI, lookupId);
-    }
+    // public GetlookupDetails(lookupId: number) {
+    //     return this.getWithId<LookupViewDto[]>(GET_LOOKUP_DETAILS_URI, lookupId);
+    // }
 
     public GetHolidays(year: string) {
         const url = `${GET_HOLIDAY_URI}${year}`;

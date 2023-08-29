@@ -5,7 +5,7 @@ import { Table } from 'primeng/table';
 import { Observable } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
-import { AssetsDetailsViewDto, AssetsDto, AssetsViewDto, LookupDetailViewDto } from 'src/app/_models/admin';
+import { AssetsDetailsViewDto, AssetsDto, AssetsViewDto, LookupViewDto } from 'src/app/_models/admin';
 import { ITableHeader } from 'src/app/_models/common';
 import { AdminService } from 'src/app/_services/admin.service';
 import { LookupService } from 'src/app/_services/lookup.service';
@@ -20,9 +20,9 @@ export class AssetsComponent {
   globalFilterFields: string[] = ['assetType', 'assetCategory', 'count', 'assetName', 'PurchasedDate', 'ModelNumber', 'Manufacturer',
     'SerialNumber', 'Warranty', 'AddValue', 'Description', 'Status', 'isActive'];
   @ViewChild('filter') filter!: ElementRef;
-  assetTypes: LookupDetailViewDto[] = [];
-  assetCategories: LookupDetailViewDto[] = [];
-  assetstatus: LookupDetailViewDto[] = [];
+  assetTypes: LookupViewDto[] = [];
+  assetCategories: LookupViewDto[] = [];
+  assetstatus: LookupViewDto[] = [];
   assets: AssetsViewDto[] = [];
   asset = new AssetsDto();
   fbassets!: FormGroup;
@@ -71,18 +71,18 @@ export class AssetsComponent {
 
   initAssetTypes() {
     this.lookupService.AssetTypes().subscribe((resp) => {
-      this.assetTypes = resp as unknown as LookupDetailViewDto[];
+      this.assetTypes = resp as unknown as LookupViewDto[];
     });
   }
   initAssetCategories() {
     this.lookupService.AssetCategories().subscribe((resp) => {
-      this.assetCategories = resp as unknown as LookupDetailViewDto[];
+      this.assetCategories = resp as unknown as LookupViewDto[];
     });
   }
 
   initStatus() {
     this.lookupService.AssetStatus().subscribe((resp) => {
-      this.assetstatus = resp as unknown as LookupDetailViewDto[];
+      this.assetstatus = resp as unknown as LookupViewDto[];
     });
   }
 
