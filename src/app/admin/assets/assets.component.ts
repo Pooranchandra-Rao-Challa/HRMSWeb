@@ -88,14 +88,14 @@ export class AssetsComponent {
 
   initAssets() {
     this.adminService.GetAssets().subscribe((resp) => {
-      console.log( resp,' this.assets');
+      console.log(resp, ' this.assets');
       this.assets = resp as unknown as AssetsViewDto[];
       this.assets.forEach(element => {
         element.expandassets = JSON.parse(element.assets) as unknown as AssetsDetailsViewDto[];
       });
     })
 
-    
+
   }
 
   assetsForm() {
@@ -104,14 +104,14 @@ export class AssetsComponent {
       code: new FormControl(null, [Validators.required, Validators.pattern(RG_ALPHA_NUMERIC), Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_20)]),
       assetTypeId: new FormControl(null, [Validators.required]),
       assetCategoryId: new FormControl(null, [Validators.required]),
-      name: new FormControl(null, [Validators.required,Validators.minLength(MIN_LENGTH_2),Validators.maxLength(MAX_LENGTH_50)]),
+      name: new FormControl(null, [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
       purchasedDate: new FormControl(null, [Validators.required]),
-      modelNumber: new FormControl(null,Validators.maxLength(MAX_LENGTH_50)),
-      manufacturer: new FormControl(null,[Validators.minLength(MIN_LENGTH_2),Validators.maxLength(MAX_LENGTH_20)]),
-      serialNumber: new FormControl(null,Validators.maxLength(MAX_LENGTH_20)),
-      warranty: new FormControl(null,Validators.maxLength(MAX_LENGTH_3)),
-      addValue: new FormControl(null,Validators.maxLength(MAX_LENGTH_7)),
-      description: new FormControl(null,Validators.maxLength(MAX_LENGTH_256)),
+      modelNumber: new FormControl(null, Validators.maxLength(MAX_LENGTH_50)),
+      manufacturer: new FormControl(null, [Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_20)]),
+      serialNumber: new FormControl(null, Validators.maxLength(MAX_LENGTH_20)),
+      warranty: new FormControl(null, Validators.maxLength(MAX_LENGTH_3)),
+      addValue: new FormControl(null, Validators.maxLength(MAX_LENGTH_7)),
+      description: new FormControl(null, Validators.maxLength(MAX_LENGTH_256)),
       statusId: new FormControl(null, [Validators.required]),
       isActive: (null),
     });
@@ -161,7 +161,7 @@ export class AssetsComponent {
     this.asset.name = this.deleteAsset.name;
     this.asset.assetTypeId = this.deleteAsset.assetTypeId;
     this.asset.assetCategoryId = this.deleteAsset.assetCategoryId;
-    this.asset.purchasedDate = this.deleteAsset.purchasedDate;
+    this.asset.purchasedDate = new Date(this.deleteAsset.purchasedDate);
     this.asset.modelNumber = this.deleteAsset.modelNumber;
     this.asset.manufacturer = this.deleteAsset.manufacturer;
     this.asset.serialNumber = this.deleteAsset.serialNumber;
@@ -204,12 +204,15 @@ export class AssetsComponent {
 
   onSubmit() {
     this.fbassets.value.purchasedDate = FORMAT_DATE(this.fbassets.value.purchasedDate);
-    this.saveAssets().subscribe(resp => { 
+    this.saveAssets().subscribe(resp => {
       if (resp) {
         this.initAssets();
         this.onClose();
         this.dialog = false;
         this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "AAS001" : "AAS002"]);
+      }
+      else {
+        this.alertMessage.displayErrorMessage(ALERT_CODES["AAS003"])
       }
     })
   }
