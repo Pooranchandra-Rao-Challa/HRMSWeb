@@ -4,7 +4,7 @@ import { AssetAllotmentDto, AssetsByAssetTypeIdViewDto } from '../_models/admin/
 import { ApiHttpService } from './api.http.service';
 import {
     CREATE_ASSETS_URI, CREATE_HOLIDAY_URI, CREATE_LOOKUP_URI, GET_ASSETS_BY_ASSETTYPE_URI, GET_ASSETS_URI, GET_HOLIDAY_URI,
-    GET_LOOKUP_DETAILS_URI, GET_LOOKUP_URI, UPDATE_ASSETS_URI, UPDATE_LOOKUP_URI, CREATE_ASSET_ALLOTMENT_URI, GET_PROJECTS_URI
+    GET_LOOKUP_DETAILS_URI, GET_LOOKUP_URI, UPDATE_ASSETS_URI, UPDATE_LOOKUP_URI, CREATE_ASSET_ALLOTMENT_URI, GET_PROJECTS_URI, GET_YEARS_FROM_HOLIDAYS_URI
 } from './api.uri.service';
 // import { CREATE_LOOKUP_URI } from './api.uri.service';
 @Injectable({
@@ -33,9 +33,8 @@ export class AdminService extends ApiHttpService {
     public CreateHoliday(holidayDto: HolidayDto[]) {
         return this.post<HolidayDto>(CREATE_HOLIDAY_URI, holidayDto);
     }
-    public UpdateHoliday(holiday: any) { //HolidayDto
-        // return this.post<HolidayDto>(UPDATE_Holiday_URI, holiday);
-
+    public GetYearsFromHolidays() {
+        return this.get<HolidaysViewDto[]>(GET_YEARS_FROM_HOLIDAYS_URI);
     }
 
     public GetAssets() {
