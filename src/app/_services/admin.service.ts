@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AssetsDto, AssetsViewDto, HolidayDto, HolidaysViewDto, LookupDetailViewDto, LookUpHeaderDto, LookupViewDto, ProjectViewDto } from '../_models/admin';
-import { AssetsByAssetTypeIdViewDto } from '../_models/admin/assetsallotment';
+import { AssetAllotmentDto, AssetsByAssetTypeIdViewDto } from '../_models/admin/assetsallotment';
 import { ApiHttpService } from './api.http.service';
 import {
     CREATE_ASSETS_URI, CREATE_HOLIDAY_URI, CREATE_LOOKUP_URI, GET_ASSETS_BY_ASSETTYPE_URI, GET_ASSETS_URI, GET_HOLIDAY_URI,
@@ -56,8 +56,8 @@ export class AdminService extends ApiHttpService {
         return this.getWithId<AssetsByAssetTypeIdViewDto[]>(GET_ASSETS_BY_ASSETTYPE_URI, assetTypeId);
     }
 
-    public CreateAssetAllotment(assetAllotment: any) {
-        return this.post<any>(CREATE_ASSET_ALLOTMENT_URI, assetAllotment);
+    public CreateAssetAllotment(assetAllotment: AssetAllotmentDto) {
+        return this.post<AssetAllotmentDto>(CREATE_ASSET_ALLOTMENT_URI, assetAllotment);
     }
     public GetProjects() {
         return this.get<ProjectViewDto[]>(GET_PROJECTS_URI);

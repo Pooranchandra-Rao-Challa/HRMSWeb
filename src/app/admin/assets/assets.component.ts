@@ -9,7 +9,7 @@ import { AssetsDetailsViewDto, AssetsDto, AssetsViewDto, LookupDetailViewDto } f
 import { ITableHeader } from 'src/app/_models/common';
 import { AdminService } from 'src/app/_services/admin.service';
 import { LookupService } from 'src/app/_services/lookup.service';
-import { MAX_LENGTH_6, MIN_LENGTH_2, RG_ALPHA_NUMERIC } from 'src/app/_shared/regex';
+import { MAX_LENGTH_20, MAX_LENGTH_256, MAX_LENGTH_3, MAX_LENGTH_50, MAX_LENGTH_6, MAX_LENGTH_7, MIN_LENGTH_2, RG_ALPHA_NUMERIC } from 'src/app/_shared/regex';
 
 
 @Component({
@@ -101,17 +101,17 @@ export class AssetsComponent {
   assetsForm() {
     this.fbassets = this.formbuilder.group({
       assetId: new FormControl(null),
-      code: new FormControl(null, [Validators.required, Validators.pattern(RG_ALPHA_NUMERIC), Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_6)]),
+      code: new FormControl(null, [Validators.required, Validators.pattern(RG_ALPHA_NUMERIC), Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_20)]),
       assetTypeId: new FormControl(null, [Validators.required]),
       assetCategoryId: new FormControl(null, [Validators.required]),
-      name: new FormControl(null, [Validators.required]),
+      name: new FormControl(null, [Validators.required,Validators.minLength(MIN_LENGTH_2),Validators.maxLength(MAX_LENGTH_50)]),
       purchasedDate: new FormControl(null, [Validators.required]),
-      modelNumber: new FormControl(null),
-      manufacturer: new FormControl(null),
-      serialNumber: new FormControl(null),
-      warranty: new FormControl(null),
-      addValue: new FormControl(null),
-      description: new FormControl(null),
+      modelNumber: new FormControl(null,Validators.maxLength(MAX_LENGTH_50)),
+      manufacturer: new FormControl(null,[Validators.minLength(MIN_LENGTH_2),Validators.maxLength(MAX_LENGTH_20)]),
+      serialNumber: new FormControl(null,Validators.maxLength(MAX_LENGTH_20)),
+      warranty: new FormControl(null,Validators.maxLength(MAX_LENGTH_3)),
+      addValue: new FormControl(null,Validators.maxLength(MAX_LENGTH_7)),
+      description: new FormControl(null,Validators.maxLength(MAX_LENGTH_256)),
       statusId: new FormControl(null, [Validators.required]),
       isActive: (null),
     });

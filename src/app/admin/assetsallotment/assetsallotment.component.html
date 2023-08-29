@@ -92,6 +92,12 @@
                 [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '60%'}" (onHide)="onClose()">
                 <div class="col-12 ">
                     <div class="grid">
+                        <p-button class="p-element p-ripple p-button p-component p-2 pt-0 pb-0"
+                            (click)="addAssestAllotment()" icon="pi pi-plus"></p-button>
+                    </div>
+                </div>
+                <div class="col-12 ">
+                    <div class="grid">
                         <div class="col-4">
                             <div class="m-2 card border-1 surface-border">
                                 <div class="text-xl font-bold">Monitor</div>
@@ -102,7 +108,8 @@
                                 <br />
                                 <br />
                                 <button pButton pRipple type="submit" label="Unassign"
-                                    class="p-element p-ripple p-button-text p-button p-component p-button-primary w-100"></button>
+                                    class="p-element p-ripple p-button-text p-button p-component p-button-primary w-100"
+                                    (click)="unAssignedAsset()"></button>
                             </div>
                         </div>
                         <div class="col-4">
@@ -178,10 +185,10 @@
                             <div class="p-fluid p-formgrid grid">
                                 <div class="field col-12 md:col-4">
                                     <label class="required">Employee Id:</label>
-                                    <p-dropdown [options]="employees" formControlName="empId" optionLabel="empcode"
+                                    <p-dropdown [options]="employees" formControlName="employeeId" optionLabel="empcode"
                                         [filter]="true" filterBy="empcode,empname" [showClear]="true"
                                         placeholder="Select Employee" optionValue="empcode" appendTo="body"
-                                        [ngClass]="{ 'is-invalid ng-dirty': FormControls['empId'].touched && FormControls['empId'].errors }">
+                                        [ngClass]="{ 'is-invalid ng-dirty': FormControls['employeeId'].touched && FormControls['employeeId'].errors }">
                                         <ng-template let-employee pTemplate="item">
                                             <div class="country-item">
                                                 <div>{{ employee.empcode }}</div>
@@ -189,9 +196,10 @@
                                             </div>
                                         </ng-template>
                                     </p-dropdown>
-                                    <span *ngIf="FormControls['empId'].touched && FormControls['empId'].invalid">
+                                    <span
+                                        *ngIf="FormControls['employeeId'].touched && FormControls['employeeId'].invalid">
                                         <div class="ng-invalid ng-touched p-error"
-                                            *ngIf="FormControls['empId'].errors?.['required']">
+                                            *ngIf="FormControls['employeeId'].errors?.['required']">
                                             Please Select Employee.</div>
                                     </span>
                                 </div>
@@ -213,7 +221,8 @@
                                     <label class="required">Enter AssetType:</label>
                                     <p-dropdown [options]="assetTypes" optionLabel="name" [filter]="true"
                                         filterBy="name" placeholder="Select Asset Type" formControlName="assetTypeId"
-                                        optionValue="lookupDetailId" appendTo="body" (onChange)="getAssetsByAssetType($event.value)"
+                                        optionValue="lookupDetailId" appendTo="body"
+                                        (onChange)="getAssetsByAssetType($event.value)"
                                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['assetTypeId'].touched && FormControls['assetTypeId'].errors }">
                                     </p-dropdown>
                                     <span
@@ -279,6 +288,52 @@
                     </div>
                 </ng-template>
             </p-dialog>
+
+            <!-- P-Dialog for Unassigning the assets -->
+            <p-dialog header="Unassign Asset" [(visible)]="showUnassignAsset" [modal]="true" showEffect="fade"
+                (onHide)="onClose()">
+                <div class="flex flex-column align-items-center justify-content-center">
+                    <form [formGroup]="fbAssetAllotment">
+                        <div class="col-12 roles-container">
+                            <div class="p-fluid p-formgrid grid">
+                                <div class="field col-12 md:col-6">
+                                    <label class="required">Revoked On:</label>
+                                    <p-calendar [showIcon]="true" placeholder="Select Revoked Date"
+                                        formControlName="revokedOn" appendTo="body"
+                                        [ngClass]="{ 'is-invalid ng-dirty': FormControls['revokedOn'].touched && FormControls['revokedOn'].errors }">
+                                    </p-calendar>
+                                    <span
+                                        *ngIf="FormControls['revokedOn'].touched && FormControls['revokedOn'].invalid">
+                                        <div class="ng-invalid ng-touched p-error"
+                                            *ngIf="FormControls['revokedOn'].errors?.['required']">
+                                            Please Select Revoked Date.</div>
+                                    </span>
+                                </div>
+                                <div class="field col-12 md:col-6">
+                                    <label class="required">Reason For Revoke:</label>
+                                    <textarea rows="5" cols="30" placeholder="Enter Reason For Revoke"
+                                        formControlName="reasonForRevoke" pInputTextarea
+                                        [ngClass]="{ 'is-invalid ng-dirty': FormControls['reasonForRevoke'].touched && FormControls['reasonForRevoke'].errors }">
+                                    </textarea>
+                                    <span
+                                        *ngIf="FormControls['reasonForRevoke'].touched && FormControls['reasonForRevoke'].invalid">
+                                        <div class="ng-invalid ng-touched p-error"
+                                            *ngIf="FormControls['reasonForRevoke'].errors?.['required']">
+                                            Please Select Reason For Revoke.</div>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <ng-template pTemplate="footer">
+                    <div class="col-4" style="float:right">
+                        <button pButton pRipple type="submit" label="Submit" class="p-button-raised p-button-primary"
+                            [disabled]="fbAssetAllotment.invalid" (click)="onSubmit()"></button>
+                    </div>
+                </ng-template>
+            </p-dialog>
+
         </div>
     </div>
 </div>

@@ -1,18 +1,21 @@
 export class AssetAllotmentDto {
-    employeeId?: string;
-    employeeName?: string;
+    assetAllotmentId?: number;
+    employeeId?: number;
+    // employeeName?: string;
     assetCategoryId?: number;
     assetTypeId?: number;
-    assetName?: string;
+    AssetId?: number;
+    // assetName?: string;
     assignedOn?: Date;
-    comment?: string;
+    revokedOn?: Date;
+    reasonForRevoke?: string;
     isActive?: boolean;
 }
 
 export interface AssetAllotmentViewDto {
     assetTypeName: string;
     assignedOn: Date;
-    comment: string;
+    reasonForRevoke: string;
     isActive: boolean;
 }
 

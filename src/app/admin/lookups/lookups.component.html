@@ -59,7 +59,7 @@
                       </span>
                     </div>
                     <div class="align-right w-40" style="width:30%; text-align:right;">
-                      <small>{{name.value.length}}/30</small>
+                      <small>{{name.value.length}}/50</small>
                     </div>
                   </div>
                 </div>
@@ -89,7 +89,7 @@
                     <ng-template pTemplate="body" let-lookUp let-lookUpDetailsIndex="rowIndex">
                       <tr [formGroupName]="lookUpDetailsIndex">
                         <td class="vertical-align-top">
-                          <input pInputText class="form-control" formControlName="code" #Code placeholder="Enter Code"
+                          <input pInputText class="form-control" formControlName="code" #Code placeholder="Enter Code" alphaNumeric
                             (keydown)="restrictSpaces($event)" [maxlength]="20" [ngClass]="{'is-invalid ng-dirty': formArrayControls(lookUpDetailsIndex, 'code')?.touched &&
                                 formArrayControls(lookUpDetailsIndex, 'code')?.errors }" id="Lookup_lookupDetaisCode">
                           <div class="flex">
@@ -107,9 +107,6 @@
                                 <div class="ng-invalid ng-touched p-error"
                                   *ngIf="formArrayControls(lookUpDetailsIndex,'code')?.errors?.['maxlength']">
                                   Code Max Length Is 20 </div>
-                                <div class="ng-invalid ng-touched p-error"
-                                  *ngIf="formArrayControls(lookUpDetailsIndex,'code')?.errors?.['pattern']">
-                                  Code Should Contains Alphabets & Numbers.</div>
                               </span>
                             </div>
                             <div class="align-right w-40" style="width:30%; text-align:right;">
@@ -118,9 +115,9 @@
                           </div>
                         </td>
                         <td class="vertical-align-top">
-                          <input pInputText class="form-control" formControlName="name" placeholder="Enter Name" #name
+                          <input pInputText class="form-control" formControlName="name" placeholder="Enter Name" #name alphaOnly
                             (keydown)="restrictSpaces($event)" [ngClass]="{'is-invalid ng-dirty': formArrayControls(lookUpDetailsIndex,'name')?.touched &&
-                  formArrayControls(lookUpDetailsIndex,'name')?.errors }" [maxlength]="20"
+                  formArrayControls(lookUpDetailsIndex,'name')?.errors }" [maxlength]="50"
                             id="Lookup_lookupDetailsName">
 
                           <div class="flex">
@@ -141,7 +138,7 @@
                               </span>
                             </div>
                             <div class="align-right w-40" style="width:30%; text-align:right;">
-                              <small>{{name.value.length}}/30</small>
+                              <small>{{name.value.length}}/50</small>
                             </div>
                           </div>
                         </td>
@@ -164,7 +161,7 @@
       <ng-template pTemplate="footer">
         <div class="col-4" style="float:right">
           <button pButton pRipple type="submit" label="{{submitLabel}}" class="p-button-raised p-button-primary"
-            id="Lookup_lookupSubmit" disabled="fblookup.invalid" (click)="onSubmit()"></button>
+            id="Lookup_lookupSubmit" [disabled]="fblookup.invalid" (click)="onSubmit()"></button>
         </div>
       </ng-template>
     </p-dialog>
@@ -178,17 +175,17 @@
         <div class="flex justify-content-between flex-column sm:flex-row">
           <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
             (click)="clear(dtlookup)" id="Lookup_clearFilter"></button>
-          <div class="field text-center m-0">
-            <label>Un Active Records:
-            </label><br />
-            &nbsp; <p-inputSwitch [(ngModel)]="isLookupChecked" (onChange)="onChangeisLookupChecked()"
-              id="Lookup_lookupUnActive"></p-inputSwitch>
-          </div>
-          <span class="p-input-icon-left mb-2">
-            <i class="pi pi-search"></i>
-            <input pInputText type="text" #filter (input)="onGlobalFilter(dtlookup, $event)" id="Lookup_lookupSearch"
-              placeholder="Search Keyword" class="w-full" />
-          </span>
+            <div class="field text-center m-0 mx-2">
+              <label>in Active Records
+              </label><br />
+              &nbsp; <p-inputSwitch [(ngModel)]="isLookupChecked" (onChange)="onChangeisLookupChecked()"
+                id="Lookup_lookupUnActive"></p-inputSwitch>
+            </div>
+            <span class="p-input-icon-left mb-2">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" #filter (input)="onGlobalFilter(dtlookup, $event)" id="Lookup_lookupSearch"
+                placeholder="Search Keyword" class="w-full" />
+            </span>
         </div>
       </ng-template>
       <ng-template pTemplate="header">
@@ -229,7 +226,7 @@
       </ng-template>
       <ng-template pTemplate="emptymessage">
         <tr>
-          <td class="md:text-center m-5" colspan="8">No Lookup Found.</td>
+          <td class="md:text-center m-5" colspan="9">No Lookup Found.</td>
         </tr>
       </ng-template>
       <ng-template pTemplate="rowexpansion" let-lookup>

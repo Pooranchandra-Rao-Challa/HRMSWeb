@@ -31,8 +31,8 @@ export class LoginComponent implements OnInit {
 
     loginForm() {
         this.fbloginForm = new FormGroup({
-            userName: new FormControl(null, [Validators.required, Validators.pattern(RG_ALPHA_NUMERIC), Validators.minLength(MIN_LENGTH_5), Validators.maxLength( MAX_LENGTH_50)]),
-            password: new FormControl(null,[ Validators.required,Validators.minLength(MIN_LENGTH_8)])
+            userName: new FormControl(null, [Validators.required]),
+            password: new FormControl(null,[ Validators.required])
         });
     }
 
