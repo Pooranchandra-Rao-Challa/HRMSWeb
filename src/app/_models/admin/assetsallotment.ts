@@ -31,3 +31,9 @@ export interface AssetsByAssetTypeIdViewDto {
     assetId: number;
     name: string;
 }
+
+export class RevokeAssetRequest {
+    assetAllotmentId?: number;
+    revokedOn?: Date;
+    reasonForRevoke?: string;
+}
