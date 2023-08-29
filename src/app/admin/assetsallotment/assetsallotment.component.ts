@@ -122,6 +122,11 @@ export class AssetsallotmentComponent {
         this.addFlag = true;
     }
 
+    empAssestAllotment(employeeId: number) {
+        this.fbAssetAllotment.value.employeeId = 3;
+        this.addAssestAllotment();
+    }
+
     viewAssetAllotments(employeeId: number) {
         this.showAssetDetails = true;
         // this.onClose();
