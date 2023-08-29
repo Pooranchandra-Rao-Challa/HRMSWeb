@@ -8,7 +8,7 @@
       </ng-template>
       <ng-template pTemplate="right">
         <button pButton pRipple label="New Role" icon="pi pi-plus" class="p-button-primary p-mr-2" id="Role_addRole"
-          (click)="initRole({})"></button>
+          (click)="initRole({})" *ngIf="permission?.CanManageRoles"></button>
       </ng-template>
     </p-toolbar>
 
@@ -31,7 +31,7 @@
       </ng-template>
       <ng-template pTemplate="header">
         <tr>
-          <th style="width:5px;"></th>
+          <th style="width:5px;" *ngIf="permission?.CanManageRoles"></th>
           <th *ngFor="let col of headers" [pSortableColumn]="col.header">
             {{col?.label}}
             <p-columnFilter id="Role_roleColumnFilter" type="text" [field]="col.header" display="menu"></p-columnFilter>
@@ -41,7 +41,7 @@
       </ng-template>
       <ng-template pTemplate="body" let-role>
         <tr>
-          <td><button pButton pRipple icon="pi pi-pencil" style="padding: 0px;" (click)="initRole(role)" id="Role_roleEdit"
+          <td><button pButton pRipple icon="pi pi-pencil" *ngIf="permission?.CanManageRoles" style="padding: 0px;" (click)="initRole(role)" id="Role_roleEdit"
               class="p-element p-ripple p-button-text p-button p-component"></button></td>
           <td *ngFor="let col of headers" [ngClass]="col?.field == 'isActive' ? 'text-center' : ''">
             <span *ngIf="col?.field != 'createdAt' && col?.field != 'isActive'">{{role[col.field]}}</span>
