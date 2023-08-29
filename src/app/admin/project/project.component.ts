@@ -1,7 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Employee, ProjectDetailsDto } from 'src/app/demo/api/security';
+import { Employee } from 'src/app/demo/api/security';
 import { SecurityService } from 'src/app/demo/service/security.service';
+import { AlertmessageService } from 'src/app/_alerts/alertmessage.service';
+import { ProjectViewDto } from 'src/app/_models/admin';
+import { AdminService } from 'src/app/_services/admin.service';
 
 
 @Component({
@@ -11,13 +14,14 @@ import { SecurityService } from 'src/app/demo/service/security.service';
 })
 export class ProjectComponent implements OnInit {
   employees: Employee[] = [];
-  projects: ProjectDetailsDto[] = [];
+  projects: ProjectViewDto[] = [];
   visible: boolean = false;
   fbproject!: FormGroup;
   userForm!: FormGroup;
   dialog: boolean;
   submitLabel!: string;
-  constructor(private projectService: SecurityService, private formbuilder: FormBuilder) { }
+  projectDetails:any;
+  constructor(private projectService: SecurityService, private formbuilder: FormBuilder,private adminService: AdminService, private alertMessage: AlertmessageService) { }
 
   ngOnInit() {
     this.initProjects();
@@ -47,19 +51,26 @@ export class ProjectComponent implements OnInit {
   search(event) {
       this.suggestions = [...Array(10).keys()].map(item => event.query + '-' + item);
   }
-  showDialog() {
+  showDialog(projectDetails) {
     this.visible = true;
+    this.projectDetails=projectDetails;
+    console.log(this.projectDetails)
   }
   onSubmit() {
 
   }
 
   initProjects() {
-    this.projectService.getprojects().then((data: ProjectDetailsDto[]) => (this.projects = data));
+    this.adminService.GetProjects().subscribe(resp => {
+      this.projects= resp as unknown as ProjectViewDto[];
+      console.log(resp[0].name);
+    });
   }
+
   initEmployees() {
-    this.projectService.getEmployees().then((data: Employee[]) => (this.employees = data));
+    this.projectService.getEmployees().then((data: Employee[]) => (this.employees = data,console.log(data)));
   }
+
   addProjectDialog() {
     this.dialog = true;
     this.submitLabel = "Add Project";

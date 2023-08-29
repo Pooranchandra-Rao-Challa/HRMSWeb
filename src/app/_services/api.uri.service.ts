@@ -37,3 +37,5 @@ export const LOOKUP_ASSET_CATEGORIES_URI = "Lookup/AssetCategories";
 export const LOOKUP_ASSET_STATUS_URI = "Lookup/Status";
 
 // END LOOKUPS
+
+export const GET_PROJECTS_URI="Admin/GetProjectDetails";
