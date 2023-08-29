@@ -28,7 +28,7 @@
                                 <div class="mb-2">{{ employee.phoneno }}</div>
                             </div>
                             <div class="mb-3 col-3 p-0">
-                                <button pbutton="" pripple="" type="button" label="Primary" (click)="addAssetsDialog()"
+                                <button pbutton="" pripple="" type="button" label="Primary" (click)="viewAssetAllotments(employee.id)"
                                     class="p-element p-ripple p-button-text p-button p-component view_profile_button"
                                     ng-reflect-label="Primary">
                                     <span class="p-button-label pi pi-chevron-right"></span>
@@ -75,7 +75,7 @@
                                 </div>
                                 <div class="mb-3 col-3 p-0">
                                     <button pbutton="" pripple="" type="button" label="Primary"
-                                        (click)="addAssetsDialog()"
+                                        (click)="viewAssetAllotments(employee.id)"
                                         class="p-element p-ripple p-button-text p-button p-component view_profile_button"
                                         ng-reflect-label="Primary">
                                         <span class="p-button-label pi pi-chevron-right"></span>
@@ -98,21 +98,16 @@
                 </div>
                 <div class="col-12 ">
                     <div class="grid">
-                        <div class="col-4">
+                        <div class="col-4" *ngFor="let assetAllotment of assetAllotments">
                             <div class="m-2 card border-1 surface-border">
-                                <div class="text-xl font-bold">Monitor</div>
-                                <span class="text-600 font-medium text-sm"> Assigned On : 29-07-2021 </span>
-                                <br />
-                                <span class="text-600 font-medium text-sm"> Comment : Since one and half-year i am using
-                                    this monitor and it has some scratches. </span>
-                                <br />
-                                <br />
+                                <div class="text-xl font-bold">{{assetAllotment.assetName}}</div>
+                                <span class="text-600 font-medium text-sm"> Assigned On : {{assetAllotment.assignedOn | date: 'MM-dd-yyyy'}} </span>
                                 <button pButton pRipple type="submit" label="Unassign"
                                     class="p-element p-ripple p-button-text p-button p-component p-button-primary w-100"
                                     (click)="unAssignedAsset()"></button>
                             </div>
                         </div>
-                        <div class="col-4">
+                        <!-- <div class="col-4">
                             <div class="m-2 card border-1 surface-border">
                                 <div class="text-xl font-bold">CPU</div>
                                 <span class="text-600 font-medium text-sm"> Assigned On : 29-07-2021 </span>
@@ -139,10 +134,10 @@
                                     class="p-element p-ripple p-button-text p-button p-component p-button-primary w-100"></button>
 
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
-                <div class="col-12 ">
+                <!-- <div class="col-12 ">
                     <div class="grid">
                         <div class="col-4">
                             <div class="m-2 card border-1 surface-border">
@@ -173,7 +168,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </p-dialog>
 
             <!-- P-Dialog for Assigned Assets -->

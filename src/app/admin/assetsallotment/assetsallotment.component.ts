@@ -6,7 +6,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { ThisReceiver } from '@angular/compiler';
 import { LookupService } from 'src/app/_services/lookup.service';
 import { AdminService } from 'src/app/_services/admin.service';
-import { AssetAllotmentDto, AssetsByAssetTypeIdViewDto } from 'src/app/_models/admin/assetsallotment';
+import { AssetAllotmentDto, AssetAllotmentViewDto, AssetsByAssetTypeIdViewDto } from 'src/app/_models/admin/assetsallotment';
 import { Observable } from 'rxjs';
 import { HttpEvent } from '@angular/common/http';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
@@ -30,6 +30,7 @@ export class AssetsallotmentComponent {
     showUnassignAsset: boolean = false;
     employees: Employee[] = [];
     addFlag: boolean;
+    assetAllotments: AssetAllotmentViewDto[] = [];
 
     constructor(private securityService: SecurityService,
         private formbuilder: FormBuilder,
@@ -106,9 +107,16 @@ export class AssetsallotmentComponent {
         this.addFlag = true;
     }
 
-    addAssetsDialog() {
+    viewAssetAllotments(employeeId: number) {
         this.showAssetDetails = true;
-        this.onClose();
+        // this.onClose();
+        employeeId = 3;
+        this.adminService.GetAssetAllotments(employeeId).subscribe((resp) => {
+            if(resp) {
+                this.assetAllotments = resp as unknown as AssetAllotmentViewDto[];
+                console.log(this.assetAllotments);
+            }
+        });
     }
 
     saveAssetAllotment(): Observable<HttpEvent<AssetAllotmentDto>> {
