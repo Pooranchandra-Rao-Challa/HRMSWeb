@@ -236,7 +236,7 @@
             [alwaysShowPaginator]="false" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
             [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
             [showCurrentPageReport]="true" [globalFilterFields]="globalFilterFields" [autoLayout]="true"
-            responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]">
+            responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]"  [tableStyle]="{ width: 'max-content'}">
             <ng-template pTemplate="caption">
                 <div class="flex justify-content-between flex-column sm:flex-row">
                     <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
@@ -269,7 +269,7 @@
                     <td>
                         <div class="flex">
                             <button *ngIf="!isPastDate(leave.fromDate)" pButton pRipple icon="pi pi-pencil" 
-                                class="p-element p-ripple p-button-text p-button p-component mr-3 p-0 "
+                                class="p-element p-ripple p-button-text p-button p-component mr-2 p-0 "
                                 (click)="showDialog1(leave, ViewDialogs.edit)"></button>
                             <button  *ngIf="!isPastDate(leave.fromDate) && leave.isActive" pButton pRipple icon="pi pi-trash" id="delete"
                                 class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
