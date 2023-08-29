@@ -100,8 +100,9 @@ export const ALERT_CODES: { [key: string]: string } = {
     'SML002': 'Lookup Updated Successfully',
 
     // Assets
-    'AAS001': 'Assets Added Successfully',
-    'AAS002': 'Assets Updated Successfully',
+    'AAS001': 'Asset Added Successfully',
+    'AAS002': 'Asset Updated Successfully',
+    'AAS003': 'Asset Save Failed',
 
     // Asset Allotment
     'SAAAA001': 'Asset Allotment Added Successfully',

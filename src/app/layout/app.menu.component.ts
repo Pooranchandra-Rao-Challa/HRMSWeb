@@ -54,7 +54,9 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'Roles',
                         icon: 'pi pi-fw pi-users',
-                        routerLink: ['security/roles'], permission: this.jwtService.Permissions.CanViewRoles
+                        routerLink: ['security/roles'],
+                        permission: this.jwtService.Permissions.CanViewRoles
+
                     },
 
                 ]
@@ -95,7 +97,8 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'Projects',
                         icon: 'pi pi-fw pi-search-plus',
-                        routerLink: ['admin/project']
+                        routerLink: ['admin/project'],
+                        permission: this.jwtService.Permissions.CanViewProjects
                     },
                     {
                         label: 'Recruitment',
