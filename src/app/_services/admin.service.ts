@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { AssetsDto, AssetsViewDto, HolidayDto, HolidaysViewDto, LookupDetailViewDto, LookUpHeaderDto, LookupViewDto, ProjectViewDto } from '../_models/admin';
-import { AssetAllotmentDto, AssetsByAssetTypeIdViewDto } from '../_models/admin/assetsallotment';
+import { AssetsDto, AssetsViewDto, HolidayDto, HolidaysViewDto, LookupViewDto, ProjectViewDto } from '../_models/admin';
+import { AssetAllotmentDto, AssetAllotmentViewDto, AssetsByAssetTypeIdViewDto, RevokeAssetRequest } from '../_models/admin/assetsallotment';
 import { ApiHttpService } from './api.http.service';
 import {
     CREATE_ASSETS_URI, CREATE_HOLIDAY_URI, CREATE_LOOKUP_URI, GET_ASSETS_BY_ASSETTYPE_URI, GET_ASSETS_URI, GET_HOLIDAY_URI,
-    GET_LOOKUP_DETAILS_URI, GET_LOOKUP_URI, UPDATE_ASSETS_URI, UPDATE_LOOKUP_URI, CREATE_ASSET_ALLOTMENT_URI, GET_PROJECTS_URI, GET_YEARS_FROM_HOLIDAYS_URI
+    GET_LOOKUP_DETAILS_URI, GET_LOOKUP_URI, UPDATE_ASSETS_URI, UPDATE_LOOKUP_URI, CREATE_ASSET_ALLOTMENT_URI, GET_PROJECTS_URI, GET_YEARS_FROM_HOLIDAYS_URI, GET_ASSET_ALLOTMENTS_URI, UNASSIGNED_ASSET_ALLOTMENT_URI
 } from './api.uri.service';
 // import { CREATE_LOOKUP_URI } from './api.uri.service';
 @Injectable({
@@ -15,15 +15,15 @@ export class AdminService extends ApiHttpService {
     public GetLookUp(isbool) {
         return this.get<LookupViewDto[]>(GET_LOOKUP_URI + '/' + isbool);
     }
-    public CreateLookUp(lookup: LookUpHeaderDto) {
-        return this.post<LookUpHeaderDto>(CREATE_LOOKUP_URI, lookup);
+    public CreateLookUp(lookup: LookupViewDto) {
+        return this.post<LookupViewDto>(CREATE_LOOKUP_URI, lookup);
     }
-    public UpdateLookUp(lookup: LookUpHeaderDto) {
-        return this.post<LookUpHeaderDto>(UPDATE_LOOKUP_URI, lookup);
+    public UpdateLookUp(lookup: LookupViewDto) {
+        return this.post<LookupViewDto>(UPDATE_LOOKUP_URI, lookup);
     }
-    public GetlookupDetails(lookupId: number) {
-        return this.getWithId<LookupDetailViewDto[]>(GET_LOOKUP_DETAILS_URI, lookupId);
-    }
+    // public GetlookupDetails(lookupId: number) {
+    //     return this.getWithId<LookupViewDto[]>(GET_LOOKUP_DETAILS_URI, lookupId);
+    // }
 
     public GetHolidays(year: string) {
         const url = `${GET_HOLIDAY_URI}${year}`;
@@ -60,6 +60,14 @@ export class AdminService extends ApiHttpService {
     }
     public GetProjects() {
         return this.get<ProjectViewDto[]>(GET_PROJECTS_URI);
+    }
+
+    public GetAssetAllotments(employeeId: number) {
+        return this.getWithId<AssetAllotmentViewDto[]>(GET_ASSET_ALLOTMENTS_URI, employeeId);
+    }
+
+    public UnassignAssetAllotment(revokeRequest: RevokeAssetRequest) {
+        return this.post<RevokeAssetRequest>(UNASSIGNED_ASSET_ALLOTMENT_URI, revokeRequest);
     }
 
 }

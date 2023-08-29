@@ -4,7 +4,7 @@ export class AssetAllotmentDto {
     // employeeName?: string;
     assetCategoryId?: number;
     assetTypeId?: number;
-    AssetId?: number;
+    assetId?: number;
     // assetName?: string;
     assignedOn?: Date;
     revokedOn?: Date;
@@ -13,13 +13,27 @@ export class AssetAllotmentDto {
 }
 
 export interface AssetAllotmentViewDto {
-    assetTypeName: string;
-    assignedOn: Date;
-    reasonForRevoke: string;
-    isActive: boolean;
+    assetAllotmentId?: number;
+    assetId?: number;
+    assetName?: string;
+    assignedOn?: Date;
+    employeeId?: number;
+    revokedOn?: Date;
+    reasonForRevoke?: string;
+    isActive?: boolean;
+    createdAt?: Date;
+    createdBy?: string;
+    updatedAt?: string;
+    updatedBy?: string;
 }
 
 export interface AssetsByAssetTypeIdViewDto {
     assetId: number;
     name: string;
+}
+
+export class RevokeAssetRequest {
+    assetAllotmentId?: number;
+    revokedOn?: Date;
+    reasonForRevoke?: string;
 }

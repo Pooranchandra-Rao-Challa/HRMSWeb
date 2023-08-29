@@ -1,4 +1,6 @@
 <div class="grid">
+    <p-toast key="tst"></p-toast>
+
     <div class="col-12">
         <div class="card">
             <p-dataView #dv [value]="employees" [paginator]="true" [rows]="12" filterBy="empname,empcode"
@@ -28,11 +30,17 @@
                                 <div class="mb-2">{{ employee.phoneno }}</div>
                             </div>
                             <div class="mb-3 col-3 p-0">
-                                <button pbutton="" pripple="" type="button" label="Primary" (click)="addAssetsDialog()"
+                                <button pbutton="" pripple="" type="button" label="Primary" (click)="viewAssetAllotments(employee.id)"
                                     class="p-element p-ripple p-button-text p-button p-component view_profile_button"
                                     ng-reflect-label="Primary">
                                     <span class="p-button-label pi pi-chevron-right"></span>
                                 </button>
+                                <button pbutton="" pripple="" type="button" label="Primary"
+                                (click)="empAssestAllotment(employee.id)"
+                                class="p-element p-ripple p-button-text p-button p-component view_profile_button"
+                                ng-reflect-label="Primary">
+                                <span class="p-button-label pi pi-plus"></span>
+                            </button>
                             </div>
                         </div>
                     </div>
@@ -61,7 +69,7 @@
                                 </div>
                             </div>
                             <div class="grid">
-                                <div class="relative col-9 p-0 mb-3  employee_info">
+                                <div class="relative col-8 p-0 mb-3  employee_info">
                                     <span class="text-600 font-medium text-md">
                                         <i class="pi pi-at text-500 text-primary text-1xl pb-1"></i> :
                                         {{employee.email}}
@@ -73,12 +81,18 @@
                                     </span>
                                     <br />
                                 </div>
-                                <div class="mb-3 col-3 p-0">
+                                <div class="mb-3 flex col-4 p-0">
                                     <button pbutton="" pripple="" type="button" label="Primary"
-                                        (click)="addAssetsDialog()"
+                                        (click)="viewAssetAllotments(employee.id)"
                                         class="p-element p-ripple p-button-text p-button p-component view_profile_button"
                                         ng-reflect-label="Primary">
                                         <span class="p-button-label pi pi-chevron-right"></span>
+                                    </button>
+                                    <button pbutton="" pripple="" type="button" label="Primary"
+                                        (click)="empAssestAllotment(employee.id)"
+                                        class="p-element p-ripple p-button-text p-button p-component view_profile_button"
+                                        ng-reflect-label="Primary">
+                                        <span class="p-button-label pi pi-plus"></span>
                                     </button>
                                 </div>
                             </div>
@@ -90,29 +104,24 @@
             <!-- P-Dialog for Assets Details -->
             <p-dialog header="Assets Details" [(visible)]="showAssetDetails" [modal]="true" showEffect="fade"
                 [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '60%'}" (onHide)="onClose()">
-                <div class="col-12 ">
-                    <div class="grid">
-                        <p-button class="p-element p-ripple p-button p-component p-2 pt-0 pb-0"
+                <div class="col-12 text-right align-items-right">
+                    <div class="gri align-items-right text-right">
+                        <p-button class="p-element align-items-right text-right p-button p-component p-2 pt-0 pb-0"
                             (click)="addAssestAllotment()" icon="pi pi-plus"></p-button>
                     </div>
                 </div>
                 <div class="col-12 ">
                     <div class="grid">
-                        <div class="col-4">
+                        <div class="col-4" *ngFor="let assetAllotment of assetAllotments">
                             <div class="m-2 card border-1 surface-border">
-                                <div class="text-xl font-bold">Monitor</div>
-                                <span class="text-600 font-medium text-sm"> Assigned On : 29-07-2021 </span>
-                                <br />
-                                <span class="text-600 font-medium text-sm"> Comment : Since one and half-year i am using
-                                    this monitor and it has some scratches. </span>
-                                <br />
-                                <br />
+                                <div class="text-xl font-bold">{{assetAllotment.assetName}}</div>
+                                <span class="text-600 font-medium text-sm"> Assigned On : {{assetAllotment.assignedOn | date: 'MM-dd-yyyy'}} </span>
                                 <button pButton pRipple type="submit" label="Unassign"
                                     class="p-element p-ripple p-button-text p-button p-component p-button-primary w-100"
-                                    (click)="unAssignedAsset()"></button>
+                                    (click)="unAssignedAssetDialog(assetAllotment)"></button>
                             </div>
                         </div>
-                        <div class="col-4">
+                        <!-- <div class="col-4">
                             <div class="m-2 card border-1 surface-border">
                                 <div class="text-xl font-bold">CPU</div>
                                 <span class="text-600 font-medium text-sm"> Assigned On : 29-07-2021 </span>
@@ -139,10 +148,10 @@
                                     class="p-element p-ripple p-button-text p-button p-component p-button-primary w-100"></button>
 
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
-                <div class="col-12 ">
+                <!-- <div class="col-12 ">
                     <div class="grid">
                         <div class="col-4">
                             <div class="m-2 card border-1 surface-border">
@@ -173,7 +182,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </p-dialog>
 
             <!-- P-Dialog for Assigned Assets -->
@@ -291,21 +300,21 @@
 
             <!-- P-Dialog for Unassigning the assets -->
             <p-dialog header="Unassign Asset" [(visible)]="showUnassignAsset" [modal]="true" showEffect="fade"
-                (onHide)="onClose()">
+                (onHide)="onCloseUnAssignAsset()">
                 <div class="flex flex-column align-items-center justify-content-center">
-                    <form [formGroup]="fbAssetAllotment">
+                    <form [formGroup]="fbUnAssignAsset">
                         <div class="col-12 roles-container">
                             <div class="p-fluid p-formgrid grid">
                                 <div class="field col-12 md:col-6">
                                     <label class="required">Revoked On:</label>
                                     <p-calendar [showIcon]="true" placeholder="Select Revoked Date"
                                         formControlName="revokedOn" appendTo="body"
-                                        [ngClass]="{ 'is-invalid ng-dirty': FormControls['revokedOn'].touched && FormControls['revokedOn'].errors }">
+                                        [ngClass]="{ 'is-invalid ng-dirty': fcUnAssignAsset['revokedOn'].touched && fcUnAssignAsset['revokedOn'].errors }">
                                     </p-calendar>
                                     <span
-                                        *ngIf="FormControls['revokedOn'].touched && FormControls['revokedOn'].invalid">
+                                        *ngIf="fcUnAssignAsset['revokedOn'].touched && fcUnAssignAsset['revokedOn'].invalid">
                                         <div class="ng-invalid ng-touched p-error"
-                                            *ngIf="FormControls['revokedOn'].errors?.['required']">
+                                            *ngIf="fcUnAssignAsset['revokedOn'].errors?.['required']">
                                             Please Select Revoked Date.</div>
                                     </span>
                                 </div>
@@ -313,12 +322,12 @@
                                     <label class="required">Reason For Revoke:</label>
                                     <textarea rows="5" cols="30" placeholder="Enter Reason For Revoke"
                                         formControlName="reasonForRevoke" pInputTextarea
-                                        [ngClass]="{ 'is-invalid ng-dirty': FormControls['reasonForRevoke'].touched && FormControls['reasonForRevoke'].errors }">
+                                        [ngClass]="{ 'is-invalid ng-dirty': fcUnAssignAsset['reasonForRevoke'].touched && fcUnAssignAsset['reasonForRevoke'].errors }">
                                     </textarea>
                                     <span
-                                        *ngIf="FormControls['reasonForRevoke'].touched && FormControls['reasonForRevoke'].invalid">
+                                        *ngIf="fcUnAssignAsset['reasonForRevoke'].touched && fcUnAssignAsset['reasonForRevoke'].invalid">
                                         <div class="ng-invalid ng-touched p-error"
-                                            *ngIf="FormControls['reasonForRevoke'].errors?.['required']">
+                                            *ngIf="fcUnAssignAsset['reasonForRevoke'].errors?.['required']">
                                             Please Select Reason For Revoke.</div>
                                     </span>
                                 </div>
@@ -329,7 +338,7 @@
                 <ng-template pTemplate="footer">
                     <div class="col-4" style="float:right">
                         <button pButton pRipple type="submit" label="Submit" class="p-button-raised p-button-primary"
-                            [disabled]="fbAssetAllotment.invalid" (click)="onSubmit()"></button>
+                            [disabled]="fbUnAssignAsset.invalid" (click)="unAssignedAssetAllotment()"></button>
                     </div>
                 </ng-template>
             </p-dialog>

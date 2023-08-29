@@ -1,15 +1,15 @@
 import { HttpEvent } from '@angular/common/http';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Table } from 'primeng/table';
-import { elementAt, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { FormArrayValidationForDuplication } from 'src/app/_common/unique-branch-validators';
-import { LookupDetailsDto, LookupDetailViewDto, LookUpHeaderDto, LookupViewDto } from 'src/app/_models/admin';
+import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
+import { LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
 import { ITableHeader } from 'src/app/_models/common';
 import { AdminService } from 'src/app/_services/admin.service';
 import { MAX_LENGTH_20, MIN_LENGTH_2, RG_ALPHA_NUMERIC, RG_ALPHA_ONLY } from 'src/app/_shared/regex';
-
 
 @Component({
   selector: 'app-lookup',
@@ -17,7 +17,7 @@ import { MAX_LENGTH_20, MIN_LENGTH_2, RG_ALPHA_NUMERIC, RG_ALPHA_ONLY } from 'sr
 })
 
 export class LookupsComponent implements OnInit {
-  globalFilterFields: string[] = ['code', 'name', 'isActive', 'createdAt','createdBy','updatedAt','updatedBy']
+  globalFilterFields: string[] = ['code', 'name', 'isActive', 'createdAt', 'createdBy', 'updatedAt', 'updatedBy']
   @ViewChild('filter') filter!: ElementRef;
   showDialog: boolean = false;
   fblookup!: FormGroup;
@@ -27,23 +27,15 @@ export class LookupsComponent implements OnInit {
   submitLabel!: string;
   maxLength: any;
   lookups: LookupViewDto[] = [];
-  lookupDetails: LookupDetailViewDto = new LookupDetailViewDto();
-  lookup: LookUpHeaderDto = new LookUpHeaderDto();
   ShowlookupDetails: boolean = false;
   isLookupChecked: boolean = false;
   isbool: boolean;
-
+  mediumDate: string = MEDIUM_DATE
+  selectedColumnHeader!: ITableHeader[];
+  _selectedColumns!: ITableHeader[];
   constructor(private formbuilder: FormBuilder, private adminService: AdminService, private alertMessage: AlertmessageService) { }
 
-  lookupHeader: ITableHeader[] = [
-    { field: 'code', header: 'code', label: 'Code' },
-    { field: 'name', header: 'name', label: 'Name' },
-    { field: 'isActive', header: 'isActive', label: 'Is Active' },
-    { field: 'createdAt', header: 'createdAt', label: 'Created Date' },
-    { field: 'createdBy', header: 'createdBy', label: 'Created By' },
-    { field: 'updatedAt', header: 'updatedAt', label: 'Updated Date' },
-    { field: 'updatedBy', header: 'updatedBy', label: 'Updated By' },
-  ];
+
   lookupDetailsHeader: ITableHeader[] = [
     { field: 'code', header: 'code', label: 'Code' },
     { field: 'name', header: 'name', label: 'Name' },
@@ -54,12 +46,30 @@ export class LookupsComponent implements OnInit {
     { field: 'updatedAt', header: 'updatedAt', label: 'Updated Date' },
     { field: 'updatedBy', header: 'updatedBy', label: 'Updated By' },
   ]
-
+lookupHeader: ITableHeader[]=[
+  { field: 'code', header: 'code', label: 'Code' },
+  { field: 'name', header: 'name', label: 'Name' },
+  { field: 'isActive', header: 'isActive', label: 'Is Active' },
+]
 
   ngOnInit(): void {
     this.lookupForm();
     this.onChangeisLookupChecked();
+    this._selectedColumns = this.selectedColumnHeader;
+    this.selectedColumnHeader = [
+      { field: 'createdAt', header: 'createdAt', label: 'Created Date' },
+      { field: 'createdBy', header: 'createdBy', label: 'Created By' },
+      { field: 'updatedAt', header: 'updatedAt', label: 'Updated Date' },
+      { field: 'updatedBy', header: 'updatedBy', label: 'Updated By' },
+    ];
+  }
 
+  @Input() get selectedColumns(): any[] {
+    return this._selectedColumns;
+  }
+
+  set selectedColumns(val: any[]) {
+    this._selectedColumns = this.selectedColumnHeader.filter((col) => val.includes(col));
   }
   get FormControls() {
     return this.fblookup.controls;
@@ -91,8 +101,8 @@ export class LookupsComponent implements OnInit {
       lookUpDetails: this.formbuilder.array([], FormArrayValidationForDuplication())
     });
   }
-  //  post lookup
-  savelookup(): Observable<HttpEvent<LookUpHeaderDto>> {
+  //  post/update lookup
+  savelookup(): Observable<HttpEvent<LookupViewDto>> {
     if (this.addFlag) {
       return this.adminService.CreateLookUp(this.fblookup.value)
     }
@@ -137,7 +147,6 @@ export class LookupsComponent implements OnInit {
       this.fblookup.markAllAsTouched();
     }
   }
-
   save() {
     if (this.fblookup.valid) {
       this.savelookup().subscribe(resp => {
@@ -153,13 +162,14 @@ export class LookupsComponent implements OnInit {
       this.fblookup.markAllAsTouched();
     }
   }
-  generaterow(lookupDetail: LookupDetailViewDto = new LookupDetailViewDto()): FormGroup {
+  generaterow(lookupDetail: LookupDetailsDto = new LookupDetailsDto()): FormGroup {
     return this.formbuilder.group({
       lookupId: [lookupDetail.lookupId],
       lookupDetailId: [lookupDetail.lookupDetailId],
       code: new FormControl(lookupDetail.code, [Validators.required,]),
       name: new FormControl(lookupDetail.name, [Validators.required, Validators.minLength(2)]),
-      isActive: [lookupDetail.isActive = true],
+      description: [lookupDetail.description],
+      isActive: [lookupDetail.isActive],
     })
   }
   formArrayControls(i: number, formControlName: string) {
@@ -187,9 +197,9 @@ export class LookupsComponent implements OnInit {
 
   }
   addLookupDialog() {
+    this.fblookup.reset();
+    this.addFlag = true;
     this.addLookupDetails();
-    this.fblookup.controls['code'].enable();
-    this.fblookup.controls['name'].enable();
     this.fblookup.controls['isActive'].setValue(true);
     this.submitLabel = "Add Lookup";
     this.showDialog = true;
@@ -199,19 +209,11 @@ export class LookupsComponent implements OnInit {
     this.ShowlookupDetails = false;
     this.falookupDetails().clear();
   }
-  initlookupDetails(lookupId: number) {
-    this.adminService.GetlookupDetails(lookupId).subscribe((resp) => {
-      this.lookupDetails = resp[0] as unknown as LookupDetailViewDto;
-      this.lookupDetails.expandLookupDetails = JSON.parse(this.lookupDetails.lookupDetails);
-      this.lookupDetails.expandLookupDetails.forEach((lookupDetails: LookupDetailViewDto) => {
-        this.falookupDetails().push(this.generaterow(lookupDetails));
-      })
-    });
-  }
   editLookUp(lookup: LookupViewDto) {
-    lookup.expandLookupDetails.forEach((lookupDetails: LookupDetailViewDto) => {
-        this.falookupDetails().push(this.generaterow(lookupDetails));
-      })
+    lookup.expandLookupDetails.forEach((lookupDetails: LookupDetailsDto) => {
+      lookupDetails.lookupId = lookup.lookupId;
+      this.falookupDetails().push(this.generaterow(lookupDetails));
+    })
     this.fblookup.patchValue(lookup);
     this.addFlag = false;
     this.submitLabel = "Update Lookup";

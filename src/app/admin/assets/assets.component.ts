@@ -5,7 +5,7 @@ import { Table } from 'primeng/table';
 import { Observable } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
-import { AssetsDetailsViewDto, AssetsDto, AssetsViewDto, LookupDetailViewDto } from 'src/app/_models/admin';
+import { AssetsDetailsViewDto, AssetsDto, AssetsViewDto, LookupViewDto } from 'src/app/_models/admin';
 import { ITableHeader } from 'src/app/_models/common';
 import { AdminService } from 'src/app/_services/admin.service';
 import { LookupService } from 'src/app/_services/lookup.service';
@@ -20,14 +20,15 @@ export class AssetsComponent {
   globalFilterFields: string[] = ['assetType', 'assetCategory', 'count', 'assetName', 'PurchasedDate', 'ModelNumber', 'Manufacturer',
     'SerialNumber', 'Warranty', 'AddValue', 'Description', 'Status', 'isActive'];
   @ViewChild('filter') filter!: ElementRef;
-  assetTypes: LookupDetailViewDto[] = [];
-  assetCategories: LookupDetailViewDto[] = [];
-  assetstatus: LookupDetailViewDto[] = [];
+  assetTypes: LookupViewDto[] = [];
+  assetCategories: LookupViewDto[] = [];
+  assetstatus: LookupViewDto[] = [];
   assets: AssetsViewDto[] = [];
   asset = new AssetsDto();
   fbassets!: FormGroup;
   mediumDate: string = MEDIUM_DATE;
   addFlag: boolean;
+  addFlag1: boolean;
   dialog: boolean = false;
   submitLabel!: string;
   ShowassetsDetails: boolean = false;
@@ -71,24 +72,23 @@ export class AssetsComponent {
 
   initAssetTypes() {
     this.lookupService.AssetTypes().subscribe((resp) => {
-      this.assetTypes = resp as unknown as LookupDetailViewDto[];
+      this.assetTypes = resp as unknown as LookupViewDto[];
     });
   }
   initAssetCategories() {
     this.lookupService.AssetCategories().subscribe((resp) => {
-      this.assetCategories = resp as unknown as LookupDetailViewDto[];
+      this.assetCategories = resp as unknown as LookupViewDto[];
     });
   }
 
   initStatus() {
     this.lookupService.AssetStatus().subscribe((resp) => {
-      this.assetstatus = resp as unknown as LookupDetailViewDto[];
+      this.assetstatus = resp as unknown as LookupViewDto[];
     });
   }
 
   initAssets() {
     this.adminService.GetAssets().subscribe((resp) => {
-      console.log(resp, ' this.assets');
       this.assets = resp as unknown as AssetsViewDto[];
       this.assets.forEach(element => {
         element.expandassets = JSON.parse(element.assets) as unknown as AssetsDetailsViewDto[];
@@ -172,6 +172,7 @@ export class AssetsComponent {
     this.asset.isActive = false;
     this.fbassets.patchValue(this.asset);
     this.addFlag = false;
+    this.addFlag1 = true;
     this.onSubmit();
     this.deletedialog = false
   }
@@ -194,6 +195,7 @@ export class AssetsComponent {
     this.fbassets.patchValue(this.asset);
     this.addFlag = false;
     this.dialog = true;
+    this.addFlag1 = false;
     this.submitLabel = "Update Assets";
   }
 
@@ -209,10 +211,14 @@ export class AssetsComponent {
         this.initAssets();
         this.onClose();
         this.dialog = false;
-        this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "AAS001" : "AAS002"]);
+        if (this.addFlag) {
+          this.alertMessage.displayAlertMessage(ALERT_CODES["AAS001"]);
+        } else {
+          this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag1 ? "AAS003" : "AAS002"]);
+        }
       }
       else {
-        this.alertMessage.displayErrorMessage(ALERT_CODES["AAS003"])
+        this.alertMessage.displayErrorMessage(ALERT_CODES["AAS004"])
       }
     })
   }

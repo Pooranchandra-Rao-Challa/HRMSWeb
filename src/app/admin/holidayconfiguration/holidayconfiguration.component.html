@@ -12,14 +12,19 @@
             </ng-template>
         </p-toolbar>
         <!--  Add dialog -->
-        <p-dialog id="holidayDialog" header="Holiday" [(visible)]="showAdd" [modal]="true" (onHide)="clearSelectionOnHide()" showEffect="fade"
+        <p-dialog id="holidayDialog"[header]="getHolidayDialogHeader()"  [(visible)]="showAdd" [modal]="true" (onHide)="clearSelectionOnHide()" showEffect="fade"
             [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}" (onHide)="onClose()">
             <div class="flex flex-column align-items-center justify-content-center">
                 <form [formGroup]="fbHoliday" (ngSubmit)="onSubmit()">
                     <div class="grid">
                         <div class="col-12 roles-container">
                             <div class="p-fluid p-formgrid grid">
-                                <div class="field col-12 md:col-4">
+                                <div class="field col-12 md:col-3">
+                                    <label>Holiday Description: <sup class="p-error">*</sup>
+                                    </label>&nbsp; <p-dropdown [options]="years" id="year-dropdown" placeholder="Select a Year"
+                                    [(ngModel)]="selectedYear"formControlName="year" optionValue="year" optionLabel="year"></p-dropdown>
+                                </div>
+                                <div class="field col-12 md:col-3">
                                     <label>Holiday Title: <sup class="p-error">*</sup>
                                     </label>&nbsp; <input pInputText #title id="title" type="text"
                                         formControlName="title" alphaOnly [maxlength]="maxLength.title"
@@ -45,27 +50,27 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="field col-12 md:col-4">
-                                    <label>From Date: <sup class="p-error">*</sup></label>&nbsp;
-                                    <p-calendar formControlName="fromDate" id="fromDate"  [minDate]="minDateValue" placeholder="Select From Date"
-                                        [showIcon]="true" appendTo="body"
-                                        [ngClass]="{ 'is-invalid ng-dirty': fbHoliday.get('fromDate').touched && fbHoliday.get('fromDate').errors }">
-                                    </p-calendar>
-                                    <span *ngIf="fbHoliday.get('fromDate').touched && fbHoliday.get('fromDate').invalid">
-                                        <div class="ng-invalid ng-touched p-error"
-                                            *ngIf="fbHoliday.get('fromDate').errors?.['required']">
-                                            Please Select FromDate.</div>
-                                        <div *ngIf="fbHoliday.get('fromDate').touched && fbHoliday.get('fromDate').errors?.['dateExists']"
-                                            class="ng-invalid ng-touched p-error">
-                                            This date is already a holiday.
-                                        </div>
-                                    </span>
+                                <div class="field col-12 md:col-3">
+                                  <label for="fromDate">From Date: <sup class="p-error">*</sup></label>&nbsp;
+                                  <p-calendar formControlName="fromDate" [readonlyInput]="true"  id="fromDate" [minDate]="minDateValue" placeholder="Select From Date"
+                                    [showIcon]="true" appendTo="body"[readonlyInput]="true" 
+                                    [ngClass]="{ 'is-invalid ng-dirty': fbHoliday.get('fromDate').touched && fbHoliday.get('fromDate').errors }">
+                                  </p-calendar>
+                                  <span *ngIf="fbHoliday.get('fromDate').touched && fbHoliday.get('fromDate').invalid">
+                                    <div class="ng-invalid ng-touched p-error" *ngIf="fbHoliday.get('fromDate').errors?.['required']">
+                                      Please select From Date.
+                                    </div>
+                                    <div *ngIf="fbHoliday.get('fromDate').touched && fbHoliday.get('fromDate').errors?.['dateExists']"
+                                      class="ng-invalid ng-touched p-error">
+                                      This date is already a holiday.
+                                    </div>
+                                  </span>
                                 </div>
-                                <div class="field col-12 md:col-4">
-                                    <label>To Date:</label>&nbsp; <p-calendar formControlName="toDate" [minDate]="minDateValue" id="toDate"
+                                <div class="field col-12 md:col-3">
+                                    <label>To Date:</label>&nbsp; <p-calendar  [readonlyInput]="true" formControlName="toDate" [minDate]="minDateValue" id="toDate"
                                         placeholder="Select To Date" [showIcon]="true" appendTo="body"></p-calendar>
                                 </div>
-                                <div class="field col-12 md:col-4">
+                                <div class="field col-12 md:col-3">
                                     <label>Holiday Description: <sup class="p-error">*</sup>
                                     </label>&nbsp; <input pInputText id="description" type="text" id="description"
                                         formControlName="description" #description
@@ -91,12 +96,14 @@
                                         </div>
                                     </div>
                                 </div>
+                               
 
-                                <div class="field col-12 md:col-4">
+                                <div class="field col-12 md:col-2">
                                     <label class="required">Is Active:</label><br>
                                     <p-inputSwitch formControlName="isActive" id="isActive"></p-inputSwitch>
+                                </div><div class="field col-12 md:col-4">
                                 </div>
-                                <div class=" col-12 md:col-4 mt-2">
+                                <div class=" col-12 md:col-3 mt-2">
                                     <div class=" button-container mt-5">
                                         <p-button type="button" label="Add A Holiday" id="HolidayDetails-Btn"
                                             [disabled]="fbHoliday.invalid"
@@ -129,12 +136,12 @@
                                                         formControlName="title" placeholder="Holiday Title">
                                                 </td>
                                                 <td class="vertical-align-top">
-                                                    <p-calendar formControlName="fromDate" [minDate]="minDateValue" id="FotmArray-fromDate"
+                                                    <p-calendar formControlName="fromDate"[readonlyInput]="true"  [minDate]="minDateValue" id="FotmArray-fromDate"
                                                         placeholder="Select From Date" [showIcon]="true"
                                                         appendTo="body"></p-calendar>
                                                 </td>
                                                 <td class="vertical-align-top">
-                                                    <p-calendar formControlName="toDate" [minDate]="minDateValue" id="FotmArray-toDate"
+                                                    <p-calendar formControlName="toDate" [readonlyInput]="true" [minDate]="minDateValue" id="FotmArray-toDate"
                                                         placeholder="Select To Date" [showIcon]="true"
                                                         appendTo="body"></p-calendar>
                                                 </td>
@@ -175,7 +182,7 @@
             </ng-template>
         </p-dialog>
         <!--  Edit dialog -->
-        <p-dialog id="edit-dialog" header="Holiday" [(visible)]="showEdit" [modal]="true" (onHide)="clearSelectionOnHide()" showEffect="fade"
+        <p-dialog id="edit-dialog" [header]="getHolidayDialogHeader()" [(visible)]="showEdit" [modal]="true" (onHide)="clearSelectionOnHide()" showEffect="fade"
             [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}" (onHide)="onClose()">
             <div class="flex flex-column align-items-center justify-content-center">
                 <form [formGroup]="editHolidayForm" (ngSubmit)="onSubmit()">
@@ -189,11 +196,11 @@
                                 </div>
                                 <div class="field col-12 md:col-4">
                                     <label>From Date: <sup class="p-error">*</sup>
-                                    </label>&nbsp; <p-calendar formControlName="fromDate" [minDate]="minDateValue" id="edit-fromDate"
+                                    </label>&nbsp; <p-calendar [readonlyInput]="true" formControlName="fromDate" [minDate]="minDateValue" id="edit-fromDate"
                                         placeholder="Enter From Date" [showIcon]="true" appendTo="body"></p-calendar>
                                 </div>
                                 <div class="field col-12 md:col-4">
-                                    <label>To Date:</label>&nbsp; <p-calendar [showIcon]="true"  [minDate]="minDateValue" id="edit-toDate"
+                                    <label>To Date:</label>&nbsp; <p-calendar [showIcon]="true"  [readonlyInput]="true" [minDate]="minDateValue" id="edit-toDate"
                                         formControlName="toDate" placeholder="Enter To Date"
                                         appendTo="body"></p-calendar>
                                 </div>
@@ -245,7 +252,7 @@
                         <label>Year:
                         </label>
                         &nbsp; <p-dropdown [options]="years" id="year-dropdown" placeholder="Select a Year"
-                            [(ngModel)]="selectedYear" (onChange)="initHoliday()" optionLabel="year"></p-dropdown>
+                        [(ngModel)]="selectedYear" (onChange)="initHoliday()" optionLabel="year"></p-dropdown>
                     </div>
                     <span class="p-input-icon-left mb-2">
                         <i class="pi pi-search"></i>
@@ -282,7 +289,7 @@
                             *ngIf="col?.field != 'createdAt' && col?.field != 'updatedAt' && col?.field != 'fromDate' && col?.field != 'toDate' && col?.field != 'isActive'">{{leave[col.field]}}</span>
                         <span
                             *ngIf="col?.field == 'createdAt' || col?.field == 'updatedAt' || col?.field == 'fromDate' || col?.field == 'toDate'">
-                            {{leave[col.field] | date: 'mediumDate' }}
+                            {{leave[col.field] | date: mediumDate }}
                         </span>
                         <span *ngIf="col?.field == 'isActive'">
                             <p-checkbox name="isActive" value="isActive" [binary]="true" [(ngModel)]="leave[col.field]"
