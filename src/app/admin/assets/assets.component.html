@@ -43,7 +43,7 @@
               </div>
               <div class="field col-12 md:col-4">
                 <label>Enter Asset Category: <sup class="p-error">*</sup></label>
-                <p-dropdown [options]="assetCategories" optionLabel="name" [filter]="true" filterBy="name"
+                <p-dropdown [options]="assetCategories" optionLabel="name" id="assetCategories" [filter]="true" filterBy="name"
                   [showClear]="true" placeholder="Select Asset Category" formControlName="assetCategoryId"
                   optionValue="lookupDetailId"
                   [ngClass]="{ 'is-invalid ng-dirty': FormControls['assetCategoryId'].touched && FormControls['assetCategoryId'].errors}">
@@ -57,7 +57,7 @@
               </div>
               <div class="field col-12 md:col-4">
                 <label>Enter Asset Type: <sup class="p-error">*</sup></label>
-                <p-dropdown [options]="assetTypes" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true"
+                <p-dropdown [options]="assetTypes" optionLabel="name" id="assetTypes" [filter]="true" filterBy="name" [showClear]="true"
                   placeholder="Select Asset Type" formControlName="assetTypeId" optionValue="lookupDetailId"
                   [ngClass]="{ 'is-invalid ng-dirty': FormControls['assetTypeId'].touched && FormControls['assetTypeId'].errors}">
                 </p-dropdown>
@@ -69,7 +69,7 @@
               </div>
               <div class="field col-12 md:col-4">
                 <label>Asset Name: <sup class="p-error">*</sup></label>
-                <input pInputText id="assetname" type="text" formControlName="name" placeholder="Enter Asset Name"
+                <input pInputText id="assetname" type="text" formControlName="name"  placeholder="Enter Asset Name"
                   alphaNumeric class="form-control" maxlength="50" #name
                   [ngClass]="{ 'is-invalid ng-dirty': FormControls['name'].touched && FormControls['name'].errors}" />
                 <div class="flex">
@@ -196,7 +196,7 @@
               </div>
               <div class="field col-12 md:col-4">
                 <label>Status: <sup class="p-error">*</sup></label>
-                <p-dropdown [options]="assetstatus" optionLabel="name" [filter]="true" filterBy="name"
+                <p-dropdown [options]="assetstatus" optionLabel="name" [filter]="true" filterBy="name" id="assetstatus"
                   [showClear]="true" placeholder="Select Status" formControlName="statusId" optionValue="lookupDetailId"
                   [ngClass]="{ 'is-invalid ng-dirty': FormControls['statusId'].touched && FormControls['statusId'].errors}">
                 </p-dropdown>
@@ -223,7 +223,7 @@
                 <label>Is Active:
                 </label>
                 <br>
-                <p-inputSwitch formControlName="isActive"></p-inputSwitch>
+                <p-inputSwitch formControlName="isActive" id="isActive" ></p-inputSwitch>
               </div>
             </div>
           </div>
