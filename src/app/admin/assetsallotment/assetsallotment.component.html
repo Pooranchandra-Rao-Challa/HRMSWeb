@@ -1,4 +1,6 @@
 <div class="grid">
+    <p-toast key="tst"></p-toast>
+
     <div class="col-12">
         <div class="card">
             <p-dataView #dv [value]="employees" [paginator]="true" [rows]="12" filterBy="empname,empcode"
@@ -104,7 +106,7 @@
                                 <span class="text-600 font-medium text-sm"> Assigned On : {{assetAllotment.assignedOn | date: 'MM-dd-yyyy'}} </span>
                                 <button pButton pRipple type="submit" label="Unassign"
                                     class="p-element p-ripple p-button-text p-button p-component p-button-primary w-100"
-                                    (click)="unAssignedAsset()"></button>
+                                    (click)="unAssignedAssetDialog(assetAllotment)"></button>
                             </div>
                         </div>
                         <!-- <div class="col-4">
@@ -286,21 +288,21 @@
 
             <!-- P-Dialog for Unassigning the assets -->
             <p-dialog header="Unassign Asset" [(visible)]="showUnassignAsset" [modal]="true" showEffect="fade"
-                (onHide)="onClose()">
+                (onHide)="onCloseUnAssignAsset()">
                 <div class="flex flex-column align-items-center justify-content-center">
-                    <form [formGroup]="fbAssetAllotment">
+                    <form [formGroup]="fbUnAssignAsset">
                         <div class="col-12 roles-container">
                             <div class="p-fluid p-formgrid grid">
                                 <div class="field col-12 md:col-6">
                                     <label class="required">Revoked On:</label>
                                     <p-calendar [showIcon]="true" placeholder="Select Revoked Date"
                                         formControlName="revokedOn" appendTo="body"
-                                        [ngClass]="{ 'is-invalid ng-dirty': FormControls['revokedOn'].touched && FormControls['revokedOn'].errors }">
+                                        [ngClass]="{ 'is-invalid ng-dirty': fcUnAssignAsset['revokedOn'].touched && fcUnAssignAsset['revokedOn'].errors }">
                                     </p-calendar>
                                     <span
-                                        *ngIf="FormControls['revokedOn'].touched && FormControls['revokedOn'].invalid">
+                                        *ngIf="fcUnAssignAsset['revokedOn'].touched && fcUnAssignAsset['revokedOn'].invalid">
                                         <div class="ng-invalid ng-touched p-error"
-                                            *ngIf="FormControls['revokedOn'].errors?.['required']">
+                                            *ngIf="fcUnAssignAsset['revokedOn'].errors?.['required']">
                                             Please Select Revoked Date.</div>
                                     </span>
                                 </div>
@@ -308,12 +310,12 @@
                                     <label class="required">Reason For Revoke:</label>
                                     <textarea rows="5" cols="30" placeholder="Enter Reason For Revoke"
                                         formControlName="reasonForRevoke" pInputTextarea
-                                        [ngClass]="{ 'is-invalid ng-dirty': FormControls['reasonForRevoke'].touched && FormControls['reasonForRevoke'].errors }">
+                                        [ngClass]="{ 'is-invalid ng-dirty': fcUnAssignAsset['reasonForRevoke'].touched && fcUnAssignAsset['reasonForRevoke'].errors }">
                                     </textarea>
                                     <span
-                                        *ngIf="FormControls['reasonForRevoke'].touched && FormControls['reasonForRevoke'].invalid">
+                                        *ngIf="fcUnAssignAsset['reasonForRevoke'].touched && fcUnAssignAsset['reasonForRevoke'].invalid">
                                         <div class="ng-invalid ng-touched p-error"
-                                            *ngIf="FormControls['reasonForRevoke'].errors?.['required']">
+                                            *ngIf="fcUnAssignAsset['reasonForRevoke'].errors?.['required']">
                                             Please Select Reason For Revoke.</div>
                                     </span>
                                 </div>
@@ -324,7 +326,7 @@
                 <ng-template pTemplate="footer">
                     <div class="col-4" style="float:right">
                         <button pButton pRipple type="submit" label="Submit" class="p-button-raised p-button-primary"
-                            [disabled]="fbAssetAllotment.invalid" (click)="onSubmit()"></button>
+                            [disabled]="fbUnAssignAsset.invalid" (click)="unAssignedAssetAllotment()"></button>
                     </div>
                 </ng-template>
             </p-dialog>

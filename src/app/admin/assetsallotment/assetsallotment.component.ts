@@ -24,6 +24,7 @@ export class AssetsallotmentComponent {
     sortField: string = '';
     sortOrder: number = 0;
     fbAssetAllotment!: FormGroup;
+    fbUnAssignAsset!: FormGroup;
     submitLabel!: string;
     showAssetDetails: boolean = false;
     showAssetAllotment: boolean = false;
@@ -44,6 +45,7 @@ export class AssetsallotmentComponent {
         this.securityService.getEmployees().then((data) => (this.employees = data));
         this.initAssetCategories();
         this.initAssetTypes();
+        this.unAssignAssetForm();
     }
 
     initAssetCategories() {
@@ -78,19 +80,32 @@ export class AssetsallotmentComponent {
 
     assetAllotmentForm() {
         this.fbAssetAllotment = this.formbuilder.group({
-            employeeId: new FormControl(null, [Validators.required]),
+            employeeId: new FormControl(null),
             assetCategoryId: new FormControl('', [Validators.required]),
             assetTypeId: new FormControl('', [Validators.required]),
             assetId: new FormControl('', [Validators.required]),
             assignedOn: new FormControl('', [Validators.required]),
-            revokedOn: new FormControl(''),
-            reasonForRevoke: new FormControl('')
+            // revokedOn: new FormControl(''),
+            // reasonForRevoke: new FormControl('')
             // comment: new FormControl('', [Validators.required]),
         });
     }
 
     get FormControls() {
         return this.fbAssetAllotment.controls;
+    }
+
+    unAssignAssetForm() {
+        this.fbUnAssignAsset = this.formbuilder.group({
+            assetAllotmentId: new FormControl('', [Validators.required]),
+            revokedOn: new FormControl('', [Validators.required]),
+            reasonForRevoke: new FormControl('', [Validators.required]),
+            isActive: new FormControl('', [Validators.required]),
+        });
+    }
+
+    get fcUnAssignAsset() {
+        return this.fbUnAssignAsset.controls;
     }
 
     onFilter(dv: DataView, event: Event) {
@@ -112,9 +127,8 @@ export class AssetsallotmentComponent {
         // this.onClose();
         employeeId = 3;
         this.adminService.GetAssetAllotments(employeeId).subscribe((resp) => {
-            if(resp) {
+            if (resp) {
                 this.assetAllotments = resp as unknown as AssetAllotmentViewDto[];
-                console.log(this.assetAllotments);
             }
         });
     }
@@ -125,11 +139,11 @@ export class AssetsallotmentComponent {
     }
 
     onSubmit() {
-        console.log(this.fbAssetAllotment.value);
-        this.fbAssetAllotment.controls['employeeId'].setValue(2);
+        this.fbAssetAllotment.controls['employeeId'].setValue(3);
+        this.fbAssetAllotment.value.employeeId = 3;
         this.saveAssetAllotment().subscribe((resp) => {
             if (resp) {
-                console.log(resp);
+                if (this.showAssetDetails) this.viewAssetAllotments(this.fbAssetAllotment.value.employeeId);
                 this.onClose();
                 this.showAssetAllotment = false;
                 this.alertMessage.displayAlertMessage(ALERT_CODES["SAAAA001"]);
@@ -138,8 +152,26 @@ export class AssetsallotmentComponent {
         });
     }
 
-    unAssignedAsset() {
+    unAssignedAssetDialog(assetAllotment: AssetAllotmentViewDto) {
+        this.fcUnAssignAsset['assetAllotmentId'].setValue(assetAllotment.assetAllotmentId);
+        this.fcUnAssignAsset['revokedOn'].setValue(new Date());
+        this.fcUnAssignAsset['isActive'].setValue(false);
         this.showUnassignAsset = true;
+    }
+
+    unAssignedAssetAllotment() {
+        // this.fbUnAssignAsset.controls['isActive'].setValue(false);
+        this.adminService.UnassignAssetAllotment(this.fbUnAssignAsset.value).subscribe((resp) => {
+            if (this.showAssetDetails) this.viewAssetAllotments(this.fbAssetAllotment.value.employeeId);
+            this.onCloseUnAssignAsset()
+            this.showUnassignAsset = false;
+            this.alertMessage.displayAlertMessage(ALERT_CODES["SAAAA002"]);
+            // else this.alertMessage.displayErrorMessage(ALERT_CODES["EAAAA002"]);
+        });
+    }
+
+    onCloseUnAssignAsset() {
+        this.fbUnAssignAsset.reset();
     }
 
 }
