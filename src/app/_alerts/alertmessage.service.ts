@@ -100,8 +100,9 @@ export const ALERT_CODES: { [key: string]: string } = {
     'SML002': 'Lookup Updated Successfully',
 
     // Assets
-    'AAS001': 'Assets Added Successfully',
-    'AAS002': 'Assets Updated Successfully',
+    'AAS001': 'Asset Added Successfully',
+    'AAS002': 'Asset Updated Successfully',
+    'AAS003': 'Asset Save Failed',
 
     // Asset Allotment
     'SAAAA001': 'Asset Allotment Added Successfully',
@@ -111,5 +112,6 @@ export const ALERT_CODES: { [key: string]: string } = {
     //HOLIDAY
     'SMH001': 'Holiday Added Successfully',
     'SMH002': 'Holiday Updated Successfully',
-    'SMH003': 'This date is already a holiday.'
+    'SMH003': 'This date is already a holiday.',
+    'SMH004': 'Holiday Soft Deleted Successfully'
 }

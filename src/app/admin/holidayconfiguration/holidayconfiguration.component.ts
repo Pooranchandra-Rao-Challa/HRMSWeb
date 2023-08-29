@@ -9,25 +9,21 @@ import { ITableHeader, MaxLength } from 'src/app/_models/common';
 import { HolidayDto, HolidaysViewDto } from 'src/app/_models/admin';
 import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { DateValidators } from 'src/app/_validators/dateRangeValidator';
-import { of } from 'rxjs';
 import { MIN_LENGTH_2, RG_ALPHA_ONLY } from 'src/app/_shared/regex';
-import { UniqueSelectionDispatcher } from '@angular/cdk/collections';
 interface Year {
   year: string;
   code: string;
 }
-export enum DMLOpetiaons{
-    update,
-    create,
-    delete
+export enum DMLOpetiaons {
+  update,
+  create,
+  delete
 }
-
-export enum ViewDialogs
-{
-    add,
-    edit,
-    delete,
-    none
+export enum ViewDialogs {
+  add,
+  edit,
+  delete,
+  none
 }
 @Component({
   selector: 'app-holidayconfiguration',
@@ -39,75 +35,68 @@ export class HolidayconfigurationComponent {
   holidays: HolidaysViewDto[] = [];
   globalFilterFields: string[] = ['title', 'fromDate', 'toDate', 'toDate', 'description', 'createdAt', 'updatedAt', 'updatedBy', 'createdBy']
   @ViewChild('filter') filter!: ElementRef;
- // dialog: boolean = false;
- // holiday:  any
-  //editDialog: boolean = false;
-  fbleave!: FormGroup;
-  holidayForm!: FormGroup;
-  //submitLabel!: string;
+  fbHoliday!: FormGroup;
+  editHolidayForm!: FormGroup;
   maxLength: MaxLength = new MaxLength();
- // addFlag: boolean = true;
-  //ShowleaveDetails: boolean = false;
   selectedYear: Year | undefined;
   years: Year[] | undefined;
   holidayToEdit: HolidaysViewDto;
   mediumDate: string = MEDIUM_DATE
- // deletedialog:boolean;
- // deleteAsset:any
   currentDialog: ViewDialogs = ViewDialogs.none;
   ViewDialogs = ViewDialogs;
+  minDateValue:any;
+
+  
 
   constructor(
     private formbuilder: FormBuilder,
     private AdminService: AdminService,
     private alertMessage: AlertmessageService) { }
 
-// Define table headers
+  // Define table headers
   headers: ITableHeader[] = [
     { field: 'title', header: 'title', label: 'Holiday Title' },
     { field: 'fromDate', header: 'fromDate', label: 'From Date' },
     { field: 'toDate', header: 'toDate', label: 'To Date' },
     { field: 'description', header: 'description', label: 'Holiday Description' },
     { field: 'isActive', header: 'isActive', label: 'Is Active' },
-    { field: 'createdAt', header: 'createdAt', label: 'Created Date'},
-    { field: 'createdBy', header: 'createdBy', label: 'Created By'},
+    { field: 'createdAt', header: 'createdAt', label: 'Created Date' },
+    { field: 'createdBy', header: 'createdBy', label: 'Created By' },
     { field: 'updatedAt', header: 'updatedAt', label: 'Updated Date' },
     { field: 'updatedBy', header: 'updatedBy', label: 'Updated By' },
   ];
   ngOnInit(): void {
-    this.leaveForm();
+    this.holidayForm();
     this.initializeYears();
     this.selectedYear = this.years.find(y => y.year === '2023');
     this.initHoliday();
     this.initHolidayForm();
+    this.minDateValue = new Date();
   }
-// Initialize form with form controls
-leaveForm() {
-  this.fbleave = this.formbuilder.group({
-    holidayId: null,
-    title: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
-    fromDate: [null, [Validators.required, this.dateValidator.bind(this)]],
-    toDate: new FormControl(null),
-    description: new FormControl('', [ Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
-    isActive: new FormControl([true], Validators.requiredTrue),
-    leaveDetails: this.formbuilder.array([])
-  }, {
-    validators: Validators.compose([
-      DateValidators.dateRangeValidator('fromDate', 'toDate', { 'fromDate': true }),
-    ])
-  });
-}
-  addLeaveDetails() {
-    // this.ShowleaveDetails = true;
-    console.log(this.fbleave.value);
-    if (this.fbleave.invalid) {
+  // Initialize form with form controls
+  holidayForm() {
+    this.fbHoliday = this.formbuilder.group({
+      holidayId: null,
+      title: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
+      fromDate: [null, [Validators.required, this.dateValidator.bind(this)]],
+      toDate: new FormControl(null),
+      description: new FormControl('', [Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
+      isActive: new FormControl([true], Validators.requiredTrue),
+      holidayDetails: this.formbuilder.array([])
+    }, {
+      validators: Validators.compose([
+        DateValidators.dateRangeValidator('fromDate', 'toDate', { 'fromDate': true }),
+      ])
+    });
+  }
+  addHolidayDetails() {
+    if (this.fbHoliday.invalid) {
       return;
     }
-
     // Push current values into the FormArray
-    this.faleaveDetail().push(this.generaterow(this.fbleave.getRawValue()));
+    this.faholdyDetail().push(this.generaterow(this.fbHoliday.getRawValue()));
     // Reset form controls for the next entry
-    this.fbleave.patchValue({
+    this.fbHoliday.patchValue({
       holidayId: null,
       title: '',
       fromDate: '',
@@ -116,34 +105,33 @@ leaveForm() {
       isActive: true,
     });
     // Clear validation errors
-    this.fbleave.markAsPristine();
-    this.fbleave.markAsUntouched();
+    this.fbHoliday.markAsPristine();
+    this.fbHoliday.markAsUntouched();
   }
-  faleaveDetail(): FormArray {
-    return this.fbleave.get("leaveDetails") as FormArray
+  faholdyDetail(): FormArray {
+    return this.fbHoliday.get("holidayDetails") as FormArray
   }
-  // Method to generate a FormGroup for a single row in the leaveDetails array
-  generaterow(leaveDetails: HolidaysViewDto = new HolidaysViewDto()): FormGroup {
-
-
+  // Method to generate a FormGroup for a single row in the holidayDetails array
+  generaterow(holidayDetails: HolidaysViewDto = new HolidaysViewDto()): FormGroup {
     return this.formbuilder.group({
-      holidayId: new FormControl(leaveDetails.holidayId),
-      title: new FormControl(leaveDetails.title,),
-      fromDate: new FormControl(leaveDetails.fromDate,),
-      toDate: new FormControl(leaveDetails.toDate,),
-      description: new FormControl(leaveDetails.description, []),
-      isActive: new FormControl(leaveDetails.isActive, [])
+      holidayId: new FormControl(holidayDetails.holidayId),
+      title: new FormControl(holidayDetails.title,),
+      fromDate: new FormControl(holidayDetails.fromDate,),
+      toDate: new FormControl(holidayDetails.toDate,),
+      description: new FormControl(holidayDetails.description, []),
+      isActive: new FormControl(holidayDetails.isActive, [])
     })
   }
+
   formArrayControls(i: number, formControlName: string) {
-    return this.faleaveDetail().controls[i].get(formControlName);
+    return this.faholdyDetail().controls[i].get(formControlName);
   }
   get FormControls() {
-    return this.fbleave.controls;
+    return this.fbHoliday.controls;
   }
   // Method to initialize the holidayForm FormGroup for edit purposes
   initHolidayForm() {
-    this.holidayForm = new FormGroup({
+    this.editHolidayForm = new FormGroup({
       holidayId: new FormControl(),
       title: new FormControl('', Validators.required),
       fromDate: new FormControl('', Validators.required),
@@ -162,90 +150,54 @@ leaveForm() {
     const year = this.selectedYear.year;
     this.AdminService.GetHolidays(year).subscribe((resp) => {
       this.holidays = resp as unknown as HolidaysViewDto[];
-      //console.log(this.holidays);
     });
   }
-   // Method to delete a holiday (Is Active False)
+  // Method to delete a holiday (Is Active False)
   deleteHoliday() {
-    if(this.currentDialog !== ViewDialogs.delete) return;
-    //this.submitLabel = "Delete Holiday"
+    if (this.currentDialog !== ViewDialogs.delete) return;
+    this.editHolidayForm.get('isActive').setValue(false); // Set isActive to false in the form
     this.onSubmit(DMLOpetiaons.delete);
-    // this.holidayToEdit = this.holiday;
-    // this.holiday = new HolidayDto();
-    // this.holiday.holidayId = this.deleteAsset.holidayId;
-    // this.holiday.title = this.deleteAsset.title;
-    // this.holiday.fromDate = this.deleteAsset.fromDate;
-    // this.holiday.toDate = this.deleteAsset.toDate;
-    // this.holiday.description = this.deleteAsset.description;
-    // this.holiday.isActive = false; // Set isActive to false when deleting
-    // this.submitLabel = "Delete Holiday"
-    // this.holidayForm.patchValue(this.holiday);
-
-    // this.addFlag = false;
-    // this.deletedialog = false;
   }
- // Method to edit an existing holiday
+  // Method to edit an existing holiday
   editHoliday() {
-    if(this.currentDialog !== ViewDialogs.edit) return;
-    //this.submitLabel = "Update Holiday";
+    if (this.currentDialog !== ViewDialogs.edit) return;
+    this.onSubmit(DMLOpetiaons.update);
 
-
-    //const fromDate = FORMAT_DATE(new Date(holiday.fromDate));
-    //const toDate = FORMAT_DATE(new Date(holiday.toDate));
-
-
-    // this.editDialog = true;
-    // this.addFlag = false;
   }
-   // Method to save a holiday (either new or edited)
+  // Method to save a holiday (either new or edited)
   saveHoliday(): Observable<HttpEvent<any>> {
-    const leaveDetails = this.fbleave.get('leaveDetails').value;
-    const EditleaveDetails = this.holidayForm.value;
-
-    let holidays = this.fbleave.get('leaveDetails').value;
-    if(this.currentDialog === ViewDialogs.edit || this.currentDialog === ViewDialogs.delete)
-        holidays = [EditleaveDetails]
-
-    holidays.forEach(detail => {
-        detail.fromDate = FORMAT_DATE(new Date(detail.fromDate));
-        detail.toDate = FORMAT_DATE(new Date(detail.toDate));
-      });
-      return this.AdminService.CreateHoliday(leaveDetails);
-
-    // If we are adding a new holiday
-    // if (this.submitLabel === "Add Holidays") {
-    //   leaveDetails.forEach(detail => {
-    //     detail.fromDate = FORMAT_DATE(new Date(detail.fromDate));
-    //     detail.toDate = FORMAT_DATE(new Date(detail.toDate));
-    //   });
-    //   return this.AdminService.CreateHoliday(leaveDetails);
-    // }
-    // // If we are updating or deleting an existing holiday
-    // else if (this.submitLabel === "Update Holiday" || this.submitLabel === "Delete Holiday") {
-    //   EditleaveDetails.fromDate = FORMAT_DATE(new Date(EditleaveDetails.fromDate));
-    //   EditleaveDetails.toDate = FORMAT_DATE(new Date(EditleaveDetails.toDate));
-    //   return this.AdminService.CreateHoliday([EditleaveDetails]);
-    // }
-    // else {
-    //   return of();
-    // }
+    let holidays: HolidayDto[];
+    if (this.currentDialog === ViewDialogs.edit || this.currentDialog === ViewDialogs.delete) {
+      const editedHoliday = this.editHolidayForm.value;
+      editedHoliday.fromDate = FORMAT_DATE(new Date(editedHoliday.fromDate));
+      editedHoliday.toDate = FORMAT_DATE(new Date(editedHoliday.toDate));
+      holidays = [editedHoliday as HolidayDto];
+    } else {
+      holidays = this.fbHoliday.get('holidayDetails').value.map((holiday: HolidaysViewDto) => ({
+        ...holiday,
+        fromDate: FORMAT_DATE(new Date(holiday.fromDate)),
+        toDate: FORMAT_DATE(new Date(holiday.toDate)),
+      } as HolidayDto));
+    }
+    return this.AdminService.CreateHoliday(holidays);
   }
+
   // Method to submit the holiday form
   onSubmit(operation: DMLOpetiaons = DMLOpetiaons.create) {
     this.saveHoliday().subscribe(res => {
       this.initHoliday();
-      this.leaveForm();
-      if(this.currentDialog == ViewDialogs.add)
+      this.holidayForm();
+      if (this.currentDialog == ViewDialogs.add)
         this.alertMessage.displayAlertMessage(ALERT_CODES["SMH001"]);
-      else if(this.currentDialog == ViewDialogs.delete)
-        this.alertMessage.displayAlertMessage("Deleted");
-      else if(this.currentDialog == ViewDialogs.edit)
-        this.alertMessage.displayAlertMessage("Edited");
+      else if (this.currentDialog == ViewDialogs.delete)
+        this.alertMessage.displayAlertMessage(ALERT_CODES["SMH004"]);
+      else if (this.currentDialog == ViewDialogs.edit)
+        this.alertMessage.displayAlertMessage(ALERT_CODES["SMH002"]);
 
-        this.hideDialog();
+      this.hideDialog();
     });
   }
-  dateValidator(control: FormControl): {[s: string]: boolean} {
+  dateValidator(control: FormControl): { [s: string]: boolean } {
     const date = new Date(control.value);
     for (const holiday of this.holidays) {
       if (new Date(holiday.fromDate).getTime() === date.getTime()) {
@@ -256,65 +208,35 @@ leaveForm() {
     }
     return null;
   }
-//   confirmDelete(){
-//     this.deletedialog = true;
-//   }
-//   Dialog(leave:any){
-
-//     this.currentDialog = ViewDialogs.delete;
-//     this.deleteAsset = leave;
-//     this.deletedialog = true;
-
-//   }
-
-  showDialog1(holiday:any,view: ViewDialogs){
+  showDialog1(holiday: any, view: ViewDialogs) {
     this.currentDialog = view;
-    if(view === ViewDialogs.edit || view === ViewDialogs.delete){
-        this.holidayToEdit = Object.assign({},holiday);
-        this.holidayToEdit.fromDate = FORMAT_DATE(new Date(holiday.fromDate));
-        this.holidayToEdit.toDate = FORMAT_DATE(new Date(holiday.toDate));
-        delete this.holidayToEdit.createdAt
-        delete this.holidayToEdit.createdBy
-        delete this.holidayToEdit.updatedAt
-        delete this.holidayToEdit.updatedBy
-        this.holidayForm.setValue(this.holidayToEdit);
-       // this.editHoliday()
+    if (view === ViewDialogs.edit || view === ViewDialogs.delete) {
+      this.holidayToEdit = Object.assign({}, holiday);
+      this.holidayToEdit.fromDate = FORMAT_DATE(new Date(holiday.fromDate));
+      this.holidayToEdit.toDate = FORMAT_DATE(new Date(holiday.toDate));
+      delete this.holidayToEdit.createdAt
+      delete this.holidayToEdit.createdBy
+      delete this.holidayToEdit.updatedAt
+      delete this.holidayToEdit.updatedBy
+      this.editHolidayForm.setValue(this.holidayToEdit);
     }
-
-    // else{
-    //     this.submitLabel = "Add Holidays";
-    // }
-
-
-    //this.editHoliday(leave);
-    // this.deleteAsset = leave;
-    // this.deletedialog = true;
-
   }
-//   deleted(){
-//     this.deletedialog =false
-//   }
-//   showDialog() {
-//     this.fbleave.reset();
-//     this.dialog = true;
-//   }
-//   addLeaveDialog() {
-//     //this.currentDialog = ViewDialogs.add;
-//     this.submitLabel = "Add Holidays";
-//     //this.dialog = true;
-
-
-    //   Select Distinct Year from Holidays
-    //   Union
-    //   Select Year(GetDate())  where Year(GetDate()) not in(Select Distinct Year from Holidays)
-//   }
+  isPastDate(date: string): boolean {
+    const currentDate = new Date();
+    const fromDate = new Date(date);
+    return fromDate < currentDate;
+  }
+  isPastYearSelected(): boolean {
+    const currentYear = new Date().getFullYear();
+    const selectedYear = Number(this.selectedYear?.year);
+    return selectedYear < currentYear;
+  }
   onClose() {
-    this.fbleave.reset();
-    //this.ShowleaveDetails = false;
-    this.faleaveDetail().clear();
-    this.faleaveDetail().value.length == 0
+    this.fbHoliday.reset();
+    this.faholdyDetail().clear();
+    this.faholdyDetail().value.length == 0
   }
-   // Initialize the years array
+  // Initialize the years array
   initializeYears(): void {
     this.years = [
       { year: '2019', code: 'NY' },
@@ -333,32 +255,32 @@ leaveForm() {
     this.filter.nativeElement.value = '';
   }
 
-  hideDialog(){
+  hideDialog() {
     this.currentDialog = ViewDialogs.none;
   }
 
-  get showDelete():boolean{
+  get showDelete(): boolean {
     return this.currentDialog == ViewDialogs.delete;
   }
-  set showDelete(flag: any){
+  set showDelete(flag: any) {
     this.currentDialog = ViewDialogs.none;
   }
 
-  get showAdd():boolean{
+  get showAdd(): boolean {
     return this.currentDialog == ViewDialogs.add;
   }
-  set showAdd(flag: any){
+  set showAdd(flag: any) {
     this.currentDialog = ViewDialogs.none;
   }
 
-  get showEdit():boolean{
+  get showEdit(): boolean {
     return this.currentDialog == ViewDialogs.edit;
   }
-  set showEdit(flag: any){
+  set showEdit(flag: any) {
     this.currentDialog = ViewDialogs.none;
   }
 
-  clearSelectionOnHide(){
+  clearSelectionOnHide() {
     this.holidayToEdit = new HolidaysViewDto();
   }
 }
