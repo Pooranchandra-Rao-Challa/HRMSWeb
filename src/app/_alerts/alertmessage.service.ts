@@ -111,5 +111,6 @@ export const ALERT_CODES: { [key: string]: string } = {
     //HOLIDAY
     'SMH001': 'Holiday Added Successfully',
     'SMH002': 'Holiday Updated Successfully',
-    'SMH003': 'This date is already a holiday.'
+    'SMH003': 'This date is already a holiday.',
+    'SMH004': 'Holiday Soft Deleted Successfully'
 }

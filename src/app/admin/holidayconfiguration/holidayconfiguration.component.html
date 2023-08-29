@@ -15,7 +15,7 @@
         <p-dialog id="holidayDialog" header="Holiday" [(visible)]="showAdd" [modal]="true" (onHide)="clearSelectionOnHide()" showEffect="fade"
             [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}" (onHide)="onClose()">
             <div class="flex flex-column align-items-center justify-content-center">
-                <form [formGroup]="fbleave" (ngSubmit)="onSubmit()">
+                <form [formGroup]="fbHoliday" (ngSubmit)="onSubmit()">
                     <div class="grid">
                         <div class="col-12 roles-container">
                             <div class="p-fluid p-formgrid grid">
@@ -31,13 +31,13 @@
                                                 *ngIf="FormControls['title'].touched && FormControls['title'].invalid">
                                                 <div class="ng-invalid ng-touched p-error"
                                                     *ngIf="FormControls['title'].errors?.['required']">
-                                                    Please Enter Title.</div>
+                                                    Please Enter Holiday Title.</div>
                                                 <div class="ng-invalid ng-touched p-error"
                                                     *ngIf="FormControls['title'].errors?.['minlength']">
-                                                    Title Min Characters Is 2.</div>
+                                                    Holiday Title Min Characters Is 2.</div>
                                                 <div class="ng-invalid ng-touched p-error"
                                                     *ngIf="FormControls['title'].errors?.['pattern']">
-                                                    Title Should Contains Only Alphabets.</div>
+                                                    Holiday Title Should Contains Only Alphabets.</div>
                                             </span>
                                         </div>
                                         <div class="align-right w-40" style="width:30%; text-align:right;">
@@ -49,13 +49,13 @@
                                     <label>From Date: <sup class="p-error">*</sup></label>&nbsp;
                                     <p-calendar formControlName="fromDate" id="fromDate" placeholder="Select From Date"
                                         [showIcon]="true" appendTo="body"
-                                        [ngClass]="{ 'is-invalid ng-dirty': fbleave.get('fromDate').touched && fbleave.get('fromDate').errors }">
+                                        [ngClass]="{ 'is-invalid ng-dirty': fbHoliday.get('fromDate').touched && fbHoliday.get('fromDate').errors }">
                                     </p-calendar>
-                                    <span *ngIf="fbleave.get('fromDate').touched && fbleave.get('fromDate').invalid">
+                                    <span *ngIf="fbHoliday.get('fromDate').touched && fbHoliday.get('fromDate').invalid">
                                         <div class="ng-invalid ng-touched p-error"
-                                            *ngIf="fbleave.get('fromDate').errors?.['required']">
+                                            *ngIf="fbHoliday.get('fromDate').errors?.['required']">
                                             Please Select FromDate.</div>
-                                        <div *ngIf="fbleave.get('fromDate').touched && fbleave.get('fromDate').errors?.['dateExists']"
+                                        <div *ngIf="fbHoliday.get('fromDate').touched && fbHoliday.get('fromDate').errors?.['dateExists']"
                                             class="ng-invalid ng-touched p-error">
                                             This date is already a holiday.
                                         </div>
@@ -98,15 +98,15 @@
                                 </div>
                                 <div class=" col-12 md:col-4 mt-2">
                                     <div class=" button-container mt-5">
-                                        <p-button type="button" label="Add Holiday" id="HolidayDetails-Btn"
-                                            [disabled]="fbleave.invalid"
-                                            (click)="addLeaveDetails()"></p-button>
+                                        <p-button type="button" label="Add A Holiday" id="HolidayDetails-Btn"
+                                            [disabled]="fbHoliday.invalid"
+                                            (click)="addHolidayDetails()"></p-button>
                                     </div>
                                 </div>
                                 <!-- FotmArray -->
-                                <div class="col-12 scrolling_content" formArrayName="leaveDetails">
-                                    <p-table #dt2 [value]="faleaveDetail().controls" dataKey="id" [rows]="10"
-                                        [rowHover]="true" *ngIf="this.faleaveDetail().value.length > 0"
+                                <div class="col-12 scrolling_content" formArrayName="holidayDetails">
+                                    <p-table #dt2 [value]="faholdyDetail().controls" dataKey="id" [rows]="10"
+                                        [rowHover]="true" *ngIf="this.faholdyDetail().value.length > 0"
                                         styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
                                         [paginator]="false" [autoLayout]="true" responsiveLayout="scroll"
                                         [rowsPerPageOptions]="[10,25,50]">> <ng-template pTemplate="header">
@@ -122,8 +122,8 @@
 
                                             </tr>
                                         </ng-template>
-                                        <ng-template pTemplate="body" let-leave let-leaveDetailsIndex="rowIndex">
-                                            <tr [formGroupName]="leaveDetailsIndex">
+                                        <ng-template pTemplate="body" let-leave let-holidayDetailsIndex="rowIndex">
+                                            <tr [formGroupName]="holidayDetailsIndex">
                                                 <td class="vertical-align-top">
                                                     <input pInputText class="form-control" id="FotmArray-title"
                                                         formControlName="title" placeholder="Holiday Title">
@@ -149,13 +149,13 @@
                                                         id="description-isActive"></p-inputSwitch>
                                                 </td>
 
-                                                <td *ngIf="fbleave.controls['leaveDetails'].value.length > 1">
+                                                <td *ngIf="fbHoliday.controls['holidayDetails'].value.length > 1">
                                                     <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer"
-                                                        *ngIf="!this.faleaveDetail().controls[leaveDetailsIndex].get('id')?.value"
-                                                        (click)="faleaveDetail().removeAt(leaveDetailsIndex)"></i>
+                                                        *ngIf="!this.faholdyDetail().controls[holidayDetailsIndex].get('id')?.value"
+                                                        (click)="faholdyDetail().removeAt(holidayDetailsIndex)"></i>
                                                     <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer"
-                                                        *ngIf="this.faleaveDetail().controls[leaveDetailsIndex].get('id')?.value"
-                                                        (click)="faleaveDetail().removeAt(leaveDetailsIndex)"></i>
+                                                        *ngIf="this.faholdyDetail().controls[holidayDetailsIndex].get('id')?.value"
+                                                        (click)="faholdyDetail().removeAt(holidayDetailsIndex)"></i>
                                                 </td>
                                             </tr>
                                         </ng-template>
@@ -168,8 +168,8 @@
             </div>
             <ng-template pTemplate="footer">
                 <div class="col-4" style="float:right">
-                    <button pButton pRipple type="submit" id="submit-btn" label="Add Holidays"
-                        [disabled]="this.fbleave.get('leaveDetails').value.length === 0 "
+                    <button pButton pRipple type="submit" id="submit-btn" label="Add Holidays List"
+                        [disabled]="this.fbHoliday.get('holidayDetails').value.length === 0 "
                         class="p-button-raised p-button-primary" (click)="onSubmit()"></button>
                 </div>
             </ng-template>
@@ -178,7 +178,7 @@
         <p-dialog id="edit-dialog" header="Holiday" [(visible)]="showEdit" [modal]="true" (onHide)="clearSelectionOnHide()" showEffect="fade"
             [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}" (onHide)="onClose()">
             <div class="flex flex-column align-items-center justify-content-center">
-                <form [formGroup]="holidayForm" (ngSubmit)="onSubmit()">
+                <form [formGroup]="editHolidayForm" (ngSubmit)="onSubmit()">
                     <div class="grid">
                         <div class="col-12 roles-container">
                             <div class="p-fluid p-formgrid grid">
@@ -268,12 +268,12 @@
                 <tr>
                     <td>
                         <div class="flex">
-                            <button pButton pRipple icon="pi pi-pencil" style="padding: 0px;"
-                                class="p-element p-ripple p-button-text p-button p-component mr-2 "
-                                (click)="showDialog1(leave,ViewDialogs.edit)"></button>
-                            <button pButton pRipple icon="pi pi-trash" id="delete"
-                                class="p-element p-ripple p-button-text p-button p-component col-6 "
-                                (click)="showDialog1(leave,ViewDialogs.delete)"></button>
+                            <button *ngIf="!isPastDate(leave.fromDate)" pButton pRipple icon="pi pi-pencil" 
+                                class="p-element p-ripple p-button-text p-button p-component mr-3 p-0 "
+                                (click)="showDialog1(leave, ViewDialogs.edit)"></button>
+                            <button  *ngIf="!isPastDate(leave.fromDate) && leave.isActive" pButton pRipple icon="pi pi-trash" id="delete"
+                                class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
+                                (click)="showDialog1(leave, ViewDialogs.delete)"></button>
                         </div>
                     </td>
 
@@ -295,7 +295,7 @@
             </ng-template>
             <ng-template pTemplate="emptymessage">
                 <tr>
-                    <td class="md:text-center m-5" colspan="8">No Holidays Found.</td>
+                    <td class="md:text-center m-5" colspan="50%">No Holidays Found.</td>
                 </tr>
             </ng-template>
         </p-table>
