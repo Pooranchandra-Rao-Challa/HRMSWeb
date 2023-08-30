@@ -81,6 +81,7 @@ export class HolidaysViewDto {
   fromDate?: any
   toDate?: any
   years:any[]
+  year:any
   isActive?: boolean
   createdAt?: string
   createdBy?: string
