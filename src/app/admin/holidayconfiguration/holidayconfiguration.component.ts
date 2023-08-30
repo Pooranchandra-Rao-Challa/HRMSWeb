@@ -5,12 +5,13 @@ import { AdminService } from 'src/app/_services/admin.service';
 import { HttpEvent } from '@angular/common/http';
 import { Observable, filter } from 'rxjs';
 import { ALERT_CODES, AlertmessageService } from 'src/app/_alerts/alertmessage.service';
-import { ITableHeader, MaxLength } from 'src/app/_models/common';
+import { ConfirmationRequest, ITableHeader, MaxLength } from 'src/app/_models/common';
 import { HolidayDto, HolidaysViewDto } from 'src/app/_models/admin';
 import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { DateValidators } from 'src/app/_validators/dateRangeValidator';
 import { MIN_LENGTH_2, RG_ALPHA_ONLY } from 'src/app/_shared/regex';
 import { JwtService } from 'src/app/_services/jwt.service';
+import { ConfirmationDialogService } from 'src/app/_alerts/confirmationdialog.service';
 interface Year {
   year: string;
 }
@@ -46,11 +47,13 @@ export class HolidayconfigurationComponent {
   currentDialog: ViewDialogs = ViewDialogs.none;
   ViewDialogs = ViewDialogs;
   minDateValue: any;
+  confirmationRequest: ConfirmationRequest = new ConfirmationRequest();
   constructor(
     private formbuilder: FormBuilder,
     private AdminService: AdminService,
     private alertMessage: AlertmessageService,
-    private jwtService: JwtService,)
+    private jwtService: JwtService,
+    private confirmationDialogService:ConfirmationDialogService)
      { }
 
   // Define table headers
@@ -171,8 +174,7 @@ export class HolidayconfigurationComponent {
     if (this.currentDialog !== ViewDialogs.delete) return;
     this.editHolidayForm.get('isActive').setValue(false); // Set isActive to false in the form
     this.onSubmit(DMLOpetiaons.delete);
-  }
-
+}
   // Method to edit an existing holiday
   editHoliday() {
     if (this.currentDialog !== ViewDialogs.edit) return;
@@ -219,7 +221,7 @@ export class HolidayconfigurationComponent {
     for (const holiday of this.holidays) {
       if (new Date(holiday.fromDate).getTime() === date.getTime()) {
         const dateString = date.toLocaleDateString(); // format the date as a string
-        this.alertMessage.displayErrorMessage(`The selected date '(${dateString})' already exists as a holiday named '(${holiday.title})'.`);
+        this.alertMessage.displayErrorMessage(`The selected date exists as a holiday For ${holiday.title}.`);
         return { 'dateExists': true };
       }
     }

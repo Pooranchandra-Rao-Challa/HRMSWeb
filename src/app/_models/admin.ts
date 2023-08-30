@@ -80,8 +80,8 @@ export class HolidaysViewDto {
   description?: string
   fromDate?: any
   toDate?: any
-  years:any[]
-  year:any
+  years: any[]
+  year: any
   isActive?: boolean
   createdAt?: string
   createdBy?: string
@@ -111,14 +111,31 @@ export class ProjectViewDto {
   pocName: string;
   pocMobileNumber: string;
   address: string;
-  teamMembers: string
+  teamMembers: ProjectEmployeesDto[];
   isActive: boolean
   createdBy?: string
   createdAt?: string
   updatedBy?: string
   updatedAt?: string
 }
-export class ClientDeatilsDto {
+export class ProjectEmployeesDto {
+  id: number;
+  name: string;
+  designation: string;
+}
+export class ClientDetailsDto {
+  clientId: number
+  clientName: string
+  companyName: string
+  email: string
+  mobileNumber: string
+  cinno: string
+  pocname: string
+  pocMobileNumber: string
+  address: string
+  
+}
+export class ClientNamesDto {
   clientId: number;
   companyName: string;
 }

@@ -11,7 +11,7 @@ import { ITableHeader, MaxLength } from 'src/app/_models/common';
 import { RoleDto, RolePermissionDto, RoleViewDto } from 'src/app/_models/security';
 import { JwtService } from 'src/app/_services/jwt.service';
 import { SecurityService } from 'src/app/_services/security.service';
-import { MAX_LENGTH_50, MIN_LENGTH_2, RG_ALPHA_ONLY } from 'src/app/_shared/regex';
+import { MAX_LENGTH_20, MAX_LENGTH_50, MIN_LENGTH_2, RG_ALPHA_ONLY } from 'src/app/_shared/regex';
 
 @Component({
   selector: 'app-roles',
@@ -39,7 +39,7 @@ export class RolesComponent implements OnInit {
     this.permission = this.jwtService.Permissions;
     this.fbrole = this.formbuilder.group({
       roleId: [''],
-      name: new FormControl('', [Validators.required,Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2),Validators.maxLength(MIN_LENGTH_2)]),
+      name: new FormControl('', [Validators.required,Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2),Validators.maxLength(MAX_LENGTH_20)]),
       isActive: [true],
       permissions: []
     });
