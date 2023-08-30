@@ -19,6 +19,7 @@ export const MIN_LENGTH_2 = 2;
 export const MIN_LENGTH_4 = 4;
 export const MIN_LENGTH_6 = 6;
 export const MIN_LENGTH_5 = 5;
+export const MIN_LENGTH_20 = 20;
 export const MIN_LENGTH_11 = 11;
 export const MIN_LENGTH_8 = 8;
 export const MAX_LENGTH_7 =7;
