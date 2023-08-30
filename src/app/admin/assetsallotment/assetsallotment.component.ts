@@ -32,6 +32,7 @@ export class AssetsallotmentComponent {
     employees: Employee[] = [];
     addFlag: boolean;
     assetAllotments: AssetAllotmentViewDto[] = [];
+    maxDate: Date = new Date();
 
     constructor(private securityService: SecurityService,
         private formbuilder: FormBuilder,

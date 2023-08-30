@@ -159,3 +159,15 @@ label.required::after {
 .swal2-container {
     z-index: 10000;
 }
+
+.zoomable-img {
+    display: block;
+    width: 100%;
+    max-width: 100%; /* Ensures the image doesn't exceed its container */
+    height: auto;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .zoomable-img:hover {
+    transform: scale(1.4); /* Adjust the scale factor as needed */
+  }

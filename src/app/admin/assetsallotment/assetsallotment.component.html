@@ -51,9 +51,10 @@
                             <div class=" mb-3 grid">
                                 <div class="col-4 p-1 employee_profile_pic_div">
                                     <img [src]="'assets/demo/images/employee/' + employee.image"
-                                        [alt]="employee.empname" class=" shadow-2 my-1 mx-0 employee_profile_pic"
-                                        style="width:70%;" />
-                                </div>
+                                         [alt]="employee.empname"
+                                         class="shadow-2 my-1 mx-0 employee_profile_pic zoomable-img"
+                                         style="width: 70%;" />
+                                  </div>
                                 <div class="col-8 p-1 px-2 employee_info">
                                     <div class="text-xl font-bold">{{ employee.empname }}</div>
                                     <span class="text-600 font-medium text-md">
@@ -83,13 +84,13 @@
                                 </div>
                                 <div class="mb-3 flex col-4 p-0">
                                     <button pbutton="" pripple="" type="button" label="Primary"
-                                        (click)="viewAssetAllotments(employee.id)"
+                                        (click)="viewAssetAllotments(employee.id)" pTooltip="View" tooltipPosition="top"
                                         class="p-element p-ripple p-button-text p-button p-component view_profile_button"
                                         ng-reflect-label="Primary">
                                         <span class="p-button-label pi pi-chevron-right"></span>
                                     </button>
                                     <button pbutton="" pripple="" type="button" label="Primary"
-                                        (click)="directAssetAllotment(employee.id)"
+                                        (click)="directAssetAllotment(employee.id)" pTooltip="Add" tooltipPosition="top"
                                         class="p-element p-ripple p-button-text p-button p-component view_profile_button"
                                         ng-reflect-label="Primary">
                                         <span class="p-button-label pi pi-plus"></span>
@@ -263,7 +264,7 @@
                                 <div class="field col-12 md:col-4">
                                     <label class="required">Assigned On:</label>
                                     <p-calendar [showIcon]="true" placeholder="Select Assigned On"
-                                        formControlName="assignedOn" appendTo="body"
+                                        formControlName="assignedOn" appendTo="body" [maxDate]="maxDate"
                                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['assignedOn'].touched && FormControls['assignedOn'].errors }">
                                     </p-calendar>
                                     <span
