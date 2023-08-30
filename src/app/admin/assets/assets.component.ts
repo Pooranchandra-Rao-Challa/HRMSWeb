@@ -4,9 +4,10 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Table } from 'primeng/table';
 import { Observable } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
+import { ConfirmationDialogService } from 'src/app/_alerts/confirmationdialog.service';
 import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { AssetsDetailsViewDto, AssetsDto, AssetsViewDto, LookupViewDto } from 'src/app/_models/admin';
-import { ITableHeader } from 'src/app/_models/common';
+import { ConfirmationRequest, ITableHeader } from 'src/app/_models/common';
 import { AdminService } from 'src/app/_services/admin.service';
 import { LookupService } from 'src/app/_services/lookup.service';
 import { MAX_LENGTH_20, MAX_LENGTH_256, MAX_LENGTH_3, MAX_LENGTH_50, MAX_LENGTH_6, MAX_LENGTH_7, MIN_LENGTH_2, RG_ALPHA_NUMERIC } from 'src/app/_shared/regex';
@@ -14,7 +15,7 @@ import { MAX_LENGTH_20, MAX_LENGTH_256, MAX_LENGTH_3, MAX_LENGTH_50, MAX_LENGTH_
 
 @Component({
   selector: 'app-assets',
-  templateUrl: './assets.component.html',
+  templateUrl: './assets.component.html'
 })
 export class AssetsComponent {
   globalFilterFields: string[] = ['assetType', 'assetCategory', 'count', 'assetName', 'PurchasedDate', 'ModelNumber', 'Manufacturer',
@@ -34,9 +35,11 @@ export class AssetsComponent {
   ShowassetsDetails: boolean = false;
   deletedialog: boolean;
   deleteAsset = new AssetsDetailsViewDto();
+  confirmationRequest: ConfirmationRequest = new ConfirmationRequest();
 
   constructor(private adminService: AdminService, private formbuilder: FormBuilder,
-    private alertMessage: AlertmessageService, private lookupService: LookupService,) {
+    private alertMessage: AlertmessageService, private lookupService: LookupService,
+    private confirmationDialogService: ConfirmationDialogService) {
   }
 
   AssetsheaderTable: ITableHeader[] = [
@@ -152,7 +155,12 @@ export class AssetsComponent {
 
   Dialog(assetstypes: AssetsDetailsViewDto) {
     this.deleteAsset = assetstypes;
-    this.deletedialog = true;
+    // this.deletedialog = true;
+    this.confirmationDialogService.comfirmationDialog(this.confirmationRequest).subscribe(userChoice => {
+        if(userChoice){
+
+        }
+    });
   }
 
   deleteassettype() {
