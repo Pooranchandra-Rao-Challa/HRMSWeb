@@ -12,133 +12,144 @@ export class AppMenuComponent implements OnInit {
 
     constructor(public layoutService: LayoutService, private jwtService: JwtService){}
 
+    
     GroupPermission(groupName: string): boolean {
         switch (groupName) {
           case 'Security':
-            return this.jwtService.Permissions.CanViewUsers || this.jwtService.Permissions.CanViewRoles
+            return this.jwtService.Permissions.CanViewUsers || this.jwtService.Permissions.CanViewRoles;
+          case 'Admin':
+            return this.jwtService.Permissions.CanManageLookups || this.jwtService.Permissions.CanManageHolidays || 
+            this.jwtService.Permissions.CanManageAssets || this.jwtService.Permissions.CanManageAssetsAllotments;
+          // Add more cases for other groups
+          // ...
           default:
             return false;
         }
       }
+      ngOnInit() {
+        console.log(this.jwtService.Permissions);
+    this.model = [
+        {
+            label: '',
+            icon: 'pi pi-home',
+            items: [
+                {
+                    label: 'Dashboard',
+                    icon: 'pi pi-fw pi-home',
+                    routerLink: ['dashboard/admin'],permission: true
+                },
+                // {
+                //     label: 'Student',
+                //     icon: 'pi pi-fw pi-image',
+                //     routerLink: ['/dashboard-employee']
+                // }
+            ]
+        },
+        {
+            label: 'Security',
+            icon: 'pi pi-user',
+            permission: this.GroupPermission('Security'),
+            items: [
+                {
+                    label: 'Users',
+                    icon: 'pi pi-fw pi-user',
+                    routerLink: ['security/users'],
+                    permission: this.jwtService.Permissions.CanViewUsers
+                },
+                {
+                    label: 'Roles',
+                    icon: 'pi pi-fw pi-users',
+                    routerLink: ['security/roles'],
+                    permission: this.jwtService.Permissions.CanViewRoles
 
-    ngOnInit() {
-            console.log(this.jwtService.Permissions);
-        this.model = [
-            {
-                label: '',
-                icon: 'pi pi-home',
-                items: [
-                    {
-                        label: 'Dashboard',
-                        icon: 'pi pi-fw pi-home',
-                        routerLink: ['dashboard/admin'],permission: true
-                    },
-                    // {
-                    //     label: 'Student',
-                    //     icon: 'pi pi-fw pi-image',
-                    //     routerLink: ['/dashboard-employee']
-                    // }
-                ]
-            },
-            {
-                label: 'Security',
-                icon: 'pi pi-user',
-                permission: this.GroupPermission('Security'),
-                items: [
-                    {
-                        label: 'Users',
-                        icon: 'pi pi-fw pi-user',
-                        routerLink: ['security/users'],
-                        permission: this.jwtService.Permissions.CanViewUsers
-                    },
-                    {
-                        label: 'Roles',
-                        icon: 'pi pi-fw pi-users',
-                        routerLink: ['security/roles'],
-                        permission: this.jwtService.Permissions.CanViewRoles
+                },
 
-                    },
+            ]
+        },
+        {
+            label: 'Admin',
+            icon: 'pi pi-user',
+            permission: this.GroupPermission('Admin'),
+            items: [
+                {
+                    label: 'Lookups',
+                    icon: 'pi pi-fw pi-circle',
+                    routerLink: ['admin/lookups'],
+                    permission: this.jwtService.Permissions.CanViewLookups
+                },
+                {
+                    label: 'Holiday Configuration',
+                    icon: 'pi pi-fw pi-calendar-plus',
+                    routerLink: ['admin/holidayconfiguration'],
+                    permission: this.jwtService.Permissions.CanViewHolidays
 
-                ]
-            },
-            {
-                label: 'Admin',
-                icon: 'pi pi-user',
-                items: [
-                    {
-                        label: 'Lookups',
-                        icon: 'pi pi-fw pi-circle',
-                        routerLink: ['admin/lookups']
-                    },
-                    {
-                        label: 'Holiday Configuration',
-                        icon: 'pi pi-fw pi-calendar-plus',
-                        routerLink: ['admin/holidayconfiguration']
-                    },
-                    {
-                        label: 'Assets',
-                        icon: 'pi pi-fw pi-align-left',
-                        items: [
-                            {
-                                label: 'Assets',
-                                icon: 'pi pi-fw pi-align-left',
-                                routerLink: ['admin/assets'],
+                },
+                {
+                    label: 'Assets',
+                    icon: 'pi pi-fw pi-align-left',
+                    items: [
+                        {
+                            label: 'Assets',
+                            icon: 'pi pi-fw pi-align-left',
+                            routerLink: ['admin/assets'],
+                            permission: this.jwtService.Permissions.CanViewAssets
 
-                            },
-                            {
-                                label: 'Assets Allotment ',
-                                icon: 'pi pi-fw pi-align-left',
-                                routerLink: ['admin/assetsallotment'],
+                        },
+                        {
+                            label: 'Assets Allotment ',
+                            icon: 'pi pi-fw pi-align-left',
+                            routerLink: ['admin/assetsallotment'],
+                            permission: this.jwtService.Permissions.CanViewAssetsAllotments
 
-                            }
-                        ]
+                        }
+                    ]
 
-                    },
-                    {
-                        label: 'Projects',
-                        icon: 'pi pi-fw pi-search-plus',
-                        routerLink: ['admin/project'],
-                        permission: this.jwtService.Permissions.CanViewProjects
-                    },
-                    {
-                        label: 'Recruitment',
-                        icon: 'pi pi-fw pi-search-plus',
-                        routerLink: ['admin/recruitment']
-                    },
-                    {
-                        label: 'Job Design',
-                        icon: 'pi pi-fw pi-calendar-plus',
-                        routerLink: ['admin/jobdesign']
-                    },
-                ]
-            },
-            {
-                label: 'Employee',
-                icon: 'pi pi-user',
-                items: [
-                    {
-                        label: 'Search Employees',
-                        icon: 'pi pi-fw pi-users',
-                        routerLink: ['employee/all-employees']
-                    },
-                    {
-                        label: 'On Boarding Employee',
-                        icon: 'pi pi-fw pi-user',
-                        routerLink: ['employee/onboardingemployee']
-                    },
-                    {
-                        label: 'Attendance',
-                        icon: 'pi pi-fw pi-calendar-times',
-                        routerLink: ['employee/attendance']
-                    },
-                    {
-                        label: 'Notifications',
-                        icon: 'pi pi-fw pi-clone',
-                        routerLink: ['employee/notifications']
-                    },
-                   
-                ]
-            },
+                },
+                {
+                    label: 'Projects',
+                    icon: 'pi pi-fw pi-search-plus',
+                    routerLink: ['admin/project'],
+                    
+                },
+                {
+                    label: 'Recruitment',
+                    icon: 'pi pi-fw pi-search-plus',
+                    routerLink: ['admin/recruitment']
+                },
+                {
+                    label: 'Job Design',
+                    icon: 'pi pi-fw pi-calendar-plus',
+                    routerLink: ['admin/jobdesign']
+                },
+            ]
+        },
+        {
+            label: 'Employee',
+            icon: 'pi pi-user',
+            items: [
+                {
+                    label: 'Search Employees',
+                    icon: 'pi pi-fw pi-users',
+                    routerLink: ['employee/all-employees']
+                },
+                {
+                    label: 'On Boarding Employee',
+                    icon: 'pi pi-fw pi-user',
+                    routerLink: ['employee/onboardingemployee']
+                },
+                {
+                    label: 'Attendance',
+                    icon: 'pi pi-fw pi-calendar-times',
+                    routerLink: ['employee/attendance']
+                },
+                {
+                    label: 'Notifications',
+                    icon: 'pi pi-fw pi-clone',
+                    routerLink: ['employee/notifications']
+                },
+               
+            ]
+        },
 
             // {
             //     label: 'Hierarchy',
