@@ -18,67 +18,77 @@ $gutter: 1rem; //for primeflex grid system
 @import 'assets/demo/styles/badges.scss';
 @import 'assets/demo/styles/code.scss';
 
-.gradient_background{
-	background-image: linear-gradient(160deg, white, #e6bd97);
+.gradient_background {
+    background-image: linear-gradient(160deg, white, #e6bd97);
 }
 
-#hrms::-webkit-scrollbar-track
-{
-	// -webkit-box-shadow: inset 0 0 6px var(--primary-light-color);
-	background-color: #F5F5F5;
+#hrms::-webkit-scrollbar-track {
+    // -webkit-box-shadow: inset 0 0 6px var(--primary-light-color);
+    background-color: #F5F5F5;
 }
 
-#hrms::-webkit-scrollbar
-{
-	width: 7px;
-	background-color: #F5F5F5;
+#hrms::-webkit-scrollbar {
+    width: 7px;
+    background-color: #F5F5F5;
 }
 
-#hrms::-webkit-scrollbar-thumb
-{
-	background-color: var(--primary-light-color);
-	border: 0px solid #555555;
+#hrms::-webkit-scrollbar-thumb {
+    background-color: var(--primary-light-color);
+    border: 0px solid #555555;
 }
-::ng-deep div.ui-datepicker .ui-timepicker{
-	padding:initial;
-	font-size:smaller;
-  }
-  .p-datepicker table td > span{
-	width:1.5rem;
-	height:1.5rem;
-  }
-  .p-datepicker table td{
-	padding:1px;
-  }
-  .p-datepicker .p-datepicker-header{
-	padding:2px;
-  }
-  .p-datepicker table{
-	margin:1px 0;
-  }
-.employee_profile_pic{
-	border-radius: 100%;
-	border:3px solid rgb(79, 223, 94);
+
+::ng-deep div.ui-datepicker .ui-timepicker {
+    padding: initial;
+    font-size: smaller;
 }
-.employee_profile_pic_div{
-	text-align: center;
+
+.p-datepicker table td>span {
+    width: 1.5rem;
+    height: 1.5rem;
 }
-.employee_info{
-	line-height: 25px;
+
+.p-datepicker table td {
+    padding: 1px;
 }
-.view_profile_button{
-	height:100%;
+
+.p-datepicker .p-datepicker-header {
+    padding: 2px;
 }
-.p-button{
-	border-radius: 4px !important;
+
+.p-datepicker table {
+    margin: 1px 0;
 }
-.list_button{
-	padding:2px;
-	margin-right:10px;
+
+.employee_profile_pic {
+    border-radius: 100%;
+    border: 3px solid rgb(79, 223, 94);
 }
-.user_form .p-tabview .p-tabview-panels{
-	min-width:700px;
+
+.employee_profile_pic_div {
+    text-align: center;
 }
+
+.employee_info {
+    line-height: 25px;
+}
+
+.view_profile_button {
+    height: 100%;
+}
+
+.p-button {
+    border-radius: 4px !important;
+}
+
+.list_button {
+    padding: 2px;
+    margin-right: 10px;
+}
+
+.user_form .p-tabview .p-tabview-panels {
+    min-width: 700px;
+}
+
 // .leave_list{
 // 	width:100%;
 // 	position: relative;
@@ -87,16 +97,17 @@ $gutter: 1rem; //for primeflex grid system
 // 	position:absolute;
 // 	right:0;
 // }
-.p-dialog .p-dialog-content{
-	padding-bottom:0px;
-	margin-bottom:0px;
+.p-dialog .p-dialog-content {
+    padding-bottom: 0px;
+    margin-bottom: 0px;
 
 }
-.p-steps .p-steps-item .p-menuitem-link{
-	background-color: transparent !important;
+
+.p-steps .p-steps-item .p-menuitem-link {
+    background-color: transparent !important;
 }
 
-// spinner
+/* Begin Progress Spinner */
 .progress-spinner {
     position: fixed;
     z-index: 9999;
@@ -108,10 +119,10 @@ $gutter: 1rem; //for primeflex grid system
     left: 0;
     bottom: 0;
     right: 0;
-  }
+}
 
-  /* Transparent Overlay */
-  .progress-spinner:before {
+// Transparent Overlay
+.progress-spinner:before {
     content: '';
     display: block;
     position: fixed;
@@ -120,23 +131,31 @@ $gutter: 1rem; //for primeflex grid system
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, .2);
-  }
+}
 
-  .w-100{
-    width:100% !important;
-  }
+/* End Progress Spinner */
 
-  label.required::after{
+.w-100 {
+    width: 100% !important;
+}
+
+label.required::after {
     content: '*' !important;
     color: red !important;
-  }
+}
 
-  .position-relative{
+.position-relative {
     position: relative !important;
-  }
-  .float-button{
+}
+
+.float-button {
     position: absolute;
     right: 0;
     border-radius: 10px;
     border-radius: 55px !important;
-  }
+}
+
+/* Style for SweetAlert2 (Swal) container */
+.swal2-container {
+    z-index: 10000;
+}
