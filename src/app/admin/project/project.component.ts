@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Employee } from 'src/app/demo/api/security';
 import { SecurityService } from 'src/app/demo/service/security.service';
-import { AlertmessageService } from 'src/app/_alerts/alertmessage.service';
+import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { ClientDeatilsDto, ProjectViewDto } from 'src/app/_models/admin';
 import { AdminService } from 'src/app/_services/admin.service';
 import { JwtService } from 'src/app/_services/jwt.service';
@@ -56,14 +56,25 @@ export class ProjectComponent implements OnInit {
     });
   }
 
-  showDialog(projectDetails) {
+  showProjectDetailsDialog(projectDetails) {
     this.visible = true;
-    debugger
     this.projectDetails=projectDetails;
     console.log(this.projectDetails)
   }
   onSubmit() {
-
+    if (this.fbproject.valid) {
+      // this.saveRole().subscribe(resp => {
+      //   if (resp) {
+      //     this.fbproject.reset();
+      //     this.dialog = false;
+      //     this.initProjects();
+      //     this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "PAS001" : "PAS002"]);
+      //   }
+      // })
+    }
+    else {
+      this.fbproject.markAllAsTouched();
+    }
   }
 
   initProjects() {
@@ -94,13 +105,33 @@ export class ProjectComponent implements OnInit {
     }
     this.filteredClients = filtered;
 }
-
-  addProjectDialog() {
-    this.dialog = true;
-  
-    this.submitLabel = "Add Project";
-    this.fbproject.reset();
-  }
+showDialog() {
+  this.fbproject.reset();
+  this.dialog = true;
+}
+initProject(project ) {
+  this.showDialog();
+  // if (role.roleId != null) {    
+  //   this.addFlag = false;
+  //   this.submitLabel = "Update Role";
+  //   this.securityService.GetRoleWithPermissions(role.roleId).subscribe(resp => {
+  //   this.role.roleId = role.roleId
+  //   this.role.name = role.name;
+  //   this.role.isActive = role.isActive;
+  //   this.role.permissions = (resp as unknown as RoleDto).permissions;
+  //   this.fbrole.setValue(this.role);
+  //   this.screensInPermissions()
+  //   })
+  // } else {
+  //   this.submitLabel = "Add Role";
+  //   this.addFlag = true;
+  //   this.role = {};
+  //   this.role.roleId = "";
+  //   this.role.name = "";
+  //   this.role.isActive = true;
+  //   this.initPermissoins();
+  // }
+}
   editProjectDialog() {
     this.dialog = true;
     this.submitLabel = "Edit Project";
