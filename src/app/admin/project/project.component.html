@@ -7,7 +7,7 @@
       </ng-template>
       <ng-template pTemplate="right">
         <button pButton pRipple label="Add New Project" icon="pi pi-plus" class="p-button-primary p-mr-2"
-          *ngIf="permission?.CanManageProjects" (click)="addProjectDialog()"></button>
+          *ngIf="permission?.CanManageProjects" (click)="initProject({})"></button>
       </ng-template>
     </p-toolbar>
     <!-- dialog -->
@@ -32,12 +32,12 @@
                 <div class="field col-12 md:col-4">
                   <label>Start Date: <sup class="p-error">*</sup>
                   </label>&nbsp; <p-calendar inputId="calendar" [readonlyInput]="true" [showIcon]="true"
-                    [minDate]="minDateVal" placeholder="Enter staring Date" formControlName="startDate"></p-calendar>
+                    [minDate]="minDateVal" placeholder="Enter Project Staring Date" formControlName="startDate"></p-calendar>
                 </div>
                 <div class="field col-12 md:col-4">
                   <label for="textarea">Description <sup class="p-error">*</sup>
                   </label>&nbsp; <textarea inputId="textarea" rows="3" cols="30" pInputTextarea alphaNumeric
-                    placeholder="Enter description" formControlName="description"></textarea>
+                    placeholder="Enter Description" formControlName="description"></textarea>
                 </div>
 
               </div>
@@ -53,20 +53,20 @@
                 <div class="field col-12 md:col-4">
                   <label>Client Name: <sup class="p-error">*</sup>
                   </label>&nbsp;
-                  <input pInputText id="name" type="text" placeholder="Enter client name" alphaOnly
+                  <input pInputText id="name" type="text" placeholder="Enter Client Name" alphaOnly
                     formControlName="clientName" />
                 </div>
 
                 <div class="field col-12 md:col-4">
                   <label>Client Email Id: <sup class="p-error">*</sup>
                   </label>&nbsp;
-                  <input pInputText id="name" type="text" placeholder="Enter email address" alphaOnly
+                  <input pInputText id="name" type="text" placeholder="Enter EmailId" alphaOnly
                     formControlName="email" />
                 </div>
                 <div class="field col-12 md:col-4">
                   <label>Client Mobile No: 
                   </label>&nbsp;
-                  <input pInputText id="name" type="text" placeholder="Enter mobile number" alphaOnly
+                  <input pInputText id="name" type="text" placeholder="Enter Mobile Number" alphaOnly
                     formControlName="mobileNumber" />
                 </div>
                 <div class="field col-12 md:col-4">
@@ -86,14 +86,14 @@
                 </div>
                 <div class="field col-12 md:col-4">
                   <label>POC Ph.no: <sup class="p-error">*</sup>
-                  </label>&nbsp; <input pInputText id="name" type="text" placeholder="Enter poc mobile number"
+                  </label>&nbsp; <input pInputText id="name" type="text" placeholder="Enter POC Mobile Number"
                     formControlName="pocMobileNumber" />
                 </div>
                 <div class="field col-12 md:col-4">
                   <label>Address: 
                   </label>&nbsp;
                   <textarea inputId="textarea" rows="3" cols="30" pInputTextarea formControlName="address"
-                    placeholder="Enter address"></textarea>
+                    placeholder="Enter Address"></textarea>
                 </div>
               </div>
               <h5>Employee Details</h5>
@@ -144,7 +144,7 @@
               alt="img" [style]="{width: '300px'}"
               class="inline-flex align-items-center justify-content-center border-circle w-5rem h-5rem bg-primary-100 mb-5">
             <div class="text-2xl mb-3 font-medium">
-              <a class="cursor-pointer" (click)="showDialog(project)">{{project.name}} </a>
+              <a class="cursor-pointer" (click)="showProjectDetailsDialog(project)">{{project.name}} </a>
               <button pButton pRipple icon="pi pi-pencil" *ngIf="permission?.CanManageProjects"
                 class="p-element p-ripple p-button-text p-button-primary p-component m-0 p-0"
                 (click)="editProjectDialog()"></button>

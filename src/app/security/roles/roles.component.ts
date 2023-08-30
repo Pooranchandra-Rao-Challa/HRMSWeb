@@ -21,7 +21,7 @@ export class RolesComponent implements OnInit {
   globalFilterFields: string[] = ['name', 'isActive', 'createdAt', "createdBy", "updatedDate", "updatedBy"];
   dialog: boolean = false;
   @ViewChild('filter') filter!: ElementRef;
-  roleForm!: FormGroup;
+  fbrole!: FormGroup;
   submitLabel!: string;
   screens: string[] = [];
   roles: RoleViewDto[] = [];
@@ -37,7 +37,7 @@ export class RolesComponent implements OnInit {
 
   ngOnInit(): void {
     this.permission = this.jwtService.Permissions;
-    this.roleForm = this.formbuilder.group({
+    this.fbrole = this.formbuilder.group({
       roleId: [''],
       name: new FormControl('', [Validators.required,Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2),Validators.maxLength(MIN_LENGTH_2)]),
       isActive: [true],
@@ -48,7 +48,7 @@ export class RolesComponent implements OnInit {
   }
 
   get roleFormControls() {
-    return this.roleForm.controls;
+    return this.fbrole.controls;
   }
   
   restrictSpaces(event: KeyboardEvent) {
@@ -87,7 +87,7 @@ export class RolesComponent implements OnInit {
       this.role.name = role.name;
       this.role.isActive = role.isActive;
       this.role.permissions = (resp as unknown as RoleDto).permissions;
-      this.roleForm.setValue(this.role);
+      this.fbrole.setValue(this.role);
       this.screensInPermissions()
       })
     } else {
@@ -101,11 +101,11 @@ export class RolesComponent implements OnInit {
     }
   }
   saveRole(): Observable<HttpEvent<RoleDto>> {
-    if (!this.role.roleId) return this.securityService.CreateRole(this.roleForm.value)
-    else return this.securityService.UpdateRole(this.roleForm.value)
+    if (!this.role.roleId) return this.securityService.CreateRole(this.fbrole.value)
+    else return this.securityService.UpdateRole(this.fbrole.value)
   }
   showDialog() {
-    this.roleForm.reset();
+    this.fbrole.reset();
     this.dialog = true;
   }
   clear(table: Table) {
@@ -116,7 +116,7 @@ export class RolesComponent implements OnInit {
     this.securityService.GetPermissions().subscribe(resp => {
       this.permissions = resp as unknown as RolePermissionDto[];
       this.role.permissions = this.permissions;
-      this.roleForm.setValue(this.role);
+      this.fbrole.setValue(this.role);
       this.role.permissions?.forEach(p => p.assigned = false);
       this.screensInPermissions();
     });
@@ -126,11 +126,10 @@ export class RolesComponent implements OnInit {
     this.screens.sort((a, b) => (a || "").localeCompare(b || ""))
   }
   onSubmit() {
-    if (this.roleForm.valid) {
-      console.log(this.roleForm.value);
+    if (this.fbrole.valid) {
       this.saveRole().subscribe(resp => {
         if (resp) {
-          this.roleForm.reset();
+          this.fbrole.reset();
           this.dialog = false;
           this.intiRoles();
           this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "SMR001" : "SMR002"]);
@@ -138,7 +137,7 @@ export class RolesComponent implements OnInit {
       })
     }
     else {
-      this.roleForm.markAllAsTouched();
+      this.fbrole.markAllAsTouched();
     }
   }
   

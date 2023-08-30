@@ -68,7 +68,7 @@
     <p-dialog header="Role" [(visible)]="dialog" [modal]="true" showEffect="fade"
       [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '50%'}">
       <div class="flex flex-column align-items-center justify-content-center">
-        <form [formGroup]="roleForm" (ngSubmit)="onSubmit()" id="Role_roleForm">
+        <form [formGroup]="fbrole" (ngSubmit)="onSubmit()" id="Role_roleForm">
           <div class="grid">
             <div class="col-12 roles-container">
               <div class="p-fluid p-formgrid grid">
@@ -131,7 +131,7 @@
       </div>
       <ng-template pTemplate="footer">
         <div class="col-4" style="float:right">
-          <button pButton pRipple type="submit" [label]="submitLabel" [disabled]="!this.roleForm.valid" class="p-button-raised p-button-primary" id="Role_roleSubmitButton"
+          <button pButton pRipple type="submit" [label]="submitLabel" [disabled]="!this.fbrole.valid" class="p-button-raised p-button-primary" id="Role_roleSubmitButton"
             (click)="onSubmit()"></button>
         </div>
       </ng-template>

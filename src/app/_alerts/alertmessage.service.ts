@@ -83,7 +83,7 @@ export const ALERT_CODES: { [key: string]: string } = {
     // change password
     'SSECP001': 'Password Updated Successfully',
     'ESECP001': 'Invalid Current Password',
-
+     //Roles
     'SMR001': 'Role Added Successfully',
     'SMR002': 'Role Updated Successfully',
 
@@ -92,7 +92,11 @@ export const ALERT_CODES: { [key: string]: string } = {
     'SSESQ002': 'Security Questions Updated Faild',
     'SSESQ003': 'Security Questions Added Successfully',
 
+     //Projects
+     'PAS001': 'Project Added Successfully',
+    'PAS002': 'Project Updated Successfully',
 
+    //Users
     'SMU002': 'User Update Successfully',
     'SMU001': "User has been successfully Soft Deleted",
     //LookUps
