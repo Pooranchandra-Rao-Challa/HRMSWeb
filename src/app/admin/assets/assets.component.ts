@@ -8,6 +8,7 @@ import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { AssetsDetailsViewDto, AssetsDto, AssetsViewDto, LookupViewDto } from 'src/app/_models/admin';
 import { ITableHeader } from 'src/app/_models/common';
 import { AdminService } from 'src/app/_services/admin.service';
+import { JwtService } from 'src/app/_services/jwt.service';
 import { LookupService } from 'src/app/_services/lookup.service';
 import { MAX_LENGTH_20, MAX_LENGTH_256, MAX_LENGTH_3, MAX_LENGTH_50, MAX_LENGTH_6, MAX_LENGTH_7, MIN_LENGTH_2, RG_ALPHA_NUMERIC } from 'src/app/_shared/regex';
 
@@ -34,9 +35,11 @@ export class AssetsComponent {
   ShowassetsDetails: boolean = false;
   deletedialog: boolean;
   deleteAsset = new AssetsDetailsViewDto();
+  permissions:any;
 
   constructor(private adminService: AdminService, private formbuilder: FormBuilder,
-    private alertMessage: AlertmessageService, private lookupService: LookupService,) {
+    private alertMessage: AlertmessageService, private lookupService: LookupService,
+    private jwtService:JwtService) {
   }
 
   AssetsheaderTable: ITableHeader[] = [
@@ -63,6 +66,7 @@ export class AssetsComponent {
   ];
 
   ngOnInit() {
+    this.permissions = this.jwtService.Permissions;
     this.assetsForm();
     this.initAssets();
     this.initAssetTypes();

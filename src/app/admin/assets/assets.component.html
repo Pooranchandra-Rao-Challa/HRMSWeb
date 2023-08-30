@@ -8,7 +8,7 @@
       </ng-template>
       <ng-template pTemplate="right">
         <button pButton pRipple label="New Asset" icon="pi pi-plus" class="p-button-primary p-mr-2"
-          (click)="addAssetsDialog()"></button>
+          (click)="addAssetsDialog()" *ngIf="permissions?.CanManageAssets" ></button>
       </ng-template>
     </p-toolbar>
     <!-- dialog -->
@@ -42,7 +42,7 @@
                 </div>
               </div>
               <div class="field col-12 md:col-4">
-                <label>Enter Asset Category: <sup class="p-error">*</sup></label>
+                <label>Asset Category: <sup class="p-error">*</sup></label>
                 <p-dropdown [options]="assetCategories" optionLabel="name" id="assetCategories" [filter]="true" filterBy="name"
                   [showClear]="true" placeholder="Select Asset Category" formControlName="assetCategoryId"
                   optionValue="lookupDetailId"
@@ -56,7 +56,7 @@
                 </span>
               </div>
               <div class="field col-12 md:col-4">
-                <label>Enter Asset Type: <sup class="p-error">*</sup></label>
+                <label>Asset Type: <sup class="p-error">*</sup></label>
                 <p-dropdown [options]="assetTypes" optionLabel="name" id="assetTypes" [filter]="true" filterBy="name" [showClear]="true"
                   placeholder="Select Asset Type" formControlName="assetTypeId" optionValue="lookupDetailId"
                   [ngClass]="{ 'is-invalid ng-dirty': FormControls['assetTypeId'].touched && FormControls['assetTypeId'].errors}">
@@ -91,7 +91,7 @@
               </div>
               <div class="field col-12 md:col-4">
                 <label>Purchased Date: <sup class="p-error">*</sup></label>
-                <p-calendar inputId="purchasedDate" id="purchasedDate" placeholder="Enter Purchased Date"
+                <p-calendar inputId="purchasedDate" id="purchasedDate" placeholder="Select Purchased Date"
                   formControlName="purchasedDate"
                   [ngClass]="{ 'is-invalid ng-dirty': FormControls['purchasedDate'].touched && FormControls['purchasedDate'].errors}">
                 </p-calendar>
@@ -268,7 +268,7 @@
       </ng-template>
       <ng-template pTemplate="header">
         <tr>
-          <th></th>
+          <th ></th>
           <th *ngFor="let col of AssetsheaderTable" [pSortableColumn]="col.header">
             {{col?.label}}
             <p-columnFilter type="text" [field]="col.header" display="menu"></p-columnFilter>
@@ -298,7 +298,7 @@
                 [tableStyle]="{ width: 'max-content'}">
                 <ng-template pTemplate="header">
         <tr>
-          <th style="width:5px;">Actions</th>
+          <th *ngIf="permissions?.CanManageAssets" style="width:5px;">Actions</th>
           <th *ngFor="let col of AssetsTypeTable" [pSortableColumn]="col.header">
             {{col?.label}}
             <p-columnFilter type="text" [field]="col.header" display="menu"></p-columnFilter>
@@ -308,8 +308,8 @@
       </ng-template>
       <ng-template pTemplate="body" let-assetstypes>
         <tr>
-          <td>
-            <div class="flex">
+          <td *ngIf="permissions?.CanManageAssets">
+            <div class="flex" >
               <button pButton pRipple icon="pi pi-pencil" style="padding: 0px;"
                 class="p-element p-ripple p-button-text p-button p-component col-6"
                 (click)="editAssets(assetstypes)"></button>
