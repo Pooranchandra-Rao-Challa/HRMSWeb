@@ -63,7 +63,7 @@ export class AssetsDto {
   name?: string;
   assetTypeId?: number;
   assetCategoryId?: number;
-  purchasedDate?:  Date;
+  purchasedDate?: Date;
   modelNumber?: string;
   manufacturer?: string;
   serialNumber?: string;
@@ -81,6 +81,7 @@ export class HolidaysViewDto {
   fromDate?: any
   toDate?: any
   years:any[]
+  year:any
   isActive?: boolean
   createdAt?: string
   createdBy?: string
@@ -95,25 +96,29 @@ export class HolidayDto {
   toDate?: any
   isActive?: boolean
 }
-export class ProjectViewDto{
-  projectId:number;
-  code :string;
-  name :string;
-  startDate :string;
-  description :string;
-  clientId :number;
-  clientName :string;
-  companyName :string;
-  email :string;
-  mobileNumber:string;
-  cinno :string;
-  pocName:string ;
-  pocMobileNumber:string ;
-  address:string ;
-  teamMembers:string 
-  isActive :boolean
+export class ProjectViewDto {
+  projectId: number;
+  code: string;
+  name: string;
+  startDate: string;
+  description: string;
+  clientId: number;
+  clientName: string;
+  companyName: string;
+  email: string;
+  mobileNumber: string;
+  cinno: string;
+  pocName: string;
+  pocMobileNumber: string;
+  address: string;
+  teamMembers: string
+  isActive: boolean
   createdBy?: string
   createdAt?: string
   updatedBy?: string
   updatedAt?: string
+}
+export class ClientDeatilsDto {
+  clientId: number;
+  companyName: string;
 }

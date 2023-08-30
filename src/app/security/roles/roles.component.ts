@@ -39,12 +39,12 @@ export class RolesComponent implements OnInit {
     this.permission = this.jwtService.Permissions;
     this.roleForm = this.formbuilder.group({
       roleId: [''],
-      name: new FormControl('', [Validators.required,Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
+      name: new FormControl('', [Validators.required,Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2),Validators.maxLength(MIN_LENGTH_2)]),
       isActive: [true],
       permissions: []
     });
     this.intiRoles();
-    console.log(this.roles)
+    
   }
 
   get roleFormControls() {
