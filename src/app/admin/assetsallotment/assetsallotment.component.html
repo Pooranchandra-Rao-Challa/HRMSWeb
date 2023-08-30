@@ -14,7 +14,7 @@
                         </span>
                         <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
                         <p-button class="p-element p-ripple p-button p-component p-2 pt-0 pb-0"
-                            (click)="addAssestAllotment()" icon="pi pi-plus" label="Assign Asset"></p-button>
+                            (click)="addAssetAllotment()" icon="pi pi-plus" label="Assign Asset"></p-button>
                     </div>
                 </ng-template>
                 <ng-template let-employee pTemplate="listItem">
@@ -36,7 +36,7 @@
                                     <span class="p-button-label pi pi-chevron-right"></span>
                                 </button>
                                 <button pbutton="" pripple="" type="button" label="Primary"
-                                (click)="empAssestAllotment(employee.id)"
+                                (click)="directAssetAllotment(employee.id)"
                                 class="p-element p-ripple p-button-text p-button p-component view_profile_button"
                                 ng-reflect-label="Primary">
                                 <span class="p-button-label pi pi-plus"></span>
@@ -89,7 +89,7 @@
                                         <span class="p-button-label pi pi-chevron-right"></span>
                                     </button>
                                     <button pbutton="" pripple="" type="button" label="Primary"
-                                        (click)="empAssestAllotment(employee.id)"
+                                        (click)="directAssetAllotment(employee.id)"
                                         class="p-element p-ripple p-button-text p-button p-component view_profile_button"
                                         ng-reflect-label="Primary">
                                         <span class="p-button-label pi pi-plus"></span>
@@ -107,7 +107,7 @@
                 <div class="col-12 text-right align-items-right">
                     <div class="gri align-items-right text-right">
                         <p-button class="p-element align-items-right text-right p-button p-component p-2 pt-0 pb-0"
-                            (click)="addAssestAllotment()" icon="pi pi-plus"></p-button>
+                            (click)="addAssetAllotment()" icon="pi pi-plus"></p-button>
                     </div>
                 </div>
                 <div class="col-12 ">
@@ -293,7 +293,7 @@
                     <div class="col-4" style="float:right">
                         <button pButton pRipple type="submit" label="Assign Asset"
                             class="p-button-raised p-button-primary" [disabled]="fbAssetAllotment.invalid"
-                            (click)="onSubmit()"></button>
+                            (click)="onSubmitAsset()"></button>
                     </div>
                 </ng-template>
             </p-dialog>
@@ -338,7 +338,7 @@
                 <ng-template pTemplate="footer">
                     <div class="col-4" style="float:right">
                         <button pButton pRipple type="submit" label="Submit" class="p-button-raised p-button-primary"
-                            [disabled]="fbUnAssignAsset.invalid" (click)="unAssignedAssetAllotment()"></button>
+                            [disabled]="fbUnAssignAsset.invalid" (click)="onSubmitUnAssignedAsset()"></button>
                     </div>
                 </ng-template>
             </p-dialog>
