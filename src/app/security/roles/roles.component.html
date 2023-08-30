@@ -41,7 +41,7 @@
       </ng-template>
       <ng-template pTemplate="body" let-role>
         <tr>
-          <td><button pButton pRipple icon="pi pi-pencil" *ngIf="permission?.CanManageRoles" style="padding: 0px;" (click)="initRole(role)" id="Role_roleEdit"
+          <td *ngIf="permission?.CanManageRoles"><button pButton pRipple icon="pi pi-pencil"  style="padding: 0px;" (click)="initRole(role)" id="Role_roleEdit"
               class="p-element p-ripple p-button-text p-button p-component"></button></td>
           <td *ngFor="let col of headers" [ngClass]="col?.field == 'isActive' ? 'text-center' : ''">
             <span
