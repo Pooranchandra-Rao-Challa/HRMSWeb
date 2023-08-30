@@ -47,25 +47,41 @@
                                     </div>
                                 </div>
                                 <div class="field col-12 md:col-4">
-                                  <label for="fromDate">From Date: <sup class="p-error">*</sup></label>&nbsp;
-                                  <p-calendar formControlName="fromDate" [readonlyInput]="true"  id="fromDate" [minDate]="minDateValue" placeholder="Select From Date"
-                                    [showIcon]="true" appendTo="body"[readonlyInput]="true" 
-                                    [ngClass]="{ 'is-invalid ng-dirty': fbHoliday.get('fromDate').touched && fbHoliday.get('fromDate').errors }">
-                                  </p-calendar>
-                                  <span *ngIf="fbHoliday.get('fromDate').touched && fbHoliday.get('fromDate').invalid">
-                                    <div class="ng-invalid ng-touched p-error" *ngIf="fbHoliday.get('fromDate').errors?.['required']">
-                                      Please select From Date.
-                                    </div>
-                                    <div *ngIf="fbHoliday.get('fromDate').touched && fbHoliday.get('fromDate').errors?.['dateExists']"
-                                      class="ng-invalid ng-touched p-error">
-                                      This date is already a holiday.
-                                    </div>
-                                  </span>
-                                </div>
-                                <div class="field col-12 md:col-4">
-                                    <label>To Date:</label>&nbsp; <p-calendar  [readonlyInput]="true" formControlName="toDate" [minDate]="minDateValue" id="toDate"
-                                        placeholder="Select To Date" [showIcon]="true" appendTo="body"></p-calendar>
-                                </div>
+                                    <label>From Date:<sup class="p-error">*</sup></label>
+                                    <p-calendar appendTo="body" placeholder="Select From Date" [readonlyInput]="true" [minDate]="minDateValue"
+                                      [showIcon]="true" formControlName="fromDate"
+                                      [ngClass]="{ 'is-invalid ng-dirty': FormControls['fromDate'].touched && FormControls['fromDate'].errors }">
+                                    </p-calendar>
+                                    <span *ngIf="FormControls['fromDate'].touched && FormControls['fromDate'].invalid">
+                                      <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['fromDate'].errors?.['required']">
+                                        Please Select From Date.</div>
+                                        <div *ngIf="fbHoliday.get('fromDate').touched && fbHoliday.get('fromDate').errors?.['dateExists']"
+                                        class="ng-invalid ng-touched p-error">
+                                        This date is already a holiday.
+                                      </div>
+                                    </span>
+                                  </div>
+                                  <div class="field col-12 md:col-4">
+                                    <label>To Date:<sup class="p-error">*</sup></label>
+                                    <p-calendar appendTo="body" placeholder="Select To Date" [readonlyInput]="true" [minDate]="minDateValue"
+                                      [showIcon]="true" formControlName="toDate" [minDate]="fbHoliday.value.fromDate"
+                                      [disabled]="!FormControls['fromDate'].value"
+                                      [pTooltip]="!FormControls['fromDate'].value ? 'Please Select From Date First' : ''"
+                                      tooltipPosition="top"
+                                      [ngClass]="{ 'is-invalid ng-dirty': FormControls['toDate'].touched && FormControls['toDate'].errors }">
+                                    </p-calendar>
+                                    <span *ngIf="FormControls['toDate'].touched && FormControls['toDate'].invalid">
+                                      <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="FormControls['toDate'].errors?.['required'] && !FormControls['fromDate'].errors?.['required']">
+                                        Please Select To Date.</div>
+                                      <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['fromDate'].errors?.['required']">
+                                        Please Select From Date First.</div>
+                                    </span>
+                                    <span>
+                                      <div class="ng-invalid ng-touched p-error" *ngIf="fbHoliday.hasError('fromDate')">
+                                        To Date Always Greater Than Equals To From Date</div>
+                                    </span>
+                                  </div>
                                 <div class="field col-12 md:col-4">
                                     <label>Holiday Description: </label>&nbsp; <input pInputText id="description" type="text" id="description"
                                         formControlName="description" #description
@@ -266,8 +282,8 @@
             </ng-template>
             <ng-template pTemplate="body" let-leave>
                 <tr>
-                    <td>
-                        <div class="flex" *ngIf="permissions?.CanManageHolidays">
+                    <td *ngIf="permissions?.CanManageHolidays">
+                        <div class="flex" >
                             <button *ngIf="!isPastDate(leave.fromDate)" pButton pRipple icon="pi pi-pencil" 
                                 class="p-element p-ripple p-button-text p-button p-component mr-3 p-0 "
                                 (click)="showDialog1(leave, ViewDialogs.edit)"></button>

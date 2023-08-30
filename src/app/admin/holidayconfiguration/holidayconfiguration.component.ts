@@ -80,9 +80,9 @@ export class HolidayconfigurationComponent {
       holidayId: null,
       title: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
       fromDate: [null, [Validators.required, this.dateValidator.bind(this)]],
-      toDate: new FormControl(null),
+      toDate: new FormControl({value: null, disabled: true}),
       description: new FormControl('', [Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
-      isActive: new FormControl([true],Validators.requiredTrue),
+      isActive: new FormControl(true,Validators.requiredTrue),
       year: new FormControl(currentYear),
       holidayDetails: this.formbuilder.array([])
     }, {
@@ -90,6 +90,7 @@ export class HolidayconfigurationComponent {
         DateValidators.dateRangeValidator('fromDate', 'toDate', { 'fromDate': true }),
       ])
     });
+
   }
 
   // Method to add holiday details to the form
@@ -224,8 +225,9 @@ export class HolidayconfigurationComponent {
     }
     return null;
   }
-
-
+  get isFromDateSelected() {
+    return this.FormControls['fromDate'] && this.FormControls['fromDate'].value;
+}
   // Method to show the dialog for editing or deleting a holiday
   showDialog1(holiday: any, view: ViewDialogs) {
     this.currentDialog = view;

@@ -97,8 +97,8 @@ export const ALERT_CODES: { [key: string]: string } = {
     'PAS002': 'Project Updated Successfully',
 
     //Users
-    'SMU002': 'User Update Successfully',
-    'SMU001': "User has been successfully Soft Deleted",
+    'SMU002': 'User Updated Successfully',
+    'SMU001': "User Has Been Successfully Soft Deleted",
     //LookUps
     'SML001': 'Lookup Added Successfully',
     'SML002': 'Lookup Updated Successfully',
@@ -118,6 +118,6 @@ export const ALERT_CODES: { [key: string]: string } = {
     //HOLIDAY
     'SMH001': 'Holiday Added Successfully',
     'SMH002': 'Holiday Updated Successfully',
-    'SMH003': 'This date is already a holiday.',
+    'SMH003': 'Selected Date is Already Exist',
     'SMH004': 'Holiday Soft Deleted Successfully'
 }
