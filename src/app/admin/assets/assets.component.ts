@@ -28,6 +28,7 @@ export class AssetsComponent {
   fbassets!: FormGroup;
   mediumDate: string = MEDIUM_DATE;
   addFlag: boolean;
+  addFlag1: boolean;
   dialog: boolean = false;
   submitLabel!: string;
   ShowassetsDetails: boolean = false;
@@ -88,7 +89,6 @@ export class AssetsComponent {
 
   initAssets() {
     this.adminService.GetAssets().subscribe((resp) => {
-      console.log(resp, ' this.assets');
       this.assets = resp as unknown as AssetsViewDto[];
       this.assets.forEach(element => {
         element.expandassets = JSON.parse(element.assets) as unknown as AssetsDetailsViewDto[];
@@ -156,44 +156,23 @@ export class AssetsComponent {
   }
 
   deleteassettype() {
-    this.asset.assetId = this.deleteAsset.assetId;
-    this.asset.code = this.deleteAsset.code;
-    this.asset.name = this.deleteAsset.name;
-    this.asset.assetTypeId = this.deleteAsset.assetTypeId;
-    this.asset.assetCategoryId = this.deleteAsset.assetCategoryId;
+    this.asset = this.deleteAsset
     this.asset.purchasedDate = new Date(this.deleteAsset.purchasedDate);
-    this.asset.modelNumber = this.deleteAsset.modelNumber;
-    this.asset.manufacturer = this.deleteAsset.manufacturer;
-    this.asset.serialNumber = this.deleteAsset.serialNumber;
-    this.asset.warranty = this.deleteAsset.warranty;
-    this.asset.addValue = this.deleteAsset.addValue;
-    this.asset.description = this.deleteAsset.description;
-    this.asset.statusId = this.deleteAsset.statusId;
     this.asset.isActive = false;
     this.fbassets.patchValue(this.asset);
     this.addFlag = false;
+    this.addFlag1 = true;
     this.onSubmit();
     this.deletedialog = false
   }
 
   editAssets(assets: AssetsDetailsViewDto) {
-    this.asset.assetId = assets.assetId;
-    this.asset.code = assets.code;
-    this.asset.name = assets.name;
-    this.asset.assetTypeId = assets.assetTypeId;
-    this.asset.assetCategoryId = assets.assetCategoryId;
+    this.asset = assets;
     this.asset.purchasedDate = new Date(assets.purchasedDate);
-    this.asset.modelNumber = assets.modelNumber;
-    this.asset.manufacturer = assets.manufacturer;
-    this.asset.serialNumber = assets.serialNumber;
-    this.asset.warranty = assets.warranty;
-    this.asset.addValue = assets.addValue;
-    this.asset.description = assets.description;
-    this.asset.statusId = assets.statusId;
-    this.asset.isActive = assets.isActive;
     this.fbassets.patchValue(this.asset);
     this.addFlag = false;
     this.dialog = true;
+    this.addFlag1 = false;
     this.submitLabel = "Update Assets";
   }
 
@@ -209,10 +188,14 @@ export class AssetsComponent {
         this.initAssets();
         this.onClose();
         this.dialog = false;
-        this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "AAS001" : "AAS002"]);
+        if (this.addFlag) {
+          this.alertMessage.displayAlertMessage(ALERT_CODES["AAS001"]);
+        } else {
+          this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag1 ? "AAS003" : "AAS002"]);
+        }
       }
       else {
-        this.alertMessage.displayErrorMessage(ALERT_CODES["AAS003"])
+        this.alertMessage.displayErrorMessage(ALERT_CODES["AAS004"])
       }
     })
   }

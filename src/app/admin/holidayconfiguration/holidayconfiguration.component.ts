@@ -3,7 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { Table } from 'primeng/table';
 import { AdminService } from 'src/app/_services/admin.service';
 import { HttpEvent } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, filter } from 'rxjs';
 import { ALERT_CODES, AlertmessageService } from 'src/app/_alerts/alertmessage.service';
 import { ITableHeader, MaxLength } from 'src/app/_models/common';
 import { HolidayDto, HolidaysViewDto } from 'src/app/_models/admin';
@@ -12,7 +12,6 @@ import { DateValidators } from 'src/app/_validators/dateRangeValidator';
 import { MIN_LENGTH_2, RG_ALPHA_ONLY } from 'src/app/_shared/regex';
 interface Year {
   year: string;
-  code: string;
 }
 export enum DMLOpetiaons {
   update,
@@ -39,19 +38,18 @@ export class HolidayconfigurationComponent {
   editHolidayForm!: FormGroup;
   maxLength: MaxLength = new MaxLength();
   selectedYear: Year | undefined;
-  years: Year[] | undefined;
+  years: any
+
   holidayToEdit: HolidaysViewDto;
   mediumDate: string = MEDIUM_DATE
   currentDialog: ViewDialogs = ViewDialogs.none;
   ViewDialogs = ViewDialogs;
-  minDateValue:any;
-
-  
-
+  minDateValue: any;
   constructor(
     private formbuilder: FormBuilder,
     private AdminService: AdminService,
-    private alertMessage: AlertmessageService) { }
+    private alertMessage: AlertmessageService)
+     { }
 
   // Define table headers
   headers: ITableHeader[] = [
@@ -66,9 +64,8 @@ export class HolidayconfigurationComponent {
     { field: 'updatedBy', header: 'updatedBy', label: 'Updated By' },
   ];
   ngOnInit(): void {
-    this.holidayForm();
     this.initializeYears();
-    this.selectedYear = this.years.find(y => y.year === '2023');
+    this.holidayForm();
     this.initHoliday();
     this.initHolidayForm();
     this.minDateValue = new Date();
@@ -81,7 +78,8 @@ export class HolidayconfigurationComponent {
       fromDate: [null, [Validators.required, this.dateValidator.bind(this)]],
       toDate: new FormControl(null),
       description: new FormControl('', [Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
-      isActive: new FormControl([true], Validators.requiredTrue),
+      isActive: new FormControl(true,Validators.requiredTrue),
+      year: new FormControl(this.selectedYear),
       holidayDetails: this.formbuilder.array([])
     }, {
       validators: Validators.compose([
@@ -89,6 +87,8 @@ export class HolidayconfigurationComponent {
       ])
     });
   }
+
+  // Method to add holiday details to the form
   addHolidayDetails() {
     if (this.fbHoliday.invalid) {
       return;
@@ -102,6 +102,7 @@ export class HolidayconfigurationComponent {
       fromDate: '',
       toDate: '',
       description: '',
+      year:'',
       isActive: true,
     });
     // Clear validation errors
@@ -119,16 +120,17 @@ export class HolidayconfigurationComponent {
       fromDate: new FormControl(holidayDetails.fromDate,),
       toDate: new FormControl(holidayDetails.toDate,),
       description: new FormControl(holidayDetails.description, []),
+      year: new FormControl(this.selectedYear),
       isActive: new FormControl(holidayDetails.isActive, [])
     })
   }
-
   formArrayControls(i: number, formControlName: string) {
     return this.faholdyDetail().controls[i].get(formControlName);
   }
   get FormControls() {
     return this.fbHoliday.controls;
   }
+
   // Method to initialize the holidayForm FormGroup for edit purposes
   initHolidayForm() {
     this.editHolidayForm = new FormGroup({
@@ -137,6 +139,7 @@ export class HolidayconfigurationComponent {
       fromDate: new FormControl('', Validators.required),
       toDate: new FormControl(''),
       description: new FormControl('', Validators.required),
+      year: new FormControl(),
       isActive: new FormControl(''),
     },
       {
@@ -146,24 +149,28 @@ export class HolidayconfigurationComponent {
       });
   }
   // Method to initialize holidays based on the selected year
-  initHoliday() {
-    const year = this.selectedYear.year;
-    this.AdminService.GetHolidays(year).subscribe((resp) => {
-      this.holidays = resp as unknown as HolidaysViewDto[];
-    });
+  initHoliday(): void {
+    if (this.selectedYear) {
+      const year = this.selectedYear.year;
+      this.AdminService.GetHolidays(year).subscribe((resp) => {
+        this.holidays = resp as unknown as HolidaysViewDto[];
+      });
+    }
   }
+
   // Method to delete a holiday (Is Active False)
   deleteHoliday() {
     if (this.currentDialog !== ViewDialogs.delete) return;
     this.editHolidayForm.get('isActive').setValue(false); // Set isActive to false in the form
     this.onSubmit(DMLOpetiaons.delete);
   }
+
   // Method to edit an existing holiday
   editHoliday() {
     if (this.currentDialog !== ViewDialogs.edit) return;
     this.onSubmit(DMLOpetiaons.update);
-
   }
+
   // Method to save a holiday (either new or edited)
   saveHoliday(): Observable<HttpEvent<any>> {
     let holidays: HolidayDto[];
@@ -197,6 +204,8 @@ export class HolidayconfigurationComponent {
       this.hideDialog();
     });
   }
+
+  // Custom date validator to check if a selected date already exists as a holiday
   dateValidator(control: FormControl): { [s: string]: boolean } {
     const date = new Date(control.value);
     for (const holiday of this.holidays) {
@@ -208,6 +217,9 @@ export class HolidayconfigurationComponent {
     }
     return null;
   }
+
+
+  // Method to show the dialog for editing or deleting a holiday
   showDialog1(holiday: any, view: ViewDialogs) {
     this.currentDialog = view;
     if (view === ViewDialogs.edit || view === ViewDialogs.delete) {
@@ -221,47 +233,65 @@ export class HolidayconfigurationComponent {
       this.editHolidayForm.setValue(this.holidayToEdit);
     }
   }
+
+  // Method to check if a date is in the past
   isPastDate(date: string): boolean {
     const currentDate = new Date();
     const fromDate = new Date(date);
     return fromDate < currentDate;
   }
+
+  // Method to check if a past year is selected
   isPastYearSelected(): boolean {
     const currentYear = new Date().getFullYear();
     const selectedYear = Number(this.selectedYear?.year);
     return selectedYear < currentYear;
   }
+  
+ // // Method to initialize the years array
+ initializeYears(): void {
+  const currentYear = new Date().getFullYear().toString();
+  this.AdminService.GetYearsFromHolidays().subscribe((years) => {
+    this.years = years as unknown as Year[];
+    console.log(this.years);
+    
+    this.selectedYear = this.years.find((year) => year.year.toString() === currentYear);
+    if (!this.selectedYear) {
+      this.selectedYear = { year: currentYear};
+    }
+    this.initHoliday();
+  });
+}
+  // Method to get the dynamic holiday dialog header based on the selected year
+  getHolidayDialogHeader(): string {
+    return this.selectedYear ? `Holiday For Year ${this.selectedYear.year}` : 'Holiday';
+  }
+
   onClose() {
     this.fbHoliday.reset();
     this.faholdyDetail().clear();
     this.faholdyDetail().value.length == 0
   }
-  // Initialize the years array
-  initializeYears(): void {
-    this.years = [
-      { year: '2019', code: 'NY' },
-      { year: '2020', code: 'TW' },
-      { year: '2022', code: 'TW1' },
-      { year: '2023', code: 'TW3' },
-
-    ];
-  }
+  // Method to handle the global filter for the table
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
-
+  // Method to clear the table filter
   clear(table: Table) {
     table.clear();
     this.filter.nativeElement.value = '';
   }
 
+  // Method to hide the dialog
   hideDialog() {
     this.currentDialog = ViewDialogs.none;
   }
 
+  // Getter for determining if the delete dialog should be shown
   get showDelete(): boolean {
     return this.currentDialog == ViewDialogs.delete;
   }
+  // Setter for hiding the delete dialog
   set showDelete(flag: any) {
     this.currentDialog = ViewDialogs.none;
   }

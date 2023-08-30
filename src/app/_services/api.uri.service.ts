@@ -28,6 +28,7 @@ export const CREATE_ASSETS_URI = "Admin/CreateAsset";
 export const UPDATE_ASSETS_URI = "Admin/UpdateAsset";
 export const GET_ASSETS_BY_ASSETTYPE_URI = "Admin/GetAssetsBasedonType";
 export const CREATE_ASSET_ALLOTMENT_URI = "Admin/CreateAssetAllotment";
+export const GET_YEARS_FROM_HOLIDAYS_URI = "Admin/GetYearsFromHolidays";
 export const GET_ASSET_ALLOTMENTS_URI = "Admin/GetAssetAllotmentDetails";
 export const UNASSIGNED_ASSET_ALLOTMENT_URI = "Admin/InactiveAssetAllotment";
 
