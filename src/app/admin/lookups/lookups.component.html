@@ -8,7 +8,7 @@
       </ng-template>
       <ng-template pTemplate="right">
         <button pButton pRipple label="New Lookup" icon="pi pi-plus" class="p-button-primary p-mr-2"
-          id="Lookup_addLookup" (click)="addLookupDialog()"></button>
+          id="Lookup_addLookup" (click)="addLookupDialog()" *ngIf="permissions?.CanManageLookups"></button>
       </ng-template>
     </p-toolbar>
     <!-- dialog -->
@@ -39,7 +39,7 @@
                       </span>
                     </div>
                     <div class="align-right w-40" style="width:30%; text-align:right;">
-                      <small>{{code.value.length}}/20</small>
+                      <small>{{code.value.length}}/{{maxLength.code}} </small>
                     </div>
                   </div>
                 </div>
@@ -61,7 +61,7 @@
                       </span>
                     </div>
                     <div class="align-right w-40" style="width:30%; text-align:right;">
-                      <small>{{name.value.length}}/50</small>
+                      <small>{{name.value.length}}/{{maxLength.name}} </small>
                     </div>
                   </div>
                 </div>
@@ -111,12 +111,15 @@
                                   *ngIf="formArrayControls(lookUpDetailsIndex,'code')?.errors?.['required']">
                                   Please Enter Code.</div>
                                 <div class="ng-invalid ng-touched p-error"
+                                *ngIf="formArrayControls(lookUpDetailsIndex,'code')?.errors?.['minlength']">
+                                Code Min Length Is 2.</div>
+                                <div class="ng-invalid ng-touched p-error"
                                   *ngIf="formArrayControls(lookUpDetailsIndex,'code')?.errors?.['maxlength']">
                                   Code Max Length Is 20 </div>
                               </span>
                             </div>
                             <div class="align-right w-40" style="width:30%; text-align:right;">
-                              <small>{{Code.value.length}}/20 </small>
+                              <small>{{Code.value.length}}/{{maxLength.code}} </small>
                             </div>
                           </div>
                         </td>
@@ -144,37 +147,21 @@
                               </span>
                             </div>
                             <div class="align-right w-40" style="width:30%; text-align:right;">
-                              <small>{{name.value.length}}/50</small>
+                              <small>{{name.value.length}}/{{maxLength.name}} </small>
                             </div>
                           </div>
                         </td>
                         <td class="vertical-align-top">
-                          <input pInputText class="form-control" formControlName="description"
-                            placeholder="Enter Description" #description alphaOnly (keydown)="restrictSpaces($event)"
-                            [ngClass]="{'is-invalid ng-dirty': formArrayControls(lookUpDetailsIndex,'name')?.touched &&
-                  formArrayControls(lookUpDetailsIndex,'name')?.errors }" [maxlength]="50"
-                            id="Lookup_lookupDetailsDescription">
-
+                          <textarea class="form-control" pInputTextarea formControlName="description"
+                            placeholder="Enter Description" #description (keydown)="restrictSpaces($event)"
+                            [maxlength]="256" id="Lookup_lookupDetailsDescription"></textarea>
                           <div class="flex">
-                            <div class="align-left w-60" style="width:70%">
-                              <span *ngIf="formArrayControls(lookUpDetailsIndex,'description')?.errors?.['notUnique']">
-                                <div class="ng-invalid ng-touched p-error">
-                                  lookUp Details Name Must Be Unique.
-                                </div>
-                              </span>
-                              <span
-                                *ngIf="formArrayControls(lookUpDetailsIndex,'description')?.touched &&formArrayControls(lookUpDetailsIndex,'description')?.invalid">
-                                <div class="ng-invalid ng-touched p-error"
-                                  *ngIf="formArrayControls(lookUpDetailsIndex,'description')?.errors?.['required']">
-                                  Please Enter Description.</div>
-                              </span>
-                            </div>
-                            <div class="align-right w-40" style="width:30%; text-align:right;">
-                              <small>{{description.value.length}}/50</small>
+                            <div class="align-right w-100" style="width:50%; text-align:right;">
+                              <small>{{description.value.length}}/{{maxLength.description}}</small>
                             </div>
                           </div>
                         </td>
-                        <td>
+                        <td class="vertical-align-top" [ngClass]="'isActive' ? 'text-center' : ''">
                           <p-inputSwitch formControlName="isActive" id="Lookup_lookupDetailsIsActive"></p-inputSwitch>
                         </td>
                         <td *ngIf="fblookup.controls['lookUpDetails'].value.length > 1">
@@ -201,7 +188,7 @@
       </ng-template>
     </p-dialog>
     <!-- table -->
-    <p-table #dtlookup [value]="lookups" dataKey="lookupId" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="true"
+    <p-table #dtlookup [value]="lookups" dataKey="lookupId" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
       [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
       [columns]="selectedColumns" styleClass="p-datatable-gridlines  p-datatable-sm" [style]="{width: 'auto'}"
       [showCurrentPageReport]="true" [globalFilterFields]="globalFilterFields" [autoLayout]="true"
@@ -242,15 +229,14 @@
             </p-columnFilter>
             <p-sortIcon [field]="col.header"></p-sortIcon>
           </th>
-          <th style="width:5px;">Action</th>
+          <th *ngIf="permissions?.CanManageLookups" style="width:5px;">Action</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-lookup let-expanded="expanded" let-columns="columns">
         <tr>
           <td>
             <button type="button" pButton pRipple [pRowToggler]="lookup" id="Lookup_lookupToggleButton"
-              class="p-button-text  p-1"
-              [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+              class="p-button-text  p-1" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
           </td>
           <td>{{lookup.code}}</td>
           <td>{{lookup.name}}</td>
@@ -265,7 +251,7 @@
               {{lookup[col.field] | date: 'mediumDate' }}
             </span>
           </td>
-          <td>
+          <td *ngIf="permissions?.CanManageLookups">
             <button pButton pRipple icon="pi pi-pencil" style="padding: 0px;" id="Lookup_lookupEdit"
               class="p-element p-ripple p-button-text p-button p-component" (click)=" editLookUp(lookup)"></button>
           </td>

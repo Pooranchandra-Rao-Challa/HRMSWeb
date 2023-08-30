@@ -1,5 +1,5 @@
 export class MaxLength {
-  code: number = 10;
+  code: number = 20;
   title:number = 50;
   name: number = 50;
   seasonName: number = 9;

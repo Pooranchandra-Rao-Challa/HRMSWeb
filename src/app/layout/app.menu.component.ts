@@ -15,7 +15,9 @@ export class AppMenuComponent implements OnInit {
     GroupPermission(groupName: string): boolean {
         switch (groupName) {
           case 'Security':
-            return this.jwtService.Permissions.CanViewUsers || this.jwtService.Permissions.CanViewRoles
+            return this.jwtService.Permissions.CanViewUsers || this.jwtService.Permissions.CanViewRoles 
+          case 'Admin':
+            return this.jwtService.Permissions.CanViewLookups
           default:
             return false;
         }
@@ -64,11 +66,13 @@ export class AppMenuComponent implements OnInit {
             {
                 label: 'Admin',
                 icon: 'pi pi-user',
+                permission: this.GroupPermission('Admin'),
                 items: [
                     {
                         label: 'Lookups',
                         icon: 'pi pi-fw pi-circle',
-                        routerLink: ['admin/lookups']
+                        routerLink: ['admin/lookups'],
+                        permission: this.jwtService.Permissions.CanViewLookups
                     },
                     {
                         label: 'Holiday Configuration',
