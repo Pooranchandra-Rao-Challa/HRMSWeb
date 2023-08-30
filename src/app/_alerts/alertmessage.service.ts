@@ -83,7 +83,7 @@ export const ALERT_CODES: { [key: string]: string } = {
     // change password
     'SSECP001': 'Password Updated Successfully',
     'ESECP001': 'Invalid Current Password',
-
+     //Roles
     'SMR001': 'Role Added Successfully',
     'SMR002': 'Role Updated Successfully',
 
@@ -92,9 +92,13 @@ export const ALERT_CODES: { [key: string]: string } = {
     'SSESQ002': 'Security Questions Updated Faild',
     'SSESQ003': 'Security Questions Added Successfully',
 
+     //Projects
+     'PAS001': 'Project Added Successfully',
+    'PAS002': 'Project Updated Successfully',
 
-    'SMU002': 'User Update Successfully',
-    'SMU001': "User has been successfully Soft Deleted",
+    //Users
+    'SMU002': 'User Updated Successfully',
+    'SMU001': "User Has Been Successfully Soft Deleted",
     //LookUps
     'SML001': 'Lookup Added Successfully',
     'SML002': 'Lookup Updated Successfully',
@@ -114,6 +118,6 @@ export const ALERT_CODES: { [key: string]: string } = {
     //HOLIDAY
     'SMH001': 'Holiday Added Successfully',
     'SMH002': 'Holiday Updated Successfully',
-    'SMH003': 'This date is already a holiday.',
+    'SMH003': 'Selected Date is Already Exist',
     'SMH004': 'Holiday Soft Deleted Successfully'
 }

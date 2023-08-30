@@ -19,3 +19,9 @@ export interface ITableHeader {
     header: string;
     label: string;
   }
+
+export class ConfirmationRequest {
+    message: string = 'Are you sure want to delete ?';
+    header: string = 'Confirmation';
+    icon: string = 'pi pi-exclamation-triangle';
+}

@@ -32,6 +32,7 @@ export class AssetsallotmentComponent {
     employees: Employee[] = [];
     addFlag: boolean;
     assetAllotments: AssetAllotmentViewDto[] = [];
+    maxDate: Date = new Date();
 
     constructor(private securityService: SecurityService,
         private formbuilder: FormBuilder,
@@ -116,15 +117,15 @@ export class AssetsallotmentComponent {
         this.fbAssetAllotment.reset();
     }
 
-    addAssestAllotment() {
+    addAssetAllotment() {
         this.fbAssetAllotment.controls['assignedOn'].setValue(new Date());
         this.showAssetAllotment = true;
         this.addFlag = true;
     }
 
-    empAssestAllotment(employeeId: number) {
+    directAssetAllotment(employeeId: number) {
         this.fbAssetAllotment.value.employeeId = 3;
-        this.addAssestAllotment();
+        this.addAssetAllotment();
     }
 
     viewAssetAllotments(employeeId: number) {
@@ -143,7 +144,7 @@ export class AssetsallotmentComponent {
         else return null; this.adminService.UpdateAssets(this.fbAssetAllotment.value)
     }
 
-    onSubmit() {
+    onSubmitAsset() {
         this.fbAssetAllotment.controls['employeeId'].setValue(3);
         this.fbAssetAllotment.value.employeeId = 3;
         this.saveAssetAllotment().subscribe((resp) => {
@@ -164,7 +165,7 @@ export class AssetsallotmentComponent {
         this.showUnassignAsset = true;
     }
 
-    unAssignedAssetAllotment() {
+    onSubmitUnAssignedAsset() {
         // this.fbUnAssignAsset.controls['isActive'].setValue(false);
         this.adminService.UnassignAssetAllotment(this.fbUnAssignAsset.value).subscribe((resp) => {
             if (this.showAssetDetails) this.viewAssetAllotments(this.fbAssetAllotment.value.employeeId);

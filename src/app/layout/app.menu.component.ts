@@ -10,21 +10,22 @@ import { JwtService } from '../_services/jwt.service';
 export class AppMenuComponent implements OnInit {
     model: any[] = [];
 
-    constructor(public layoutService: LayoutService, private jwtService: JwtService){}
+    constructor(public layoutService: LayoutService, private jwtService: JwtService) { }
+
 
     GroupPermission(groupName: string): boolean {
         switch (groupName) {
-          case 'Security':
-            return this.jwtService.Permissions.CanViewUsers || this.jwtService.Permissions.CanViewRoles 
-          case 'Admin':
-            return this.jwtService.Permissions.CanViewLookups
-          default:
-            return false;
+            case 'Security':
+                return this.jwtService.Permissions.CanViewUsers || this.jwtService.Permissions.CanViewRoles
+            case 'Admin':
+                return this.jwtService.Permissions.CanViewLookups || this.jwtService.Permissions.CanManageHolidays ||
+                    this.jwtService.Permissions.CanManageAssets || this.jwtService.Permissions.CanManageAssetsAllotments;
+            default:
+                return false;
         }
-      }
-
+    }
     ngOnInit() {
-            console.log(this.jwtService.Permissions);
+        console.log(this.jwtService.Permissions);
         this.model = [
             {
                 label: '',
@@ -33,7 +34,7 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'Dashboard',
                         icon: 'pi pi-fw pi-home',
-                        routerLink: ['dashboard/admin'],permission: true
+                        routerLink: ['dashboard/admin'], permission: true
                     },
                     // {
                     //     label: 'Student',
@@ -77,6 +78,25 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'Holiday Configuration',
                         icon: 'pi pi-fw pi-calendar-plus',
+                        routerLink: ['admin/holidayconfiguration'],
+                        permission: this.jwtService.Permissions.CanViewHolidays
+                    }
+                ]
+            },
+            {
+                label: 'Admin',
+                icon: 'pi pi-user',
+                permission: this.GroupPermission('Admin'),
+                items: [
+                    {
+                        label: 'Lookups',
+                        icon: 'pi pi-fw pi-circle',
+                        routerLink: ['admin/lookups'],
+                        permission: this.jwtService.Permissions.CanViewLookups
+                    },
+                    {
+                        label: 'Holiday Configuration',
+                        icon: 'pi pi-fw pi-calendar-plus',
                         routerLink: ['admin/holidayconfiguration']
                     },
                     {
@@ -87,12 +107,14 @@ export class AppMenuComponent implements OnInit {
                                 label: 'Assets',
                                 icon: 'pi pi-fw pi-align-left',
                                 routerLink: ['admin/assets'],
+                                permission: this.jwtService.Permissions.CanViewAssets
 
                             },
                             {
                                 label: 'Assets Allotment ',
                                 icon: 'pi pi-fw pi-align-left',
                                 routerLink: ['admin/assetsallotment'],
+                                permission: this.jwtService.Permissions.CanViewAssetsAllotments
 
                             }
                         ]
@@ -102,7 +124,7 @@ export class AppMenuComponent implements OnInit {
                         label: 'Projects',
                         icon: 'pi pi-fw pi-search-plus',
                         routerLink: ['admin/project'],
-                        permission: this.jwtService.Permissions.CanViewProjects
+
                     },
                     {
                         label: 'Recruitment',
@@ -140,7 +162,7 @@ export class AppMenuComponent implements OnInit {
                         icon: 'pi pi-fw pi-clone',
                         routerLink: ['employee/notifications']
                     },
-                   
+
                 ]
             },
 

@@ -10,6 +10,7 @@ import { HolidayDto, HolidaysViewDto } from 'src/app/_models/admin';
 import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { DateValidators } from 'src/app/_validators/dateRangeValidator';
 import { MIN_LENGTH_2, RG_ALPHA_ONLY } from 'src/app/_shared/regex';
+import { JwtService } from 'src/app/_services/jwt.service';
 interface Year {
   year: string;
 }
@@ -39,7 +40,7 @@ export class HolidayconfigurationComponent {
   maxLength: MaxLength = new MaxLength();
   selectedYear: Year | undefined;
   years: any
-
+  permissions: any;
   holidayToEdit: HolidaysViewDto;
   mediumDate: string = MEDIUM_DATE
   currentDialog: ViewDialogs = ViewDialogs.none;
@@ -48,7 +49,8 @@ export class HolidayconfigurationComponent {
   constructor(
     private formbuilder: FormBuilder,
     private AdminService: AdminService,
-    private alertMessage: AlertmessageService)
+    private alertMessage: AlertmessageService,
+    private jwtService: JwtService,)
      { }
 
   // Define table headers
@@ -64,6 +66,7 @@ export class HolidayconfigurationComponent {
     { field: 'updatedBy', header: 'updatedBy', label: 'Updated By' },
   ];
   ngOnInit(): void {
+    this.permissions = this.jwtService.Permissions
     this.initializeYears();
     this.holidayForm();
     this.initHoliday();
@@ -72,20 +75,22 @@ export class HolidayconfigurationComponent {
   }
   // Initialize form with form controls
   holidayForm() {
+    const currentYear = new Date().getFullYear();
     this.fbHoliday = this.formbuilder.group({
       holidayId: null,
       title: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
       fromDate: [null, [Validators.required, this.dateValidator.bind(this)]],
-      toDate: new FormControl(null),
+      toDate: new FormControl({value: null, disabled: true}),
       description: new FormControl('', [Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
       isActive: new FormControl(true,Validators.requiredTrue),
-      year: new FormControl(this.selectedYear),
+      year: new FormControl(currentYear),
       holidayDetails: this.formbuilder.array([])
     }, {
       validators: Validators.compose([
         DateValidators.dateRangeValidator('fromDate', 'toDate', { 'fromDate': true }),
       ])
     });
+
   }
 
   // Method to add holiday details to the form
@@ -114,13 +119,15 @@ export class HolidayconfigurationComponent {
   }
   // Method to generate a FormGroup for a single row in the holidayDetails array
   generaterow(holidayDetails: HolidaysViewDto = new HolidaysViewDto()): FormGroup {
+    const currentYear = new Date().getFullYear();
     return this.formbuilder.group({
+      
       holidayId: new FormControl(holidayDetails.holidayId),
       title: new FormControl(holidayDetails.title,),
       fromDate: new FormControl(holidayDetails.fromDate,),
       toDate: new FormControl(holidayDetails.toDate,),
       description: new FormControl(holidayDetails.description, []),
-      year: new FormControl(this.selectedYear),
+       year: new FormControl(holidayDetails.year || currentYear),
       isActive: new FormControl(holidayDetails.isActive, [])
     })
   }
@@ -133,13 +140,14 @@ export class HolidayconfigurationComponent {
 
   // Method to initialize the holidayForm FormGroup for edit purposes
   initHolidayForm() {
+    const currentYear = new Date().getFullYear();
     this.editHolidayForm = new FormGroup({
       holidayId: new FormControl(),
       title: new FormControl('', Validators.required),
       fromDate: new FormControl('', Validators.required),
       toDate: new FormControl(''),
       description: new FormControl('', Validators.required),
-      year: new FormControl(),
+      year: new FormControl(currentYear),
       isActive: new FormControl(''),
     },
       {
@@ -217,8 +225,9 @@ export class HolidayconfigurationComponent {
     }
     return null;
   }
-
-
+  get isFromDateSelected() {
+    return this.FormControls['fromDate'] && this.FormControls['fromDate'].value;
+}
   // Method to show the dialog for editing or deleting a holiday
   showDialog1(holiday: any, view: ViewDialogs) {
     this.currentDialog = view;
@@ -264,7 +273,7 @@ export class HolidayconfigurationComponent {
 }
   // Method to get the dynamic holiday dialog header based on the selected year
   getHolidayDialogHeader(): string {
-    return this.selectedYear ? `Holiday For Year ${this.selectedYear.year}` : 'Holiday';
+    return this.selectedYear ? `Holiday For ${this.selectedYear.year}` : 'Holiday';
   }
 
   onClose() {

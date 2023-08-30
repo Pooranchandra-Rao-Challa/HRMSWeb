@@ -7,14 +7,14 @@
       </ng-template>
       <ng-template pTemplate="right">
         <button pButton pRipple label="Add New Project" icon="pi pi-plus" class="p-button-primary p-mr-2"
-          *ngIf="permission?.CanManageProjects" (click)="addProjectDialog()"></button>
+          *ngIf="permission?.CanManageProjects" (click)="initProject({})"></button>
       </ng-template>
     </p-toolbar>
     <!-- dialog -->
-    <p-dialog [(visible)]="dialog" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}"
-      [style]="{width: '80%'}">
+    <p-dialog header="Project" [(visible)]="dialog" [modal]="true" showEffect="fade"
+      [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '80%'}">
       <div class="flex flex-column align-items-center justify-content-center">
-        <form [formGroup]="fbproject">
+        <form [formGroup]="fbproject" (ngSubmit)="onSubmit()" id="Role_roleForm">
           <div class="grid">
             <div class="col-12 roles-container">
               <h5>Project Details</h5>
@@ -22,7 +22,7 @@
                 <div class="field col-12 md:col-4">
                   <label>Code: <sup class="p-error">*</sup>
                   </label>&nbsp; <input pInputText id="code" type="text" formControlName="code" placeholder="Enter Code"
-                    #code [maxlength]="20" alphaNumeric />
+                    #code alphaNumeric />
                 </div>
                 <div class="field col-12 md:col-4">
                   <label>Name: <sup class="p-error">*</sup>
@@ -31,19 +31,13 @@
                 </div>
                 <div class="field col-12 md:col-4">
                   <label>Start Date: <sup class="p-error">*</sup>
-                  </label>&nbsp; <p-calendar inputId="calendar" placeholder="Enter Project staring Date"
-                    formControlName="startDate"></p-calendar>
+                  </label>&nbsp; <p-calendar inputId="calendar" [readonlyInput]="true" [showIcon]="true"
+                    [minDate]="minDateVal" placeholder="Enter Project Staring Date" formControlName="startDate"></p-calendar>
                 </div>
                 <div class="field col-12 md:col-4">
                   <label for="textarea">Description <sup class="p-error">*</sup>
-                  </label>&nbsp; <textarea inputId="textarea" rows="3" cols="30" pInputTextarea
-                    formControlName="description"></textarea>
-                </div>
-                <div class="field col-12 md:col-4">
-                  <label>Manager Name: <sup class="p-error">*</sup>
-                  </label>
-                  <input pInputText id="name" type="text" formControlName="managerName" placeholder="Enter Manager Name"
-                    #name alphaOnly />
+                  </label>&nbsp; <textarea inputId="textarea" rows="3" cols="30" pInputTextarea alphaNumeric
+                    placeholder="Enter Description" formControlName="description"></textarea>
                 </div>
 
               </div>
@@ -52,31 +46,33 @@
                 <div class="field col-12 md:col-4">
                   <label>Company Full Name: <sup class="p-error">*</sup>
                   </label>&nbsp;
-                  <p-autoComplete [suggestions]="suggestions" (completeMethod)="search($event)"></p-autoComplete>
+                  <p-autoComplete [suggestions]="this.filteredClients" placeholder="Enter Company Full Name"
+                    (completeMethod)="filterClients($event)" field="companyName" formControlName="companyName">
+                  </p-autoComplete>
                 </div>
                 <div class="field col-12 md:col-4">
                   <label>Client Name: <sup class="p-error">*</sup>
                   </label>&nbsp;
-                  <input pInputText id="name" type="text" placeholder="Enter Name" alphaOnly
-                    formControlName="companyFullName" />
+                  <input pInputText id="name" type="text" placeholder="Enter Client Name" alphaOnly
+                    formControlName="clientName" />
                 </div>
 
                 <div class="field col-12 md:col-4">
                   <label>Client Email Id: <sup class="p-error">*</sup>
                   </label>&nbsp;
-                  <input pInputText id="name" type="text" placeholder="Enter email address" alphaOnly
-                    formControlName="companyFullName" />
+                  <input pInputText id="name" type="text" placeholder="Enter EmailId" alphaOnly
+                    formControlName="email" />
                 </div>
                 <div class="field col-12 md:col-4">
-                  <label>Client Mobile No: <sup class="p-error">*</sup>
+                  <label>Client Mobile No: 
                   </label>&nbsp;
                   <input pInputText id="name" type="text" placeholder="Enter Mobile Number" alphaOnly
-                    formControlName="companyFullName" />
+                    formControlName="mobileNumber" />
                 </div>
                 <div class="field col-12 md:col-4">
                   <label>CIN/GST No: <sup class="p-error">*</sup>
                   </label>&nbsp; <input pInputText id="name" type="text" placeholder="Enter CIS/GST No"
-                    formControlName="gstNo" />
+                    formControlName="cinno" />
                 </div>
                 <div class="field col-12 md:col-4">
                   <label>Is Active: <sup class="p-error">*</sup>
@@ -86,56 +82,46 @@
                 <div class="field col-12 md:col-4">
                   <label>POC Name: <sup class="p-error">*</sup>
                   </label>&nbsp; <input pInputText id="name" type="text" placeholder="Enter POC Name" alphaOnly
-                    formControlName="clientPocName" />
+                    formControlName="pocName" />
                 </div>
                 <div class="field col-12 md:col-4">
                   <label>POC Ph.no: <sup class="p-error">*</sup>
-                  </label>&nbsp; <input pInputText id="name" type="text" placeholder="Enter Name"
-                    formControlName="clientPocNo" />
+                  </label>&nbsp; <input pInputText id="name" type="text" placeholder="Enter POC Mobile Number"
+                    formControlName="pocMobileNumber" />
                 </div>
                 <div class="field col-12 md:col-4">
-                  <label>Client Address: <sup class="p-error">*</sup>
+                  <label>Address: 
                   </label>&nbsp;
-                  <textarea inputId="textarea" rows="3" cols="30" pInputTextarea formControlName="address"></textarea>
+                  <textarea inputId="textarea" rows="3" cols="30" pInputTextarea formControlName="address"
+                    placeholder="Enter Address"></textarea>
                 </div>
               </div>
               <h5>Employee Details</h5>
               <div class="p-fluid p-formgrid grid">
                 <div class="field col-12 md:col-4">
                   <label>Employee Id:<sup class="p-error">*</sup></label>&nbsp;
-                  <p-multiSelect [options]="employees" formControlName="id" optionLabel="empname"
-                    placeholder="Select Employee">
+                  <p-multiSelect [options]="employees" formControlName="teamMembers" optionLabel="empname"
+                    placeholder="Select Employees">
                   </p-multiSelect>
                 </div>
               </div>
 
+
               <div class="grid">
-                <div class="col-12">
-                  <div class="grid">
-                    <div class="col-4" *ngFor="let employee of this.fbproject.get('id').value">
-                      <div class="m-2 card border-1 surface-border">
-                        <div class="text-xl font-bold">{{employee.empname}}</div>
-                        <span class="text-600 font-medium text-sm">
-                          EmpId : {{employee.empcode}}
-                        </span><br />
-                        <span class="text-600 font-medium text-sm">
-                          Designation : {{employee.designation}}
-                        </span><br />
-                      </div>
-                    </div>
+                <div class="col-12 md:col-3" *ngFor="let employee of this.fbproject.get('teamMembers').value">
+                  <div class="m-2 card border-1 surface-border">
+                    <div class="text-xl font-bold">{{employee.empname}}</div>
+                    <span class="text-600 font-medium text-sm">
+                      EmpId : {{employee.empcode}}
+                    </span><br />
+                    <span class="text-600 font-medium text-sm">
+                      Designation : {{employee.designation}}
+                    </span><br />
                   </div>
+
                 </div>
               </div>
-              <!-- <div class="field col-12 md:col-4">
-                  <label>Employee Name: <sup class="p-error">*</sup>
-                  </label>&nbsp; <input pInputText id="name" type="text" placeholder="Enter Employee Name" alphaOnly
-                    formControlName="empname" />
-                </div>
-                <div class="field col-12 md:col-4">
-                  <label>Designation:<sup class="p-error">*</sup>
-                  </label>&nbsp; <input pInputText id="name" type="text" placeholder="Enter Designation"
-                    formControlName="designation" />
-                </div> -->
+
 
             </div>
           </div>
@@ -158,7 +144,7 @@
               alt="img" [style]="{width: '300px'}"
               class="inline-flex align-items-center justify-content-center border-circle w-5rem h-5rem bg-primary-100 mb-5">
             <div class="text-2xl mb-3 font-medium">
-              <a class="cursor-pointer" (click)="showDialog(project)">{{project.name}} </a>
+              <a class="cursor-pointer" (click)="showProjectDetailsDialog(project)">{{project.name}} </a>
               <button pButton pRipple icon="pi pi-pencil" *ngIf="permission?.CanManageProjects"
                 class="p-element p-ripple p-button-text p-button-primary p-component m-0 p-0"
                 (click)="editProjectDialog()"></button>

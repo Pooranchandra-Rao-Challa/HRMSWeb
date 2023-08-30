@@ -14,7 +14,7 @@
                         </span>
                         <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
                         <p-button class="p-element p-ripple p-button p-component p-2 pt-0 pb-0"
-                            (click)="addAssestAllotment()" icon="pi pi-plus" label="Assign Asset"></p-button>
+                            (click)="addAssetAllotment()" icon="pi pi-plus" label="Assign Asset"></p-button>
                     </div>
                 </ng-template>
                 <ng-template let-employee pTemplate="listItem">
@@ -36,7 +36,7 @@
                                     <span class="p-button-label pi pi-chevron-right"></span>
                                 </button>
                                 <button pbutton="" pripple="" type="button" label="Primary"
-                                (click)="empAssestAllotment(employee.id)"
+                                (click)="directAssetAllotment(employee.id)"
                                 class="p-element p-ripple p-button-text p-button p-component view_profile_button"
                                 ng-reflect-label="Primary">
                                 <span class="p-button-label pi pi-plus"></span>
@@ -51,9 +51,10 @@
                             <div class=" mb-3 grid">
                                 <div class="col-4 p-1 employee_profile_pic_div">
                                     <img [src]="'assets/demo/images/employee/' + employee.image"
-                                        [alt]="employee.empname" class=" shadow-2 my-1 mx-0 employee_profile_pic"
-                                        style="width:70%;" />
-                                </div>
+                                         [alt]="employee.empname"
+                                         class="shadow-2 my-1 mx-0 employee_profile_pic zoomable-img"
+                                         style="width: 70%;" />
+                                  </div>
                                 <div class="col-8 p-1 px-2 employee_info">
                                     <div class="text-xl font-bold">{{ employee.empname }}</div>
                                     <span class="text-600 font-medium text-md">
@@ -83,13 +84,13 @@
                                 </div>
                                 <div class="mb-3 flex col-4 p-0">
                                     <button pbutton="" pripple="" type="button" label="Primary"
-                                        (click)="viewAssetAllotments(employee.id)"
+                                        (click)="viewAssetAllotments(employee.id)" pTooltip="View" tooltipPosition="top"
                                         class="p-element p-ripple p-button-text p-button p-component view_profile_button"
                                         ng-reflect-label="Primary">
                                         <span class="p-button-label pi pi-chevron-right"></span>
                                     </button>
                                     <button pbutton="" pripple="" type="button" label="Primary"
-                                        (click)="empAssestAllotment(employee.id)"
+                                        (click)="directAssetAllotment(employee.id)" pTooltip="Add" tooltipPosition="top"
                                         class="p-element p-ripple p-button-text p-button p-component view_profile_button"
                                         ng-reflect-label="Primary">
                                         <span class="p-button-label pi pi-plus"></span>
@@ -107,7 +108,7 @@
                 <div class="col-12 text-right align-items-right">
                     <div class="gri align-items-right text-right">
                         <p-button class="p-element align-items-right text-right p-button p-component p-2 pt-0 pb-0"
-                            (click)="addAssestAllotment()" icon="pi pi-plus"></p-button>
+                            (click)="addAssetAllotment()" icon="pi pi-plus"></p-button>
                     </div>
                 </div>
                 <div class="col-12 ">
@@ -263,7 +264,7 @@
                                 <div class="field col-12 md:col-4">
                                     <label class="required">Assigned On:</label>
                                     <p-calendar [showIcon]="true" placeholder="Select Assigned On"
-                                        formControlName="assignedOn" appendTo="body"
+                                        formControlName="assignedOn" appendTo="body" [maxDate]="maxDate"
                                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['assignedOn'].touched && FormControls['assignedOn'].errors }">
                                     </p-calendar>
                                     <span
@@ -293,7 +294,7 @@
                     <div class="col-4" style="float:right">
                         <button pButton pRipple type="submit" label="Assign Asset"
                             class="p-button-raised p-button-primary" [disabled]="fbAssetAllotment.invalid"
-                            (click)="onSubmit()"></button>
+                            (click)="onSubmitAsset()"></button>
                     </div>
                 </ng-template>
             </p-dialog>
@@ -338,7 +339,7 @@
                 <ng-template pTemplate="footer">
                     <div class="col-4" style="float:right">
                         <button pButton pRipple type="submit" label="Submit" class="p-button-raised p-button-primary"
-                            [disabled]="fbUnAssignAsset.invalid" (click)="unAssignedAssetAllotment()"></button>
+                            [disabled]="fbUnAssignAsset.invalid" (click)="onSubmitUnAssignedAsset()"></button>
                     </div>
                 </ng-template>
             </p-dialog>
