@@ -38,7 +38,7 @@ export class AssetsComponent {
   deleteAsset = new AssetsDetailsViewDto();
   confirmationRequest: ConfirmationRequest = new ConfirmationRequest();
   permissions:any;
-  
+
   constructor(private adminService: AdminService, private formbuilder: FormBuilder,
     private alertMessage: AlertmessageService, private lookupService: LookupService,
     private confirmationDialogService: ConfirmationDialogService,private jwtService:JwtService) {
@@ -158,24 +158,30 @@ export class AssetsComponent {
 
   Dialog(assetstypes: AssetsDetailsViewDto) {
     this.deleteAsset = assetstypes;
-    // this.deletedialog = true;
     this.confirmationDialogService.comfirmationDialog(this.confirmationRequest).subscribe(userChoice => {
         if(userChoice){
-
-        }
-    });
+          this.asset = this.deleteAsset
+          this.asset.purchasedDate = new Date(this.deleteAsset.purchasedDate);
+          this.asset.isActive = false;
+          this.fbassets.patchValue(this.asset);
+          this.addFlag = false;
+          this.addFlag1 = true; 
+          this.onSubmit();
+        }    
+    });  
+ 
   }
 
-  deleteassettype() {
-    this.asset = this.deleteAsset
-    this.asset.purchasedDate = new Date(this.deleteAsset.purchasedDate);
-    this.asset.isActive = false;
-    this.fbassets.patchValue(this.asset);
-    this.addFlag = false;
-    this.addFlag1 = true;
-    this.onSubmit();
-    this.deletedialog = false
-  }
+  // deleteassettype() {
+  //   this.asset = this.deleteAsset
+  //   this.asset.purchasedDate = new Date(this.deleteAsset.purchasedDate);
+  //   this.asset.isActive = false;
+  //   this.fbassets.patchValue(this.asset);
+  //   this.addFlag = false;
+  //   this.addFlag1 = true;
+  //   this.onSubmit();
+  //   this.deletedialog = false
+  // }
 
   editAssets(assets: AssetsDetailsViewDto) {
     this.asset = assets;
@@ -208,6 +214,7 @@ export class AssetsComponent {
       else {
         this.alertMessage.displayErrorMessage(ALERT_CODES["AAS004"])
       }
+      this.fbassets.reset();
     })
   }
 

@@ -148,7 +148,7 @@
               <div class="field col-12 md:col-4">
                 <label>Serial Number:</label>
                 <input pInputText id="serialnumber" type="text" formControlName="serialNumber"
-                  placeholder="Enter Serial Number " maxlength="20" numericOnly #serialNumber />
+                  placeholder="Enter Serial Number " maxlength="20" alphaNumeric #serialNumber />
                 <div class="flex">
                   <div class="align-left w-60" style="width:70%">
                     <span *ngIf="FormControls['serialNumber'].touched && FormControls['serialNumber'].invalid">
@@ -239,7 +239,7 @@
       </ng-template>
     </p-dialog>
     <!-- delete dialog -->
-    <p-dialog header="Delete" [(visible)]="deletedialog" [modal]="true" showEffect="fade"
+    <!-- <p-dialog header="Delete" [(visible)]="deletedialog" [modal]="true" showEffect="fade"
       [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '40%'}" (onHide)="deleted()">
       <h6>Are You Sure You Want To In Activate The Asset...!</h6>
       <ng-template pTemplate="footer">
@@ -250,7 +250,7 @@
             class="p-button-raised p-button-primary"></button>
         </div>
       </ng-template>
-    </p-dialog>
+    </p-dialog> -->
     <!-- table -->
     <p-table #dtAssets [value]="assets" dataKey="assetType" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
       [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
