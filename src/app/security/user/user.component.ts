@@ -58,7 +58,7 @@ export class UserComponent implements OnInit {
   ngOnInit() {
     this.permissions = this.jwtService.Permissions
     this.initUsers();
-    this.intiRoles()
+    this.initRoles()
     // Initialize the form group
     this.userForm = this.formbuilder.group({
       userId: [''],
@@ -78,7 +78,6 @@ export class UserComponent implements OnInit {
     this.securityService.GetUsers().subscribe(resp => {
       this.users = resp as unknown as UserViewDto[];
       console.log('usersList:',this.users);
-      
       this.loading = false;
     }, error => {
       this.loading = false;
@@ -86,9 +85,9 @@ export class UserComponent implements OnInit {
 
   }
   // Fetch roles from the service
-  intiRoles() {
+  initRoles() {
     this.securityService.GetRoles().subscribe(resp => {
-      this.roles = resp as unknown as RoleViewDto[];
+      this.roles = (resp as unknown as RoleViewDto[]).filter(role => role.isActive);
     });
   }
   // Edit user by patching the form values
