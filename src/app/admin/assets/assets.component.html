@@ -1,6 +1,8 @@
 <div class="col-12">
   <div class="card">
     <p-toast key="tst"></p-toast>
+    <p-confirmDialog [style]="{width: '30%'}"></p-confirmDialog>
+
     <!-- Toolbar -->
     <p-toolbar styleClass="p-mb-4">
       <ng-template pTemplate="left">
@@ -8,7 +10,7 @@
       </ng-template>
       <ng-template pTemplate="right">
         <button pButton pRipple label="New Asset" icon="pi pi-plus" class="p-button-primary p-mr-2"
-          (click)="addAssetsDialog()"></button>
+          (click)="addAssetsDialog()" *ngIf="permissions?.CanManageAssets" ></button>
       </ng-template>
     </p-toolbar>
     <!-- dialog -->
@@ -42,7 +44,7 @@
                 </div>
               </div>
               <div class="field col-12 md:col-4">
-                <label>Enter Asset Category: <sup class="p-error">*</sup></label>
+                <label>Asset Category: <sup class="p-error">*</sup></label>
                 <p-dropdown [options]="assetCategories" optionLabel="name" id="assetCategories" [filter]="true" filterBy="name"
                   [showClear]="true" placeholder="Select Asset Category" formControlName="assetCategoryId"
                   optionValue="lookupDetailId"
@@ -56,7 +58,7 @@
                 </span>
               </div>
               <div class="field col-12 md:col-4">
-                <label>Enter Asset Type: <sup class="p-error">*</sup></label>
+                <label>Asset Type: <sup class="p-error">*</sup></label>
                 <p-dropdown [options]="assetTypes" optionLabel="name" id="assetTypes" [filter]="true" filterBy="name" [showClear]="true"
                   placeholder="Select Asset Type" formControlName="assetTypeId" optionValue="lookupDetailId"
                   [ngClass]="{ 'is-invalid ng-dirty': FormControls['assetTypeId'].touched && FormControls['assetTypeId'].errors}">
@@ -91,7 +93,7 @@
               </div>
               <div class="field col-12 md:col-4">
                 <label>Purchased Date: <sup class="p-error">*</sup></label>
-                <p-calendar inputId="purchasedDate" id="purchasedDate" placeholder="Enter Purchased Date"
+                <p-calendar inputId="purchasedDate" id="purchasedDate" placeholder="Select Purchased Date"
                   formControlName="purchasedDate"
                   [ngClass]="{ 'is-invalid ng-dirty': FormControls['purchasedDate'].touched && FormControls['purchasedDate'].errors}">
                 </p-calendar>
@@ -146,7 +148,7 @@
               <div class="field col-12 md:col-4">
                 <label>Serial Number:</label>
                 <input pInputText id="serialnumber" type="text" formControlName="serialNumber"
-                  placeholder="Enter Serial Number " maxlength="20" numericOnly #serialNumber />
+                  placeholder="Enter Serial Number " maxlength="20" alphaNumeric #serialNumber />
                 <div class="flex">
                   <div class="align-left w-60" style="width:70%">
                     <span *ngIf="FormControls['serialNumber'].touched && FormControls['serialNumber'].invalid">
@@ -237,7 +239,7 @@
       </ng-template>
     </p-dialog>
     <!-- delete dialog -->
-    <p-dialog header="Delete" [(visible)]="deletedialog" [modal]="true" showEffect="fade"
+    <!-- <p-dialog header="Delete" [(visible)]="deletedialog" [modal]="true" showEffect="fade"
       [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '40%'}" (onHide)="deleted()">
       <h6>Are You Sure You Want To In Activate The Asset...!</h6>
       <ng-template pTemplate="footer">
@@ -248,12 +250,12 @@
             class="p-button-raised p-button-primary"></button>
         </div>
       </ng-template>
-    </p-dialog>
+    </p-dialog> -->
     <!-- table -->
     <p-table #dtAssets [value]="assets" dataKey="assetType" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
       [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
       styleClass="p-datatable-gridlines  p-datatable-sm" [style]="{width: 'auto'}" [showCurrentPageReport]="true"
-      [globalFilterFields]="globalFilterFields" [autoLayout]="true" responsiveLayout="scroll" 
+      [globalFilterFields]="globalFilterFields" [autoLayout]="true" responsiveLayout="scroll"
       [rowsPerPageOptions]="[10,25,50]">
       <ng-template pTemplate="caption">
         <div class="flex justify-content-between flex-column sm:flex-row">
@@ -268,7 +270,7 @@
       </ng-template>
       <ng-template pTemplate="header">
         <tr>
-          <th></th>
+          <th ></th>
           <th *ngFor="let col of AssetsheaderTable" [pSortableColumn]="col.header">
             {{col?.label}}
             <p-columnFilter type="text" [field]="col.header" display="menu"></p-columnFilter>
@@ -298,7 +300,7 @@
                 [tableStyle]="{ width: 'max-content'}">
                 <ng-template pTemplate="header">
         <tr>
-          <th style="width:5px;">Actions</th>
+          <th *ngIf="permissions?.CanManageAssets" style="width:5px;">Actions</th>
           <th *ngFor="let col of AssetsTypeTable" [pSortableColumn]="col.header">
             {{col?.label}}
             <p-columnFilter type="text" [field]="col.header" display="menu"></p-columnFilter>
@@ -308,18 +310,18 @@
       </ng-template>
       <ng-template pTemplate="body" let-assetstypes>
         <tr>
-          <td>
-            <div class="flex">
+          <td *ngIf="permissions?.CanManageAssets">
+            <div class="flex" >
               <button pButton pRipple icon="pi pi-pencil" style="padding: 0px;"
                 class="p-element p-ripple p-button-text p-button p-component col-6"
                 (click)="editAssets(assetstypes)"></button>
-              <button pButton pRipple icon="pi pi-trash" 
+              <button pButton pRipple icon="pi pi-trash"
               id="delete" *ngIf="assetstypes.isActive" (click)="Dialog(assetstypes)"
                 class="p-element p-ripple p-button-text p-button p-component col-6 "></button>
             </div>
           </td>
           <td *ngFor="let col of AssetsTypeTable" [ngClass]="col?.field == 'isActive'? 'text-center' : ''">
-            <span *ngIf="col?.field != 'updatedAt' && col?.field != 'createdAt' && col?.field != 'purchasedDate'&& col?.field != 'isAssigned' 
+            <span *ngIf="col?.field != 'updatedAt' && col?.field != 'createdAt' && col?.field != 'purchasedDate'&& col?.field != 'isAssigned'
               && col?.field != 'isActive'">{{assetstypes[col.field]}}</span>
             <span *ngIf="col?.field == 'createdAt' || col?.field == 'updatedAt' || col?.field == 'purchasedDate'">
               {{assetstypes[col.field] | date:mediumDate}}

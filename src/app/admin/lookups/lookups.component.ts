@@ -7,8 +7,9 @@ import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.s
 import { FormArrayValidationForDuplication } from 'src/app/_common/unique-branch-validators';
 import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
-import { ITableHeader } from 'src/app/_models/common';
+import { ITableHeader, MaxLength } from 'src/app/_models/common';
 import { AdminService } from 'src/app/_services/admin.service';
+import { JwtService } from 'src/app/_services/jwt.service';
 import { MAX_LENGTH_20, MIN_LENGTH_2, RG_ALPHA_NUMERIC, RG_ALPHA_ONLY } from 'src/app/_shared/regex';
 
 @Component({
@@ -25,15 +26,17 @@ export class LookupsComponent implements OnInit {
   addfields: any;
   addFlag: boolean = true;
   submitLabel!: string;
-  maxLength: any;
   lookups: LookupViewDto[] = [];
   ShowlookupDetails: boolean = false;
   isLookupChecked: boolean = false;
   isbool: boolean;
+  permissions: any;
+  maxLength: MaxLength = new MaxLength();
   mediumDate: string = MEDIUM_DATE
   selectedColumnHeader!: ITableHeader[];
   _selectedColumns!: ITableHeader[];
-  constructor(private formbuilder: FormBuilder, private adminService: AdminService, private alertMessage: AlertmessageService) { }
+  constructor(private formbuilder: FormBuilder, private adminService: AdminService, private alertMessage: AlertmessageService,
+    private jwtService: JwtService) { }
 
 
   lookupDetailsHeader: ITableHeader[] = [
@@ -46,13 +49,15 @@ export class LookupsComponent implements OnInit {
     { field: 'updatedAt', header: 'updatedAt', label: 'Updated Date' },
     { field: 'updatedBy', header: 'updatedBy', label: 'Updated By' },
   ]
-lookupHeader: ITableHeader[]=[
-  { field: 'code', header: 'code', label: 'Code' },
-  { field: 'name', header: 'name', label: 'Name' },
-  { field: 'isActive', header: 'isActive', label: 'Is Active' },
-]
+  lookupHeader: ITableHeader[] = [
+    { field: 'code', header: 'code', label: 'Code' },
+    { field: 'name', header: 'name', label: 'Name' },
+    { field: 'isActive', header: 'isActive', label: 'Is Active' },
+  ]
 
   ngOnInit(): void {
+    this.permissions = this.jwtService.Permissions;
+
     this.lookupForm();
     this.onChangeisLookupChecked();
     this._selectedColumns = this.selectedColumnHeader;
@@ -97,7 +102,7 @@ lookupHeader: ITableHeader[]=[
       lookupId: [0],
       code: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_NUMERIC), Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_20)]),
       name: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
-      isActive: [true],
+      isActive: new FormControl('', [Validators.required,]),
       lookUpDetails: this.formbuilder.array([], FormArrayValidationForDuplication())
     });
   }
@@ -148,10 +153,12 @@ lookupHeader: ITableHeader[]=[
     }
   }
   save() {
+    debugger
     if (this.fblookup.valid) {
       this.savelookup().subscribe(resp => {
         if (resp) {
           this.GetLookUp(false);
+          this.isLookupChecked = false;
           this.onClose();
           this.showDialog = false;
           this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "SML001" : "SML002"]);
@@ -166,10 +173,10 @@ lookupHeader: ITableHeader[]=[
     return this.formbuilder.group({
       lookupId: [lookupDetail.lookupId],
       lookupDetailId: [lookupDetail.lookupDetailId],
-      code: new FormControl(lookupDetail.code, [Validators.required,]),
+      code: new FormControl(lookupDetail.code, [Validators.required, Validators.minLength(2)]),
       name: new FormControl(lookupDetail.name, [Validators.required, Validators.minLength(2)]),
-      description: [lookupDetail.description],
-      isActive: [lookupDetail.isActive],
+      description: new FormControl(lookupDetail.description),
+      isActive: new FormControl(lookupDetail.isActive, [Validators.required])
     })
   }
   formArrayControls(i: number, formControlName: string) {
@@ -201,6 +208,11 @@ lookupHeader: ITableHeader[]=[
     this.addFlag = true;
     this.addLookupDetails();
     this.fblookup.controls['isActive'].setValue(true);
+    this.falookUpDetails = this.fblookup.get("lookUpDetails") as FormArray
+    for (let i = 0; i < this.falookUpDetails.length; i++) {
+      const subLookupGroup = this.falookUpDetails.at(i);
+      subLookupGroup.get('isActive').setValue(true); // Set isActive for each sub-lookup detail
+    }
     this.submitLabel = "Add Lookup";
     this.showDialog = true;
   }
@@ -210,6 +222,7 @@ lookupHeader: ITableHeader[]=[
     this.falookupDetails().clear();
   }
   editLookUp(lookup: LookupViewDto) {
+    console.log(lookup)
     lookup.expandLookupDetails.forEach((lookupDetails: LookupDetailsDto) => {
       lookupDetails.lookupId = lookup.lookupId;
       this.falookupDetails().push(this.generaterow(lookupDetails));

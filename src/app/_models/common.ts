@@ -1,5 +1,5 @@
 export class MaxLength {
-  code: number = 10;
+  code: number = 20;
   title:number = 50;
   name: number = 50;
   seasonName: number = 9;
@@ -19,3 +19,9 @@ export interface ITableHeader {
     header: string;
     label: string;
   }
+
+export class ConfirmationRequest {
+    message: string = 'Are you sure want to delete ?';
+    header: string = 'Confirmation';
+    icon: string = 'pi pi-exclamation-triangle';
+}
