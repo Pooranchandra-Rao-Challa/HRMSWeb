@@ -1,4 +1,4 @@
-<div class="col-12">
+<div class="col-12"  *ngIf="permissions?.CanViewLookups">
   <div class="card">
     <p-toast key="tst"></p-toast>
     <!-- Toolbar -->
@@ -81,13 +81,14 @@
                     [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]">> <ng-template
                       pTemplate="header">
                       <tr>
-                        <th class="required">Code
+                        <th>
+                          <label class="required">Code:</label>
                         </th>
-                        <th class="required">Name
+                        <th> <label class="required">Name:</label>
                         </th>
-                        <th class="required">Description
+                        <th >Description:
                         </th>
-                        <th class="required">Is Active
+                        <th><label class="required">Is Active:</label>
                         </th>
                         <th *ngIf="fblookup.controls['lookUpDetails'].value.length > 1"></th>
                       </tr>
@@ -188,7 +189,7 @@
       </ng-template>
     </p-dialog>
     <!-- table -->
-    <p-table #dtlookup [value]="lookups" dataKey="lookupId" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
+    <p-table #lookUp  [value]="lookups" dataKey="lookupId" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
       [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
       [columns]="selectedColumns" styleClass="p-datatable-gridlines  p-datatable-sm" [style]="{width: 'auto'}"
       [showCurrentPageReport]="true" [globalFilterFields]="globalFilterFields" [autoLayout]="true"
@@ -196,7 +197,7 @@
       <ng-template pTemplate="caption">
         <div class="flex justify-content-between flex-column sm:flex-row">
           <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
-            (click)="clear(dtlookup)" id="Lookup_clearFilter"></button>
+          (click)="clear()" id="Lookup_clearFilter"></button>
           <p-multiSelect [options]="selectedColumnHeader" [(ngModel)]="selectedColumns" optionLabel="label"
             id="lookup_ColumnSelection" selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}"
             placeholder="Choose Columns">
@@ -209,7 +210,7 @@
           </div>
           <span class="p-input-icon-left mb-2">
             <i class="pi pi-search"></i>
-            <input pInputText type="text" #filter (input)="onGlobalFilter(dtlookup, $event)" id="Lookup_lookupSearch"
+            <input pInputText type="text" #filter (input)="onGlobalFilter(lookUp,$event)" id="Lookup_lookupSearch"
               placeholder="Search Keyword" class="w-full" />
           </span>
         </div>
@@ -266,7 +267,7 @@
         <tr>
           <td colspan="9" class="p-0">
             <div class="p-0">
-              <p-table [value]="lookup.expandLookupDetails" [columns]="lookupDetailsHeader">
+              <p-table #lookUpDetails [value]="lookup.expandLookupDetails" [columns]="lookupDetailsHeader">
                 <ng-template pTemplate="header">
         <tr>
           <th style *ngFor="let col of lookupDetailsHeader" [pSortableColumn]="col.header">

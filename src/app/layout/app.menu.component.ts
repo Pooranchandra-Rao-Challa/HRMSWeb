@@ -73,31 +73,13 @@ export class AppMenuComponent implements OnInit {
                         label: 'Lookups',
                         icon: 'pi pi-fw pi-circle',
                         routerLink: ['admin/lookups'],
-                        permission: this.jwtService.Permissions.CanViewLookups
-                    },
+                        permission: this.jwtService.Permissions.CanViewLookups || this.jwtService.Permissions.CaManageLookups
+                    } ,
                     {
                         label: 'Holiday Configuration',
                         icon: 'pi pi-fw pi-calendar-plus',
                         routerLink: ['admin/holidayconfiguration'],
                         permission: this.jwtService.Permissions.CanViewHolidays
-                    }
-                ]
-            },
-            {
-                label: 'Admin',
-                icon: 'pi pi-user',
-                permission: this.GroupPermission('Admin'),
-                items: [
-                    {
-                        label: 'Lookups',
-                        icon: 'pi pi-fw pi-circle',
-                        routerLink: ['admin/lookups'],
-                        permission: this.jwtService.Permissions.CanViewLookups
-                    },
-                    {
-                        label: 'Holiday Configuration',
-                        icon: 'pi pi-fw pi-calendar-plus',
-                        routerLink: ['admin/holidayconfiguration']
                     },
                     {
                         label: 'Assets',
