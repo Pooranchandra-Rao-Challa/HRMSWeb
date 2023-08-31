@@ -1,5 +1,6 @@
 <div class="col-12">
   <div class="card">
+    <p-toast key="tst"></p-toast>
     <!-- Toolbar -->
     <p-toolbar styleClass="p-mb-4">
       <ng-template pTemplate="left">
@@ -7,7 +8,7 @@
       </ng-template>
       <ng-template pTemplate="right">
         <button pButton pRipple label="Add New Project" icon="pi pi-plus" class="p-button-primary p-mr-2"
-          *ngIf="permission?.CanManageProjects" (click)="initProject(null)"></button>
+          id="Project_addProject" *ngIf="permission?.CanManageProjects" (click)="initProject(null)"></button>
       </ng-template>
     </p-toolbar>
     <!-- dialog -->
@@ -21,145 +22,184 @@
               <div class="p-fluid p-formgrid grid">
                 <div class="field col-12 md:col-4">
                   <label>Code: <sup class="p-error">*</sup>
-                  </label>&nbsp; <input pInputText id="code" type="text" formControlName="code" placeholder="Enter Code"
-                    #code alphaNumeric />
-                    <div class="flex">
-                      <div class="align-left w-60" style="width:70%">
-                        <span
-                          *ngIf="projectFormControls['code'].touched && projectFormControls['code'].errors?.['notUniqueName']">
-                          <div class="ng-invalid ng-touched p-error">
-                            Project code must be unique.
-                          </div>
-                        </span>
-                        <span *ngIf="projectFormControls['code'].touched && projectFormControls['code'].invalid">
-                          <div class="ng-invalid ng-touched p-error"
-                            *ngIf="projectFormControls['code'].errors?.['required']">
-                            Please Enter code.</div>
-                          <div class="ng-invalid ng-touched p-error"
-                            *ngIf="projectFormControls['code'].errors?.['minlength']">
-                            Code Min Characters Is 4.</div>
-                        </span>
-                      </div>
-                      <div class="align-right w-40" style="width:30%; text-align:right;">
-                        <small>{{code.value.length}}/20</small>
-                      </div>
+                  </label>&nbsp; <input pInputText id="Project_code" type="text" formControlName="code"
+                    placeholder="Enter Code" #code alphaNumeric />
+                  <div class="flex">
+                    <div class="align-left w-60" style="width:70%">
+                      <span *ngIf="projectFormControls['code'].touched && projectFormControls['code'].invalid">
+                        <div class="ng-invalid ng-touched p-error"
+                          *ngIf="projectFormControls['code'].errors?.['required']">
+                          Please Enter code.</div>
+                        <div class="ng-invalid ng-touched p-error"
+                          *ngIf="projectFormControls['code'].errors?.['minlength']">
+                          Code Min Characters Is 4.</div>
+                      </span>
                     </div>
+                    <div class="align-right w-40" style="width:30%; text-align:right;">
+                      <small>{{code.value.length}}/20</small>
+                    </div>
+                  </div>
                 </div>
                 <div class="field col-12 md:col-4">
                   <label>Name: <sup class="p-error">*</sup>
-                  </label>&nbsp; <input pInputText id="name" type="text" formControlName="name" placeholder="Enter Name"
-                    #name alphaOnly />
-                    <div class="flex">
-                      <div class="align-left w-60" style="width:70%">
-                        <span *ngIf="projectFormControls['name'].touched && projectFormControls['name'].invalid">
-                          <div class="ng-invalid ng-touched p-error"
-                            *ngIf="projectFormControls['name'].errors?.['required']">
-                            Please Enter Project Name.</div>
-                          <div class="ng-invalid ng-touched p-error"
-                            *ngIf="projectFormControls['code'].errors?.['minlength']">
-                            Name Min Characters Is 2.</div>
-                        </span>
-                      </div>
-                      <div class="align-right w-40" style="width:30%; text-align:right;">
-                        <small>{{name.value.length}}/50</small>
-                      </div>
+                  </label>&nbsp; <input pInputText id="Project_name" type="text" formControlName="name"
+                    placeholder="Enter Name" #name alphaOnly />
+                  <div class="flex">
+                    <div class="align-left w-60" style="width:70%">
+                      <span *ngIf="projectFormControls['name'].touched && projectFormControls['name'].invalid">
+                        <div class="ng-invalid ng-touched p-error"
+                          *ngIf="projectFormControls['name'].errors?.['required']">
+                          Please Enter Project Name.</div>
+                        <div class="ng-invalid ng-touched p-error"
+                          *ngIf="projectFormControls['name'].errors?.['minlength']">
+                          Name Min Characters Is 2.</div>
+                      </span>
                     </div>
+                    <div class="align-right w-40" style="width:30%; text-align:right;">
+                      <small>{{name.value.length}}/50</small>
+                    </div>
+                  </div>
                 </div>
                 <div class="field col-12 md:col-4">
                   <label>Start Date: <sup class="p-error">*</sup>
                   </label>&nbsp; <p-calendar inputId="calendar" [readonlyInput]="true" [showIcon]="true"
-                    [minDate]="minDateVal" placeholder="Enter Project Staring Date" formControlName="startDate"></p-calendar>
+                    id="Project_startDate" [minDate]="minDateVal" placeholder="Enter Project Staring Date"
+                    formControlName="startDate">
+                  </p-calendar>
+                  <div class="flex">
+                    <div class="align-left w-60" style="width:70%">
+                      <span
+                        *ngIf="projectFormControls['startDate'].touched && projectFormControls['startDate'].invalid">
+                        <div class="ng-invalid ng-touched p-error"
+                          *ngIf="projectFormControls['startDate'].errors?.['required']">
+                          Please Select Starting Date.</div>
+                      </span>
+                    </div>
+                  </div>
                 </div>
                 <div class="field col-12 md:col-4">
                   <label for="textarea">Description <sup class="p-error">*</sup>
-                  </label>&nbsp; <textarea inputId="textarea" rows="3" cols="30" pInputTextarea alphaNumeric #description
-                    placeholder="Enter Description" formControlName="description"></textarea>
-                    <div class="flex">
-                      <div class="align-left w-60" style="width:70%">
-                        <span *ngIf="projectFormControls['description'].touched && projectFormControls['description'].invalid">
-                          <div class="ng-invalid ng-touched p-error"
-                            *ngIf="projectFormControls['description'].errors?.['required']">
-                            Please Enter Description.</div>
-                          <div class="ng-invalid ng-touched p-error"
-                            *ngIf="projectFormControls['description'].errors?.['minlength']">
-                            Name Min Characters Is 2.</div>
-                        </span>
-                      </div>
-                      <div class="align-right w-40" style="width:30%; text-align:right;">
-                        <small>{{description.value.length}}/256</small>
-                      </div>
-                    </div>  
+                  </label>&nbsp; <textarea inputId="textarea" rows="3" cols="30" pInputTextarea alphaNumeric
+                    id="Project_description" #description placeholder="Enter Description"
+                    formControlName="description"></textarea>
+                  <div class="flex">
+                    <div class="align-left w-60" style="width:70%">
+                      <span
+                        *ngIf="projectFormControls['description'].touched && projectFormControls['description'].invalid">
+                        <div class="ng-invalid ng-touched p-error"
+                          *ngIf="projectFormControls['description'].errors?.['required']">
+                          Please Enter Description.</div>
+                        <div class="ng-invalid ng-touched p-error"
+                          *ngIf="projectFormControls['description'].errors?.['minlength']">
+                          Description Min Characters Is 2.</div>
+                        <div class="ng-invalid ng-touched p-error"
+                          *ngIf="projectFormControls['description'].errors?.['maxlength']">
+                          Description Max Characters Is 256.</div>
+                      </span>
+                    </div>
+                    <div class="align-right w-40" style="width:30%; text-align:right;">
+                      <small>{{description.value.length}}/256</small>
+                    </div>
+                  </div>
                 </div>
-
+                <div class="field col-12 md:col-4">
+                  <label>Is Active: <sup class="p-error">*</sup>
+                  </label>
+                  <br> &nbsp; <p-inputSwitch formControlName="isActive" id="Project_IsActive"></p-inputSwitch>
+                </div>
               </div>
               <h5>Client Details</h5>
               <div class="p-fluid p-formgrid grid" formGroupName="clients">
                 <div class="field col-12 md:col-4">
                   <label>Company Full Name: <sup class="p-error">*</sup>
                   </label>&nbsp;
-                  <p-autoComplete [suggestions]="this.filteredClients" placeholder="Enter Company Full Name" optionValue="companyName.companyName" (onSelect)="onAutocompleteSelect($event)"
-                    (completeMethod)="filterClients($event)" field="companyName" formControlName="companyName">
+                  <p-autoComplete [suggestions]="this.filteredClients" placeholder="Enter Company Full Name"
+                    optionValue="companyName.companyName" (onSelect)="onAutocompleteSelect($event)"
+                    (completeMethod)="filterClients($event)" field="companyName" formControlName="companyName"
+                    id="Project_fullName">
                   </p-autoComplete>
                 </div>
                 <div class="field col-12 md:col-4">
                   <label>Client Name: <sup class="p-error">*</sup>
                   </label>&nbsp;
-                  <input pInputText id="name" type="text" placeholder="Enter Client Name" alphaOnly
-                    formControlName="clientName" />
+                  <input pInputText id="Project_clientName" type="text" placeholder="Enter Client Name" alphaOnly
+                    formControlName="Name" />
+                  <!-- <div class="flex">
+                    <div class="align-left w-60" style="width:70%">
+                      <span *ngIf="fcClientDetails['Name'].touched && fcClientDetails['Name'].invalid">
+                        <div class="ng-invalid ng-touched p-error"
+                          *ngIf="fcClientDetails['Name'].errors?.['required']">
+                          Please Enter Client Name.</div>
+                        <div class="ng-invalid ng-touched p-error"
+                          *ngIf="fcClientDetails['Name'].errors?.['minlength']">
+                          Name Min Characters Is 2.</div>
+                      </span>
+                    </div>
+                    <div class="align-right w-40" style="width:30%; text-align:right;">
+                      <small>{{name.value.length}}/50</small>
+                    </div>
+                  </div> -->
                 </div>
 
                 <div class="field col-12 md:col-4">
                   <label>Client Email Id: <sup class="p-error">*</sup>
                   </label>&nbsp;
-                  <input pInputText id="name" type="email" placeholder="Enter EmailId" 
+                  <input pInputText id="Project_clientEmail" type="email" placeholder="Enter EmailId"
                     formControlName="email" />
                 </div>
                 <div class="field col-12 md:col-4">
-                  <label>Client Mobile No: 
+                  <label>Client Mobile No:
                   </label>&nbsp;
-                  <input pInputText id="name" type="text" placeholder="Enter Mobile Number" 
-                    formControlName="mobileNumber" />
+                  <input pInputText id="Project_clientMobileNo" type="text" placeholder="Enter Mobile Number"
+                    formControlName="mobileNumber" #Phone />
+                  <div class="flex">
+                    <div class="align-left w-60" style="width:70%">
+                    </div>
+                    <div class="align-right w-40" style="width:30%; text-align:right;">
+                      <small>{{Phone.value.length}}/10</small>
+                    </div>
+                  </div>
                 </div>
                 <div class="field col-12 md:col-4">
                   <label>CIN/GST No: <sup class="p-error">*</sup>
-                  </label>&nbsp; <input pInputText id="name" type="text" placeholder="Enter CIS/GST No"
+                  </label>&nbsp; <input pInputText id="Project_cinNo" type="text" placeholder="Enter CIS/GST No"
                     formControlName="cinno" />
                 </div>
                 <div class="field col-12 md:col-4">
                   <label>Is Active: <sup class="p-error">*</sup>
                   </label>
-                  <br> &nbsp; <p-inputSwitch formControlName="isActive"></p-inputSwitch>
+                  <br> &nbsp; <p-inputSwitch formControlName="isActive" id="Project_clientIsActive"></p-inputSwitch>
                 </div>
                 <div class="field col-12 md:col-4">
                   <label>POC Name: <sup class="p-error">*</sup>
-                  </label>&nbsp; <input pInputText id="name" type="text" placeholder="Enter POC Name" alphaOnly
-                    formControlName="pocName" />
+                  </label>&nbsp; <input pInputText id="Project_pocName" type="text" placeholder="Enter POC Name"
+                    alphaOnly formControlName="pocName" />
                 </div>
                 <div class="field col-12 md:col-4">
                   <label>POC Ph.no: <sup class="p-error">*</sup>
-                  </label>&nbsp; <input pInputText id="name" type="text" placeholder="Enter POC Mobile Number"
-                    formControlName="pocMobileNumber" />
+                  </label>&nbsp; <input pInputText id="Project_pocMobileNo" type="text"
+                    placeholder="Enter POC Mobile Number" formControlName="pocMobileNumber" />
                 </div>
                 <div class="field col-12 md:col-4">
-                  <label>Address: 
+                  <label>Address:
                   </label>&nbsp;
-                  <textarea inputId="textarea" rows="3" cols="30" pInputTextarea formControlName="address"
-                    placeholder="Enter Address"></textarea>
+                  <textarea inputId="textarea" rows="3" cols="30" id="Project_clientAddress" pInputTextarea
+                    formControlName="address" placeholder="Enter Address"></textarea>
                 </div>
               </div>
               <h5>Employee Details</h5>
               <div class="p-fluid p-formgrid grid">
                 <div class="field col-12 md:col-4">
                   <label>Employee Id:<sup class="p-error">*</sup></label>&nbsp;
-                  <p-multiSelect [options]="employees" optionLabel="empname"
-                    placeholder="Select Employees">
+                  <p-multiSelect [options]="employees" optionLabel="empname" placeholder="Select Employees"
+                    id="Project_emps" formControlName="teamMembers">
                   </p-multiSelect>
                 </div>
               </div>
 
 
               <div class="grid">
-                <div class="col-12 md:col-3" *ngFor="let employee of employees">
+                <div class="col-12 md:col-3" *ngFor="let employee of this.fbproject.get('teamMembers').value">
                   <div class="m-2 card border-1 surface-border">
                     <div class="text-xl font-bold">{{employee.empname}}</div>
                     <span class="text-600 font-medium text-sm">
@@ -169,7 +209,6 @@
                       Designation : {{employee.designation}}
                     </span><br />
                   </div>
-
                 </div>
               </div>
 
@@ -195,10 +234,11 @@
               alt="img" [style]="{width: '300px'}"
               class="inline-flex align-items-center justify-content-center border-circle w-5rem h-5rem bg-primary-100 mb-5">
             <div class="text-2xl mb-3 font-medium">
-              <a class="cursor-pointer" (click)="showProjectDetailsDialog(project)">{{project.name}} </a>
+              <a class="cursor-pointer" (click)="showProjectDetailsDialog(project)"
+                id="Project_viewDetails">{{project.name}} </a>
               <button pButton pRipple icon="pi pi-pencil" *ngIf="permission?.CanManageProjects"
                 class="p-element p-ripple p-button-text p-button-primary p-component m-0 p-0"
-                (click)="initProject(project)"></button>
+                (click)="initProject(project)" id="Project_editButton"></button>
             </div>
             <p class="line-height-3 mb-3">{{project.description}}</p>
           </div>
@@ -260,7 +300,7 @@
           <p-tabPanel header="Team Members ">
             <div class="grid">
 
-              <div class="col-12 md:col-3" *ngFor="let employee of employees">
+              <div class="col-12 md:col-3" *ngFor="let employee of this.projectDetails.teamMembers">
                 <div class="m-2 card border-1 surface-border">
                   <div class="text-xl font-bold">{{employee.empname}}</div>
                   <span class="text-600 font-medium text-sm">
