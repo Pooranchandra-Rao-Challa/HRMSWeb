@@ -18,8 +18,11 @@ export class AppMenuComponent implements OnInit {
             case 'Security':
                 return this.jwtService.Permissions.CanViewUsers || this.jwtService.Permissions.CanViewRoles
             case 'Admin':
-                return this.jwtService.Permissions.CanViewLookups || this.jwtService.Permissions.CanManageHolidays ||
-                    this.jwtService.Permissions.CanManageAssets || this.jwtService.Permissions.CanManageAssetsAllotments;
+                return this.jwtService.Permissions.CanViewLookups || this.jwtService.Permissions.CanViewHolidays
+                || this.GroupPermission('Assets')
+            case 'Assets':
+                  return  this.jwtService.Permissions.CanViewAssets || this.jwtService.Permissions.CanViewAssetsAllotments;
+            
             default:
                 return false;
         }
@@ -72,18 +75,19 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'Lookups',
                         icon: 'pi pi-fw pi-circle',
-                        routerLink: ['admin/lookups'],
-                        permission: this.jwtService.Permissions.CanViewLookups || this.jwtService.Permissions.CaManageLookups
-                    } ,
+                        routerLink: ['/admin/lookups'],
+                        permission: this.jwtService.Permissions.CanViewLookups
+                    },
                     {
                         label: 'Holiday Configuration',
                         icon: 'pi pi-fw pi-calendar-plus',
-                        routerLink: ['admin/holidayconfiguration'],
+                        routerLink: ['/admin/holidayconfiguration'],
                         permission: this.jwtService.Permissions.CanViewHolidays
                     },
                     {
                         label: 'Assets',
                         icon: 'pi pi-fw pi-align-left',
+                        Permission: this.GroupPermission('Assets'),
                         items: [
                             {
                                 label: 'Assets',
@@ -93,7 +97,7 @@ export class AppMenuComponent implements OnInit {
 
                             },
                             {
-                                label: 'Assets Allotment ',
+                                label: 'Assets Allotment',
                                 icon: 'pi pi-fw pi-align-left',
                                 routerLink: ['admin/assetsallotment'],
                                 permission: this.jwtService.Permissions.CanViewAssetsAllotments
