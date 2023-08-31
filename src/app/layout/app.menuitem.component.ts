@@ -15,7 +15,7 @@ import {DomHandler} from 'primeng/dom';
         <ng-container>
             <div *ngIf="root && item.visible !== false" class="layout-menuitem-root-text">{{ item.label }}</div>
             <a
-                *ngIf="(!item.routerLink || item.items) && item.visible !== false"
+                *ngIf="(!item.routerLink || item.items) && item.permission === true  && item.visible !== false"
                 [attr.href]="item.url"
                 (click)="itemClick($event)"
                 (mouseenter)="onMouseEnter()"
@@ -31,7 +31,7 @@ import {DomHandler} from 'primeng/dom';
                 <i class="pi pi-fw pi-angle-down layout-submenu-toggler" *ngIf="item.items"></i>
             </a>
             <a
-                *ngIf="item.routerLink && !item.items && item.visible !== false"
+                *ngIf="item.routerLink && !item.items && item.visible !== false  && item.permission === true"
                 (click)="itemClick($event)"
                 (mouseenter)="onMouseEnter()"
                 [ngClass]="item.class"
