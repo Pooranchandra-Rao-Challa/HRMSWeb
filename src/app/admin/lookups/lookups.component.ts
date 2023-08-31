@@ -189,7 +189,6 @@ export class LookupsComponent implements OnInit {
       this.fblookup.markAllAsTouched();
     }
   }
-
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }

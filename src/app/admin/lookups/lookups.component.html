@@ -81,14 +81,13 @@
                     [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]">> <ng-template
                       pTemplate="header">
                       <tr>
-                        <th>
-                          <label class="required">Code:</label>
+                        <th>Code
                         </th>
-                        <th> <label class="required">Name:</label>
+                        <th>Name
                         </th>
-                        <th >Description:
+                        <th >Description
                         </th>
-                        <th><label class="required">Is Active:</label>
+                        <th>Is Active
                         </th>
                         <th *ngIf="fblookup.controls['lookUpDetails'].value.length > 1"></th>
                       </tr>
@@ -96,7 +95,7 @@
                     <ng-template pTemplate="body" let-lookUp let-lookUpDetailsIndex="rowIndex">
                       <tr [formGroupName]="lookUpDetailsIndex">
                         <td class="vertical-align-top">
-                          <input pInputText class="form-control" formControlName="code" #Code placeholder="Enter Code"
+                          <input pInputText class="form-control" formControlName="code" #Code placeholder="Enter Code*"
                             alphaNumeric (keydown)="restrictSpaces($event)" [maxlength]="20" [ngClass]="{'is-invalid ng-dirty': formArrayControls(lookUpDetailsIndex, 'code')?.touched &&
                                 formArrayControls(lookUpDetailsIndex, 'code')?.errors }" id="Lookup_lookupDetaisCode">
                           <div class="flex">
@@ -125,7 +124,7 @@
                           </div>
                         </td>
                         <td class="vertical-align-top">
-                          <input pInputText class="form-control" formControlName="name" placeholder="Enter Name" #name
+                          <input pInputText class="form-control" formControlName="name" placeholder="Enter Name*" #name
                             alphaOnly (keydown)="restrictSpaces($event)" [ngClass]="{'is-invalid ng-dirty': formArrayControls(lookUpDetailsIndex,'name')?.touched &&
                   formArrayControls(lookUpDetailsIndex,'name')?.errors }" [maxlength]="50"
                             id="Lookup_lookupDetailsName">
