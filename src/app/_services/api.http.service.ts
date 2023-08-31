@@ -51,6 +51,7 @@ export class ApiHttpService {
       );
   }
   public post<T>(uri: string, data: any, options?: any) {
+    debugger
     return this.http.post<T>(URI_ENDPOINT(uri), data, options)
       .pipe(
         catchError(error => {

@@ -1,5 +1,12 @@
+
+
+
+
+
+
+
 import { Injectable } from '@angular/core';
-import { AssetsDto, AssetsViewDto, ClientDetailsDto, ClientNamesDto, HolidayDto, HolidaysViewDto, LookupViewDto, ProjectViewDto } from '../_models/admin';
+import { AssetsDto, AssetsViewDto, ClientDetailsDto, ClientNamesDto, HolidayDto, HolidaysViewDto, LookupViewDto, ProjectDetailsDto, ProjectViewDto } from '../_models/admin';
 import { AssetAllotmentDto, AssetAllotmentViewDto, AssetsByAssetTypeIdViewDto, RevokeAssetRequest } from '../_models/admin/assetsallotment';
 import { ApiHttpService } from './api.http.service';
 import {
@@ -25,12 +32,11 @@ export class AdminService extends ApiHttpService {
     //     return this.getWithId<LookupViewDto[]>(GET_LOOKUP_DETAILS_URI, lookupId);
     // }
     
-    public CreateProject(project: ProjectViewDto) {
-        debugger
-        return this.post<ProjectViewDto>(CREATE_PROJECT_URI, project);
+    public CreateProject(project: ProjectDetailsDto) {
+        return this.post<ProjectDetailsDto>(CREATE_PROJECT_URI, project);
     }
-    public UpdateProject(project: ProjectViewDto) {
-        return this.post<ProjectViewDto>(UPDATE_PROJECT_URI, project);
+    public UpdateProject(project: ProjectDetailsDto) {
+        return this.post<ProjectDetailsDto>(UPDATE_PROJECT_URI, project);
     }
 
     public GetHolidays(year: string) {
