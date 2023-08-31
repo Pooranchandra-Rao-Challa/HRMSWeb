@@ -90,6 +90,7 @@ export class UserQuestionDto {
   answer?: string
   userAnswer?: string
   userName?: string;
+  userSecureQuestionsCount?: number;
 }
 export class SecureQuestionDto {
   questionId?: number

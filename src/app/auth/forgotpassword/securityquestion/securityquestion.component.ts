@@ -15,6 +15,7 @@ export class SecurityquestionComponent {
     userQuestions: UserQuestionDto[] = []
     userName?: string;
     interval: any;
+    userSecureQuestionsCount: number;
 
     constructor(private router: Router,
         private securityService: SecurityService,
@@ -24,6 +25,10 @@ export class SecurityquestionComponent {
 
     ngOnInit(): void {
         this.userName = this.activatedRoute.snapshot.queryParams['username'];
+        this.initUserSecurityQuestions();
+    }
+
+    initUserSecurityQuestions() {
         this.securityService.UserSecurityQuestions(this.userName!).pipe(
             catchError((error) => {
                 this.messageService.add({ severity: 'error', key: 'myToast', summary: 'Error', detail: "Invalid User Name" });
@@ -35,6 +40,7 @@ export class SecurityquestionComponent {
         ).subscribe({
             next: (resp) => {
                 this.userQuestions = resp as unknown as UserQuestionDto[];
+                this.userSecureQuestionsCount = this.userQuestions[0]?.userSecureQuestionsCount;
                 if (this.userQuestions.length < 1) {
                     this.messageService.add({ severity: 'error', key: 'myToast', summary: 'Error', detail: "You have no security questions, So please contact to your admin." });
                     // this.navigateToPrev();
@@ -73,6 +79,7 @@ export class SecurityquestionComponent {
     }
 
     ngOnDestroy() {
+        this.userQuestions = [];
         clearInterval(this.interval);
     }
 
