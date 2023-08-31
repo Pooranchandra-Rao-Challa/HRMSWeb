@@ -6,8 +6,7 @@ import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { LoginModel } from 'src/app/_models/login.model';
 import { JwtService } from 'src/app/_services/jwt.service';
 import { LoginService, LogInSuccessModel } from 'src/app/_services/login.service';
-import { MAX_LENGTH_50, MIN_LENGTH_5, MIN_LENGTH_8, RG_ALPHA_NUMERIC } from 'src/app/_shared/regex';
-import { URI_ENDPOINT_WITH_PARAMS } from 'src/environments/environment';
+
 
 @Component({
     selector: 'app-login',
@@ -64,7 +63,7 @@ export class LoginComponent implements OnInit {
                         } else if ([400].includes(error)) {
                             this.messageService.add({ severity: 'error', key: 'myToast', summary: 'Error', detail: "User Not found" });
                         }
-                        const errorMessage = error.message;
+                        const errorMessage = error.Message;
                         this.messageService.add({ severity: 'error', key: 'myToast', summary: 'Error', detail: errorMessage ||"UserName Or Password Is Incorrect" });
                         this.submitted = false;
                     },
