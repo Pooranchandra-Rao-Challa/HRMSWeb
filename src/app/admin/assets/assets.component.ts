@@ -11,7 +11,7 @@ import { ConfirmationRequest, ITableHeader } from 'src/app/_models/common';
 import { AdminService } from 'src/app/_services/admin.service';
 import { JwtService } from 'src/app/_services/jwt.service';
 import { LookupService } from 'src/app/_services/lookup.service';
-import { MAX_LENGTH_20, MAX_LENGTH_256, MAX_LENGTH_3, MAX_LENGTH_50, MAX_LENGTH_6, MAX_LENGTH_7, MIN_LENGTH_2, RG_ALPHA_NUMERIC } from 'src/app/_shared/regex';
+import { MAX_LENGTH_20, MAX_LENGTH_256, MAX_LENGTH_3, MAX_LENGTH_50, MAX_LENGTH_7, MIN_LENGTH_2, RG_ALPHA_NUMERIC } from 'src/app/_shared/regex';
 
 
 @Component({
@@ -34,14 +34,14 @@ export class AssetsComponent {
   dialog: boolean = false;
   submitLabel!: string;
   ShowassetsDetails: boolean = false;
-  deletedialog: boolean;
   deleteAsset = new AssetsDetailsViewDto();
   confirmationRequest: ConfirmationRequest = new ConfirmationRequest();
-  permissions:any;
+  permissions: any;
+  isSubmitting: boolean = false;
 
   constructor(private adminService: AdminService, private formbuilder: FormBuilder,
     private alertMessage: AlertmessageService, private lookupService: LookupService,
-    private confirmationDialogService: ConfirmationDialogService,private jwtService:JwtService) {
+    private confirmationDialogService: ConfirmationDialogService, private jwtService: JwtService) {
   }
 
   AssetsheaderTable: ITableHeader[] = [
@@ -53,11 +53,11 @@ export class AssetsComponent {
     { field: 'code', header: 'code', label: 'Code' },
     { field: 'name', header: 'name', label: 'Asset Name' },
     { field: 'purchasedDate', header: 'purchasedDate', label: 'Purchased Date' },
-    { field: 'modelNumber', header: 'modelNumber', label: 'ModelNumber' },
+    { field: 'modelNumber', header: 'modelNumber', label: 'Model Number' },
     { field: 'manufacturer', header: 'manufacturer', label: 'Manufacturer' },
-    { field: 'serialNumber', header: 'serialNumber', label: 'SerialNumber' },
+    { field: 'serialNumber', header: 'serialNumber', label: 'Serial Number' },
     { field: 'warranty', header: 'warranty', label: 'Warranty' },
-    { field: 'addValue', header: 'addValue', label: 'AddValue' },
+    { field: 'addValue', header: 'addValue', label: 'Add Value' },
     { field: 'description', header: 'description', label: 'Description' },
     { field: 'status', header: 'status', label: 'Status' },
     { field: 'isActive', header: 'isActive', label: 'Is Active' },
@@ -100,8 +100,6 @@ export class AssetsComponent {
         element.expandassets = JSON.parse(element.assets) as unknown as AssetsDetailsViewDto[];
       });
     })
-
-
   }
 
   assetsForm() {
@@ -113,13 +111,13 @@ export class AssetsComponent {
       name: new FormControl(null, [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
       purchasedDate: new FormControl(null, [Validators.required]),
       modelNumber: new FormControl(null, Validators.maxLength(MAX_LENGTH_50)),
-      manufacturer: new FormControl(null, [Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_20)]),
+      manufacturer: new FormControl(null, [Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
       serialNumber: new FormControl(null, Validators.maxLength(MAX_LENGTH_20)),
       warranty: new FormControl(null, Validators.maxLength(MAX_LENGTH_3)),
       addValue: new FormControl(null, Validators.maxLength(MAX_LENGTH_7)),
       description: new FormControl(null, Validators.maxLength(MAX_LENGTH_256)),
       statusId: new FormControl(null, [Validators.required]),
-      isActive: (null),
+      isActive: (true),
     });
   }
 
@@ -152,36 +150,20 @@ export class AssetsComponent {
     this.ShowassetsDetails = false;
   }
 
-  deleted() {
-    this.deletedialog = false
-  }
-
-  Dialog(assetstypes: AssetsDetailsViewDto) {
+  deleteDialog(assetstypes: AssetsDetailsViewDto) {
     this.deleteAsset = assetstypes;
     this.confirmationDialogService.comfirmationDialog(this.confirmationRequest).subscribe(userChoice => {
-        if(userChoice){
-          this.asset = this.deleteAsset
-          this.asset.purchasedDate = new Date(this.deleteAsset.purchasedDate);
-          this.asset.isActive = false;
-          this.fbassets.patchValue(this.asset);
-          this.addFlag = false;
-          this.addFlag1 = true; 
-          this.onSubmit();
-        }    
-    });  
- 
+      if (userChoice) {
+        this.asset = this.deleteAsset
+        this.asset.purchasedDate = new Date(this.deleteAsset.purchasedDate);
+        this.asset.isActive = false;
+        this.fbassets.patchValue(this.asset);
+        this.addFlag = false;
+        this.addFlag1 = true;
+        this.onSubmit();
+      }
+    });
   }
-
-  // deleteassettype() {
-  //   this.asset = this.deleteAsset
-  //   this.asset.purchasedDate = new Date(this.deleteAsset.purchasedDate);
-  //   this.asset.isActive = false;
-  //   this.fbassets.patchValue(this.asset);
-  //   this.addFlag = false;
-  //   this.addFlag1 = true;
-  //   this.onSubmit();
-  //   this.deletedialog = false
-  // }
 
   editAssets(assets: AssetsDetailsViewDto) {
     this.asset = assets;
@@ -199,6 +181,11 @@ export class AssetsComponent {
   }
 
   onSubmit() {
+    if (this.isSubmitting) {
+      // If a submission process is already ongoing, return to prevent duplicated calls
+      return;
+    }
+    this.isSubmitting = true; // Set the flag to indicate submission is starting
     this.fbassets.value.purchasedDate = FORMAT_DATE(this.fbassets.value.purchasedDate);
     this.saveAssets().subscribe(resp => {
       if (resp) {
@@ -215,7 +202,7 @@ export class AssetsComponent {
         this.alertMessage.displayErrorMessage(ALERT_CODES["AAS004"])
       }
       this.fbassets.reset();
-    })
+      this.isSubmitting = false; // Reset the flag after submission is completed
+    });
   }
-
 }
