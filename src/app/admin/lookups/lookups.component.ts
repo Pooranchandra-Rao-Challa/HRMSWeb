@@ -4,7 +4,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { Table } from 'primeng/table';
 import { Observable } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
-import { FormArrayValidationForDuplication } from 'src/app/_common/unique-branch-validators';
+import { FormArrayValidationForDuplication } from 'src/app/_validators/unique-branch-validators';
 import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
 import { ITableHeader, MaxLength } from 'src/app/_models/common';
@@ -20,6 +20,8 @@ import { MAX_LENGTH_20, MIN_LENGTH_2, RG_ALPHA_NUMERIC, RG_ALPHA_ONLY } from 'sr
 export class LookupsComponent implements OnInit {
   globalFilterFields: string[] = ['code', 'name', 'isActive', 'createdAt', 'createdBy', 'updatedAt', 'updatedBy']
   @ViewChild('filter') filter!: ElementRef;
+  @ViewChild('lookUp') lookUp: Table; // Reference to the main table
+  @ViewChild('lookUpDetails') lookUpDetails: Table;
   showDialog: boolean = false;
   fblookup!: FormGroup;
   falookUpDetails!: FormArray;
@@ -54,7 +56,16 @@ export class LookupsComponent implements OnInit {
     { field: 'name', header: 'name', label: 'Name' },
     { field: 'isActive', header: 'isActive', label: 'Is Active' },
   ]
+  @Input() get selectedColumns(): any[] {
+    return this._selectedColumns;
+  }
 
+  set selectedColumns(val: any[]) {
+    this._selectedColumns = this.selectedColumnHeader.filter((col) => val.includes(col));
+  }
+  get FormControls() {
+    return this.fblookup.controls;
+  }
   ngOnInit(): void {
     this.permissions = this.jwtService.Permissions;
 
@@ -69,16 +80,17 @@ export class LookupsComponent implements OnInit {
     ];
   }
 
-  @Input() get selectedColumns(): any[] {
-    return this._selectedColumns;
+  lookupForm() {
+    this.addfields = []
+    this.fblookup = this.formbuilder.group({
+      lookupId: [0],
+      code: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_NUMERIC), Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_20)]),
+      name: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
+      isActive: new FormControl('', [Validators.required,]),
+      lookUpDetails: this.formbuilder.array([], FormArrayValidationForDuplication())
+    });
   }
 
-  set selectedColumns(val: any[]) {
-    this._selectedColumns = this.selectedColumnHeader.filter((col) => val.includes(col));
-  }
-  get FormControls() {
-    return this.fblookup.controls;
-  }
   onChangeisLookupChecked() {
     this.GetLookUp(this.isLookupChecked)
   }
@@ -96,15 +108,23 @@ export class LookupsComponent implements OnInit {
       event.preventDefault();
     }
   }
-  lookupForm() {
-    this.addfields = []
-    this.fblookup = this.formbuilder.group({
-      lookupId: [0],
-      code: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_NUMERIC), Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_20)]),
-      name: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
-      isActive: new FormControl('', [Validators.required,]),
-      lookUpDetails: this.formbuilder.array([], FormArrayValidationForDuplication())
-    });
+
+  generaterow(lookupDetail: LookupDetailsDto = new LookupDetailsDto()): FormGroup {
+    return this.formbuilder.group({
+      lookupId: [lookupDetail.lookupId],
+      lookupDetailId: [lookupDetail.lookupDetailId],
+      code: new FormControl(lookupDetail.code, [Validators.required, Validators.minLength(2)]),
+      name: new FormControl(lookupDetail.name, [Validators.required, Validators.minLength(2)]),
+      description: new FormControl(lookupDetail.description),
+      isActive: new FormControl(lookupDetail.isActive, [Validators.required])
+    })
+  }
+  formArrayControls(i: number, formControlName: string) {
+    return this.falookupDetails().controls[i].get(formControlName);
+  }
+
+  falookupDetails(): FormArray {
+    return this.fblookup.get("lookUpDetails") as FormArray
   }
   //  post/update lookup
   savelookup(): Observable<HttpEvent<LookupViewDto>> {
@@ -169,34 +189,24 @@ export class LookupsComponent implements OnInit {
       this.fblookup.markAllAsTouched();
     }
   }
-  generaterow(lookupDetail: LookupDetailsDto = new LookupDetailsDto()): FormGroup {
-    return this.formbuilder.group({
-      lookupId: [lookupDetail.lookupId],
-      lookupDetailId: [lookupDetail.lookupDetailId],
-      code: new FormControl(lookupDetail.code, [Validators.required, Validators.minLength(2)]),
-      name: new FormControl(lookupDetail.name, [Validators.required, Validators.minLength(2)]),
-      description: new FormControl(lookupDetail.description),
-      isActive: new FormControl(lookupDetail.isActive, [Validators.required])
-    })
-  }
-  formArrayControls(i: number, formControlName: string) {
-    return this.falookupDetails().controls[i].get(formControlName);
-  }
-
-  falookupDetails(): FormArray {
-    return this.fblookup.get("lookUpDetails") as FormArray
-  }
-
+  
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
-
-  clear(table: Table) {
-    table.clear();
-    this.filter.nativeElement.value = '';
+  clear() {
+    this.clearTableFiltersAndSorting(this.lookUp);
+    this.clearTableFiltersAndSorting(this.lookUpDetails);
   }
 
+  clearTableFiltersAndSorting(table: Table) {
+    // Clear column filters
+    table.clear();
+    this.filter.nativeElement.value = '';
 
+    // Reset column sorting
+    // table.sortField = null;
+    // table.sortOrder = 1;
+  }
   addLookupDetails() {
     this.ShowlookupDetails = true;
     this.falookUpDetails = this.fblookup.get("lookUpDetails") as FormArray
