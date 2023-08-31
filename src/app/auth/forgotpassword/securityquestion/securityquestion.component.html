@@ -12,7 +12,8 @@
                         Please Enter Answer.</div>
                 </span>
             </div>
-            <div class="mt-5" *ngIf="this.userSecureQuestionsCount > 2">
+            <div class="mt-5"><!--  *ngIf="this.userSecureQuestionsCount > 2" -->
+                <span>New Questions</span>
                 <i class="pi pi-sync" style="font-size: 2rem" (click)="initUserSecurityQuestions()"></i>
             </div>
             <div class="grid mt-3">
