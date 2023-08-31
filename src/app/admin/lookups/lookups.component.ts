@@ -189,7 +189,7 @@ export class LookupsComponent implements OnInit {
       this.fblookup.markAllAsTouched();
     }
   }
-  
+
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
@@ -199,30 +199,32 @@ export class LookupsComponent implements OnInit {
   }
 
   clearTableFiltersAndSorting(table: Table) {
-    // Clear column filters
     table.clear();
     this.filter.nativeElement.value = '';
-
-    // Reset column sorting
-    // table.sortField = null;
-    // table.sortOrder = 1;
   }
   addLookupDetails() {
     this.ShowlookupDetails = true;
     this.falookUpDetails = this.fblookup.get("lookUpDetails") as FormArray
     this.falookUpDetails.push(this.generaterow())
+    this.setDefaultIsActiveForAllRows();
 
   }
+  setDefaultIsActiveForAllRows() {
+    this.falookUpDetails = this.fblookup.get("lookUpDetails") as FormArray;
+    for (let i = 0; i < this.falookUpDetails.length; i++) {
+      const subLookupGroup = this.falookUpDetails.at(i);
+      const isActiveControl = subLookupGroup.get('isActive');
+      if (isActiveControl.value !== false) {
+        isActiveControl.setValue(true);
+      }
+    }
+  }
+
   addLookupDialog() {
     this.fblookup.reset();
     this.addFlag = true;
     this.addLookupDetails();
     this.fblookup.controls['isActive'].setValue(true);
-    this.falookUpDetails = this.fblookup.get("lookUpDetails") as FormArray
-    for (let i = 0; i < this.falookUpDetails.length; i++) {
-      const subLookupGroup = this.falookUpDetails.at(i);
-      subLookupGroup.get('isActive').setValue(true); // Set isActive for each sub-lookup detail
-    }
     this.submitLabel = "Add Lookup";
     this.showDialog = true;
   }

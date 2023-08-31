@@ -1,4 +1,3 @@
-
 export class LookupViewDto {
   lookupId?: number;
   code?: string;
@@ -111,17 +110,25 @@ export class ProjectViewDto {
   pocName: string;
   pocMobileNumber: string;
   address: string;
-  teamMembers: ProjectEmployeesDto[];
   isActive: boolean
   createdBy?: string
   createdAt?: string
   updatedBy?: string
   updatedAt?: string
 }
-export class ProjectEmployeesDto {
-  id: number;
+export class ProjectDetailsDto {
+  clientId:number
+  projectId: number;
+  code: string;
   name: string;
-  designation: string;
+  startDate: string;
+  description: string;
+  isActive?:boolean;
+  clients?:ClientDetailsDto[];
+  createdBy?: string
+  createdAt?: string
+  updatedBy?: string
+  updatedAt?: string
 }
 export class ClientDetailsDto {
   clientId: number
@@ -130,12 +137,15 @@ export class ClientDetailsDto {
   email: string
   mobileNumber: string
   cinno: string
-  pocname: string
+  pocName: string
   pocMobileNumber: string
-  address: string
-  
+  address: string;
+  isActive?: boolean;
 }
 export class ClientNamesDto {
   clientId: number;
   companyName: string;
 }
+
+
+
