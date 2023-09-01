@@ -19,7 +19,8 @@ export class AppMenuComponent implements OnInit {
                 return this.jwtService.Permissions.CanViewUsers || this.jwtService.Permissions.CanViewRoles
             case 'Admin':
                 return this.jwtService.Permissions.CanViewLookups || this.jwtService.Permissions.CanViewHolidays ||
-                this.GroupPermission('Assets')
+                 this.jwtService.Permissions.CanViewProjects ||this.GroupPermission('Assets')
+            
             case 'Assets':
                 return this.jwtService.Permissions.CanViewAssets || this.jwtService.Permissions.CanViewAssetsAllotments;
             case 'Employee':
