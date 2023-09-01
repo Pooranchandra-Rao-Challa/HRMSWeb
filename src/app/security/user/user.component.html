@@ -37,10 +37,10 @@
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-user>
-            <tr>
-                <td *ngIf="permissions?.CanManageUsers" ><button pButton pRipple icon="pi pi-pencil" style="padding: 0px;"
+            <tr >
+                <td *ngIf="permissions?.CanManageUsers"><button pButton pRipple icon="pi pi-pencil" style="padding: 0px;"
                         class="p-element p-ripple p-button-text p-button p-component mr-2 "
-                        (click)="showUser(user)"></button></td>
+                        [disabled]="user.userName === 'SuperUser'" (click)="showUser(user)" ></button></td>
                 <td *ngFor="let col of headers" [ngClass]="col?.field == 'isActive' ? 'text-center' : ''">
                     <span
                         *ngIf="col?.field != 'createdAt' && col?.field != 'updatedAt' && col?.field != 'isGross' && col?.field != 'isDumpYard' && col?.field != 'ipRestriction' && col?.field != 'isTare' && col?.field != 'createdAt' && col?.field != 'isActive'">
