@@ -111,8 +111,7 @@ export class AppMenuComponent implements OnInit {
                         label: 'Projects',
                         icon: 'pi pi-fw pi-search-plus',
                         routerLink: ['admin/project'],
-                        permission: this.jwtService.Permissions.CanViewAssetsAllotments
-                        
+                        permission: this.jwtService.Permissions.CanViewProjects                       
 
                     },
                     {
