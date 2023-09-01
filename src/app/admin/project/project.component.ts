@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Employee } from 'src/app/demo/api/security';
 import { SecurityService } from 'src/app/demo/service/security.service';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
+import { FORMAT_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { ClientDetailsDto, ClientNamesDto, ProjectViewDto } from 'src/app/_models/admin';
 import { AdminService } from 'src/app/_services/admin.service';
 import { JwtService } from 'src/app/_services/jwt.service';
@@ -83,7 +84,7 @@ export class ProjectComponent implements OnInit {
         code: project.code,
         name: project.name,
         isActive: project.isActive,
-        startDate: project.startDate,
+        startDate: FORMAT_DATE(new Date(project.startDate)),
         description: project.description
       });
       this.fbproject.get('clients').patchValue({
@@ -102,6 +103,7 @@ export class ProjectComponent implements OnInit {
       this.addFlag = true;
       this.submitLabel = "Add Project";
       this.fbproject.reset();
+      this.fcClientDetails.get('isActive')?.setValue(true);
     }
   }
   onAutocompleteSelect(selectedOption: ClientNamesDto) {
@@ -115,9 +117,11 @@ export class ProjectComponent implements OnInit {
       this.fcClientDetails.get('pocName')?.setValue(this.clientDetails.pocName);
       this.fcClientDetails.get('pocMobileNumber')?.setValue(this.clientDetails.pocMobileNumber);
       this.fcClientDetails.get('address')?.setValue(this.clientDetails.address);
+    
     })
 
   }
+  
   saveProject() {
     if (this.addFlag)
       return this.adminService.CreateProject(this.fbproject.value);
@@ -139,7 +143,6 @@ export class ProjectComponent implements OnInit {
   }
   onSubmit() {
     if (this.fbproject.valid) {
-      console.log(this.fbproject.valid)
       if (this.addFlag) {
         debugger
         if (this.isUniqueProjectCode()) {
