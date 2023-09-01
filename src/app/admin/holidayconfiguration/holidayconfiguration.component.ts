@@ -53,8 +53,7 @@ export class HolidayconfigurationComponent {
     private AdminService: AdminService,
     private alertMessage: AlertmessageService,
     private jwtService: JwtService,
-    private confirmationDialogService:ConfirmationDialogService)
-     { }
+    private confirmationDialogService: ConfirmationDialogService) { }
 
   // Define table headers
   headers: ITableHeader[] = [
@@ -85,7 +84,7 @@ export class HolidayconfigurationComponent {
       fromDate: [null, [Validators.required, this.dateValidator.bind(this)]],
       toDate: [null],
       description: new FormControl('', [Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
-      isActive: new FormControl(true,Validators.requiredTrue),
+      isActive: new FormControl(true, Validators.requiredTrue),
       year: new FormControl(currentYear),
       holidayDetails: this.formbuilder.array([])
     }, {
@@ -110,7 +109,7 @@ export class HolidayconfigurationComponent {
       fromDate: '',
       toDate: '',
       description: '',
-      year:'',
+      year: '',
       isActive: true,
     });
     // Clear validation errors
@@ -165,8 +164,6 @@ export class HolidayconfigurationComponent {
       const year = this.selectedYear.year;
       this.AdminService.GetHolidays(year).subscribe((resp) => {
         this.holidays = resp as unknown as HolidaysViewDto[];
-        console.log(this.holidays);
-        
       });
     }
   }
@@ -175,13 +172,12 @@ export class HolidayconfigurationComponent {
     if (this.currentDialog !== ViewDialogs.delete) return;
     this.editHolidayForm.get('isActive').setValue(false); // Set isActive to false in the form
     this.onSubmit(DMLOpetiaons.delete);
-}
+  }
   // Method to edit an existing holiday
   editHoliday() {
     if (this.currentDialog !== ViewDialogs.edit) return;
     this.onSubmit(DMLOpetiaons.update);
   }
-
   // Method to save a holiday (either new or edited)
   saveHoliday(): Observable<HttpEvent<any>> {
     let holidays: HolidayDto[];
@@ -199,7 +195,6 @@ export class HolidayconfigurationComponent {
     }
     return this.AdminService.CreateHoliday(holidays);
   }
-
   // Method to submit the holiday form
   onSubmit(operation: DMLOpetiaons = DMLOpetiaons.create) {
     this.saveHoliday().subscribe(res => {
@@ -214,7 +209,6 @@ export class HolidayconfigurationComponent {
       this.hideDialog();
     });
   }
-
   // Custom date validator to check if a selected date already exists as a holiday
   dateValidator(control: FormControl): { [s: string]: boolean } {
     const date = new Date(control.value);
@@ -229,7 +223,7 @@ export class HolidayconfigurationComponent {
   }
   get isFromDateSelected() {
     return this.FormControls['fromDate'] && this.FormControls['fromDate'].value;
-}
+  }
   // Method to show the dialog for editing or deleting a holiday
   showDialog(holiday: any, view: ViewDialogs) {
     this.currentDialog = view;
@@ -243,13 +237,12 @@ export class HolidayconfigurationComponent {
       delete this.holidayToEdit.updatedBy
       this.editHolidayForm.setValue(this.holidayToEdit);
     }
-  
     if (view === ViewDialogs.delete) {
       this.confirmationDialogService.comfirmationDialog(this.confirmationRequest).subscribe(userChoice => {
-        if(userChoice) {
+        if (userChoice) {
           this.deleteHoliday();
-        }    
-      });  
+        }
+      });
     }
   }
   // Method to check if a date is in the past
@@ -258,29 +251,25 @@ export class HolidayconfigurationComponent {
     const fromDate = new Date(date);
     return fromDate < currentDate;
   }
-
   // Method to check if a past year is selected
   isPastYearSelected(): boolean {
     const currentYear = new Date().getFullYear();
     const selectedYear = Number(this.selectedYear?.year);
     return selectedYear < currentYear;
   }
-  
- // // Method to initialize the years array
- initializeYears(): void {
-  const currentYear = new Date().getFullYear().toString();
-  this.AdminService.GetYearsFromHolidays().subscribe((years) => {
-    this.years = years as unknown as Year[];
-    console.log(this.years);
-    
-    this.selectedYear = this.years.find((year) => year.year.toString() === currentYear);
-    if (!this.selectedYear) {
-      this.selectedYear = { year: currentYear};
-    }
-    this.initHoliday();
+  // // Method to initialize the years array
+  initializeYears(): void {
+    const currentYear = new Date().getFullYear().toString();
+    this.AdminService.GetYearsFromHolidays().subscribe((years) => {
+      this.years = years as unknown as Year[];
+      this.selectedYear = this.years.find((year) => year.year.toString() === currentYear);
+      if (!this.selectedYear) {
+        this.selectedYear = { year: currentYear };
+      }
+      this.initHoliday();
 
-  });
-}
+    });
+  }
   // Method to get the dynamic holiday dialog header based on the selected year
   getHolidayDialogHeader(): string {
     return this.selectedYear ? `Holiday For ${this.selectedYear.year}` : 'Holiday';

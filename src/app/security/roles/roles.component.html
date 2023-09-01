@@ -110,18 +110,18 @@
                 </div>
                 <div class="field col-12">
                   <label>Permissions:<sup class="p-error">*</sup></label><br>
-                  <div class="grid col-12">
-                    <p-accordion *ngFor="let screen of screens"
-                      class="col-12 xl:col-4 md:col-6 sm:col-6 accordion_roles" [multiple]="false">
-                      <p-accordionTab [header]="screen" [selected]="false" [cache]="false" id="Role_{{screen}}Tab">
-                        <div class="col-12 role-accordian-view" *ngFor="let permission of getPermissions(screen)">
-                          <p-inputSwitch [(ngModel)]="permission.assigned" [ngModelOptions]="{standalone: true}" id="Role_{{permission.displayName}}">
-                          </p-inputSwitch><br/>
-                          
-                          <label for="ny">{{permission.displayName}}</label>
-                        </div>
-                      </p-accordionTab>
-                    </p-accordion>
+                  <div class="grid col-12" >
+                    <ng-template [ngIf]="user.userName !== 'SuperUser'">
+                      <p-accordion *ngFor="let screen of screens" class="col-12 xl:col-4 md:col-6 sm:col-6 accordion_roles" [multiple]="false">
+                        <p-accordionTab [header]="screen" [selected]="false" [cache]="false" id="Role_{{ screen }}Tab"*ngIf="user.userName !== 'SuperUser'">
+                          <div class="col-12 role-accordian-view" *ngFor="let permission of getPermissions(screen)">
+                            <p-inputSwitch [(ngModel)]="permission.assigned" [ngModelOptions]="{ standalone: true }"
+                              id="Role_{{ permission.displayName }}" ></p-inputSwitch><br />
+                            <label for="ny">{{ permission.displayName }}</label>
+                          </div>
+                        </p-accordionTab>
+                      </p-accordion>
+                    </ng-template>
                   </div>
                 </div>
               </div>

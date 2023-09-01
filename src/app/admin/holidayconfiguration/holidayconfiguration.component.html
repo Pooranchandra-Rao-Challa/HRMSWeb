@@ -9,8 +9,7 @@
             </ng-template>
             <ng-template pTemplate="right">
                 <button *ngIf="!isPastYearSelected()" pButton pRipple label="Add Holiday" id="addHolidayButton"
-                    icon="pi pi-plus" class="p-button-primary p-mr-2"
-                    (click)="showDialog({},ViewDialogs.add)"></button>
+                    icon="pi pi-plus" class="p-button-primary p-mr-2" (click)="showDialog({},ViewDialogs.add)"></button>
             </ng-template>
         </p-toolbar>
         <!--  Add dialog -->
@@ -25,9 +24,8 @@
 
                                 <div class="field col-12 md:col-4">
                                     <label class="required">Holiday Title:</label>
-                                  &nbsp; <input pInputText #title id="title" type="text"
-                                        formControlName="title" alphaOnly [maxlength]="maxLength.title"
-                                        placeholder="Enter Holiday Title"
+                                    &nbsp; <input pInputText #title id="title" type="text" formControlName="title"
+                                        alphaOnly [maxlength]="maxLength.title" placeholder="Enter Holiday Title"
                                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['title'].touched && FormControls['title'].errors }" />
                                     <div class="flex">
                                         <div class="align-left w-60" style="width:70%">
@@ -91,17 +89,17 @@
                                 </div>
                                 <div class="field col-12 md:col-4">
                                     <label htmlFor="description">Description:</label>
-                                    <textarea inputId="description" id="description" rows="3" maxlength="256" #description cols="30"
-                                      pInputTextarea maxlength="256" formControlName="description"
-                                      placeholder="Enter Description"></textarea>
+                                    <textarea inputId="description" id="description" rows="3" maxlength="256"
+                                        #description cols="30" pInputTextarea maxlength="256"
+                                        formControlName="description" placeholder="Enter Description"></textarea>
                                     <div class="flex">
-                                      <div class="align-left w-60" style="width:70%">
-                                      </div>
-                                      <div class="align-right w-40" style="width:30%; text-align:right;">
-                                        <small>{{description.value.length}}/256</small>
-                                      </div>
+                                        <div class="align-left w-60" style="width:70%">
+                                        </div>
+                                        <div class="align-right w-40" style="width:30%; text-align:right;">
+                                            <small>{{description.value.length}}/256</small>
+                                        </div>
                                     </div>
-                                  </div>
+                                </div>
                                 <div class=" field col-12 md:col-2">
                                     <label class="required">Is Active:</label><br>
                                     <p-inputSwitch formControlName="isActive" id="isActive"></p-inputSwitch>
@@ -117,33 +115,38 @@
                                 <!-- FotmArray -->
                                 <div class="col-12 scrolling_content">
                                     <div class="col-12 scrolling_content">
-                                        <p-table #dt2 [value]="faholdyDetail().controls" 
-                                          [responsive]="true" [autoLayout]="true">
-                                          <ng-template pTemplate="header">
-                                            <tr>
-                                              <th>Holiday Title</th>
-                                              <th>From Date</th>
-                                              <th>To Date</th>
-                                              <th>Holiday Description</th>
-                                              <th>Is Active</th>
-                                              <th *ngIf="this.faholdyDetail().value.length > 1"></th>
-                                            </tr>
-                                          </ng-template>
-                                          <ng-template pTemplate="body" let-holidayDetails let-holidayDetailsIndex="rowIndex">
-                                            <tr>
-                                              <td>{{ holidayDetails.get('title').value }}</td>
-                                              <td>{{ holidayDetails.get('fromDate').value | date }}</td>
-                                              <td>{{ holidayDetails.get('toDate').value ? (holidayDetails.get('toDate').value | date) : 'null' }}</td>
-                                              <td>{{ holidayDetails.get('description').value }}</td>
-                                              <td><p-checkbox [binary]="true" [formControl]="holidayDetails.get('isActive')"></p-checkbox></td>
-                                              <td *ngIf="fbHoliday.controls['holidayDetails'].value.length > 1">
-                                                <p-button icon="pi pi-times" (click)="faholdyDetail().removeAt(holidayDetailsIndex)"
-                                                styleClass="p-button-rounded p-button-danger p-button-text p-button-raised" ></p-button>
-                                              </td>
-                                            </tr>
-                                          </ng-template>
-                                    </p-table>
-                                </div>
+                                        <p-table #dt2 [value]="faholdyDetail().controls" [responsive]="true"
+                                            [autoLayout]="true">
+                                            <ng-template pTemplate="header">
+                                                <tr>
+                                                    <th>Holiday Title</th>
+                                                    <th>From Date</th>
+                                                    <th>To Date</th>
+                                                    <th>Holiday Description</th>
+                                                    <th>Is Active</th>
+                                                    <th *ngIf="this.faholdyDetail().value.length > 1"></th>
+                                                </tr>
+                                            </ng-template>
+                                            <ng-template pTemplate="body" let-holidayDetails
+                                                let-holidayDetailsIndex="rowIndex">
+                                                <tr>
+                                                    <td>{{ holidayDetails.get('title').value }}</td>
+                                                    <td>{{ holidayDetails.get('fromDate').value | date }}</td>
+                                                    <td>{{ holidayDetails.get('toDate').value ?
+                                                        (holidayDetails.get('toDate').value | date) : 'null' }}</td>
+                                                    <td>{{ holidayDetails.get('description').value }}</td>
+                                                    <td><p-checkbox [binary]="true"
+                                                            [formControl]="holidayDetails.get('isActive')"></p-checkbox>
+                                                    </td>
+                                                    <td *ngIf="fbHoliday.controls['holidayDetails'].value.length > 1">
+                                                        <p-button icon="pi pi-times"
+                                                            (click)="faholdyDetail().removeAt(holidayDetailsIndex)"
+                                                            styleClass="p-button-rounded p-button-danger p-button-text p-button-raised"></p-button>
+                                                    </td>
+                                                </tr>
+                                            </ng-template>
+                                        </p-table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -183,27 +186,27 @@
                                         [minDate]="minDateValue" id="edit-toDate" formControlName="toDate"
                                         placeholder="Enter To Date" appendTo="body"></p-calendar>
                                 </div>
-                                 <div class="field col-12 md:col-4">
-                <label htmlFor="description">Description:</label>
-                <textarea inputId="description" id="description" rows="3" maxlength="256" #description cols="30"
-                  pInputTextarea maxlength="256" formControlName="description"
-                  placeholder="Enter Description"></textarea>
-                <div class="flex">
-                  <div class="align-left w-60" style="width:70%">
-                  </div>
-                  <div class="align-right w-40" style="width:30%; text-align:right;">
-                    <small>{{description.value.length}}/256</small>
-                  </div>
-                </div>
-              </div>      
-              <div class="field col-12 md:col-4">
-             <label class="required">Is Active:</label><br>
-             <p-inputSwitch formControlName="isActive" id="edit-isActive"></p-inputSwitch>
-                </div>
-              </div>
-                </div>
-              </div>
-             </form>
+                                <div class="field col-12 md:col-4">
+                                    <label htmlFor="description">Description:</label>
+                                    <textarea inputId="description" id="description" rows="3" maxlength="256"
+                                        #description cols="30" pInputTextarea maxlength="256"
+                                        formControlName="description" placeholder="Enter Description"></textarea>
+                                    <div class="flex">
+                                        <div class="align-left w-60" style="width:70%">
+                                        </div>
+                                        <div class="align-right w-40" style="width:30%; text-align:right;">
+                                            <small>{{description.value.length}}/256</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="field col-12 md:col-4">
+                                    <label class="required">Is Active:</label><br>
+                                    <p-inputSwitch formControlName="isActive" id="edit-isActive"></p-inputSwitch>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
             <ng-template pTemplate="footer">
                 <div class="col-4" style="float:right">
@@ -254,7 +257,7 @@
                             <button *ngIf="!isPastDate(leave.fromDate) && leave.isActive" pButton pRipple
                                 icon="pi pi-trash" id="delete"
                                 class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
-                                (click)="showDialog(leave, ViewDialogs.delete)" ></button>
+                                (click)="showDialog(leave, ViewDialogs.delete)"></button>
                         </div>
                     </td>
 

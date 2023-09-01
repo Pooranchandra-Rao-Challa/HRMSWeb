@@ -31,11 +31,13 @@ export class RolesComponent implements OnInit {
   addFlag: boolean = true;
   maxLength: MaxLength = new MaxLength();
   mediumDate: string = SHORT_DATE;
+  user: any
 
   constructor(private formbuilder: FormBuilder,private jwtService:JwtService,
     private alertMessage: AlertmessageService, private securityService: SecurityService) { }
 
   ngOnInit(): void {
+    this.user = {};
     this.permission = this.jwtService.Permissions;
     this.fbrole = this.formbuilder.group({
       roleId: [''],
