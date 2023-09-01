@@ -76,13 +76,13 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'Lookups',
                         icon: 'pi pi-fw pi-circle',
-                        routerLink: ['admin/lookups'],
-                        permission: this.jwtService.Permissions.CanViewLookups || this.jwtService.Permissions.CaManageLookups
-                    } ,
+                        routerLink: ['/admin/lookups'],
+                        permission: this.jwtService.Permissions.CanViewLookups
+                    },
                     {
                         label: 'Holiday Configuration',
                         icon: 'pi pi-fw pi-calendar-plus',
-                        routerLink: ['admin/holidayconfiguration'],
+                        routerLink: ['/admin/holidayconfiguration'],
                         permission: this.jwtService.Permissions.CanViewHolidays
                     },
                     {
@@ -98,7 +98,7 @@ export class AppMenuComponent implements OnInit {
 
                             },
                             {
-                                label: 'Assets Allotment ',
+                                label: 'Assets Allotment',
                                 icon: 'pi pi-fw pi-align-left',
                                 routerLink: ['admin/assetsallotment'],
                                 permission: this.jwtService.Permissions.CanViewAssetsAllotments
