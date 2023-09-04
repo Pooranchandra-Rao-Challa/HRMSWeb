@@ -64,7 +64,7 @@
                                     </span>
                                 </div>
                                 <div class="field col-12 md:col-4">
-                                    <label class="required">To Date:</label>
+                                    <label >To Date:</label>
                                     <p-calendar appendTo="body" placeholder="Select To Date" [readonlyInput]="true"
                                         [minDate]="minDateValue" [showIcon]="true" formControlName="toDate"
                                         [minDate]="fbHoliday.value.fromDate"
@@ -88,13 +88,13 @@
                                     </span>
                                 </div>
                                 <div class="field col-12 md:col-4">
-                                    <label htmlFor="description">Description:</label>
+                                    <label class="required" htmlFor="description">Description:</label>
                                     <textarea inputId="description" id="description" class="freeze_text-area" rows="3" maxlength="256"
                                         #description cols="30" pInputTextarea maxlength="256"
                                         formControlName="description" placeholder="Enter Description"></textarea>
                                     <div class="flex">
                                         <div class="align-left w-60" style="width:70%">
-                                        </div>
+                                        </div> 
                                         <div class="align-right w-40" style="width:30%; text-align:right;">
                                             <small>{{description.value.length}}/256</small>
                                         </div>

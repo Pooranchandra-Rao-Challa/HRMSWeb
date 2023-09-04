@@ -100,6 +100,14 @@ export class HolidayconfigurationComponent {
     if (this.fbHoliday.invalid) {
       return;
     }
+    const fromDateValue = this.fbHoliday.get('fromDate').value;
+  const isDuplicateDate = this.faholdyDetail().value.some((holiday: HolidaysViewDto) =>
+    new Date(holiday.fromDate).getTime() === new Date(fromDateValue).getTime()
+  );
+  if (isDuplicateDate) {
+    this.alertMessage.displayErrorMessage('The selected from Date already Added in List.');
+    return;
+  }
     // Push current values into the FormArray
     this.faholdyDetail().push(this.generaterow(this.fbHoliday.getRawValue()));
     // Reset form controls for the next entry
