@@ -171,3 +171,22 @@ label.required::after {
   .zoomable-img:hover {
     transform: scale(1.4); /* Adjust the scale factor as needed */
   }
+  .freeze_text-area{
+    resize:none;
+  }
+  input:-moz-read-only { /* For Firefox */
+    background-color: #f17517;
+ }
+ 
+ input:read-only { 
+    background-color: #bfbfbf;
+    // border:0px;
+ }
+ input:read-only:focus { 
+    background-color: #bfbfbf;
+    // border:0px;
+ }
+ p-calendar input{
+    background-color: transparent !important;
+    // border: 2px !important;
+ }

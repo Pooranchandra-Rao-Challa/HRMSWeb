@@ -113,13 +113,9 @@
                 <div class="field col-12 md:col-4">
                   <label>Company Full Name: <sup class="p-error">*</sup>
                   </label>&nbsp;
-                  <!-- <p-autoComplete  [suggestions]="this.filteredClients"
-                    placeholder="Enter Company Full Name" (completeMethod)="filterClients($event)" field="name"
-                    id="Project_fullName" formControlName="companyName"></p-autoComplete> -->
                   <p-autoComplete [suggestions]="this.filteredClients" placeholder="Enter Company Full Name"
-                    optionValue="companyName.companyName" (onSelect)="onAutocompleteSelect($event)"
-                    (completeMethod)="filterClients($event)" field="companyName" formControlName="companyName"
-                    id="Project_fullName">
+                    (onSelect)="onAutocompleteSelect($event)" (completeMethod)="filterClients($event)"
+                    field="companyName" formControlName="companyName" id="Project_fullName">
                   </p-autoComplete>
                 </div>
                 <div class="field col-12 md:col-4">
