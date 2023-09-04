@@ -180,9 +180,13 @@ label.required::after {
  
  input:read-only { 
     background-color: #bfbfbf;
-    border:0px;
+    // border:0px;
  }
  input:read-only:focus { 
     background-color: #bfbfbf;
-    border:0px;
+    // border:0px;
+ }
+ p-calendar input{
+    background-color: transparent !important;
+    // border: 2px !important;
  }

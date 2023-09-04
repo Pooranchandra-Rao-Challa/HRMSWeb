@@ -88,6 +88,6 @@ export class AddressComponent {
   }
 
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/uploadfiles'])
+    this.router.navigate(['employee/onboardingemployee/bankdetails'])
   }
 }
