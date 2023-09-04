@@ -8,8 +8,8 @@
                 <h4>Holiday Configuration</h4>
             </ng-template>
             <ng-template pTemplate="right">
-                <button *ngIf="!isPastYearSelected()" pButton pRipple label="Add Holiday" id="addHolidayButton"
-                    icon="pi pi-plus" class="p-button-primary p-mr-2" (click)="showDialog({},ViewDialogs.add)"></button>
+                <button *ngIf="!isPastYearSelected() && permissions?.CanManageHolidays" pButton pRipple label="Add Holiday" id="addHolidayButton"
+                    icon="pi pi-plus" class="p-button-primary p-mr-2"  (click)="showDialog({},ViewDialogs.add)"></button>
             </ng-template>
         </p-toolbar>
         <!--  Add dialog -->
