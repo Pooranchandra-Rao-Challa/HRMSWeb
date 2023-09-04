@@ -9,6 +9,7 @@ import { SHORT_DATE } from 'src/app/_helpers/date.formate.pipe';
 
 import { ITableHeader, MaxLength } from 'src/app/_models/common';
 import { RoleDto, RolePermissionDto, RoleViewDto } from 'src/app/_models/security';
+import { LOGIN_URI } from 'src/app/_services/api.uri.service';
 import { JwtService } from 'src/app/_services/jwt.service';
 import { SecurityService } from 'src/app/_services/security.service';
 import { MAX_LENGTH_20, MAX_LENGTH_50, MIN_LENGTH_2, RG_ALPHA_ONLY } from 'src/app/_shared/regex';
@@ -37,7 +38,6 @@ export class RolesComponent implements OnInit {
     private alertMessage: AlertmessageService, private securityService: SecurityService) { }
 
   ngOnInit(): void {
-    this.user = {};
     this.permission = this.jwtService.Permissions;
     this.fbrole = this.formbuilder.group({
       roleId: [''],
@@ -66,6 +66,8 @@ export class RolesComponent implements OnInit {
   intiRoles() {
     this.securityService.GetRoles().subscribe(resp => {
       this.roles = resp as unknown as RoleViewDto[];
+    console.log('role list',this.roles);
+    
     });
   }
 
@@ -106,6 +108,7 @@ export class RolesComponent implements OnInit {
     if (!this.role.roleId) return this.securityService.CreateRole(this.fbrole.value)
     else return this.securityService.UpdateRole(this.fbrole.value)
   }
+ 
   showDialog() {
     this.fbrole.reset();
     this.dialog = true;
@@ -159,4 +162,5 @@ function getDistinct<T, K extends keyof T>(data: T[], property: K): T[K][] {
 
   return [...new Set(allValues)];
 }
+
 
