@@ -1,0 +1,38 @@
+<form [formGroup]="fbBankDetails">
+    <div class="grid mt-3">
+        <div class="col-12 roles-container">
+            <div class="p-fluid p-formgrid grid">
+                <div class="field col-12 md:col-4">
+                    <span class="p-float-label">
+                        <input type="text" id="inputtext" pInputText formControlName="AccountNo" />
+                        <label for="inputtext">Enter AccountNo<sup class="p-error">*</sup></label>
+                    </span>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <span class="p-float-label">
+                        <input type="text" id="inputtext" pInputText formControlName="IFSCCode" />
+                        <label for="inputtext">Enter IFSCCode<sup class="p-error">*</sup></label>
+                    </span>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <span class="p-float-label">
+                        <input type="text" id="inputtext" pInputText formControlName="BranchName" />
+                        <label for="inputtext">Enter Branch Name<sup class="p-error">*</sup></label>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="grid mt-5">
+    <div class="field col-4">
+        <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100 text-right"  (click)="navigateToPrev()">Address Details</button>
+    </div>
+    <div class=" col-4">
+        <button p-button class="p-element p-ripple p-button-info p-button p-component w-100">Save as Draft</button>
+    </div>
+    <div class=" col-4">
+        <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100" (click)="navigateToNext()">Upload Documents </button>
+    </div>
+</div>

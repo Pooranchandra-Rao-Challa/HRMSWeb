@@ -17,6 +17,7 @@ import { FamilyDeatilsComponent } from './onboardingemployees/family-deatils/fam
 import { FileUploadModule } from 'primeng/fileupload';
 import { SharedModule } from '../_shared/shared.module';
 import { AddressComponent } from './onboardingemployees/address/address.component';
+import { BankDetailsComponent } from './onboardingemployees/bank-details/bank-details.component';
 
 
 
@@ -34,7 +35,8 @@ import { AddressComponent } from './onboardingemployees/address/address.componen
     UploadDocumentsComponent,
     FinalSubmitComponent,
     FamilyDeatilsComponent,
-    AddressComponent
+    AddressComponent,
+    BankDetailsComponent
   ],
 
   imports: [
