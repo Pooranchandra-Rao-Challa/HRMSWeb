@@ -59,6 +59,10 @@ export class OnboardingemployeesComponent {
         routerLink:'addressdetails',
       },
       {
+        label:'Bank Details',
+        routerLink:'bankdetails',
+      },
+      {
         label: 'Upload Documents',
         routerLink: 'uploadfiles',
       },
