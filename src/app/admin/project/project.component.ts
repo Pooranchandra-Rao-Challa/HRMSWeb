@@ -35,7 +35,8 @@ export class ProjectComponent implements OnInit {
   submitLabel!: string;
   minDateVal = new Date();
   projectDetails: any = {};
-
+  images = ['3F.jpg', 'fr.jpg', 'jiva.jpg', 'madhucon.jpg','nava.jpg','saloon.jpg'];
+  selectedImageIndex: number = 0;
   constructor(private projectService: SecurityService, private formbuilder: FormBuilder, private adminService: AdminService, private alertMessage: AlertmessageService,
     private jwtService: JwtService) { }
 
