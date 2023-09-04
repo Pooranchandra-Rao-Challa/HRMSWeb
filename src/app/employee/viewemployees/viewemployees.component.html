@@ -324,7 +324,7 @@
       </p-tabPanel>
     </p-tabView>
   </div>
-  <p-dialog header="CIS202214" [(visible)]="dialog" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
+  <p-dialog header="CIS202214 Basic Details" [(visible)]="dialog" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
     <div class="flex flex-column align-items-center justify-content-center">
       <form [formGroup]="personalDetails">
         <div class="grid">
@@ -351,10 +351,10 @@
                 </label>&nbsp; <input pInputText id="alternateMobileNumber" #alternateMobileNumber placeholder="Enter Alternate Mobile Number" type="text" formControlName="AltMobileNumber" />
               </div>
               <div class="field col-12 md:col-4">
-                <label>DOB:</label>&nbsp; <p-calendar [showIcon]="true" placeholder="Select Dob" formControlName="DOB"></p-calendar>
+                <label>DOB:<sup class="p-error">*</sup></label>&nbsp; <p-calendar [showIcon]="true" placeholder="Select Dob" formControlName="DOB"></p-calendar>
               </div>
               <div class="field col-12 md:col-4">
-                <label>Certificate DOB:</label>&nbsp; <p-calendar [showIcon]="true" placeholder="Select Certificate Dob" formControlName="CertificateDOB"></p-calendar>
+                <label>Certificate DOB: </label>&nbsp; <p-calendar [showIcon]="true" placeholder="Select Certificate Dob" formControlName="CertificateDOB"></p-calendar>
               </div>
               <div class="field col-12 md:col-4">
                 <label>Marital Status: <sup class="p-error">*</sup>
@@ -489,7 +489,7 @@
       </div>
     </div>
   </p-dialog>
-  <p-dialog header="Education Details" [(visible)]="Education" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
+  <p-dialog header="CIS202214 Education Details" [(visible)]="Education" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
     <div class="flex flex-column align-items-center justify-content-center">
       <form [formGroup]="fbEducationDetails" autocomplete="off">
         <div class="grid mt-3">
@@ -592,7 +592,7 @@
     </div>
   </p-dialog>
   <!-- p-dialog office Details-->
-  <p-dialog header="CIS202214" [(visible)]="visible" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
+  <p-dialog header="CIS202214 Office  Details" [(visible)]="visible" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
     <div class="flex flex-column align-items-center justify-content-center">
       <form [formGroup]="OfficialDetails">
         <div class="grid">
@@ -641,7 +641,7 @@
     </ng-template>
   </p-dialog>
   <!-- p-dialog Work Experience -->
-  <p-dialog header="Experience Details" [(visible)]="Experience" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
+  <p-dialog header="CIS202214 Experience Details" [(visible)]="Experience" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
     <div class="flex flex-column align-items-center justify-content-center">
       <form [formGroup]="fbexperience">
         <div class="grid">
@@ -711,7 +711,7 @@
     </div>
   </p-dialog>
   <!-- p-dialog Family Details-->
-  <p-dialog header="Family Details" [(visible)]="Family" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
+  <p-dialog header="CIS202214 Family Details" [(visible)]="Family" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
     <div class="flex flex-column align-items-center justify-content-center">
       <form [formGroup]="fbfamilyDetails">
         <div class="grid mt-3">
@@ -800,7 +800,7 @@
     </div>
   </p-dialog>
   <!-- p-dialog Address Details -->
-  <p-dialog header="Address Details" [(visible)]="Address" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
+  <p-dialog header="CIS202214 Address Details" [(visible)]="Address" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
     <div class="flex flex-column align-items-center justify-content-center">
       <form [formGroup]="fbAddressDetails">
         <div class="grid mt-3">
@@ -918,7 +918,7 @@
     </div>
   </p-dialog>
   <!-- p-dialog Upload Documents -->
-  <p-dialog header="Documents Details" [(visible)]="Documents" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: 'auto'}">
+  <p-dialog header="CIS202214 Documents Details" [(visible)]="Documents" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: 'auto'}">
     <div class="flex flex-column align-items-center justify-content-center">
       <div class="grid">
         <div class="col-12 p-5 mt-4">
@@ -934,7 +934,7 @@
     </div>
   </p-dialog>
   <!-- BankDetails -->
-  <p-dialog header="Bank Details" [(visible)]="bankDetails" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '50%'}">
+  <p-dialog header="CIS202214 Bank Details" [(visible)]="bankDetails" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '50%'}">
     
     <div class="flex flex-column align-items-center justify-content-center">
       <form [formGroup]="fbBankDetails">
