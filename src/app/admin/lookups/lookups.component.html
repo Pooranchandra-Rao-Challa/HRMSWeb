@@ -278,8 +278,8 @@
         <tr>
           <td *ngFor="let col of lookupDetailsHeader" [ngClass]="col?.field == 'isActive' ? 'text-center' : ''">
             <span
-              *ngIf="col?.field != 'createdAt' && col?.field != 'updatedAt' && col?.field != 'isActive'">{{lookupDetails[col.field]}}</span>
-            <span *ngIf="col?.field == 'createdAt' || col?.field == 'updatedAt'">
+              *ngIf="col?.field != 'createdAt' && col?.field != 'isActive'">{{lookupDetails[col.field]}}</span>
+            <span *ngIf="col?.field == 'createdAt' ">
               {{lookupDetails[col.field] | date: mediumDate }}
             </span>
             <span *ngIf="col?.field == 'isActive'">

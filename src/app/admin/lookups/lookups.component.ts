@@ -51,9 +51,7 @@ export class LookupsComponent implements OnInit {
     { field: 'description', header: 'description', label: 'Description' },
     { field: 'isActive', header: 'isActive', label: 'Is Active' },
     { field: 'createdAt', header: 'createdAt', label: 'Created Date' },
-    { field: 'createdBy', header: 'createdBy', label: 'Created By' },
-    { field: 'updatedAt', header: 'updatedAt', label: 'Updated Date' },
-    { field: 'updatedBy', header: 'updatedBy', label: 'Updated By' },
+    { field: 'createdBy', header: 'createdBy', label: 'Created By' }
   ]
 
   // getter and setter for selecting particular columns to display 
@@ -234,6 +232,7 @@ export class LookupsComponent implements OnInit {
     this.falookupDetails().clear();
   }
   editLookUp(lookup: LookupViewDto) {
+    debugger
     console.log(lookup)
     lookup.expandLookupDetails.forEach((lookupDetails: LookupDetailsDto) => {
       lookupDetails.lookupId = lookup.lookupId;
