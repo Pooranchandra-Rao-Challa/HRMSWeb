@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Form, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Address, Employee, familyDetailViewDto } from 'src/app/demo/api/security';
 import { SecurityService } from 'src/app/demo/service/security.service';
 
@@ -195,8 +195,10 @@ export class ViewemployeesComponent {
       cgpa: new FormControl(''),
     });
 
-
+   this.educationForm();
+   this.addEducationDetails();
     this.experienceForm();
+    
     this.addexperienceDetails();
     this.relationshipStatus = [
       { name: 'Father', code: 'father' },
@@ -214,6 +216,7 @@ export class ViewemployeesComponent {
     this.initAddress();
 
     this.addNewAddress();
+    
   }
 
   saveEducationDetails() {
@@ -230,7 +233,9 @@ export class ViewemployeesComponent {
   selectedOption: string;
   inputValue: string;
   fbexperience!: FormGroup;
+
   faexperienceDetails!: FormArray;
+  faeducationDetails!:FormArray;
   addfields: any;
 
   ShowexperienceDetails: boolean = false;
@@ -243,6 +248,23 @@ export class ViewemployeesComponent {
     this.faexperienceDetails.push(this.generaterow())
 
   }
+  addEducationDetails(){
+    this.ShoweducationDetails=true;
+    this.faeducationDetails=this.fbEducationDetails.get('educationDetails') as FormArray;
+    this.faeducationDetails.push(this.generateEducationRow());
+  }
+  generateEducationRow():FormGroup{
+    return this.formbuilder.group({
+      course: new FormControl(''),
+      state: new FormControl(''),
+      school: new FormControl(''),
+      board: new FormControl(''),
+      stream: new FormControl(''),
+      yearofpass: new FormControl(''),
+      gradingsystem: new FormControl(''),
+      cgpa: new FormControl(''),
+     }) ; 
+  }
   experienceForm() {
     this.addfields = []
     this.fbexperience = this.formbuilder.group({
@@ -252,6 +274,19 @@ export class ViewemployeesComponent {
       toDate: new FormControl('', [Validators.required]),
       designation: new FormControl('', [Validators.required]),
       experienceDetails: this.formbuilder.array([])
+    });
+  }
+  educationForm(){
+    this.fbEducationDetails = this.formbuilder.group({
+      course: new FormControl(''),
+      state: new FormControl(''),
+      school: new FormControl(''),
+      board: new FormControl(''),
+      stream: new FormControl(''),
+      yearofpass: new FormControl(''),
+      gradingsystem: new FormControl(''),
+      cgpa: new FormControl(''),
+      educationDetails:this.formbuilder.array([])
     });
   }
   generaterow(experienceDetails: Experience = new Experience()): FormGroup {
@@ -265,6 +300,9 @@ export class ViewemployeesComponent {
   }
   faexperienceDetail(): FormArray {
     return this.fbexperience.get("experienceDetails") as FormArray
+  }
+  faeducationDetail():FormArray{
+    return this.fbEducationDetails.get('educationDetails') as FormArray;
   }
   relationshipStatus: General[] | undefined;
   fbfamilyDetails: FormGroup;

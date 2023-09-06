@@ -103,6 +103,12 @@
                   </div>
                 </div>
                 <div class="field col-12 md:col-4">
+                  <label>Upload Project Logo: <sup class="p-error">*</sup>
+                  </label>
+                  <br> &nbsp;<p-fileUpload name="image"  mode="basic" [maxFileSize]="1000000" chooseLabel="Choose" (onSelect)="onFileSelect($event)" [accept]="'.jpg,.jpeg,.png'" >
+                  </p-fileUpload>
+                </div>
+                <div class="field col-12 md:col-4">
                   <label>Is Active: <sup class="p-error">*</sup>
                   </label>
                   <br> &nbsp; <p-inputSwitch formControlName="isActive" id="Project_IsActive"></p-inputSwitch>
@@ -115,7 +121,8 @@
                   </label>&nbsp;
                   <p-autoComplete [suggestions]="this.filteredClients" placeholder="Enter Company Full Name"
                     (onSelect)="onAutocompleteSelect($event)" (completeMethod)="filterClients($event)"
-                    field="companyName" formControlName="companyName" id="Project_fullName">
+                    [field]="'companyName'" id="Project_fullName" formControlName="companyName">
+
                   </p-autoComplete>
                 </div>
                 <div class="field col-12 md:col-4">

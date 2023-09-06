@@ -33,9 +33,11 @@ export class ProjectComponent implements OnInit {
   addFlag: boolean = true;
   dialog: boolean;
   submitLabel!: string;
+  selectedValue: string = '';
   minDateVal = new Date();
   projectDetails: any = {};
-  images = ['3F.jpg', 'fr.jpg', 'jiva.jpg', 'madhucon.jpg','nava.jpg','saloon.jpg'];
+  selectedFileBase64: string | null = null; // To store the selected file as base64
+  images = ['3F.jpg', 'fr.jpg', 'jiva.jpg', 'madhucon.jpg', 'nava.jpg', 'saloon.jpg'];
   selectedImageIndex: number = 0;
   constructor(private projectService: SecurityService, private formbuilder: FormBuilder, private adminService: AdminService, private alertMessage: AlertmessageService,
     private jwtService: JwtService) { }
@@ -53,6 +55,7 @@ export class ProjectComponent implements OnInit {
       name: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
       startDate: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
+      logo:[],
       clients: this.formbuilder.group({
         clientId: [],
         isActive: ['', [Validators.required]],
@@ -91,10 +94,7 @@ export class ProjectComponent implements OnInit {
       this.fbproject.get('clients').patchValue({
         clientId: project.clientId,
         isActive: project.isActive,
-        companyName: {
-          clientId: project.clientId,
-          companyName: project.companyName 
-        },
+        companyName:project.companyName,
         Name: project.clientName,
         email: project.email,
         mobileNumber: project.mobileNumber,
@@ -113,6 +113,8 @@ export class ProjectComponent implements OnInit {
   onAutocompleteSelect(selectedOption: ClientNamesDto) {
     this.adminService.GetClientDetails(selectedOption.clientId).subscribe(resp => {
       this.clientDetails = resp[0]
+      this.fcClientDetails.get('clientId')?.setValue(this.clientDetails.clientId);
+      this.fcClientDetails.get('companyName')?.setValue(this.clientDetails.companyName);
       this.fcClientDetails.get('Name')?.setValue(this.clientDetails.clientName);
       this.fcClientDetails.get('email')?.setValue(this.clientDetails.email);
       this.fcClientDetails.get('mobileNumber')?.setValue(this.clientDetails.mobileNumber);
@@ -126,8 +128,11 @@ export class ProjectComponent implements OnInit {
   saveProject() {
     if (this.addFlag)
       return this.adminService.CreateProject(this.fbproject.value);
-    else return this.adminService.UpdateProject(this.fbproject.value)
+    else {
+      return this.adminService.UpdateProject(this.fbproject.value)
+    }
   }
+
   isUniqueProjectCode() {
     const existingLookupCodes = this.projects.filter(project =>
       project.code === this.fbproject.get('code').value &&
@@ -135,6 +140,7 @@ export class ProjectComponent implements OnInit {
     )
     return existingLookupCodes.length > 0;
   }
+
   isUniqueLookupName() {
     const existingLookupNames = this.projects.filter(project =>
       project.name === this.fbproject.get('name').value &&
@@ -142,10 +148,9 @@ export class ProjectComponent implements OnInit {
     )
     return existingLookupNames.length > 0;
   }
-  onSubmit() {
-    console.log(this.fbproject.valid)
-    if (this.fbproject.valid) {
 
+  onSubmit() {
+    if (this.fbproject.valid) {
       if (this.addFlag) {
         if (this.isUniqueProjectCode()) {
           this.alertMessage.displayErrorMessage(
@@ -166,6 +171,37 @@ export class ProjectComponent implements OnInit {
       this.fbproject.markAllAsTouched();
     }
   }
+
+  
+
+  onFileSelect(event: any): void {
+    const selectedFile = event.files[0];
+    if (selectedFile) {
+      this.convertFileToBase64(selectedFile, (base64String) => {
+        this.selectedFileBase64 = base64String;
+        this.fbproject.get('logo').setValue(this.selectedFileBase64);
+        console.log(this.selectedFileBase64)
+      });
+    } else {
+      this.selectedFileBase64 = null;
+    }
+  }
+  private convertFileToBase64(file: File, callback: (base64String: string) => void): void {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      const base64String = reader.result as string;
+      callback(base64String);
+    };
+  }
+
+  retrieveImageDataFromDatabase(): void {
+    const base64DataFromDB = 'your-base64-data-from-database-here';
+    const decodedData = atob(base64DataFromDB);
+
+  }
+
+ 
   save() {
     if (this.fbproject.valid) {
       this.saveProject().subscribe(resp => {
@@ -194,7 +230,6 @@ export class ProjectComponent implements OnInit {
   initClientNames() {
     this.adminService.GetClientNames().subscribe(resp => {
       this.clientsNames = resp as unknown as ClientNamesDto[];
-      console.log(resp)
     });
   }
   initEmployees() {
