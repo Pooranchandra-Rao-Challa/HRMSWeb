@@ -152,7 +152,7 @@
                           </div>
                         </td>
                         <td class="vertical-align-top">
-                          <textarea class="form-control" pInputTextarea formControlName="description"
+                          <textarea class="form-control freeze_text-area" pInputTextarea formControlName="description"
                             placeholder="Enter Description" #description (keydown)="restrictSpaces($event)"
                             [maxlength]="256" id="Lookup_lookupDetailsDescription"></textarea>
                           <div class="flex">
@@ -248,7 +248,7 @@
             <span
               *ngIf="col?.field != 'createdAt' && col?.field != 'updatedAt' && col?.field != 'isActive'">{{lookup[col.field]}}</span>
             <span *ngIf="col?.field == 'createdAt' || col?.field == 'updatedAt'">
-              {{lookup[col.field] | date: 'mediumDate' }}
+              {{lookup[col.field] | date: mediumDate }}
             </span>
           </td>
           <td *ngIf="permissions?.CanManageLookups">
@@ -283,7 +283,7 @@
             <span
               *ngIf="col?.field != 'createdAt' && col?.field != 'updatedAt' && col?.field != 'isActive'">{{lookupDetails[col.field]}}</span>
             <span *ngIf="col?.field == 'createdAt' || col?.field == 'updatedAt'">
-              {{lookupDetails[col.field] | date: 'mediumDate' }}
+              {{lookupDetails[col.field] | date: mediumDate }}
             </span>
             <span *ngIf="col?.field == 'isActive'">
               <p-checkbox name="isActive" value="isActive" [binary]="true" [(ngModel)]="lookupDetails[col.field]"

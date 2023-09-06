@@ -35,7 +35,8 @@ export class ProjectComponent implements OnInit {
   submitLabel!: string;
   minDateVal = new Date();
   projectDetails: any = {};
-
+  images = ['3F.jpg', 'fr.jpg', 'jiva.jpg', 'madhucon.jpg','nava.jpg','saloon.jpg'];
+  selectedImageIndex: number = 0;
   constructor(private projectService: SecurityService, private formbuilder: FormBuilder, private adminService: AdminService, private alertMessage: AlertmessageService,
     private jwtService: JwtService) { }
 
@@ -90,7 +91,10 @@ export class ProjectComponent implements OnInit {
       this.fbproject.get('clients').patchValue({
         clientId: project.clientId,
         isActive: project.isActive,
-        companyName: project.companyName,
+        companyName: {
+          clientId: project.clientId,
+          companyName: project.companyName 
+        },
         Name: project.clientName,
         email: project.email,
         mobileNumber: project.mobileNumber,
@@ -108,8 +112,7 @@ export class ProjectComponent implements OnInit {
   }
   onAutocompleteSelect(selectedOption: ClientNamesDto) {
     this.adminService.GetClientDetails(selectedOption.clientId).subscribe(resp => {
-      this.clientDetails = resp[0];
-      this.fcClientDetails.get('companyName')?.setValue(this.clientDetails.companyName);
+      this.clientDetails = resp[0]
       this.fcClientDetails.get('Name')?.setValue(this.clientDetails.clientName);
       this.fcClientDetails.get('email')?.setValue(this.clientDetails.email);
       this.fcClientDetails.get('mobileNumber')?.setValue(this.clientDetails.mobileNumber);
@@ -117,11 +120,9 @@ export class ProjectComponent implements OnInit {
       this.fcClientDetails.get('pocName')?.setValue(this.clientDetails.pocName);
       this.fcClientDetails.get('pocMobileNumber')?.setValue(this.clientDetails.pocMobileNumber);
       this.fcClientDetails.get('address')?.setValue(this.clientDetails.address);
-    
     })
-
   }
-  
+
   saveProject() {
     if (this.addFlag)
       return this.adminService.CreateProject(this.fbproject.value);
@@ -142,9 +143,10 @@ export class ProjectComponent implements OnInit {
     return existingLookupNames.length > 0;
   }
   onSubmit() {
+    console.log(this.fbproject.valid)
     if (this.fbproject.valid) {
+
       if (this.addFlag) {
-        debugger
         if (this.isUniqueProjectCode()) {
           this.alertMessage.displayErrorMessage(
             `Lookup Code :"${this.fbproject.value.code}" Already Exists.`
@@ -185,7 +187,6 @@ export class ProjectComponent implements OnInit {
   }
 
   initProjects() {
-    debugger
     this.adminService.GetProjects().subscribe(resp => {
       this.projects = resp as unknown as ProjectViewDto[];
     });
@@ -193,6 +194,7 @@ export class ProjectComponent implements OnInit {
   initClientNames() {
     this.adminService.GetClientNames().subscribe(resp => {
       this.clientsNames = resp as unknown as ClientNamesDto[];
+      console.log(resp)
     });
   }
   initEmployees() {

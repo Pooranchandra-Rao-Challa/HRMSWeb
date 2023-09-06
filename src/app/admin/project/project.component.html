@@ -64,7 +64,7 @@
                   <label>Start Date: <sup class="p-error">*</sup>
                   </label>&nbsp; <p-calendar inputId="calendar" [readonlyInput]="true" [showIcon]="true"
                     id="Project_startDate" [minDate]="minDateVal" placeholder="Enter Project Staring Date"
-                    formControlName="startDate">
+                    mask="99/99/9999" formControlName="startDate">
                   </p-calendar>
                   <div class="flex">
                     <div class="align-left w-60" style="width:70%">
@@ -113,13 +113,9 @@
                 <div class="field col-12 md:col-4">
                   <label>Company Full Name: <sup class="p-error">*</sup>
                   </label>&nbsp;
-                  <!-- <p-autoComplete  [suggestions]="this.filteredClients"
-                    placeholder="Enter Company Full Name" (completeMethod)="filterClients($event)" field="name"
-                    id="Project_fullName" formControlName="companyName"></p-autoComplete> -->
                   <p-autoComplete [suggestions]="this.filteredClients" placeholder="Enter Company Full Name"
-                    optionValue="companyName.companyName" (onSelect)="onAutocompleteSelect($event)"
-                    (completeMethod)="filterClients($event)" field="companyName" formControlName="companyName"
-                    id="Project_fullName">
+                    (onSelect)="onAutocompleteSelect($event)" (completeMethod)="filterClients($event)"
+                    field="companyName" formControlName="companyName" id="Project_fullName">
                   </p-autoComplete>
                 </div>
                 <div class="field col-12 md:col-4">
@@ -230,11 +226,9 @@
     <!-- Projects View -->
     <div class=" card">
       <div class="grid mb-5">
-        <div class="col-12 md:col-4 mb-5" *ngFor="let project of projects">
+        <div class="col-12 md:col-4 mb-5" *ngFor="let project of projects; let i = index ">
           <div class="list-none m-0 p-0 text-center">
-            <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR48WmoKpCBI841stVtt87w_bU3_8hhmDqN7Umdd0UHekFcFqOiv79-_bERRVPi-HmnED4&usqp=CAU"
-              alt="img" [style]="{width: '300px'}"
+            <img src="assets/demo/images/projectLogo/{{images[i]  }}" alt="img" [style]="{width: '300px'}"
               class="inline-flex align-items-center justify-content-center border-circle w-5rem h-5rem bg-primary-100 mb-5">
             <div class="text-2xl mb-3 font-medium">
               <a class="cursor-pointer" (click)="showProjectDetailsDialog(project)"

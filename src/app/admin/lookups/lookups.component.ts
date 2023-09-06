@@ -86,7 +86,7 @@ export class LookupsComponent implements OnInit {
       lookupId: [0],
       code: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_NUMERIC), Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_20)]),
       name: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
-      isActive: new FormControl('', [Validators.required,]),
+      isActive: new FormControl('', [Validators.required]),
       lookUpDetails: this.formbuilder.array([], FormArrayValidationForDuplication())
     });
   }
