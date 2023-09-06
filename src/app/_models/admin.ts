@@ -110,6 +110,7 @@ export class ProjectViewDto {
   pocName: string;
   pocMobileNumber: string;
   address: string;
+  logo:string;
   isActive: boolean
   createdBy?: string
   createdAt?: string
@@ -122,6 +123,7 @@ export class ProjectDetailsDto {
   code: string;
   name: string;
   startDate: string;
+  logo:string;
   description: string;
   isActive?:boolean;
   clients?:ClientDetailsDto[];

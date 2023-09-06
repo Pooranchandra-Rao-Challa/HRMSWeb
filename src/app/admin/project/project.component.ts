@@ -7,6 +7,7 @@ import { SecurityService } from 'src/app/demo/service/security.service';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { FORMAT_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { ClientDetailsDto, ClientNamesDto, ProjectViewDto } from 'src/app/_models/admin';
+import { MaxLength } from 'src/app/_models/common';
 import { AdminService } from 'src/app/_services/admin.service';
 import { JwtService } from 'src/app/_services/jwt.service';
 import { MAX_LENGTH_20, MAX_LENGTH_256, MAX_LENGTH_50, MIN_LENGTH_2, MIN_LENGTH_20, MIN_LENGTH_4, RG_PHONE_NO } from 'src/app/_shared/regex';
@@ -28,7 +29,9 @@ export class ProjectComponent implements OnInit {
   visible: boolean = false;
   filteredClients: any;
   fbproject!: FormGroup;
+  maxLength: MaxLength = new MaxLength();
   userForm!: FormGroup;
+  imageSize:any;
   permission: any;
   addFlag: boolean = true;
   dialog: boolean;
@@ -59,14 +62,14 @@ export class ProjectComponent implements OnInit {
       clients: this.formbuilder.group({
         clientId: [],
         isActive: ['', [Validators.required]],
-        companyName: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
+        companyName: new FormControl<object | null>(null, [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
         Name: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
         email: new FormControl('', [Validators.required]),
         mobileNumber: new FormControl('', [Validators.required, Validators.pattern(RG_PHONE_NO)]),
         cinno: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_20), Validators.maxLength(MAX_LENGTH_50)]),
         pocName: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
         pocMobileNumber: new FormControl('', [Validators.required, Validators.pattern(RG_PHONE_NO)]),
-        address: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
+        address: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
       }),
       teamMembers: []
     });
@@ -80,6 +83,7 @@ export class ProjectComponent implements OnInit {
   initProject(project: ProjectViewDto) {
     this.showDialog();
     if (project != null) {
+      console.log(project)
       this.addFlag = false;
       this.submitLabel = "Update Project";
       this.fbproject.patchValue({
@@ -89,12 +93,16 @@ export class ProjectComponent implements OnInit {
         name: project.name,
         isActive: project.isActive,
         startDate: FORMAT_DATE(new Date(project.startDate)),
+        logo:project.logo,
         description: project.description
       });
       this.fbproject.get('clients').patchValue({
         clientId: project.clientId,
         isActive: project.isActive,
-        companyName:project.companyName,
+        companyName:{
+          companyName: project.companyName,
+          clientId: project.clientId
+        },
         Name: project.clientName,
         email: project.email,
         mobileNumber: project.mobileNumber,
@@ -112,9 +120,9 @@ export class ProjectComponent implements OnInit {
   }
   onAutocompleteSelect(selectedOption: ClientNamesDto) {
     this.adminService.GetClientDetails(selectedOption.clientId).subscribe(resp => {
-      this.clientDetails = resp[0]
+      this.clientDetails = resp[0];
       this.fcClientDetails.get('clientId')?.setValue(this.clientDetails.clientId);
-      this.fcClientDetails.get('companyName')?.setValue(this.clientDetails.companyName);
+      // this.fcClientDetails.get('companyName')?.setValue(this.clientDetails.companyName);
       this.fcClientDetails.get('Name')?.setValue(this.clientDetails.clientName);
       this.fcClientDetails.get('email')?.setValue(this.clientDetails.email);
       this.fcClientDetails.get('mobileNumber')?.setValue(this.clientDetails.mobileNumber);
@@ -126,9 +134,14 @@ export class ProjectComponent implements OnInit {
   }
 
   saveProject() {
-    if (this.addFlag)
+    if (this.addFlag){
+      if(this.clientDetails){
+        this.fcClientDetails.get('companyName')?.setValue(this.clientDetails.companyName);
+      }
       return this.adminService.CreateProject(this.fbproject.value);
+    }
     else {
+      this.getSelectedItemName(this.fcClientDetails.controls['companyName'].value)
       return this.adminService.UpdateProject(this.fbproject.value)
     }
   }
@@ -150,6 +163,7 @@ export class ProjectComponent implements OnInit {
   }
 
   onSubmit() {
+  
     if (this.fbproject.valid) {
       if (this.addFlag) {
         if (this.isUniqueProjectCode()) {
@@ -172,15 +186,18 @@ export class ProjectComponent implements OnInit {
     }
   }
 
-  
+  getSelectedItemName(item: { clientId: number; companyName: string }) {
+     this.fcClientDetails.get('companyName')?.setValue(item.companyName);
+  }
 
   onFileSelect(event: any): void {
     const selectedFile = event.files[0];
+    this.imageSize=selectedFile.size;
+    console.log(this.imageSize);
     if (selectedFile) {
       this.convertFileToBase64(selectedFile, (base64String) => {
         this.selectedFileBase64 = base64String;
         this.fbproject.get('logo').setValue(this.selectedFileBase64);
-        console.log(this.selectedFileBase64)
       });
     } else {
       this.selectedFileBase64 = null;
@@ -194,14 +211,6 @@ export class ProjectComponent implements OnInit {
       callback(base64String);
     };
   }
-
-  retrieveImageDataFromDatabase(): void {
-    const base64DataFromDB = 'your-base64-data-from-database-here';
-    const decodedData = atob(base64DataFromDB);
-
-  }
-
- 
   save() {
     if (this.fbproject.valid) {
       this.saveProject().subscribe(resp => {
