@@ -3,7 +3,7 @@
 <div class="content-container col-12 text-left" *ngIf="userQuestions.length > 0">
     <div class="grid">
         <form class="col-12">
-            <div class="col-12 text-right m-0 p-0"><!--  *ngIf="this.userSecureQuestionsCount > 2" -->
+            <div class="col-12 text-right m-0 p-0" *ngIf="this.userSecureQuestionsCount > 2">
                 <!-- <p >Refresh Questions</p> -->
                 <!-- <i class="pi pi-sync" style="font-size: 2rem" ></i> -->
                 <button pbutton="" pripple="" type="button" icon="pi pi-bookmark"  pTooltip="Refresh Questions" class="p-element p-ripple p-button-rounded p-button-primary
@@ -20,11 +20,7 @@
                         Please Enter Answer.</div>
                 </span>
             </div>
-            <div class="mt-5" *ngIf="this.userSecureQuestionsCount > 2">
-                <span>New Questions</span>
-                <i class="pi pi-sync" style="font-size: 2rem" (click)="initUserSecurityQuestions()">{{userSecureQuestionsCount}}</i>
-            </div>
-
+            <span>{{userSecureQuestionsCount}}</span>
             <div class="grid mt-3">
                 <div class="col-6"><button id="prev-button" type="button" pButton pRipple label="Back to  User Name" class="w-full p-3 text-md"
                         (click)="navigateToPrev()"></button></div>
