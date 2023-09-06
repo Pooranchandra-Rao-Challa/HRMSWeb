@@ -10,10 +10,9 @@ import { AssetsDto, AssetsViewDto, ClientDetailsDto, ClientNamesDto, HolidayDto,
 import { AssetAllotmentDto, AssetAllotmentViewDto, AssetsByAssetTypeIdViewDto, RevokeAssetRequest } from '../_models/admin/assetsallotment';
 import { ApiHttpService } from './api.http.service';
 import {
-    CREATE_ASSETS_URI, CREATE_HOLIDAY_URI, CREATE_LOOKUP_URI, GET_ASSETS_BY_ASSETTYPE_URI, GET_ASSETS_URI, GET_HOLIDAY_URI,
-    GET_LOOKUP_DETAILS_URI, GET_LOOKUP_URI, UPDATE_ASSETS_URI, UPDATE_LOOKUP_URI, CREATE_ASSET_ALLOTMENT_URI, GET_PROJECTS_URI, GET_YEARS_FROM_HOLIDAYS_URI, GET_ASSET_ALLOTMENTS_URI, UNASSIGNED_ASSET_ALLOTMENT_URI, UPDATE_PROJECT_URI, CREATE_PROJECT_URI, GET_CLIENTNAMES_URI, GET_CLIENT_DETAILS
+    CREATE_ASSETS_URI, CREATE_HOLIDAY_URI, CREATE_LOOKUP_URI, GET_ASSETS_BY_ASSETTYPE_URI, GET_ASSETS_URI, GET_HOLIDAY_URI,GET_LOOKUP_URI, UPDATE_ASSETS_URI, UPDATE_LOOKUP_URI, CREATE_ASSET_ALLOTMENT_URI, GET_PROJECTS_URI, GET_YEARS_FROM_HOLIDAYS_URI, GET_ASSET_ALLOTMENTS_URI, UNASSIGNED_ASSET_ALLOTMENT_URI, UPDATE_PROJECT_URI, CREATE_PROJECT_URI, GET_CLIENTNAMES_URI, GET_CLIENT_DETAILS
 } from './api.uri.service';
-// import { CREATE_LOOKUP_URI } from './api.uri.service';
+
 @Injectable({
     providedIn: 'root'
 })
@@ -28,10 +27,6 @@ export class AdminService extends ApiHttpService {
     public UpdateLookUp(lookup: LookupViewDto) {
         return this.post<LookupViewDto>(UPDATE_LOOKUP_URI, lookup);
     }
-    // public GetlookupDetails(lookupId: number) {
-    //     return this.getWithId<LookupViewDto[]>(GET_LOOKUP_DETAILS_URI, lookupId);
-    // }
-    
     public CreateProject(project: ProjectDetailsDto) {
         return this.post<ProjectDetailsDto>(CREATE_PROJECT_URI, project);
     }

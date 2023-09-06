@@ -21,7 +21,7 @@ export class LookupsComponent implements OnInit {
   globalFilterFields: string[] = ['code', 'name', 'isActive', 'createdAt', 'createdBy', 'updatedAt', 'updatedBy']
   @ViewChild('filter') filter!: ElementRef;
   @ViewChild('lookUp') lookUp: Table; // Reference to the main table
-  @ViewChild('lookUpDetails') lookUpDetails: Table;
+  @ViewChild('lookUpDetails') lookUpDetails: Table; //Reference to the Sub Table
   showDialog: boolean = false;
   fblookup!: FormGroup;
   falookUpDetails!: FormArray;
@@ -40,7 +40,11 @@ export class LookupsComponent implements OnInit {
   constructor(private formbuilder: FormBuilder, private adminService: AdminService, private alertMessage: AlertmessageService,
     private jwtService: JwtService) { }
 
-
+  lookupHeader: ITableHeader[] = [
+    { field: 'code', header: 'code', label: 'Code' },
+    { field: 'name', header: 'name', label: 'Name' },
+    { field: 'isActive', header: 'isActive', label: 'Is Active' },
+  ]
   lookupDetailsHeader: ITableHeader[] = [
     { field: 'code', header: 'code', label: 'Code' },
     { field: 'name', header: 'name', label: 'Name' },
@@ -51,15 +55,11 @@ export class LookupsComponent implements OnInit {
     { field: 'updatedAt', header: 'updatedAt', label: 'Updated Date' },
     { field: 'updatedBy', header: 'updatedBy', label: 'Updated By' },
   ]
-  lookupHeader: ITableHeader[] = [
-    { field: 'code', header: 'code', label: 'Code' },
-    { field: 'name', header: 'name', label: 'Name' },
-    { field: 'isActive', header: 'isActive', label: 'Is Active' },
-  ]
+
+  // getter and setter for selecting particular columns to display 
   @Input() get selectedColumns(): any[] {
     return this._selectedColumns;
   }
-
   set selectedColumns(val: any[]) {
     this._selectedColumns = this.selectedColumnHeader.filter((col) => val.includes(col));
   }
@@ -71,6 +71,7 @@ export class LookupsComponent implements OnInit {
 
     this.lookupForm();
     this.onChangeisLookupChecked();
+    //Column Header for selecting particular columns to display 
     this._selectedColumns = this.selectedColumnHeader;
     this.selectedColumnHeader = [
       { field: 'createdAt', header: 'createdAt', label: 'Created Date' },
