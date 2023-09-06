@@ -40,7 +40,7 @@ import { PasswordModule } from 'primeng/password';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import {TooltipModule} from 'primeng/tooltip';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-
+import { FileUploadModule } from 'primeng/fileupload';
 @NgModule({
     exports: [
         ReactiveFormsModule,
@@ -83,7 +83,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
         PasswordModule,
         ProgressSpinnerModule,
         TooltipModule,
-        ConfirmDialogModule
+        ConfirmDialogModule,FileUploadModule
     ]
 
 })
