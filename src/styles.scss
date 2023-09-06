@@ -163,30 +163,41 @@ label.required::after {
 .zoomable-img {
     display: block;
     width: 100%;
-    max-width: 100%; /* Ensures the image doesn't exceed its container */
+    max-width: 100%;
+    /* Ensures the image doesn't exceed its container */
     height: auto;
     transition: transform 0.3s ease-in-out;
-  }
+}
 
-  .zoomable-img:hover {
-    transform: scale(1.4); /* Adjust the scale factor as needed */
-  }
-  .freeze_text-area{
-    resize:none;
-  }
-  input:-moz-read-only { /* For Firefox */
+.zoomable-img:hover {
+    transform: scale(1.4);
+    /* Adjust the scale factor as needed */
+}
+
+.p-confirm-dialog-reject.p-button {
+    float: right;
+}
+
+.freeze_text-area {
+    resize: none;
+}
+
+input:-moz-read-only {
+    /* For Firefox */
     background-color: #f17517;
- }
- 
- input:read-only { 
+}
+
+input:read-only {
     background-color: #bfbfbf;
     // border:0px;
- }
- input:read-only:focus { 
+}
+
+input:read-only:focus {
     background-color: #bfbfbf;
     // border:0px;
- }
- p-calendar input{
+}
+
+p-calendar input {
     background-color: transparent !important;
     // border: 2px !important;
- }
+}
