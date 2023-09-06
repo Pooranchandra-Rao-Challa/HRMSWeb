@@ -52,6 +52,7 @@ export class SettingsComponent {
         this.securityService.UserSecurityQuestions(this.jwtService.GivenName).subscribe({
             next: (resp) => {
                 this.userQuestions = resp as unknown as UserQuestionDto[];
+                this.filterSecureQuestions();
             }
         });
     }
@@ -67,6 +68,7 @@ export class SettingsComponent {
         this.securityService.GetSecureQuestions().subscribe((resp) => {
             this.allSecureQuestions = resp as unknown as SecureQuestionDto[];
             this.secureQuestions.next(this.allSecureQuestions);
+            this.filterSecureQuestions();
         });
     }
 
@@ -101,17 +103,21 @@ export class SettingsComponent {
         Object.assign(this.oldSecurity, s);
         this.qstnSubmitLabel = "Update";
         this.showDialog = true;
-        this.resetSecureQuestions(this.security);
+        this.filterSecureQuestions(this.security);
     }
 
     deleteSecurityQuestion(question: String) {
         this.userQuestions.splice(this.userQuestions.findIndex(item => item.question === question), 1);
-        this.resetSecureQuestions();
+        this.filterSecureQuestions();
     }
 
-    resetSecureQuestions(security: UserQuestionDto = {}) {
-        let test = this.allSecureQuestions.filter((value => this.userQuestions.findIndex(question => question.question === value.question) == -1 || value.question === security.question));
-        this.secureQuestions.next(test);
+    filterSecureQuestions(security: UserQuestionDto = {}) {
+        if (this.userQuestions && this.allSecureQuestions) {
+            const filteredQuestions = this.allSecureQuestions.filter((secureQuestion) => {
+                return this.userQuestions.findIndex((userQuestion) => userQuestion.question === secureQuestion.question) === -1 || secureQuestion.question === security.question;
+            });
+            this.secureQuestions.next(filteredQuestions);
+        }
     }
 
     hideDialog() {
@@ -126,7 +132,7 @@ export class SettingsComponent {
         this.showDialog = false;
         this.security = {};
         this.oldSecurity = {};
-        this.resetSecureQuestions();
+        this.filterSecureQuestions();
     }
 
     saveSecurityQuestions() {

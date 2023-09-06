@@ -38,6 +38,7 @@ export class AssetsComponent {
   confirmationRequest: ConfirmationRequest = new ConfirmationRequest();
   permissions: any;
   isSubmitting: boolean = false;
+  minDateValue: Date = new Date();
 
   constructor(private adminService: AdminService, private formbuilder: FormBuilder,
     private alertMessage: AlertmessageService, private lookupService: LookupService,
@@ -182,10 +183,9 @@ export class AssetsComponent {
 
   onSubmit() {
     if (this.isSubmitting) {
-      // If a submission process is already ongoing, return to prevent duplicated calls
       return;
     }
-    this.isSubmitting = true; // Set the flag to indicate submission is starting
+    this.isSubmitting = true;
     this.fbassets.value.purchasedDate = FORMAT_DATE(this.fbassets.value.purchasedDate);
     this.saveAssets().subscribe(resp => {
       if (resp) {
@@ -201,8 +201,7 @@ export class AssetsComponent {
       else {
         this.alertMessage.displayErrorMessage(ALERT_CODES["AAS004"])
       }
-      this.fbassets.reset();
-      this.isSubmitting = false; // Reset the flag after submission is completed
+       this.isSubmitting = false;
     });
   }
 }
