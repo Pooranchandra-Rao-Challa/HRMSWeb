@@ -97,9 +97,7 @@ export class ProjectComponent implements OnInit {
   }
   hierarchialDialog(node){
    this.projects.filter(element=>{
-     debugger
      if(element.name==node.data.name){
-      console.log(element)
        this.showProjectDetailsDialog(element);
      }
    })

@@ -385,7 +385,6 @@
           <p-organizationChart [value]="projectTreeData" >
             <ng-template let-node pTemplate="person">
                 <div class="p-1 text-center" (click)="hierarchialDialog(node)">
-                  
                     <img [src]="node.data.image" class="mb-3 w-3rem h-3rem" />
                     <div class="font-bold" >{{ node.data.name }}</div>
                     <div>{{ node.data.title }}</div>
