@@ -12,6 +12,7 @@ import { AdminService } from 'src/app/_services/admin.service';
 import { JwtService } from 'src/app/_services/jwt.service';
 import { MAX_LENGTH_20, MAX_LENGTH_256, MAX_LENGTH_50, MIN_LENGTH_2, MIN_LENGTH_20, MIN_LENGTH_4, RG_PHONE_NO } from 'src/app/_shared/regex';
 import { TreeNode } from 'primeng/api';
+import { dE } from '@fullcalendar/core/internal-common';
 interface AutoCompleteCompleteEvent {
   originalEvent: Event;
   query: string;
@@ -93,6 +94,15 @@ export class ProjectComponent implements OnInit {
   showProjectDetailsDialog(projectDetails: any) {
     this.visible = true;
     this.projectDetails = projectDetails;
+  }
+  hierarchialDialog(node){
+   this.projects.filter(element=>{
+     debugger
+     if(element.name==node.data.name){
+      console.log(element)
+       this.showProjectDetailsDialog(element);
+     }
+   })
   }
 
   initProject(project: ProjectViewDto) {
