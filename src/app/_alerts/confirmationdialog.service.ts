@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, take } from 'rxjs';
 import { ConfirmationRequest } from '../_models/common';
 
 @Injectable({
@@ -23,7 +23,7 @@ export class ConfirmationDialogService {
                 this.userChoiceSubject.next(false);
             }
         });
-        return this.userChoiceSubject.asObservable();
+        return this.userChoiceSubject.asObservable().pipe(take(1));
     }
 
 }
