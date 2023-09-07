@@ -2,7 +2,7 @@ import { HttpEvent } from '@angular/common/http';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Table } from 'primeng/table';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { ConfirmationDialogService } from 'src/app/_alerts/confirmationdialog.service';
 import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
@@ -39,6 +39,7 @@ export class AssetsComponent {
   permissions: any;
   isSubmitting: boolean = false;
   minDateValue: Date = new Date();
+
 
   constructor(private adminService: AdminService, private formbuilder: FormBuilder,
     private alertMessage: AlertmessageService, private lookupService: LookupService,
@@ -159,7 +160,6 @@ export class AssetsComponent {
         this.asset.purchasedDate = new Date(this.deleteAsset.purchasedDate);
         this.asset.isActive = false;
         this.fbassets.patchValue(this.asset);
-        this.addFlag = false;
         this.addFlag1 = true;
         this.onSubmit();
       }
@@ -182,10 +182,6 @@ export class AssetsComponent {
   }
 
   onSubmit() {
-    if (this.isSubmitting) {
-      return;
-    }
-    this.isSubmitting = true;
     this.fbassets.value.purchasedDate = FORMAT_DATE(this.fbassets.value.purchasedDate);
     this.saveAssets().subscribe(resp => {
       if (resp) {
@@ -201,7 +197,6 @@ export class AssetsComponent {
       else {
         this.alertMessage.displayErrorMessage(ALERT_CODES["AAS004"])
       }
-       this.isSubmitting = false;
     });
   }
 }
