@@ -67,6 +67,7 @@ export class ViewemployeesComponent {
   shifts: Shift[] | undefined;
   status: Status[] | undefined;
   designation: Designation[] | undefined;
+  valRadio:string;
   skillSets!: Skills[];
   personalDetails!: FormGroup;
   OfficialDetails!: FormGroup;
@@ -277,7 +278,8 @@ export class ViewemployeesComponent {
       UpdatedAt: new FormControl('', [Validators.required]),
       CreatedBy: new FormControl('', [Validators.required]),
       UpdatedBy: new FormControl('', [Validators.required]),
-      addressDetails: this.formbuilder.array([]),
+      addressType:[],
+      addressDetails: this.formbuilder.array([])
     });
   }
   initFamily() {

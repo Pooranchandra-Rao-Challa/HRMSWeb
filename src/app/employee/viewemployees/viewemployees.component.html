@@ -274,6 +274,33 @@
     </p-tabPanel>
     <p-tabPanel header="Upload Documents">
       <div class="grid">
+        <div  class="col-12 ">
+          <p-table [tableStyle]="{ 'min-width': '50rem' }">
+              <ng-template pTemplate="header">
+                  <tr>
+                      <th>S.No</th>
+                      <th>Title</th>
+                      <th>FileName</th>
+                      <th>Actions</th>
+                  </tr>
+                  <tr >
+                    <td class="pl-5">1</td>
+                    <td>madhucon.png</td>
+                    <td class="pl-5">image</td>
+                    <td >
+                      <div class="flex">
+                        <button pButton pRipple icon="pi pi-" style="padding: 0px;"
+                          class="p-element p-ripple p-button-text p-button p-component col-6"
+                          ></button>
+                        <button pButton pRipple icon="pi pi-trash" id="delete"                         
+                          class="p-element p-ripple p-button-text p-button p-component col-6 "></button>
+                      </div>
+                    </td>
+                </tr>
+              </ng-template>
+              
+          </p-table>
+      </div>
         <div class="col-12 md:col-6">
           <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-text p-button p-component mr-2"
             (click)="showDocumentsDetails()"></button>
@@ -687,6 +714,24 @@
                   </label>
                 </span>
               </div>
+              <div class="grid formgrid pl-5">
+                <div class="flex flex-wrap gap-3">
+                  <div class="flex align-items-center">
+                      <p-radioButton  value="Cheese" formControlName="addressType" inputId="ingredient1"></p-radioButton>
+                      <label for="ingredient1" class="ml-2">Permanent Address</label>
+                  </div>
+                  
+                  <div class="flex align-items-center">
+                      <p-radioButton value="Mushroom" formControlName="addressType" inputId="ingredient2"></p-radioButton>
+                      <label for="ingredient2" class="ml-2">Temporary Address</label>
+                  </div>
+                  
+                  <div class="flex align-items-center">
+                      <p-radioButton value="Pepper" formControlName="addressType" inputId="ingredient3"></p-radioButton>
+                      <label for="ingredient3" class="ml-2">Current Address</label>
+                  </div>
+              </div>
+            </div>
               <div class="field col-12 md:col-4">
                 <div class="button-container">
                   <p-button type="button" label="Add New Address" (click)="addNewAddress()"></p-button>
@@ -700,6 +745,7 @@
   </p-dialog>
   <!-- p-dialog Upload Documents -->
   <p-dialog header="CIS202214 Documents Details" [(visible)]="Documents" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: 'auto'}">
+    
     <div class="flex flex-column align-items-center justify-content-center">
       <div class="grid">
         <div class="col-12 p-5 mt-4">
