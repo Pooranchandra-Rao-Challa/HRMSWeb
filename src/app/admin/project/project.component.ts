@@ -266,7 +266,7 @@ export class ProjectComponent implements OnInit {
   convertToTreeNode(projects: any[]): TreeNode[] {
     return projects.map((project) => ({
       type: 'person',
-      styleClass: 'bg-orange-300 text-white',
+      styleClass: 'hirarchi_parent text-white',
       expanded: false,
       data: {
         image: project.logo,
