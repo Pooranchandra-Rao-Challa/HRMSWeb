@@ -366,7 +366,7 @@
     </p-tabPanel>
   </p-tabView>
 </div>
-<p-dialog header="CIS202214" [(visible)]="dialog" [modal]="true" showEffect="fade"
+<p-dialog header="CIS202214 Basic Details" [(visible)]="dialog" [modal]="true" showEffect="fade"
   [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
   <div class="flex flex-column align-items-center justify-content-center">
     <form [formGroup]="personalDetails">
@@ -625,42 +625,6 @@
                   <p-button type="button" label="Add Family Members" (click)="addFamilyMembers()"></p-button>
                 </div>
               </div>
-              <div class="col-12 scrolling_content" formArrayName="familyDetails" *ngIf="showFamilyDetails">
-                <p-table #dt2 [value]=" faFamilyDetail().controls" dataKey="id" [rows]="10" [rowHover]="true" *ngIf="showFamilyDetails" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="false" [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]">> <ng-template pTemplate="header">
-                    <tr>
-                      <th>Name <sup class="p-error">*</sup>
-                      </th>
-                      <th>Relationship <sup class="p-error">*</sup>
-                      </th>
-                      <th>Mobile No <sup class="p-error">*</sup>
-                      </th>
-                      <th>Address <sup class="p-error">*</sup>
-                      </th>
-                      <th *ngIf="fbfamilyDetails.controls['familyDetails'].value.length > 1"></th>
-                    </tr>
-                  </ng-template>
-                  <ng-template pTemplate="body" let-family let-familyDetailsIndex="rowIndex">
-                    <tr [formGroupName]="familyDetailsIndex">
-                      <td class="vertical-align-top">
-                        <input pInputText class="form-control" formControlName="name" placeholder="Enter Name">
-                      </td>
-                      <td class="vertical-align-top">
-                        <input pInputText class="form-control" formControlName="relationShip" placeholder="Enter RelatipnShip">
-                      </td>
-                      <td class="vertical-align-top">
-                        <input pInputText class="form-control" formControlName="mobileNo" placeholder="Enter MobileNo">
-                      </td>
-                      <td class="vertical-align-top">
-                        <input pInputText class="form-control" formControlName="Address" placeholder="Enter Address">
-                      </td>
-                      <td *ngIf="fbfamilyDetails.controls['familyDetails'].value.length > 1">
-                        <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer" *ngIf="!this.faFamilyDetail().controls[familyDetailsIndex].get('id')?.value" (click)="faFamilyDetail().removeAt(familyDetailsIndex)"></i>
-                        <i class="pi pi-fw pi-verified text-3xl" *ngIf="this.  faFamilyDetail().controls[familyDetailsIndex].get('id')?.value"></i>
-                      </td>
-                    </tr>
-                  </ng-template>
-                </p-table>
-              </div>
             </div>
           </div>
         </div>
@@ -727,57 +691,6 @@
                 <div class="button-container">
                   <p-button type="button" label="Add New Address" (click)="addNewAddress()"></p-button>
                 </div>
-              </div>
-              <div class="col-12 scrolling_content" formArrayName="addressDetails" *ngIf="showAddressDetails">
-                <p-table #dt2 [value]=" faAddressDetail().controls" dataKey="id" [rows]="10" [rowHover]="true" *ngIf="showAddressDetails" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="false" [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]">> <ng-template pTemplate="header">
-                    <tr>
-                      <th>Address Line1 <sup class="p-error">*</sup>
-                      </th>
-                      <th>Address Line2 <sup class="p-error">*</sup>
-                      </th>
-                      <th>Landmark <sup class="p-error">*</sup>
-                      </th>
-                      <th>ZIP Code <sup class="p-error">*</sup>
-                      </th>
-                      <th>City <sup class="p-error">*</sup>
-                      </th>
-                      <th>State <sup class="p-error">*</sup>
-                      </th>
-                      <th>Country <sup class="p-error">*</sup>
-                      </th>
-                      <th *ngIf="fbAddressDetails.controls['addressDetails'].value.length > 1"></th>
-                    </tr>
-                  </ng-template>
-                  <ng-template pTemplate="body" let-address let-addressDetailsIndex="rowIndex">
-                    <tr [formGroupName]="addressDetailsIndex">
-                      <td class="vertical-align-top">
-                        <input type="text" id="inputtext" pInputText formControlName="AddressLine1" placeholder="Enter Address Line1" />
-                      </td>
-                      <td class="vertical-align-top">
-                        <input type="text" id="inputtext" pInputText formControlName="AddressLine2" placeholder="Enter Address Line2" />
-                      </td>
-                      <td class="vertical-align-top">
-                        <input type="text" id="inputtext" pInputText formControlName="Landmark" placeholder="Enter Landmark" />
-                      </td>
-                      <td class="vertical-align-top">
-                        <input type="text" id="inputtext" pInputText formControlName="ZIPCode" placeholder="Enter ZIP Code" />
-                      </td>
-                      <td class="vertical-align-top">
-                        <input type="text" id="inputtext" pInputText formControlName="City" placeholder="Enter City" />
-                      </td>
-                      <td class="vertical-align-top">
-                        <input type="text" id="inputtext" pInputText formControlName="State" placeholder="Enter State" />
-                      </td>
-                      <td class="vertical-align-top">
-                        <input type="text" id="inputtext" pInputText formControlName="Country" placeholder="Enter Country" />
-                      </td>
-                      <td *ngIf="fbAddressDetails.controls['addressDetails'].value.length > 1">
-                        <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer" *ngIf="!this.faAddressDetail().controls[addressDetailsIndex].get('id')?.value" (click)="faAddressDetail().removeAt(addressDetailsIndex)"></i>
-                        <i class="pi pi-fw pi-verified text-3xl" *ngIf="this.faAddressDetail().controls[addressDetailsIndex].get('id')?.value"></i>
-                      </td>
-                    </tr>
-                  </ng-template>
-                </p-table>
               </div>
             </div>
           </div>

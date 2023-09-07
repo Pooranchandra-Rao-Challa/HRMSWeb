@@ -62,7 +62,7 @@ export class ProjectComponent implements OnInit {
       clients: this.formbuilder.group({
         clientId: [],
         isActive: ['', [Validators.required]],
-        companyName: new FormControl<object | null>(null, [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
+        companyName: new FormControl(null, [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
         Name: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
         email: new FormControl('', [Validators.required]),
         mobileNumber: new FormControl('', [Validators.required, Validators.pattern(RG_PHONE_NO)]),
@@ -122,7 +122,6 @@ export class ProjectComponent implements OnInit {
     this.adminService.GetClientDetails(selectedOption.clientId).subscribe(resp => {
       this.clientDetails = resp[0];
       this.fcClientDetails.get('clientId')?.setValue(this.clientDetails.clientId);
-      // this.fcClientDetails.get('companyName')?.setValue(this.clientDetails.companyName);
       this.fcClientDetails.get('Name')?.setValue(this.clientDetails.clientName);
       this.fcClientDetails.get('email')?.setValue(this.clientDetails.email);
       this.fcClientDetails.get('mobileNumber')?.setValue(this.clientDetails.mobileNumber);
