@@ -95,7 +95,7 @@
               <div class="field col-12 md:col-4">
                 <label>Purchased Date: <sup class="p-error">*</sup></label>
                 <p-calendar inputId="purchasedDate" id="purchasedDate" placeholder="Select Purchased Date"
-                  formControlName="purchasedDate"
+                  formControlName="purchasedDate" [minDate]="minDateValue" [showIcon]="true" 
                   [ngClass]="{ 'is-invalid ng-dirty': FormControls['purchasedDate'].touched && FormControls['purchasedDate'].errors}">
                 </p-calendar>
                 <span *ngIf="FormControls['purchasedDate'].touched && FormControls['purchasedDate'].invalid">
