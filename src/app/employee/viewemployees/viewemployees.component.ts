@@ -73,6 +73,7 @@ export class ViewemployeesComponent {
   bankDetails:boolean=false;
   Address: boolean = false;
   Documents: boolean = false;
+  valRadio:string;
   skillSets!: Skills[];
   personalDetails !: FormGroup;
   OfficialDetails !: FormGroup;
@@ -361,6 +362,7 @@ export class ViewemployeesComponent {
       UpdatedAt: new FormControl('', [Validators.required]),
       CreatedBy: new FormControl('', [Validators.required]),
       UpdatedBy: new FormControl('', [Validators.required]),
+      addressType:[],
       addressDetails: this.formbuilder.array([])
     });
   }
