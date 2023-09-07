@@ -50,7 +50,7 @@
                                 <div class="field col-12 md:col-4">
                                     <label class="required">From Date:</label>
                                     <p-calendar appendTo="body" placeholder="Select From Date" [readonlyInput]="true"
-                                        [minDate]="minDateValue" [showIcon]="true" formControlName="fromDate"
+                                        [minDate]="minDateValue" [showIcon]="true" formControlName="fromDate" id="fromDate"
                                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['fromDate'].touched && FormControls['fromDate'].errors }">
                                     </p-calendar>
                                     <span *ngIf="FormControls['fromDate'].touched && FormControls['fromDate'].invalid">
@@ -66,7 +66,7 @@
                                 <div class="field col-12 md:col-4">
                                     <label >To Date:</label>
                                     <p-calendar appendTo="body" placeholder="Select To Date" [readonlyInput]="true"
-                                        [minDate]="minDateValue" [showIcon]="true" formControlName="toDate"
+                                        [minDate]="minDateValue" [showIcon]="true" formControlName="toDate"id="toDate"
                                         [minDate]="fbHoliday.value.fromDate"
                                         [disabled]="!FormControls['fromDate'].value"
                                         [pTooltip]="!FormControls['fromDate'].value ? 'Please Select From Date First' : ''"
@@ -260,7 +260,6 @@
                                 (click)="showDialog(leave, ViewDialogs.delete)"></button>
                         </div>
                     </td>
-
                     <td *ngFor="let col of headers" [ngClass]="col?.field == 'isActive' ? 'text-center' : ''">
                         <span
                             *ngIf="col?.field != 'createdAt' && col?.field != 'updatedAt' && col?.field != 'fromDate' && col?.field != 'toDate' && col?.field != 'isActive'">{{leave[col.field]}}</span>
