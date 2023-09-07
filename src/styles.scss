@@ -29,6 +29,7 @@ $gutter: 1rem; //for primeflex grid system
 
 #hrms::-webkit-scrollbar {
     width: 7px;
+    height: 7px;
     background-color: #F5F5F5;
 }
 
@@ -204,4 +205,11 @@ p-calendar input {
 .up_logo{
     border:3px solid var(--primary-light-color);
     border-radius: 6px !important;
+}
+
+.scroll_div{
+    width: 100%;
+    height: auto;
+    overflow-x: auto;
+    overflow-y: auto;
 }

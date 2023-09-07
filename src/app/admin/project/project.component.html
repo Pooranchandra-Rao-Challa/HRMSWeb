@@ -380,9 +380,9 @@
           </div>
         </p-tabPanel>
         <p-tabPanel header="Hirarchi View">
-          <!-- src/app/project-list/project-list.component.html -->
-          <!-- <p-organizationChart [value]="projectTreeData" [style]="{'width':'100%'}"></p-organizationChart> -->
-          <p-organizationChart [value]="projectTreeData" >
+          <div id="hrms" class="scroll_div scroll  pb-5">
+            <p-organizationChart [value]="projectTreeData"  selectionMode="single" 
+                     [preserveSpace]="false">
             <ng-template let-node pTemplate="person">
                 <div class="p-1 text-center" (click)="hierarchialDialog(node)">
                   
@@ -392,6 +392,11 @@
                 </div>
             </ng-template>
         </p-organizationChart>
+
+          </div>
+          <!-- src/app/project-list/project-list.component.html -->
+          <!-- <p-organizationChart [value]="projectTreeData" [style]="{'width':'100%'}"></p-organizationChart> -->
+          
         </p-tabPanel>
       </p-tabView>
     </div>
