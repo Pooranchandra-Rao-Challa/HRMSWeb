@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Table } from 'primeng/table';
 import { AdminService } from 'src/app/_services/admin.service';
@@ -48,6 +48,7 @@ export class HolidayconfigurationComponent {
   ViewDialogs = ViewDialogs;
   minDateValue: any;
   confirmationRequest: ConfirmationRequest = new ConfirmationRequest();
+
   constructor(
     private formbuilder: FormBuilder,
     private AdminService: AdminService,
@@ -105,7 +106,7 @@ export class HolidayconfigurationComponent {
     new Date(holiday.fromDate).getTime() === new Date(fromDateValue).getTime()
   );
   if (isDuplicateDate) {
-    this.alertMessage.displayErrorMessage('The selected from Date already Added in List.');
+    this.alertMessage.displayErrorMessage(ALERT_CODES["SMH005"]);
     return;
   }
     // Push current values into the FormArray
