@@ -18,6 +18,7 @@ import { NgModule } from '@angular/core';
     RecruitmentComponent,
     ProjectComponent,
     AssetsallotmentComponent,
+    
   ],
   imports: [
     AdminRoutingModule,

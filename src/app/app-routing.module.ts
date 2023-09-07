@@ -9,7 +9,6 @@ const routerOptions: ExtraOptions = {
 };
 
 const routes: Routes = [
-    
     { path: '', loadChildren: () => import('src/app/auth/login/login.module').then(m => m.LoginModule) },
     { path: 'login', loadChildren: () => import('src/app/auth/login/login.module').then(m => m.LoginModule) },
     {

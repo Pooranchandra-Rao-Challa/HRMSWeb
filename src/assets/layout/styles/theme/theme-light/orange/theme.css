@@ -3502,10 +3502,11 @@ p-treeselect.p-treeselect-clearable .p-treeselect-clear-icon {
   border-color: #d4d6d9;
 }
 .p-organizationchart .p-organizationchart-node-content {
-  border: 1px solid #d4d6d9;
+  border: 0px solid #d4d6d9;
   background: #ffffff;
   color: #69707a;
   padding: 1.25rem;
+  border-radius: 10px !important;
 }
 .p-organizationchart .p-organizationchart-node-content .p-node-toggler {
   background: inherit;
@@ -4344,7 +4345,7 @@ p-treeselect.p-treeselect-clearable .p-treeselect-clear-icon {
 }
 
 .p-toolbar {
-  background: #fcfcfc;
+  background: #fffcf9;
   border: 1px solid #d4d6d9;
   padding: 1.25rem;
   border-radius: 10px;
@@ -4405,7 +4406,7 @@ p-treeselect.p-treeselect-clearable .p-treeselect-clear-icon {
 }
 .p-dialog .p-dialog-header {
   border-bottom: 0 none;
-  background: #ffffff;
+  background: #fff2e5;
   color: #343a40;
   padding: 1.5rem;
   border-top-right-radius: 10px;
@@ -4441,7 +4442,7 @@ p-treeselect.p-treeselect-clearable .p-treeselect-clear-icon {
 .p-dialog .p-dialog-content {
   background: #ffffff;
   color: #69707a;
-  padding: 0 1.5rem 2rem 1.5rem;
+  padding: 1rem 1.5rem 2rem 1.5rem;
 }
 .p-dialog .p-dialog-content:last-of-type {
   border-bottom-right-radius: 10px;
@@ -4449,9 +4450,9 @@ p-treeselect.p-treeselect-clearable .p-treeselect-clear-icon {
 }
 .p-dialog .p-dialog-footer {
   border-top: 0 none;
-  background: #ffffff;
+  background: #fff2e5;
   color: #69707a;
-  padding: 0 1.5rem 1.5rem 1.5rem;
+  padding: 0.2rem;
   text-align: right;
   border-bottom-right-radius: 10px;
   border-bottom-left-radius: 10px;

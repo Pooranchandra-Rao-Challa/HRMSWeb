@@ -5,7 +5,7 @@
         <form class="col-12">
             <div class="col-12 text-right m-0 p-0" *ngIf="this.userSecureQuestionsCount > 2">
                 <!-- <p >Refresh Questions</p> -->
-                <!-- <i class="pi pi-sync" style="font-size: 2rem" ></i> -->
+                <!-- <i class="pi pi-sync" style="font-size: 2rem" ></i> --><p>Total Available Questions for this user:  <span>{{userSecureQuestionsCount}}</span> </p>
                 <button pbutton="" pripple="" type="button" icon="pi pi-bookmark"  pTooltip="Refresh Questions" class="p-element p-ripple p-button-rounded p-button-primary
                     p-button-text p-button p-component p-button-icon-only" (click)="initUserSecurityQuestions()">
                     <span class="p-button-icon pi pi-sync" aria-hidden="true"></span><span class="p-ink"></span>
@@ -20,7 +20,7 @@
                         Please Enter Answer.</div>
                 </span>
             </div>
-            <span>{{userSecureQuestionsCount}}</span>
+           
             <div class="grid mt-3">
                 <div class="col-6"><button id="prev-button" type="button" pButton pRipple label="Back to  User Name" class="w-full p-3 text-md"
                         (click)="navigateToPrev()"></button></div>
