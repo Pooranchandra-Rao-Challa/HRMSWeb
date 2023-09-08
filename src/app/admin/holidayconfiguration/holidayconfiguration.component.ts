@@ -163,7 +163,7 @@ export class HolidayconfigurationComponent {
     },
       {
         validators: Validators.compose([
-          DateValidators.dateRangeValidator('fromDate', 'toDate', { 'fromDate': true }),
+          DateValidators.dateRangeValidator('fromDate', 'toDate', { 'fromDate': true ,'toDate': false}),
         ])
       });
   }
@@ -239,7 +239,11 @@ export class HolidayconfigurationComponent {
     if (view === ViewDialogs.edit || view === ViewDialogs.delete) {
       this.holidayToEdit = Object.assign({}, holiday);
       this.holidayToEdit.fromDate = FORMAT_DATE(new Date(holiday.fromDate));
-      this.holidayToEdit.toDate = FORMAT_DATE(new Date(holiday.toDate));
+      if (holiday.toDate === null) {
+        this.holidayToEdit.toDate = null;
+      } else {
+        this.holidayToEdit.toDate = FORMAT_DATE(new Date(holiday.toDate));
+      }
       delete this.holidayToEdit.createdAt
       delete this.holidayToEdit.createdBy
       delete this.holidayToEdit.updatedAt
