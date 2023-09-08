@@ -54,7 +54,7 @@ export class LookupsComponent implements OnInit {
     { field: 'createdBy', header: 'createdBy', label: 'Created By' }
   ]
 
-  // getter and setter for selecting particular columns to display 
+  // getter and setter for selecting particular columns to display
   @Input() get selectedColumns(): any[] {
     return this._selectedColumns;
   }
@@ -69,7 +69,7 @@ export class LookupsComponent implements OnInit {
 
     this.lookupForm();
     this.onChangeisLookupChecked();
-    //Column Header for selecting particular columns to display 
+    //Column Header for selecting particular columns to display
     this._selectedColumns = this.selectedColumnHeader;
     this.selectedColumnHeader = [
       { field: 'createdAt', header: 'createdAt', label: 'Created Date' },
@@ -172,7 +172,6 @@ export class LookupsComponent implements OnInit {
     }
   }
   save() {
-    debugger
     if (this.fblookup.valid) {
       this.savelookup().subscribe(resp => {
         if (resp) {
@@ -232,7 +231,6 @@ export class LookupsComponent implements OnInit {
     this.falookupDetails().clear();
   }
   editLookUp(lookup: LookupViewDto) {
-    debugger
     console.log(lookup)
     lookup.expandLookupDetails.forEach((lookupDetails: LookupDetailsDto) => {
       lookupDetails.lookupId = lookup.lookupId;
