@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 // import { ForgotUserPasswordDto, UserQuestionDto, UserViewDto } from "../_models/security";
 import { ApiHttpService } from "./api.http.service";
 import {
-    CHANGE_PASSWORD_URI, CREATE_ROLE_URI, CREATE_SECURITY_QUESTIONS_URI, Delete_USER_URI, FORGOT_PASSWORD_URI, GET_PERMISSIONS_URI, GET_ROLES_URI, GET_ROLE_PERMISSIONS_URI,
+    CHANGE_PASSWORD_URI, CREATE_ROLE_URI, CREATE_SECURITY_QUESTIONS_URI, Delete_USER_URI, FORGOT_PASSWORD_URI, GET_ALL_USER_QUESTIONS_URI, GET_PERMISSIONS_URI, GET_ROLES_URI, GET_ROLE_PERMISSIONS_URI,
     GET_SECURITY_QUESTIONS_URI, GET_USERS_URI, UPDATE_ROLE_URI, UPDATE_USER_QUESTIONS_URI, UPDATE_USER_URI, VALIDATE_USER_QUESTIONS_URI,
 } from "./api.uri.service";
 import {
@@ -15,7 +15,7 @@ import {
 export class SecurityService extends ApiHttpService {
 
     public UserSecurityQuestions(userName: string) {
-        return this.getWithParams<UserQuestionDto>(VALIDATE_USER_QUESTIONS_URI, [userName]);
+        return this.getWithParams<UserQuestionDto>(GET_ALL_USER_QUESTIONS_URI, [userName]);
     }
 
     public ValidateUserQuestions(userName: string) {
