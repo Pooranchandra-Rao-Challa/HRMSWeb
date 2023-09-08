@@ -118,7 +118,7 @@
                     <div class="col " style="padding-top:50px">
                       <p-fileUpload mode="basic" [maxFileSize]="1000000" chooseLabel="Choose logo" 
                       url="https://www.primefaces.org/cdn/api/upload.php" (onSelect)="onFileSelect($event)"
-                      [accept]="'.jpg,.jpeg,.png'">
+                      accept="image/jpeg, image/png, image/jpg">
                       </p-fileUpload>
                       <div class="flex">
                         <div class="align-left w-60" >
@@ -327,7 +327,7 @@
               <div class="p-fluid p-formgrid grid">
                 <div class="field col-12 md:col-4">
                   <label>Employee Id:<sup class="p-error">*</sup></label>&nbsp;
-                  <p-multiSelect [options]="employees" optionLabel="empname" placeholder="Select Employees"
+                  <p-multiSelect [options]="employees" optionLabel="empname" placeholder="Select Employees" appendTo="body"
                     id="Project_emps" formControlName="teamMembers">
                   </p-multiSelect>
                 </div>
@@ -351,7 +351,7 @@
       </div>
       <ng-template pTemplate="footer">
         <div class="col-4" style="float:right">
-          <button pButton pRipple type="submit" [label]="submitLabel" class="p-button-raised p-button-primary"
+          <button pButton pRipple type="submit" [label]="submitLabel" [disabled]="!this.fbproject.valid" class="p-button-raised p-button-primary"
             (click)="onSubmit()"></button>
         </div>
       </ng-template>
@@ -359,6 +359,8 @@
 
 
     <!-- Projects View -->
+
+
     <div class="card">
       <p-tabView>
         <p-tabPanel header="Card View ">
@@ -371,7 +373,7 @@
                   <a class="cursor-pointer" (click)="showProjectDetailsDialog(project)"
                     id="Project_viewDetails">{{project.name}} </a>
                   <button pButton pRipple icon="pi pi-pencil" *ngIf="permission?.CanManageProjects"
-                    class="p-element p-ripple p-button-text p-button-primary p-component m-0 p-0"
+                    class="p-element p-ripple p-button-text p-button-primary p-component m-0 p-0 justify-content-end"
                     (click)="initProject(project)" id="Project_editButton"></button>
                 </div>
                 <p class="line-height-3 mb-3">{{project.description}}</p>
