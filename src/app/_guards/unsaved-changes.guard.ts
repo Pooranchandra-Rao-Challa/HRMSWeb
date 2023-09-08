@@ -7,7 +7,7 @@ import { SettingsComponent } from "../auth/settings/settings.component";
 @Injectable({
     providedIn: 'root',
 })
-export class CanDeactivateGuard implements CanDeactivate<SettingsComponent> {
+export class UnsavedChangesGuard implements CanDeactivate<SettingsComponent> {
     private logoutInProgress = false; // Flag to track logout in progress
 
     canDeactivate(

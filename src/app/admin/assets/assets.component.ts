@@ -26,6 +26,7 @@ export class AssetsComponent {
   assetCategories: LookupViewDto[] = [];
   assetstatus: LookupViewDto[] = [];
   assets: AssetsViewDto[] = [];
+  assetslist: AssetsDetailsViewDto[] = [];
   asset = new AssetsDto();
   fbassets!: FormGroup;
   mediumDate: string = MEDIUM_DATE;
