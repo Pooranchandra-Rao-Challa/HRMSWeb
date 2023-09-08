@@ -4,7 +4,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { AppSidebarComponent } from './app.sidebar.component';
 import { ALERT_CODES } from '../_alerts/alertmessage.service';
-import { CanDeactivateGuard } from '../_guards/can-deactivate.guard';
+import { UnsavedChangesGuard } from '../_guards/unsaved-changes.guard';
 import { ActivatedRoute } from '@angular/router';
 import { UpdateStatusService } from '../_services/updatestatus.service';
 
@@ -22,7 +22,7 @@ export class AppTopbarComponent {
     constructor(public layoutService: LayoutService,
         private jwtService: JwtService,
         public el: ElementRef,
-        private canDeactivateGuard: CanDeactivateGuard,
+        private unsavedChangesGuard: UnsavedChangesGuard,
         private route: ActivatedRoute,
         private loginService: LoginService,
         private updateStatusService: UpdateStatusService) {
@@ -43,22 +43,22 @@ export class AppTopbarComponent {
 
     logOut() {
         // Set the flag before initiating the logout action
-        this.canDeactivateGuard.setLogoutInProgress(false);
+        this.unsavedChangesGuard.setLogoutInProgress(false);
 
         this.isUpdating = this.updateStatusService.getIsUpdating();
 
 
         if (this.isUpdating) {
-            this.canDeactivateGuard.openDialog().subscribe((canLogout) => {
+            this.unsavedChangesGuard.openDialog().subscribe((canLogout) => {
                 if (canLogout) {
                     this.isUpdating = false;
                     this.updateStatusService.setIsUpdating(this.isUpdating);
                     // Perform actual logout
                     this.loginService.revokeToken(ALERT_CODES["HRMS002"]);
-                    this.canDeactivateGuard.setLogoutInProgress(true);
+                    this.unsavedChangesGuard.setLogoutInProgress(true);
                 }
                 else {
-                    this.canDeactivateGuard.setLogoutInProgress(false);
+                    this.unsavedChangesGuard.setLogoutInProgress(false);
                 }
             });
         }

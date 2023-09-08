@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { AppLayoutComponent } from './layout/app.layout.component';
 import { SettingsComponent } from './auth/settings/settings.component';
-import { CanDeactivateGuard } from './_guards/can-deactivate.guard';
+import { UnsavedChangesGuard } from './_guards/unsaved-changes.guard';
 
 const routerOptions: ExtraOptions = {
     anchorScrolling: 'enabled'
@@ -15,7 +15,7 @@ const routes: Routes = [
         path: '',
         component: AppLayoutComponent,
         children: [
-            { path: 'settings', component: SettingsComponent, canDeactivate: [CanDeactivateGuard] },
+            { path: 'settings', component: SettingsComponent, canDeactivate: [UnsavedChangesGuard] },
             { path: 'dashboard', loadChildren: () => import('./dashboards/dashboards.module').then((m) => m.DashboardsModule) },
             { path: 'uikit', data: { breadcrumb: 'UI Kit' }, loadChildren: () => import('./demo/components/uikit/uikit.module').then((m) => m.UIkitModule) },
             { path: 'employee', data: { breadcrumb: 'Employee' }, loadChildren: () => import('./employee/employee.module').then((m) => m.EmployeeModule) },
