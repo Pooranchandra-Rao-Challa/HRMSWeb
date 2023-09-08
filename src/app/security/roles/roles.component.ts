@@ -5,8 +5,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Table } from 'primeng/table';
 import { Observable } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
-import { SHORT_DATE } from 'src/app/_helpers/date.formate.pipe';
-
+import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { ITableHeader, MaxLength } from 'src/app/_models/common';
 import { RoleDto, RolePermissionDto, RoleViewDto } from 'src/app/_models/security';
 import { JwtService } from 'src/app/_services/jwt.service';
@@ -18,7 +17,7 @@ import { MAX_LENGTH_50, MIN_LENGTH_2, RG_ALPHA_ONLY } from 'src/app/_shared/rege
   templateUrl: './roles.component.html'
 })
 export class RolesComponent implements OnInit {
-  globalFilterFields: string[] = ['name', 'isActive', 'createdAt', "createdBy", "updatedDate", "updatedBy"];
+  globalFilterFields: string[] = ['name', 'isActive', 'createdAt', "createdBy", "updatedAt", "updatedBy"];
   dialog: boolean = false;
   @ViewChild('filter') filter!: ElementRef;
   fbrole!: FormGroup;
@@ -30,7 +29,7 @@ export class RolesComponent implements OnInit {
   permissions: RolePermissionDto[] = [];
   addFlag: boolean = true;
   maxLength: MaxLength = new MaxLength();
-  mediumDate: string = SHORT_DATE;
+  mediumDate: string = MEDIUM_DATE;
   user: any
 
   constructor(private formbuilder: FormBuilder,private jwtService:JwtService,
@@ -45,7 +44,6 @@ export class RolesComponent implements OnInit {
       permissions: []
     });
     this.intiRoles();
-    
   }
 
   get roleFormControls() {

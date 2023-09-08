@@ -35,28 +35,31 @@ export class AssetsallotmentComponent {
     addFlag: boolean;
     assetAllotments: AssetAllotmentViewDto[] = [];
     maxDate: Date = new Date();
-    // globalFilterFields: string[] = ['empname', 'empcode', 'designation', 'email', 'phoneNo'];
-    // headers: ITableHeader[] = [
-    //     { field: 'empname', header: 'empname', label: 'Employee Name' },
-    //     { field: 'empcode', header: 'empcode', label: 'Employee Code' },
-    //     { field: 'designation', header: 'designation', label: 'Designation' },
-    //     { field: 'email', header: 'email', label: 'Email' },
-    //     { field: 'phoneNo', header: 'phoneNo', label: 'Phone No' },
-    // ];
-    // @ViewChild('filter') filter!: ElementRef;
-    // totalRecords = this.employees.length; // Total number of records
-    // rows = 10;
+
+    // START - Displaying the table view in the listItem
+
+    globalFilterFields: string[] = ['empname', 'empcode', 'designation', 'email', 'phoneNo'];
+    headers: ITableHeader[] = [
+        { field: 'empname', header: 'empname', label: 'Employee Name' },
+        { field: 'empcode', header: 'empcode', label: 'Employee Code' },
+        { field: 'designation', header: 'designation', label: 'Designation' },
+        { field: 'email', header: 'email', label: 'Email' },
+        { field: 'phoneNo', header: 'phoneNo', label: 'Phone No' },
+    ];
+    @ViewChild('filter') filter!: ElementRef;
+    totalRecords = this.employees.length; // Total number of records
+
+    onGlobalFilter(table: Table, event: Event) {
+        table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+    }
 
 
-    // onGlobalFilter(table: Table, event: Event) {
-    //     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
-    // }
+    clear(table: Table) {
+        table.clear();
+        this.filter.nativeElement.value = '';
+    }
 
-
-    // clear(table: Table) {
-    //     table.clear();
-    //     this.filter.nativeElement.value = '';
-    // }
+    // END - Displaying the table view in the listItem
 
     constructor(private securityService: SecurityService,
         private formbuilder: FormBuilder,
