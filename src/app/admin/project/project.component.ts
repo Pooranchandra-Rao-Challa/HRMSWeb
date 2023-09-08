@@ -105,7 +105,7 @@ export class ProjectComponent implements OnInit {
     this.showDialog();
     if (project != null) {
       this.addFlag = false;
-      this.submitLabel = "Update Project";
+      this.submitLabel = "Update Project Details";
       this.fbproject.patchValue({
         clientId: project.clientId,
         projectId: project.projectId,
@@ -262,8 +262,8 @@ export class ProjectComponent implements OnInit {
   convertToTreeNode(projects: any[]): TreeNode[] {
     return projects.map((project) => ({
       type: 'person',
-      styleClass: 'bg-orange-300 text-white',
-      expanded: true,
+      styleClass: 'hirarchi_parent text-white',
+      expanded: false,
       data: {
         image: project.logo,
         name: project.name,
@@ -271,6 +271,13 @@ export class ProjectComponent implements OnInit {
       },
       children: [
         { label: 'Sadikh', styleClass: 'bg-green-300 text-white', },
+        { label: 'Arun', styleClass: 'bg-green-300 text-white', },
+        { label: 'Arun', styleClass: 'bg-green-300 text-white', },
+        { label: 'Arun', styleClass: 'bg-green-300 text-white', },
+        { label: 'Arun', styleClass: 'bg-green-300 text-white', },
+        { label: 'Arun', styleClass: 'bg-green-300 text-white', },
+        { label: 'Arun', styleClass: 'bg-green-300 text-white', },
+        { label: 'Arun', styleClass: 'bg-green-300 text-white', },
         { label: 'Arun', styleClass: 'bg-green-300 text-white', },
       ], // Assuming 'name' is the project name property
     }));

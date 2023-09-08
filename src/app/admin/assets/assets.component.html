@@ -9,7 +9,7 @@
         <h4>Assets</h4>
       </ng-template>
       <ng-template pTemplate="right">
-        <button pButton pRipple label="New Asset" icon="pi pi-plus" class="p-button-primary p-mr-2"
+        <button pButton pRipple label="New Asset" id="addasset" icon="pi pi-plus" class="p-button-primary p-mr-2"
           (click)="addAssetsDialog()" *ngIf="permissions?.CanManageAssets"></button>
       </ng-template>
     </p-toolbar>
@@ -94,7 +94,7 @@
               </div>
               <div class="field col-12 md:col-4">
                 <label>Purchased Date: <sup class="p-error">*</sup></label>
-                <p-calendar inputId="purchasedDate" id="purchasedDate" placeholder="Select Purchased Date"
+                <p-calendar inputId="purchasedDate" id="purchasedDate" placeholder="Select Purchased Date"  [readonlyInput]="true"
                   formControlName="purchasedDate" [minDate]="minDateValue" [showIcon]="true" 
                   [ngClass]="{ 'is-invalid ng-dirty': FormControls['purchasedDate'].touched && FormControls['purchasedDate'].errors}">
                 </p-calendar>
@@ -234,7 +234,7 @@
       </div>
       <ng-template pTemplate="footer">
         <div class="col-4" style="float:right">
-          <button pButton pRipple type="submit" [label]="submitLabel" class="p-button-raised p-button-primary"
+          <button pButton pRipple type="submit" id="submit" [label]="submitLabel" class="p-button-raised p-button-primary"
             (click)="onSubmit()" [disabled]="fbassets.invalid"></button>
         </div>
       </ng-template>
@@ -242,17 +242,18 @@
 
     <!-- table -->
     <p-table #dtAssets [value]="assets" dataKey="assetType" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
-      [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-      styleClass="p-datatable-gridlines  p-datatable-sm" [style]="{width: 'auto'}" [showCurrentPageReport]="true"
-      [globalFilterFields]="globalFilterFields" [autoLayout]="true" responsiveLayout="scroll"
-      [rowsPerPageOptions]="[10,25,50]">
+      [paginator]="true" [columns]="AssetsheaderTable" rowExpandMode="single"   responsiveLayout="scroll" 
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [style]="{width: 'auto'}"
+      [showCurrentPageReport]="true" [globalFilterFields]="globalFilterFields" [autoLayout]="true"
+     [rowsPerPageOptions]="[10,25,50]">
       <ng-template pTemplate="caption">
         <div class="flex justify-content-between flex-column sm:flex-row">
-          <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
+          <button pButton label="Clear" id="clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
             (click)="clear(dtAssets)"></button>
           <span class="p-input-icon-left mb-2">
             <i class="pi pi-search"></i>
-            <input pInputText type="text" #filter (input)="onGlobalFilter(dtAssets, $event)"
+            <input pInputText type="text" #filter id="search" (input)="onGlobalFilter(dtAssets, $event)"
               placeholder="Search Keyword" class="w-full" />
           </span>
         </div>
@@ -271,7 +272,7 @@
         <tr>
           <td>
             <button type="button" pButton pRipple [pRowToggler]="asset"
-              class="p-button-text p-button-rounded p-button-plain"
+              class="p-button-text p-button-rounded p-button-plain"  id="expandtable"
               [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
           </td>
           <td *ngFor="let col of AssetsheaderTable">
@@ -283,10 +284,11 @@
       </ng-template>
       <ng-template pTemplate="rowexpansion" let-assest>
         <tr>
-          <td colspan="10" class="p-0">
-            <div class="p-0">
+          <td colspan="12">
+            <div class="p-3" style="max-width: 1680px; overflow-x: auto;">
               <p-table [value]="assest.expandassets" [columns]="AssetsTypeTable" dataKey="assetId"
-                [tableStyle]="{ width: 'max-content'}">
+                [tableStyle]="{ width: 'max-content' }"  
+                styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm">
                 <ng-template pTemplate="header">
         <tr>
           <th *ngIf="permissions?.CanManageAssets" style="width:5px;">Actions</th>
@@ -301,11 +303,11 @@
         <tr>
           <td *ngIf="permissions?.CanManageAssets">
             <div class="flex">
-              <button pButton pRipple icon="pi pi-pencil" style="padding: 0px;"
+              <button pButton pRipple icon="pi pi-pencil" style="padding: 0px;" id="editasset"
                 class="p-element p-ripple p-button-text p-button p-component col-6"
                 (click)="editAssets(assetstypes)"></button>
               <button pButton pRipple icon="pi pi-trash" id="delete" *ngIf="assetstypes.isActive"
-                (click)="deleteDialog(assetstypes)"
+                (click)="deleteDialog(assetstypes)" id="deletasset"
                 class="p-element p-ripple p-button-text p-button p-component col-6 "></button>
             </div>
           </td>
