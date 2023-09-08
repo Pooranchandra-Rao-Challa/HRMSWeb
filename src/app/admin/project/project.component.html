@@ -46,7 +46,7 @@
                 <div class="field col-12 md:col-4">
                   <label>Name: <sup class="p-error">*</sup>
                   </label>&nbsp; <input pInputText id="Project_name" type="text" formControlName="name" [maxlength]="maxLength.name"
-                    placeholder="Enter Name" #name alphaOnly />
+                    placeholder="Enter Name" #name alphaNumeric />
                   <div class="flex">
                     <div class="align-left w-60" style="width:70%">
                       <span *ngIf="projectFormControls['name'].touched && projectFormControls['name'].invalid">
@@ -85,7 +85,7 @@
                 </div>
                 <div class="field col-12 md:col-4">
                   <label for="textarea">Description <sup class="p-error">*</sup>
-                  </label>&nbsp; <textarea inputId="textarea" rows="5" cols="30" pInputTextarea alphaNumeric [maxlength]="maxLength.description"
+                  </label>&nbsp; <textarea inputId="textarea" rows="5" cols="30" pInputTextarea [maxlength]="maxLength.description"
                     id="Project_description" class="freeze_text-area" #description placeholder="Enter Description"
                     formControlName="description"></textarea>
                   <div class="flex">
@@ -380,9 +380,7 @@
           </div>
         </p-tabPanel>
         <p-tabPanel header="Hirarchi View">
-          <!-- src/app/project-list/project-list.component.html -->
-          <!-- <p-organizationChart [value]="projectTreeData" [style]="{'width':'100%'}"></p-organizationChart> -->
-          <p-organizationChart [value]="projectTreeData" >
+          <p-organizationChart [value]="projectTreeData"  >
             <ng-template let-node pTemplate="person">
                 <div class="p-1 text-center" (click)="hierarchialDialog(node)">
                     <img [src]="node.data.image" class="mb-3 w-3rem h-3rem" />
