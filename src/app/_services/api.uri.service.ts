@@ -7,6 +7,7 @@ export const GET_USERS_URI = "Security/GetUsers";
 export const CREATE_ROLE_URI = "Security/CreateRole";
 export const UPDATE_ROLE_URI = "Security/UpdateRole";
 export const GET_USER_QUESTIONS_URI = "Security/UserQuestions";
+export const GET_ALL_USER_QUESTIONS_URI = "Security/GetAllUserQuestions";
 export const FORGOT_PASSWORD_URI = "Security/ForgotPassword";
 export const GET_SECURITY_QUESTIONS_URI = "Security/SecureQuestions"
 export const CREATE_SECURITY_QUESTIONS_URI = "Security/CreateUserQuestion"
