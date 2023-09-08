@@ -31,18 +31,15 @@ export class ProjectComponent implements OnInit {
   filteredClients: any;
   fbproject!: FormGroup;
   maxLength: MaxLength = new MaxLength();
-  userForm!: FormGroup;
   imageSize: any;
   permission: any;
   addFlag: boolean = true;
   dialog: boolean;
   submitLabel!: string;
-  selectedValue: string = '';
   minDateVal = new Date();
   projectDetails: any = {};
   projectTreeData: TreeNode[];
   selectedFileBase64: string | null = null; // To store the selected file as base64
-  selectedImageIndex: number = 0;
   rootProject: TreeNode = {
     type: 'person',
     styleClass: ' text-orange',
@@ -61,7 +58,6 @@ export class ProjectComponent implements OnInit {
     this.initProjects();
     this.initClientNames();
     this.initEmployees();
-
     this.fbproject = this.formbuilder.group({
       clientId: [0],
       projectId: [0],
