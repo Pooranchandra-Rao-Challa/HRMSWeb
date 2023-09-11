@@ -22,8 +22,8 @@
               <div class="p-fluid p-formgrid grid">
                 <div class="field col-12 md:col-4">
                   <label>Code: <sup class="p-error">*</sup>
-                  </label>&nbsp; <input pInputText id="Project_code" type="text" formControlName="code" [maxlength]="maxLength.code"
-                    placeholder="Enter Code" #code alphaNumeric />
+                  </label>&nbsp; <input pInputText id="Project_code" type="text" formControlName="code"
+                    [maxlength]="maxLength.code" placeholder="Enter Code" #code alphaNumeric />
                   <div class="flex">
                     <div class="align-left w-60" style="width:70%">
                       <span *ngIf="projectFormControls['code'].touched && projectFormControls['code'].invalid">
@@ -33,7 +33,7 @@
                         <div class="ng-invalid ng-touched p-error"
                           *ngIf="projectFormControls['code'].errors?.['minlength']">
                           Code Min Characters Is 4.</div>
-                          <div class="ng-invalid ng-touched p-error"
+                        <div class="ng-invalid ng-touched p-error"
                           *ngIf="projectFormControls['code'].errors?.['maxlength']">
                           Code Min Characters Is 20.</div>
                       </span>
@@ -45,8 +45,8 @@
                 </div>
                 <div class="field col-12 md:col-4">
                   <label>Name: <sup class="p-error">*</sup>
-                  </label>&nbsp; <input pInputText id="Project_name" type="text" formControlName="name" [maxlength]="maxLength.name"
-                    placeholder="Enter Name" #name alphaNumeric />
+                  </label>&nbsp; <input pInputText id="Project_name" type="text" formControlName="name"
+                    [maxlength]="maxLength.name" placeholder="Enter Name" #name alphaNumeric />
                   <div class="flex">
                     <div class="align-left w-60" style="width:70%">
                       <span *ngIf="projectFormControls['name'].touched && projectFormControls['name'].invalid">
@@ -56,7 +56,7 @@
                         <div class="ng-invalid ng-touched p-error"
                           *ngIf="projectFormControls['name'].errors?.['minlength']">
                           Name Min Characters Is 2.</div>
-                          <div class="ng-invalid ng-touched p-error"
+                        <div class="ng-invalid ng-touched p-error"
                           *ngIf="projectFormControls['name'].errors?.['maxlength']">
                           Name Max Characters Is 50.</div>
                       </span>
@@ -85,9 +85,9 @@
                 </div>
                 <div class="field col-12 md:col-4">
                   <label for="textarea">Description <sup class="p-error">*</sup>
-                  </label>&nbsp; <textarea inputId="textarea" rows="5" cols="30" pInputTextarea [maxlength]="maxLength.description"
-                    id="Project_description" class="freeze_text-area" #description placeholder="Enter Description"
-                    formControlName="description"></textarea>
+                  </label>&nbsp; <textarea inputId="textarea" rows="5" cols="30" pInputTextarea
+                    [maxlength]="maxLength.description" id="Project_description" class="freeze_text-area" #description
+                    placeholder="Enter Description" formControlName="description"></textarea>
                   <div class="flex">
                     <div class="align-left w-60" style="width:70%">
                       <span
@@ -109,28 +109,30 @@
                   </div>
                 </div>
                 <div class="field col-12 md:col-4">
-                  <label>Upload Project Logo:  </label>
+                  <label>Upload Project Logo: </label>
                   <div class="grid">
-                    <div class="col">                                            
-                      <br> &nbsp;    
-                      <img [src]="this.fbproject.get('logo').value" onerror="this.onerror=null; this.src='https://t3.ftcdn.net/jpg/02/18/21/86/360_F_218218632_jF6XAkcrlBjv1mAg9Ow0UBMLBaJrhygH.jpg'" alt="logo" height="100px" width="100px" class="up_logo">
+                    <div class="col">
+                      <br> &nbsp;
+                      <img [src]="this.fbproject.get('logo').value"
+                        onerror="this.onerror=null; this.src='https://t3.ftcdn.net/jpg/02/18/21/86/360_F_218218632_jF6XAkcrlBjv1mAg9Ow0UBMLBaJrhygH.jpg'"
+                        alt="logo" height="100px" width="100px" class="up_logo">
                     </div>
                     <div class="col " style="padding-top:50px">
-                      <p-fileUpload mode="basic" [maxFileSize]="1000000" chooseLabel="Choose logo" 
-                      url="https://www.primefaces.org/cdn/api/upload.php" (onSelect)="onFileSelect($event)"
-                      accept="image/jpeg, image/png, image/jpg">
+                      <p-fileUpload mode="basic" [maxFileSize]="1000000" chooseLabel="Choose logo"
+                        url="https://www.primefaces.org/cdn/api/upload.php" (onSelect)="onFileSelect($event)"
+                        accept="image/jpeg, image/png, image/jpg">
                       </p-fileUpload>
                       <div class="flex">
-                        <div class="align-left w-60" >
+                        <div class="align-left w-60">
                           <span *ngIf="projectFormControls['logo'].touched && projectFormControls['logo'].invalid">
                             <div class="ng-invalid ng-touched p-error" *ngIf="this.imageSize>1000000">
                               Image dimensions are too large.</div>
                           </span>
                         </div>
-                      </div>                      
+                      </div>
                     </div>
                   </div>
-                  
+
                 </div>
                 <div class="field col-12 md:col-4">
                   <label>Is Active: <sup class="p-error">*</sup>
@@ -143,10 +145,11 @@
                 <div class="field col-12 md:col-4">
                   <label>Company Full Name: <sup class="p-error">*</sup>
                   </label>&nbsp;
-                  <p-autoComplete formControlName="companyName" [suggestions]="this.filteredClients" placeholder="Enter Company Full Name" #companyName
-                     (completeMethod)="filterClients($event)"  (onSelect)="onAutocompleteSelect($event)" field="companyName" id="Project_fullName">
+                  <p-autoComplete formControlName="companyName" [suggestions]="this.filteredClients"
+                    placeholder="Enter Company Full Name" #companyName (completeMethod)="filterClients($event)"
+                    (onSelect)="onAutocompleteSelect($event)" field="companyName" id="Project_fullName">
                   </p-autoComplete>
-              
+
                   <div class="flex">
                     <div class="align-left w-60" style="width:70%">
                       <span
@@ -156,39 +159,39 @@
                           Please Select CompanyName.</div>
                         <div class="ng-invalid ng-touched p-error"
                           *ngIf="fcClientDetails.controls['companyName'].errors?.['minlength']">
-                          CompanyName Min Characters Is 2.</div> 
+                          CompanyName Min Characters Is 2.</div>
                         <div class="ng-invalid ng-touched p-error"
                           *ngIf="fcClientDetails.controls['companyName'].errors?.['maxlength']">
                           CompanyName Max Characters Is 50.</div>
                       </span>
                     </div>
-                    
+
                   </div>
                 </div>
                 <div class="field col-12 md:col-4">
                   <label>Client Name: <sup class="p-error">*</sup>
                   </label>&nbsp;
-                  <input pInputText id="Project_clientName" type="text" placeholder="Enter Client Name" alphaOnly [maxlength]="maxLength.name" #clientName
-                    formControlName="Name" />
-                    <div class="flex">
-                      <div class="align-left w-60" style="width:70%">
-                        <span
-                          *ngIf="fcClientDetails.controls['Name'].touched && fcClientDetails.controls['Name'].invalid">
-                          <div class="ng-invalid ng-touched p-error"
-                            *ngIf="fcClientDetails.controls['Name'].errors?.['required']">
-                            Please Enter Name.</div>
-                          <div class="ng-invalid ng-touched p-error"
-                            *ngIf="fcClientDetails.controls['Name'].errors?.['minlength']">
-                            Name Min Characters Is 2.</div> 
-                          <div class="ng-invalid ng-touched p-error"
-                            *ngIf="fcClientDetails.controls['Name'].errors?.['maxlength']">
-                            Name Max Characters Is 50.</div>
-                        </span>
-                      </div>
-                      <div class="align-right w-40" style="width:30%; text-align:right;">
-                        <small>{{clientName.value.length}}/50</small>
-                      </div>
+                  <input pInputText id="Project_clientName" type="text" placeholder="Enter Client Name" alphaOnly
+                    [maxlength]="maxLength.name" #clientName formControlName="Name" />
+                  <div class="flex">
+                    <div class="align-left w-60" style="width:70%">
+                      <span
+                        *ngIf="fcClientDetails.controls['Name'].touched && fcClientDetails.controls['Name'].invalid">
+                        <div class="ng-invalid ng-touched p-error"
+                          *ngIf="fcClientDetails.controls['Name'].errors?.['required']">
+                          Please Enter Name.</div>
+                        <div class="ng-invalid ng-touched p-error"
+                          *ngIf="fcClientDetails.controls['Name'].errors?.['minlength']">
+                          Name Min Characters Is 2.</div>
+                        <div class="ng-invalid ng-touched p-error"
+                          *ngIf="fcClientDetails.controls['Name'].errors?.['maxlength']">
+                          Name Max Characters Is 50.</div>
+                      </span>
                     </div>
+                    <div class="align-right w-40" style="width:30%; text-align:right;">
+                      <small>{{clientName.value.length}}/50</small>
+                    </div>
+                  </div>
                 </div>
 
                 <div class="field col-12 md:col-4">
@@ -196,59 +199,59 @@
                   </label>&nbsp;
                   <input pInputText id="Project_clientEmail" type="email" placeholder="Enter EmailId"
                     formControlName="email" />
-                    <div class="flex">
-                      <div class="align-left w-60" style="width:70%">
-                        <span
-                          *ngIf="fcClientDetails.controls['email'].touched && fcClientDetails.controls['email'].invalid">
-                          <div class="ng-invalid ng-touched p-error"
-                            *ngIf="fcClientDetails.controls['email'].errors?.['required']">
-                            Please Enter EmailId.</div>
-                        </span>
-                      </div>
+                  <div class="flex">
+                    <div class="align-left w-60" style="width:70%">
+                      <span
+                        *ngIf="fcClientDetails.controls['email'].touched && fcClientDetails.controls['email'].invalid">
+                        <div class="ng-invalid ng-touched p-error"
+                          *ngIf="fcClientDetails.controls['email'].errors?.['required']">
+                          Please Enter EmailId.</div>
+                      </span>
                     </div>
+                  </div>
                 </div>
                 <div class="field col-12 md:col-4">
                   <label>Client Mobile No:
                   </label>&nbsp;
-                  <input pInputText id="Project_clientMobileNo" type="text" placeholder="Enter Mobile Number"  #clientNo 
+                  <input pInputText id="Project_clientMobileNo" type="text" placeholder="Enter Mobile Number" #clientNo
                     formControlName="mobileNumber" />
-                    <div class="flex">
-                      <div class="align-left w-60" style="width:70%">
-                        <span
-                          *ngIf="fcClientDetails.controls['mobileNumber'].touched && fcClientDetails.controls['mobileNumber'].invalid">
-                          <div class="ng-invalid ng-touched p-error"
-                            *ngIf="fcClientDetails.controls['mobileNumber'].errors?.['required']">
-                            Please Enter Client Mobile No.</div>
-                        </span>
-                      </div>
-                      <div class="align-right w-40" style="width:30%; text-align:right;">
-                        <small>{{clientNo.value.length}}/10</small>
-                      </div>
+                  <div class="flex">
+                    <div class="align-left w-60" style="width:70%">
+                      <span
+                        *ngIf="fcClientDetails.controls['mobileNumber'].touched && fcClientDetails.controls['mobileNumber'].invalid">
+                        <div class="ng-invalid ng-touched p-error"
+                          *ngIf="fcClientDetails.controls['mobileNumber'].errors?.['required']">
+                          Please Enter Client Mobile No.</div>
+                      </span>
                     </div>
+                    <div class="align-right w-40" style="width:30%; text-align:right;">
+                      <small>{{clientNo.value.length}}/10</small>
+                    </div>
+                  </div>
                 </div>
                 <div class="field col-12 md:col-4">
                   <label>CIN/GST No: <sup class="p-error">*</sup>
-                  </label>&nbsp; <input pInputText id="Project_cinNo" type="text" placeholder="Enter CIS/GST No" #cinno [maxlength]="maxLength.cinNo"
-                    formControlName="cinno" />
-                    <div class="flex">
-                      <div class="align-left w-60" style="width:70%">
-                        <span
-                          *ngIf="fcClientDetails.controls['cinno'].touched && fcClientDetails.controls['cinno'].invalid">
-                          <div class="ng-invalid ng-touched p-error"
-                            *ngIf="fcClientDetails.controls['cinno'].errors?.['required']">
-                            Please Enter CIN.</div>
-                          <div class="ng-invalid ng-touched p-error"
-                            *ngIf="fcClientDetails.controls['cinno'].errors?.['minlength']">
-                            CIN Min Characters Is 20.</div> 
-                          <div class="ng-invalid ng-touched p-error"
-                            *ngIf="fcClientDetails.controls['cinno'].errors?.['maxlength']">
-                            CIN Max Characters Is 50.</div>
-                        </span>
-                      </div>
-                      <div class="align-right w-40" style="width:30%; text-align:right;">
-                        <small>{{cinno.value.length}}/50</small>
-                      </div>
+                  </label>&nbsp; <input pInputText id="Project_cinNo" type="text" placeholder="Enter CIS/GST No" #cinno
+                    [maxlength]="maxLength.cinNo" formControlName="cinno" />
+                  <div class="flex">
+                    <div class="align-left w-60" style="width:70%">
+                      <span
+                        *ngIf="fcClientDetails.controls['cinno'].touched && fcClientDetails.controls['cinno'].invalid">
+                        <div class="ng-invalid ng-touched p-error"
+                          *ngIf="fcClientDetails.controls['cinno'].errors?.['required']">
+                          Please Enter CIN.</div>
+                        <div class="ng-invalid ng-touched p-error"
+                          *ngIf="fcClientDetails.controls['cinno'].errors?.['minlength']">
+                          CIN Min Characters Is 20.</div>
+                        <div class="ng-invalid ng-touched p-error"
+                          *ngIf="fcClientDetails.controls['cinno'].errors?.['maxlength']">
+                          CIN Max Characters Is 50.</div>
+                      </span>
                     </div>
+                    <div class="align-right w-40" style="width:30%; text-align:right;">
+                      <small>{{cinno.value.length}}/50</small>
+                    </div>
+                  </div>
                 </div>
                 <div class="field col-12 md:col-4">
                   <label>Is Active: <sup class="p-error">*</sup>
@@ -257,91 +260,92 @@
                 </div>
                 <div class="field col-12 md:col-4">
                   <label>POC Name: <sup class="p-error">*</sup>
-                  </label>&nbsp; <input pInputText id="Project_pocName" type="text" placeholder="Enter POC Name" #pocName [maxlength]="maxLength.name"
-                    alphaOnly formControlName="pocName" />
-                    <div class="flex">
-                      <div class="align-left w-60" style="width:70%">
-                        <span
-                          *ngIf="fcClientDetails.controls['pocName'].touched && fcClientDetails.controls['pocName'].invalid">
-                          <div class="ng-invalid ng-touched p-error"
-                            *ngIf="fcClientDetails.controls['pocName'].errors?.['required']">
-                            Please Enter POC Name.</div>
-                          <div class="ng-invalid ng-touched p-error"
-                            *ngIf="fcClientDetails.controls['pocName'].errors?.['minlength']">
-                            POC Name Min Characters Is 2.</div> 
-                          <div class="ng-invalid ng-touched p-error"
-                            *ngIf="fcClientDetails.controls['pocName'].errors?.['maxlength']">
-                            POC Name Max Characters Is 50.</div>
-                        </span>
-                      </div>
-                      <div class="align-right w-40" style="width:30%; text-align:right;">
-                        <small>{{pocName.value.length}}/50</small>
-                      </div>
+                  </label>&nbsp; <input pInputText id="Project_pocName" type="text" placeholder="Enter POC Name"
+                    #pocName [maxlength]="maxLength.name" alphaOnly formControlName="pocName" />
+                  <div class="flex">
+                    <div class="align-left w-60" style="width:70%">
+                      <span
+                        *ngIf="fcClientDetails.controls['pocName'].touched && fcClientDetails.controls['pocName'].invalid">
+                        <div class="ng-invalid ng-touched p-error"
+                          *ngIf="fcClientDetails.controls['pocName'].errors?.['required']">
+                          Please Enter POC Name.</div>
+                        <div class="ng-invalid ng-touched p-error"
+                          *ngIf="fcClientDetails.controls['pocName'].errors?.['minlength']">
+                          POC Name Min Characters Is 2.</div>
+                        <div class="ng-invalid ng-touched p-error"
+                          *ngIf="fcClientDetails.controls['pocName'].errors?.['maxlength']">
+                          POC Name Max Characters Is 50.</div>
+                      </span>
                     </div>
+                    <div class="align-right w-40" style="width:30%; text-align:right;">
+                      <small>{{pocName.value.length}}/50</small>
+                    </div>
+                  </div>
                 </div>
                 <div class="field col-12 md:col-4">
                   <label>POC Ph.no: <sup class="p-error">*</sup>
-                  </label>&nbsp; <input pInputText id="Project_pocMobileNo" type="text" #pocNo 
+                  </label>&nbsp; <input pInputText id="Project_pocMobileNo" type="text" #pocNo
                     placeholder="Enter POC Mobile Number" formControlName="pocMobileNumber" />
-                    <div class="flex">
-                      <div class="align-left w-60" style="width:70%">
-                        <span
-                          *ngIf="fcClientDetails.controls['pocMobileNumber'].touched && fcClientDetails.controls['pocMobileNumber'].invalid">
-                          <div class="ng-invalid ng-touched p-error"
-                            *ngIf="fcClientDetails.controls['pocMobileNumber'].errors?.['required']">
-                            Please Enter POC Mobile No.</div>
-                        </span>
-                      </div>
-                      <div class="align-right w-40" style="width:30%; text-align:right;">
-                        <small>{{pocNo.value.length}}/10</small>
-                      </div>
+                  <div class="flex">
+                    <div class="align-left w-60" style="width:70%">
+                      <span
+                        *ngIf="fcClientDetails.controls['pocMobileNumber'].touched && fcClientDetails.controls['pocMobileNumber'].invalid">
+                        <div class="ng-invalid ng-touched p-error"
+                          *ngIf="fcClientDetails.controls['pocMobileNumber'].errors?.['required']">
+                          Please Enter POC Mobile No.</div>
+                      </span>
                     </div>
+                    <div class="align-right w-40" style="width:30%; text-align:right;">
+                      <small>{{pocNo.value.length}}/10</small>
+                    </div>
+                  </div>
                 </div>
                 <div class="field col-12 md:col-4">
                   <label>Address:
                   </label>&nbsp;
-                  <textarea inputId="textarea" rows="3" cols="30" id="Project_clientAddress" pInputTextarea #address [maxlength]="maxLength.address"
-                    formControlName="address" placeholder="Enter Address" class="freeze_text-area"></textarea>
-                    <div class="flex">
-                      <div class="align-left w-60" style="width:70%">
-                        <span
-                          *ngIf="fcClientDetails.controls['address'].touched && fcClientDetails.controls['address'].invalid">
-                          <div class="ng-invalid ng-touched p-error"
-                            *ngIf="fcClientDetails.controls['address'].errors?.['required']">
-                            Please Enter address.</div>
-                          <div class="ng-invalid ng-touched p-error"
-                            *ngIf="fcClientDetails.controls['address'].errors?.['minlength']">
-                            Address Min Characters Is 2.</div> 
-                          <div class="ng-invalid ng-touched p-error"
-                            *ngIf="fcClientDetails.controls['address'].errors?.['maxlength']">
-                            Address Max Characters Is 256.</div>
-                        </span>
-                      </div>
-                      <div class="align-right w-40" style="width:30%; text-align:right;">
-                        <small>{{address.value.length}}/256</small>
-                      </div>
+                  <textarea inputId="textarea" rows="3" cols="30" id="Project_clientAddress" pInputTextarea #address
+                    [maxlength]="maxLength.address" formControlName="address" placeholder="Enter Address"
+                    class="freeze_text-area"></textarea>
+                  <div class="flex">
+                    <div class="align-left w-60" style="width:70%">
+                      <span
+                        *ngIf="fcClientDetails.controls['address'].touched && fcClientDetails.controls['address'].invalid">
+                        <div class="ng-invalid ng-touched p-error"
+                          *ngIf="fcClientDetails.controls['address'].errors?.['required']">
+                          Please Enter address.</div>
+                        <div class="ng-invalid ng-touched p-error"
+                          *ngIf="fcClientDetails.controls['address'].errors?.['minlength']">
+                          Address Min Characters Is 2.</div>
+                        <div class="ng-invalid ng-touched p-error"
+                          *ngIf="fcClientDetails.controls['address'].errors?.['maxlength']">
+                          Address Max Characters Is 256.</div>
+                      </span>
                     </div>
+                    <div class="align-right w-40" style="width:30%; text-align:right;">
+                      <small>{{address.value.length}}/256</small>
+                    </div>
+                  </div>
                 </div>
               </div>
               <h5>Employee Details</h5>
               <div class="p-fluid p-formgrid grid">
                 <div class="field col-12 md:col-4">
                   <label>Employee Id:<sup class="p-error">*</sup></label>&nbsp;
-                  <p-multiSelect [options]="employees" optionLabel="empname" placeholder="Select Employees" appendTo="body"
-                    id="Project_emps" formControlName="teamMembers">
+                  <p-multiSelect [options]="employees" optionLabel="employeeName" placeholder="Select Employees"
+                    appendTo="body" id="Project_emps" formControlName="ProjectAllotments">
                   </p-multiSelect>
                 </div>
               </div>
               <div class="grid">
-                <div class="col-12 md:col-3" *ngFor="let employee of this.fbproject.get('teamMembers').value">
+                <div class="col-12 md:col-3" *ngFor="let employee of this.fbproject.get('ProjectAllotments').value">
                   <div class="m-2 card border-1 surface-border">
-                    <div class="text-xl font-bold">{{employee.empname}}</div>
+                    <div class="text-xl font-bold">{{employee.employeeName}}</div>
                     <span class="text-600 font-medium text-sm">
-                      EmpId : {{employee.empcode}}
+                      EmpId : {{employee.employeeId}}
                     </span><br />
-                    <span class="text-600 font-medium text-sm">
+                    <!-- <span class="text-600 font-medium text-sm">
                       Designation : {{employee.designation}}
-                    </span><br />
+                    </span><br /> -->
                   </div>
                 </div>
               </div>
@@ -351,8 +355,8 @@
       </div>
       <ng-template pTemplate="footer">
         <div class="col-4" style="float:right">
-          <button pButton pRipple type="submit" [label]="submitLabel" [disabled]="!this.fbproject.valid" class="p-button-raised p-button-primary"
-            (click)="onSubmit()"></button>
+          <button pButton pRipple type="submit" [label]="submitLabel" [disabled]="!this.fbproject.valid"
+            class="p-button-raised p-button-primary" (click)="onSubmit()"></button>
         </div>
       </ng-template>
     </p-dialog>
@@ -383,21 +387,16 @@
         </p-tabPanel>
         <p-tabPanel header="Hierarchy View">
           <div id="hrms" class="scroll_div scroll  pb-5">
-            <p-organizationChart [value]="projectTreeData"  selectionMode="single" 
-                     [preserveSpace]="false">
-            <ng-template let-node pTemplate="person">
+            <p-organizationChart [value]="projectTreeData" selectionMode="single" [preserveSpace]="false">
+              <ng-template let-node pTemplate="person">
                 <div class="p-1 text-center" (click)="hierarchialDialog(node)">
-                    <img [src]="node.data.image" class="mb-3 w-3rem h-3rem" />
-                    <div class="font-bold" >{{ node.data.name }}</div>
-                    <div>{{ node.data.title }}</div>
+                  <img [src]="node.data.image" class="mb-3 w-3rem h-3rem" />
+                  <div class="font-bold">{{ node.data.name }}</div>
+                  <div>{{ node.data.title }}</div>
                 </div>
-            </ng-template>
-        </p-organizationChart>
-
+              </ng-template>
+            </p-organizationChart>
           </div>
-          <!-- src/app/project-list/project-list.component.html -->
-          <!-- <p-organizationChart [value]="projectTreeData" [style]="{'width':'100%'}"></p-organizationChart> -->
-          
         </p-tabPanel>
       </p-tabView>
     </div>
@@ -419,7 +418,7 @@
               <div class="col-12 lg:col-12 "><span class="text-primary font-bold text-900">Project
                   Manager</span>: {{this.projectDetails.manager}} </div>
               <div class="col-12 lg:col-12 "><span class="text-primary font-bold text-900">Project Start
-                  Date</span>: {{this.projectDetails.startDate}} </div>
+                  Date</span>: {{this.projectDetails.startDate| date: 'dd-MMM-yyyy'}} </div>
               <div class="col-12 lg:col-12 "><span class="text-primary font-bold text-900">Project
                   Description</span>:<br /> {{this.projectDetails.description}} </div>
             </div>
@@ -453,18 +452,13 @@
           </p-tabPanel>
           <p-tabPanel header="Team Members ">
             <div class="grid">
-
-              <div class="col-12 md:col-3" *ngFor="let employee of employees">
+              <div class="col-12 md:col-3" *ngFor="let employee of this.projectDetails.ProjectAllotments">
                 <div class="m-2 card border-1 surface-border">
-                  <div class="text-xl font-bold">{{employee.empname}}</div>
+                  <div class="text-xl font-bold">{{employee.employeeName}}</div>
                   <span class="text-600 font-medium text-sm">
-                    EmpId : {{employee.empcode}}
-                  </span><br />
-                  <span class="text-600 font-medium text-sm">
-                    Designation : {{employee.designation}}
+                    EmpId : {{employee.employeeId}}
                   </span><br />
                 </div>
-
               </div>
             </div>
           </p-tabPanel>
