@@ -1,12 +1,12 @@
 import { HttpEvent } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Employee } from 'src/app/demo/api/security';
 import { SecurityService } from 'src/app/demo/service/security.service';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { FORMAT_DATE } from 'src/app/_helpers/date.formate.pipe';
-import { ClientDetailsDto, ClientNamesDto, ProjectViewDto } from 'src/app/_models/admin';
+import { ClientDetailsDto, ClientNamesDto, EmployeesList, ProjectViewDto } from 'src/app/_models/admin';
 import { MaxLength } from 'src/app/_models/common';
 import { AdminService } from 'src/app/_services/admin.service';
 import { JwtService } from 'src/app/_services/jwt.service';
@@ -23,7 +23,7 @@ interface AutoCompleteCompleteEvent {
   styles: ['']
 })
 export class ProjectComponent implements OnInit {
-  employees: Employee[] = [];
+  employees: EmployeesList[] = [];
   projects: ProjectViewDto[] = [];
   clientsNames: ClientNamesDto[] = [];
   clientDetails: ClientDetailsDto;
@@ -79,7 +79,7 @@ export class ProjectComponent implements OnInit {
         pocMobileNumber: new FormControl('', [Validators.required, Validators.pattern(RG_PHONE_NO)]),
         address: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
       }),
-      teamMembers: []
+      ProjectAllotments:[[]]
     });
 
   }
@@ -101,6 +101,7 @@ export class ProjectComponent implements OnInit {
     this.showDialog();
     if (project != null) {
       this.addFlag = false;
+      console.log(project.teamMembers)
       this.submitLabel = "Update Project Details";
       this.fbproject.patchValue({
         clientId: project.clientId,
@@ -110,7 +111,8 @@ export class ProjectComponent implements OnInit {
         isActive: project.isActive,
         startDate: FORMAT_DATE(new Date(project.startDate)),
         logo: project.logo,
-        description: project.description
+        description: project.description,
+        ProjectAllotments:project.teamMembers,
       });
       this.fbproject.get('clients').patchValue({
         clientId: project.clientId,
@@ -149,6 +151,7 @@ export class ProjectComponent implements OnInit {
   }
 
   saveProject() {
+    console.log(this.fbproject.value)
     if (this.addFlag) {
       if (this.clientDetails) {
         this.fcClientDetails.get('companyName')?.setValue(this.clientDetails.companyName);
@@ -248,6 +251,7 @@ export class ProjectComponent implements OnInit {
   initProjects() {
     this.adminService.GetProjects().subscribe(resp => {
       this.projects = resp as unknown as ProjectViewDto[];
+      console.log(resp);
       this.rootProject.children = this.convertToTreeNode(resp as unknown as ProjectViewDto[]);
       this.projectTreeData = [this.rootProject];
 
@@ -284,7 +288,10 @@ export class ProjectComponent implements OnInit {
     });
   }
   initEmployees() {
-    this.projectService.getEmployees().then((data: Employee[]) => (this.employees = data));
+    this.adminService.getEmployeesList().subscribe(resp => {
+      this.employees = resp as unknown as EmployeesList[];
+      console.log(resp)
+    }); 
   }
   filterClients(event: AutoCompleteCompleteEvent) {
     this.filteredClients = this.clientsNames;

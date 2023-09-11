@@ -1,22 +1,16 @@
-
-
-
-
-
-
-
 import { Injectable } from '@angular/core';
-import { AssetsDto, AssetsViewDto, ClientDetailsDto, ClientNamesDto, HolidayDto, HolidaysViewDto, LookupViewDto, ProjectDetailsDto, ProjectViewDto } from '../_models/admin';
+import { AssetsDto, AssetsViewDto, ClientDetailsDto, ClientNamesDto, EmployeesList, HolidayDto, HolidaysViewDto, LookupViewDto, ProjectDetailsDto, ProjectViewDto } from '../_models/admin';
 import { AssetAllotmentDto, AssetAllotmentViewDto, AssetsByAssetTypeIdViewDto, RevokeAssetRequest } from '../_models/admin/assetsallotment';
 import { ApiHttpService } from './api.http.service';
 import {
-    CREATE_ASSETS_URI, CREATE_HOLIDAY_URI, CREATE_LOOKUP_URI, GET_ASSETS_BY_ASSETTYPE_URI, GET_ASSETS_URI, GET_HOLIDAY_URI,GET_LOOKUP_URI, UPDATE_ASSETS_URI, UPDATE_LOOKUP_URI, CREATE_ASSET_ALLOTMENT_URI, GET_PROJECTS_URI, GET_YEARS_FROM_HOLIDAYS_URI, GET_ASSET_ALLOTMENTS_URI, UNASSIGNED_ASSET_ALLOTMENT_URI, UPDATE_PROJECT_URI, CREATE_PROJECT_URI, GET_CLIENTNAMES_URI, GET_CLIENT_DETAILS
+    CREATE_ASSETS_URI, CREATE_HOLIDAY_URI, CREATE_LOOKUP_URI, GET_ASSETS_BY_ASSETTYPE_URI, GET_ASSETS_URI, GET_HOLIDAY_URI,GET_LOOKUP_URI, UPDATE_ASSETS_URI, UPDATE_LOOKUP_URI, CREATE_ASSET_ALLOTMENT_URI, GET_PROJECTS_URI, GET_YEARS_FROM_HOLIDAYS_URI, GET_ASSET_ALLOTMENTS_URI, UNASSIGNED_ASSET_ALLOTMENT_URI, UPDATE_PROJECT_URI, CREATE_PROJECT_URI, GET_CLIENTNAMES_URI, GET_CLIENT_DETAILS, GET_EMPLOYEES
 } from './api.uri.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AdminService extends ApiHttpService {
+
     // lookup
     public GetLookUp(isbool) {
         return this.get<LookupViewDto[]>(GET_LOOKUP_URI + '/' + isbool);
@@ -26,12 +20,6 @@ export class AdminService extends ApiHttpService {
     }
     public UpdateLookUp(lookup: LookupViewDto) {
         return this.post<LookupViewDto>(UPDATE_LOOKUP_URI, lookup);
-    }
-    public CreateProject(project: ProjectDetailsDto) {
-        return this.post<ProjectDetailsDto>(CREATE_PROJECT_URI, project);
-    }
-    public UpdateProject(project: ProjectDetailsDto) {
-        return this.post<ProjectDetailsDto>(UPDATE_PROJECT_URI, project);
     }
 
     public GetHolidays(year: string) {
@@ -76,7 +64,15 @@ export class AdminService extends ApiHttpService {
     public GetClientDetails(clientId:number){
         return this.getWithId<ClientDetailsDto>(GET_CLIENT_DETAILS,clientId)
     }
-
+    public CreateProject(project: ProjectDetailsDto) {
+        return this.post<ProjectDetailsDto>(CREATE_PROJECT_URI, project);
+    }
+    public UpdateProject(project: ProjectDetailsDto) {
+        return this.post<ProjectDetailsDto>(UPDATE_PROJECT_URI, project);
+    }
+    public getEmployeesList(){
+        return this.get<EmployeesList>(GET_EMPLOYEES);
+    }
     public GetAssetAllotments(employeeId: number) {
         return this.getWithId<AssetAllotmentViewDto[]>(GET_ASSET_ALLOTMENTS_URI, employeeId);
     }
