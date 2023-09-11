@@ -35,6 +35,9 @@ export class AssetsallotmentComponent {
     addFlag: boolean;
     assetAllotments: AssetAllotmentViewDto[] = [];
     maxDate: Date = new Date();
+
+    // START - Displaying the table view in the listItem
+
     // globalFilterFields: string[] = ['empname', 'empcode', 'designation', 'email', 'phoneNo'];
     // headers: ITableHeader[] = [
     //     { field: 'empname', header: 'empname', label: 'Employee Name' },
@@ -45,8 +48,6 @@ export class AssetsallotmentComponent {
     // ];
     // @ViewChild('filter') filter!: ElementRef;
     // totalRecords = this.employees.length; // Total number of records
-    // rows = 10;
-
 
     // onGlobalFilter(table: Table, event: Event) {
     //     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
@@ -57,6 +58,8 @@ export class AssetsallotmentComponent {
     //     table.clear();
     //     this.filter.nativeElement.value = '';
     // }
+
+    // END - Displaying the table view in the listItem
 
     constructor(private securityService: SecurityService,
         private formbuilder: FormBuilder,

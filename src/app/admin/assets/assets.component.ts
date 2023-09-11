@@ -26,7 +26,6 @@ export class AssetsComponent {
   assetCategories: LookupViewDto[] = [];
   assetstatus: LookupViewDto[] = [];
   assets: AssetsViewDto[] = [];
-  assetslist: AssetsDetailsViewDto[] = [];
   asset = new AssetsDto();
   fbassets!: FormGroup;
   mediumDate: string = MEDIUM_DATE;
@@ -40,6 +39,7 @@ export class AssetsComponent {
   permissions: any;
   isSubmitting: boolean = false;
   minDateValue: Date = new Date();
+
 
 
   constructor(private adminService: AdminService, private formbuilder: FormBuilder,
@@ -182,7 +182,7 @@ export class AssetsComponent {
     else return this.adminService.UpdateAssets(this.fbassets.value)
   }
 
-  onSubmit() {
+  save() {
     this.fbassets.value.purchasedDate = FORMAT_DATE(this.fbassets.value.purchasedDate);
     this.saveAssets().subscribe(resp => {
       if (resp) {
@@ -200,4 +200,38 @@ export class AssetsComponent {
       }
     });
   }
+
+  onSubmit() {
+    if (this.isUniqueAssetsCode()) {
+      this.alertMessage.displayErrorMessage(
+        `Assets Code :"${this.fbassets.value.code}" Already Exists.`
+      );
+    } else if (this.isUniqueAssetsName()) {
+      this.alertMessage.displayErrorMessage(
+        `Assets Name :"${this.fbassets.value.name}" Already Exists.`
+      );
+    } else {
+      this.save();
+    }
+  }
+
+  isUniqueAssetsCode() { 
+    const existingAssetsCode = this.assets.filter(assets =>  
+      assets.expandassets.find((expandAsset) =>
+      expandAsset.code === this.fbassets.get('code').value  &&
+      expandAsset.assetId !== this.fbassets.get('assetId').value
+    ))
+    return existingAssetsCode.length > 0;
+  }
+
+
+  isUniqueAssetsName() {
+    const existingAssetsCode = this.assets.filter(assets =>
+      assets.expandassets.find((expandAsset) =>
+      expandAsset.name === this.fbassets.get('name').value  &&
+      expandAsset.assetId !== this.fbassets.get('assetId').value
+    ))
+    return existingAssetsCode.length > 0;
+  }
+  
 }
