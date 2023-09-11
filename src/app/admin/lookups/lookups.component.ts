@@ -173,7 +173,6 @@ export class LookupsComponent implements OnInit {
     }
   }
   save() {
-    debugger
     if (this.fblookup.valid) {
       this.savelookup().subscribe(resp => {
         if (resp) {
@@ -233,7 +232,6 @@ export class LookupsComponent implements OnInit {
     this.falookupDetails().clear();
   }
   editLookUp(lookup: LookupViewDto) {
-    console.log(lookup)
     lookup.expandLookupDetails.forEach((lookupDetails: LookupDetailsDto) => {
       lookupDetails.lookupId = lookup.lookupId;
       this.falookupDetails().push(this.generaterow(lookupDetails));
