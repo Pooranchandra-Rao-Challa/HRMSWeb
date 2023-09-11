@@ -51,20 +51,20 @@ export class OnboardingemployeesComponent {
         routerLink: 'experiencedetails',
       },
       {
-        label: 'Family Details',
-        routerLink: 'familydetails',
-      },
-      {
         label: 'Address Details',
         routerLink:'addressdetails',
       },
       {
-        label:'Bank Details',
-        routerLink:'bankdetails',
-      },
-      {
         label: 'Upload Documents',
         routerLink: 'uploadfiles',
+      },
+      {
+        label: 'Family Details',
+        routerLink: 'familydetails',
+      },
+      {
+        label:'Bank Details',
+        routerLink:'bankdetails',
       },
       {
         label: 'Final Submission',

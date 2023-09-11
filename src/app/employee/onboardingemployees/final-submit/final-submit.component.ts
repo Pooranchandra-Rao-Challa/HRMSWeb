@@ -9,7 +9,5 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class FinalSubmitComponent {
   constructor(private router: Router, private route: ActivatedRoute){}
 
-  navigateToPrev() {
-    this.router.navigate(['employee/onboardingemployee/uploadfiles'])
-  }
+ 
 }

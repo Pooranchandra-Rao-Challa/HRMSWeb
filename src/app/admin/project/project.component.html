@@ -331,8 +331,10 @@
               <div class="p-fluid p-formgrid grid">
                 <div class="field col-12 md:col-4">
                   <label>Employee Id:<sup class="p-error">*</sup></label>&nbsp;
-                  <p-multiSelect [options]="employees" optionLabel="employeeName" placeholder="Select Employees"
-                    appendTo="body" id="Project_emps" formControlName="ProjectAllotments">
+                  <p-multiSelect placeholder="Select Employees" [options]="employees"
+                  optionLabel="employeeName" formControlName="ProjectAllotments" optionValue="employeeId"
+                  [filter]="true" filterBy="employeeId,employeeName" [virtualScroll]="true"
+                  [virtualScrollItemSize]="38" appendTo="body" [style]="{'width':'100%'}">
                   </p-multiSelect>
                 </div>
               </div>
@@ -452,11 +454,11 @@
           </p-tabPanel>
           <p-tabPanel header="Team Members ">
             <div class="grid">
-              <div class="col-12 md:col-3" *ngFor="let employee of this.projectDetails.ProjectAllotments">
+              <div class="col-12 md:col-3" *ngFor="let employee of this.projectDetails.expandEmployees">
                 <div class="m-2 card border-1 surface-border">
                   <div class="text-xl font-bold">{{employee.employeeName}}</div>
                   <span class="text-600 font-medium text-sm">
-                    EmpId : {{employee.employeeId}}
+                    EmpId : {{employee.employeeId}}<br>
                   </span><br />
                 </div>
               </div>

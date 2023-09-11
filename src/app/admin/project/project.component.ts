@@ -101,8 +101,8 @@ export class ProjectComponent implements OnInit {
     this.showDialog();
     if (project != null) {
       this.addFlag = false;
-      console.log(project.teamMembers)
       this.submitLabel = "Update Project Details";
+      
       this.fbproject.patchValue({
         clientId: project.clientId,
         projectId: project.projectId,
@@ -112,7 +112,7 @@ export class ProjectComponent implements OnInit {
         startDate: FORMAT_DATE(new Date(project.startDate)),
         logo: project.logo,
         description: project.description,
-        ProjectAllotments:project.teamMembers,
+        ProjectAllotments:project.expandEmployees,
       });
       this.fbproject.get('clients').patchValue({
         clientId: project.clientId,
@@ -181,7 +181,6 @@ export class ProjectComponent implements OnInit {
   }
 
   onSubmit() {
-
     if (this.fbproject.valid) {
       if (this.addFlag) {
         if (this.isUniqueProjectCode()) {
@@ -251,14 +250,14 @@ export class ProjectComponent implements OnInit {
   initProjects() {
     this.adminService.GetProjects().subscribe(resp => {
       this.projects = resp as unknown as ProjectViewDto[];
-      console.log(resp);
+      this.projects.forEach(element => {
+       element.expandEmployees = JSON.parse(element.teamMembers);
+      });
       this.rootProject.children = this.convertToTreeNode(resp as unknown as ProjectViewDto[]);
       this.projectTreeData = [this.rootProject];
-
     });
-
   }
-
+  
   convertToTreeNode(projects: any[]): TreeNode[] {
     return projects.map((project) => ({
       type: 'person',
