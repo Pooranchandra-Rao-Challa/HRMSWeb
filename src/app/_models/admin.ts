@@ -111,7 +111,8 @@ export class ProjectViewDto {
   pocMobileNumber: string;
   address: string;
   logo:string;
-  teamMembers:EmployeesList[]
+  teamMembers:string
+  expandEmployees:EmployeesList[];
   isActive: boolean
   createdBy?: string
   createdAt?: string
@@ -131,7 +132,7 @@ export class ProjectDetailsDto {
   logo:string;
   description: string;
   isActive?:boolean;
-  ProjectAllotments:EmployeesList[]
+  ProjectAllotments:string[]
   clients?:ClientDetailsDto[];
   createdBy?: string
   createdAt?: string
