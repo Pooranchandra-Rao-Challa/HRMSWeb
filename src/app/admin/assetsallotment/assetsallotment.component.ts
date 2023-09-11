@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { DataView } from 'primeng/dataview';
 import { SecurityService } from 'src/app/demo/service/security.service';
 import { Assets, Employee, LookupDetailViewDto } from 'src/app/demo/api/security';
@@ -10,6 +10,8 @@ import { AssetAllotmentDto, AssetAllotmentViewDto, AssetsByAssetTypeIdViewDto } 
 import { Observable } from 'rxjs';
 import { HttpEvent } from '@angular/common/http';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
+import { Table } from 'primeng/table';
+import { ITableHeader } from 'src/app/_models/common';
 
 @Component({
     selector: 'app-assetsallotment',
@@ -33,6 +35,31 @@ export class AssetsallotmentComponent {
     addFlag: boolean;
     assetAllotments: AssetAllotmentViewDto[] = [];
     maxDate: Date = new Date();
+
+    // START - Displaying the table view in the listItem
+
+    // globalFilterFields: string[] = ['empname', 'empcode', 'designation', 'email', 'phoneNo'];
+    // headers: ITableHeader[] = [
+    //     { field: 'empname', header: 'empname', label: 'Employee Name' },
+    //     { field: 'empcode', header: 'empcode', label: 'Employee Code' },
+    //     { field: 'designation', header: 'designation', label: 'Designation' },
+    //     { field: 'email', header: 'email', label: 'Email' },
+    //     { field: 'phoneNo', header: 'phoneNo', label: 'Phone No' },
+    // ];
+    // @ViewChild('filter') filter!: ElementRef;
+    // totalRecords = this.employees.length; // Total number of records
+
+    // onGlobalFilter(table: Table, event: Event) {
+    //     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+    // }
+
+
+    // clear(table: Table) {
+    //     table.clear();
+    //     this.filter.nativeElement.value = '';
+    // }
+
+    // END - Displaying the table view in the listItem
 
     constructor(private securityService: SecurityService,
         private formbuilder: FormBuilder,

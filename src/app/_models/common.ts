@@ -4,6 +4,7 @@ export class MaxLength {
   name: number = 50;
   seasonName: number = 9;
   address: number = 256;
+  cinNo:number=50;
   pinCode: number = 6;
   phoneNo: number = 10;
   accountNo: number = 18;

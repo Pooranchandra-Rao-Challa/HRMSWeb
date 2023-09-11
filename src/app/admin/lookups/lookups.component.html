@@ -47,7 +47,7 @@
                   <label class="required">Name:
                   </label>&nbsp; <input pInputText id="Lookup_lookupName" type="text" formControlName="name"
                     [readonly]="FormControls['lookupId'].value!== null" placeholder="Enter Name" #name alphaOnly
-                    [maxlength]="30" (keydown)="restrictSpaces($event)"
+                    [maxlength]="50" (keydown)="restrictSpaces($event)"
                     [ngClass]="{ 'is-invalid ng-dirty': FormControls['name'].touched && FormControls['name'].errors }" />
                   <div class="flex">
                     <div class="align-left w-60" style="width:70%">
@@ -85,7 +85,7 @@
                         </th>
                         <th>Name
                         </th>
-                        <th >Description
+                        <th>Description
                         </th>
                         <th>Is Active
                         </th>
@@ -111,11 +111,8 @@
                                   *ngIf="formArrayControls(lookUpDetailsIndex,'code')?.errors?.['required']">
                                   Please Enter Code.</div>
                                 <div class="ng-invalid ng-touched p-error"
-                                *ngIf="formArrayControls(lookUpDetailsIndex,'code')?.errors?.['minlength']">
-                                Code Min Length Is 2.</div>
-                                <div class="ng-invalid ng-touched p-error"
-                                  *ngIf="formArrayControls(lookUpDetailsIndex,'code')?.errors?.['maxlength']">
-                                  Code Max Length Is 20 </div>
+                                  *ngIf="formArrayControls(lookUpDetailsIndex,'code')?.errors?.['minlength']">
+                                  Code Min Length Is 2.</div>
                               </span>
                             </div>
                             <div class="align-right w-40" style="width:30%; text-align:right;">
@@ -188,21 +185,21 @@
       </ng-template>
     </p-dialog>
     <!-- table -->
-    <p-table #lookUp  [value]="lookups" dataKey="lookupId" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
+    <p-table #lookUp [value]="lookups" dataKey="lookupId" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
       [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
       [columns]="selectedColumns" styleClass="p-datatable-gridlines  p-datatable-sm" [style]="{width: 'auto'}"
       [showCurrentPageReport]="true" [globalFilterFields]="globalFilterFields" [autoLayout]="true"
       responsiveLayout="scroll" rowExpandMode="single" [rowsPerPageOptions]="[10,25,50]">
       <ng-template pTemplate="caption">
         <div class="flex justify-content-between flex-column sm:flex-row">
-          <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
-          (click)="clear()" id="Lookup_clearFilter"></button>
+          <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="clear()"
+            id="Lookup_clearFilter"></button>
           <p-multiSelect [options]="selectedColumnHeader" [(ngModel)]="selectedColumns" optionLabel="label"
             id="lookup_ColumnSelection" selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}"
             placeholder="Choose Columns">
           </p-multiSelect>
           <div class="field text-center m-0 mx-2">
-            <label>in Active Records
+            <label>In Active Records
             </label><br />
             &nbsp; <p-inputSwitch [(ngModel)]="isLookupChecked" (onChange)="onChangeisLookupChecked()"
               id="Lookup_lookupUnActive"></p-inputSwitch>
@@ -259,7 +256,7 @@
       </ng-template>
       <ng-template pTemplate="emptymessage">
         <tr>
-          <td class="md:text-center m-5" colspan="9">No Lookup Found.</td>
+          <td class="md:text-center m-5" colspan="9">No Lookups Found.</td>
         </tr>
       </ng-template>
       <ng-template pTemplate="rowexpansion" let-lookup>
@@ -281,8 +278,8 @@
         <tr>
           <td *ngFor="let col of lookupDetailsHeader" [ngClass]="col?.field == 'isActive' ? 'text-center' : ''">
             <span
-              *ngIf="col?.field != 'createdAt' && col?.field != 'updatedAt' && col?.field != 'isActive'">{{lookupDetails[col.field]}}</span>
-            <span *ngIf="col?.field == 'createdAt' || col?.field == 'updatedAt'">
+              *ngIf="col?.field != 'createdAt' && col?.field != 'isActive'">{{lookupDetails[col.field]}}</span>
+            <span *ngIf="col?.field == 'createdAt' ">
               {{lookupDetails[col.field] | date: mediumDate }}
             </span>
             <span *ngIf="col?.field == 'isActive'">
@@ -293,7 +290,7 @@
       </ng-template>
       <ng-template pTemplate="emptymessage">
         <tr>
-          <td class="md:text-center m-5" colspan="9">No Lookup Found.</td>
+          <td class="md:text-center m-5" colspan="9">No Lookups Found.</td>
         </tr>
       </ng-template>
     </p-table>

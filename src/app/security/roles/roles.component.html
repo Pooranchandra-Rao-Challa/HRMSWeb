@@ -75,7 +75,7 @@
                 <div class="field col-12 md:col-6">
                   <label class="required">Name:</label>&nbsp;
                   <input pInputText id="Role_roleName" type="text" formControlName="name" placeholder="Enter Role Name"
-                    #name alphaOnly [maxlength]="maxLength.name" (keydown)="restrictSpaces($event)"
+                    #name alphaOnly [maxlength]="maxLength.name" (keydown)="restrictSpaces($event)" [maxlength]="maxLength.name"
                     [ngClass]="{ 'is-invalid ng-dirty': roleFormControls['name'].touched && roleFormControls['name'].errors }" />
                   <div class="flex">
                     <div class="align-left w-60" style="width:70%">
@@ -98,7 +98,7 @@
                       </span>
                     </div>
                     <div class="align-right w-40" style="width:30%; text-align:right;">
-                      <small>{{name.value.length}}/{{maxLength.name}}</small>
+                      <small>{{name.value.length}}/50</small>
                     </div>
                   </div>
                 </div>

@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Table } from 'primeng/table';
 import { AdminService } from 'src/app/_services/admin.service';
@@ -48,6 +48,7 @@ export class HolidayconfigurationComponent {
   ViewDialogs = ViewDialogs;
   minDateValue: any;
   confirmationRequest: ConfirmationRequest = new ConfirmationRequest();
+
   constructor(
     private formbuilder: FormBuilder,
     private AdminService: AdminService,
@@ -100,6 +101,14 @@ export class HolidayconfigurationComponent {
     if (this.fbHoliday.invalid) {
       return;
     }
+    const fromDateValue = this.fbHoliday.get('fromDate').value;
+  const isDuplicateDate = this.faholdyDetail().value.some((holiday: HolidaysViewDto) =>
+    new Date(holiday.fromDate).getTime() === new Date(fromDateValue).getTime()
+  );
+  if (isDuplicateDate) {
+    this.alertMessage.displayErrorMessage(ALERT_CODES["SMH005"]);
+    return;
+  }
     // Push current values into the FormArray
     this.faholdyDetail().push(this.generaterow(this.fbHoliday.getRawValue()));
     // Reset form controls for the next entry
@@ -154,7 +163,7 @@ export class HolidayconfigurationComponent {
     },
       {
         validators: Validators.compose([
-          DateValidators.dateRangeValidator('fromDate', 'toDate', { 'fromDate': true }),
+          DateValidators.dateRangeValidator('fromDate', 'toDate', { 'fromDate': true ,'toDate': false}),
         ])
       });
   }
@@ -230,7 +239,11 @@ export class HolidayconfigurationComponent {
     if (view === ViewDialogs.edit || view === ViewDialogs.delete) {
       this.holidayToEdit = Object.assign({}, holiday);
       this.holidayToEdit.fromDate = FORMAT_DATE(new Date(holiday.fromDate));
-      this.holidayToEdit.toDate = FORMAT_DATE(new Date(holiday.toDate));
+      if (holiday.toDate === null) {
+        this.holidayToEdit.toDate = null;
+      } else {
+        this.holidayToEdit.toDate = FORMAT_DATE(new Date(holiday.toDate));
+      }
       delete this.holidayToEdit.createdAt
       delete this.holidayToEdit.createdBy
       delete this.holidayToEdit.updatedAt

@@ -50,7 +50,7 @@
                                 <div class="field col-12 md:col-4">
                                     <label class="required">From Date:</label>
                                     <p-calendar appendTo="body" placeholder="Select From Date" [readonlyInput]="true"
-                                        [minDate]="minDateValue" [showIcon]="true" formControlName="fromDate"
+                                        [minDate]="minDateValue" [showIcon]="true" formControlName="fromDate" id="fromDate"
                                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['fromDate'].touched && FormControls['fromDate'].errors }">
                                     </p-calendar>
                                     <span *ngIf="FormControls['fromDate'].touched && FormControls['fromDate'].invalid">
@@ -64,9 +64,9 @@
                                     </span>
                                 </div>
                                 <div class="field col-12 md:col-4">
-                                    <label class="required">To Date:</label>
+                                    <label >To Date:</label>
                                     <p-calendar appendTo="body" placeholder="Select To Date" [readonlyInput]="true"
-                                        [minDate]="minDateValue" [showIcon]="true" formControlName="toDate"
+                                        [minDate]="minDateValue" [showIcon]="true" formControlName="toDate"id="toDate"
                                         [minDate]="fbHoliday.value.fromDate"
                                         [disabled]="!FormControls['fromDate'].value"
                                         [pTooltip]="!FormControls['fromDate'].value ? 'Please Select From Date First' : ''"
@@ -88,13 +88,13 @@
                                     </span>
                                 </div>
                                 <div class="field col-12 md:col-4">
-                                    <label htmlFor="description">Description:</label>
+                                    <label  htmlFor="description">Description:</label>
                                     <textarea inputId="description" id="description" class="freeze_text-area" rows="3" maxlength="256"
                                         #description cols="30" pInputTextarea maxlength="256"
                                         formControlName="description" placeholder="Enter Description"></textarea>
                                     <div class="flex">
                                         <div class="align-left w-60" style="width:70%">
-                                        </div>
+                                        </div> 
                                         <div class="align-right w-40" style="width:30%; text-align:right;">
                                             <small>{{description.value.length}}/256</small>
                                         </div>
@@ -260,7 +260,6 @@
                                 (click)="showDialog(leave, ViewDialogs.delete)"></button>
                         </div>
                     </td>
-
                     <td *ngFor="let col of headers" [ngClass]="col?.field == 'isActive' ? 'text-center' : ''">
                         <span
                             *ngIf="col?.field != 'createdAt' && col?.field != 'updatedAt' && col?.field != 'fromDate' && col?.field != 'toDate' && col?.field != 'isActive'">{{leave[col.field]}}</span>

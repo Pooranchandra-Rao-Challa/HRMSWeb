@@ -2,7 +2,7 @@ import { HttpEvent } from '@angular/common/http';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Table } from 'primeng/table';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { ConfirmationDialogService } from 'src/app/_alerts/confirmationdialog.service';
 import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
@@ -38,6 +38,9 @@ export class AssetsComponent {
   confirmationRequest: ConfirmationRequest = new ConfirmationRequest();
   permissions: any;
   isSubmitting: boolean = false;
+  minDateValue: Date = new Date();
+
+
 
   constructor(private adminService: AdminService, private formbuilder: FormBuilder,
     private alertMessage: AlertmessageService, private lookupService: LookupService,
@@ -158,7 +161,6 @@ export class AssetsComponent {
         this.asset.purchasedDate = new Date(this.deleteAsset.purchasedDate);
         this.asset.isActive = false;
         this.fbassets.patchValue(this.asset);
-        this.addFlag = false;
         this.addFlag1 = true;
         this.onSubmit();
       }
@@ -180,12 +182,7 @@ export class AssetsComponent {
     else return this.adminService.UpdateAssets(this.fbassets.value)
   }
 
-  onSubmit() {
-    if (this.isSubmitting) {
-      // If a submission process is already ongoing, return to prevent duplicated calls
-      return;
-    }
-    this.isSubmitting = true; // Set the flag to indicate submission is starting
+  save() {
     this.fbassets.value.purchasedDate = FORMAT_DATE(this.fbassets.value.purchasedDate);
     this.saveAssets().subscribe(resp => {
       if (resp) {
@@ -201,8 +198,40 @@ export class AssetsComponent {
       else {
         this.alertMessage.displayErrorMessage(ALERT_CODES["AAS004"])
       }
-      this.fbassets.reset();
-      this.isSubmitting = false; // Reset the flag after submission is completed
     });
   }
+
+  onSubmit() {
+    if (this.isUniqueAssetsCode()) {
+      this.alertMessage.displayErrorMessage(
+        `Assets Code :"${this.fbassets.value.code}" Already Exists.`
+      );
+    } else if (this.isUniqueAssetsName()) {
+      this.alertMessage.displayErrorMessage(
+        `Assets Name :"${this.fbassets.value.name}" Already Exists.`
+      );
+    } else {
+      this.save();
+    }
+  }
+
+  isUniqueAssetsCode() { 
+    const existingAssetsCode = this.assets.filter(assets =>  
+      assets.expandassets.find((expandAsset) =>
+      expandAsset.code === this.fbassets.get('code').value  &&
+      expandAsset.assetId !== this.fbassets.get('assetId').value
+    ))
+    return existingAssetsCode.length > 0;
+  }
+
+
+  isUniqueAssetsName() {
+    const existingAssetsCode = this.assets.filter(assets =>
+      assets.expandassets.find((expandAsset) =>
+      expandAsset.name === this.fbassets.get('name').value  &&
+      expandAsset.assetId !== this.fbassets.get('assetId').value
+    ))
+    return existingAssetsCode.length > 0;
+  }
+  
 }

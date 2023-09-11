@@ -25,11 +25,11 @@ export class SecurityquestionComponent {
 
     ngOnInit(): void {
         this.userName = this.activatedRoute.snapshot.queryParams['username'];
-        this.initUserSecurityQuestions();
+        this.initValidateUserQuestions();
     }
 
-    initUserSecurityQuestions() {
-        this.securityService.UserSecurityQuestions(this.userName!).pipe(
+    initValidateUserQuestions() {
+        this.securityService.ValidateUserQuestions(this.userName!).pipe(
             catchError((error) => {
                 this.messageService.add({ severity: 'error', key: 'myToast', summary: 'Error', detail: "Invalid User Name" });
                 this.interval = setInterval(() => {

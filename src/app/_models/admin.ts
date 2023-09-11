@@ -110,11 +110,17 @@ export class ProjectViewDto {
   pocName: string;
   pocMobileNumber: string;
   address: string;
+  logo:string;
+  teamMembers:EmployeesList[]
   isActive: boolean
   createdBy?: string
   createdAt?: string
   updatedBy?: string
   updatedAt?: string
+}
+export class EmployeesList{
+  employeeId: number
+  employeeName: string
 }
 export class ProjectDetailsDto {
   clientId:number
@@ -122,8 +128,10 @@ export class ProjectDetailsDto {
   code: string;
   name: string;
   startDate: string;
+  logo:string;
   description: string;
   isActive?:boolean;
+  ProjectAllotments:EmployeesList[]
   clients?:ClientDetailsDto[];
   createdBy?: string
   createdAt?: string

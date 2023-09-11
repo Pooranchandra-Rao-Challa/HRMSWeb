@@ -30,8 +30,8 @@ export class LoginComponent implements OnInit {
 
     loginForm() {
         this.fbloginForm = new FormGroup({
-            userName: new FormControl(null, [Validators.required]),
-            password: new FormControl(null,[ Validators.required])
+            userName: new FormControl(null),
+            password: new FormControl(null)
         });
     }
 
@@ -58,13 +58,15 @@ export class LoginComponent implements OnInit {
                         }
                     },
                     error: (error) => {
+                        console.log(error);
                         if ([401].includes(error)) {
                             this.messageService.add({ severity: 'error', key: 'myToast', summary: 'Error', detail: "Invalid Credentials!" });
                         } else if ([400].includes(error)) {
                             this.messageService.add({ severity: 'error', key: 'myToast', summary: 'Error', detail: "User Not found" });
-                        }
-                        const errorMessage = error.Message;
-                        this.messageService.add({ severity: 'error', key: 'myToast', summary: 'Error', detail: errorMessage ||"UserName Or Password Is Incorrect" });
+                        }else{
+                            const errorMessage = error.message;
+                            this.messageService.add({ severity: 'error', key: 'myToast', summary: 'Error', detail: errorMessage ||"UserName Or Password Is Incorrect" });
+                        }    
                         this.submitted = false;
                     },
                     complete: () => {
