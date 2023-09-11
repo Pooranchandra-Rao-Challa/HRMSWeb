@@ -182,6 +182,10 @@ export class SettingsComponent {
 
     }
 
+    onTabChange() {
+        this.fbChangePassword.reset();
+    }
+
     ngOnDestroy() {
         if (this.isUpdating) {
             this.isUpdating = false;
