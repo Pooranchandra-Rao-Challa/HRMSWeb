@@ -49,11 +49,9 @@ export class SettingsComponent {
     }
 
     getUserQuestionsAndAnswers() {
-        this.securityService.UserSecurityQuestions(this.jwtService.GivenName).subscribe({
-            next: (resp) => {
-                this.userQuestions = resp as unknown as UserQuestionDto[];
-                this.filterSecureQuestions();
-            }
+        this.securityService.UserSecurityQuestions().subscribe((resp) => {
+            this.userQuestions = resp as unknown as UserQuestionDto[];
+            this.filterSecureQuestions();
         });
     }
 

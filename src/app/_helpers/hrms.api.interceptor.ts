@@ -37,7 +37,8 @@ export class HRMSAPIInterceptor implements HttpInterceptor {
                     catchError(err => {
                         if ([401].includes(err.status) && this.jwtService.IsLoggedIn) {
                             // auto logout if 401 or 403 response returned from api
-                            return this.handle401Error(authReq, next)
+                            // return this.handle401Error(authReq, next)
+                            return throwError(() => err);
                         } else if ([403].includes(err.status) && this.jwtService.IsLoggedIn) {
                             // auto logout if 401 or 403 response returned from api
                             this.jwtService.Logout();

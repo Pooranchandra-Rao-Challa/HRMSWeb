@@ -64,7 +64,7 @@ export class LoginComponent implements OnInit {
                         } else if ([400].includes(error)) {
                             this.messageService.add({ severity: 'error', key: 'myToast', summary: 'Error', detail: "User Not found" });
                         }else{
-                            const errorMessage = error.message;
+                            const errorMessage = error.error;
                             this.messageService.add({ severity: 'error', key: 'myToast', summary: 'Error', detail: errorMessage ||"UserName Or Password Is Incorrect" });
                         }    
                         this.submitted = false;
