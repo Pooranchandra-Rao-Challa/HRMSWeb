@@ -1,7 +1,7 @@
 <div class="grid">
     <div class="col-12">
         <div class="card">
-            <p-dataView #dv [value]="employees" [paginator]="true" [rows]="12" filterBy="name" [sortField]="sortField"
+            <p-dataView #dv [value]="employees" [paginator]="true" [alwaysShowPaginator]="false" [rows]="12" filterBy="name" [sortField]="sortField"
                 [sortOrder]="sortOrder" layout="grid">
                 <ng-template pTemplate="header">
                     <div class="flex flex-column md:flex-row md:justify-content-between gap-2">
