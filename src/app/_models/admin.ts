@@ -119,8 +119,9 @@ export class ProjectViewDto {
   updatedAt?: string
 }
 export class EmployeesList{
-  employeeId: number
-  employeeName: string
+  employeeId: number;
+  employeeCode: string;
+  employeeName: string;
 }
 export class ProjectDetailsDto {
   clientId:number
