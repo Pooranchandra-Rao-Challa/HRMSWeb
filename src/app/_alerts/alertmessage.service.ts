@@ -121,5 +121,9 @@ export const ALERT_CODES: { [key: string]: string } = {
     'SMH003': 'Selected Date is Already Exist',
     'SMH004': 'Holiday Soft Deleted Successfully',
     'SMH005': 'The selected from Date already Added in List.',
+
+    //Basic Details
+    'SBD001': 'Basic Details Added Successfully',
+    'SBD002': 'Basic Details Not Added'
 }
     

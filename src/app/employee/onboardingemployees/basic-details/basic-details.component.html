@@ -101,7 +101,7 @@
                 <div class="field col-12 md:col-4">
                     <span class="p-float-label">
                         <p-dropdown id="gender_dropdown" [autoDisplayFirst]="false" [options]="genders"
-                            optionLabel="name" formControlName="gender"
+                            optionLabel="name" formControlName="gender" optionValue="code"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['gender'].touched && FormControls['gender'].errors}">
                         </p-dropdown>
                         <label class="required">Gender</label>
@@ -119,8 +119,8 @@
                 </div>
                 <div class="field col-12 md:col-4">
                     <span class="p-float-label">
-                        <p-dropdown id="bloodgroup_dropdown" [autoDisplayFirst]="false" 
-                            optionLabel="name" formControlName="bloodGroupId"
+                        <p-dropdown id="bloodgroup_dropdown" [autoDisplayFirst]="false" optionLabel="name" [options]="bloodgroups" optionValue="lookupDetailId"
+                            formControlName="bloodGroupId"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['bloodGroupId'].touched && FormControls['bloodGroupId'].errors}">
                         </p-dropdown>
                         <label class="required">Blood Group</label>
@@ -139,7 +139,7 @@
                 <div class="field col-12 md:col-4">
                     <span class="p-float-label">
                         <p-dropdown id="maritalStatus_dropdown" [autoDisplayFirst]="false" [options]="MaritalStatus"
-                            optionLabel="name" formControlName="maritalStatus"
+                            optionLabel="name" formControlName="maritalStatus" optionValue="code"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['maritalStatus'].touched && FormControls['maritalStatus'].errors}">
                         </p-dropdown>
                         <label class="required">Marital status</label>
@@ -292,12 +292,13 @@
                 <div class="field col-4">
                 </div>
                 <div class=" col-4">
-                    <button p-button class="p-element p-ripple p-button-info p-button p-component">Save as
+                    <button p-button class="p-element p-ripple p-button-info p-button p-component"
+                        [disabled]="fbbasicDetails.invalid" (click)="onSubmit()">Save as
                         Draft</button>
                 </div>
                 <div class=" col-4">
                     <button p-button class="p-element p-ripple p-button-primary p-button p-component"
-                        (click)="navigateToNext()">Education Details </button>
+                    [disabled]="fbbasicDetails.invalid"  (click)="navigateToNext()">Education Details </button>
                 </div>
             </div>
         </div>
