@@ -120,16 +120,16 @@ export class ProjectViewDto {
   updatedAt?: string
 }
 export class EmployeesList{
-  employeeId: number;
+  employeeId: number
+  employeeName: string
   employeeCode: string;
-  employeeName: string;
 }
 export class ProjectDetailsDto {
   clientId:number
   projectId: number;
   code: string;
   name: string;
-  startDate: string;
+  InceptionAt: string;
   logo:string;
   description: string;
   isActive?:boolean;

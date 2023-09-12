@@ -1,7 +1,7 @@
 import { HttpEvent } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { elementAt, Observable } from 'rxjs';
 import { Employee } from 'src/app/demo/api/security';
 import { SecurityService } from 'src/app/demo/service/security.service';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
@@ -64,7 +64,7 @@ export class ProjectComponent implements OnInit {
       isActive: ['', [Validators.required]],
       code: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_4), Validators.maxLength(MAX_LENGTH_20)]),
       name: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
-      startDate: new FormControl('', [Validators.required]),
+      InceptionAt: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
       logo: [],
       clients: this.formbuilder.group({
@@ -79,7 +79,7 @@ export class ProjectComponent implements OnInit {
         pocMobileNumber: new FormControl('', [Validators.required, Validators.pattern(RG_PHONE_NO)]),
         address: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
       }),
-      ProjectAllotments:[[]]
+      ProjectAllotments: new FormControl()
     });
 
   }
@@ -89,31 +89,43 @@ export class ProjectComponent implements OnInit {
     this.visible = true;
     this.projectDetails = projectDetails;
   }
-  hierarchialDialog(node){
-   this.projects.filter(element=>{
-     if(element.name==node.data.name){
-       this.showProjectDetailsDialog(element);
-     }
-   })
+
+  hierarchialDialog(node) {
+    this.projects.filter(element => {
+      if (element.name == node.data.name) {
+        this.showProjectDetailsDialog(element);
+      }
+    })
   }
 
   initProject(project: ProjectViewDto) {
+    console.log(project)
     this.showDialog();
     if (project != null) {
       this.addFlag = false;
       this.submitLabel = "Update Project Details";
+      const selectedEmployees = [];
+      if (project.expandEmployees) {
+        project.expandEmployees.forEach(element => {
+          let employeeId = element.employeeId
+          this.employees.filter(each => {
+            if (each.employeeId == employeeId)
+              selectedEmployees.push(each)
+          })
+        });
+      }
       
+      this.fbproject.get('ProjectAllotments')?.setValue(selectedEmployees);
       this.fbproject.patchValue({
         clientId: project.clientId,
         projectId: project.projectId,
         code: project.code,
         name: project.name,
         isActive: project.isActive,
-        startDate: FORMAT_DATE(new Date(project.startDate)),
+        InceptionAt: FORMAT_DATE(new Date(project.startDate)),
         logo: project.logo,
-        description: project.description,
-        ProjectAllotments:project.expandEmployees,
-      });
+        description: project.description
+      })
       this.fbproject.get('clients').patchValue({
         clientId: project.clientId,
         isActive: project.isActive,
@@ -129,6 +141,7 @@ export class ProjectComponent implements OnInit {
         pocMobileNumber: project.pocMobileNumber,
         address: project.address,
       });
+      console.log(this.fbproject.value)
     } else {
       this.addFlag = true;
       this.submitLabel = "Add Project";
@@ -251,13 +264,13 @@ export class ProjectComponent implements OnInit {
     this.adminService.GetProjects().subscribe(resp => {
       this.projects = resp as unknown as ProjectViewDto[];
       this.projects.forEach(element => {
-       element.expandEmployees = JSON.parse(element.teamMembers);
+        element.expandEmployees = JSON.parse(element.teamMembers);
       });
       this.rootProject.children = this.convertToTreeNode(resp as unknown as ProjectViewDto[]);
       this.projectTreeData = [this.rootProject];
     });
   }
-  
+
   convertToTreeNode(projects: any[]): TreeNode[] {
     return projects.map((project) => ({
       type: 'person',
@@ -290,7 +303,7 @@ export class ProjectComponent implements OnInit {
     this.adminService.getEmployeesList().subscribe(resp => {
       this.employees = resp as unknown as EmployeesList[];
       console.log(resp)
-    }); 
+    });
   }
   filterClients(event: AutoCompleteCompleteEvent) {
     this.filteredClients = this.clientsNames;

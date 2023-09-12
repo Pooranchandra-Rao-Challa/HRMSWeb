@@ -13,7 +13,7 @@
     </p-toolbar>
     <!-- dialog -->
     <p-dialog header="Project" [(visible)]="dialog" [modal]="true" showEffect="fade"
-      [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '80%'}">
+      [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: 'auto'}">
       <div class="flex flex-column align-items-center justify-content-center">
         <form [formGroup]="fbproject" (ngSubmit)="onSubmit()" id="Role_roleForm">
           <div class="grid">
@@ -69,15 +69,15 @@
                 <div class="field col-12 md:col-4">
                   <label>Start Date: <sup class="p-error">*</sup>
                   </label>&nbsp; <p-calendar inputId="calendar" [readonlyInput]="true" [showIcon]="true"
-                    id="Project_startDate" [minDate]="minDateVal" placeholder="Enter Project Staring Date"
-                    mask="99/99/9999" formControlName="startDate">
+                    id="Project_InceptionAt" [minDate]="minDateVal" placeholder="Enter Project Staring Date"
+                    mask="99/99/9999" formControlName="InceptionAt">
                   </p-calendar>
                   <div class="flex">
                     <div class="align-left w-60" style="width:70%">
                       <span
-                        *ngIf="projectFormControls['startDate'].touched && projectFormControls['startDate'].invalid">
+                        *ngIf="projectFormControls['InceptionAt'].touched && projectFormControls['InceptionAt'].invalid">
                         <div class="ng-invalid ng-touched p-error"
-                          *ngIf="projectFormControls['startDate'].errors?.['required']">
+                          *ngIf="projectFormControls['InceptionAt'].errors?.['required']">
                           Please Select Starting Date.</div>
                       </span>
                     </div>
@@ -331,10 +331,15 @@
               <div class="p-fluid p-formgrid grid">
                 <div class="field col-12 md:col-4">
                   <label>Employee Id:<sup class="p-error">*</sup></label>&nbsp;
-                  <p-multiSelect placeholder="Select Employees" [options]="employees"
-                  optionLabel="employeeName" formControlName="ProjectAllotments" optionValue="employeeId"
-                  [filter]="true" filterBy="employeeId,employeeName" [virtualScroll]="true"
-                  [virtualScrollItemSize]="38" appendTo="body" [style]="{'width':'100%'}">
+                  <p-multiSelect placeholder="Select Employees" [options]="employees" optionLabel="employeeName"
+                    formControlName="ProjectAllotments" [filter]="true" filterBy="employeeId,employeeName" 
+                    appendTo="body">
+                    <ng-template let-employee pTemplate="selectedItem">
+                      <div class="block align-items-center gap-3">
+                        <div>{{employee.employeeName}}</div>
+                        <div>{{employee.employeeCode}}</div>
+                      </div>
+                    </ng-template>
                   </p-multiSelect>
                 </div>
               </div>
@@ -343,11 +348,8 @@
                   <div class="m-2 card border-1 surface-border">
                     <div class="text-xl font-bold">{{employee.employeeName}}</div>
                     <span class="text-600 font-medium text-sm">
-                      EmpId : {{employee.employeeId}}
+                      EmpId : {{employee.employeeCode}}
                     </span><br />
-                    <!-- <span class="text-600 font-medium text-sm">
-                      Designation : {{employee.designation}}
-                    </span><br /> -->
                   </div>
                 </div>
               </div>
@@ -420,7 +422,7 @@
               <div class="col-12 lg:col-12 "><span class="text-primary font-bold text-900">Project
                   Manager</span>: {{this.projectDetails.manager}} </div>
               <div class="col-12 lg:col-12 "><span class="text-primary font-bold text-900">Project Start
-                  Date</span>: {{this.projectDetails.startDate| date: 'dd-MMM-yyyy'}} </div>
+                  Date</span>: {{this.projectDetails.InceptionAt| date: 'dd-MMM-yyyy'}} </div>
               <div class="col-12 lg:col-12 "><span class="text-primary font-bold text-900">Project
                   Description</span>:<br /> {{this.projectDetails.description}} </div>
             </div>
