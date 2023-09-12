@@ -19,24 +19,24 @@ import { SecurityService } from 'src/app/demo/service/security.service';
   ]
 })
 export class OnboardingemployeesComponent {
+  @ViewChild('filter') filter!: ElementRef;
+  globalFilterFields: string[] = ['employeeName', 'code', 'gender', 'employeeRoleName', 'officeEmailId', 'mobileNumber',];
   color1: string = 'Bluegray';
   visible: boolean = false;
   newEmployeeSteps: MenuItem[];
   mediumDate: string = MEDIUM_DATE
-  @ViewChild('filter') filter!: ElementRef;
 
-  globalFilterFields: string[] = ['employeeName', 'code', 'designation', 'officeEmailId', 'mobileNumber'];
+
   headers: ITableHeader[] = [
-    { field: 'employeeName', header: 'employeeName', label: 'Employee Name' }, 
+    { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
     { field: 'gender', header: 'gender', label: 'Gender' },
     { field: 'code', header: 'code', label: 'Employee Code' },
     { field: 'employeeRoleName', header: 'employeeRoleName', label: 'Designation' },
     { field: 'officeEmailId', header: 'officeEmailId', label: 'Email' },
     { field: 'mobileNumber', header: 'mobileNumber', label: 'Phone No' },
-    { field: 'dateofJoin', header: 'dateofJoin', label: 'Date of Join' }, 
-    
-  ];
-
+    { field: 'dateofJoin', header: 'dateofJoin', label: 'Date of Join' },
+  ]
+  
   showDialog() {
     this.router.navigate(['basicdetails'], { relativeTo: this.route })
     this.visible = true;

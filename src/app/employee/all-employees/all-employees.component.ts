@@ -5,6 +5,7 @@ import { Table } from 'primeng/table';
 import { EmployeeService } from '../../_services/employee.service';
 import { EmployeesViewDto } from 'src/app/_models/employes';
 import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
+import { ITableHeader } from 'src/app/_models/common';
 
 @Component({
     selector: 'app-all-employees',
@@ -15,13 +16,24 @@ import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 export class AllEmployeesComponent {
     color1: string = 'Bluegray';
     visible: boolean = false;
+    @ViewChild('filter') filter!: ElementRef;
+    globalFilterFields: string[] = ['employeeName', 'code', 'gender', 'employeeRoleName', 'officeEmailId', 'mobileNumber',];
     employees: EmployeesViewDto[] = [];
     sortOrder: number = 0;
     sortField: string = '';
     mediumDate: string = MEDIUM_DATE
+  
+    headers: ITableHeader[] = [
+        { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
+        { field: 'gender', header: 'gender', label: 'Gender' },
+        { field: 'code', header: 'code', label: 'Employee Code' },
+        { field: 'employeeRoleName', header: 'employeeRoleName', label: 'Designation' },
+        { field: 'officeEmailId', header: 'officeEmailId', label: 'Email' },
+        { field: 'mobileNumber', header: 'mobileNumber', label: 'Phone No' },
+        { field: 'dateofJoin', header: 'dateofJoin', label: 'Date of Join' },
 
-    constructor(private securityService: SecurityService,
-        private EmployeeService: EmployeeService) { }
+    ];
+    constructor(private EmployeeService: EmployeeService) { }
 
     ngOnInit() {
         this.initEmployees()
@@ -39,8 +51,14 @@ export class AllEmployeesComponent {
     showDialog() {
         this.visible = true;
     }
+    onGlobalFilter(table: Table, event: Event) {
+        table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+    }
 
-
+    clear(table: Table) {
+        table.clear();
+        this.filter.nativeElement.value = '';
+    }
     onFilter(dv: DataView, event: Event) {
         dv.filter((event.target as HTMLInputElement).value);
     }
