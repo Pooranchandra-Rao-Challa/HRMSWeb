@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CREATE_BASIC_DETAILS_URI, GET_EMPLOYEES_URI, GET_EMPLOYEE_BASED_ON_ID_URI } from './api.uri.service';
-import { EmployeeBasicDetailDto, EmployeesViewDto } from '../_models/employes';
+import { EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeesViewDto } from '../_models/employes';
 import { HttpClient } from '@angular/common/http';
 import { ApiHttpService } from './api.http.service';
 
@@ -23,7 +23,7 @@ export class EmployeeService extends ApiHttpService{
   }
 
   public GetViewEmpPersDtls(employeeId:number){
-    return this.getWithId<EmployeesViewDto>(GET_EMPLOYEE_BASED_ON_ID_URI,[employeeId])
+    return this.getWithId<EmployeeBasicDetailViewDto[]>(GET_EMPLOYEE_BASED_ON_ID_URI,[employeeId])
 }
 
 
