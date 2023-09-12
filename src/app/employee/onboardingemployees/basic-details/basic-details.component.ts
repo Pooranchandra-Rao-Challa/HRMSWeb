@@ -38,8 +38,8 @@ export class BasicDetailsComponent implements OnInit {
     this.basicDetailsForm();
     this.initBloodGroups();
     this.genders = [
-      { name: 'Male', code: 'M' },
-      { name: 'Female', code: 'F' }
+      { name: 'Male', code: 'male' },
+      { name: 'Female', code: 'female' }
     ];
     this.MaritalStatus = [
       { name: 'Single', code: 'single' },
