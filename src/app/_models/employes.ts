@@ -1,3 +1,4 @@
+
 export class EmployeesViewDto {
 	employeeId?: number
 	code?: string
@@ -27,5 +28,14 @@ export class EmployeeBasicDetailDto{
 	emailId?:string;
 	photo?:string;
 	signDate?:Date;
+	isActive?:boolean;
+}
+export class BankDetailDto{
+    bankId?:number;
+	employeeId?:number;
+	name?:string;
+	branchName?:string;
+	ifsc?:string;
+	accountNumber?:number;
 	isActive?:boolean;
 }

@@ -53,4 +53,5 @@ export const GET_EMPLOYEES = "Employee/GetEmployeeDropdown";
 export const GET_EMPLOYEES_URI = "Employee/GetEmployeeDetails";
 export const CREATE_BASIC_DETAILS_URI="Employee/CreateEmployeeBasicDetails";
 export const EMPLOYEES_FOR_ALLOTTED_ASSETS_URI = "Admin/GetAssetsForEmployees";
-export const GET_EMPLOYEE_BASED_ON_ID_URI ="Employee/GetEmployeeBasedOnId"
+export const GET_EMPLOYEE_BASED_ON_ID_URI ="Employee/GetEmployeeBasedOnId";
+export const CREATE_BANK_DETAILS_URI="Employee/UpateBankDetails";
