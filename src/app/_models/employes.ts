@@ -50,5 +50,24 @@ export class EmployeeBasicDetailViewDto {
 	createdBy?: string;
 	updatedAt?: Date;
 	updatedBy?: string;
+}
 
+export class EmployeeOfficedetailsviewDto {
+	employeeId?: number;
+	employeeName?: string;
+	code?: string;
+	employeeInceptionDetailId?: number;
+	timeIn?: any;
+	timeOut?: any;
+	officeEmailId?: string;
+	dateofJoin?: Date;
+	isPFEligible?: boolean;
+	isESIEligible?: boolean;
+	reportingToId?: number;
+	reportingTo?: string;
+	isActive?: boolean;
+	createdAt?: Date;
+	createdBy?: string;
+	updatedAt?: Date;
+	updatedBy?: string;
 }
