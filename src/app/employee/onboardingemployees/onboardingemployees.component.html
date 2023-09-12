@@ -1,15 +1,16 @@
 <div class="grid">
     <div class="col-12">
         <div class="card">
-        <p-dataView #dv [value]="employees" [paginator]="true" [rows]="12"
-            filterBy="employeeName,code,employeeRoleName,dateofJoin,officeEmailId,mobileNumber,certificateDOB,gender"
-            [sortField]="sortField" [sortOrder]="sortOrder" layout="grid">
-            <ng-template pTemplate="header">
-                <div class="flex flex-column md:flex-row md:justify-content-between gap-2">
-                    <span class="p-input-icon-left">
-                        <i class="pi pi-search"></i>
-                        <input type="text" pInputText placeholder="Search by Name or Id" (input)="onFilter(dv, $event)" />
-                    </span>
+         <p-dataView #dv [value]="employees" [paginator]="true" [rows]="12"
+                filterBy="employeeName,code,employeeRoleName,dateofJoin,officeEmailId,mobileNumber,certificateDOB,gender"
+                [sortField]="sortField" [sortOrder]="sortOrder" layout="grid">
+                <ng-template pTemplate="header">
+                    <div class="flex flex-column md:flex-row md:justify-content-between gap-2">
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input type="text" pInputText placeholder="Search by Name or Id" (input)="onFilter(dv, $event)"
+                                [disabled]="dv._layout == 'list'" />
+                        </span>
                     <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
                     <p-button class="p-element p-ripple p-button p-component p-2 pt-0 pb-0" (click)="showDialog()" icon="pi pi-plus"
                         label="Add Employee"></p-button>
@@ -17,7 +18,7 @@
             </ng-template>
         
             <ng-template let-employee pTemplate="listItem" let-item>
-                <ng-container *ngIf="item === employees[0]" >
+                <ng-container *ngIf="item === employees[0]">
                     <!-- table -->
                     <p-table #dtEmployees [value]="employees" dataKey="id" [rows]="10" [rowHover]="true"
                         styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm pb-5" [paginator]="true"
@@ -73,33 +74,6 @@
                         </ng-template>
                     </p-table>
                 </ng-container>
-                <!-- <div class="col-12">
-                                    <div class="flex flex-column md:flex-row align-items-center p-3 w-full">
-                                        <img [src]="employee.photo ? employee.photo : 'https://t3.ftcdn.net/jpg/02/18/21/86/360_F_218218632_jF6XAkcrlBjv1mAg9Ow0UBMLBaJrhygH.jpg'"
-                                            [alt]="employee.employeeName" class="my-4 md:my-0 w-10 md:w-10rem shadow-2 mr-2" />
-                                        <div class="flex-1 flex flex-column align-items-center text-center md:text-left">
-                                            <div class="font-bold text-sm">{{ employee?.employeeName }}</div>
-                                            <div class="mb-2">{{ employee?.code }}</div>
-                                            <div class="mb-2">{{ employee?.designation }}</div>
-                                            <div class="mb-2">{{ employee?.officeEmailId }}</div>
-                                            <div class="mb-2">{{ employee?.mobileNumber }}</div>
-                                        </div>
-                                        <div class="mb-3 col-3 p-0">
-                                            <button pbutton="" pripple="" type="button" label="Primary"
-                                                (click)="viewAssetAllotments(employee.employeeId)"
-                                                class="p-element p-ripple p-button-text p-button p-component view_profile_button"
-                                                ng-reflect-label="Primary">
-                                                <span class="p-button-label pi pi-chevron-right"></span>
-                                            </button>
-                                            <button pbutton="" pripple="" type="button" label="Primary"
-                                                (click)="directAddAssetAllotment(employee.employeeId)"
-                                                class="p-element p-ripple p-button-text p-button p-component view_profile_button"
-                                                ng-reflect-label="Primary">
-                                                <span class="p-button-label pi pi-plus"></span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div> -->
             </ng-template>
             <ng-template let-employee pTemplate="gridItem">
                 <div class="col-12 md:col-4 lg:col-3 sm:col-6">

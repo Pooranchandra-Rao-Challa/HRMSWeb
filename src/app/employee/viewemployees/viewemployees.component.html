@@ -435,45 +435,45 @@
             <div class="field col-12 md:col-4">
               <label>Name: <sup class="p-error">*</sup>
               </label>&nbsp; <input pInputText id="name" #name placeholder="Enter Name" type="text"
-                formControlName="Name" />
+                formControlName="employeeName" />
             </div>
             <div class="field col-12 md:col-4">
               <label>Gender: <sup class="p-error">*</sup>
               </label>&nbsp; <p-dropdown id="gender" #gender placeholder="Select Gender" [options]="genders"
-                optionLabel="name" formControlName="Gender"></p-dropdown>
+                optionLabel="name" formControlName="gender"></p-dropdown>
             </div>
             <div class="field col-12 md:col-4">
               <label>Blood Group: : <sup class="p-error">*</sup>
               </label>&nbsp; <input pInputText id="bloodGroup" #bloodgroup placeholder="Enter Blood Group" type="text"
-                formControlName="BloodGroup" />
+                formControlName="bloodGroup" />
             </div>
             <div class="field col-12 md:col-4">
               <label>Mobile Number : <sup class="p-error">*</sup>
               </label>&nbsp; <input pInputText id="mobileNumber" #mobilenumber placeholder="Enter Mobile Number"
-                type="text" formControlName="MobileNumber" />
+                type="text" formControlName="mobileNumber" />
             </div>
             <div class="field col-12 md:col-4">
               <label>Alt Mobile Number : <sup class="p-error">*</sup>
               </label>&nbsp; <input pInputText id="alternateMobileNumber" #alternateMobileNumber
-                placeholder="Enter Alternate Mobile Number" type="text" formControlName="AltMobileNumber" />
+                placeholder="Enter Alternate Mobile Number" type="text" formControlName="alternateMobileNumber" />
             </div>
             <div class="field col-12 md:col-4">
-              <label>DOB:</label>&nbsp; <p-calendar [showIcon]="true" placeholder="Select Dob" formControlName="DOB">
+              <label>DOB:</label>&nbsp; <p-calendar [showIcon]="true" placeholder="Select Dob" formControlName="originalDOB">
               </p-calendar>
             </div>
             <div class="field col-12 md:col-4">
               <label>Certificate DOB:</label>&nbsp; <p-calendar [showIcon]="true" placeholder="Select Certificate Dob"
-                formControlName="CertificateDOB"></p-calendar>
+                formControlName="certificateDOB"></p-calendar>
             </div>
             <div class="field col-12 md:col-4">
               <label>Marital Status: <sup class="p-error">*</sup>
               </label>&nbsp; <p-dropdown id="maritalStatus" #maritalStatus placeholder="Enter Marital Status"
-                [options]="status" optionLabel="name" formControlName="MaritalStatus"></p-dropdown>
+                [options]="status" optionLabel="name" formControlName="maritalStatus"></p-dropdown>
             </div>
             <div class="field col-12 md:col-4">
               <label>Email ID: <sup class="p-error">*</sup>
               </label>&nbsp; <input pInputText id="emailId" #emailId placeholder="Enter Email Id" type="text"
-                formControlName="EmailID" />
+                formControlName="emailId" />
             </div>
             <!-- <div class="field col-12 md:col-4"><label>Current Address:<sup class="p-error">*</sup></label>&nbsp;
                           <input pInputText id="currentAddress" #currentAddress
@@ -573,7 +573,7 @@
           <div class="p-fluid p-formgrid grid">
             <div class=" col-12 md:col-4 mt-2">
               <div class=" button-container">
-                <p-button type="button" label="Add Education Details" (click)="addEducationDetails()"></p-button>
+                <p-button type="button"  label="Add Education Details" (click)="addEducationDetails()"></p-button>
               </div>
             </div>
             <div class="col-12 scrolling_content" formArrayName="educationDetails" *ngIf="ShoweducationDetails">

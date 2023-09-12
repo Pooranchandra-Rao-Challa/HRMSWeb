@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
 import {
   Form, FormArray, FormBuilder, FormControl, FormGroup, Validators,
-} from '@angular/forms'; import { Address, Employee, familyDetailViewDto } from 'src/app/demo/api/security';
+} from '@angular/forms';import { ActivatedRoute } from '@angular/router';
+ import { Address, Employee, familyDetailViewDto } from 'src/app/demo/api/security';
 import { SecurityService } from 'src/app/demo/service/security.service';
 import { LookupViewDto } from 'src/app/_models/admin';
+import { EmployeesViewDto } from 'src/app/_models/employes';
+import { EmployeeService } from 'src/app/_services/employee.service';
 import { LookupService } from 'src/app/_services/lookup.service';
 export class Experience {
   id?: number;
@@ -47,6 +50,8 @@ interface Skills {
   styles: [],
 })
 export class ViewemployeesComponent {
+  fbEmpPerDtls!: FormGroup;
+  employeePrsDtls:EmployeesViewDto[];
   color: string = 'bluegray';
   size: string = 'M';
   liked: boolean = false;
@@ -71,7 +76,6 @@ export class ViewemployeesComponent {
   designation: Designation[] | undefined;
   valRadio:string;
   skillSets!: Skills[];
-  fbEmpPerDtls!: FormGroup;
   fbOfficDtls!: FormGroup;
   fbEducationDetails!: FormGroup;
   fbBankDetails!: FormGroup;
@@ -92,6 +96,7 @@ export class ViewemployeesComponent {
   submitLabel: string;
   value:Date;
   states: LookupViewDto[] = [];
+  employeeId: number;
 
   showDialog() {
     this.dialog = true;
@@ -172,22 +177,24 @@ export class ViewemployeesComponent {
     ];
   }
   constructor(
-    private securityService: SecurityService,
+     private securityService: SecurityService,
     private formbuilder: FormBuilder,
-    private lookupService: LookupService,
+    // private lookupService: LookupService,
+    private employeeService: EmployeeService,
+    private activatedRoute: ActivatedRoute
   ) { }
 
-  initStates() {
-    this.lookupService.getStates().subscribe((resp) => {
-      this.states = resp as unknown as LookupViewDto[];
-    });
-  }
+  // initStates() {
+  //   this.lookupService.getStates().subscribe((resp) => {
+  //     this.states = resp as unknown as LookupViewDto[];
+  //   });
+  // }
 
   ngOnInit(): void {
-    this.securityService.getEmployees().then((data) => (this.employees = data));
+     this.securityService.getEmployees().then((data) => (this.employees = data));
     this.Data();
     this.initEducation();
-    this.initEmpPersDtlsForm();
+    this.EmpPersDtlsForm();
     this.initfbOfficDtls();
     this.initEducation();
     this.addEducationDetails();
@@ -197,21 +204,30 @@ export class ViewemployeesComponent {
     this.addFamilyMembers();
     this.initAddress();
     this.addNewAddress();
-    this.initStates();
+    this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
+    this.initViewEmpDtls()
+    // this.initStates();
   }
 
-  initEmpPersDtlsForm() {
+  EmpPersDtlsForm() {
     this.fbEmpPerDtls = this.formbuilder.group({
-      Id: new FormControl('', [Validators.required]),
-      Name: new FormControl('', [Validators.required]),
-      Gender: new FormControl('', [Validators.required]),
-      BloodGroup: new FormControl('', [Validators.required]),
-      MobileNumber: new FormControl('', [Validators.required]),
-      AltMobileNumber: new FormControl('', [Validators.required]),
-      DOB: new FormControl('', [Validators.required]),
-      CertificateDOB: new FormControl('', [Validators.required]),
-      MaritalStatus: new FormControl('', [Validators.required]),
-      EmailID: new FormControl('', [Validators.required]),
+      employeeId: new FormControl('', [Validators.required]),
+      employeeName: new FormControl('', [Validators.required]),
+      gender: new FormControl('', [Validators.required]),
+      bloodGroup: new FormControl('', [Validators.required]),
+      mobileNumber: new FormControl('', [Validators.required]),
+      alternateMobileNumber: new FormControl('', [Validators.required]),
+      originalDOB: new FormControl('', [Validators.required]),
+      certificateDOB: new FormControl('', [Validators.required]),
+      maritalStatus: new FormControl('', [Validators.required]),
+      emailId: new FormControl('', [Validators.required]),
+    });
+  }
+
+  initViewEmpDtls(){
+    this.employeeService.GetViewEmpPersDtls(this.employeeId).subscribe((resp) => {
+      this.employeePrsDtls = resp as unknown as EmployeesViewDto[];
+      console.log(this.employeePrsDtls);     
     });
   }
 

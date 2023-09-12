@@ -35,8 +35,8 @@
                 <div class="card m-2 border-1 surface-border">
                     <div class=" mb-3 grid" >
                         <div class="col-12 lg:col-4 md:col-12 p-1 employee_profile_pic_div">
-                            <img [src]="employee.photo ? employee.photo : 'https://t3.ftcdn.net/jpg/02/18/21/86/360_F_218218632_jF6XAkcrlBjv1mAg9Ow0UBMLBaJrhygH.jpg'"
-                                [alt]="employee.employeeName" class="shadow-2 my-1 mx-0 employee_profile_pic zoomable-img" style="width: 70%;" />
+                            <img [src]="employee.photo" [alt]="employee.employeeName"
+                                class=" shadow-2 my-1 mx-0 employee_profile_pic" style="width:90%;"   class="shadow-2 my-1 mx-0 employee_profile_pic zoomable-img" />
                             <span class="text-500 font-medium text-md">
                                 <i class="pi pi-users text-600 text-primary text-1xl  pb-2"></i> : {{employee.gender}}
                             </span>
@@ -73,9 +73,14 @@
                     </span>
                     <br />
                   </div>
-                
+                <div class="grid m-0 ">
+                <div class="relative col-9 p-0 mb-3  employee_info">
+                    <span class="text-600 font-medium text-md"><i class="pi  text-500 text-primary text-1xl pb-1">Pending </i> :
+                        Family Details, Experience Details </span>
+                    </div>
+                    </div>
                   <div class="mb-3 col-3 p-0">
-                    <button pbutton="" pripple="" type="button" label="Primary" routerLink="/employee/viewemployees" routerLinkActive="router-link-active" class="p-element p-ripple p-button-text p-button p-component view_profile_button" ng-reflect-label="Primary">
+                    <button pbutton="" pripple="" type="button" label="Primary"  (click)="viewEmployeeDtls(employeeId)" class="p-element p-ripple p-button-text p-button p-component view_profile_button" ng-reflect-label="Primary">
                       <span class="p-button-label pi pi-chevron-right"></span>
                     </button>
                   </div>
