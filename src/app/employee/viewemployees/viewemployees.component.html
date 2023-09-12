@@ -113,50 +113,28 @@
     <!-- Education Details card view -->
     <p-tabPanel header="Education Details ">
       <div class="grid">
-        <div class="col-12 lg:col-4">
+        <div class="col-12 lg:col-4" *ngFor="let education of educationDetails">
           <div class="card">
-            <div class="text-900 font-bold text-2xl text-primary mb-1 mt-2">10th Class</div>
-            <div class="text-500  text-1xl mb-1 mt-1">Secondary Board of Andhra Pradesh</div>
+            <div class="text-900 font-bold text-2xl text-primary mb-1 mt-2">{{ education.Curriculum}}</div>
+            <div class="text-500  text-1xl mb-1 mt-1">{{education.institutionName}}</div>
             <ul class="list-none p-0 m-0 text-600 mb-7 text-600">
               <li class="mb-3">
-                <span class="font-semibold">School Name :</span> School Name .
+                <span class="font-semibold">School Name :</span> {{education.authorityName}}
               </li>
               <li class="mb-3">
-                <span class="font-semibold">YOP:</span> 2006
+                <span class="font-semibold">YOP:</span> {{education.passedOutyear}}
               </li>
               <li>
-                <span class="font-semibold">Grading System :</span> CGPA
+                <span class="font-semibold">Grading System :</span>{{education.gradingValue}}
               </li>
               <li>
-                <span class="font-semibold">Score/Percentage :</span> 8
+                <span class="font-semibold">Score/Percentage :</span> {{education.gradingMethod}}
               </li>
             </ul>
           </div>
         </div>
-        <div class="col-12 lg:col-4">
-          <div class="card">
-            <div class="text-900 font-bold text-2xl text-primary mb-1 mt-2">12th Class</div>
-            <div class="text-500  text-1xl mb-1 mt-1"> Board of Intermediate Andhra Pradesh</div>
-            <ul class="list-none p-0 m-0 text-600 mb-5 text-600">
-              <li class="mb-3">
-                <span class="font-semibold">Collage Name :</span> School Name .
-              </li>
-              <li class="mb-3">
-                <span class="font-semibold">Stream :</span> MPC .
-              </li>
-              <li class="mb-3">
-                <span class="font-semibold">YOP:</span> 2006
-              </li>
-              <li>
-                <span class="font-semibold">Grading System :</span> CGPA
-              </li>
-              <li>
-                <span class="font-semibold">Score/Percentage :</span> 8
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-12 lg:col-4">
+        
+        <div class="col-12 lg:col-4"  >
           <div class="card text-center">
             <button pButton pRipple icon="pi pi-plus"
               class="p-element p-ripple p-button-text p-button p-component m-5 p-5" (click)="ShowEducationDetails()">
@@ -168,42 +146,25 @@
     <!-- Work Experience card view -->
     <p-tabPanel header="Work Experience ">
       <div class="grid">
-        <div class="col-12 lg:col-4">
+        <div class="col-12 lg:col-4"  *ngFor="let experiance of workExperience">
           <div class="card">
-            <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">Company Name 1</div>
+            <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">{{experiance.employer}}</div>
             <!-- <div class="text-500  text-1xl mb-1 mt-1">Secondary Board of Andhra Pradesh</div> -->
             <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
               <!-- <li class="mb-3"><span class="font-semibold">School Name :</span> School Name .</li><li class="mb-3"><span class="font-semibold">YOP:</span> 2006</li> -->
               <li class="mb-2">
-                <span class="font-semibold ">From :</span> 12-06-2016
+                <span class="font-semibold ">From :</span>{{experiance.fromDate}}
               </li>
               <li class="mb-2">
-                <span class="font-semibold ">To :</span> 16-08-2018
+                <span class="font-semibold ">To :</span> {{experiance.toDate}}
               </li>
               <li class="mb-2">
-                <span class="font-semibold mb-1">Designation :</span> Fresher & Jr UI Developer
+                <span class="font-semibold mb-1">Designation :</span> {{experiance.JobPosition}}
               </li>
             </ul>
           </div>
         </div>
-        <div class="col-12 lg:col-4">
-          <div class="card">
-            <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">Company Name 2</div>
-            <!-- <div class="text-500  text-1xl mb-1 mt-1">Secondary Board of Andhra Pradesh</div> -->
-            <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
-              <!-- <li class="mb-3"><span class="font-semibold">School Name :</span> School Name .</li><li class="mb-3"><span class="font-semibold">YOP:</span> 2006</li> -->
-              <li class="mb-2">
-                <span class="font-semibold ">From :</span> 12-06-2016
-              </li>
-              <li class="mb-2">
-                <span class="font-semibold ">To :</span> 16-08-2018
-              </li>
-              <li class="mb-2">
-                <span class="font-semibold mb-1">Designation :</span> Fresher & Jr UI Developer
-              </li>
-            </ul>
-          </div>
-        </div>
+        
         <div class="col-12 lg:col-4">
           <div class="card text-center">
             <button pButton pRipple icon="pi pi-plus"
@@ -216,38 +177,23 @@
     <!-- Family Details card view -->
     <p-tabPanel header="Family Details ">
       <div class="grid">
-        <div class="col-12 lg:col-4">
+        <div class="col-12 lg:col-4" *ngFor="let family of familyDetails" >
           <div class="card">
-            <div class="text-900 font-bold text-2xl text-primary mb-1 mt-2">Ramana</div>
+            <div class="text-900 font-bold text-2xl text-primary mb-1 mt-2">{{family.employeeName}}</div>
             <ul class="list-none p-0 m-0 text-600 mb-7 text-600">
               <li class="mb-3">
-                <span class="font-semibold">Relationship Status:</span>Father
+                <span class="font-semibold">Relationship Status:</span>{{family.relationship}}
               </li>
               <li class="mb-3">
-                <span class="font-semibold">Mobile No:</span>9788256784
+                <span class="font-semibold">Mobile No:</span>{{family.mobileNumber}}
               </li>
               <li>
-                <span class="font-semibold">Address:</span>Vijayawada,Andhra Pradesh
+                <span class="font-semibold">Address:</span>{{family.state}}
               </li>
             </ul>
           </div>
         </div>
-        <div class="col-12 lg:col-4">
-          <div class="card">
-            <div class="text-900 font-bold text-2xl text-primary mb-1 mt-2">Lakshmi</div>
-            <ul class="list-none p-0 m-0 text-600 mb-7 text-600">
-              <li class="mb-3">
-                <span class="font-semibold">Relationship Status:</span>Mother
-              </li>
-              <li class="mb-3">
-                <span class="font-semibold">Mobile No:</span>6787299873
-              </li>
-              <li>
-                <span class="font-semibold">Address:</span>Vijayawada,Andhra Pradesh
-              </li>
-            </ul>
-          </div>
-        </div>
+       
         <div class="col-12 lg:col-4">
           <div class="card text-center">
             <button pButton pRipple icon="pi pi-plus"
@@ -258,34 +204,34 @@
       </div>
     </p-tabPanel>
     <!-- Address Details card view -->
-    <p-tabPanel header="Address Details ">
-      <div class="grid">
-        <div class="col-12 lg:col-4">
-          <div class="card">
-            <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">Current Address</div> Arunodaya
-            Residencymithila nagr, Pragathi Nagar, Hyderabad, Telangana 500072
-          </div>
-        </div>
-        <div class="col-12 lg:col-4">
-          <div class="card">
-            <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">Permanent Address</div> Arunodaya
-            Residencymithila nagr, Pragathi Nagar, Hyderabad, Telangana 500072
-          </div>
-        </div>
-        <div class="col-12 lg:col-4">
-          <div class="card text-center">
-            <button pButton pRipple icon="pi pi-plus"
-              class="p-element p-ripple p-button-text p-button p-component m-5 p-5" (click)="showAddressDetails()">
-              Add/Edit Address Details</button>
-          </div>
+  <p-tabPanel header="Address Details">
+    <div class="grid">
+      <!-- Use *ngFor to iterate through each address -->
+      <div class="col-12 lg:col-4" *ngFor="let addr of address">
+        <div class="card">
+          <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">{{ addr.addressType }}</div>
+          {{ addr.employeeName }},
+          {{ addr.addressLine1 }},
+          {{ addr.city }},{{ addr.landmark }}, {{ addr.state }}
+           {{ addr.zipCode }},{{ addr.country }}
         </div>
       </div>
-    </p-tabPanel>
+      <div class="col-12 lg:col-4">
+        <div class="card text-center">
+          <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-text p-button p-component m-5 p-5"
+            (click)="showAddressDetails()">
+            Add/Edit Address Details
+          </button>
+        </div>
+      </div>
+    </div>
+    
+  </p-tabPanel>
     <!-- Upload Documents card view -->
     <p-tabPanel header="Upload Documents">
       <div class="grid">
         <div class="col-12 ">
-          <p-table [tableStyle]="{ 'min-width': '50rem' }">
+          <p-table [value]="UploadedDocuments" [tableStyle]="{ 'min-width': '50rem' }">
             <ng-template pTemplate="header">
               <tr>
                 <th>S.No</th>
@@ -293,10 +239,12 @@
                 <th>FileName</th>
                 <th>Actions</th>
               </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-UploadedDocuments let-rowIndex="rowIndex">
               <tr>
-                <td class="pl-5">1</td>
-                <td>madhucon.png</td>
-                <td class="pl-5">image</td>
+                <td class="pl-5">{{ rowIndex + 1 }}</td>
+                <td>{{ UploadedDocuments.EmployeeName }}</td>
+                <td class="pl-5">{{ UploadedDocuments.fileName }}</td>
                 <td>
                   <div class="flex">
                     <button pButton pRipple icon="pi pi-download" style="padding: 0px;"
@@ -307,7 +255,6 @@
                 </td>
               </tr>
             </ng-template>
-
           </p-table>
         </div>
         <div class="col-12 md:col-6">
@@ -374,7 +321,7 @@
       </div>
     </p-tabPanel>
     <!-- Bank Details card view -->
-    <p-tabPanel header="Bank Details">
+    <p-tabPanel header="Bank Details" >
       <div class="grid">
         <div class="col-12 lg:col-4">
           <div class="card">

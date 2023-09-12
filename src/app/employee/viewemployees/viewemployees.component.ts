@@ -5,7 +5,7 @@ import {
  import { Address, Employee, familyDetailViewDto } from 'src/app/demo/api/security';
 import { SecurityService } from 'src/app/demo/service/security.service';
 import { LookupViewDto } from 'src/app/_models/admin';
-import { EmployeeBasicDetailViewDto, EmployeesViewDto } from 'src/app/_models/employes';
+import { EmployeAdressViewDto, EmployeeBasicDetailViewDto, EmployeesViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { LookupService } from 'src/app/_services/lookup.service';
 export class Experience {
@@ -51,7 +51,13 @@ interface Skills {
 })
 export class ViewemployeesComponent {
   fbEmpPerDtls!: FormGroup;
-  employeePrsDtls:EmployeeBasicDetailViewDto[];
+  employeePrsDtls: EmployeeBasicDetailViewDto[];
+  address: EmployeAdressViewDto[];
+  educationDetails: any[]; 
+  workExperience: any[];  
+  familyDetails: any[];
+  UploadedDocuments: any[]
+  bankDetails: any[]
   color: string = 'bluegray';
   size: string = 'M';
   liked: boolean = false;
@@ -60,7 +66,7 @@ export class ViewemployeesComponent {
   Education: boolean = false;
   Experience: boolean = false;
   Family: boolean = false;
-  bankDetails: boolean = false;
+  bankDetailsshow: boolean = false;
   Address: boolean = false;
   Documents: boolean = false;
   ShoweducationDetails: boolean = false;
@@ -70,29 +76,28 @@ export class ViewemployeesComponent {
   selectedImageIndex: number = 0;
   quantity: number = 1;
   employees: Employee[] = [];
-  genders: Gender[] | undefined;
-  shifts: Shift[] | undefined;
-  status: Status[] | undefined;
-  designation: Designation[] | undefined;
-  valRadio:string;
-  skillSets!: Skills[];
-  fbOfficDtls!: FormGroup;
-  fbEducationDetails!: FormGroup;
-  fbBankDetails!: FormGroup;
-  fbexperience!: FormGroup;
-  fbAddressDetails: FormGroup;
-  fbfamilyDetails: FormGroup;
-  educationDetails: any[] = [];
-  uploadedFiles: any[] = [];
-  selectedOption: string;
-  inputValue: string;
-  faexperienceDetails!: FormArray;
-  faeducationDetails!: FormArray;
-  faAddressDetails!: FormArray;
-  fafamilyDetails!: FormArray;
-  addfields: any;
-  State: States[];
-  relationshipStatus: General[] | undefined;
+genders: Gender[];
+shifts: Shift[] ;
+status: Status[] ;
+designation: Designation[] ;
+valRadio:string; 
+skillSets!: Skills[];
+fbOfficDtls!: FormGroup; 
+fbEducationDetails!: FormGroup; 
+fbBankDetails!: FormGroup;  
+fbexperience!: FormGroup;
+fbAddressDetails: FormGroup;     
+fbfamilyDetails: FormGroup;        
+uploadedFiles: any[] = [];       
+selectedOption: string;          
+inputValue: string;              
+faexperienceDetails!: FormArray; 
+faeducationDetails!: FormArray;  
+faAddressDetails!: FormArray;    
+fafamilyDetails!: FormArray;     
+addfields: any;                  
+State: States[];                 
+relationshipStatus: General[]  ;
   submitLabel: string;
   value:Date;
   states: LookupViewDto[] = [];
@@ -119,7 +124,7 @@ export class ViewemployeesComponent {
     this.fbfamilyDetails.reset();
   }
   showBankDetails() {
-    this.bankDetails = true;
+    this.bankDetailsshow =true;
     this.fbBankDetails.reset();
   }
   showAddressDetails() {
@@ -191,8 +196,15 @@ export class ViewemployeesComponent {
   // }
 
   ngOnInit(): void {
+    this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
      this.securityService.getEmployees().then((data) => (this.employees = data));
     this.Data();
+    this.initGetEducationDetails();
+    this.initGetWorkExperience();
+    this.initGetAddress();
+    this.initGetFamilyDetails();
+    this.initUploadedDocuments();
+    this.initBankDetails();
     this.initEducation();
     this.EmpPersDtlsForm();
     this.initfbOfficDtls();
@@ -204,7 +216,7 @@ export class ViewemployeesComponent {
     this.addFamilyMembers();
     this.initAddress();
     this.addNewAddress();
-    this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
+    
     this.initViewEmpDtls()
     // this.initStates();
   }
@@ -229,6 +241,47 @@ export class ViewemployeesComponent {
     this.employeeService.GetViewEmpPersDtls(this.employeeId).subscribe((resp) => {
       this.employeePrsDtls = resp as unknown as EmployeeBasicDetailViewDto[];
       console.log('this.employeePrsDtls',this.employeePrsDtls);     
+    });
+  }
+  initGetAddress(){
+    this.employeeService.GetAddress(this.employeeId).subscribe((resp) => {
+      this.address = resp as unknown as EmployeAdressViewDto[];
+      console.log('this.address', this.address);     
+    });
+  }
+  initGetEducationDetails() {
+    this.employeeService.GetEducationDetails(this.employeeId).subscribe((resp) => {
+      this.educationDetails = resp as unknown as any[];
+      console.log('this.EducationDetails', this.educationDetails);
+    });
+  }
+  
+  initGetWorkExperience() {
+    this.employeeService.GetWorkExperience(this.employeeId).subscribe((resp) => {
+      this.workExperience = resp as unknown as any[];
+      console.log('this.GetWorkExperience', this.workExperience);
+    });
+  }
+
+
+  initGetFamilyDetails() {
+    this.employeeService.getFamilyDetails(this.employeeId).subscribe((resp) => {
+      this.familyDetails = resp as unknown as any[];
+      console.log('this.familyDetails', this.familyDetails);
+    });
+  }
+
+  initUploadedDocuments() {
+    this.employeeService.GetUploadedDocuments(this.employeeId).subscribe((resp) => {
+      this.UploadedDocuments = resp as unknown as any[];
+      console.log('this.UploadedDocuments', this.UploadedDocuments);
+    });
+  }
+
+  initBankDetails() {
+    this.employeeService.GetBankDetails(this.employeeId).subscribe((resp) => {
+      this.bankDetails = resp as unknown as any[];
+      console.log('this.BankDetails', this.bankDetails);
     });
   }
 

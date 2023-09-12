@@ -60,3 +60,24 @@ export class EmployeeBasicDetailViewDto {
 	updatedBy?: string;
 
 }
+export class EmployeAdressViewDto {
+	employeeId?: number
+	employeeName?: string
+	code?: string
+	addressId?: number
+	addressLine1?: string
+	addressLine2?: string
+	addressType?: string
+	city?: string
+	landmark?: string
+	zipCode?: string
+	stateId?: number
+	state?: string
+	countryId?: number
+	country?: string
+	isActive?: boolean
+	createdAt?: string
+	createdBy?: string
+	updatedAt?: string
+	updatedBy?: string
+}
