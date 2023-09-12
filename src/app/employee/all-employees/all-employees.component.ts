@@ -5,6 +5,7 @@ import { Table } from 'primeng/table';
 import { EmployeeService } from '../../_services/employee.service';
 import { EmployeesViewDto } from 'src/app/_models/employes';
 import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     selector: 'app-all-employees',
@@ -19,12 +20,18 @@ export class AllEmployeesComponent {
     sortOrder: number = 0;
     sortField: string = '';
     mediumDate: string = MEDIUM_DATE
+    employeeId: number;
+    employeePrsDtls:EmployeesViewDto[];
 
     constructor(private securityService: SecurityService,
-        private EmployeeService: EmployeeService) { }
+        private EmployeeService: EmployeeService,
+        private router: Router,
+        private route: ActivatedRoute,
+        private employeeService: EmployeeService) { }
 
     ngOnInit() {
-        this.initEmployees()
+        this.initEmployees();
+        
     }
     
     initEmployees() {
@@ -45,5 +52,11 @@ export class AllEmployeesComponent {
         dv.filter((event.target as HTMLInputElement).value);
     }
 
-
+    // viewEmployeeDtls(){
+    //     this.router.navigate(['employee/viewemployees'], { queryParams: { employeeId: this.employeeId }});
+    // }
+    viewEmployeeDtls(employeeId: number) {
+        this.router.navigate(['employee/viewemployees'], { queryParams: { employeeId: employeeId }});
+      }
+      
 }
