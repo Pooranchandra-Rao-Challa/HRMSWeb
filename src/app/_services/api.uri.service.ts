@@ -52,3 +52,4 @@ export const GET_EMPLOYEES = "Employee/GetEmployeeDropdown";
 //EMPLOYEE
 export const GET_EMPLOYEES_URI = "Employee/GetEmployeeDetails";
 export const CREATE_BASIC_DETAILS_URI="Employee/CreateEmployeeBasicDetails";
+export const EMPLOYEES_FOR_ALLOTTED_ASSETS_URI = "Admin/GetAssetsForEmployees";
