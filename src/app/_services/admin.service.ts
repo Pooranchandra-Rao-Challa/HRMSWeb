@@ -73,6 +73,9 @@ export class AdminService extends ApiHttpService {
     public getEmployeesList(){
         return this.get<EmployeesList>(GET_EMPLOYEES);
     }
+    public getEmployees(projectId:number){
+        return this.getWithId<EmployeesList>(GET_EMPLOYEES,projectId);
+    }
     public GetAssetAllotments(employeeId: number) {
         return this.getWithId<AssetAllotmentViewDto[]>(GET_ASSET_ALLOTMENTS_URI, employeeId);
     }

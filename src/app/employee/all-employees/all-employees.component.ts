@@ -25,9 +25,7 @@ export class AllEmployeesComponent {
 
     constructor(private securityService: SecurityService,
         private EmployeeService: EmployeeService,
-        private router: Router,
-        private route: ActivatedRoute,
-        private employeeService: EmployeeService) { }
+        private router: Router,) { }
 
     ngOnInit() {
         this.initEmployees();
@@ -52,9 +50,6 @@ export class AllEmployeesComponent {
         dv.filter((event.target as HTMLInputElement).value);
     }
 
-    // viewEmployeeDtls(){
-    //     this.router.navigate(['employee/viewemployees'], { queryParams: { employeeId: this.employeeId }});
-    // }
     viewEmployeeDtls(employeeId: number) {
         this.router.navigate(['employee/viewemployees'], { queryParams: { employeeId: employeeId }});
       }

@@ -5,7 +5,7 @@ import {
  import { Address, Employee, familyDetailViewDto } from 'src/app/demo/api/security';
 import { SecurityService } from 'src/app/demo/service/security.service';
 import { LookupViewDto } from 'src/app/_models/admin';
-import { EmployeesViewDto } from 'src/app/_models/employes';
+import { EmployeeBasicDetailViewDto, EmployeesViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { LookupService } from 'src/app/_services/lookup.service';
 export class Experience {
@@ -51,7 +51,7 @@ interface Skills {
 })
 export class ViewemployeesComponent {
   fbEmpPerDtls!: FormGroup;
-  employeePrsDtls:EmployeesViewDto[];
+  employeePrsDtls:EmployeeBasicDetailViewDto[];
   color: string = 'bluegray';
   size: string = 'M';
   liked: boolean = false;
@@ -213,6 +213,7 @@ export class ViewemployeesComponent {
     this.fbEmpPerDtls = this.formbuilder.group({
       employeeId: new FormControl('', [Validators.required]),
       employeeName: new FormControl('', [Validators.required]),
+      code:new FormControl(''),
       gender: new FormControl('', [Validators.required]),
       bloodGroup: new FormControl('', [Validators.required]),
       mobileNumber: new FormControl('', [Validators.required]),
@@ -226,8 +227,8 @@ export class ViewemployeesComponent {
 
   initViewEmpDtls(){
     this.employeeService.GetViewEmpPersDtls(this.employeeId).subscribe((resp) => {
-      this.employeePrsDtls = resp as unknown as EmployeesViewDto[];
-      console.log(this.employeePrsDtls);     
+      this.employeePrsDtls = resp as unknown as EmployeeBasicDetailViewDto[];
+      console.log('this.employeePrsDtls',this.employeePrsDtls);     
     });
   }
 

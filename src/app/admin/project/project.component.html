@@ -13,7 +13,7 @@
     </p-toolbar>
     <!-- dialog -->
     <p-dialog header="Project" [(visible)]="dialog" [modal]="true" showEffect="fade"
-      [breakpoints]="{'960px': '70%', '640px': '60%'}" [style]="{width: '60%'}">
+      [breakpoints]="{'960px': '70%', '640px': '60%'}" [style]="{width: '80%'}">
       <div class="flex flex-column align-items-center justify-content-center">
         <form [formGroup]="fbproject" (ngSubmit)="onSubmit()" id="Role_roleForm">
           <div class="grid">
@@ -23,6 +23,7 @@
                 <div class="field col-12 md:col-4">
                   <label>Code: <sup class="p-error">*</sup>
                   </label>&nbsp; <input pInputText id="Project_code" type="text" formControlName="code"
+                  [readonly]="projectFormControls['code'].value!== null"
                     [maxlength]="maxLength.code" placeholder="Enter Code" #code alphaNumeric />
                   <div class="flex">
                     <div class="align-left w-60" style="width:70%">
@@ -45,7 +46,7 @@
                 </div>
                 <div class="field col-12 md:col-4">
                   <label>Name: <sup class="p-error">*</sup>
-                  </label>&nbsp; <input pInputText id="Project_name" type="text" formControlName="name"
+                  </label>&nbsp; <input pInputText id="Project_name" type="text" formControlName="name"  [readonly]="projectFormControls['name'].value!== null"
                     [maxlength]="maxLength.name" placeholder="Enter Name" #name alphaNumeric />
                   <div class="flex">
                     <div class="align-left w-60" style="width:70%">
@@ -146,6 +147,7 @@
                   <label>Company Full Name: <sup class="p-error">*</sup>
                   </label>&nbsp;
                   <p-autoComplete formControlName="companyName" [suggestions]="this.filteredClients"
+                  [readonly]="fcClientDetails.controls['companyName'].value!== null"
                     placeholder="Enter Company Full Name" #companyName (completeMethod)="filterClients($event)"
                     (onSelect)="onAutocompleteSelect($event)" field="companyName" id="Project_fullName">
                   </p-autoComplete>
@@ -331,8 +333,18 @@
               <div class="p-fluid p-formgrid grid">
                 <div class="field col-12 md:col-4">
                   <label>Employee Id:<sup class="p-error">*</sup></label>&nbsp;
-                  <p-multiSelect placeholder="Select Employees" [options]="employees" optionLabel="employeeName"
-                    formControlName="ProjectAllotments" [filter]="true" filterBy="employeeId,employeeName" 
+                  <p-multiSelect *ngIf="this.addFlag == true" placeholder="Select Employees" [options]="employees" optionLabel="employeeName"
+                    formControlName="ProjectAllotments" [filter]="true" filterBy="employeeId,employeeName"
+                    appendTo="body">
+                    <ng-template let-employee pTemplate="selectedItem">
+                      <div class="block align-items-center gap-3">
+                        <div>{{employee.employeeName}}</div>
+                        <div>{{employee.employeeCode}}</div>
+                      </div>
+                    </ng-template>
+                  </p-multiSelect>
+                  <p-multiSelect *ngIf="this.addFlag == false" placeholder="Select Employees" [options]="Employees" optionLabel="employeeName"
+                    formControlName="ProjectAllotments" [filter]="true" filterBy="employeeId,employeeName"
                     appendTo="body">
                     <ng-template let-employee pTemplate="selectedItem">
                       <div class="block align-items-center gap-3">

@@ -1,7 +1,7 @@
 import { HttpEvent } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { elementAt, Observable } from 'rxjs';
+import { BehaviorSubject, elementAt, filter, Observable } from 'rxjs';
 import { Employee } from 'src/app/demo/api/security';
 import { SecurityService } from 'src/app/demo/service/security.service';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
@@ -23,6 +23,7 @@ interface AutoCompleteCompleteEvent {
   styles: ['']
 })
 export class ProjectComponent implements OnInit {
+  Employees: EmployeesList[] = [];
   employees: EmployeesList[] = [];
   projects: ProjectViewDto[] = [];
   clientsNames: ClientNamesDto[] = [];
@@ -99,10 +100,11 @@ export class ProjectComponent implements OnInit {
   }
 
   initProject(project: ProjectViewDto) {
-    console.log(project)
+    this.initEmployees();
     this.showDialog();
     if (project != null) {
       this.addFlag = false;
+      console.log(project)
       this.submitLabel = "Update Project Details";
       const selectedEmployees = [];
       if (project.expandEmployees) {
@@ -114,7 +116,7 @@ export class ProjectComponent implements OnInit {
           })
         });
       }
-      
+      this.editEmployees(project.projectId)
       this.fbproject.get('ProjectAllotments')?.setValue(selectedEmployees);
       this.fbproject.patchValue({
         clientId: project.clientId,
@@ -141,7 +143,6 @@ export class ProjectComponent implements OnInit {
         pocMobileNumber: project.pocMobileNumber,
         address: project.address,
       });
-      console.log(this.fbproject.value)
     } else {
       this.addFlag = true;
       this.submitLabel = "Add Project";
@@ -149,6 +150,7 @@ export class ProjectComponent implements OnInit {
       this.fcClientDetails.get('isActive')?.setValue(true);
     }
   }
+
   onAutocompleteSelect(selectedOption: ClientNamesDto) {
     this.adminService.GetClientDetails(selectedOption.clientId).subscribe(resp => {
       this.clientDetails = resp[0];
@@ -302,7 +304,11 @@ export class ProjectComponent implements OnInit {
   initEmployees() {
     this.adminService.getEmployeesList().subscribe(resp => {
       this.employees = resp as unknown as EmployeesList[];
-      console.log(resp)
+    });
+  }
+  editEmployees(projectId) {
+    this.adminService.getEmployees(projectId).subscribe(resp => {
+      this.employees = resp as unknown as EmployeesList[];
     });
   }
   filterClients(event: AutoCompleteCompleteEvent) {
