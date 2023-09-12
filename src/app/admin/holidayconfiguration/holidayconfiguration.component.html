@@ -89,19 +89,17 @@
                                 </div>
                                 <div class="field col-12 md:col-4">
                                     <label  htmlFor="description">Description:</label>
-                                    <textarea inputId="description" id="description" class="freeze_text-area" rows="3" maxlength="256"
-                                        #description cols="30" pInputTextarea maxlength="256"
-                                        formControlName="description" placeholder="Enter Description"></textarea>
-                                    <div class="flex">
-                                        <div class="align-left w-60" style="width:70%">
-                                        </div> 
-                                        <div class="align-right w-40" style="width:30%; text-align:right;">
-                                            <small>{{description.value.length}}/256</small>
+                                <textarea class="form-control freeze_text-area" pInputTextarea formControlName="description"
+                                    placeholder="Enter Description" #description (keydown)="restrictSpaces($event)" [maxlength]="256"
+                                    id="Description"></textarea>
+                                <div class="flex">
+                                    <div class="align-right w-100" style="width:50%; text-align:right;">
+                                        <small>{{description.value.length}}/{{maxLength.description}}</small>
                                         </div>
                                     </div>
                                 </div>
                                 <div class=" field col-12 md:col-2">
-                                    <label class="required">Is Active:</label><br>
+                                    <label >Is Active:</label><br>
                                     <p-inputSwitch formControlName="isActive" id="isActive"></p-inputSwitch>
                                 </div>
                                 <div class=" field col-12 md:col-2">
@@ -188,14 +186,12 @@
                                 </div>
                                 <div class="field col-12 md:col-4">
                                     <label htmlFor="description">Description:</label>
-                                    <textarea inputId="description" id="description" rows="3" maxlength="256"
-                                        #description cols="30" pInputTextarea maxlength="256" class="freeze_text-area"
-                                        formControlName="description" placeholder="Enter Description"></textarea>
-                                    <div class="flex">
-                                        <div class="align-left w-60" style="width:70%">
-                                        </div>
-                                        <div class="align-right w-40" style="width:30%; text-align:right;">
-                                            <small>{{description.value.length}}/256</small>
+                                <textarea class="form-control freeze_text-area" pInputTextarea formControlName="description"
+                                    placeholder="Enter Description" #description (keydown)="restrictSpaces($event)" [maxlength]="256"
+                                    id="Description"></textarea>
+                                <div class="flex">
+                                    <div class="align-right w-100" style="width:50%; text-align:right;">
+                                        <small>{{description.value.length}}/{{maxLength.description}}</small>
                                         </div>
                                     </div>
                                 </div>
