@@ -30,12 +30,8 @@
                       <span *ngIf="FormControls['code'].touched && FormControls['code'].invalid">
                         <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['code'].errors?.['required']">
                           Please Enter Code.</div>
-                        <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['code'].errors?.['pattern']">
-                          Code Should Contains Alphabets & Numbers.</div>
                         <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['code'].errors?.['minlength']">
                           Code Min Length Is 2.</div>
-                        <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['code'].errors?.['maxlength']">
-                          Code Max Length Is 20.</div>
                       </span>
                     </div>
                     <div class="align-right w-40" style="width:30%; text-align:right;">
@@ -54,8 +50,6 @@
                       <span *ngIf="FormControls['name'].touched && FormControls['name'].invalid">
                         <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['name'].errors?.['required']">
                           Please Enter Name.</div>
-                        <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['name'].errors?.['pattern']">
-                          Name Should Contains Alphabets.</div>
                         <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['name'].errors?.['minlength']">
                           Name Min Length Is 2.</div>
                       </span>
@@ -66,7 +60,7 @@
                   </div>
                 </div>
                 <div class="field col-12 md:col-6">
-                  <label class="required">Is Active:
+                  <label>Is Active:
                   </label>
                   <br> &nbsp; <p-inputSwitch formControlName="isActive" id="Lookup_lookupIsActive"></p-inputSwitch>
                 </div>
