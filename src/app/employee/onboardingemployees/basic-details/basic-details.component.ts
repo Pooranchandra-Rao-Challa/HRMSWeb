@@ -18,7 +18,6 @@ interface General {
 export class BasicDetailsComponent implements OnInit {
 
   genders: General[] | undefined;
-  BloodGroup: General[] | undefined;
   MaritalStatus: General[] | undefined;
   fbbasicDetails: FormGroup;
   imageSize: any;
@@ -28,34 +27,38 @@ export class BasicDetailsComponent implements OnInit {
   constructor(private router: Router, private route: ActivatedRoute, private formbuilder: FormBuilder) { }
 
   ngOnInit() {
-    this.fbbasicDetails = this.formbuilder.group({
-      code: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_NUMERIC), Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_20)]),
-      firstName: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
-      middleName: new FormControl('', Validators.minLength(MIN_LENGTH_2)),
-      lastName: new FormControl('', [Validators.required]),
-      gender: new FormControl('', [Validators.required]),
-      bloodGroup: new FormControl('', [Validators.required]),
-      maritalStatus: new FormControl('', [Validators.required]),
-      mobileNo: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2)]),
-      AlternativePhNo: new FormControl('', Validators.minLength(MIN_LENGTH_2)),
-      originalDob: new FormControl('', Validators.required),
-      certificateDob: new FormControl('', Validators.required),
-      email: new FormControl('', [Validators.required, Validators.pattern(RG_EMAIL)]),
-      isActive: new FormControl('', [Validators.required]),
-      photo: []
-    });
-
+    this.basicDetailsForm();
     this.genders = [
       { name: 'Male', code: 'M' },
       { name: 'Female', code: 'F' }
     ];
-
     this.MaritalStatus = [
       { name: 'Single', code: 'single' },
       { name: 'Married', code: 'married' },
       { name: 'Widow', code: 'widow' },
       { name: 'Divorced', code: 'divorced' },
     ];
+  }
+  basicDetailsForm() {
+    this.fbbasicDetails = this.formbuilder.group({
+      employeeId:new FormControl(null,Validators.required),
+      code: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_NUMERIC), Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_20)]),
+      firstName: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
+      middleName: new FormControl('',[Validators.minLength(MIN_LENGTH_2)]),
+      lastName: new FormControl('', [Validators.required]),
+      userId:new FormControl(null,Validators.required),
+      gender: new FormControl('', [Validators.required]),
+      bloodGroupId: new FormControl('', [Validators.required]),
+      maritalStatus: new FormControl('', [Validators.required]),
+      mobileNumber: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2)]),
+      alternateMobileNumber: new FormControl('',[Validators.minLength(MIN_LENGTH_2)]),
+      originalDob: new FormControl('',[Validators.required]),
+      certificateDob: new FormControl('',[Validators.required]),
+      emailId: new FormControl('', [Validators.required, Validators.pattern(RG_EMAIL)]),
+      isActive: new FormControl('', [Validators.required]),
+      photo: [],
+      signDate:new FormControl(null,Validators.required)
+    });
   }
   get FormControls() {
     return this.fbbasicDetails.controls;

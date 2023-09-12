@@ -119,17 +119,17 @@
                 </div>
                 <div class="field col-12 md:col-4">
                     <span class="p-float-label">
-                        <p-dropdown id="bloodgroup_dropdown" [autoDisplayFirst]="false" [options]="BloodGroup"
-                            optionLabel="name" formControlName="bloodGroup"
-                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['bloodGroup'].touched && FormControls['bloodGroup'].errors}">
+                        <p-dropdown id="bloodgroup_dropdown" [autoDisplayFirst]="false" 
+                            optionLabel="name" formControlName="bloodGroupId"
+                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['bloodGroupId'].touched && FormControls['bloodGroupId'].errors}">
                         </p-dropdown>
                         <label class="required">Blood Group</label>
                     </span>
                     <div class="flex">
                         <div class="align-left w-60" style="width:70%">
-                            <span *ngIf="FormControls['bloodGroup'].touched && FormControls['bloodGroup'].invalid">
+                            <span *ngIf="FormControls['bloodGroupId'].touched && FormControls['bloodGroupId'].invalid">
                                 <div class="ng-invalid ng-touched p-error"
-                                    *ngIf="FormControls['bloodGroup'].errors?.['required']">
+                                    *ngIf="FormControls['bloodGroupId'].errors?.['required']">
                                     Please Select Blood Group.
                                 </div>
                             </span>
@@ -158,20 +158,20 @@
                 </div>
                 <div class="field col-12 md:col-4">
                     <span class="p-float-label">
-                        <input type="text" id="mobileno" pInputText formControlName="mobileNo" #mobileNo numericOnly
+                        <input type="text" id="mobileno" pInputText formControlName="mobileNumber" #mobileNo numericOnly
                             [maxlength]="10" (keydown)="restrictSpaces($event)"
-                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['mobileNo'].touched && FormControls['mobileNo'].errors }" />
+                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['mobileNumber'].touched && FormControls['mobileNumber'].errors }" />
                         <label for="inputtext3">Mobile No.<sup class="p-error">*</sup></label>
                     </span>
 
                     <div class="flex">
                         <div class="align-left w-60" style="width:70%">
-                            <span *ngIf="FormControls['mobileNo'].touched && FormControls['mobileNo'].invalid">
+                            <span *ngIf="FormControls['mobileNumber'].touched && FormControls['mobileNumber'].invalid">
                                 <div class="ng-invalid ng-touched p-error"
-                                    *ngIf="FormControls['mobileNo'].errors?.['required']">
+                                    *ngIf="FormControls['mobileNumber'].errors?.['required']">
                                     Please Enter Mobile Number.</div>
                                 <div class="ng-invalid ng-touched p-error"
-                                    *ngIf="FormControls['mobileNo'].errors?.['minlength']">
+                                    *ngIf="FormControls['mobileNumber'].errors?.['minlength']">
                                     Mobile Number Min Length Is 2.</div>
                             </span>
                         </div>
@@ -182,17 +182,17 @@
                 </div>
                 <div class="field col-12 md:col-4">
                     <span class="p-float-label">
-                        <input type="text" id="alternativePhoneNo" pInputText formControlName="AlternativePhNo"
+                        <input type="text" id="alternativePhoneNo" pInputText formControlName="alternateMobileNumber"
                             #alternateNo numericOnly [maxlength]="10" (keydown)="restrictSpaces($event)" />
                         <label>Alternative Mobile No.</label>
                     </span>
                     <div class="flex">
                         <div class="align-left w-60" style="width:70%">
                             <span
-                                *ngIf="FormControls['AlternativePhNo'].touched && FormControls['AlternativePhNo'].invalid">
+                                *ngIf="FormControls['alternateMobileNumber'].touched && FormControls['alternateMobileNumber'].invalid">
                                 <div class="ng-invalid ng-touched p-error"
-                                    *ngIf="FormControls['AlternativePhNo'].errors?.['minlength']">
-                                    Mobile Number Min Length Is 2.</div>
+                                    *ngIf="FormControls['alternateMobileNumber'].errors?.['minlength']">
+                                    Alternate Mobile Number Min Length Is 2.</div>
                             </span>
                         </div>
                         <div class="align-right w-40" style="width:30%; text-align:right;">
@@ -241,21 +241,21 @@
                 </div>
                 <div class="field col-12 md:col-4">
                     <span class="p-float-label">
-                        <input type="text" id="inputtext" pInputText formControlName="email" #email
-                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['email'].touched && FormControls['email'].errors }" />
+                        <input type="text" id="inputtext" pInputText formControlName="emailId" #email
+                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['emailId'].touched && FormControls['emailId'].errors }" />
                         <label for="inputtext">Email ID<sup class="p-error">*</sup></label>
                     </span>
                     <div class="flex">
                         <div class="align-left w-60" style="width:70%">
-                            <span *ngIf="FormControls['email'].touched && FormControls['email'].invalid">
+                            <span *ngIf="FormControls['emailId'].touched && FormControls['emailId'].invalid">
                                 <div class="ng-invalid ng-touched p-error"
-                                    *ngIf="FormControls['email'].errors?.['required']">
+                                    *ngIf="FormControls['emailId'].errors?.['required']">
                                     Please Enter EmailId.</div>
                                 <div class="ng-invalid ng-touched p-error"
-                                    *ngIf="FormControls['email'].errors?.['pattern']">
+                                    *ngIf="FormControls['emailId'].errors?.['pattern']">
                                     Must in Email Format.</div>
                                 <div class="ng-invalid ng-touched p-error"
-                                    *ngIf="FormControls['email'].errors?.['minlength']">
+                                    *ngIf="FormControls['emailId'].errors?.['minlength']">
                                     EmailId Min Length Is 2.</div>
                             </span>
                         </div>

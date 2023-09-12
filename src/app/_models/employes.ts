@@ -32,3 +32,22 @@ export class EmployeesViewDto {
 	updatedAt?: string
 	updatedBy?: string
 }
+export class EmployeeBasicDetailDto{
+	employeeId?:number;
+	code?:string;
+	firstName?:string;
+	middleName?:string;
+	lastName?:string;
+    userId?:string;
+	gender?:string;
+	bloodGroupId?:string;
+	mobileNumber?:number;
+	alternateMobileNumber?:number;
+	originalDob?:Date;
+	certificateDob?:Date;
+	maritalStatus?:string;
+	emailId?:string;
+	photo?:string;
+	signDate?:Date;
+	isActive?:boolean;
+}
