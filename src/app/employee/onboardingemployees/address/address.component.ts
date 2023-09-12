@@ -14,10 +14,11 @@ interface States {
 })
 export class AddressComponent {
   State: States[] | undefined;
+  ShowlookupDetails:boolean=false;
   fbAddressDetails: FormGroup;
   faAddressDetails!: FormArray;
-  showAddressDetails: boolean = true;
   submitLabel: string;
+  addressDetails: any[] = [];
 
   constructor(private router: Router, private route: ActivatedRoute, private formbuilder: FormBuilder) { }
 
@@ -29,7 +30,7 @@ export class AddressComponent {
     ];
     this.initAddress();
 
-    this.addNewAddress();
+    
   }
 
   faAddressDetail(): FormArray {
@@ -39,50 +40,34 @@ export class AddressComponent {
   initAddress() {
     this.fbAddressDetails = this.formbuilder.group({
       Id: [''],
-      AddressLine1: new FormControl('', [Validators.required]),
-      AddressLine2: new FormControl('', [Validators.required]),
-      Landmark: new FormControl('', [Validators.required]),
-      ZIPCode: new FormControl('', [Validators.required]),
-      City: new FormControl('', [Validators.required]),
-      State: new FormControl('', [Validators.required]),
-      Country: new FormControl('', [Validators.required]),
-      IsActive: new FormControl('', [Validators.required]),
-      CreatedAt: new FormControl('', [Validators.required]),
-      UpdatedAt: new FormControl('', [Validators.required]),
-      CreatedBy: new FormControl('', [Validators.required]),
-      UpdatedBy: new FormControl('', [Validators.required]),
-      addressDetails: this.formbuilder.array([])
+      AddressLine1: new FormControl(''),
+      AddressLine2: new FormControl(''),
+      Landmark: new FormControl(''),
+      ZIPCode: new FormControl(''),
+      City: new FormControl(''),
+      State: new FormControl(''),
+      Country: new FormControl(''),
+      addressType:[],
+      IsActive: new FormControl(''),
+      // addressDetails: this.formbuilder.array([])
     });
   }
 
-  generaterow(addressDetails: Address = new Address()): FormGroup {
-    return this.formbuilder.group({
-      Id: new FormControl(addressDetails.Id),
-      AddressLine1: new FormControl(addressDetails.AddressLine1, [Validators.required]),
-      AddressLine2: new FormControl(addressDetails.AddressLine2, [Validators.required]),
-      Landmark: new FormControl(addressDetails.Landmark, [Validators.required]),
-      ZIPCode: new FormControl(addressDetails.ZIPCode, [Validators.required]),
-      City: new FormControl(addressDetails.City, [Validators.required]),
-      State: new FormControl(addressDetails.State, [Validators.required]),
-      Country: new FormControl(addressDetails.Country, [Validators.required]),
-      IsActive: new FormControl(addressDetails.IsActive, [Validators.required]),
-      CreatedAt: new FormControl(addressDetails.CreatedAt, [Validators.required]),
-      UpdatedAt: new FormControl(addressDetails.UpdatedAt, [Validators.required]),
-      CreatedBy: new FormControl(addressDetails.CreatedBy, [Validators.required]),
-      UpdatedBy: new FormControl(addressDetails.UpdatedBy, [Validators.required]),
-    });
-  }
 
   clearForm() {
     this.fbAddressDetails.reset();
   }
 
   addNewAddress() {
-    this.showAddressDetails = true;
-    this.faAddressDetails = this.fbAddressDetails.get("addressDetails") as FormArray
-    this.faAddressDetails.push(this.generaterow())
-
+   
+    if (this.fbAddressDetails.valid) {
+      const addressData = this.fbAddressDetails.value;
+      this.addressDetails.push(addressData);
+      this.clearForm();
+      this.ShowlookupDetails = true;
+    }
   }
+
   navigateToPrev() {
     this.router.navigate(['employee/onboardingemployee/experiencedetails'])
   }
