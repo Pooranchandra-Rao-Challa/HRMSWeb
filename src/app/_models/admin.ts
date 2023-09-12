@@ -122,7 +122,12 @@ export class ProjectViewDto {
 export class EmployeesList{
   employeeId: number
   employeeName: string
-  employeeCode: string;
+  employeeCode: string; 
+}
+export class ProjectAllotments
+{
+  employeeId: number
+  projectAllotmentId:number
 }
 export class ProjectDetailsDto {
   clientId:number
@@ -133,7 +138,7 @@ export class ProjectDetailsDto {
   logo:string;
   description: string;
   isActive?:boolean;
-  ProjectAllotments:string[]
+  ProjectAllotments:EmployeesList[]
   clients?:ClientDetailsDto[];
   createdBy?: string
   createdAt?: string
