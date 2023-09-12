@@ -4,92 +4,300 @@
             <div class="p-fluid p-formgrid grid">
                 <div class="field col-12 md:col-4">
                     <span class="p-float-label">
-                        <input type="text" id="inputtext" pInputText formControlName="firstName" />
-                        <label for="inputtext">First Name<sup class="p-error">*</sup></label>
+                        <input type="text" id="inputtext" pInputText formControlName="code" #code [maxlength]="20"
+                            alphaNumeric (keydown)="restrictSpaces($event)"
+                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['code'].touched && FormControls['code'].errors }" />
+                        <label class="required" for="inputtext">Code</label>
                     </span>
-
+                    <div class="flex">
+                        <div class="align-left w-60" style="width:70%">
+                            <span *ngIf="FormControls['code'].touched && FormControls['code'].invalid">
+                                <div class="ng-invalid ng-touched p-error"
+                                    *ngIf="FormControls['code'].errors?.['required']">
+                                    Please Enter Code.</div>
+                                <div class="ng-invalid ng-touched p-error"
+                                    *ngIf="FormControls['code'].errors?.['minlength']">
+                                    Code Min Length Is 2.</div>
+                            </span>
+                        </div>
+                        <div class="align-right w-40" style="width:30%; text-align:right;">
+                            <small>{{code.value.length}}/{{maxLength.code}} </small>
+                        </div>
+                    </div>
                 </div>
                 <div class="field col-12 md:col-4">
                     <span class="p-float-label">
-                        <input type="text" id="inputtext1" pInputText formControlName="middleName" />
-                        <label for="inputtext1">Middle Name</label>
+                        <input type="text" id="first_Name" pInputText formControlName="firstName" #firstname alphaOnly
+                            [maxlength]="50" (keydown)="restrictSpaces($event)"
+                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['firstName'].touched && FormControls['firstName'].errors }" />
+                        <label class="required">First Name</label>
                     </span>
+                    <div class="flex">
+                        <div class="align-left w-60" style="width:70%">
+                            <span *ngIf="FormControls['firstName'].touched && FormControls['firstName'].invalid">
+                                <div class="ng-invalid ng-touched p-error"
+                                    *ngIf="FormControls['firstName'].errors?.['required']">
+                                    Please Enter First Name.</div>
+                                <div class="ng-invalid ng-touched p-error"
+                                    *ngIf="FormControls['firstName'].errors?.['pattern']">
+                                    Name Should Contains Alphabets.</div>
+                                <div class="ng-invalid ng-touched p-error"
+                                    *ngIf="FormControls['firstName'].errors?.['minlength']">
+                                    First Name Min Length Is 2.</div>
+                            </span>
+                        </div>
+                        <div class="align-right w-40" style="width:30%; text-align:right;">
+                            <small>{{firstname.value.length}}/{{maxLength.name}} </small>
+                        </div>
+                    </div>
                 </div>
                 <div class="field col-12 md:col-4">
                     <span class="p-float-label">
-                        <input type="text" id="inputtext2" pInputText formControlName="lastName" />
-                        <label for="inputtext2">Last Name<sup class="p-error">*</sup></label>
+                        <input type="text" id="middle_Name" pInputText formControlName="middleName" #middlename
+                            alphaOnly [maxlength]="50" (keydown)="restrictSpaces($event)"
+                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['middleName'].touched && FormControls['middleName'].errors }"
+                            (keydown)="restrictSpaces($event)" />
+                        <label>Middle Name</label>
                     </span>
+                    <div class="flex">
+                        <div class="align-left w-60" style="width:70%">
+                            <span *ngIf="FormControls['middleName'].touched && FormControls['middleName'].invalid">
+                                <div class="ng-invalid ng-touched p-error"
+                                    *ngIf="FormControls['middleName'].errors?.['minlength']">
+                                    Middle Name Min Length Is 2.</div>
+                            </span>
+                        </div>
+                        <div class="align-right w-40" style="width:30%; text-align:right;">
+                            <small>{{middlename.value.length}}/{{maxLength.name}} </small>
+                        </div>
+                    </div>
                 </div>
                 <div class="field col-12 md:col-4">
                     <span class="p-float-label">
-                        <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [options]="genders" optionLabel="name"
-                            formControlName="gender"></p-dropdown>
-                        <label for="dropdown">Gender<sup class="p-error">*</sup></label>
+                        <input type="text" id="last_Name" pInputText formControlName="lastName" #lastname alphaOnly
+                            [maxlength]="50" (keydown)="restrictSpaces($event)"
+                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['lastName'].touched && FormControls['lastName'].errors }" />
+                        <label class="required">Last Name</label>
                     </span>
+                    <div class="flex">
+                        <div class="align-left w-60" style="width:70%">
+                            <span *ngIf="FormControls['lastName'].touched && FormControls['lastName'].invalid">
+                                <div class="ng-invalid ng-touched p-error"
+                                    *ngIf="FormControls['lastName'].errors?.['required']">
+                                    Please Enter Last Name.</div>
+                                <div class="ng-invalid ng-touched p-error"
+                                    *ngIf="FormControls['lastName'].errors?.['pattern']">
+                                    Name Should Contains Alphabets.</div>
+                                <div class="ng-invalid ng-touched p-error"
+                                    *ngIf="FormControls['lastName'].errors?.['minlength']">
+                                    Last Name Min Length Is 2.</div>
+                            </span>
+                        </div>
+                        <div class="align-right w-40" style="width:30%; text-align:right;">
+                            <small>{{lastname.value.length}}/{{maxLength.name}} </small>
+                        </div>
+                    </div>
                 </div>
                 <div class="field col-12 md:col-4">
                     <span class="p-float-label">
-                        <p-dropdown inputId="dropdown2" [autoDisplayFirst]="false" [options]="BloodGroup"
-                            optionLabel="name" formControlName="bloodGroup"></p-dropdown>
-                        <label for="dropdown2">Blood Group<sup class="p-error">*</sup></label>
+                        <p-dropdown id="gender_dropdown" [autoDisplayFirst]="false" [options]="genders"
+                            optionLabel="name" formControlName="gender"
+                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['gender'].touched && FormControls['gender'].errors}">
+                        </p-dropdown>
+                        <label class="required">Gender</label>
                     </span>
+                    <div class="flex">
+                        <div class="align-left w-60" style="width:70%">
+                            <span *ngIf="FormControls['gender'].touched && FormControls['gender'].invalid">
+                                <div class="ng-invalid ng-touched p-error"
+                                    *ngIf="FormControls['gender'].errors?.['required']">
+                                    Please Select Gender.
+                                </div>
+                            </span>
+                        </div>
+                    </div>
                 </div>
                 <div class="field col-12 md:col-4">
                     <span class="p-float-label">
-                        <p-dropdown inputId="dropdown1" [autoDisplayFirst]="false" [options]="MaritalStatus"
-                            optionLabel="name" formControlName="maritalStatus"></p-dropdown>
-                        <label for="dropdown1">Marital status<sup class="p-error">*</sup></label>
+                        <p-dropdown id="bloodgroup_dropdown" [autoDisplayFirst]="false" 
+                            optionLabel="name" formControlName="bloodGroupId"
+                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['bloodGroupId'].touched && FormControls['bloodGroupId'].errors}">
+                        </p-dropdown>
+                        <label class="required">Blood Group</label>
                     </span>
+                    <div class="flex">
+                        <div class="align-left w-60" style="width:70%">
+                            <span *ngIf="FormControls['bloodGroupId'].touched && FormControls['bloodGroupId'].invalid">
+                                <div class="ng-invalid ng-touched p-error"
+                                    *ngIf="FormControls['bloodGroupId'].errors?.['required']">
+                                    Please Select Blood Group.
+                                </div>
+                            </span>
+                        </div>
+                    </div>
                 </div>
                 <div class="field col-12 md:col-4">
                     <span class="p-float-label">
-                        <input type="text" id="inputtext3" pInputText formControlName="mobileNo" />
+                        <p-dropdown id="maritalStatus_dropdown" [autoDisplayFirst]="false" [options]="MaritalStatus"
+                            optionLabel="name" formControlName="maritalStatus"
+                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['maritalStatus'].touched && FormControls['maritalStatus'].errors}">
+                        </p-dropdown>
+                        <label class="required">Marital status</label>
+                    </span>
+                    <div class="flex">
+                        <div class="align-left w-60" style="width:70%">
+                            <span
+                                *ngIf="FormControls['maritalStatus'].touched && FormControls['maritalStatus'].invalid">
+                                <div class="ng-invalid ng-touched p-error"
+                                    *ngIf="FormControls['maritalStatus'].errors?.['required']">
+                                    Please Select Marital Status.
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <span class="p-float-label">
+                        <input type="text" id="mobileno" pInputText formControlName="mobileNumber" #mobileNo numericOnly
+                            [maxlength]="10" (keydown)="restrictSpaces($event)"
+                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['mobileNumber'].touched && FormControls['mobileNumber'].errors }" />
                         <label for="inputtext3">Mobile No.<sup class="p-error">*</sup></label>
                     </span>
+
+                    <div class="flex">
+                        <div class="align-left w-60" style="width:70%">
+                            <span *ngIf="FormControls['mobileNumber'].touched && FormControls['mobileNumber'].invalid">
+                                <div class="ng-invalid ng-touched p-error"
+                                    *ngIf="FormControls['mobileNumber'].errors?.['required']">
+                                    Please Enter Mobile Number.</div>
+                                <div class="ng-invalid ng-touched p-error"
+                                    *ngIf="FormControls['mobileNumber'].errors?.['minlength']">
+                                    Mobile Number Min Length Is 2.</div>
+                            </span>
+                        </div>
+                        <div class="align-right w-40" style="width:30%; text-align:right;">
+                            <small>{{mobileNo.value.length}}/{{maxLength.phoneNo}} </small>
+                        </div>
+                    </div>
                 </div>
                 <div class="field col-12 md:col-4">
                     <span class="p-float-label">
-                        <input type="text" id="inputtext" pInputText formControlName="AlternativePhNo" />
-                        <label for="inputtext">Alternative Mobile No.</label>
+                        <input type="text" id="alternativePhoneNo" pInputText formControlName="alternateMobileNumber"
+                            #alternateNo numericOnly [maxlength]="10" (keydown)="restrictSpaces($event)" />
+                        <label>Alternative Mobile No.</label>
                     </span>
+                    <div class="flex">
+                        <div class="align-left w-60" style="width:70%">
+                            <span
+                                *ngIf="FormControls['alternateMobileNumber'].touched && FormControls['alternateMobileNumber'].invalid">
+                                <div class="ng-invalid ng-touched p-error"
+                                    *ngIf="FormControls['alternateMobileNumber'].errors?.['minlength']">
+                                    Alternate Mobile Number Min Length Is 2.</div>
+                            </span>
+                        </div>
+                        <div class="align-right w-40" style="width:30%; text-align:right;">
+                            <small>{{alternateNo.value.length}}/{{maxLength.phoneNo}} </small>
+                        </div>
+                    </div>
                 </div>
                 <div class="field col-12 md:col-4">
                     <span class="p-float-label">
-                        <input type="text" id="inputtext" pInputText formControlName="email" />
+                        <p-calendar [readonlyInput]="true" [showIcon]="true" id="original_dob"
+                            formControlName="originalDob" mask="99/99/9999"
+                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['originalDob'].touched && FormControls['originalDob'].errors}">
+                        </p-calendar>
+                        <label class="required">Original DOB</label>
+                    </span>
+                    <div class="flex">
+                        <div class="align-left w-60" style="width:70%">
+                            <span *ngIf="FormControls['originalDob'].touched && FormControls['originalDob'].invalid">
+                                <div class="ng-invalid ng-touched p-error"
+                                    *ngIf="FormControls['originalDob'].errors?.['required']">
+                                    Please Select Original Date.
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <span class="p-float-label">
+                        <p-calendar [readonlyInput]="true" [showIcon]="true" id="certificate_dob" mask="99/99/9999"
+                            formControlName="certificateDob"
+                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['certificateDob'].touched && FormControls['certificateDob'].errors}">
+                        </p-calendar>
+                        <label class="required">Certificate DOB</label>
+                    </span>
+                    <div class="flex">
+                        <div class="align-left w-60" style="width:70%">
+                            <span
+                                *ngIf="FormControls['certificateDob'].touched && FormControls['certificateDob'].invalid">
+                                <div class="ng-invalid ng-touched p-error"
+                                    *ngIf="FormControls['certificateDob'].errors?.['required']">
+                                    Please Select Certificate Date.
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <span class="p-float-label">
+                        <input type="text" id="inputtext" pInputText formControlName="emailId" #email
+                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['emailId'].touched && FormControls['emailId'].errors }" />
                         <label for="inputtext">Email ID<sup class="p-error">*</sup></label>
                     </span>
-                </div>
-                <!-- <div class="field col-12 md:col-4">
-                    <span class="p-float-label">
-                        <textarea inputId="textarea" rows="3" cols="30" pInputTextarea
-                            formControlName="currentAddress"></textarea>
-                        <label for="textarea">Current Address<sup class="p-error">*</sup></label>
-                    </span>
+                    <div class="flex">
+                        <div class="align-left w-60" style="width:70%">
+                            <span *ngIf="FormControls['emailId'].touched && FormControls['emailId'].invalid">
+                                <div class="ng-invalid ng-touched p-error"
+                                    *ngIf="FormControls['emailId'].errors?.['required']">
+                                    Please Enter EmailId.</div>
+                                <div class="ng-invalid ng-touched p-error"
+                                    *ngIf="FormControls['emailId'].errors?.['pattern']">
+                                    Must in Email Format.</div>
+                                <div class="ng-invalid ng-touched p-error"
+                                    *ngIf="FormControls['emailId'].errors?.['minlength']">
+                                    EmailId Min Length Is 2.</div>
+                            </span>
+                        </div>
+                        <div class="align-right w-40" style="width:30%; text-align:right;">
+                            <small>{{email.value.length}}/{{maxLength.name}} </small>
+                        </div>
+                    </div>
                 </div>
                 <div class="field col-12 md:col-4">
-                    <span class="p-float-label">
-                        <textarea inputId="textarea" rows="3" cols="30" pInputTextarea
-                            formControlName="permanentAddress"></textarea>
-                        <label for="textarea">Permanent Address<sup class="p-error">*</sup></label>
-                    </span>
-                </div> -->
+                    <label class="required">Is Active:</label>
+                    <br>
+                    <p-inputSwitch formControlName="isActive" id="PersonalDetails_IsActive"></p-inputSwitch>
+                </div>
                 <div class="field col-12 md:col-4">
-                    <span class="p-float-label">
-                        <p-multiSelect inputId="multiselect" [options]="skills" optionLabel="name" [filter]="false"
-                            display="chip" formControlName="skills"></p-multiSelect>
-                        <label for="multiselect">Skills<sup class="p-error">*</sup></label>
-                    </span>
+                    <img [src]="this.fbbasicDetails.get('photo').value"
+                        onerror="this.onerror=null; this.src='https://t3.ftcdn.net/jpg/02/18/21/86/360_F_218218632_jF6XAkcrlBjv1mAg9Ow0UBMLBaJrhygH.jpg'"
+                        alt="photo" height="100px" width="100px" class="up_logo">
+                    <p-fileUpload mode="basic" [maxFileSize]="1000000" chooseLabel="Choose Photo"
+                        url="https://www.primefaces.org/cdn/api/upload.php" (onSelect)="onFileSelect($event)"
+                        accept="image/jpeg, image/png, image/jpg">
+                    </p-fileUpload>
+                    <div class="flex">
+                        <div class="align-left w-60">
+                            <span *ngIf="FormControls['photo'].touched && FormControls['photo'].invalid">
+                                <div class="ng-invalid ng-touched p-error" *ngIf="this.imageSize>1000000">
+                                    Image dimensions are too large.</div>
+                            </span>
+                        </div>
+                    </div>
                 </div>
                 <br>
-                <div class="field col-8"></div>
+                <div class="field col-4">
+                </div>
                 <div class="field col-4">
                 </div>
                 <div class=" col-4">
-                    <button p-button class="p-element p-ripple p-button-info p-button p-component">Save as Draft</button>
+                    <button p-button class="p-element p-ripple p-button-info p-button p-component">Save as
+                        Draft</button>
                 </div>
                 <div class=" col-4">
-                    <button p-button class="p-element p-ripple p-button-primary p-button p-component" (click)="navigateToNext()">Education Details </button>
+                    <button p-button class="p-element p-ripple p-button-primary p-button p-component"
+                        (click)="navigateToNext()">Education Details </button>
                 </div>
             </div>
         </div>

@@ -38,6 +38,7 @@ export const UNASSIGNED_ASSET_ALLOTMENT_URI = "Admin/InactiveAssetAllotment";
 export const LOOKUP_ASSET_TYPE_URI = "Lookup/AssetTypes";
 export const LOOKUP_ASSET_CATEGORIES_URI = "Lookup/AssetCategories";
 export const LOOKUP_ASSET_STATUS_URI = "Lookup/Status";
+export const LOOKUP_STATES_URI = "Lookup/States";
 
 // END LOOKUPS
 
@@ -46,5 +47,9 @@ export const CREATE_PROJECT_URI="Admin/CreateProjectWithDetails";
 export const UPDATE_PROJECT_URI="Admin/UpdateProjectWithDetails";
 export const  GET_CLIENTNAMES_URI="Admin/GetClientNames";
 export const GET_CLIENT_DETAILS="Admin/GetClientDetails";
-export const GET_EMPLOYEES="Employee/GetEmployeeDropdown";
+export const GET_EMPLOYEES = "Employee/GetEmployeeDropdown";
+
+//EMPLOYEE
+export const GET_EMPLOYEES_URI = "Employee/GetEmployeeDetails";
+export const CREATE_BASIC_DETAILS_URI="Employee/CreateEmployeeBasicDetails";
 export const EMPLOYEES_FOR_ALLOTTED_ASSETS_URI = "Admin/GetAssetsForEmployees";

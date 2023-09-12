@@ -96,33 +96,33 @@ export class HolidayDto {
     isActive?: boolean
 }
 export class ProjectViewDto {
-    projectId: number;
-    code: string;
-    name: string;
-    InceptionAt: string;
-    description: string;
-    clientId: number;
-    clientName: string;
-    companyName: string;
-    email: string;
-    mobileNumber: string;
-    cinno: string;
-    pocName: string;
-    pocMobileNumber: string;
-    address: string;
-    logo: string;
-    teamMembers: string
-    expandEmployees: EmployeesList[];
-    isActive: boolean
-    createdBy?: string
-    createdAt?: string
-    updatedBy?: string
-    updatedAt?: string
+  projectId: number;
+  code: string;
+  name: string;
+  startDate: string;
+  description: string;
+  clientId: number;
+  clientName: string;
+  companyName: string;
+  email: string;
+  mobileNumber: string;
+  cinno: string;
+  pocName: string;
+  pocMobileNumber: string;
+  address: string;
+  logo:string;
+  teamMembers:string
+  expandEmployees:EmployeesList[];
+  isActive: boolean
+  createdBy?: string
+  createdAt?: string
+  updatedBy?: string
+  updatedAt?: string
 }
-export class EmployeesList {
-    employeeId: number;
-    employeeCode: string;
-    employeeName: string;
+export class EmployeesList{
+  employeeId: number
+  employeeName: string
+  employeeCode: string;
 }
 export class ProjectDetailsDto {
     clientId: number

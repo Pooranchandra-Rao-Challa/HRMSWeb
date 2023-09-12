@@ -99,6 +99,7 @@ export class ProjectComponent implements OnInit {
   }
 
   initProject(project: ProjectViewDto) {
+    console.log(project)
     this.showDialog();
     if (project != null) {
       this.addFlag = false;
@@ -121,7 +122,7 @@ export class ProjectComponent implements OnInit {
         code: project.code,
         name: project.name,
         isActive: project.isActive,
-        InceptionAt: FORMAT_DATE(new Date(project.InceptionAt)),
+        InceptionAt: FORMAT_DATE(new Date(project.startDate)),
         logo: project.logo,
         description: project.description
       })

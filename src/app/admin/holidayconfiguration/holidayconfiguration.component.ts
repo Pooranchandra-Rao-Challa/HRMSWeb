@@ -39,7 +39,7 @@ export class HolidayconfigurationComponent {
   fbHoliday!: FormGroup;
   editHolidayForm!: FormGroup;
   maxLength: MaxLength = new MaxLength();
-  selectedYear: Year | undefined;
+selectedYear: Year |undefined ;
   years: any
   permissions: any;
   holidayToEdit: HolidaysViewDto;
@@ -84,7 +84,7 @@ export class HolidayconfigurationComponent {
       title: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
       fromDate: [null, [Validators.required, this.dateValidator.bind(this)]],
       toDate: [null],
-      description: new FormControl('', [Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
+      description: new FormControl('', Validators.minLength(MIN_LENGTH_2)),
       isActive: new FormControl(true, Validators.requiredTrue),
       year: new FormControl(currentYear),
       holidayDetails: this.formbuilder.array([])
@@ -157,7 +157,7 @@ export class HolidayconfigurationComponent {
       title: new FormControl('', Validators.required),
       fromDate: new FormControl('', Validators.required),
       toDate: new FormControl(''),
-      description: new FormControl('', Validators.required),
+      description: new FormControl(''),
       year: new FormControl(currentYear),
       isActive: new FormControl(''),
     },
@@ -291,8 +291,15 @@ export class HolidayconfigurationComponent {
   onClose() {
     this.fbHoliday.reset();
     this.faholdyDetail().clear();
+    this.holidayForm();
     this.faholdyDetail().value.length == 0
   }
+  restrictSpaces(event: KeyboardEvent) {
+    if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {
+      event.preventDefault();
+    }
+  }
+
   // Method to handle the global filter for the table
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
