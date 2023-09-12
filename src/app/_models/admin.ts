@@ -99,7 +99,7 @@ export class ProjectViewDto {
   projectId: number;
   code: string;
   name: string;
-  startDate: string;
+  InceptionAt: string;
   description: string;
   clientId: number;
   clientName: string;
@@ -128,7 +128,7 @@ export class ProjectDetailsDto {
   projectId: number;
   code: string;
   name: string;
-  startDate: string;
+  InceptionAt: string;
   logo:string;
   description: string;
   isActive?:boolean;
