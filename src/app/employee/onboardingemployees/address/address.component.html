@@ -36,6 +36,7 @@
                     <span class="p-float-label">
                         <p-dropdown inputId="dropdown" formControlName="State" [autoDisplayFirst]="false"
                             [options]="State" optionLabel="statename"></p-dropdown>
+                            
                         <label for="dropdown">State<sup class="p-error">*</sup></label>
                     </span>
                 </div>
@@ -48,17 +49,17 @@
                 <div class="field col-12 md:col-8">
                     <div class="flex flex-wrap gap-3">
                       <div class="flex align-items-center">
-                          <p-radioButton  value="Cheese" formControlName="addressType" inputId="ingredient1"></p-radioButton>
+                          <p-radioButton  value="PermanentAddress" formControlName="addressType"></p-radioButton>
                           <label for="ingredient1" class="ml-2">Permanent Address</label>
                       </div>
                       
                       <div class="flex align-items-center">
-                          <p-radioButton value="Mushroom" formControlName="addressType" inputId="ingredient2"></p-radioButton>
+                          <p-radioButton value="TemporaryAddress" formControlName="addressType" ></p-radioButton>
                           <label for="ingredient2" class="ml-2">Temporary Address</label>
                       </div>
                       
                       <div class="flex align-items-center">
-                          <p-radioButton value="Pepper" formControlName="addressType" inputId="ingredient3"></p-radioButton>
+                          <p-radioButton value="CurrentAddress" formControlName="addressType"></p-radioButton>
                           <label for="ingredient3" class="ml-2">Current Address</label>
                       </div>
                   </div>

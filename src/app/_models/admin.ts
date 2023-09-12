@@ -122,7 +122,12 @@ export class ProjectViewDto {
 export class EmployeesList{
   employeeId: number
   employeeName: string
-  employeeCode: string;
+  employeeCode: string; 
+}
+export class ProjectAllotments
+{
+  employeeId: number
+  projectAllotmentId:number
 }
 export class ProjectDetailsDto {
     clientId: number
