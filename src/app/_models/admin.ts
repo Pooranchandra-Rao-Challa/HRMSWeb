@@ -99,7 +99,7 @@ export class ProjectViewDto {
   projectId: number;
   code: string;
   name: string;
-  InceptionAt: string;
+  startDate: string;
   description: string;
   clientId: number;
   clientName: string;
@@ -120,9 +120,9 @@ export class ProjectViewDto {
   updatedAt?: string
 }
 export class EmployeesList{
-  employeeId: number;
+  employeeId: number
+  employeeName: string
   employeeCode: string;
-  employeeName: string;
 }
 export class ProjectDetailsDto {
   clientId:number
