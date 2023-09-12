@@ -12,7 +12,8 @@ import { HttpEvent } from '@angular/common/http';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { Table } from 'primeng/table';
 import { ITableHeader } from 'src/app/_models/common';
-import { EmployeesList } from 'src/app/_models/admin';
+import { EmployeesForAllottedAssetsViewDto, EmployeesList } from 'src/app/_models/admin';
+import { MIN_LENGTH_2 } from 'src/app/_shared/regex';
 
 @Component({
     selector: 'app-assetsallotment',
@@ -32,34 +33,35 @@ export class AssetsallotmentComponent {
     showAssetDetails: boolean = false;
     showAssetAllotment: boolean = false;
     showUnassignAsset: boolean = false;
-    employees: Employee[] = [];
     employeesDropdown: EmployeesList[] = [];
     addFlag: boolean;
     assetAllotments: AssetAllotmentViewDto[] = [];
     maxDate: Date = new Date();
+    employeesForAllottedAssets: EmployeesForAllottedAssetsViewDto[] = [];
+    selectedEmployeeId: number;
 
     // START - Displaying the table view in the listItem
 
-    // globalFilterFields: string[] = ['empname', 'empcode', 'designation', 'email', 'phoneNo'];
-    // headers: ITableHeader[] = [
-    //     { field: 'empname', header: 'empname', label: 'Employee Name' },
-    //     { field: 'empcode', header: 'empcode', label: 'Employee Code' },
-    //     { field: 'designation', header: 'designation', label: 'Designation' },
-    //     { field: 'email', header: 'email', label: 'Email' },
-    //     { field: 'phoneNo', header: 'phoneNo', label: 'Phone No' },
-    // ];
-    // @ViewChild('filter') filter!: ElementRef;
-    // totalRecords = this.employees.length; // Total number of records
+    globalFilterFields: string[] = ['employeeName', 'code', 'designation', 'officeEmailId', 'mobileNumber'];
+    headers: ITableHeader[] = [
+        { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
+        { field: 'code', header: 'code', label: 'Employee Code' },
+        { field: 'designation', header: 'designation', label: 'Designation' },
+        { field: 'officeEmailId', header: 'officeEmailId', label: 'Email' },
+        { field: 'mobileNumber', header: 'mobileNumber', label: 'Phone No' },
+    ];
+    @ViewChild('filter') filter!: ElementRef;
+    totalRecords = this.employeesForAllottedAssets.length; // Total number of records
 
-    // onGlobalFilter(table: Table, event: Event) {
-    //     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
-    // }
+    onGlobalFilter(table: Table, event: Event) {
+        table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+    }
 
 
-    // clear(table: Table) {
-    //     table.clear();
-    //     this.filter.nativeElement.value = '';
-    // }
+    clear(table: Table) {
+        table.clear();
+        this.filter.nativeElement.value = '';
+    }
 
     // END - Displaying the table view in the listItem
 
@@ -71,8 +73,8 @@ export class AssetsallotmentComponent {
 
 
     ngOnInit() {
+        this.initEmployeesForAllottedAssets();
         this.assetAllotmentForm();
-        this.securityService.getEmployees().then((data) => (this.employees = data));
         this.initAssetCategories();
         this.initAssetTypes();
         this.unAssignAssetForm();
@@ -98,11 +100,19 @@ export class AssetsallotmentComponent {
     }
 
     initEmployees() {
-        this.adminService.getEmployeesList().subscribe(resp => {
-          this.employeesDropdown = resp as unknown as EmployeesList[];
-          console.log(resp)
+        this.adminService.getEmployeesList().subscribe((resp) => {
+            this.employeesDropdown = resp as unknown as EmployeesList[];
+            console.log(resp)
         });
-      }
+    }
+
+    initEmployeesForAllottedAssets() {
+        this.adminService.EmployeesForAllottedAssets().subscribe((resp) => {
+            this.employeesForAllottedAssets = resp as unknown as EmployeesForAllottedAssetsViewDto[];
+            console.log(this.employeesForAllottedAssets);
+
+        })
+    }
 
     assetsList = []
     //     { name: 'Mouse', code: 'MU' },
@@ -118,7 +128,7 @@ export class AssetsallotmentComponent {
 
     assetAllotmentForm() {
         this.fbAssetAllotment = this.formbuilder.group({
-            employeeId: new FormControl(null),
+            employeeId: new FormControl(null, [Validators.required]),
             assetCategoryId: new FormControl('', [Validators.required]),
             assetTypeId: new FormControl('', [Validators.required]),
             assetId: new FormControl('', [Validators.required]),
@@ -137,7 +147,7 @@ export class AssetsallotmentComponent {
         this.fbUnAssignAsset = this.formbuilder.group({
             assetAllotmentId: new FormControl('', [Validators.required]),
             revokedOn: new FormControl('', [Validators.required]),
-            reasonForRevoke: new FormControl('', [Validators.required]),
+            reasonForRevoke: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2)]),
             isActive: new FormControl('', [Validators.required]),
         });
     }
@@ -160,18 +170,17 @@ export class AssetsallotmentComponent {
         this.addFlag = true;
     }
 
-    directAssetAllotment(employeeId: number) {
-        this.fbAssetAllotment.value.employeeId = 3;
+    directAddAssetAllotment(employeeId: number) {
+        this.fbAssetAllotment.controls['employeeId'].setValue(employeeId);
         this.addAssetAllotment();
     }
 
     viewAssetAllotments(employeeId: number) {
         this.showAssetDetails = true;
-        // this.onClose();
-        employeeId = 3;
         this.adminService.GetAssetAllotments(employeeId).subscribe((resp) => {
             if (resp) {
                 this.assetAllotments = resp as unknown as AssetAllotmentViewDto[];
+                if(this.assetAllotments) this.selectedEmployeeId = this.assetAllotments[0]?.employeeId;
             }
         });
     }
@@ -182,8 +191,6 @@ export class AssetsallotmentComponent {
     }
 
     onSubmitAsset() {
-        this.fbAssetAllotment.controls['employeeId'].setValue(3);
-        this.fbAssetAllotment.value.employeeId = 3;
         this.saveAssetAllotment().subscribe((resp) => {
             if (resp) {
                 if (this.showAssetDetails) this.viewAssetAllotments(this.fbAssetAllotment.value.employeeId);
@@ -203,13 +210,16 @@ export class AssetsallotmentComponent {
     }
 
     onSubmitUnAssignedAsset() {
-        // this.fbUnAssignAsset.controls['isActive'].setValue(false);
         this.adminService.UnassignAssetAllotment(this.fbUnAssignAsset.value).subscribe((resp) => {
-            if (this.showAssetDetails) this.viewAssetAllotments(this.fbAssetAllotment.value.employeeId);
-            this.onCloseUnAssignAsset()
-            this.showUnassignAsset = false;
-            this.alertMessage.displayAlertMessage(ALERT_CODES["SAAAA002"]);
-            // else this.alertMessage.displayErrorMessage(ALERT_CODES["EAAAA002"]);
+            if (this.showAssetDetails) {
+                this.viewAssetAllotments(this.selectedEmployeeId);
+                this.onCloseUnAssignAsset()
+                this.showUnassignAsset = false;
+                this.alertMessage.displayAlertMessage(ALERT_CODES["SAAAA002"]);
+            }
+            else {
+                this.alertMessage.displayErrorMessage(ALERT_CODES["EAAAA002"]);
+            }
         });
     }
 

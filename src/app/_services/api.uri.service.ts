@@ -39,7 +39,7 @@ export const LOOKUP_ASSET_TYPE_URI = "Lookup/AssetTypes";
 export const LOOKUP_ASSET_CATEGORIES_URI = "Lookup/AssetCategories";
 export const LOOKUP_ASSET_STATUS_URI = "Lookup/Status";
 export const LOOKUP_STATES_URI = "Lookup/States";
-
+export const LOOKUP_BLOOD_GROUPS_URI ="Lookup/BloodGroups";
 // END LOOKUPS
 
 export const GET_PROJECTS_URI="Admin/GetProjectDetails";
@@ -52,3 +52,5 @@ export const GET_EMPLOYEES = "Employee/GetEmployeeDropdown";
 //EMPLOYEE
 export const GET_EMPLOYEES_URI = "Employee/GetEmployeeDetails";
 export const CREATE_BASIC_DETAILS_URI="Employee/CreateEmployeeBasicDetails";
+export const EMPLOYEES_FOR_ALLOTTED_ASSETS_URI = "Admin/GetAssetsForEmployees";
+export const GET_EMPLOYEE_BASED_ON_ID_URI ="Employee/GetEmployeeBasedOnId"

@@ -3,25 +3,29 @@
 
     <div class="col-12">
         <div class="card">
-            <p-dataView #dv [value]="employees" [paginator]="true" [rows]="12" filterBy="empname,empcode"
-                [sortField]="sortField" [sortOrder]="sortOrder" layout="grid">
+            <p-dataView #dv [value]="employeesForAllottedAssets" [paginator]="dv._layout == 'grid' ? true : false"
+                [alwaysShowPaginator]="false" [rows]="12" filterBy="employeeName,code" [sortField]="sortField"
+                [sortOrder]="sortOrder" layout="grid">
                 <ng-template pTemplate="header">
                     <div class="flex flex-column md:flex-row md:justify-content-between gap-2">
-                        <span class="p-input-icon-left">
-                            <i class="pi pi-search"></i>
-                            <input type="text" pInputText placeholder="Search by Name or Id"
-                                (input)="onFilter(dv, $event)" />
-                        </span>
+                        <div>
+                            <span class="p-input-icon-left" *ngIf="dv._layout == 'grid'">
+                                <i class="pi pi-search"></i>
+                                <input type="text" pInputText placeholder="Search by Name or Id"
+                                    (input)="onFilter(dv, $event)" />
+                            </span>
+                        </div>
+                       
                         <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
                         <p-button class="p-element p-ripple p-button p-component p-2 pt-0 pb-0"
                             (click)="addAssetAllotment()" icon="pi pi-plus" label="Assign Asset"></p-button>
                     </div>
                 </ng-template>
                 <ng-template let-employee pTemplate="listItem" let-item>
-                    <!-- <ng-container *ngIf="item === employees[0]">
-                        //table
-                        <p-table #dtEmployees [value]="employees" dataKey="id" [rows]="10" [rowHover]="true"
-                            styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm pb-5"
+                    <ng-container *ngIf="item === employeesForAllottedAssets[0]">
+                        <!-- table -->
+                        <p-table #dtEmployees [value]="employeesForAllottedAssets" dataKey="id" [rows]="10"
+                            [rowHover]="true" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm pb-5"
                             [paginator]="true"
                             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                             [showCurrentPageReport]="true" [alwaysShowPaginator]="false"
@@ -41,7 +45,6 @@
                             </ng-template>
                             <ng-template pTemplate="header">
                                 <tr>
-                                    <th></th>
                                     <th>Image</th>
                                     <th *ngFor="let col of headers" [pSortableColumn]="col.header">
                                         {{col?.label}}
@@ -49,19 +52,32 @@
                                         </p-columnFilter>
                                         <p-sortIcon [field]="col.header"></p-sortIcon>
                                     </th>
+                                    <th></th>
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-employee>
                                 <tr>
-                                    <td><button pButton pRipple icon="pi pi-pencil"
-                                            class="p-element p-ripple p-button-text p-button p-component"></button>
-                                    </td>
                                     <td>
-                                        <img [src]="'assets/demo/images/employee/' + employee.image" [alt]="employee.empname"
-                                        class="my-4 md:my-0 w-10 md:w-10rem shadow-2 mr-2" />
+                                        <img [src]="employee.photo ? employee.photo : 'https://t3.ftcdn.net/jpg/02/18/21/86/360_F_218218632_jF6XAkcrlBjv1mAg9Ow0UBMLBaJrhygH.jpg'"
+                                            [alt]="employee.employeeName"
+                                            class="my-4 md:my-0 w-10 md:w-10rem shadow-2 mr-2" />
                                     </td>
                                     <td *ngFor="let col of headers">
                                         <span>{{employee[col.field]}}</span>
+                                    </td>
+                                    <td>
+                                        <button pbutton="" pripple="" type="button" label="Primary"
+                                            (click)="viewAssetAllotments(employee.employeeId)"
+                                            class="p-element p-ripple p-button-text p-button p-component view_profile_button"
+                                            ng-reflect-label="Primary">
+                                            <span class="p-button-label pi pi-chevron-right"></span>
+                                        </button>
+                                        <button pbutton="" pripple="" type="button" label="Primary"
+                                            (click)="directAddAssetAllotment(employee.employeeId)"
+                                            class="p-element p-ripple p-button-text p-button p-component view_profile_button"
+                                            ng-reflect-label="Primary">
+                                            <span class="p-button-label pi pi-plus"></span>
+                                        </button>
                                     </td>
                                 </tr>
                             </ng-template>
@@ -71,55 +87,55 @@
                                 </tr>
                             </ng-template>
                         </p-table>
-                    </ng-container> -->
-                    <div class="col-12">
+                    </ng-container>
+                    <!-- <div class="col-12">
                         <div class="flex flex-column md:flex-row align-items-center p-3 w-full">
-                            <img [src]="'assets/demo/images/employee/' + employee.image" [alt]="employee.empname"
-                                class="my-4 md:my-0 w-10 md:w-10rem shadow-2 mr-2" />
+                            <img [src]="employee.photo ? employee.photo : 'https://t3.ftcdn.net/jpg/02/18/21/86/360_F_218218632_jF6XAkcrlBjv1mAg9Ow0UBMLBaJrhygH.jpg'"
+                                [alt]="employee.employeeName" class="my-4 md:my-0 w-10 md:w-10rem shadow-2 mr-2" />
                             <div class="flex-1 flex flex-column align-items-center text-center md:text-left">
-                                <div class="font-bold text-sm">{{ employee.empname }}</div>
-                                <div class="mb-2">{{ employee.empcode }}</div>
-                                <div class="mb-2">{{ employee.designation }}</div>
-                                <div class="mb-2">{{ employee.email }}</div>
-                                <div class="mb-2">{{ employee.phoneno }}</div>
+                                <div class="font-bold text-sm">{{ employee?.employeeName }}</div>
+                                <div class="mb-2">{{ employee?.code }}</div>
+                                <div class="mb-2">{{ employee?.designation }}</div>
+                                <div class="mb-2">{{ employee?.officeEmailId }}</div>
+                                <div class="mb-2">{{ employee?.mobileNumber }}</div>
                             </div>
                             <div class="mb-3 col-3 p-0">
                                 <button pbutton="" pripple="" type="button" label="Primary"
-                                    (click)="viewAssetAllotments(employee.id)"
+                                    (click)="viewAssetAllotments(employee.employeeId)"
                                     class="p-element p-ripple p-button-text p-button p-component view_profile_button"
                                     ng-reflect-label="Primary">
                                     <span class="p-button-label pi pi-chevron-right"></span>
                                 </button>
                                 <button pbutton="" pripple="" type="button" label="Primary"
-                                    (click)="directAssetAllotment(employee.id)"
+                                    (click)="directAddAssetAllotment(employee.employeeId)"
                                     class="p-element p-ripple p-button-text p-button p-component view_profile_button"
                                     ng-reflect-label="Primary">
                                     <span class="p-button-label pi pi-plus"></span>
                                 </button>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </ng-template>
-                <ng-template let-employee pTemplate="gridItem" >
+                <ng-template let-employee pTemplate="gridItem">
                     <div class="col-12 md:col-4 lg:col-3 sm:col-6">
                         <div class="card m-2 border-1 surface-border">
                             <div class=" mb-3 grid">
                                 <div class="col-4 p-1 employee_profile_pic_div">
-                                    <img [src]="'assets/demo/images/employee/' + employee.image"
-                                        [alt]="employee.empname"
+                                    <img [src]="employee.photo ? employee.photo : 'https://t3.ftcdn.net/jpg/02/18/21/86/360_F_218218632_jF6XAkcrlBjv1mAg9Ow0UBMLBaJrhygH.jpg'"
+                                        [alt]="employee.employeeName"
                                         class="shadow-2 my-1 mx-0 employee_profile_pic zoomable-img"
                                         style="width: 70%;" />
                                 </div>
                                 <div class="col-8 p-1 px-2 employee_info">
-                                    <div class="text-xl font-bold">{{ employee.empname }}</div>
+                                    <div class="text-xl font-bold">{{ employee?.employeeName }}</div>
                                     <span class="text-600 font-medium text-md">
                                         <i class="pi pi-id-card text-300 text-primary text-1xl pb-1"></i>
-                                        :{{employee.empcode}}
+                                        :{{employee?.code}}
                                     </span>
                                     <br />
                                     <span class="text-600 font-medium text-md">
                                         <i class="pi pi-star text-500 text-primary text-1xl  pb-1"></i> :
-                                        {{employee.designation}}
+                                        {{employee?.designation}}
                                     </span>
                                     <br />
                                 </div>
@@ -128,24 +144,26 @@
                                 <div class="relative col-8 p-0 mb-3  employee_info">
                                     <span class="text-600 font-medium text-md">
                                         <i class="pi pi-at text-500 text-primary text-1xl pb-1"></i> :
-                                        {{employee.email}}
+                                        {{employee?.officeEmailId}}
                                     </span>
                                     <br />
                                     <span class="text-600 font-medium text-md">
                                         <i class="pi pi-phone text-500 text-primary text-1xl pb-1"></i> :
-                                        {{employee.phoneno}}
+                                        {{employee?.mobileNumber}}
                                     </span>
                                     <br />
                                 </div>
                                 <div class="mb-3 flex col-4 p-0">
                                     <button pbutton="" pripple="" type="button" label="Primary"
-                                        (click)="viewAssetAllotments(employee.id)" pTooltip="View" tooltipPosition="top"
+                                        (click)="viewAssetAllotments(employee.employeeId)" pTooltip="View"
+                                        tooltipPosition="top"
                                         class="p-element p-ripple p-button-text p-button p-component view_profile_button"
                                         ng-reflect-label="Primary">
                                         <span class="p-button-label pi pi-chevron-right"></span>
                                     </button>
                                     <button pbutton="" pripple="" type="button" label="Primary"
-                                        (click)="directAssetAllotment(employee.id)" pTooltip="Add" tooltipPosition="top"
+                                        (click)="directAddAssetAllotment(employee.employeeId)" pTooltip="Add"
+                                        tooltipPosition="top"
                                         class="p-element p-ripple p-button-text p-button p-component view_profile_button"
                                         ng-reflect-label="Primary">
                                         <span class="p-button-label pi pi-plus"></span>
@@ -163,7 +181,7 @@
                 <div class="col-12 text-right align-items-right">
                     <div class="gri align-items-right text-right">
                         <p-button class="p-element align-items-right text-right p-button p-component p-2 pt-0 pb-0"
-                            (click)="addAssetAllotment()" icon="pi pi-plus"></p-button>
+                            (click)="directAddAssetAllotment(selectedEmployeeId)" icon="pi pi-plus"></p-button>
                     </div>
                 </div>
                 <div class="col-12 ">
@@ -250,10 +268,10 @@
                         <div class="col-12 roles-container">
                             <div class="p-fluid p-formgrid grid">
                                 <div class="field col-12 md:col-4">
-                                    <label class="required">Employee Id:</label>
-                                    <p-dropdown [options]="employeesDropdown" formControlName="employeeId" optionLabel="employeeCode"
-                                        [filter]="true" filterBy="employeeCode,employeeName" [showClear]="true"
-                                        placeholder="Select Employee" optionValue="employeeCode" appendTo="body"
+                                    <label class="required">Employee:</label>
+                                    <p-dropdown [options]="employeesDropdown" formControlName="employeeId"
+                                        optionLabel="employeeCode" [filter]="true" filterBy="employeeCode,employeeName"
+                                        placeholder="Select Employee" optionValue="employeeId" appendTo="body"
                                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['employeeId'].touched && FormControls['employeeId'].errors }">
                                         <ng-template let-employee pTemplate="item">
                                             <div class="country-item">
@@ -377,16 +395,27 @@
                                 </div>
                                 <div class="field col-12 md:col-6">
                                     <label class="required">Reason For Revoke:</label>
-                                    <textarea rows="5" cols="30" placeholder="Enter Reason For Revoke"
+                                    <textarea #reasonForRevoke rows="5" cols="30" placeholder="Enter Reason For Revoke"
                                         formControlName="reasonForRevoke" pInputTextarea class="freeze_text-area"
+                                        [maxLength]="256"
                                         [ngClass]="{ 'is-invalid ng-dirty': fcUnAssignAsset['reasonForRevoke'].touched && fcUnAssignAsset['reasonForRevoke'].errors }">
                                     </textarea>
-                                    <span
-                                        *ngIf="fcUnAssignAsset['reasonForRevoke'].touched && fcUnAssignAsset['reasonForRevoke'].invalid">
-                                        <div class="ng-invalid ng-touched p-error"
-                                            *ngIf="fcUnAssignAsset['reasonForRevoke'].errors?.['required']">
-                                            Please Select Reason For Revoke.</div>
-                                    </span>
+                                    <div class="flex">
+                                        <div class="align-left w-60" style="width:70%">
+                                            <span
+                                                *ngIf="fcUnAssignAsset['reasonForRevoke'].touched && fcUnAssignAsset['reasonForRevoke'].invalid">
+                                                <div class="ng-invalid ng-touched p-error"
+                                                    *ngIf="fcUnAssignAsset['reasonForRevoke'].errors?.['required']">
+                                                    Please Select Reason For Revoke.</div>
+                                                <div class="ng-invalid ng-touched p-error"
+                                                    *ngIf="fcUnAssignAsset['reasonForRevoke'].errors?.['minlength']">
+                                                    Reason Must Be At Least 2 Characters.</div>
+                                            </span>
+                                        </div>
+                                        <div class="align-right w-40" style="width:30%; text-align:right;">
+                                            <small>{{reasonForRevoke.value.length}}/256</small>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CREATE_BASIC_DETAILS_URI, GET_EMPLOYEES_URI } from './api.uri.service';
+import { CREATE_BASIC_DETAILS_URI, GET_EMPLOYEES_URI, GET_EMPLOYEE_BASED_ON_ID_URI } from './api.uri.service';
 import { EmployeeBasicDetailDto, EmployeesViewDto } from '../_models/employes';
 import { HttpClient } from '@angular/common/http';
 import { ApiHttpService } from './api.http.service';
@@ -10,17 +10,21 @@ import { ApiHttpService } from './api.http.service';
 export class EmployeeService extends ApiHttpService{
 
   
-//Search Employee
+  //Search Employee
   public GetEmployees(IsEnrolled: boolean) {
-    let url = `${GET_EMPLOYEES_URI}`;
-    if (IsEnrolled) {
-      url += "?IsEnrolled=true";
-    }
+    const url = `${GET_EMPLOYEES_URI}/${IsEnrolled}`;
     return this.get<EmployeesViewDto[]>(url);
   }
+
   //Persnal Details of Employee
   public CreateBasicDetails(basicdetails: EmployeeBasicDetailDto){
     return this.post<EmployeeBasicDetailDto>(CREATE_BASIC_DETAILS_URI, basicdetails);
 
   }
+
+  public GetViewEmpPersDtls(employeeId:number){
+    return this.getWithId<EmployeesViewDto>(GET_EMPLOYEE_BASED_ON_ID_URI,[employeeId])
+}
+
+
 }

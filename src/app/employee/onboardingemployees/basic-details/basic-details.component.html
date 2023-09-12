@@ -39,9 +39,6 @@
                                     *ngIf="FormControls['firstName'].errors?.['required']">
                                     Please Enter First Name.</div>
                                 <div class="ng-invalid ng-touched p-error"
-                                    *ngIf="FormControls['firstName'].errors?.['pattern']">
-                                    Name Should Contains Alphabets.</div>
-                                <div class="ng-invalid ng-touched p-error"
                                     *ngIf="FormControls['firstName'].errors?.['minlength']">
                                     First Name Min Length Is 2.</div>
                             </span>
@@ -86,9 +83,6 @@
                                     *ngIf="FormControls['lastName'].errors?.['required']">
                                     Please Enter Last Name.</div>
                                 <div class="ng-invalid ng-touched p-error"
-                                    *ngIf="FormControls['lastName'].errors?.['pattern']">
-                                    Name Should Contains Alphabets.</div>
-                                <div class="ng-invalid ng-touched p-error"
                                     *ngIf="FormControls['lastName'].errors?.['minlength']">
                                     Last Name Min Length Is 2.</div>
                             </span>
@@ -101,7 +95,7 @@
                 <div class="field col-12 md:col-4">
                     <span class="p-float-label">
                         <p-dropdown id="gender_dropdown" [autoDisplayFirst]="false" [options]="genders"
-                            optionLabel="name" formControlName="gender"
+                            optionLabel="name" formControlName="gender" optionValue="name"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['gender'].touched && FormControls['gender'].errors}">
                         </p-dropdown>
                         <label class="required">Gender</label>
@@ -119,8 +113,8 @@
                 </div>
                 <div class="field col-12 md:col-4">
                     <span class="p-float-label">
-                        <p-dropdown id="bloodgroup_dropdown" [autoDisplayFirst]="false" 
-                            optionLabel="name" formControlName="bloodGroupId"
+                        <p-dropdown id="bloodgroup_dropdown" [autoDisplayFirst]="false" optionLabel="name" [options]="bloodgroups" optionValue="lookupDetailId"
+                            formControlName="bloodGroupId"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['bloodGroupId'].touched && FormControls['bloodGroupId'].errors}">
                         </p-dropdown>
                         <label class="required">Blood Group</label>
@@ -139,7 +133,7 @@
                 <div class="field col-12 md:col-4">
                     <span class="p-float-label">
                         <p-dropdown id="maritalStatus_dropdown" [autoDisplayFirst]="false" [options]="MaritalStatus"
-                            optionLabel="name" formControlName="maritalStatus"
+                            optionLabel="name" formControlName="maritalStatus" optionValue="name"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['maritalStatus'].touched && FormControls['maritalStatus'].errors}">
                         </p-dropdown>
                         <label class="required">Marital status</label>
@@ -171,9 +165,9 @@
                                     *ngIf="FormControls['mobileNumber'].errors?.['required']">
                                     Please Enter Mobile Number.</div>
                                 <div class="ng-invalid ng-touched p-error"
-                                    *ngIf="FormControls['mobileNumber'].errors?.['minlength']">
-                                    Mobile Number Min Length Is 2.</div>
-                            </span>
+                                    *ngIf="FormControls['mobileNumber'].errors?.['pattern']">
+                                    First Digit Should Be Greater Than 4 And Must Contains 10 Digits.</div>
+                                </span>
                         </div>
                         <div class="align-right w-40" style="width:30%; text-align:right;">
                             <small>{{mobileNo.value.length}}/{{maxLength.phoneNo}} </small>
@@ -191,9 +185,9 @@
                             <span
                                 *ngIf="FormControls['alternateMobileNumber'].touched && FormControls['alternateMobileNumber'].invalid">
                                 <div class="ng-invalid ng-touched p-error"
-                                    *ngIf="FormControls['alternateMobileNumber'].errors?.['minlength']">
-                                    Alternate Mobile Number Min Length Is 2.</div>
-                            </span>
+                                    *ngIf="FormControls['alternateMobileNumber'].errors?.['pattern']">
+                                    First Digit Should Be Greater Than 4 And Must Contains 10 Digits.</div>
+                                </span>
                         </div>
                         <div class="align-right w-40" style="width:30%; text-align:right;">
                             <small>{{alternateNo.value.length}}/{{maxLength.phoneNo}} </small>
@@ -292,12 +286,13 @@
                 <div class="field col-4">
                 </div>
                 <div class=" col-4">
-                    <button p-button class="p-element p-ripple p-button-info p-button p-component">Save as
+                    <button p-button class="p-element p-ripple p-button-info p-button p-component"
+                        [disabled]="fbbasicDetails.invalid" (click)="onSubmit()">Save as
                         Draft</button>
                 </div>
                 <div class=" col-4">
-                    <button p-button class="p-element p-ripple p-button-primary p-button p-component"
-                        (click)="navigateToNext()">Education Details </button>
+                    <!-- <button p-button class="p-element p-ripple p-button-primary p-button p-component"
+                    [disabled]="fbbasicDetails.invalid"  (click)="navigateToNext()">Education Details </button> -->
                 </div>
             </div>
         </div>
