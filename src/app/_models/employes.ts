@@ -3,34 +3,12 @@ export class EmployeesViewDto {
 	code?: string
 	employeeName?: string
 	gender?: string
-	bloodGroupId?: number
-	bloodGroup?: string
-	mobileNumber?: string
-	alternateMobileNumber?: string
-	originalDOB?: string
 	certificateDOB?: string
-	maritalStatus?: string
-	emailId?: string
-	photo?: any
-	signDate?: string
-	addresses?: any
-	bankDetails?: any
-	uploadedDocuments?: any
-	employeeInceptionDetailId?: number
-	timeIn?: string
-	timeOut?: string
+	dateofJoin?: any
 	officeEmailId?: any
-	dateofJoin?: string
-	isPFEligible?: boolean
-	isESIEligible?: boolean
-	reportingToId?: number
-	reportingTo?: any
-	roleName?: any
-	isActive?: boolean
-	createdAt?: string
-	createdBy?: string
-	updatedAt?: string
-	updatedBy?: string
+	employeeRoleName?: any
+	mobileNumber?: string
+	photo?: any
 }
 export class EmployeeBasicDetailDto{
 	employeeId?:number;

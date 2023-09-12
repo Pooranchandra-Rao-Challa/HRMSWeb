@@ -10,14 +10,12 @@ import { ApiHttpService } from './api.http.service';
 export class EmployeeService extends ApiHttpService{
 
   
-//Search Employee
+  //Search Employee
   public GetEmployees(IsEnrolled: boolean) {
-    let url = `${GET_EMPLOYEES_URI}`;
-    if (IsEnrolled) {
-      url += "?IsEnrolled=true";
-    }
+    const url = `${GET_EMPLOYEES_URI}/${IsEnrolled}`;
     return this.get<EmployeesViewDto[]>(url);
   }
+
   //Persnal Details of Employee
   public CreateBasicDetails(basicdetails: EmployeeBasicDetailDto){
     return this.post<EmployeeBasicDetailDto>(CREATE_BASIC_DETAILS_URI, basicdetails);
