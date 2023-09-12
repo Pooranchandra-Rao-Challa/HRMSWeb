@@ -3,6 +3,8 @@ import {
   Form, FormArray, FormBuilder, FormControl, FormGroup, Validators,
 } from '@angular/forms'; import { Address, Employee, familyDetailViewDto } from 'src/app/demo/api/security';
 import { SecurityService } from 'src/app/demo/service/security.service';
+import { LookupViewDto } from 'src/app/_models/admin';
+import { LookupService } from 'src/app/_services/lookup.service';
 export class Experience {
   id?: number;
   companyName?: string;
@@ -69,8 +71,8 @@ export class ViewemployeesComponent {
   designation: Designation[] | undefined;
   valRadio:string;
   skillSets!: Skills[];
-  personalDetails!: FormGroup;
-  OfficialDetails!: FormGroup;
+  fbEmpPerDtls!: FormGroup;
+  fbOfficDtls!: FormGroup;
   fbEducationDetails!: FormGroup;
   fbBankDetails!: FormGroup;
   fbexperience!: FormGroup;
@@ -88,14 +90,16 @@ export class ViewemployeesComponent {
   State: States[];
   relationshipStatus: General[] | undefined;
   submitLabel: string;
+  value:Date;
+  states: LookupViewDto[] = [];
 
   showDialog() {
     this.dialog = true;
-    this.personalDetails.reset();
+    this.fbEmpPerDtls.reset();
   }
   Dialog() {
     this.visible = true;
-    this.OfficialDetails.reset();
+    this.fbOfficDtls.reset();
   }
   ShowEducationDetails() {
     this.Education = true;
@@ -120,15 +124,7 @@ export class ViewemployeesComponent {
   showDocumentsDetails() {
     this.Documents = true;
   }
-  constructor(
-    private securityService: SecurityService,
-    private formbuilder: FormBuilder
-  ) { }
 
-  States = [
-    { name: 'Andhra Pradesh', code: 'AP' },
-    { name: 'Telangana', code: 'TS' },
-  ];
   Courses = [
     { name: 'SSC', code: 'SSC' },
     { name: 'Inter', code: 'Inter' },
@@ -146,19 +142,19 @@ export class ViewemployeesComponent {
       { name: 'Female', code: 'FM' },
       { name: 'Male', code: 'M' },
     ];
-    this.shifts = [
-      { type: 'Day Shift', code: 'DS' },
-      { type: 'Night Shift', code: 'NS' },
-    ];
+    // this.shifts = [
+    //   { type: 'Day Shift', code: 'DS' },
+    //   { type: 'Night Shift', code: 'NS' },
+    // ];
     this.status = [
       { name: 'Married', code: 'DS' },
       { name: 'Un Married', code: 'NS' },
     ];
-    this.designation = [
-      { name: 'UI Developer', code: 'UD' },
-      { name: 'BackEnd Developer', code: 'BD' },
-      { name: 'FrontEnd Developer', code: 'FD' },
-    ];
+    // this.designation = [
+    //   { name: 'UI Developer', code: 'UD' },
+    //   { name: 'BackEnd Developer', code: 'BD' },
+    //   { name: 'FrontEnd Developer', code: 'FD' },
+    // ];
     this.skillSets = [
       { name: 'Angular', code: 'AG' },
       { name: 'C#', code: 'C' },
@@ -174,17 +170,25 @@ export class ViewemployeesComponent {
       { name: 'Son', code: 'son' },
       { name: 'Sister', code: 'sister' },
     ];
-    this.State = [
-      { statename: 'Andhra Pradesh', code: 'ap' },
-      { statename: 'Telangana', code: 'ts' },
-    ];
   }
+  constructor(
+    private securityService: SecurityService,
+    private formbuilder: FormBuilder,
+    private lookupService: LookupService,
+  ) { }
+
+  initStates() {
+    this.lookupService.getStates().subscribe((resp) => {
+      this.states = resp as unknown as LookupViewDto[];
+    });
+  }
+
   ngOnInit(): void {
     this.securityService.getEmployees().then((data) => (this.employees = data));
     this.Data();
     this.initEducation();
-    this.personalDetailsForm();
-    this.initOfficialDetails();
+    this.initEmpPersDtlsForm();
+    this.initfbOfficDtls();
     this.initEducation();
     this.addEducationDetails();
     this.initExperience();
@@ -193,9 +197,11 @@ export class ViewemployeesComponent {
     this.addFamilyMembers();
     this.initAddress();
     this.addNewAddress();
+    this.initStates();
   }
-  personalDetailsForm() {
-    this.personalDetails = this.formbuilder.group({
+
+  initEmpPersDtlsForm() {
+    this.fbEmpPerDtls = this.formbuilder.group({
       Id: new FormControl('', [Validators.required]),
       Name: new FormControl('', [Validators.required]),
       Gender: new FormControl('', [Validators.required]),
@@ -206,18 +212,16 @@ export class ViewemployeesComponent {
       CertificateDOB: new FormControl('', [Validators.required]),
       MaritalStatus: new FormControl('', [Validators.required]),
       EmailID: new FormControl('', [Validators.required]),
-      CurrentAddress: new FormControl('', [Validators.required]),
-      PermanentAddress: new FormControl('', [Validators.required]),
-      SkillSet: new FormControl('', [Validators.required]),
     });
   }
-  initOfficialDetails() {
-    this.OfficialDetails = this.formbuilder.group({
+
+  initfbOfficDtls() {
+    this.fbOfficDtls = this.formbuilder.group({
       Id: new FormControl('', [Validators.required]),
-      Shift: new FormControl('', [Validators.required]),
+      Timein: new FormControl('', [Validators.required]),
+      Timeout: new FormControl('', [Validators.required]),
       OfficeEmailID: new FormControl('', [Validators.required]),
       JoiningDate: new FormControl('', [Validators.required]),
-      Designation: new FormControl('', [Validators.required]),
       ReportedTo: new FormControl('', [Validators.required]),
       ProjectName: new FormControl('', [Validators.required]),
       PFEligible: new FormControl('', [Validators.required]),
