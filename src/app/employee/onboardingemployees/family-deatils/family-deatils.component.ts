@@ -70,11 +70,11 @@ export class FamilyDeatilsComponent implements OnInit {
 
   }
   navigateToPrev() {
-    this.router.navigate(['employee/onboardingemployee/experiencedetails'])
+    this.router.navigate(['employee/onboardingemployee/uploadfiles'])
   }
 
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/addressdetails'])
+    this.router.navigate(['employee/onboardingemployee/bankdetails'])
   }
 
 

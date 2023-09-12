@@ -14,8 +14,8 @@ import {
 
 export class SecurityService extends ApiHttpService {
 
-    public UserSecurityQuestions(userName: string) {
-        return this.getWithParams<UserQuestionDto>(GET_ALL_USER_QUESTIONS_URI, [userName]);
+    public UserSecurityQuestions() {
+        return this.get<UserQuestionDto>(GET_ALL_USER_QUESTIONS_URI);
     }
 
     public ValidateUserQuestions(userName: string) {

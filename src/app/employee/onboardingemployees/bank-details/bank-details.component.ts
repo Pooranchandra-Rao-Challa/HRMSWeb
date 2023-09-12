@@ -24,10 +24,10 @@ export class BankDetailsComponent {
   }
 
   navigateToPrev() {
-    this.router.navigate(['employee/onboardingemployee/addressdetails'])
+    this.router.navigate(['employee/onboardingemployee/familydetails'])
   }
 
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/uploadfiles'])
+    this.router.navigate(['employee/onboardingemployee/finalsubmit'])
   }
 }

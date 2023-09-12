@@ -251,14 +251,14 @@
                             <div class="p-fluid p-formgrid grid">
                                 <div class="field col-12 md:col-4">
                                     <label class="required">Employee Id:</label>
-                                    <p-dropdown [options]="employees" formControlName="employeeId" optionLabel="empcode"
-                                        [filter]="true" filterBy="empcode,empname" [showClear]="true"
-                                        placeholder="Select Employee" optionValue="empcode" appendTo="body"
+                                    <p-dropdown [options]="employeesDropdown" formControlName="employeeId" optionLabel="employeeCode"
+                                        [filter]="true" filterBy="employeeCode,employeeName" [showClear]="true"
+                                        placeholder="Select Employee" optionValue="employeeCode" appendTo="body"
                                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['employeeId'].touched && FormControls['employeeId'].errors }">
                                         <ng-template let-employee pTemplate="item">
                                             <div class="country-item">
-                                                <div>{{ employee.empcode }}</div>
-                                                <div>{{ employee.empname }}</div>
+                                                <div>{{ employee.employeeCode }}</div>
+                                                <div>{{ employee.employeeName }}</div>
                                             </div>
                                         </ng-template>
                                     </p-dropdown>

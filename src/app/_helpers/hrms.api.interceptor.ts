@@ -37,7 +37,8 @@ export class HRMSAPIInterceptor implements HttpInterceptor {
                     catchError(err => {
                         if ([401].includes(err.status) && this.jwtService.IsLoggedIn) {
                             // auto logout if 401 or 403 response returned from api
-                            return this.handle401Error(authReq, next)
+                            // return this.handle401Error(authReq, next)
+                            return throwError(() => err);
                         } else if ([403].includes(err.status) && this.jwtService.IsLoggedIn) {
                             // auto logout if 401 or 403 response returned from api
                             this.jwtService.Logout();
@@ -76,19 +77,18 @@ export class HRMSAPIInterceptor implements HttpInterceptor {
 
             catchError(err => {
                 if ([401].includes(err.status)) {
-                    this.messageService.add({ severity: 'error', key: 'myToast', summary: 'Error', detail: "Invalid Credentials!" });
+                    this.messageService.add({ severity: 'error', key: 'myToast', summary: 'Error' + ' ' + err.status, detail: err.error }); // "Invalid Credentials!"
                     console.log(err);
-                    return throwError(err)
+                    return throwError(() => err);
                 } else if ([400].includes(err.status)) {
-                    this.messageService.add({ severity: 'error', key: 'myToast', summary: 'Error', detail: "User Not found" });
-                    return throwError(err)
+                    this.messageService.add({ severity: 'error', key: 'myToast', summary: 'Error' + ' ' + err.status, detail: err.error }); // "User Not found"
+                    return throwError(() => err);
                 }
                 else {
                     const error = (err && err.error && err.error.message) || err.statusText;
                     console.error(err);
                     return throwError(() => error);
                 }
-
             }),
             finalize(
                 () => {

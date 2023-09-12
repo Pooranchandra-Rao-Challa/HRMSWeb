@@ -12,6 +12,7 @@ import { HttpEvent } from '@angular/common/http';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { Table } from 'primeng/table';
 import { ITableHeader } from 'src/app/_models/common';
+import { EmployeesList } from 'src/app/_models/admin';
 
 @Component({
     selector: 'app-assetsallotment',
@@ -32,6 +33,7 @@ export class AssetsallotmentComponent {
     showAssetAllotment: boolean = false;
     showUnassignAsset: boolean = false;
     employees: Employee[] = [];
+    employeesDropdown: EmployeesList[] = [];
     addFlag: boolean;
     assetAllotments: AssetAllotmentViewDto[] = [];
     maxDate: Date = new Date();
@@ -74,6 +76,7 @@ export class AssetsallotmentComponent {
         this.initAssetCategories();
         this.initAssetTypes();
         this.unAssignAssetForm();
+        this.initEmployees();
     }
 
     initAssetCategories() {
@@ -93,6 +96,13 @@ export class AssetsallotmentComponent {
             this.assets = resp as unknown as AssetsByAssetTypeIdViewDto[];
         });
     }
+
+    initEmployees() {
+        this.adminService.getEmployeesList().subscribe(resp => {
+          this.employeesDropdown = resp as unknown as EmployeesList[];
+          console.log(resp)
+        });
+      }
 
     assetsList = []
     //     { name: 'Mouse', code: 'MU' },

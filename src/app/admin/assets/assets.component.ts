@@ -1,3 +1,4 @@
+
 import { HttpEvent } from '@angular/common/http';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -40,13 +41,12 @@ export class AssetsComponent {
   isSubmitting: boolean = false;
   minDateValue: Date = new Date();
 
-
-
   constructor(private adminService: AdminService, private formbuilder: FormBuilder,
     private alertMessage: AlertmessageService, private lookupService: LookupService,
     private confirmationDialogService: ConfirmationDialogService, private jwtService: JwtService) {
   }
 
+ 
   AssetsheaderTable: ITableHeader[] = [
     { field: 'assetType', header: 'assetType', label: 'Assets Type' },
     { field: 'assetCategory', header: 'assetCategory', label: 'Assets Category' },
@@ -129,7 +129,7 @@ export class AssetsComponent {
   }
 
   onGlobalFilter(table: Table, event: Event) {
-    table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
 
   clear(table: Table) {
@@ -143,6 +143,7 @@ export class AssetsComponent {
   }
 
   addAssetsDialog() {
+    this.fbassets.controls['isActive'].setValue(true);
     this.submitLabel = "Add Assets";
     this.addFlag = true;
     this.dialog = true;
@@ -215,12 +216,12 @@ export class AssetsComponent {
     }
   }
 
-  isUniqueAssetsCode() { 
-    const existingAssetsCode = this.assets.filter(assets =>  
+  isUniqueAssetsCode() {
+    const existingAssetsCode = this.assets.filter(assets =>
       assets.expandassets.find((expandAsset) =>
-      expandAsset.code === this.fbassets.get('code').value  &&
-      expandAsset.assetId !== this.fbassets.get('assetId').value
-    ))
+        expandAsset.code === this.fbassets.get('code').value &&
+        expandAsset.assetId !== this.fbassets.get('assetId').value
+      ))
     return existingAssetsCode.length > 0;
   }
 
@@ -228,10 +229,10 @@ export class AssetsComponent {
   isUniqueAssetsName() {
     const existingAssetsCode = this.assets.filter(assets =>
       assets.expandassets.find((expandAsset) =>
-      expandAsset.name === this.fbassets.get('name').value  &&
-      expandAsset.assetId !== this.fbassets.get('assetId').value
-    ))
+        expandAsset.name === this.fbassets.get('name').value &&
+        expandAsset.assetId !== this.fbassets.get('assetId').value
+      ))
     return existingAssetsCode.length > 0;
   }
-  
+
 }
