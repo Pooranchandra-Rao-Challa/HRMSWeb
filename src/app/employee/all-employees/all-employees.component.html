@@ -1,12 +1,13 @@
 <div class="grid">
     <div class="col-12">
       <div class="card">
-        <p-dataView #dv [value]="employees" [rows]="12" filterBy="name" [sortField]="sortField" [sortOrder]="sortOrder" layout="grid">
+        <p-dataView #dv [value]="employees" [paginator]="true" [rows]="12" filterBy="empname,empcode" [sortField]="sortField"
+          [sortOrder]="sortOrder" layout="grid">
           <ng-template pTemplate="header">
             <div class="flex flex-column md:flex-row md:justify-content-between gap-2">
               <span class="p-input-icon-left">
                 <i class="pi pi-search"></i>
-                <input type="search" pInputText placeholder="Search by Name" (input)="onFilter(dv, $event)" />
+                <input type="text" pInputText placeholder="Search by Name or Id" (input)="onFilter(dv, $event)" />
               </span>
               <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
             </div>
@@ -38,17 +39,18 @@
               </p-table>
             </div>
           </ng-template>
-          <ng-template let-employee pTemplate="gridItem">
+        <ng-template let-employee pTemplate="gridItem">
             <div class="col-12 md:col-4 lg:col-3 sm:col-6">
-              <div class="card m-2 border-1 surface-border">
-                <div class=" mb-3 grid">
-                  <div class="col-12 lg:col-4 md:col-12 p-1 employee_profile_pic_div">
-                    <img [src]="'assets/demo/images/employee/' + employee.image" [alt]="employee.empname" class=" shadow-2 my-1 mx-0 employee_profile_pic" style="width:100%;" />
-                    <span class="text-600 font-medium text-md">
-                      <i class="pi pi-users text-500 text-primary text-1xl  pb-1"></i> : {{employee.gender}}
-                    </span>
-                    <br />
-                  </div>
+                <div class="card m-2 border-1 surface-border">
+                    <div class=" mb-3 grid">
+                        <div class="col-12 lg:col-4 md:col-12 p-1 employee_profile_pic_div">
+                            <img [src]="'assets/demo/images/employee/' + employee.image" [alt]="employee.empname"
+                                class=" shadow-2 my-1 mx-0 employee_profile_pic" style="width:90%;"   class="shadow-2 my-1 mx-0 employee_profile_pic zoomable-img" />
+                            <span class="text-500 font-medium text-md">
+                                <i class="pi pi-users text-600 text-primary text-1xl  pb-2"></i> : {{employee.gender}}
+                            </span>
+                            <br />
+                        </div>
                   <div class="col-12 lg:col-8 md:col-12 p-1 px-2 employee_info">
                     <div class="text-xl font-bold">{{ employee.empname }}</div>
                     <span class="text-600 font-medium text-md">
