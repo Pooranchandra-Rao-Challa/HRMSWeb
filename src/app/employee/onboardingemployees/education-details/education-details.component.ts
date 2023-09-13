@@ -13,6 +13,7 @@ export class EducationDetailsComponent implements OnInit{
   selectedYear:Date;
   ShowlookupDetails:boolean=false;
   educationDetails: any[] = [];
+  employeeId: any;
 
   constructor(private formbuilder: FormBuilder,private router: Router, private route: ActivatedRoute){}
 
@@ -38,6 +39,10 @@ Courses=[
       cgpa: new FormControl(''),
     });
 
+    this.route.params.subscribe(params => {
+      this.employeeId = params['employeeId'];
+    });
+console.log(this.employeeId)
   }
 
   saveEducationDetails(){
@@ -59,7 +64,7 @@ if (this.fbEducationDetails.valid) {
   }
 
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/experiencedetails'])
+    this.router.navigate(['employee/onboardingemployee/experiencedetails',this.employeeId])
   }
 
 }

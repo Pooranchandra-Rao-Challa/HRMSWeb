@@ -19,7 +19,7 @@ export class FamilyDeatilsComponent implements OnInit {
   fafamilyDetails!: FormArray;
   showFamilyDetails: boolean = true;
   submitLabel: string;
-
+employeeId:any;
   constructor(private router: Router, private route: ActivatedRoute, private formbuilder: FormBuilder) { }
 
   ngOnInit() {
@@ -32,6 +32,11 @@ export class FamilyDeatilsComponent implements OnInit {
       { name: 'Sister', code: 'sister' }];
     this.initFamily();
     this.addFamilyMembers();
+    
+    this.route.params.subscribe(params => {
+      this.employeeId = params['employeeId'];
+    });
+console.log(this.employeeId)
   }
 
   faFamilyDetail(): FormArray {
@@ -70,11 +75,11 @@ export class FamilyDeatilsComponent implements OnInit {
 
   }
   navigateToPrev() {
-    this.router.navigate(['employee/onboardingemployee/uploadfiles'])
+    this.router.navigate(['employee/onboardingemployee/uploadfiles',this.employeeId])
   }
 
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/bankdetails'])
+    this.router.navigate(['employee/onboardingemployee/bankdetails',this.employeeId])
   }
 
 

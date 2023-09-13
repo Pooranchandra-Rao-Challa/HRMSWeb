@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { AnyCatcher } from 'rxjs/internal/AnyCatcher';
 // import { MessageService } from 'primeng/api/messageservice';
 
 @Component({
@@ -9,10 +10,17 @@ import { MessageService } from 'primeng/api';
   // styleUrls: ['./upload-documents.component.scss']
 })
 export class UploadDocumentsComponent {
-  constructor(private router: Router, ){} uploadedFiles: any[] = [];
-
+  employeeId:any;
+  uploadedFiles: any[] = [];
+  constructor(private router: Router,private route:ActivatedRoute){}
   // constructor(private messageService: MessageService) {}
-
+ngOnInt(){
+  
+  this.route.params.subscribe(params => {
+    this.employeeId = params['employeeId'];
+  });
+console.log(this.employeeId)
+}
   onUpload(event: any) {
       for (const file of event.files) {
           this.uploadedFiles.push(file);
@@ -25,11 +33,11 @@ export class UploadDocumentsComponent {
       // this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded with Basic Mode' });
   }
   navigateToPrev() {
-    this.router.navigate(['employee/onboardingemployee/addressdetails'])
+    this.router.navigate(['employee/onboardingemployee/addressdetails',this.employeeId])
   }
 
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/familydetails'])
+    this.router.navigate(['employee/onboardingemployee/familydetails',this.employeeId])
   }
   // navigateToPrev() {
   //   this.router.navigate(['employee/onboardingemployee/experiencedetails'])
