@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { CREATE_BANK_DETAILS_URI, CREATE_BASIC_DETAILS_URI, GET_ADDRESS_BASED_ON_ID_URI, GET_BANKDETAILS_URI, GET_EDUCATION_DETAILS_URI, GET_EMPLOYEES_URI, GET_EMPLOYEE_BASED_ON_ID_URI, GET_GETFAMILYDETAILS_URI, GET_GETUPLOADEDDOCUMENTS_URI, GET_WORKEXPERIENCE_URI } from './api.uri.service';
-import { BankDetailDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto,EmployeesViewDto } from '../_models/employes';
-import { HttpClient } from '@angular/common/http';
+import { CREATE_BANK_DETAILS_URI, CREATE_BASIC_DETAILS_URI, GET_ADDRESS_BASED_ON_ID_URI, GET_BANKDETAILS_URI, GET_EDUCATION_DETAILS_URI, GET_EMPLOYEES_URI, GET_EMPLOYEE_BASED_ON_ID_URI, GET_GETFAMILYDETAILS_URI, GET_GETUPLOADEDDOCUMENTS_URI, GET_OFFICE_DETAILS_URI, GET_WORKEXPERIENCE_URI } from './api.uri.service';
+import { BankDetailDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto,EmployeeOfficedetailsviewDto,EmployeesViewDto } from '../_models/employes';
+
 import { ApiHttpService } from './api.http.service';
 
 @Injectable({
@@ -21,13 +21,18 @@ export class EmployeeService extends ApiHttpService {
     return this.post<EmployeeBasicDetailDto>(CREATE_BASIC_DETAILS_URI, basicdetails);
 
   }
+
+  public GetViewEmpPersDtls(employeeId:number){
+    return this.getWithId<EmployeeBasicDetailViewDto[]>(GET_EMPLOYEE_BASED_ON_ID_URI,[employeeId])
+}
+public EmployeeOfficedetailsviewDto(employeeId:number){
+  return this.getWithId<EmployeeOfficedetailsviewDto[]>(GET_OFFICE_DETAILS_URI,[employeeId])
+}
   //Bank Details of Employee
   public CreateBankDetails(bankdetails:BankDetailDto){
     return this.post<BankDetailDto>(CREATE_BANK_DETAILS_URI,bankdetails);
   }
-  public GetViewEmpPersDtls(employeeId: number) {
-    return this.getWithId<EmployeeBasicDetailViewDto[]>(GET_EMPLOYEE_BASED_ON_ID_URI, [employeeId])
-  }
+
   public GetAddress(employeeId: number) {
     return this.getWithId<EmployeAdressViewDto[]>(GET_ADDRESS_BASED_ON_ID_URI, [employeeId])
   }

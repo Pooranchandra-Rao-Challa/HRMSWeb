@@ -61,4 +61,5 @@ export const GET_WORKEXPERIENCE_URI = "Employee/GetWorkExperienceForEmployee";
 export const GET_GETFAMILYDETAILS_URI = "Employee/GetFamilyDetailsForEmployee";
 export const GET_GETUPLOADEDDOCUMENTS_URI = " Employee/GetUploadedDocumentsForEmployee";
 export const GET_BANKDETAILS_URI = "Employee/GetBankDetailsForEmployee"
+export const GET_OFFICE_DETAILS_URI="Employee/GetInceptionDetailsForEmployee";
 

@@ -5,7 +5,7 @@ import {
  import { Address, Employee, familyDetailViewDto } from 'src/app/demo/api/security';
 import { SecurityService } from 'src/app/demo/service/security.service';
 import { LookupViewDto } from 'src/app/_models/admin';
-import { EmployeAdressViewDto, EmployeeBasicDetailViewDto, EmployeesViewDto } from 'src/app/_models/employes';
+import { EmployeAdressViewDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsviewDto, EmployeesViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { LookupService } from 'src/app/_services/lookup.service';
 export class Experience {
@@ -51,13 +51,15 @@ interface Skills {
 })
 export class ViewemployeesComponent {
   fbEmpPerDtls!: FormGroup;
-  employeePrsDtls: EmployeeBasicDetailViewDto[];
-  address: EmployeAdressViewDto[];
-  educationDetails: any[]; 
-  workExperience: any[];  
+ // employeePrsDtls: EmployeeBasicDetailViewDto[];
+  employeePrsDtls: any[];
+  adredss: any[];
+  educationDetails: any[];
+  workExperience: any[];
   familyDetails: any[];
-  UploadedDocuments: any[]
-  bankDetails: any[]
+  UploadedDocuments: any[];
+  bankDetails: any[];
+  officeDtls: any[];
   color: string = 'bluegray';
   size: string = 'M';
   liked: boolean = false;
@@ -207,7 +209,7 @@ relationshipStatus: General[]  ;
     this.initBankDetails();
     this.initEducation();
     this.EmpPersDtlsForm();
-    this.initfbOfficDtls();
+    this.OfficDtlsForm();
     this.initEducation();
     this.addEducationDetails();
     this.initExperience();
@@ -216,9 +218,15 @@ relationshipStatus: General[]  ;
     this.addFamilyMembers();
     this.initAddress();
     this.addNewAddress();
-    
+    this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
     this.initViewEmpDtls()
     // this.initStates();
+  }
+
+  getemployeeview(){
+    this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
+    this.initViewEmpDtls();
+    this.initofficeEmpDtls();
   }
 
   EmpPersDtlsForm() {
@@ -239,14 +247,14 @@ relationshipStatus: General[]  ;
 
   initViewEmpDtls(){
     this.employeeService.GetViewEmpPersDtls(this.employeeId).subscribe((resp) => {
-      this.employeePrsDtls = resp as unknown as EmployeeBasicDetailViewDto[];
-      console.log('this.employeePrsDtls',this.employeePrsDtls);     
+      this.employeePrsDtls = resp as unknown as any[];
+      console.log('this.employeePrsDtls', this.employeePrsDtls);     
     });
   }
   initGetAddress(){
     this.employeeService.GetAddress(this.employeeId).subscribe((resp) => {
-      this.address = resp as unknown as EmployeAdressViewDto[];
-      console.log('this.address', this.address);     
+      this.adredss = resp as unknown as EmployeAdressViewDto[];
+      console.log('this.address', this.adredss);     
     });
   }
   initGetEducationDetails() {
@@ -285,19 +293,27 @@ relationshipStatus: General[]  ;
     });
   }
 
-  initfbOfficDtls() {
+  OfficDtlsForm() {
     this.fbOfficDtls = this.formbuilder.group({
-      Id: new FormControl('', [Validators.required]),
-      Timein: new FormControl('', [Validators.required]),
-      Timeout: new FormControl('', [Validators.required]),
-      OfficeEmailID: new FormControl('', [Validators.required]),
-      JoiningDate: new FormControl('', [Validators.required]),
-      ReportedTo: new FormControl('', [Validators.required]),
-      ProjectName: new FormControl('', [Validators.required]),
-      PFEligible: new FormControl('', [Validators.required]),
-      ESIEligible: new FormControl('', [Validators.required]),
+      employeeId: new FormControl('', [Validators.required]),
+      timeIn: new FormControl('', [Validators.required]),
+      timeOut: new FormControl('', [Validators.required]),
+      officeEmailId: new FormControl('', [Validators.required]),
+      dateofJoin: new FormControl('', [Validators.required]),
+      reportingTo: new FormControl('', [Validators.required]),
+      // ProjectName: new FormControl('', [Validators.required]),
+      isPFEligible: new FormControl('', [Validators.required]),
+      isESIEligible: new FormControl('', [Validators.required]),
     });
   }
+
+  initofficeEmpDtls(){
+    this.employeeService.EmployeeOfficedetailsviewDto(this.employeeId).subscribe((resp) => {
+      this.officeDtls = resp as unknown as EmployeeOfficedetailsviewDto[];
+      console.log('this.employeeofficeDtls', this.officeDtls);     
+    });
+  }
+
   initEducation() {
     this.fbEducationDetails = this.formbuilder.group({
       course: new FormControl(''),
