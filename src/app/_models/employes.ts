@@ -10,33 +10,34 @@ export class EmployeesViewDto {
 	mobileNumber?: string
 	photo?: any
 }
-export class EmployeeBasicDetailDto{
-	employeeId?:number;
-	code?:string;
-	firstName?:string;
-	middleName?:string;
-	lastName?:string;
-    userId?:string;
-	gender?:string;
-	bloodGroupId?:string;
-	mobileNumber?:number;
-	alternateMobileNumber?:number;
-	originalDob?:Date;
-	certificateDob?:Date;
-	maritalStatus?:string;
-	emailId?:string;
-	photo?:string;
-	signDate?:Date;
-	isActive?:boolean;
+export class EmployeeBasicDetailDto {
+	employeeId?: number;
+	code?: string;
+	firstName?: string;
+	middleName?: string;
+	lastName?: string;
+	userId?: string;
+	gender?: string;
+	bloodGroupId?: number;
+	mobileNumber?: number;
+	alternateMobileNumber?: number;
+	originalDob?: Date;
+	certificateDob?: Date;
+	maritalStatus?: string;
+	emailId?: string;
+	photo?: string;
+	signDate?: Date;
+	isActive?: boolean;
 }
-export class BankDetailDto{
-    bankId?:number;
-	employeeId?:number;
-	name?:string;
-	branchName?:string;
-	ifsc?:string;
-	accountNumber?:number;
-	isActive?:boolean;
+
+export class BankDetailDto {
+	bankId?: number;
+	employeeId?: number;
+	name?: string;
+	branchName?: string;
+	ifsc?: string;
+	accountNumber?: number;
+	isActive?: boolean;
 }
 export class UploadDocuments{
 	uploadDocumentId?:number;
@@ -48,6 +49,9 @@ export class EmployeeBasicDetailViewDto {
 	employeeId?: number;
 	code?: string;
 	employeeName?: string;
+	firstName?: string;
+	middleName?: string;
+	lastName?: string;
 	gender?: string;
 	bloodGroupId?: number;
 	bloodGroup?: string;
@@ -57,7 +61,7 @@ export class EmployeeBasicDetailViewDto {
 	certificateDOB?: Date;
 	maritalStatus?: string;
 	emailId?: string;
-	photo?: any;
+	photo?: string;
 	signDate?: Date;
 	isActive?: boolean;
 	createdAt?: Date;
@@ -79,7 +83,7 @@ export class EmployeeOfficedetailsviewDto {
 	isESIEligible?: boolean;
 	reportingToId?: number;
 	reportingTo?: string;
-	projectName?:string;
+	projectName?: string;
 	isActive?: boolean;
 	createdAt?: Date;
 	createdBy?: string;
