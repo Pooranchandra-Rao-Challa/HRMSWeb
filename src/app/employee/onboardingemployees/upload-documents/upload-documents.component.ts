@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
-
+import { ActivatedRoute, Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { AnyCatcher } from 'rxjs/internal/AnyCatcher';
 import { EmployeeService } from 'src/app/_services/employee.service';
-
+// import { MessageService } from 'primeng/api/messageservice';
 
 @Component({
   selector: 'app-upload-documents',
@@ -13,6 +14,7 @@ import { EmployeeService } from 'src/app/_services/employee.service';
 export class UploadDocumentsComponent {
 
   fbUploadDocument!: FormGroup;
+  employeeId:any;
   constructor(private router: Router, private formbuilder: FormBuilder, private employeeService: EmployeeService,) {
 
   }
@@ -56,11 +58,11 @@ export class UploadDocumentsComponent {
 
 
   navigateToPrev() {
-    this.router.navigate(['employee/onboardingemployee/addressdetails'])
+    this.router.navigate(['employee/onboardingemployee/addressdetails',this.employeeId])
   }
 
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/familydetails'])
+    this.router.navigate(['employee/onboardingemployee/familydetails',this.employeeId])
   }
 
 

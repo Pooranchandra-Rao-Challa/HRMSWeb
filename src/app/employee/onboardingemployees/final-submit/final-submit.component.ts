@@ -8,6 +8,14 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class FinalSubmitComponent {
   constructor(private router: Router, private route: ActivatedRoute){}
-
+  employeeId:any;
+ngOnInit(){
+  
+  
+  this.route.params.subscribe(params => {
+    this.employeeId = params['employeeId'];
+  });
+console.log(this.employeeId)
+}
  
 }

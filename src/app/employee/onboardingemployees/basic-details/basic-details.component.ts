@@ -32,7 +32,8 @@ export class BasicDetailsComponent implements OnInit {
   addFlag: boolean = true;
   basicDetails: EmployeeBasicDetailDto[];
   bloodgroups: LookupViewDto[] = [];
-  constructor(private router: Router, private employeeService: EmployeeService, private formbuilder: FormBuilder, private lookupService: LookupService, private alertMessage: AlertmessageService) { }
+  employeeId:any;
+  constructor(private router: Router,private employeeService: EmployeeService, private formbuilder: FormBuilder, private lookupService: LookupService, private alertMessage: AlertmessageService) { }
 
   ngOnInit() {
     this.basicDetailsForm();
@@ -47,7 +48,6 @@ export class BasicDetailsComponent implements OnInit {
       { name: 'Widow', code: 'widow' },
       { name: 'Divorced', code: 'divorced' },
     ];
-
   }
   basicDetailsForm() {
     this.fbbasicDetails = this.formbuilder.group({
@@ -56,7 +56,7 @@ export class BasicDetailsComponent implements OnInit {
       firstName: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
       middleName: new FormControl('', [Validators.minLength(MIN_LENGTH_2)]),
       lastName: new FormControl('', [Validators.required,Validators.minLength(MIN_LENGTH_2)]),
-      userId: [''],
+      userId: [null],
       gender: new FormControl('', [Validators.required]),
       bloodGroupId: new FormControl('', [Validators.required]),
       maritalStatus: new FormControl('', [Validators.required]),
@@ -95,7 +95,8 @@ export class BasicDetailsComponent implements OnInit {
   save() {
     if (this.fbbasicDetails.valid) {
       this.savebasicDetails().subscribe(resp => {
-        console.log(resp)
+        console.log(resp);
+        this.employeeId=resp;
         this.fbbasicDetails.disable();
         this.navigateToNext()
       })
@@ -130,6 +131,7 @@ export class BasicDetailsComponent implements OnInit {
     };
   }
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/educationdetails']);
+    this.router.navigate(['employee/onboardingemployee/educationdetails', this.employeeId]);
+
   }
 }

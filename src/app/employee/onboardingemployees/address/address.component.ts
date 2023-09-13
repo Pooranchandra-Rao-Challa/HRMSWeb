@@ -19,7 +19,7 @@ export class AddressComponent {
   faAddressDetails!: FormArray;
   submitLabel: string;
   addressDetails: any[] = [];
-
+employeeId:any;
   constructor(private router: Router, private route: ActivatedRoute, private formbuilder: FormBuilder, private employeeService: EmployeeService) { }
 
   ngOnInit() {
@@ -27,6 +27,10 @@ export class AddressComponent {
     // this.initStates();
     this.initAddress();
 
+    this.route.params.subscribe(params => {
+      this.employeeId = params['employeeId'];
+    });
+console.log(this.employeeId)
     
   }
  
@@ -72,10 +76,10 @@ export class AddressComponent {
   }
 
   navigateToPrev() {
-    this.router.navigate(['employee/onboardingemployee/experiencedetails'])
+    this.router.navigate(['employee/onboardingemployee/experiencedetails',this.employeeId])
   }
 
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/uploadfiles'])
+    this.router.navigate(['employee/onboardingemployee/uploadfiles',this.employeeId])
   }
 }
