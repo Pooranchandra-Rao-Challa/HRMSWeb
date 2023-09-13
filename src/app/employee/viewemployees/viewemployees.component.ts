@@ -1,13 +1,17 @@
 import { Component } from '@angular/core';
 import {
   Form, FormArray, FormBuilder, FormControl, FormGroup, Validators,
-} from '@angular/forms';import { ActivatedRoute } from '@angular/router';
- import { Address, Employee, familyDetailViewDto } from 'src/app/demo/api/security';
+} from '@angular/forms'; import { ActivatedRoute } from '@angular/router';
+import { Address, Employee, familyDetailViewDto } from 'src/app/demo/api/security';
 import { SecurityService } from 'src/app/demo/service/security.service';
 import { LookupViewDto } from 'src/app/_models/admin';
-import { EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsviewDto,  } from 'src/app/_models/employes';
+// import { EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsviewDto,  } from 'src/app/_models/employes';
+import { BankDetailDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { LookupService } from 'src/app/_services/lookup.service';
+import { AssetAllotmentViewDto } from 'src/app/_models/admin/assetsallotment';
+import { AdminService } from 'src/app/_services/admin.service';
+import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 export class Experience {
   id?: number;
   companyName?: string;
@@ -55,58 +59,65 @@ export class ViewemployeesComponent {
   employeePrsDtl = new EmployeeBasicDetailDto()
   fbOfficDtls!: FormGroup; 
   employeeofficeDtls :EmployeeOfficedetailsviewDto[];
-  adredss: any[];
+  // adredss: any[];
+  fbEmpPerDtls!: FormGroup;
+  familyDetails: FamilyDetailsViewDto[];
+  fafamilyDetails!: FormArray;
+  fbfamilyDetails: FormGroup;
+  adredss: EmployeAdressViewDto[];
+  showAddressDetailss: boolean = false;
+  Address: boolean = false;
   educationDetails: any[];
+  faAddressDetails!: FormArray;
+  fbAddressDetails: FormGroup;
+  fbEducationDetails!: FormGroup;
+  fbBankDetails!: FormGroup;
+  faeducationDetails!: FormArray;
+  Education: boolean = false;
   workExperience: any[];
-  familyDetails: any[];
+  faexperienceDetails!: FormArray;
   UploadedDocuments: any[];
   bankDetails: boolean = false;
-  bankDetails1:any[];
+  bankDetails1: BankDetailDto[];
   officeDtls: any[];
+  assetAllotments: AssetAllotmentViewDto[] = [];
   color: string = 'bluegray';
   size: string = 'M';
   liked: boolean = false;
   dialog: boolean = false;
   visible: boolean = false;
-  Education: boolean = false;
   Experience: boolean = false;
   Family: boolean = false;
   bankDetailsshow: boolean = false;
-  Address: boolean = false;
   Documents: boolean = false;
   ShoweducationDetails: boolean = false;
   ShowexperienceDetails: boolean = false;
-  showAddressDetailss: boolean = false;
+  fbexperience!: FormGroup;
   images: string[] = [];
   selectedImageIndex: number = 0;
   quantity: number = 1;
   employees: Employee[] = [];
-genders: Gender[];
-shifts: Shift[] ;
-status: Status[] ;
-designation: Designation[] ;
-valRadio:string; 
-skillSets!: Skills[];
-fbEducationDetails!: FormGroup; 
-fbBankDetails!: FormGroup;  
-fbexperience!: FormGroup;
-fbAddressDetails: FormGroup;     
-fbfamilyDetails: FormGroup;        
-uploadedFiles: any[] = [];       
-selectedOption: string;          
-inputValue: string;              
-faexperienceDetails!: FormArray; 
-faeducationDetails!: FormArray;  
-faAddressDetails!: FormArray;    
-fafamilyDetails!: FormArray;     
-addfields: any;                  
-State: States[];                 
-relationshipStatus: General[]  ;
+  genders: Gender[];
+  shifts: Shift[];
+  status: Status[];
+  designation: Designation[];
+  valRadio: string;
+  skillSets!: Skills[];
+  uploadedFiles: any[] = [];
+  selectedOption: string;
+  inputValue: string;
+
+ 
+ 
+  addfields: any;
+  State: States[];
+  relationshipStatus: General[];
   submitLabel: string;
-  value:Date;
+  value: Date;
   states: LookupViewDto[] = [];
   employeeId: number;
   bloodgroups: LookupViewDto[] = [];
+  mediumDate: string = MEDIUM_DATE
 
   
   Dialog() {
@@ -126,8 +137,8 @@ relationshipStatus: General[]  ;
     this.fbfamilyDetails.reset();
   }
   showBankDetails() {
-    this.bankDetailsshow =true;
-     this.fbBankDetails.reset();
+    this.bankDetails = true;
+    this.fbBankDetails.reset();
   }
   showAddressDetails() {
     this.Address = true;
@@ -185,11 +196,12 @@ relationshipStatus: General[]  ;
     ];
   }
   constructor(
-     private securityService: SecurityService,
+    private securityService: SecurityService,
     private formbuilder: FormBuilder,
     private lookupService: LookupService,
     private employeeService: EmployeeService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private adminService: AdminService
   ) { }
 
   initStates() {
@@ -199,7 +211,7 @@ relationshipStatus: General[]  ;
   }
 
   ngOnInit(): void {
-     this.securityService.getEmployees().then((data) => (this.employees = data));
+    this.securityService.getEmployees().then((data) => (this.employees = data));
     this.Data();
     this.initEducation();
     this.EmpBasicDtlsForm();
@@ -218,17 +230,18 @@ relationshipStatus: General[]  ;
     this.getemployeeview();
   }
 
-  getemployeeview(){
+  getemployeeview() {
     this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
     this.initViewEmpDtls();
     this.initofficeEmpDtls();
-  
+
     this.initGetEducationDetails();
     this.initGetWorkExperience();
     this.initGetFamilyDetails();
     this.initGetAddress();
     this.initUploadedDocuments();
     this.initBankDetails();
+    this.initviewAssets()
   }
 
   EmpBasicDtlsForm() {
@@ -251,10 +264,10 @@ relationshipStatus: General[]  ;
     });
   }
 
-  initViewEmpDtls(){
+  initViewEmpDtls() {
     this.employeeService.GetViewEmpPersDtls(this.employeeId).subscribe((resp) => {
       this.employeePrsDtls = resp as unknown as EmployeeBasicDetailViewDto[];
-      console.log('this.employeePrsDtls',this.employeePrsDtls);     
+      console.log('this.employeePrsDtls', this.employeePrsDtls);
     });
   }
 
@@ -321,58 +334,31 @@ relationshipStatus: General[]  ;
     });
   }
 
-  initofficeEmpDtls(){
+  initofficeEmpDtls() {
     this.employeeService.EmployeeOfficedetailsviewDto(this.employeeId).subscribe((resp) => {
       this.employeeofficeDtls = resp as unknown as EmployeeOfficedetailsviewDto[];
-      console.log('this.employeeofficeDtls',this.employeeofficeDtls);     
-    });
-  }
-
-  initGetAddress(){
-    this.employeeService.GetAddress(this.employeeId).subscribe((resp) => {
-      this.adredss = resp as unknown as EmployeAdressViewDto[];
-      console.log('this.address', this.adredss);     
-    });
-  }
-
-
-  initGetEducationDetails() {
-    this.employeeService.GetEducationDetails(this.employeeId).subscribe((resp) => {
-      this.educationDetails = resp as unknown as any[];
-      console.log('this.EducationDetails', this.educationDetails);
+      console.log('this.employeeofficeDtls', this.employeeofficeDtls);
     });
   }
   
-  initGetWorkExperience() {
-    this.employeeService.GetWorkExperience(this.employeeId).subscribe((resp) => {
-      this.workExperience = resp as unknown as any[];
-      console.log('this.GetWorkExperience', this.workExperience);
-    });
-  }
-
-
-  initGetFamilyDetails() {
-    this.employeeService.getFamilyDetails(this.employeeId).subscribe((resp) => {
-      this.familyDetails = resp as unknown as any[];
-      console.log('this.familyDetails', this.familyDetails);
-    });
-  }
-
   initUploadedDocuments() {
     this.employeeService.GetUploadedDocuments(this.employeeId).subscribe((resp) => {
       this.UploadedDocuments = resp as unknown as any[];
       console.log('this.UploadedDocuments', this.UploadedDocuments);
     });
   }
+  
+  initviewAssets() {
+    this.adminService.GetAssetAllotments(this.employeeId).subscribe((resp) => {
+      if (resp) {
+        this.assetAllotments = resp as unknown as AssetAllotmentViewDto[];
+        if (this.assetAllotments) this.employeeId = this.assetAllotments[0]?.employeeId;
+        console.log('assetAllotments', this.assetAllotments);
 
-  initBankDetails() {
-    this.employeeService.GetBankDetails(this.employeeId).subscribe((resp) => {
-      this.bankDetails1 = resp as unknown as any[];
-      console.log('this.BankDetails', this.bankDetails);
+      }
     });
   }
 
- 
   initEducation() {
     this.fbEducationDetails = this.formbuilder.group({
       course: new FormControl(''),
@@ -386,11 +372,24 @@ relationshipStatus: General[]  ;
       educationDetails: this.formbuilder.array([]),
     });
   }
+  initGetEducationDetails() {
+    this.employeeService.GetEducationDetails(this.employeeId).subscribe((resp) => {
+      this.educationDetails = resp as unknown as any[];
+      console.log('this.EducationDetails', this.educationDetails);
+    });
+  }
+
   BankdetailsForm() {
     this.fbBankDetails = this.formbuilder.group({
       AccountNo: new FormControl('', [Validators.required]),
       IFSCCode: new FormControl('', [Validators.required]),
       BranchName: new FormControl('', [Validators.required]),
+    });
+  }
+  initBankDetails() {
+    this.employeeService.GetBankDetails(this.employeeId).subscribe((resp) => {
+      this.bankDetails1 = resp as unknown as BankDetailDto[];
+      console.log('this.BankDetails', this.bankDetails1);
     });
   }
   saveEducationDetails() {
@@ -412,6 +411,13 @@ relationshipStatus: General[]  ;
       experienceDetails: this.formbuilder.array([]),
     });
   }
+  initGetWorkExperience() {
+    this.employeeService.GetWorkExperience(this.employeeId).subscribe((resp) => {
+      this.workExperience = resp as unknown as any[];
+      console.log('this.GetWorkExperience', this.workExperience);
+    });
+  }
+
   initAddress() {
     this.fbAddressDetails = this.formbuilder.group({
       Id: [''],
@@ -427,8 +433,14 @@ relationshipStatus: General[]  ;
       UpdatedAt: new FormControl('', [Validators.required]),
       CreatedBy: new FormControl('', [Validators.required]),
       UpdatedBy: new FormControl('', [Validators.required]),
-      addressType:[],
+      addressType: [],
       addressDetails: this.formbuilder.array([])
+    });
+  }
+  initGetAddress() {
+    this.employeeService.GetAddress(this.employeeId).subscribe((resp) => {
+      this.adredss = resp as unknown as EmployeAdressViewDto[];
+      console.log('this.address', this.adredss);
     });
   }
   initFamily() {
@@ -441,6 +453,13 @@ relationshipStatus: General[]  ;
       familyDetails: this.formbuilder.array([]),
     });
   }
+  initGetFamilyDetails() {
+    this.employeeService.getFamilyDetails(this.employeeId).subscribe((resp) => {
+      this.familyDetails = resp as unknown as FamilyDetailsViewDto[];
+      console.log('this.familyDetails', this.familyDetails);
+    });
+  }
+
   generateExperienceDetailsRow(
     experienceDetails: Experience = new Experience()
   ): FormGroup {
@@ -549,7 +568,7 @@ relationshipStatus: General[]  ;
   }
   onBasicUpload() {
     // this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded with Basic Mode' });
-  } 
+  }
   clearForm() {
     this.fbEducationDetails.reset();
   }

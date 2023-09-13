@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Address } from 'src/app/demo/api/security';
-interface States {
-  statename: string;
-  code: string;
-}
+// import { States } from 'src/app/_models/employes';
+import { EmployeeService } from 'src/app/_services/employee.service';
+import { MAX_LENGTH_256, MIN_LENGTH_2, RG_ALPHA_NUMERIC } from 'src/app/_shared/regex';
+
 @Component({
   selector: 'app-address',
   templateUrl: './address.component.html',
@@ -13,25 +13,28 @@ interface States {
   ]
 })
 export class AddressComponent {
-  State: States[] | undefined;
+  // states: States[] =[];
   ShowlookupDetails:boolean=false;
   fbAddressDetails: FormGroup;
   faAddressDetails!: FormArray;
   submitLabel: string;
   addressDetails: any[] = [];
 
-  constructor(private router: Router, private route: ActivatedRoute, private formbuilder: FormBuilder) { }
+  constructor(private router: Router, private route: ActivatedRoute, private formbuilder: FormBuilder, private employeeService: EmployeeService) { }
 
   ngOnInit() {
 
-    this.State = [
-      { statename: 'Andhra Pradesh', code: 'ap' },
-      { statename: 'Telangana', code: 'ts' }
-    ];
+    // this.initStates();
     this.initAddress();
 
     
   }
+ 
+  // initStates(){
+  //   this.employeeService.GetStates().subscribe((resp)=>{
+  //     this.states=resp as unknown as States[];
+  //   })
+  // }
 
   faAddressDetail(): FormArray {
     return this.fbAddressDetails.get("addressDetails") as FormArray
@@ -40,7 +43,7 @@ export class AddressComponent {
   initAddress() {
     this.fbAddressDetails = this.formbuilder.group({
       Id: [''],
-      AddressLine1: new FormControl(''),
+      AddressLine1: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_NUMERIC), Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
       AddressLine2: new FormControl(''),
       Landmark: new FormControl(''),
       ZIPCode: new FormControl(''),

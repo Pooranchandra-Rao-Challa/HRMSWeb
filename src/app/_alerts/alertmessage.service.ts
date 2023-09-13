@@ -95,7 +95,7 @@ export const ALERT_CODES: { [key: string]: string } = {
      //Projects
      'PAS001': 'Project Added Successfully',
     'PAS002': 'Project Updated Successfully',
-
+    'SMEUA001':'Employee Unassigned Successfully',
     //Users
     'SMU002': 'User Updated Successfully',
     'SMU001': "User Has Been Successfully Soft Deleted",
