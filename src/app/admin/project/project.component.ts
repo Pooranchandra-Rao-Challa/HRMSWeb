@@ -6,7 +6,7 @@ import { Employee } from 'src/app/demo/api/security';
 import { SecurityService } from 'src/app/demo/service/security.service';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { FORMAT_DATE } from 'src/app/_helpers/date.formate.pipe';
-import { ClientDetailsDto, ClientNamesDto, EmployeesList, ProjectViewDto } from 'src/app/_models/admin';
+import { ClientDetailsDto, ClientNamesDto, EmployeesList, ProjectAllotments, ProjectViewDto } from 'src/app/_models/admin';
 import { MaxLength } from 'src/app/_models/common';
 import { AdminService } from 'src/app/_services/admin.service';
 import { JwtService } from 'src/app/_services/jwt.service';
@@ -30,9 +30,12 @@ export class ProjectComponent implements OnInit {
   clientDetails: ClientDetailsDto;
   visible: boolean = false;
   filteredClients: any;
+  showUnassignEmployee: boolean = false;
+  fbUnAssignEmployee!: FormGroup;
   fbproject!: FormGroup;
   maxLength: MaxLength = new MaxLength();
   imageSize: any;
+  dialog1:boolean;
   permission: any;
   addFlag: boolean = true;
   dialog: boolean;
@@ -59,6 +62,7 @@ export class ProjectComponent implements OnInit {
     this.initProjects();
     this.initClientNames();
     this.initEmployees();
+    this.unAssignEmployeeForm();
     this.fbproject = this.formbuilder.group({
       clientId: [0],
       projectId: [0],
@@ -85,8 +89,35 @@ export class ProjectComponent implements OnInit {
 
   }
 
+  unAssignEmployeeForm() {
+    this.fbUnAssignEmployee = this.formbuilder.group({
+      projectAllotmentId: new FormControl('', [Validators.required]),
+      projectId: new FormControl('', [Validators.required]),
+      employeeId: new FormControl('', [Validators.required]),
+      isActive: new FormControl('', [Validators.required]),
+    });
+  }
 
-  showProjectDetailsDialog(projectDetails: any) {
+  unAssignedEmployee(employee:ProjectAllotments) {
+    this.fcUnAssignAsset['projectAllotmentId']?.setValue(employee.projectAllotmentId);
+    this.fcUnAssignAsset['projectId']?.setValue(employee.projectId);
+    this.fcUnAssignAsset['employeeId']?.setValue(employee.employeeId);
+    this.fcUnAssignAsset['isActive']?.setValue(false);
+    this.adminService.UnassignEmployee(this.fbUnAssignEmployee.value).subscribe((resp) => {
+      if (resp) {
+        this.alertMessage.displayAlertMessage(ALERT_CODES["SMEUA001"]);
+        this.ngOnInit();
+        this.visible = false;
+        this.fbUnAssignEmployee.reset();
+      }
+    });
+  }
+
+  get fcUnAssignAsset() {
+    return this.fbUnAssignEmployee.controls;
+  }
+
+  showProjectDetailsDialog(projectDetails: ProjectViewDto) {
     this.visible = true;
     this.projectDetails = projectDetails;
   }
@@ -103,46 +134,8 @@ export class ProjectComponent implements OnInit {
     this.initEmployees();
     this.showDialog();
     if (project != null) {
-      this.addFlag = false;
-      console.log(project)
-      this.submitLabel = "Update Project Details";
-      const selectedEmployees = [];
-      if (project.expandEmployees) {
-        project.expandEmployees.forEach(element => {
-          let employeeId = element.employeeId
-          this.employees.filter(each => {
-            if (each.employeeId == employeeId)
-              selectedEmployees.push(each)
-          })
-        });
-      }
-      this.editEmployees(project.projectId)
-      this.fbproject.get('ProjectAllotments')?.setValue(selectedEmployees);
-      this.fbproject.patchValue({
-        clientId: project.clientId,
-        projectId: project.projectId,
-        code: project.code,
-        name: project.name,
-        isActive: project.isActive,
-        InceptionAt: FORMAT_DATE(new Date(project.startDate)),
-        logo: project.logo,
-        description: project.description
-      })
-      this.fbproject.get('clients').patchValue({
-        clientId: project.clientId,
-        isActive: project.isActive,
-        companyName: {
-          companyName: project.companyName,
-          clientId: project.clientId
-        },
-        Name: project.clientName,
-        email: project.email,
-        mobileNumber: project.mobileNumber,
-        cinno: project.cinno,
-        pocName: project.pocName,
-        pocMobileNumber: project.pocMobileNumber,
-        address: project.address,
-      });
+      this.editEmployee(project);
+      this.editEmployeesList(project.projectId)
     } else {
       this.addFlag = true;
       this.submitLabel = "Add Project";
@@ -151,6 +144,42 @@ export class ProjectComponent implements OnInit {
     }
   }
 
+  editEmployee(project){
+    this.addFlag = false;
+    this.submitLabel = "Update Project Details";
+    this.fbproject.patchValue({
+      clientId: project.clientId,
+      projectId: project.projectId,
+      code: project.code,
+      name: project.name,
+      isActive: project.isActive,
+      InceptionAt: FORMAT_DATE(new Date(project.startDate)),
+      logo: project.logo,
+      description: project.description
+    })
+    this.fbproject.get('clients').patchValue({
+      clientId: project.clientId,
+      isActive: project.isActive,
+      companyName: {
+        companyName: project.companyName,
+        clientId: project.clientId
+      },
+      Name: project.clientName,
+      email: project.email,
+      mobileNumber: project.mobileNumber,
+      cinno: project.cinno,
+      pocName: project.pocName,
+      pocMobileNumber: project.pocMobileNumber,
+      address: project.address,
+    });
+  }
+
+  addEmployees(projectDetails:ProjectViewDto){
+    this.dialog1=true;
+    this.editEmployeesList(projectDetails.projectId);
+    this.editEmployee(projectDetails);
+  }
+  
   onAutocompleteSelect(selectedOption: ClientNamesDto) {
     this.adminService.GetClientDetails(selectedOption.clientId).subscribe(resp => {
       this.clientDetails = resp[0];
@@ -166,7 +195,6 @@ export class ProjectComponent implements OnInit {
   }
 
   saveProject() {
-    console.log(this.fbproject.value)
     if (this.addFlag) {
       if (this.clientDetails) {
         this.fcClientDetails.get('companyName')?.setValue(this.clientDetails.companyName);
@@ -250,6 +278,10 @@ export class ProjectComponent implements OnInit {
           this.dialog = false;
           this.initProjects();
           this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "PAS001" : "PAS002"]);
+          if(this.dialog1){
+            this.dialog1 = false;
+            this.visible=false;
+          }
         }
       })
     }
@@ -306,9 +338,9 @@ export class ProjectComponent implements OnInit {
       this.employees = resp as unknown as EmployeesList[];
     });
   }
-  editEmployees(projectId) {
+  editEmployeesList(projectId:number) {
     this.adminService.getEmployees(projectId).subscribe(resp => {
-      this.employees = resp as unknown as EmployeesList[];
+      this.Employees = resp as unknown as EmployeesList[];
     });
   }
   filterClients(event: AutoCompleteCompleteEvent) {
@@ -327,6 +359,7 @@ export class ProjectComponent implements OnInit {
     this.fbproject.reset();
     this.dialog = true;
   }
+
 }
 
 

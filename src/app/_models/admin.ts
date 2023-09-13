@@ -128,6 +128,8 @@ export class ProjectAllotments
 {
   employeeId: number
   projectAllotmentId:number
+  projectId:number
+  isActive:boolean
 }
 export class ProjectDetailsDto {
     clientId: number

@@ -1,37 +1,62 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { AnyCatcher } from 'rxjs/internal/AnyCatcher';
+import { EmployeeService } from 'src/app/_services/employee.service';
 // import { MessageService } from 'primeng/api/messageservice';
 
 @Component({
   selector: 'app-upload-documents',
   templateUrl: './upload-documents.component.html',
-  // styleUrls: ['./upload-documents.component.scss']
+
 })
 export class UploadDocumentsComponent {
+
+  fbUploadDocument!: FormGroup;
   employeeId:any;
-  uploadedFiles: any[] = [];
-  constructor(private router: Router,private route:ActivatedRoute){}
-  // constructor(private messageService: MessageService) {}
-ngOnInt(){
-  
-  this.route.params.subscribe(params => {
-    this.employeeId = params['employeeId'];
-  });
-console.log(this.employeeId)
-}
-  onUpload(event: any) {
-      for (const file of event.files) {
-          this.uploadedFiles.push(file);
-      }
+  constructor(private router: Router, private formbuilder: FormBuilder, private employeeService: EmployeeService,) {
 
-      // this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded' });
+  }
+  ngOnInit() {
+    this.fbUploadDocument = this.formbuilder.group({
+      uploadDocumentId: new FormControl(0),
+      employeeId: new FormControl(0),
+      title: new FormControl(''),
+      fileName: new FormControl(''),
+    })
   }
 
-  onBasicUpload() {
-      // this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded with Basic Mode' });
+  myFiles = [];
+  uploadDocuments=[];
+  sMsg: string = '';
+
+
+  getFileDetails(e) {
+
+    for (var i = 0; i < e.target.files.length; i++) {
+      this.myFiles.push(e.target.files[i]);
+    }
   }
+
+  uploadFiles() {
+    this.uploadDocuments=[];
+    for (let i = 0; i < this.myFiles.length; i++) {
+      let fileDetails = this.myFiles[i];
+      this.fbUploadDocument.patchValue({
+        title: fileDetails.name,
+        fileName: fileDetails.type
+      })
+      this.uploadDocuments.push(this.fbUploadDocument.value)
+    }
+    this.employeeService.CreateUploadDocuments(this.uploadDocuments).subscribe((resp) => {
+      console.log(resp);
+    })
+
+  }
+
+
+
   navigateToPrev() {
     this.router.navigate(['employee/onboardingemployee/addressdetails',this.employeeId])
   }
@@ -39,11 +64,6 @@ console.log(this.employeeId)
   navigateToNext() {
     this.router.navigate(['employee/onboardingemployee/familydetails',this.employeeId])
   }
-  // navigateToPrev() {
-  //   this.router.navigate(['employee/onboardingemployee/experiencedetails'])
-  // }
 
-  // navigateToNext() {
-  //   this.router.navigate(['employee/onboardingemployee/finalsubmit'])
-  // }
+
 }

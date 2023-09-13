@@ -1,23 +1,29 @@
 <div class="grid">
     <div class="col-12 p-5 mt-4">
-        <p-fileUpload name="demo[]" url="./upload.php" (onUpload)="onUpload($event)" [multiple]="true" accept="image/*"
-            [maxFileSize]="1000000">
-            <ng-template pTemplate="content">
-                <ul *ngIf="uploadedFiles.length">
-                    <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
-                </ul>
-            </ng-template>
-        </p-fileUpload>
+        <div>
+            <ng-container>
+                <input type="file" id="file" multiple 
+                    (change)="getFileDetails($event)">
+                <button (click)="uploadFiles()">Upload</button>
+            </ng-container>
+        </div>
+    </div>
+    <div class="col-12">
+        <div *ngFor="let file of myFiles">
+            <div>*  {{file.name}} - {{file.type}} - {{file.size}}</div> 
+          </div>
     </div>
 </div>
 <div class="grid mt-5">
     <div class="field col-4">
-        <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100 text-right"  (click)="navigateToPrev()">Address Details</button>
+        <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100 text-right"
+            (click)="navigateToPrev()">Address Details</button>
     </div>
     <div class=" col-4">
         <button p-button class="p-element p-ripple p-button-info p-button p-component w-100">Save as Draft</button>
     </div>
     <div class=" col-4">
-        <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100" (click)="navigateToNext()">Family Details</button>
+        <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100"
+            (click)="navigateToNext()">Family Details</button>
     </div>
 </div>
