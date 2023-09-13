@@ -33,7 +33,7 @@ export class BasicDetailsComponent implements OnInit {
   basicDetails: EmployeeBasicDetailDto[];
   bloodgroups: LookupViewDto[] = [];
   employeeId:any;
-  constructor(private router: Router,private route: ActivatedRoute, private employeeService: EmployeeService, private formbuilder: FormBuilder, private lookupService: LookupService, private alertMessage: AlertmessageService) { }
+  constructor(private router: Router,private employeeService: EmployeeService, private formbuilder: FormBuilder, private lookupService: LookupService, private alertMessage: AlertmessageService) { }
 
   ngOnInit() {
     this.basicDetailsForm();
@@ -48,10 +48,6 @@ export class BasicDetailsComponent implements OnInit {
       { name: 'Widow', code: 'widow' },
       { name: 'Divorced', code: 'divorced' },
     ];
-    this.route.params.subscribe(params => {
-      this.employeeId = params['employeeId'];
-    });
-
   }
   basicDetailsForm() {
     this.fbbasicDetails = this.formbuilder.group({
