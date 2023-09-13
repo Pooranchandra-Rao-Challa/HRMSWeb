@@ -66,7 +66,7 @@
         </div> -->
         <button pButton pRipple icon="pi pi-pencil"
           class="p-element p-ripple p-button-text p-button p-component mr-2 float-button"
-          (click)="showDialog()"></button>
+          (click)="showEmpPersDtlsDialog(employeedetails)"></button>
       </div>
     </div>
 
@@ -97,17 +97,17 @@
           <div class="col-12">
             <span class="text-primary font-bold text-900">Reported to </span>: {{employeeofficedetails.reportingTo}}
           </div>
-            <!-- <div class="col-12">
+          <!-- <div class="col-12">
             <span class="text-primary font-bold text-900">Project</span>: {{employeeofficedetails.projectName}}
           </div> -->
-            <div class="col-12">
-              <span class="text-primary font-bold text-900">PF Eligible </span>: {{employeeofficedetails.isPFEligible}}
-            </div>
-            <div class="col-12">
-              <span class="text-primary font-bold text-900">ESI Elgible </span>: {{employeeofficedetails.isESIEligible}}
-            </div>
-            <br />
-            <!-- <p-chart type="doughnut" [data]="pieData" [options]="pieOptions" height="140px" width="140px"></p-chart> -->
+          <div class="col-12">
+            <span class="text-primary font-bold text-900">PF Eligible </span>: {{employeeofficedetails.isPFEligible}}
+          </div>
+          <div class="col-12">
+            <span class="text-primary font-bold text-900">ESI Elgible </span>: {{employeeofficedetails.isESIEligible}}
+          </div>
+          <br />
+          <!-- <p-chart type="doughnut" [data]="pieData" [options]="pieOptions" height="140px" width="140px"></p-chart> -->
         </div>
       </div>
     </div>
@@ -374,55 +374,66 @@
     </p-tabPanel>
   </p-tabView>
   <!-- Basic Details p-dialog -->
-  <p-dialog header="CIS202214 Basic Details" [(visible)]="dialog" [modal]="true" showEffect="fade"
+  <p-dialog header=" Basic Details" [(visible)]="dialog" [modal]="true" showEffect="fade"
     [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
     <div class="flex flex-column align-items-center justify-content-center">
-      <form [formGroup]="fbEmpPerDtls">
+      <form [formGroup]="fbEmpBasDtls">
         <div class="grid">
           <div class="col-12 roles-container">
             <div class="p-fluid p-formgrid grid">
               <div class="field col-12 md:col-4">
-                <label>Name: <sup class="p-error">*</sup>
-                </label>&nbsp; <input pInputText id="name" #name placeholder="Enter Name" type="text"
-                  formControlName="employeeName" />
+                <label>First Name: <sup class="p-error">*</sup>
+                </label>&nbsp; <input pInputText id="name" placeholder="Enter Name" type="text"
+                  formControlName="firstName" />
+              </div>
+              <div class="field col-12 md:col-4">
+                <label>Middle Name: <sup class="p-error">*</sup>
+                </label>&nbsp; <input pInputText id="name" placeholder="Enter Name" type="text"
+                  formControlName="middleName" />
+              </div>
+              <div class="field col-12 md:col-4">
+                <label>Last Name: <sup class="p-error">*</sup>
+                </label>&nbsp; <input pInputText id="name" placeholder="Enter Name" type="text"
+                  formControlName="lastName" />
               </div>
               <div class="field col-12 md:col-4">
                 <label>Gender: <sup class="p-error">*</sup>
-                </label>&nbsp; <p-dropdown id="gender" #gender placeholder="Select Gender" [options]="genders"
-                  optionLabel="name" formControlName="gender"></p-dropdown>
+                </label>&nbsp; <p-dropdown id="gender" placeholder="Select Gender" [options]="genders"
+                  optionLabel="name" formControlName="gender" optionValue="name"></p-dropdown>
               </div>
               <div class="field col-12 md:col-4">
                 <label>Blood Group: : <sup class="p-error">*</sup>
-                </label>&nbsp; <input pInputText id="bloodGroup" #bloodgroup placeholder="Enter Blood Group" type="text"
-                  formControlName="bloodGroup" />
+                </label>&nbsp; <p-dropdown id="bloodgroup_dropdown" [autoDisplayFirst]="false" optionLabel="name"
+                  [options]="bloodgroups" optionValue="lookupDetailId" formControlName="bloodGroupId">
+                </p-dropdown>
               </div>
               <div class="field col-12 md:col-4">
                 <label>Mobile Number : <sup class="p-error">*</sup>
-                </label>&nbsp; <input pInputText id="mobileNumber" #mobilenumber placeholder="Enter Mobile Number"
-                  type="text" formControlName="mobileNumber" />
+                </label>&nbsp; <input pInputText id="mobileNumber" placeholder="Enter Mobile Number" type="text"
+                  formControlName="mobileNumber" />
               </div>
               <div class="field col-12 md:col-4">
                 <label>Alt Mobile Number : <sup class="p-error">*</sup>
-                </label>&nbsp; <input pInputText id="alternateMobileNumber" #alternateMobileNumber
-                  placeholder="Enter Alternate Mobile Number" type="text" formControlName="alternateMobileNumber" />
+                </label>&nbsp; <input pInputText id="alternateMobileNumber" placeholder="Enter Alternate Mobile Number"
+                  type="text" formControlName="alternateMobileNumber" />
               </div>
               <div class="field col-12 md:col-4">
                 <label>DOB:</label>&nbsp; <p-calendar [showIcon]="true" placeholder="Select Dob"
-                  formControlName="originalDOB">
+                  formControlName="originalDob">
                 </p-calendar>
               </div>
               <div class="field col-12 md:col-4">
                 <label>Certificate DOB:</label>&nbsp; <p-calendar [showIcon]="true" placeholder="Select Certificate Dob"
-                  formControlName="certificateDOB"></p-calendar>
+                  formControlName="certificateDob"></p-calendar>
               </div>
               <div class="field col-12 md:col-4">
                 <label>Marital Status: <sup class="p-error">*</sup>
-                </label>&nbsp; <p-dropdown id="maritalStatus" #maritalStatus placeholder="Enter Marital Status"
-                  [options]="status" optionLabel="name" formControlName="maritalStatus"></p-dropdown>
+                </label>&nbsp; <p-dropdown id="maritalStatus" placeholder="Enter Marital Status" [options]="status"
+                  optionLabel="name" formControlName="maritalStatus" optionValue="name"></p-dropdown>
               </div>
               <div class="field col-12 md:col-4">
                 <label>Email ID: <sup class="p-error">*</sup>
-                </label>&nbsp; <input pInputText id="emailId" #emailId placeholder="Enter Email Id" type="text"
+                </label>&nbsp; <input pInputText id="emailId" placeholder="Enter Email Id" type="text"
                   formControlName="emailId" />
               </div>
               <!-- <div class="field col-12 md:col-4"><label>Current Address:<sup class="p-error">*</sup></label>&nbsp;
@@ -444,7 +455,7 @@
     </div>
     <ng-template pTemplate="footer">
       <div class="col-4" style="float:right">
-        <button pButton pRipple type="submit" label="Update Personal Details"
+        <button pButton pRipple type="submit" (click)="saveEmpBscDtls()" label="Update Personal Details"
           class="p-button-raised p-button-primary"></button>
       </div>
     </ng-template>

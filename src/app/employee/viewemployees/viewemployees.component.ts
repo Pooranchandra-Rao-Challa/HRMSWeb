@@ -5,7 +5,7 @@ import {
  import { Address, Employee, familyDetailViewDto } from 'src/app/demo/api/security';
 import { SecurityService } from 'src/app/demo/service/security.service';
 import { LookupViewDto } from 'src/app/_models/admin';
-import { EmployeAdressViewDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsviewDto, EmployeesViewDto } from 'src/app/_models/employes';
+import { EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsviewDto,  } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { LookupService } from 'src/app/_services/lookup.service';
 export class Experience {
@@ -50,8 +50,9 @@ interface Skills {
   styles: [],
 })
 export class ViewemployeesComponent {
-  fbEmpPerDtls!: FormGroup;
-  employeePrsDtls: EmployeeBasicDetailViewDto[];
+  fbEmpBasDtls!: FormGroup;
+  employeePrsDtls: EmployeeBasicDetailViewDto[]=[];
+  employeePrsDtl = new EmployeeBasicDetailDto()
   fbOfficDtls!: FormGroup; 
   employeeofficeDtls :EmployeeOfficedetailsviewDto[];
   adredss: any[];
@@ -105,11 +106,9 @@ relationshipStatus: General[]  ;
   value:Date;
   states: LookupViewDto[] = [];
   employeeId: number;
+  bloodgroups: LookupViewDto[] = [];
 
-  showDialog() {
-    this.dialog = true;
-    this.fbEmpPerDtls.reset();
-  }
+  
   Dialog() {
     this.visible = true;
     this.fbOfficDtls.reset();
@@ -162,6 +161,7 @@ relationshipStatus: General[]  ;
     this.status = [
       { name: 'Married', code: 'DS' },
       { name: 'Un Married', code: 'NS' },
+      { name: 'Single', code: 'SN' },
     ];
     // this.designation = [
     //   { name: 'UI Developer', code: 'UD' },
@@ -202,7 +202,7 @@ relationshipStatus: General[]  ;
      this.securityService.getEmployees().then((data) => (this.employees = data));
     this.Data();
     this.initEducation();
-    this.EmpPersDtlsForm();
+    this.EmpBasicDtlsForm();
     this.BankdetailsForm;
     this.OfficDtlsForm();
     this.initEducation();
@@ -214,6 +214,7 @@ relationshipStatus: General[]  ;
     this.initAddress();
     this.addNewAddress();
     this.initStates();
+    this.initBloodGroups()
     this.getemployeeview();
   }
 
@@ -230,19 +231,23 @@ relationshipStatus: General[]  ;
     this.initBankDetails();
   }
 
-  EmpPersDtlsForm() {
-    this.fbEmpPerDtls = this.formbuilder.group({
+  EmpBasicDtlsForm() {
+    this.fbEmpBasDtls = this.formbuilder.group({
       employeeId: new FormControl('', [Validators.required]),
-      employeeName: new FormControl('', [Validators.required]),
-      code:new FormControl(''),
+      // employeeName: new FormControl('', [Validators.required]),
+      firstName: new FormControl('', [Validators.required]),
+      middleName: new FormControl('',),
+      lastName: new FormControl('', [Validators.required]),
+      code:new FormControl(null),
       gender: new FormControl('', [Validators.required]),
-      bloodGroup: new FormControl('', [Validators.required]),
+      bloodGroupId: new FormControl('', [Validators.required]),
       mobileNumber: new FormControl('', [Validators.required]),
       alternateMobileNumber: new FormControl('', [Validators.required]),
-      originalDOB: new FormControl('', [Validators.required]),
-      certificateDOB: new FormControl('', [Validators.required]),
+      originalDob: new FormControl('', [Validators.required]),
+      certificateDob: new FormControl('', [Validators.required]),
       maritalStatus: new FormControl('', [Validators.required]),
       emailId: new FormControl('', [Validators.required]),
+      isActive: ('')
     });
   }
 
@@ -253,7 +258,55 @@ relationshipStatus: General[]  ;
     });
   }
 
+  initBloodGroups() {
+    this.lookupService.BloodGroups().subscribe((resp) => {
+      this.bloodgroups = resp as unknown as LookupViewDto[];
+    });
+  }
+
+  showEmpPersDtlsDialog(employeePrsDtls : EmployeeBasicDetailViewDto) {
+    this.employeePrsDtl.employeeId = employeePrsDtls.employeeId;
+    this.employeePrsDtl.firstName = employeePrsDtls.firstName;
+    this.employeePrsDtl.middleName = employeePrsDtls.middleName;
+    this.employeePrsDtl.lastName = employeePrsDtls.lastName;
+    this.employeePrsDtl.gender = employeePrsDtls.gender;
+     this.employeePrsDtl.code = employeePrsDtls.code;
+    this.employeePrsDtl.bloodGroupId = employeePrsDtls.bloodGroupId;
+    this.employeePrsDtl.mobileNumber = employeePrsDtls.mobileNumber;
+    this.employeePrsDtl.alternateMobileNumber = employeePrsDtls.alternateMobileNumber;
+    this.employeePrsDtl.originalDob = new Date(employeePrsDtls.originalDOB);
+    this.employeePrsDtl.certificateDob = new Date(employeePrsDtls.certificateDOB);
+    this.employeePrsDtl.maritalStatus = employeePrsDtls.maritalStatus;
+    this.employeePrsDtl.emailId = employeePrsDtls.emailId;
+    this.employeePrsDtl.isActive=true;
+    this.fbEmpBasDtls.patchValue( this.employeePrsDtl);
+    console.log(this.employeePrsDtl); 
+    this.dialog = true;
+  }
  
+  saveEmpBscDtls(){
+    debugger;
+    this.employeeService.updateViewEmpPersDtls(this.fbEmpBasDtls.value).subscribe((resp) =>{
+      if (resp) {
+        this.initViewEmpDtls();
+        this.onClose();
+        this.dialog = false;
+        // if (this.addFlag) {
+        //   this.alertMessage.displayAlertMessage(ALERT_CODES["AAS001"]);
+        // } else {
+        //   this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag1 ? "AAS003" : "AAS002"]);
+        // }
+      }
+      else {
+        // this.alertMessage.displayErrorMessage(ALERT_CODES["AAS004"])
+      }
+    })
+  }
+
+  onClose() {
+    this.fbEmpBasDtls.reset();
+    this.dialog = false;
+  }
   OfficDtlsForm() {
     this.fbOfficDtls = this.formbuilder.group({
       employeeId: new FormControl('', [Validators.required]),
