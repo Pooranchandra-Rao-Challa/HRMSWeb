@@ -7,15 +7,13 @@ import { Router, ActivatedRoute } from '@angular/router';
   // styleUrls: ['./final-submit.component.scss']
 })
 export class FinalSubmitComponent {
-  constructor(private router: Router, private route: ActivatedRoute){}
   employeeId:any;
-ngOnInit(){
-  
-  
-  this.route.params.subscribe(params => {
-    this.employeeId = params['employeeId'];
-  });
-console.log(this.employeeId)
-}
- 
+  constructor(private router: Router, private route: ActivatedRoute) { }
+  ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.employeeId = params['employeeId'];
+    });
+    console.log(this.employeeId)
+  }
+
 }

@@ -14,21 +14,25 @@ import { EmployeeService } from 'src/app/_services/employee.service';
 export class UploadDocumentsComponent {
 
   fbUploadDocument!: FormGroup;
-  employeeId:any;
-  constructor(private router: Router, private formbuilder: FormBuilder, private employeeService: EmployeeService,) {
+  employeeId: any;
+  constructor(private router: Router, private route: ActivatedRoute, private formbuilder: FormBuilder, private employeeService: EmployeeService,) {
 
   }
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.employeeId = params['employeeId'];
+    });
+    console.log(this.employeeId)
     this.fbUploadDocument = this.formbuilder.group({
-      uploadDocumentId: new FormControl(0),
-      employeeId: new FormControl(0),
+      uploadDocumentId: [0],
+      employeeId: this.employeeId,
       title: new FormControl(''),
       fileName: new FormControl(''),
     })
   }
 
   myFiles = [];
-  uploadDocuments=[];
+  uploadDocuments = [];
   sMsg: string = '';
 
 
@@ -40,7 +44,7 @@ export class UploadDocumentsComponent {
   }
 
   uploadFiles() {
-    this.uploadDocuments=[];
+    this.uploadDocuments = [];
     for (let i = 0; i < this.myFiles.length; i++) {
       let fileDetails = this.myFiles[i];
       this.fbUploadDocument.patchValue({
@@ -58,11 +62,11 @@ export class UploadDocumentsComponent {
 
 
   navigateToPrev() {
-    this.router.navigate(['employee/onboardingemployee/addressdetails',this.employeeId])
+    this.router.navigate(['employee/onboardingemployee/addressdetails', this.employeeId])
   }
 
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/familydetails',this.employeeId])
+    this.router.navigate(['employee/onboardingemployee/familydetails', this.employeeId])
   }
 
 
