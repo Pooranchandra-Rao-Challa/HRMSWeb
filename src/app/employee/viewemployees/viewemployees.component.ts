@@ -260,7 +260,8 @@ export class ViewemployeesComponent {
       certificateDob: new FormControl('', [Validators.required]),
       maritalStatus: new FormControl('', [Validators.required]),
       emailId: new FormControl('', [Validators.required]),
-      isActive: ('')
+      isActive: (''),
+      signDate:('')
     });
   }
 
@@ -291,6 +292,7 @@ export class ViewemployeesComponent {
     this.employeePrsDtl.certificateDob = new Date(employeePrsDtls.certificateDOB);
     this.employeePrsDtl.maritalStatus = employeePrsDtls.maritalStatus;
     this.employeePrsDtl.emailId = employeePrsDtls.emailId;
+    this.employeePrsDtl.signDate = employeePrsDtls.signDate;
     this.employeePrsDtl.isActive=true;
     this.fbEmpBasDtls.patchValue( this.employeePrsDtl);
     console.log(this.employeePrsDtl); 
