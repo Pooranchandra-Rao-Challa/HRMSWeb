@@ -22,17 +22,17 @@ export class EmployeeService extends ApiHttpService {
 
   }
 
-  public GetViewEmpPersDtls(employeeId: number) {
-    return this.getWithId<EmployeeBasicDetailViewDto[]>(GET_EMPLOYEE_BASED_ON_ID_URI, [employeeId])
-  }
-  public EmployeeOfficedetailsviewDto(employeeId: number) {
-    return this.getWithId<EmployeeOfficedetailsviewDto[]>(GET_OFFICE_DETAILS_URI, [employeeId])
-  }
   //Bank Details of Employee
-  public CreateBankDetails(bankdetails: BankDetailDto) {
-    return this.post<BankDetailDto>(CREATE_BANK_DETAILS_URI, bankdetails);
+  public CreateBankDetails(bankdetails:BankDetailDto){
+    return this.post<BankDetailDto>(CREATE_BANK_DETAILS_URI,bankdetails);
   }
 
+  public GetViewEmpPersDtls(employeeId:number){
+    return this.getWithId<EmployeeBasicDetailViewDto[]>(GET_EMPLOYEE_BASED_ON_ID_URI,[employeeId])
+}
+public EmployeeOfficedetailsviewDto(employeeId:number){
+  return this.getWithId<EmployeeOfficedetailsviewDto[]>(GET_OFFICE_DETAILS_URI,[employeeId])
+}
   public GetAddress(employeeId: number) {
     return this.getWithId<EmployeAdressViewDto[]>(GET_ADDRESS_BASED_ON_ID_URI, [employeeId])
   }

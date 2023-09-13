@@ -51,14 +51,16 @@ interface Skills {
 })
 export class ViewemployeesComponent {
   fbEmpPerDtls!: FormGroup;
- // employeePrsDtls: EmployeeBasicDetailViewDto[];
-  employeePrsDtls: any[];
+  employeePrsDtls: EmployeeBasicDetailViewDto[];
+  fbOfficDtls!: FormGroup; 
+  employeeofficeDtls :EmployeeOfficedetailsviewDto[];
   adredss: any[];
   educationDetails: any[];
   workExperience: any[];
   familyDetails: any[];
   UploadedDocuments: any[];
-  bankDetails: any[];
+  bankDetails: boolean = false;
+  bankDetails1:any[];
   officeDtls: any[];
   color: string = 'bluegray';
   size: string = 'M';
@@ -84,7 +86,6 @@ status: Status[] ;
 designation: Designation[] ;
 valRadio:string; 
 skillSets!: Skills[];
-fbOfficDtls!: FormGroup; 
 fbEducationDetails!: FormGroup; 
 fbBankDetails!: FormGroup;  
 fbexperience!: FormGroup;
@@ -127,7 +128,7 @@ relationshipStatus: General[]  ;
   }
   showBankDetails() {
     this.bankDetailsshow =true;
-    this.fbBankDetails.reset();
+     this.fbBankDetails.reset();
   }
   showAddressDetails() {
     this.Address = true;
@@ -186,29 +187,23 @@ relationshipStatus: General[]  ;
   constructor(
      private securityService: SecurityService,
     private formbuilder: FormBuilder,
-    // private lookupService: LookupService,
+    private lookupService: LookupService,
     private employeeService: EmployeeService,
     private activatedRoute: ActivatedRoute
   ) { }
 
-  // initStates() {
-  //   this.lookupService.getStates().subscribe((resp) => {
-  //     this.states = resp as unknown as LookupViewDto[];
-  //   });
-  // }
+  initStates() {
+    this.lookupService.getStates().subscribe((resp) => {
+      this.states = resp as unknown as LookupViewDto[];
+    });
+  }
 
   ngOnInit(): void {
-    this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
      this.securityService.getEmployees().then((data) => (this.employees = data));
     this.Data();
-    this.initGetEducationDetails();
-    this.initGetWorkExperience();
-    this.initGetAddress();
-    this.initGetFamilyDetails();
-    this.initUploadedDocuments();
-    this.initBankDetails();
     this.initEducation();
     this.EmpPersDtlsForm();
+    this.BankdetailsForm;
     this.OfficDtlsForm();
     this.initEducation();
     this.addEducationDetails();
@@ -218,15 +213,21 @@ relationshipStatus: General[]  ;
     this.addFamilyMembers();
     this.initAddress();
     this.addNewAddress();
-    this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
-    this.initViewEmpDtls()
-    // this.initStates();
+    this.initStates();
+    this.getemployeeview();
   }
 
   getemployeeview(){
     this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
     this.initViewEmpDtls();
     this.initofficeEmpDtls();
+  
+    this.initGetEducationDetails();
+    this.initGetWorkExperience();
+    this.initGetFamilyDetails();
+    this.initGetAddress();
+    this.initUploadedDocuments();
+    this.initBankDetails();
   }
 
   EmpPersDtlsForm() {
@@ -247,16 +248,41 @@ relationshipStatus: General[]  ;
 
   initViewEmpDtls(){
     this.employeeService.GetViewEmpPersDtls(this.employeeId).subscribe((resp) => {
-      this.employeePrsDtls = resp as unknown as any[];
-      console.log('this.employeePrsDtls', this.employeePrsDtls);     
+      this.employeePrsDtls = resp as unknown as EmployeeBasicDetailViewDto[];
+      console.log('this.employeePrsDtls',this.employeePrsDtls);     
     });
   }
+
+ 
+  OfficDtlsForm() {
+    this.fbOfficDtls = this.formbuilder.group({
+      employeeId: new FormControl('', [Validators.required]),
+      timeIn: new FormControl('', [Validators.required]),
+      timeOut: new FormControl('', [Validators.required]),
+      officeEmailId: new FormControl('', [Validators.required]),
+      dateofJoin: new FormControl('', [Validators.required]),
+      reportingTo: new FormControl('', [Validators.required]),
+      // projectName: new FormControl('', [Validators.required]),
+      isPFEligible: new FormControl('', [Validators.required]),
+      isESIEligible: new FormControl('', [Validators.required]),
+    });
+  }
+
+  initofficeEmpDtls(){
+    this.employeeService.EmployeeOfficedetailsviewDto(this.employeeId).subscribe((resp) => {
+      this.employeeofficeDtls = resp as unknown as EmployeeOfficedetailsviewDto[];
+      console.log('this.employeeofficeDtls',this.employeeofficeDtls);     
+    });
+  }
+
   initGetAddress(){
     this.employeeService.GetAddress(this.employeeId).subscribe((resp) => {
       this.adredss = resp as unknown as EmployeAdressViewDto[];
       console.log('this.address', this.adredss);     
     });
   }
+
+
   initGetEducationDetails() {
     this.employeeService.GetEducationDetails(this.employeeId).subscribe((resp) => {
       this.educationDetails = resp as unknown as any[];
@@ -288,32 +314,12 @@ relationshipStatus: General[]  ;
 
   initBankDetails() {
     this.employeeService.GetBankDetails(this.employeeId).subscribe((resp) => {
-      this.bankDetails = resp as unknown as any[];
+      this.bankDetails1 = resp as unknown as any[];
       console.log('this.BankDetails', this.bankDetails);
     });
   }
 
-  OfficDtlsForm() {
-    this.fbOfficDtls = this.formbuilder.group({
-      employeeId: new FormControl('', [Validators.required]),
-      timeIn: new FormControl('', [Validators.required]),
-      timeOut: new FormControl('', [Validators.required]),
-      officeEmailId: new FormControl('', [Validators.required]),
-      dateofJoin: new FormControl('', [Validators.required]),
-      reportingTo: new FormControl('', [Validators.required]),
-      // ProjectName: new FormControl('', [Validators.required]),
-      isPFEligible: new FormControl('', [Validators.required]),
-      isESIEligible: new FormControl('', [Validators.required]),
-    });
-  }
-
-  initofficeEmpDtls(){
-    this.employeeService.EmployeeOfficedetailsviewDto(this.employeeId).subscribe((resp) => {
-      this.officeDtls = resp as unknown as EmployeeOfficedetailsviewDto[];
-      console.log('this.employeeofficeDtls', this.officeDtls);     
-    });
-  }
-
+ 
   initEducation() {
     this.fbEducationDetails = this.formbuilder.group({
       course: new FormControl(''),
@@ -327,7 +333,7 @@ relationshipStatus: General[]  ;
       educationDetails: this.formbuilder.array([]),
     });
   }
-  initBankdetailsF() {
+  BankdetailsForm() {
     this.fbBankDetails = this.formbuilder.group({
       AccountNo: new FormControl('', [Validators.required]),
       IFSCCode: new FormControl('', [Validators.required]),
