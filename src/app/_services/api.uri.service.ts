@@ -48,6 +48,8 @@ export const UPDATE_PROJECT_URI="Admin/UpdateProjectWithDetails";
 export const  GET_CLIENTNAMES_URI="Admin/GetClientNames";
 export const GET_CLIENT_DETAILS="Admin/GetClientDetails";
 export const GET_EMPLOYEES = "Employee/GetEmployeeDropdown";
+export const GET_EMPLOYEESLIST="Employee/GetEmployeesForProject";
+export const UNASSIGNED_EMPLOYEE_URI = "Admin/InactiveProjectAllotment";
 
 //EMPLOYEE
 export const GET_EMPLOYEES_URI = "Employee/GetEmployeeDetails";
