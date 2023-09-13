@@ -1,29 +1,60 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
-// import { MessageService } from 'primeng/api/messageservice';
+
+import { EmployeeService } from 'src/app/_services/employee.service';
+
 
 @Component({
   selector: 'app-upload-documents',
   templateUrl: './upload-documents.component.html',
-  // styleUrls: ['./upload-documents.component.scss']
+
 })
 export class UploadDocumentsComponent {
-  constructor(private router: Router, ){} uploadedFiles: any[] = [];
 
-  // constructor(private messageService: MessageService) {}
+  fbUploadDocument!: FormGroup;
+  constructor(private router: Router, private formbuilder: FormBuilder, private employeeService: EmployeeService,) {
 
-  onUpload(event: any) {
-      for (const file of event.files) {
-          this.uploadedFiles.push(file);
-      }
-
-      // this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded' });
+  }
+  ngOnInit() {
+    this.fbUploadDocument = this.formbuilder.group({
+      uploadDocumentId: new FormControl(0),
+      employeeId: new FormControl(0),
+      title: new FormControl(''),
+      fileName: new FormControl(''),
+    })
   }
 
-  onBasicUpload() {
-      // this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded with Basic Mode' });
+  myFiles = [];
+  uploadDocuments=[];
+  sMsg: string = '';
+
+
+  getFileDetails(e) {
+
+    for (var i = 0; i < e.target.files.length; i++) {
+      this.myFiles.push(e.target.files[i]);
+    }
   }
+
+  uploadFiles() {
+    this.uploadDocuments=[];
+    for (let i = 0; i < this.myFiles.length; i++) {
+      let fileDetails = this.myFiles[i];
+      this.fbUploadDocument.patchValue({
+        title: fileDetails.name,
+        fileName: fileDetails.type
+      })
+      this.uploadDocuments.push(this.fbUploadDocument.value)
+    }
+    this.employeeService.CreateUploadDocuments(this.uploadDocuments).subscribe((resp) => {
+      console.log(resp);
+    })
+
+  }
+
+
+
   navigateToPrev() {
     this.router.navigate(['employee/onboardingemployee/addressdetails'])
   }
@@ -31,11 +62,6 @@ export class UploadDocumentsComponent {
   navigateToNext() {
     this.router.navigate(['employee/onboardingemployee/familydetails'])
   }
-  // navigateToPrev() {
-  //   this.router.navigate(['employee/onboardingemployee/experiencedetails'])
-  // }
 
-  // navigateToNext() {
-  //   this.router.navigate(['employee/onboardingemployee/finalsubmit'])
-  // }
+
 }

@@ -38,6 +38,12 @@ export class BankDetailDto{
 	accountNumber?:number;
 	isActive?:boolean;
 }
+export class UploadDocuments{
+	uploadDocumentId?:number;
+	employeeId?:number;
+	title?:string;
+	fileName?:string;
+}
 export class EmployeeBasicDetailViewDto {
 	employeeId?: number;
 	code?: string;

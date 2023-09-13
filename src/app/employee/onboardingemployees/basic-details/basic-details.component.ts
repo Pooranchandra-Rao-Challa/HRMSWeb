@@ -95,6 +95,7 @@ export class BasicDetailsComponent implements OnInit {
   save() {
     if (this.fbbasicDetails.valid) {
       this.savebasicDetails().subscribe(resp => {
+        console.log(resp)
         this.fbbasicDetails.disable();
         this.navigateToNext()
       })

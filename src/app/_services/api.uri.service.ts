@@ -57,6 +57,7 @@ export const CREATE_BASIC_DETAILS_URI = "Employee/CreateEmployeeBasicDetails";
 export const EMPLOYEES_FOR_ALLOTTED_ASSETS_URI = "Admin/GetAssetsForEmployees";
 export const GET_EMPLOYEE_BASED_ON_ID_URI = "Employee/GetEmployeeBasedOnId";
 export const CREATE_BANK_DETAILS_URI = "Employee/UpateBankDetails";
+export const CREATE_DOCUMENTS_URI="Employee/UpateUploadDocument";
 export const GET_ADDRESS_BASED_ON_ID_URI = "Employee/GetAddressesForEmployee";
 export const GET_EDUCATION_DETAILS_URI="Employee/GetEducationDetailsForEmployee";
 export const GET_WORKEXPERIENCE_URI = "Employee/GetWorkExperienceForEmployee";
