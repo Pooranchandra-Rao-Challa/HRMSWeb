@@ -30,7 +30,30 @@ export class EmployeeBasicDetailDto {
 	isActive?: boolean;
 }
 
-export class BankDetailDto {
+export class FamilyDetailsDto {
+	familyInformationId?: number;
+	employeeId?: number;
+	name?: string;
+	relationshipId?: number;
+	addressId?: number;
+	dob?: Date;
+	adhaarNo?: number;
+	panno?: number;
+	mobileNumber?: number;
+	isNominee?: boolean;
+}
+export class BankDetailViewDto {
+	bankId?: number;
+	employeeId?: number;
+	bankName?: string;
+	branchName?: string;
+	ifsc?: string;
+	accountNumber?: number;
+	isActive?: boolean;
+	bankDetailId?: number;
+	employeeName?: string;
+}
+export class BankDetailsDto {
 	bankId?: number;
 	employeeId?: number;
 	name?: string;
@@ -58,6 +81,7 @@ export class AddressDetailsDto{
 	addressType: string
 	IsActive:boolean
 }
+
 export class EmployeeBasicDetailViewDto {
 	employeeId?: number;
 	code?: string;
@@ -97,8 +121,8 @@ export class EmployeeOfficedetailsviewDto {
 	employeeName?: string;
 	code?: string;
 	employeeInceptionDetailId?: number;
-	timeIn?: any;
-	timeOut?: any;
+	timeIn?: string;
+	timeOut?: string;
 	officeEmailId?: string;
 	dateofJoin?: Date;
 	isPFEligible?: boolean;
@@ -112,6 +136,45 @@ export class EmployeeOfficedetailsviewDto {
 	updatedAt?: Date;
 	updatedBy?: string;
 }
+
+
+export class EmployeeOfficedetailsDto {
+	createdAt?: Date;
+	updatedAt?: Date;
+	createdBy?: string;
+	updatedBy?: string;
+	employeeInceptionId?: number;
+	employeeId?: number;
+	timeIn?: string;
+	timeOut?: string;
+	officeEmailId?: string;
+	dateofJoin?: Date;
+	isPfeligible?: boolean;
+	isEsieligible?: boolean;
+	reportingToId?: number;
+	isActive?: boolean;
+	strTimeIn?: any;
+	strTimeOut?: any;
+}
+
+export class TimeIn {
+	ticks?: number;
+	days?: number;
+	hours?: number;
+	milliseconds?: number;
+	minutes?: number;
+	seconds?: number;
+}
+
+export class TimeOut {
+	ticks?: number;
+	days?: number;
+	hours?: number;
+	milliseconds?: number;
+	minutes?: number;
+	seconds?: number;
+}
+
 export class EmployeAdressViewDto {
 	employeeId?: number
 	employeeName?: string

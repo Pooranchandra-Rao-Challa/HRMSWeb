@@ -25,6 +25,9 @@ export interface AssetAllotmentViewDto {
     createdBy?: string;
     updatedAt?: string;
     updatedBy?: string;
+    assetCategory?: string;
+  
+
 }
 
 export interface AssetsByAssetTypeIdViewDto {

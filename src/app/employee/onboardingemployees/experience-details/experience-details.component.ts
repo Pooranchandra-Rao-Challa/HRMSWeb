@@ -78,7 +78,7 @@ export class ExperienceDetailsComponent {
   }
 
   navigateToPrev() {
-    this.router.navigate(['employee/onboardingemployee/educationdetails', this.employeeId])
+    this.router.navigate(['employee/onboardingemployee/educationdetails'])
   }
 
   navigateToNext() {

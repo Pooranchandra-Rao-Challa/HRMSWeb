@@ -7,6 +7,7 @@ export class MaxLength {
   cinNo:number=50;
   pinCode: number = 6;
   phoneNo: number = 10;
+  panNo:number=10;
   accountNo: number = 18;
   aadhaarNo:number =12;
   Seasonname:number=9;
