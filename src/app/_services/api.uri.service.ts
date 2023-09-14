@@ -65,4 +65,5 @@ export const GET_GETFAMILYDETAILS_URI = "Employee/GetFamilyDetailsForEmployee";
 export const GET_GETUPLOADEDDOCUMENTS_URI = " Employee/GetUploadedDocumentsForEmployee";
 export const GET_BANKDETAILS_URI = "Employee/GetBankDetailsForEmployee"
 export const GET_OFFICE_DETAILS_URI = "Employee/GetInceptionDetailsForEmployee";
+export const UPDATE_OFFICE_DETAILS_URI = "Employee/UpdateEmployeeInceptionDetails";
 export const UPDATE_EMPLOYEE_BASED_ON_ID_URI = "Employee/UpdateEmployeeBasicDetails";
