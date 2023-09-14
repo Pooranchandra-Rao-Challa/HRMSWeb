@@ -60,7 +60,7 @@
                                     Please Enter IFSC Code</div>
                                 <div class="ng-invalid ng-touched p-error"
                                     *ngIf="FormControls['ifsc'].errors?.['pattern']">
-                                    Invalid Ifsc Eg:XXXX000000.</div>
+                                    Invalid Ifsc Eg:SBIN0123456.</div>
                                 <div class="ng-invalid ng-touched p-error"
                                     *ngIf="FormControls['ifsc'].errors?.['minlength']">
                                     Ifsc Min Length Is 11.</div>
@@ -111,7 +111,7 @@
             (click)="navigateToPrev()">Family Details</button>
     </div>
     <div class=" col-4">
-        <button p-button class="p-element p-ripple p-button-info p-button p-component w-100"[disabled]="fbbankDetails.invalid" >Save as Draft</button>
+        <button p-button class="p-element p-ripple p-button-info p-button p-component w-100"[disabled]="fbbankDetails.invalid" (click)="onSubmit()">Save as Draft</button>
     </div>
     <div class=" col-4">
         <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100"

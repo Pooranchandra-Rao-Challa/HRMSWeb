@@ -19,10 +19,14 @@ export class FamilyDeatilsComponent implements OnInit {
   fafamilyDetails!: FormArray;
   showFamilyDetails: boolean = true;
   submitLabel: string;
-
+  employeeId: any;
   constructor(private router: Router, private route: ActivatedRoute, private formbuilder: FormBuilder) { }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.employeeId = params['employeeId'];
+    });
+    console.log(this.employeeId)
     this.relationshipStatus = [
       { name: 'Father', code: 'father' },
       { name: 'Mother', code: 'mother' },
@@ -70,7 +74,7 @@ export class FamilyDeatilsComponent implements OnInit {
 
   }
   navigateToPrev() {
-    this.router.navigate(['employee/onboardingemployee/uploadfiles'])
+    this.router.navigate(['employee/onboardingemployee/uploadfiles', this.employeeId])
   }
 
   navigateToNext() {
