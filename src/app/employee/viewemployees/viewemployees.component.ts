@@ -219,7 +219,7 @@ export class ViewemployeesComponent {
   ngOnInit(): void {
     this.initEducation();
     this.EmpBasicDtlsForm();
-    this.bankDetailsForm;
+    this.bankDetailsForm();
     this.OfficDtlsForm();
     this.initEducation();
     this.addEducationDetails();
