@@ -60,7 +60,7 @@ export class EducationDetailsComponent implements OnInit {
   }
 
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/experiencedetails', this.employeeId])
+    this.router.navigate(['employee/onboardingemployee/experiencedetails'])
   }
 
 }

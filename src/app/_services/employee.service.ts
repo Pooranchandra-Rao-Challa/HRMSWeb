@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { CREATE_BANK_DETAILS_URI, CREATE_BASIC_DETAILS_URI, CREATE_DOCUMENTS_URI, GET_ADDRESS_BASED_ON_ID_URI, GET_BANKDETAILS_URI,
    GET_EDUCATION_DETAILS_URI, GET_EMPLOYEES_URI, GET_EMPLOYEE_BASED_ON_ID_URI, GET_GETFAMILYDETAILS_URI, GET_GETUPLOADEDDOCUMENTS_URI, GET_OFFICE_DETAILS_URI,
     GET_WORKEXPERIENCE_URI, 
-    UPDATE_EMPLOYEE_BASED_ON_ID_URI} from './api.uri.service';
-import { BankDetailDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, UploadDocuments } from '../_models/employes';
+    UPDATE_EMPLOYEE_BASED_ON_ID_URI,
+    UPDATE_OFFICE_DETAILS_URI} from './api.uri.service';
+import { BankDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, UploadDocuments } from '../_models/employes';
 
 import { ApiHttpService } from './api.http.service';
 
@@ -26,8 +27,8 @@ export class EmployeeService extends ApiHttpService {
   }
 
   //Bank Details of Employee
-  public CreateBankDetails(bankdetails:BankDetailDto){
-    return this.post<BankDetailDto>(CREATE_BANK_DETAILS_URI,bankdetails);
+  public CreateBankDetails(bankdetails:BankDetailsDto){
+    return this.post<BankDetailsDto>(CREATE_BANK_DETAILS_URI,bankdetails);
   }
   public CreateUploadDocuments(documents:UploadDocuments[]){
     debugger
@@ -40,6 +41,7 @@ export class EmployeeService extends ApiHttpService {
 public EmployeeOfficedetailsviewDto(employeeId:number){
   return this.getWithId<EmployeeOfficedetailsviewDto[]>(GET_OFFICE_DETAILS_URI,[employeeId])
 }
+
   public GetAddress(employeeId: number) {
     return this.getWithId<EmployeAdressViewDto[]>(GET_ADDRESS_BASED_ON_ID_URI, [employeeId])
   }
@@ -65,7 +67,11 @@ public EmployeeOfficedetailsviewDto(employeeId:number){
 
   
   public updateViewEmpPersDtls(empBasicDtls: EmployeeBasicDetailDto) {
-    debugger
     return this.post<EmployeeBasicDetailDto>(UPDATE_EMPLOYEE_BASED_ON_ID_URI, empBasicDtls);
+}
+
+public updateViewEmpOfficDtls(empOfficDtls: EmployeeOfficedetailsDto) {
+  debugger
+  return this.post<EmployeeOfficedetailsDto>(UPDATE_OFFICE_DETAILS_URI, empOfficDtls);
 }
 }

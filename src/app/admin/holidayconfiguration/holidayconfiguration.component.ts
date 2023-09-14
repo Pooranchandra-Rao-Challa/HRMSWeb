@@ -12,6 +12,7 @@ import { DateValidators } from 'src/app/_validators/dateRangeValidator';
 import { MIN_LENGTH_2, RG_ALPHA_ONLY } from 'src/app/_shared/regex';
 import { JwtService } from 'src/app/_services/jwt.service';
 import { ConfirmationDialogService } from 'src/app/_alerts/confirmationdialog.service';
+import { GlobalFilterService } from 'src/app/_services/global.filter.service';
 interface Year {
   year: string;
 }
@@ -54,7 +55,8 @@ selectedYear: Year |undefined ;
     private AdminService: AdminService,
     private alertMessage: AlertmessageService,
     private jwtService: JwtService,
-    private confirmationDialogService: ConfirmationDialogService) { }
+    private confirmationDialogService: ConfirmationDialogService,
+    private globalFilterService: GlobalFilterService) { }
 
   // Define table headers
   headers: ITableHeader[] = [
@@ -302,8 +304,10 @@ selectedYear: Year |undefined ;
 
   // Method to handle the global filter for the table
   onGlobalFilter(table: Table, event: Event) {
-    table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+    const searchTerm = (event.target as HTMLInputElement).value;
+    this.globalFilterService.filterTableByDate(table, searchTerm);
   }
+
   // Method to clear the table filter
   clear(table: Table) {
     table.clear();
