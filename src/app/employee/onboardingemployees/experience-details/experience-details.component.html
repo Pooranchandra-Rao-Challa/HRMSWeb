@@ -28,21 +28,42 @@
                                     placeholder="Enter Company Name" />
                             </div>
                             <div class="field col-12 md:col-4">
-                                <label>From Date:<sup class="p-error">*</sup></label>&nbsp;
-                                <p-calendar [showIcon]="true" formControlName="fromDate" placeholder="Enter From Date">
-                                </p-calendar>
+                                <label>Location:<sup class="p-error">*</sup></label>&nbsp;
+                                <input pInputText id="companyname" type="text" formControlName="location"
+                                    placeholder="Enter Company Name" />
                             </div>
                             <div class="field col-12 md:col-4">
-                                <label>To Date:<sup class="p-error">*</sup></label>&nbsp;
-                                <p-calendar [showIcon]="true" formControlName="toDate" placeholder="Enter To Date">
-                                </p-calendar>
+                                <label>Company EmpId:<sup class="p-error">*</sup></label>&nbsp;
+                                <input pInputText id="companyname" type="text" formControlName="companyEmpId"
+                                    placeholder="Enter Company Name" />
+                            </div>
+                            <div class="field col-12 md:col-4">
+                                <label>State:<sup class="p-error">*</sup></label>&nbsp;
+                                <input pInputText id="companyname" type="text"
+                                    placeholder="Enter Company Name" />
                             </div>
                             <div class="field col-12 md:col-4">
                                 <label>Designation:<sup class="p-error">*</sup></label>&nbsp;
-                                <input pInputText id="designation" type="text" formControlName="designation"
+                                <input pInputText id="designation" type="text"
                                     placeholder="Enter Designation" />
                             </div>
-                            <div class=" col-12 md:col-4 mt-2">
+                            <div class="field col-12 md:col-4">
+                                <label>SkillAreas:<sup class="p-error">*</sup></label>&nbsp;
+                                <input pInputText id="designation" type="text"
+                                    placeholder="Enter Designation" />
+                            </div>
+                            <div class="field col-12 md:col-4">
+                                <label>Date of joining:<sup class="p-error">*</sup></label>&nbsp;
+                                <p-calendar [showIcon]="true" formControlName="dateOfJoining" placeholder="Enter From Date">
+                                </p-calendar>
+                            </div>
+                            <div class="field col-12 md:col-4">
+                                <label>Date of Reliving:<sup class="p-error">*</sup></label>&nbsp;
+                                <p-calendar [showIcon]="true" formControlName="dateOfReliving" placeholder="Enter To Date">
+                                </p-calendar>
+                            </div>
+                            
+                            <div class=" col-12 md:col-4 pt-4">
                                 <div class=" button-container">
                                     <p-button type="button" label="Add Experience Details"
                                         (click)="addexperienceDetails()">

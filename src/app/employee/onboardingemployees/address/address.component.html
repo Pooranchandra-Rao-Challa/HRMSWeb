@@ -1,12 +1,32 @@
+<p-toast key="tst"></p-toast>
 <form [formGroup]="fbAddressDetails">
     <div class="grid mt-3">
         <div class="col-12 roles-container">
             <div class="p-fluid p-formgrid grid">
                 <div class="field col-12 md:col-4">
                     <span class="p-float-label">
-                        <input type="text" id="inputtext" pInputText formControlName="AddressLine1" />
+                        <input type="text" id="inputtext" pInputText formControlName="AddressLine1" #address1 />
                         <label for="inputtext">AddressLine1<sup class="p-error">*</sup></label>
                     </span>
+                    <!-- <div class="flex">
+                        <div class="align-left w-60" style="width:70%">
+                            <span
+                                *ngIf="fbAddressDetails['AddressLine1'].touched && fbAddressDetails['AddressLine1'].invalid">
+                                <div class="ng-invalid ng-touched p-error"
+                                    *ngIf="fbAddressDetails['AddressLine1'].errors?.['required']">
+                                    Please Enter code.</div>
+                                <div class="ng-invalid ng-touched p-error"
+                                    *ngIf="fbAddressDetails['AddressLine1'].errors?.['minlength']">
+                                    Code Min Characters Is 2.</div>
+                                <div class="ng-invalid ng-touched p-error"
+                                    *ngIf="fbAddressDetails['AddressLine1'].errors?.['maxlength']">
+                                    Code Min Characters Is 256.</div>
+                            </span>
+                        </div>
+                        <div class="align-right w-40" style="width:30%; text-align:right;">
+                            <small>{{address1.value.length}}/256</small>
+                        </div>
+                    </div> -->
                 </div>
                 <div class="field col-12 md:col-4">
                     <span class="p-float-label">
@@ -34,82 +54,102 @@
                 </div>
                 <div class="field col-12 md:col-4">
                     <span class="p-float-label">
-                        <p-dropdown inputId="dropdown" formControlName="State" [autoDisplayFirst]="false"
-                             optionLabel="statename"></p-dropdown>
-                            
+                        <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" (onChange)="onSelectState($event)"
+                            [options]="states" optionLabel="name"></p-dropdown>
                         <label for="dropdown">State<sup class="p-error">*</sup></label>
                     </span>
                 </div>
                 <div class="field col-12 md:col-4">
                     <span class="p-float-label">
-                        <input type="text" id="inputtext" pInputText formControlName="Country" />
+                        <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" (onChange)="onSelectCountry($event)"
+                            [options]="countries" optionLabel="name">
+                        </p-dropdown>
                         <label for="inputtext">Country<sup class="p-error">*</sup></label>
                     </span>
                 </div>
                 <div class="field col-12 md:col-8">
                     <div class="flex flex-wrap gap-3">
-                      <div class="flex align-items-center">
-                          <p-radioButton  value="PermanentAddress" formControlName="addressType"></p-radioButton>
-                          <label for="ingredient1" class="ml-2">Permanent Address</label>
-                      </div>
-                      
-                      <div class="flex align-items-center">
-                          <p-radioButton value="TemporaryAddress" formControlName="addressType" ></p-radioButton>
-                          <label for="ingredient2" class="ml-2">Temporary Address</label>
-                      </div>
-                      
-                      <div class="flex align-items-center">
-                          <p-radioButton value="CurrentAddress" formControlName="addressType"></p-radioButton>
-                          <label for="ingredient3" class="ml-2">Current Address</label>
-                      </div>
-                  </div>
+                        <div class="flex align-items-center">
+                            <p-radioButton value="PermanentAddress" formControlName="addressType"></p-radioButton>
+                            <label for="ingredient1" class="ml-2">Permanent Address</label>
+                        </div>
+
+                        <div class="flex align-items-center">
+                            <p-radioButton value="TemporaryAddress" formControlName="addressType"></p-radioButton>
+                            <label for="ingredient2" class="ml-2">Temporary Address</label>
+                        </div>
+
+                        <div class="flex align-items-center">
+                            <p-radioButton value="CurrentAddress" formControlName="addressType"></p-radioButton>
+                            <label for="ingredient3" class="ml-2">Current Address</label>
+                        </div>
+                    </div>
                 </div>
                 <div class="field col-12 md:col-4">
                     <div class="button-container">
-                        <p-button type="button" label="Save New Address" (click)="addNewAddress()">
+                        <p-button type="button" label="Save New Address" (click)="addAddress()"
+                            [disabled]="fbAddressDetails.invalid">
                         </p-button>
+                    </div>
+                </div>
+                <div class="col-12 scrolling_content">
+                    <div class="col-12 scrolling_content">
+                        <p-table #dt2 [value]="faAddressDetail().controls" [responsive]="true" [autoLayout]="true">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>Address Line1</th>
+                                    <th>Address Line2</th>
+                                    <th>Landmark</th>
+                                    <th>ZIP Code</th>
+                                    <th>City</th>
+                                    <th>StateId</th>
+                                    <th>CountryId</th>
+                                    <th>AddressType</th>
+                                    <th>Is Active</th>
+                                    <th *ngIf="this.faAddressDetail().value.length > 1"></th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-addressDetails let-addressDetailsIndex="rowIndex">
+                                <tr>
+                                    <td>{{addressDetails.get('AddressLine1').value }}</td>
+                                    <td>{{ addressDetails.get('AddressLine2').value }}</td>
+                                    <td>{{ addressDetails.get('Landmark').value }}</td>
+                                    <td>{{ addressDetails.get('ZIPCode').value }}</td>
+                                    <td>{{ addressDetails.get('City').value }}</td>
+                                    <td>{{ addressDetails.get('stateId').value }}</td>
+                                    <td>{{ addressDetails.get('countryId').value }}</td>
+                                    <td>{{ addressDetails.get('addressType').value }}</td>
+                                    <td>
+                                        <p-checkbox [binary]="true" [formControl]="addressDetails.get('IsActive')">
+                                        </p-checkbox>
+                                    </td>
+                                    <td *ngIf="fbAddressDetails.controls['addressDetails'].value.length > 1">
+                                        <p-button icon="pi pi-times"
+                                            (click)="faAddressDetail().removeAt(addressDetailsIndex)"
+                                            styleClass="p-button-rounded p-button-danger p-button-text p-button-raised">
+                                        </p-button>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </form>
-<div class="col-12 scrolling_content" *ngIf="ShowlookupDetails">
-    <p-table dataKey="id" [rows]="10" [rowHover]="true" [value]="addressDetails"
-        styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="false" [autoLayout]="true"
-        responsiveLayout="scroll" [rowsPerPageOptions]="[10, 25, 50]">
-        <ng-template pTemplate="header">
-            <tr>
-                <th>Address Line1</th>
-                <th>Address Line2</th>
-                <th>Landmark</th>
-                <th>ZIP Code</th>
-                <th>City</th>
-                <th>State</th>
-                <th>Country</th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-addressData let-i="index">
-            <tr>
-                <td>{{ addressData.AddressLine1 }}</td>
-                <td>{{ addressData.AddressLine2 }}</td>
-                <td>{{ addressData.Landmark }}</td>
-                <td>{{ addressData.ZIPCode }}</td>
-                <td>{{ addressData.City }}</td>
-                <td>{{ addressData.State }}</td>
-                <td>{{ addressData.Country }}</td>
-            </tr>
-        </ng-template>
-    </p-table>
-</div>
+
 <div class="grid mt-5">
     <div class="field col-4">
-        <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100 text-right"  (click)="navigateToPrev()">Experience Details</button>
+        <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100 text-right"
+            (click)="navigateToPrev()">Experience Details</button>
     </div>
     <div class=" col-4">
-        <button p-button class="p-element p-ripple p-button-info p-button p-component w-100">Save as Draft</button>
+        <button p-button class="p-element p-ripple p-button-info p-button p-component w-100" (click)="onSubmit()">Save
+            as Draft</button>
     </div>
     <div class=" col-4">
-        <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100" (click)="navigateToNext()">Upload Documents</button>
+        <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100"
+            (click)="navigateToNext()">Upload Documents</button>
     </div>
 </div>

@@ -29,12 +29,7 @@ export class EmployeeBasicDetailDto {
 	signDate?: Date;
 	isActive?: boolean;
 }
-export class UploadDocuments {
-	uploadDocumentId?: number;
-	employeeId?: number;
-	title?: string;
-	fileName?: string;
-}
+
 export class FamilyDetailsDto {
 	familyInformationId?: number;
 	employeeId?: number;
@@ -67,6 +62,25 @@ export class BankDetailsDto {
 	accountNumber?: number;
 	isActive?: boolean;
 }
+export class UploadDocuments{
+	uploadDocumentId?:number;
+	employeeId?:number;
+	title?:string;
+	fileName?:string;
+}
+export class AddressDetailsDto{
+	employeeId:number
+	addressId: number
+	AddressLine1: string
+	AddressLine2: string
+	Landmark:string
+	ZIPCode:number
+	City:string
+	stateId:number
+	countryId: number
+	addressType: string
+	IsActive:boolean
+}
 
 export class EmployeeBasicDetailViewDto {
 	employeeId?: number;
@@ -92,7 +106,16 @@ export class EmployeeBasicDetailViewDto {
 	updatedAt?: Date;
 	updatedBy?: string;
 }
-
+export class States{
+	lookupDetailId:number
+	code: string
+    name: string
+}
+export class Countries{
+	lookupDetailId:number
+	code: string
+    name: string
+}
 export class EmployeeOfficedetailsviewDto {
 	employeeId?: number;
 	employeeName?: string;
