@@ -39,14 +39,15 @@ export const LOOKUP_ASSET_TYPE_URI = "Lookup/AssetTypes";
 export const LOOKUP_ASSET_CATEGORIES_URI = "Lookup/AssetCategories";
 export const LOOKUP_ASSET_STATUS_URI = "Lookup/Status";
 export const LOOKUP_STATES_URI = "Lookup/States";
-export const LOOKUP_BLOOD_GROUPS_URI ="Lookup/BloodGroups";
+export const LOOKUP_BLOOD_GROUPS_URI = "Lookup/BloodGroups";
+export const LOOKUP_RELATIONSHIP_URI="Lookup/Relations";
 // END LOOKUPS
 
-export const GET_PROJECTS_URI="Admin/GetProjectDetails";
-export const CREATE_PROJECT_URI="Admin/CreateProjectWithDetails";
-export const UPDATE_PROJECT_URI="Admin/UpdateProjectWithDetails";
-export const  GET_CLIENTNAMES_URI="Admin/GetClientNames";
-export const GET_CLIENT_DETAILS="Admin/GetClientDetails";
+export const GET_PROJECTS_URI = "Admin/GetProjectDetails";
+export const CREATE_PROJECT_URI = "Admin/CreateProjectWithDetails";
+export const UPDATE_PROJECT_URI = "Admin/UpdateProjectWithDetails";
+export const GET_CLIENTNAMES_URI = "Admin/GetClientNames";
+export const GET_CLIENT_DETAILS = "Admin/GetClientDetails";
 export const GET_EMPLOYEES = "Employee/GetEmployeeDropdown";
 export const GET_EMPLOYEESLIST="Employee/GetEmployeesForProject";
 export const UNASSIGNED_EMPLOYEE_URI = "Admin/InactiveProjectAllotment";
@@ -59,10 +60,11 @@ export const GET_EMPLOYEE_BASED_ON_ID_URI = "Employee/GetEmployeeBasedOnId";
 export const CREATE_BANK_DETAILS_URI = "Employee/UpateBankDetails";
 export const CREATE_DOCUMENTS_URI="Employee/UpateUploadDocument";
 export const GET_ADDRESS_BASED_ON_ID_URI = "Employee/GetAddressesForEmployee";
-export const GET_EDUCATION_DETAILS_URI="Employee/GetEducationDetailsForEmployee";
+export const GET_EDUCATION_DETAILS_URI = "Employee/GetEducationDetailsForEmployee";
 export const GET_WORKEXPERIENCE_URI = "Employee/GetWorkExperienceForEmployee";
 export const GET_GETFAMILYDETAILS_URI = "Employee/GetFamilyDetailsForEmployee";
-export const GET_GETUPLOADEDDOCUMENTS_URI = " Employee/GetUploadedDocumentsForEmployee";
+export const GET_GETUPLOADEDDOCUMENTS_URI = "Employee/GetUploadedDocumentsForEmployee";
 export const GET_BANKDETAILS_URI = "Employee/GetBankDetailsForEmployee"
-export const GET_OFFICE_DETAILS_URI="Employee/GetInceptionDetailsForEmployee";
-
+export const GET_OFFICE_DETAILS_URI = "Employee/GetInceptionDetailsForEmployee";
+export const UPDATE_OFFICE_DETAILS_URI = "Employee/UpdateEmployeeInceptionDetails";
+export const UPDATE_EMPLOYEE_BASED_ON_ID_URI = "Employee/UpdateEmployeeBasicDetails";

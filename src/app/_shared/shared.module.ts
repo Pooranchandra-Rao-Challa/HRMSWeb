@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { CommonModule, DatePipe } from "@angular/common";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -11,6 +11,7 @@ import { AlphaNumericDirective } from "../_directives/alphaNumeric.directive";
 import { AlphaDirective } from "../_directives/alphaOnly.directive";
 import { NumericInputDirective } from "../_directives/numeric-input.directive";
 import { NumericDirective } from "../_directives/numericOnly.directive";
+import { GlobalFilterService } from "../_services/global.filter.service";
 import { PrimengModule } from "./primeng.module";
 
 @NgModule({
@@ -36,7 +37,9 @@ import { PrimengModule } from "./primeng.module";
     providers: [
         AlertmessageService,
         ConfirmationService,
-        ConfirmationDialogService
+        ConfirmationDialogService,
+        GlobalFilterService,
+        DatePipe
     ]
 })
 export class SharedModule { }

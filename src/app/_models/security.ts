@@ -9,6 +9,7 @@ export class UserViewDto {
   roleId?:any
   isActive?: boolean
   createdAt?: string
+  updatedAt?: string
 }
 export class UserQuestionDto {
   userQuestionId?: number

@@ -1,9 +1,8 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { DataView } from 'primeng/dataview';
 import { SecurityService } from 'src/app/demo/service/security.service';
-import { Assets, Employee, LookupDetailViewDto } from 'src/app/demo/api/security';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ThisReceiver } from '@angular/compiler';
+import { LookupDetailViewDto } from 'src/app/demo/api/security';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LookupService } from 'src/app/_services/lookup.service';
 import { AdminService } from 'src/app/_services/admin.service';
 import { AssetAllotmentDto, AssetAllotmentViewDto, AssetsByAssetTypeIdViewDto } from 'src/app/_models/admin/assetsallotment';
@@ -39,9 +38,6 @@ export class AssetsallotmentComponent {
     maxDate: Date = new Date();
     employeesForAllottedAssets: EmployeesForAllottedAssetsViewDto[] = [];
     selectedEmployeeId: number;
-
-    // START - Displaying the table view in the listItem
-
     globalFilterFields: string[] = ['employeeName', 'code', 'designation', 'officeEmailId', 'mobileNumber'];
     headers: ITableHeader[] = [
         { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
@@ -52,18 +48,6 @@ export class AssetsallotmentComponent {
     ];
     @ViewChild('filter') filter!: ElementRef;
     totalRecords = this.employeesForAllottedAssets.length; // Total number of records
-
-    onGlobalFilter(table: Table, event: Event) {
-        table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
-    }
-
-
-    clear(table: Table) {
-        table.clear();
-        this.filter.nativeElement.value = '';
-    }
-
-    // END - Displaying the table view in the listItem
 
     constructor(private securityService: SecurityService,
         private formbuilder: FormBuilder,
@@ -114,28 +98,13 @@ export class AssetsallotmentComponent {
         })
     }
 
-    assetsList = []
-    //     { name: 'Mouse', code: 'MU' },
-    //     { name: 'CPU', code: 'CP' },
-    //     { name: 'Monitor', code: 'MO' },
-    //     { name: 'Keyboard', code: 'KY' },
-    //     { name: 'HeadSet', code: 'HS' },
-    // ];
-    // assetsCategory = [
-    //     { name: 'Gadgets', code: 'GD' },
-    //     { name: 'Fixed Assets', code: 'FA' }
-    // ];
-
     assetAllotmentForm() {
         this.fbAssetAllotment = this.formbuilder.group({
             employeeId: new FormControl(null, [Validators.required]),
             assetCategoryId: new FormControl('', [Validators.required]),
             assetTypeId: new FormControl('', [Validators.required]),
             assetId: new FormControl('', [Validators.required]),
-            assignedOn: new FormControl('', [Validators.required]),
-            // revokedOn: new FormControl(''),
-            // reasonForRevoke: new FormControl('')
-            // comment: new FormControl('', [Validators.required]),
+            assignedOn: new FormControl('', [Validators.required])
         });
     }
 
@@ -180,7 +149,7 @@ export class AssetsallotmentComponent {
         this.adminService.GetAssetAllotments(employeeId).subscribe((resp) => {
             if (resp) {
                 this.assetAllotments = resp as unknown as AssetAllotmentViewDto[];
-                if(this.assetAllotments) this.selectedEmployeeId = this.assetAllotments[0]?.employeeId;
+                if (this.assetAllotments) this.selectedEmployeeId = this.assetAllotments[0]?.employeeId;
             }
         });
     }
@@ -225,6 +194,16 @@ export class AssetsallotmentComponent {
 
     onCloseUnAssignAsset() {
         this.fbUnAssignAsset.reset();
+    }
+
+    onGlobalFilter(table: Table, event: Event) {
+        table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+    }
+
+
+    clear(table: Table) {
+        table.clear();
+        this.filter.nativeElement.value = '';
     }
 
 }

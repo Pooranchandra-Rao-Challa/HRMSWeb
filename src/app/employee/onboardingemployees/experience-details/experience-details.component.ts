@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
-export class Experience{
-  id?:number;
- companyName?:string;
- fromDate?: Date;
- toDate?: Date;
- designation?:string;
- experienceDetails?: string;
+export class Experience {
+  id?: number;
+  companyName?: string;
+  fromDate?: Date;
+  toDate?: Date;
+  designation?: string;
+  experienceDetails?: string;
 }
 
 @Component({
@@ -20,16 +20,20 @@ export class Experience{
 
 export class ExperienceDetailsComponent {
   formGroup: FormGroup<{ ExperienceDetails: FormControl<any>; }>;
-  constructor(private router: Router, private formbuilder: FormBuilder) { }
+  constructor(private router: Router, private formbuilder: FormBuilder, private route: ActivatedRoute) { }
   selectedOption: string;
   inputValue: string;
   fbexperience!: FormGroup;
   faexperienceDetails!: FormArray;
   dialog: boolean = false;
   addfields: any;
-
+  employeeId: any;
   ShowexperienceDetails: boolean = false;
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.employeeId = params['employeeId'];
+    });
+    console.log(this.employeeId)
     this.experienceForm();
     this.addexperienceDetails();
     this.selectedOption = 'Fresher';

@@ -11,33 +11,31 @@
                         <div>
                             <span class="p-input-icon-left" *ngIf="dv._layout == 'grid'">
                                 <i class="pi pi-search"></i>
-                                <input type="text" pInputText placeholder="Search by Name or Id"
+                                <input id="search-name-id" type="text" pInputText placeholder="Search by Name or Id"
                                     (input)="onFilter(dv, $event)" />
                             </span>
                         </div>
-                       
                         <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
-                        <p-button class="p-element p-ripple p-button p-component p-2 pt-0 pb-0"
+                        <p-button id="add-btn" class="p-element p-ripple p-button p-component p-2 pt-0 pb-0"
                             (click)="addAssetAllotment()" icon="pi pi-plus" label="Assign Asset"></p-button>
                     </div>
                 </ng-template>
                 <ng-template let-employee pTemplate="listItem" let-item>
                     <ng-container *ngIf="item === employeesForAllottedAssets[0]">
-                        <!-- table -->
                         <p-table #dtEmployees [value]="employeesForAllottedAssets" dataKey="id" [rows]="10"
                             [rowHover]="true" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm pb-5"
                             [paginator]="true"
                             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                            [showCurrentPageReport]="true" [alwaysShowPaginator]="false"
-                            [globalFilterFields]="globalFilterFields" [autoLayout]="true" responsiveLayout="scroll"
-                            [rowsPerPageOptions]="[10,25,50]" [tableStyle]="{ width: 'max-content'}">
+                            [showCurrentPageReport]="true" [alwaysShowPaginator]="false" 
+                            [globalFilterFields]="globalFilterFields" [autoLayout]="false" responsiveLayout="scroll"
+                            [rowsPerPageOptions]="[10,25,50]" [style]="{width: '100%'}">
                             <ng-template pTemplate="caption">
                                 <div class="flex justify-content-between flex-column sm:flex-row">
                                     <button pButton label="Clear" class="p-button-outlined mb-2"
                                         icon="pi pi-filter-slash" (click)="clear(dtEmployees)"></button>
                                     <span class="p-input-icon-left mb-2">
                                         <i class="pi pi-search"></i>
-                                        <input pInputText type="text" #filter
+                                        <input id="search-keyword" pInputText type="text" #filter
                                             (input)="onGlobalFilter(dtEmployees, $event)" placeholder="Search Keyword"
                                             class="w-full" />
                                     </span>
@@ -66,14 +64,14 @@
                                         <span>{{employee[col.field]}}</span>
                                     </td>
                                     <td>
-                                        <button pbutton="" pripple="" type="button" label="Primary"
+                                        <button id="view-btn" pbutton="" pripple="" type="button" label="Primary"
                                             (click)="viewAssetAllotments(employee.employeeId)"
                                             class="p-element p-ripple p-button-text p-button p-component view_profile_button"
                                             ng-reflect-label="Primary">
                                             <span class="p-button-label pi pi-chevron-right"></span>
                                         </button>
-                                        <button pbutton="" pripple="" type="button" label="Primary"
-                                            (click)="directAddAssetAllotment(employee.employeeId)"
+                                        <button id="redirect-to-add-btn" pbutton="" pripple="" type="button"
+                                            label="Primary" (click)="directAddAssetAllotment(employee.employeeId)"
                                             class="p-element p-ripple p-button-text p-button p-component view_profile_button"
                                             ng-reflect-label="Primary">
                                             <span class="p-button-label pi pi-plus"></span>
@@ -88,33 +86,6 @@
                             </ng-template>
                         </p-table>
                     </ng-container>
-                    <!-- <div class="col-12">
-                        <div class="flex flex-column md:flex-row align-items-center p-3 w-full">
-                            <img [src]="employee.photo ? employee.photo : 'https://t3.ftcdn.net/jpg/02/18/21/86/360_F_218218632_jF6XAkcrlBjv1mAg9Ow0UBMLBaJrhygH.jpg'"
-                                [alt]="employee.employeeName" class="my-4 md:my-0 w-10 md:w-10rem shadow-2 mr-2" />
-                            <div class="flex-1 flex flex-column align-items-center text-center md:text-left">
-                                <div class="font-bold text-sm">{{ employee?.employeeName }}</div>
-                                <div class="mb-2">{{ employee?.code }}</div>
-                                <div class="mb-2">{{ employee?.designation }}</div>
-                                <div class="mb-2">{{ employee?.officeEmailId }}</div>
-                                <div class="mb-2">{{ employee?.mobileNumber }}</div>
-                            </div>
-                            <div class="mb-3 col-3 p-0">
-                                <button pbutton="" pripple="" type="button" label="Primary"
-                                    (click)="viewAssetAllotments(employee.employeeId)"
-                                    class="p-element p-ripple p-button-text p-button p-component view_profile_button"
-                                    ng-reflect-label="Primary">
-                                    <span class="p-button-label pi pi-chevron-right"></span>
-                                </button>
-                                <button pbutton="" pripple="" type="button" label="Primary"
-                                    (click)="directAddAssetAllotment(employee.employeeId)"
-                                    class="p-element p-ripple p-button-text p-button p-component view_profile_button"
-                                    ng-reflect-label="Primary">
-                                    <span class="p-button-label pi pi-plus"></span>
-                                </button>
-                            </div>
-                        </div>
-                    </div> -->
                 </ng-template>
                 <ng-template let-employee pTemplate="gridItem">
                     <div class="col-12 md:col-4 lg:col-3 sm:col-6">
@@ -154,14 +125,14 @@
                                     <br />
                                 </div>
                                 <div class="mb-3 flex col-4 p-0">
-                                    <button pbutton="" pripple="" type="button" label="Primary"
+                                    <button id="view-btn" pbutton="" pripple="" type="button" label="Primary"
                                         (click)="viewAssetAllotments(employee.employeeId)" pTooltip="View"
                                         tooltipPosition="top"
                                         class="p-element p-ripple p-button-text p-button p-component view_profile_button"
                                         ng-reflect-label="Primary">
                                         <span class="p-button-label pi pi-chevron-right"></span>
                                     </button>
-                                    <button pbutton="" pripple="" type="button" label="Primary"
+                                    <button id="redirect-to-add-btn" pbutton="" pripple="" type="button" label="Primary"
                                         (click)="directAddAssetAllotment(employee.employeeId)" pTooltip="Add"
                                         tooltipPosition="top"
                                         class="p-element p-ripple p-button-text p-button p-component view_profile_button"
@@ -175,12 +146,13 @@
                 </ng-template>
             </p-dataView>
 
-            <!-- P-Dialog for Assets Details -->
+            <!-- P-Dialog for Allotted Assets -->
             <p-dialog header="Assets Details" [(visible)]="showAssetDetails" [modal]="true" showEffect="fade"
                 [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '60%'}" (onHide)="onClose()">
                 <div class="col-12 text-right align-items-right">
                     <div class="gri align-items-right text-right">
-                        <p-button class="p-element align-items-right text-right p-button p-component p-2 pt-0 pb-0"
+                        <p-button id="redirect-to-add-btn"
+                            class="p-element align-items-right text-right p-button p-component p-2 pt-0 pb-0"
                             (click)="directAddAssetAllotment(selectedEmployeeId)" icon="pi pi-plus"></p-button>
                     </div>
                 </div>
@@ -191,76 +163,16 @@
                                 <div class="text-xl font-bold">{{assetAllotment.assetName}}</div>
                                 <span class="text-600 font-medium text-sm"> Assigned On : {{assetAllotment.assignedOn |
                                     date: 'MM-dd-yyyy'}} </span>
-                                <button pButton pRipple type="submit" label="Unassign"
+                                <button id="unassign-asset-btn" pButton pRipple type="submit" label="Unassign"
                                     class="p-element p-ripple p-button-text p-button p-component p-button-primary w-100"
                                     (click)="unAssignedAssetDialog(assetAllotment)"></button>
                             </div>
                         </div>
-                        <!-- <div class="col-4">
-                            <div class="m-2 card border-1 surface-border">
-                                <div class="text-xl font-bold">CPU</div>
-                                <span class="text-600 font-medium text-sm"> Assigned On : 29-07-2021 </span>
-                                <br />
-                                <span class="text-600 font-medium text-sm"> Comment : Since one and half-year i am using
-                                    this monitor and it has some scratches. </span>
-                                <br />
-                                <br />
-                                <button pButton pRipple type="submit" label="Unassign"
-                                    class="p-element p-ripple p-button-text p-button p-component p-button-primary w-100"></button>
-
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="m-2 card border-1 surface-border">
-                                <div class="text-xl font-bold">KeyBoard</div>
-                                <span class="text-600 font-medium text-sm"> Assigned On : 12-06-2021 </span>
-                                <br />
-                                <span class="text-600 font-medium text-sm"> Comment : Since one and half-year i am using
-                                    this monitor and it has some scratches. </span>
-                                <br />
-                                <br />
-                                <button pButton pRipple type="submit" label="Unassign"
-                                    class="p-element p-ripple p-button-text p-button p-component p-button-primary w-100"></button>
-
-                            </div>
-                        </div> -->
                     </div>
                 </div>
-                <!-- <div class="col-12 ">
-                    <div class="grid">
-                        <div class="col-4">
-                            <div class="m-2 card border-1 surface-border">
-                                <div class="text-xl font-bold">Mouse</div>
-                                <span class="text-600 font-medium text-sm"> Assigned On : 29-07-2021 </span>
-                                <br />
-                                <span class="text-600 font-medium text-sm"> Comment : Since one and half-year i am using
-                                    this monitor and it has some scratches. </span>
-                                <br />
-                                <br />
-                                <button pButton pRipple type="submit" label="Unassign"
-                                    class="p-element p-ripple p-button-text p-button p-component p-button-primary w-100"></button>
-
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="m-2 card border-1 surface-border">
-                                <div class="text-xl font-bold">HeadSet</div>
-                                <span class="text-600 font-medium text-sm"> Assigned On : 29-07-2021 </span>
-                                <br />
-                                <span class="text-600 font-medium text-sm"> Comment : Since one and half-year i am using
-                                    this monitor and it has some scratches. </span>
-                                <br />
-                                <br />
-                                <button pButton pRipple type="submit" label="Unassign"
-                                    class="p-element p-ripple p-button-text p-button p-component p-button-primary w-100"></button>
-
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
             </p-dialog>
 
-            <!-- P-Dialog for Assigned Assets -->
+            <!-- P-Dialog To Assign New Asset -->
             <p-dialog header="Asset Allotment" [(visible)]="showAssetAllotment" [modal]="true" showEffect="fade"
                 [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '60%'}" (onHide)="onClose()">
                 <div class="flex flex-column align-items-center justify-content-center">
@@ -269,9 +181,10 @@
                             <div class="p-fluid p-formgrid grid">
                                 <div class="field col-12 md:col-4">
                                     <label class="required">Employee:</label>
-                                    <p-dropdown [options]="employeesDropdown" formControlName="employeeId"
-                                        optionLabel="employeeCode" [filter]="true" filterBy="employeeCode,employeeName"
-                                        placeholder="Select Employee" optionValue="employeeId" appendTo="body"
+                                    <p-dropdown id="select-employee" [options]="employeesDropdown"
+                                        formControlName="employeeId" optionLabel="employeeCode" [filter]="true"
+                                        filterBy="employeeCode,employeeName" placeholder="Select Employee"
+                                        optionValue="employeeId" appendTo="body"
                                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['employeeId'].touched && FormControls['employeeId'].errors }">
                                         <ng-template let-employee pTemplate="item">
                                             <div class="country-item">
@@ -289,8 +202,8 @@
                                 </div>
                                 <div class="field col-12 md:col-4">
                                     <label class="required">Enter Asset Category:</label>
-                                    <p-dropdown [options]="assetCategories" optionLabel="name" [filter]="true"
-                                        filterBy="name" placeholder="Select Asset Category"
+                                    <p-dropdown id="asset-category" [options]="assetCategories" optionLabel="name"
+                                        [filter]="true" filterBy="name" placeholder="Select Asset Category"
                                         formControlName="assetCategoryId" optionValue="lookupDetailId" appendTo="body"
                                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['assetCategoryId'].touched && FormControls['assetCategoryId'].errors }">
                                     </p-dropdown>
@@ -302,10 +215,10 @@
                                     </span>
                                 </div>
                                 <div class="field col-12 md:col-4">
-                                    <label class="required">Enter AssetType:</label>
-                                    <p-dropdown [options]="assetTypes" optionLabel="name" [filter]="true"
-                                        filterBy="name" placeholder="Select Asset Type" formControlName="assetTypeId"
-                                        optionValue="lookupDetailId" appendTo="body"
+                                    <label class="required">Enter Asset Type:</label>
+                                    <p-dropdown id="asset-type" [options]="assetTypes" optionLabel="name"
+                                        [filter]="true" filterBy="name" placeholder="Select Asset Type"
+                                        formControlName="assetTypeId" optionValue="lookupDetailId" appendTo="body"
                                         (onChange)="getAssetsByAssetType($event.value)"
                                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['assetTypeId'].touched && FormControls['assetTypeId'].errors }">
                                     </p-dropdown>
@@ -318,15 +231,9 @@
                                 </div>
                                 <div class="field col-12 md:col-4">
                                     <label class="required">Enter Asset Name:</label>
-                                    <!-- <p-dropdown [options]="assetsName" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select Asset  Name"
-                                  formControlName="assetName" optionValue="code"><ng-template let-asset pTemplate="item"><div class="country-item"><div>{{ asset.name }}</div></div></ng-template></p-dropdown> -->
-                                    <!-- <p-multiSelect [options]="assetsList" formControlName="assetId" optionLabel="name"
-                                        placeholder="Select Asset Name" appendTo="body"
-                                        [ngClass]="{ 'is-invalid ng-dirty': FormControls['assetId'].touched && FormControls['assetId'].errors }">
-                                    </p-multiSelect> -->
-                                    <p-dropdown [options]="assets" optionLabel="name" [filter]="true" filterBy="name"
-                                        placeholder="Select Asset" formControlName="assetId" optionValue="assetId"
-                                        appendTo="body"
+                                    <p-dropdown id="asset-name" [options]="assets" optionLabel="name" [filter]="true"
+                                        filterBy="name" placeholder="Select Asset Name" formControlName="assetId"
+                                        optionValue="assetId" appendTo="body"
                                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['assetId'].touched && FormControls['assetId'].errors }">
                                     </p-dropdown>
                                     <span *ngIf="FormControls['assetId'].touched && FormControls['assetId'].invalid">
@@ -337,7 +244,7 @@
                                 </div>
                                 <div class="field col-12 md:col-4">
                                     <label class="required">Assigned On:</label>
-                                    <p-calendar [showIcon]="true" placeholder="Select Assigned On"
+                                    <p-calendar id="assigned-on" [showIcon]="true" placeholder="Select Assigned On"
                                         formControlName="assignedOn" appendTo="body" [maxDate]="maxDate"
                                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['assignedOn'].touched && FormControls['assignedOn'].errors }">
                                     </p-calendar>
@@ -348,25 +255,13 @@
                                             Please Select Assigned Date.</div>
                                     </span>
                                 </div>
-                                <!-- <div class="field col-12 md:col-4">
-                                    <label class="required">Comment:</label>
-                                    <textarea rows="5" cols="30" placeholder="Enter Comment" formControlName="comment"
-                                        pInputTextarea
-                                        [ngClass]="{ 'is-invalid ng-dirty': FormControls['comment'].touched && FormControls['comment'].errors }">
-                                    </textarea>
-                                    <span *ngIf="FormControls['comment'].touched && FormControls['comment'].invalid">
-                                        <div class="ng-invalid ng-touched p-error"
-                                            *ngIf="FormControls['comment'].errors?.['required']">
-                                            Please Select Comment.</div>
-                                    </span>
-                                </div> -->
                             </div>
                         </div>
                     </form>
                 </div>
                 <ng-template pTemplate="footer">
                     <div class="col-4" style="float:right">
-                        <button pButton pRipple type="submit" label="Assign Asset"
+                        <button id="asset-submit-btn" pButton pRipple type="submit" label="Assign Asset"
                             class="p-button-raised p-button-primary" [disabled]="fbAssetAllotment.invalid"
                             (click)="onSubmitAsset()"></button>
                     </div>
@@ -382,7 +277,7 @@
                             <div class="p-fluid p-formgrid grid">
                                 <div class="field col-12 md:col-6">
                                     <label class="required">Revoked On:</label>
-                                    <p-calendar [showIcon]="true" placeholder="Select Revoked Date"
+                                    <p-calendar id="revoked-on" [showIcon]="true" placeholder="Select Revoked Date"
                                         formControlName="revokedOn" appendTo="body"
                                         [ngClass]="{ 'is-invalid ng-dirty': fcUnAssignAsset['revokedOn'].touched && fcUnAssignAsset['revokedOn'].errors }">
                                     </p-calendar>
@@ -395,9 +290,9 @@
                                 </div>
                                 <div class="field col-12 md:col-6">
                                     <label class="required">Reason For Revoke:</label>
-                                    <textarea #reasonForRevoke rows="5" cols="30" placeholder="Enter Reason For Revoke"
-                                        formControlName="reasonForRevoke" pInputTextarea class="freeze_text-area"
-                                        [maxLength]="256"
+                                    <textarea id="reason-for-revoke" #reasonForRevoke rows="5" cols="30"
+                                        placeholder="Enter Reason For Revoke" formControlName="reasonForRevoke"
+                                        pInputTextarea class="freeze_text-area" [maxLength]="256"
                                         [ngClass]="{ 'is-invalid ng-dirty': fcUnAssignAsset['reasonForRevoke'].touched && fcUnAssignAsset['reasonForRevoke'].errors }">
                                     </textarea>
                                     <div class="flex">
@@ -423,12 +318,12 @@
                 </div>
                 <ng-template pTemplate="footer">
                     <div class="col-4" style="float:right">
-                        <button pButton pRipple type="submit" label="Submit" class="p-button-raised p-button-primary"
-                            [disabled]="fbUnAssignAsset.invalid" (click)="onSubmitUnAssignedAsset()"></button>
+                        <button id="unassign-submit-btn" pButton pRipple type="submit" label="Submit"
+                            class="p-button-raised p-button-primary" [disabled]="fbUnAssignAsset.invalid"
+                            (click)="onSubmitUnAssignedAsset()"></button>
                     </div>
                 </ng-template>
             </p-dialog>
-
         </div>
     </div>
 </div>
