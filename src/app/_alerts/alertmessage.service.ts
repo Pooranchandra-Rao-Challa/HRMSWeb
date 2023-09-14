@@ -125,7 +125,12 @@ export const ALERT_CODES: { [key: string]: string } = {
     //Basic Details
     'SBD001': 'Basic Details Added Successfully',
     'SBD002': 'Basic Details Not Added',
-
+    //Family Details 
+    'SFD001':'Family Details Added Successfully',
+    'SFD002':'Family Details Not Added',
+    //Bank Details
+    'SBDS001':'Bank Details Added Successfully',
+    'SBDS002':'Bank Details Not Added',
     //Address Details
     'SAD001': 'Address Details Added Successfully',
     'SAD002': 'Address Details Not Added',

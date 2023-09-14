@@ -6,6 +6,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { familyDetailViewDto } from 'src/app/demo/api/security';
+import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { LookupViewDto } from 'src/app/_models/admin';
 import { ITableHeader, MaxLength } from 'src/app/_models/common';
@@ -45,8 +46,7 @@ export class FamilyDeatilsComponent implements OnInit {
     private route: ActivatedRoute,
     private formbuilder: FormBuilder,
     private lookupService: LookupService,
-    private employeeService: EmployeeService,
-    private datePipe: DatePipe) { }
+    private employeeService: EmployeeService, private alertMessage: AlertmessageService) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -74,13 +74,12 @@ export class FamilyDeatilsComponent implements OnInit {
       employeeId: [22],
       name: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2)]),
       relationshipId: new FormControl(null, [Validators.required]),
-      addressId: new FormControl(null, [Validators.required]),
+      addressId: new FormControl(null),
       dob: new FormControl('', [Validators.required]),
       adhaarNo: new FormControl('', [Validators.required]),
       panno: new FormControl('', [Validators.pattern(RG_PANNO)]),
       mobileNumber: new FormControl('', [Validators.required, Validators.pattern(RG_PHONE_NO)]),
       isNominee: new FormControl(true),
-      // familyDetails : this.formbuilder.array([])
     });
   }
 
@@ -130,6 +129,7 @@ export class FamilyDeatilsComponent implements OnInit {
       const familyData = this.fbfamilyDetails.value;
       this.familyDetails.push(familyData);
       this.fbfamilyDetails.disable;
+      console.log(this.familyDetails.values);
       this.clearForm();
       this.ShowfamilyDetails = true;
     }
@@ -149,6 +149,8 @@ export class FamilyDeatilsComponent implements OnInit {
     this.savefamilyDetails().subscribe(resp => {
       console.log(resp);
       // this.employeeId = resp;
+      this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "SFD001" : "SFD002"]);
+
       this.navigateToNext()
     })
 

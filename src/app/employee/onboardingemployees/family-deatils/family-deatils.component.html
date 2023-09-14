@@ -1,3 +1,4 @@
+<p-toast key="tst"></p-toast>
 <form [formGroup]="fbfamilyDetails">
     <div class="grid mt-3">
         <div class="col-12 roles-container">
@@ -48,20 +49,10 @@
                 <div class="field col-12 md:col-4">
                     <span class="p-float-label">
                         <p-dropdown id="address_dropdown" formControlName="addressId" [autoDisplayFirst]="false"
-                            optionLabel="addressLine1" [options]="address" optionValue="addressId"
-                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['addressId'].touched && FormControls['addressId'].errors }">
+                            optionLabel="addressLine1" [options]="address" optionValue="addressId">
                         </p-dropdown>
                         <label>Address</label>
                     </span>
-                    <div class="flex">
-                        <div class="align-left w-60" style="width:70%">
-                            <span *ngIf="FormControls['addressId'].touched && FormControls['addressId'].invalid">
-                                <div class="ng-invalid ng-touched p-error"
-                                    *ngIf="FormControls['addressId'].errors?.['required']">
-                                    Please Select Address.</div>
-                            </span>
-                        </div>
-                    </div>
                 </div>
                 <div class="field col-12 md:col-4">
                     <span class="p-float-label">
@@ -163,15 +154,13 @@
 
 <div class="col-12 scrolling_content" *ngIf="showFamilyDetails">
     <p-table id="table" [value]="familyDetails" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
-        styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true"
+    styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true"
         [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]">
         <ng-template pTemplate="header">
             <tr>
                 <th *ngFor="let col of headers">
                     {{col?.label}}
-                    <!-- <p-columnFilter type="text" [field]="col.header" display="menu"></p-columnFilter>
-                        <p-sortIcon [field]="col.header"></p-sortIcon> -->
                 </th>
             </tr>
         </ng-template>

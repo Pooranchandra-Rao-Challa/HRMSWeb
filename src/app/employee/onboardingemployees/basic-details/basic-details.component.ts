@@ -98,7 +98,7 @@ export class BasicDetailsComponent implements OnInit {
         console.log(resp);
         this.employeeId = resp;
         this.fbbasicDetails.disable();
-        this.alertMessage.displayAlertMessage(ALERT_CODES["SBD001"]);
+        this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "SBD001" : "SBD002"]);
         this.navigateToNext()
       })
     }
