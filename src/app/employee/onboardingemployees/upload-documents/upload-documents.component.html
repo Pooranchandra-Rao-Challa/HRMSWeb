@@ -1,17 +1,18 @@
 <div class="grid">
     <div class="col-12 p-5 mt-4">
         <div>
-            <ng-container>
-                <input type="file" id="file" multiple 
-                    (change)="getFileDetails($event)">
-                <button (click)="uploadFiles()">Upload</button>
-            </ng-container>
+            <label for="fileInput" >Choose Files</label>
+            <input id="fileInput" style="display: none" type="file" (change)="getFileDetails($event)" multiple="true" />
+            
+            <!-- <input pInputText type="file" id="file" multiple 
+                    (change)="getFileDetails($event)"> -->
+            <button (click)="uploadFiles()">Upload</button>
         </div>
     </div>
     <div class="col-12">
         <div *ngFor="let file of myFiles">
-            <div>*  {{file.name}} - {{file.type}} - {{file.size}}</div> 
-          </div>
+            <div>* {{file.name}} - {{file.type}} - {{file.size}}</div>
+        </div>
     </div>
 </div>
 <div class="grid mt-5">

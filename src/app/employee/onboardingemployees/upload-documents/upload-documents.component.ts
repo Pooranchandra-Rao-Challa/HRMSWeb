@@ -8,10 +8,29 @@ import { EmployeeService } from 'src/app/_services/employee.service';
 @Component({
   selector: 'app-upload-documents',
   templateUrl: './upload-documents.component.html',
-
+  // styles:[
+  //   custom-file-input {
+  //     background-color: #e0e0e0; /* Set your desired background color here */
+  //     padding: 10px 15px;
+  //     border: 1px solid #ccc;
+  //     border-radius: 5px;
+  //     cursor: pointer;
+  //     display: inline-block;
+  //   }
+    
+  //   /* You can also add hover and active styles for better user experience */
+  //   .custom-file-input:hover {
+  //     background-color: #d0d0d0; /* Change background color on hover */
+  //   }
+    
+  //   .custom-file-input:active {
+  //     background-color: #c0c0c0; /* Change background color when clicked */
+  //   }
+  // ]
 })
 export class UploadDocumentsComponent {
-
+  myFiles = [];
+  uploadDocuments=[];
   fbUploadDocument!: FormGroup;
   constructor(private router: Router, private formbuilder: FormBuilder, private employeeService: EmployeeService,) {
 
@@ -25,13 +44,8 @@ export class UploadDocumentsComponent {
     })
   }
 
-  myFiles = [];
-  uploadDocuments=[];
-  sMsg: string = '';
-
-
   getFileDetails(e) {
-
+   console.log(e.target)
     for (var i = 0; i < e.target.files.length; i++) {
       this.myFiles.push(e.target.files[i]);
     }
