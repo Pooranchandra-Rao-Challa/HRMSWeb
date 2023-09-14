@@ -14,22 +14,23 @@ import { MAX_LENGTH_256, MIN_LENGTH_2, RG_ALPHA_NUMERIC } from 'src/app/_shared/
 })
 export class AddressComponent {
   // states: States[] =[];
-  ShowlookupDetails:boolean=false;
+  ShowlookupDetails: boolean = false;
   fbAddressDetails: FormGroup;
   faAddressDetails!: FormArray;
   submitLabel: string;
   addressDetails: any[] = [];
-
+  employeeId: any;
   constructor(private router: Router, private route: ActivatedRoute, private formbuilder: FormBuilder, private employeeService: EmployeeService) { }
 
   ngOnInit() {
-
+    this.route.params.subscribe(params => {
+      this.employeeId = params['employeeId'];
+    });
+    console.log(this.employeeId)
     // this.initStates();
     this.initAddress();
-
-    
   }
- 
+
   // initStates(){
   //   this.employeeService.GetStates().subscribe((resp)=>{
   //     this.states=resp as unknown as States[];
@@ -50,7 +51,7 @@ export class AddressComponent {
       City: new FormControl(''),
       State: new FormControl(''),
       Country: new FormControl(''),
-      addressType:[],
+      addressType: [],
       IsActive: new FormControl(''),
       // addressDetails: this.formbuilder.array([])
     });
@@ -62,7 +63,7 @@ export class AddressComponent {
   }
 
   addNewAddress() {
-   
+
     if (this.fbAddressDetails.valid) {
       const addressData = this.fbAddressDetails.value;
       this.addressDetails.push(addressData);
@@ -72,10 +73,10 @@ export class AddressComponent {
   }
 
   navigateToPrev() {
-    this.router.navigate(['employee/onboardingemployee/experiencedetails'])
+    this.router.navigate(['employee/onboardingemployee/experiencedetails', this.employeeId])
   }
 
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/uploadfiles'])
+    this.router.navigate(['employee/onboardingemployee/uploadfiles', this.employeeId])
   }
 }

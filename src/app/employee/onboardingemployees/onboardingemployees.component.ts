@@ -25,7 +25,7 @@ export class OnboardingemployeesComponent {
   visible: boolean = false;
   newEmployeeSteps: MenuItem[];
   mediumDate: string = MEDIUM_DATE
-
+  employeeId: number;
 
   headers: ITableHeader[] = [
     { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
@@ -51,7 +51,8 @@ export class OnboardingemployeesComponent {
   constructor(private securityService: SecurityService,
     private router: Router,
     private route: ActivatedRoute,
-    private EmployeeService:EmployeeService) { }
+    private EmployeeService:EmployeeService,
+   ) { }
 
   cancelModel() {
     this.router.navigate(['employee/onboardingemployee'])
@@ -131,4 +132,7 @@ export class OnboardingemployeesComponent {
     dv.filter((event.target as HTMLInputElement).value);
   }
 
+  viewEmployeeDtls(employeeId: number) {
+    this.router.navigate(['employee/viewemployees'], { queryParams: { employeeId: employeeId }});
+  }
 }
