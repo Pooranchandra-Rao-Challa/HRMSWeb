@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { MaxLength } from 'src/app/_models/common';
-import { BankDetailDto, EmployeeBasicDetailDto } from 'src/app/_models/employes';
+import { BankDetailsDto, EmployeeBasicDetailDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { MIN_LENGTH_2, MIN_LENGTH_8, RG_ALPHA_ONLY, RG_IFSC, RG_NUMERIC_ONLY } from 'src/app/_shared/regex';
 
@@ -45,7 +45,7 @@ export class BankDetailsComponent {
     return this.fbbankDetails.controls;
   }
 
-  savebankDetails(): Observable<HttpEvent<BankDetailDto>> {
+  savebankDetails(): Observable<HttpEvent<BankDetailsDto>> {
     return this.employeeService.CreateBankDetails(this.fbbankDetails.value)
   }
   onSubmit() {
