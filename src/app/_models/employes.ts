@@ -45,6 +45,19 @@ export class UploadDocuments{
 	title?:string;
 	fileName?:string;
 }
+export class AddressDetailsDto{
+	employeeId:number
+	addressId: number
+	AddressLine1: string
+	AddressLine2: string
+	Landmark:string
+	ZIPCode:number
+	City:string
+	stateId:number
+	countryId: number
+	addressType: string
+	IsActive:boolean
+}
 export class EmployeeBasicDetailViewDto {
 	employeeId?: number;
 	code?: string;
@@ -69,7 +82,16 @@ export class EmployeeBasicDetailViewDto {
 	updatedAt?: Date;
 	updatedBy?: string;
 }
-
+export class States{
+	lookupDetailId:number
+	code: string
+    name: string
+}
+export class Countries{
+	lookupDetailId:number
+	code: string
+    name: string
+}
 export class EmployeeOfficedetailsviewDto {
 	employeeId?: number;
 	employeeName?: string;

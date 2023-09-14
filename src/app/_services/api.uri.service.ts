@@ -51,6 +51,7 @@ export const GET_EMPLOYEES = "Employee/GetEmployeeDropdown";
 export const GET_EMPLOYEESLIST="Employee/GetEmployeesForProject";
 export const UNASSIGNED_EMPLOYEE_URI = "Admin/InactiveProjectAllotment";
 
+
 //EMPLOYEE
 export const GET_EMPLOYEES_URI = "Employee/GetEmployeeDetails";
 export const CREATE_BASIC_DETAILS_URI = "Employee/CreateEmployeeBasicDetails";
@@ -58,6 +59,7 @@ export const EMPLOYEES_FOR_ALLOTTED_ASSETS_URI = "Admin/GetAssetsForEmployees";
 export const GET_EMPLOYEE_BASED_ON_ID_URI = "Employee/GetEmployeeBasedOnId";
 export const CREATE_BANK_DETAILS_URI = "Employee/UpateBankDetails";
 export const CREATE_DOCUMENTS_URI="Employee/UpateUploadDocument";
+export const CREATE_ADDRESS_URI="Employee/UpdateAddress";
 export const GET_ADDRESS_BASED_ON_ID_URI = "Employee/GetAddressesForEmployee";
 export const GET_EDUCATION_DETAILS_URI = "Employee/GetEducationDetailsForEmployee";
 export const GET_WORKEXPERIENCE_URI = "Employee/GetWorkExperienceForEmployee";
@@ -66,3 +68,5 @@ export const GET_GETUPLOADEDDOCUMENTS_URI = " Employee/GetUploadedDocumentsForEm
 export const GET_BANKDETAILS_URI = "Employee/GetBankDetailsForEmployee"
 export const GET_OFFICE_DETAILS_URI = "Employee/GetInceptionDetailsForEmployee";
 export const UPDATE_EMPLOYEE_BASED_ON_ID_URI = "Employee/UpdateEmployeeBasicDetails";
+export const GET_STATES_URI="Lookup/States";
+export const GET_COUNTRIES_URI="Lookup/Countries";

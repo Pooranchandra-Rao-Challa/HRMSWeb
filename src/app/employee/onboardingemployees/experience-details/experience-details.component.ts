@@ -50,9 +50,15 @@ export class ExperienceDetailsComponent {
   experienceForm() {
     this.addfields = []
     this.fbexperience = this.formbuilder.group({
-      id: [],
+      employeeId: [],
+      workExperienceId:[],
       companyName: new FormControl('', [Validators.required]),
-      fromDate: new FormControl('', [Validators.required]),
+      companyLocation: new FormControl('', [Validators.required]),
+      companyEmployeeId: new FormControl('', [Validators.required]),
+      designationId: new FormControl('', [Validators.required]),
+      dateOfJoining: new FormControl('', [Validators.required]),
+      dateOfReliving: new FormControl('', [Validators.required]),
+      stateId: new FormControl('', [Validators.required]),
       toDate: new FormControl('', [Validators.required]),
       designation: new FormControl('', [Validators.required]),
       experienceDetails: this.formbuilder.array([])
