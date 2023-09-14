@@ -39,6 +39,7 @@ export class BankDetailViewDto {
 	accountNumber?: number;
 	isActive?: boolean;
 	bankDetailId?: number;
+	employeeName?: string;
 }
 export class BankDetailsDto {
 	bankId?: number;
