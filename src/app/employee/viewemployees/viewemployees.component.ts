@@ -6,17 +6,15 @@ import { Address, Employee, familyDetailViewDto } from 'src/app/demo/api/securit
 import { SecurityService } from 'src/app/demo/service/security.service';
 import { LookupViewDto } from 'src/app/_models/admin';
 // import { EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsviewDto,  } from 'src/app/_models/employes';
-import {  BankDetailViewDto, BankDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsViewDto } from 'src/app/_models/employes';
+import {  BankDetailViewDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { LookupService } from 'src/app/_services/lookup.service';
 import { AssetAllotmentViewDto } from 'src/app/_models/admin/assetsallotment';
 import { AdminService } from 'src/app/_services/admin.service';
 import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
-import { MaxLength } from 'src/app/_models/common';
+import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { MAX_LENGTH_256, MIN_LENGTH_2, MIN_LENGTH_8, RG_ALPHA_ONLY, RG_IFSC, RG_NUMERIC_ONLY } from 'src/app/_shared/regex';
-import { Observable } from 'rxjs';
-import { HttpEvent } from '@angular/common/http';
-import { ALERT_CODES, AlertmessageService } from 'src/app/_alerts/alertmessage.service';
+import { MaxLength } from 'src/app/_models/common';
 export class Experience {
   id?: number;
   companyName?: string;
@@ -60,10 +58,13 @@ interface Skills {
 })
 export class ViewemployeesComponent {
   fbEmpBasDtls!: FormGroup;
-  employeePrsDtls: EmployeeBasicDetailViewDto[]=[];
+  employeePrsDtls = new EmployeeBasicDetailViewDto ();
   employeePrsDtl = new EmployeeBasicDetailDto()
-  fbOfficDtls!: FormGroup; 
-  employeeofficeDtls :EmployeeOfficedetailsviewDto[];
+  imageSize: any;
+  selectedFileBase64: string | null = null; // To store the selected file as base64
+  fbOfficDtls!: FormGroup;
+  employeeofficeDtls = new EmployeeOfficedetailsviewDto();
+  employeeofficDtl=new EmployeeOfficedetailsDto()
   // adredss: any[];
   fbEmpPerDtls!: FormGroup;
   familyDetails: FamilyDetailsViewDto[];
@@ -83,18 +84,17 @@ export class ViewemployeesComponent {
   faexperienceDetails!: FormArray;
   UploadedDocuments: any[];
   bankDetails: boolean = false;
-  bankDetail: BankDetailsDto[];
   bankDetails1: BankDetailViewDto[];
-  selectedBankId: number | null = null;
   officeDtls: any[];
   assetAllotments: AssetAllotmentViewDto[] = [];
   color: string = 'bluegray';
   size: string = 'M';
   liked: boolean = false;
   dialog: boolean = false;
-  visible: boolean = false;
+  officedialog: boolean = false;
   Experience: boolean = false;
   Family: boolean = false;
+  bankDetailsshow: boolean = false;
   Documents: boolean = false;
   ShoweducationDetails: boolean = false;
   ShowexperienceDetails: boolean = false;
@@ -125,11 +125,8 @@ export class ViewemployeesComponent {
   mediumDate: string = MEDIUM_DATE;
   countries:any
 
-  
-  Dialog() {
-    this.visible = true;
-    this.fbOfficDtls.reset();
-  }
+
+ 
   ShowEducationDetails() {
     this.Education = true;
     this.fbEducationDetails.reset();
@@ -208,7 +205,7 @@ export class ViewemployeesComponent {
     private employeeService: EmployeeService,
     private activatedRoute: ActivatedRoute,
     private adminService: AdminService,
-    private alertMessage:AlertmessageService
+    private alertMessage: AlertmessageService,
   ) { }
 
   initStates() {
@@ -217,12 +214,12 @@ export class ViewemployeesComponent {
     });
   }
 
+  
+
   ngOnInit(): void {
-    this.securityService.getEmployees().then((data) => (this.employees = data));
-    this.Data();
     this.initEducation();
     this.EmpBasicDtlsForm();
-    this.bankDetailsForm();
+    this.bankDetailsForm;
     this.OfficDtlsForm();
     this.initEducation();
     this.addEducationDetails();
@@ -244,7 +241,7 @@ export class ViewemployeesComponent {
     this.initGetWorkExperience();
     this.initGetFamilyDetails();
     this.initGetAddress();
-    this.initUploadedDocuments();
+    // this.initUploadedDocuments();
     this.initBankDetails();
     this.initviewAssets()
   }
@@ -256,7 +253,7 @@ export class ViewemployeesComponent {
       firstName: new FormControl('', [Validators.required]),
       middleName: new FormControl('',),
       lastName: new FormControl('', [Validators.required]),
-      code:new FormControl(null),
+      code: new FormControl(null),
       gender: new FormControl('', [Validators.required]),
       bloodGroupId: new FormControl('', [Validators.required]),
       mobileNumber: new FormControl('', [Validators.required]),
@@ -266,14 +263,8 @@ export class ViewemployeesComponent {
       maritalStatus: new FormControl('', [Validators.required]),
       emailId: new FormControl('', [Validators.required]),
       isActive: (''),
-      signDate:('')
-    });
-  }
-
-  initViewEmpDtls() {
-    this.employeeService.GetViewEmpPersDtls(this.employeeId).subscribe((resp) => {
-      this.employeePrsDtls = resp as unknown as EmployeeBasicDetailViewDto[];
-      console.log('this.employeePrsDtls', this.employeePrsDtls);
+      signDate: (''),
+      photo:[]
     });
   }
 
@@ -283,79 +274,114 @@ export class ViewemployeesComponent {
     });
   }
 
-  showEmpPersDtlsDialog(employeePrsDtls : EmployeeBasicDetailViewDto) {
-    this.employeePrsDtl.employeeId = employeePrsDtls.employeeId;
-    this.employeePrsDtl.firstName = employeePrsDtls.firstName;
-    this.employeePrsDtl.middleName = employeePrsDtls.middleName;
-    this.employeePrsDtl.lastName = employeePrsDtls.lastName;
-    this.employeePrsDtl.gender = employeePrsDtls.gender;
-     this.employeePrsDtl.code = employeePrsDtls.code;
-    this.employeePrsDtl.bloodGroupId = employeePrsDtls.bloodGroupId;
-    this.employeePrsDtl.mobileNumber = employeePrsDtls.mobileNumber;
-    this.employeePrsDtl.alternateMobileNumber = employeePrsDtls.alternateMobileNumber;
+  initViewEmpDtls() {
+    this.employeeService.GetViewEmpPersDtls(this.employeeId).subscribe((resp) => {
+      this.employeePrsDtls = resp as unknown as EmployeeBasicDetailViewDto;
+      console.log('this.employeePrsDtls', this.employeePrsDtls);
+    });
+  }
+
+  showEmpPersDtlsDialog(employeePrsDtls: EmployeeBasicDetailViewDto) {
+    this.employeePrsDtl = employeePrsDtls;
     this.employeePrsDtl.originalDob = new Date(employeePrsDtls.originalDOB);
     this.employeePrsDtl.certificateDob = new Date(employeePrsDtls.certificateDOB);
-    this.employeePrsDtl.maritalStatus = employeePrsDtls.maritalStatus;
-    this.employeePrsDtl.emailId = employeePrsDtls.emailId;
-    this.employeePrsDtl.signDate = employeePrsDtls.signDate;
-    this.employeePrsDtl.isActive=true;
-    this.fbEmpBasDtls.patchValue( this.employeePrsDtl);
-    console.log(this.employeePrsDtl); 
+    this.employeePrsDtl.isActive = true;
+    this.fbEmpBasDtls.patchValue(this.employeePrsDtl);
     this.dialog = true;
   }
- 
-  saveEmpBscDtls(){
-    debugger;
-    this.employeeService.updateViewEmpPersDtls(this.fbEmpBasDtls.value).subscribe((resp) =>{
+
+  saveEmpBscDtls() {
+    this.employeeService.updateViewEmpPersDtls(this.fbEmpBasDtls.value).subscribe((resp) => {
       if (resp) {
         this.initViewEmpDtls();
-        this.onClose();
         this.dialog = false;
-        // if (this.addFlag) {
-        //   this.alertMessage.displayAlertMessage(ALERT_CODES["AAS001"]);
-        // } else {
-        //   this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag1 ? "AAS003" : "AAS002"]);
-        // }
+        this.fbEmpBasDtls.reset();
+        this.alertMessage.displayAlertMessage(ALERT_CODES["EVEBD001"]);
       }
       else {
-        // this.alertMessage.displayErrorMessage(ALERT_CODES["AAS004"])
+        this.alertMessage.displayErrorMessage(ALERT_CODES["EVEBD002"])
       }
     })
   }
 
-  onClose() {
-    this.fbEmpBasDtls.reset();
-    this.fbBankDetails.reset();
-    this.dialog = false;
+  onFileSelect(event: any): void {
+    const selectedFile = event.files[0];
+    this.imageSize = selectedFile.size;
+    if (selectedFile) {
+      this.convertFileToBase64(selectedFile, (base64String) => {
+        this.selectedFileBase64 = base64String;
+        this.fbEmpBasDtls.get('photo').setValue(this.selectedFileBase64);
+      });
+    } else {
+      this.selectedFileBase64 = null;
+    }
+  }
+  private convertFileToBase64(file: File, callback: (base64String: string) => void): void {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      const base64String = reader.result as string;
+      callback(base64String);
+    };
   }
   OfficDtlsForm() {
     this.fbOfficDtls = this.formbuilder.group({
-      employeeId: new FormControl('', [Validators.required]),
-      timeIn: new FormControl('', [Validators.required]),
-      timeOut: new FormControl('', [Validators.required]),
+      // employeeInceptionId :(null),
+      employeeId: (null),
+      strTimeIn: new FormControl('', [Validators.required]),
+      strTimeOut: new FormControl('', [Validators.required]),
       officeEmailId: new FormControl('', [Validators.required]),
       dateofJoin: new FormControl('', [Validators.required]),
-      reportingTo: new FormControl('', [Validators.required]),
+      reportingToId: new FormControl('', [Validators.required]),
       // projectName: new FormControl('', [Validators.required]),
-      isPFEligible: new FormControl('', [Validators.required]),
-      isESIEligible: new FormControl('', [Validators.required]),
+      isPfeligible: new FormControl(''),
+      isEsieligible: new FormControl(''),
+      isActive: (''),
     });
   }
 
   initofficeEmpDtls() {
     this.employeeService.EmployeeOfficedetailsviewDto(this.employeeId).subscribe((resp) => {
-      this.employeeofficeDtls = resp as unknown as EmployeeOfficedetailsviewDto[];
+      this.employeeofficeDtls = resp as unknown as EmployeeOfficedetailsviewDto;
       console.log('this.employeeofficeDtls', this.employeeofficeDtls);
     });
   }
+
+  showEmpOfficDtlsDialog(employeeOfficeDtls:EmployeeOfficedetailsviewDto) {
+    this.employeeofficDtl = employeeOfficeDtls;
+    this.employeeofficDtl.strTimeIn = employeeOfficeDtls.timeIn?.substring(0, 5);
+    this.employeeofficDtl.strTimeOut = employeeOfficeDtls.timeOut?.substring(0, 5);
+    this.employeeofficDtl.dateofJoin = new Date(employeeOfficeDtls.dateofJoin);
+    this.employeeofficDtl.isPfeligible = employeeOfficeDtls.isPFEligible;
+    this.employeeofficDtl.isEsieligible = employeeOfficeDtls.isESIEligible;
+    this.employeeofficDtl.isActive = true;
+    this.fbOfficDtls.patchValue(this.employeeofficDtl);
+    console.log(this.employeeofficDtl)
+    this.officedialog = true;
+  }
   
+  saveEmpOfficDtls(){
+    debugger
+    this.employeeService.updateViewEmpOfficDtls(this.fbOfficDtls.value).subscribe((resp) => {
+      if (resp) {
+        console.log(resp);       
+        this.initofficeEmpDtls();
+        this.officedialog = false;
+        this.fbOfficDtls.reset();
+        this.alertMessage.displayAlertMessage(ALERT_CODES["EVEOFF001"]);
+      }
+      else {
+        this.alertMessage.displayErrorMessage(ALERT_CODES["EVEOFF002"])
+      }
+    })
+  }
   initUploadedDocuments() {
     this.employeeService.GetUploadedDocuments(this.employeeId).subscribe((resp) => {
       this.UploadedDocuments = resp as unknown as any[];
       console.log('this.UploadedDocuments', this.UploadedDocuments);
     });
   }
-  
+
   initviewAssets() {
     this.adminService.GetAssetAllotments(this.employeeId).subscribe((resp) => {
       if (resp) {
@@ -420,7 +446,8 @@ export class ViewemployeesComponent {
       accountNumber: bank.accountNumber,
       isActive: bank.isActive
     });
-    console.log(bank);
+    console.log(bank)
+;
     this.bankDetails = true;
   }
   
@@ -432,7 +459,7 @@ export class ViewemployeesComponent {
         const alertCode = isUpdate ? "SMBD002" : "SMBD001";
         this.alertMessage.displayAlertMessage(ALERT_CODES[alertCode]);
         this.initBankDetails();
-        this.onClose();
+       
         this.bankDetails = false;
       }
     });
@@ -443,7 +470,6 @@ export class ViewemployeesComponent {
       event.preventDefault();
     }
   }
-
   saveEducationDetails() {
     if (this.fbEducationDetails.valid) {
       const educationData = this.fbEducationDetails.value;

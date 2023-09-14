@@ -73,7 +73,7 @@ export class AddressComponent {
   }
 
   navigateToPrev() {
-    this.router.navigate(['employee/onboardingemployee/experiencedetails', this.employeeId])
+    this.router.navigate(['employee/onboardingemployee/experiencedetails'])
   }
 
   navigateToNext() {
