@@ -3,7 +3,7 @@ import { CREATE_BANK_DETAILS_URI, CREATE_BASIC_DETAILS_URI, CREATE_DOCUMENTS_URI
    GET_EDUCATION_DETAILS_URI, GET_EMPLOYEES_URI, GET_EMPLOYEE_BASED_ON_ID_URI, GET_GETFAMILYDETAILS_URI, GET_GETUPLOADEDDOCUMENTS_URI, GET_OFFICE_DETAILS_URI,
     GET_WORKEXPERIENCE_URI, 
     UPDATE_EMPLOYEE_BASED_ON_ID_URI} from './api.uri.service';
-import { BankDetailDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, UploadDocuments } from '../_models/employes';
+import { BankDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, UploadDocuments } from '../_models/employes';
 
 import { ApiHttpService } from './api.http.service';
 
@@ -26,8 +26,8 @@ export class EmployeeService extends ApiHttpService {
   }
 
   //Bank Details of Employee
-  public CreateBankDetails(bankdetails:BankDetailDto){
-    return this.post<BankDetailDto>(CREATE_BANK_DETAILS_URI,bankdetails);
+  public CreateBankDetails(bankdetails:BankDetailsDto){
+    return this.post<BankDetailsDto>(CREATE_BANK_DETAILS_URI,bankdetails);
   }
   public CreateUploadDocuments(documents:UploadDocuments[]){
     debugger
