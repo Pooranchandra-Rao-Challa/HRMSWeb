@@ -29,7 +29,24 @@ export class EmployeeBasicDetailDto {
 	signDate?: Date;
 	isActive?: boolean;
 }
-
+export class UploadDocuments{
+	uploadDocumentId?:number;
+	employeeId?:number;
+	title?:string;
+	fileName?:string;
+}
+export class FamilyDetailsDto{
+	familyInformationId?:number;
+	employeeId?:number;
+	name?:string;
+	relationshipId?:number;
+	addressId?:number;
+	dob?:Date;
+	adhaarNo?:number;
+	panno?:number;
+	mobileNumber?:number;
+	isNominee?:boolean;
+}
 export class BankDetailDto {
 	bankId?: number;
 	employeeId?: number;
@@ -38,12 +55,6 @@ export class BankDetailDto {
 	ifsc?: string;
 	accountNumber?: number;
 	isActive?: boolean;
-}
-export class UploadDocuments{
-	uploadDocumentId?:number;
-	employeeId?:number;
-	title?:string;
-	fileName?:string;
 }
 export class EmployeeBasicDetailViewDto {
 	employeeId?: number;
