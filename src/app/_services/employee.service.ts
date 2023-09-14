@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { CREATE_BANK_DETAILS_URI, CREATE_BASIC_DETAILS_URI, CREATE_DOCUMENTS_URI, GET_ADDRESS_BASED_ON_ID_URI, GET_BANKDETAILS_URI,
+import { CREATE_BANK_DETAILS_URI, CREATE_BASIC_DETAILS_URI, CREATE_DOCUMENTS_URI, CREATE_FAMILY_DETAILS_URI, GET_ADDRESS_BASED_ON_ID_URI, GET_BANKDETAILS_URI,
    GET_EDUCATION_DETAILS_URI, GET_EMPLOYEES_URI, GET_EMPLOYEE_BASED_ON_ID_URI, GET_GETFAMILYDETAILS_URI, GET_GETUPLOADEDDOCUMENTS_URI, GET_OFFICE_DETAILS_URI,
     GET_WORKEXPERIENCE_URI, 
     UPDATE_EMPLOYEE_BASED_ON_ID_URI} from './api.uri.service';
-import { BankDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, UploadDocuments } from '../_models/employes';
+import { BankDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, UploadDocuments } from '../_models/employes';
 
 import { ApiHttpService } from './api.http.service';
 
@@ -32,6 +32,10 @@ export class EmployeeService extends ApiHttpService {
   public CreateUploadDocuments(documents:UploadDocuments[]){
     debugger
     return this.post<UploadDocuments[]>(CREATE_DOCUMENTS_URI,documents)
+  }
+  //Familly Details of Employee
+  public CreateFamilyDetails(family:FamilyDetailsDto[]){
+    return this.post<FamilyDetailsDto[]>(CREATE_FAMILY_DETAILS_URI,family)
   }
 
   public GetViewEmpPersDtls(employeeId:number){

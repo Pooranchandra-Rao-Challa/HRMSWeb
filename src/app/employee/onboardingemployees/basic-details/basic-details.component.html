@@ -1,30 +1,8 @@
 <form [formGroup]="fbbasicDetails">
     <div class="grid mt-3">
+        <p-toast key="tst"></p-toast>
         <div class="col-12 roles-container">
             <div class="p-fluid p-formgrid grid">
-                <div class="field col-12 md:col-4">
-                    <span class="p-float-label">
-                        <input type="text" id="inputtext" pInputText formControlName="code" #code [maxlength]="20"
-                            alphaNumeric (keydown)="restrictSpaces($event)"
-                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['code'].touched && FormControls['code'].errors }" />
-                        <label class="required" for="inputtext">Code</label>
-                    </span>
-                    <div class="flex">
-                        <div class="align-left w-60" style="width:70%">
-                            <span *ngIf="FormControls['code'].touched && FormControls['code'].invalid">
-                                <div class="ng-invalid ng-touched p-error"
-                                    *ngIf="FormControls['code'].errors?.['required']">
-                                    Please Enter Code.</div>
-                                <div class="ng-invalid ng-touched p-error"
-                                    *ngIf="FormControls['code'].errors?.['minlength']">
-                                    Code Min Length Is 2.</div>
-                            </span>
-                        </div>
-                        <div class="align-right w-40" style="width:30%; text-align:right;">
-                            <small>{{code.value.length}}/{{maxLength.code}} </small>
-                        </div>
-                    </div>
-                </div>
                 <div class="field col-12 md:col-4">
                     <span class="p-float-label">
                         <input type="text" id="first_Name" pInputText formControlName="firstName" #firstname alphaOnly
