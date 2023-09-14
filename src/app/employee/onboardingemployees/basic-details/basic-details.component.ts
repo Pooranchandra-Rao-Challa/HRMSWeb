@@ -9,7 +9,7 @@ import { MaxLength } from 'src/app/_models/common';
 import { EmployeeBasicDetailDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { LookupService } from 'src/app/_services/lookup.service';
-import { MAX_LENGTH_20, MIN_LENGTH_2, RG_ALPHA_NUMERIC, RG_ALPHA_ONLY, RG_EMAIL, RG_PHONE_NO } from 'src/app/_shared/regex';
+import {MIN_LENGTH_2, RG_ALPHA_NUMERIC, RG_ALPHA_ONLY, RG_EMAIL, RG_PHONE_NO } from 'src/app/_shared/regex';
 
 
 interface General {
@@ -32,8 +32,8 @@ export class BasicDetailsComponent implements OnInit {
   addFlag: boolean = true;
   basicDetails: EmployeeBasicDetailDto[];
   bloodgroups: LookupViewDto[] = [];
-  employeeId:any;
-  constructor(private router: Router,private employeeService: EmployeeService, private formbuilder: FormBuilder, private lookupService: LookupService, private alertMessage: AlertmessageService) { }
+  employeeId: any;
+  constructor(private router: Router, private employeeService: EmployeeService, private formbuilder: FormBuilder, private lookupService: LookupService, private alertMessage: AlertmessageService) { }
 
   ngOnInit() {
     this.basicDetailsForm();
@@ -55,13 +55,13 @@ export class BasicDetailsComponent implements OnInit {
       code: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_NUMERIC), Validators.minLength(MIN_LENGTH_2)]),
       firstName: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
       middleName: new FormControl('', [Validators.minLength(MIN_LENGTH_2)]),
-      lastName: new FormControl('', [Validators.required,Validators.minLength(MIN_LENGTH_2)]),
+      lastName: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2)]),
       userId: [null],
       gender: new FormControl('', [Validators.required]),
       bloodGroupId: new FormControl('', [Validators.required]),
       maritalStatus: new FormControl('', [Validators.required]),
-      mobileNumber: new FormControl('', [Validators.required,Validators.pattern(RG_PHONE_NO)]),
-      alternateMobileNumber: new FormControl('', [ Validators.pattern(RG_PHONE_NO)]),
+      mobileNumber: new FormControl('', [Validators.required, Validators.pattern(RG_PHONE_NO)]),
+      alternateMobileNumber: new FormControl('', [Validators.pattern(RG_PHONE_NO)]),
       originalDob: new FormControl('', [Validators.required]),
       certificateDob: new FormControl('', [Validators.required]),
       emailId: new FormControl('', [Validators.required, Validators.pattern(RG_EMAIL)]),
@@ -96,7 +96,7 @@ export class BasicDetailsComponent implements OnInit {
     if (this.fbbasicDetails.valid) {
       this.savebasicDetails().subscribe(resp => {
         console.log(resp);
-        this.employeeId=resp;
+        this.employeeId = resp;
         this.fbbasicDetails.disable();
         this.navigateToNext()
       })
@@ -131,7 +131,7 @@ export class BasicDetailsComponent implements OnInit {
     };
   }
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/educationdetails', this.employeeId]);
+    this.router.navigate(['employee/onboardingemployee/educationdetails']);
 
   }
 }

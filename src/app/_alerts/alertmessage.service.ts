@@ -133,5 +133,10 @@ export const ALERT_CODES: { [key: string]: string } = {
     // View Employee Office Details
     'EVEOFF001' :'Office Details Updated Successfully',
     'EVEOFF002' :'Office Details Updated Faild',
+     //Bank Details
+    'SMBD001': 'Bank Details Added Successfully',
+    'SMBD002': 'Bank Details Update Successfully'
+
+   
 }
 

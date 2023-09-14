@@ -6,13 +6,15 @@ import { Address, Employee, familyDetailViewDto } from 'src/app/demo/api/securit
 import { SecurityService } from 'src/app/demo/service/security.service';
 import { LookupViewDto } from 'src/app/_models/admin';
 // import { EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsviewDto,  } from 'src/app/_models/employes';
-import { BankDetailDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsViewDto } from 'src/app/_models/employes';
+import {  BankDetailViewDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { LookupService } from 'src/app/_services/lookup.service';
 import { AssetAllotmentViewDto } from 'src/app/_models/admin/assetsallotment';
 import { AdminService } from 'src/app/_services/admin.service';
 import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
+import { MIN_LENGTH_2, MIN_LENGTH_8, RG_ALPHA_ONLY, RG_IFSC, RG_NUMERIC_ONLY } from 'src/app/_shared/regex';
+import { MaxLength } from 'src/app/_models/common';
 export class Experience {
   id?: number;
   companyName?: string;
@@ -82,7 +84,7 @@ export class ViewemployeesComponent {
   faexperienceDetails!: FormArray;
   UploadedDocuments: any[];
   bankDetails: boolean = false;
-  bankDetails1: BankDetailDto[];
+  bankDetails1: BankDetailViewDto[];
   officeDtls: any[];
   assetAllotments: AssetAllotmentViewDto[] = [];
   color: string = 'bluegray';
@@ -110,9 +112,7 @@ export class ViewemployeesComponent {
   uploadedFiles: any[] = [];
   selectedOption: string;
   inputValue: string;
-
-
-
+  maxLength: MaxLength = new MaxLength();
   addfields: any;
   State: States[];
   relationshipStatus: General[];
@@ -217,7 +217,7 @@ export class ViewemployeesComponent {
   ngOnInit(): void {
     this.initEducation();
     this.EmpBasicDtlsForm();
-    this.BankdetailsForm;
+    this.bankDetailsForm;
     this.OfficDtlsForm();
     this.initEducation();
     this.addEducationDetails();
@@ -264,7 +264,7 @@ export class ViewemployeesComponent {
       emailId: new FormControl('', [Validators.required]),
       isActive: (''),
       signDate: (''),
-      photo: [],
+      photo:[]
     });
   }
 
@@ -413,18 +413,62 @@ export class ViewemployeesComponent {
     });
   }
 
-  BankdetailsForm() {
-    this.fbBankDetails = this.formbuilder.group({
-      AccountNo: new FormControl('', [Validators.required]),
-      IFSCCode: new FormControl('', [Validators.required]),
-      BranchName: new FormControl('', [Validators.required]),
-    });
-  }
   initBankDetails() {
     this.employeeService.GetBankDetails(this.employeeId).subscribe((resp) => {
-      this.bankDetails1 = resp as unknown as BankDetailDto[];
+      this.bankDetails1 = resp as unknown as BankDetailViewDto[];
       console.log('this.BankDetails', this.bankDetails1);
     });
+  }
+  bankDetailsForm() {
+    this.fbBankDetails = this.formbuilder.group({
+      bankId: [0],
+      employeeId: this.employeeId,
+      name: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
+      branchName: new FormControl('', [Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
+      ifsc: new FormControl('', [Validators.required, Validators.pattern(RG_IFSC)]),
+      accountNumber: new FormControl('', [Validators.required, Validators.pattern(RG_NUMERIC_ONLY), Validators.minLength(MIN_LENGTH_8)]),
+      isActive: new FormControl(true)
+    });
+
+  }
+  get FormControls() {
+    return this.fbBankDetails.controls;
+  }
+
+  editBankDetails(index: number) {
+    const bank = this.bankDetails1[index];
+    this.fbBankDetails.patchValue({
+      bankId: bank.bankDetailId,
+      employeeId: bank.employeeId,
+      name: bank.bankName,
+      branchName: bank.branchName,
+      ifsc: bank.ifsc,
+      accountNumber: bank.accountNumber,
+      isActive: bank.isActive
+    });
+    console.log(bank)
+;
+    this.bankDetails = true;
+  }
+  
+  saveBankDetails() {
+    const formValue = { ...this.fbBankDetails.value, employeeId: this.employeeId };
+    const isUpdate = this.fbBankDetails.value.bankId !== null;
+    this.employeeService.CreateBankDetails(formValue).subscribe((resp) => {
+      if (resp) {
+        const alertCode = isUpdate ? "SMBD002" : "SMBD001";
+        this.alertMessage.displayAlertMessage(ALERT_CODES[alertCode]);
+        this.initBankDetails();
+       
+        this.bankDetails = false;
+      }
+    });
+  }
+
+  restrictSpaces(event: KeyboardEvent) {
+    if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {
+      event.preventDefault();
+    }
   }
   saveEducationDetails() {
     if (this.fbEducationDetails.valid) {

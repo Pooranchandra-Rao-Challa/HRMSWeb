@@ -4,7 +4,7 @@ import { CREATE_BANK_DETAILS_URI, CREATE_BASIC_DETAILS_URI, CREATE_DOCUMENTS_URI
     GET_WORKEXPERIENCE_URI, 
     UPDATE_EMPLOYEE_BASED_ON_ID_URI,
     UPDATE_OFFICE_DETAILS_URI} from './api.uri.service';
-import { BankDetailDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, UploadDocuments } from '../_models/employes';
+import { BankDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, UploadDocuments } from '../_models/employes';
 
 import { ApiHttpService } from './api.http.service';
 
@@ -27,8 +27,8 @@ export class EmployeeService extends ApiHttpService {
   }
 
   //Bank Details of Employee
-  public CreateBankDetails(bankdetails:BankDetailDto){
-    return this.post<BankDetailDto>(CREATE_BANK_DETAILS_URI,bankdetails);
+  public CreateBankDetails(bankdetails:BankDetailsDto){
+    return this.post<BankDetailsDto>(CREATE_BANK_DETAILS_URI,bankdetails);
   }
   public CreateUploadDocuments(documents:UploadDocuments[]){
     debugger

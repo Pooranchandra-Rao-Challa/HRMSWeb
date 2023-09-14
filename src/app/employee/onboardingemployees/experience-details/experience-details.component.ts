@@ -3,13 +3,13 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { ActivatedRoute, Router } from '@angular/router';
 
 
-export class Experience{
-  id?:number;
- companyName?:string;
- fromDate?: Date;
- toDate?: Date;
- designation?:string;
- experienceDetails?: string;
+export class Experience {
+  id?: number;
+  companyName?: string;
+  fromDate?: Date;
+  toDate?: Date;
+  designation?: string;
+  experienceDetails?: string;
 }
 
 @Component({
@@ -20,25 +20,23 @@ export class Experience{
 
 export class ExperienceDetailsComponent {
   formGroup: FormGroup<{ ExperienceDetails: FormControl<any>; }>;
-  constructor(private router: Router, private formbuilder: FormBuilder,private route:ActivatedRoute) { }
+  constructor(private router: Router, private formbuilder: FormBuilder, private route: ActivatedRoute) { }
   selectedOption: string;
   inputValue: string;
   fbexperience!: FormGroup;
   faexperienceDetails!: FormArray;
   dialog: boolean = false;
   addfields: any;
-employeeId:any;
+  employeeId: any;
   ShowexperienceDetails: boolean = false;
   ngOnInit() {
-    this.experienceForm();
-    this.addexperienceDetails();
-    this.selectedOption = 'Fresher';
-  
-
     this.route.params.subscribe(params => {
       this.employeeId = params['employeeId'];
     });
-console.log(this.employeeId)
+    console.log(this.employeeId)
+    this.experienceForm();
+    this.addexperienceDetails();
+    this.selectedOption = 'Fresher';
   }
   toggleInputField(option: string) {
     this.selectedOption = option;
@@ -74,10 +72,10 @@ console.log(this.employeeId)
   }
 
   navigateToPrev() {
-    this.router.navigate(['employee/onboardingemployee/educationdetails',this.employeeId])
+    this.router.navigate(['employee/onboardingemployee/educationdetails'])
   }
 
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/addressdetails',this.employeeId])
+    this.router.navigate(['employee/onboardingemployee/addressdetails'])
   }
 }
