@@ -11,6 +11,7 @@ import { ITableHeader, MaxLength } from 'src/app/_models/common';
 import { AdminService } from 'src/app/_services/admin.service';
 import { JwtService } from 'src/app/_services/jwt.service';
 import { MAX_LENGTH_20, MIN_LENGTH_2, RG_ALPHA_NUMERIC, RG_ALPHA_ONLY } from 'src/app/_shared/regex';
+import { GlobalFilterService } from 'src/app/_services/global.filter.service';
 
 @Component({
   selector: 'app-lookup',
@@ -37,8 +38,11 @@ export class LookupsComponent implements OnInit {
   mediumDate: string = MEDIUM_DATE
   selectedColumnHeader!: ITableHeader[];
   _selectedColumns!: ITableHeader[];
-  constructor(private formbuilder: FormBuilder, private adminService: AdminService, private alertMessage: AlertmessageService,
-    private jwtService: JwtService) { }
+  constructor(private formbuilder: FormBuilder,
+    private adminService: AdminService,
+    private alertMessage: AlertmessageService,
+    private jwtService: JwtService,
+    private globalFilterService: GlobalFilterService) { }
 
   lookupHeader: ITableHeader[] = [
     { field: 'code', header: 'code', label: 'Code' },
@@ -188,8 +192,9 @@ export class LookupsComponent implements OnInit {
     }
   }
   onGlobalFilter(table: Table, event: Event) {
-    table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
-  }
+    const searchTerm = (event.target as HTMLInputElement).value;
+    this.globalFilterService.filterTableByDate(table, searchTerm);
+}
   clear() {
     this.clearTableFiltersAndSorting(this.lookUp);
     this.clearTableFiltersAndSorting(this.lookUpDetails);
