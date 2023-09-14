@@ -131,7 +131,7 @@ export class BasicDetailsComponent implements OnInit {
     };
   }
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/educationdetails', this.employeeId]);
+    this.router.navigate(['employee/onboardingemployee/educationdetails']);
 
   }
 }

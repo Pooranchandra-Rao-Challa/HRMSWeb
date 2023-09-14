@@ -3,10 +3,7 @@
         <div>
             <label for="fileInput" >Choose Files</label>
             <input id="fileInput" style="display: none" type="file" (change)="getFileDetails($event)" multiple="true" />
-            
-            <!-- <input pInputText type="file" id="file" multiple 
-                    (change)="getFileDetails($event)"> -->
-            <button (click)="uploadFiles()">Upload</button>
+            <!-- <button (click)="uploadFiles()" >Upload</button> -->
         </div>
     </div>
     <div class="col-12">
@@ -21,7 +18,7 @@
             (click)="navigateToPrev()">Address Details</button>
     </div>
     <div class=" col-4">
-        <button p-button class="p-element p-ripple p-button-info p-button p-component w-100">Save as Draft</button>
+        <button p-button class="p-element p-ripple p-button-info p-button p-component w-100" (click)="uploadFiles()">Save as Draft</button>
     </div>
     <div class=" col-4">
         <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100"

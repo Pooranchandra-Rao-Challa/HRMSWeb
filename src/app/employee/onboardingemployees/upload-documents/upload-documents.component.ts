@@ -44,7 +44,7 @@ export class UploadDocumentsComponent {
     console.log(this.employeeId)
     this.fbUploadDocument = this.formbuilder.group({
       uploadDocumentId: [0],
-      employeeId: this.employeeId,
+      employeeId: 5,
       title: new FormControl(''),
       fileName: new FormControl(''),
     })

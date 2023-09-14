@@ -77,6 +77,6 @@ export class AddressComponent {
   }
 
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/uploadfiles', this.employeeId])
+    this.router.navigate(['employee/onboardingemployee/uploadfiles'])
   }
 }
