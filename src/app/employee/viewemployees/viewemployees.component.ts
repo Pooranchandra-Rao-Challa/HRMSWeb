@@ -6,7 +6,7 @@ import { Address, Employee, familyDetailViewDto } from 'src/app/demo/api/securit
 import { SecurityService } from 'src/app/demo/service/security.service';
 import { LookupViewDto } from 'src/app/_models/admin';
 // import { EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsviewDto,  } from 'src/app/_models/employes';
-import {  BankDetailViewDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsViewDto } from 'src/app/_models/employes';
+import { BankDetailViewDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { LookupService } from 'src/app/_services/lookup.service';
 import { AssetAllotmentViewDto } from 'src/app/_models/admin/assetsallotment';
@@ -39,7 +39,7 @@ interface Shift {
   type: string;
   code: string;
 }
-interface Status {
+export class Status {
   name: string;
   code: string;
 }
@@ -57,14 +57,17 @@ interface Skills {
   styles: [],
 })
 export class ViewemployeesComponent {
+  // employee basic details
   fbEmpBasDtls!: FormGroup;
-  employeePrsDtls = new EmployeeBasicDetailViewDto ();
+  employeePrsDtls = new EmployeeBasicDetailViewDto();
   employeePrsDtl = new EmployeeBasicDetailDto()
   imageSize: any;
   selectedFileBase64: string | null = null; // To store the selected file as base64
+  status: Status[];
+  // employee office details
   fbOfficDtls!: FormGroup;
   employeeofficeDtls = new EmployeeOfficedetailsviewDto();
-  employeeofficDtl=new EmployeeOfficedetailsDto()
+  employeeofficDtl = new EmployeeOfficedetailsDto()
   // adredss: any[];
   fbEmpPerDtls!: FormGroup;
   familyDetails: FamilyDetailsViewDto[];
@@ -105,7 +108,7 @@ export class ViewemployeesComponent {
   employees: Employee[] = [];
   genders: Gender[];
   shifts: Shift[];
-  status: Status[];
+
   designation: Designation[];
   valRadio: string;
   skillSets!: Skills[];
@@ -123,10 +126,10 @@ export class ViewemployeesComponent {
   employeeId: number;
   bloodgroups: LookupViewDto[] = [];
   mediumDate: string = MEDIUM_DATE;
-  countries:any
+  countries: any
 
 
- 
+
   ShowEducationDetails() {
     this.Education = true;
     this.fbEducationDetails.reset();
@@ -168,27 +171,11 @@ export class ViewemployeesComponent {
       { name: 'Female', code: 'FM' },
       { name: 'Male', code: 'M' },
     ];
-    // this.shifts = [
-    //   { type: 'Day Shift', code: 'DS' },
-    //   { type: 'Night Shift', code: 'NS' },
-    // ];
-    this.status = [
+    this.status =[
       { name: 'Married', code: 'DS' },
-      { name: 'Un Married', code: 'NS' },
-      { name: 'Single', code: 'SN' },
-    ];
-    // this.designation = [
-    //   { name: 'UI Developer', code: 'UD' },
-    //   { name: 'BackEnd Developer', code: 'BD' },
-    //   { name: 'FrontEnd Developer', code: 'FD' },
-    // ];
-    this.skillSets = [
-      { name: 'Angular', code: 'AG' },
-      { name: 'C#', code: 'C' },
-      { name: 'MS Sql', code: 'MS' },
-      { name: 'React', code: 'RE' },
-      { name: 'Python', code: 'PY' },
-    ];
+        { name: 'Un Married', code: 'NS' },
+        { name: 'Single', code: 'SN' },
+    ]
     this.relationshipStatus = [
       { name: 'Father', code: 'father' },
       { name: 'Mother', code: 'mother' },
@@ -214,7 +201,7 @@ export class ViewemployeesComponent {
     });
   }
 
-  
+
 
   ngOnInit(): void {
     this.initEducation();
@@ -246,10 +233,11 @@ export class ViewemployeesComponent {
     this.initviewAssets()
   }
 
+// EMPLOYEE Basic details
+
   EmpBasicDtlsForm() {
     this.fbEmpBasDtls = this.formbuilder.group({
       employeeId: new FormControl('', [Validators.required]),
-      // employeeName: new FormControl('', [Validators.required]),
       firstName: new FormControl('', [Validators.required]),
       middleName: new FormControl('',),
       lastName: new FormControl('', [Validators.required]),
@@ -264,7 +252,7 @@ export class ViewemployeesComponent {
       emailId: new FormControl('', [Validators.required]),
       isActive: (''),
       signDate: (''),
-      photo:[]
+      photo: []
     });
   }
 
@@ -277,7 +265,6 @@ export class ViewemployeesComponent {
   initViewEmpDtls() {
     this.employeeService.GetViewEmpPersDtls(this.employeeId).subscribe((resp) => {
       this.employeePrsDtls = resp as unknown as EmployeeBasicDetailViewDto;
-      console.log('this.employeePrsDtls', this.employeePrsDtls);
     });
   }
 
@@ -324,16 +311,19 @@ export class ViewemployeesComponent {
       callback(base64String);
     };
   }
+
+
+  // Employee OFFICE DETAils
+
+
   OfficDtlsForm() {
     this.fbOfficDtls = this.formbuilder.group({
-      // employeeInceptionId :(null),
       employeeId: (null),
       strTimeIn: new FormControl('', [Validators.required]),
       strTimeOut: new FormControl('', [Validators.required]),
       officeEmailId: new FormControl('', [Validators.required]),
       dateofJoin: new FormControl('', [Validators.required]),
       reportingToId: new FormControl('', [Validators.required]),
-      // projectName: new FormControl('', [Validators.required]),
       isPfeligible: new FormControl(''),
       isEsieligible: new FormControl(''),
       isActive: (''),
@@ -347,7 +337,7 @@ export class ViewemployeesComponent {
     });
   }
 
-  showEmpOfficDtlsDialog(employeeOfficeDtls:EmployeeOfficedetailsviewDto) {
+  showEmpOfficDtlsDialog(employeeOfficeDtls: EmployeeOfficedetailsviewDto) {
     this.employeeofficDtl = employeeOfficeDtls;
     this.employeeofficDtl.strTimeIn = employeeOfficeDtls.timeIn?.substring(0, 5);
     this.employeeofficDtl.strTimeOut = employeeOfficeDtls.timeOut?.substring(0, 5);
@@ -356,15 +346,12 @@ export class ViewemployeesComponent {
     this.employeeofficDtl.isEsieligible = employeeOfficeDtls.isESIEligible;
     this.employeeofficDtl.isActive = true;
     this.fbOfficDtls.patchValue(this.employeeofficDtl);
-    console.log(this.employeeofficDtl)
     this.officedialog = true;
   }
-  
-  saveEmpOfficDtls(){
-    debugger
+
+  saveEmpOfficDtls() {
     this.employeeService.updateViewEmpOfficDtls(this.fbOfficDtls.value).subscribe((resp) => {
       if (resp) {
-        console.log(resp);       
         this.initofficeEmpDtls();
         this.officedialog = false;
         this.fbOfficDtls.reset();
@@ -375,6 +362,8 @@ export class ViewemployeesComponent {
       }
     })
   }
+
+
   initUploadedDocuments() {
     this.employeeService.GetUploadedDocuments(this.employeeId).subscribe((resp) => {
       this.UploadedDocuments = resp as unknown as any[];
@@ -447,10 +436,10 @@ export class ViewemployeesComponent {
       isActive: bank.isActive
     });
     console.log(bank)
-;
+      ;
     this.bankDetails = true;
   }
-  
+
   saveBankDetails() {
     const formValue = { ...this.fbBankDetails.value, employeeId: this.employeeId };
     const isUpdate = this.fbBankDetails.value.bankId !== null;
@@ -459,7 +448,7 @@ export class ViewemployeesComponent {
         const alertCode = isUpdate ? "SMBD002" : "SMBD001";
         this.alertMessage.displayAlertMessage(ALERT_CODES[alertCode]);
         this.initBankDetails();
-       
+
         this.bankDetails = false;
       }
     });
@@ -576,7 +565,7 @@ export class ViewemployeesComponent {
       ]),
     });
   }
- 
+
   generateEducationRow(): FormGroup {
     return this.formbuilder.group({
       course: new FormControl(''),
@@ -598,7 +587,7 @@ export class ViewemployeesComponent {
   faFamilyDetail(): FormArray {
     return this.fbfamilyDetails.get('familyDetails') as FormArray;
   }
-  
+
   addFamilyMembers() {
     this.fafamilyDetails = this.fbfamilyDetails.get('familyDetails') as FormArray;
     this.fafamilyDetails.push(this.generateFamilyDetailsRow());
