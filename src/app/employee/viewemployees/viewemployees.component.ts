@@ -6,12 +6,17 @@ import { Address, Employee, familyDetailViewDto } from 'src/app/demo/api/securit
 import { SecurityService } from 'src/app/demo/service/security.service';
 import { LookupViewDto } from 'src/app/_models/admin';
 // import { EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsviewDto,  } from 'src/app/_models/employes';
-import { BankDetailDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsViewDto } from 'src/app/_models/employes';
+import {  BankDetailViewDto, BankDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { LookupService } from 'src/app/_services/lookup.service';
 import { AssetAllotmentViewDto } from 'src/app/_models/admin/assetsallotment';
 import { AdminService } from 'src/app/_services/admin.service';
 import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
+import { MaxLength } from 'src/app/_models/common';
+import { MIN_LENGTH_2, MIN_LENGTH_8, RG_ALPHA_ONLY, RG_IFSC, RG_NUMERIC_ONLY } from 'src/app/_shared/regex';
+import { Observable } from 'rxjs';
+import { HttpEvent } from '@angular/common/http';
+import { ALERT_CODES, AlertmessageService } from 'src/app/_alerts/alertmessage.service';
 export class Experience {
   id?: number;
   companyName?: string;
@@ -78,7 +83,9 @@ export class ViewemployeesComponent {
   faexperienceDetails!: FormArray;
   UploadedDocuments: any[];
   bankDetails: boolean = false;
-  bankDetails1: BankDetailDto[];
+  bankDetail: BankDetailsDto[];
+  bankDetails1: BankDetailViewDto[];
+  selectedBankId: number | null = null;
   officeDtls: any[];
   assetAllotments: AssetAllotmentViewDto[] = [];
   color: string = 'bluegray';
@@ -88,7 +95,6 @@ export class ViewemployeesComponent {
   visible: boolean = false;
   Experience: boolean = false;
   Family: boolean = false;
-  bankDetailsshow: boolean = false;
   Documents: boolean = false;
   ShoweducationDetails: boolean = false;
   ShowexperienceDetails: boolean = false;
@@ -106,6 +112,8 @@ export class ViewemployeesComponent {
   uploadedFiles: any[] = [];
   selectedOption: string;
   inputValue: string;
+  maxLength: MaxLength = new MaxLength();
+  addFlag: boolean = true;
 
  
  
@@ -201,7 +209,8 @@ export class ViewemployeesComponent {
     private lookupService: LookupService,
     private employeeService: EmployeeService,
     private activatedRoute: ActivatedRoute,
-    private adminService: AdminService
+    private adminService: AdminService,
+    private alertMessage:AlertmessageService
   ) { }
 
   initStates() {
@@ -215,7 +224,7 @@ export class ViewemployeesComponent {
     this.Data();
     this.initEducation();
     this.EmpBasicDtlsForm();
-    this.BankdetailsForm;
+    this.bankDetailsForm();
     this.OfficDtlsForm();
     this.initEducation();
     this.addEducationDetails();
@@ -320,6 +329,7 @@ export class ViewemployeesComponent {
 
   onClose() {
     this.fbEmpBasDtls.reset();
+    this.fbBankDetails.reset();
     this.dialog = false;
   }
   OfficDtlsForm() {
@@ -381,19 +391,70 @@ export class ViewemployeesComponent {
     });
   }
 
-  BankdetailsForm() {
-    this.fbBankDetails = this.formbuilder.group({
-      AccountNo: new FormControl('', [Validators.required]),
-      IFSCCode: new FormControl('', [Validators.required]),
-      BranchName: new FormControl('', [Validators.required]),
-    });
-  }
   initBankDetails() {
     this.employeeService.GetBankDetails(this.employeeId).subscribe((resp) => {
-      this.bankDetails1 = resp as unknown as BankDetailDto[];
+      this.bankDetails1 = resp as unknown as BankDetailViewDto[];
       console.log('this.BankDetails', this.bankDetails1);
     });
   }
+  bankDetailsForm() {
+    this.fbBankDetails = this.formbuilder.group({
+      bankId: [0],
+      employeeId: this.employeeId,
+      name: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
+      branchName: new FormControl('', [Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
+      ifsc: new FormControl('', [Validators.required, Validators.pattern(RG_IFSC)]),
+      accountNumber: new FormControl('', [Validators.required, Validators.pattern(RG_NUMERIC_ONLY), Validators.minLength(MIN_LENGTH_8)]),
+      isActive: new FormControl(true)
+    });
+
+  }
+  get FormControls() {
+    return this.fbBankDetails.controls;
+  }
+
+  editBankDetails(index: number) {
+    const bank = this.bankDetails1[index];
+    this.fbBankDetails.patchValue({
+      bankId: bank.bankDetailId,
+      employeeId: bank.employeeId,
+      name: bank.bankName,
+      branchName: bank.branchName,
+      ifsc: bank.ifsc,
+      accountNumber: bank.accountNumber,
+      isActive: bank.isActive
+    });
+    console.log(bank);
+    this.bankDetails = true;
+  }
+  
+  saveBankDetails() {
+
+    const formValue = { ...this.fbBankDetails.value, employeeId: this.employeeId }; 
+    this.employeeService.CreateBankDetails(formValue).subscribe((resp) => {
+      if (resp) {
+        this.initBankDetails();
+        this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "SMBD001" : "SMBD002"]);
+        this.onClose();
+        this.bankDetails = false;
+        // if (this.addFlag) {
+        //   this.alertMessage.displayAlertMessage(ALERT_CODES["AAS001"]);
+        // } else {
+        //   this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag1 ? "AAS003" : "AAS002"]);
+        // }
+      }
+      else {
+        // this.alertMessage.displayErrorMessage(ALERT_CODES["AAS004"])
+      }
+    })
+  }
+
+  restrictSpaces(event: KeyboardEvent) {
+    if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {
+      event.preventDefault();
+    }
+  }
+
   saveEducationDetails() {
     if (this.fbEducationDetails.valid) {
       const educationData = this.fbEducationDetails.value;

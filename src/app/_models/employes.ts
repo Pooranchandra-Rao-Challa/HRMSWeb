@@ -30,7 +30,17 @@ export class EmployeeBasicDetailDto {
 	isActive?: boolean;
 }
 
-export class BankDetailDto {
+export class BankDetailViewDto {
+	bankId?: number;
+	employeeId?: number;
+	bankName?: string;
+	branchName?: string;
+	ifsc?: string;
+	accountNumber?: number;
+	isActive?: boolean;
+	bankDetailId?: number;
+}
+export class BankDetailsDto {
 	bankId?: number;
 	employeeId?: number;
 	name?: string;
@@ -39,6 +49,7 @@ export class BankDetailDto {
 	accountNumber?: number;
 	isActive?: boolean;
 }
+
 export class UploadDocuments{
 	uploadDocumentId?:number;
 	employeeId?:number;
