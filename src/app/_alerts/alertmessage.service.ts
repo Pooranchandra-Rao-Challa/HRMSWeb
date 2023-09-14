@@ -83,7 +83,7 @@ export const ALERT_CODES: { [key: string]: string } = {
     // change password
     'SSECP001': 'Password Updated Successfully',
     'ESECP001': 'Invalid Current Password',
-     //Roles
+    //Roles
     'SMR001': 'Role Added Successfully',
     'SMR002': 'Role Updated Successfully',
 
@@ -92,10 +92,10 @@ export const ALERT_CODES: { [key: string]: string } = {
     'SSESQ002': 'Security Questions Updated Faild',
     'SSESQ003': 'Security Questions Added Successfully',
 
-     //Projects
-     'PAS001': 'Project Added Successfully',
+    //Projects
+    'PAS001': 'Project Added Successfully',
     'PAS002': 'Project Updated Successfully',
-    'SMEUA001':'Employee Unassigned Successfully',
+    'SMEUA001': 'Employee Unassigned Successfully',
     //Users
     'SMU002': 'User Updated Successfully',
     'SMU001': "User Has Been Successfully Soft Deleted",
@@ -125,10 +125,24 @@ export const ALERT_CODES: { [key: string]: string } = {
     //Basic Details
     'SBD001': 'Basic Details Added Successfully',
     'SBD002': 'Basic Details Not Added',
+
+    //Address Details
+    'SAD001': 'Address Details Added Successfully',
+    'SAD002': 'Address Details Not Added',
+
+    'SAP001':'Permanent address already Existed',
+    'SAC001':'Current address already Existed',
+    // View Employee Basic Details
+    'EVEBD001' :'Basic Details Updated Successfully',
+    'EVEBD002' :'Basic Details Updated Faild',
+
+    // View Employee Office Details
+    'EVEOFF001' :'Office Details Updated Successfully',
+    'EVEOFF002' :'Office Details Updated Faild',
      //Bank Details
     'SMBD001': 'Bank Details Added Successfully',
     'SMBD002': 'Bank Details Update Successfully'
 
    
 }
-    
+
