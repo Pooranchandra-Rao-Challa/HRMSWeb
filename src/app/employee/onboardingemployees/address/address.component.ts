@@ -156,6 +156,10 @@ export class AddressComponent {
       this.initAddress();
       if(res){
         this.alertMessage.displayAlertMessage(ALERT_CODES["SAD001"]);
+        this.navigateToNext();
+      }
+      else{
+        this.alertMessage.displayErrorMessage(ALERT_CODES["SAD001"]);
       }
     });
   }

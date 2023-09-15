@@ -134,9 +134,15 @@ export const ALERT_CODES: { [key: string]: string } = {
     //Address Details
     'SAD001': 'Address Details Added Successfully',
     'SAD002': 'Address Details Not Added',
-
     'SAP001':'Permanent address already Existed',
     'SAC001':'Current address already Existed',
+    //Enroll Employee
+    
+    'SEE001': 'Employee Enrolled Successfully',
+    'SEE002': 'Employee Not Enrolled',
+    //Experience Details
+    'SED001': 'Experience Details Added Successfully',
+    'SED002': 'Experience Details Not Added',
     // View Employee Basic Details
     'EVEBD001' :'Basic Details Updated Successfully',
     'EVEBD002' :'Basic Details Updated Faild',
