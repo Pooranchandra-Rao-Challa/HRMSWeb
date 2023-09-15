@@ -75,7 +75,7 @@
                 <div class="field col-12 md:col-4">
                     <span class="p-float-label">
                         <input type="text" id="adhaar_No" pInputText formControlName="adhaarNo" numericOnly
-                            [maxLength]="12"
+                            [maxLength]="12" #adhaarno
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['adhaarNo'].touched && FormControls['adhaarNo'].errors }" />
                         <label class="required">Adhaar No.</label>
                     </span>
@@ -86,6 +86,9 @@
                                     *ngIf="FormControls['adhaarNo'].errors?.['required']">
                                     Please Enter Adhaar No.</div>
                             </span>
+                        </div>
+                        <div class="align-right w-40" style="width:30%; text-align:right;">
+                            <small>{{adhaarno.value.length}}/{{maxLength.aadhaarNo}} </small>
                         </div>
                     </div>
                 </div>

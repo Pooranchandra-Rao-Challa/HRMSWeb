@@ -29,7 +29,17 @@ export class EmployeeBasicDetailDto {
 	signDate?: Date;
 	isActive?: boolean;
 }
-
+export class EducationDetailsDto{
+	educationDetailId?:number;
+	employeeId?:number;
+	streamId?:number;
+	stateId?:number;
+	institutionName?:string;
+	authorityName?:string;
+	passedOutyear?:string;
+	gradingMethodId?:string;
+	gradingValue?:string;
+}
 export class FamilyDetailsDto {
 	familyInformationId?: number;
 	employeeId?: number;
