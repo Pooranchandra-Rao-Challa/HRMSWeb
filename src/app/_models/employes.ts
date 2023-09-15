@@ -208,23 +208,26 @@ export class EmployeAdressViewDto {
 }
 
 export class FamilyDetailsViewDto {
-	employeeId?: number
-	employeeName?: string
-	code?: string
-	familyInformationId?: number
-	name?: string
-	relationshipId?: number
-	relationship?: string
-	addressId?: number
-	addressLine1?: string
-	city?: string
-	stateId?: number
-	state?: string
-	mobileNumber?: string
-	isNominee?: boolean
-	createdAt?: string
-	createdBy?: string
-	updatedAt?: string
-	updatedBy?: string
+	employeeId: number;
+	employeeName: string;
+	code: string;
+	familyInformationId: number;
+	name: string;
+	adhaarNo: string;
+	panNo: string | null;
+	dob: Date;
+	relationshipId: number;
+	relationship: string;
+	addressId: number;
+	addressLine1: string;
+	city: string;
+	stateId: number;
+	state: string;
+	mobileNumber: string;
+	isNominee: boolean;
+	createdAt: Date;
+	createdBy: string;
+	updatedAt: Date;
+	updatedBy: string;
 }
 
