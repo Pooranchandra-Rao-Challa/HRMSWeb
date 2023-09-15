@@ -90,7 +90,6 @@ export class ViewemployeesComponent {
   bankDetails1: BankDetailViewDto[];
   officeDtls: any[];
   assetAllotments: AssetAllotmentViewDto[] = [];
-  color: string = 'bluegray';
   size: string = 'M';
   liked: boolean = false;
   dialog: boolean = false;
@@ -186,7 +185,6 @@ export class ViewemployeesComponent {
     ];
   }
   constructor(
-    private securityService: SecurityService,
     private formbuilder: FormBuilder,
     private lookupService: LookupService,
     private employeeService: EmployeeService,
@@ -204,6 +202,7 @@ export class ViewemployeesComponent {
 
 
   ngOnInit(): void {
+    this.Data();
     this.initEducation();
     this.EmpBasicDtlsForm();
     this.bankDetailsForm();
