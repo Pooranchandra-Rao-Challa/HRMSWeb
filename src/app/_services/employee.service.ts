@@ -1,17 +1,21 @@
 import { Injectable } from '@angular/core';
 
 import {
+   CREATE_EXPERIENCE_URI, ENROLL_URI,
   CREATE_ADDRESS_URI, CREATE_BANK_DETAILS_URI, CREATE_BASIC_DETAILS_URI, CREATE_DOCUMENTS_URI, CREATE_EDUCATION_DETAILS_URI, CREATE_FAMILY_DETAILS_URI, GET_ADDRESS_BASED_ON_ID_URI, GET_BANKDETAILS_URI,
   GET_COUNTRIES_URI,
+  GET_DESIGNATION_URI,
   GET_EDUCATION_DETAILS_URI, GET_EMPLOYEES_URI, GET_EMPLOYEE_BASED_ON_ID_URI, GET_GETFAMILYDETAILS_URI, GET_GETUPLOADEDDOCUMENTS_URI, GET_OFFICE_DETAILS_URI,
+  GET_SKILL_AREA_URI,
 
   GET_STATES_URI,
 
   GET_WORKEXPERIENCE_URI,
+  UPDATE_EDUCATION_DETAILS,
   UPDATE_EMPLOYEE_BASED_ON_ID_URI,
   UPDATE_OFFICE_DETAILS_URI
 } from './api.uri.service';
-import { AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments } from '../_models/employes';
+import {  Designation,  ExperienceDetailsDto,SkillArea,AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments } from '../_models/employes';
 
 import { ApiHttpService } from './api.http.service';
 
@@ -39,6 +43,12 @@ export class EmployeeService extends ApiHttpService {
   public CreateAddress(addressDetails: AddressDetailsDto[]) {
     return this.post<AddressDetailsDto>(CREATE_ADDRESS_URI, addressDetails)
   }
+  public CreateExperience(experienceDetails: ExperienceDetailsDto[]) {
+    return this.post<AddressDetailsDto>(CREATE_EXPERIENCE_URI, experienceDetails)
+  }
+  public EnrollUser(employeeId:number){
+    return this.post(ENROLL_URI,employeeId)
+  }
   //Bank Details of Employee
   public CreateBankDetails(bankdetails: BankDetailsDto) {
     return this.post<BankDetailsDto>(CREATE_BANK_DETAILS_URI, bankdetails);
@@ -52,6 +62,12 @@ export class EmployeeService extends ApiHttpService {
   }
   public Getstates() {
     return this.get<States>(GET_STATES_URI);
+  }
+  public GetDesignation() {
+    return this.get<Designation>(GET_DESIGNATION_URI);
+  }
+  public GetSkillArea() {
+    return this.get<SkillArea>(GET_SKILL_AREA_URI);
   }
   public GetCountries() {
     return this.get<Countries>(GET_COUNTRIES_URI);
@@ -92,7 +108,11 @@ export class EmployeeService extends ApiHttpService {
   }
 
   public updateViewEmpOfficDtls(empOfficDtls: EmployeeOfficedetailsDto) {
-    debugger
     return this.post<EmployeeOfficedetailsDto>(UPDATE_OFFICE_DETAILS_URI, empOfficDtls);
+  }
+
+  public updateViewEmpEduDtls(empEduDtls: EducationDetailsDto) {
+    debugger
+    return this.post<EducationDetailsDto>(UPDATE_EDUCATION_DETAILS, empEduDtls);
   }
 }
