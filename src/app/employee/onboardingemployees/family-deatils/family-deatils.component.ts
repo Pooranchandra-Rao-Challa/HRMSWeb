@@ -139,7 +139,9 @@ export class FamilyDeatilsComponent implements OnInit {
   }
   onSubmit() {
     if (this.addFlag) {
+      debugger
       this.save();
+      this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "SFD001" : "SFD002"]);
     }
     else {
       this.fbfamilyDetails.markAllAsTouched();
@@ -149,9 +151,7 @@ export class FamilyDeatilsComponent implements OnInit {
     this.savefamilyDetails().subscribe(resp => {
       console.log(resp);
       // this.employeeId = resp;
-      this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "SFD001" : "SFD002"]);
-
-      this.navigateToNext()
+      this.navigateToNext();
     })
 
   }

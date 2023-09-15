@@ -70,33 +70,34 @@ export class AddressComponent {
     if (this.fbAddressDetails.invalid) {
       return;
     }
-    this.save();
     let count = 0;
     let count1 = 0;
-    const addressArray = this.fbAddressDetails.get('addressDetails').value;
-    const length = addressArray.length;
-    console.log(addressArray)
+    let addressArray = this.fbAddressDetails.get('addressDetails').value;
+    let length = addressArray.length;
+   
+    debugger
     if (length > 0) {
-      addressArray.forEach((control, index) => {
-        console.log(control);
-        
-        if (control.addressType == "PermanentAddress") {
+      addressArray.forEach((control, index) => {        
+        if (control.addressType == "PermanentAddress"&& this.fbAddressDetails.get('addressType').value=="PermanentAddress") {
           count++;
         }
-        if (control.addressType == "CurrentAddress") {
+        if (control.addressType == "CurrentAddress" && this.fbAddressDetails.get('addressType').value=="CurrentAddress") {
           count1++;
         }
       });
-      if (count >= 2) {
-        this.alertMessage.displayErrorMessage(ALERT_CODES["SAP001"]);
+      if (count >= 1 || count1 >= 1) {
+        this.alertMessage.displayErrorMessage(count>=1?ALERT_CODES["SAP001"]:ALERT_CODES['SAC001']);
+        this.fbAddressDetails.get('addressType')?.setValue('');
         this.fbAddressDetails.markAllAsTouched();
       }
-      else if (count1 >= 2) {
-        this.alertMessage.displayErrorMessage(ALERT_CODES["SAC001"]);
-        this.fbAddressDetails.markAllAsTouched();
+      else{
+        this.save();
       }
     }
-
+    else{
+      this.save();
+    }
+    
   }
 
   save() {

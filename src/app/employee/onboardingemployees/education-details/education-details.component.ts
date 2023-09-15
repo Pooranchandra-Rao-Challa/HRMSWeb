@@ -33,14 +33,16 @@ export class EducationDetailsComponent implements OnInit {
     });
     console.log(this.employeeId)
     this.fbEducationDetails = this.formbuilder.group({
-      course: new FormControl(''),
-      state: new FormControl(''),
-      school: new FormControl(''),
-      board: new FormControl(''),
-      stream: new FormControl(''),
-      yearofpass: new FormControl(''),
-      gradingsystem: new FormControl(''),
-      cgpa: new FormControl(''),
+      educationDetailId: [],
+      employeeId:[],
+      circulumId:new FormControl('',[Validators.required]),
+      streamId:new FormControl('',[Validators.required]),
+      stateId:new FormControl('',[Validators.required]),
+      institutionName:new FormControl(''),
+      authorityName:new FormControl(''),
+      passedOutyear:new FormControl(''),
+      gradingMethodId :new FormControl(''),
+      gradingValue :new FormControl('')
     });
   }
 

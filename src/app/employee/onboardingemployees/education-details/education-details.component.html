@@ -4,45 +4,59 @@
             <div class="p-fluid p-formgrid grid">
                 <div class="field col-12 md:col-4">
                     <span class="p-float-label">
-                        <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [options]="Courses"
-                            formControlName="course" optionLabel="name"></p-dropdown>
-                        <label for="inputtext">Course<sup class="p-error">*</sup></label>
-                    </span>
-
-                </div>
-                <div class="field col-12 md:col-4">
-                    <span class="p-float-label">
-                        <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [options]="States"
-                            formControlName="state" optionLabel="name"></p-dropdown>
-                        <label for="dropdown">State<sup class="p-error">*</sup></label>
-                    </span>
-
-                </div>
-                <div class="field col-12 md:col-4">
-                    <span class="p-float-label">
-                        <input type="text" id="inputtext" pInputText formControlName="school" />
+                        <input type="text" id="institute_Name" pInputText formControlName="institutionName" #institutename />
                         <label for="inputtext">School/College Name<sup class="p-error">*</sup></label>
                     </span>
-
+                    <!-- <div class="flex">
+                        <div class="align-left w-60" style="width:70%">
+                            <span *ngIf="FormControls['name'].touched && FormControls['name'].invalid">
+                                <div class="ng-invalid ng-touched p-error"
+                                    *ngIf="FormControls['name'].errors?.['required']">
+                                    Please Enter Institue Name.</div>
+                                <div class="ng-invalid ng-touched p-error"
+                                    *ngIf="FormControls['name'].errors?.['minlength']">
+                                    Institue Name Min Length Is 2.</div>
+                            </span>
+                        </div>
+                        <div class="align-right w-40" style="width:30%; text-align:right;">
+                            <small>{{institutename.value.length}}/{{maxLength.name}} </small>
+                        </div>
+                    </div> -->
                 </div>
                 <div class="field col-12 md:col-4">
                     <span class="p-float-label">
-                        <input type="text" id="inputtext" pInputText formControlName="board">
+                        <input type="text" id="inputtext" pInputText formControlName="authorityName">
                         <label for="inputtext">Board/University Name<sup class="p-error">*</sup></label>
                     </span>
 
                 </div>
                 <div class="field col-12 md:col-4">
                     <span class="p-float-label">
-                        <input type="text" id="inputtext" pInputText formControlName="stream">
-                        <label for="inputtext">Stream<sup class="p-error">*</sup></label>
+                        <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [options]="Courses"
+                           optionLabel="name" formControlName="circulumId"></p-dropdown>
+                        <label for="inputtext">Course<sup class="p-error">*</sup></label>
+                    </span>
+
+                </div>
+                <div class="field col-12 md:col-4">
+                    <span class="p-float-label">
+                        <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [options]="Courses"
+                        optionLabel="name" formControlName="streamId"></p-dropdown>
+                     <label for="inputtext">Stream<sup class="p-error">*</sup></label>
+                    </span>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <span class="p-float-label">
+                        <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [options]="States"
+                            formControlName="stateId" optionLabel="name"></p-dropdown>
+                        <label for="dropdown">State<sup class="p-error">*</sup></label>
                     </span>
 
                 </div>
                 <div class="field col-12 md:col-4">
                     <span class="p-float-label">
                         <p-calendar [yearNavigator]="true" [yearRange]="'1996:2025'" [readonlyInput]="true"
-                            [showIcon]="true" dateFormat="yy" formControlName="yearofpass">
+                            [showIcon]="true" dateFormat="yy" formControlName="passedOutyear">
                         </p-calendar>
                         <label for="inputtext">Year of pass<sup class="p-error">*</sup></label>
                     </span>
@@ -50,14 +64,14 @@
                 </div>
                 <div class="field col-12 md:col-4">
                     <span class="p-float-label">
-                        <input type="text" id="inputtext" pInputText formControlName="gradingsystem">
+                        <input type="text" id="inputtext" pInputText formControlName="gradingMethodId">
                         <label for="inputtext">Grading System<sup class="p-error">*</sup></label>
                     </span>
 
                 </div>
                 <div class="field col-12 md:col-4">
                     <span class="p-float-label">
-                        <input type="text" id="inputtext" pInputText formControlName="cgpa">
+                        <input type="text" id="inputtext" pInputText formControlName="gradingValue">
                         <label for="inputtext">CGPA/Percentage System<sup class="p-error">*</sup></label>
                     </span>
 
