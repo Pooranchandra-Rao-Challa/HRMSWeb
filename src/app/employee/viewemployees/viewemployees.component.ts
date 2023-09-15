@@ -6,15 +6,17 @@ import { Address, Employee, familyDetailViewDto } from 'src/app/demo/api/securit
 import { SecurityService } from 'src/app/demo/service/security.service';
 import { LookupViewDto } from 'src/app/_models/admin';
 // import { EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsviewDto,  } from 'src/app/_models/employes';
-import { BankDetailViewDto, Countries, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsViewDto } from 'src/app/_models/employes';
+import { BankDetailViewDto, Countries, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, FamilyDetailsViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { LookupService } from 'src/app/_services/lookup.service';
 import { AssetAllotmentViewDto } from 'src/app/_models/admin/assetsallotment';
 import { AdminService } from 'src/app/_services/admin.service';
-import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
+import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
-import { MAX_LENGTH_256, MIN_LENGTH_2, MIN_LENGTH_8, RG_ALPHA_ONLY, RG_IFSC, RG_NUMERIC_ONLY } from 'src/app/_shared/regex';
+import { MAX_LENGTH_256, MIN_LENGTH_2, MIN_LENGTH_8, RG_ALPHA_ONLY, RG_IFSC, RG_NUMERIC_ONLY, RG_PANNO, RG_PHONE_NO } from 'src/app/_shared/regex';
 import { MaxLength } from 'src/app/_models/common';
+import { Observable } from 'rxjs';
+import { HttpEvent } from '@angular/common/http';
 export class Experience {
   id?: number;
   companyName?: string;
@@ -107,7 +109,7 @@ export class ViewemployeesComponent {
   employees: Employee[] = [];
   genders: Gender[];
   shifts: Shift[];
-
+  relationships: LookupViewDto[] = [];
   designation: Designation[];
   valRadio: string;
   skillSets!: Skills[];
@@ -127,8 +129,6 @@ export class ViewemployeesComponent {
   mediumDate: string = MEDIUM_DATE;
   countries: any
 
-
-
   ShowEducationDetails() {
     this.Education = true;
     this.fbEducationDetails.reset();
@@ -139,10 +139,12 @@ export class ViewemployeesComponent {
   }
   showFamilyDetails() {
     this.Family = true;
+    this.submitLabel = "Add Family Details";
     this.fbfamilyDetails.reset();
   }
   showBankDetails() {
     this.bankDetails = true;
+    this.submitLabel = "Add Bank Details"
     this.fbBankDetails.reset();
   }
   showAddressDetails() {
@@ -194,28 +196,20 @@ export class ViewemployeesComponent {
     private alertMessage: AlertmessageService,
   ) { }
 
-
-
-
   ngOnInit(): void {
     this.getemployeeview();
     this.Data();
-    this.initEducation();
     this.EmpBasicDtlsForm();
     this.bankDetailsForm();
+    this.initFamily();
     this.OfficDtlsForm();
     this.initEducation();
     this.addEducationDetails();
     this.initExperience();
     this.addexperienceDetails();
-    this.initFamily();
-    this.addFamilyMembers();
     this.initAddress();
     this.initStates();
-    this.initGetAddress()
-    this.initCountries()
     this.initBloodGroups()
-    
   }
 
   getemployeeview() {
@@ -225,7 +219,9 @@ export class ViewemployeesComponent {
     this.initGetEducationDetails();
     this.initGetWorkExperience();
     this.initGetFamilyDetails();
-    this.initGetAddress
+    this.initGetAddress();
+    this.initStates();
+    this.initCountries()
    this.initUploadedDocuments();
     this.initBankDetails();
     this.initviewAssets()
@@ -309,11 +305,7 @@ export class ViewemployeesComponent {
       callback(base64String);
     };
   }
-
-
   // Employee OFFICE DETAils
-
-
   OfficDtlsForm() {
     this.fbOfficDtls = this.formbuilder.group({
       employeeId: (null),
@@ -360,8 +352,6 @@ export class ViewemployeesComponent {
       }
     })
   }
-
-
   initUploadedDocuments() {
     this.employeeService.GetUploadedDocuments(this.employeeId).subscribe((resp) => {
       this.UploadedDocuments = resp as unknown as any[];
@@ -433,11 +423,9 @@ export class ViewemployeesComponent {
       accountNumber: bank.accountNumber,
       isActive: bank.isActive
     });
-    console.log(bank)
-      ;
+    this.submitLabel = "Update Bank Details"
     this.bankDetails = true;
   }
-
   saveBankDetails() {
     const formValue = { ...this.fbBankDetails.value, employeeId: this.employeeId };
     const isUpdate = this.fbBankDetails.value.bankId !== null;
@@ -446,12 +434,10 @@ export class ViewemployeesComponent {
         const alertCode = isUpdate ? "SMBD002" : "SMBD001";
         this.alertMessage.displayAlertMessage(ALERT_CODES[alertCode]);
         this.initBankDetails();
-
         this.bankDetails = false;
       }
     });
   }
-
   restrictSpaces(event: KeyboardEvent) {
     if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {
       event.preventDefault();
@@ -510,21 +496,19 @@ export class ViewemployeesComponent {
       console.log(this.states)
     })
   }
-  initCountries() {
-    this.employeeService.GetCountries().subscribe((resp) => {
-      this.countries = resp as unknown as Countries[];
-    })
+  initCountries(): Promise<void> {
+    return new Promise<void>((resolve) => {
+      this.employeeService.GetCountries().subscribe((resp) => {
+        this.countries = resp as unknown as Countries[];
+        console.log('this.countries', this.countries);
+        
+        resolve();
+      });
+    });
   }
-
-  onSelectState(e) {
-    this.fbAddressDetails.get('State')?.setValue(e.value.lookupDetailId);
-  }
-  onSelectCountry(e) {
-    this.fbAddressDetails.get('Country')?.setValue(e.value.lookupDetailId);
-  }
-
   editAddress(index: number) {
     const address = this.address[index];
+    this.initCountries()
     this.fbAddressDetails.patchValue({
       addressId: address.addressId,
       employeeId: address.employeeId,
@@ -533,7 +517,7 @@ export class ViewemployeesComponent {
       landmark: address.landmark,
       zipcode: address.zipCode,
       city: address.city,
-      stateId: address.stateId, // Assuming stateId is correct
+      stateId: address.stateId,
       countryId: address.countryId, // Assuming countryId is correct
       addressType: address.addressType,
       isActive: address.isActive
@@ -541,7 +525,7 @@ export class ViewemployeesComponent {
     this.submitLabel = "Update Adress";
     console.log(address);
     this.Address = true;
-
+   
   }
   saveAddress() {
     const formValue = { ...this.fbAddressDetails.value, employeeId: this.employeeId };
@@ -550,23 +534,29 @@ export class ViewemployeesComponent {
     if (!isUpdate) {
       formValue.isActive = true;
     }
-    this.employeeService.CreateAddress(formValue).subscribe((resp) => {
+    this.employeeService.CreateAddress([formValue]).subscribe((resp) => {
       if (resp) {
         const alertCode = isUpdate ? "SMBD002" : "SMBD001";
         this.alertMessage.displayAlertMessage(ALERT_CODES[alertCode]);
         this.initAddress();
+       this.initGetAddress()
         this.Address = false;
       }
     });
   }
+  
   initFamily() {
     this.fbfamilyDetails = this.formbuilder.group({
-      name: new FormControl('', [Validators.required]),
-      relationShip: new FormControl('', [Validators.required]),
-      mobileNo: new FormControl('', [Validators.required]),
-      Address: new FormControl('', [Validators.required]),
-      Nominee: new FormControl(true, [Validators.required]),
-      familyDetails: this.formbuilder.array([]),
+      familyInformationId: [],
+      employeeId: [],
+      name: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2)]),
+      relationshipId: new FormControl(null, [Validators.required]),
+      addressId: new FormControl(),
+      dob: new FormControl('', [Validators.required]),
+      adhaarNo: new FormControl('', [Validators.required]),
+      panno: new FormControl('', [Validators.pattern(RG_PANNO)]),
+      mobileNumber: new FormControl('', [Validators.required, Validators.pattern(RG_PHONE_NO)]),
+      isNominee: new FormControl(true),
     });
   }
   initGetFamilyDetails() {
@@ -575,7 +565,52 @@ export class ViewemployeesComponent {
       console.log('this.familyDetails', this.familyDetails);
     });
   }
+  initRelationship() {
+    this.lookupService.Relationships().subscribe((resp) => {
+      this.relationships = resp as unknown as LookupViewDto[];
+      console.log('this.relationships', this.familyDetails);
+    });
+  }
+  get familyFormControls() {
+    return this.fbfamilyDetails.controls;
+  }
+  editFamilyDetails(index: number) {
+    const familyDetails = this.familyDetails[index];
+    this.initRelationship()
+    this.initGetAddress()
+    this.fbfamilyDetails.patchValue({
+      familyInformationId: familyDetails.familyInformationId,
+      employeeId: familyDetails.employeeId,
+      name: familyDetails.name,
+      relationshipId: familyDetails.relationshipId,
+      addressId: familyDetails.addressId,
+      dob: FORMAT_DATE(new Date(familyDetails.dob)),
+      adhaarNo: familyDetails.adhaarNo,
+      panno: familyDetails.panNo,
+      mobileNumber: familyDetails.mobileNumber,
+      isNominee: familyDetails.isNominee,
+    });
+    this.submitLabel = "Update Family Details";
+    this.Family = true; 
+  }
 
+  savefamilyDetails() {
+    const formValue = { ...this.fbfamilyDetails.value, employeeId: this.employeeId };
+    const isUpdate = this.fbfamilyDetails.value.familyInformationId !== null;
+    // Set isActive to true if addressId is not provided (new address creation)
+    if (!isUpdate) {
+      formValue.isActive = true;
+    }
+    this.employeeService.CreateFamilyDetails([formValue]).subscribe((resp) => {
+      if (resp) {
+        const alertCode = isUpdate ? "SMFD002" : "SMFD001";
+        this.alertMessage.displayAlertMessage(ALERT_CODES[alertCode]);
+        this.initFamily();
+        this.initGetFamilyDetails();
+        this.Family = false; 
+      }
+    });
+  }
   generateExperienceDetailsRow(
     experienceDetails: Experience = new Experience()
   ): FormGroup {
@@ -595,23 +630,7 @@ export class ViewemployeesComponent {
       ]),
     });
   }
-  generateFamilyDetailsRow(
-    familyDetails: familyDetailViewDto = new familyDetailViewDto()
-  ): FormGroup {
-    return this.formbuilder.group({
-      id: new FormControl(familyDetails.id),
-      name: new FormControl(familyDetails.name, [Validators.required]),
-      relationShip: new FormControl(familyDetails.relationShip, [
-        Validators.required,
-      ]),
-      mobileNo: new FormControl(familyDetails.mobileNo, [
-        Validators.required,
-      ]),
-      Address: new FormControl(familyDetails.Address, [
-        Validators.required,
-      ]),
-    });
-  }
+ 
 
   generateEducationRow(): FormGroup {
     return this.formbuilder.group({
@@ -631,15 +650,7 @@ export class ViewemployeesComponent {
   faeducationDetail(): FormArray {
     return this.fbEducationDetails.get('educationDetails') as FormArray;
   }
-  faFamilyDetail(): FormArray {
-    return this.fbfamilyDetails.get('familyDetails') as FormArray;
-  }
-
-  addFamilyMembers() {
-    this.fafamilyDetails = this.fbfamilyDetails.get('familyDetails') as FormArray;
-    this.fafamilyDetails.push(this.generateFamilyDetailsRow());
-  }
-
+  
   addexperienceDetails() {
     this.ShowexperienceDetails = true;
     this.faexperienceDetails = this.fbexperience.get('experienceDetails') as FormArray;

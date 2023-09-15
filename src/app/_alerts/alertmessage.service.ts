@@ -146,7 +146,11 @@ export const ALERT_CODES: { [key: string]: string } = {
     'EVEOFF002' :'Office Details Updated Faild',
      //Bank Details
     'SMBD001': 'Bank Details Added Successfully',
-    'SMBD002': 'Bank Details Update Successfully'
+    'SMBD002': 'Bank Details Update Successfully',
+    //Family Details
+    'SMFD001': 'Family Details Added Successfully',
+    'SMFD002': 'Family Details Update Successfully'
+    
 
    
 }

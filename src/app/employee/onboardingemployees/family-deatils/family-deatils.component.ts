@@ -26,7 +26,7 @@ interface General {
   styleUrls: []
 })
 export class FamilyDeatilsComponent implements OnInit {
-  relationshipStatus: General[] | undefined;
+relationshipStatus: General[] |undefined ;
   fbfamilyDetails: FormGroup;
   fafamilyDetails!: FormArray;
   showFamilyDetails: boolean = true;
