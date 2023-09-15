@@ -576,8 +576,8 @@ export class ViewemployeesComponent {
   }
   editFamilyDetails(index: number) {
     const familyDetails = this.familyDetails[index];
-    this.initRelationship()
-    this.initGetAddress()
+    this.initRelationship();
+    this.initGetAddress();
     this.fbfamilyDetails.patchValue({
       familyInformationId: familyDetails.familyInformationId,
       employeeId: familyDetails.employeeId,
