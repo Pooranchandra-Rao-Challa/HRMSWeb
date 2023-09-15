@@ -6,6 +6,7 @@ import {
   GET_EDUCATION_DETAILS_URI, GET_EMPLOYEES_URI, GET_EMPLOYEE_BASED_ON_ID_URI, GET_GETFAMILYDETAILS_URI, GET_GETUPLOADEDDOCUMENTS_URI, GET_OFFICE_DETAILS_URI,
   GET_STATES_URI,
   GET_WORKEXPERIENCE_URI,
+  UPDATE_EDUCATION_DETAILS,
   UPDATE_EMPLOYEE_BASED_ON_ID_URI,
   UPDATE_OFFICE_DETAILS_URI
 } from './api.uri.service';
@@ -91,7 +92,11 @@ export class EmployeeService extends ApiHttpService {
   }
 
   public updateViewEmpOfficDtls(empOfficDtls: EmployeeOfficedetailsDto) {
-    debugger
     return this.post<EmployeeOfficedetailsDto>(UPDATE_OFFICE_DETAILS_URI, empOfficDtls);
+  }
+
+  public updateViewEmpEduDtls(empEduDtls: EducationDetailsDto) {
+    debugger
+    return this.post<EducationDetailsDto>(UPDATE_EDUCATION_DETAILS, empEduDtls);
   }
 }

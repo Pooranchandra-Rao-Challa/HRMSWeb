@@ -74,3 +74,4 @@ export const UPDATE_OFFICE_DETAILS_URI = "Employee/UpdateEmployeeInceptionDetail
 export const UPDATE_EMPLOYEE_BASED_ON_ID_URI = "Employee/UpdateEmployeeBasicDetails";
 export const GET_STATES_URI="Lookup/States";
 export const GET_COUNTRIES_URI="Lookup/Countries";
+export const UPDATE_EDUCATION_DETAILS="Employee/UpdateEducationDetails";

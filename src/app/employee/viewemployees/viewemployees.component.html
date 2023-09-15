@@ -111,26 +111,26 @@
   <p-tabView>
     <!-- Education Details card view -->
     <p-tabPanel header="Education Details ">
-      <div class="grid">
-        <div class="col-12 lg:col-4" *ngFor="let education of educationDetails">
+      <div class="grid" >
+        <div class="col-12 lg:col-4" *ngFor="let education of educationDetails" >
           <div class="card">
-            <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">{{education.stream}}</div>
+            <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">{{education?.stream}}</div>
 
             <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
               <li class="mb-3">
-                <span class="font-semibold ">Institution Name :</span> {{education.institutionName}}
+                <span class="font-semibold ">Institution Name :</span> {{education?.institutionName}}
               </li>
               <li class="mb-3">
-                <span class="font-semibold">College Name :</span> {{education.authorityName}}
+                <span class="font-semibold">College Name :</span> {{education?.authorityName}}
               </li>
               <li class="mb-3">
-                <span class="font-semibold">YOP:</span> {{education.passedOutyear | date: mediumDate}}
+                <span class="font-semibold">YOP:</span> {{education?.passedOutyear | date: mediumDate}}
               </li>
               <li class="mb-3">
-                <span class="font-semibold ">Grading System :</span> {{education.gradingMethod}}
+                <span class="font-semibold ">Grading System :</span> {{education?.gradingMethod}}
               </li>
               <li class="mb-3">
-                <span class="font-semibold ">Score/Percentage :</span> {{education.gradingValue}}
+                <span class="font-semibold ">Score/Percentage :</span> {{education?.gradingValue}}
               </li>
             </ul>
           </div>
@@ -563,17 +563,15 @@
               <p-table #dt2 [value]="faeducationDetail().controls" dataKey="id" [rows]="10" [rowHover]="true"
                 *ngIf="ShoweducationDetails" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
                 [paginator]="false" [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]">>
-                <ng-template pTemplate="header">
+                <ng-template pTemplate="header" let-experience let-experienceDetailsIndex="rowIndex">
                   <tr>
-                    <th>Course <sup class="p-error">*</sup>
+                    <th>Stream <sup class="p-error">*</sup>
                     </th>
                     <th>State <sup class="p-error">*</sup>
                     </th>
                     <th>School/College Name <sup class="p-error">*</sup>
                     </th>
                     <th>Board/University Name<sup class="p-error">*</sup>
-                    </th>
-                    <th>Stream <sup class="p-error">*</sup>
                     </th>
                     <th>Year of pass <sup class="p-error">*</sup>
                     </th>
@@ -586,37 +584,44 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-experience let-experienceDetailsIndex="rowIndex">
                   <tr [formGroupName]="experienceDetailsIndex">
+                    <!-- <td class="vertical-align-top">
+                      <input pInputText class="form-control" formControlName="name" placeholder="Enter Course">
+                    </td> -->
                     <td class="vertical-align-top">
-                      <input pInputText class="form-control" placeholder="Enter Course">
+                      <input pInputText class="form-control" formControlName="streamId" placeholder="Enter Stream">
                     </td>
                     <td class="vertical-align-top">
-                      <input pInputText class="form-control" placeholder="Enter State">
+                      <input pInputText class="form-control" formControlName="stateId" placeholder="Enter State">
 
                     </td>
                     <td class="vertical-align-top">
-                      <input pInputText class="form-control" placeholder="Enter School/College Name ">
+                      <input pInputText class="form-control" formControlName="institutionName" placeholder="Enter School/College Name ">
 
                     </td>
                     <td class="vertical-align-top">
-                      <input pInputText class="form-control" placeholder="Enter Board/University Name">
+                      <input pInputText class="form-control" formControlName="authorityName" placeholder="Enter Board/University Name">
                     </td>
                     <td class="vertical-align-top">
-                      <input pInputText class="form-control" placeholder="Enter Stream">
-                    </td>
-                    <td class="vertical-align-top">
-                      <input pInputText class="form-control" placeholder="Enter Year of pass">
+                      <input pInputText class="form-control" formControlName="passedOutyear" placeholder="Enter Year of pass">
 
                     </td>
                     <td class="vertical-align-top">
-                      <input pInputText class="form-control" placeholder="Enter Grading System">
+                      <input pInputText class="form-control" formControlName="gradingMethodId" placeholder="Enter Grading System">
                     </td>
                     <td class="vertical-align-top">
-                      <input pInputText class="form-control" placeholder="Enter CGPA/Percentage System ">
+                      <input pInputText class="form-control" formControlName="gradingValue" placeholder="Enter CGPA/Percentage System ">
                     </td>
-                    <td *ngIf="fbEducationDetails.controls['educationDetails'].value.length > 1">
+                    <!-- <td *ngIf="fbEducationDetails.controls['educationDetails'].value.length > 1">
                       <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer"
                         *ngIf="!this.faeducationDetail().controls[experienceDetailsIndex].get('id')?.value"
                         (click)="faeducationDetail().removeAt(experienceDetailsIndex)"></i>
+                      <i class="pi pi-fw pi-verified text-3xl"
+                        *ngIf="this.faeducationDetail().controls[experienceDetailsIndex].get('id')?.value"></i>
+                    </td> -->
+                    <td *ngIf="fbEducationDetails.controls['educationDetails'].value.length > 1">
+                      <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer"
+                        *ngIf="!this.faeducationDetail().controls[experienceDetailsIndex].get('id')?.value"
+                        (click)="removeEducationDetail(experienceDetailsIndex)"></i>
                       <i class="pi pi-fw pi-verified text-3xl"
                         *ngIf="this.faeducationDetail().controls[experienceDetailsIndex].get('id')?.value"></i>
                     </td>
@@ -625,7 +630,7 @@
               </p-table>
             </div>
             <div class=" button-container d-flex flex-row justify-content-end">
-              <p-button type="button" label="Add/Update Education"></p-button>
+              <p-button type="button" label="Add/Update Education" (click)="saveEducationDetails()" ></p-button>
             </div>
           </div>
         </div>

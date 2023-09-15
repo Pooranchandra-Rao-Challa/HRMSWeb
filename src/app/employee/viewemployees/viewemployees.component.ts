@@ -6,7 +6,7 @@ import { Address, Employee, familyDetailViewDto } from 'src/app/demo/api/securit
 import { SecurityService } from 'src/app/demo/service/security.service';
 import { LookupViewDto } from 'src/app/_models/admin';
 // import { EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsviewDto,  } from 'src/app/_models/employes';
-import { BankDetailViewDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsViewDto } from 'src/app/_models/employes';
+import { BankDetailViewDto, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, employeeEducDtlsViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { LookupService } from 'src/app/_services/lookup.service';
 import { AssetAllotmentViewDto } from 'src/app/_models/admin/assetsallotment';
@@ -15,6 +15,7 @@ import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { MAX_LENGTH_256, MIN_LENGTH_2, MIN_LENGTH_8, RG_ALPHA_ONLY, RG_IFSC, RG_NUMERIC_ONLY } from 'src/app/_shared/regex';
 import { MaxLength } from 'src/app/_models/common';
+import { e } from '@fullcalendar/core/internal-common';
 export class Experience {
   id?: number;
   companyName?: string;
@@ -60,7 +61,7 @@ export class ViewemployeesComponent {
   // employee basic details
   fbEmpBasDtls!: FormGroup;
   employeePrsDtls = new EmployeeBasicDetailViewDto();
-  employeePrsDtl = new EmployeeBasicDetailDto()
+  employeePrsDtl = new EmployeeBasicDetailDto();
   imageSize: any;
   selectedFileBase64: string | null = null; // To store the selected file as base64
   status: Status[];
@@ -68,20 +69,21 @@ export class ViewemployeesComponent {
   fbOfficDtls!: FormGroup;
   employeeofficeDtls = new EmployeeOfficedetailsviewDto();
   employeeofficDtl = new EmployeeOfficedetailsDto()
+  // employee education details
+  fbEducationDetails!: FormGroup;
+  faeducationDetails!: FormArray;
+  educationDetails: employeeEducDtlsViewDto[] = [];
+  empEduDetails = new EducationDetailsDto();
   // adredss: any[];
-  fbEmpPerDtls!: FormGroup;
   familyDetails: FamilyDetailsViewDto[];
   fafamilyDetails!: FormArray;
   fbfamilyDetails: FormGroup;
   adredss: EmployeAdressViewDto[];
   showAddressDetailss: boolean = false;
   Address: boolean = false;
-  educationDetails: any[];
   faAddressDetails!: FormArray;
   fbAddressDetails: FormGroup;
-  fbEducationDetails!: FormGroup;
   fbBankDetails!: FormGroup;
-  faeducationDetails!: FormArray;
   Education: boolean = false;
   workExperience: any[];
   faexperienceDetails!: FormArray;
@@ -128,11 +130,6 @@ export class ViewemployeesComponent {
   countries: any
 
 
-
-  ShowEducationDetails() {
-    this.Education = true;
-    this.fbEducationDetails.reset();
-  }
   showExperienceDetails() {
     this.Experience = true;
     this.fbexperience.reset();
@@ -170,10 +167,10 @@ export class ViewemployeesComponent {
       { name: 'Female', code: 'FM' },
       { name: 'Male', code: 'M' },
     ];
-    this.status =[
+    this.status = [
       { name: 'Married', code: 'DS' },
-        { name: 'Un Married', code: 'NS' },
-        { name: 'Single', code: 'SN' },
+      { name: 'Un Married', code: 'NS' },
+      { name: 'Single', code: 'SN' },
     ]
     this.relationshipStatus = [
       { name: 'Father', code: 'father' },
@@ -232,7 +229,7 @@ export class ViewemployeesComponent {
     this.initviewAssets()
   }
 
-// EMPLOYEE Basic details
+  // EMPLOYEE Basic details
 
   EmpBasicDtlsForm() {
     this.fbEmpBasDtls = this.formbuilder.group({
@@ -314,7 +311,6 @@ export class ViewemployeesComponent {
 
   // Employee OFFICE DETAils
 
-
   OfficDtlsForm() {
     this.fbOfficDtls = this.formbuilder.group({
       employeeId: (null),
@@ -332,7 +328,6 @@ export class ViewemployeesComponent {
   initofficeEmpDtls() {
     this.employeeService.EmployeeOfficedetailsviewDto(this.employeeId).subscribe((resp) => {
       this.employeeofficeDtls = resp as unknown as EmployeeOfficedetailsviewDto;
-      console.log('this.employeeofficeDtls', this.employeeofficeDtls);
     });
   }
 
@@ -362,6 +357,78 @@ export class ViewemployeesComponent {
     })
   }
 
+  // Employee Education details
+
+  initEducation() {
+    this.fbEducationDetails = this.formbuilder.group({
+      educationDetails: this.formbuilder.array([]),
+    });
+  }
+
+  generateEducationRow(empEduDetails: EducationDetailsDto = new EducationDetailsDto()): FormGroup {
+    return this.formbuilder.group({
+      educationDetailId: new FormControl(empEduDetails.educationDetailId),
+      employeeId: new FormControl(empEduDetails.employeeId),
+      streamId: new FormControl(empEduDetails.streamId),
+      stateId: new FormControl(empEduDetails.stateId),
+      institutionName: new FormControl(empEduDetails.institutionName),
+      authorityName: new FormControl(empEduDetails.authorityName),
+      passedOutyear: new FormControl(empEduDetails.passedOutyear),
+      gradingMethodId: new FormControl(empEduDetails.gradingMethodId),
+      gradingValue: new FormControl(empEduDetails.gradingMethodId),
+    });
+  }
+
+  initGetEducationDetails() {
+    this.employeeService.GetEducationDetails(this.employeeId).subscribe((resp) => {
+      this.educationDetails = resp as unknown as employeeEducDtlsViewDto[];
+      console.log('this.EducationDetails', this.educationDetails);
+    });
+  }
+
+  ShowEducationDetails() {
+    this.educationDetails.forEach((empEduDetails: EducationDetailsDto) => {
+      this.faeducationDetail().push(this.generateEducationRow(empEduDetails));
+    })
+    this.fbEducationDetails.patchValue(this.educationDetails)
+    console.log('education details', this.educationDetails)
+    this.Education = true;
+  }
+
+  addEducationDetails() {
+    this.ShoweducationDetails = true;
+    this.faeducationDetails = this.fbEducationDetails.get('educationDetails') as FormArray;
+    this.faeducationDetails.push(this.generateEducationRow());
+  }
+
+  faeducationDetail(): FormArray {
+    return this.fbEducationDetails.get('educationDetails') as FormArray;
+  }
+  removeEducationDetail(index: number) {
+    this.faeducationDetail().removeAt(index);
+  }
+  
+  saveEducationDetails() {
+    // if (this.fbEducationDetails.valid) {
+    //   const educationData = this.fbEducationDetails.value;
+    //   this.educationDetails.push(educationData);
+    //   this.fbEducationDetails.reset();
+    //   this.ShoweducationDetails = true;
+    // }
+    debugger
+    this.employeeService.updateViewEmpEduDtls(this.fbEducationDetails.value.educationDetails).subscribe((resp) => {
+      console.log(resp); 
+      if (resp) {
+        this.initGetEducationDetails();
+        this.Education = false;
+        this.fbEducationDetails.reset();
+         this.alertMessage.displayAlertMessage(ALERT_CODES["EVEOFF001"]);
+      }
+      else {
+         this.alertMessage.displayErrorMessage(ALERT_CODES["EVEOFF002"])
+      }
+    })
+  }
 
   initUploadedDocuments() {
     this.employeeService.GetUploadedDocuments(this.employeeId).subscribe((resp) => {
@@ -381,32 +448,13 @@ export class ViewemployeesComponent {
     });
   }
 
-  initEducation() {
-    this.fbEducationDetails = this.formbuilder.group({
-      course: new FormControl(''),
-      state: new FormControl(''),
-      school: new FormControl(''),
-      board: new FormControl(''),
-      stream: new FormControl(''),
-      yearofpass: new FormControl(''),
-      gradingsystem: new FormControl(''),
-      cgpa: new FormControl(''),
-      educationDetails: this.formbuilder.array([]),
-    });
-  }
-  initGetEducationDetails() {
-    this.employeeService.GetEducationDetails(this.employeeId).subscribe((resp) => {
-      this.educationDetails = resp as unknown as any[];
-      console.log('this.EducationDetails', this.educationDetails);
-    });
-  }
-
   initBankDetails() {
     this.employeeService.GetBankDetails(this.employeeId).subscribe((resp) => {
       this.bankDetails1 = resp as unknown as BankDetailViewDto[];
       console.log('this.BankDetails', this.bankDetails1);
     });
   }
+
   bankDetailsForm() {
     this.fbBankDetails = this.formbuilder.group({
       bankId: [0],
@@ -458,14 +506,7 @@ export class ViewemployeesComponent {
       event.preventDefault();
     }
   }
-  saveEducationDetails() {
-    if (this.fbEducationDetails.valid) {
-      const educationData = this.fbEducationDetails.value;
-      this.educationDetails.push(educationData);
-      this.clearForm();
-      this.ShoweducationDetails = true;
-    }
-  }
+
   initExperience() {
     this.addfields = [];
     this.fbexperience = this.formbuilder.group({
@@ -565,24 +606,11 @@ export class ViewemployeesComponent {
     });
   }
 
-  generateEducationRow(): FormGroup {
-    return this.formbuilder.group({
-      course: new FormControl(''),
-      state: new FormControl(''),
-      school: new FormControl(''),
-      board: new FormControl(''),
-      stream: new FormControl(''),
-      yearofpass: new FormControl(''),
-      gradingsystem: new FormControl(''),
-      cgpa: new FormControl(''),
-    });
-  }
+
   faexperienceDetail(): FormArray {
     return this.fbexperience.get('experienceDetails') as FormArray;
   }
-  faeducationDetail(): FormArray {
-    return this.fbEducationDetails.get('educationDetails') as FormArray;
-  }
+
   faFamilyDetail(): FormArray {
     return this.fbfamilyDetails.get('familyDetails') as FormArray;
   }
@@ -597,11 +625,7 @@ export class ViewemployeesComponent {
     this.faexperienceDetails = this.fbexperience.get('experienceDetails') as FormArray;
     this.faexperienceDetails.push(this.generateExperienceDetailsRow());
   }
-  addEducationDetails() {
-    this.ShoweducationDetails = true;
-    this.faeducationDetails = this.fbEducationDetails.get('educationDetails') as FormArray;
-    this.faeducationDetails.push(this.generateEducationRow());
-  }
+
   onSubmit() {
 
   }
@@ -613,9 +637,6 @@ export class ViewemployeesComponent {
   }
   onBasicUpload() {
     // this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded with Basic Mode' });
-  }
-  clearForm() {
-    this.fbEducationDetails.reset();
   }
 
   toggleInputField(option: string) {

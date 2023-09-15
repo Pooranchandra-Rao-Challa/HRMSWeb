@@ -36,10 +36,11 @@ export class EducationDetailsDto{
 	stateId?:number;
 	institutionName?:string;
 	authorityName?:string;
-	passedOutyear?:string;
-	gradingMethodId?:string;
-	gradingValue?:string;
+	passedOutyear?:Date;
+	gradingMethodId?:number;
+	gradingValue?:number;
 }
+
 export class FamilyDetailsDto {
 	familyInformationId?: number;
 	employeeId?: number;
@@ -228,3 +229,23 @@ export class FamilyDetailsViewDto {
 	updatedBy?: string
 }
 
+export class employeeEducDtlsViewDto {
+	employeeId?: number;
+	employeeName?: string;
+	code?: string;
+	educationDetailId?: number;
+	streamId?: number;
+	stream?: string;
+	stateId?: number;
+	state?: string;
+	institutionName?: string;
+	authorityName?: string;
+	passedOutyear?: Date;
+	gradingMethodId?: number;
+	gradingMethod?: string;
+	gradingValue?: number;
+	createdAt?: Date;
+	createdBy?: string
+	updatedAt?: Date;
+	updatedBy?: string
+}
