@@ -9,7 +9,7 @@ import { MaxLength } from 'src/app/_models/common';
 import { EmployeeBasicDetailDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { LookupService } from 'src/app/_services/lookup.service';
-import {MIN_LENGTH_2, RG_ALPHA_ONLY, RG_EMAIL, RG_PHONE_NO } from 'src/app/_shared/regex';
+import {MIN_LENGTH_2, RG_ALPHA_NUMERIC, RG_ALPHA_ONLY, RG_EMAIL, RG_PHONE_NO } from 'src/app/_shared/regex';
 
 
 interface General {
@@ -132,7 +132,7 @@ export class BasicDetailsComponent implements OnInit {
     };
   }
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/educationdetails',this.employeeId]);
+    this.router.navigate(['employee/onboardingemployee/educationdetails']);
 
   }
 }

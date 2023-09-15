@@ -43,6 +43,8 @@ export class EducationDetailsComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.employeeId = params['employeeId'];
     });
+    console.log(this.employeeId)
+
     this.educationForm();
     this.initStates();
     this.initCirculum();
@@ -141,8 +143,6 @@ export class EducationDetailsComponent implements OnInit {
   }
   save() {
     this.saveeducationDetails().subscribe(resp => {
-      console.log(resp);
-      // this.employeeId = resp;
       if (resp) {
         this.alertMessage.displayAlertMessage(ALERT_CODES["SFD001"]);
       }
@@ -154,11 +154,11 @@ export class EducationDetailsComponent implements OnInit {
 
   }
   navigateToPrev() {
-    this.router.navigate(['employee/onboardingemployee/basicdetails',this.employeeId])
+    this.router.navigate(['employee/onboardingemployee/basicdetails'])
   }
 
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/experiencedetails',this.employeeId])
+    this.router.navigate(['employee/onboardingemployee/experiencedetails'])
   }
 
 }

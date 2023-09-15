@@ -61,6 +61,7 @@ export class BankDetailsComponent {
   save() {
     if (this.fbbankDetails.valid) {
       this.savebankDetails().subscribe(resp => {
+        this.employeeId = resp;
         this.fbbankDetails.disable();
       })
     }
@@ -74,10 +75,10 @@ export class BankDetailsComponent {
     }
   }
   navigateToPrev() {
-    this.router.navigate(['employee/onboardingemployee/familydetails',this.employeeId])
+    this.router.navigate(['employee/onboardingemployee/familydetails'])
   }
 
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/finalsubmit',this.employeeId])
+    this.router.navigate(['employee/onboardingemployee/finalsubmit'])
   }
 }

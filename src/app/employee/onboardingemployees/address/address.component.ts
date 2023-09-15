@@ -52,7 +52,7 @@ export class AddressComponent {
 
   initAddress() {
     this.fbAddressDetails = this.formbuilder.group({
-      employeeId: [this.employeeId],
+      employeeId: [22],
       addressId: [0],
       AddressLine1: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
       AddressLine2: new FormControl('', [ Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
@@ -166,10 +166,10 @@ export class AddressComponent {
 
 
   navigateToPrev() {
-    this.router.navigate(['employee/onboardingemployee/experiencedetails',this.employeeId])
+    this.router.navigate(['employee/onboardingemployee/experiencedetails'])
   }
 
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/uploadfiles',this.employeeId])
+    this.router.navigate(['employee/onboardingemployee/uploadfiles'])
   }
 }

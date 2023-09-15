@@ -159,11 +159,11 @@ relationshipStatus: General[] |undefined ;
 
   }
   navigateToPrev() {
-    this.router.navigate(['employee/onboardingemployee/uploadfiles',this.employeeId])
+    this.router.navigate(['employee/onboardingemployee/uploadfiles'])
   }
 
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/bankdetails',this.employeeId])
+    this.router.navigate(['employee/onboardingemployee/bankdetails'])
   }
 
 
