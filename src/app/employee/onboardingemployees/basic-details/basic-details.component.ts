@@ -9,7 +9,7 @@ import { MaxLength } from 'src/app/_models/common';
 import { EmployeeBasicDetailDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { LookupService } from 'src/app/_services/lookup.service';
-import { MAX_LENGTH_20, MIN_LENGTH_2, RG_ALPHA_NUMERIC, RG_ALPHA_ONLY, RG_EMAIL, RG_PHONE_NO } from 'src/app/_shared/regex';
+import {MIN_LENGTH_2, RG_ALPHA_NUMERIC, RG_ALPHA_ONLY, RG_EMAIL, RG_PHONE_NO } from 'src/app/_shared/regex';
 
 
 interface General {
@@ -52,7 +52,7 @@ export class BasicDetailsComponent implements OnInit {
   basicDetailsForm() {
     this.fbbasicDetails = this.formbuilder.group({
       employeeId: [0],
-      code: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_NUMERIC), Validators.minLength(MIN_LENGTH_2)]),
+      code: [null],
       firstName: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
       middleName: new FormControl('', [Validators.minLength(MIN_LENGTH_2)]),
       lastName: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2)]),
@@ -98,6 +98,7 @@ export class BasicDetailsComponent implements OnInit {
         console.log(resp);
         this.employeeId = resp;
         this.fbbasicDetails.disable();
+        this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "SBD001" : "SBD002"]);
         this.navigateToNext()
       })
     }

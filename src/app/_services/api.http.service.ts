@@ -4,6 +4,7 @@ import { catchError, Observable, throwError } from 'rxjs';
 import { URI_ENDPOINT, URI_ENDPOINT_WITH_ID, URI_ENDPOINT_WITH_PARAMS } from 'src/environments/environment';
 import { ResponseModel } from '../_models/login.model';
 import { JwtService } from './jwt.service';
+import { MessageService } from 'primeng/api';
 
 const TOKEN_KEY = 'auth-token';
 
@@ -14,7 +15,8 @@ const TOKEN_KEY = 'auth-token';
 export class ApiHttpService {
 
     constructor(private http: HttpClient,
-        public jwtService: JwtService) { }
+        public jwtService: JwtService,
+        public messageService: MessageService) { }
 
     public get<T>(uri: string, options?: any) {
         return this.http.get<T>(URI_ENDPOINT(uri), options)
@@ -22,11 +24,10 @@ export class ApiHttpService {
                 catchError(error => {
                     let errorMsg: string;
                     if (error.error instanceof ErrorEvent) {
-                        errorMsg = `Error: ${error.error.message}`;
+                        errorMsg = this.getNormalErrorMessage(error.error);
                     } else {
                         errorMsg = this.getServerErrorMessage(error);
                     }
-                    // Add Redirect to default page
                     return throwError(() => errorMsg);
                 })
             );
@@ -39,13 +40,12 @@ export class ApiHttpService {
         return this.http.get<T>(URI_ENDPOINT_WITH_ID(uri, id), options)
             .pipe(
                 catchError(error => {
-                    let errorMsg: string;
+                    let errorMsg: {};
                     if (error.error instanceof ErrorEvent) {
-                        errorMsg = `Error: ${error.error.message}`;
+                        errorMsg = this.getNormalErrorMessage(error.error);
                     } else {
                         errorMsg = this.getServerErrorMessage(error);
                     }
-                    // Add Redirect to default page
                     return throwError(() => errorMsg);
                 })
             );
@@ -54,13 +54,12 @@ export class ApiHttpService {
         return this.http.post<T>(URI_ENDPOINT(uri), data, options)
             .pipe(
                 catchError(error => {
-                    let errorMsg: string;
+                    let errorMsg: {};
                     if (error.error instanceof ErrorEvent) {
-                        errorMsg = `Error: ${error.error.message}`;
+                        errorMsg = this.getNormalErrorMessage(error.error);
                     } else {
                         errorMsg = this.getServerErrorMessage(error);
                     }
-                    // this.router.navigate(["error"])// Add Redirect to default page
                     return throwError(() => errorMsg);
                 })
             );
@@ -71,13 +70,12 @@ export class ApiHttpService {
         return this.http.get<T>(URI_ENDPOINT_WITH_PARAMS(uri, params), options)
             .pipe(
                 catchError(error => {
-                    let errorMsg: string;
+                    let errorMsg: {};
                     if (error.error instanceof ErrorEvent) {
-                        errorMsg = `Error: ${error.error.message}`;
+                        errorMsg = this.getNormalErrorMessage(error.error);
                     } else {
                         errorMsg = this.getServerErrorMessage(error);
                     }
-                    // Add Redirect to default page
                     return throwError(() => errorMsg);
                 })
             );
@@ -90,21 +88,33 @@ export class ApiHttpService {
         return this.http.delete(URI_ENDPOINT(uri), options);
     }
     private getServerErrorMessage(error: HttpErrorResponse): any {
-        var errMsg = {
+        console.log(error);
+
+        var errorMessage = {
             statusCode: `${error.status}`,
             statusDescription: '',
-            errorMsg: `${error.error}`
+            message: `${error.error}`
         }
         switch (error.status) {
-            case 400: errMsg.statusDescription = 'Bad Request'; break;
-            case 401: errMsg.statusDescription = 'Unauthorized'; break;
-            case 403: errMsg.statusDescription = 'Access Denied'; break;
-            case 404: errMsg.statusDescription = 'Not Found'; break;
-            case 500: errMsg.statusDescription = 'Internal Server Error'; break;
-            default: errMsg.statusDescription = 'Unknown Server Error'; break;
+            case 400: errorMessage.statusDescription = 'Bad Request'; break;
+            case 401: errorMessage.statusDescription = 'Unauthorized'; break;
+            case 403: errorMessage.statusDescription = 'Access Denied'; break;
+            case 404: errorMessage.statusDescription = 'Not Found'; break;
+            case 500: errorMessage.statusDescription = 'Internal Server Error'; break;
+            default: errorMessage.statusDescription = 'Unknown Server Error'; break;
         }
-        return errMsg;
+        return errorMessage;
     }
+
+    private getNormalErrorMessage(error: ErrorEvent): any {
+        var errorMessage = {
+            statusCode: `${error.error}`,
+            statusDescription: 'Common Error',
+            message: `${error.message}`
+        }
+        return errorMessage;
+    }
+
     saveToken(token: ResponseModel) {
         this.jwtService.SaveToken(token);
     }
@@ -117,7 +127,11 @@ export class ApiHttpService {
     public UserIp(): Observable<any> {
         return this.http.get('https://jsonip.com/')
     }
-
+    ErrorCodes: {} = {
+        code: 1001, message: ''
+    }
 }
+
+
 
 

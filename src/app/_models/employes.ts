@@ -30,6 +30,18 @@ export class EmployeeBasicDetailDto {
 	isActive?: boolean;
 }
 
+export class FamilyDetailsDto {
+	familyInformationId?: number;
+	employeeId?: number;
+	name?: string;
+	relationshipId?: number;
+	addressId?: number;
+	dob?: Date;
+	adhaarNo?: number;
+	panno?: number;
+	mobileNumber?: number;
+	isNominee?: boolean;
+}
 export class BankDetailViewDto {
 	bankId?: number;
 	employeeId?: number;
@@ -39,6 +51,7 @@ export class BankDetailViewDto {
 	accountNumber?: number;
 	isActive?: boolean;
 	bankDetailId?: number;
+	employeeName?: string;
 }
 export class BankDetailsDto {
 	bankId?: number;
@@ -49,13 +62,26 @@ export class BankDetailsDto {
 	accountNumber?: number;
 	isActive?: boolean;
 }
-
 export class UploadDocuments{
 	uploadDocumentId?:number;
 	employeeId?:number;
 	title?:string;
 	fileName?:string;
 }
+export class AddressDetailsDto{
+	employeeId:number
+	addressId: number
+	AddressLine1: string
+	AddressLine2: string
+	Landmark:string
+	ZIPCode:number
+	City:string
+	stateId:number
+	countryId: number
+	addressType: string
+	IsActive:boolean
+}
+
 export class EmployeeBasicDetailViewDto {
 	employeeId?: number;
 	code?: string;
@@ -80,14 +106,23 @@ export class EmployeeBasicDetailViewDto {
 	updatedAt?: Date;
 	updatedBy?: string;
 }
-
+export class States{
+	lookupDetailId:number
+	code: string
+    name: string
+}
+export class Countries{
+	lookupDetailId:number
+	code: string
+    name: string
+}
 export class EmployeeOfficedetailsviewDto {
 	employeeId?: number;
 	employeeName?: string;
 	code?: string;
 	employeeInceptionDetailId?: number;
-	timeIn?: any;
-	timeOut?: any;
+	timeIn?: string;
+	timeOut?: string;
 	officeEmailId?: string;
 	dateofJoin?: Date;
 	isPFEligible?: boolean;
@@ -101,6 +136,45 @@ export class EmployeeOfficedetailsviewDto {
 	updatedAt?: Date;
 	updatedBy?: string;
 }
+
+
+export class EmployeeOfficedetailsDto {
+	createdAt?: Date;
+	updatedAt?: Date;
+	createdBy?: string;
+	updatedBy?: string;
+	employeeInceptionId?: number;
+	employeeId?: number;
+	timeIn?: string;
+	timeOut?: string;
+	officeEmailId?: string;
+	dateofJoin?: Date;
+	isPfeligible?: boolean;
+	isEsieligible?: boolean;
+	reportingToId?: number;
+	isActive?: boolean;
+	strTimeIn?: any;
+	strTimeOut?: any;
+}
+
+export class TimeIn {
+	ticks?: number;
+	days?: number;
+	hours?: number;
+	milliseconds?: number;
+	minutes?: number;
+	seconds?: number;
+}
+
+export class TimeOut {
+	ticks?: number;
+	days?: number;
+	hours?: number;
+	milliseconds?: number;
+	minutes?: number;
+	seconds?: number;
+}
+
 export class EmployeAdressViewDto {
 	employeeId?: number
 	employeeName?: string
