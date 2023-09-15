@@ -182,21 +182,30 @@
     <!-- Family Details card view -->
     <p-tabPanel header="Family Details ">
       <div class="grid">
-        <div class="col-12 lg:col-4" *ngFor="let family of familyDetails">
+        <div class="col-12 lg:col-4" *ngFor="let familyDetails of familyDetails; let i = index">
           <div class="card">
-            <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">{{family.employeeName}}</div>
+            <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">
+              <button pButton pRipple icon="pi pi-pencil"
+                class="p-element p-ripple p-button-text p-button p-component float-button position-relative"
+                (click)="editFamilyDetails(i)"></button>{{familyDetails.employeeName}}</div>
             <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
               <li class="mb-3">
-                <span class="font-semibold">Relationship Status:</span> {{family.relationship}}
+                <span class="font-semibold">Date Of Birth:</span> {{familyDetails.dob | date: mediumDate}}
               </li>
               <li class="mb-3">
-                <span class="font-semibold">Mobile No:</span> {{family.mobileNumber}}
+                <span class="font-semibold">Adhaar No:</span> {{familyDetails.adhaarNo}}
               </li>
               <li class="mb-3">
-                <span class="font-semibold">Address:</span> {{family.addressLine1}}
+                <span class="font-semibold">Relationship Status:</span> {{familyDetails.relationship}}
               </li>
               <li class="mb-3">
-                <span class="font-semibold">State:</span> {{family.state}}
+                <span class="font-semibold">Mobile No:</span> {{familyDetails.mobileNumber}}
+              </li>
+              <li class="mb-3">
+                <span class="font-semibold">Address:</span> {{familyDetails.addressLine1}}
+              </li>
+              <li class="mb-3">
+                <span class="font-semibold">State:</span> {{familyDetails.state}}
               </li>
             </ul>
           </div>
@@ -206,7 +215,7 @@
           <div class="card text-center">
             <button pButton pRipple icon="pi pi-plus"
               class="p-element p-ripple p-button-text p-button p-component p-5 m-5" (click)="showFamilyDetails()">
-              Add/Edit Family Member</button>
+              Add Family Member</button>
           </div>
         </div>
       </div>
@@ -214,26 +223,29 @@
     <!-- Address Details card view -->
     <p-tabPanel header="Address Details">
       <div class="grid">
-        <!-- Use *ngFor to iterate through each address -->
-        <div class="col-12 lg:col-4" *ngFor="let addr of adredss">
+        <div class="col-12 lg:col-4" *ngFor="let newadredss of address; let i = index">
           <div class="card">
-            <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">{{ addr.addressType }}</div>
-            {{ addr.employeeName }},
-            {{ addr.addressLine1 }},
-            {{ addr.city }},{{ addr.landmark }}, {{ addr.state }}
-            {{ addr.zipCode }},{{ addr.country }}
+            <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">
+              <button pButton pRipple icon="pi pi-pencil"
+                class="p-element p-ripple p-button-text p-button p-component float-button position-relative"
+                (click)="editAddress(i)"></button> {{ newadredss.addressType }}
+            </div>
+            {{ newadredss.employeeName }},
+            {{ newadredss.addressLine1 }},
+            {{ newadredss.city }},{{ newadredss.landmark }}, {{ newadredss.state }}
+            {{ newadredss.zipCode }},{{ newadredss.country }}
           </div>
         </div>
         <div class="col-12 lg:col-4">
           <div class="card text-center">
-            <button pButton pRipple icon="pi pi-plus"
-              class="p-element p-ripple p-button-text p-button p-component m-5 p-5" (click)="showAddressDetails()">
+            <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-text p-button p-component m-5 p-5"
+              (click)="showAddressDetails()">
               Add
             </button>
           </div>
         </div>
       </div>
-
+    
     </p-tabPanel>
     <!-- Upload Documents card view -->
     <p-tabPanel header="Upload Documents">
@@ -274,114 +286,60 @@
     <!-- Assets card view -->
     <p-tabPanel header="Assets">
       <div class="grid">
-        <div class="col-12 lg:col-4" *ngFor="let bank of bankDetails1; let i = index">
+        <div class="col-12 lg:col-4" *ngFor="let asset of assetAllotments">
           <div class="card">
-            <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2"><button pButton pRipple icon="pi pi-pencil"
-                class="p-element p-ripple p-button-text p-button p-component float-button position-relative"
-                (click)="editBankDetails(i)"></button>{{bank.bankName}}
-            </div>
-            <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
-              <li class="mb-2">
-                <span class="font-semibold ">Name :</span> {{bank.employeeName}}
-              </li>
-              <li class="mb-2">
-                <span class="font-semibold ">AccountNo :</span> {{bank.accountNumber}}
-              </li>
-              <li class="mb-3">
-                <span class="font-semibold">Assigned On:</span> 09-02-2020
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-12 lg:col-4">
-          <div class="card">
-            <div class="text-900 font-bold text-2xl text-primary mb-1 mt-2">CPU</div>
+            <div class="text-900 font-bold text-2xl text-primary mb-1 mt-2">{{asset.assetName}}</div>
             <ul class="list-none p-0 m-0 text-600 mb-7 text-600">
               <li class="mb-3">
-                <span class="font-semibold">Asset Category:</span>Gadgets
+                <span class="font-semibold">Assigned On:</span>{{asset.assignedOn | date: mediumDate}}
               </li>
               <li class="mb-3">
-                <span class="font-semibold">Assigned On:</span> 09-02-2020
+                <span class="font-semibold">Assigned On:</span>{{asset.assetCategory}}
               </li>
             </ul>
           </div>
         </div>
-        <div class="col-12 lg:col-4">
-          <div class="card">
-            <div class="text-900 font-bold text-2xl text-primary mb-1 mt-2">Keyboard</div>
-            <ul class="list-none p-0 m-0 text-600 mb-7 text-600">
-              <li class="mb-3">
-                <span class="font-semibold">Asset Category:</span>Gadgets
-              </li>
-              <li class="mb-3">
-                <span class="font-semibold">Assigned On:</span> 09-02-2020
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-12 lg:col-4">
-          <div class="card">
-            <div class="text-900 font-bold text-2xl text-primary mb-1 mt-2">Mouse</div>
-            <ul class="list-none p-0 m-0 text-600 mb-7 text-600">
-              <li class="mb-3">
-                <span class="font-semibold">Asset Category:</span>Gadgets
-              </li>
-              <li class="mb-3">
-                <span class="font-semibold">Assigned On:</span> 09-02-2020
-              </li>
-            </ul>
-          </div>
-        </div>
+    
       </div>
     </p-tabPanel>
+
     <!-- Bank Details card view -->
-    <p-tabPanel header="Bank Details">
-      <div class="grid">
-        <div class="col-12 lg:col-4">
-          <div class="card">
-            <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">Bank Details 1</div>
-            <!-- <div class="text-500  text-1xl mb-1 mt-1">Secondary Board of Andhra Pradesh</div> -->
-            <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
-              <!-- <li class="mb-3"><span class="font-semibold">School Name :</span> School Name .</li><li class="mb-3"><span class="font-semibold">YOP:</span> 2006</li> -->
-              <li class="mb-2">
-                <span class="font-semibold ">AccountNo :</span> 154432432132132
-              </li>
-              <li class="mb-2">
-                <span class="font-semibold ">IFSCCode :</span> 1654654654
-              </li>
-              <li class="mb-2">
-                <span class="font-semibold mb-1">BranchName :</span> ICICI Bank
-              </li>
-            </ul>
+  <p-tabPanel header="Bank Details">
+    <div class="grid">
+      <div class="col-12 lg:col-4" *ngFor="let bank of bankDetails1; let i = index">
+        <div class="card">
+          <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2"><button pButton pRipple icon="pi pi-pencil"
+              class="p-element p-ripple p-button-text p-button p-component float-button position-relative"
+              (click)="editBankDetails(i)"></button>{{bank.bankName}}
           </div>
-        </div>
-        <div class="col-12 lg:col-4">
-          <div class="card">
-            <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">Bank Details 2</div>
-            <!-- <div class="text-500  text-1xl mb-1 mt-1">Secondary Board of Andhra Pradesh</div> -->
-            <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
-              <!-- <li class="mb-3"><span class="font-semibold">School Name :</span> School Name .</li><li class="mb-3"><span class="font-semibold">YOP:</span> 2006</li> -->
-              <li class="mb-2">
-                <span class="font-semibold ">AccountNo :</span> 154432432132132
-              </li>
-              <li class="mb-2">
-                <span class="font-semibold ">IFSCCode :</span> 1654654654
-              </li>
-              <li class="mb-2">
-                <span class="font-semibold mb-1">BranchName :</span> ICICI Bank
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-12 lg:col-4">
-          <div class="card text-center">
-            <button pButton pRipple icon="pi pi-plus"
-              class="p-element p-ripple p-button-text p-button p-component m-5 p-5" (click)="showBankDetails()">
-              Add</button>
-          </div>
+          <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
+      <li class="mb-2">
+        <span class="font-semibold "> Name :</span> {{bank.employeeName}}
+      </li>
+            <li class="mb-2">
+              <span class="font-semibold ">AccountNo :</span> {{bank.accountNumber}}
+            </li>
+            <li class="mb-2">
+              <span class="font-semibold ">IFSCCode :</span> {{bank.ifsc}}
+            </li>
+            <li class="mb-2">
+              <span class="font-semibold mb-1">BranchName :</span> {{bank.branchName}}
+            </li>
+          </ul>
         </div>
       </div>
-    </p-tabPanel>
+  
+      <div class="col-12 lg:col-4">
+        <div class="card text-center">
+          <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-text p-button p-component m-5 p-5"
+            (click)="showBankDetails()">
+            Add</button>
+        </div>
+      </div>
+    </div>
+  </p-tabPanel>
+ 
+
   </p-tabView>
 
   <!-- Basic Details p-dialog -->
@@ -714,55 +672,149 @@
 <p-dialog header="CIS202214 Family Details" [(visible)]="Family" [modal]="true" showEffect="fade"
   [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
   <div class="flex flex-column align-items-center justify-content-center">
-    <form [formGroup]="fbfamilyDetails">
-      <div class="grid mt-3">
-        <div class="col-12 roles-container">
-          <div class="p-fluid p-formgrid grid">
-            <div class="field col-12 md:col-4">
-              <span class="p-float-label">
-                <input type="text" id="inputtext" pInputText formControlName="name" />
-                <label for="inputtext">Name <sup class="p-error">*</sup>
-                </label>
-              </span>
-            </div>
-            <div class="field col-12 md:col-4">
-              <span class="p-float-label">
-                <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [options]="relationshipStatus"
-                  optionLabel="name" formControlName="relationShip"></p-dropdown>
-                <label for="dropdown">RelationshipStatus <sup class="p-error">*</sup>
-                </label>
-              </span>
-            </div>
-            <div class="field col-12 md:col-4">
-              <span class="p-float-label">
-                <input type="text" id="inputtext1" pInputText formControlName="mobileNo" />
-                <label for="inputtext1">Mobile No. <sup class="p-error">*</sup>
-                </label>
-              </span>
-            </div>
-            <div class="field col-12 md:col-4">
-              <span class="p-float-label">
-                <textarea inputId="textarea" rows="3" cols="30" pInputTextarea formControlName="Address"></textarea>
-                <label for="textarea">Address <sup class="p-error">*</sup>
-                </label>
-              </span>
-            </div>
-            <div class="field col-12 md:col-4">
-              <span class="p-float-label">
-                <label for="binary" class="ml-3">Make him/her as Nominee <sup class="p-error">*</sup>
-                </label>
-                <p-checkbox [binary]="true" id="binary" class="mr-2" formControlName="Nominee"></p-checkbox>
-              </span>
-            </div>
-            <div class="d-flex flex-row justify-content-center col-12 md:col-4 mt-2">
-              <div class="button-container">
-                <p-button type="button" label="Add Family Members" (click)="addFamilyMembers()"></p-button>
+  <form [formGroup]="fbfamilyDetails">
+    <div class="grid mt-3">
+      <div class="col-12 roles-container">
+        <div class="p-fluid p-formgrid grid">
+          <div class="field col-12 md:col-4">
+            <span class="p-float-label">
+              <input type="text" id="inputtext" pInputText formControlName="name" #name [maxlength]="20" alphaNumeric
+                (keydown)="restrictSpaces($event)"
+                [ngClass]="{ 'is-invalid ng-dirty': familyFormControls['name'].touched && familyFormControls['name'].errors }" />
+              <label class="required">Name</label>
+            </span>
+            <div class="flex">
+              <div class="align-left w-60" style="width:70%">
+                <span *ngIf="familyFormControls['name'].touched && familyFormControls['name'].invalid">
+                  <div class="ng-invalid ng-touched p-error" *ngIf="familyFormControls['name'].errors?.['required']">
+                    Please Enter Name.</div>
+                  <div class="ng-invalid ng-touched p-error" *ngIf="familyFormControls['name'].errors?.['minlength']">
+                    Name Min Length Is 2.</div>
+                </span>
               </div>
+              <div class="align-right w-40" style="width:30%; text-align:right;">
+                <small>{{name.value.length}}/{{maxLength.name}} </small>
+              </div>
+            </div>
+          </div>
+          <div class="field col-12 md:col-4">
+            <span class="p-float-label">
+              <p-dropdown id="relationship_dropdown" [autoDisplayFirst]="false" optionLabel="name"
+                [options]="relationships" optionValue="lookupDetailId" formControlName="relationshipId"
+                [ngClass]="{'is-invalid ng-dirty': familyFormControls['relationshipId'].touched && familyFormControls['relationshipId'].errors}">
+              </p-dropdown>
+              <label class="required">Relationship</label>
+            </span>
+            <div class="flex">
+              <div class="align-left w-60" style="width:70%">
+                <span *ngIf="familyFormControls['relationshipId'].touched && familyFormControls['relationshipId'].invalid">
+                  <div class="ng-invalid ng-touched p-error" *ngIf="familyFormControls['relationshipId'].errors?.['required']">
+                    Please Select Relationship.
+                  </div>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="field col-12 md:col-4">
+            <span class="p-float-label">
+              <p-dropdown id="address_dropdown" formControlName="addressId" [autoDisplayFirst]="false"
+                optionLabel="addressLine1" [options]="address" optionValue="addressId">
+              </p-dropdown>
+              <label>Address</label>
+            </span>
+          </div>
+          <div class="field col-12 md:col-4">
+            <span class="p-float-label">
+              <p-calendar [readonlyInput]="true" [showIcon]="true" id="dob" #DOB mask="99/99/9999" formControlName="dob"
+                [ngClass]="{ 'is-invalid ng-dirty': familyFormControls['dob'].touched && familyFormControls['dob'].errors }">
+              </p-calendar>
+              <label class="required"> DOB</label>
+            </span>
+            <div class="flex">
+              <div class="align-left w-60" style="width:70%">
+                <span *ngIf="familyFormControls['dob'].touched && familyFormControls['dob'].invalid">
+                  <div class="ng-invalid ng-touched p-error" *ngIf="familyFormControls['dob'].errors?.['required']">
+                    Please Select DOB.</div>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="field col-12 md:col-4">
+            <span class="p-float-label">
+              <input type="text" id="adhaar_No" pInputText formControlName="adhaarNo" numericOnly [maxLength]="12"
+                #adhaarno
+                [ngClass]="{ 'is-invalid ng-dirty': familyFormControls['adhaarNo'].touched && familyFormControls['adhaarNo'].errors }" />
+              <label class="required">Adhaar No.</label>
+            </span>
+            <div class="flex">
+              <div class="align-left w-60" style="width:70%">
+                <span *ngIf="familyFormControls['adhaarNo'].touched && familyFormControls['adhaarNo'].invalid">
+                  <div class="ng-invalid ng-touched p-error" *ngIf="familyFormControls['adhaarNo'].errors?.['required']">
+                    Please Enter Adhaar No.</div>
+                </span>
+              </div>
+              <div class="align-right w-40" style="width:30%; text-align:right;">
+                <small>{{adhaarno.value.length}}/{{maxLength.aadhaarNo}} </small>
+              </div>
+            </div>
+          </div>
+          <div class="field col-12 md:col-4">
+            <span class="p-float-label">
+              <input type="text" id="pan_No" pInputText formControlName="panno" #panNo [maxLength]="10"
+                [ngClass]="{ 'is-invalid ng-dirty': familyFormControls['panno'].touched && familyFormControls['panno'].errors }" />
+              <label>Pan No.</label>
+            </span>
+            <div class="flex">
+              <div class="align-left w-60" style="width:70%">
+                <span *ngIf="familyFormControls['panno'].touched && familyFormControls['panno'].invalid">
+                  <div class="ng-invalid ng-touched p-error" *ngIf="familyFormControls['panno'].errors?.['required']">
+                    Please Enter Pan No.</div>
+                  <div class="ng-invalid ng-touched p-error" *ngIf="familyFormControls['panno'].errors?.['pattern']">
+                    Invalid Pan No Eg:AAAAA1234A.</div>
+                </span>
+              </div>
+              <div class="align-right w-40" style="width:30%; text-align:right;">
+                <small>{{panNo.value.length}}/{{maxLength.panNo}} </small>
+              </div>
+            </div>
+          </div>
+          <div class="field col-12 md:col-4">
+            <span class="p-float-label">
+              <input type="text" id="mobile_Number" pInputText formControlName="mobileNumber" #phoneNo numericOnly
+                [maxLength]="10"
+                [ngClass]="{ 'is-invalid ng-dirty': familyFormControls['mobileNumber'].touched && familyFormControls['mobileNumber'].errors }" />
+              <label class="required">Mobile No.</label>
+            </span>
+            <div class="flex">
+              <div class="align-left w-60" style="width:70%">
+                <span *ngIf="familyFormControls['mobileNumber'].touched && familyFormControls['mobileNumber'].invalid">
+                  <div class="ng-invalid ng-touched p-error" *ngIf="familyFormControls['mobileNumber'].errors?.['required']">
+                    Please Enter Mobile No.</div>
+                  <div class="ng-invalid ng-touched p-error" *ngIf="familyFormControls['mobileNumber'].errors?.['pattern']">
+                    First Digit Should Be Greater Than 4 And Must Contains 10 Digits.</div>
+                </span>
+              </div>
+              <div class="align-right w-40" style="width:30%; text-align:right;">
+                <small>{{phoneNo.value.length}}/{{maxLength.phoneNo}} </small>
+              </div>
+            </div>
+          </div>
+          <div class="field col-12 md:col-4">
+            <span class="p-float-label">
+              <label for="binary" class="ml-3">Make him/her as Nominee<sup class="p-error">*</sup></label>
+              <p-checkbox [binary]="true" id="binary" class="mr-2" formControlName="isNominee"></p-checkbox>
+            </span>
+          </div>
+          <div class="d-flex flex-row justify-content-center col-12 md:col-4 mt-2">
+            <div class="button-container">
+              <p-button type="button" label="{{submitLabel}}" (click)="savefamilyDetails() " >
+              </p-button>
             </div>
           </div>
         </div>
       </div>
-    </form>
+    </div>
+  </form>
   </div>
 </p-dialog>
 
@@ -776,75 +828,77 @@
           <div class="p-fluid p-formgrid grid">
             <div class="field col-12 md:col-4">
               <span class="p-float-label">
-                <input type="text" id="inputtext" pInputText formControlName="AddressLine1" />
+                <input type="text" id="inputtext" pInputText formControlName="addressLine1" />
                 <label for="inputtext">AddressLine1 <sup class="p-error">*</sup>
                 </label>
               </span>
             </div>
             <div class="field col-12 md:col-4">
               <span class="p-float-label">
-                <input type="text" id="inputtext" pInputText formControlName="AddressLine2" />
+                <input type="text" id="inputtext" pInputText formControlName="addressLine2" />
                 <label for="inputtext">AddressLine2 <sup class="p-error">*</sup>
                 </label>
               </span>
             </div>
             <div class="field col-12 md:col-4">
               <span class="p-float-label">
-                <input type="text" id="inputtext" pInputText formControlName="Landmark" />
+                <input type="text" id="inputtext" pInputText formControlName="landmark" />
                 <label for="inputtext">Landmark <sup class="p-error">*</sup>
                 </label>
               </span>
             </div>
             <div class="field col-12 md:col-4">
               <span class="p-float-label">
-                <input type="text" id="inputtext" pInputText formControlName="ZIPCode" />
-                <label for="inputtext">ZIP Code <sup class="p-error">*</sup>
+                <input type="text" id="inputtext" pInputText formControlName="zipcode" numericOnly/>
+                <label for="inputtext" >ZIP Code <sup class="p-error">*</sup>
                 </label>
               </span>
             </div>
             <div class="field col-12 md:col-4">
               <span class="p-float-label">
-                <input type="text" id="inputtext" pInputText formControlName="City" />
+                <input type="text" id="inputtext" pInputText   formControlName="city"/>
                 <label for="inputtext">City <sup class="p-error">*</sup>
                 </label>
               </span>
             </div>
             <div class="field col-12 md:col-4">
               <span class="p-float-label">
-                <p-dropdown inputId="dropdown" formControlName="State" [autoDisplayFirst]="false" [options]="states"
-                  optionLabel="name" [showClear]="true"></p-dropdown>
+                <p-dropdown inputId="dropdown" formControlName="stateId" [autoDisplayFirst]="false" [options]="states"  optionValue="lookupDetailId"
+                  optionLabel="name" ></p-dropdown>
                 <label for="dropdown">State <sup class="p-error">*</sup>
                 </label>
               </span>
             </div>
             <div class="field col-12 md:col-4">
               <span class="p-float-label">
-                <input type="text" id="inputtext" pInputText formControlName="Country" />
-                <label for="inputtext">Country <sup class="p-error">*</sup>
+                <p-dropdown inputId="dropdown" formControlName="countryId" [autoDisplayFirst]="false" [options]="countries"
+                  optionValue="lookupDetailId" optionLabel="name" ></p-dropdown>
+                <label for="dropdown">Country <sup class="p-error">*</sup>
                 </label>
               </span>
             </div>
+            
             <div class="grid formgrid pl-5">
               <div class="flex flex-wrap gap-3">
                 <div class="flex align-items-center">
-                  <p-radioButton value="Cheese" formControlName="addressType" inputId="ingredient1"></p-radioButton>
+                  <p-radioButton value="Permanent Address" formControlName="addressType"  value="Permanent Address" inputId="ingredient1"></p-radioButton>
                   <label for="ingredient1" class="ml-2">Permanent Address</label>
                 </div>
 
                 <div class="flex align-items-center">
-                  <p-radioButton value="Mushroom" formControlName="addressType" inputId="ingredient2"></p-radioButton>
-                  <label for="ingredient2" class="ml-2">Temporary Address</label>
+                  <p-radioButton value="Temoprary Address" formControlName="addressType" inputId="ingredient2"></p-radioButton>
+                  <label for="ingredient2" class="ml-2">Temoprary Address</label>
                 </div>
 
                 <div class="flex align-items-center">
-                  <p-radioButton value="Pepper" formControlName="addressType" inputId="ingredient3"></p-radioButton>
+                  <p-radioButton value="Current Address" formControlName="addressType" inputId="ingredient3"></p-radioButton>
                   <label for="ingredient3" class="ml-2">Current Address</label>
                 </div>
               </div>
             </div>
             <div class="field col-12 md:col-4">
               <div class="button-container">
-                <p-button type="button" label="Add New Address"></p-button>
+                <p-button type="button" (click)="saveAddress()" label="{{submitLabel}}"></p-button>
               </div>
             </div>
           </div>
@@ -979,7 +1033,7 @@
   </div>
   <ng-template pTemplate="footer">
     <div class="col-4" style="float:right">
-      <button pButton pRipple type="submit" (click)="saveBankDetails()" label="Update Official Details"
+      <button pButton pRipple type="submit" (click)="saveBankDetails()"  label="{{submitLabel}}"
         class="p-button-raised p-button-primary"></button>
     </div>
   </ng-template>

@@ -52,7 +52,7 @@ export class AddressComponent {
 
   initAddress() {
     this.fbAddressDetails = this.formbuilder.group({
-      employeeId: [22],
+      employeeId: [this.employeeId],
       addressId: [0],
       AddressLine1: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
       AddressLine2: new FormControl('', [ Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
@@ -156,6 +156,10 @@ export class AddressComponent {
       this.initAddress();
       if(res){
         this.alertMessage.displayAlertMessage(ALERT_CODES["SAD001"]);
+        this.navigateToNext();
+      }
+      else{
+        this.alertMessage.displayErrorMessage(ALERT_CODES["SAD001"]);
       }
     });
   }
@@ -166,10 +170,10 @@ export class AddressComponent {
 
 
   navigateToPrev() {
-    this.router.navigate(['employee/onboardingemployee/experiencedetails'])
+    this.router.navigate(['employee/onboardingemployee/experiencedetails',this.employeeId])
   }
 
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/uploadfiles'])
+    this.router.navigate(['employee/onboardingemployee/uploadfiles',this.employeeId])
   }
 }

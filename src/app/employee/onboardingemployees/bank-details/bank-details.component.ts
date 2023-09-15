@@ -74,10 +74,10 @@ export class BankDetailsComponent {
     }
   }
   navigateToPrev() {
-    this.router.navigate(['employee/onboardingemployee/familydetails'])
+    this.router.navigate(['employee/onboardingemployee/familydetails',this.employeeId])
   }
 
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/finalsubmit'])
+    this.router.navigate(['employee/onboardingemployee/finalsubmit',this.employeeId])
   }
 }

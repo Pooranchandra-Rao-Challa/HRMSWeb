@@ -44,7 +44,7 @@ export class UploadDocumentsComponent {
     console.log(this.employeeId)
     this.fbUploadDocument = this.formbuilder.group({
       uploadDocumentId: [0],
-      employeeId: 5,
+      employeeId: [this.employeeId],
       title: new FormControl(''),
       fileName: new FormControl(''),
     })
@@ -76,11 +76,11 @@ export class UploadDocumentsComponent {
 
 
   navigateToPrev() {
-    this.router.navigate(['employee/onboardingemployee/addressdetails'])
+    this.router.navigate(['employee/onboardingemployee/addressdetails',this.employeeId])
   }
 
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/familydetails'])
+    this.router.navigate(['employee/onboardingemployee/familydetails',this.employeeId])
   }
 
 
