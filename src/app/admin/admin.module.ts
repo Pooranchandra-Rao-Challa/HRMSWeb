@@ -8,6 +8,7 @@ import { ProjectComponent } from './project/project.component';
 import { AssetsallotmentComponent } from './assetsallotment/assetsallotment.component';
 import { SharedModule } from '../_shared/shared.module';
 import { NgModule } from '@angular/core';
+import { CommonDialogModule } from '../_dialogs/common.dialog.module';
 
 @NgModule({
   declarations: [
@@ -18,11 +19,12 @@ import { NgModule } from '@angular/core';
     RecruitmentComponent,
     ProjectComponent,
     AssetsallotmentComponent,
-    
+
   ],
   imports: [
     AdminRoutingModule,
     SharedModule,
+    CommonDialogModule
   ]
 })
 export class AdminModule { }
