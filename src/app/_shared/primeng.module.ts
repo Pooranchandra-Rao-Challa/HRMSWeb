@@ -42,6 +42,8 @@ import {TooltipModule} from 'primeng/tooltip';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { FileUploadModule } from 'primeng/fileupload';
 import {OrganizationChartModule} from 'primeng/organizationchart';
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
+
 @NgModule({
     exports: [
         ReactiveFormsModule,
@@ -86,6 +88,7 @@ import {OrganizationChartModule} from 'primeng/organizationchart';
         TooltipModule,
         ConfirmDialogModule,FileUploadModule,
         OrganizationChartModule,
+        DynamicDialogModule
     ]
 
 })

@@ -18,6 +18,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { SharedModule } from '../_shared/shared.module';
 import { AddressComponent } from './onboardingemployees/address/address.component';
 import { BankDetailsComponent } from './onboardingemployees/bank-details/bank-details.component';
+import { CommonDialogModule } from '../_dialogs/common.dialog.module';
 
 
 
@@ -44,7 +45,8 @@ import { BankDetailsComponent } from './onboardingemployees/bank-details/bank-de
     EmployeeRoutingModule,
     StepsModule,
     FileUploadModule,
-    SharedModule
+    SharedModule,
+    CommonDialogModule
   ]
 })
 export class EmployeeModule { }
