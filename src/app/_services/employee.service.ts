@@ -48,7 +48,6 @@ export class EmployeeService extends ApiHttpService {
   public CreateFamilyDetails(family: FamilyDetailsDto[]) {
     return this.post<FamilyDetailsDto[]>(CREATE_FAMILY_DETAILS_URI, family)
   }
-
   public Getstates() {
     return this.get<States>(GET_STATES_URI);
   }

@@ -31,7 +31,7 @@ export class FamilyDeatilsComponent implements OnInit {
   fafamilyDetails!: FormArray;
   showFamilyDetails: boolean = true;
   submitLabel: string;
-  employeeId: number;
+  employeeId: any;
   maxLength: MaxLength = new MaxLength();
   relationships: LookupViewDto[] = [];
   address: EmployeAdressViewDto[] = [];
@@ -71,7 +71,7 @@ export class FamilyDeatilsComponent implements OnInit {
   initFamily() {
     this.fbfamilyDetails = this.formbuilder.group({
       familyInformationId: [null],
-      employeeId: [22],
+      employeeId: [this.employeeId],
       name: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2)]),
       relationshipId: new FormControl(null, [Validators.required]),
       addressId: new FormControl(null),
@@ -108,16 +108,16 @@ export class FamilyDeatilsComponent implements OnInit {
 
   generaterow(familyDetails: FamilyDetailsDto = new FamilyDetailsDto()): FormGroup {
     return this.formbuilder.group({
-      familyInformationId: new FormControl(familyDetails.familyInformationId),
-      employeeId: new FormControl(familyDetails.employeeId),
-      name: new FormControl(familyDetails.name, [Validators.required, Validators.minLength(MIN_LENGTH_2)]),
-      relationshipId: new FormControl(familyDetails.relationshipId, [Validators.required]),
-      addressId: new FormControl(familyDetails.addressId),
-      dob: new FormControl(familyDetails.dob, [Validators.required]),
-      adhaarNo: new FormControl(familyDetails.adhaarNo, [Validators.required]),
-      panno: new FormControl(familyDetails.panno, [Validators.pattern(RG_PANNO)]),
-      mobileNumber: new FormControl(familyDetails.mobileNumber, [Validators.required, Validators.pattern(RG_PHONE_NO)]),
-      isNominee: new FormControl(familyDetails.isNominee),
+      familyInformationId: new FormControl({value:familyDetails.familyInformationId,disabled:true}),
+      employeeId: new FormControl({value:familyDetails.employeeId,disabled:true}),
+      name: new FormControl({value:familyDetails.name,disabled:true}),
+      relationshipId: new FormControl({value:familyDetails.relationshipId,disabled:true}),
+      addressId: new FormControl({values:familyDetails.addressId,disabled:true}),
+      dob: new FormControl({value:familyDetails.dob,disabled:true}),
+      adhaarNo: new FormControl({value:familyDetails.adhaarNo,disabled:true}),
+      panno: new FormControl({value:familyDetails.panno,disabled:true}),
+      mobileNumber: new FormControl({value:familyDetails.mobileNumber,disabled:true}),
+      isNominee: new FormControl({value:familyDetails.isNominee,disabled:true}),
     });
   }
   clearForm() {
@@ -128,7 +128,6 @@ export class FamilyDeatilsComponent implements OnInit {
     if (this.fbfamilyDetails.valid) {
       const familyData = this.fbfamilyDetails.value;
       this.familyDetails.push(familyData);
-      this.fbfamilyDetails.disable;
       console.log(this.familyDetails.values);
       this.clearForm();
       this.ShowfamilyDetails = true;
@@ -139,9 +138,7 @@ export class FamilyDeatilsComponent implements OnInit {
   }
   onSubmit() {
     if (this.addFlag) {
-      debugger
       this.save();
-      this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "SFD001" : "SFD002"]);
     }
     else {
       this.fbfamilyDetails.markAllAsTouched();
@@ -150,17 +147,23 @@ export class FamilyDeatilsComponent implements OnInit {
   save() {
     this.savefamilyDetails().subscribe(resp => {
       console.log(resp);
-      // this.employeeId = resp;
+      this.employeeId = resp;
+      if(resp){
+        this.alertMessage.displayAlertMessage(ALERT_CODES["SFD001" ]);
+      }
+      else{
+        this.alertMessage.displayAlertMessage(ALERT_CODES["SFD002" ]);
+      }
       this.navigateToNext();
     })
 
   }
   navigateToPrev() {
-    this.router.navigate(['employee/onboardingemployee/uploadfiles'])
+    this.router.navigate(['employee/onboardingemployee/uploadfiles',this.employeeId])
   }
 
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/bankdetails'])
+    this.router.navigate(['employee/onboardingemployee/bankdetails',this.employeeId])
   }
 
 
