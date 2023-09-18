@@ -633,12 +633,21 @@
                   <tr>
                     <th>Company Name <sup class="p-error">*</sup>
                     </th>
-                    <th>From Date <sup class="p-error">*</sup>
+                    <th>Location<sup class="p-error">*</sup>
                     </th>
-                    <th>To Date <sup class="p-error">*</sup>
+                    <th>Company Emp Id<sup class="p-error">*</sup>
+                    </th>
+                    <th>State<sup class="p-error">*</sup>
                     </th>
                     <th>Designation <sup class="p-error">*</sup>
                     </th>
+                    <th>Skill Areas<sup class="p-error">*</sup>
+                    </th>
+                    <th>Date Of Joining<sup class="p-error">*</sup>
+                    </th>
+                    <th>Date Of Relaving<sup class="p-error">*</sup>
+                    </th>
+                   
                     <th *ngIf="fbexperience.controls['experienceDetails'].value.length > 1"></th>
                   </tr>
                 </ng-template>
@@ -649,19 +658,37 @@
                         placeholder="Enter companyName">
                     </td>
                     <td class="vertical-align-top">
-                      <p-calendar [showIcon]="true" formControlName="fromDate" appendTo="body"
-                        placeholder="Select From Date"></p-calendar>
-
+                      <input pInputText class="form-control" formControlName="companyLocation"
+                        placeholder="Enter Location">
                     </td>
                     <td class="vertical-align-top">
-                      <p-calendar [showIcon]="true" formControlName="toDate" appendTo="body"
-                        placeholder="Select From Date"></p-calendar>
-
+                      <input pInputText class="form-control" formControlName="companyEmployeeId"
+                        placeholder="Enter Company Emp Id">
                     </td>
                     <td class="vertical-align-top">
-                      <input pInputText class="form-control" formControlName="designation"
-                        placeholder="Enter Designation">
+                      <p-dropdown id="states_dropdown" appendTo="body"  optionLabel="name"
+                      placeholder="Select State" [options]="states" optionValue="lookupDetailId" formControlName="stateId">
+                    </p-dropdown>
                     </td>
+                    <td class="vertical-align-top">
+                      <p-dropdown id="designation" appendTo="body"  optionLabel="name"
+                      placeholder="Select designation" [options]="designation" optionValue="lookupDetailId" formControlName="designationId">
+                    </p-dropdown>
+                    </td>
+                    <td class="vertical-align-top">
+                      <p-dropdown id="designation" appendTo="body"  optionLabel="name"
+                      placeholder="Select Skill Area" [options]="skillarea" optionValue="lookupDetailId" formControlName="skillareaId">
+                    </p-dropdown>
+                    </td>
+                    <td class="vertical-align-top">
+                      <p-calendar [showIcon]="true" formControlName="dateOfJoining" appendTo="body"
+                        placeholder="Select From Date"></p-calendar>
+                    </td>
+                    <td class="vertical-align-top">
+                      <p-calendar [showIcon]="true" formControlName="dateOfReliving" appendTo="body"
+                        placeholder="Select From Date"></p-calendar>
+                    </td>
+           
                     <td *ngIf="fbexperience.controls['experienceDetails'].value.length > 1">
                       <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer"
                         *ngIf="!this.faexperienceDetail().controls[experienceDetailsIndex].get('id')?.value"
