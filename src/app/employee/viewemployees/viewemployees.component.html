@@ -1,5 +1,4 @@
 <div class="card">
-  <p-toast key="tst"></p-toast>
   <div class="grid mb-3">
     <p-toast key="tst"></p-toast>
     <div class="col-12 lg:col-2">
@@ -236,7 +235,7 @@
           </div>
         </div>
       </div>
-    
+
     </p-tabPanel>
     <!-- Upload Documents card view -->
     <p-tabPanel header="Upload Documents">
@@ -275,7 +274,7 @@
       </div>
     </p-tabPanel>
     <!-- Assets card view -->
-    <p-tabPanel header="Assets">
+    <!-- <p-tabPanel header="Assets">
       <div class="grid">
         <div class="col-12 lg:col-4" *ngFor="let asset of assetAllotments">
           <div class="card">
@@ -290,8 +289,35 @@
             </ul>
           </div>
         </div>
-    
+
       </div>
+    </p-tabPanel> -->
+
+    <p-tabPanel header="Assets">
+        <div class="grid">
+            <div class="col-12 lg:col-4" *ngFor="let asset of assetAllotments">
+                <div class="card">
+                    <div class="text-900 font-bold text-2xl text-primary mb-1 mt-2">{{asset.assetName}}</div>
+                    <ul class="list-none p-0 m-0 text-600 mb-7 text-600">
+                        <li class="mb-3">
+                            <span class="font-semibold">Assigned On:</span>{{asset.assignedOn | date: mediumDate}}
+                        </li>
+                        <button id="unassign-asset-btn" pButton pRipple type="submit" label="Unassign"
+                            class="p-element p-ripple p-button-text p-button p-component p-button-primary w-100"
+                            (click)="openComponentDialog(unassignassetDialogComponent, asset, ActionTypes.unassign)"></button>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-12 lg:col-4">
+                <div class="card text-center">
+                    <button pButton pRipple icon="pi pi-plus"
+                        class="p-element p-ripple p-button-text p-button p-component m-5 p-5"
+                        (click)="openComponentDialog(addassetallotmentDialogComponent, null, ActionTypes.add)">
+                        Assign Asset</button>
+                </div>
+            </div>
+        </div>
     </p-tabPanel>
 
     <!-- Bank Details card view -->
@@ -319,7 +345,7 @@
           </ul>
         </div>
       </div>
-  
+
       <div class="col-12 lg:col-4">
         <div class="card text-center">
           <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-text p-button p-component m-5 p-5"
@@ -329,7 +355,7 @@
       </div>
     </div>
   </p-tabPanel>
- 
+
 
   </p-tabView>
 
@@ -388,7 +414,7 @@
               </div>
               <div class="field col-12 md:col-4">
                 <label>Marital Status: <sup class="p-error">*</sup> </label>
-                <p-dropdown id="maritalStatus" placeholder="Enter Marital Status" [options]="status"  optionLabel="name" 
+                <p-dropdown id="maritalStatus" placeholder="Enter Marital Status" [options]="status"  optionLabel="name"
                   formControlName="maritalStatus" optionValue="name"></p-dropdown>
               </div>
               <div class="field col-12 md:col-4">

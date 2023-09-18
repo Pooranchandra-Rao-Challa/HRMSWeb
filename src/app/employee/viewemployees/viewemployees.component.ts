@@ -14,7 +14,10 @@ import { AdminService } from 'src/app/_services/admin.service';
 import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { MAX_LENGTH_256, MIN_LENGTH_2, MIN_LENGTH_8, RG_ALPHA_ONLY, RG_IFSC, RG_NUMERIC_ONLY } from 'src/app/_shared/regex';
-import { MaxLength } from 'src/app/_models/common';
+import { Actions, DialogRequest, MaxLength } from 'src/app/_models/common';
+import { AddassetallotmentDialogComponent } from 'src/app/_dialogs/addassetallotment.dialog/addassetallotment.dialog.component';
+import { UnassignassetDialogComponent } from 'src/app/_dialogs/unassignasset.dialog/unassignasset.dialog.component';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 export class Experience {
   id?: number;
   companyName?: string;
@@ -126,8 +129,10 @@ export class ViewemployeesComponent {
   bloodgroups: LookupViewDto[] = [];
   mediumDate: string = MEDIUM_DATE;
   countries: any
-
-
+    ActionTypes = Actions;
+    addassetallotmentDialogComponent = AddassetallotmentDialogComponent;
+    unassignassetDialogComponent = UnassignassetDialogComponent;
+    dialogRequest: DialogRequest = new DialogRequest();
 
   ShowEducationDetails() {
     this.Education = true;
@@ -192,6 +197,8 @@ export class ViewemployeesComponent {
     private activatedRoute: ActivatedRoute,
     private adminService: AdminService,
     private alertMessage: AlertmessageService,
+    public ref: DynamicDialogRef,
+    private dialogService: DialogService
   ) { }
 
 
@@ -215,7 +222,7 @@ export class ViewemployeesComponent {
     this.initGetAddress()
     this.initCountries()
     this.initBloodGroups()
-    
+
   }
 
   getemployeeview() {
@@ -669,4 +676,30 @@ export class ViewemployeesComponent {
   toggleInputField(option: string) {
     this.selectedOption = option;
   }
+
+    openComponentDialog(content: any,
+        dialogData, action: Actions = this.ActionTypes.add) {
+            debugger
+        if (action == Actions.unassign && content === this.unassignassetDialogComponent) {
+            this.dialogRequest.dialogData = dialogData;
+            this.dialogRequest.header = "Unassign Asset";
+            this.dialogRequest.width = "40%";
+        }
+        else if (action == Actions.add && content === this.addassetallotmentDialogComponent) {
+            this.dialogRequest.dialogData = {
+                employeeId: this.employeeId
+            }
+            this.dialogRequest.header = "Asset Allotment";
+            this.dialogRequest.width = "70%";
+        }
+        this.ref = this.dialogService.open(content, {
+            data: this.dialogRequest.dialogData,
+            header: this.dialogRequest.header,
+            width: this.dialogRequest.width
+        });
+        this.ref.onClose.subscribe((res: any) => {
+            if (res) this.initviewAssets();
+            event.preventDefault(); // Prevent the default form submission
+        });
+    }
 }

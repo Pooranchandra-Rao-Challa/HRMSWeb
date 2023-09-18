@@ -1,0 +1,22 @@
+<div class="col-12 text-right align-items-right">
+    <div class="gri align-items-right text-right">
+        <p-button id="redirect-to-add-btn"
+            class="p-element align-items-right text-right p-button p-component p-2 pt-0 pb-0" icon="pi pi-plus"
+            (click)="openComponentDialog(addassetallotmentDialogComponent, null, ActionTypes.add)">
+        </p-button>
+    </div>
+</div>
+<div class="col-12 ">
+    <div class="grid">
+        <div class="col-4" *ngFor="let assetAllotment of assetAllotments">
+            <div class="m-2 card border-1 surface-border">
+                <div class="text-xl font-bold">{{assetAllotment.assetName}}</div>
+                <span class="text-600 font-medium text-sm"> Assigned On : {{assetAllotment.assignedOn |
+                    date: 'MM-dd-yyyy'}} </span>
+                <button id="unassign-asset-btn" pButton pRipple type="submit" label="Unassign"
+                    class="p-element p-ripple p-button-text p-button p-component p-button-primary w-100"
+                    (click)="openComponentDialog(unassignassetDialogComponent, assetAllotment, ActionTypes.unassign)"></button>
+            </div>
+        </div>
+    </div>
+</div>
