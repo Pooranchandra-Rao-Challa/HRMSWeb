@@ -157,19 +157,21 @@
 
 <div class="col-12 scrolling_content" *ngIf="showFamilyDetails">
     <p-table id="table" [value]="familyDetails" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
-    styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true"
+        styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true"
         [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]">
         <ng-template pTemplate="header">
             <tr>
-                <th *ngFor="let col of headers">
+                <th *ngFor="let col of headers"
+                    [ngClass]="col?.field == 'isNominee' || col?.field == 'dob' || col?.field == 'name'  ||col?.field == 'adhaarNo'  ||  col?.field == 'panno'  || col?.field == 'mobileNumber'||col?.field == 'relationshipId'|| col?.field == 'addressId' ? 'text-center' : ''">
                     {{col?.label}}
                 </th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-familyData>
             <tr>
-                <td *ngFor="let col of headers" [ngClass]="col?.field == 'isNominee' ? 'text-center' : ''">
+                <td *ngFor="let col of headers"
+                    [ngClass]="col?.field == 'isNominee' || col?.field == 'name'  ||col?.field == 'adhaarNo'  ||  col?.field == 'panno'  || col?.field == 'mobileNumber'||col?.field == 'relationshipId'|| col?.field == 'addressId' ? 'text-center' : ''">
                     <span
                         *ngIf="col?.field == 'name'  ||col?.field == 'adhaarNo'  ||  col?.field == 'panno'  || col?.field == 'mobileNumber'">
                         {{familyData[col.field]}}
@@ -179,18 +181,18 @@
                     </span>
                     <span *ngIf="col?.field == 'relationshipId'">
                         <p-dropdown id="relationship_dropdown" [(ngModel)]="familyData[col.field]" optionLabel="name"
-                            [options]="relationships" optionValue="lookupDetailId">
+                            [disabled]="true" [options]="relationships" optionValue="lookupDetailId">
                         </p-dropdown>
                     </span>
                     <span *ngIf="col?.field == 'addressId'">
-                        <p-dropdown id="address_dropdown" optionLabel="addressLine1" [options]="address"  [(ngModel)]="familyData[col.field]"
-                            optionValue="addressId">
+                        <p-dropdown id="address_dropdown" optionLabel="addressLine1" [options]="address"
+                            [disabled]="true" [(ngModel)]="familyData[col.field]" optionValue="addressId">
                         </p-dropdown>
                     </span>
                     <span *ngIf=" col?.field=='isNominee'">
                         <p-checkbox name=" isNominee" value="isNominee" [binary]="true"
                             [(ngModel)]="familyData[col.field]" [disabled]="true">
-                            </p-checkbox>
+                        </p-checkbox>
                     </span>
                 </td>
             </tr>

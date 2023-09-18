@@ -61,6 +61,7 @@ export class BankDetailsComponent {
   save() {
     if (this.fbbankDetails.valid) {
       this.savebankDetails().subscribe(resp => {
+        this.employeeId = resp;
         this.fbbankDetails.disable();
       })
     }

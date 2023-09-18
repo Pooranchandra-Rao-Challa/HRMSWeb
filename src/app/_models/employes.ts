@@ -36,10 +36,11 @@ export class EducationDetailsDto{
 	stateId?:number;
 	institutionName?:string;
 	authorityName?:string;
-	passedOutyear?:string;
-	gradingMethodId?:string;
-	gradingValue?:string;
+	passedOutyear?:Date;
+	gradingMethodId?:number;
+	gradingValue?:number;
 }
+
 export class FamilyDetailsDto {
 	familyInformationId?: number;
 	employeeId?: number;
@@ -72,24 +73,24 @@ export class BankDetailsDto {
 	accountNumber?: number;
 	isActive?: boolean;
 }
-export class UploadDocuments{
-	uploadDocumentId?:number;
-	employeeId?:number;
-	title?:string;
-	fileName?:string;
+export class UploadDocuments {
+	uploadDocumentId?: number;
+	employeeId?: number;
+	title?: string;
+	fileName?: string;
 }
-export class AddressDetailsDto{
-	employeeId:number
+export class AddressDetailsDto {
+	employeeId: number
 	addressId: number
 	AddressLine1: string
 	AddressLine2: string
-	Landmark:string
-	ZIPCode:number
-	City:string
-	stateId:number
+	Landmark: string
+	ZIPCode: number
+	City: string
+	stateId: number
 	countryId: number
 	addressType: string
-	IsActive:boolean
+	IsActive: boolean
 }
 
 export class EmployeeBasicDetailViewDto {
@@ -116,15 +117,43 @@ export class EmployeeBasicDetailViewDto {
 	updatedAt?: Date;
 	updatedBy?: string;
 }
-export class States{
-	lookupDetailId:number
+export class States {
+	lookupDetailId: number
 	code: string
-    name: string
+	name: string
 }
-export class Countries{
-	lookupDetailId:number
+export class Designation{
+	lookupDetailId: number
 	code: string
-    name: string
+	name: string
+}
+export class SkillArea{
+	lookupDetailId: number
+	code: string
+	name: string
+}
+export class Countries {
+	lookupDetailId: number
+	code: string
+	name: string
+}
+export class ExperienceDetailsDto {
+	workExperienceId: number
+	employeeId: number
+	isAfresher: boolean
+	companyName: string
+	companyLocation: string
+	companyEmployeeId: string
+	designationId: number
+	dateOfJoining: Date
+	dateOfReliving: Date
+	stateId: number
+	workExperienceXrefs: skillArea[]
+}
+export class skillArea {
+	workExperienceXrefId: number
+	workExperienceId: number
+	skillAreaId: number
 }
 export class EmployeeOfficedetailsviewDto {
 	employeeId?: number;
@@ -208,23 +237,46 @@ export class EmployeAdressViewDto {
 }
 
 export class FamilyDetailsViewDto {
-	employeeId?: number
-	employeeName?: string
-	code?: string
-	familyInformationId?: number
-	name?: string
-	relationshipId?: number
-	relationship?: string
-	addressId?: number
-	addressLine1?: string
-	city?: string
-	stateId?: number
-	state?: string
-	mobileNumber?: string
-	isNominee?: boolean
-	createdAt?: string
-	createdBy?: string
-	updatedAt?: string
-	updatedBy?: string
+	employeeId: number;
+	employeeName: string;
+	code: string;
+	familyInformationId: number;
+	name: string;
+	adhaarNo: string;
+	panNo: string | null;
+	dob: Date;
+	relationshipId: number;
+	relationship: string;
+	addressId: number;
+	addressLine1: string;
+	city: string;
+	stateId: number;
+	state: string;
+	mobileNumber: string;
+	isNominee: boolean;
+	createdAt: Date;
+	createdBy: string;
+	updatedAt: Date;
+	updatedBy: string;
 }
 
+export class employeeEducDtlsViewDto {
+	employeeId?: number;
+	employeeName?: string;
+	code?: string;
+	educationDetailId?: number;
+	streamId?: number;
+	stream?: string;
+	stateId?: number;
+	state?: string;
+	institutionName?: string;
+	authorityName?: string;
+	passedOutyear?: Date;
+	gradingMethodId?: number;
+	gradingMethod?: string;
+	gradingValue?: number;
+	createdAt?: Date;
+	createdBy?: string
+	updatedAt?: Date;
+	updatedBy?: string
+}
