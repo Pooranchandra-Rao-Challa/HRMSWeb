@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit {
                         }
                     },
                     error: (error) => {
-                        this.messageService.add({ severity: 'error', key: 'myToast', summary: 'Error: ' + error.statusCode + ' - ' + error.statusDescription, detail: error.message });
+                        this.messageService.add({ severity: 'error', key: 'myToast', detail: error.message });
                         this.submitted = false;
                     },
                     complete: () => {

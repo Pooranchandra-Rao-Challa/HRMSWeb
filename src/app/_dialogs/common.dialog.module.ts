@@ -1,16 +1,17 @@
 import { NgModule } from '@angular/core';
-import { DialogService } from 'primeng/dynamicdialog';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { SharedModule } from '../_shared/shared.module';
 import { AddassetallotmentDialogComponent } from './addassetallotment.dialog/addassetallotment.dialog.component';
 import { UnassignassetDialogComponent } from './unassignasset.dialog/unassignasset.dialog.component';
+import { ViewAssetAllotmentsDialogComponent } from './viewassetallotments.dialog/viewassetallotments.dialog.component';
 
 @NgModule({
   declarations: [
     AddassetallotmentDialogComponent,
-    UnassignassetDialogComponent
+    UnassignassetDialogComponent,
+    ViewAssetAllotmentsDialogComponent
   ],
-  exports: [AddassetallotmentDialogComponent],
   imports: [SharedModule],
-  providers: [DialogService]
+  providers: [DialogService, DynamicDialogRef]
 })
 export class CommonDialogModule { }
