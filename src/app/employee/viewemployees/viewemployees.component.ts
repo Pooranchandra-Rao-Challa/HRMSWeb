@@ -13,6 +13,10 @@ import { AssetAllotmentViewDto } from 'src/app/_models/admin/assetsallotment';
 import { AdminService } from 'src/app/_services/admin.service';
 import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
+import { Actions, DialogRequest } from 'src/app/_models/common';
+import { AddassetallotmentDialogComponent } from 'src/app/_dialogs/addassetallotment.dialog/addassetallotment.dialog.component';
+import { UnassignassetDialogComponent } from 'src/app/_dialogs/unassignasset.dialog/unassignasset.dialog.component';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { MAX_LENGTH_256, MIN_LENGTH_2, MIN_LENGTH_8, RG_ALPHA_ONLY, RG_IFSC, RG_NUMERIC_ONLY, RG_PANNO, RG_PHONE_NO } from 'src/app/_shared/regex';
 import { MaxLength } from 'src/app/_models/common';
 import { Observable } from 'rxjs';
@@ -129,6 +133,10 @@ export class ViewemployeesComponent {
   bloodgroups: LookupViewDto[] = [];
   mediumDate: string = MEDIUM_DATE;
   countries: any
+    ActionTypes = Actions;
+    addassetallotmentDialogComponent = AddassetallotmentDialogComponent;
+    unassignassetDialogComponent = UnassignassetDialogComponent;
+    dialogRequest: DialogRequest = new DialogRequest();
 
   showExperienceDetails() {
     this.Experience = true;
@@ -191,6 +199,8 @@ export class ViewemployeesComponent {
     private activatedRoute: ActivatedRoute,
     private adminService: AdminService,
     private alertMessage: AlertmessageService,
+    public ref: DynamicDialogRef,
+    private dialogService: DialogService
   ) { }
 
   ngOnInit(): void {
@@ -207,6 +217,7 @@ export class ViewemployeesComponent {
     this.initAddress();
     this.initStates();
     this.initBloodGroups()
+
   }
 
   getemployeeview() {
@@ -399,7 +410,7 @@ export class ViewemployeesComponent {
   removeEducationDetail(index: number) {
     this.faeducationDetail().removeAt(index);
   }
-  
+
   saveEducationDetails() {
     // if (this.fbEducationDetails.valid) {
     //   const educationData = this.fbEducationDetails.value;
@@ -409,7 +420,7 @@ export class ViewemployeesComponent {
     // }
     debugger
     this.employeeService.updateViewEmpEduDtls(this.fbEducationDetails.value.educationDetails).subscribe((resp) => {
-      console.log(resp); 
+      console.log(resp);
       if (resp) {
         this.initGetEducationDetails();
         this.Education = false;
@@ -545,7 +556,7 @@ export class ViewemployeesComponent {
       this.employeeService.GetCountries().subscribe((resp) => {
         this.countries = resp as unknown as Countries[];
         console.log('this.countries', this.countries);
-        
+
         resolve();
       });
     });
@@ -569,7 +580,7 @@ export class ViewemployeesComponent {
     this.submitLabel = "Update Adress";
     console.log(address);
     this.Address = true;
-   
+
   }
   saveAddress() {
     const formValue = { ...this.fbAddressDetails.value, employeeId: this.employeeId };
@@ -588,7 +599,7 @@ export class ViewemployeesComponent {
       }
     });
   }
-  
+
   initFamily() {
     this.fbfamilyDetails = this.formbuilder.group({
       familyInformationId: [],
@@ -635,7 +646,7 @@ export class ViewemployeesComponent {
       isNominee: familyDetails.isNominee,
     });
     this.submitLabel = "Update Family Details";
-    this.Family = true; 
+    this.Family = true;
   }
 
   savefamilyDetails() {
@@ -651,7 +662,7 @@ export class ViewemployeesComponent {
         this.alertMessage.displayAlertMessage(ALERT_CODES[alertCode]);
         this.initFamily();
         this.initGetFamilyDetails();
-        this.Family = false; 
+        this.Family = false;
       }
     });
   }
@@ -674,7 +685,7 @@ export class ViewemployeesComponent {
       ]),
     });
   }
- 
+
 
 
   faexperienceDetail(): FormArray {
@@ -703,4 +714,30 @@ export class ViewemployeesComponent {
   toggleInputField(option: string) {
     this.selectedOption = option;
   }
+
+    openComponentDialog(content: any,
+        dialogData, action: Actions = this.ActionTypes.add) {
+            debugger
+        if (action == Actions.unassign && content === this.unassignassetDialogComponent) {
+            this.dialogRequest.dialogData = dialogData;
+            this.dialogRequest.header = "Unassign Asset";
+            this.dialogRequest.width = "40%";
+        }
+        else if (action == Actions.add && content === this.addassetallotmentDialogComponent) {
+            this.dialogRequest.dialogData = {
+                employeeId: this.employeeId
+            }
+            this.dialogRequest.header = "Asset Allotment";
+            this.dialogRequest.width = "70%";
+        }
+        this.ref = this.dialogService.open(content, {
+            data: this.dialogRequest.dialogData,
+            header: this.dialogRequest.header,
+            width: this.dialogRequest.width
+        });
+        this.ref.onClose.subscribe((res: any) => {
+            if (res) this.initviewAssets();
+            event.preventDefault(); // Prevent the default form submission
+        });
+    }
 }

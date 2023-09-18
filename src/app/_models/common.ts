@@ -27,3 +27,19 @@ export class ConfirmationRequest {
     header: string = 'Confirmation';
     icon: string = 'pi pi-exclamation-triangle';
 }
+
+export enum Actions {
+    new, add, view, edit, delete, unassign
+  }
+
+export class DialogRequest {
+    dialogData?: any;
+    header?: string;
+    width?: string;
+}
+
+export enum AssetAllotment {
+    Add,
+    View,
+    Unassign
+}
