@@ -146,7 +146,6 @@ relationshipStatus: General[] |undefined ;
   }
   save() {
     this.savefamilyDetails().subscribe(resp => {
-      console.log(resp);
       this.employeeId = resp;
       if(resp){
         this.alertMessage.displayAlertMessage(ALERT_CODES["SFD001" ]);

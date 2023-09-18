@@ -83,7 +83,7 @@ export class EmployeeService extends ApiHttpService {
     return this.getWithId<EmployeAdressViewDto[]>(GET_ADDRESS_BASED_ON_ID_URI, [employeeId])
   }
   public GetEducationDetails(employeeId: number) {
-    return this.getWithId<any[]>(GET_EDUCATION_DETAILS_URI, [employeeId])
+    return this.getWithId<EducationDetailsDto[]>(GET_EDUCATION_DETAILS_URI, [employeeId])
   }
   public GetWorkExperience(employeeId: number) {
     return this.getWithId<any[]>(GET_WORKEXPERIENCE_URI, [employeeId])
@@ -111,8 +111,8 @@ export class EmployeeService extends ApiHttpService {
     return this.post<EmployeeOfficedetailsDto>(UPDATE_OFFICE_DETAILS_URI, empOfficDtls);
   }
 
-  public updateViewEmpEduDtls(empEduDtls: EducationDetailsDto) {
+  public updateViewEmpEduDtls(empEduDtls: EducationDetailsDto[]) {
     debugger
-    return this.post<EducationDetailsDto>(UPDATE_EDUCATION_DETAILS, empEduDtls);
+    return this.post<EducationDetailsDto[]>(UPDATE_EDUCATION_DETAILS, empEduDtls);
   }
 }

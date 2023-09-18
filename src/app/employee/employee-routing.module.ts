@@ -29,7 +29,8 @@ const routes: Routes = [];
         children: [
           { path: 'addressdetails', component: AddressComponent },
           { path: 'basicdetails', component: BasicDetailsComponent },
-          { path: 'educationdetails', component: EducationDetailsComponent },
+          { path: 'basicdetailsbyId/:employeeId', component: BasicDetailsComponent },
+          { path: 'educationdetails/:employeeId', component: EducationDetailsComponent },
           { path: 'experiencedetails', component: ExperienceDetailsComponent },
           { path: 'bankdetails', component: BankDetailsComponent },
           { path: 'uploadfiles', component: UploadDocumentsComponent },
