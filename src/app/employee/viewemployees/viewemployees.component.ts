@@ -25,10 +25,6 @@ export class Experience {
   designation?: string;
   experienceDetails?: string;
 }
-interface States {
-  statename: string;
-  code: string;
-}
 interface General {
   name: string;
   code: string;
@@ -69,13 +65,14 @@ export class ViewemployeesComponent {
   // employee office details
   fbOfficDtls!: FormGroup;
   employeeofficeDtls = new EmployeeOfficedetailsviewDto();
-  employeeofficDtl = new EmployeeOfficedetailsDto()
+  employeeofficDtl = new EmployeeOfficedetailsDto();
   // employee education details
   fbEducationDetails!: FormGroup;
   faeducationDetails!: FormArray;
   educationDetails: employeeEducDtlsViewDto[] = [];
   empEduDetails = new EducationDetailsDto();
-  // adredss: any[];
+  stream: LookupViewDto[] = [];
+  circulum: LookupViewDto[] = [];
   familyDetails: FamilyDetailsViewDto[];
   fafamilyDetails!: FormArray;
   fbfamilyDetails: FormGroup;
@@ -120,7 +117,6 @@ export class ViewemployeesComponent {
   maxLength: MaxLength = new MaxLength();
   addFlag: boolean = true;
   addfields: any;
-  State: States[];
   relationshipStatus: General[];
   submitLabel: string;
   value: Date;
@@ -197,6 +193,7 @@ export class ViewemployeesComponent {
     this.getemployeeview();
     this.Data();
     this.EmpBasicDtlsForm();
+    this.initCirculum();
     this.bankDetailsForm();
     this.initFamily();
     this.OfficDtlsForm();
@@ -361,6 +358,7 @@ export class ViewemployeesComponent {
     return this.formbuilder.group({
       educationDetailId: new FormControl(empEduDetails.educationDetailId),
       employeeId: new FormControl(empEduDetails.employeeId),
+      circulumId: new FormControl(null),
       streamId: new FormControl(empEduDetails.streamId),
       stateId: new FormControl(empEduDetails.stateId),
       institutionName: new FormControl(empEduDetails.institutionName),
@@ -368,6 +366,19 @@ export class ViewemployeesComponent {
       passedOutyear: new FormControl(empEduDetails.passedOutyear),
       gradingMethodId: new FormControl(empEduDetails.gradingMethodId),
       gradingValue: new FormControl(empEduDetails.gradingMethodId),
+    });
+  }
+  getStreamByCirculumId(Id: number) {
+    this.lookupService.Stream(Id).subscribe((resp) => {
+      if (resp) {
+        this.stream = resp as unknown as LookupViewDto[];
+      }
+    });
+  }
+
+  initCirculum() {
+    this.lookupService.Circulum().subscribe((resp) => {
+      this.circulum = resp as unknown as LookupViewDto[];
     });
   }
 
@@ -407,7 +418,6 @@ export class ViewemployeesComponent {
     //   this.fbEducationDetails.reset();
     //   this.ShoweducationDetails = true;
     // }
-    debugger
     this.employeeService.updateViewEmpEduDtls(this.fbEducationDetails.value.educationDetails).subscribe((resp) => {
       console.log(resp); 
       if (resp) {
@@ -536,7 +546,7 @@ export class ViewemployeesComponent {
   }
   initStates() {
     this.employeeService.Getstates().subscribe((resp) => {
-      this.states = resp as unknown as States[];
+      this.states = resp as unknown as LookupViewDto[];
       console.log(this.states)
     })
   }
