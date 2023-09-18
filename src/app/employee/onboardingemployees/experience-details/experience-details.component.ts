@@ -146,6 +146,7 @@ export class ExperienceDetailsComponent {
   onSelectSkill(e) {
     this.viewSelectedSkills=e.value
     let CurrentArray=e.value; 
+    console.log(this.viewSelectedSkills,CurrentArray)
     let  updatedArray=[];
     for (let i = 0; i < CurrentArray.length; i++) {
        updatedArray.push({ workExperienceXrefId: 0, workExperienceId: 0, skillAreaId:CurrentArray[i].lookupDetailId  })

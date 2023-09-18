@@ -58,7 +58,7 @@ export class AddressComponent {
       AddressLine1: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
       AddressLine2: new FormControl('', [Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
       Landmark: new FormControl('', [ Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
-      ZIPCode: new FormControl('',[Validators.required,Validators.pattern(RG_PINCODE)]),
+      ZIPCode: new FormControl('',[Validators.required]),
       City: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
       stateId: new FormControl('',[Validators.required]),
       countryId: new FormControl('',[Validators.required]),
@@ -150,7 +150,7 @@ export class AddressComponent {
     this.saveAddress().subscribe(res => {
       if(res){
         this.alertMessage.displayAlertMessage(ALERT_CODES["SAD001"]);
-        this.navigateToNext();
+        // this.navigateToNext();
       }
       else{
         this.alertMessage.displayErrorMessage(ALERT_CODES["SAD001"]);
