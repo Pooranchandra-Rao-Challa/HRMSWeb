@@ -1,21 +1,15 @@
 import { HttpEvent } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
-import { Designation, ExperienceDetailsDto, SkillArea, States } from 'src/app/_models/employes';
+import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
+import { MaxLength } from 'src/app/_models/common';
+import { Designation, ExperienceDetailsDto, SkillArea, States, skillArea } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
+import { MAX_LENGTH_20, MAX_LENGTH_50, MIN_LENGTH_2 } from 'src/app/_shared/regex';
 
-
-export class Experience {
-  id?: number;
-  companyName?: string;
-  fromDate?: Date;
-  toDate?: Date;
-  designation?: string;
-  experienceDetails?: string;
-}
 
 @Component({
   selector: 'app-experience-details',
@@ -24,19 +18,20 @@ export class Experience {
 })
 
 export class ExperienceDetailsComponent {
-
+  mediumDate: string = MEDIUM_DATE;
   states: States[] = [];
   designation: Designation[] = []
   skills: SkillArea[] = []
   selectedOption: string;
-  inputValue: string;
+  maxLength: MaxLength = new MaxLength();
+  viewSelectedSkills:skillArea[]=[];
   fbexperience!: FormGroup;
   fbfresher!: FormGroup
   faexperienceDetails!: FormArray;
   dialog: boolean = false;
   addfields: any;
   employeeId: any;
-  ShowexperienceDetails: boolean = false;
+  @ViewChild('multiSelect') multiSelect: any;
 
   constructor(private router: Router, private formbuilder: FormBuilder, private route: ActivatedRoute,
     private alertMessage: AlertmessageService, private employeeService: EmployeeService) { }
@@ -48,11 +43,11 @@ export class ExperienceDetailsComponent {
     this.initDesignations();
     this.initStates();
     this.initSkills();
+    this.fresherForm();
     this.experienceForm();
     this.selectedOption = 'Fresher';
   }
-  experienceForm() {
-    this.addfields = []
+  fresherForm(){
     this.fbfresher = this.formbuilder.group({
       employeeId: 5,
       workExperienceId: [],
@@ -65,19 +60,21 @@ export class ExperienceDetailsComponent {
       dateOfJoining: new FormControl(null),
       dateOfReliving: new FormControl(null),
       workExperienceXrefs: new FormControl([{ workExperienceXrefId:null, workExperienceId:null , skillAreaId:null }])
-    })
-    console.log(this.fbfresher.value)
+    });
+  }
+  experienceForm() {
     this.fbexperience = this.formbuilder.group({
       employeeId: 22,
       workExperienceId: [],
       isAfresher: new FormControl(false, [Validators.required]),
-      companyName: new FormControl('', [Validators.required]),
-      companyLocation: new FormControl('', [Validators.required]),
-      companyEmployeeId: new FormControl(''),
-      stateId: new FormControl('', [Validators.required]),
-      designationId: new FormControl('', [Validators.required]),
-      dateOfJoining: new FormControl('', [Validators.required]),
-      dateOfReliving: new FormControl('', [Validators.required]),
+      companyName: new FormControl('', [Validators.required,Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
+      companyLocation: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
+      companyEmployeeId: new FormControl(null, [ Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_20)]),
+      stateId: new FormControl(null, [Validators.required]),
+      designationId: new FormControl(null, [Validators.required]),
+      dateOfJoining: new FormControl(null, [Validators.required]),
+      dateOfReliving: new FormControl(null, [Validators.required]),
+      skills:new FormControl(null, [Validators.required]),
       workExperienceXrefs:  new FormControl([], [Validators.required]),
       experienceDetails: this.formbuilder.array([])
     });
@@ -95,6 +92,7 @@ export class ExperienceDetailsComponent {
   initDesignations() {
     this.employeeService.GetDesignation().subscribe((resp) => {
       this.designation = resp as unknown as Designation[];
+      console.log(this.designation)
     })
   }
   generaterow(experienceDetails: ExperienceDetailsDto = new ExperienceDetailsDto()): FormGroup {
@@ -117,7 +115,6 @@ export class ExperienceDetailsComponent {
     if (this.fbexperience.invalid) {
       return;
     }
-  
     else {
       // Push current values into the FormArray
       this.faExperienceDetail().push(this.generaterow(this.fbexperience.getRawValue()));
@@ -143,14 +140,13 @@ export class ExperienceDetailsComponent {
   faExperienceDetail(): FormArray {
     return this.fbexperience.get('experienceDetails') as FormArray
   }
-  onSelectState(e) {
-    this.fbexperience.get('stateId')?.setValue(e.value.lookupDetailId);
-  }
-  onSelectDesignation(e) {
-    this.fbexperience.get('designationId')?.setValue(e.value.lookupDetailId);
+  get FormControls() {
+    return this.fbexperience.controls;
   }
   onSelectSkill(e) {
+    this.viewSelectedSkills=e.value
     let CurrentArray=e.value; 
+    console.log(this.viewSelectedSkills,CurrentArray)
     let  updatedArray=[];
     for (let i = 0; i < CurrentArray.length; i++) {
        updatedArray.push({ workExperienceXrefId: 0, workExperienceId: 0, skillAreaId:CurrentArray[i].lookupDetailId  })
@@ -166,6 +162,9 @@ export class ExperienceDetailsComponent {
     }
 
      
+  }
+  isMultiSelectValid(): boolean {
+    return this.multiSelect && this.multiSelect.invalid && this.multiSelect.touched;
   }
   onSubmit() {
     this.saveExperience().subscribe(res => {

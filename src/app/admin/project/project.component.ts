@@ -23,27 +23,27 @@ interface AutoCompleteCompleteEvent {
   styles: ['']
 })
 export class ProjectComponent implements OnInit {
-  Employees: EmployeesList[] = [];
   employees: EmployeesList[] = [];
   projects: ProjectViewDto[] = [];
   clientsNames: ClientNamesDto[] = [];
+  Employees: EmployeesList[] = [];
   clientDetails: ClientDetailsDto;
   visible: boolean = false;
   filteredClients: any;
-  showUnassignEmployee: boolean = false;
   fbUnAssignEmployee!: FormGroup;
   fbproject!: FormGroup;
   maxLength: MaxLength = new MaxLength();
   imageSize: any;
   dialog1:boolean;
+  dialog: boolean;
   permission: any;
   addFlag: boolean = true;
-  dialog: boolean;
   submitLabel!: string;
   minDateVal = new Date();
   projectDetails: any = {};
-  projectTreeData: TreeNode[];
   selectedFileBase64: string | null = null; // To store the selected file as base64
+
+  projectTreeData: TreeNode[];
   rootProject: TreeNode = {
     type: 'person',
     styleClass: ' text-orange',
@@ -59,10 +59,13 @@ export class ProjectComponent implements OnInit {
 
   ngOnInit() {
     this.permission = this.jwtService.Permissions;
+    this.projectForm();
     this.initProjects();
     this.initClientNames();
     this.initEmployees();
     this.unAssignEmployeeForm();
+  }
+  projectForm(){
     this.fbproject = this.formbuilder.group({
       clientId: [0],
       projectId: [0],
@@ -86,7 +89,6 @@ export class ProjectComponent implements OnInit {
       }),
       ProjectAllotments: new FormControl()
     });
-
   }
 
   unAssignEmployeeForm() {
@@ -103,8 +105,9 @@ export class ProjectComponent implements OnInit {
     this.fcUnAssignAsset['projectId']?.setValue(employee.projectId);
     this.fcUnAssignAsset['employeeId']?.setValue(employee.employeeId);
     this.fcUnAssignAsset['isActive']?.setValue(false);
+    debugger
     this.adminService.UnassignEmployee(this.fbUnAssignEmployee.value).subscribe((resp) => {
-      if (resp) {
+      if ( this.visible) {
         this.alertMessage.displayAlertMessage(ALERT_CODES["SMEUA001"]);
         this.ngOnInit();
         this.visible = false;
