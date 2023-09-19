@@ -150,6 +150,7 @@ export class ExperienceDetailsDto {
 	stateId: number
 	workExperienceXrefs: skillArea[]
 }
+
 export class skillArea {
 	workExperienceXrefId: number
 	workExperienceId: number
@@ -280,3 +281,5 @@ export class employeeEducDtlsViewDto {
 	updatedAt?: Date;
 	updatedBy?: string
 }
+
+

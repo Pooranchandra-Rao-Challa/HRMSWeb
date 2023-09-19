@@ -13,7 +13,8 @@ import {
   GET_WORKEXPERIENCE_URI,
   UPDATE_EDUCATION_DETAILS,
   UPDATE_EMPLOYEE_BASED_ON_ID_URI,
-  UPDATE_OFFICE_DETAILS_URI
+  UPDATE_OFFICE_DETAILS_URI,
+  UPDATE_EXPERIENCE_DETAILS
 } from './api.uri.service';
 import {  Designation,  ExperienceDetailsDto,SkillArea,AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments } from '../_models/employes';
 
@@ -114,5 +115,10 @@ export class EmployeeService extends ApiHttpService {
   public updateViewEmpEduDtls(empEduDtls: EducationDetailsDto[]) {
     debugger
     return this.post<EducationDetailsDto[]>(UPDATE_EDUCATION_DETAILS, empEduDtls);
+  }
+
+  public updateViewEmpExperienceDtls(empExpDtls: ExperienceDetailsDto ) {
+    debugger
+    return this.post<ExperienceDetailsDto>(UPDATE_EXPERIENCE_DETAILS, empExpDtls);
   }
 }
