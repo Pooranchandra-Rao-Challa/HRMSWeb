@@ -27,7 +27,6 @@ export class BankDetailsComponent {
     });
     console.log(this.employeeId)
     this.bankDetailsForm();
-
   }
   bankDetailsForm() {
     this.fbbankDetails = this.formbuilder.group({
@@ -50,24 +49,14 @@ export class BankDetailsComponent {
   }
   onSubmit() {
     if (this.fbbankDetails.valid) {
-      if (this.addFlag) {
-        this.save();
-        console.log(this.fbbankDetails.value);
-      }
-    } else {
-      this.fbbankDetails.markAllAsTouched();
-    }
-  }
-  save() {
-    if (this.fbbankDetails.valid) {
       this.savebankDetails().subscribe(resp => {
-        this.employeeId = resp;
-        this.fbbankDetails.disable();
       })
     }
     else {
       this.fbbankDetails.markAllAsTouched();
     }
+    this.fbbankDetails.reset();
+    this.navigateToNext();
   }
   restrictSpaces(event: KeyboardEvent) {
     if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {
@@ -75,10 +64,10 @@ export class BankDetailsComponent {
     }
   }
   navigateToPrev() {
-    this.router.navigate(['employee/onboardingemployee/familydetails'])
+    this.router.navigate(['employee/onboardingemployee/familydetails',this.employeeId])
   }
 
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/finalsubmit'])
+    this.router.navigate(['employee/onboardingemployee/finalsubmit',this.employeeId])
   }
 }
