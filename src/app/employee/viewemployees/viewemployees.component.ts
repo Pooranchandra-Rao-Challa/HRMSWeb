@@ -90,6 +90,9 @@ export class ViewemployeesComponent {
   workExperience: any[];
   faexperienceDetails!: FormArray;
   UploadedDocuments: any[];
+  myFiles = [];
+  uploadDocuments = [];
+  fbUploadDocument!: FormGroup;
   bankDetails: boolean = false;
   bankDetails1: BankDetailViewDto[];
   officeDtls: any[];
@@ -206,6 +209,7 @@ export class ViewemployeesComponent {
     this.initCirculum();
     this.bankDetailsForm();
     this.initFamily();
+    this.UploadDocument()
     this.OfficDtlsForm();
     this.initEducation();
     this.addEducationDetails();
@@ -519,11 +523,6 @@ export class ViewemployeesComponent {
   initExperience() {
     this.addfields = [];
     this.fbexperience = this.formbuilder.group({
-      id: [],
-      companyName: new FormControl('', [Validators.required]),
-      fromDate: new FormControl('', [Validators.required]),
-      toDate: new FormControl('', [Validators.required]),
-      designation: new FormControl('', [Validators.required]),
       experienceDetails: this.formbuilder.array([]),
     });
   }
@@ -533,10 +532,42 @@ export class ViewemployeesComponent {
       console.log('this.GetWorkExperience', this.workExperience);
     });
   }
+  generateExperienceDetailsRow(
+    experienceDetails: Experience = new Experience()
+  ): FormGroup {
+    return this.formbuilder.group({
+      id: [experienceDetails.id],
+      companyName: new FormControl(experienceDetails.companyName, [
+        Validators.required,
+      ]),
+      fromDate: new FormControl(experienceDetails.fromDate, [
+        Validators.required,
+      ]),
+      toDate: new FormControl(experienceDetails.toDate, [
+        Validators.required,
+      ]),
+      designation: new FormControl(experienceDetails.designation, [
+        Validators.required,
+      ]),
+    });
+  }
+
+
+
+  faexperienceDetail(): FormArray {
+    return this.fbexperience.get('experienceDetails') as FormArray;
+  }
+
+  addexperienceDetails() {
+    this.ShowexperienceDetails = true;
+    this.faexperienceDetails = this.fbexperience.get('experienceDetails') as FormArray;
+    this.faexperienceDetails.push(this.generateExperienceDetailsRow());
+  }
+
 
   initAddress() {
     this.fbAddressDetails = this.formbuilder.group({
-      employeeId: [22],
+      employeeId: [],
       addressId: [''],
       addressLine1: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
       addressLine2: new FormControl(''),
@@ -676,40 +707,51 @@ export class ViewemployeesComponent {
       }
     });
   }
-  generateExperienceDetailsRow(
-    experienceDetails: Experience = new Experience()
-  ): FormGroup {
-    return this.formbuilder.group({
-      id: [experienceDetails.id],
-      companyName: new FormControl(experienceDetails.companyName, [
-        Validators.required,
-      ]),
-      fromDate: new FormControl(experienceDetails.fromDate, [
-        Validators.required,
-      ]),
-      toDate: new FormControl(experienceDetails.toDate, [
-        Validators.required,
-      ]),
-      designation: new FormControl(experienceDetails.designation, [
-        Validators.required,
-      ]),
-    });
-  }
-
-
-
-  faexperienceDetail(): FormArray {
-    return this.fbexperience.get('experienceDetails') as FormArray;
-  }
-
-  addexperienceDetails() {
-    this.ShowexperienceDetails = true;
-    this.faexperienceDetails = this.fbexperience.get('experienceDetails') as FormArray;
-    this.faexperienceDetails.push(this.generateExperienceDetailsRow());
-  }
-
+  
   onSubmit() {
 
+  }
+  UploadDocument(){
+   this.fbUploadDocument = this.formbuilder.group({
+     uploadDocumentId: [],
+     employeeId: this.employeeId,
+     title: new FormControl(''),
+     fileName: new FormControl(''),
+   })
+  }
+  getFileDetails(e) {
+    console.log(e.target)
+    for (var i = 0; i < e.target.files.length; i++) {
+      this.myFiles.push(e.target.files[i]);
+    }
+  }
+
+  uploadFiles() {
+    this.uploadDocuments = [];
+    for (let i = 0; i < this.myFiles.length; i++) {
+      let fileDetails = this.myFiles[i];
+      this.fbUploadDocument.patchValue({
+        title: fileDetails.name,
+        fileName: fileDetails.type
+      })
+      this.uploadDocuments.push(this.fbUploadDocument.value)
+    }
+    this.employeeService.CreateUploadDocuments(this.uploadDocuments).subscribe((resp) => {
+      console.log(resp);
+    })
+
+  }
+  removeDocument(uploadedDocument) {
+    // Remove the document from the UploadedDocuments array
+    const index = this.UploadedDocuments.indexOf(uploadedDocument);
+    if (index !== -1) {
+      this.UploadedDocuments.splice(index, 1);    }
+  }
+  downloadDocument(uploadedDocument) {
+    const downloadLink = document.createElement('a');
+    downloadLink.href = '/path/to/file/' + uploadedDocument.fileName; // Replace '/path/to/file/' with the actual path to your files
+    downloadLink.download = uploadedDocument.fileName;
+    downloadLink.click();
   }
   onUpload(event: any) {
     for (const file of event.files) {

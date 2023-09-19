@@ -261,17 +261,19 @@
                 <th>Actions</th>
               </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-UploadedDocuments let-rowIndex="rowIndex">
+            <ng-template pTemplate="body" let-UploadedDocument let-rowIndex="rowIndex">
               <tr>
                 <td class="pl-5">{{ rowIndex + 1 }}</td>
-                <td>{{ UploadedDocuments.EmployeeName }}</td>
-                <td class="pl-5">{{ UploadedDocuments.fileName }}</td>
+                <td>{{ UploadedDocument.title }}</td>
+                <td class="pl-5">{{ UploadedDocument.fileName }}</td>
                 <td>
                   <div class="flex">
                     <button pButton pRipple icon="pi pi-download" style="padding: 0px;"
-                      class="p-element p-ripple p-button-text p-button p-component col-6"></button>
+                      class="p-element p-ripple p-button-text p-button p-component col-6"
+                      (click)="downloadDocument(UploadedDocument)"></button>
                     <button pButton pRipple icon="pi pi-trash" id="delete"
-                      class="p-element p-ripple p-button-text p-button p-component col-6 "></button>
+                      class="p-element p-ripple p-button-text p-button p-component col-6"
+                      (click)="removeDocument(UploadedDocument)"></button>
                   </div>
                 </td>
               </tr>
@@ -939,16 +941,21 @@
   <div class="flex flex-column align-items-center justify-content-center">
     <div class="grid">
       <div class="col-12 p-5 mt-4">
-        <p-fileUpload name="demo[]" url="./upload.php" (onUpload)="onUpload($event)" [multiple]="true" accept="image/*"
-          [maxFileSize]="1000000">
-          <ng-template pTemplate="content">
-            <ul *ngIf="uploadedFiles.length">
-              <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
-            </ul>
-          </ng-template>
-        </p-fileUpload>
+        <div>
+          <label for="fileInput">Choose Files</label>
+          <input id="fileInput" style="display: none" type="file" (change)="getFileDetails($event)" multiple="true" />
+          <!-- <button (click)="uploadFiles()" >Upload</button> -->
+        </div>
+      </div>
+      <div class="col-12">
+        <div *ngFor="let file of myFiles">
+          <div>* {{file.name}} - {{file.type}} - {{file.size}}</div>
+        </div>
       </div>
     </div>
+  </div>
+  <div class=" col-4">
+    <button p-button class="p-element p-ripple p-button-info p-button p-component w-100" (click)="uploadFiles()">Save </button>
   </div>
 </p-dialog>
 
