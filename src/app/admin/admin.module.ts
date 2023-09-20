@@ -9,6 +9,7 @@ import { AssetsallotmentComponent } from './assetsallotment/assetsallotment.comp
 import { SharedModule } from '../_shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonDialogModule } from '../_dialogs/common.dialog.module';
+import { D3OrgChartComponent } from './project/d3-org-chart/d3-org-chart.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { CommonDialogModule } from '../_dialogs/common.dialog.module';
     RecruitmentComponent,
     ProjectComponent,
     AssetsallotmentComponent,
+    D3OrgChartComponent,
 
   ],
   imports: [
