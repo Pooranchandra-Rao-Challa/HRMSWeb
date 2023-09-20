@@ -3,8 +3,8 @@
 
     <div class="field col-12 md:col-4">
         <span class="p-float-label">
-            <textarea type="text" id="Upload_title" pInputText [(ngModel)]="title" required
-                #titleInput="ngModel"></textarea>
+            <input type="text" id="Upload_title" pInputText [(ngModel)]="title" required
+                #titleInput="ngModel">
             <label for="inputtext">Title:<sup class="p-error">*</sup></label>
         </span>
         <!-- <div *ngIf="titleInput.invalid && (titleInput.dirty || titleInput.touched)"
@@ -26,7 +26,11 @@
 
 <div class="col-12 scrolling_content">
     <div class="col-12 scrolling_content">
-        <p-table #dt2 [value]="files" [responsive]="true" [autoLayout]="true">
+        <p-table #dt2 [value]="files" dataKey="id" [rows]="10" [rowHover]="true"
+        [alwaysShowPaginator]="false" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
+        [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [showCurrentPageReport]="true" [autoLayout]="true" responsiveLayout="scroll"
+        [rowsPerPageOptions]="[10,25,50]">
             <ng-template pTemplate="header">
                 <tr>
                     <th>Title</th>

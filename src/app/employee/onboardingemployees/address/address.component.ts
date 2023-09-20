@@ -83,6 +83,9 @@ export class AddressComponent {
     { field: 'addressType', header: 'addressType', label: 'AddressType' },
     { field: 'isActive', header: 'isActive', label: 'IsActive' }
   ];
+  removeItem(index: number): void {
+    this.empAddrDetails.splice(index, 1);
+  }
   addAddress() {
     if (this.fbAddressDetails.invalid) {
       return;
@@ -169,6 +172,7 @@ export class AddressComponent {
   getEmpAddressDetails(){
     this.employeeService.GetAddress(this.employeeId).subscribe((data) => {
       this.empAddrDetails = data as unknown as EmployeAdressViewDto[];
+      console.log(data)
     })
   }
   onSubmit() {

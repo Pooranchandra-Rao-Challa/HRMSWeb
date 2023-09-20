@@ -6,14 +6,15 @@
                 <div class="p-fluid p-formgrid grid">
                     <div class="field col-12 md:col-4">
                         <span class="p-float-label">
-                            <textarea type="text" id="Address_address1" pInputText formControlName="addressLine1" #address1
-                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['addressLine1'].touched && FormControls['addressLine1'].errors }"
-                                [maxlength]="maxLength.description"></textarea>
+                            <input type="text" id="Address_address1" pInputText formControlName="addressLine1" #address1
+                                [ngClass]="{ 'is-invalid ng-dirty': FormControls['addressLine1'].touched && FormControls['addressLine1'].errors }"
+                                [maxlength]="maxLength.description">
                             <label for="inputtext">AddressLine1<sup class="p-error">*</sup></label>
                         </span>
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
-                                <span *ngIf="FormControls['addressLine1'].touched && FormControls['addressLine1'].invalid">
+                                <span
+                                    *ngIf="FormControls['addressLine1'].touched && FormControls['addressLine1'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="FormControls['addressLine1'].errors?.['required']">
                                         Please Enter AddressLine.</div>
@@ -32,8 +33,8 @@
                     </div>
                     <div class="field col-12 md:col-4">
                         <span class="p-float-label">
-                            <textarea type="text" id="Address_address2" pInputText formControlName="addressLine2" #address2
-                                [maxlength]="maxLength.description"></textarea>
+                            <input type="text" id="Address_address2" pInputText formControlName="addressLine2" #address2
+                                [maxlength]="maxLength.description">
                             <label for="inputtext">AddressLine2</label>
                         </span>
                         <div class="flex">
@@ -46,8 +47,8 @@
                     </div>
                     <div class="field col-12 md:col-4">
                         <span class="p-float-label">
-                            <textarea type="text" id="Address_landmark" pInputText formControlName="landmark" #Landmark
-                                [maxlength]="maxLength.description"></textarea>
+                            <input type="text" id="Address_landmark" pInputText formControlName="landmark" #Landmark
+                                [maxlength]="maxLength.description">
                             <label for="inputtext">Landmark</label>
                         </span>
                         <div class="flex">
@@ -84,7 +85,7 @@
                     <div class="field col-12 md:col-4">
                         <span class="p-float-label">
                             <input type="text" id="Address_city" pInputText formControlName="city" alphaOnly
-                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['city'].touched && FormControls['city'].errors }"
+                                [ngClass]="{ 'is-invalid ng-dirty': FormControls['city'].touched && FormControls['city'].errors }"
                                 [maxlength]="maxLength.name" #city />
                             <label for="inputtext">City<sup class="p-error">*</sup></label>
                         </span>
@@ -107,11 +108,11 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="field col-12 md:col-4">
                         <span class="p-float-label">
                             <p-dropdown inputId="dropdown" id="Address_country" [autoDisplayFirst]="false"
-                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['countryId'].touched && FormControls['countryId'].errors }"
+                                [ngClass]="{ 'is-invalid ng-dirty': FormControls['countryId'].touched && FormControls['countryId'].errors }"
                                 formControlName="countryId" [options]="countries" optionValue="lookupDetailId"
                                 optionLabel="name" (onChange)="getStatesByCountryId($event.value)">
                             </p-dropdown>
@@ -130,7 +131,7 @@
                     <div class="field col-12 md:col-4">
                         <span class="p-float-label">
                             <p-dropdown inputId="dropdown" id="Address_state" [autoDisplayFirst]="false"
-                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['stateId'].touched && FormControls['stateId'].errors }"
+                                [ngClass]="{ 'is-invalid ng-dirty': FormControls['stateId'].touched && FormControls['stateId'].errors }"
                                 formControlName="stateId" [options]="states" optionValue="lookupDetailId"
                                 optionLabel="name"></p-dropdown>
                             <label for="dropdown">State<sup class="p-error">*</sup></label>
@@ -145,7 +146,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="field col-12 md:col-6">
+                    <div class="field col-12 md:col-8">
                         <label for="inputtext">Address Type:<sup class="p-error">*</sup></label>
                         <div class="flex flex-wrap gap-3">
                             <div class="flex align-items-center">
@@ -167,8 +168,9 @@
                             </div>
                         </div>
                         <div class="flex">
-                            <div class="align-left w-60" >
-                                <span *ngIf="FormControls['addressType'].touched && FormControls['addressType'].invalid">
+                            <div class="align-left w-60">
+                                <span
+                                    *ngIf="FormControls['addressType'].touched && FormControls['addressType'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="FormControls['City'].errors?.['required']">
                                         Please Enter AddressType.</div>
@@ -178,8 +180,8 @@
                     </div>
                     <div class="field col-12 md:col-2">
                         <div class="button-container">
-                            <p-button type="button" label="Save New Address" id="AddressDetails-Btn" (click)="addAddress()"
-                                [disabled]="fbAddressDetails.invalid">
+                            <p-button type="button" label="Save New Address" id="AddressDetails-Btn"
+                                (click)="addAddress()" [disabled]="fbAddressDetails.invalid">
                             </p-button>
                         </div>
                     </div>
@@ -190,45 +192,39 @@
     </form>
     <div class="col-12 m-0 p-0 scrolling_content">
         <div class="col-12 scrolling_content">
-            <p-table #dt2 [value]="faAddressDetail().controls" [responsive]="true" [autoLayout]="true">
+            <p-table #dt2 [value]="empAddrDetails" dataKey="id" [rows]="10" [rowHover]="true"
+                [alwaysShowPaginator]="false" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
+                [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [showCurrentPageReport]="true" [autoLayout]="true" responsiveLayout="scroll"
+                [rowsPerPageOptions]="[10,25,50]">
                 <ng-template pTemplate="header">
                     <tr>
-                        <th>AddressLine1</th>
-                        <th>AddressLine2</th>
-                        <th>Landmark</th>
-                        <th>ZIPCode</th>
-                        <th>City</th>
-                        <th>State</th>
-                        <th>Country</th>
-                        <th>AddressType</th>
-                        <th>Is Active</th>
-                        <th *ngIf="this.faAddressDetail().value.length > 1"></th>
+                        <th *ngFor="let col of headers"
+                            [ngClass]="col?.field == 'addressLine1' || col?.field == 'addressLine2' || col?.field == 'landmark'  ||col?.field == 'zipCode'  ||  col?.field == 'city'
+                        ||col?.field == 'stateId'|| col?.field == 'countryId' ||col?.field == 'addressType' ||col?.field == 'isActive'? 'text-center' : ''">
+                            {{col?.label}}
+                        </th>
+                        <th *ngIf="empAddrDetails.length > 1"></th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-addressDetails let-addressDetailsIndex="rowIndex">
                     <tr>
-                        <td>{{addressDetails.get('AddressLine1').value }}</td>
-                        <td>{{ addressDetails.get('AddressLine2').value }}</td>
-                        <td>{{ addressDetails.get('Landmark').value }}</td>
-                        <td>{{ addressDetails.get('ZIPCode').value }}</td>
-                        <td>{{ addressDetails.get('City').value }}</td>
-                        <td>
-                            <p-dropdown [(ngModel)]="addressDetails.get('stateId').value" optionLabel="name"
-                                [options]="states" optionValue="lookupDetailId">
-                            </p-dropdown>
+                        <td *ngFor="let col of headers"
+                            [ngClass]="col?.field == 'addressLine1' || col?.field == 'addressLine2' || col?.field == 'landmark'  ||col?.field == 'zipCode'  ||  col?.field == 'city'
+                        ||col?.field == 'stateId'|| col?.field == 'countryId'|| col?.field == 'addressType'|| col?.field == 'isActive' ? 'text-center' : ''">
+                            <span
+                                *ngIf="col?.field == 'addressLine1' || col?.field == 'addressLine2' || col?.field == 'landmark'  ||col?.field == 'zipCode' || col?.field == 'city'
+                                    ||col?.field == 'stateId'|| col?.field == 'countryId'|| col?.field == 'addressType'">
+                                {{addressDetails[col.field]}}
+                            </span>
+                            <span *ngIf="col?.field == 'isActive'">
+                                <p-checkbox [binary]="true" [(ngModel)]="addressDetails[col.field]">
+                                </p-checkbox>
+                            </span>
                         </td>
-                        <td>
-                            <p-dropdown [(ngModel)]="addressDetails.get('countryId').value" optionLabel="name"
-                                [options]="countries" optionValue="lookupDetailId">
-                            </p-dropdown>
-                        </td>
-                        <td>{{ addressDetails.get('addressType').value }}</td>
-                        <td>
-                            <p-checkbox [binary]="true" [formControl]="addressDetails.get('IsActive')">
-                            </p-checkbox>
-                        </td>
-                        <td *ngIf="fbAddressDetails.controls['addressDetails'].value.length > 1">
-                            <p-button icon="pi pi-times" (click)="faAddressDetail().removeAt(addressDetailsIndex)"
+                                                
+                        <td *ngIf="empAddrDetails.length > 1">
+                            <p-button icon="pi pi-times" (click)="removeItem(addressDetailsIndex)"
                                 id="AddressDetailsRemove-Btn"
                                 styleClass="p-button-rounded p-button-danger p-button-text p-button-raised">
                             </p-button>

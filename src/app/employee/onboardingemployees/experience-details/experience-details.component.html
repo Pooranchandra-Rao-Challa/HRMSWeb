@@ -229,7 +229,11 @@
     </div>
     <div class="col-12 scrolling_content" *ngIf="selectedOption=='Experience'">
         <div class="col-12 scrolling_content">
-            <p-table #dt2 [value]="empExperienceDetails" [responsive]="true" [autoLayout]="true">
+            <p-table #dt2 [value]="empExperienceDetails"  dataKey="id" [rows]="10" [rowHover]="true"
+            [alwaysShowPaginator]="false" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
+            [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [showCurrentPageReport]="true" [autoLayout]="true" responsiveLayout="scroll"
+            [rowsPerPageOptions]="[10,25,50]">
                 <ng-template pTemplate="header">
                     <tr>
                         <th *ngFor="let col of headers"
@@ -237,14 +241,13 @@
                         ||col?.field == 'dateOfJoining'|| col?.field == 'dateOfReliving' ||col?.field == 'workExperienceXrefs' ? 'text-center' : ''">
                             {{col?.label}}
                         </th>
-                        <th>SkillArea</th>
                         <th *ngIf="empExperienceDetails.length > 1"></th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-experienceDetail let-experienceDetailsIndex="rowIndex">
                     <tr>
                         <td *ngFor="let col of headers" [ngClass]="col?.field == 'companyName' || col?.field == 'companyLocation' || col?.field == 'companyEmployeeId'  ||col?.field == 'stateId'  ||  col?.field == 'designationId'
-                    ||col?.field == 'dateOfJoining'|| col?.field == 'dateOfReliving' ? 'text-center' : ''">
+                    ||col?.field == 'dateOfJoining'|| col?.field == 'dateOfReliving'|| col?.field == 'workExperienceXrefs' ? 'text-center' : ''">
                             <span
                                 *ngIf="col?.field == 'companyName' || col?.field == 'companyLocation' || col?.field == 'companyEmployeeId'  ||col?.field == 'stateId' || col?.field == 'designationId'">
                                 {{experienceDetail[col.field]}}
@@ -252,7 +255,11 @@
                             <span *ngIf="col?.field == 'dateOfReliving'||col?.field == 'dateOfJoining'">
                                 {{experienceDetail[col.field]|date:mediumDate}}
                             </span>
+                            <span *ngIf="col?.field == 'workExperienceXrefs'">
+                               {{experienceDetail[skillAreaNames]}}
+                            </span>
                         </td>
+                        
 
                         <td *ngIf="empExperienceDetails.length > 1">
                             <p-button icon="pi pi-times" (click)="removeItem(experienceDetailsIndex)"

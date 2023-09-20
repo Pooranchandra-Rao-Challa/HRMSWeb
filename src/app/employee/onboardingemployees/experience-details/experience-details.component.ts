@@ -34,8 +34,9 @@ export class ExperienceDetailsComponent {
   dialog: boolean = false;
   addfields: any;
   employeeId: any;
+  skillAreaNames: string ;
   @ViewChild('multiSelect') multiSelect: any;
-  empExperienceDetails: ExperienceDetailsDto[]=[];
+  empExperienceDetails:any=[];
 
   constructor(private router: Router, private formbuilder: FormBuilder, private route: ActivatedRoute,
     private alertMessage: AlertmessageService, private employeeService: EmployeeService,private lookupService:LookupService) { }
@@ -135,7 +136,8 @@ export class ExperienceDetailsComponent {
     { field: 'stateId', header: 'stateId', label: 'State' },
     { field: 'designationId', header: 'designationId', label: 'Designation' },
     { field: 'dateOfJoining', header: 'dateOfJoining', label: 'DateOfJoining' },
-    { field: 'dateOfReliving', header: 'dateOfReliving', label: 'DateOfReliving' }
+    { field: 'dateOfReliving', header: 'dateOfReliving', label: 'DateOfReliving' },
+    { field: 'workExperienceXrefs', header: 'workExperienceXrefs', label: 'SkillArea' }
   ];
   addexperienceDetails() {
     if (this.fbexperience.invalid) {
@@ -208,7 +210,8 @@ export class ExperienceDetailsComponent {
 
   getEmpExperienceDetails(){
     this.employeeService.GetWorkExperience(this.employeeId).subscribe((data) => {
-      this.empExperienceDetails = data as unknown as ExperienceDetailsDto[];
+      this.empExperienceDetails = data ;
+      console.log(this.empExperienceDetails)
       if(this.empExperienceDetails.length>0)
       this.selectedOption = 'Experience';
     })
