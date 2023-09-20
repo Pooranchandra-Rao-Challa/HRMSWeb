@@ -6,22 +6,22 @@
                 <div class="p-fluid p-formgrid grid">
                     <div class="field col-12 md:col-4">
                         <span class="p-float-label">
-                            <textarea type="text" id="Address_address1" pInputText formControlName="AddressLine1" #address1
-                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['AddressLine1'].touched && FormControls['AddressLine1'].errors }"
+                            <textarea type="text" id="Address_address1" pInputText formControlName="addressLine1" #address1
+                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['addressLine1'].touched && FormControls['addressLine1'].errors }"
                                 [maxlength]="maxLength.description"></textarea>
                             <label for="inputtext">AddressLine1<sup class="p-error">*</sup></label>
                         </span>
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
-                                <span *ngIf="FormControls['AddressLine1'].touched && FormControls['AddressLine1'].invalid">
+                                <span *ngIf="FormControls['addressLine1'].touched && FormControls['addressLine1'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
-                                        *ngIf="FormControls['AddressLine1'].errors?.['required']">
+                                        *ngIf="FormControls['addressLine1'].errors?.['required']">
                                         Please Enter AddressLine.</div>
                                     <div class="ng-invalid ng-touched p-error"
-                                        *ngIf="FormControls['AddressLine1'].errors?.['minlength']">
+                                        *ngIf="FormControls['addressLine1'].errors?.['minlength']">
                                         AddressLine1 Min Characters Is 2.</div>
                                     <div class="ng-invalid ng-touched p-error"
-                                        *ngIf="FormControls['AddressLine1'].errors?.['maxlength']">
+                                        *ngIf="FormControls['addressLine1'].errors?.['maxlength']">
                                         AddressLine1 Max Characters Is 256.</div>
                                 </span>
                             </div>
@@ -32,7 +32,7 @@
                     </div>
                     <div class="field col-12 md:col-4">
                         <span class="p-float-label">
-                            <textarea type="text" id="Address_address2" pInputText formControlName="AddressLine2" #address2
+                            <textarea type="text" id="Address_address2" pInputText formControlName="addressLine2" #address2
                                 [maxlength]="maxLength.description"></textarea>
                             <label for="inputtext">AddressLine2</label>
                         </span>
@@ -46,7 +46,7 @@
                     </div>
                     <div class="field col-12 md:col-4">
                         <span class="p-float-label">
-                            <textarea type="text" id="Address_landmark" pInputText formControlName="Landmark" #Landmark
+                            <textarea type="text" id="Address_landmark" pInputText formControlName="landmark" #Landmark
                                 [maxlength]="maxLength.description"></textarea>
                             <label for="inputtext">Landmark</label>
                         </span>
@@ -60,19 +60,19 @@
                     </div>
                     <div class="field col-12 md:col-4">
                         <span class="p-float-label">
-                            <input type="text" id="Address_ZIPCode" pInputText formControlName="ZIPCode"
-                                [ngClass]="{ 'is-invalid ng-dirty': FormControls['ZIPCode'].touched && FormControls['ZIPCode'].errors }"
+                            <input type="text" id="Address_ZIPCode" pInputText formControlName="zipCode"
+                                [ngClass]="{ 'is-invalid ng-dirty': FormControls['zipCode'].touched && FormControls['zipCode'].errors }"
                                 [maxlength]="maxLength.pinCode" #zip />
                             <label for="inputtext">ZIP Code<sup class="p-error">*</sup></label>
                         </span>
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
-                                <span *ngIf="FormControls['ZIPCode'].touched && FormControls['ZIPCode'].invalid">
+                                <span *ngIf="FormControls['zipCode'].touched && FormControls['zipCode'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
-                                        *ngIf="FormControls['ZIPCode'].errors?.['required']">
+                                        *ngIf="FormControls['zipCode'].errors?.['required']">
                                         Please Enter ZIPCode.</div>
                                     <div class="ng-invalid ng-touched p-error"
-                                        *ngIf="FormControls['ZIPCode'].errors?.['pattern']">
+                                        *ngIf="FormControls['zipCode'].errors?.['pattern']">
                                         Invalid Pan No Eg:524005.</div>
                                 </span>
                             </div>
@@ -83,19 +83,19 @@
                     </div>
                     <div class="field col-12 md:col-4">
                         <span class="p-float-label">
-                            <input type="text" id="Address_city" pInputText formControlName="City" alphaOnly
-                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['City'].touched && FormControls['City'].errors }"
+                            <input type="text" id="Address_city" pInputText formControlName="city" alphaOnly
+                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['city'].touched && FormControls['city'].errors }"
                                 [maxlength]="maxLength.name" #city />
                             <label for="inputtext">City<sup class="p-error">*</sup></label>
                         </span>
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
-                                <span *ngIf="FormControls['City'].touched && FormControls['City'].invalid">
+                                <span *ngIf="FormControls['city'].touched && FormControls['city'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
-                                        *ngIf="FormControls['City'].errors?.['required']">
+                                        *ngIf="FormControls['city'].errors?.['required']">
                                         Please Enter City.</div>
                                     <div class="ng-invalid ng-touched p-error"
-                                        *ngIf="FormControls['City'].errors?.['minlength']">
+                                        *ngIf="FormControls['city'].errors?.['minlength']">
                                         City Min Characters Is 2.</div>
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="FormControls['City'].errors?.['maxlength']">
