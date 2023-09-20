@@ -776,7 +776,9 @@ export class ViewemployeesComponent {
     }
     this.employeeId = +this.activatedRoute.snapshot.queryParams['employeeId'];
     this.employeeService.CreateUploadDocuments(this.uploadDocuments).subscribe((resp) => {
-      console.log(resp);
+      this.initUploadedDocuments();
+      this.Documents = false;
+      
     })
 
   }
