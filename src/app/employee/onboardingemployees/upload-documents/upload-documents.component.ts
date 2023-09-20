@@ -73,13 +73,13 @@ uploadFiles() {
 
 
 
-navigateToPrev() {
-  this.router.navigate(['employee/onboardingemployee/addressdetails'])
-}
+  navigateToPrev() {
+    this.router.navigate(['employee/onboardingemployee/addressdetails',this.employeeId])
+  }
 
-navigateToNext() {
-  this.router.navigate(['employee/onboardingemployee/familydetails'])
-}
+  navigateToNext() {
+    this.router.navigate(['employee/onboardingemployee/familydetails',this.employeeId])
+  }
 
 
 }

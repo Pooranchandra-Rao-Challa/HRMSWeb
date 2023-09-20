@@ -13,7 +13,8 @@ import {
   GET_WORKEXPERIENCE_URI,
   UPDATE_EDUCATION_DETAILS,
   UPDATE_EMPLOYEE_BASED_ON_ID_URI,
-  UPDATE_OFFICE_DETAILS_URI
+  UPDATE_OFFICE_DETAILS_URI,
+  UPDATE_EXPERIENCE_DETAILS
 } from './api.uri.service';
 import {  Designation,  ExperienceDetailsDto,SkillArea,AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments } from '../_models/employes';
 
@@ -83,13 +84,13 @@ export class EmployeeService extends ApiHttpService {
     return this.getWithId<EmployeAdressViewDto[]>(GET_ADDRESS_BASED_ON_ID_URI, [employeeId])
   }
   public GetEducationDetails(employeeId: number) {
-    return this.getWithId<any[]>(GET_EDUCATION_DETAILS_URI, [employeeId])
+    return this.getWithId<EducationDetailsDto[]>(GET_EDUCATION_DETAILS_URI, [employeeId])
   }
   public GetWorkExperience(employeeId: number) {
     return this.getWithId<any[]>(GET_WORKEXPERIENCE_URI, [employeeId])
   }
   public getFamilyDetails(employeeId: number) {
-    return this.getWithId<any[]>(GET_GETFAMILYDETAILS_URI, [employeeId])
+    return this.getWithId<FamilyDetailsDto[]>(GET_GETFAMILYDETAILS_URI, [employeeId])
   }
   public GetUploadedDocuments(employeeId: number) {
     return this.getWithId<any[]>(GET_GETUPLOADEDDOCUMENTS_URI, [employeeId])
@@ -111,8 +112,13 @@ export class EmployeeService extends ApiHttpService {
     return this.post<EmployeeOfficedetailsDto>(UPDATE_OFFICE_DETAILS_URI, empOfficDtls);
   }
 
-  public updateViewEmpEduDtls(empEduDtls: EducationDetailsDto) {
+  public updateViewEmpEduDtls(empEduDtls: EducationDetailsDto[]) {
     debugger
-    return this.post<EducationDetailsDto>(UPDATE_EDUCATION_DETAILS, empEduDtls);
+    return this.post<EducationDetailsDto[]>(UPDATE_EDUCATION_DETAILS, empEduDtls);
+  }
+
+  public updateViewEmpExperienceDtls(empExpDtls: ExperienceDetailsDto ) {
+    debugger
+    return this.post<ExperienceDetailsDto>(UPDATE_EXPERIENCE_DETAILS, empExpDtls);
   }
 }

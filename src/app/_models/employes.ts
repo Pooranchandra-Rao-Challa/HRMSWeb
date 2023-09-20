@@ -19,8 +19,8 @@ export class EmployeeBasicDetailDto {
 	userId?: string;
 	gender?: string;
 	bloodGroupId?: number;
-	mobileNumber?: number;
-	alternateMobileNumber?: number;
+	mobileNumber?: string;
+	alternateMobileNumber?: string;
 	originalDob?: Date;
 	certificateDob?: Date;
 	maritalStatus?: string;
@@ -103,8 +103,8 @@ export class EmployeeBasicDetailViewDto {
 	gender?: string;
 	bloodGroupId?: number;
 	bloodGroup?: string;
-	mobileNumber?: number;
-	alternateMobileNumber?: number;
+	mobileNumber?: string;
+	alternateMobileNumber?: string;
 	originalDOB?: Date;
 	certificateDOB?: Date;
 	maritalStatus?: string;
@@ -150,6 +150,7 @@ export class ExperienceDetailsDto {
 	stateId: number
 	workExperienceXrefs: skillArea[]
 }
+
 export class skillArea {
 	workExperienceXrefId: number
 	workExperienceId: number
@@ -280,3 +281,5 @@ export class employeeEducDtlsViewDto {
 	updatedAt?: Date;
 	updatedBy?: string
 }
+
+

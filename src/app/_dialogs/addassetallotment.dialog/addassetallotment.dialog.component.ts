@@ -7,9 +7,9 @@ import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.s
 import { AssetAllotmentDto, AssetAllotmentViewDto, AssetsByAssetTypeIdViewDto } from 'src/app/_models/admin/assetsallotment';
 import { AdminService } from 'src/app/_services/admin.service';
 import { LookupService } from 'src/app/_services/lookup.service';
-import { SecurityService } from 'src/app/demo/service/security.service';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EmployeesList } from 'src/app/_models/admin';
+import { AssetAllotment } from 'src/app/_models/common';
 
 @Component({
     selector: 'app-addassetallotment.dialog',
@@ -30,13 +30,15 @@ export class AddassetallotmentDialogComponent {
     employeesDropdown: EmployeesList[] = [];
 
 
-    constructor(private securityService: SecurityService,
-        private formbuilder: FormBuilder,
+    constructor(private formbuilder: FormBuilder,
         private adminService: AdminService,
         private lookupService: LookupService,
         private alertMessage: AlertmessageService,
         public ref: DynamicDialogRef,
-        private config: DynamicDialogConfig) { }
+        private config: DynamicDialogConfig) {
+            console.log(this.config.data.employeeId);
+
+         }
 
     ngOnInit() {
         debugger
@@ -93,7 +95,9 @@ export class AddassetallotmentDialogComponent {
         this.saveAssetAllotment().subscribe((resp) => {
             if (resp) {
                 this.alertMessage.displayAlertMessage(ALERT_CODES["SAAAA001"]);
-                this.ref.close(resp);
+                this.ref.close({
+                    "UpdatedModal": AssetAllotment.Add
+                });
             }
             else this.alertMessage.displayErrorMessage(ALERT_CODES["EAAAA001"]);
         });

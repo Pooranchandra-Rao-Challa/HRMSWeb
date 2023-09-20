@@ -63,6 +63,13 @@ $gutter: 1rem; //for primeflex grid system
 .employee_profile_pic {
     border-radius: 100%;
     border: 3px solid rgb(79, 223, 94);
+    height:100px !important;
+    width:100% !important;
+}
+.employee_profile_pic_view{
+    border-radius: 10px;
+    height:auto !important;
+    
 }
 
 .employee_profile_pic_div {
@@ -219,4 +226,8 @@ p-calendar input {
     background: linear-gradient(160deg, rgba(255,192,135,1) 0%, rgba(246,125,16,1) 35%) !important;
    
 
+}
+.content_scroll{
+    height:400px;
+    overflow-y: scroll;
 }
