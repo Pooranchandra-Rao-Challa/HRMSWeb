@@ -7,7 +7,7 @@ import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.s
 import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { LookupViewDto } from 'src/app/_models/admin';
 import { ITableHeader, MaxLength } from 'src/app/_models/common';
-import { ExperienceDetailsDto,skillArea } from 'src/app/_models/employes';
+import { ExperienceDetailsDto} from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { LookupService } from 'src/app/_services/lookup.service';
 import { MAX_LENGTH_20, MAX_LENGTH_50, MIN_LENGTH_2 } from 'src/app/_shared/regex';
@@ -27,7 +27,7 @@ export class ExperienceDetailsComponent {
   skills: LookupViewDto[] = []
   selectedOption: string;
   maxLength: MaxLength = new MaxLength();
-  viewSelectedSkills:skillArea[]=[];
+  viewSelectedSkills=[];
   fbexperience!: FormGroup;
   fbfresher!: FormGroup
   faexperienceDetails!: FormArray;
@@ -65,7 +65,7 @@ export class ExperienceDetailsComponent {
       designationId: new FormControl(null),
       dateOfJoining: new FormControl(null),
       dateOfReliving: new FormControl(null),
-      workExperienceXrefs: new FormControl([{ workExperienceXrefId:null, workExperienceId:null , skillAreaId:null }])
+      workExperienceXrefs: new FormControl()
     });
   }
   removeItem(index: number): void {
@@ -142,12 +142,13 @@ export class ExperienceDetailsComponent {
       return;
     }
     else {
+      this.fbexperience.value
       // Push current values into the FormArray
       this.faExperienceDetail().push(this.generaterow(this.fbexperience.getRawValue()));
-      // Reset form controls for the next entry
-      for (let item of this.fbexperience.get('experienceDetails').value) {
+     
+      for (let item of this.fbexperience.get('experienceDetails').value) 
         this.empExperienceDetails.push(item)
-     }
+      // Reset form controls for the next entry
       this.fbexperience.patchValue({
         employeeId: this.employeeId,
         workExperienceId: null,
@@ -191,9 +192,7 @@ export class ExperienceDetailsComponent {
       return this.employeeService.CreateExperience([this.fbfresher.value]);
     } 
   }
-  isMultiSelectValid(): boolean {
-    return this.multiSelect && this.multiSelect.invalid && this.multiSelect.touched;
-  }
+ 
   onSubmit() {
     this.saveExperience().subscribe(res => {
       this.experienceForm();

@@ -159,8 +159,8 @@
                             <div class="field col-12 md:col-4">
                                 <label>SkillAreas:<sup class="p-error">*</sup></label>&nbsp;
                                 <p-multiSelect placeholder="Select SkillAreas" id="Experience_skillArea"
-                                    (onChange)="onSelectSkill($event)" [options]="skills" optionLabel="name"
-                                    [filter]="true" filterBy="name" #multiSelect formControlName="skills"
+                                     [options]="skills" optionLabel="name"
+                                    [filter]="true" filterBy="name" #multiSelect formControlName="skills" optionValue="lookupDetailId"
                                     optionValue="lookupDetailId"
                                     [ngClass]="{ 'is-invalid ng-dirty': FormControls['skills'].touched && FormControls['skills'].errors }"
                                     appendTo="body">
@@ -219,7 +219,7 @@
 
                             <div class=" col-12 md:col-4 pt-4">
                                 <div class=" button-container">
-                                    <p-button type="button" label="Add Experience Details" id="Experience_addExp"
+                                    <p-button type="button" label="Add Experience Details" id="Experience_addExp" [disabled]="fbexperience.invalid"
                                         (click)="addexperienceDetails()">
                                     </p-button>
                                 </div>
@@ -248,7 +248,7 @@
                     <tr>
                         <td *ngFor="let col of headers"
                             [ngClass]="col?.field == 'companyName' || col?.field == 'companyLocation' || col?.field == 'companyEmployeeId'  ||col?.field == 'stateId'  ||  col?.field == 'designationId'
-                    ||col?.field == 'dateOfJoining'|| col?.field == 'dateOfReliving' ||col?.field == 'isActive'? 'text-center' : ''">
+                    ||col?.field == 'dateOfJoining'|| col?.field == 'dateOfReliving' ? 'text-center' : ''">
                             <span
                                 *ngIf="col?.field == 'companyName' || col?.field == 'companyLocation' || col?.field == 'companyEmployeeId'  ||col?.field == 'stateId' || col?.field == 'designationId'">
                                 {{experienceDetail[col.field]}}
@@ -256,7 +256,6 @@
                             <span *ngIf="col?.field == 'dateOfReliving'||col?.field == 'dateOfJoining'">
                                 {{experienceDetail[col.field]|date:mediumDate}}
                             </span>
-
                         </td>
 
                         <td *ngIf="empExperienceDetails.length > 1">
