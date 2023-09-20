@@ -53,8 +53,8 @@ export class EmployeeService extends ApiHttpService {
   public CreateBankDetails(bankdetails: BankDetailsDto) {
     return this.post<BankDetailsDto>(CREATE_BANK_DETAILS_URI, bankdetails);
   }
-  public CreateUploadDocuments(documents: UploadDocuments[]) {
-    return this.post<UploadDocuments[]>(CREATE_DOCUMENTS_URI, documents)
+  public CreateUploadDocuments(documents) {
+    return this.post(CREATE_DOCUMENTS_URI, documents)
   }
   //Familly Details of Employee
   public CreateFamilyDetails(family: FamilyDetailsDto[]) {
