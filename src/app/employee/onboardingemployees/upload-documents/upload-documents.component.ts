@@ -38,7 +38,6 @@ export class UploadDocumentsComponent {
           const file = fileUpload.files[index];
           this.files.push({ data: file, title: this.title, EmployeeId: this.employeeId });
         }
-       
       }
     else {
       this.alertMessage.displayErrorMessage(ALERT_CODES["EAD001"]);
@@ -51,10 +50,8 @@ removeItem(index: number): void {
   this.files.splice(index, 1);
 }
 uploadFile(file) {
-  console.log(file)
   const formData = new FormData();
   formData.set(file.title, file.data, file.data.name);
-  console.log(formData)
   this.employeeService.CreateUploadDocuments(formData).subscribe(resp => {
     if (resp) {
       this.alertMessage.displayAlertMessage(ALERT_CODES["EAD002"]);

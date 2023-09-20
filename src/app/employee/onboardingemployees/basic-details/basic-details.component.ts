@@ -47,8 +47,8 @@ export class BasicDetailsComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.employeeId = 119;
     });
-    if(this.employeeId) this.getEmployeeBasedonId();
-    console.log(this.employeeId);
+    if(this.employeeId)
+    this.getEmployeeBasedonId();
     this.basicDetailsForm();
     this.initBloodGroups();
     this.genders = [
