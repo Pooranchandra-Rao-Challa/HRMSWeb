@@ -59,7 +59,6 @@ export class EducationDetailsComponent implements OnInit {
     { field: 'authorityName', header: 'authorityName', label: 'Authority Name' },
     { field: 'stateId', header: 'stateId', label: 'State' },
     { field: 'institutionName', header: 'institutionName', label: 'Institution Name' },
-    { field: 'circulumId', header: 'circulumId', label: 'Circulum' },
     { field: 'streamId', header: 'streamId', label: 'Stream' },
     { field: 'passedOutyear', header: 'passedOutyear', label: 'Passed Out Year' },
     { field: 'gradingMethodId', header: 'gradingMethodId', label: 'Grading System' },

@@ -29,6 +29,7 @@ export class AddressComponent {
   employeeId: any;
   maxLength: MaxLength = new MaxLength();
   empAddrDetails: EmployeAdressViewDto[]=[];
+  
   constructor(private router: Router, private route: ActivatedRoute, private formbuilder: FormBuilder,
     private alertMessage: AlertmessageService, private employeeService: EmployeeService,
     private lookupService: LookupService,
@@ -118,6 +119,10 @@ export class AddressComponent {
     // Push current values into the FormArray
     this.faAddressDetail().push(this.generaterow(this.fbAddressDetails.getRawValue()));
     // Reset form controls for the next entry
+    for (let item of this.fbAddressDetails.get('addressDetails').value) {
+       this.empAddrDetails.push(item)
+    }
+    console.log(this.empAddrDetails)
     this.fbAddressDetails.patchValue({
       employeeId: this.employeeId,
       addressId: null,

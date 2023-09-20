@@ -122,11 +122,7 @@ export class States {
 	code: string
 	name: string
 }
-export class Designation{
-	lookupDetailId: number
-	code: string
-	name: string
-}
+
 export class SkillArea{
 	lookupDetailId: number
 	code: string
@@ -148,14 +144,10 @@ export class ExperienceDetailsDto {
 	dateOfJoining: Date
 	dateOfReliving: Date
 	stateId: number
-	workExperienceXrefs: skillArea[]
+	workExperienceXrefs: []
 }
 
-export class skillArea {
-	workExperienceXrefId: number
-	workExperienceId: number
-	skillAreaId: number
-}
+
 export class EmployeeOfficedetailsviewDto {
 	employeeId?: number;
 	employeeName?: string;
