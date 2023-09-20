@@ -126,38 +126,48 @@ export const ALERT_CODES: { [key: string]: string } = {
     'SBD001': 'Basic Details Added Successfully',
     'SBD002': 'Basic Details Updated Successfully',
     //Family Details 
-    'SFD001':'Family Details Added Successfully',
-    'SFD002':'Family Details Not Added',
+    'SFD001': 'Family Details Added Successfully',
+    'SFD002': 'Family Details Not Added',
     //Bank Details
-    'SBDS001':'Bank Details Added Successfully',
-    'SBDS002':'Bank Details Not Added',
+    'SBDS001': 'Bank Details Added Successfully',
+    'SBDS002': 'Bank Details Not Added',
     //Address Details
     'SAD001': 'Address Details Added Successfully',
     'SAD002': 'Address Details Not Added',
-    'SAP001':'Permanent address already Existed',
-    'SAC001':'Current address already Existed',
+    'SAP001': 'Permanent address already Existed',
+    'SAC001': 'Current address already Existed',
     //Enroll Employee
-    
+
     'SEE001': 'Employee Enrolled Successfully',
     'SEE002': 'Employee Not Enrolled',
     //Experience Details
     'SED001': 'Experience Details Added Successfully',
     'SED002': 'Experience Details Not Added',
     // View Employee Basic Details
-    'EVEBD001' :'Basic Details Updated Successfully',
-    'EVEBD002' :'Basic Details Updated Faild',
+    'EVEBD001': 'Basic Details Updated Successfully',
+    'EVEBD002': 'Basic Details Updated Faild',
 
     // View Employee Office Details
-    'EVEOFF001' :'Office Details Updated Successfully',
-    'EVEOFF002' :'Office Details Updated Faild',
-     //Bank Details
+    'EVEOFF001': 'Office Details Updated Successfully',
+    'EVEOFF002': 'Office Details Updated Faild',
+
+    // View Employee Experience Details
+    'EVEEXP001': 'Experience Details Updated Successfully',
+    'EVEEXP002': 'Experience Details Updated Faild',
+
+  // View Employee Education Details
+    'EVEEDU001': 'Education Details Updated Successfully',
+    'EVEEDU002': 'Education Details Added Successfully',
+    'EVEEDU003': 'Education Details Faild',
+
+    //Bank Details
     'SMBD001': 'Bank Details Added Successfully',
     'SMBD002': 'Bank Details Update Successfully',
     //Family Details
     'SMFD001': 'Family Details Added Successfully',
     'SMFD002': 'Family Details Update Successfully'
-    
 
-   
+
+
 }
 
