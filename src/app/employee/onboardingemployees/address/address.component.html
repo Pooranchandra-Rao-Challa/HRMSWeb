@@ -188,19 +188,17 @@
 </form>
 <div class="col-12 scrolling_content">
     <div class="col-12 scrolling_content">
-        <p-table #dt2
-            [value]="empAddrDetails && empAddrDetails.length > 0 ? empAddrDetails : faAddressDetail().controls"
+        <p-table #dt2  styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
+            [value]="empAddrDetails "
             [responsive]="true" [autoLayout]="true">
             <ng-template pTemplate="header">
                 <tr>
-
                     <th *ngFor="let col of headers"
                         [ngClass]="col?.field == 'addressLine1' || col?.field == 'addressLine1' || col?.field == 'landmark'  ||col?.field == 'zipCode'  ||  col?.field == 'city'
                         ||col?.field == 'stateId'|| col?.field == 'countryId' ||col?.field == 'addressType' ||col?.field == 'isActive'? 'text-center' : ''">
                         {{col?.label}}
                     </th>
-
-                    <th *ngIf="this.faAddressDetail().value.length > 1||empAddrDetails.length > 1"></th>
+                    <th *ngIf="empAddrDetails.length > 1||empAddrDetails.length > 1"></th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-addressDetails let-addressDetailsIndex="rowIndex">
@@ -210,24 +208,13 @@
                     ||col?.field == 'stateId'|| col?.field == 'countryId' ||col?.field == 'addressType' ||col?.field == 'isActive'? 'text-center' : ''">
                      <span
                             *ngIf="col?.field == 'addressLine1'  ||col?.field == 'addressLine2'  ||  col?.field == 'landmark'
-                            ||col?.field == 'zipCode'  ||  col?.field == 'city' ||  col?.field == 'addressType'">
-                            <input pInputText [(ngModel)]="empAddrDetails && empAddrDetails.length > 0 ?addressDetails[col.field]:addressDetails.get(col?.field).value">
-                        </span>
-                        <span *ngIf="col?.field == 'stateId'">
-                            <p-dropdown id="state_dropdown" optionLabel="name" [options]="states"
-                                optionValue="lookupDetailId" [(ngModel)]="addressDetails[col.field]">
-                            </p-dropdown>
-                        </span>
-                        <span *ngIf="col?.field == 'countryId'">
-                            <p-dropdown [(ngModel)]="addressDetails[col.field]" optionLabel="name"
-                                [options]="countries" optionValue="lookupDetailId">
-                            </p-dropdown>
+                            ||col?.field == 'zipCode'  ||  col?.field == 'city' ||  col?.field == 'addressType'||col?.field == 'stateId'||col?.field == 'countryId'">
+                            {{addressDetails[col.field]}}
                         </span>
                         <span *ngIf="col?.field == 'isActive' ">
                             <p-checkbox [binary]="true" [(ngModel)]="addressDetails[col.field]">
                             </p-checkbox>
                         </span>
-                        
                     </td>
                     <td *ngIf="this.faAddressDetail().value.length > 1 || empAddrDetails.length > 1 ">
                         <p-button icon="pi pi-times"  (click)="faAddressDetail().removeAt(addressDetailsIndex)"

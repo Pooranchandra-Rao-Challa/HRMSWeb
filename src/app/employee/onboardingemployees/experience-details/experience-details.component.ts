@@ -135,8 +135,7 @@ export class ExperienceDetailsComponent {
     { field: 'stateId', header: 'stateId', label: 'State' },
     { field: 'designationId', header: 'designationId', label: 'Designation' },
     { field: 'dateOfJoining', header: 'dateOfJoining', label: 'DateOfJoining' },
-    { field: 'dateOfReliving', header: 'dateOfReliving', label: 'DateOfReliving' },
-    { field: 'workExperienceXrefs', header: 'workExperienceXrefs', label: 'SkillArea' },
+    { field: 'dateOfReliving', header: 'dateOfReliving', label: 'DateOfReliving' }
   ];
   addexperienceDetails() {
     if (this.fbexperience.invalid) {
@@ -146,8 +145,11 @@ export class ExperienceDetailsComponent {
       // Push current values into the FormArray
       this.faExperienceDetail().push(this.generaterow(this.fbexperience.getRawValue()));
       // Reset form controls for the next entry
+      for (let item of this.fbexperience.get('experienceDetails').value) {
+        this.empExperienceDetails.push(item)
+     }
       this.fbexperience.patchValue({
-        employeeId:this.employeeId,
+        employeeId: this.employeeId,
         workExperienceId: null,
         companyName: '',
         companyLocation: '',
@@ -174,7 +176,6 @@ export class ExperienceDetailsComponent {
   onSelectSkill(e) {
     this.viewSelectedSkills=e.value
     let CurrentArray=e.value; 
-    console.log(this.viewSelectedSkills,CurrentArray)
     let  updatedArray=[];
     for (let i = 0; i < CurrentArray.length; i++) {
        updatedArray.push({ workExperienceXrefId: 0, workExperienceId: 0, skillAreaId:CurrentArray[i].lookupDetailId  })
