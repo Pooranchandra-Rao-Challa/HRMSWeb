@@ -122,7 +122,7 @@ export class ViewemployeesComponent {
   value: Date;
   states: LookupViewDto[] = [];
   designation: LookupViewDto[] = [];
-  employeeId: number;
+  employeeId: any;
   bloodgroups: LookupViewDto[] = [];
   mediumDate: string = MEDIUM_DATE;
   countries: any
@@ -214,6 +214,8 @@ export class ViewemployeesComponent {
 
   getemployeeview() {
     this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
+    console.log(this.employeeId);
+    
     this.initViewEmpDtls();
     this.initofficeEmpDtls();
     this.initGetEducationDetails();
@@ -437,9 +439,7 @@ export class ViewemployeesComponent {
     })
   }
 
-  // work experience
-
-
+  // Employee Work Experience
   initExperience() {
       this.fbexperience = this.formbuilder.group({
       workExperienceId: [],
@@ -530,7 +530,7 @@ export class ViewemployeesComponent {
       }
     });
   }
-
+  // Employee BankDetails
   initBankDetails() {
     this.employeeService.GetBankDetails(this.employeeId).subscribe((resp) => {
       this.bankDetails1 = resp as unknown as BankDetailViewDto[];
@@ -541,7 +541,7 @@ export class ViewemployeesComponent {
   bankDetailsForm() {
     this.fbBankDetails = this.formbuilder.group({
       bankId: [0],
-      employeeId: this.employeeId,
+      employeeId: [5],
       name: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
       branchName: new FormControl('', [Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
       ifsc: new FormControl('', [Validators.required, Validators.pattern(RG_IFSC)]),
@@ -569,9 +569,9 @@ export class ViewemployeesComponent {
     this.bankDetails = true;
   }
   saveBankDetails() {
-    const formValue = { ...this.fbBankDetails.value, employeeId: this.employeeId };
+    //const formValue = { ...this.fbBankDetails.value, employeeId: this.employeeId };
     const isUpdate = this.fbBankDetails.value.bankId !== null;
-    this.employeeService.CreateBankDetails(formValue).subscribe((resp) => {
+    this.employeeService.CreateBankDetails({ ...this.fbBankDetails.value, employeeId: this.employeeId }).subscribe((resp) => {
       if (resp) {
         const alertCode = isUpdate ? "SMBD002" : "SMBD001";
         this.alertMessage.displayAlertMessage(ALERT_CODES[alertCode]);
@@ -587,7 +587,7 @@ export class ViewemployeesComponent {
   }
 
 
-
+  //Employee Address
   initAddress() {
     this.fbAddressDetails = this.formbuilder.group({
       employeeId: [],
@@ -647,15 +647,14 @@ export class ViewemployeesComponent {
 
   }
   saveAddress() {
-    const formValue = { ...this.fbAddressDetails.value, employeeId: this.employeeId };
+   const formValue = { ...this.fbAddressDetails.value, employeeId: this.employeeId };
     const isUpdate = this.fbAddressDetails.value.addressId !== null;
-    // Set isActive to true if addressId is not provided (new address creation)
     if (!isUpdate) {
-      formValue.isActive = true;
+      this.fbAddressDetails.value.isActive = true;
     }
     this.employeeService.CreateAddress([formValue]).subscribe((resp) => {
       if (resp) {
-        const alertCode = isUpdate ? "SMBD002" : "SMBD001";
+        const alertCode = isUpdate ? "SMAD004" : "SAD001";
         this.alertMessage.displayAlertMessage(ALERT_CODES[alertCode]);
         this.initAddress();
         this.initGetAddress()
@@ -663,7 +662,8 @@ export class ViewemployeesComponent {
       }
     });
   }
-
+  
+  //Employee Family
   initFamily() {
     this.fbfamilyDetails = this.formbuilder.group({
       familyInformationId: [],
@@ -716,7 +716,6 @@ export class ViewemployeesComponent {
   savefamilyDetails() {
     const formValue = { ...this.fbfamilyDetails.value, employeeId: this.employeeId };
     const isUpdate = this.fbfamilyDetails.value.familyInformationId !== null;
-    // Set isActive to true if addressId is not provided (new address creation)
     if (!isUpdate) {
       formValue.isActive = true;
     }
@@ -736,6 +735,9 @@ export class ViewemployeesComponent {
   onSubmit() {
 
   }
+
+  //UploadDocuments
+  
   UploadDocument(){
    this.fbUploadDocument = this.formbuilder.group({
      uploadDocumentId: [],
