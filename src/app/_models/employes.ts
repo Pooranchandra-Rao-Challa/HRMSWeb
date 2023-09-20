@@ -122,11 +122,7 @@ export class States {
 	code: string
 	name: string
 }
-export class Designation{
-	lookupDetailId: number
-	code: string
-	name: string
-}
+
 export class SkillArea{
 	lookupDetailId: number
 	code: string

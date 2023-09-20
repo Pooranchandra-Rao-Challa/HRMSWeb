@@ -173,21 +173,11 @@
                 <td *ngFor="let col of headers"
                     [ngClass]="col?.field == 'isNominee' || col?.field == 'name'  ||col?.field == 'adhaarNo'  ||  col?.field == 'panno'  || col?.field == 'mobileNumber'||col?.field == 'relationshipId'|| col?.field == 'addressId' ? 'text-center' : ''">
                     <span
-                        *ngIf="col?.field == 'name'  ||col?.field == 'adhaarNo'  ||  col?.field == 'panno'  || col?.field == 'mobileNumber'">
-                        <input pInputText [(ngModel)]="familyData[col.field]" >
+                        *ngIf="col?.field == 'name'  ||col?.field == 'adhaarNo'  ||  col?.field == 'panno'  || col?.field == 'mobileNumber' || col?.field == 'relationshipId' || col?.field == 'addressId'">
+                        {{familyData[col.field]}}
                     </span>
                     <span *ngIf="col?.field == 'dob' ">
                         {{familyData[col.field]| date: mediumDate }}
-                    </span>
-                    <span *ngIf="col?.field == 'relationshipId'">
-                        <p-dropdown id="relationship_dropdown" [(ngModel)]="familyData[col.field]" optionLabel="name"
-                             [options]="relationships" optionValue="lookupDetailId">
-                        </p-dropdown>
-                    </span>
-                    <span *ngIf="col?.field == 'addressId'">
-                        <p-dropdown id="address_dropdown" optionLabel="addressLine1" [options]="address"
-                             [(ngModel)]="familyData[col.field]" optionValue="addressId">
-                        </p-dropdown>
                     </span>
                     <span *ngIf=" col?.field=='isNominee'">
                         <p-checkbox name=" isNominee" value="isNominee" [binary]="true"
