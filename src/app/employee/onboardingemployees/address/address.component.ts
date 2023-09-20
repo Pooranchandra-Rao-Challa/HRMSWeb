@@ -189,7 +189,7 @@ export class AddressComponent {
 
 
   navigateToPrev() {
-    this.router.navigate(['employee/onboardingemployee/experiencedetails',22])
+    this.router.navigate(['employee/onboardingemployee/experiencedetails',this.employeeId])
   }
 
   navigateToNext() {
