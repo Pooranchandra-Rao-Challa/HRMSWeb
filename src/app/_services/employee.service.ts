@@ -16,9 +16,10 @@ import {
   UPDATE_OFFICE_DETAILS_URI,
   UPDATE_EXPERIENCE_DETAILS
 } from './api.uri.service';
-import {  Designation,  ExperienceDetailsDto,SkillArea,AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments } from '../_models/employes';
+import {ExperienceDetailsDto,SkillArea,AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments } from '../_models/employes';
 
 import { ApiHttpService } from './api.http.service';
+import { LookupViewDto } from '../_models/admin';
 
 @Injectable({
   providedIn: 'root'
@@ -54,8 +55,8 @@ export class EmployeeService extends ApiHttpService {
   public CreateBankDetails(bankdetails: BankDetailsDto) {
     return this.post<BankDetailsDto>(CREATE_BANK_DETAILS_URI, bankdetails);
   }
-  public CreateUploadDocuments(documents: UploadDocuments[]) {
-    return this.post<UploadDocuments[]>(CREATE_DOCUMENTS_URI, documents)
+  public CreateUploadDocuments(documents) {
+    return this.post(CREATE_DOCUMENTS_URI, documents)
   }
   //Familly Details of Employee
   public CreateFamilyDetails(family: FamilyDetailsDto[]) {
@@ -65,7 +66,7 @@ export class EmployeeService extends ApiHttpService {
     return this.get<States>(GET_STATES_URI);
   }
   public GetDesignation() {
-    return this.get<Designation>(GET_DESIGNATION_URI);
+    return this.get<LookupViewDto[]>(GET_DESIGNATION_URI);
   }
   public GetSkillArea() {
     return this.get<SkillArea>(GET_SKILL_AREA_URI);

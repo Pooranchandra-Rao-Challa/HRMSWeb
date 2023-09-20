@@ -1,221 +1,231 @@
-<form [formGroup]="fbEducationDetails" autocomplete="off">
-    <div class="grid mt-3">
-        <div class="col-12 roles-container">
-            <div class="p-fluid p-formgrid grid">
-                <div class="field col-12 md:col-4">
-                    <span class="p-float-label">
-                        <input type="text" id="authority_Name" pInputText formControlName="authorityName" #authorityname
-                            alphaOnly [maxLength]="50" (keydown)="restrictSpaces($event)"
-                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['authorityName'].touched && FormControls['authorityName'].errors }">
-                        <label class="required">Board/University Name</label>
-                    </span>
-                    <div class="flex">
-                        <div class="align-left w-60" style="width:70%">
-                            <span
-                                *ngIf="FormControls['authorityName'].touched && FormControls['authorityName'].invalid">
-                                <div class="ng-invalid ng-touched p-error"
-                                    *ngIf="FormControls['authorityName'].errors?.['required']">
-                                    Please Enter University Name.</div>
-                                <div class="ng-invalid ng-touched p-error"
-                                    *ngIf="FormControls['authorityName'].errors?.['minlength']">
-                                    University Name Min Length Is 2.</div>
-                            </span>
-                        </div>
-                        <div class="align-right w-40" style="width:30%; text-align:right;">
-                            <small>{{authorityname.value.length}}/{{maxLength.name}} </small>
-                        </div>
-                    </div>
-                </div>
-                <div class="field col-12 md:col-4">
-                    <span class="p-float-label">
-                        <p-dropdown id="states_dropdown" [autoDisplayFirst]="false" optionLabel="name"
-                            [options]="states" optionValue="lookupId" formControlName="stateId"
-                            [ngClass]="{'is-invalid ng-dirty': FormControls['stateId'].touched && FormControls['stateId'].errors }">
-                        </p-dropdown>
-                        <label class="required">State</label>
-                    </span>
-                    <div class="flex">
-                        <div class="align-left w-60" style="width:70%">
-                            <span *ngIf="FormControls['stateId'].touched && FormControls['stateId'].invalid">
-                                <div class="ng-invalid ng-touched p-error"
-                                    *ngIf="FormControls['stateId'].errors?.['required']">
-                                    Please Select State.</div>
-                            </span>
+<div class="content_scroll" id="hrms">
+    <form [formGroup]="fbEducationDetails" autocomplete="off">
+        <div class="grid  m-0 mt-3 p-0">
+            <div class="col-12 roles-container">
+                <div class="p-fluid p-formgrid grid">
+                    <div class="field col-12 md:col-4">
+                        <span class="p-float-label">
+                            <input type="text" id="authority_Name" pInputText formControlName="authorityName"
+                                #authorityname alphaOnly [maxLength]="50" (keydown)="restrictSpaces($event)"
+                                [ngClass]="{ 'is-invalid ng-dirty': FormControls['authorityName'].touched && FormControls['authorityName'].errors }">
+                            <label class="required">Board/University Name</label>
+                        </span>
+                        <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                                <span
+                                    *ngIf="FormControls['authorityName'].touched && FormControls['authorityName'].invalid">
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="FormControls['authorityName'].errors?.['required']">
+                                        Please Enter University Name.</div>
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="FormControls['authorityName'].errors?.['minlength']">
+                                        University Name Min Length Is 2.</div>
+                                </span>
+                            </div>
+                            <div class="align-right w-40" style="width:30%; text-align:right;">
+                                <small>{{authorityname.value.length}}/{{maxLength.name}} </small>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="field col-12 md:col-4">
-                    <span class="p-float-label">
-                        <input type="text" id="institute_Name" pInputText formControlName="institutionName" alphaOnly
-                            [maxLength]="50" #institutename (keydown)="restrictSpaces($event)" />
-                        <label>School/College Name</label>
-                    </span>
-                    <div class="flex">
-                        <div class="align-left w-60" style="width:70%">
-                            <span
-                                *ngIf="FormControls['institutionName'].touched && FormControls['institutionName'].invalid">
-                                <div class="ng-invalid ng-touched p-error"
-                                    *ngIf="FormControls['institutionName'].errors?.['minlength']">
-                                    Institue Name Min Length Is 2.</div>
-                            </span>
-                        </div>
-                        <div class="align-right w-40" style="width:30%; text-align:right;">
-                            <small>{{institutename.value.length}}/{{maxLength.name}} </small>
-                        </div>
-                    </div>
-                </div>
-                <div class="field col-12 md:col-4">
-                    <span class="p-float-label">
-                        <p-dropdown id="circulum_dropdown" [autoDisplayFirst]="false" [options]="circulum"
-                            optionLabel="name" optionValue="lookupDetailId" formControlName="circulumId" (onChange)="getStreamByCirculumId($event.value)"
-                            [ngClass]="{'is-invalid ng-dirty': FormControls['circulumId'].touched && FormControls['circulumId'].errors }">
-                        </p-dropdown>
-                        <label class="required">Circulum</label>
-                    </span>
-                    <div class="flex">
-                        <div class="align-left w-60" style="width:70%">
-                            <span *ngIf="FormControls['circulumId'].touched && FormControls['circulumId'].invalid">
-                                <div class="ng-invalid ng-touched p-error"
-                                    *ngIf="FormControls['circulumId'].errors?.['required']">
-                                    Please Select Circulum.</div>
-                            </span>
+                    <div class="field col-12 md:col-4">
+                        <span class="p-float-label">
+                            <p-dropdown id="country_dropdown" [autoDisplayFirst]="false" optionLabel="name"
+                                [options]="country" optionValue="lookupDetailId" formControlName="countryId"
+                                (onChange)="getStatesByCountryId($event.value)"
+                                [ngClass]="{'is-invalid ng-dirty': FormControls['countryId'].touched && FormControls['countryId'].errors }">
+                            </p-dropdown>
+                            <label class="required">Country</label>
+                        </span>
+                        <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                                <span *ngIf="FormControls['countryId'].touched && FormControls['countryId'].invalid">
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="FormControls['countryId'].errors?.['required']">
+                                        Please Select Country.</div>
+                                </span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="field col-12 md:col-4">
-                    <span class="p-float-label">
-                        <p-dropdown id="stream_dropdown" [autoDisplayFirst]="false" optionLabel="name" 
-                            [options]="stream" optionValue="lookupDetailId" formControlName="streamId"
-                            [ngClass]="{'is-invalid ng-dirty': FormControls['streamId'].touched && FormControls['streamId'].errors }">
-                        </p-dropdown>
-                        <label class="required">Stream</label>
-                    </span>
-                    <div class="flex">
-                        <div class="align-left w-60" style="width:70%">
-                            <span *ngIf="FormControls['streamId'].touched && FormControls['streamId'].invalid">
-                                <div class="ng-invalid ng-touched p-error"
-                                    *ngIf="FormControls['streamId'].errors?.['required']">
-                                    Please Select Circulum next Select Stream.</div>
-                            </span>
+                    <div class="field col-12 md:col-4">
+                        <span class="p-float-label">
+                            <p-dropdown id="states_dropdown" [autoDisplayFirst]="false" optionLabel="name"
+                                [options]="states" optionValue="lookupDetailId" formControlName="stateId" 
+                                (onChange)="getStreamByCirculumId($event.value)"
+                                [ngClass]="{'is-invalid ng-dirty': FormControls['stateId'].touched && FormControls['stateId'].errors }">
+                            </p-dropdown>
+                            <label class="required">State</label>
+                        </span>
+                        <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                                <span *ngIf="FormControls['stateId'].touched && FormControls['stateId'].invalid">
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="FormControls['stateId'].errors?.['required']">
+                                        Please Select Country next Select State.</div>
+                                </span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="field col-12 md:col-4">
-                    <span class="p-float-label">
-                        <p-calendar [yearNavigator]="true" [yearRange]="'1996:2025'" [readonlyInput]="true"
-                            [showIcon]="true" dateFormat="yy" formControlName="passedOutyear"
-                            [ngClass]="{'is-invalid ng-dirty': FormControls['passedOutyear'].touched && FormControls['passedOutyear'].errors }">
-                        </p-calendar>
-                        <label class="required">Passed Out Year</label>
-                    </span>
-                    <div class="flex">
-                        <div class="align-left w-60" style="width:70%">
-                            <span
-                                *ngIf="FormControls['passedOutyear'].touched && FormControls['passedOutyear'].invalid">
-                                <div class="ng-invalid ng-touched p-error"
-                                    *ngIf="FormControls['passedOutyear'].errors?.['required']">
-                                    Please Select Passed Out Year.</div>
-                            </span>
+                    <div class="field col-12 md:col-4">
+                        <span class="p-float-label">
+                            <input type="text" id="institute_Name" pInputText formControlName="institutionName"
+                                alphaOnly [maxLength]="50" #institutename (keydown)="restrictSpaces($event)" />
+                            <label>School/College Name</label>
+                        </span>
+                        <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                                <span
+                                    *ngIf="FormControls['institutionName'].touched && FormControls['institutionName'].invalid">
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="FormControls['institutionName'].errors?.['minlength']">
+                                        Institue Name Min Length Is 2.</div>
+                                </span>
+                            </div>
+                            <div class="align-right w-40" style="width:30%; text-align:right;">
+                                <small>{{institutename.value.length}}/{{maxLength.name}} </small>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="field col-12 md:col-4">
-                    <span class="p-float-label">
-                        <p-dropdown id="gradingStystem_dropdown" [autoDisplayFirst]="false" [options]="gradingMethods"
-                            optionLabel="name" optionValue="lookupDetailId" formControlName="gradingMethodId"
-                            [ngClass]="{'is-invalid ng-dirty': FormControls['gradingMethodId'].touched && FormControls['gradingMethodId'].errors }">
-                        </p-dropdown>
-                        <label class="required">Grading System</label>
-                    </span>
-                    <div class="flex">
-                        <div class="align-left w-60" style="width:70%">
-                            <span
-                                *ngIf="FormControls['gradingMethodId'].touched && FormControls['gradingMethodId'].invalid">
-                                <div class="ng-invalid ng-touched p-error"
-                                    *ngIf="FormControls['gradingMethodId'].errors?.['required']">
-                                    Please Select Grading System.</div>
-                            </span>
+                    <div class="field col-12 md:col-4">
+                        <span class="p-float-label">
+                            <p-dropdown id="circulum_dropdown" [autoDisplayFirst]="false" [options]="circulum"
+                                optionLabel="name" optionValue="lookupDetailId" formControlName="circulumId"
+                                (onChange)="getStreamByCirculumId($event.value)"
+                                [ngClass]="{'is-invalid ng-dirty': FormControls['circulumId'].touched && FormControls['circulumId'].errors }">
+                            </p-dropdown>
+                            <label class="required">Circulum</label>
+                        </span>
+                        <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                                <span *ngIf="FormControls['circulumId'].touched && FormControls['circulumId'].invalid">
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="FormControls['circulumId'].errors?.['required']">
+                                        Please Select Circulum.</div>
+                                </span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="field col-12 md:col-4">
-                    <span class="p-float-label">
-                        <input type="text" id="grading_Value" pInputText formControlName="gradingValue" numericOnly
-                            (keydown)="restrictSpaces($event)"
-                            [ngClass]="{'is-invalid ng-dirty': FormControls['gradingValue'].touched && FormControls['gradingValue'].errors }">
-                        <label class="required">CGPA/Percentage System</label>
-                    </span>
-                    <div class="flex">
-                        <div class="align-left w-60" style="width:70%">
-                            <span *ngIf="FormControls['gradingValue'].touched && FormControls['gradingValue'].invalid">
-                                <div class="ng-invalid ng-touched p-error"
-                                    *ngIf="FormControls['gradingValue'].errors?.['required']">
-                                    Please Enter CGPA/Percentage System.</div>
-                            </span>
+                    <div class="field col-12 md:col-4">
+                        <span class="p-float-label">
+                            <p-dropdown id="stream_dropdown" [autoDisplayFirst]="false" optionLabel="name"
+                                [options]="stream" optionValue="lookupDetailId" formControlName="streamId"
+                                [ngClass]="{'is-invalid ng-dirty': FormControls['streamId'].touched && FormControls['streamId'].errors }">
+                            </p-dropdown>
+                            <label class="required">Stream</label>
+                        </span>
+                        <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                                <span *ngIf="FormControls['streamId'].touched && FormControls['streamId'].invalid">
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="FormControls['streamId'].errors?.['required']">
+                                        Please Select Circulum next Select Stream.</div>
+                                </span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="field col-12 md:col-4">
-                    <span>
-                        <button pButton pRipple (click)="addEducationDetails()" [disabled]="fbEducationDetails.invalid">Save Education Details</button>
-                    </span>
+                    <div class="field col-12 md:col-4">
+                        <span class="p-float-label">
+                            <p-calendar [yearNavigator]="true" [yearRange]="'1996:2025'" [readonlyInput]="true"
+                                [showIcon]="true" dateFormat="yy" formControlName="passedOutyear"
+                                [ngClass]="{'is-invalid ng-dirty': FormControls['passedOutyear'].touched && FormControls['passedOutyear'].errors }">
+                            </p-calendar>
+                            <label class="required">Passed Out Year</label>
+                        </span>
+                        <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                                <span
+                                    *ngIf="FormControls['passedOutyear'].touched && FormControls['passedOutyear'].invalid">
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="FormControls['passedOutyear'].errors?.['required']">
+                                        Please Select Passed Out Year.</div>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <span class="p-float-label">
+                            <p-dropdown id="gradingStystem_dropdown" [autoDisplayFirst]="false"
+                                [options]="gradingMethods" optionLabel="name" optionValue="lookupDetailId"
+                                formControlName="gradingMethodId"
+                                [ngClass]="{'is-invalid ng-dirty': FormControls['gradingMethodId'].touched && FormControls['gradingMethodId'].errors }">
+                            </p-dropdown>
+                            <label class="required">Grading System</label>
+                        </span>
+                        <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                                <span
+                                    *ngIf="FormControls['gradingMethodId'].touched && FormControls['gradingMethodId'].invalid">
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="FormControls['gradingMethodId'].errors?.['required']">
+                                        Please Select Grading System.</div>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <span class="p-float-label">
+                            <input type="text" id="grading_Value" pInputText formControlName="gradingValue" numericOnly
+                                (keydown)="restrictSpaces($event)"
+                                [ngClass]="{'is-invalid ng-dirty': FormControls['gradingValue'].touched && FormControls['gradingValue'].errors }">
+                            <label class="required">CGPA/Percentage System</label>
+                        </span>
+                        <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                                <span
+                                    *ngIf="FormControls['gradingValue'].touched && FormControls['gradingValue'].invalid">
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="FormControls['gradingValue'].errors?.['required']">
+                                        Please Enter CGPA/Percentage System.</div>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <span>
+                            <button pButton pRipple (click)="addEducationDetails()"
+                                [disabled]="fbEducationDetails.invalid">Save Education Details</button>
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
+    </form>
+    <!-- table -->
+    <div class="col-12 scrolling_content" *ngIf="ShoweducationDetails">
+        <p-table id="table" [value]="educationDetails" dataKey="id" [rows]="10" [rowHover]="true"
+            [alwaysShowPaginator]="false" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
+            [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [showCurrentPageReport]="true" [autoLayout]="true" responsiveLayout="scroll"
+            [rowsPerPageOptions]="[10,25,50]">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th *ngFor="let col of headers"
+                        [ngClass]="col?.field == 'institutionName' || col?.field == 'authorityName' || col?.field == 'passedOutyear'  ||col?.field == 'circulumId'  ||  col?.field == 'streamId' ||col?.field == 'stateId'|| col?.field == 'gradingMethodId' ||col?.field == 'gradingValue' ? 'text-center' : ''">
+                        {{col?.label}}
+                    </th>
+                    <th *ngIf="this.educationDetails.length > 1"></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-educationData let-i="rowIndex">
+                <tr>
+                    <td *ngFor="let col of headers"
+                        [ngClass]="col?.field == 'institutionName' || col?.field == 'authorityName'  ||col?.field == 'passedOutyear'  ||  col?.field == 'circulumId'  || col?.field == 'streamId'||col?.field == 'stateId'|| col?.field == 'gradingMethodId' ||col?.field == 'gradingValue' ? 'text-center' : ''">
+                        <span
+                            *ngIf="col?.field == 'institutionName'  ||col?.field == 'authorityName'  ||  col?.field == 'gradingValue' || col?.field == 'streamId' || col?.field == 'stateId' || col?.field == 'gradingMethodId'">
+                            {{educationData[col.field]}}
+                        </span>
+                        <span *ngIf="col?.field == 'passedOutyear'">
+                            {{educationData[col.field] | date:mediumDate}}
+                        </span>
+                    </td>
+                    <td *ngIf="educationDetails.length > 1">
+                        <p-button icon="pi pi-times" (click)="removeRow(i)" id="AddressDetailsRemove-Btn"
+                            styleClass="p-button-rounded p-button-danger p-button-text p-button-raised">
+                        </p-button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
     </div>
-</form>
-<!-- table -->
-<p-toast key="tst"></p-toast>
-
-<div class="col-12 scrolling_content"  *ngIf="ShoweducationDetails">
-    <p-table id="table" [value]="educationDetails" dataKey="id" [rows]="10" [rowHover]="true"
-        [alwaysShowPaginator]="false" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
-        [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-        [showCurrentPageReport]="true" [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]">
-        <ng-template pTemplate="header">
-            <tr>
-                <th *ngFor="let col of headers"
-                    [ngClass]="col?.field == 'institutionName' || col?.field == 'authorityName' || col?.field == 'passedOutyear'  ||col?.field == 'circulumId'  ||  col?.field == 'streamId' ||col?.field == 'stateId'|| col?.field == 'gradingMethodId' ||col?.field == 'gradingValue' ? 'text-center' : ''">
-                    {{col?.label}}
-                </th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-educationData >
-            <tr>
-                <td *ngFor="let col of headers"
-                    [ngClass]="col?.field == 'institutionName' || col?.field == 'authorityName'  ||col?.field == 'passedOutyear'  ||  col?.field == 'circulumId'  || col?.field == 'streamId'||col?.field == 'stateId'|| col?.field == 'gradingMethodId' ||col?.field == 'gradingValue' ? 'text-center' : ''">
-                    <span
-                        *ngIf="col?.field == 'institutionName'  ||col?.field == 'authorityName'  ||  col?.field == 'gradingValue'">
-                        <input pInputText [(ngModel)]="educationData[col.field]" >
-                    </span>
-                    <span *ngIf="col?.field == 'circulumId'">
-                        <p-dropdown id="circulum_dropdown" [(ngModel)]="educationData[col.field]" optionLabel="name"
-                             [options]="circulum" optionValue="lookupDetailId">
-                        </p-dropdown>
-                    </span>
-                    <span *ngIf="col?.field == 'streamId'">
-                        <p-dropdown id="stream_dropdown" optionLabel="name" [options]="stream"
-                            optionValue="lookupDetailId"  [(ngModel)]="educationData[col.field]">
-                        </p-dropdown>
-                    </span>
-                    <span *ngIf="col?.field == 'stateId'">
-                        <p-dropdown id="state_dropdown" optionLabel="name" [options]="states"
-                            optionValue="lookupDetailId"  [(ngModel)]="educationData[col.field]">
-                        </p-dropdown>
-                    </span>
-                    <span *ngIf="col?.field == 'passedOutyear' ">
-                        {{educationData[col.field]| date: mediumDate }}
-                    </span>
-                    <span *ngIf="col?.field == 'gradingMethodId'">
-                        <p-dropdown id="gradingMethods_dropdown" optionLabel="name" [options]="gradingMethods"
-                            optionValue="lookupDetailId"  [(ngModel)]="educationData[col.field]"
-                            >
-                        </p-dropdown>
-                    </span>
-                </td>
-            </tr>
-        </ng-template>
-    </p-table>
 </div>
 <div class="grid mt-5">
     <div class="field col-4">
@@ -224,7 +234,7 @@
     </div>
     <div class=" col-4">
         <button p-button class="p-element p-ripple p-button-info p-button p-component w-100"
-        [disabled]="this.educationDetails.length == 0" (click)="onSubmit()">Save as Draft</button>
+            [disabled]="this.educationDetails.length == 0" (click)="onSubmit()">Save as Draft</button>
     </div>
     <div class=" col-4">
         <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100"

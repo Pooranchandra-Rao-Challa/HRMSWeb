@@ -125,7 +125,7 @@ export class ViewemployeesComponent {
   value: Date;
   states: LookupViewDto[] = [];
   designation: LookupViewDto[] = [];
-  employeeId: number;
+  employeeId: any;
   bloodgroups: LookupViewDto[] = [];
   mediumDate: string = MEDIUM_DATE;
   countries: any
@@ -210,7 +210,7 @@ export class ViewemployeesComponent {
     this.initExperience();
     this.addexperienceDetails();
     this.initAddress();
-    this.initStates();
+    // this.initStates();
     this.initBloodGroups()
     this.initskillArea();
     this.initGrading() ;
@@ -218,17 +218,18 @@ export class ViewemployeesComponent {
   }
 
   getemployeeview() {
-    this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
+    this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId']; 
     this.initViewEmpDtls();
     this.initofficeEmpDtls();
     this.initGetEducationDetails();
     this.initGetWorkExperience();
     this.initGetFamilyDetails();
     this.initGetAddress();
-    this.initCountries()
+    this.initCountry()
     this.initUploadedDocuments();
     this.initBankDetails();
-    this.initviewAssets()
+    this.initviewAssets();
+  
   }
 
   // EMPLOYEE Basic details
@@ -447,8 +448,9 @@ export class ViewemployeesComponent {
     })
   }
 
-  // work experience
 
+
+  // Employee Work Experience
   initExperience() {
     this.fbexperience = this.formbuilder.group({
       experienceDetails: this.formbuilder.array([]),
@@ -558,7 +560,7 @@ export class ViewemployeesComponent {
       }
     });
   }
-
+  // Employee BankDetails
   initBankDetails() {
     this.employeeService.GetBankDetails(this.employeeId).subscribe((resp) => {
       this.bankDetails1 = resp as unknown as BankDetailViewDto[];
@@ -597,8 +599,11 @@ export class ViewemployeesComponent {
     this.bankDetails = true;
   }
   saveBankDetails() {
-    const formValue = { ...this.fbBankDetails.value, employeeId: this.employeeId };
+    this.employeeId = +this.activatedRoute.snapshot.queryParams['employeeId'];
+    const {...formValue } = this.fbBankDetails.value;
     const isUpdate = this.fbBankDetails.value.bankId !== null;
+    formValue.employeeId = this.employeeId;
+
     this.employeeService.CreateBankDetails(formValue).subscribe((resp) => {
       if (resp) {
         const alertCode = isUpdate ? "SMBD002" : "SMBD001";
@@ -608,6 +613,7 @@ export class ViewemployeesComponent {
       }
     });
   }
+
   restrictSpaces(event: KeyboardEvent) {
     if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {
       event.preventDefault();
@@ -615,7 +621,7 @@ export class ViewemployeesComponent {
   }
 
 
-
+  //Employee Address
   initAddress() {
     this.fbAddressDetails = this.formbuilder.group({
       employeeId: [],
@@ -637,25 +643,31 @@ export class ViewemployeesComponent {
       console.log('this.address', this.address);
     });
   }
-  initStates() {
-    this.lookupService.getStates().subscribe((resp) => {
-      this.states = resp as unknown as LookupViewDto[];
-      console.log(this.states)
+  initCountry() {
+    this.lookupService.Country().subscribe((resp) => {
+      this.countries = resp as unknown as LookupViewDto[];
     })
   }
-  initCountries(): Promise<void> {
-    return new Promise<void>((resolve) => {
-      this.employeeService.GetCountries().subscribe((resp) => {
-        this.countries = resp as unknown as Countries[];
-        console.log('this.countries', this.countries);
-
-        resolve();
-      });
-    });
+  getStatesByCountryId(id: number) {
+    this.lookupService.getStates(id).subscribe((resp) => {
+      if (resp) {
+        this.states = resp as unknown as LookupViewDto[];
+      }
+    })
   }
+  // initCountries(): Promise<void> {
+  //   return new Promise<void>((resolve) => {
+  //     this.employeeService.GetCountries().subscribe((resp) => {
+  //       this.countries = resp as unknown as Countries[];
+  //       console.log('this.countries', this.countries);
+
+  //       resolve();
+  //     });
+  //   });
+  // }
   editAddress(index: number) {
     const address = this.address[index];
-    this.initCountries()
+    this.initCountry()
     this.fbAddressDetails.patchValue({
       addressId: address.addressId,
       employeeId: address.employeeId,
@@ -675,15 +687,15 @@ export class ViewemployeesComponent {
 
   }
   saveAddress() {
-    const formValue = { ...this.fbAddressDetails.value, employeeId: this.employeeId };
+    this.employeeId = +this.activatedRoute.snapshot.queryParams['employeeId'];
+   const formValue = { ...this.fbAddressDetails.value, employeeId: this.employeeId };
     const isUpdate = this.fbAddressDetails.value.addressId !== null;
-    // Set isActive to true if addressId is not provided (new address creation)
     if (!isUpdate) {
-      formValue.isActive = true;
+      this.fbAddressDetails.value.isActive = true;
     }
     this.employeeService.CreateAddress([formValue]).subscribe((resp) => {
       if (resp) {
-        const alertCode = isUpdate ? "SMBD002" : "SMBD001";
+        const alertCode = isUpdate ? "SMAD004" : "SAD001";
         this.alertMessage.displayAlertMessage(ALERT_CODES[alertCode]);
         this.initAddress();
         this.initGetAddress()
@@ -691,11 +703,12 @@ export class ViewemployeesComponent {
       }
     });
   }
-
+  
+  //Employee Family
   initFamily() {
     this.fbfamilyDetails = this.formbuilder.group({
       familyInformationId: [],
-      employeeId: [],
+      employeeId: this.employeeId,
       name: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2)]),
       relationshipId: new FormControl(null, [Validators.required]),
       addressId: new FormControl(),
@@ -742,9 +755,9 @@ export class ViewemployeesComponent {
   }
 
   savefamilyDetails() {
+    this.employeeId = +this.activatedRoute.snapshot.queryParams['employeeId'];
     const formValue = { ...this.fbfamilyDetails.value, employeeId: this.employeeId };
     const isUpdate = this.fbfamilyDetails.value.familyInformationId !== null;
-    // Set isActive to true if addressId is not provided (new address creation)
     if (!isUpdate) {
       formValue.isActive = true;
     }
@@ -764,13 +777,16 @@ export class ViewemployeesComponent {
   onSubmit() {
 
   }
-  UploadDocument() {
-    this.fbUploadDocument = this.formbuilder.group({
-      uploadDocumentId: [],
-      employeeId: this.employeeId,
-      title: new FormControl(''),
-      fileName: new FormControl(''),
-    })
+
+  //UploadDocuments
+  
+  UploadDocument(){
+   this.fbUploadDocument = this.formbuilder.group({
+     uploadDocumentId: [],
+     employeeId: this.employeeId,
+     title: new FormControl(''),
+     fileName: new FormControl(''),
+   })
   }
   getFileDetails(e) {
     console.log(e.target)
@@ -789,8 +805,11 @@ export class ViewemployeesComponent {
       })
       this.uploadDocuments.push(this.fbUploadDocument.value)
     }
+    this.employeeId = +this.activatedRoute.snapshot.queryParams['employeeId'];
     this.employeeService.CreateUploadDocuments(this.uploadDocuments).subscribe((resp) => {
-      console.log(resp);
+      this.initUploadedDocuments();
+      this.Documents = false;
+      
     })
 
   }

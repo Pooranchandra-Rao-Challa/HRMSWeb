@@ -1,77 +1,72 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { HttpErrorResponse, HttpEvent, HttpEventType, HttpResponse } from '@angular/common/http';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { catchError, map, of } from 'rxjs';
 import { AnyCatcher } from 'rxjs/internal/AnyCatcher';
+import { ALERT_CODES, AlertmessageService } from 'src/app/_alerts/alertmessage.service';
+import { UploadDocuments } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 // import { MessageService } from 'primeng/api/messageservice';
 
 @Component({
   selector: 'app-upload-documents',
-  templateUrl: './upload-documents.component.html',
-  // styles:[
-  //   custom-file-input {
-  //     background-color: #e0e0e0; /* Set your desired background color here */
-  //     padding: 10px 15px;
-  //     border: 1px solid #ccc;
-  //     border-radius: 5px;
-  //     cursor: pointer;
-  //     display: inline-block;
-  //   }
-    
-  //   /* You can also add hover and active styles for better user experience */
-  //   .custom-file-input:hover {
-  //     background-color: #d0d0d0; /* Change background color on hover */
-  //   }
-    
-  //   .custom-file-input:active {
-  //     background-color: #c0c0c0; /* Change background color when clicked */
-  //   }
-  // ]
+  templateUrl: './upload-documents.component.html'
 })
 export class UploadDocumentsComponent {
-  myFiles = [];
-  uploadDocuments=[];
-  fbUploadDocument!: FormGroup;
+  @ViewChild("fileUpload", { static: false }) fileUpload: ElementRef;
+  files = [];
   employeeId: any;
-  constructor(private router: Router, private route: ActivatedRoute, private formbuilder: FormBuilder, private employeeService: EmployeeService,) {
+  fileSize = 20;
+  title: string;
+  constructor(private router: Router, private route: ActivatedRoute, private formbuilder: FormBuilder,
+    private employeeService: EmployeeService, private alertMessage: AlertmessageService,) {
 
   }
+
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.employeeId = params['employeeId'];
     });
-    console.log(this.employeeId)
-    this.fbUploadDocument = this.formbuilder.group({
-      uploadDocumentId: [0],
-      employeeId: 5,
-      title: new FormControl(''),
-      fileName: new FormControl(''),
-    })
   }
-
-  getFileDetails(e) {
-   console.log(e.target)
-    for (var i = 0; i < e.target.files.length; i++) {
-      this.myFiles.push(e.target.files[i]);
+  onClick() {
+    const fileUpload = this.fileUpload.nativeElement;
+    fileUpload.onchange = () => {
+      if (this.files.length < 5) {
+        for (let index = 0; index < fileUpload.files.length; index++) {
+          const file = fileUpload.files[index];
+          this.files.push({ data: file, title: this.title, EmployeeId: this.employeeId });
+        }
+      }
+    else {
+      this.alertMessage.displayErrorMessage(ALERT_CODES["EAD001"]);
+      return
     }
+    this.title = '';
   }
-
-  uploadFiles() {
-    this.uploadDocuments = [];
-    for (let i = 0; i < this.myFiles.length; i++) {
-      let fileDetails = this.myFiles[i];
-      this.fbUploadDocument.patchValue({
-        title: fileDetails.name,
-        fileName: fileDetails.type
-      })
-      this.uploadDocuments.push(this.fbUploadDocument.value)
+}
+removeItem(index: number): void {
+  this.files.splice(index, 1);
+}
+uploadFile(file) {
+  const formData = new FormData();
+  formData.set(file.title, file.data, file.data.name);
+  this.employeeService.CreateUploadDocuments(formData).subscribe(resp => {
+    if (resp) {
+      this.alertMessage.displayAlertMessage(ALERT_CODES["EAD002"]);
     }
-    this.employeeService.CreateUploadDocuments(this.uploadDocuments).subscribe((resp) => {
-      console.log(resp);
-    })
-
-  }
+    else {
+      this.alertMessage.displayErrorMessage(ALERT_CODES["EAD003"]);
+    }
+  })
+}
+uploadFiles() {
+  this.fileUpload.nativeElement.value = '';
+  this.files.forEach(file => {
+    this.uploadFile(file);
+  });
+}
 
 
 
