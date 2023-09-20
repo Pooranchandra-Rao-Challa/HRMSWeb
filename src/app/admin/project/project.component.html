@@ -345,7 +345,7 @@
                       </div>
                     </ng-template>
                   </p-multiSelect>
-                  <p-multiSelect *ngIf="this.addFlag == false" placeholder="Select Employees" [options]="Employees"
+                  <p-multiSelect *ngIf="this.addFlag == false" placeholder="Select Employees" [options]="Employees" 
                     optionLabel="employeeName" formControlName="ProjectAllotments" [filter]="true"
                     filterBy="employeeId,employeeName" appendTo="body">
                     <ng-template let-employee pTemplate="selectedItem">

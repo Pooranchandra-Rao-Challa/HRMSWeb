@@ -142,6 +142,7 @@
                                 <p-multiSelect placeholder="Select SkillAreas" id="Experience_skillArea"
                                     (onChange)="onSelectSkill($event)" [options]="skills" optionLabel="name"
                                     [filter]="true" filterBy="name" #multiSelect formControlName="skills"
+                                    optionValue="lookupDetailId"
                                     [ngClass]="{ 'is-invalid ng-dirty': FormControls['skills'].touched && FormControls['skills'].errors }"
                                     appendTo="body">
                                     <ng-template let-skill pTemplate="selectedItem">
@@ -212,112 +213,33 @@
     </div>
     <div class="col-12 scrolling_content" *ngIf="selectedOption=='Experience'">
         <div class="col-12 scrolling_content">
-            <p-table #dt2 [value]="faExperienceDetail().controls" [responsive]="true" [autoLayout]="true">
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th>companyName</th>
-                        <th>Location</th>
-                        <th>companyEmpId</th>
-                        <th>stateId</th>
-                        <th>Designation</th>
-                        <th>DateOfJoining</th>
-                        <th>DateOfReliving</th>
-                        <th>SkillAreas</th>
-                        <th *ngIf="this.faExperienceDetail().value.length > 1"></th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-experienceDetails let-experienceDetailsIndex="rowIndex">
-                    <tr>
-                        <td>{{experienceDetails.get('companyName').value }}</td>
-                        <td>{{ experienceDetails.get('companyLocation').value }}</td>
-                        <td>{{ experienceDetails.get('companyEmployeeId').value }}</td>
-                        <td>
-                            <p-dropdown [(ngModel)]="experienceDetails.get('stateId').value" optionLabel="name"
-                                [options]="states" optionValue="lookupDetailId">
-                            </p-dropdown>
-                        </td>
-                        <td> <p-dropdown [(ngModel)]="experienceDetails.get('designationId').value" optionLabel="name"
-                                [options]="designation" optionValue="lookupDetailId">
-                            </p-dropdown>
-                        </td>
-                        <td>{{ experienceDetails.get('dateOfJoining').value| date: mediumDate }}</td>
-                        <td>{{ experienceDetails.get('dateOfReliving').value| date: mediumDate }}</td>
-                        <td>
-                            <p-multiSelect [(ngModel)]="viewSelectedSkills"
-                                [options]="skills" optionLabel="name">
-                            </p-multiSelect>
-                        </td>
-                        <td *ngIf="fbexperience.controls['experienceDetails'].value.length > 1">
-                            <p-button icon="pi pi-times"  (click)="faExperienceDetail().removeAt(experienceDetailsIndex)"
-                            id="ExperienceDetailsRemove-Btn"
-                            styleClass="p-button-rounded p-button-danger p-button-text p-button-raised">
-                            </p-button>
-                        </td>
-                    </tr>
-                </ng-template>
-            </p-table>
-        </div>
-    </div>
-
-    <div class="col-12 scrolling_content" *ngIf="empExperienceDetails && empExperienceDetails.length > 0"> 
-        <div class="col-12 scrolling_content">
-            <p-table #dt2
-                [value]="empExperienceDetails"
-                [responsive]="true" [autoLayout]="true">
+            <p-table #dt2 [value]="empExperienceDetails" [responsive]="true" [autoLayout]="true">
                 <ng-template pTemplate="header">
                     <tr>
                         <th *ngFor="let col of headers"
                             [ngClass]="col?.field == 'companyName' || col?.field == 'companyLocation' || col?.field == 'companyEmployeeId'  ||col?.field == 'stateId'  ||  col?.field == 'designationId'
-                            ||col?.field == 'dateOfJoining'|| col?.field == 'dateOfReliving' ||col?.field == 'workExperienceXrefs' ||col?.field == 'isActive'? 'text-center' : ''">
+                        ||col?.field == 'dateOfJoining'|| col?.field == 'dateOfReliving' ||col?.field == 'workExperienceXrefs' ? 'text-center' : ''">
                             {{col?.label}}
                         </th>
+                        <th>SkillArea</th>
                         <th *ngIf="empExperienceDetails.length > 1"></th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-experienceDetail let-experienceDetailsIndex="rowIndex">
                     <tr>
                         <td *ngFor="let col of headers"
-                        [ngClass]="col?.field == 'companyName' || col?.field == 'companyLocation' || col?.field == 'companyEmployeeId'  ||col?.field == 'stateId'  ||  col?.field == 'designationId'
-                        ||col?.field == 'dateOfJoining'|| col?.field == 'dateOfReliving' ||col?.field == 'workExperienceXrefs' ||col?.field == 'isActive'? 'text-center' : ''">
-                         <span
-                                *ngIf="col?.field == 'companyName'  ||col?.field == 'companyLocation'  ||  col?.field == 'companyEmployeeId'">
-                                <input pInputText [(ngModel)]="experienceDetail[col.field]">
+                            [ngClass]="col?.field == 'companyName' || col?.field == 'companyLocation' || col?.field == 'companyEmployeeId'  ||col?.field == 'stateId'  ||  col?.field == 'designationId'
+                    ||col?.field == 'dateOfJoining'|| col?.field == 'dateOfReliving' ||col?.field == 'isActive'? 'text-center' : ''">
+                            <span
+                                *ngIf="col?.field == 'companyName' || col?.field == 'companyLocation' || col?.field == 'companyEmployeeId'  ||col?.field == 'stateId' || col?.field == 'designationId'">
+                                {{experienceDetail[col.field]}}
                             </span>
-                            <span *ngIf="col?.field == 'stateId'">
-                                <p-dropdown id="state_dropdown" optionLabel="name" [options]="states" 
-                                    optionValue="lookupDetailId" [(ngModel)]="experienceDetail[col.field]">
-                                </p-dropdown>
+                            <span *ngIf="col?.field == 'dateOfReliving'||col?.field == 'dateOfJoining'">
+                                {{experienceDetail[col.field]|date:mediumDate}}
                             </span>
-                            <span *ngIf="col?.field == 'designationId'">
-                                <p-dropdown [(ngModel)]="experienceDetail[col.field]" optionLabel="name"
-                                    [options]="designation" optionValue="lookupDetailId">
-                                </p-dropdown>
-                            </span>
-                            <span *ngIf="col?.field == 'dateOfJoining'">
-                                <p-calendar [showIcon]="true" [(ngModel)]="experienceDetail[col.field]"
-                                id="Experience_dateOfJoining"
-                                placeholder="Enter From Date">
-                            </p-calendar>
-                            </span>
-                            <span *ngIf="col?.field == 'dateOfReliving'">
-                                <p-calendar [showIcon]="true" [(ngModel)]="experienceDetail[col.field]"
-                                id="Experience_dateOfJoining"
-                                placeholder="Enter From Date">
-                            </p-calendar>
-                            </span>
-                            <span *ngIf="col?.field == 'workExperienceXrefs'">
-                                <p-multiSelect [(ngModel)]="viewSelectedSkills" [options]="skills" optionLabel="name">
-                                </p-multiSelect>
-                            </span>
-                            
-                            <span *ngIf="col?.field == 'isActive' ">
-                                <p-checkbox [binary]="true" [(ngModel)]="experienceDetail[col.field]">
-                                </p-checkbox>
-                            </span>
-                           
-                            
+
                         </td>
-                       
+
                         <td *ngIf="empExperienceDetails.length > 1">
                             <p-button icon="pi pi-times" (click)="removeItem(experienceDetailsIndex)"
                                 id="ExperienceDetailsRemove-Btn"
@@ -329,6 +251,8 @@
             </p-table>
         </div>
     </div>
+
+
 </div>
 
 <div class="grid mt-5">
