@@ -76,11 +76,11 @@ export class UploadDocumentsComponent {
 
 
   navigateToPrev() {
-    this.router.navigate(['employee/onboardingemployee/addressdetails'])
+    this.router.navigate(['employee/onboardingemployee/addressdetails',this.employeeId])
   }
 
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/familydetails'])
+    this.router.navigate(['employee/onboardingemployee/familydetails',this.employeeId])
   }
 
 

@@ -40,6 +40,7 @@ relationshipStatus: General[] |undefined ;
   ShowfamilyDetails: boolean = false;
   mediumDate: string = MEDIUM_DATE;
   addFlag: boolean = true;
+  empFamDetails = new FamilyDetailsDto();
 
 
   constructor(private router: Router,
@@ -50,9 +51,10 @@ relationshipStatus: General[] |undefined ;
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.employee = params['employee'];
+      this.employeeId = params['employeeId'];
     });
-    console.log(this.employeeId)
+    console.log(this.employeeId);
+    this.getFamilyDetails();
     this.initFamily();
     this.addFamilyMembers();
     this.initRelationship();
@@ -71,7 +73,7 @@ relationshipStatus: General[] |undefined ;
   initFamily() {
     this.fbfamilyDetails = this.formbuilder.group({
       familyInformationId: [null],
-      employeeId: [this.employeeId],
+      employeeId: this.employeeId,
       name: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2)]),
       relationshipId: new FormControl(null, [Validators.required]),
       addressId: new FormControl(null),
@@ -89,7 +91,7 @@ relationshipStatus: General[] |undefined ;
     });
   }
   initAddress() {
-    this.employeeService.GetAddress(5).subscribe((resp) => {
+    this.employeeService.GetAddress(this.employeeId).subscribe((resp) => {
       this.address = resp as unknown as EmployeAdressViewDto[];
       console.log('this.address', this.address);
     });
@@ -97,29 +99,40 @@ relationshipStatus: General[] |undefined ;
   get FormControls() {
     return this.fbfamilyDetails.controls;
   }
+  getFamilyDetails() {
+    return this.employeeService.getFamilyDetails(this.employeeId).subscribe((data) => {
+      this.empFamDetails = data as FamilyDetailsDto;
+      console.log(data);
+      this.editFamilyDetails(this.empFamDetails);
+    })
+  }
+  editFamilyDetails(empFamDetails) {
+    this.addFlag = false;
+    this.familyDetails = empFamDetails;
+  }
   restrictSpaces(event: KeyboardEvent) {
     if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {
       event.preventDefault();
     }
   }
-  faFamilyDetail(): FormArray {
-    return this.fbfamilyDetails.get("familyDetails") as FormArray
-  }
+  // faFamilyDetail(): FormArray {
+  //   return this.fbfamilyDetails.get("familyDetails") as FormArray
+  // }
 
-  generaterow(familyDetails: FamilyDetailsDto = new FamilyDetailsDto()): FormGroup {
-    return this.formbuilder.group({
-      familyInformationId: new FormControl({value:familyDetails.familyInformationId,disabled:true}),
-      employeeId: new FormControl({value:familyDetails.employeeId,disabled:true}),
-      name: new FormControl({value:familyDetails.name,disabled:true}),
-      relationshipId: new FormControl({value:familyDetails.relationshipId,disabled:true}),
-      addressId: new FormControl({values:familyDetails.addressId,disabled:true}),
-      dob: new FormControl({value:familyDetails.dob,disabled:true}),
-      adhaarNo: new FormControl({value:familyDetails.adhaarNo,disabled:true}),
-      panno: new FormControl({value:familyDetails.panno,disabled:true}),
-      mobileNumber: new FormControl({value:familyDetails.mobileNumber,disabled:true}),
-      isNominee: new FormControl({value:familyDetails.isNominee,disabled:true}),
-    });
-  }
+  // generaterow(familyDetails: FamilyDetailsDto = new FamilyDetailsDto()): FormGroup {
+  //   return this.formbuilder.group({
+  //     familyInformationId: new FormControl({value:familyDetails.familyInformationId,disabled:true}),
+  //     employeeId: new FormControl({value:familyDetails.employeeId,disabled:true}),
+  //     name: new FormControl({value:familyDetails.name,disabled:true}),
+  //     relationshipId: new FormControl({value:familyDetails.relationshipId,disabled:true}),
+  //     addressId: new FormControl({values:familyDetails.addressId,disabled:true}),
+  //     dob: new FormControl({value:familyDetails.dob,disabled:true}),
+  //     adhaarNo: new FormControl({value:familyDetails.adhaarNo,disabled:true}),
+  //     panno: new FormControl({value:familyDetails.panno,disabled:true}),
+  //     mobileNumber: new FormControl({value:familyDetails.mobileNumber,disabled:true}),
+  //     isNominee: new FormControl({value:familyDetails.isNominee,disabled:true}),
+  //   });
+  // }
   clearForm() {
     this.fbfamilyDetails.reset();
     this.fbfamilyDetails.get('isNominee').setValue(true);
@@ -130,25 +143,16 @@ relationshipStatus: General[] |undefined ;
       this.familyDetails.push(familyData);
       console.log(this.familyDetails.values);
       this.clearForm();
-      this.ShowfamilyDetails = true;
     }
   }
   savefamilyDetails(): Observable<HttpEvent<FamilyDetailsDto[]>> {
-    return this.employeeService.CreateFamilyDetails(this.familyDetails);
+    return this.employeeService.CreateFamilyDetails(this.familyDetails)
   }
   onSubmit() {
-    if (this.addFlag) {
-      this.save();
-    }
-    else {
-      this.fbfamilyDetails.markAllAsTouched();
-    }
-  }
-  save() {
     this.savefamilyDetails().subscribe(resp => {
-      this.employeeId = resp;
       if(resp){
         this.alertMessage.displayAlertMessage(ALERT_CODES["SFD001" ]);
+        this.navigateToNext();
       }
       else{
         this.alertMessage.displayAlertMessage(ALERT_CODES["SFD002" ]);
@@ -158,11 +162,11 @@ relationshipStatus: General[] |undefined ;
 
   }
   navigateToPrev() {
-    this.router.navigate(['employee/onboardingemployee/uploadfiles'])
+    this.router.navigate(['employee/onboardingemployee/uploadfiles',this.employeeId])
   }
 
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/bankdetails'])
+    this.router.navigate(['employee/onboardingemployee/bankdetails',this.employeeId])
   }
 
 

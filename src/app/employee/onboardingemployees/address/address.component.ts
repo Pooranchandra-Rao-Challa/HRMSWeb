@@ -150,7 +150,7 @@ export class AddressComponent {
     this.saveAddress().subscribe(res => {
       if(res){
         this.alertMessage.displayAlertMessage(ALERT_CODES["SAD001"]);
-        // this.navigateToNext();
+        this.navigateToNext();
       }
       else{
         this.alertMessage.displayErrorMessage(ALERT_CODES["SAD001"]);
@@ -164,10 +164,10 @@ export class AddressComponent {
 
 
   navigateToPrev() {
-    this.router.navigate(['employee/onboardingemployee/experiencedetails'])
+    this.router.navigate(['employee/onboardingemployee/experiencedetails',this.employeeId])
   }
 
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/uploadfiles'])
+    this.router.navigate(['employee/onboardingemployee/uploadfiles',this.employeeId])
   }
 }

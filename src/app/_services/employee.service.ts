@@ -90,7 +90,7 @@ export class EmployeeService extends ApiHttpService {
     return this.getWithId<any[]>(GET_WORKEXPERIENCE_URI, [employeeId])
   }
   public getFamilyDetails(employeeId: number) {
-    return this.getWithId<any[]>(GET_GETFAMILYDETAILS_URI, [employeeId])
+    return this.getWithId<FamilyDetailsDto[]>(GET_GETFAMILYDETAILS_URI, [employeeId])
   }
   public GetUploadedDocuments(employeeId: number) {
     return this.getWithId<any[]>(GET_GETUPLOADEDDOCUMENTS_URI, [employeeId])

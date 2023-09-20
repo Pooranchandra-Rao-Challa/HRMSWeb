@@ -42,7 +42,6 @@ export class EducationDetailsComponent implements OnInit {
     private employeeService: EmployeeService,
     private alertMessage: AlertmessageService) { }
   ngOnInit() {
-    debugger
     this.route.params.subscribe(params => {
       this.employeeId = params['employeeId'];
     });
@@ -56,11 +55,11 @@ export class EducationDetailsComponent implements OnInit {
 
   }
   headers: ITableHeader[] = [
-    { field: 'institutionName', header: 'institutionName', label: 'Institution Name' },
     { field: 'authorityName', header: 'authorityName', label: 'Authority Name' },
+    { field: 'stateId', header: 'stateId', label: 'State' },
+    { field: 'institutionName', header: 'institutionName', label: 'Institution Name' },
     { field: 'circulumId', header: 'circulumId', label: 'Circulum' },
     { field: 'streamId', header: 'streamId', label: 'Stream' },
-    { field: 'stateId', header: 'stateId', label: 'State' },
     { field: 'passedOutyear', header: 'passedOutyear', label: 'Passed Out Year' },
     { field: 'gradingMethodId', header: 'gradingMethodId', label: 'Grading System' },
     { field: 'gradingValue', header: 'gradingValue', label: 'CGPA/Percentage System' }
@@ -105,14 +104,13 @@ export class EducationDetailsComponent implements OnInit {
       }
     });
   }
-  formArrayControls(i: number, formControlName: string) {
-    return this.faEducationDetail().controls[i].get(formControlName);
-  }
-  faEducationDetail(): FormArray {
-    return this.fbEducationDetails.get('educationDetails') as FormArray
-  }
+  // formArrayControls(i: number, formControlName: string) {
+  //   return this.faEducationDetail().controls[i].get(formControlName);
+  // }
+  // faEducationDetail(): FormArray {
+  //   return this.fbEducationDetails.get('educationDetails') as FormArray
+  // }
   getEmpEducaitonDetails() {
-    debugger
     return this.employeeService.GetEducationDetails(this.employeeId).subscribe((data) => {
       this.empEduDetails = data as EducationDetailsDto;
       console.log(data);
@@ -128,50 +126,40 @@ export class EducationDetailsComponent implements OnInit {
       event.preventDefault();
     }
   }
-  generaterow(educationDetails: EducationDetailsDto = new EducationDetailsDto()): FormGroup {
-    return this.formbuilder.group({
-      educationDetailId: new FormControl(educationDetails.educationDetailId),
-      employeeId: new FormControl(educationDetails.employeeId),
-      circulumId: new FormControl(educationDetails.streamId),
-      streamId: new FormControl(educationDetails.streamId),
-      stateId: new FormControl(educationDetails.stateId),
-      institutionName: new FormControl(educationDetails.institutionName),
-      authorityName: new FormControl(educationDetails.authorityName),
-      passedOutyear: new FormControl(educationDetails.passedOutyear),
-      gradingMethodId: new FormControl(educationDetails.gradingMethodId),
-      gradingValue: new FormControl(educationDetails.gradingValue)
-    });
-  }
+  // generaterow(educationDetails: EducationDetailsDto = new EducationDetailsDto()): FormGroup {
+  //   return this.formbuilder.group({
+  //     educationDetailId: new FormControl(educationDetails.educationDetailId),
+  //     employeeId: new FormControl(educationDetails.employeeId),
+  //     circulumId: new FormControl(educationDetails.streamId),
+  //     streamId: new FormControl(educationDetails.streamId),
+  //     stateId: new FormControl(educationDetails.stateId),
+  //     institutionName: new FormControl(educationDetails.institutionName),
+  //     authorityName: new FormControl(educationDetails.authorityName),
+  //     passedOutyear: new FormControl(educationDetails.passedOutyear),
+  //     gradingMethodId: new FormControl(educationDetails.gradingMethodId),
+  //     gradingValue: new FormControl(educationDetails.gradingValue)
+  //   });
+  // }
   addEducationDetails() {
     if (this.fbEducationDetails.valid) {
       const educationData = this.fbEducationDetails.value;
       this.educationDetails.push(educationData);
-
-      this.faeducationDetails = this.fbEducationDetails.get("educationDetails") as FormArray
-      this.faeducationDetails.push(this.generaterow())      
-      // console.log(educationData);
+      // this.faeducationDetails = this.fbEducationDetails.get("educationDetails") as FormArray
+      // this.faeducationDetails.push(this.generaterow())      
+      console.log(educationData);
       this.clearForm();
-      this.ShoweducationDetails = true;
+      this.addFlag = false;
+
     }
   }
   clearForm() {
     this.fbEducationDetails.reset();
   }
   saveeducationDetails(): Observable<HttpEvent<EducationDetailsDto[]>> {
-    if (this.employeeId == null) {
       return this.employeeService.CreateEducationDetails(this.educationDetails);
-    }
-    else return this.employeeService.updateViewEmpEduDtls(this.educationDetails);
   }
   onSubmit() {
-    if (this.addFlag) {
-      this.save();
-    }
-    else {
-      this.fbEducationDetails.markAllAsTouched();
-    }
-  }
-  save() {
+    debugger
     this.saveeducationDetails().subscribe(resp => {
       if (resp) {
         this.alertMessage.displayAlertMessage(ALERT_CODES["SFD001"]);
@@ -179,7 +167,7 @@ export class EducationDetailsComponent implements OnInit {
       else {
         this.alertMessage.displayAlertMessage(ALERT_CODES["SFD002"]);
       }
-      // this.navigateToNext();
+      this.navigateToNext();
     })
 
   }
@@ -188,7 +176,7 @@ export class EducationDetailsComponent implements OnInit {
   }
 
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/experiencedetails'])
+    this.router.navigate(['employee/onboardingemployee/experiencedetails',this.employeeId])
   }
 
 }
