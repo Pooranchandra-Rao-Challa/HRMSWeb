@@ -541,7 +541,7 @@ export class ViewemployeesComponent {
   bankDetailsForm() {
     this.fbBankDetails = this.formbuilder.group({
       bankId: [0],
-      employeeId: [5],
+      employeeId: this.employeeId,
       name: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
       branchName: new FormControl('', [Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
       ifsc: new FormControl('', [Validators.required, Validators.pattern(RG_IFSC)]),
@@ -569,9 +569,9 @@ export class ViewemployeesComponent {
     this.bankDetails = true;
   }
   saveBankDetails() {
-    //const formValue = { ...this.fbBankDetails.value, employeeId: this.employeeId };
+    const formValue = { ...this.fbBankDetails.value, employeeId: this.employeeId };
     const isUpdate = this.fbBankDetails.value.bankId !== null;
-    this.employeeService.CreateBankDetails({ ...this.fbBankDetails.value, employeeId: this.employeeId }).subscribe((resp) => {
+    this.employeeService.CreateBankDetails(formValue).subscribe((resp) => {
       if (resp) {
         const alertCode = isUpdate ? "SMBD002" : "SMBD001";
         this.alertMessage.displayAlertMessage(ALERT_CODES[alertCode]);
@@ -667,7 +667,7 @@ export class ViewemployeesComponent {
   initFamily() {
     this.fbfamilyDetails = this.formbuilder.group({
       familyInformationId: [],
-      employeeId: [],
+      employeeId: this.employeeId,
       name: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2)]),
       relationshipId: new FormControl(null, [Validators.required]),
       addressId: new FormControl(),
