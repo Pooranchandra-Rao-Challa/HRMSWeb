@@ -135,7 +135,14 @@ export const ALERT_CODES: { [key: string]: string } = {
     'SAD001': 'Address Details Added Successfully',
     'SAD002': 'Address Details Not Added',
     'SAP001':'Permanent address already Existed',
-    'SAC001':'Current address already Existed',
+    'SAC001': 'Current address already Existed',
+    'SMAD004': 'Address Details Added Successfully',
+  
+
+    //uploadDocuments
+    'EAD001':'More than 5 Files not Accepted',
+    'EAD002':'Upload documents Added Successfully',
+    'EAD003':'Upload documents Not Added',
     //Enroll Employee
     
     'SEE001': 'Employee Enrolled Successfully',

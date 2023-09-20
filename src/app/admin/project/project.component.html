@@ -1,4 +1,4 @@
-<p-toast key="tst"></p-toast>
+ <p-toast key="tst"></p-toast>
 <div class="col-12">
   <div class="card">
    
@@ -345,7 +345,7 @@
                       </div>
                     </ng-template>
                   </p-multiSelect>
-                  <p-multiSelect *ngIf="this.addFlag == false" placeholder="Select Employees" [options]="Employees"
+                  <p-multiSelect *ngIf="this.addFlag == false" placeholder="Select Employees" [options]="Employees" 
                     optionLabel="employeeName" formControlName="ProjectAllotments" [filter]="true"
                     filterBy="employeeId,employeeName" appendTo="body">
                     <ng-template let-employee pTemplate="selectedItem">

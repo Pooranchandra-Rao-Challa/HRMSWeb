@@ -5,9 +5,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
-import { MaxLength } from 'src/app/_models/common';
-import { Designation, ExperienceDetailsDto, SkillArea, States, skillArea } from 'src/app/_models/employes';
+import { LookupViewDto } from 'src/app/_models/admin';
+import { ITableHeader, MaxLength } from 'src/app/_models/common';
+import { ExperienceDetailsDto,skillArea } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
+import { LookupService } from 'src/app/_services/lookup.service';
 import { MAX_LENGTH_20, MAX_LENGTH_50, MIN_LENGTH_2 } from 'src/app/_shared/regex';
 
 
@@ -19,9 +21,10 @@ import { MAX_LENGTH_20, MAX_LENGTH_50, MIN_LENGTH_2 } from 'src/app/_shared/rege
 
 export class ExperienceDetailsComponent {
   mediumDate: string = MEDIUM_DATE;
-  states: States[] = [];
-  designation: Designation[] = []
-  skills: SkillArea[] = []
+  countries: LookupViewDto[]=[];
+  states: LookupViewDto[] = [];
+  designation: LookupViewDto[] = []
+  skills: LookupViewDto[] = []
   selectedOption: string;
   maxLength: MaxLength = new MaxLength();
   viewSelectedSkills:skillArea[]=[];
@@ -32,24 +35,27 @@ export class ExperienceDetailsComponent {
   addfields: any;
   employeeId: any;
   @ViewChild('multiSelect') multiSelect: any;
+  empExperienceDetails: ExperienceDetailsDto[]=[];
 
   constructor(private router: Router, private formbuilder: FormBuilder, private route: ActivatedRoute,
-    private alertMessage: AlertmessageService, private employeeService: EmployeeService) { }
+    private alertMessage: AlertmessageService, private employeeService: EmployeeService,private lookupService:LookupService) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.employeeId = params['employeeId'];
     });
     this.initDesignations();
-    this.initStates();
+    this.initCountries();
     this.initSkills();
     this.fresherForm();
     this.experienceForm();
+   
     this.selectedOption = 'Fresher';
+    this.getEmpExperienceDetails();
   }
   fresherForm(){
     this.fbfresher = this.formbuilder.group({
-      employeeId: 5,
+      employeeId: this.employeeId,
       workExperienceId: [],
       isAfresher: new FormControl(true, [Validators.required]),
       companyName: new FormControl(''),
@@ -62,14 +68,18 @@ export class ExperienceDetailsComponent {
       workExperienceXrefs: new FormControl([{ workExperienceXrefId:null, workExperienceId:null , skillAreaId:null }])
     });
   }
+  removeItem(index: number): void {
+    this.empExperienceDetails.splice(index, 1);
+  }
   experienceForm() {
     this.fbexperience = this.formbuilder.group({
-      employeeId: 22,
+      employeeId: this.employeeId,
       workExperienceId: [],
       isAfresher: new FormControl(false, [Validators.required]),
       companyName: new FormControl('', [Validators.required,Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
       companyLocation: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
       companyEmployeeId: new FormControl(null, [ Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_20)]),
+      countryId:new FormControl(null,[Validators.required]),
       stateId: new FormControl(null, [Validators.required]),
       designationId: new FormControl(null, [Validators.required]),
       dateOfJoining: new FormControl(null, [Validators.required]),
@@ -79,25 +89,32 @@ export class ExperienceDetailsComponent {
       experienceDetails: this.formbuilder.array([])
     });
   }
-  initStates() {
-    this.employeeService.Getstates().subscribe((resp) => {
-      this.states = resp as unknown as States[];
+  initCountries() {
+    this.lookupService.Country().subscribe((resp) => {
+      this.countries = resp as unknown as LookupViewDto[];
+    })
+  }
+  getStatesByCountryId(id: number) {
+    this.lookupService.getStates(id).subscribe((resp) => {
+      if (resp) {
+        this.states = resp as unknown as LookupViewDto[];
+      }
     })
   }
   initSkills() {
-    this.employeeService.GetSkillArea().subscribe((resp) => {
-      this.skills = resp as unknown as SkillArea[];
+    this.lookupService.GetSkillArea().subscribe((resp) => {
+      this.skills = resp as unknown as LookupViewDto[];
     })
   }
   initDesignations() {
-    this.employeeService.GetDesignation().subscribe((resp) => {
-      this.designation = resp as unknown as Designation[];
+    this.lookupService.GetDesignation().subscribe((resp) => {
+      this.designation = resp as unknown as LookupViewDto[];
       console.log(this.designation)
     })
   }
   generaterow(experienceDetails: ExperienceDetailsDto = new ExperienceDetailsDto()): FormGroup {
     const formGroup = this.formbuilder.group({
-      employeeId: new FormControl({ value: 22, disabled: true }),
+      employeeId: new FormControl({ value: experienceDetails.employeeId, disabled: true }),
       workExperienceId: new FormControl({ value: experienceDetails.workExperienceId, disabled: true }),
       isAfresher: new FormControl({ value: false, disabled: true }),
       companyName: new FormControl({ value: experienceDetails.companyName, disabled: true }),
@@ -111,6 +128,15 @@ export class ExperienceDetailsComponent {
     });
     return formGroup;
   }
+  headers: ITableHeader[] = [
+    { field: 'companyName', header: 'companyName', label: 'CompanyName' },
+    { field: 'companyLocation', header: 'companyLocation', label: 'Location' },
+    { field: 'companyEmployeeId', header: 'companyEmployeeId', label: 'companyEmpId' },
+    { field: 'stateId', header: 'stateId', label: 'State' },
+    { field: 'designationId', header: 'designationId', label: 'Designation' },
+    { field: 'dateOfJoining', header: 'dateOfJoining', label: 'DateOfJoining' },
+    { field: 'dateOfReliving', header: 'dateOfReliving', label: 'DateOfReliving' }
+  ];
   addexperienceDetails() {
     if (this.fbexperience.invalid) {
       return;
@@ -119,8 +145,11 @@ export class ExperienceDetailsComponent {
       // Push current values into the FormArray
       this.faExperienceDetail().push(this.generaterow(this.fbexperience.getRawValue()));
       // Reset form controls for the next entry
+      for (let item of this.fbexperience.get('experienceDetails').value) {
+        this.empExperienceDetails.push(item)
+     }
       this.fbexperience.patchValue({
-        employeeId: 22,
+        employeeId: this.employeeId,
         workExperienceId: null,
         companyName: '',
         companyLocation: '',
@@ -143,25 +172,24 @@ export class ExperienceDetailsComponent {
   get FormControls() {
     return this.fbexperience.controls;
   }
+
   onSelectSkill(e) {
     this.viewSelectedSkills=e.value
     let CurrentArray=e.value; 
-    console.log(this.viewSelectedSkills,CurrentArray)
     let  updatedArray=[];
     for (let i = 0; i < CurrentArray.length; i++) {
        updatedArray.push({ workExperienceXrefId: 0, workExperienceId: 0, skillAreaId:CurrentArray[i].lookupDetailId  })
     }
     this.fbexperience.get('workExperienceXrefs')?.setValue(updatedArray);
   }
+  
   saveExperience(): Observable<HttpEvent<any>> {
     if (this.selectedOption == 'Experience')    
       return this.employeeService.CreateExperience(this.fbexperience.get('experienceDetails').value);
     
     else{
       return this.employeeService.CreateExperience([this.fbfresher.value]);
-    }
-
-     
+    } 
   }
   isMultiSelectValid(): boolean {
     return this.multiSelect && this.multiSelect.invalid && this.multiSelect.touched;
@@ -179,7 +207,13 @@ export class ExperienceDetailsComponent {
     });
   }
 
-
+  getEmpExperienceDetails(){
+    this.employeeService.GetWorkExperience(this.employeeId).subscribe((data) => {
+      this.empExperienceDetails = data as unknown as ExperienceDetailsDto[];
+      if(this.empExperienceDetails.length>0)
+      this.selectedOption = 'Experience';
+    })
+  }
   navigateToPrev() {
     this.router.navigate(['employee/onboardingemployee/educationdetails',this.employeeId])
   }
