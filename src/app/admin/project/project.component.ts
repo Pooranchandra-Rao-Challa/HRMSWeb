@@ -13,6 +13,9 @@ import { JwtService } from 'src/app/_services/jwt.service';
 import { MAX_LENGTH_20, MAX_LENGTH_256, MAX_LENGTH_50, MIN_LENGTH_2, MIN_LENGTH_20, MIN_LENGTH_4, RG_PHONE_NO } from 'src/app/_shared/regex';
 import { TreeNode } from 'primeng/api';
 import { dE } from '@fullcalendar/core/internal-common';
+import * as go from 'gojs';
+// import  {OrgChart}  from "d3-org-chart";
+import * as d3 from 'd3';
 interface AutoCompleteCompleteEvent {
   originalEvent: Event;
   query: string;
@@ -23,6 +26,8 @@ interface AutoCompleteCompleteEvent {
   styles: ['']
 })
 export class ProjectComponent implements OnInit {
+  data: null;
+  private diagram: go.Diagram;
   employees: EmployeesList[] = [];
   projects: ProjectViewDto[] = [];
   clientsNames: ClientNamesDto[] = [];
@@ -64,6 +69,35 @@ export class ProjectComponent implements OnInit {
     this.initClientNames();
     this.initEmployees();
     this.unAssignEmployeeForm();
+    d3.csv(
+      'https://raw.githubusercontent.com/bumbeishvili/sample-data/main/org.csv'
+    ).then(data => {
+      this.data = data;
+      let prevIndex = 0;
+      
+    });
+    
+    this.diagram = new go.Diagram('myDiagramDiv');
+
+    this.diagram.nodeTemplate =
+      go.GraphObject.make(go.Node, 'Auto',
+        go.GraphObject.make(go.Shape, 'Rectangle', { fill: 'white' }),
+        go.GraphObject.make(go.TextBlock, { margin: 8 }, new go.Binding('text', 'name'))
+      );
+
+    this.diagram.linkTemplate =
+      go.GraphObject.make(go.Link,
+        go.GraphObject.make(go.Shape)
+      );
+
+    this.diagram.model = new go.GraphLinksModel([
+      { key: '1', name: 'CEO' },
+      { key: '2', name: 'Manager 1', parent: '1' },
+      { key: '3', name: 'Manager 2', parent: '1' },
+      { key: '4', name: 'Employee 1', parent: '2' },
+      { key: '5', name: 'Employee 2', parent: '2' },
+    ]);
+  
   }
   projectForm(){
     this.fbproject = this.formbuilder.group({
