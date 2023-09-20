@@ -200,13 +200,13 @@
                         {{col?.label}}
                     </th>
 
-                    <th *ngIf="this.faAddressDetail().value.length > 1"></th>
+                    <th *ngIf="this.faAddressDetail().value.length > 1||empAddrDetails.length > 1"></th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-addressDetails let-addressDetailsIndex="rowIndex">
                 <tr>
                     <td *ngFor="let col of headers"
-                    [ngClass]="col?.field == 'addressLine1' || col?.field == 'addressLine1' || col?.field == 'landmark'  ||col?.field == 'zipCode'  ||  col?.field == 'city'
+                    [ngClass]="col?.field == 'addressLine1' || col?.field == 'addressLine2' || col?.field == 'landmark'  ||col?.field == 'zipCode'  ||  col?.field == 'city'
                     ||col?.field == 'stateId'|| col?.field == 'countryId' ||col?.field == 'addressType' ||col?.field == 'isActive'? 'text-center' : ''">
                      <span
                             *ngIf="col?.field == 'addressLine1'  ||col?.field == 'addressLine2'  ||  col?.field == 'landmark'
@@ -228,6 +228,12 @@
                             </p-checkbox>
                         </span>
                         
+                    </td>
+                    <td *ngIf="this.faAddressDetail().value.length > 1 || empAddrDetails.length > 1 ">
+                        <p-button icon="pi pi-times"  (click)="faAddressDetail().removeAt(addressDetailsIndex)"
+                        id="AddressDetailsRemove-Btn"
+                        styleClass="p-button-rounded p-button-danger p-button-text p-button-raised">
+                        </p-button>
                     </td>
                    
                 </tr>

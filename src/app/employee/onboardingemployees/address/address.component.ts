@@ -55,7 +55,7 @@ export class AddressComponent {
 
   initAddress() {
     this.fbAddressDetails = this.formbuilder.group({
-      employeeId: [null],
+      employeeId: [this.employeeId],
       addressId: [null],
       addressLine1: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
       addressLine2: new FormControl('', [Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
@@ -117,7 +117,7 @@ export class AddressComponent {
     this.faAddressDetail().push(this.generaterow(this.fbAddressDetails.getRawValue()));
     // Reset form controls for the next entry
     this.fbAddressDetails.patchValue({
-      employeeId: null,
+      employeeId: this.employeeId,
       addressId: null,
       addressLine1: '',
       addressLine2: '',
@@ -142,7 +142,7 @@ export class AddressComponent {
   }
   generaterow(addressDetails: AddressDetailsDto = new AddressDetailsDto()): FormGroup {
     const formGroup = this.formbuilder.group({
-      employeeId: new FormControl({ value: 22, disabled: true }),
+      employeeId: new FormControl({ value: addressDetails.employeeId, disabled: true }),
       addressId: new FormControl({ value: addressDetails.addressId, disabled: true }),
       addressLine1: new FormControl({ value: addressDetails.addressLine1, disabled: true }),
       addressLine2: new FormControl({ value: addressDetails.addressLine2, disabled: true }),
@@ -162,7 +162,6 @@ export class AddressComponent {
   getEmpAddressDetails(){
     this.employeeService.GetAddress(this.employeeId).subscribe((data) => {
       this.empAddrDetails = data as unknown as EmployeAdressViewDto[];
-      console.log(this.empAddrDetails)
     })
   }
   onSubmit() {

@@ -24,85 +24,93 @@
                         <div class="p-fluid p-formgrid grid">
                             <div class="field col-12 md:col-4">
                                 <label>Company Name:<sup class="p-error">*</sup></label>&nbsp;
-                                <input pInputText id="Experience_companyname" type="text" #company formControlName="companyName"
-                                [ngClass]="{ 'is-invalid ng-dirty': FormControls['companyName'].touched && FormControls['companyName'].errors }"
-                                    placeholder="Enter Company Name" [maxlength]="maxLength.name"/>
-                                    <div class="flex">
-                                        <div class="align-left w-60" style="width:70%">
-                                            <span *ngIf="FormControls['companyName'].touched && FormControls['companyName'].invalid">
-                                                <div class="ng-invalid ng-touched p-error"
-                                                    *ngIf="FormControls['companyName'].errors?.['required']">
-                                                    Please Enter companyName.</div>
-                                                <div class="ng-invalid ng-touched p-error"
-                                                    *ngIf="FormControls['companyName'].errors?.['minlength']">
-                                                    companyName Min Characters Is 2.</div>
-                                                <div class="ng-invalid ng-touched p-error"
-                                                    *ngIf="FormControls['companyName'].errors?.['maxlength']">
-                                                    companyName Max Characters Is 50.</div>
-                                            </span>
-                                        </div>
-                                        <div class="align-right w-40" style="width:30%; text-align:right;">
-                                            <small>{{company.value.length}}/50</small>
-                                        </div>
+                                <input pInputText id="Experience_companyname" type="text" #company
+                                    formControlName="companyName"
+                                    [ngClass]="{ 'is-invalid ng-dirty': FormControls['companyName'].touched && FormControls['companyName'].errors }"
+                                    placeholder="Enter Company Name" [maxlength]="maxLength.name" />
+                                <div class="flex">
+                                    <div class="align-left w-60" style="width:70%">
+                                        <span
+                                            *ngIf="FormControls['companyName'].touched && FormControls['companyName'].invalid">
+                                            <div class="ng-invalid ng-touched p-error"
+                                                *ngIf="FormControls['companyName'].errors?.['required']">
+                                                Please Enter companyName.</div>
+                                            <div class="ng-invalid ng-touched p-error"
+                                                *ngIf="FormControls['companyName'].errors?.['minlength']">
+                                                companyName Min Characters Is 2.</div>
+                                            <div class="ng-invalid ng-touched p-error"
+                                                *ngIf="FormControls['companyName'].errors?.['maxlength']">
+                                                companyName Max Characters Is 50.</div>
+                                        </span>
                                     </div>
+                                    <div class="align-right w-40" style="width:30%; text-align:right;">
+                                        <small>{{company.value.length}}/50</small>
+                                    </div>
+                                </div>
                             </div>
                             <div class="field col-12 md:col-4">
                                 <label>Location:<sup class="p-error">*</sup></label>&nbsp;
-                                <input pInputText id="Experience_Location" type="text" #location formControlName="companyLocation"
-                                [ngClass]="{ 'is-invalid ng-dirty': FormControls['companyLocation'].touched && FormControls['companyLocation'].errors }"
-                                    placeholder="Enter Company Location" [maxlength]="maxLength.name"/>
-                                    <div class="flex">
-                                        <div class="align-left w-60" style="width:70%">
-                                            <span *ngIf="FormControls['companyLocation'].touched && FormControls['companyLocation'].invalid">
-                                                <div class="ng-invalid ng-touched p-error"
-                                                    *ngIf="FormControls['companyLocation'].errors?.['required']">
-                                                    Please Enter companyLocation.</div>
-                                                <div class="ng-invalid ng-touched p-error"
-                                                    *ngIf="FormControls['companyLocation'].errors?.['minlength']">
-                                                    CompanyLocation Min Characters Is 2.</div>
-                                                <div class="ng-invalid ng-touched p-error"
-                                                    *ngIf="FormControls['companyLocation'].errors?.['maxlength']">
-                                                    CompanyLocation Max Characters Is 50.</div>
-                                            </span>
-                                        </div>
-                                        <div class="align-right w-40" style="width:30%; text-align:right;">
-                                            <small>{{location.value.length}}/50</small>
-                                        </div>
+                                <input pInputText id="Experience_Location" type="text" #location
+                                    formControlName="companyLocation"
+                                    [ngClass]="{ 'is-invalid ng-dirty': FormControls['companyLocation'].touched && FormControls['companyLocation'].errors }"
+                                    placeholder="Enter Company Location" [maxlength]="maxLength.name" />
+                                <div class="flex">
+                                    <div class="align-left w-60" style="width:70%">
+                                        <span
+                                            *ngIf="FormControls['companyLocation'].touched && FormControls['companyLocation'].invalid">
+                                            <div class="ng-invalid ng-touched p-error"
+                                                *ngIf="FormControls['companyLocation'].errors?.['required']">
+                                                Please Enter companyLocation.</div>
+                                            <div class="ng-invalid ng-touched p-error"
+                                                *ngIf="FormControls['companyLocation'].errors?.['minlength']">
+                                                CompanyLocation Min Characters Is 2.</div>
+                                            <div class="ng-invalid ng-touched p-error"
+                                                *ngIf="FormControls['companyLocation'].errors?.['maxlength']">
+                                                CompanyLocation Max Characters Is 50.</div>
+                                        </span>
                                     </div>
+                                    <div class="align-right w-40" style="width:30%; text-align:right;">
+                                        <small>{{location.value.length}}/50</small>
+                                    </div>
+                                </div>
                             </div>
                             <div class="field col-12 md:col-4">
                                 <label>Company EmpId:</label>&nbsp;
-                                <input pInputText id="Experience_EmpId" type="text" #empId formControlName="companyEmployeeId"
-                                    placeholder="Enter Company Employee Id" [maxlength]="maxLength.code"/>
-                                    <div class="flex">
-                                        <div class="align-left w-60" style="width:70%">
-                                            <span *ngIf="FormControls['companyEmployeeId'].touched && FormControls['companyEmployeeId'].invalid">
-                                                <div class="ng-invalid ng-touched p-error"
-                                                    *ngIf="FormControls['companyEmployeeId'].errors?.['required']">
-                                                    Please Enter CompanyEmpId</div>
-                                                <div class="ng-invalid ng-touched p-error"
-                                                    *ngIf="FormControls['companyEmployeeId'].errors?.['minlength']">
-                                                    CompanyEmpId Min Characters Is 2.</div>
-                                                <div class="ng-invalid ng-touched p-error"
-                                                    *ngIf="FormControls['companyEmployeeId'].errors?.['maxlength']">
-                                                    CompanyEmpId Max Characters Is 20.</div>
-                                            </span>
-                                        </div>
-                                        <div class="align-right w-40" style="width:30%; text-align:right;">
-                                            <small>{{empId.value.length}}/20</small>
-                                        </div>
+                                <input pInputText id="Experience_EmpId" type="text" #empId
+                                    formControlName="companyEmployeeId" placeholder="Enter Company Employee Id"
+                                    [maxlength]="maxLength.code" />
+                                <div class="flex">
+                                    <div class="align-left w-60" style="width:70%">
+                                        <span
+                                            *ngIf="FormControls['companyEmployeeId'].touched && FormControls['companyEmployeeId'].invalid">
+                                            <div class="ng-invalid ng-touched p-error"
+                                                *ngIf="FormControls['companyEmployeeId'].errors?.['required']">
+                                                Please Enter CompanyEmpId</div>
+                                            <div class="ng-invalid ng-touched p-error"
+                                                *ngIf="FormControls['companyEmployeeId'].errors?.['minlength']">
+                                                CompanyEmpId Min Characters Is 2.</div>
+                                            <div class="ng-invalid ng-touched p-error"
+                                                *ngIf="FormControls['companyEmployeeId'].errors?.['maxlength']">
+                                                CompanyEmpId Max Characters Is 20.</div>
+                                        </span>
                                     </div>
+                                    <div class="align-right w-40" style="width:30%; text-align:right;">
+                                        <small>{{empId.value.length}}/20</small>
+                                    </div>
+                                </div>
                             </div>
                             <div class="field col-12 md:col-4">
                                 <label>State:<sup class="p-error">*</sup></label>&nbsp;
-                                <p-dropdown inputId="dropdown" id="Experience_stateId" [autoDisplayFirst]="false" placeholder="Select State"
-                                [ngClass]="{ 'is-invalid ng-dirty': FormControls['stateId'].touched && FormControls['stateId'].errors }"
+                                <p-dropdown inputId="dropdown" id="Experience_stateId" [autoDisplayFirst]="false"
+                                    placeholder="Select State"
+                                    [ngClass]="{ 'is-invalid ng-dirty': FormControls['stateId'].touched && FormControls['stateId'].errors }"
                                     formControlName="stateId" [options]="states" optionValue="lookupDetailId"
                                     optionLabel="name">
                                 </p-dropdown>
                                 <div class="flex">
                                     <div class="align-left w-60" style="width:70%">
-                                        <span *ngIf="FormControls['stateId'].touched && FormControls['stateId'].invalid">
+                                        <span
+                                            *ngIf="FormControls['stateId'].touched && FormControls['stateId'].invalid">
                                             <div class="ng-invalid ng-touched p-error"
                                                 *ngIf="FormControls['stateId'].errors?.['required']">
                                                 Please Select state.</div>
@@ -120,7 +128,8 @@
                                 </p-dropdown>
                                 <div class="flex">
                                     <div class="align-left w-60" style="width:70%">
-                                        <span *ngIf="FormControls['designationId'].touched && FormControls['designationId'].invalid">
+                                        <span
+                                            *ngIf="FormControls['designationId'].touched && FormControls['designationId'].invalid">
                                             <div class="ng-invalid ng-touched p-error"
                                                 *ngIf="FormControls['designationId'].errors?.['required']">
                                                 Please Select Designation.</div>
@@ -130,8 +139,9 @@
                             </div>
                             <div class="field col-12 md:col-4">
                                 <label>SkillAreas:<sup class="p-error">*</sup></label>&nbsp;
-                                <p-multiSelect placeholder="Select SkillAreas" id="Experience_skillArea" (onChange)="onSelectSkill($event)"
-                                    [options]="skills" optionLabel="name" [filter]="true" filterBy="name" #multiSelect formControlName="skills"
+                                <p-multiSelect placeholder="Select SkillAreas" id="Experience_skillArea"
+                                    (onChange)="onSelectSkill($event)" [options]="skills" optionLabel="name"
+                                    [filter]="true" filterBy="name" #multiSelect formControlName="skills"
                                     [ngClass]="{ 'is-invalid ng-dirty': FormControls['skills'].touched && FormControls['skills'].errors }"
                                     appendTo="body">
                                     <ng-template let-skill pTemplate="selectedItem">
@@ -152,13 +162,15 @@
                             </div>
                             <div class="field col-12 md:col-4">
                                 <label>Date of joining:<sup class="p-error">*</sup></label>&nbsp;
-                                <p-calendar [showIcon]="true" formControlName="dateOfJoining" id="Experience_dateOfJoining"
-                                [ngClass]="{ 'is-invalid ng-dirty': FormControls['dateOfJoining'].touched && FormControls['dateOfJoining'].errors }"
+                                <p-calendar [showIcon]="true" formControlName="dateOfJoining"
+                                    id="Experience_dateOfJoining"
+                                    [ngClass]="{ 'is-invalid ng-dirty': FormControls['dateOfJoining'].touched && FormControls['dateOfJoining'].errors }"
                                     placeholder="Enter From Date">
                                 </p-calendar>
                                 <div class="flex">
                                     <div class="align-left w-60" style="width:70%">
-                                        <span *ngIf="FormControls['dateOfJoining'].touched && FormControls['dateOfJoining'].invalid">
+                                        <span
+                                            *ngIf="FormControls['dateOfJoining'].touched && FormControls['dateOfJoining'].invalid">
                                             <div class="ng-invalid ng-touched p-error"
                                                 *ngIf="FormControls['dateOfJoining'].errors?.['required']">
                                                 Please Select DateOfJoin.</div>
@@ -168,13 +180,15 @@
                             </div>
                             <div class="field col-12 md:col-4">
                                 <label>Date of Reliving:<sup class="p-error">*</sup></label>&nbsp;
-                                <p-calendar [showIcon]="true" formControlName="dateOfReliving" id="Experience_dateOfReliving"
-                                [ngClass]="{ 'is-invalid ng-dirty': FormControls['dateOfReliving'].touched && FormControls['dateOfReliving'].errors }"
+                                <p-calendar [showIcon]="true" formControlName="dateOfReliving"
+                                    id="Experience_dateOfReliving"
+                                    [ngClass]="{ 'is-invalid ng-dirty': FormControls['dateOfReliving'].touched && FormControls['dateOfReliving'].errors }"
                                     placeholder="Enter To Date">
                                 </p-calendar>
                                 <div class="flex">
                                     <div class="align-left w-60" style="width:70%">
-                                        <span *ngIf="FormControls['dateOfReliving'].touched && FormControls['dateOfReliving'].invalid">
+                                        <span
+                                            *ngIf="FormControls['dateOfReliving'].touched && FormControls['dateOfReliving'].invalid">
                                             <div class="ng-invalid ng-touched p-error"
                                                 *ngIf="FormControls['dateOfReliving'].errors?.['required']">
                                                 Please Select DateOfReliving.</div>
@@ -244,19 +258,93 @@
             </p-table>
         </div>
     </div>
+
+    <div class="col-12 scrolling_content" *ngIf="empExperienceDetails && empExperienceDetails.length > 0"> 
+        <div class="col-12 scrolling_content">
+            <p-table #dt2
+                [value]="empExperienceDetails"
+                [responsive]="true" [autoLayout]="true">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th *ngFor="let col of headers"
+                            [ngClass]="col?.field == 'companyName' || col?.field == 'companyLocation' || col?.field == 'companyEmployeeId'  ||col?.field == 'stateId'  ||  col?.field == 'designationId'
+                            ||col?.field == 'dateOfJoining'|| col?.field == 'dateOfReliving' ||col?.field == 'workExperienceXrefs' ||col?.field == 'isActive'? 'text-center' : ''">
+                            {{col?.label}}
+                        </th>
+                        <th *ngIf="empExperienceDetails.length > 1"></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-experienceDetail let-experienceDetailsIndex="rowIndex">
+                    <tr>
+                        <td *ngFor="let col of headers"
+                        [ngClass]="col?.field == 'companyName' || col?.field == 'companyLocation' || col?.field == 'companyEmployeeId'  ||col?.field == 'stateId'  ||  col?.field == 'designationId'
+                        ||col?.field == 'dateOfJoining'|| col?.field == 'dateOfReliving' ||col?.field == 'workExperienceXrefs' ||col?.field == 'isActive'? 'text-center' : ''">
+                         <span
+                                *ngIf="col?.field == 'companyName'  ||col?.field == 'companyLocation'  ||  col?.field == 'companyEmployeeId'">
+                                <input pInputText [(ngModel)]="experienceDetail[col.field]">
+                            </span>
+                            <span *ngIf="col?.field == 'stateId'">
+                                <p-dropdown id="state_dropdown" optionLabel="name" [options]="states" 
+                                    optionValue="lookupDetailId" [(ngModel)]="experienceDetail[col.field]">
+                                </p-dropdown>
+                            </span>
+                            <span *ngIf="col?.field == 'designationId'">
+                                <p-dropdown [(ngModel)]="experienceDetail[col.field]" optionLabel="name"
+                                    [options]="designation" optionValue="lookupDetailId">
+                                </p-dropdown>
+                            </span>
+                            <span *ngIf="col?.field == 'dateOfJoining'">
+                                <p-calendar [showIcon]="true" [(ngModel)]="experienceDetail[col.field]"
+                                id="Experience_dateOfJoining"
+                                placeholder="Enter From Date">
+                            </p-calendar>
+                            </span>
+                            <span *ngIf="col?.field == 'dateOfReliving'">
+                                <p-calendar [showIcon]="true" [(ngModel)]="experienceDetail[col.field]"
+                                id="Experience_dateOfJoining"
+                                placeholder="Enter From Date">
+                            </p-calendar>
+                            </span>
+                            <span *ngIf="col?.field == 'workExperienceXrefs'">
+                                <p-multiSelect [(ngModel)]="viewSelectedSkills" [options]="skills" optionLabel="name">
+                                </p-multiSelect>
+                            </span>
+                            
+                            <span *ngIf="col?.field == 'isActive' ">
+                                <p-checkbox [binary]="true" [(ngModel)]="experienceDetail[col.field]">
+                                </p-checkbox>
+                            </span>
+                           
+                            
+                        </td>
+                       
+                        <td *ngIf="empExperienceDetails.length > 1">
+                            <p-button icon="pi pi-times" (click)="removeItem(experienceDetailsIndex)"
+                                id="ExperienceDetailsRemove-Btn"
+                                styleClass="p-button-rounded p-button-danger p-button-text p-button-raised">
+                            </p-button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
 </div>
 
 <div class="grid mt-5">
     <div class="field col-4">
-        <button p-button  id="ExperiencetoEducation-Btn" class="p-element p-ripple p-button-primary p-button p-component w-100 text-right"
+        <button p-button id="ExperiencetoEducation-Btn"
+            class="p-element p-ripple p-button-primary p-button p-component w-100 text-right"
             (click)="navigateToPrev()">Educational Details</button>
     </div>
     <div class=" col-4">
-        <button p-button id="ExperienceSave-Btn" class="p-element p-ripple p-button-info p-button p-component w-100" (click)="onSubmit()">Save
+        <button p-button id="ExperienceSave-Btn" class="p-element p-ripple p-button-info p-button p-component w-100"
+            (click)="onSubmit()">Save
             as Draft</button>
     </div>
     <div class=" col-4">
-        <button p-button id="ExperiencetoAddress-Btn" class="p-element p-ripple p-button-primary p-button p-component w-100"
-            (click)="navigateToNext()">Address Details </button>
+        <button p-button id="ExperiencetoAddress-Btn"
+            class="p-element p-ripple p-button-primary p-button p-component w-100" (click)="navigateToNext()">Address
+            Details </button>
     </div>
 </div>
