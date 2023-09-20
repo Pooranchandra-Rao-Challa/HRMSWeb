@@ -41,6 +41,7 @@ export const LOOKUP_ASSET_STATUS_URI = "Lookup/Status";
 export const LOOKUP_CIRCULUM_URI ="Lookup/Curriculums";
 export const LOOKUP_STREAM_URI ="Lookup/Streams";
 export const LOOKUP_GRADING_SYSTEM_URI ="Lookup/GradingMethods";
+export const LOOKUP_COUNTRY_URI ="Lookup/Countries";
 export const LOOKUP_STATES_URI = "Lookup/States";
 export const LOOKUP_BLOOD_GROUPS_URI = "Lookup/BloodGroups";
 export const LOOKUP_RELATIONSHIP_URI="Lookup/Relations";

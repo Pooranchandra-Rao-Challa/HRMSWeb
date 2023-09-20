@@ -6,11 +6,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Address } from 'src/app/demo/api/security';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
-import { AddressDetailsDto, Countries, EmployeAdressViewDto, States } from 'src/app/_models/employes';
+import { AddressDetailsDto, EmployeAdressViewDto} from 'src/app/_models/employes';
 // import { States } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { MAX_LENGTH_256, MAX_LENGTH_50, MAX_LENGTH_6, MIN_LENGTH_2, MIN_LENGTH_6, RG_ALPHA_NUMERIC, RG_PINCODE } from 'src/app/_shared/regex';
 import { ITableHeader, MaxLength } from 'src/app/_models/common';
+import { LookupViewDto } from 'src/app/_models/admin';
+import { LookupService } from 'src/app/_services/lookup.service';
 
 @Component({
   selector: 'app-address',
@@ -19,8 +21,8 @@ import { ITableHeader, MaxLength } from 'src/app/_models/common';
   ]
 })
 export class AddressComponent {
-  states: States[] = [];
-  countries: Countries[] = [];
+  states: LookupViewDto[] = [];
+  countries: LookupViewDto[] = [];
   fbAddressDetails: FormGroup;
   faAddressDetails!: FormArray;
   submitLabel: string;
@@ -29,28 +31,28 @@ export class AddressComponent {
   empAddrDetails: EmployeAdressViewDto[]=[];
   
   constructor(private router: Router, private route: ActivatedRoute, private formbuilder: FormBuilder,
-    private alertMessage: AlertmessageService, private employeeService: EmployeeService) { }
+    private alertMessage: AlertmessageService, private employeeService: EmployeeService,
+    private lookupService: LookupService,
+    ) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.employeeId = params['employeeId'];
     });
     this.initAddress();
-    this.initStates();
     this.initCountries();
     this.getEmpAddressDetails();
   }
-
-  initStates() {
-    this.employeeService.Getstates().subscribe((resp) => {
-      this.states = resp as unknown as States[];
-      console.log(this.states)
+  initCountries() {
+    this.lookupService.Country().subscribe((resp) => {
+      this.countries = resp as unknown as LookupViewDto[];
     })
   }
-
-  initCountries() {
-    this.employeeService.GetCountries().subscribe((resp) => {
-      this.countries = resp as unknown as Countries[];
+  getStatesByCountryId(id: number) {
+    this.lookupService.getStates(id).subscribe((resp) => {
+      if (resp) {
+        this.states = resp as unknown as LookupViewDto[];
+      }
     })
   }
 
