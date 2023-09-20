@@ -49,7 +49,8 @@
                     <div class="field col-12 md:col-4">
                         <span class="p-float-label">
                             <p-dropdown id="states_dropdown" [autoDisplayFirst]="false" optionLabel="name"
-                                [options]="states" optionValue="lookupDetailId" formControlName="stateId"
+                                [options]="states" optionValue="lookupDetailId" formControlName="stateId" 
+                                (onChange)="getStreamByCirculumId($event.value)"
                                 [ngClass]="{'is-invalid ng-dirty': FormControls['stateId'].touched && FormControls['stateId'].errors }">
                             </p-dropdown>
                             <label class="required">State</label>

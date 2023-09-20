@@ -95,6 +95,24 @@
                                         </div>
                                 </div>
                                 <div class="field col-12 md:col-4">
+                                    <label>Country:<sup class="p-error">*</sup></label>&nbsp;
+                                    <p-dropdown inputId="dropdown" id="Experience_stateId" [autoDisplayFirst]="false" placeholder="Select Country"
+                                    [ngClass]="{ 'is-invalid ng-dirty': FormControls['countryId'].touched && FormControls['countryId'].errors }"
+                                        formControlName="countryId" [options]="countries" optionValue="lookupDetailId"
+                                        optionLabel="name"  (onChange)="getStatesByCountryId($event.value)"
+                                        >
+                                    </p-dropdown>
+                                    <div class="flex">
+                                        <div class="align-left w-60" style="width:70%">
+                                            <span *ngIf="FormControls['countryId'].touched && FormControls['countryId'].invalid">
+                                                <div class="ng-invalid ng-touched p-error"
+                                                    *ngIf="FormControls['countryId'].errors?.['required']">
+                                                    Please Select Country.</div>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="field col-12 md:col-4">
                                     <label>State:<sup class="p-error">*</sup></label>&nbsp;
                                     <p-dropdown inputId="dropdown" id="Experience_stateId" [autoDisplayFirst]="false" placeholder="Select State"
                                     [ngClass]="{ 'is-invalid ng-dirty': FormControls['stateId'].touched && FormControls['stateId'].errors }"

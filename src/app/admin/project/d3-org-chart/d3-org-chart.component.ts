@@ -7,7 +7,7 @@ import {
   ElementRef
 } from '@angular/core';
 
-import { OrgChart } from 'd3-org-chart';
+// import { OrgChart } from 'd3-org-chart';
 
 @Component({
   selector: 'app-d3-org-chart',
@@ -27,7 +27,7 @@ export class D3OrgChartComponent implements OnInit, OnChanges {
 
   ngAfterViewInit() {
     if (!this.chart) {
-      this.chart = new OrgChart();
+      // this.chart = new OrgChart();
     }
     this.updateChart();
   }
