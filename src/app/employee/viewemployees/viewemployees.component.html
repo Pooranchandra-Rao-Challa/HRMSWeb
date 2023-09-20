@@ -914,20 +914,21 @@
             </div>
             <div class="field col-12 md:col-4">
               <span class="p-float-label">
+                <p-dropdown inputId="dropdown" formControlName="countryId" (onChange)="getStatesByCountryId($event.value)"
+                  [autoDisplayFirst]="false" [options]="countries" optionValue="lookupDetailId" optionLabel="name"></p-dropdown>
+                <label for="dropdown">Country <sup class="p-error">*</sup>
+                </label>
+              </span>
+            </div>
+            <div class="field col-12 md:col-4">
+              <span class="p-float-label">
                 <p-dropdown inputId="dropdown" formControlName="stateId" [autoDisplayFirst]="false" [options]="states"
                   optionValue="lookupDetailId" optionLabel="name"></p-dropdown>
                 <label for="dropdown">State <sup class="p-error">*</sup>
                 </label>
               </span>
             </div>
-            <div class="field col-12 md:col-4">
-              <span class="p-float-label">
-                <p-dropdown inputId="dropdown" formControlName="countryId" [autoDisplayFirst]="false"
-                  [options]="countries" optionValue="lookupDetailId" optionLabel="name"></p-dropdown>
-                <label for="dropdown">Country <sup class="p-error">*</sup>
-                </label>
-              </span>
-            </div>
+           
 
             <div class="grid formgrid pl-5">
               <div class="flex flex-wrap gap-3">
