@@ -29,8 +29,26 @@
                 </div>
                 <div class="field col-12 md:col-4">
                     <span class="p-float-label">
+                        <p-dropdown id="country_dropdown" [autoDisplayFirst]="false" optionLabel="name"
+                            [options]="country" optionValue="lookupDetailId" formControlName="countryId"  (onChange)="getStatesByCountryId($event.value)"
+                            [ngClass]="{'is-invalid ng-dirty': FormControls['countryId'].touched && FormControls['countryId'].errors }">
+                        </p-dropdown>
+                        <label class="required">Country</label>
+                    </span>
+                    <div class="flex">
+                        <div class="align-left w-60" style="width:70%">
+                            <span *ngIf="FormControls['countryId'].touched && FormControls['countryId'].invalid">
+                                <div class="ng-invalid ng-touched p-error"
+                                    *ngIf="FormControls['countryId'].errors?.['required']">
+                                    Please Select Country.</div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <span class="p-float-label">
                         <p-dropdown id="states_dropdown" [autoDisplayFirst]="false" optionLabel="name"
-                            [options]="states" optionValue="lookupId" formControlName="stateId"
+                        [options]="states" optionValue="lookupDetailId" formControlName="stateId"
                             [ngClass]="{'is-invalid ng-dirty': FormControls['stateId'].touched && FormControls['stateId'].errors }">
                         </p-dropdown>
                         <label class="required">State</label>
@@ -40,7 +58,7 @@
                             <span *ngIf="FormControls['stateId'].touched && FormControls['stateId'].invalid">
                                 <div class="ng-invalid ng-touched p-error"
                                     *ngIf="FormControls['stateId'].errors?.['required']">
-                                    Please Select State.</div>
+                                    Please Select Country next Select State.</div>
                             </span>
                         </div>
                     </div>
@@ -166,8 +184,6 @@
     </div>
 </form>
 <!-- table -->
-<p-toast key="tst"></p-toast>
-
 <div class="col-12 scrolling_content"  *ngIf="ShoweducationDetails">
     <p-table id="table" [value]="educationDetails" dataKey="id" [rows]="10" [rowHover]="true"
         [alwaysShowPaginator]="false" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
@@ -179,9 +195,10 @@
                     [ngClass]="col?.field == 'institutionName' || col?.field == 'authorityName' || col?.field == 'passedOutyear'  ||col?.field == 'circulumId'  ||  col?.field == 'streamId' ||col?.field == 'stateId'|| col?.field == 'gradingMethodId' ||col?.field == 'gradingValue' ? 'text-center' : ''">
                     {{col?.label}}
                 </th>
+                <th *ngIf="this.educationDetails.length > 1"></th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-educationData >
+        <ng-template pTemplate="body" let-educationData  let-i = "rowIndex">
             <tr>
                 <td *ngFor="let col of headers"
                     [ngClass]="col?.field == 'institutionName' || col?.field == 'authorityName'  ||col?.field == 'passedOutyear'  ||  col?.field == 'circulumId'  || col?.field == 'streamId'||col?.field == 'stateId'|| col?.field == 'gradingMethodId' ||col?.field == 'gradingValue' ? 'text-center' : ''">
@@ -213,6 +230,12 @@
                             >
                         </p-dropdown>
                     </span>
+                </td>
+                <td *ngIf="educationDetails.length > 1">
+                    <p-button icon="pi pi-times" (click)="removeRow(i)"
+                        id="AddressDetailsRemove-Btn"
+                        styleClass="p-button-rounded p-button-danger p-button-text p-button-raised">
+                    </p-button>
                 </td>
             </tr>
         </ng-template>
