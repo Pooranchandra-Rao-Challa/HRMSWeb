@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Address } from 'src/app/demo/api/security';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
-import { AddressDetailsDto, Countries, States } from 'src/app/_models/employes';
+import { AddressDetailsDto, Countries, EmployeAdressViewDto, States } from 'src/app/_models/employes';
 // import { States } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { MAX_LENGTH_256, MAX_LENGTH_50, MAX_LENGTH_6, MIN_LENGTH_2, MIN_LENGTH_6, RG_ALPHA_NUMERIC, RG_PINCODE } from 'src/app/_shared/regex';
@@ -26,6 +26,7 @@ export class AddressComponent {
   submitLabel: string;
   employeeId: any;
   maxLength: MaxLength = new MaxLength();
+  empAddrDetails: EmployeAdressViewDto[]=[];
   constructor(private router: Router, private route: ActivatedRoute, private formbuilder: FormBuilder,
     private alertMessage: AlertmessageService, private employeeService: EmployeeService) { }
 
@@ -36,6 +37,7 @@ export class AddressComponent {
     this.initAddress();
     this.initStates();
     this.initCountries();
+    this.getEmpAddressDetails();
   }
 
   initStates() {
@@ -53,20 +55,31 @@ export class AddressComponent {
 
   initAddress() {
     this.fbAddressDetails = this.formbuilder.group({
-      employeeId: [22],
+      employeeId: [null],
       addressId: [null],
-      AddressLine1: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
-      AddressLine2: new FormControl('', [Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
-      Landmark: new FormControl('', [ Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
-      ZIPCode: new FormControl('',[Validators.required]),
-      City: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
+      addressLine1: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
+      addressLine2: new FormControl('', [Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
+      landmark: new FormControl('', [ Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
+      zipCode: new FormControl('',[Validators.required]),
+      city: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
       stateId: new FormControl('',[Validators.required]),
       countryId: new FormControl('',[Validators.required]),
       addressType: new FormControl('',[Validators.required]),
-      IsActive: new FormControl(true, Validators.requiredTrue),
+      isActive: new FormControl(true, Validators.requiredTrue),
       addressDetails: this.formbuilder.array([])
     });
   }
+  headers: ITableHeader[] = [
+    { field: 'addressLine1', header: 'addressLine1', label: 'AddressLine1' },
+    { field: 'addressLine2', header: 'addressLine2', label: 'AddressLine2' },
+    { field: 'landmark', header: 'landmark', label: 'Landmark' },
+    { field: 'zipCode', header: 'zipCode', label: 'ZIPCode' },
+    { field: 'city', header: 'city', label: 'City' },
+    { field: 'stateId', header: 'stateId', label: 'State' },
+    { field: 'countryId', header: 'countryId', label: 'Country' },
+    { field: 'addressType', header: 'addressType', label: 'AddressType' },
+    { field: 'isActive', header: 'isActive', label: 'IsActive' }
+  ];
   addAddress() {
     if (this.fbAddressDetails.invalid) {
       return;
@@ -104,17 +117,17 @@ export class AddressComponent {
     this.faAddressDetail().push(this.generaterow(this.fbAddressDetails.getRawValue()));
     // Reset form controls for the next entry
     this.fbAddressDetails.patchValue({
-      employeeId: 22,
+      employeeId: null,
       addressId: null,
-      AddressLine1: '',
-      AddressLine2: '',
-      Landmark: '',
-      ZIPCode: '',
-      City: '',
+      addressLine1: '',
+      addressLine2: '',
+      landmark: '',
+      zipCode: '',
+      city: '',
       stateId: '',
       countryId: '',
       addressType: '',
-      IsActive: true,
+      isActive: true,
     });
     // Clear validation errors
     this.fbAddressDetails.markAsPristine();
@@ -131,20 +144,26 @@ export class AddressComponent {
     const formGroup = this.formbuilder.group({
       employeeId: new FormControl({ value: 22, disabled: true }),
       addressId: new FormControl({ value: addressDetails.addressId, disabled: true }),
-      AddressLine1: new FormControl({ value: addressDetails.AddressLine1, disabled: true }),
-      AddressLine2: new FormControl({ value: addressDetails.AddressLine2, disabled: true }),
-      Landmark: new FormControl({ value: addressDetails.Landmark, disabled: true }),
-      ZIPCode: new FormControl({ value: addressDetails.ZIPCode, disabled: true }),
-      City: new FormControl({ value: addressDetails.City, disabled: true }),
+      addressLine1: new FormControl({ value: addressDetails.addressLine1, disabled: true }),
+      addressLine2: new FormControl({ value: addressDetails.addressLine2, disabled: true }),
+      landmark: new FormControl({ value: addressDetails.landmark, disabled: true }),
+      zipCode: new FormControl({ value: addressDetails.zipCode, disabled: true }),
+      city: new FormControl({ value: addressDetails.city, disabled: true }),
       stateId: new FormControl({ value: addressDetails.stateId, disabled: true }),
       countryId: new FormControl({ value: addressDetails.countryId, disabled: true }),
       addressType: new FormControl({ value: addressDetails.addressType, disabled: true }),
-      IsActive: new FormControl({ value: addressDetails.IsActive, disabled: true }),
+      isActive: new FormControl({ value: addressDetails.isActive, disabled: true }),
     });
     return formGroup;
   }
   saveAddress(): Observable<HttpEvent<any>> {
     return this.employeeService.CreateAddress(this.fbAddressDetails.get('addressDetails').value);
+  }
+  getEmpAddressDetails(){
+    this.employeeService.GetAddress(this.employeeId).subscribe((data) => {
+      this.empAddrDetails = data as unknown as EmployeAdressViewDto[];
+      console.log(this.empAddrDetails)
+    })
   }
   onSubmit() {
     this.saveAddress().subscribe(res => {

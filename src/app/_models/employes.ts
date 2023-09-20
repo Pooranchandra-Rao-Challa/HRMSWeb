@@ -82,15 +82,15 @@ export class UploadDocuments {
 export class AddressDetailsDto {
 	employeeId: number
 	addressId: number
-	AddressLine1: string
-	AddressLine2: string
-	Landmark: string
-	ZIPCode: number
-	City: string
+	addressLine1: string
+	addressLine2: string
+	landmark: string
+	zipCode: number
+	city: string
 	stateId: number
 	countryId: number
 	addressType: string
-	IsActive: boolean
+	isActive: boolean
 }
 
 export class EmployeeBasicDetailViewDto {
