@@ -108,6 +108,25 @@
                 </div>
                 <div class="field col-12 md:col-4">
                     <span class="p-float-label">
+                        <p-dropdown inputId="dropdown" id="Address_country" [autoDisplayFirst]="false"
+                        [ngClass]="{ 'is-invalid ng-dirty': FormControls['countryId'].touched && FormControls['countryId'].errors }"
+                            formControlName="countryId" [options]="countries" optionValue="lookupDetailId" (onChange)="getStatesByCountryId($event.value)"
+                            optionLabel="name">
+                        </p-dropdown>
+                        <label for="inputtext">Country<sup class="p-error">*</sup></label>
+                    </span>
+                    <div class="flex">
+                        <div class="align-left w-60" style="width:70%">
+                            <span *ngIf="FormControls['countryId'].touched && FormControls['countryId'].invalid">
+                                <div class="ng-invalid ng-touched p-error"
+                                    *ngIf="FormControls['countryId'].errors?.['required']">
+                                    Please Select Country.</div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <span class="p-float-label">
                         <p-dropdown inputId="dropdown" id="Address_state" [autoDisplayFirst]="false"
                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['stateId'].touched && FormControls['stateId'].errors }"
                             formControlName="stateId" [options]="states" optionValue="lookupDetailId"
@@ -119,26 +138,7 @@
                             <span *ngIf="FormControls['stateId'].touched && FormControls['stateId'].invalid">
                                 <div class="ng-invalid ng-touched p-error"
                                     *ngIf="FormControls['stateId'].errors?.['required']">
-                                    Please Select state.</div>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="field col-12 md:col-4">
-                    <span class="p-float-label">
-                        <p-dropdown inputId="dropdown" id="Address_country" [autoDisplayFirst]="false"
-                        [ngClass]="{ 'is-invalid ng-dirty': FormControls['countryId'].touched && FormControls['countryId'].errors }"
-                            formControlName="countryId" [options]="countries" optionValue="lookupDetailId"
-                            optionLabel="name">
-                        </p-dropdown>
-                        <label for="inputtext">Country<sup class="p-error">*</sup></label>
-                    </span>
-                    <div class="flex">
-                        <div class="align-left w-60" style="width:70%">
-                            <span *ngIf="FormControls['countryId'].touched && FormControls['countryId'].invalid">
-                                <div class="ng-invalid ng-touched p-error"
-                                    *ngIf="FormControls['countryId'].errors?.['required']">
-                                    Please Select Country.</div>
+                                    Please Select Country next Select State.</div>
                             </span>
                         </div>
                     </div>

@@ -207,7 +207,7 @@ export class ViewemployeesComponent {
     this.initExperience();
     this.addexperienceDetails();
     this.initAddress();
-    this.initStates();
+    // this.initStates();
     this.initBloodGroups()
     this.initskillArea();
   }
@@ -609,12 +609,12 @@ export class ViewemployeesComponent {
       console.log('this.address', this.address);
     });
   }
-  initStates() {
-    this.lookupService.getStates().subscribe((resp) => {
-      this.states = resp as unknown as LookupViewDto[];
-      console.log(this.states)
-    })
-  }
+  // initStates() {
+  //   this.lookupService.getStates().subscribe((resp) => {
+  //     this.states = resp as unknown as LookupViewDto[];
+  //     console.log(this.states)
+  //   })
+  // }
   initCountries(): Promise<void> {
     return new Promise<void>((resolve) => {
       this.employeeService.GetCountries().subscribe((resp) => {

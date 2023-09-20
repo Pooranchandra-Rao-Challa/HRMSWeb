@@ -25,6 +25,7 @@ export class EducationDetailsComponent implements OnInit {
   educationDetails: EducationDetailsDto[] = [];
   employeeId: any;
   maxLength: MaxLength = new MaxLength();
+  country: LookupViewDto[] = [];
   states: LookupViewDto[] = [];
   circulum: LookupViewDto[] = [];
   stream: LookupViewDto[] = [];
@@ -33,7 +34,7 @@ export class EducationDetailsComponent implements OnInit {
   addFlag: boolean = true;
   circulums: LookupViewDto = new LookupViewDto();
   STREAM?: String;
-  faeducationDetails !:FormArray;
+  faeducationDetails !: FormArray;
   empEduDetails = new EducationDetailsDto();
   constructor(private formbuilder: FormBuilder,
     private router: Router,
@@ -47,8 +48,8 @@ export class EducationDetailsComponent implements OnInit {
     });
     console.log(this.employeeId);
     this.educationForm();
-    this.initStates();
     this.initCirculum();
+    this.initCountry();
     this.initGrading();
     this.addEducationDetails();
     this.getEmpEducaitonDetails();
@@ -70,6 +71,7 @@ export class EducationDetailsComponent implements OnInit {
       employeeId: this.employeeId,
       circulumId: new FormControl(null, [Validators.required]),
       streamId: new FormControl(null, [Validators.required]),
+      countryId: new FormControl(null, [Validators.required]),
       stateId: new FormControl(null, [Validators.required]),
       institutionName: new FormControl(''),
       authorityName: new FormControl('', [Validators.required]),
@@ -92,10 +94,17 @@ export class EducationDetailsComponent implements OnInit {
       this.gradingMethods = resp as unknown as LookupViewDto[];
     });
   }
-  initStates() {
-    this.lookupService.getStates().subscribe((resp) => {
-      this.states = resp as unknown as LookupViewDto[];
-    });
+  initCountry() {
+    this.lookupService.Country().subscribe((resp) => {
+      this.country = resp as unknown as LookupViewDto[];
+    })
+  }
+  getStatesByCountryId(id: number) {
+    this.lookupService.getStates(id).subscribe((resp) => {
+      if (resp) {
+        this.states = resp as unknown as LookupViewDto[];
+      }
+    })
   }
   getStreamByCirculumId(Id: number) {
     this.lookupService.Stream(Id).subscribe((resp) => {
@@ -104,12 +113,6 @@ export class EducationDetailsComponent implements OnInit {
       }
     });
   }
-  // formArrayControls(i: number, formControlName: string) {
-  //   return this.faEducationDetail().controls[i].get(formControlName);
-  // }
-  // faEducationDetail(): FormArray {
-  //   return this.fbEducationDetails.get('educationDetails') as FormArray
-  // }
   getEmpEducaitonDetails() {
     return this.employeeService.GetEducationDetails(this.employeeId).subscribe((data) => {
       this.empEduDetails = data as EducationDetailsDto;
@@ -126,26 +129,15 @@ export class EducationDetailsComponent implements OnInit {
       event.preventDefault();
     }
   }
-  // generaterow(educationDetails: EducationDetailsDto = new EducationDetailsDto()): FormGroup {
-  //   return this.formbuilder.group({
-  //     educationDetailId: new FormControl(educationDetails.educationDetailId),
-  //     employeeId: new FormControl(educationDetails.employeeId),
-  //     circulumId: new FormControl(educationDetails.streamId),
-  //     streamId: new FormControl(educationDetails.streamId),
-  //     stateId: new FormControl(educationDetails.stateId),
-  //     institutionName: new FormControl(educationDetails.institutionName),
-  //     authorityName: new FormControl(educationDetails.authorityName),
-  //     passedOutyear: new FormControl(educationDetails.passedOutyear),
-  //     gradingMethodId: new FormControl(educationDetails.gradingMethodId),
-  //     gradingValue: new FormControl(educationDetails.gradingValue)
-  //   });
-  // }
+  removeRow(index: number): void {
+    if (index >= 0 && index < this.educationDetails.length) {
+      this.educationDetails.splice(index, 1); // Remove 1 item at the specified index
+    }
+  }
   addEducationDetails() {
     if (this.fbEducationDetails.valid) {
       const educationData = this.fbEducationDetails.value;
-      this.educationDetails.push(educationData);
-      // this.faeducationDetails = this.fbEducationDetails.get("educationDetails") as FormArray
-      // this.faeducationDetails.push(this.generaterow())      
+      this.educationDetails.push(educationData);  
       console.log(educationData);
       this.clearForm();
       this.addFlag = false;
@@ -156,7 +148,7 @@ export class EducationDetailsComponent implements OnInit {
     this.fbEducationDetails.reset();
   }
   saveeducationDetails(): Observable<HttpEvent<EducationDetailsDto[]>> {
-      return this.employeeService.CreateEducationDetails(this.educationDetails);
+    return this.employeeService.CreateEducationDetails(this.educationDetails);
   }
   onSubmit() {
     debugger
@@ -176,7 +168,7 @@ export class EducationDetailsComponent implements OnInit {
   }
 
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/experiencedetails',this.employeeId])
+    this.router.navigate(['employee/onboardingemployee/experiencedetails', this.employeeId])
   }
 
 }
