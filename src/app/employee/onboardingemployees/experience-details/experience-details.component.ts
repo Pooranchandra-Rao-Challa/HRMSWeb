@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
-import { MaxLength } from 'src/app/_models/common';
+import { ITableHeader, MaxLength } from 'src/app/_models/common';
 import { Designation, ExperienceDetailsDto, SkillArea, States, skillArea } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { MAX_LENGTH_20, MAX_LENGTH_50, MIN_LENGTH_2 } from 'src/app/_shared/regex';
@@ -32,6 +32,7 @@ export class ExperienceDetailsComponent {
   addfields: any;
   employeeId: any;
   @ViewChild('multiSelect') multiSelect: any;
+  empExperienceDetails: ExperienceDetailsDto[]=[];
 
   constructor(private router: Router, private formbuilder: FormBuilder, private route: ActivatedRoute,
     private alertMessage: AlertmessageService, private employeeService: EmployeeService) { }
@@ -45,7 +46,9 @@ export class ExperienceDetailsComponent {
     this.initSkills();
     this.fresherForm();
     this.experienceForm();
+   
     this.selectedOption = 'Fresher';
+    this.getEmpExperienceDetails();
   }
   fresherForm(){
     this.fbfresher = this.formbuilder.group({
@@ -61,6 +64,9 @@ export class ExperienceDetailsComponent {
       dateOfReliving: new FormControl(null),
       workExperienceXrefs: new FormControl([{ workExperienceXrefId:null, workExperienceId:null , skillAreaId:null }])
     });
+  }
+  removeItem(index: number): void {
+    this.empExperienceDetails.splice(index, 1);
   }
   experienceForm() {
     this.fbexperience = this.formbuilder.group({
@@ -111,6 +117,16 @@ export class ExperienceDetailsComponent {
     });
     return formGroup;
   }
+  headers: ITableHeader[] = [
+    { field: 'companyName', header: 'companyName', label: 'CompanyName' },
+    { field: 'companyLocation', header: 'companyLocation', label: 'Location' },
+    { field: 'companyEmployeeId', header: 'companyEmployeeId', label: 'companyEmpId' },
+    { field: 'stateId', header: 'stateId', label: 'State' },
+    { field: 'designationId', header: 'designationId', label: 'Designation' },
+    { field: 'dateOfJoining', header: 'dateOfJoining', label: 'DateOfJoining' },
+    { field: 'dateOfReliving', header: 'dateOfReliving', label: 'DateOfReliving' },
+    { field: 'workExperienceXrefs', header: 'workExperienceXrefs', label: 'SkillArea' },
+  ];
   addexperienceDetails() {
     if (this.fbexperience.invalid) {
       return;
@@ -143,6 +159,7 @@ export class ExperienceDetailsComponent {
   get FormControls() {
     return this.fbexperience.controls;
   }
+
   onSelectSkill(e) {
     this.viewSelectedSkills=e.value
     let CurrentArray=e.value; 
@@ -153,15 +170,14 @@ export class ExperienceDetailsComponent {
     }
     this.fbexperience.get('workExperienceXrefs')?.setValue(updatedArray);
   }
+  
   saveExperience(): Observable<HttpEvent<any>> {
     if (this.selectedOption == 'Experience')    
       return this.employeeService.CreateExperience(this.fbexperience.get('experienceDetails').value);
     
     else{
       return this.employeeService.CreateExperience([this.fbfresher.value]);
-    }
-
-     
+    } 
   }
   isMultiSelectValid(): boolean {
     return this.multiSelect && this.multiSelect.invalid && this.multiSelect.touched;
@@ -179,7 +195,13 @@ export class ExperienceDetailsComponent {
     });
   }
 
-
+  getEmpExperienceDetails(){
+    this.employeeService.GetWorkExperience(this.employeeId).subscribe((data) => {
+      this.empExperienceDetails = data as unknown as ExperienceDetailsDto[];
+      if(this.empExperienceDetails.length>0)
+      this.selectedOption = 'Experience';
+    })
+  }
   navigateToPrev() {
     this.router.navigate(['employee/onboardingemployee/educationdetails',this.employeeId])
   }
