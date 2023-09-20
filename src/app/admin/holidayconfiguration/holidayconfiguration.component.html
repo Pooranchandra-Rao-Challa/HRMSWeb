@@ -235,7 +235,7 @@
             </ng-template>
             <ng-template pTemplate="header">
                 <tr>
-                    <th style="width:5px" *ngIf="permissions?.CanManageHolidays"></th>
+                    <th style="width:5px" *ngIf="permissions?.CanManageHolidays">Actions </th>
                     <th *ngFor="let col of headers" [pSortableColumn]="col.header">
                         {{col?.label}}
                         <p-columnFilter type="text" [field]="col.header" display="menu"></p-columnFilter>
