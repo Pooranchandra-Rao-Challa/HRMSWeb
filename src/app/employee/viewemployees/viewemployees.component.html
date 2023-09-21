@@ -101,8 +101,8 @@
       </div>
     </div>
   </div>
-
   <p-tabView>
+
     <!-- Education Details card view -->
     <p-tabPanel header="Education Details ">
       <div class="grid">
@@ -139,6 +139,7 @@
         </div>
       </div>
     </p-tabPanel>
+
     <!-- Work Experience card view -->
     <p-tabPanel header="Work Experience ">
       <div class="grid">
@@ -514,7 +515,7 @@
 <!--p-dialog Education Details-->
 
 <p-dialog header="Education Details" [(visible)]="Education" [modal]="true" showEffect="fade"
-  [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
+  [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '80%'}">
   <div class="flex flex-column align-items-center justify-content-center">
     <form [formGroup]="fbEducationDetails">
       <div class="grid">
@@ -534,6 +535,8 @@
                     <th>Circulum<sup class="p-error">*</sup>
                     </th>
                     <th>Stream <sup class="p-error">*</sup>
+                    </th>
+                    <th>Country <sup class="p-error">*</sup>
                     </th>
                     <th>State <sup class="p-error">*</sup>
                     </th>
@@ -555,7 +558,7 @@
                     <td class="vertical-align-top">
                       <p-dropdown id="circulum_dropdown" [autoDisplayFirst]="false" [options]="circulum"
                         placeholder="Select Circulum" optionLabel="name" appendTo="body" optionValue="lookupDetailId"
-                        formControlName="circulumId" (onChange)="getStreamByCirculumId($event.value)">
+                        formControlName="curriculumId" (onChange)="getStreamByCirculumId($event.value)">
                       </p-dropdown>
                     </td>
                     <td class="vertical-align-top">
@@ -563,6 +566,12 @@
                         optionValue="lookupDetailId" appendTo="body" formControlName="streamId" placeholder="Select Stream">
                       </p-dropdown>
                     </td>
+                    <td class="vertical-align-top">
+                      <p-dropdown id="country_dropdown" [autoDisplayFirst]="false" optionLabel="name" appendTo="body"
+                      [options]="countries" optionValue="lookupDetailId" formControlName="countryId" 
+                      placeholder="Select country"
+                      (onChange)="getStatesByCountryId($event.value)">
+                  </p-dropdown>
                     <td class="vertical-align-top">
                       <p-dropdown id="states_dropdown" appendTo="body" optionLabel="name" placeholder="Select State"
                         [options]="states" optionValue="lookupDetailId" formControlName="stateId">
@@ -622,7 +631,7 @@
 
 <!-- p-dialog Work Experience -->
 <p-dialog header="Experience Details" [(visible)]="Experience" [modal]="true" showEffect="fade"
-  [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
+  [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '80%'}">
   <div class="flex flex-column align-items-center justify-content-center">
     <form [formGroup]="fbexperience">
       <div class="grid">
@@ -644,6 +653,8 @@
                     <th>Location<sup class="p-error">*</sup>
                     </th>
                     <th>Company Emp Id<sup class="p-error">*</sup>
+                    </th>
+                    <th>Country <sup class="p-error">*</sup>
                     </th>
                     <th>State<sup class="p-error">*</sup>
                     </th>
@@ -673,6 +684,12 @@
                         placeholder="Enter Company Emp Id">
                     </td>
                     <td class="vertical-align-top">
+                    <p-dropdown id="country_dropdown" [autoDisplayFirst]="false" placeholder="Select country" optionLabel="name" appendTo="body"
+                    [options]="countries" optionValue="lookupDetailId" formControlName="countryId"
+                    (onChange)="getStatesByCountryId($event.value)">
+                </p-dropdown>
+                    </td>
+                    <td class="vertical-align-top">
                       <p-dropdown id="states_dropdown" appendTo="body" optionLabel="name" placeholder="Select State"
                         [options]="states" optionValue="lookupDetailId" formControlName="stateId">
                       </p-dropdown>
@@ -691,8 +708,8 @@
                         placeholder="Select From Date"></p-calendar>
                     </td>
                     <td class="vertical-align-top">
-                      <p-multiSelect placeholder="Select Skill Areas" id="Experience_skillArea" optionValue="lookupDetailId"
-                        (onChange)="onSelectSkill($event)" [options]="skillarea" optionLabel="name" [filter]="true"
+                      <p-multiSelect placeholder="Select Skill Areas" inputId="multiselect" id="Experience_skillArea" optionValue="lookupDetailId"
+                        (onChange)="onSelectSkill($event)" [options]="skillarea" optionLabel="name" [filter]="false" [(ngModel)]="skillset"
                         filterBy="name" #multiSelect formControlName="workExperienceXrefs"
                         appendTo="body">
                       </p-multiSelect>

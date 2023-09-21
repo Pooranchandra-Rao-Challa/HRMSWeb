@@ -23,6 +23,7 @@ export class LookupService  extends ApiHttpService{
     return this.get<LookupViewDto[]>(LOOKUP_COUNTRY_URI);
   }
   public getStates(lookupDetailId:number) {
+    debugger
     return this.getWithId<LookupViewDto[]>(LOOKUP_STATES_URI,lookupDetailId);
   }
    public GetDesignation() {
