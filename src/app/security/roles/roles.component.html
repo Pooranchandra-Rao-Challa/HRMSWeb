@@ -13,7 +13,7 @@
     </p-toolbar>
 
     <!-- table -->
-    <p-table #dt1 [value]="roles" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
+    <p-table #dt1 [value]="roles" dataKey="id" [rows]="10" [rowHover]="true"  paginatorDropdownAppendTo="body" [alwaysShowPaginator]="false"
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true"
       styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true"
       [globalFilterFields]="globalFilterFields" [autoLayout]="true" responsiveLayout="scroll"

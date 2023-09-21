@@ -214,7 +214,7 @@
         <p-table id="table" #dtleave [value]="holidays" dataKey="id" [rows]="10" [rowHover]="true"
             [alwaysShowPaginator]="false" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
             [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-            [showCurrentPageReport]="true" [globalFilterFields]="globalFilterFields" [autoLayout]="true"
+            [showCurrentPageReport]="true" [globalFilterFields]="globalFilterFields"  paginatorDropdownAppendTo="body" [autoLayout]="true"
             responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]">
             <ng-template pTemplate="caption">
                 <div class="flex justify-content-between flex-column sm:flex-row">
