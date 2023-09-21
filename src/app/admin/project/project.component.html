@@ -24,7 +24,7 @@
                 <div class="field col-12 md:col-4">
                   <label>Code: <sup class="p-error">*</sup>
                   </label>&nbsp; <input pInputText id="Project_code" type="text" formControlName="code"
-                    [readonly]="projectFormControls['code'].value!== null" [maxlength]="maxLength.code"
+                  [readonly]="projectFormControls['projectId'].value!== null" [maxlength]="maxLength.code"
                     placeholder="Enter Code" #code alphaNumeric />
                   <div class="flex">
                     <div class="align-left w-60" style="width:70%">
@@ -48,7 +48,7 @@
                 <div class="field col-12 md:col-4">
                   <label>Name: <sup class="p-error">*</sup>
                   </label>&nbsp; <input pInputText id="Project_name" type="text" formControlName="name"
-                    [readonly]="projectFormControls['name'].value!== null" [maxlength]="maxLength.name"
+                  [readonly]="projectFormControls['projectId'].value!== null" [maxlength]="maxLength.name"
                     placeholder="Enter Name" #name alphaNumeric />
                   <div class="flex">
                     <div class="align-left w-60" style="width:70%">
@@ -149,7 +149,7 @@
                   <label>Company Full Name: <sup class="p-error">*</sup>
                   </label>&nbsp;
                   <p-autoComplete formControlName="companyName" [suggestions]="this.filteredClients"
-                    [readonly]="fcClientDetails.controls['companyName'].value!== null"
+                  [readonly]="projectFormControls['projectId'].value!== null"
                     placeholder="Enter Company Full Name" #companyName (completeMethod)="filterClients($event)"
                     (onSelect)="onAutocompleteSelect($event)" field="companyName" id="Project_fullName">
                   </p-autoComplete>
