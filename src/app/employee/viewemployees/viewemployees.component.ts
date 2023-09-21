@@ -804,12 +804,22 @@ export class ViewemployeesComponent {
           const file = fileUpload.files[index];
           this.files.push({ data: file, title: this.title, EmployeeId: this.employeeId });
         }
-      }
-      else {
+      } else {
         this.alertMessage.displayErrorMessage(ALERT_CODES["EAD001"]);
-        return
+        return;
       }
+
+      // Perform form validation here
+      // If the form is valid, you can proceed with the code below
+
+      // Reset the input field and mark the form as untouched
+ 
+    
+
+      this.fileUpload.nativeElement.reset();
+      this.fileUpload.nativeElement.markAsUntouched();
       this.title = '';
+      
     }
   }
   removeItem(index: number): void {
@@ -819,8 +829,10 @@ export class ViewemployeesComponent {
     const formData = new FormData();
     formData.set(file.title, file.data, file.data.name);
     this.employeeService.CreateUploadDocuments(formData).subscribe(resp => {
-      if (resp) {
+      if (resp) {  
         this.alertMessage.displayAlertMessage(ALERT_CODES["EAD002"]);
+        this.initUploadedDocuments();
+        this.Documents = false;
       }
       else {
         this.alertMessage.displayErrorMessage(ALERT_CODES["EAD003"]);
