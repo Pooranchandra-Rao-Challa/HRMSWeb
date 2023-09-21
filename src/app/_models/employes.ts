@@ -90,7 +90,6 @@ export class AddressDetailsDto {
 	zipCode: number
 	city: string
 	stateId: number
-	countryId: number
 	addressType: string
 	isActive: boolean
 }
@@ -167,7 +166,7 @@ export class ExperienceDetailsDto {
 	dateOfJoining: Date
 	dateOfReliving: Date
 	countryId: number;
-	stateId: number
+	stateId: number;
 	workExperienceXrefs: SkillAreas[]
 }
 export class SkillAreas {
