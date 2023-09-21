@@ -6,7 +6,7 @@
             <div class="p-fluid p-formgrid grid">
                 <div class="field col-12 md:col-6">
                     <label class="required">Revoked On:</label>
-                    <p-calendar id="revoked-on" [showIcon]="true" placeholder="Select Revoked Date"
+                    <p-calendar id="revoked-on" [readonlyInput]="true" [showIcon]="true" placeholder="Select Revoked Date"
                         formControlName="revokedOn" appendTo="body"
                         [ngClass]="{ 'is-invalid ng-dirty': fcUnAssignAsset['revokedOn'].touched && fcUnAssignAsset['revokedOn'].errors }">
                     </p-calendar>

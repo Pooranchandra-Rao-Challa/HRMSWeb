@@ -86,9 +86,6 @@
                                             <span
                                                 *ngIf="FormControls['companyEmployeeId'].touched && FormControls['companyEmployeeId'].invalid">
                                                 <div class="ng-invalid ng-touched p-error"
-                                                    *ngIf="FormControls['companyEmployeeId'].errors?.['required']">
-                                                    Please Enter CompanyEmpId</div>
-                                                <div class="ng-invalid ng-touched p-error"
                                                     *ngIf="FormControls['companyEmployeeId'].errors?.['minlength']">
                                                     CompanyEmpId Min Characters Is 2.</div>
                                                 <div class="ng-invalid ng-touched p-error"
@@ -164,7 +161,7 @@
                                     <p-multiSelect placeholder="Select SkillAreas" id="Experience_skillArea"
                                         [options]="skills" optionLabel="name" [filter]="true" filterBy="name"
                                         #multiSelect formControlName="skills" optionValue="lookupDetailId"
-                                        optionValue="lookupDetailId"
+                                         (onChange)="onSelectSkill($event)"
                                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['skills'].touched && FormControls['skills'].errors }"
                                         appendTo="body">
                                         <ng-template let-skill pTemplate="selectedItem">
@@ -178,7 +175,7 @@
                                 <div class="field col-12 md:col-4">
                                     <label>Date of joining:<sup class="p-error">*</sup></label>&nbsp;
                                     <p-calendar [showIcon]="true" formControlName="dateOfJoining"
-                                        id="Experience_dateOfJoining"
+                                        id="Experience_dateOfJoining" appendTo="body"
                                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['dateOfJoining'].touched && FormControls['dateOfJoining'].errors }"
                                         placeholder="Enter From Date">
                                     </p-calendar>
@@ -196,7 +193,7 @@
                                 <div class="field col-12 md:col-4">
                                     <label>Date of Reliving:<sup class="p-error">*</sup></label>&nbsp;
                                     <p-calendar [showIcon]="true" formControlName="dateOfReliving"
-                                        id="Experience_dateOfReliving"
+                                        id="Experience_dateOfReliving" appendTo="body"
                                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['dateOfReliving'].touched && FormControls['dateOfReliving'].errors }"
                                         placeholder="Enter To Date">
                                     </p-calendar>
@@ -236,16 +233,24 @@
             [rowsPerPageOptions]="[10,25,50]">
                 <ng-template pTemplate="header">
                     <tr>
+                        <th style="width:5px" *ngIf="permissions?.CanManageEmployee">Actions</th>
                         <th *ngFor="let col of headers"
-                            [ngClass]="col?.field == 'companyName' || col?.field == 'companyLocation' || col?.field == 'companyEmployeeId'  ||col?.field == 'stateId'  ||  col?.field == 'designationId'
+                            [ngClass]="col?.field == 'action'||col?.field == 'companyName' || col?.field == 'companyLocation' || col?.field == 'companyEmployeeId'  ||col?.field == 'stateId'  ||  col?.field == 'designationId'
                         ||col?.field == 'dateOfJoining'|| col?.field == 'dateOfReliving' ||col?.field == 'workExperienceXrefs' ? 'text-center' : ''">
                             {{col?.label}}
                         </th>
-                        <th *ngIf="empExperienceDetails.length > 1"></th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-experienceDetail let-experienceDetailsIndex="rowIndex">
                     <tr>
+                        <td *ngIf="permissions?.CanManageEmployee" class="flex">
+                            <button pButton pRipple icon="pi pi-pencil" (click)="editForm(experienceDetail)"
+                                class="p-element p-ripple p-button-text p-button p-component col-2 p-0 "></button>
+                            <button pButton pRipple icon="pi pi-trash" id="AddressDetailsRemove-Btn"
+                                class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
+                                (click)="removeItem(experienceDetailsIndex)">
+                            </button>
+                        </td>
                         <td *ngFor="let col of headers" [ngClass]="col?.field == 'companyName' || col?.field == 'companyLocation' || col?.field == 'companyEmployeeId'  ||col?.field == 'stateId'  ||  col?.field == 'designationId'
                     ||col?.field == 'dateOfJoining'|| col?.field == 'dateOfReliving'|| col?.field == 'workExperienceXrefs' ? 'text-center' : ''">
                             <span
@@ -256,16 +261,8 @@
                                 {{experienceDetail[col.field]|date:mediumDate}}
                             </span>
                             <span *ngIf="col?.field == 'workExperienceXrefs'">
-                               {{experienceDetail[skillAreaNames]?experienceDetail[skillAreaNames]:experienceDetail[col.field]}}
+                               {{experienceDetail.skillAreaNames?experienceDetail.skillAreaNames: this.viewSelectedSkills}}
                             </span>
-                        </td>
-                        
-
-                        <td *ngIf="empExperienceDetails.length > 1">
-                            <p-button icon="pi pi-times" (click)="removeItem(experienceDetailsIndex)"
-                                id="ExperienceDetailsRemove-Btn"
-                                styleClass="p-button-rounded p-button-danger p-button-text p-button-raised">
-                            </p-button>
                         </td>
                     </tr>
                 </ng-template>

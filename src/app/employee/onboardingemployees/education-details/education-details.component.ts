@@ -18,6 +18,7 @@ import { LookupService } from 'src/app/_services/lookup.service';
 })
 export class EducationDetailsComponent implements OnInit {
   showDialog: boolean = false;
+  addeducationdetailsshowForm: boolean = false;
   fbEducationDetails!: FormGroup;
   selectedYear: Date;
   ShoweducationDetails: boolean = true;
@@ -120,6 +121,8 @@ export class EducationDetailsComponent implements OnInit {
       this.addFlag= false;
       this.onSubmit();
     }
+    this.addeducationdetailsshowForm = !this.addeducationdetailsshowForm;
+    this.ShoweducationDetails = !this.ShoweducationDetails;
   }
   getEmpEducaitonDetails() {
     return this.employeeService.GetEducationDetails(this.employeeId).subscribe((data) => {
@@ -159,7 +162,9 @@ export class EducationDetailsComponent implements OnInit {
       passedOutyear: FORMAT_DATE(new Date(educationDetails.passedOutyear)),
       gradingMethodId: educationDetails.gradingMethodId,
       gradingValue: educationDetails.gradingValue
-    })
+    });
+    this.addeducationdetailsshowForm = !this.addeducationdetailsshowForm;
+    this.ShoweducationDetails = !this.ShoweducationDetails;
   }
   restrictSpaces(event: KeyboardEvent) {
     if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {
@@ -199,6 +204,10 @@ export class EducationDetailsComponent implements OnInit {
 
   navigateToNext() {
     this.router.navigate(['employee/onboardingemployee/experiencedetails', this.employeeId])
+  }
+  toggleTab() {
+    this.addeducationdetailsshowForm = !this.addeducationdetailsshowForm;
+    this.ShoweducationDetails = !this.ShoweducationDetails;
   }
 
 }

@@ -10,7 +10,7 @@
             (click)="initRole({})" *ngIf="permission?.CanManageRoles"></button> -->
         </ng-template>
       </p-toolbar>
-    <p-table #dtUsers [value]="users" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
+    <p-table #dtUsers [value]="users" dataKey="id" [rows]="10"  paginatorDropdownAppendTo="body" [rowHover]="true" [alwaysShowPaginator]="false"
     styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true"
     [globalFilterFields]="globalFilterFields" [autoLayout]="true" responsiveLayout="scroll"  [tableStyle]="{ width: 'max-content'}"
