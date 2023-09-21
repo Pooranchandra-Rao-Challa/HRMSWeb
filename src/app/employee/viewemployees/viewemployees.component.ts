@@ -68,11 +68,15 @@ export class ViewemployeesComponent {
   faeducationDetails!: FormArray;
   educationDetails: employeeEducDtlsViewDto[] = [];
   empEduDetails = new EducationDetailsDto();
+  gradingMethods: LookupViewDto[] = [];
   // employee experience details
   fbexperience!: FormGroup;
+  faexperienceDetails!: FormArray;
   stream: LookupViewDto[] = [];
   circulum: LookupViewDto[] = [];
   skillarea: LookupViewDto[] = [];
+  viewSelectedSkills: LookupViewDto[] = [];
+ 
   familyDetails: FamilyDetailsViewDto[];
   fafamilyDetails!: FormArray;
   fbfamilyDetails: FormGroup;
@@ -83,8 +87,7 @@ export class ViewemployeesComponent {
   fbAddressDetails: FormGroup;
   fbBankDetails!: FormGroup;
   Education: boolean = false;
-  workExperience: any[];
-  faexperienceDetails!: FormArray;
+  workExperience: any[]; 
   UploadedDocuments: any[];
   myFiles = [];
   uploadDocuments = [];
@@ -210,6 +213,8 @@ export class ViewemployeesComponent {
     // this.initStates();
     this.initBloodGroups()
     this.initskillArea();
+    this.initGrading() ;
+    
   }
 
   getemployeeview() {
@@ -369,11 +374,12 @@ export class ViewemployeesComponent {
       stateId: new FormControl(empEduDetails.stateId),
       institutionName: new FormControl(empEduDetails.institutionName),
       authorityName: new FormControl(empEduDetails.authorityName),
-      passedOutyear: new FormControl(empEduDetails.passedOutyear),
+      passedOutyear: new FormControl(empEduDetails.passedOutyear ? new Date(empEduDetails.passedOutyear) : null),
       gradingMethodId: new FormControl(empEduDetails.gradingMethodId),
-      gradingValue: new FormControl(empEduDetails.gradingMethodId),
-    });
+      gradingValue: new FormControl(empEduDetails.gradingValue),
+    });    
   }
+
   getStreamByCirculumId(Id: number) {
     this.lookupService.Stream(Id).subscribe((resp) => {
       if (resp) {
@@ -387,7 +393,12 @@ export class ViewemployeesComponent {
       this.circulum = resp as unknown as LookupViewDto[];
     });
   }
-
+  initGrading() {
+    this.lookupService.GradingMethods().subscribe((resp) => {
+      this.gradingMethods = resp as unknown as LookupViewDto[];
+    });
+  }
+  
   initGetEducationDetails() {
     this.employeeService.GetEducationDetails(this.employeeId).subscribe((resp) => {
       this.educationDetails = resp as unknown as employeeEducDtlsViewDto[];
@@ -407,7 +418,11 @@ export class ViewemployeesComponent {
   addEducationDetails() {
     this.ShoweducationDetails = true;
     this.faeducationDetails = this.fbEducationDetails.get('educationDetails') as FormArray;
-    this.faeducationDetails.push(this.generateEducationRow());
+     if (this.faeducationDetails.length >= 1) {
+      const employeeIdFromDetails = this.educationDetails.length > 0 ? this.educationDetails[0].employeeId : null;
+    const newEducationRow = this.generateEducationRow({ employeeId: employeeIdFromDetails });
+    this.faeducationDetails.push(newEducationRow);
+  }
   }
 
   faeducationDetail(): FormArray {
@@ -416,40 +431,32 @@ export class ViewemployeesComponent {
   removeEducationDetail(index: number) {
     this.faeducationDetail().removeAt(index);
   }
+  
 
   saveEducationDetails() {
-    // if (this.fbEducationDetails.valid) {
-    //   const educationData = this.fbEducationDetails.value;
-    //   this.educationDetails.push(educationData);
-    //   this.fbEducationDetails.reset();
-    //   this.ShoweducationDetails = true;
-    // }
     this.employeeService.updateViewEmpEduDtls(this.fbEducationDetails.value.educationDetails).subscribe((resp) => {
       console.log(resp);
       if (resp) {
         this.initGetEducationDetails();
         this.Education = false;
         this.fbEducationDetails.reset();
-        this.alertMessage.displayAlertMessage(ALERT_CODES["EVEOFF001"]);
+        this.alertMessage.displayAlertMessage(ALERT_CODES["EVEEDU001"]);
       }
       else {
-        this.alertMessage.displayErrorMessage(ALERT_CODES["EVEOFF002"])
+        this.alertMessage.displayErrorMessage(ALERT_CODES["EVEEDU003"])
       }
     })
   }
 
+
+
   // Employee Work Experience
   initExperience() {
-      this.fbexperience = this.formbuilder.group({
-      workExperienceId: [],
-      employeeId:[],
-      companyName: new FormControl('', [Validators.required]),
-      fromDate: new FormControl('', [Validators.required]),
-      toDate: new FormControl('', [Validators.required]),
-      designation: new FormControl('', [Validators.required]),
+    this.fbexperience = this.formbuilder.group({
       experienceDetails: this.formbuilder.array([]),
     });
   }
+
   initGetWorkExperience() {
     this.employeeService.GetWorkExperience(this.employeeId).subscribe((resp) => {
       this.workExperience = resp as unknown as any[];
@@ -461,38 +468,28 @@ export class ViewemployeesComponent {
     this.lookupService.GetDesignation().subscribe((resp) => {
       this.designation = resp as unknown as LookupViewDto[];
     })
-
   }
+
   initskillArea() {
     this.lookupService.GetSkillArea().subscribe((resp) => {
       this.skillarea = resp as unknown as LookupViewDto[];
     })
   }
 
-  generateExperienceDetailsRow(empExpDetails: ExperienceDetailsDto= new ExperienceDetailsDto()): FormGroup {
+  generateExperienceDetailsRow(empExpDetails: ExperienceDetailsDto = new ExperienceDetailsDto()): FormGroup {
     return this.formbuilder.group({
       workExperienceId: (empExpDetails.workExperienceId),
       employeeId: (empExpDetails.employeeId),
-      companyName: new FormControl(empExpDetails.companyName,[
-        Validators.required]),
-        companyLocation: new FormControl(empExpDetails.companyLocation,[
-        Validators.required]),
-        companyEmployeeId: new FormControl(empExpDetails.companyEmployeeId,[
-        Validators.required]),
-        stateId: new FormControl(empExpDetails.stateId,[
-        Validators.required]),
-        designationId: new FormControl(empExpDetails.designationId,[
-        Validators.required]),
-      skillareaId: new FormControl(null,[]),
-      dateOfReliving: new FormControl(empExpDetails.dateOfReliving,[
-        Validators.required,
-      ]),
-      dateOfJoining: new FormControl(empExpDetails.dateOfJoining,[
-        Validators.required,
-      ])
+      companyName: new FormControl(empExpDetails.companyName, [Validators.required]),
+      companyLocation: new FormControl(empExpDetails.companyLocation, [ Validators.required]),
+      companyEmployeeId: new FormControl(empExpDetails.companyEmployeeId, [Validators.required]),
+      stateId: new FormControl(empExpDetails.stateId, [Validators.required]),
+      designationId: new FormControl(empExpDetails.designationId, [ Validators.required]),
+      dateOfReliving: new FormControl(new Date(empExpDetails.dateOfReliving ? new Date(empExpDetails.dateOfReliving) : null ), [Validators.required]),
+      dateOfJoining: new FormControl(new Date(empExpDetails.dateOfJoining ? new Date(empExpDetails.dateOfJoining) : null ), [Validators.required]),
+      workExperienceXrefs: new FormControl([]),
     });
   }
-
 
   showExperienceDetails() {
     this.workExperience.forEach((empExperienceDetails: ExperienceDetailsDto) => {
@@ -503,6 +500,7 @@ export class ViewemployeesComponent {
     this.Experience = true;
   }
 
+
   faexperienceDetail(): FormArray {
     return this.fbexperience.get('experienceDetails') as FormArray;
   }
@@ -510,8 +508,41 @@ export class ViewemployeesComponent {
   addexperienceDetails() {
     this.ShowexperienceDetails = true;
     this.faexperienceDetails = this.fbexperience.get('experienceDetails') as FormArray;
-    this.faexperienceDetails.push(this.generateExperienceDetailsRow());
+    if (this.faexperienceDetails.length >= 1) {
+     this.faexperienceDetails.push(this.generateExperienceDetailsRow());
+    }
   }
+ 
+
+  onSelectSkill(e) {
+    this.viewSelectedSkills = e.value;
+    let updatedArray = [];
+    for (let i = 0; i < this.viewSelectedSkills.length; i++) {
+      updatedArray.push({
+        workExperienceXrefId: 0,
+        workExperienceId: 0,
+        skillAreaId: this.viewSelectedSkills[i].lookupDetails
+      });
+    }
+    this.faexperienceDetail().at(0).get('workExperienceXrefs').setValue(updatedArray);
+  }
+  
+  saveEmpExperienceDetails() {
+    debugger
+    this.employeeService.updateViewEmpExperienceDtls(this.fbexperience.value).subscribe((resp) => {
+      console.log(resp);
+      if (resp) {
+        this.initGetWorkExperience();
+        this.Experience = false;
+        this.fbexperience.reset();
+        this.alertMessage.displayAlertMessage(ALERT_CODES["EVEEXP001"]);
+      }
+      else {
+        this.alertMessage.displayErrorMessage(ALERT_CODES["EVEEXP002"])
+      }
+    })
+  }
+
   initUploadedDocuments() {
     this.employeeService.GetUploadedDocuments(this.employeeId).subscribe((resp) => {
       this.UploadedDocuments = resp as unknown as any[];
@@ -740,7 +771,7 @@ export class ViewemployeesComponent {
       }
     });
   }
-  
+
 
 
   onSubmit() {
@@ -786,7 +817,8 @@ export class ViewemployeesComponent {
     // Remove the document from the UploadedDocuments array
     const index = this.UploadedDocuments.indexOf(uploadedDocument);
     if (index !== -1) {
-      this.UploadedDocuments.splice(index, 1);    }
+      this.UploadedDocuments.splice(index, 1);
+    }
   }
   downloadDocument(uploadedDocument) {
     const downloadLink = document.createElement('a');
