@@ -458,6 +458,7 @@ export class ViewemployeesComponent {
 
   initExperience() {
       this.fbexperience = this.formbuilder.group({
+        workExperienceXrefs:  new FormControl([], [Validators.required]),
         experienceDetails: this.formbuilder.array([])
       });
    
@@ -494,7 +495,7 @@ export class ViewemployeesComponent {
       stateId: new FormControl( experienceDetails.stateId),
       designationId: new FormControl( experienceDetails.designationId),
       dateOfJoining: new FormControl(experienceDetails.dateOfJoining),
-      dateOfReliving: new FormControl( experienceDetails.dateOfReliving),
+      dateOfReliving: new FormControl(experienceDetails.dateOfReliving ),
       workExperienceXrefs: new FormControl(experienceDetails.workExperienceXrefs),
     });
     return formGroup;
@@ -505,11 +506,25 @@ export class ViewemployeesComponent {
     if (this.faexperienceDetails.length >= 1) {
       // const addexpRow = this.generaterow(this.workExperience.find(this.employeeId))
       // this.faexperienceDetails.push(addexpRow);
-      const employeeIdFromDetails = this.workExperience.length > 0 ? this.workExperience[0].employeeId : null;
-      const newexperienceRow = this.generateEducationRow({ employeeId: employeeIdFromDetails });
+      // const employeeIdFromDetails = this.workExperience.length > 0 ? this.workExperience[0].employeeId : null;
+      const newexperienceRow = this.generaterow({
+        employeeId: this.employeeId, 
+        workExperienceId: null, 
+        isAfresher: false,
+        companyName: '',
+        companyLocation: '',
+        companyEmployeeId: '',
+        designationId: null,
+        dateOfJoining: null,
+        dateOfReliving: null,
+        countryId: null,
+        stateId: null,
+        workExperienceXrefs: [{ workExperienceXrefId: null, skillAreaId: null }]
+      });
       this.faexperienceDetails.push(newexperienceRow);
     }
   }
+
   faExperienceDetail(): FormArray {
     return this.fbexperience.get('experienceDetails') as FormArray
   }
@@ -517,8 +532,8 @@ export class ViewemployeesComponent {
   //   return this.fbexperience.controls;
   // }
   showExperienceDetails() {
-    this.workExperience.forEach((empExperienceDetails: ExperienceDetailsDto) => {
-      this.faexperienceDetail().push(this.generaterow(empExperienceDetails));
+    this.workExperience.forEach((experienceDetails: ExperienceDetailsDto) => {
+      this.faexperienceDetail().push(this.generaterow(experienceDetails));
     })
     this.fbexperience.patchValue(this.workExperience)
     console.log('workExperience details', this.workExperience)
@@ -547,8 +562,7 @@ export class ViewemployeesComponent {
 
   saveEmpExperienceDetails() {
     debugger
-    console.log(this.fbexperience.value);
-    this.employeeService.updateViewEmpExperienceDtls(this.fbexperience.get('experienceDetails').value).subscribe((resp) => {
+    this.employeeService.updateViewEmpExperienceDtls(this.fbexperience.get('workExperienceXrefs').value).subscribe((resp) => {
       console.log(resp);
       if (resp) {
         this.initGetWorkExperience();

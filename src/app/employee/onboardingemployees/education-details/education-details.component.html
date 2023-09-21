@@ -49,7 +49,7 @@
                     <div class="field col-12 md:col-4">
                         <span class="p-float-label">
                             <p-dropdown id="states_dropdown" [autoDisplayFirst]="false" optionLabel="name"
-                                [options]="states" optionValue="lookupDetailId" formControlName="stateId" 
+                                [options]="states" optionValue="lookupDetailId" formControlName="stateId"
                                 (onChange)="getStreamByCirculumId($event.value)"
                                 [ngClass]="{'is-invalid ng-dirty': FormControls['stateId'].touched && FormControls['stateId'].errors }">
                             </p-dropdown>
@@ -125,7 +125,7 @@
                     <div class="field col-12 md:col-4">
                         <span class="p-float-label">
                             <p-calendar [yearNavigator]="true" [yearRange]="'1996:2025'" [readonlyInput]="true"
-                                [showIcon]="true" dateFormat="yy" formControlName="passedOutyear"
+                                [showIcon]="true" dateFormat="yy" formControlName="passedOutyear" 
                                 [ngClass]="{'is-invalid ng-dirty': FormControls['passedOutyear'].touched && FormControls['passedOutyear'].errors }">
                             </p-calendar>
                             <label class="required">Passed Out Year</label>
@@ -191,22 +191,30 @@
     </form>
     <!-- table -->
     <div class="col-12 scrolling_content" *ngIf="ShoweducationDetails">
-        <p-table id="table" [value]="educationDetails" dataKey="id" [rows]="10" [rowHover]="true"
+        <p-table id="table" [value]="empEduDetails" dataKey="id" [rows]="10" [rowHover]="true"
             [alwaysShowPaginator]="false" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
             [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
             [showCurrentPageReport]="true" [autoLayout]="true" responsiveLayout="scroll"
             [rowsPerPageOptions]="[10,25,50]">
             <ng-template pTemplate="header">
                 <tr>
+                    <th class="col text-center">Actions</th>
                     <th *ngFor="let col of headers"
                         [ngClass]="col?.field == 'institutionName' || col?.field == 'authorityName' || col?.field == 'passedOutyear'  ||col?.field == 'circulumId'  ||  col?.field == 'streamId' ||col?.field == 'stateId'|| col?.field == 'gradingMethodId' ||col?.field == 'gradingValue' ? 'text-center' : ''">
                         {{col?.label}}
                     </th>
-                    <th *ngIf="this.educationDetails.length > 1"></th>
                 </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-educationData let-i="rowIndex">
+            <ng-template pTemplate="body" let-educationData let-educationDataIndex="rowIndex">
                 <tr>
+                    <td>
+                        <button pButton pRipple icon="pi pi-pencil" (click)="editEducationDetails(educationData)"
+                            class="p-element p-ripple p-button-text p-button p-component mr-3 p-0 ">
+                        </button>
+                        <button pButton pRipple icon="pi pi-trash" id="educationDetailsRemove-Btn"
+                            class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
+                            (click)="removeRow(educationDataIndex)"></button>
+                    </td>
                     <td *ngFor="let col of headers"
                         [ngClass]="col?.field == 'institutionName' || col?.field == 'authorityName'  ||col?.field == 'passedOutyear'  ||  col?.field == 'circulumId'  || col?.field == 'streamId'||col?.field == 'stateId'|| col?.field == 'gradingMethodId' ||col?.field == 'gradingValue' ? 'text-center' : ''">
                         <span
@@ -217,11 +225,7 @@
                             {{educationData[col.field] | date:mediumDate}}
                         </span>
                     </td>
-                    <td *ngIf="educationDetails.length > 1">
-                        <p-button icon="pi pi-times" (click)="removeRow(i)" id="AddressDetailsRemove-Btn"
-                            styleClass="p-button-rounded p-button-danger p-button-text p-button-raised">
-                        </p-button>
-                    </td>
+
                 </tr>
             </ng-template>
         </p-table>
@@ -234,7 +238,7 @@
     </div>
     <div class=" col-4">
         <button p-button class="p-element p-ripple p-button-info p-button p-component w-100"
-            [disabled]="this.educationDetails.length == 0" (click)="onSubmit()">Save as Draft</button>
+            [disabled]="this.empEduDetails.length == 0" (click)="onSubmit()">Save as Draft</button>
     </div>
     <div class=" col-4">
         <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100"
