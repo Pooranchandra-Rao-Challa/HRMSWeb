@@ -139,7 +139,7 @@ export class ViewemployeesComponent {
 
   showFamilyDetails() {
     this.Family = true;
-    this.submitLabel = "Add Family Details";
+    this.submitLabel = "Add Family Member";
     this.fbfamilyDetails.reset();
   }
   showBankDetails() {
@@ -149,7 +149,7 @@ export class ViewemployeesComponent {
   }
   showAddressDetails() {
     this.Address = true;
-    this.submitLabel = "Add Adress";
+    this.submitLabel = "Add Address";
     this.fbAddressDetails.reset();
   }
   showDocumentsDetails() {
@@ -766,7 +766,7 @@ export class ViewemployeesComponent {
       mobileNumber: familyDetails.mobileNumber,
       isNominee: familyDetails.isNominee,
     });
-    this.submitLabel = "Update Family Details";
+    this.submitLabel = "Update Family Member Details";
     this.Family = true;
   }
 
