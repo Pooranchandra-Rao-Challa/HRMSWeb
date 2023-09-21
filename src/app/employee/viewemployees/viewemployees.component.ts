@@ -806,7 +806,7 @@ export class ViewemployeesComponent {
       this.uploadDocuments.push(this.fbUploadDocument.value)
     }
     this.employeeId = +this.activatedRoute.snapshot.queryParams['employeeId'];
-    this.employeeService.CreateUploadDocuments(this.uploadDocuments).subscribe((resp) => {
+    this.employeeService.UploadDocuments(this.uploadDocuments).subscribe((resp) => {
       this.initUploadedDocuments();
       this.Documents = false;
       
