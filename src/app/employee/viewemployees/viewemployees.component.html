@@ -557,7 +557,7 @@
                   <p-calendar [showIcon]="true" formControlName="dateOfReliving" appendTo="body" placeholder="Select From Date"></p-calendar>
                 </td>
                 <td class="vertical-align-top">
-                  <p-multiSelect placeholder="Select Skill Areas" inputId="multiselect" id="Experience_skillArea" optionValue="lookupDetailId" (onChange)="onSelectSkill($event)" [options]="skillarea" optionLabel="name" [filter]="false" [(ngModel)]="skillset" filterBy="name" #multiSelect formControlName="workExperienceXrefs" appendTo="body"></p-multiSelect>
+                  <p-multiSelect placeholder="Select Skill Areas" inputId="multiselect" id="Experience_skillArea" optionValue="lookupDetailId" (onChange)="onSelectSkill($event)" [options]="skillarea" optionLabel="name" [filter]="false" filterBy="name" formControlName="workExperienceXrefs" appendTo="body"></p-multiSelect>
                 </td>
                 <!-- <td class="vertical-align-top"><p-dropdown  appendTo="body" optionLabel="name" placeholder="Select Skill Area"
                         [options]="skillarea" optionValue="lookupDetailId" formControlName="skillareaId"></p-dropdown></td> -->

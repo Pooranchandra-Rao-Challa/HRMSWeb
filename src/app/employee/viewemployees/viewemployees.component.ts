@@ -505,8 +505,21 @@ export class ViewemployeesComponent {
     if (this.faexperienceDetails.length >= 1) {
       // const addexpRow = this.generaterow(this.workExperience.find(this.employeeId))
       // this.faexperienceDetails.push(addexpRow);
-      const employeeIdFromDetails = this.workExperience.length > 0 ? this.workExperience[0].employeeId : null;
-      const newexperienceRow = this.generateEducationRow({ employeeId: employeeIdFromDetails });
+      // const employeeIdFromDetails = this.workExperience.length > 0 ? this.workExperience[0].employeeId : null;
+      const newexperienceRow = this.generaterow({
+        employeeId: this.employeeId, 
+        workExperienceId: null, 
+        isAfresher: false,
+        companyName: '',
+        companyLocation: '',
+        companyEmployeeId: '',
+        designationId: null,
+        dateOfJoining: null,
+        dateOfReliving: null,
+        countryId: null,
+        stateId: null,
+        workExperienceXrefs: [{ workExperienceXrefId: null, skillAreaId: null }]
+      });
       this.faexperienceDetails.push(newexperienceRow);
     }
   }
@@ -517,8 +530,8 @@ export class ViewemployeesComponent {
   //   return this.fbexperience.controls;
   // }
   showExperienceDetails() {
-    this.workExperience.forEach((empExperienceDetails: ExperienceDetailsDto) => {
-      this.faexperienceDetail().push(this.generaterow(empExperienceDetails));
+    this.workExperience.forEach((experienceDetails: ExperienceDetailsDto) => {
+      this.faexperienceDetail().push(this.generaterow(experienceDetails));
     })
     this.fbexperience.patchValue(this.workExperience)
     console.log('workExperience details', this.workExperience)
