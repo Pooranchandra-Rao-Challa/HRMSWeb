@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import {
   Form, FormArray, FormBuilder, FormControl, FormGroup, Validators,
 } from '@angular/forms'; import { ActivatedRoute } from '@angular/router';
@@ -130,6 +130,10 @@ export class ViewemployeesComponent {
   mediumDate: string = MEDIUM_DATE;
   countries: any
   ActionTypes = Actions;
+  @ViewChild("fileUpload", { static: false }) fileUpload: ElementRef;
+  files = [];
+  fileSize = 20;
+  title: string;
   addassetallotmentDialogComponent = AddassetallotmentDialogComponent;
   unassignassetDialogComponent = UnassignassetDialogComponent;
   dialogRequest: DialogRequest = new DialogRequest();
@@ -203,7 +207,7 @@ export class ViewemployeesComponent {
     this.initCirculum();
     this.bankDetailsForm();
     this.initFamily();
-    this.UploadDocument()
+    
     this.OfficDtlsForm();
     this.initEducation();
     this.addEducationDetails();
@@ -780,57 +784,42 @@ export class ViewemployeesComponent {
 
   //UploadDocuments
   
-  UploadDocument(){
-   this.fbUploadDocument = this.formbuilder.group({
-     uploadDocumentId: [],
-     employeeId: this.employeeId,
-     title: new FormControl(''),
-     fileName: new FormControl(''),
-   })
-  }
-  getFileDetails(e) {
-    console.log(e.target)
-    for (var i = 0; i < e.target.files.length; i++) {
-      this.myFiles.push(e.target.files[i]);
+  onClick() {
+    const fileUpload = this.fileUpload.nativeElement;
+    fileUpload.onchange = () => {
+      if (this.files.length < 5) {
+        for (let index = 0; index < fileUpload.files.length; index++) {
+          const file = fileUpload.files[index];
+          this.files.push({ data: file, title: this.title, EmployeeId: this.employeeId });
+        }
+      }
+      else {
+        this.alertMessage.displayErrorMessage(ALERT_CODES["EAD001"]);
+        return
+      }
+      this.title = '';
     }
   }
-
-  uploadFiles() {
-    this.uploadDocuments = [];
-    for (let i = 0; i < this.myFiles.length; i++) {
-      let fileDetails = this.myFiles[i];
-      this.fbUploadDocument.patchValue({
-        title: fileDetails.name,
-        fileName: fileDetails.type
-      })
-      this.uploadDocuments.push(this.fbUploadDocument.value)
-    }
-    this.employeeId = +this.activatedRoute.snapshot.queryParams['employeeId'];
-    this.employeeService.CreateUploadDocuments(this.uploadDocuments).subscribe((resp) => {
-      this.initUploadedDocuments();
-      this.Documents = false;
-      
+  removeItem(index: number): void {
+    this.files.splice(index, 1);
+  }
+  uploadFile(file) {
+    const formData = new FormData();
+    formData.set(file.title, file.data, file.data.name);
+    this.employeeService.CreateUploadDocuments(formData).subscribe(resp => {
+      if (resp) {
+        this.alertMessage.displayAlertMessage(ALERT_CODES["EAD002"]);
+      }
+      else {
+        this.alertMessage.displayErrorMessage(ALERT_CODES["EAD003"]);
+      }
     })
-
   }
-  removeDocument(uploadedDocument) {
-    // Remove the document from the UploadedDocuments array
-    const index = this.UploadedDocuments.indexOf(uploadedDocument);
-    if (index !== -1) {
-      this.UploadedDocuments.splice(index, 1);
-    }
-  }
-  downloadDocument(uploadedDocument) {
-    const downloadLink = document.createElement('a');
-    downloadLink.href = '/path/to/file/' + uploadedDocument.fileName; // Replace '/path/to/file/' with the actual path to your files
-    downloadLink.download = uploadedDocument.fileName;
-    downloadLink.click();
-  }
-  onUpload(event: any) {
-    for (const file of event.files) {
-      this.uploadedFiles.push(file);
-    }
-    // this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded' });
+  uploadFiles() {
+    this.fileUpload.nativeElement.value = '';
+    this.files.forEach(file => {
+      this.uploadFile(file);
+    });
   }
   onBasicUpload() {
     // this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded with Basic Mode' });
