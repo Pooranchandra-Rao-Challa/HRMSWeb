@@ -8,10 +8,7 @@ import { ITableHeader } from 'src/app/_models/common';
 import { BankDetailViewDto, Employee, EmployeesViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { SecurityService } from 'src/app/_services/security.service';
-// import { Product } from 'src/app/demo/api/product';
-//import { Employee } from 'src/app/demo/api/security';
-// import { ProductService } from 'src/app/demo/service/product.service';
-// import { SecurityService } from 'src/app/demo/service/security.service';
+
 
 @Component({
   selector: 'app-onboardingemployees',

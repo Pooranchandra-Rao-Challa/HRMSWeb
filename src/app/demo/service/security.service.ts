@@ -7,7 +7,7 @@ import { Assets, Employee, Leave, LookUpHeaderDto, ProjectDetailsDto,  SecureQue
     providedIn: 'root'
 })
 export class SecurityService {
-    // getEmp= 'https://localhost:4200/assets/demo/data/security.json/';
+   
 
     constructor(private http: HttpClient) { }
     getEmployees() {

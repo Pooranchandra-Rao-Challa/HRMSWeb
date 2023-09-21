@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { EmployeeRoutingModule } from './employee-routing.module';
 import { AllEmployeesComponent } from './all-employees/all-employees.component';
 import { LeavesComponent } from './leaves/leaves.component';
-// import { ListDemoRoutingModule } from '../demo/components/uikit/list/listdemo-routing.module';
 import { AttendanceComponent } from './attendance/attendance.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { OnboardingemployeesComponent } from './onboardingemployees/onboardingemployees.component';

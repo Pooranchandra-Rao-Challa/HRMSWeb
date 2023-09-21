@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Table } from 'primeng/table';
-import { Employee, Leave } from 'src/app/demo/api/security';
+import { Leave } from 'src/app/demo/api/security';
 import { SecurityService } from 'src/app/demo/service/security.service';
+import { Employee } from 'src/app/_models/employes';
+// import { Employee, Leave } from 'src/app/demo/api/security';
+// import { SecurityService } from 'src/app/demo/service/security.service';
 
 interface Month {
   Monthname: string;
