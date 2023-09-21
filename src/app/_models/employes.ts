@@ -29,16 +29,18 @@ export class EmployeeBasicDetailDto {
 	signDate?: Date;
 	isActive?: boolean;
 }
-export class EducationDetailsDto{
-	educationDetailId?:number;
-	employeeId?:number;
-	streamId?:number;
-	stateId?:number;
-	institutionName?:string;
-	authorityName?:string;
-	passedOutyear?:Date;
-	gradingMethodId?:number;
-	gradingValue?:number;
+export class EducationDetailsDto {
+	educationDetailId?: number;
+	employeeId?: number;
+	streamId?: number;
+	curriculumId?: number;
+	countryId?: number;
+	stateId?: number;
+	institutionName?: string;
+	authorityName?: string;
+	passedOutyear?: Date;
+	gradingMethodId?: number;
+	gradingValue?: number;
 }
 
 export class FamilyDetailsDto {
@@ -144,7 +146,7 @@ export class States {
 	name: string
 }
 
-export class SkillArea{
+export class SkillArea {
 	lookupDetailId: number
 	code: string
 	name: string
@@ -164,8 +166,14 @@ export class ExperienceDetailsDto {
 	designationId: number
 	dateOfJoining: Date
 	dateOfReliving: Date
+	countryId: number;
 	stateId: number
-	workExperienceXrefs: []
+	workExperienceXrefs: SkillAreas[]
+}
+export class SkillAreas {
+	workExperienceXrefId?: number;
+	workExperienceId?: number;
+	skillAreaId?: number;
 }
 
 
@@ -279,8 +287,12 @@ export class employeeEducDtlsViewDto {
 	employeeName?: string;
 	code?: string;
 	educationDetailId?: number;
+	curriculumId?: number;
+	curriculum?: string;
 	streamId?: number;
 	stream?: string;
+	countryId?: number;
+	country?: string;
 	stateId?: number;
 	state?: string;
 	institutionName?: string;
@@ -294,5 +306,25 @@ export class employeeEducDtlsViewDto {
 	updatedAt?: Date;
 	updatedBy?: string
 }
-
-
+export class employeeExperienceDtlsViewDto {
+	workExperienceId?: number;
+	employeeId?: number;
+	isAFresher?: boolean;
+	companyName?: string;
+	companyLocation?: string;
+	companyEmployeeId?: String;
+	designationId?: number;
+	designation?: string;
+	dateOfJoining?: Date;
+	dateOfReliving?: Date;
+	stateId?: number;
+	state?: string;
+	countryId?: number;
+	country?: string;
+	skillAreaIds?: number;
+	skillAreaNames?: string;
+	createdAt?: Date;
+	createdBy?: string;
+	updatedAt?: Date;
+	updatedBy?: string;
+}
