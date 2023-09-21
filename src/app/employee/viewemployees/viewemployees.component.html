@@ -1,5 +1,4 @@
 <div class="card">
-  <p-toast key="tst"></p-toast>
   <div class="grid mb-3">
     <p-toast key="tst"></p-toast>
     <div class="col-12 lg:col-2">
@@ -266,7 +265,7 @@
         <div class="col-12 lg:col-4" *ngFor="let bank of bankDetails1; let i = index">
           <div class="card">
             <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">
-              <button pButton pRipple icon="pi pi-pencil" class="p-element p-ripple p-button-text p-button p-component float-button position-relative" (click)="editBankDetails(i)"></button>{{bank.bankName}}
+              <button pButton pRipple icon="pi pi-pencil" class="p-element p-ripple p-button-text p-button p-component float-button position-relative" (click)="openComponentDialog(BankdetailsDialogComponent, bank, ActionTypes.edit)"></button>{{bank.bankName}}
             </div>
             <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
               <li class="mb-2">
@@ -286,7 +285,7 @@
         </div>
         <div class="col-12 lg:col-4">
           <div class="card text-center">
-            <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-text p-button p-component m-5 p-5" (click)="showBankDetails()"> Add Bank Details</button>
+            <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-text p-button p-component m-5 p-5" (click)="openComponentDialog(BankdetailsDialogComponent, null, ActionTypes.add)"> Add Bank Details</button>
           </div>
         </div>
       </div>
@@ -856,8 +855,8 @@
   </div>
 </p-dialog>
 <!-- BankDetails -->
-<p-dialog header="CIS202214 Bank Details" [(visible)]="bankDetails" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '50%'}">
-  <div class="flex flex-column align-items-center justify-content-center">
+ <!-- <p-dialog header="CIS202214 Bank Details" [(visible)]="bankDetails" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '50%'}"> 
+   <div class="flex flex-column align-items-center justify-content-center">
     <form [formGroup]="fbBankDetails">
       <div class="grid mt-3">
         <div class="col-12 roles-container">
@@ -939,10 +938,10 @@
         </div>
       </div>
     </form>
-  </div>
-  <ng-template pTemplate="footer">
+  </div> -->
+  <!-- <ng-template pTemplate="footer">
     <div class="col-4" style="float:right">
       <button pButton pRipple type="submit" (click)="saveBankDetails()" label="{{submitLabel}}" class="p-button-raised p-button-primary"></button>
     </div>
-  </ng-template>
-</p-dialog>
+  </ng-template> -->
+<!-- </p-dialog>   -->
