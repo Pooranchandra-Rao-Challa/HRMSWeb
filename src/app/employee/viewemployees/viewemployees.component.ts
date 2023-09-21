@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import {
   Form, FormArray, FormBuilder, FormControl, FormGroup, Validators,
 } from '@angular/forms'; import { ActivatedRoute } from '@angular/router';
-import { Address, Employee, familyDetailViewDto } from 'src/app/demo/api/security';
-import { SecurityService } from 'src/app/demo/service/security.service';
+// import { Address, Employee, familyDetailViewDto } from 'src/app/demo/api/security';
+
 import { LookupViewDto } from 'src/app/_models/admin';
 // import { EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsviewDto,  } from 'src/app/_models/employes';
 import { BankDetailViewDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, employeeEducDtlsViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, ExperienceDetailsDto, FamilyDetailsDto, FamilyDetailsViewDto } from 'src/app/_models/employes';
@@ -109,7 +109,7 @@ export class ViewemployeesComponent {
   images: string[] = [];
   selectedImageIndex: number = 0;
   quantity: number = 1;
-  employees: Employee[] = [];
+  // employees: Employee[] = [];
   genders: Gender[];
   shifts: Shift[];
   relationships: LookupViewDto[] = [];
