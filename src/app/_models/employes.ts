@@ -93,6 +93,27 @@ export class AddressDetailsDto {
 	isActive: boolean
 }
 
+export class Employee {
+	id?: number;
+	empname?: string;
+	image?: string;
+	empcode?: string;
+	dob?: Date;
+	designation?: string;
+	gender?: string;
+	maritalStatus?: string;
+	doj?: Date;
+	email?: string;
+	currentAddress?: string;
+	permanentAddress?: string;
+	phoneno?: number;
+	skillSets?: string;
+	shift?: string;
+	officeEmailID?: string;
+	reportedTo?: string;
+	pfEligible?: string;
+	esiEligible?: string;
+}
 export class EmployeeBasicDetailViewDto {
 	employeeId?: number;
 	code?: string;
