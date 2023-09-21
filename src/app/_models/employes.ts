@@ -90,7 +90,6 @@ export class AddressDetailsDto {
 	zipCode: number
 	city: string
 	stateId: number
-	countryId: number
 	addressType: string
 	isActive: boolean
 }

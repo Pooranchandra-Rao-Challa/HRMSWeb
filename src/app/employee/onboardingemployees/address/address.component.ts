@@ -11,6 +11,7 @@ import { MAX_LENGTH_256, MAX_LENGTH_50, MAX_LENGTH_6, MIN_LENGTH_2, MIN_LENGTH_6
 import { ITableHeader, MaxLength } from 'src/app/_models/common';
 import { LookupViewDto } from 'src/app/_models/admin';
 import { LookupService } from 'src/app/_services/lookup.service';
+import { JwtService } from 'src/app/_services/jwt.service';
 
 @Component({
   selector: 'app-address',
@@ -25,15 +26,17 @@ export class AddressComponent {
   faAddressDetails!: FormArray;
   submitLabel: string;
   employeeId: any;
+  addFlag:boolean=true;
   maxLength: MaxLength = new MaxLength();
   empAddrDetails: any=[];
-  
-  constructor(private router: Router, private route: ActivatedRoute, private formbuilder: FormBuilder,
+  permissions: any;
+  constructor(private router: Router, private route: ActivatedRoute,  private jwtService: JwtService,private formbuilder: FormBuilder,
     private alertMessage: AlertmessageService, private employeeService: EmployeeService,
     private lookupService: LookupService,
     ) { }
 
   ngOnInit() {
+    this.permissions = this.jwtService.Permissions
     this.route.params.subscribe(params => {
       this.employeeId = params['employeeId'];
     });
@@ -77,19 +80,23 @@ export class AddressComponent {
     { field: 'zipCode', header: 'zipCode', label: 'ZIPCode' },
     { field: 'city', header: 'city', label: 'City' },
     { field: 'stateId', header: 'stateId', label: 'State' },
-    { field: 'countryId', header: 'countryId', label: 'Country' },
     { field: 'addressType', header: 'addressType', label: 'AddressType' },
     { field: 'isActive', header: 'isActive', label: 'IsActive' }
   ];
   removeItem(index: number): void {
     this.empAddrDetails.splice(index, 1);
   }
+  
   addAddress() {
+    if(this.fbAddressDetails.get('addressId').value){
+      this.onSubmit();
+    }
+    else{
     if (this.fbAddressDetails.invalid) {
       return;
     }
     let count = 0,count1=0;
-    let addressArray = this.fbAddressDetails.get('addressDetails').value;
+    let addressArray = this.empAddrDetails;
     let length = addressArray.length;
     if (length > 0) {
       addressArray.forEach((control) => {        
@@ -112,11 +119,10 @@ export class AddressComponent {
     else{
       this.save();
     }
-    
+  }
   }
 
   save() {
-
     // Push current values into the FormArray
     this.faAddressDetail().push(this.generaterow(this.fbAddressDetails.getRawValue()));
     // Reset form controls for the next entry
@@ -133,13 +139,13 @@ export class AddressComponent {
       zipCode: '',
       city: '',
       stateId: '',
-      countryId: '',
       addressType: '',
       isActive: true,
     });
     // Clear validation errors
     this.fbAddressDetails.markAsPristine();
     this.fbAddressDetails.markAsUntouched();
+  
   }
 
   faAddressDetail(): FormArray {
@@ -158,23 +164,25 @@ export class AddressComponent {
       zipCode: new FormControl({ value: addressDetails.zipCode, disabled: true }),
       city: new FormControl({ value: addressDetails.city, disabled: true }),
       stateId: new FormControl({ value: addressDetails.stateId, disabled: true }),
-      countryId: new FormControl({ value: addressDetails.countryId, disabled: true }),
       addressType: new FormControl({ value: addressDetails.addressType, disabled: true }),
       isActive: new FormControl({ value: addressDetails.isActive, disabled: true }),
     });
     return formGroup;
   }
   saveAddress(): Observable<HttpEvent<any>> {
+    if(this.addFlag)
     return this.employeeService.CreateAddress(this.empAddrDetails);
+    else
+    return this.employeeService.CreateAddress([this.fbAddressDetails.value]);
   }
   getEmpAddressDetails(){
     this.employeeService.GetAddress(this.employeeId).subscribe((data) => {
       this.empAddrDetails = data;
-      console.log(data)
     })
   }
   onSubmit() {
     this.saveAddress().subscribe(res => {
+      this.addFlag=true;
       if(res){
         this.alertMessage.displayAlertMessage(ALERT_CODES["SAD001"]);
         this.navigateToNext();
@@ -188,6 +196,23 @@ export class AddressComponent {
     this.fbAddressDetails.reset();
   }
 
+  editForm(addressDetails){
+    this.addFlag=false;
+    this.getStatesByCountryId(addressDetails.countryId)
+    this.fbAddressDetails.patchValue({
+      employeeId: addressDetails.employeeId,
+      addressId: addressDetails.addressId,
+      addressLine1: addressDetails.addressLine1,
+      addressLine2: addressDetails.addressLine2,
+      landmark:addressDetails.landmark,
+      zipCode:addressDetails.zipCode,
+      city:addressDetails.city,
+      countryId: addressDetails.countryId,
+      stateId:addressDetails.stateId,
+      addressType:addressDetails.addressType,
+      isActive:addressDetails.isActive,
+    })
+  }
 
 
   navigateToPrev() {

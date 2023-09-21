@@ -458,7 +458,7 @@
                   <p-dropdown id="stream_dropdown" [autoDisplayFirst]="false" optionLabel="name" [options]="stream" optionValue="lookupDetailId" appendTo="body" formControlName="streamId" placeholder="Select Stream"></p-dropdown>
                 </td>
                 <td class="vertical-align-top">
-                  <p-dropdown id="country_dropdown" [autoDisplayFirst]="false" optionLabel="name" appendTo="body" [options]="countries" optionValue="lookupDetailId" formControlName="countryId" placeholder="Select country" (onChange)="getStatesByCountryId($event.value)"></p-dropdown>
+                  <p-dropdown id="country_dropdown" [autoDisplayFirst]="false" optionLabel="name" appendTo="body" [options]="countries" placeholder="Select country" (onChange)="getStatesByCountryId($event.value)"></p-dropdown>
                 <td class="vertical-align-top">
                   <p-dropdown id="states_dropdown" appendTo="body" optionLabel="name" placeholder="Select State" [options]="states" optionValue="lookupDetailId" formControlName="stateId"></p-dropdown>
                 </td>
@@ -743,7 +743,7 @@
             </div>
             <div class="field col-12 md:col-4">
               <span class="p-float-label">
-                <p-dropdown inputId="dropdown" formControlName="countryId" (onChange)="getStatesByCountryId($event.value)" [autoDisplayFirst]="false" [options]="countries" optionValue="lookupDetailId" optionLabel="name"></p-dropdown>
+                <p-dropdown inputId="dropdown" (onChange)="getStatesByCountryId($event.value)" [autoDisplayFirst]="false" [options]="countries"  optionLabel="name"></p-dropdown>
                 <label for="dropdown">Country <sup class="p-error">*</sup>
                 </label>
               </span>
