@@ -551,7 +551,7 @@ export class ViewemployeesComponent {
     return this.fbexperience.get('experienceDetails') as FormArray;
   }
 
-  onSelectSkill(e, index) {
+  onSelectSkill(e) {
     this.viewSelectedSkills = e.value
     let CurrentArray = e.value;
     console.log(CurrentArray)
@@ -564,7 +564,7 @@ export class ViewemployeesComponent {
       })
     }
     const experienceDetailControl = this.fbexperience.get('experienceDetails') as FormArray;
-    const workExperienceXrefsControl = experienceDetailControl.at(index).get('workExperienceXrefs');
+    const workExperienceXrefsControl = experienceDetailControl.at(e.index).get('workExperienceXrefs');
 
     if (workExperienceXrefsControl) {
       workExperienceXrefsControl.patchValue(updatedArray);
