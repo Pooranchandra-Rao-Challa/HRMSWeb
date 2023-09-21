@@ -1,32 +1,38 @@
 import { Injectable } from '@angular/core';
 import { LookupViewDto } from '../_models/admin';
 import { ApiHttpService } from './api.http.service';
-import { LOOKUP_ASSET_CATEGORIES_URI, LOOKUP_ASSET_STATUS_URI, LOOKUP_ASSET_TYPE_URI, LOOKUP_BLOOD_GROUPS_URI, LOOKUP_RELATIONSHIP_URI, LOOKUP_STATES_URI } from './api.uri.service';
+import { LOOKUP_DETAILS_URI, LOOKUP_NAMES_URI } from './api.uri.service';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
-export class LookupService  extends ApiHttpService{
+export class LookupService extends ApiHttpService {
+    public LookupNames() {
+        return this.get<string[]>(LOOKUP_NAMES_URI);
+    }
+    public AssetTypes() {
+        return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.AssetTypes]);
+    }
 
-  public AssetTypes() {
-    return this.get<LookupViewDto[]>(LOOKUP_ASSET_TYPE_URI);
-  }
+    public AssetCategories() {
+        return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.AssetCategories]);
+    }
 
-  public AssetCategories() {
-    return this.get<LookupViewDto[]>(LOOKUP_ASSET_CATEGORIES_URI);
-  }
+    public AssetStatus() {
+        return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.Status]);
+    }
 
-  public AssetStatus() {
-    return this.get<LookupViewDto[]>(LOOKUP_ASSET_STATUS_URI);
-  }
+    public getStates(countryId?: number) {
+        return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.States, countryId]);
+    }
 
-  public getStates() {
-    return this.get<LookupViewDto[]>(LOOKUP_STATES_URI);
-  }
-  public BloodGroups(){
-    return this.get<LookupViewDto[]>(LOOKUP_BLOOD_GROUPS_URI);
-  }
-  public Relationships(){
-    return this.get<LookupViewDto[]>(LOOKUP_RELATIONSHIP_URI);
-  }
+    public getCountries() {
+        return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.Countries]);
+    }
+    public BloodGroups() {
+        return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.BloodGroups]);
+    }
+    public Relationships() {
+        return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.Relations]);
+    }
 }

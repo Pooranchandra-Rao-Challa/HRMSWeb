@@ -38,7 +38,7 @@ export class LoginService extends ApiHttpService {
                 console.log(resp);
 
                 this.saveToken((resp as ResponseModel))
-                localStorage.setItem("respModel", JSON.stringify(resp as ResponseModel))
+                //localStorage.setItem("respModel", JSON.stringify(resp as ResponseModel))
                 this.respSubject = new BehaviorSubject<ResponseModel>(resp as ResponseModel);
                 const model: LogInSuccessModel = {
                     isFirstTimeLogin: this.IsFirstTimeLogin,

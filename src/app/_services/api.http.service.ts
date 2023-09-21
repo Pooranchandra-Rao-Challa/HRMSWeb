@@ -5,6 +5,7 @@ import { URI_ENDPOINT, URI_ENDPOINT_WITH_ID, URI_ENDPOINT_WITH_PARAMS } from 'sr
 import { ResponseModel } from '../_models/login.model';
 import { JwtService } from './jwt.service';
 import { MessageService } from 'primeng/api';
+import { LOOKUP_LOOKUPS_URI } from './api.uri.service';
 
 const TOKEN_KEY = 'auth-token';
 
@@ -16,8 +17,22 @@ export class ApiHttpService {
 
     constructor(private http: HttpClient,
         public jwtService: JwtService,
-        public messageService: MessageService) { }
+        public messageService: MessageService) {
+        this.UpdateLookups()
+    }
 
+    public UpdateLookups() {
+        if (this.jwtService.IsLoggedIn) {
+            this.get<any>(LOOKUP_LOOKUPS_URI).subscribe({
+                next: (resp) => {
+                    this.jwtService.addLookupKeys(resp + "");
+                },
+                error: (error) => { }
+            }
+
+            )
+        }
+    }
     public get<T>(uri: string, options?: any) {
         return this.http.get<T>(URI_ENDPOINT(uri), options)
             .pipe(
@@ -129,6 +144,10 @@ export class ApiHttpService {
     }
     ErrorCodes: {} = {
         code: 1001, message: ''
+    }
+
+    get LookupKeys(){
+        return this.jwtService.LookupKeys;
     }
 }
 

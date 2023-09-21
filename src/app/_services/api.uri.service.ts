@@ -41,6 +41,12 @@ export const LOOKUP_ASSET_STATUS_URI = "Lookup/Status";
 export const LOOKUP_STATES_URI = "Lookup/States";
 export const LOOKUP_BLOOD_GROUPS_URI = "Lookup/BloodGroups";
 export const LOOKUP_RELATIONSHIP_URI="Lookup/Relations";
+
+export const LOOKUP_LOOKUPS_URI="Lookup/Lookups";
+export const LOOKUP_DETAILS_URI="Lookup/LookupDetails";
+export const LOOKUP_NAMES_URI="Lookup/LookupNames";
+export const LOOKUP_NAMES_NOT_CONFIGURE_URI="Lookup/LookupNamesNotConfigured";
+
 // END LOOKUPS
 
 export const GET_PROJECTS_URI = "Admin/GetProjectDetails";

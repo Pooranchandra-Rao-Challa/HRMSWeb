@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 
 const TOKEN_KEY = 'auth-token';
 const REFRESHTOKEN_KEY = 'auth-refreshtoken';
+const LOOKUP_KEYS = 'lookupkeys';
 @Injectable({
     providedIn: 'root'
 })
@@ -51,7 +52,7 @@ export class JwtService {
         return JSON.parse(jwt.Permissions)
     }
     public Logout() {
-        localStorage.removeItem("respModel");
+        //localStorage.removeItem("respModel");
         localStorage.removeItem(TOKEN_KEY);
         localStorage.removeItem(REFRESHTOKEN_KEY);
         localStorage.clear();
@@ -61,10 +62,32 @@ export class JwtService {
         localStorage.removeItem(REFRESHTOKEN_KEY)
         localStorage.setItem(REFRESHTOKEN_KEY, tokens.refreshToken)
     }
+
+    public addLookupKeys(keys: string) {
+        if (keys && !this.HasLookupKey) {
+            localStorage.setItem(LOOKUP_KEYS, keys)
+        }
+    }
+
+    public get LookupKeys() {
+        if (this.HasLookupKey)
+            return JSON.parse(localStorage.getItem(LOOKUP_KEYS)).Lookups;
+        else return {}
+    }
+
+    public get HasLookupKey(): boolean {
+        return localStorage.getItem(LOOKUP_KEYS) != null && localStorage.getItem(LOOKUP_KEYS) != '';
+    }
+
+    public clearLookupKeys() {
+        localStorage.removeItem(LOOKUP_KEYS)
+    }
     public get ThemeName(): string {
         const jwt = this.DecodedJWT;
         return jwt.ThemeName;
     }
+
+
 
     public get GivenName(): string {
         const jwt = this.DecodedJWT;
