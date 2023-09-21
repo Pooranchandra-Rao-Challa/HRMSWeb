@@ -1,12 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import {
   Form, FormArray, FormBuilder, FormControl, FormGroup, Validators,
 } from '@angular/forms'; import { ActivatedRoute } from '@angular/router';
-import { Address, Employee, familyDetailViewDto } from 'src/app/demo/api/security';
-import { SecurityService } from 'src/app/demo/service/security.service';
-import { LookupViewDto } from 'src/app/_models/admin';
-// import { EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsviewDto,  } from 'src/app/_models/employes';
-import { BankDetailViewDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, employeeEducDtlsViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, ExperienceDetailsDto, FamilyDetailsDto, FamilyDetailsViewDto } from 'src/app/_models/employes';
+import { LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
+import { BankDetailViewDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, employeeEducDtlsViewDto, employeeExperienceDtlsViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, ExperienceDetailsDto, FamilyDetailsDto, FamilyDetailsViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { LookupService } from 'src/app/_services/lookup.service';
 import { AssetAllotmentViewDto } from 'src/app/_models/admin/assetsallotment';
@@ -17,7 +14,7 @@ import { Actions, DialogRequest } from 'src/app/_models/common';
 import { AddassetallotmentDialogComponent } from 'src/app/_dialogs/addassetallotment.dialog/addassetallotment.dialog.component';
 import { UnassignassetDialogComponent } from 'src/app/_dialogs/unassignasset.dialog/unassignasset.dialog.component';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { MAX_LENGTH_256, MIN_LENGTH_2, MIN_LENGTH_8, RG_ALPHA_ONLY, RG_IFSC, RG_NUMERIC_ONLY, RG_PANNO, RG_PHONE_NO } from 'src/app/_shared/regex';
+import { MAX_LENGTH_20, MAX_LENGTH_256, MAX_LENGTH_50, MIN_LENGTH_2, MIN_LENGTH_8, RG_ALPHA_ONLY, RG_IFSC, RG_NUMERIC_ONLY, RG_PANNO, RG_PHONE_NO } from 'src/app/_shared/regex';
 import { MaxLength } from 'src/app/_models/common';
 import { Observable } from 'rxjs';
 import { HttpEvent } from '@angular/common/http';
@@ -69,6 +66,7 @@ export class ViewemployeesComponent {
   educationDetails: employeeEducDtlsViewDto[] = [];
   empEduDetails = new EducationDetailsDto();
   gradingMethods: LookupViewDto[] = [];
+  countries: LookupViewDto[] = [];
   // employee experience details
   fbexperience!: FormGroup;
   faexperienceDetails!: FormArray;
@@ -76,7 +74,9 @@ export class ViewemployeesComponent {
   circulum: LookupViewDto[] = [];
   skillarea: LookupViewDto[] = [];
   viewSelectedSkills: LookupViewDto[] = [];
- 
+  workExperience: employeeExperienceDtlsViewDto[];
+  skillset:any;
+
   familyDetails: FamilyDetailsViewDto[];
   fafamilyDetails!: FormArray;
   fbfamilyDetails: FormGroup;
@@ -87,7 +87,6 @@ export class ViewemployeesComponent {
   fbAddressDetails: FormGroup;
   fbBankDetails!: FormGroup;
   Education: boolean = false;
-  workExperience: any[]; 
   UploadedDocuments: any[];
   myFiles = [];
   uploadDocuments = [];
@@ -109,7 +108,7 @@ export class ViewemployeesComponent {
   images: string[] = [];
   selectedImageIndex: number = 0;
   quantity: number = 1;
-  employees: Employee[] = [];
+  // employees: Employee[] = [];
   genders: Gender[];
   shifts: Shift[];
   relationships: LookupViewDto[] = [];
@@ -128,15 +127,20 @@ export class ViewemployeesComponent {
   employeeId: any;
   bloodgroups: LookupViewDto[] = [];
   mediumDate: string = MEDIUM_DATE;
-  countries: any
   ActionTypes = Actions;
+  @ViewChild("fileUpload", { static: false }) fileUpload: ElementRef;
+  files = [];
+  fileSize = 20;
+  title: string;
   addassetallotmentDialogComponent = AddassetallotmentDialogComponent;
   unassignassetDialogComponent = UnassignassetDialogComponent;
   dialogRequest: DialogRequest = new DialogRequest();
 
+
+
   showFamilyDetails() {
     this.Family = true;
-    this.submitLabel = "Add Family Details";
+    this.submitLabel = "Add Family Member";
     this.fbfamilyDetails.reset();
   }
   showBankDetails() {
@@ -146,7 +150,7 @@ export class ViewemployeesComponent {
   }
   showAddressDetails() {
     this.Address = true;
-    this.submitLabel = "Add Adress";
+    this.submitLabel = "Add Address";
     this.fbAddressDetails.reset();
   }
   showDocumentsDetails() {
@@ -203,22 +207,20 @@ export class ViewemployeesComponent {
     this.initCirculum();
     this.bankDetailsForm();
     this.initFamily();
-    this.UploadDocument()
+    
     this.OfficDtlsForm();
     this.initEducation();
     this.addEducationDetails();
     this.initExperience();
     this.addexperienceDetails();
     this.initAddress();
-    // this.initStates();
     this.initBloodGroups()
     this.initskillArea();
-    this.initGrading() ;
-    
+    this.initGrading();
   }
 
   getemployeeview() {
-    this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId']; 
+    this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
     this.initViewEmpDtls();
     this.initofficeEmpDtls();
     this.initGetEducationDetails();
@@ -229,7 +231,7 @@ export class ViewemployeesComponent {
     this.initUploadedDocuments();
     this.initBankDetails();
     this.initviewAssets();
-  
+
   }
 
   // EMPLOYEE Basic details
@@ -369,15 +371,16 @@ export class ViewemployeesComponent {
     return this.formbuilder.group({
       educationDetailId: new FormControl(empEduDetails.educationDetailId),
       employeeId: new FormControl(empEduDetails.employeeId),
-      circulumId: new FormControl(null),
+      curriculumId: new FormControl(empEduDetails.curriculumId),
       streamId: new FormControl(empEduDetails.streamId),
+      countryId: new FormControl(empEduDetails.countryId),
       stateId: new FormControl(empEduDetails.stateId),
       institutionName: new FormControl(empEduDetails.institutionName),
       authorityName: new FormControl(empEduDetails.authorityName),
       passedOutyear: new FormControl(empEduDetails.passedOutyear ? new Date(empEduDetails.passedOutyear) : null),
       gradingMethodId: new FormControl(empEduDetails.gradingMethodId),
       gradingValue: new FormControl(empEduDetails.gradingValue),
-    });    
+    });
   }
 
   getStreamByCirculumId(Id: number) {
@@ -398,7 +401,8 @@ export class ViewemployeesComponent {
       this.gradingMethods = resp as unknown as LookupViewDto[];
     });
   }
-  
+
+
   initGetEducationDetails() {
     this.employeeService.GetEducationDetails(this.employeeId).subscribe((resp) => {
       this.educationDetails = resp as unknown as employeeEducDtlsViewDto[];
@@ -418,11 +422,11 @@ export class ViewemployeesComponent {
   addEducationDetails() {
     this.ShoweducationDetails = true;
     this.faeducationDetails = this.fbEducationDetails.get('educationDetails') as FormArray;
-     if (this.faeducationDetails.length >= 1) {
+    if (this.faeducationDetails.length >= 1) {
       const employeeIdFromDetails = this.educationDetails.length > 0 ? this.educationDetails[0].employeeId : null;
-    const newEducationRow = this.generateEducationRow({ employeeId: employeeIdFromDetails });
-    this.faeducationDetails.push(newEducationRow);
-  }
+      const newEducationRow = this.generateEducationRow({ employeeId: employeeIdFromDetails });
+      this.faeducationDetails.push(newEducationRow);
+    }
   }
 
   faeducationDetail(): FormArray {
@@ -431,7 +435,7 @@ export class ViewemployeesComponent {
   removeEducationDetail(index: number) {
     this.faeducationDetail().removeAt(index);
   }
-  
+
 
   saveEducationDetails() {
     this.employeeService.updateViewEmpEduDtls(this.fbEducationDetails.value.educationDetails).subscribe((resp) => {
@@ -451,15 +455,18 @@ export class ViewemployeesComponent {
 
 
   // Employee Work Experience
+
   initExperience() {
-    this.fbexperience = this.formbuilder.group({
-      experienceDetails: this.formbuilder.array([]),
-    });
+      this.fbexperience = this.formbuilder.group({
+        workExperienceXrefs:  new FormControl([], [Validators.required]),
+        experienceDetails: this.formbuilder.array([])
+      });
+   
   }
 
   initGetWorkExperience() {
     this.employeeService.GetWorkExperience(this.employeeId).subscribe((resp) => {
-      this.workExperience = resp as unknown as any[];
+      this.workExperience = resp as unknown as employeeExperienceDtlsViewDto[];
       console.log('this.GetWorkExperience', this.workExperience);
     });
   }
@@ -476,24 +483,57 @@ export class ViewemployeesComponent {
     })
   }
 
-  generateExperienceDetailsRow(empExpDetails: ExperienceDetailsDto = new ExperienceDetailsDto()): FormGroup {
-    return this.formbuilder.group({
-      workExperienceId: (empExpDetails.workExperienceId),
-      employeeId: (empExpDetails.employeeId),
-      companyName: new FormControl(empExpDetails.companyName, [Validators.required]),
-      companyLocation: new FormControl(empExpDetails.companyLocation, [ Validators.required]),
-      companyEmployeeId: new FormControl(empExpDetails.companyEmployeeId, [Validators.required]),
-      stateId: new FormControl(empExpDetails.stateId, [Validators.required]),
-      designationId: new FormControl(empExpDetails.designationId, [ Validators.required]),
-      dateOfReliving: new FormControl(new Date(empExpDetails.dateOfReliving ? new Date(empExpDetails.dateOfReliving) : null ), [Validators.required]),
-      dateOfJoining: new FormControl(new Date(empExpDetails.dateOfJoining ? new Date(empExpDetails.dateOfJoining) : null ), [Validators.required]),
-      workExperienceXrefs: new FormControl([]),
+  generaterow(experienceDetails: ExperienceDetailsDto = new ExperienceDetailsDto()): FormGroup {
+    const formGroup = this.formbuilder.group({
+      employeeId: new FormControl(experienceDetails.employeeId),
+      workExperienceId: new FormControl ( experienceDetails.workExperienceId),
+      isAfresher: new FormControl( false  ),
+      companyName: new FormControl(experienceDetails.companyName),
+      companyLocation: new FormControl(experienceDetails.companyLocation),
+      companyEmployeeId: new FormControl( experienceDetails.companyEmployeeId),
+      countryId:new FormControl( experienceDetails.countryId),
+      stateId: new FormControl( experienceDetails.stateId),
+      designationId: new FormControl( experienceDetails.designationId),
+      dateOfJoining: new FormControl(experienceDetails.dateOfJoining),
+      dateOfReliving: new FormControl(experienceDetails.dateOfReliving ),
+      workExperienceXrefs: new FormControl(experienceDetails.workExperienceXrefs),
     });
+    return formGroup;
+  }
+  addexperienceDetails() {
+    this.ShowexperienceDetails = true;
+    this.faexperienceDetails = this.fbexperience.get('experienceDetails') as FormArray;
+    if (this.faexperienceDetails.length >= 1) {
+      // const addexpRow = this.generaterow(this.workExperience.find(this.employeeId))
+      // this.faexperienceDetails.push(addexpRow);
+      // const employeeIdFromDetails = this.workExperience.length > 0 ? this.workExperience[0].employeeId : null;
+      const newexperienceRow = this.generaterow({
+        employeeId: this.employeeId, 
+        workExperienceId: null, 
+        isAfresher: false,
+        companyName: '',
+        companyLocation: '',
+        companyEmployeeId: '',
+        designationId: null,
+        dateOfJoining: null,
+        dateOfReliving: null,
+        countryId: null,
+        stateId: null,
+        workExperienceXrefs: [{ workExperienceXrefId: null, skillAreaId: null }]
+      });
+      this.faexperienceDetails.push(newexperienceRow);
+    }
   }
 
+  faExperienceDetail(): FormArray {
+    return this.fbexperience.get('experienceDetails') as FormArray
+  }
+  // get ExpFormControls() {
+  //   return this.fbexperience.controls;
+  // }
   showExperienceDetails() {
-    this.workExperience.forEach((empExperienceDetails: ExperienceDetailsDto) => {
-      this.faexperienceDetail().push(this.generateExperienceDetailsRow(empExperienceDetails));
+    this.workExperience.forEach((experienceDetails: ExperienceDetailsDto) => {
+      this.faexperienceDetail().push(this.generaterow(experienceDetails));
     })
     this.fbexperience.patchValue(this.workExperience)
     console.log('workExperience details', this.workExperience)
@@ -505,31 +545,24 @@ export class ViewemployeesComponent {
     return this.fbexperience.get('experienceDetails') as FormArray;
   }
 
-  addexperienceDetails() {
-    this.ShowexperienceDetails = true;
-    this.faexperienceDetails = this.fbexperience.get('experienceDetails') as FormArray;
-    if (this.faexperienceDetails.length >= 1) {
-     this.faexperienceDetails.push(this.generateExperienceDetailsRow());
-    }
-  }
- 
-
   onSelectSkill(e) {
-    this.viewSelectedSkills = e.value;
+     this.viewSelectedSkills = e.value
+    let CurrentArray = e.value;
+    console.log(CurrentArray)
     let updatedArray = [];
-    for (let i = 0; i < this.viewSelectedSkills.length; i++) {
+    for (let i = 0; i < CurrentArray.length; i++) {
       updatedArray.push({
         workExperienceXrefId: 0,
         workExperienceId: 0,
-        skillAreaId: this.viewSelectedSkills[i].lookupDetails
-      });
+        skillAreaId: CurrentArray[i]
+      })
     }
-    this.faexperienceDetail().at(0).get('workExperienceXrefs').setValue(updatedArray);
+    this.fbexperience.get('workExperienceXrefs')?.setValue(updatedArray);
   }
-  
+
   saveEmpExperienceDetails() {
     debugger
-    this.employeeService.updateViewEmpExperienceDtls(this.fbexperience.value).subscribe((resp) => {
+    this.employeeService.updateViewEmpExperienceDtls(this.fbexperience.get('workExperienceXrefs').value).subscribe((resp) => {
       console.log(resp);
       if (resp) {
         this.initGetWorkExperience();
@@ -600,7 +633,7 @@ export class ViewemployeesComponent {
   }
   saveBankDetails() {
     this.employeeId = +this.activatedRoute.snapshot.queryParams['employeeId'];
-    const {...formValue } = this.fbBankDetails.value;
+    const { ...formValue } = this.fbBankDetails.value;
     const isUpdate = this.fbBankDetails.value.bankId !== null;
     formValue.employeeId = this.employeeId;
 
@@ -646,13 +679,15 @@ export class ViewemployeesComponent {
   initCountry() {
     this.lookupService.Country().subscribe((resp) => {
       this.countries = resp as unknown as LookupViewDto[];
+      console.log( this.countries);
+      
     })
   }
   getStatesByCountryId(id: number) {
     this.lookupService.getStates(id).subscribe((resp) => {
       if (resp) {
-        this.states = resp as unknown as LookupViewDto[];
-      }
+        this.states = resp as unknown as LookupViewDto[]; 
+      } 
     })
   }
   // initCountries(): Promise<void> {
@@ -688,12 +723,12 @@ export class ViewemployeesComponent {
   }
   saveAddress() {
     this.employeeId = +this.activatedRoute.snapshot.queryParams['employeeId'];
-   const formValue = { ...this.fbAddressDetails.value, employeeId: this.employeeId };
+    const formValue = { ...this.fbAddressDetails.value, employeeId: this.employeeId };
     const isUpdate = this.fbAddressDetails.value.addressId !== null;
     if (!isUpdate) {
-      this.fbAddressDetails.value.isActive = true;
+      formValue.isActive = true;
     }
-    this.employeeService.CreateAddress([formValue]).subscribe((resp) => {
+    this.employeeService.CreateAddress(formValue).subscribe((resp) => {
       if (resp) {
         const alertCode = isUpdate ? "SMAD004" : "SAD001";
         this.alertMessage.displayAlertMessage(ALERT_CODES[alertCode]);
@@ -703,7 +738,7 @@ export class ViewemployeesComponent {
       }
     });
   }
-  
+
   //Employee Family
   initFamily() {
     this.fbfamilyDetails = this.formbuilder.group({
@@ -750,7 +785,7 @@ export class ViewemployeesComponent {
       mobileNumber: familyDetails.mobileNumber,
       isNominee: familyDetails.isNominee,
     });
-    this.submitLabel = "Update Family Details";
+    this.submitLabel = "Update Family Member Details";
     this.Family = true;
   }
 
@@ -780,57 +815,54 @@ export class ViewemployeesComponent {
 
   //UploadDocuments
   
-  UploadDocument(){
-   this.fbUploadDocument = this.formbuilder.group({
-     uploadDocumentId: [],
-     employeeId: this.employeeId,
-     title: new FormControl(''),
-     fileName: new FormControl(''),
-   })
-  }
-  getFileDetails(e) {
-    console.log(e.target)
-    for (var i = 0; i < e.target.files.length; i++) {
-      this.myFiles.push(e.target.files[i]);
-    }
-  }
+  onClick() {
+    const fileUpload = this.fileUpload.nativeElement;
+    fileUpload.onchange = () => {
+      if (this.files.length < 5) {
+        for (let index = 0; index < fileUpload.files.length; index++) {
+          const file = fileUpload.files[index];
+          this.files.push({ data: file, title: this.title, EmployeeId: this.employeeId });
+        }
+      } else {
+        this.alertMessage.displayErrorMessage(ALERT_CODES["EAD001"]);
+        return;
+      }
 
-  uploadFiles() {
-    this.uploadDocuments = [];
-    for (let i = 0; i < this.myFiles.length; i++) {
-      let fileDetails = this.myFiles[i];
-      this.fbUploadDocument.patchValue({
-        title: fileDetails.name,
-        fileName: fileDetails.type
-      })
-      this.uploadDocuments.push(this.fbUploadDocument.value)
-    }
-    this.employeeId = +this.activatedRoute.snapshot.queryParams['employeeId'];
-    this.employeeService.UploadDocuments(this.uploadDocuments).subscribe((resp) => {
-      this.initUploadedDocuments();
-      this.Documents = false;
+      // Perform form validation here
+      // If the form is valid, you can proceed with the code below
+
+      // Reset the input field and mark the form as untouched
+ 
+    
+
+      this.fileUpload.nativeElement.reset();
+      this.fileUpload.nativeElement.markAsUntouched();
+      this.title = '';
       
+    }
+  }
+  removeItem(index: number): void {
+    this.files.splice(index, 1);
+  }
+  uploadFile(file) {
+    const formData = new FormData();
+    formData.set(file.title, file.data, file.data.name);
+    this.employeeService.UploadDocuments(formData).subscribe(resp => {
+      if (resp) {  
+        this.alertMessage.displayAlertMessage(ALERT_CODES["EAD002"]);
+        this.initUploadedDocuments();
+        this.Documents = false;
+      }
+      else {
+        this.alertMessage.displayErrorMessage(ALERT_CODES["EAD003"]);
+      }
     })
-
   }
-  removeDocument(uploadedDocument) {
-    // Remove the document from the UploadedDocuments array
-    const index = this.UploadedDocuments.indexOf(uploadedDocument);
-    if (index !== -1) {
-      this.UploadedDocuments.splice(index, 1);
-    }
-  }
-  downloadDocument(uploadedDocument) {
-    const downloadLink = document.createElement('a');
-    downloadLink.href = '/path/to/file/' + uploadedDocument.fileName; // Replace '/path/to/file/' with the actual path to your files
-    downloadLink.download = uploadedDocument.fileName;
-    downloadLink.click();
-  }
-  onUpload(event: any) {
-    for (const file of event.files) {
-      this.uploadedFiles.push(file);
-    }
-    // this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded' });
+  uploadFiles() {
+    this.fileUpload.nativeElement.value = '';
+    this.files.forEach(file => {
+      this.uploadFile(file);
+    });
   }
   onBasicUpload() {
     // this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded with Basic Mode' });

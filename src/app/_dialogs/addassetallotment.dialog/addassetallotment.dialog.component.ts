@@ -2,13 +2,12 @@ import { HttpEvent } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { Employee, LookupDetailViewDto } from 'src/app/demo/api/security';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { AssetAllotmentDto, AssetAllotmentViewDto, AssetsByAssetTypeIdViewDto } from 'src/app/_models/admin/assetsallotment';
 import { AdminService } from 'src/app/_services/admin.service';
 import { LookupService } from 'src/app/_services/lookup.service';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { EmployeesList } from 'src/app/_models/admin';
+import { EmployeesList, LookupDetailsDto } from 'src/app/_models/admin';
 import { AssetAllotment } from 'src/app/_models/common';
 
 @Component({
@@ -16,29 +15,24 @@ import { AssetAllotment } from 'src/app/_models/common';
     templateUrl: './addassetallotment.dialog.component.html'
 })
 export class AddassetallotmentDialogComponent {
-    assetTypes: LookupDetailViewDto[] = [];
-    assetCategories: LookupDetailViewDto[] = [];
+    assetTypes: LookupDetailsDto[] = [];
+    assetCategories: LookupDetailsDto[] = [];
     assets: AssetsByAssetTypeIdViewDto[] = [];
     sortField: string = '';
     sortOrder: number = 0;
     fbAssetAllotment!: FormGroup;
     fbUnAssignAsset!: FormGroup;
     submitLabel!: string;
-    employees: Employee[] = [];
     assetAllotments: AssetAllotmentViewDto[] = [];
     maxDate: Date = new Date();
     employeesDropdown: EmployeesList[] = [];
-
 
     constructor(private formbuilder: FormBuilder,
         private adminService: AdminService,
         private lookupService: LookupService,
         private alertMessage: AlertmessageService,
         public ref: DynamicDialogRef,
-        private config: DynamicDialogConfig) {
-            console.log(this.config.data.employeeId);
-
-         }
+        private config: DynamicDialogConfig) { }
 
     ngOnInit() {
         debugger
@@ -56,13 +50,13 @@ export class AddassetallotmentDialogComponent {
 
     initAssetCategories() {
         this.lookupService.AssetCategories().subscribe((resp) => {
-            this.assetCategories = resp as unknown as LookupDetailViewDto[];
+            this.assetCategories = resp as unknown as LookupDetailsDto[];
         });
     }
 
     initAssetTypes() {
         this.lookupService.AssetTypes().subscribe((resp) => {
-            this.assetTypes = resp as unknown as LookupDetailViewDto[];
+            this.assetTypes = resp as unknown as LookupDetailsDto[];
         });
     }
 
@@ -74,7 +68,10 @@ export class AddassetallotmentDialogComponent {
 
     assetAllotmentForm() {
         this.fbAssetAllotment = this.formbuilder.group({
-            employeeId: new FormControl(this.config.data.employeeId ? this.config.data.employeeId : null),
+            employeeId: new FormControl({
+                value: this.config.data.employeeId ? this.config.data.employeeId : null,
+                disabled: this.config.data.employeeId ? true : false
+            }),
             assetCategoryId: new FormControl('', [Validators.required]),
             assetTypeId: new FormControl('', [Validators.required]),
             assetId: new FormControl('', [Validators.required]),

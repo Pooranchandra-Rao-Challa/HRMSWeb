@@ -1,7 +1,6 @@
 import { ViewAssetAllotmentsDialogComponent } from './../../_dialogs/viewassetallotments.dialog/viewassetallotments.dialog.component';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { DataView } from 'primeng/dataview';
-import { LookupDetailViewDto } from 'src/app/demo/api/security';
 import { AdminService } from 'src/app/_services/admin.service';
 import { AssetsByAssetTypeIdViewDto } from 'src/app/_models/admin/assetsallotment';
 import { Table } from 'primeng/table';
@@ -17,8 +16,6 @@ import { AddassetallotmentDialogComponent } from 'src/app/_dialogs/addassetallot
     ]
 })
 export class AssetsallotmentComponent {
-    assetTypes: LookupDetailViewDto[] = [];
-    assetCategories: LookupDetailViewDto[] = [];
     assets: AssetsByAssetTypeIdViewDto[] = [];
     sortField: string = '';
     sortOrder: number = 0;

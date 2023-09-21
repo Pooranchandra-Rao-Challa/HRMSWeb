@@ -5,12 +5,10 @@ import { DataView } from 'primeng/dataview';
 import { Table } from 'primeng/table/public_api';
 import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { ITableHeader } from 'src/app/_models/common';
-import { EmployeesViewDto } from 'src/app/_models/employes';
+import { BankDetailViewDto, Employee, EmployeesViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
-import { Product } from 'src/app/demo/api/product';
-import { Employee } from 'src/app/demo/api/security';
-import { ProductService } from 'src/app/demo/service/product.service';
-import { SecurityService } from 'src/app/demo/service/security.service';
+import { SecurityService } from 'src/app/_services/security.service';
+
 
 @Component({
   selector: 'app-onboardingemployees',
@@ -26,6 +24,10 @@ export class OnboardingemployeesComponent {
   newEmployeeSteps: MenuItem[];
   mediumDate: string = MEDIUM_DATE
   employeeId: number;
+  employees: Employee[] = [];
+  sortOrder: number = 0;
+  sortField: string = '';
+
 
   headers: ITableHeader[] = [
     { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
@@ -41,11 +43,6 @@ export class OnboardingemployeesComponent {
     this.router.navigate(['basicdetails'], { relativeTo: this.route })
     this.visible = true;
   }
-  employees: Employee[] = [];
-
-  sortOrder: number = 0;
-
-  sortField: string = '';
 
 
   constructor(private securityService: SecurityService,
@@ -59,6 +56,7 @@ export class OnboardingemployeesComponent {
   }
 
   ngOnInit() {
+    this.employeeId = this.route.snapshot.queryParams['employeeId']; 
     this.initEmployees()
     this.newEmployeeSteps = [
       {
@@ -109,8 +107,6 @@ export class OnboardingemployeesComponent {
       this.sortField = value;
     }
   }
-
-
 
   initEmployees() {
     // Fetch only records where IsEnrolled is true
