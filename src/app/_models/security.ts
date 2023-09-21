@@ -18,6 +18,8 @@ export class UserQuestionDto {
   question?: string
   answer?: string
   userName?: string;
+  userAnswer?: string
+  userSecureQuestionsCount?: number;
 }
 
 export class RoleViewDto {

@@ -1,11 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import {
   Form, FormArray, FormBuilder, FormControl, FormGroup, Validators,
 } from '@angular/forms'; import { ActivatedRoute } from '@angular/router';
-import { Address, Employee, familyDetailViewDto } from 'src/app/demo/api/security';
-import { SecurityService } from 'src/app/demo/service/security.service';
 import { LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
-// import { EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsviewDto,  } from 'src/app/_models/employes';
 import { BankDetailViewDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, employeeEducDtlsViewDto, employeeExperienceDtlsViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, ExperienceDetailsDto, FamilyDetailsDto, FamilyDetailsViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { LookupService } from 'src/app/_services/lookup.service';
@@ -111,7 +108,7 @@ export class ViewemployeesComponent {
   images: string[] = [];
   selectedImageIndex: number = 0;
   quantity: number = 1;
-  employees: Employee[] = [];
+  // employees: Employee[] = [];
   genders: Gender[];
   shifts: Shift[];
   relationships: LookupViewDto[] = [];
@@ -131,6 +128,10 @@ export class ViewemployeesComponent {
   bloodgroups: LookupViewDto[] = [];
   mediumDate: string = MEDIUM_DATE;
   ActionTypes = Actions;
+  @ViewChild("fileUpload", { static: false }) fileUpload: ElementRef;
+  files = [];
+  fileSize = 20;
+  title: string;
   addassetallotmentDialogComponent = AddassetallotmentDialogComponent;
   unassignassetDialogComponent = UnassignassetDialogComponent;
   dialogRequest: DialogRequest = new DialogRequest();
@@ -205,7 +206,7 @@ export class ViewemployeesComponent {
     this.initCirculum();
     this.bankDetailsForm();
     this.initFamily();
-    this.UploadDocument()
+    
     this.OfficDtlsForm();
     this.initEducation();
     this.addEducationDetails();
@@ -794,58 +795,43 @@ export class ViewemployeesComponent {
   }
 
   //UploadDocuments
-
-  UploadDocument() {
-    this.fbUploadDocument = this.formbuilder.group({
-      uploadDocumentId: [],
-      employeeId: this.employeeId,
-      title: new FormControl(''),
-      fileName: new FormControl(''),
-    })
-  }
-  getFileDetails(e) {
-    console.log(e.target)
-    for (var i = 0; i < e.target.files.length; i++) {
-      this.myFiles.push(e.target.files[i]);
+  
+  onClick() {
+    const fileUpload = this.fileUpload.nativeElement;
+    fileUpload.onchange = () => {
+      if (this.files.length < 5) {
+        for (let index = 0; index < fileUpload.files.length; index++) {
+          const file = fileUpload.files[index];
+          this.files.push({ data: file, title: this.title, EmployeeId: this.employeeId });
+        }
+      }
+      else {
+        this.alertMessage.displayErrorMessage(ALERT_CODES["EAD001"]);
+        return
+      }
+      this.title = '';
     }
   }
-
+  removeItem(index: number): void {
+    this.files.splice(index, 1);
+  }
+  uploadFile(file) {
+    const formData = new FormData();
+    formData.set(file.title, file.data, file.data.name);
+    this.employeeService.CreateUploadDocuments(formData).subscribe(resp => {
+      if (resp) {
+        this.alertMessage.displayAlertMessage(ALERT_CODES["EAD002"]);
+      }
+      else {
+        this.alertMessage.displayErrorMessage(ALERT_CODES["EAD003"]);
+      }
+    })
+  }
   uploadFiles() {
-    this.uploadDocuments = [];
-    for (let i = 0; i < this.myFiles.length; i++) {
-      let fileDetails = this.myFiles[i];
-      this.fbUploadDocument.patchValue({
-        title: fileDetails.name,
-        fileName: fileDetails.type
-      })
-      this.uploadDocuments.push(this.fbUploadDocument.value)
-    }
-    this.employeeId = +this.activatedRoute.snapshot.queryParams['employeeId'];
-    this.employeeService.CreateUploadDocuments(this.uploadDocuments).subscribe((resp) => {
-      this.initUploadedDocuments();
-      this.Documents = false;
-
-    })
-
-  }
-  removeDocument(uploadedDocument) {
-    // Remove the document from the UploadedDocuments array
-    const index = this.UploadedDocuments.indexOf(uploadedDocument);
-    if (index !== -1) {
-      this.UploadedDocuments.splice(index, 1);
-    }
-  }
-  downloadDocument(uploadedDocument) {
-    const downloadLink = document.createElement('a');
-    downloadLink.href = '/path/to/file/' + uploadedDocument.fileName; // Replace '/path/to/file/' with the actual path to your files
-    downloadLink.download = uploadedDocument.fileName;
-    downloadLink.click();
-  }
-  onUpload(event: any) {
-    for (const file of event.files) {
-      this.uploadedFiles.push(file);
-    }
-    // this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded' });
+    this.fileUpload.nativeElement.value = '';
+    this.files.forEach(file => {
+      this.uploadFile(file);
+    });
   }
   onBasicUpload() {
     // this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded with Basic Mode' });

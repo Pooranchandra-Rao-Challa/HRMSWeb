@@ -256,7 +256,7 @@
                                 {{experienceDetail[col.field]|date:mediumDate}}
                             </span>
                             <span *ngIf="col?.field == 'workExperienceXrefs'">
-                               {{experienceDetail[skillAreaNames]}}
+                               {{experienceDetail[skillAreaNames]?experienceDetail[skillAreaNames]:experienceDetail[col.field]}}
                             </span>
                         </td>
                         

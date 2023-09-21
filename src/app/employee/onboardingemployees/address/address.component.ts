@@ -4,10 +4,8 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
-import { Address } from 'src/app/demo/api/security';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { AddressDetailsDto, EmployeAdressViewDto} from 'src/app/_models/employes';
-// import { States } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { MAX_LENGTH_256, MAX_LENGTH_50, MAX_LENGTH_6, MIN_LENGTH_2, MIN_LENGTH_6, RG_ALPHA_NUMERIC, RG_PINCODE } from 'src/app/_shared/regex';
 import { ITableHeader, MaxLength } from 'src/app/_models/common';
@@ -28,7 +26,7 @@ export class AddressComponent {
   submitLabel: string;
   employeeId: any;
   maxLength: MaxLength = new MaxLength();
-  empAddrDetails: EmployeAdressViewDto[]=[];
+  empAddrDetails: any=[];
   
   constructor(private router: Router, private route: ActivatedRoute, private formbuilder: FormBuilder,
     private alertMessage: AlertmessageService, private employeeService: EmployeeService,
@@ -167,11 +165,11 @@ export class AddressComponent {
     return formGroup;
   }
   saveAddress(): Observable<HttpEvent<any>> {
-    return this.employeeService.CreateAddress(this.fbAddressDetails.get('addressDetails').value);
+    return this.employeeService.CreateAddress(this.empAddrDetails);
   }
   getEmpAddressDetails(){
     this.employeeService.GetAddress(this.employeeId).subscribe((data) => {
-      this.empAddrDetails = data as unknown as EmployeAdressViewDto[];
+      this.empAddrDetails = data;
       console.log(data)
     })
   }

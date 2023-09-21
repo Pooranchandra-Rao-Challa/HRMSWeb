@@ -1,9 +1,5 @@
-import { HttpEvent } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { BehaviorSubject, elementAt, filter, Observable } from 'rxjs';
-import { Employee } from 'src/app/demo/api/security';
-import { SecurityService } from 'src/app/demo/service/security.service';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { FORMAT_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { ClientDetailsDto, ClientNamesDto, EmployeesList, ProjectAllotments, ProjectViewDto } from 'src/app/_models/admin';
@@ -59,7 +55,7 @@ export class ProjectComponent implements OnInit {
     },
   };
 
-  constructor(private projectService: SecurityService, private formbuilder: FormBuilder, private adminService: AdminService, private alertMessage: AlertmessageService,
+  constructor( private formbuilder: FormBuilder, private adminService: AdminService, private alertMessage: AlertmessageService,
     private jwtService: JwtService) { }
 
   ngOnInit() {
