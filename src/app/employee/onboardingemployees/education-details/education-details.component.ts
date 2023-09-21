@@ -43,7 +43,6 @@ export class EducationDetailsComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.employeeId = params['employeeId'];
     });
-    console.log(this.employeeId);
     this.educationForm();
     this.initCirculum();
     this.initCountry();
@@ -125,7 +124,7 @@ export class EducationDetailsComponent implements OnInit {
   getEmpEducaitonDetails() {
     return this.employeeService.GetEducationDetails(this.employeeId).subscribe((data) => {
       this.empEduDetails = data as unknown as EducationDetailsDto[];
-      console.log(data);
+          console.log(data)
     })
   }
   faEducationDetail(): FormArray {

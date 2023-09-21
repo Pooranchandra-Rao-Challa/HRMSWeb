@@ -156,24 +156,33 @@
 </form>
 
 <div class="col-12 scrolling_content" *ngIf="showFamilyDetails">
-    <p-table id="table" [value]="familyDetails" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
+    <p-table id="table" [value]="empFamDetails" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
         styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true"
         [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]">
         <ng-template pTemplate="header">
             <tr>
+                <th class="col text-center">Actions</th>
                 <th *ngFor="let col of headers"
                     [ngClass]="col?.field == 'isNominee' || col?.field == 'dob' || col?.field == 'name'  ||col?.field == 'adhaarNo'  ||  col?.field == 'panno'  || col?.field == 'mobileNumber'||col?.field == 'relationshipId'|| col?.field == 'addressId' ? 'text-center' : ''">
                     {{col?.label}}
                 </th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-familyData>
+        <ng-template pTemplate="body" let-familyData let-educationDataIndex="rowIndex">
             <tr>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" (click)="editAddressDetails(familyData)"
+                        class="p-element p-ripple p-button-text p-button p-component mr-3 p-0 ">
+                    </button>
+                    <button pButton pRipple icon="pi pi-trash" id="educationDetailsRemove-Btn"
+                        class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
+                        (click)="removeRow(educationDataIndex)"></button>
+                </td>
                 <td *ngFor="let col of headers"
                     [ngClass]="col?.field == 'isNominee' || col?.field == 'name'  ||col?.field == 'adhaarNo'  ||  col?.field == 'panno'  || col?.field == 'mobileNumber'||col?.field == 'relationshipId'|| col?.field == 'addressId' ? 'text-center' : ''">
                     <span
-                        *ngIf="col?.field == 'name'  ||col?.field == 'adhaarNo'  ||  col?.field == 'panno'  || col?.field == 'mobileNumber' || col?.field == 'relationshipId' || col?.field == 'addressId'">
+                        *ngIf="col?.field == 'name'  ||col?.field == 'adhaarNo'  ||  col?.field == 'panNo'  || col?.field == 'mobileNumber' || col?.field == 'relationshipId' || col?.field == 'addressId'">
                         {{familyData[col.field]}}
                     </span>
                     <span *ngIf="col?.field == 'dob' ">
@@ -196,7 +205,7 @@
     </div>
     <div class=" col-4">
         <button p-button class="p-element p-ripple p-button-info p-button p-component w-100"
-            [disabled]="this.familyDetails.length == 0" (click)="onSubmit()">Save as Draft</button>
+            [disabled]="this.empFamDetails.length == 0" (click)="onSubmit()">Save as Draft</button>
     </div>
     <div class=" col-4">
         <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100"
