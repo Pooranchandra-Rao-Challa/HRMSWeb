@@ -11,7 +11,7 @@ import { RecruitmentComponent } from './recruitment/recruitment.component';
 @NgModule({
     imports: [RouterModule.forChild([
         { path: 'assets', data: { breadcrumb: 'Assets' }, component: AssetsComponent },
-        { path:'assetsallotment', data: { breadcrumb: 'Assets' }, component:AssetsallotmentComponent},
+        { path:'assetsallotment', data: { breadcrumb: 'Asset Allotments' }, component:AssetsallotmentComponent},
         { path: 'holidayconfiguration', data: { breadcrumb: 'Holiday Configuration' }, component: HolidayconfigurationComponent },
         { path: 'jobdesign', data: { breadcrumb: 'Job Design' }, component: JobdesignComponent },
         { path: 'lookups', data: { breadcrumb: 'lookups' }, component: LookupsComponent },

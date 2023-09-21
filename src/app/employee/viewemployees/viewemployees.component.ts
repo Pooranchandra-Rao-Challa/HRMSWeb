@@ -35,10 +35,7 @@ export class Status {
   name: string;
   code: string;
 }
-interface Designation {
-  name: string;
-  code: string;
-}
+
 interface Skills {
   name: string;
   code: string;
@@ -588,7 +585,7 @@ export class ViewemployeesComponent {
   }
 
 
-  
+
 
   initUploadedDocuments() {
     this.employeeService.GetUploadedDocuments(this.employeeId).subscribe((resp) => {
@@ -740,9 +737,9 @@ export class ViewemployeesComponent {
     const formValue = { ...this.fbAddressDetails.value, employeeId: this.employeeId };
     const isUpdate = this.fbAddressDetails.value.addressId !== null;
     if (!isUpdate) {
-      this.fbAddressDetails.value.isActive = true;
+      formValue.isActive = true;
     }
-    this.employeeService.CreateAddress([formValue]).subscribe((resp) => {
+    this.employeeService.CreateAddress(formValue).subscribe((resp) => {
       if (resp) {
         const alertCode = isUpdate ? "SMAD004" : "SAD001";
         this.alertMessage.displayAlertMessage(ALERT_CODES[alertCode]);
@@ -861,8 +858,8 @@ export class ViewemployeesComponent {
   uploadFile(file) {
     const formData = new FormData();
     formData.set(file.title, file.data, file.data.name);
-    this.employeeService.CreateUploadDocuments(formData).subscribe(resp => {
-      if (resp) {
+    this.employeeService.UploadDocuments(formData).subscribe(resp => {
+      if (resp) {  
         this.alertMessage.displayAlertMessage(ALERT_CODES["EAD002"]);
         this.initUploadedDocuments();
         this.Documents = false;

@@ -2,7 +2,6 @@ import { HttpEvent } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { EditableColumn } from 'primeng/table';
 import { Observable } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
@@ -19,10 +18,10 @@ import { LookupService } from 'src/app/_services/lookup.service';
 })
 export class EducationDetailsComponent implements OnInit {
   showDialog: boolean = false;
+  addeducationdetailsshowForm: boolean = false;
   fbEducationDetails!: FormGroup;
   selectedYear: Date;
   ShoweducationDetails: boolean = true;
-  educationDetails: EducationDetailsDto[] = [];
   employeeId: any;
   maxLength: MaxLength = new MaxLength();
   country: LookupViewDto[] = [];
@@ -34,8 +33,7 @@ export class EducationDetailsComponent implements OnInit {
   addFlag: boolean = true;
   circulums: LookupViewDto = new LookupViewDto();
   STREAM?: String;
-  faeducationDetails !: FormArray;
-  empEduDetails = new EducationDetailsDto();
+  empEduDetails: EducationDetailsDto[] = [];
   constructor(private formbuilder: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
@@ -46,14 +44,11 @@ export class EducationDetailsComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.employeeId = params['employeeId'];
     });
-    console.log(this.employeeId);
     this.educationForm();
     this.initCirculum();
     this.initCountry();
     this.initGrading();
-    this.addEducationDetails();
     this.getEmpEducaitonDetails();
-
   }
   headers: ITableHeader[] = [
     { field: 'authorityName', header: 'authorityName', label: 'Authority Name' },
@@ -112,16 +107,64 @@ export class EducationDetailsComponent implements OnInit {
       }
     });
   }
+  addEducationDetails() {
+    let eduDetailId = this.fbEducationDetails.get('educationDetailId').value
+    if (eduDetailId == null) {
+      this.faEducationDetail().push(this.generaterow(this.fbEducationDetails.getRawValue()));
+      for (let item of this.fbEducationDetails.get('educationDetails').value) {
+        this.empEduDetails.push(item)
+      }
+      this.clearForm();
+      this.addFlag = true;
+    }
+    else {
+      this.addFlag= false;
+      this.onSubmit();
+    }
+    this.addeducationdetailsshowForm = !this.addeducationdetailsshowForm;
+    this.ShoweducationDetails = !this.ShoweducationDetails;
+  }
   getEmpEducaitonDetails() {
     return this.employeeService.GetEducationDetails(this.employeeId).subscribe((data) => {
-      this.empEduDetails = data as EducationDetailsDto;
-      console.log(data);
-      this.editEducationDetails(this.empEduDetails);
+      this.empEduDetails = data as unknown as EducationDetailsDto[];
+          console.log(data)
     })
   }
-  editEducationDetails(empEduDetails) {
-    this.addFlag = false;
-    this.educationDetails = empEduDetails;
+  faEducationDetail(): FormArray {
+    return this.fbEducationDetails.get('educationDetails') as FormArray
+  }
+  generaterow(educationDetails: EducationDetailsDto = new EducationDetailsDto()): FormGroup {
+    const formGroup = this.formbuilder.group({
+      educationDetailId: educationDetails.educationDetailId,
+      employeeId: educationDetails.employeeId,
+      streamId: educationDetails.streamId,
+      stateId: educationDetails.stateId,
+      institutionName: educationDetails.institutionName,
+      authorityName: educationDetails.authorityName,
+      passedOutyear: educationDetails.passedOutyear,
+      gradingMethodId: educationDetails.gradingMethodId,
+      gradingValue: educationDetails.gradingValue,
+    });
+    return formGroup;
+  }
+  editEducationDetails(educationDetails) {
+    this.getStatesByCountryId(educationDetails.countryId);
+    this.getStreamByCirculumId(educationDetails.curriculumId);
+    this.fbEducationDetails.patchValue({
+      educationDetailId: educationDetails.educationDetailId,
+      employeeId: educationDetails.employeeId,
+      circulumId: educationDetails.curriculumId,
+      streamId: educationDetails.streamId,
+      countryId: educationDetails.countryId,
+      stateId: educationDetails.stateId,
+      institutionName: educationDetails.institutionName,
+      authorityName: educationDetails.authorityName,
+      passedOutyear: FORMAT_DATE(new Date(educationDetails.passedOutyear)),
+      gradingMethodId: educationDetails.gradingMethodId,
+      gradingValue: educationDetails.gradingValue
+    });
+    this.addeducationdetailsshowForm = !this.addeducationdetailsshowForm;
+    this.ShoweducationDetails = !this.ShoweducationDetails;
   }
   restrictSpaces(event: KeyboardEvent) {
     if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {
@@ -129,28 +172,21 @@ export class EducationDetailsComponent implements OnInit {
     }
   }
   removeRow(index: number): void {
-    if (index >= 0 && index < this.educationDetails.length) {
-      this.educationDetails.splice(index, 1); // Remove 1 item at the specified index
-    }
-  }
-  addEducationDetails() {
-    if (this.fbEducationDetails.valid) {
-      const educationData = this.fbEducationDetails.value;
-      this.educationDetails.push(educationData);  
-      console.log(educationData);
-      this.clearForm();
-      this.addFlag = false;
-
+    if (index >= 0 && index < this.empEduDetails.length) {
+      this.empEduDetails.splice(index, 1); // Remove 1 item at the specified index
     }
   }
   clearForm() {
     this.fbEducationDetails.reset();
   }
   saveeducationDetails(): Observable<HttpEvent<EducationDetailsDto[]>> {
-    return this.employeeService.CreateEducationDetails(this.educationDetails);
+    if (this.addFlag) {
+      return this.employeeService.CreateEducationDetails(this.empEduDetails);
+
+    } else
+      return this.employeeService.CreateEducationDetails([this.fbEducationDetails.value]);
   }
   onSubmit() {
-    debugger
     this.saveeducationDetails().subscribe(resp => {
       if (resp) {
         this.alertMessage.displayAlertMessage(ALERT_CODES["SFD001"]);
@@ -168,6 +204,10 @@ export class EducationDetailsComponent implements OnInit {
 
   navigateToNext() {
     this.router.navigate(['employee/onboardingemployee/experiencedetails', this.employeeId])
+  }
+  toggleTab() {
+    this.addeducationdetailsshowForm = !this.addeducationdetailsshowForm;
+    this.ShoweducationDetails = !this.ShoweducationDetails;
   }
 
 }

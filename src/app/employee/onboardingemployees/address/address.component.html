@@ -199,16 +199,24 @@
                 [rowsPerPageOptions]="[10,25,50]">
                 <ng-template pTemplate="header">
                     <tr>
+                        <th style="width:5px" *ngIf="permissions?.CanManageEmployee">Actions</th>
                         <th *ngFor="let col of headers"
                             [ngClass]="col?.field == 'addressLine1' || col?.field == 'addressLine2' || col?.field == 'landmark'  ||col?.field == 'zipCode'  ||  col?.field == 'city'
                         ||col?.field == 'stateId'|| col?.field == 'countryId' ||col?.field == 'addressType' ||col?.field == 'isActive'? 'text-center' : ''">
                             {{col?.label}}
                         </th>
-                        <th *ngIf="empAddrDetails.length > 1"></th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-addressDetails let-addressDetailsIndex="rowIndex">
                     <tr>
+                        <td *ngIf="permissions?.CanManageEmployee" class="flex">
+                            <button pButton pRipple icon="pi pi-pencil" (click)="editForm(addressDetails)"
+                                class="p-element p-ripple p-button-text p-button p-component col-2 p-0 "></button>
+                            <button pButton pRipple icon="pi pi-trash" id="AddressDetailsRemove-Btn"
+                                class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
+                                (click)="removeItem(addressDetailsIndex)">
+                            </button>
+                        </td>
                         <td *ngFor="let col of headers"
                             [ngClass]="col?.field == 'addressLine1' || col?.field == 'addressLine2' || col?.field == 'landmark'  ||col?.field == 'zipCode'  ||  col?.field == 'city'
                         ||col?.field == 'stateId'|| col?.field == 'countryId'|| col?.field == 'addressType'|| col?.field == 'isActive' ? 'text-center' : ''">
@@ -222,13 +230,8 @@
                                 </p-checkbox>
                             </span>
                         </td>
-                                                
-                        <td *ngIf="empAddrDetails.length > 1">
-                            <p-button icon="pi pi-times" (click)="removeItem(addressDetailsIndex)"
-                                id="AddressDetailsRemove-Btn"
-                                styleClass="p-button-rounded p-button-danger p-button-text p-button-raised">
-                            </p-button>
-                        </td>
+
+                        
                     </tr>
                 </ng-template>
             </p-table>
