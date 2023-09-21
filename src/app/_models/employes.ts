@@ -166,7 +166,7 @@ export class ExperienceDetailsDto {
 	dateOfJoining: Date
 	dateOfReliving: Date
 	countryId: number;
-	stateId: number
+	stateId: number;
 	workExperienceXrefs: SkillAreas[]
 }
 export class SkillAreas {

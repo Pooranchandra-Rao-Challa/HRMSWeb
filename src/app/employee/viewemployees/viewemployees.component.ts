@@ -35,10 +35,7 @@ export class Status {
   name: string;
   code: string;
 }
-interface Designation {
-  name: string;
-  code: string;
-}
+
 interface Skills {
   name: string;
   code: string;
@@ -75,7 +72,7 @@ export class ViewemployeesComponent {
   skillarea: LookupViewDto[] = [];
   viewSelectedSkills: LookupViewDto[] = [];
   workExperience: employeeExperienceDtlsViewDto[];
-  skillset:any;
+  skillset: any;
 
   familyDetails: FamilyDetailsViewDto[];
   fafamilyDetails!: FormArray;
@@ -207,7 +204,7 @@ export class ViewemployeesComponent {
     this.initCirculum();
     this.bankDetailsForm();
     this.initFamily();
-    
+
     this.OfficDtlsForm();
     this.initEducation();
     this.addEducationDetails();
@@ -406,7 +403,6 @@ export class ViewemployeesComponent {
   initGetEducationDetails() {
     this.employeeService.GetEducationDetails(this.employeeId).subscribe((resp) => {
       this.educationDetails = resp as unknown as employeeEducDtlsViewDto[];
-      console.log('this.EducationDetails', this.educationDetails);
     });
   }
 
@@ -415,7 +411,6 @@ export class ViewemployeesComponent {
       this.faeducationDetail().push(this.generateEducationRow(empEduDetails));
     })
     this.fbEducationDetails.patchValue(this.educationDetails)
-    console.log('education details', this.educationDetails)
     this.Education = true;
   }
 
@@ -442,8 +437,8 @@ export class ViewemployeesComponent {
       console.log(resp);
       if (resp) {
         this.initGetEducationDetails();
-        this.Education = false;
-        this.fbEducationDetails.reset();
+        this.onClose();
+        (this.fbEducationDetails.get('educationDetails') as FormArray).clear();
         this.alertMessage.displayAlertMessage(ALERT_CODES["EVEEDU001"]);
       }
       else {
@@ -452,22 +447,39 @@ export class ViewemployeesComponent {
     })
   }
 
-
-
+  onClose(){
+    this.Education = false;
+    (this.fbEducationDetails.get('educationDetails') as FormArray).clear();
+    this
+  }
   // Employee Work Experience
 
   initExperience() {
-      this.fbexperience = this.formbuilder.group({
-        workExperienceXrefs:  new FormControl([], [Validators.required]),
-        experienceDetails: this.formbuilder.array([])
-      });
-   
+    this.fbexperience = this.formbuilder.group({
+      experienceDetails: this.formbuilder.array([])
+    });
+  }
+
+  generaterow(experienceDetails: ExperienceDetailsDto = new ExperienceDetailsDto()): FormGroup {
+    return this.formbuilder.group({
+      employeeId: new FormControl(experienceDetails.employeeId),
+      workExperienceId: new FormControl(experienceDetails.workExperienceId),
+      isAfresher: new FormControl(false),
+      companyName: new FormControl(experienceDetails.companyName),
+      companyLocation: new FormControl(experienceDetails.companyLocation),
+      companyEmployeeId: new FormControl(experienceDetails.companyEmployeeId),
+      countryId: new FormControl(experienceDetails.countryId),
+      stateId: new FormControl(experienceDetails.stateId),
+      designationId: new FormControl(experienceDetails.designationId),
+      dateOfJoining: new FormControl(experienceDetails.dateOfJoining ? new Date(experienceDetails.dateOfJoining) : null),
+      dateOfReliving: new FormControl(experienceDetails.dateOfReliving ? new Date(experienceDetails.dateOfReliving) : null),
+      workExperienceXrefs: new FormControl(experienceDetails.workExperienceXrefs),
+    });
   }
 
   initGetWorkExperience() {
     this.employeeService.GetWorkExperience(this.employeeId).subscribe((resp) => {
       this.workExperience = resp as unknown as employeeExperienceDtlsViewDto[];
-      console.log('this.GetWorkExperience', this.workExperience);
     });
   }
 
@@ -483,70 +495,58 @@ export class ViewemployeesComponent {
     })
   }
 
-  generaterow(experienceDetails: ExperienceDetailsDto = new ExperienceDetailsDto()): FormGroup {
-    const formGroup = this.formbuilder.group({
-      employeeId: new FormControl(experienceDetails.employeeId),
-      workExperienceId: new FormControl ( experienceDetails.workExperienceId),
-      isAfresher: new FormControl( false  ),
-      companyName: new FormControl(experienceDetails.companyName),
-      companyLocation: new FormControl(experienceDetails.companyLocation),
-      companyEmployeeId: new FormControl( experienceDetails.companyEmployeeId),
-      countryId:new FormControl( experienceDetails.countryId),
-      stateId: new FormControl( experienceDetails.stateId),
-      designationId: new FormControl( experienceDetails.designationId),
-      dateOfJoining: new FormControl(experienceDetails.dateOfJoining),
-      dateOfReliving: new FormControl(experienceDetails.dateOfReliving ),
-      workExperienceXrefs: new FormControl(experienceDetails.workExperienceXrefs),
-    });
-    return formGroup;
-  }
+  
   addexperienceDetails() {
     this.ShowexperienceDetails = true;
     this.faexperienceDetails = this.fbexperience.get('experienceDetails') as FormArray;
     if (this.faexperienceDetails.length >= 1) {
-      // const addexpRow = this.generaterow(this.workExperience.find(this.employeeId))
-      // this.faexperienceDetails.push(addexpRow);
-      // const employeeIdFromDetails = this.workExperience.length > 0 ? this.workExperience[0].employeeId : null;
-      const newexperienceRow = this.generaterow({
-        employeeId: this.employeeId, 
-        workExperienceId: null, 
-        isAfresher: false,
-        companyName: '',
-        companyLocation: '',
-        companyEmployeeId: '',
-        designationId: null,
-        dateOfJoining: null,
-        dateOfReliving: null,
-        countryId: null,
-        stateId: null,
-        workExperienceXrefs: [{ workExperienceXrefId: null, skillAreaId: null }]
+      // Loop through this.workExperience and create a new row for each entry
+      this.workExperience.forEach((experience: ExperienceDetailsDto) => {
+        if (experience && experience.employeeId) {
+          const newexperienceRow = this.generaterow({
+            employeeId: experience.employeeId,
+            workExperienceId: null,
+            isAfresher: false,
+            companyName: '',
+            companyLocation: '',
+            companyEmployeeId: '',
+            designationId: null,
+            dateOfJoining: null,
+            dateOfReliving: null,
+            countryId: null,
+            stateId: null,
+            workExperienceXrefs: [{ workExperienceXrefId: null, skillAreaId: null }]
+          });
+          this.faexperienceDetails.push(newexperienceRow);
+        }
       });
-      this.faexperienceDetails.push(newexperienceRow);
+      // Optionally, you can patch the employeeId for all rows
+      this.faexperienceDetails.controls.forEach((control, index) => {
+        if (this.workExperience[index] && this.workExperience[index].employeeId) {
+          control.get('employeeId')?.patchValue(this.workExperience[index].employeeId);
+        }
+      });
     }
   }
 
   faExperienceDetail(): FormArray {
     return this.fbexperience.get('experienceDetails') as FormArray
   }
-  // get ExpFormControls() {
-  //   return this.fbexperience.controls;
-  // }
+
   showExperienceDetails() {
     this.workExperience.forEach((experienceDetails: ExperienceDetailsDto) => {
       this.faexperienceDetail().push(this.generaterow(experienceDetails));
     })
     this.fbexperience.patchValue(this.workExperience)
-    console.log('workExperience details', this.workExperience)
     this.Experience = true;
   }
-
 
   faexperienceDetail(): FormArray {
     return this.fbexperience.get('experienceDetails') as FormArray;
   }
 
-  onSelectSkill(e) {
-     this.viewSelectedSkills = e.value
+  onSelectSkill(e, index) {
+    this.viewSelectedSkills = e.value
     let CurrentArray = e.value;
     console.log(CurrentArray)
     let updatedArray = [];
@@ -557,17 +557,25 @@ export class ViewemployeesComponent {
         skillAreaId: CurrentArray[i]
       })
     }
-    this.fbexperience.get('workExperienceXrefs')?.setValue(updatedArray);
+    const experienceDetailControl = this.fbexperience.get('experienceDetails') as FormArray;
+    const workExperienceXrefsControl = experienceDetailControl.at(index).get('workExperienceXrefs');
+
+    if (workExperienceXrefsControl) {
+      workExperienceXrefsControl.patchValue(updatedArray);
+    }
+    // this.fbexperience.controls['experienceDetails'].value[index].get('workExperienceXrefs')?.patchValue(updatedArray);
+  }
+
+  onCloseExp(){
+    this.Experience = false;
+    (this.fbexperience.get('experienceDetails') as FormArray).clear();
   }
 
   saveEmpExperienceDetails() {
-    debugger
-    this.employeeService.updateViewEmpExperienceDtls(this.fbexperience.get('workExperienceXrefs').value).subscribe((resp) => {
-      console.log(resp);
+    this.employeeService.updateViewEmpExperienceDtls(this.fbexperience.get('experienceDetails').value).subscribe((resp) => {
       if (resp) {
         this.initGetWorkExperience();
-        this.Experience = false;
-        this.fbexperience.reset();
+         this.onCloseExp();
         this.alertMessage.displayAlertMessage(ALERT_CODES["EVEEXP001"]);
       }
       else {
@@ -575,6 +583,9 @@ export class ViewemployeesComponent {
       }
     })
   }
+
+
+
 
   initUploadedDocuments() {
     this.employeeService.GetUploadedDocuments(this.employeeId).subscribe((resp) => {
@@ -679,15 +690,15 @@ export class ViewemployeesComponent {
   initCountry() {
     this.lookupService.Country().subscribe((resp) => {
       this.countries = resp as unknown as LookupViewDto[];
-      console.log( this.countries);
-      
+      console.log(this.countries);
+
     })
   }
   getStatesByCountryId(id: number) {
     this.lookupService.getStates(id).subscribe((resp) => {
       if (resp) {
-        this.states = resp as unknown as LookupViewDto[]; 
-      } 
+        this.states = resp as unknown as LookupViewDto[];
+      }
     })
   }
   // initCountries(): Promise<void> {
@@ -814,7 +825,7 @@ export class ViewemployeesComponent {
   }
 
   //UploadDocuments
-  
+
   onClick() {
     const fileUpload = this.fileUpload.nativeElement;
     fileUpload.onchange = () => {
@@ -832,13 +843,13 @@ export class ViewemployeesComponent {
       // If the form is valid, you can proceed with the code below
 
       // Reset the input field and mark the form as untouched
- 
-    
+
+
 
       this.fileUpload.nativeElement.reset();
       this.fileUpload.nativeElement.markAsUntouched();
       this.title = '';
-      
+
     }
   }
   removeItem(index: number): void {
