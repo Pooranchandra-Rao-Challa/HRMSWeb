@@ -25,7 +25,7 @@
                     </span>
                 </div>
                 <div class="field col-12 md:col-4">
-                    <label class="required">Enter Asset Category:</label>
+                    <label class="required">Asset Category:</label>
                     <p-dropdown id="asset-category" [options]="assetCategories" optionLabel="name" [filter]="true"
                         filterBy="name" placeholder="Select Asset Category" formControlName="assetCategoryId"
                         optionValue="lookupDetailId" appendTo="body"
@@ -38,7 +38,7 @@
                     </span>
                 </div>
                 <div class="field col-12 md:col-4">
-                    <label class="required">Enter Asset Type:</label>
+                    <label class="required">Asset Type:</label>
                     <p-dropdown id="asset-type" [options]="assetTypes" optionLabel="name" [filter]="true"
                         filterBy="name" placeholder="Select Asset Type" formControlName="assetTypeId"
                         optionValue="lookupDetailId" appendTo="body" (onChange)="getAssetsByAssetType($event.value)"
@@ -51,7 +51,7 @@
                     </span>
                 </div>
                 <div class="field col-12 md:col-4">
-                    <label class="required">Enter Asset Name:</label>
+                    <label class="required">Asset Name:</label>
                     <p-dropdown id="asset-name" [options]="assets" optionLabel="name" [filter]="true" filterBy="name"
                         placeholder="Select Asset Name" formControlName="assetId" optionValue="assetId" appendTo="body"
                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['assetId'].touched && FormControls['assetId'].errors }">
