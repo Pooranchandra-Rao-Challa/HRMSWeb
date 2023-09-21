@@ -458,6 +458,7 @@ export class ViewemployeesComponent {
 
   initExperience() {
       this.fbexperience = this.formbuilder.group({
+        workExperienceXrefs:  new FormControl([], [Validators.required]),
         experienceDetails: this.formbuilder.array([])
       });
    
@@ -494,7 +495,7 @@ export class ViewemployeesComponent {
       stateId: new FormControl( experienceDetails.stateId),
       designationId: new FormControl( experienceDetails.designationId),
       dateOfJoining: new FormControl(experienceDetails.dateOfJoining),
-      dateOfReliving: new FormControl( experienceDetails.dateOfReliving),
+      dateOfReliving: new FormControl(experienceDetails.dateOfReliving ),
       workExperienceXrefs: new FormControl(experienceDetails.workExperienceXrefs),
     });
     return formGroup;
@@ -523,6 +524,7 @@ export class ViewemployeesComponent {
       this.faexperienceDetails.push(newexperienceRow);
     }
   }
+
   faExperienceDetail(): FormArray {
     return this.fbexperience.get('experienceDetails') as FormArray
   }
@@ -560,8 +562,7 @@ export class ViewemployeesComponent {
 
   saveEmpExperienceDetails() {
     debugger
-    console.log(this.fbexperience.value);
-    this.employeeService.updateViewEmpExperienceDtls(this.fbexperience.get('experienceDetails').value).subscribe((resp) => {
+    this.employeeService.updateViewEmpExperienceDtls(this.fbexperience.get('workExperienceXrefs').value).subscribe((resp) => {
       console.log(resp);
       if (resp) {
         this.initGetWorkExperience();
