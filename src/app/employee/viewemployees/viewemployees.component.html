@@ -151,8 +151,8 @@
       <div class="grid">
         <div class="col-12 lg:col-4" *ngFor="let familyDetails of familyDetails; let i = index">
           <div class="card">
-            <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">
-              <button pButton pRipple icon="pi pi-pencil" class="p-element p-ripple p-button-text p-button p-component float-button position-relative" (click)="editFamilyDetails(i)"></button>{{familyDetails.employeeName}}
+            <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2 position-relative">
+              <button pButton pRipple icon="pi pi-pencil" class="p-element p-ripple p-button-text p-button p-component right-float-button" (click)="editFamilyDetails(i)"></button>{{familyDetails.employeeName}}
             </div>
             <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
               <li class="mb-3">
@@ -188,8 +188,8 @@
       <div class="grid">
         <div class="col-12 lg:col-4" *ngFor="let newadredss of address; let i = index">
           <div class="card">
-            <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">
-              <button pButton pRipple icon="pi pi-pencil" class="p-element p-ripple p-button-text p-button p-component float-button position-relative" (click)="editAddress(i)"></button> {{ newadredss.addressType }}
+            <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2 position-relative">
+              <button pButton pRipple icon="pi pi-pencil" class="p-element p-ripple p-button-text p-button p-component right-float-button" (click)="editAddress(i)"></button> {{ newadredss.addressType }}
             </div>
             {{ newadredss.employeeName }}, {{ newadredss.addressLine1 }}, {{ newadredss.city }},{{ newadredss.landmark }}, {{ newadredss.state }}
             {{ newadredss.zipCode }},{{ newadredss.country }}
@@ -205,8 +205,8 @@
     <!-- Upload Documents card view -->
     <p-tabPanel header="Upload Documents">
       <div class="grid">
-        <div class="col-12 text-right">
-          <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-text p-button p-component mr-2" (click)="showDocumentsDetails()">&nbsp; Upload Document </button>
+        <div class="col-12 text-right ">
+          <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-text p-button p-component mr-2 " (click)="showDocumentsDetails()">&nbsp; Upload Document </button>
         </div>
         <div class="col-12 ">
           <p-table [value]="UploadedDocuments" [tableStyle]="{ 'min-width': '50rem' }">
@@ -264,8 +264,8 @@
       <div class="grid">
         <div class="col-12 lg:col-4" *ngFor="let bank of bankDetails1; let i = index">
           <div class="card">
-            <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">
-              <button pButton pRipple icon="pi pi-pencil" class="p-element p-ripple p-button-text p-button p-component float-button position-relative" (click)="openComponentDialog(BankdetailsDialogComponent, null, ActionTypes.edit)"></button>{{bank.bankName}}
+            <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2 position-relative">
+              <button pButton pRipple icon="pi pi-pencil" class="p-element p-ripple p-button-text p-button p-component right-float-button" (click)="openComponentDialog(BankdetailsDialogComponent, null, ActionTypes.edit)"></button>{{bank.bankName}}
             </div>
             <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
               <li class="mb-2">
