@@ -54,6 +54,7 @@ export class ViewemployeesComponent {
   imageSize: any;
   selectedFileBase64: string | null = null; // To store the selected file as base64
   status: Status[];
+  mediumDate: string = MEDIUM_DATE;
   // employee office details
   fbOfficDtls!: FormGroup;
   employeeofficeDtls = new EmployeeOfficedetailsviewDto();
@@ -106,7 +107,6 @@ export class ViewemployeesComponent {
   images: string[] = [];
   selectedImageIndex: number = 0;
   quantity: number = 1;
-  // employees: Employee[] = [];
   genders: Gender[];
   shifts: Shift[];
   relationships: LookupViewDto[] = [];
@@ -124,7 +124,6 @@ export class ViewemployeesComponent {
   designation: LookupViewDto[] = [];
   employeeId: any;
   bloodgroups: LookupViewDto[] = [];
-  mediumDate: string = MEDIUM_DATE;
   ActionTypes = Actions;
   @ViewChild("fileUpload", { static: false }) fileUpload: ElementRef;
   files = [];
@@ -196,11 +195,7 @@ export class ViewemployeesComponent {
     private alertMessage: AlertmessageService,
     public ref: DynamicDialogRef,
     private dialogService: DialogService,
-  
-
-  ) {
-    
-   }
+  ) { }
 
   ngOnInit(): void {
     this.initdeasignation();
@@ -423,12 +418,19 @@ export class ViewemployeesComponent {
   addEducationDetails() {
     this.ShoweducationDetails = true;
     this.faeducationDetails = this.fbEducationDetails.get('educationDetails') as FormArray;
-    if (this.faeducationDetails.length >= 1) {
+    if(this.educationDetails){
+      if (this.faeducationDetails.length >=1) {
+        const employeeIdFromDetails = this.educationDetails.length > 0 ? this.educationDetails[0].employeeId : null;
+        const newEducationRow = this.generateEducationRow({ employeeId: employeeIdFromDetails });
+        this.faeducationDetails.push(newEducationRow);
+      }
+    }else{
       const employeeIdFromDetails = this.educationDetails.length > 0 ? this.educationDetails[0].employeeId : null;
       const newEducationRow = this.generateEducationRow({ employeeId: employeeIdFromDetails });
       this.faeducationDetails.push(newEducationRow);
     }
   }
+
 
   faeducationDetail(): FormArray {
     return this.fbEducationDetails.get('educationDetails') as FormArray;
@@ -458,9 +460,9 @@ export class ViewemployeesComponent {
     this.Education = false;
     (this.fbEducationDetails.get('educationDetails') as FormArray).clear();
   }
-  // Employee Work Experience
+   // Employee Work Experience
 
-  initExperience() {
+   initExperience() {
     this.fbexperience = this.formbuilder.group({
       experienceDetails: this.formbuilder.array([])
     });
@@ -479,6 +481,7 @@ export class ViewemployeesComponent {
       designationId: new FormControl(experienceDetails.designationId),
       dateOfJoining: new FormControl(experienceDetails.dateOfJoining ? new Date(experienceDetails.dateOfJoining) : null),
       dateOfReliving: new FormControl(experienceDetails.dateOfReliving ? new Date(experienceDetails.dateOfReliving) : null),
+      skillAreaIds:new FormControl(),
       workExperienceXrefs: new FormControl(experienceDetails.workExperienceXrefs),
     });
   }
@@ -486,7 +489,7 @@ export class ViewemployeesComponent {
   initGetWorkExperience() {
     this.employeeService.GetWorkExperience(this.employeeId).subscribe((resp) => {
       this.workExperience = resp as unknown as employeeExperienceDtlsViewDto[];
-      console.log(this.workExperience);
+      console.log('this.workExperience',this.workExperience);
       
     });
   }
@@ -502,38 +505,31 @@ export class ViewemployeesComponent {
       this.skillarea = resp as unknown as LookupViewDto[];
     })
   }
-
-
+ 
   addexperienceDetails() {
     this.ShowexperienceDetails = true;
     this.faexperienceDetails = this.fbexperience.get('experienceDetails') as FormArray;
-    if (this.faexperienceDetails.length >= 1) {
-      // Loop through this.workExperience and create a new row for each entry
-      this.workExperience.forEach((experience: ExperienceDetailsDto) => {
-        if (experience && experience.employeeId) {
-          const newexperienceRow = this.generaterow({
-            employeeId: experience.employeeId,
-            workExperienceId: null,
-            isAfresher: false,
-            companyName: '',
-            companyLocation: '',
-            companyEmployeeId: '',
-            designationId: null,
-            dateOfJoining: null,
-            dateOfReliving: null,
-            countryId: null,
-            stateId: null,
-            workExperienceXrefs: [{ workExperienceXrefId: null, skillAreaId: null }]
-          });
-          this.faexperienceDetails.push(newexperienceRow);
-        }
-      });
-      // Optionally, you can patch the employeeId for all rows
-      this.faexperienceDetails.controls.forEach((control, index) => {
-        if (this.workExperience[index] && this.workExperience[index].employeeId) {
-          control.get('employeeId')?.patchValue(this.workExperience[index].employeeId);
-        }
-      });
+    // Check if there are no rows already
+    if (this.faexperienceDetails.length) {
+      const experience = this.workExperience.find((exp) => exp && exp.employeeId);
+      if (experience) {
+        // Add a single row with the employee ID
+        const newexperienceRow = this.generaterow({
+          employeeId: experience.employeeId,
+          workExperienceId: null,
+          isAfresher: false,
+          companyName: '',
+          companyLocation: '',
+          companyEmployeeId: '',
+          designationId: null,
+          dateOfJoining: null,
+          dateOfReliving: null,
+          countryId: null,
+          stateId: null,
+          workExperienceXrefs: [{ workExperienceXrefId: null, skillAreaId: null }]
+        });
+        this.faexperienceDetails.push(newexperienceRow);
+      }
     }
   }
 
@@ -542,7 +538,7 @@ export class ViewemployeesComponent {
   }
 
   showExperienceDetails() {
-    this.workExperience.forEach((experienceDetails: ExperienceDetailsDto) => {
+    this.workExperience.forEach((experienceDetails : any) => {
       this.faexperienceDetail().push(this.generaterow(experienceDetails));
     })
     this.fbexperience.patchValue(this.workExperience)
@@ -553,7 +549,7 @@ export class ViewemployeesComponent {
     return this.fbexperience.get('experienceDetails') as FormArray;
   }
 
-  onSelectSkill(e) {
+  onSelectSkill(e, index) {
     this.viewSelectedSkills = e.value
     let CurrentArray = e.value;
     console.log(CurrentArray)
@@ -566,8 +562,7 @@ export class ViewemployeesComponent {
       })
     }
     const experienceDetailControl = this.fbexperience.get('experienceDetails') as FormArray;
-    const workExperienceXrefsControl = experienceDetailControl.at(e.index).get('workExperienceXrefs');
-
+    const workExperienceXrefsControl = experienceDetailControl.at(index).get('workExperienceXrefs');
     if (workExperienceXrefsControl) {
       workExperienceXrefsControl.patchValue(updatedArray);
     }
@@ -591,6 +586,7 @@ export class ViewemployeesComponent {
       }
     })
   }
+
 
 
 
