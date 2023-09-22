@@ -265,7 +265,7 @@
         <div class="col-12 lg:col-4" *ngFor="let bank of bankDetails1; let i = index">
           <div class="card">
             <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">
-              <button pButton pRipple icon="pi pi-pencil" class="p-element p-ripple p-button-text p-button p-component float-button position-relative" (click)="openComponentDialog(BankdetailsDialogComponent, null, ActionTypes.edit)"></button>{{bank.bankName}}
+              <button pButton pRipple icon="pi pi-pencil" class="p-element p-ripple p-button-text p-button p-component float-button position-relative" (click)="openComponentDialog(BankdetailsDialogComponent, bank, ActionTypes.edit)"></button>{{bank.bankName}}
             </div>
             <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
               <li class="mb-2">

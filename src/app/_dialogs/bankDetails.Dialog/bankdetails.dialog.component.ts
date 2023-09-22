@@ -22,31 +22,32 @@ export class BankdetailsDialogComponent {
 
 	fbBankDetails!: FormGroup;
 	bankDetails1: BankDetailViewDto[];
-	submitLabel: string;
-    employeeId: any
+    submitLabel: string;
+    label:string
+	employeeId: any
     ActionTypes = Actions;
-    maxLength: MaxLength = new MaxLength();
-    dialogRequest: DialogRequest = new DialogRequest();
-    BankdetailsDialogComponent = BankdetailsDialogComponent;
+    bankData:any
+	maxLength: MaxLength = new MaxLength();
+	dialogRequest: DialogRequest = new DialogRequest();
+	BankdetailsDialogComponent = BankdetailsDialogComponent;
 
 	constructor(private formbuilder: FormBuilder,
 		private alertMessage: AlertmessageService,
-        public ref: DynamicDialogRef,
-       private config: DynamicDialogConfig,  
+		public ref: DynamicDialogRef,
+		private config: DynamicDialogConfig,
 		private employeeService: EmployeeService,
-		private activatedRoute: ActivatedRoute,
-    ) {
-        console.log('this.config.data', this.config.data);
-     }
-	
-	ngOnInit() {
-        this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
-        this.initBankDetails();
-        this.bankDetailsForm();
-		
+        private activatedRoute: ActivatedRoute,
+       
+	) {
+		console.log('this.config.data', this.config.data);
 	}
 
-
+	ngOnInit() {
+		this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
+		this.initBankDetails();
+        this.bankDetailsForm();
+         this.bankData = this.config.data;
+	}
 
 	initBankDetails() {
 		this.employeeService.GetBankDetails(this.employeeId).subscribe((resp) => {
@@ -68,7 +69,22 @@ export class BankdetailsDialogComponent {
 	}
 	get FormControls() {
 		return this.fbBankDetails.controls;
-	}
+    }
+    
+    editBankDetails() {
+        const bank = this.config.data
+        console.log(bank);
+        this.fbBankDetails.patchValue({
+            bankId: bank.bankDetailId,
+            employeeId: bank.employeeId,
+            name: bank.bankName,
+            branchName: bank.branchName,
+            ifsc: bank.ifsc,
+            accountNumber: bank.accountNumber,
+            isActive: bank.isActive
+        });
+       this.label = "Update Bank Details";
+    }
 
 	saveBankDetails() {
 		this.employeeId = +this.activatedRoute.snapshot.queryParams['employeeId'];
@@ -80,12 +96,12 @@ export class BankdetailsDialogComponent {
 			if (resp) {
 				const alertCode = isUpdate ? "SMBD002" : "SMBD001";
 				this.alertMessage.displayAlertMessage(ALERT_CODES[alertCode]);
-                this.ref.close({
-           
-                    "UpdatedModal": BankDetails.Add
-                    
-                });
-               
+				this.ref.close({
+
+					"UpdatedModal": BankDetails.Add
+
+				});
+
 			}
 		});
 	}
@@ -96,5 +112,5 @@ export class BankdetailsDialogComponent {
 		}
 	}
 
-	
+
 }

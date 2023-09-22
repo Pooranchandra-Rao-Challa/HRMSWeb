@@ -636,26 +636,19 @@ export class ViewemployeesComponent {
   //   return this.fbBankDetails.controls;
   // }
 
-  editBankDetails(index: number) {
-    this.dialogRequest.dialogData = {
-      employeeId: this.employeeId,
-      action: this.ActionTypes.edit, // Set the action to edit
-      bankIndex: index // Store the index of the bank being edited
-    };
-    console.log('data',this.dialogRequest.dialogData);
-
-    const bank = this.bankDetails1[index];
-    this.fbBankDetails.patchValue({
-      bankId: bank.bankDetailId,
-      employeeId: bank.employeeId,
-      name: bank.bankName,
-      branchName: bank.branchName,
-      ifsc: bank.ifsc,
-      accountNumber: bank.accountNumber,
-      isActive: bank.isActive
-    });
-    this.submitLabel = "Update Bank Details";
-  }
+  // editBankDetails(index: number) {
+  //   const bank = this.bankDetails1[index];
+  //   this.fbBankDetails.patchValue({
+  //     bankId: bank.bankDetailId,
+  //     employeeId: bank.employeeId,
+  //     name: bank.bankName,
+  //     branchName: bank.branchName,
+  //     ifsc: bank.ifsc,
+  //     accountNumber: bank.accountNumber,
+  //     isActive: bank.isActive
+  //   });
+  //   this.submitLabel = "Update Bank Details";
+  // }
   // saveBankDetails() {
   //   this.employeeId = +this.activatedRoute.snapshot.queryParams['employeeId'];
   //   const { ...formValue } = this.fbBankDetails.value;
@@ -922,7 +915,7 @@ export class ViewemployeesComponent {
       
     else if (action == Actions.edit && content === this.BankdetailsDialogComponent) {
       this.dialogRequest.dialogData = dialogData;
-      this.dialogRequest.header = "Bank Details";
+      this.dialogRequest.header = "Edit Bank Details";
       this.dialogRequest.width = "40";
     }
       
