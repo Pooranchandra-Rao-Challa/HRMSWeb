@@ -149,7 +149,7 @@
                     <div class="field col-12 md:col-4">
                         <span class="p-float-label">
                             <p-dropdown id="gradingStystem_dropdown" [autoDisplayFirst]="false"
-                                [options]="gradingMethods" optionLabel="name" optionValue="lookupDetailId"
+                                [options]="gradingMethod" optionLabel="name" optionValue="lookupDetailId"
                                 formControlName="gradingMethodId"
                                 [ngClass]="{'is-invalid ng-dirty': FormControls['gradingMethodId'].touched && FormControls['gradingMethodId'].errors }">
                             </p-dropdown>
@@ -228,18 +228,17 @@
                         </span>
                         <span *ngIf="col?.field == 'stateId'">
                             {{educationData.state?educationData.state:educationData[col.field]}}
-                        </span>
+                          </span>
                         <span *ngIf="col?.field == 'streamId'">
                             {{educationData.stream?educationData.stream:educationData[col.field]}}
                         </span>
                         <span *ngIf="col?.field == 'passedOutyear'">
                             {{educationData[col.field] | date:mediumDate}}
-                        </span>
+                        </span> 
                         <span *ngIf="col?.field == 'gradingMethodId'">
                             {{educationData.gradingMethod?educationData.gradingMethod:educationData[col.field]}}
                         </span>
                     </td>
-
                 </tr>
             </ng-template>
         </p-table>

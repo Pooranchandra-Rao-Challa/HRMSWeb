@@ -236,8 +236,14 @@ p-calendar input {
     overflow-y: scroll;
 }
 
-.svg-chart-container {
-    width: 100%;
+.svg-chart-container{
+    width:100%;
+}
+
+.right-float-button{
+    position: absolute;
+    right: 0;
+
 }
 
 /* Fixed positioning for the footer - common dialog */

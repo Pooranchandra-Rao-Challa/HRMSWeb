@@ -22,6 +22,8 @@ import { MAX_LENGTH_20, MAX_LENGTH_50, MIN_LENGTH_2 } from 'src/app/_shared/rege
 
 export class ExperienceDetailsComponent {
   mediumDate: string = MEDIUM_DATE;
+  addexperiencedetailsshowForm: boolean = false;
+  ShowexperienceDetails: boolean = true;
   countries: LookupViewDto[]=[];
   states: LookupViewDto[] = [];
   designation: LookupViewDto[] = []
@@ -55,6 +57,7 @@ export class ExperienceDetailsComponent {
     this.experienceForm();
    
     this.selectedOption = 'Fresher';
+    if(this.employeeId)
     this.getEmpExperienceDetails();
   }
   fresherForm(){
@@ -161,6 +164,8 @@ export class ExperienceDetailsComponent {
         companyLocation: '',
         companyEmployeeId: null,
         stateId: '',
+        countryId:'',
+        skills:'',
         designationId: '',
         dateOfJoining: '',
         dateOfReliving: '',
@@ -169,8 +174,9 @@ export class ExperienceDetailsComponent {
       // Clear validation errors
       this.fbexperience.markAsPristine();
       this.fbexperience.markAsUntouched();
-
     }
+    this.addexperiencedetailsshowForm = !this.addexperiencedetailsshowForm;
+    this.ShowexperienceDetails = !this.ShowexperienceDetails;
   }
   faExperienceDetail(): FormArray {
     return this.fbexperience.get('experienceDetails') as FormArray
@@ -183,7 +189,7 @@ export class ExperienceDetailsComponent {
     let CurrentArray=e.value; 
     let  updatedArray=[];
     for (let i = 0; i < CurrentArray.length; i++) {
-       updatedArray.push({ workExperienceXrefId: 0, workExperienceId: 0, skillAreaId:CurrentArray[i].lookupDetailId  })
+       updatedArray.push({ workExperienceXrefId: 0, workExperienceId: 0, skillAreaId:CurrentArray[i]  })
        this.viewSelectedSkills.push(e.value.skillAreaNames)
     }
     this.fbexperience.get('workExperienceXrefs')?.setValue(updatedArray);
@@ -203,6 +209,8 @@ export class ExperienceDetailsComponent {
       dateOfReliving:FORMAT_DATE(new Date(experienceDetail.dateOfReliving))
     });
     this.getSkillAreas(experienceDetail.skillAreaIds)
+    this.addexperiencedetailsshowForm = !this.addexperiencedetailsshowForm;
+    this.ShowexperienceDetails = !this.ShowexperienceDetails;
   }
   getSkillAreas(skill){
     const selectedOptions = this.skills.filter(option => skill.includes(option.lookupDetails));
@@ -234,9 +242,8 @@ export class ExperienceDetailsComponent {
   getEmpExperienceDetails(){
     this.employeeService.GetWorkExperience(this.employeeId).subscribe((data) => {
       this.empExperienceDetails = data ;
-      console.log(this.empExperienceDetails)
       if(this.empExperienceDetails.length>0)
-      this.selectedOption = 'Experience';
+       this.selectedOption = 'Experience';
     })
   }
   navigateToPrev() {
@@ -245,5 +252,9 @@ export class ExperienceDetailsComponent {
 
   navigateToNext() {
     this.router.navigate(['employee/onboardingemployee/addressdetails',this.employeeId])
+  }
+  toggleTab() {
+    this.addexperiencedetailsshowForm = !this.addexperiencedetailsshowForm;
+    this.ShowexperienceDetails = !this.ShowexperienceDetails;
   }
 }
