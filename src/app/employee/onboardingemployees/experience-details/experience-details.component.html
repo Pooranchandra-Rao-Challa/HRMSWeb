@@ -1,7 +1,7 @@
 <p-toast key="tst"></p-toast>
 <div class="content_scroll" id="hrms">
     <div class="grid m-0 mt-3 p-0">
-        <div class=" flex justify-content-center p-1">
+        <div class="  p-1">
             <div class="flex flex-wrap gap-3">
                 <div class="flex align-items-center">
                     <p-radioButton name="experienceDetails" value="Fresher" [(ngModel)]="selectedOption"
@@ -16,14 +16,20 @@
                 </div>
             </div>
         </div>
-        <br>
+    </div>
+    <div class="grid m-0 mt-2 p-0">
         <div *ngIf="selectedOption=='Experience'">
-            <div>
+            <div class="col-12 text-right m-0 p-2 ">
+                <button pButton pRipple (click)="toggleTab()" class="mb-3"
+                >Add Experience Details</button>
+            </div>
+            <div *ngIf="addexperiencedetailsshowForm" class="fadeinup animation-duration-1000 p-1 pt-0">
+                
                 <form [formGroup]="fbexperience">
                     <div class="grid m-0 p-0">
-                        <div class="col-12 roles-container">
-                            <div class="p-fluid p-formgrid grid">
-                                <div class="field col-12  m-0 md:col-4">
+                        <div class="col-12 roles-container  m-0 p-0">
+                            <div class="p-fluid p-formgrid grid m-0 p-0">
+                                <div class="field col-12 md:col-4 m-0 p-2 px-2">
                                     <label>Company Name:<sup class="p-error">*</sup></label>&nbsp;
                                     <input pInputText id="Experience_companyname" type="text" #company
                                         formControlName="companyName"
@@ -49,7 +55,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="field col-12 md:col-4">
+                                <div class="field col-12 md:col-4 m-0 p-2 px-2">
                                     <label>Location:<sup class="p-error">*</sup></label>&nbsp;
                                     <input pInputText id="Experience_Location" type="text" #location
                                         formControlName="companyLocation"
@@ -76,7 +82,7 @@
                                     </div>
                                 </div>
 
-                                <div class="field col-12 md:col-4">
+                                <div class="field col-12 md:col-4 m-0 p-2 px-2">
                                     <label>Company EmpId:</label>&nbsp;
                                     <input pInputText id="Experience_EmpId" type="text" #empId
                                         formControlName="companyEmployeeId" placeholder="Enter Company Employee Id"
@@ -98,7 +104,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="field col-12 md:col-4">
+                                <div class="field col-12 md:col-4 m-0 p-2 px-2">
                                     <label>Country:<sup class="p-error">*</sup></label>&nbsp;
                                     <p-dropdown inputId="dropdown" id="Experience_stateId" [autoDisplayFirst]="false"
                                         placeholder="Select State"
@@ -117,7 +123,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="field col-12 md:col-4">
+                                <div class="field col-12 md:col-4 m-0 p-2 px-2">
                                     <label>State:<sup class="p-error">*</sup></label>&nbsp;
                                     <p-dropdown inputId="dropdown" id="Experience_stateId" [autoDisplayFirst]="false"
                                         placeholder="Select State"
@@ -136,7 +142,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="field col-12 md:col-4">
+                                <div class="field col-12 md:col-4 m-0 p-2 px-2">
                                     <label>Designation:<sup class="p-error">*</sup></label>&nbsp;
                                     <p-dropdown inputId="dropdown" id="Experience_designationId"
                                         [autoDisplayFirst]="false" formControlName="designationId"
@@ -156,7 +162,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="field col-12 md:col-4">
+                                <div class="field col-12 md:col-4 m-0 p-2 px-2">
                                     <label>SkillAreas:<sup class="p-error">*</sup></label>&nbsp;
                                     <p-multiSelect placeholder="Select SkillAreas" id="Experience_skillArea"
                                         [options]="skills" optionLabel="name" [filter]="true" filterBy="name"
@@ -171,8 +177,7 @@
                                         </ng-template>
                                     </p-multiSelect>
                                 </div>
-
-                                <div class="field col-12 md:col-4">
+                                <div class="field col-12 md:col-4 m-0 p-2 px-2">
                                     <label>Date of joining:<sup class="p-error">*</sup></label>&nbsp;
                                     <p-calendar [showIcon]="true" formControlName="dateOfJoining"
                                         id="Experience_dateOfJoining" appendTo="body"
@@ -190,7 +195,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="field col-12 md:col-4">
+                                <div class="field col-12 md:col-4 m-0 p-2 px-2">
                                     <label>Date of Reliving:<sup class="p-error">*</sup></label>&nbsp;
                                     <p-calendar [showIcon]="true" formControlName="dateOfReliving"
                                         id="Experience_dateOfReliving" appendTo="body"
@@ -209,7 +214,7 @@
                                     </div>
                                 </div>
 
-                                <div class=" col-12 md:col-4 pt-4">
+                                <div class=" col-12 md:col-4 pt-4 m-0 p-0 px-2">
                                     <div class=" button-container">
                                         <p-button type="button" label="Add Experience Details" id="Experience_addExp"
                                             [disabled]="fbexperience.invalid" (click)="addexperienceDetails()">
@@ -224,8 +229,8 @@
             </div>
         </div>
     </div>
-    <div class="col-12 scrolling_content" *ngIf="selectedOption=='Experience'">
-        <div class="col-12 scrolling_content">
+    <div class="col-12 scrolling_content m-0 p-1" *ngIf="selectedOption=='Experience'">
+        <div class="col-12 scrolling_content fadeinup animation-duration-1000 m-0 p-0" *ngIf="ShowexperienceDetails">
             <p-table #dt2 [value]="empExperienceDetails"  dataKey="id" [rows]="10" [rowHover]="true"
             [alwaysShowPaginator]="false" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
             [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
@@ -272,18 +277,18 @@
 </div>
 
 
-<div class="grid mt-5">
-    <div class="field col-4">
+<div class="grid mt-3">
+    <div class="field  col-4 m-0 p-1 px-3">
         <button p-button id="ExperiencetoEducation-Btn"
             class="p-element p-ripple p-button-primary p-button p-component w-100 text-right"
             (click)="navigateToPrev()">Educational Details</button>
     </div>
-    <div class=" col-4">
+    <div class=" col-4 m-0 p-1 px-3">
         <button p-button id="ExperienceSave-Btn" class="p-element p-ripple p-button-info p-button p-component w-100"
             (click)="onSubmit()">Save
             as Draft</button>
     </div>
-    <div class=" col-4">
+    <div class=" col-4 m-0 p-1 px-3">
         <button p-button id="ExperiencetoAddress-Btn"
             class="p-element p-ripple p-button-primary p-button p-component w-100" (click)="navigateToNext()">Address
             Details </button>

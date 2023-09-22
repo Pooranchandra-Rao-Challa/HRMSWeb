@@ -44,3 +44,9 @@ export enum AssetAllotment {
     View,
     Unassign
 }
+export enum BankDetails {
+  Add,
+  View,
+  Edit
+}
+
