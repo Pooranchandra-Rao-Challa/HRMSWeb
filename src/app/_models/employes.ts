@@ -306,6 +306,9 @@ export class employeeEducDtlsViewDto {
 	updatedBy?: string
 }
 export class employeeExperienceDtlsViewDto {
+  length() {
+    throw new Error('Method not implemented.')
+  }
 	workExperienceId?: number;
 	employeeId?: number;
 	isAFresher?: boolean;

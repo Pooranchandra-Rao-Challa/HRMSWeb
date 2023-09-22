@@ -9,9 +9,11 @@ import { AuthModule } from './auth/auth.module';
 import { AuthRoutingModule } from './auth/auth-routing.module';
 import { MessageService } from 'primeng/api';
 import { HRMSAPIInterceptor } from './_helpers/hrms.api.interceptor';
+import { ToastModule } from 'primeng/toast';
+
 @NgModule({
     declarations: [AppComponent],
-    imports: [AppRoutingModule, AppLayoutModule, EmployeeRoutingModule, AuthRoutingModule],
+    imports: [AppRoutingModule, AppLayoutModule, EmployeeRoutingModule, AuthRoutingModule, ToastModule],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: HRMSAPIInterceptor, multi: true },
         MessageService
