@@ -1,6 +1,11 @@
+<div class="text-right">
+    <button pButton pRipple (click)="toggleTab()" class="mb-3"
+    >Add Education Details</button>
+</div>
+
 <div class="content_scroll" id="hrms">
     <form [formGroup]="fbEducationDetails" autocomplete="off">
-        <div class="grid  m-0 mt-3 p-0">
+        <div p-overlayPanel class="fadeinup animation-duration-1000 grid  m-0 mt-3 p-0"  *ngIf="addeducationdetailsshowForm"  >
             <div class="col-12 roles-container">
                 <div class="p-fluid p-formgrid grid">
                     <div class="field col-12 md:col-4">
@@ -49,7 +54,7 @@
                     <div class="field col-12 md:col-4">
                         <span class="p-float-label">
                             <p-dropdown id="states_dropdown" [autoDisplayFirst]="false" optionLabel="name"
-                                [options]="states" optionValue="lookupDetailId" formControlName="stateId" 
+                                [options]="states" optionValue="lookupDetailId" formControlName="stateId"
                                 (onChange)="getStreamByCirculumId($event.value)"
                                 [ngClass]="{'is-invalid ng-dirty': FormControls['stateId'].touched && FormControls['stateId'].errors }">
                             </p-dropdown>
@@ -144,7 +149,7 @@
                     <div class="field col-12 md:col-4">
                         <span class="p-float-label">
                             <p-dropdown id="gradingStystem_dropdown" [autoDisplayFirst]="false"
-                                [options]="gradingMethods" optionLabel="name" optionValue="lookupDetailId"
+                                [options]="gradingMethod" optionLabel="name" optionValue="lookupDetailId"
                                 formControlName="gradingMethodId"
                                 [ngClass]="{'is-invalid ng-dirty': FormControls['gradingMethodId'].touched && FormControls['gradingMethodId'].errors }">
                             </p-dropdown>
@@ -190,53 +195,65 @@
         </div>
     </form>
     <!-- table -->
-    <div class="col-12 scrolling_content" *ngIf="ShoweducationDetails">
-        <p-table id="table" [value]="educationDetails" dataKey="id" [rows]="10" [rowHover]="true"
+    <div  class="col-12 scrolling_content fadeinup animation-duration-1000" *ngIf="ShoweducationDetails">
+        <p-table id="table" [value]="empEduDetails" dataKey="id" [rows]="10" [rowHover]="true"
             [alwaysShowPaginator]="false" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
             [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
             [showCurrentPageReport]="true" [autoLayout]="true" responsiveLayout="scroll"
             [rowsPerPageOptions]="[10,25,50]">
             <ng-template pTemplate="header">
                 <tr>
+                    <th class="col text-center">Actions</th>
                     <th *ngFor="let col of headers"
                         [ngClass]="col?.field == 'institutionName' || col?.field == 'authorityName' || col?.field == 'passedOutyear'  ||col?.field == 'circulumId'  ||  col?.field == 'streamId' ||col?.field == 'stateId'|| col?.field == 'gradingMethodId' ||col?.field == 'gradingValue' ? 'text-center' : ''">
                         {{col?.label}}
                     </th>
-                    <th *ngIf="this.educationDetails.length > 1"></th>
                 </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-educationData let-i="rowIndex">
+            <ng-template pTemplate="body" let-educationData let-educationDataIndex="rowIndex">
                 <tr>
+                    <td>
+                        <button pButton pRipple icon="pi pi-pencil" (click)="editEducationDetails(educationData)"
+                            class="p-element p-ripple p-button-text p-button p-component mr-3 p-0 ">
+                        </button>
+                        <button pButton pRipple icon="pi pi-trash" id="educationDetailsRemove-Btn"
+                            class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
+                            (click)="removeRow(educationDataIndex)"></button>
+                    </td>
                     <td *ngFor="let col of headers"
                         [ngClass]="col?.field == 'institutionName' || col?.field == 'authorityName'  ||col?.field == 'passedOutyear'  ||  col?.field == 'circulumId'  || col?.field == 'streamId'||col?.field == 'stateId'|| col?.field == 'gradingMethodId' ||col?.field == 'gradingValue' ? 'text-center' : ''">
                         <span
-                            *ngIf="col?.field == 'institutionName'  ||col?.field == 'authorityName'  ||  col?.field == 'gradingValue' || col?.field == 'streamId' || col?.field == 'stateId' || col?.field == 'gradingMethodId'">
+                            *ngIf="col?.field == 'institutionName'  ||col?.field == 'authorityName'  ||  col?.field == 'gradingValue'  ">
                             {{educationData[col.field]}}
+                        </span>
+                        <span *ngIf="col?.field == 'stateId'">
+                            {{educationData.state?educationData.state:educationData[col.field]}}
+                          </span>
+                        <span *ngIf="col?.field == 'streamId'">
+                            {{educationData.stream?educationData.stream:educationData[col.field]}}
                         </span>
                         <span *ngIf="col?.field == 'passedOutyear'">
                             {{educationData[col.field] | date:mediumDate}}
+                        </span> 
+                        <span *ngIf="col?.field == 'gradingMethodId'">
+                            {{educationData.gradingMethod?educationData.gradingMethod:educationData[col.field]}}
                         </span>
-                    </td>
-                    <td *ngIf="educationDetails.length > 1">
-                        <p-button icon="pi pi-times" (click)="removeRow(i)" id="AddressDetailsRemove-Btn"
-                            styleClass="p-button-rounded p-button-danger p-button-text p-button-raised">
-                        </p-button>
                     </td>
                 </tr>
             </ng-template>
         </p-table>
     </div>
 </div>
-<div class="grid mt-5">
-    <div class="field col-4">
+<div class="grid mt-2">
+    <div class="field col-4 m-0 p-1 px-3">
         <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100 text-right"
             (click)="navigateToPrev()">Personal Details</button>
     </div>
-    <div class=" col-4">
+    <div class=" col-4  m-0 p-1 px-3">
         <button p-button class="p-element p-ripple p-button-info p-button p-component w-100"
-            [disabled]="this.educationDetails.length == 0" (click)="onSubmit()">Save as Draft</button>
+            [disabled]="this.empEduDetails.length == 0" (click)="onSubmit()">Save as Draft</button>
     </div>
-    <div class=" col-4">
+    <div class=" col-4  m-0 p-1 px-3">
         <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100"
             (click)="navigateToNext()">Experience Details </button>
     </div>

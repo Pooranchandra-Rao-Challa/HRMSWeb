@@ -52,7 +52,7 @@ removeItem(index: number): void {
 uploadFile(file) {
   const formData = new FormData();
   formData.set(file.title, file.data, file.data.name);
-  this.employeeService.CreateUploadDocuments(formData).subscribe(resp => {
+  this.employeeService.UploadDocuments(formData).subscribe(resp => {
     if (resp) {
       this.alertMessage.displayAlertMessage(ALERT_CODES["EAD002"]);
     }

@@ -27,16 +27,12 @@ export class AddassetallotmentDialogComponent {
     maxDate: Date = new Date();
     employeesDropdown: EmployeesList[] = [];
 
-
     constructor(private formbuilder: FormBuilder,
         private adminService: AdminService,
         private lookupService: LookupService,
         private alertMessage: AlertmessageService,
         public ref: DynamicDialogRef,
-        private config: DynamicDialogConfig) {
-            console.log(this.config.data.employeeId);
-
-         }
+        private config: DynamicDialogConfig) { }
 
     ngOnInit() {
         this.initEmployees();
@@ -71,7 +67,10 @@ export class AddassetallotmentDialogComponent {
 
     assetAllotmentForm() {
         this.fbAssetAllotment = this.formbuilder.group({
-            employeeId: new FormControl(this.config.data.employeeId ? this.config.data.employeeId : null),
+            employeeId: new FormControl({
+                value: this.config.data.employeeId ? this.config.data.employeeId : null,
+                disabled: this.config.data.employeeId ? true : false
+            }),
             assetCategoryId: new FormControl('', [Validators.required]),
             assetTypeId: new FormControl('', [Validators.required]),
             assetId: new FormControl('', [Validators.required]),

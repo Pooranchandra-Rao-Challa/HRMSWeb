@@ -1,8 +1,14 @@
 <p-toast key="tst"></p-toast>
+<div class="col-12 text-right m-0 p-2 ">
+    <button pButton pRipple  class="mb-3" (click)="toggleTab()"
+    
+    >Add Family  Details</button>
+</div>
+<div class="content_scroll" id="hrms">
 <form [formGroup]="fbfamilyDetails">
-    <div class="grid mt-3">
-        <div class="col-12 roles-container">
-            <div class="p-fluid p-formgrid grid">
+    <div class="grid mt-3 fadeinup animation-duration-1000 p-0 m-0 pt-0" *ngIf="addfamilydetailsshowForm">
+        <div class="col-12 roles-container m-0 p-0">
+            <div class="p-fluid p-formgrid grid m-0 p-0">
                 <div class="field col-12 md:col-4">
                     <span class="p-float-label">
                         <input type="text" id="inputtext" pInputText formControlName="name" #name [maxlength]="20"
@@ -155,25 +161,35 @@
     </div>
 </form>
 
-<div class="col-12 scrolling_content" *ngIf="showFamilyDetails">
-    <p-table id="table" [value]="familyDetails" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
+
+<div class="col-12 scrolling_content fadeinup animation-duration-1000 p-1 pt-0" *ngIf="showFamilyDetails">
+    <p-table id="table" [value]="empFamDetails" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
         styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true"
         [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]">
         <ng-template pTemplate="header">
             <tr>
+                <th class="col text-center">Actions</th>
                 <th *ngFor="let col of headers"
                     [ngClass]="col?.field == 'isNominee' || col?.field == 'dob' || col?.field == 'name'  ||col?.field == 'adhaarNo'  ||  col?.field == 'panno'  || col?.field == 'mobileNumber'||col?.field == 'relationshipId'|| col?.field == 'addressId' ? 'text-center' : ''">
                     {{col?.label}}
                 </th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-familyData>
+        <ng-template pTemplate="body" let-familyData let-educationDataIndex="rowIndex">
             <tr>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" (click)="editAddressDetails(familyData)"
+                        class="p-element p-ripple p-button-text p-button p-component mr-3 p-0 ">
+                    </button>
+                    <button pButton pRipple icon="pi pi-trash" id="educationDetailsRemove-Btn"
+                        class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
+                        (click)="removeRow(educationDataIndex)"></button>
+                </td>
                 <td *ngFor="let col of headers"
                     [ngClass]="col?.field == 'isNominee' || col?.field == 'name'  ||col?.field == 'adhaarNo'  ||  col?.field == 'panno'  || col?.field == 'mobileNumber'||col?.field == 'relationshipId'|| col?.field == 'addressId' ? 'text-center' : ''">
                     <span
-                        *ngIf="col?.field == 'name'  ||col?.field == 'adhaarNo'  ||  col?.field == 'panno'  || col?.field == 'mobileNumber' || col?.field == 'relationshipId' || col?.field == 'addressId'">
+                        *ngIf="col?.field == 'name'  ||col?.field == 'adhaarNo'  ||  col?.field == 'panNo'  || col?.field == 'mobileNumber' || col?.field == 'relationshipId' || col?.field == 'addressId'">
                         {{familyData[col.field]}}
                     </span>
                     <span *ngIf="col?.field == 'dob' ">
@@ -189,16 +205,17 @@
         </ng-template>
     </p-table>
 </div>
-<div class="grid mt-5">
-    <div class="field col-4">
+</div>
+<div class="grid mt-2">
+    <div class="field col-4 m-0 p-1 px-3">
         <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100 text-right"
             (click)="navigateToPrev()">Upload Documents</button>
     </div>
-    <div class=" col-4">
+    <div class=" col-4 m-0 p-1 px-3">
         <button p-button class="p-element p-ripple p-button-info p-button p-component w-100"
-            [disabled]="this.familyDetails.length == 0" (click)="onSubmit()">Save as Draft</button>
+            [disabled]="this.empFamDetails.length == 0" (click)="onSubmit()">Save as Draft</button>
     </div>
-    <div class=" col-4">
+    <div class=" col-4 m-0 p-1 px-3">
         <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100"
             (click)="navigateToNext()">Bank Details </button>
     </div>

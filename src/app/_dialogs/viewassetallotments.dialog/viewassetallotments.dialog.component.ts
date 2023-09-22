@@ -42,7 +42,9 @@ export class ViewAssetAllotmentsDialogComponent {
             this.dialogRequest.width = "40%";
         }
         else if (action == Actions.add && content === this.addassetallotmentDialogComponent) {
-            this.dialogRequest.dialogData = this.config.data.employeeId;
+            this.dialogRequest.dialogData = {
+                employeeId: this.config.data.employeeId
+            }
             this.dialogRequest.header = "Asset Allotment";
             this.dialogRequest.width = "70%";
         }

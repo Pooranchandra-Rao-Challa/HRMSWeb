@@ -43,6 +43,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { FileUploadModule } from 'primeng/fileupload';
 import {OrganizationChartModule} from 'primeng/organizationchart';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import {OverlayPanelModule} from 'primeng/overlaypanel';
 
 @NgModule({
     exports: [
@@ -88,7 +89,8 @@ import { DynamicDialogModule } from 'primeng/dynamicdialog';
         TooltipModule,
         ConfirmDialogModule,FileUploadModule,
         OrganizationChartModule,
-        DynamicDialogModule
+        DynamicDialogModule,
+        OverlayPanelModule
     ]
 
 })
