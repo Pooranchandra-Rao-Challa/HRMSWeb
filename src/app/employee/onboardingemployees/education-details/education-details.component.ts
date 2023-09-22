@@ -28,7 +28,7 @@ export class EducationDetailsComponent implements OnInit {
   states: LookupDetailsDto[] = [];
   circulum: LookupDetailsDto[] = [];
   stream: LookupDetailsDto[] = [];
-  gradingMethods: LookupDetailsDto[] = [];
+  gradingMethod: LookupDetailsDto[] = [];
   mediumDate: string = MEDIUM_DATE;
   addFlag: boolean = true;
   circulums: LookupDetailsDto = new LookupDetailsDto();
@@ -85,7 +85,7 @@ export class EducationDetailsComponent implements OnInit {
   }
   initGrading() {
     this.lookupService.GradingMethods().subscribe((resp) => {
-      this.gradingMethods = resp as unknown as LookupDetailsDto[];
+      this.gradingMethod = resp as unknown as LookupDetailsDto[];
     });
   }
   initCountry() {
@@ -114,10 +114,10 @@ export class EducationDetailsComponent implements OnInit {
       for (let item of this.fbEducationDetails.get('educationDetails').value) {
         let stateName =this.states.filter(x => x.lookupDetailId == item.stateId);
         item.state = stateName[0].name
-        let streamName =this.stream.filter(x => x.lookupDetailId == item.streamId);
+       let streamName =this.stream.filter(x => x.lookupDetailId == item.streamId);
         item.stream = streamName[0].name
-        let gradeName =this.gradingMethods.filter(x => x.lookupDetailId == item.gradingMethodId);
-        item.gradingMethods = gradeName[0].name
+        let gradeName =this.gradingMethod.filter(x => x.lookupDetailId == item.gradingMethodId);
+        item.gradingMethod = gradeName[0].name;
         this.empEduDetails.push(item)
       }
       this.clearForm();

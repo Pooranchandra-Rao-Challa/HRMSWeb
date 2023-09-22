@@ -1,5 +1,4 @@
 <!-- P-Dialog for Assigned Assets -->
-<p-toast key="tst"></p-toast>
 
 <div class="flex flex-column align-items-center justify-content-center">
     <form [formGroup]="fbAssetAllotment">
@@ -78,10 +77,7 @@
     </form>
 </div>
 
-
-<div class="footer" >
-    <div style="float:right">
-        <button pButton pRipple type="submit" label="Assign Asset" class="p-button-raised p-button-primary"
-            [disabled]="fbAssetAllotment.invalid" (click)="onSubmitAsset()"></button>
-    </div>
+<div class="dialog-footer">
+    <button pButton pRipple type="submit" label="Assign Asset" class="p-button-raised p-button-primary"
+        [disabled]="fbAssetAllotment.invalid" (click)="onSubmitAsset()"></button>
 </div>

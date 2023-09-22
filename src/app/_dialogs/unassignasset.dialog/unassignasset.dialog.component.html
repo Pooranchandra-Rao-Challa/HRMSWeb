@@ -6,8 +6,8 @@
             <div class="p-fluid p-formgrid grid">
                 <div class="field col-12 md:col-6">
                     <label class="required">Revoked On:</label>
-                    <p-calendar id="revoked-on" [readonlyInput]="true" [showIcon]="true" placeholder="Select Revoked Date"
-                        formControlName="revokedOn" appendTo="body"
+                    <p-calendar id="revoked-on" [readonlyInput]="true" [showIcon]="true"
+                        placeholder="Select Revoked Date" formControlName="revokedOn" appendTo="body"
                         [ngClass]="{ 'is-invalid ng-dirty': fcUnAssignAsset['revokedOn'].touched && fcUnAssignAsset['revokedOn'].errors }">
                     </p-calendar>
                     <span *ngIf="fcUnAssignAsset['revokedOn'].touched && fcUnAssignAsset['revokedOn'].invalid">
@@ -45,9 +45,7 @@
     </form>
 </div>
 
-<div class="footer">
-    <div style="float:right">
-        <button pButton pRipple type="submit" label="Submit" class="p-button-raised p-button-primary"
-            [disabled]="fbUnAssignAsset.invalid" (click)="onSubmitUnAssignedAsset()"></button>
-    </div>
+<div class="dialog-footer">
+    <button pButton pRipple type="submit" label="Submit" class="p-button-raised p-button-primary"
+        [disabled]="fbUnAssignAsset.invalid" (click)="onSubmitUnAssignedAsset()"></button>
 </div>

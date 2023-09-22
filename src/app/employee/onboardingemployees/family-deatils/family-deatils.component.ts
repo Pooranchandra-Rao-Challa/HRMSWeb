@@ -26,6 +26,7 @@ export class FamilyDeatilsComponent implements OnInit {
   relationshipStatus: General[] | undefined;
   fbfamilyDetails: FormGroup;
   showFamilyDetails: boolean = true;
+  addfamilydetailsshowForm: boolean = false;
   submitLabel: string;
   employeeId: any;
   maxLength: MaxLength = new MaxLength();
@@ -142,6 +143,8 @@ export class FamilyDeatilsComponent implements OnInit {
       mobileNumber: familyDetails.mobileNumber,
       isNominee:familyDetails.isNominee,
     })
+    this.addfamilydetailsshowForm = !this.addfamilydetailsshowForm;
+    this.showFamilyDetails = !this.showFamilyDetails;
   }
   restrictSpaces(event: KeyboardEvent) {
     if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {
@@ -173,6 +176,8 @@ export class FamilyDeatilsComponent implements OnInit {
       }
       this.navigateToNext();
     })
+    this.addfamilydetailsshowForm = !this.addfamilydetailsshowForm;
+    this.showFamilyDetails = !this.showFamilyDetails;
 
   }
   navigateToPrev() {
@@ -183,5 +188,8 @@ export class FamilyDeatilsComponent implements OnInit {
     this.router.navigate(['employee/onboardingemployee/bankdetails', this.employeeId])
   }
 
-
+  toggleTab() {
+    this.addfamilydetailsshowForm = !this.addfamilydetailsshowForm;
+    this.showFamilyDetails = !this.showFamilyDetails;
+  }
 }

@@ -1,6 +1,4 @@
 <div class="grid">
-    <p-toast key="tst"></p-toast>
-
     <div class="col-12">
         <div class="card">
             <p-dataView #dv [value]="employeesForAllottedAssets" [paginator]="dv._layout == 'grid' ? true : false"
@@ -26,7 +24,7 @@
                         <p-table #dtEmployees [value]="employeesForAllottedAssets" dataKey="id" [rows]="10"
                             [rowHover]="true" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm  pb-5"
                             [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                            [showCurrentPageReport]="true" [alwaysShowPaginator]="false" [globalFilterFields]="globalFilterFields" columnResizeMode='fit' 
+                            [showCurrentPageReport]="true" [alwaysShowPaginator]="false" [globalFilterFields]="globalFilterFields" columnResizeMode='fit'
                             [rowsPerPageOptions]="[10,25,50]" [style]="{width: '-webkit-fill-available !important'}">
                             <ng-template pTemplate="caption">
                                 <div class="flex justify-content-between flex-column sm:flex-row">
@@ -60,7 +58,12 @@
                                             class="my-4 md:my-0 w-10 md:w-10rem shadow-2 mr-2" />
                                     </td>
                                     <td *ngFor="let col of headers">
-                                        <span>{{employee[col.field]}}</span>
+                                        <span *ngIf="col?.field != 'certificateDOB' && col?.field != 'dateofJoin'">
+                                            {{employee[col.field]}}
+                                          </span>
+                                        <span *ngIf="col?.field == 'certificateDOB' || col?.field == 'dateofJoin'">
+                                            {{employee[col.field] | date:mediumDate}}
+                                          </span>
                                     </td>
                                     <td>
                                         <button id="view-btn" pbutton="" pripple="" type="button" label="Primary"
@@ -96,6 +99,11 @@
                                         [alt]="employee.employeeName"
                                         class="shadow-2 my-1 mx-0 employee_profile_pic zoomable-img"
                                         style="width: 70%;" />
+                                        <span class="text-500 font-medium text-md">
+                                            <i class="pi pi-users text-600 text-primary text-1xl  pb-2"></i> :
+                                            {{employee.gender}}
+                                          </span>
+                                          <br />
                                 </div>
                                 <div class="col-8 p-1 px-2 employee_info">
                                     <div class="text-xl font-bold">{{ employee?.employeeName }}</div>
@@ -104,6 +112,21 @@
                                         :{{employee?.code}}
                                     </span>
                                     <br />
+                                    <span class="text-600 font-medium text-md">
+                                        <i class="pi pi-calendar text-300 text-primary text-1xl  pb-1"></i> :
+                                        {{employee.certificateDOB| date: mediumDate}}
+                                      </span>
+                                      <br />
+                                      <span class="text-600 font-medium text-md">
+                                        <i class="pi pi-star text-500 text-primary text-1xl  pb-1"></i> :
+                                        {{employee.employeeRoleName }}
+                                      </span>
+                                      <br />
+                                      <span class="text-600 font-medium text-md">
+                                        <i class="pi pi-calendar text-500 text-primary text-1xl pb-1"> DOJ </i> :
+                                        {{employee.dateofJoin | date: mediumDate}}
+                                      </span>
+                                      <br />
                                     <span class="text-600 font-medium text-md">
                                         <i class="pi pi-star text-500 text-primary text-1xl  pb-1"></i> :
                                         {{employee?.designation}}
