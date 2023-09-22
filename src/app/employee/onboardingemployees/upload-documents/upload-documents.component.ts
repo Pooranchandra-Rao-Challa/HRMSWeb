@@ -31,8 +31,8 @@ export class UploadDocumentsComponent {
       employeeId: this.employeeId,
       uploadDocumentId: [null],
       title: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_20)]),
-      fileName: new FormControl('', [Validators.required]),
-      uploadedFiles: new FormControl('', [Validators.required]),
+      fileName: new FormControl(),
+      uploadedFiles: new FormControl(),
       uploadDocuments: this.formbuilder.array([])
     })
   }
@@ -51,16 +51,21 @@ export class UploadDocumentsComponent {
   onClick() {
     const fileUpload = this.fileUpload.nativeElement;
     fileUpload.onchange = () => {
-      if (this.uploadedFiles.length < 5) {
-        for (let index = 0; index < fileUpload.files.length; index++) {
-          const file = fileUpload.files[index];
-          this.faupload().push(this.generaterow(file));
+      if(this.uploadedFiles.length < 5 ) {
+        if(this.fbUpload.valid){
+          for (let index = 0; index < fileUpload.files.length; index++) {
+            const file = fileUpload.files[index];
+            this.faupload().push(this.generaterow(file));
+          }
+          this.uploadedFiles=[]
+          for (let item of this.fbUpload.get('uploadDocuments').value) {
+            this.uploadedFiles.push(item)
+         }
+         this.clearForm();
         }
-        this.uploadedFiles=[]
-        for (let item of this.fbUpload.get('uploadDocuments').value) {
-          this.uploadedFiles.push(item)
-       }
-       this.clearForm();
+        else{
+          this.fbUpload.markAllAsTouched();
+        }
       }
       else {
         this.alertMessage.displayErrorMessage(ALERT_CODES["EAD001"]);

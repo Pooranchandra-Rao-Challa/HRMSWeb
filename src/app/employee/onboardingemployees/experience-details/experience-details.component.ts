@@ -157,8 +157,14 @@ export class ExperienceDetailsComponent {
         // Push current values into the FormArray
         this.faExperienceDetail().push(this.generaterow(this.fbexperience.getRawValue()));
 
-        for (let item of this.fbexperience.get('experienceDetails').value)
+        for (let item of this.fbexperience.get('experienceDetails').value) {
+          let stateName = this.states.filter(x => x.lookupDetailId == item.stateId);
+          item.state = stateName[0].name
+          let designation = this.designation.filter(x => x.lookupDetailId == item.designationId);
+          item.designation = designation[0].name
           this.empExperienceDetails.push(item)
+        }
+
         // Reset form controls for the next entry
         this.fbexperience.patchValue({
           employeeId: this.employeeId,
@@ -194,11 +200,11 @@ export class ExperienceDetailsComponent {
     let CurrentArray = e.value;
     let updatedArray = [];
     for (let i = 0; i < CurrentArray.length; i++) {
-      updatedArray.push({ workExperienceXrefId: 0, workExperienceId: 0, skillAreaId: CurrentArray[i].lookupDetailId })
+      updatedArray.push({ workExperienceXrefId: 0, workExperienceId: 0, skillAreaId: CurrentArray[i] })
     }
     for (let item of e.value)
       this.skills.forEach(each => {
-        if (each.lookupDetailId == item.lookupDetailId) {
+        if (each.lookupDetailId == item) {
           this.viewSelectedSkills.push(each.name);
         }
       });
@@ -206,7 +212,7 @@ export class ExperienceDetailsComponent {
   }
   editForm(experienceDetail) {
     this.addFlag = false;
-    const skillAreaIdsArray = experienceDetail.skillAreaIds ? experienceDetail.skillAreaIds.split(',').map(Number) : [];
+    const skillAreaIdsArray = experienceDetail.skillAreaId ? experienceDetail.skillAreaId.split(',').map(Number) : [];
     this.getStatesByCountryId(experienceDetail.countryId)
     this.fbexperience.patchValue({
       employeeId: experienceDetail.employeeId,
@@ -217,7 +223,6 @@ export class ExperienceDetailsComponent {
       stateId: experienceDetail.stateId,
       countryId: experienceDetail.countryId,
       designationId: experienceDetail.designationId,
-      skills: experienceDetail.skillAreaIds,
       dateOfJoining: FORMAT_DATE(new Date(experienceDetail.dateOfJoining)),
       dateOfReliving: FORMAT_DATE(new Date(experienceDetail.dateOfReliving))
     });

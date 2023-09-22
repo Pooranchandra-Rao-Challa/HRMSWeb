@@ -948,7 +948,7 @@
               <span class="p-float-label">
                 <p-dropdown inputId="dropdown" id="Address_state" [autoDisplayFirst]="false"
                   [ngClass]="{ 'is-invalid ng-dirty': FormControls['stateId'].touched && FormControls['stateId'].errors }"
-                  formControlName="stateId" [options]="states" optionValue="lookupDetailId" optionLabel="name"></p-dropdown>
+                  formControlName="stateId" [options]="states"  appendTo="body" optionValue="lookupDetailId" optionLabel="name"></p-dropdown>
                 <label for="dropdown">State<sup class="p-error">*</sup></label>
               </span>
               <div class="flex">
