@@ -27,7 +27,6 @@ export class BankDetailsComponent {
         this.route.params.subscribe(params => {
             this.employeeId = params['employeeId'];
         });
-        console.log(this.employeeId)
         this.bankDetailsForm();
     }
     bankDetailsForm() {

@@ -116,7 +116,6 @@ export class ExperienceDetailsComponent {
   initDesignations() {
     this.lookupService.GetDesignation().subscribe((resp) => {
       this.designation = resp as unknown as LookupDetailsDto[];
-      console.log(this.designation)
     })
   }
   generaterow(experienceDetails: ExperienceDetailsDto = new ExperienceDetailsDto()): FormGroup {
@@ -255,7 +254,6 @@ export class ExperienceDetailsComponent {
   getEmpExperienceDetails() {
     this.employeeService.GetWorkExperience(this.employeeId).subscribe((data) => {
       this.empExperienceDetails = data;
-      console.log(this.empExperienceDetails)
       if (this.empExperienceDetails.length > 0)
         this.selectedOption = 'Experience';
     })

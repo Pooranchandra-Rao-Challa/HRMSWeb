@@ -112,11 +112,11 @@ export class EducationDetailsComponent implements OnInit {
     if (eduDetailId == null) {
       this.faEducationDetail().push(this.generaterow(this.fbEducationDetails.getRawValue()));
       for (let item of this.fbEducationDetails.get('educationDetails').value) {
-        let stateName =this.states.filter(x => x.lookupDetailId == item.stateId);
+        let stateName = this.states.filter(x => x.lookupDetailId == item.stateId);
         item.state = stateName[0].name
-       let streamName =this.stream.filter(x => x.lookupDetailId == item.streamId);
+        let streamName = this.stream.filter(x => x.lookupDetailId == item.streamId);
         item.stream = streamName[0].name
-        let gradeName =this.gradingMethod.filter(x => x.lookupDetailId == item.gradingMethodId);
+        let gradeName = this.gradingMethod.filter(x => x.lookupDetailId == item.gradingMethodId);
         item.gradingMethod = gradeName[0].name;
         this.empEduDetails.push(item)
       }
@@ -124,7 +124,7 @@ export class EducationDetailsComponent implements OnInit {
       this.addFlag = true;
     }
     else {
-      this.addFlag= false;
+      this.addFlag = false;
       this.onSubmit();
     }
     this.addeducationdetailsshowForm = !this.addeducationdetailsshowForm;
@@ -133,7 +133,6 @@ export class EducationDetailsComponent implements OnInit {
   getEmpEducaitonDetails() {
     return this.employeeService.GetEducationDetails(this.employeeId).subscribe((data) => {
       this.empEduDetails = data as unknown as EducationDetailsDto[];
-          console.log(data)
     })
   }
   faEducationDetail(): FormArray {

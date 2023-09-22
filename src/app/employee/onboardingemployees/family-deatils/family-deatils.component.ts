@@ -33,7 +33,6 @@ export class FamilyDeatilsComponent implements OnInit {
   relationships: LookupDetailsDto[] = [];
   address: EmployeAdressViewDto[] = [];
   employee: number;
-  ShowfamilyDetails: boolean = false;
   mediumDate: string = MEDIUM_DATE;
   addFlag: boolean = true;
   empFamDetails: FamilyDetailsDto[] = [];
@@ -88,7 +87,6 @@ export class FamilyDeatilsComponent implements OnInit {
   initAddress() {
     this.employeeService.GetAddress(this.employeeId).subscribe((resp) => {
       this.address = resp as unknown as EmployeAdressViewDto[];
-      console.log(resp);
     });
   }
   get FormControls() {
@@ -97,7 +95,6 @@ export class FamilyDeatilsComponent implements OnInit {
   getFamilyDetails() {
     return this.employeeService.getFamilyDetails(this.employeeId).subscribe((data) => {
       this.empFamDetails = data as unknown as FamilyDetailsDto[];
-      console.log(data)
     })
   }
   addFamilyMembers() {
@@ -105,14 +102,15 @@ export class FamilyDeatilsComponent implements OnInit {
     if (famDetailId == null) {
       this.faFamilyDetail().push(this.generaterow(this.fbfamilyDetails.getRawValue()));
       for (let item of this.fbfamilyDetails.get('familyDetails').value) {
-        console.log(item)
         let relationShipName = this.relationships.filter(x => x.lookupDetailId == item.relationshipId);
         item.relationship = relationShipName[0].name
         let addressName = this.address.filter(x => x.addressId == item.addressId);
         item.addressLine1 = addressName[0].addressLine1
+        item.addressLine2 = addressName[0].addressLine2
+        item.zipCode = addressName[0].zipCode
         item.city = addressName[0].city
-        item.state =addressName[0].state
-        item.country =addressName[0].country
+        item.state = addressName[0].state
+        item.country = addressName[0].country
         this.empFamDetails.push(item)
       }
       this.clearForm();

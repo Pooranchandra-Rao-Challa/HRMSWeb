@@ -30,6 +30,8 @@ export class AddressComponent {
   maxLength: MaxLength = new MaxLength();
   empAddrDetails: any=[];
   permissions: any;
+  showAddressDetails: boolean = true;
+  addaddressdetailsshowForm: boolean = false;
   constructor(private router: Router, private route: ActivatedRoute,  private jwtService: JwtService,private formbuilder: FormBuilder,
     private alertMessage: AlertmessageService, private employeeService: EmployeeService,
     private lookupService: LookupService,
@@ -120,6 +122,8 @@ export class AddressComponent {
       this.save();
     }
   }
+  this.addaddressdetailsshowForm = !this.addaddressdetailsshowForm;
+  this.showAddressDetails = !this.showAddressDetails;
   }
 
   save() {
@@ -129,7 +133,6 @@ export class AddressComponent {
     for (let item of this.fbAddressDetails.get('addressDetails').value) {
        this.empAddrDetails.push(item)
     }
-    console.log(this.empAddrDetails)
     this.fbAddressDetails.patchValue({
       employeeId: this.employeeId,
       addressId: null,
@@ -221,5 +224,9 @@ export class AddressComponent {
 
   navigateToNext() {
     this.router.navigate(['employee/onboardingemployee/uploadfiles',this.employeeId])
+  }
+  toggleTab() {
+    this.addaddressdetailsshowForm = !this.addaddressdetailsshowForm;
+    this.showAddressDetails = !this.showAddressDetails;
   }
 }
