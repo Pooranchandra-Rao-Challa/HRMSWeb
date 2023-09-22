@@ -45,7 +45,7 @@ export class BasicDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.employeeId = 6;
+      this.employeeId = 119;
     });
     if(this.employeeId)
     this.getEmployeeBasedonId();

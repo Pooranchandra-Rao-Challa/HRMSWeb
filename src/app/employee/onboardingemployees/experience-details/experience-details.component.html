@@ -248,7 +248,7 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-experienceDetail let-experienceDetailsIndex="rowIndex">
                     <tr>
-                        <td *ngIf="permissions?.CanManageEmployee" class="flex">
+                        <td *ngIf="permissions?.CanManageEmployee" >
                             <button pButton pRipple icon="pi pi-pencil" (click)="editForm(experienceDetail)"
                                 class="p-element p-ripple p-button-text p-button p-component col-2 p-0 "></button>
                             <button pButton pRipple icon="pi pi-trash" id="AddressDetailsRemove-Btn"

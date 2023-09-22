@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
-import { LookupViewDto } from 'src/app/_models/admin';
+import { LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
 import { ITableHeader, MaxLength } from 'src/app/_models/common';
 import { ExperienceDetailsDto} from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
@@ -24,10 +24,10 @@ export class ExperienceDetailsComponent {
   mediumDate: string = MEDIUM_DATE;
   addexperiencedetailsshowForm: boolean = false;
   ShowexperienceDetails: boolean = true;
-  countries: LookupViewDto[]=[];
-  states: LookupViewDto[] = [];
-  designation: LookupViewDto[] = []
-  skills: LookupViewDto[] = []
+  countries: LookupDetailsDto[]=[];
+  states: LookupDetailsDto[] = [];
+  designation: LookupDetailsDto[] = []
+  skills: LookupDetailsDto[] = []
   selectedOption: string;
   maxLength: MaxLength = new MaxLength();
   viewSelectedSkills=[];  
@@ -57,6 +57,7 @@ export class ExperienceDetailsComponent {
     this.experienceForm();
    
     this.selectedOption = 'Fresher';
+    if(this.employeeId)
     this.getEmpExperienceDetails();
   }
   fresherForm(){
@@ -97,24 +98,24 @@ export class ExperienceDetailsComponent {
   }
   initCountries() {
     this.lookupService.Country().subscribe((resp) => {
-      this.countries = resp as unknown as LookupViewDto[];
+      this.countries = resp as unknown as LookupDetailsDto[];
     })
   }
   getStatesByCountryId(id: number) {
     this.lookupService.getStates(id).subscribe((resp) => {
       if (resp) {
-        this.states = resp as unknown as LookupViewDto[];
+        this.states = resp as unknown as LookupDetailsDto[];
       }
     })
   }
   initSkills() {
     this.lookupService.GetSkillArea().subscribe((resp) => {
-      this.skills = resp as unknown as LookupViewDto[];
+      this.skills = resp as unknown as LookupDetailsDto[];
     })
   }
   initDesignations() {
     this.lookupService.GetDesignation().subscribe((resp) => {
-      this.designation = resp as unknown as LookupViewDto[];
+      this.designation = resp as unknown as LookupDetailsDto[];
       console.log(this.designation)
     })
   }
@@ -163,6 +164,8 @@ export class ExperienceDetailsComponent {
         companyLocation: '',
         companyEmployeeId: null,
         stateId: '',
+        countryId:'',
+        skills:'',
         designationId: '',
         dateOfJoining: '',
         dateOfReliving: '',
@@ -183,16 +186,22 @@ export class ExperienceDetailsComponent {
   }
 
   onSelectSkill(e) {
+    this.viewSelectedSkills=[];
     let CurrentArray=e.value; 
     let  updatedArray=[];
     for (let i = 0; i < CurrentArray.length; i++) {
-       updatedArray.push({ workExperienceXrefId: 0, workExperienceId: 0, skillAreaId:CurrentArray[i].lookupDetailId  })
-       this.viewSelectedSkills.push(e.value.skillAreaNames)
+       updatedArray.push({ workExperienceXrefId: 0, workExperienceId: 0, skillAreaId:CurrentArray[i]  })
     }
+    for(let item of e.value)
+    this.skills.forEach(each=>{
+      if(each.lookupDetailId==item)
+      this.viewSelectedSkills.push(each.name);
+    });
     this.fbexperience.get('workExperienceXrefs')?.setValue(updatedArray);
   }
   editForm(experienceDetail){
     this.addFlag=false;
+    const skillAreaIdsArray = experienceDetail.skillAreaIds ? experienceDetail.skillAreaIds.split(',').map(Number) : [];
     this.getStatesByCountryId(experienceDetail.countryId)
     this.fbexperience.patchValue({
       employeeId: experienceDetail.employeeId,
@@ -202,17 +211,13 @@ export class ExperienceDetailsComponent {
       companyEmployeeId:experienceDetail.companyEmployeeId,
       stateId:experienceDetail.stateId,
       designationId:experienceDetail.designationId,
+      skills:experienceDetail.skillAreaIds,
       dateOfJoining:FORMAT_DATE(new Date(experienceDetail.dateOfJoining)) ,
       dateOfReliving:FORMAT_DATE(new Date(experienceDetail.dateOfReliving))
     });
-    this.getSkillAreas(experienceDetail.skillAreaIds)
+    this.fbexperience.get('skills').patchValue(skillAreaIdsArray);
     this.addexperiencedetailsshowForm = !this.addexperiencedetailsshowForm;
     this.ShowexperienceDetails = !this.ShowexperienceDetails;
-  }
-  getSkillAreas(skill){
-    const selectedOptions = this.skills.filter(option => skill.includes(option.lookupDetails));
-    this.fbexperience.get('skills').patchValue(selectedOptions);
-    console.log(this.fbexperience.get('skills').value)
   }
   saveExperience(): Observable<HttpEvent<any>> {
     if (this.selectedOption == 'Experience')    
@@ -239,9 +244,8 @@ export class ExperienceDetailsComponent {
   getEmpExperienceDetails(){
     this.employeeService.GetWorkExperience(this.employeeId).subscribe((data) => {
       this.empExperienceDetails = data ;
-      console.log(this.empExperienceDetails)
       if(this.empExperienceDetails.length>0)
-      this.selectedOption = 'Experience';
+       this.selectedOption = 'Experience';
     })
   }
   navigateToPrev() {

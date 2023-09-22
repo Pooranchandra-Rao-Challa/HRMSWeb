@@ -23,14 +23,13 @@ export class LookupService  extends ApiHttpService{
     return this.get<LookupDetailsDto[]>(LOOKUP_COUNTRY_URI);
   }
   public getStates(lookupDetailId:number) {
-    debugger
     return this.getWithId<LookupDetailsDto[]>(LOOKUP_STATES_URI,lookupDetailId);
   }
    public GetDesignation() {
-    return this.get<LookupViewDto[]>(GET_DESIGNATION_URI);
+    return this.get<LookupDetailsDto[]>(GET_DESIGNATION_URI);
   }
   public GetSkillArea() {
-    return this.get<LookupViewDto[]>(GET_SKILL_AREA_URI);
+    return this.get<LookupDetailsDto[]>(GET_SKILL_AREA_URI);
   }
   public Circulum(){
     return this.get<LookupDetailsDto[]>(LOOKUP_CIRCULUM_URI);

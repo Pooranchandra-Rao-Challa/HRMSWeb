@@ -165,10 +165,8 @@
       <div class="grid">
         <div class="col-12 lg:col-4" *ngFor="let familyDetails of familyDetails; let i = index">
           <div class="card">
-            <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">
-              <button pButton pRipple icon="pi pi-pencil"
-                class="p-element p-ripple p-button-text p-button p-component float-button position-relative"
-                (click)="editFamilyDetails(i)"></button>{{familyDetails.employeeName}}
+            <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2 position-relative">
+              <button pButton pRipple icon="pi pi-pencil" class="p-element p-ripple p-button-text p-button p-component right-float-button" (click)="editFamilyDetails(i)"></button>{{familyDetails.employeeName}}
             </div>
             <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
               <li class="mb-3">
@@ -206,10 +204,8 @@
       <div class="grid">
         <div class="col-12 lg:col-4" *ngFor="let newadredss of address; let i = index">
           <div class="card">
-            <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">
-              <button pButton pRipple icon="pi pi-pencil"
-                class="p-element p-ripple p-button-text p-button p-component float-button position-relative"
-                (click)="editAddress(i)"></button> {{ newadredss.addressType }}
+            <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2 position-relative">
+              <button pButton pRipple icon="pi pi-pencil" class="p-element p-ripple p-button-text p-button p-component right-float-button" (click)="editAddress(i)"></button> {{ newadredss.addressType }}
             </div>
             {{ newadredss.employeeName }}, {{ newadredss.addressLine1 }}, {{ newadredss.city }},{{ newadredss.landmark
             }}, {{ newadredss.state }}
@@ -228,9 +224,8 @@
     <!-- Upload Documents card view -->
     <p-tabPanel header="Upload Documents">
       <div class="grid">
-        <div class="col-12 text-right">
-          <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-text p-button p-component mr-2"
-            (click)="showDocumentsDetails()">&nbsp; Upload Document </button>
+        <div class="col-12 text-right ">
+          <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-text p-button p-component mr-2 " (click)="showDocumentsDetails()">&nbsp; Upload Document </button>
         </div>
         <div class="col-12 ">
           <p-table [value]="UploadedDocuments" [tableStyle]="{ 'min-width': '50rem' }">
@@ -293,10 +288,8 @@
       <div class="grid">
         <div class="col-12 lg:col-4" *ngFor="let bank of bankDetails1; let i = index">
           <div class="card">
-            <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">
-              <button pButton pRipple icon="pi pi-pencil"
-                class="p-element p-ripple p-button-text p-button p-component float-button position-relative"
-                (click)="openComponentDialog(BankdetailsDialogComponent, null, ActionTypes.edit)"></button>{{bank.bankName}}
+            <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2 position-relative">
+              <button pButton pRipple icon="pi pi-pencil" class="p-element p-ripple p-button-text p-button p-component right-float-button" (click)="openComponentDialog(BankdetailsDialogComponent, bank, ActionTypes.edit)"></button>{{bank.bankName}}
             </div>
             <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
               <li class="mb-2">
@@ -819,7 +812,6 @@
                 <p-checkbox [binary]="true" id="binary" class="mr-2" formControlName="isNominee"></p-checkbox>
               </span>
             </div>
-
           </div>
         </div>
       </div>
@@ -835,79 +827,171 @@
   [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
   <div class="flex flex-column align-items-center justify-content-center">
     <form [formGroup]="fbAddressDetails">
-      <div class="grid mt-3">
+      <div class="grid m-0 mt-3 p-0">
         <div class="col-12 roles-container">
           <div class="p-fluid p-formgrid grid">
             <div class="field col-12 md:col-4">
               <span class="p-float-label">
-                <input type="text" id="inputtext" pInputText formControlName="addressLine1" />
-                <label for="inputtext">AddressLine1 <sup class="p-error">*</sup>
-                </label>
+                <input type="text" id="Address_address1" pInputText formControlName="addressLine1" #address1
+                  [ngClass]="{ 'is-invalid ng-dirty': FormControls['addressLine1'].touched && FormControls['addressLine1'].errors }"
+                  [maxlength]="maxLength.description">
+                <label for="inputtext">AddressLine1<sup class="p-error">*</sup></label>
               </span>
-            </div>
-            <div class="field col-12 md:col-4">
-              <span class="p-float-label">
-                <input type="text" id="inputtext" pInputText formControlName="addressLine2" />
-                <label for="inputtext">AddressLine2 <sup class="p-error">*</sup>
-                </label>
-              </span>
-            </div>
-            <div class="field col-12 md:col-4">
-              <span class="p-float-label">
-                <input type="text" id="inputtext" pInputText formControlName="landmark" />
-                <label for="inputtext">Landmark <sup class="p-error">*</sup>
-                </label>
-              </span>
-            </div>
-            <div class="field col-12 md:col-4">
-              <span class="p-float-label">
-                <input type="text" id="inputtext" pInputText formControlName="zipcode" numericOnly />
-                <label for="inputtext">ZIP Code <sup class="p-error">*</sup>
-                </label>
-              </span>
-            </div>
-            <div class="field col-12 md:col-4">
-              <span class="p-float-label">
-                <input type="text" id="inputtext" pInputText formControlName="city" />
-                <label for="inputtext">City <sup class="p-error">*</sup>
-                </label>
-              </span>
-            </div>
-            <div class="field col-12 md:col-4">
-              <span class="p-float-label">
-                <p-dropdown inputId="dropdown" (onChange)="getStatesByCountryId($event.value)"
-                  [autoDisplayFirst]="false" [options]="countries" optionLabel="name"></p-dropdown>
-                <label for="dropdown">Country <sup class="p-error">*</sup>
-                </label>
-              </span>
-            </div>
-            <div class="field col-12 md:col-4">
-              <span class="p-float-label">
-                <p-dropdown inputId="dropdown" formControlName="stateId" [autoDisplayFirst]="false" [options]="states"
-                  optionValue="lookupDetailId" optionLabel="name"></p-dropdown>
-                <label for="dropdown">State <sup class="p-error">*</sup>
-                </label>
-              </span>
-            </div>
-            <div class="grid formgrid pl-5">
-              <div class="flex flex-wrap gap-3">
-                <div class="flex align-items-center">
-                  <p-radioButton value="Permanent Address" formControlName="addressType" value="Permanent Address"
-                    inputId="ingredient1"></p-radioButton>
-                  <label for="ingredient1" class="ml-2">Permanent Address</label>
+              <div class="flex">
+                <div class="align-left w-60" style="width:70%">
+                  <span *ngIf="FormControls['addressLine1'].touched && FormControls['addressLine1'].invalid">
+                    <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['addressLine1'].errors?.['required']">
+                      Please Enter AddressLine.</div>
+                    <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['addressLine1'].errors?.['minlength']">
+                      AddressLine1 Min Characters Is 2.</div>
+                    <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['addressLine1'].errors?.['maxlength']">
+                      AddressLine1 Max Characters Is 256.</div>
+                  </span>
                 </div>
-                <div class="flex align-items-center">
-                  <p-radioButton value="Temoprary Address" formControlName="addressType" inputId="ingredient2">
-                  </p-radioButton>
-                  <label for="ingredient2" class="ml-2">Temoprary Address</label>
-                </div>
-                <div class="flex align-items-center">
-                  <p-radioButton value="Current Address" formControlName="addressType" inputId="ingredient3">
-                  </p-radioButton>
-                  <label for="ingredient3" class="ml-2">Current Address</label>
+                <div class="align-right w-40" style="width:30%; text-align:right;">
+                  <small>{{address1.value.length}}/256</small>
                 </div>
               </div>
             </div>
+            <div class="field col-12 md:col-4">
+              <span class="p-float-label">
+                <input type="text" id="Address_address2" pInputText formControlName="addressLine2" #address2
+                  [maxlength]="maxLength.description">
+                <label for="inputtext">AddressLine2</label>
+              </span>
+              <div class="flex">
+                <div class="align-left w-60" style="width:70%">
+                </div>
+                <div class="align-right w-40" style="width:30%; text-align:right;">
+                  <small>{{address2.value.length}}/256</small>
+                </div>
+              </div>
+            </div>
+            <div class="field col-12 md:col-4">
+              <span class="p-float-label">
+                <input type="text" id="Address_landmark" pInputText formControlName="landmark" #Landmark
+                  [maxlength]="maxLength.description">
+                <label for="inputtext">Landmark</label>
+              </span>
+              <div class="flex">
+                <div class="align-left w-60" style="width:70%">
+                </div>
+                <div class="align-right w-40" style="width:30%; text-align:right;">
+                  <small>{{Landmark.value.length}}/256</small>
+                </div>
+              </div>
+            </div>
+            <div class="field col-12 md:col-4">
+              <span class="p-float-label">
+                <input type="text" id="Address_ZIPCode" pInputText formControlName="zipcode"
+                  [ngClass]="{ 'is-invalid ng-dirty': FormControls['zipcode'].touched && FormControls['zipcode'].errors }"
+                  [maxlength]="maxLength.pinCode" #zip />
+                <label for="inputtext">ZIP Code<sup class="p-error">*</sup></label>
+              </span>
+              <div class="flex">
+                <div class="align-left w-60" style="width:70%">
+                  <span *ngIf="FormControls['zipcode'].touched && FormControls['zipcode'].invalid">
+                    <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['zipcode'].errors?.['required']">
+                      Please Enter ZIPCode.</div>
+                    <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['zipcode'].errors?.['pattern']">
+                      Invalid Pan No Eg:524005.</div>
+                  </span>
+                </div>
+                <div class="align-right w-40" style="width:30%; text-align:right;">
+                  <small>{{zip.value.length}}/6</small>
+                </div>
+              </div>
+            </div>
+            <div class="field col-12 md:col-4">
+              <span class="p-float-label">
+                <input type="text" id="Address_city" pInputText formControlName="city" alphaOnly
+                  [ngClass]="{ 'is-invalid ng-dirty': FormControls['city'].touched && FormControls['city'].errors }"
+                  [maxlength]="maxLength.name" #city />
+                <label for="inputtext">City<sup class="p-error">*</sup></label>
+              </span>
+              <div class="flex">
+                <div class="align-left w-60" style="width:70%">
+                  <span *ngIf="FormControls['city'].touched && FormControls['city'].invalid">
+                    <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['city'].errors?.['required']">
+                      Please Enter City.</div>
+                    <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['city'].errors?.['minlength']">
+                      City Min Characters Is 2.</div>
+                    <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['City'].errors?.['maxlength']">
+                      City Max Characters Is 50.</div>
+                  </span>
+                </div>
+                <div class="align-right w-40" style="width:30%; text-align:right;">
+                  <small>{{city.value.length}}/50</small>
+                </div>
+              </div>
+            </div>
+    
+            <div class="field col-12 md:col-4">
+              <span class="p-float-label">
+                <p-dropdown inputId="dropdown" id="Address_country" [autoDisplayFirst]="false"
+                  [ngClass]="{ 'is-invalid ng-dirty': FormControls['countryId'].touched && FormControls['countryId'].errors }"
+                  formControlName="countryId" [options]="countries" optionValue="lookupDetailId" optionLabel="name"
+                  (onChange)="getStatesByCountryId($event.value)">
+                </p-dropdown>
+                <label for="inputtext">Country<sup class="p-error">*</sup></label>
+              </span>
+              <div class="flex">
+                <div class="align-left w-60" style="width:70%">
+                  <span *ngIf="FormControls['countryId'].touched && FormControls['countryId'].invalid">
+                    <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['countryId'].errors?.['required']">
+                      Please Select Country.</div>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="field col-12 md:col-4">
+              <span class="p-float-label">
+                <p-dropdown inputId="dropdown" id="Address_state" [autoDisplayFirst]="false"
+                  [ngClass]="{ 'is-invalid ng-dirty': FormControls['stateId'].touched && FormControls['stateId'].errors }"
+                  formControlName="stateId" [options]="states" optionValue="lookupDetailId" optionLabel="name"></p-dropdown>
+                <label for="dropdown">State<sup class="p-error">*</sup></label>
+              </span>
+              <div class="flex">
+                <div class="align-left w-60" style="width:70%">
+                  <span *ngIf="FormControls['stateId'].touched && FormControls['stateId'].invalid">
+                    <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['stateId'].errors?.['required']">
+                      Please Select state.</div>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="field col-12 md:col-8">
+              <label for="inputtext">Address Type:<sup class="p-error">*</sup></label>
+              <div class="flex flex-wrap gap-3">
+                <div class="flex align-items-center">
+                  <p-radioButton value="PermanentAddress" id="Address_addressType1"
+                    formControlName="addressType"></p-radioButton>
+                  <label class="ml-2">Permanent Address</label>
+                </div>
+    
+                <div class="flex align-items-center">
+                  <p-radioButton value="TemporaryAddress" id="Address_addressType2"
+                    formControlName="addressType"></p-radioButton>
+                  <label class="ml-2">Temporary Address</label>
+                </div>
+    
+                <div class="flex align-items-center">
+                  <p-radioButton value="CurrentAddress" id="Address_addressType3"
+                    formControlName="addressType"></p-radioButton>
+                  <label class="ml-2">Current Address</label>
+                </div>
+              </div>
+              <div class="flex">
+                <div class="align-left w-60">
+                  <span *ngIf="FormControls['addressType'].touched && FormControls['addressType'].invalid">
+                    <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['addressType'].errors?.['required']">
+                      Please Enter AddressType.</div>
+                  </span>
+                </div>
+              </div>
+            </div>
+        
+    
           </div>
         </div>
       </div>
@@ -919,169 +1003,59 @@
   </ng-template>
 </p-dialog>
 <!-- p-dialog Upload Documents -->
-<p-dialog header="CIS202214 Documents Details" [(visible)]="Documents" [modal]="true" showEffect="fade"
-  [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '30%'}">
-  <div class="flex flex-column align-items-center justify-content-center">
-    <div class="grid mt-3">
-      <div class="col-12 roles-container">
-        <div class="p-fluid p-formgrid grid">
-
-          <div class="field col-12 md:col-4">
-            <span class="p-float-label">
-              <input type="text" id="Upload_title" pInputText [(ngModel)]="title" required #titleInput="ngModel">
-              <label for="inputtext">Title: <sup class="p-error">*</sup>
-              </label>
-            </span>
-            <!-- <div *ngIf="titleInput.invalid && (titleInput.dirty || titleInput.touched)"
+<p-dialog header="CIS202214 Documents Details" [(visible)]="Documents" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '30%'}">
+  <div class=" align-items-center justify-content-center">
+    <div class="grid">
+      <div class=" col-12 md:col-6">
+        <span class="p-float-label">
+          <input type="text" id="Upload_title" pInputText [(ngModel)]="title" required #titleInput="ngModel">
+          <label for="inputtext">Title: <sup class="p-error">*</sup>
+          </label>
+        </span>
+        <!-- <div *ngIf="titleInput.invalid && (titleInput.dirty || titleInput.touched)"
              [ngStyle]="{'color':'red'}">
                 Title is required.
             </div> -->
-          </div>
-
-          <div class="field col-12 md:col-4 pt-5">
-            <div class="upload-btn-wrapper">
-              <label for="singleFile">
-                <i class="pi pi-paperclip"></i> Attach File
-              </label>
-              <input id="singleFile" #fileUpload name="myFile" accept=".pdf, .jpg, .jpeg, .png, .gif" type="file"
-                hidden="true" [size]="fileSize" (click)="onClick()" />
-            </div>
-          </div>
-
-
-          <div class="col-12 scrolling_content">
-            <div class="col-12 scrolling_content">
-              <p-table #dt2 [value]="files" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
-                styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true"
-                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                [showCurrentPageReport]="true" [autoLayout]="true" responsiveLayout="scroll"
-                [rowsPerPageOptions]="[10,25,50]">
-                <ng-template pTemplate="header">
-                  <tr>
-                    <th>Title</th>
-                    <th>Filename</th>
-                    <th>FileType</th>
-                    <th *ngIf="files.length > 1"></th>
-                  </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-file let-i="rowIndex">
-                  <tr>
-                    <td>{{file.title }}</td>
-                    <td>{{file.data.name}}</td>
-                    <td>{{file.data.type }}</td>
-                    <td *ngIf="files.length > 1">
-                      <p-button icon="pi pi-trash" (click)="removeItem(i)" id="uploadDetailsRemove-Btn"
-                        styleClass="p-button-rounded p-button-danger p-button-text p-button-raised">
-                      </p-button>
-                    </td>
-                  </tr>
-                </ng-template>
-              </p-table>
-            </div>
-          </div>
-
-
-
-
-          <div class="field col-12 md:col-4">
-            <div class="button-container">
-              <p-button type="button" (click)="uploadFiles()" label="Save Documents"></p-button>
-            </div>
-          </div>
+      </div>
+      <div class="col-12 md:col-6 pt-5">
+        <div class="upload-btn-wrapper">
+          <label for="singleFile">
+            <i class="pi pi-paperclip"></i> Attach File </label>
+          <input id="singleFile" #fileUpload name="myFile" accept=".pdf, .jpg, .jpeg, .png, .gif" type="file" hidden="true" [size]="fileSize" (click)="onClick()" />
         </div>
+      </div>
+    </div>
+    <div class="grid scrolling_content mt-2">
+      <div class="col-12 scrolling_content">
+        <p-table #dt2 [value]="files" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true" [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Title</th>
+              <th>Filename</th>
+              <th>FileType</th>
+              <th *ngIf="files.length > 1"></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-file let-i="rowIndex">
+            <tr>
+              <td>{{file.title }}</td>
+              <td>{{file.data.name}}</td>
+              <td>{{file.data.type }}</td>
+              <td *ngIf="files.length > 1">
+                <p-button icon="pi pi-trash" (click)="removeItem(i)" id="uploadDetailsRemove-Btn" styleClass="p-button-rounded p-button-danger p-button-text p-button-raised"></p-button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
       </div>
     </div>
   </div>
+  <ng-template pTemplate="footer">
+    <button p-button class="p-element p-ripple p-button-primary p-button p-component m-2" (click)="uploadFiles()">Upload Document </button>
+  </ng-template>
 </p-dialog>
 <!-- BankDetails -->
-<p-dialog header="CIS202214 Bank Details" [(visible)]="bankDetails" [modal]="true" showEffect="fade"
-  [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '50%'}">
-  <!-- <div class="flex flex-column align-items-center justify-content-center">
-    <form [formGroup]="fbBankDetails">
-      <div class="grid mt-3">
-        <div class="col-12 roles-container">
-          <div class="p-fluid p-formgrid grid">
-            <div class="field col-12 md:col-4">
-              <span class="p-float-label">
-                <input type="text" id="bank_Name" pInputText formControlName="name" #bankname alphaOnly [maxlength]="50" (keydown)="restrictSpaces($event)" [ngClass]="{ 'is-invalid ng-dirty': FormControls['name'].touched && FormControls['name'].errors }" />
-                <label class="required">Bank Name</label>
-              </span>
-              <div class="flex">
-                <div class="align-left w-60" style="width:70%">
-                  <span *ngIf="FormControls['name'].touched && FormControls['name'].invalid">
-                    <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['name'].errors?.['required']"> Please Enter Bank Name.</div>
-                    <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['name'].errors?.['minlength']"> Name Min Length Is 2.</div>
-                  </span>
-                </div>
-                <div class="align-right w-40" style="width:30%; text-align:right;">
-                  <small>{{bankname.value.length}}/{{maxLength.name}} </small>
-                </div>
-              </div>
-            </div>
-            <div class="field col-12 md:col-4">
-              <span class="p-float-label">
-                <input type="text" id="branch_Name" pInputText formControlName="branchName" #branchname alphaOnly [maxlength]="50" (keydown)="restrictSpaces($event)" [ngClass]="{ 'is-invalid ng-dirty': FormControls['branchName'].touched && FormControls['branchName'].errors }" />
-                <label>Branch Name</label>
-              </span>
-              <div class="flex">
-                <div class="align-left w-60" style="width:70%">
-                  <span *ngIf="FormControls['branchName'].touched && FormControls['branchName'].invalid">
-                    <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['branchName'].errors?.['minlength']"> Name Min Length Is 2.</div>
-                  </span>
-                </div>
-                <div class="align-right w-40" style="width:30%; text-align:right;">
-                  <small>{{branchname.value.length}}/{{maxLength.name}} </small>
-                </div>
-              </div>
-            </div>
-            <div class="field col-12 md:col-4">
-              <span class="p-float-label">
-                <input type="text" id="ifsc_Code" pInputText formControlName="ifsc" #ifscCode [maxlength]="11" [minlength]="11" (keydown)="restrictSpaces($event)" [ngClass]="{ 'is-invalid ng-dirty': FormControls['ifsc'].touched && FormControls['ifsc'].errors }" />
-                <label class="required">IFSC Code</label>
-              </span>
-              <div class="flex">
-                <div class="align-left w-60" style="width:70%">
-                  <span *ngIf="FormControls['ifsc'].touched && FormControls['ifsc'].invalid">
-                    <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['ifsc'].errors?.['required']"> Please Enter IFSC Code</div>
-                    <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['ifsc'].errors?.['pattern']"> Invalid Ifsc Eg:SBIN0123456.</div>
-                    <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['ifsc'].errors?.['minlength']"> Ifsc Min Length Is 11.</div>
-                  </span>
-                </div>
-                <div class="align-right w-40" style="width:30%; text-align:right;">
-                  <small>{{ifscCode.value.length}}/{{maxLength.ifscCode}} </small>
-                </div>
-              </div>
-            </div>
-            <div class="field col-12 md:col-4">
-              <span class="p-float-label">
-                <input type="text" id="account_Number" pInputText formControlName="accountNumber" #accountnumber numericOnly [maxlength]="18" (keydown)="restrictSpaces($event)" [ngClass]="{ 'is-invalid ng-dirty': FormControls['accountNumber'].touched && FormControls['accountNumber'].errors }" />
-                <label class="required">Account Number</label>
-              </span>
-              <div class="flex">
-                <div class="align-left w-60" style="width:70%">
-                  <span *ngIf="FormControls['accountNumber'].touched && FormControls['accountNumber'].invalid">
-                    <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['accountNumber'].errors?.['required']"> Please Enter Account Number</div>
-                    <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['accountNumber'].errors?.['minlength']"> Account Number Min Length is 8.</div>
-                  </span>
-                </div>
-                <div class="align-right w-40" style="width:30%; text-align:right;">
-                  <small>{{accountnumber.value.length}}/{{maxLength.accountNo}} </small>
-                </div>
-              </div>
-            </div>
-            <div class="field col-12 md:col-4">
-              <label>Is Active:</label>
-              <br>
-              <p-inputSwitch formControlName="isActive" id="BankDetails_IsActive"></p-inputSwitch>
-            </div>
-          </div>
-        </div>
-      </div>
-    </form>
-  </div> -->
-  <!-- <ng-template pTemplate="footer">
-    <div class="col-4" style="float:right">
-      <button pButton pRipple type="submit" (click)="saveBankDetails()" label="{{submitLabel}}" class="p-button-raised p-button-primary"></button>
-    </div>
-  </ng-template> -->
+<p-dialog header="CIS202214 Bank Details" [(visible)]="bankDetails" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '50%'}">
+  <!-- <div class="flex flex-column align-items-center justify-content-center"><form [formGroup]="fbBankDetails"><div class="grid mt-3"><div class="col-12 roles-container"><div class="p-fluid p-formgrid grid"><div class="field col-12 md:col-4"><span class="p-float-label"><input type="text" id="bank_Name" pInputText formControlName="name" #bankname alphaOnly [maxlength]="50" (keydown)="restrictSpaces($event)" [ngClass]="{ 'is-invalid ng-dirty': FormControls['name'].touched && FormControls['name'].errors }" /><label class="required">Bank Name</label></span><div class="flex"><div class="align-left w-60" style="width:70%"><span *ngIf="FormControls['name'].touched && FormControls['name'].invalid"><div class="ng-invalid ng-touched p-error" *ngIf="FormControls['name'].errors?.['required']"> Please Enter Bank Name.</div><div class="ng-invalid ng-touched p-error" *ngIf="FormControls['name'].errors?.['minlength']"> Name Min Length Is 2.</div></span></div><div class="align-right w-40" style="width:30%; text-align:right;"><small>{{bankname.value.length}}/{{maxLength.name}} </small></div></div></div><div class="field col-12 md:col-4"><span class="p-float-label"><input type="text" id="branch_Name" pInputText formControlName="branchName" #branchname alphaOnly [maxlength]="50" (keydown)="restrictSpaces($event)" [ngClass]="{ 'is-invalid ng-dirty': FormControls['branchName'].touched && FormControls['branchName'].errors }" /><label>Branch Name</label></span><div class="flex"><div class="align-left w-60" style="width:70%"><span *ngIf="FormControls['branchName'].touched && FormControls['branchName'].invalid"><div class="ng-invalid ng-touched p-error" *ngIf="FormControls['branchName'].errors?.['minlength']"> Name Min Length Is 2.</div></span></div><div class="align-right w-40" style="width:30%; text-align:right;"><small>{{branchname.value.length}}/{{maxLength.name}} </small></div></div></div><div class="field col-12 md:col-4"><span class="p-float-label"><input type="text" id="ifsc_Code" pInputText formControlName="ifsc" #ifscCode [maxlength]="11" [minlength]="11" (keydown)="restrictSpaces($event)" [ngClass]="{ 'is-invalid ng-dirty': FormControls['ifsc'].touched && FormControls['ifsc'].errors }" /><label class="required">IFSC Code</label></span><div class="flex"><div class="align-left w-60" style="width:70%"><span *ngIf="FormControls['ifsc'].touched && FormControls['ifsc'].invalid"><div class="ng-invalid ng-touched p-error" *ngIf="FormControls['ifsc'].errors?.['required']"> Please Enter IFSC Code</div><div class="ng-invalid ng-touched p-error" *ngIf="FormControls['ifsc'].errors?.['pattern']"> Invalid Ifsc Eg:SBIN0123456.</div><div class="ng-invalid ng-touched p-error" *ngIf="FormControls['ifsc'].errors?.['minlength']"> Ifsc Min Length Is 11.</div></span></div><div class="align-right w-40" style="width:30%; text-align:right;"><small>{{ifscCode.value.length}}/{{maxLength.ifscCode}} </small></div></div></div><div class="field col-12 md:col-4"><span class="p-float-label"><input type="text" id="account_Number" pInputText formControlName="accountNumber" #accountnumber numericOnly [maxlength]="18" (keydown)="restrictSpaces($event)" [ngClass]="{ 'is-invalid ng-dirty': FormControls['accountNumber'].touched && FormControls['accountNumber'].errors }" /><label class="required">Account Number</label></span><div class="flex"><div class="align-left w-60" style="width:70%"><span *ngIf="FormControls['accountNumber'].touched && FormControls['accountNumber'].invalid"><div class="ng-invalid ng-touched p-error" *ngIf="FormControls['accountNumber'].errors?.['required']"> Please Enter Account Number</div><div class="ng-invalid ng-touched p-error" *ngIf="FormControls['accountNumber'].errors?.['minlength']"> Account Number Min Length is 8.</div></span></div><div class="align-right w-40" style="width:30%; text-align:right;"><small>{{accountnumber.value.length}}/{{maxLength.accountNo}} </small></div></div></div><div class="field col-12 md:col-4"><label>Is Active:</label><br><p-inputSwitch formControlName="isActive" id="BankDetails_IsActive"></p-inputSwitch></div></div></div></div></form></div> -->
+  <!-- <ng-template pTemplate="footer"><div class="col-4" style="float:right"><button pButton pRipple type="submit" (click)="saveBankDetails()" label="{{submitLabel}}" class="p-button-raised p-button-primary"></button></div></ng-template> -->
 </p-dialog>

@@ -8,6 +8,7 @@ import { Actions, DialogRequest, ITableHeader } from 'src/app/_models/common';
 import { EmployeesForAllottedAssetsViewDto, EmployeesList } from 'src/app/_models/admin';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { AddassetallotmentDialogComponent } from 'src/app/_dialogs/addassetallotment.dialog/addassetallotment.dialog.component';
+import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 
 @Component({
     selector: 'app-assetsallotment',
@@ -28,10 +29,14 @@ export class AssetsallotmentComponent {
     maxDate: Date = new Date();
     employeesForAllottedAssets: EmployeesForAllottedAssetsViewDto[] = [];
     selectedEmployeeId: number;
-    globalFilterFields: string[] = ['employeeName', 'code', 'designation', 'officeEmailId', 'mobileNumber'];
+    globalFilterFields: string[] = ['gender', 'employeeName', 'code', 'certificateDOB', 'employeeRoleName', 'dateofJoin', 'designation', 'officeEmailId', 'mobileNumber'];
     headers: ITableHeader[] = [
+        { field: 'gender', header: 'gender', label: 'Gender' },
         { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
         { field: 'code', header: 'code', label: 'Employee Code' },
+        { field: 'certificateDOB', header: 'certificateDOB', label: 'Certificate DOB' },
+        { field: 'employeeRoleName', header: 'employeeRoleName', label: 'Employee Role' },
+        { field: 'dateofJoin', header: 'dateofJoin', label: 'Date of Join' },
         { field: 'designation', header: 'designation', label: 'Designation' },
         { field: 'officeEmailId', header: 'officeEmailId', label: 'Email' },
         { field: 'mobileNumber', header: 'mobileNumber', label: 'Phone No' },
@@ -42,6 +47,8 @@ export class AssetsallotmentComponent {
     viewAssetAllotmentsDialogComponent = ViewAssetAllotmentsDialogComponent;
     addassetallotmentDialogComponent = AddassetallotmentDialogComponent;
     dialogRequest: DialogRequest = new DialogRequest();
+    mediumDate: string = MEDIUM_DATE;
+
 
     constructor(private adminService: AdminService,
         public ref: DynamicDialogRef,
