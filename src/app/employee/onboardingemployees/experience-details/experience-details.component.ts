@@ -57,6 +57,7 @@ export class ExperienceDetailsComponent {
     this.experienceForm();
    
     this.selectedOption = 'Fresher';
+    if(this.employeeId)
     this.getEmpExperienceDetails();
   }
   fresherForm(){
@@ -163,6 +164,8 @@ export class ExperienceDetailsComponent {
         companyLocation: '',
         companyEmployeeId: null,
         stateId: '',
+        countryId:'',
+        skills:'',
         designationId: '',
         dateOfJoining: '',
         dateOfReliving: '',
@@ -186,7 +189,7 @@ export class ExperienceDetailsComponent {
     let CurrentArray=e.value; 
     let  updatedArray=[];
     for (let i = 0; i < CurrentArray.length; i++) {
-       updatedArray.push({ workExperienceXrefId: 0, workExperienceId: 0, skillAreaId:CurrentArray[i].lookupDetailId  })
+       updatedArray.push({ workExperienceXrefId: 0, workExperienceId: 0, skillAreaId:CurrentArray[i]  })
        this.viewSelectedSkills.push(e.value.skillAreaNames)
     }
     this.fbexperience.get('workExperienceXrefs')?.setValue(updatedArray);
@@ -239,9 +242,8 @@ export class ExperienceDetailsComponent {
   getEmpExperienceDetails(){
     this.employeeService.GetWorkExperience(this.employeeId).subscribe((data) => {
       this.empExperienceDetails = data ;
-      console.log(this.empExperienceDetails)
       if(this.empExperienceDetails.length>0)
-      this.selectedOption = 'Experience';
+       this.selectedOption = 'Experience';
     })
   }
   navigateToPrev() {
