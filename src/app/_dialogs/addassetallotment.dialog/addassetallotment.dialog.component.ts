@@ -70,7 +70,7 @@ export class AddassetallotmentDialogComponent {
             employeeId: new FormControl({
                 value: this.config.data.employeeId ? this.config.data.employeeId : null,
                 disabled: this.config.data.employeeId ? true : false
-            }),
+            }, [Validators.required]),
             assetCategoryId: new FormControl('', [Validators.required]),
             assetTypeId: new FormControl('', [Validators.required]),
             assetId: new FormControl('', [Validators.required]),
@@ -83,10 +83,12 @@ export class AddassetallotmentDialogComponent {
     }
 
     saveAssetAllotment(): Observable<HttpEvent<AssetAllotmentDto>> {
+        this.fbAssetAllotment.get('employeeId').enable();
         return this.adminService.CreateAssetAllotment(this.fbAssetAllotment.value)
     }
 
     onSubmitAsset() {
+        // this.fbAssetAllotment.controls['employeeId'].setValue(0);
         this.saveAssetAllotment().subscribe((resp) => {
             if (resp) {
                 this.alertMessage.displayAlertMessage(ALERT_CODES["SAAAA001"]);
@@ -94,7 +96,10 @@ export class AddassetallotmentDialogComponent {
                     "UpdatedModal": AssetAllotment.Add
                 });
             }
-            else this.alertMessage.displayErrorMessage(ALERT_CODES["EAAAA001"]);
+            else {
+                this.fbAssetAllotment.get('employeeId').disable();
+                this.alertMessage.displayErrorMessage(ALERT_CODES["EAAAA001"]);
+            }
         });
     }
 
