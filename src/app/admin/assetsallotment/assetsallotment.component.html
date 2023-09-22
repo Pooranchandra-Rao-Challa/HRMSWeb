@@ -58,7 +58,12 @@
                                             class="my-4 md:my-0 w-10 md:w-10rem shadow-2 mr-2" />
                                     </td>
                                     <td *ngFor="let col of headers">
-                                        <span>{{employee[col.field]}}</span>
+                                        <span *ngIf="col?.field != 'certificateDOB' && col?.field != 'dateofJoin'">
+                                            {{employee[col.field]}}
+                                          </span>
+                                        <span *ngIf="col?.field == 'certificateDOB' || col?.field == 'dateofJoin'">
+                                            {{employee[col.field] | date:mediumDate}}
+                                          </span>
                                     </td>
                                     <td>
                                         <button id="view-btn" pbutton="" pripple="" type="button" label="Primary"
