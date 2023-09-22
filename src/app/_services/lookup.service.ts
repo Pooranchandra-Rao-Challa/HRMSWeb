@@ -45,6 +45,6 @@ export class LookupService  extends ApiHttpService{
     return this.get<LookupViewDto[]>(LOOKUP_BLOOD_GROUPS_URI);
   }
   public Relationships(){
-    return this.get<LookupViewDto[]>(LOOKUP_RELATIONSHIP_URI);
+    return this.get<LookupDetailsDto[]>(LOOKUP_RELATIONSHIP_URI);
   }
 }
