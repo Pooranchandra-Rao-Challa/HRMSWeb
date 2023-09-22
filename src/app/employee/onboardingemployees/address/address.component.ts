@@ -5,11 +5,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
-import { AddressDetailsDto, EmployeAdressViewDto} from 'src/app/_models/employes';
+import { AddressDetailsDto, EmployeAdressViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { MAX_LENGTH_256, MAX_LENGTH_50, MAX_LENGTH_6, MIN_LENGTH_2, MIN_LENGTH_6, RG_ALPHA_NUMERIC, RG_PINCODE } from 'src/app/_shared/regex';
 import { ITableHeader, MaxLength } from 'src/app/_models/common';
-import { LookupViewDto } from 'src/app/_models/admin';
+import { LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
 import { LookupService } from 'src/app/_services/lookup.service';
 import { JwtService } from 'src/app/_services/jwt.service';
 
@@ -20,20 +20,20 @@ import { JwtService } from 'src/app/_services/jwt.service';
   ]
 })
 export class AddressComponent {
-  states: LookupViewDto[] = [];
-  countries: LookupViewDto[] = [];
+  states: LookupDetailsDto[] = [];
+  countries: LookupDetailsDto[] = [];
   fbAddressDetails: FormGroup;
   faAddressDetails!: FormArray;
   submitLabel: string;
   employeeId: any;
-  addFlag:boolean=true;
+  addFlag: boolean = true;
   maxLength: MaxLength = new MaxLength();
-  empAddrDetails: any=[];
+  empAddrDetails: any = [];
   permissions: any;
-  constructor(private router: Router, private route: ActivatedRoute,  private jwtService: JwtService,private formbuilder: FormBuilder,
+  constructor(private router: Router, private route: ActivatedRoute, private jwtService: JwtService, private formbuilder: FormBuilder,
     private alertMessage: AlertmessageService, private employeeService: EmployeeService,
     private lookupService: LookupService,
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.permissions = this.jwtService.Permissions
@@ -46,13 +46,13 @@ export class AddressComponent {
   }
   initCountries() {
     this.lookupService.Country().subscribe((resp) => {
-      this.countries = resp as unknown as LookupViewDto[];
+      this.countries = resp as unknown as LookupDetailsDto[];
     })
   }
   getStatesByCountryId(id: number) {
     this.lookupService.getStates(id).subscribe((resp) => {
       if (resp) {
-        this.states = resp as unknown as LookupViewDto[];
+        this.states = resp as unknown as LookupDetailsDto[];
       }
     })
   }
@@ -63,12 +63,12 @@ export class AddressComponent {
       addressId: [null],
       addressLine1: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
       addressLine2: new FormControl('', [Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
-      landmark: new FormControl('', [ Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
-      zipCode: new FormControl('',[Validators.required]),
+      landmark: new FormControl('', [Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
+      zipCode: new FormControl('', [Validators.required]),
       city: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
-      stateId: new FormControl('',[Validators.required]),
-      countryId: new FormControl('',[Validators.required]),
-      addressType: new FormControl('',[Validators.required]),
+      stateId: new FormControl('', [Validators.required]),
+      countryId: new FormControl('', [Validators.required]),
+      addressType: new FormControl('', [Validators.required]),
       isActive: new FormControl(true, Validators.requiredTrue),
       addressDetails: this.formbuilder.array([])
     });
@@ -86,40 +86,40 @@ export class AddressComponent {
   removeItem(index: number): void {
     this.empAddrDetails.splice(index, 1);
   }
-  
+
   addAddress() {
-    if(this.fbAddressDetails.get('addressId').value){
+    if (this.fbAddressDetails.get('addressId').value) {
       this.onSubmit();
     }
-    else{
-    if (this.fbAddressDetails.invalid) {
-      return;
-    }
-    let count = 0,count1=0;
-    let addressArray = this.empAddrDetails;
-    let length = addressArray.length;
-    if (length > 0) {
-      addressArray.forEach((control) => {        
-        if (control.addressType == "PermanentAddress"&& this.fbAddressDetails.get('addressType').value=="PermanentAddress") {
-          count++;
-        }
-        if (control.addressType == "CurrentAddress" && this.fbAddressDetails.get('addressType').value=="CurrentAddress") {
-          count1++;
-        }
-      });
-      if (count >= 1 || count1 >= 1) {
-        this.alertMessage.displayErrorMessage(count>=1?ALERT_CODES["SAP001"]:ALERT_CODES['SAC001']);
-        this.fbAddressDetails.get('addressType')?.setValue('');
-        this.fbAddressDetails.markAllAsTouched();
+    else {
+      if (this.fbAddressDetails.invalid) {
+        return;
       }
-      else{
+      let count = 0, count1 = 0;
+      let addressArray = this.empAddrDetails;
+      let length = addressArray.length;
+      if (length > 0) {
+        addressArray.forEach((control) => {
+          if (control.addressType == "PermanentAddress" && this.fbAddressDetails.get('addressType').value == "PermanentAddress") {
+            count++;
+          }
+          if (control.addressType == "CurrentAddress" && this.fbAddressDetails.get('addressType').value == "CurrentAddress") {
+            count1++;
+          }
+        });
+        if (count >= 1 || count1 >= 1) {
+          this.alertMessage.displayErrorMessage(count >= 1 ? ALERT_CODES["SAP001"] : ALERT_CODES['SAC001']);
+          this.fbAddressDetails.get('addressType')?.setValue('');
+          this.fbAddressDetails.markAllAsTouched();
+        }
+        else {
+          this.save();
+        }
+      }
+      else {
         this.save();
       }
     }
-    else{
-      this.save();
-    }
-  }
   }
 
   save() {
@@ -127,7 +127,9 @@ export class AddressComponent {
     this.faAddressDetail().push(this.generaterow(this.fbAddressDetails.getRawValue()));
     // Reset form controls for the next entry
     for (let item of this.fbAddressDetails.get('addressDetails').value) {
-       this.empAddrDetails.push(item)
+      let stateName = this.states.filter(x => x.lookupDetailId == item.stateId);
+      item.state = stateName[0].name
+      this.empAddrDetails.push(item)
     }
     console.log(this.empAddrDetails)
     this.fbAddressDetails.patchValue({
@@ -145,7 +147,7 @@ export class AddressComponent {
     // Clear validation errors
     this.fbAddressDetails.markAsPristine();
     this.fbAddressDetails.markAsUntouched();
-  
+
   }
 
   faAddressDetail(): FormArray {
@@ -170,24 +172,24 @@ export class AddressComponent {
     return formGroup;
   }
   saveAddress(): Observable<HttpEvent<any>> {
-    if(this.addFlag)
-    return this.employeeService.CreateAddress(this.empAddrDetails);
+    if (this.addFlag)
+      return this.employeeService.CreateAddress(this.empAddrDetails);
     else
-    return this.employeeService.CreateAddress([this.fbAddressDetails.value]);
+      return this.employeeService.CreateAddress([this.fbAddressDetails.value]);
   }
-  getEmpAddressDetails(){
+  getEmpAddressDetails() {
     this.employeeService.GetAddress(this.employeeId).subscribe((data) => {
       this.empAddrDetails = data;
     })
   }
   onSubmit() {
     this.saveAddress().subscribe(res => {
-      this.addFlag=true;
-      if(res){
+      this.addFlag = true;
+      if (res) {
         this.alertMessage.displayAlertMessage(ALERT_CODES["SAD001"]);
         this.navigateToNext();
       }
-      else{
+      else {
         this.alertMessage.displayErrorMessage(ALERT_CODES["SAD001"]);
       }
     });
@@ -196,30 +198,30 @@ export class AddressComponent {
     this.fbAddressDetails.reset();
   }
 
-  editForm(addressDetails){
-    this.addFlag=false;
+  editForm(addressDetails) {
+    this.addFlag = false;
     this.getStatesByCountryId(addressDetails.countryId)
     this.fbAddressDetails.patchValue({
       employeeId: addressDetails.employeeId,
       addressId: addressDetails.addressId,
       addressLine1: addressDetails.addressLine1,
       addressLine2: addressDetails.addressLine2,
-      landmark:addressDetails.landmark,
-      zipCode:addressDetails.zipCode,
-      city:addressDetails.city,
+      landmark: addressDetails.landmark,
+      zipCode: addressDetails.zipCode,
+      city: addressDetails.city,
       countryId: addressDetails.countryId,
-      stateId:addressDetails.stateId,
-      addressType:addressDetails.addressType,
-      isActive:addressDetails.isActive,
+      stateId: addressDetails.stateId,
+      addressType: addressDetails.addressType,
+      isActive: addressDetails.isActive,
     })
   }
 
 
   navigateToPrev() {
-    this.router.navigate(['employee/onboardingemployee/experiencedetails',this.employeeId])
+    this.router.navigate(['employee/onboardingemployee/experiencedetails', this.employeeId])
   }
 
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/uploadfiles',this.employeeId])
+    this.router.navigate(['employee/onboardingemployee/uploadfiles', this.employeeId])
   }
 }

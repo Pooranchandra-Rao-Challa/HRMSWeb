@@ -158,8 +158,14 @@ export class ExperienceDetailsComponent {
         // Push current values into the FormArray
         this.faExperienceDetail().push(this.generaterow(this.fbexperience.getRawValue()));
 
-        for (let item of this.fbexperience.get('experienceDetails').value)
+        for (let item of this.fbexperience.get('experienceDetails').value) {
+          let stateName = this.states.filter(x => x.lookupDetailId == item.stateId);
+          item.state = stateName[0].name
+          let designation = this.designation.filter(x => x.lookupDetailId == item.designationId);
+          item.designation = designation[0].name
           this.empExperienceDetails.push(item)
+        }
+
         // Reset form controls for the next entry
         this.fbexperience.patchValue({
           employeeId: this.employeeId,
