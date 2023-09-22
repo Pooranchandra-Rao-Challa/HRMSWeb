@@ -433,13 +433,14 @@ export class ViewemployeesComponent {
 
 
   saveEducationDetails() {
+    const isUpdate = this.fbEducationDetails.value.educationDetailId !== null;
     this.employeeService.updateViewEmpEduDtls(this.fbEducationDetails.value.educationDetails).subscribe((resp) => {
       console.log(resp);
       if (resp) {
         this.initGetEducationDetails();
         this.onClose();
-        (this.fbEducationDetails.get('educationDetails') as FormArray).clear();
-        this.alertMessage.displayAlertMessage(ALERT_CODES["EVEEDU001"]);
+        const alertCode = isUpdate ? "EVEEDU001" : "EVEEDU002";
+        this.alertMessage.displayAlertMessage(ALERT_CODES[alertCode]);
       }
       else {
         this.alertMessage.displayErrorMessage(ALERT_CODES["EVEEDU003"])
@@ -447,10 +448,9 @@ export class ViewemployeesComponent {
     })
   }
 
-  onClose(){
+  onClose() {
     this.Education = false;
     (this.fbEducationDetails.get('educationDetails') as FormArray).clear();
-    this
   }
   // Employee Work Experience
 
@@ -480,6 +480,8 @@ export class ViewemployeesComponent {
   initGetWorkExperience() {
     this.employeeService.GetWorkExperience(this.employeeId).subscribe((resp) => {
       this.workExperience = resp as unknown as employeeExperienceDtlsViewDto[];
+      console.log(this.workExperience);
+      
     });
   }
 
@@ -495,7 +497,7 @@ export class ViewemployeesComponent {
     })
   }
 
-  
+
   addexperienceDetails() {
     this.ShowexperienceDetails = true;
     this.faexperienceDetails = this.fbexperience.get('experienceDetails') as FormArray;
@@ -559,14 +561,13 @@ export class ViewemployeesComponent {
     }
     const experienceDetailControl = this.fbexperience.get('experienceDetails') as FormArray;
     const workExperienceXrefsControl = experienceDetailControl.at(index).get('workExperienceXrefs');
-
     if (workExperienceXrefsControl) {
       workExperienceXrefsControl.patchValue(updatedArray);
     }
     // this.fbexperience.controls['experienceDetails'].value[index].get('workExperienceXrefs')?.patchValue(updatedArray);
   }
 
-  onCloseExp(){
+  onCloseExp() {
     this.Experience = false;
     (this.fbexperience.get('experienceDetails') as FormArray).clear();
   }
@@ -575,7 +576,7 @@ export class ViewemployeesComponent {
     this.employeeService.updateViewEmpExperienceDtls(this.fbexperience.get('experienceDetails').value).subscribe((resp) => {
       if (resp) {
         this.initGetWorkExperience();
-         this.onCloseExp();
+        this.onCloseExp();
         this.alertMessage.displayAlertMessage(ALERT_CODES["EVEEXP001"]);
       }
       else {
@@ -859,7 +860,7 @@ export class ViewemployeesComponent {
     const formData = new FormData();
     formData.set(file.title, file.data, file.data.name);
     this.employeeService.UploadDocuments(formData).subscribe(resp => {
-      if (resp) {  
+      if (resp) {
         this.alertMessage.displayAlertMessage(ALERT_CODES["EAD002"]);
         this.initUploadedDocuments();
         this.Documents = false;
