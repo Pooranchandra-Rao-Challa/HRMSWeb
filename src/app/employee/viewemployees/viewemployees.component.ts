@@ -220,6 +220,7 @@ export class ViewemployeesComponent {
     this.initBloodGroups()
     this.initskillArea();
     this.initGrading();
+    this.initCountries()
   }
 
   getemployeeview() {
@@ -230,7 +231,6 @@ export class ViewemployeesComponent {
     this.initGetWorkExperience();
     this.initGetFamilyDetails();
     this.initGetAddress();
-    this.initCountry()
     this.initUploadedDocuments();
     this.initBankDetails();
     this.initviewAssets();
@@ -592,9 +592,6 @@ export class ViewemployeesComponent {
     })
   }
 
-
-
-
   initUploadedDocuments() {
     this.employeeService.GetUploadedDocuments(this.employeeId).subscribe((resp) => {
       this.UploadedDocuments = resp as unknown as any[];
@@ -675,17 +672,17 @@ export class ViewemployeesComponent {
   //Employee Address
   initAddress() {
     this.fbAddressDetails = this.formbuilder.group({
-      employeeId: [],
-      addressId: [''],
+      employeeId: [this.employeeId],
+      addressId: [null],
       addressLine1: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
-      addressLine2: new FormControl(''),
-      landmark: new FormControl(''),
-      zipcode: new FormControl(''),
-      city: new FormControl(''),
-      stateId: new FormControl(''),
-      countryId: new FormControl(''),
-      addressType: new FormControl(''),
-      isActive: [true]
+      addressLine2: new FormControl('', [Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
+      landmark: new FormControl('', [Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
+      zipcode: new FormControl('', [Validators.required]),
+      city: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
+      stateId: new FormControl('', [Validators.required]),
+      countryId: new FormControl('', [Validators.required]),
+      addressType: new FormControl('', [Validators.required]),
+      isActive: new FormControl(true, Validators.requiredTrue),
     })
   }
   initGetAddress() {
@@ -694,11 +691,9 @@ export class ViewemployeesComponent {
       console.log('this.address', this.address);
     });
   }
-  initCountry() {
+  initCountries() {
     this.lookupService.Country().subscribe((resp) => {
       this.countries = resp as unknown as LookupViewDto[];
-      console.log(this.countries);
-
     })
   }
   getStatesByCountryId(id: number) {
@@ -708,32 +703,27 @@ export class ViewemployeesComponent {
       }
     })
   }
-  // initCountries(): Promise<void> {
-  //   return new Promise<void>((resolve) => {
-  //     this.employeeService.GetCountries().subscribe((resp) => {
-  //       this.countries = resp as unknown as Countries[];
-  //       console.log('this.countries', this.countries);
+  
+  get FormControls() {
+    return this.fbAddressDetails.controls;
+  }
 
-  //       resolve();
-  //     });
-  //   });
-  // }
   editAddress(index: number) {
     const address = this.address[index];
-    this.initCountry()
+    this.getStatesByCountryId(address.countryId)
     this.fbAddressDetails.patchValue({
-      addressId: address.addressId,
       employeeId: address.employeeId,
+      addressId: address.addressId,
       addressLine1: address.addressLine1,
       addressLine2: address.addressLine2,
       landmark: address.landmark,
       zipcode: address.zipCode,
       city: address.city,
+      countryId: address.countryId,
       stateId: address.stateId,
-      countryId: address.countryId, // Assuming countryId is correct
       addressType: address.addressType,
-      isActive: address.isActive
-    });
+      isActive: address.isActive,
+    })
     this.submitLabel = "Update Adress";
     console.log(address);
     this.Address = true;
@@ -743,10 +733,7 @@ export class ViewemployeesComponent {
     this.employeeId = +this.activatedRoute.snapshot.queryParams['employeeId'];
     const formValue = { ...this.fbAddressDetails.value, employeeId: this.employeeId };
     const isUpdate = this.fbAddressDetails.value.addressId !== null;
-    if (!isUpdate) {
-      formValue.isActive = true;
-    }
-    this.employeeService.CreateAddress(formValue).subscribe((resp) => {
+    this.employeeService.CreateAddress([formValue]).subscribe((resp) => {
       if (resp) {
         const alertCode = isUpdate ? "SMAD004" : "SAD001";
         this.alertMessage.displayAlertMessage(ALERT_CODES[alertCode]);
@@ -907,22 +894,22 @@ export class ViewemployeesComponent {
     }
     else if (action == Actions.view && content === this.BankdetailsDialogComponent) {
       this.dialogRequest.dialogData = {
-        employeeId: this.employeeId
+        
       }
       this.dialogRequest.header = "Bank Details";
       this.dialogRequest.width = "70%";
     }
       
     else if (action == Actions.edit && content === this.BankdetailsDialogComponent) {
+      
       this.dialogRequest.dialogData = dialogData;
-      this.dialogRequest.header = "Edit Bank Details";
+      this.dialogRequest.header = " Bank Details";
       this.dialogRequest.width = "40";
+
     }
       
-    else if (action == Actions.view && content === this.BankdetailsDialogComponent) {
-      this.dialogRequest.dialogData = {
-        employeeId: this.employeeId
-      }
+    else if (action == Actions.add && content === this.BankdetailsDialogComponent) {
+      ;
       this.dialogRequest.header = "Asset Allotment";
       this.dialogRequest.width = "70%";
     }
