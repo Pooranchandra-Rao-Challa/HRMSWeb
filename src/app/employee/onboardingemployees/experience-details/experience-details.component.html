@@ -160,7 +160,7 @@
                                     <label>SkillAreas:<sup class="p-error">*</sup></label>&nbsp;
                                     <p-multiSelect placeholder="Select SkillAreas" id="Experience_skillArea"
                                         [options]="skills" optionLabel="name" [filter]="true" filterBy="name"
-                                        #multiSelect formControlName="skills" 
+                                        #multiSelect formControlName="skills" optionValue="lookupDetailId"
                                         (onChange)="onSelectSkill($event)"
                                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['skills'].touched && FormControls['skills'].errors }"
                                         appendTo="body">
@@ -255,8 +255,14 @@
                             [ngClass]="col?.field == 'companyName' || col?.field == 'companyLocation' || col?.field == 'companyEmployeeId'  ||col?.field == 'stateId'  ||  col?.field == 'designationId'
                     ||col?.field == 'dateOfJoining'|| col?.field == 'dateOfReliving'|| col?.field == 'workExperienceXrefs' ? 'text-center' : ''">
                             <span
-                                *ngIf="col?.field == 'companyName' || col?.field == 'companyLocation' || col?.field == 'companyEmployeeId'  ||col?.field == 'stateId' || col?.field == 'designationId'">
+                                *ngIf="col?.field == 'companyName' || col?.field == 'companyLocation' || col?.field == 'companyEmployeeId'">
                                 {{experienceDetail[col.field]}}
+                            </span>
+                            <span *ngIf="col?.field == 'stateId'">
+                                {{experienceDetail.state?experienceDetail.state:experienceDetail[col.field]}}
+                            </span>
+                            <span *ngIf="col?.field == 'designationId'">
+                                {{experienceDetail.designation?experienceDetail.designation:experienceDetail[col.field]}}
                             </span>
                             <span *ngIf="col?.field == 'dateOfReliving'||col?.field == 'dateOfJoining'">
                                 {{experienceDetail[col.field]|date:mediumDate}}
