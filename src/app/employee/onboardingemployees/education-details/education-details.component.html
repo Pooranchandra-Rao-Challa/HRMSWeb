@@ -100,7 +100,8 @@
                         </span>
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
-                                <span *ngIf="FormControls['curriculumId'].touched && FormControls['curriculumId'].invalid">
+                                <span
+                                    *ngIf="FormControls['curriculumId'].touched && FormControls['curriculumId'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="FormControls['curriculumId'].errors?.['required']">
                                         Please Select Curriculum.</div>
@@ -128,8 +129,8 @@
                     </div>
                     <div class="field col-12 md:col-4">
                         <span class="p-float-label">
-                            <p-calendar [yearNavigator]="true" [yearRange]="'1996:2025'" [readonlyInput]="true"
-                                [showIcon]="true" dateFormat="yy" formControlName="passedOutyear"
+                            <p-calendar [yearRange]="'1996:2025'" [readonlyInput]="true" [showIcon]="true"
+                                formControlName="passedOutyear"
                                 [ngClass]="{'is-invalid ng-dirty': FormControls['passedOutyear'].touched && FormControls['passedOutyear'].errors }">
                             </p-calendar>
                             <label class="required">Passed Out Year</label>
