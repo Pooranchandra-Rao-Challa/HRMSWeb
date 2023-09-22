@@ -20,10 +20,10 @@ export class LookupService  extends ApiHttpService{
     return this.get<LookupViewDto[]>(LOOKUP_ASSET_STATUS_URI);
   }
   public Country(){
-    return this.get<LookupViewDto[]>(LOOKUP_COUNTRY_URI);
+    return this.get<LookupDetailsDto[]>(LOOKUP_COUNTRY_URI);
   }
   public getStates(lookupDetailId:number) {
-    return this.getWithId<LookupViewDto[]>(LOOKUP_STATES_URI,lookupDetailId);
+    return this.getWithId<LookupDetailsDto[]>(LOOKUP_STATES_URI,lookupDetailId);
   }
    public GetDesignation() {
     return this.get<LookupViewDto[]>(GET_DESIGNATION_URI);
@@ -32,14 +32,14 @@ export class LookupService  extends ApiHttpService{
     return this.get<LookupViewDto[]>(GET_SKILL_AREA_URI);
   }
   public Circulum(){
-    return this.get<LookupViewDto[]>(LOOKUP_CIRCULUM_URI);
+    return this.get<LookupDetailsDto[]>(LOOKUP_CIRCULUM_URI);
   }
 
   public Stream(lookupDetailId:number){
-    return this.getWithId<LookupViewDto[]>(LOOKUP_STREAM_URI,lookupDetailId);
+    return this.getWithId<LookupDetailsDto[]>(LOOKUP_STREAM_URI,lookupDetailId);
   }
   public GradingMethods(){
-    return this.get<LookupViewDto[]>(LOOKUP_GRADING_SYSTEM_URI);
+    return this.get<LookupDetailsDto[]>(LOOKUP_GRADING_SYSTEM_URI);
   }
   public BloodGroups(){
     return this.get<LookupViewDto[]>(LOOKUP_BLOOD_GROUPS_URI);

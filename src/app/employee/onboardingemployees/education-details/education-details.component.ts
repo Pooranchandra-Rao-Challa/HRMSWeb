@@ -5,7 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
-import { LookupViewDto } from 'src/app/_models/admin';
+import { LookupDetailsDto } from 'src/app/_models/admin';
 import { ITableHeader, MaxLength } from 'src/app/_models/common';
 import { EducationDetailsDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
@@ -18,19 +18,20 @@ import { LookupService } from 'src/app/_services/lookup.service';
 })
 export class EducationDetailsComponent implements OnInit {
   showDialog: boolean = false;
+  addeducationdetailsshowForm: boolean = false;
   fbEducationDetails!: FormGroup;
   selectedYear: Date;
   ShoweducationDetails: boolean = true;
   employeeId: any;
   maxLength: MaxLength = new MaxLength();
-  country: LookupViewDto[] = [];
-  states: LookupViewDto[] = [];
-  circulum: LookupViewDto[] = [];
-  stream: LookupViewDto[] = [];
-  gradingMethods: LookupViewDto[] = [];
+  country: LookupDetailsDto[] = [];
+  states: LookupDetailsDto[] = [];
+  circulum: LookupDetailsDto[] = [];
+  stream: LookupDetailsDto[] = [];
+  gradingMethods: LookupDetailsDto[] = [];
   mediumDate: string = MEDIUM_DATE;
   addFlag: boolean = true;
-  circulums: LookupViewDto = new LookupViewDto();
+  circulums: LookupDetailsDto = new LookupDetailsDto();
   STREAM?: String;
   empEduDetails: EducationDetailsDto[] = [];
   constructor(private formbuilder: FormBuilder,
@@ -43,7 +44,6 @@ export class EducationDetailsComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.employeeId = params['employeeId'];
     });
-    console.log(this.employeeId);
     this.educationForm();
     this.initCirculum();
     this.initCountry();
@@ -80,30 +80,30 @@ export class EducationDetailsComponent implements OnInit {
   }
   initCirculum() {
     this.lookupService.Circulum().subscribe((resp) => {
-      this.circulum = resp as unknown as LookupViewDto[];
+      this.circulum = resp as unknown as LookupDetailsDto[];
     });
   }
   initGrading() {
     this.lookupService.GradingMethods().subscribe((resp) => {
-      this.gradingMethods = resp as unknown as LookupViewDto[];
+      this.gradingMethods = resp as unknown as LookupDetailsDto[];
     });
   }
   initCountry() {
     this.lookupService.Country().subscribe((resp) => {
-      this.country = resp as unknown as LookupViewDto[];
+      this.country = resp as unknown as LookupDetailsDto[];
     })
   }
   getStatesByCountryId(id: number) {
     this.lookupService.getStates(id).subscribe((resp) => {
       if (resp) {
-        this.states = resp as unknown as LookupViewDto[];
+        this.states = resp as unknown as LookupDetailsDto[];
       }
     })
   }
   getStreamByCirculumId(Id: number) {
     this.lookupService.Stream(Id).subscribe((resp) => {
       if (resp) {
-        this.stream = resp as unknown as LookupViewDto[];
+        this.stream = resp as unknown as LookupDetailsDto[];
       }
     });
   }
@@ -112,6 +112,12 @@ export class EducationDetailsComponent implements OnInit {
     if (eduDetailId == null) {
       this.faEducationDetail().push(this.generaterow(this.fbEducationDetails.getRawValue()));
       for (let item of this.fbEducationDetails.get('educationDetails').value) {
+        let stateName =this.states.filter(x => x.lookupDetailId == item.stateId);
+        item.state = stateName[0].name
+        let streamName =this.stream.filter(x => x.lookupDetailId == item.streamId);
+        item.stream = streamName[0].name
+        let gradeName =this.gradingMethods.filter(x => x.lookupDetailId == item.gradingMethodId);
+        item.gradingMethods = gradeName[0].name
         this.empEduDetails.push(item)
       }
       this.clearForm();
@@ -121,11 +127,13 @@ export class EducationDetailsComponent implements OnInit {
       this.addFlag= false;
       this.onSubmit();
     }
+    this.addeducationdetailsshowForm = !this.addeducationdetailsshowForm;
+    this.ShoweducationDetails = !this.ShoweducationDetails;
   }
   getEmpEducaitonDetails() {
     return this.employeeService.GetEducationDetails(this.employeeId).subscribe((data) => {
       this.empEduDetails = data as unknown as EducationDetailsDto[];
-      console.log(data);
+          console.log(data)
     })
   }
   faEducationDetail(): FormArray {
@@ -160,7 +168,9 @@ export class EducationDetailsComponent implements OnInit {
       passedOutyear: FORMAT_DATE(new Date(educationDetails.passedOutyear)),
       gradingMethodId: educationDetails.gradingMethodId,
       gradingValue: educationDetails.gradingValue
-    })
+    });
+    this.addeducationdetailsshowForm = !this.addeducationdetailsshowForm;
+    this.ShoweducationDetails = !this.ShoweducationDetails;
   }
   restrictSpaces(event: KeyboardEvent) {
     if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {
@@ -178,7 +188,6 @@ export class EducationDetailsComponent implements OnInit {
   saveeducationDetails(): Observable<HttpEvent<EducationDetailsDto[]>> {
     if (this.addFlag) {
       return this.employeeService.CreateEducationDetails(this.empEduDetails);
-
     } else
       return this.employeeService.CreateEducationDetails([this.fbEducationDetails.value]);
   }
@@ -200,6 +209,10 @@ export class EducationDetailsComponent implements OnInit {
 
   navigateToNext() {
     this.router.navigate(['employee/onboardingemployee/experiencedetails', this.employeeId])
+  }
+  toggleTab() {
+    this.addeducationdetailsshowForm = !this.addeducationdetailsshowForm;
+    this.ShoweducationDetails = !this.ShoweducationDetails;
   }
 
 }

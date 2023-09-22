@@ -22,6 +22,8 @@ import { MAX_LENGTH_20, MAX_LENGTH_50, MIN_LENGTH_2 } from 'src/app/_shared/rege
 
 export class ExperienceDetailsComponent {
   mediumDate: string = MEDIUM_DATE;
+  addexperiencedetailsshowForm: boolean = false;
+  ShowexperienceDetails: boolean = true;
   countries: LookupViewDto[]=[];
   states: LookupViewDto[] = [];
   designation: LookupViewDto[] = []
@@ -172,8 +174,9 @@ export class ExperienceDetailsComponent {
       // Clear validation errors
       this.fbexperience.markAsPristine();
       this.fbexperience.markAsUntouched();
-
     }
+    this.addexperiencedetailsshowForm = !this.addexperiencedetailsshowForm;
+    this.ShowexperienceDetails = !this.ShowexperienceDetails;
   }
   faExperienceDetail(): FormArray {
     return this.fbexperience.get('experienceDetails') as FormArray
@@ -206,6 +209,8 @@ export class ExperienceDetailsComponent {
       dateOfReliving:FORMAT_DATE(new Date(experienceDetail.dateOfReliving))
     });
     this.getSkillAreas(experienceDetail.skillAreaIds)
+    this.addexperiencedetailsshowForm = !this.addexperiencedetailsshowForm;
+    this.ShowexperienceDetails = !this.ShowexperienceDetails;
   }
   getSkillAreas(skill){
     const selectedOptions = this.skills.filter(option => skill.includes(option.lookupDetails));
@@ -247,5 +252,9 @@ export class ExperienceDetailsComponent {
 
   navigateToNext() {
     this.router.navigate(['employee/onboardingemployee/addressdetails',this.employeeId])
+  }
+  toggleTab() {
+    this.addexperiencedetailsshowForm = !this.addexperiencedetailsshowForm;
+    this.ShowexperienceDetails = !this.ShowexperienceDetails;
   }
 }
