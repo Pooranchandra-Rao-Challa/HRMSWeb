@@ -57,7 +57,7 @@ export class EmployeeService extends ApiHttpService {
   }
   public UploadDocuments(documents) {
     console.log(documents)
-    return this.post(CREATE_DOCUMENTS_URI, documents, )
+    return this.post(CREATE_DOCUMENTS_URI, documents)
   }
   //Familly Details of Employee
   public CreateFamilyDetails(family: FamilyDetailsDto[]) {
