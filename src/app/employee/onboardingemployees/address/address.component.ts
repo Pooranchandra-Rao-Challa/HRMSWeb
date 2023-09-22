@@ -4,12 +4,13 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
-import { Address } from 'src/app/demo/api/security';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
-import { AddressDetailsDto, Countries, States } from 'src/app/_models/employes';
-// import { States } from 'src/app/_models/employes';
+import { AddressDetailsDto, EmployeAdressViewDto} from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
-import { MAX_LENGTH_256, MAX_LENGTH_50, MIN_LENGTH_2, RG_ALPHA_NUMERIC } from 'src/app/_shared/regex';
+import { MAX_LENGTH_256, MAX_LENGTH_50, MAX_LENGTH_6, MIN_LENGTH_2, MIN_LENGTH_6, RG_ALPHA_NUMERIC, RG_PINCODE } from 'src/app/_shared/regex';
+import { ITableHeader, MaxLength } from 'src/app/_models/common';
+import { LookupViewDto } from 'src/app/_models/admin';
+import { LookupService } from 'src/app/_services/lookup.service';
 
 @Component({
   selector: 'app-address',
@@ -18,66 +19,80 @@ import { MAX_LENGTH_256, MAX_LENGTH_50, MIN_LENGTH_2, RG_ALPHA_NUMERIC } from 's
   ]
 })
 export class AddressComponent {
-  states: States[] = [];
-  countries: Countries[] = [];
-  ShowlookupDetails: boolean = false;
+  states: LookupViewDto[] = [];
+  countries: LookupViewDto[] = [];
   fbAddressDetails: FormGroup;
   faAddressDetails!: FormArray;
   submitLabel: string;
-  addressDetails: any[] = [];
   employeeId: any;
+  maxLength: MaxLength = new MaxLength();
+  empAddrDetails: any=[];
+
   constructor(private router: Router, private route: ActivatedRoute, private formbuilder: FormBuilder,
-    private alertMessage: AlertmessageService, private employeeService: EmployeeService) { }
+    private alertMessage: AlertmessageService, private employeeService: EmployeeService,
+    private lookupService: LookupService,
+    ) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.employeeId = params['employeeId'];
     });
     this.initAddress();
-    this.initStates();
     this.initCountries();
-  }
-
-  initStates() {
-    this.employeeService.Getstates().subscribe((resp) => {
-      this.states = resp as unknown as States[];
-      console.log(this.states)
-    })
+    this.getEmpAddressDetails();
   }
   initCountries() {
-    this.employeeService.GetCountries().subscribe((resp) => {
-      this.countries = resp as unknown as Countries[];
+    this.lookupService.Countries().subscribe((resp) => {
+      this.countries = resp as unknown as LookupViewDto[];
+    })
+  }
+  getStatesByCountryId(id: number) {
+    this.lookupService.States(id).subscribe((resp) => {
+      if (resp) {
+        this.states = resp as unknown as LookupViewDto[];
+      }
     })
   }
 
   initAddress() {
     this.fbAddressDetails = this.formbuilder.group({
-      employeeId: [22],
-      addressId: [0],
-      AddressLine1: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
-      AddressLine2: new FormControl('', [ Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
-      Landmark: new FormControl('', [ Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
-      ZIPCode: new FormControl('',[Validators.required]),
-      City: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
+      employeeId: [this.employeeId],
+      addressId: [null],
+      addressLine1: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
+      addressLine2: new FormControl('', [Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
+      landmark: new FormControl('', [ Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
+      zipCode: new FormControl('',[Validators.required]),
+      city: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
       stateId: new FormControl('',[Validators.required]),
       countryId: new FormControl('',[Validators.required]),
-      addressType: new FormControl('',[Validators.required,Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
-      IsActive: new FormControl(true, Validators.requiredTrue),
+      addressType: new FormControl('',[Validators.required]),
+      isActive: new FormControl(true, Validators.requiredTrue),
       addressDetails: this.formbuilder.array([])
     });
+  }
+  headers: ITableHeader[] = [
+    { field: 'addressLine1', header: 'addressLine1', label: 'AddressLine1' },
+    { field: 'addressLine2', header: 'addressLine2', label: 'AddressLine2' },
+    { field: 'landmark', header: 'landmark', label: 'Landmark' },
+    { field: 'zipCode', header: 'zipCode', label: 'ZIPCode' },
+    { field: 'city', header: 'city', label: 'City' },
+    { field: 'stateId', header: 'stateId', label: 'State' },
+    { field: 'countryId', header: 'countryId', label: 'Country' },
+    { field: 'addressType', header: 'addressType', label: 'AddressType' },
+    { field: 'isActive', header: 'isActive', label: 'IsActive' }
+  ];
+  removeItem(index: number): void {
+    this.empAddrDetails.splice(index, 1);
   }
   addAddress() {
     if (this.fbAddressDetails.invalid) {
       return;
     }
-    let count = 0;
-    let count1 = 0;
+    let count = 0,count1=0;
     let addressArray = this.fbAddressDetails.get('addressDetails').value;
     let length = addressArray.length;
-   
-    debugger
     if (length > 0) {
-      addressArray.forEach((control, index) => {        
+      addressArray.forEach((control) => {
         if (control.addressType == "PermanentAddress"&& this.fbAddressDetails.get('addressType').value=="PermanentAddress") {
           count++;
         }
@@ -97,7 +112,7 @@ export class AddressComponent {
     else{
       this.save();
     }
-    
+
   }
 
   save() {
@@ -105,18 +120,22 @@ export class AddressComponent {
     // Push current values into the FormArray
     this.faAddressDetail().push(this.generaterow(this.fbAddressDetails.getRawValue()));
     // Reset form controls for the next entry
+    for (let item of this.fbAddressDetails.get('addressDetails').value) {
+       this.empAddrDetails.push(item)
+    }
+    console.log(this.empAddrDetails)
     this.fbAddressDetails.patchValue({
-      employeeId: 22,
+      employeeId: this.employeeId,
       addressId: null,
-      AddressLine1: '',
-      AddressLine2: '',
-      Landmark: '',
-      ZIPCode: '',
-      City: '',
+      addressLine1: '',
+      addressLine2: '',
+      landmark: '',
+      zipCode: '',
+      city: '',
       stateId: '',
       countryId: '',
       addressType: '',
-      IsActive: true,
+      isActive: true,
     });
     // Clear validation errors
     this.fbAddressDetails.markAsPristine();
@@ -126,36 +145,42 @@ export class AddressComponent {
   faAddressDetail(): FormArray {
     return this.fbAddressDetails.get('addressDetails') as FormArray
   }
-  onSelectState(e) {
-    this.fbAddressDetails.get('stateId')?.setValue(e.value.lookupDetailId);
-  }
-  onSelectCountry(e) {
-    this.fbAddressDetails.get('countryId')?.setValue(e.value.lookupDetailId);
+  get FormControls() {
+    return this.fbAddressDetails.controls;
   }
   generaterow(addressDetails: AddressDetailsDto = new AddressDetailsDto()): FormGroup {
     const formGroup = this.formbuilder.group({
-      employeeId: new FormControl({ value: 22, disabled: true }),
+      employeeId: new FormControl({ value: addressDetails.employeeId, disabled: true }),
       addressId: new FormControl({ value: addressDetails.addressId, disabled: true }),
-      AddressLine1: new FormControl({ value: addressDetails.AddressLine1, disabled: true }),
-      AddressLine2: new FormControl({ value: addressDetails.AddressLine2, disabled: true }),
-      Landmark: new FormControl({ value: addressDetails.Landmark, disabled: true }),
-      ZIPCode: new FormControl({ value: addressDetails.ZIPCode, disabled: true }),
-      City: new FormControl({ value: addressDetails.City, disabled: true }),
+      addressLine1: new FormControl({ value: addressDetails.addressLine1, disabled: true }),
+      addressLine2: new FormControl({ value: addressDetails.addressLine2, disabled: true }),
+      landmark: new FormControl({ value: addressDetails.landmark, disabled: true }),
+      zipCode: new FormControl({ value: addressDetails.zipCode, disabled: true }),
+      city: new FormControl({ value: addressDetails.city, disabled: true }),
       stateId: new FormControl({ value: addressDetails.stateId, disabled: true }),
       countryId: new FormControl({ value: addressDetails.countryId, disabled: true }),
       addressType: new FormControl({ value: addressDetails.addressType, disabled: true }),
-      IsActive: new FormControl({ value: addressDetails.IsActive, disabled: true }),
+      isActive: new FormControl({ value: addressDetails.isActive, disabled: true }),
     });
     return formGroup;
   }
   saveAddress(): Observable<HttpEvent<any>> {
-    return this.employeeService.CreateAddress(this.fbAddressDetails.get('addressDetails').value);
+    return this.employeeService.CreateAddress(this.empAddrDetails);
+  }
+  getEmpAddressDetails(){
+    this.employeeService.GetAddress(this.employeeId).subscribe((data) => {
+      this.empAddrDetails = data;
+      console.log(data)
+    })
   }
   onSubmit() {
     this.saveAddress().subscribe(res => {
-      this.initAddress();
       if(res){
         this.alertMessage.displayAlertMessage(ALERT_CODES["SAD001"]);
+        this.navigateToNext();
+      }
+      else{
+        this.alertMessage.displayErrorMessage(ALERT_CODES["SAD001"]);
       }
     });
   }
@@ -166,10 +191,10 @@ export class AddressComponent {
 
 
   navigateToPrev() {
-    this.router.navigate(['employee/onboardingemployee/experiencedetails'])
+    this.router.navigate(['employee/onboardingemployee/experiencedetails',this.employeeId])
   }
 
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/uploadfiles'])
+    this.router.navigate(['employee/onboardingemployee/uploadfiles',this.employeeId])
   }
 }

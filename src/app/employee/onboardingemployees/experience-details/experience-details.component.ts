@@ -1,16 +1,17 @@
-import { Component } from '@angular/core';
+import { HttpEvent } from '@angular/common/http';
+import { Component, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
+import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
+import { LookupViewDto } from 'src/app/_models/admin';
+import { ITableHeader, MaxLength } from 'src/app/_models/common';
+import { ExperienceDetailsDto} from 'src/app/_models/employes';
+import { EmployeeService } from 'src/app/_services/employee.service';
+import { LookupService } from 'src/app/_services/lookup.service';
+import { MAX_LENGTH_20, MAX_LENGTH_50, MIN_LENGTH_2 } from 'src/app/_shared/regex';
 
-
-export class Experience {
-  id?: number;
-  companyName?: string;
-  fromDate?: Date;
-  toDate?: Date;
-  designation?: string;
-  experienceDetails?: string;
-}
 
 @Component({
   selector: 'app-experience-details',
@@ -19,69 +20,207 @@ export class Experience {
 })
 
 export class ExperienceDetailsComponent {
-  formGroup: FormGroup<{ ExperienceDetails: FormControl<any>; }>;
-  constructor(private router: Router, private formbuilder: FormBuilder, private route: ActivatedRoute) { }
+  mediumDate: string = MEDIUM_DATE;
+  countries: LookupViewDto[]=[];
+  states: LookupViewDto[] = [];
+  designation: LookupViewDto[] = []
+  skills: LookupViewDto[] = []
   selectedOption: string;
-  inputValue: string;
+  maxLength: MaxLength = new MaxLength();
+  viewSelectedSkills=[];
   fbexperience!: FormGroup;
+  fbfresher!: FormGroup
   faexperienceDetails!: FormArray;
   dialog: boolean = false;
   addfields: any;
   employeeId: any;
-  ShowexperienceDetails: boolean = false;
+  skillAreaNames: string ;
+  @ViewChild('multiSelect') multiSelect: any;
+  empExperienceDetails:any=[];
+
+  constructor(private router: Router, private formbuilder: FormBuilder, private route: ActivatedRoute,
+    private alertMessage: AlertmessageService, private employeeService: EmployeeService,private lookupService:LookupService) { }
+
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.employeeId = params['employeeId'];
     });
-    console.log(this.employeeId)
+    this.initDesignations();
+    this.initCountries();
+    this.initSkills();
+    this.fresherForm();
     this.experienceForm();
-    this.addexperienceDetails();
-    this.selectedOption = 'Fresher';
-  }
-  toggleInputField(option: string) {
-    this.selectedOption = option;
-  }
-  addexperienceDetails() {
-    this.ShowexperienceDetails = true;
-    this.faexperienceDetails = this.fbexperience.get("experienceDetails") as FormArray
-    this.faexperienceDetails.push(this.generaterow())
 
+    this.selectedOption = 'Fresher';
+    this.getEmpExperienceDetails();
+  }
+  fresherForm(){
+    this.fbfresher = this.formbuilder.group({
+      employeeId: this.employeeId,
+      workExperienceId: [],
+      isAfresher: new FormControl(true, [Validators.required]),
+      companyName: new FormControl(''),
+      companyLocation: new FormControl(''),
+      companyEmployeeId: new FormControl(null),
+      stateId: new FormControl(null),
+      designationId: new FormControl(null),
+      dateOfJoining: new FormControl(null),
+      dateOfReliving: new FormControl(null),
+      workExperienceXrefs: new FormControl()
+    });
+  }
+  removeItem(index: number): void {
+    this.empExperienceDetails.splice(index, 1);
   }
   experienceForm() {
-    this.addfields = []
     this.fbexperience = this.formbuilder.group({
-      employeeId: [],
-      workExperienceId:[],
-      companyName: new FormControl('', [Validators.required]),
-      companyLocation: new FormControl('', [Validators.required]),
-      companyEmployeeId: new FormControl('', [Validators.required]),
-      designationId: new FormControl('', [Validators.required]),
-      dateOfJoining: new FormControl('', [Validators.required]),
-      dateOfReliving: new FormControl('', [Validators.required]),
-      stateId: new FormControl('', [Validators.required]),
-      toDate: new FormControl('', [Validators.required]),
-      designation: new FormControl('', [Validators.required]),
+      employeeId: this.employeeId,
+      workExperienceId: [],
+      isAfresher: new FormControl(false, [Validators.required]),
+      companyName: new FormControl('', [Validators.required,Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
+      companyLocation: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
+      companyEmployeeId: new FormControl(null, [ Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_20)]),
+      countryId:new FormControl(null,[Validators.required]),
+      stateId: new FormControl(null, [Validators.required]),
+      designationId: new FormControl(null, [Validators.required]),
+      dateOfJoining: new FormControl(null, [Validators.required]),
+      dateOfReliving: new FormControl(null, [Validators.required]),
+      skills:new FormControl(null, [Validators.required]),
+      workExperienceXrefs:  new FormControl([], [Validators.required]),
       experienceDetails: this.formbuilder.array([])
     });
   }
-  generaterow(experienceDetails: Experience = new Experience()): FormGroup {
-    return this.formbuilder.group({
-      id: [experienceDetails.id],
-      companyName: new FormControl(experienceDetails.companyName, [Validators.required]),
-      fromDate: new FormControl(experienceDetails.fromDate, [Validators.required]),
-      toDate: new FormControl(experienceDetails.toDate, [Validators.required]),
-      designation: new FormControl(experienceDetails.designation, [Validators.required]),
+  initCountries() {
+    this.lookupService.Countries().subscribe((resp) => {
+      this.countries = resp as unknown as LookupViewDto[];
     })
   }
-  faexperienceDetail(): FormArray {
-    return this.fbexperience.get("experienceDetails") as FormArray
+  getStatesByCountryId(id: number) {
+    this.lookupService.States(id).subscribe((resp) => {
+      if (resp) {
+        this.states = resp as unknown as LookupViewDto[];
+      }
+    })
+  }
+  initSkills() {
+    this.lookupService.SkillAreas().subscribe((resp) => {
+      this.skills = resp as unknown as LookupViewDto[];
+    })
+  }
+  initDesignations() {
+    this.lookupService.Designations().subscribe((resp) => {
+      this.designation = resp as unknown as LookupViewDto[];
+      console.log(this.designation)
+    })
+  }
+  generaterow(experienceDetails: ExperienceDetailsDto = new ExperienceDetailsDto()): FormGroup {
+    const formGroup = this.formbuilder.group({
+      employeeId: new FormControl({ value: experienceDetails.employeeId, disabled: true }),
+      workExperienceId: new FormControl({ value: experienceDetails.workExperienceId, disabled: true }),
+      isAfresher: new FormControl({ value: false, disabled: true }),
+      companyName: new FormControl({ value: experienceDetails.companyName, disabled: true }),
+      companyLocation: new FormControl({ value: experienceDetails.companyLocation, disabled: true }),
+      companyEmployeeId: new FormControl({ value: experienceDetails.companyEmployeeId, disabled: true }),
+      stateId: new FormControl({ value: experienceDetails.stateId, disabled: true }),
+      designationId: new FormControl({ value: experienceDetails.designationId, disabled: true }),
+      dateOfJoining: new FormControl({ value: experienceDetails.dateOfJoining, disabled: true }),
+      dateOfReliving: new FormControl({ value: experienceDetails.dateOfReliving, disabled: true }),
+      workExperienceXrefs: new FormControl({ value: experienceDetails.workExperienceXrefs, disabled: true }),
+    });
+    return formGroup;
+  }
+  headers: ITableHeader[] = [
+    { field: 'companyName', header: 'companyName', label: 'CompanyName' },
+    { field: 'companyLocation', header: 'companyLocation', label: 'Location' },
+    { field: 'companyEmployeeId', header: 'companyEmployeeId', label: 'companyEmpId' },
+    { field: 'stateId', header: 'stateId', label: 'State' },
+    { field: 'designationId', header: 'designationId', label: 'Designation' },
+    { field: 'dateOfJoining', header: 'dateOfJoining', label: 'DateOfJoining' },
+    { field: 'dateOfReliving', header: 'dateOfReliving', label: 'DateOfReliving' },
+    { field: 'workExperienceXrefs', header: 'workExperienceXrefs', label: 'SkillArea' }
+  ];
+  addexperienceDetails() {
+    if (this.fbexperience.invalid) {
+      return;
+    }
+    else {
+      this.fbexperience.value
+      // Push current values into the FormArray
+      this.faExperienceDetail().push(this.generaterow(this.fbexperience.getRawValue()));
+
+      for (let item of this.fbexperience.get('experienceDetails').value)
+        this.empExperienceDetails.push(item)
+      // Reset form controls for the next entry
+      this.fbexperience.patchValue({
+        employeeId: this.employeeId,
+        workExperienceId: null,
+        companyName: '',
+        companyLocation: '',
+        companyEmployeeId: null,
+        stateId: '',
+        designationId: '',
+        dateOfJoining: '',
+        dateOfReliving: '',
+        workExperienceXrefs: ''
+      });
+      // Clear validation errors
+      this.fbexperience.markAsPristine();
+      this.fbexperience.markAsUntouched();
+
+    }
+  }
+  faExperienceDetail(): FormArray {
+    return this.fbexperience.get('experienceDetails') as FormArray
+  }
+  get FormControls() {
+    return this.fbexperience.controls;
   }
 
+  onSelectSkill(e) {
+    this.viewSelectedSkills=e.value
+    let CurrentArray=e.value;
+    let  updatedArray=[];
+    for (let i = 0; i < CurrentArray.length; i++) {
+       updatedArray.push({ workExperienceXrefId: 0, workExperienceId: 0, skillAreaId:CurrentArray[i].lookupDetailId  })
+    }
+    this.fbexperience.get('workExperienceXrefs')?.setValue(updatedArray);
+  }
+
+  saveExperience(): Observable<HttpEvent<any>> {
+    if (this.selectedOption == 'Experience')
+      return this.employeeService.CreateExperience(this.fbexperience.get('experienceDetails').value);
+
+    else{
+      return this.employeeService.CreateExperience([this.fbfresher.value]);
+    }
+  }
+
+  onSubmit() {
+    this.saveExperience().subscribe(res => {
+      this.experienceForm();
+      if (res) {
+        this.alertMessage.displayAlertMessage(ALERT_CODES["SED001"]);
+        this.navigateToNext()
+      }
+      else {
+        this.alertMessage.displayErrorMessage(ALERT_CODES["SED002"]);
+      }
+    });
+  }
+
+  getEmpExperienceDetails(){
+    this.employeeService.GetWorkExperience(this.employeeId).subscribe((data) => {
+      this.empExperienceDetails = data ;
+      console.log(this.empExperienceDetails)
+      if(this.empExperienceDetails.length>0)
+      this.selectedOption = 'Experience';
+    })
+  }
   navigateToPrev() {
-    this.router.navigate(['employee/onboardingemployee/educationdetails'])
+    this.router.navigate(['employee/onboardingemployee/educationdetails',this.employeeId])
   }
 
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/addressdetails'])
+    this.router.navigate(['employee/onboardingemployee/addressdetails',this.employeeId])
   }
 }

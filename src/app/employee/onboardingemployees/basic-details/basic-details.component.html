@@ -2,7 +2,7 @@
 <form [formGroup]="fbbasicDetails">
     <div class="grid mt-3">
         <div class="col-12 roles-container">
-            <div class="p-fluid p-formgrid grid">
+            <div id="hrms" class="p-fluid p-formgrid grid content_scroll">
                 <div class="field col-12 md:col-4">
                     <span class="p-float-label">
                         <input type="text" id="first_Name" pInputText formControlName="firstName" #firstname alphaOnly
@@ -258,23 +258,26 @@
                         </div>
                     </div>
                 </div>
+
                 <br>
+               
+
+                
+            </div>
+            <div class="p-fluid p-formgrid grid">
                 <div class="field col-4">
                 </div>
-                <div class="field col-4">
-                </div>
-                <div class="field col-4">
-                </div>
-                <div class=" col-4">
+                <div class=" md:col-4">
                     <button p-button class="p-element p-ripple p-button-info p-button p-component"
-                        [disabled]="fbbasicDetails.invalid" (click)="onSubmit()">Save as
+                        [disabled]="fbbasicDetails.invalid" (click)="save()">Save as
                         Draft</button>
                 </div>
-                <div class=" col-4">
+                <div class=" md:col-4">
                     <button p-button class="p-element p-ripple p-button-primary p-button p-component"
-                 (click)="navigateToNext()">Education Details </button>
+                (click)="navigateToNext()">Education Details </button>
                 </div>
             </div>
         </div>
     </div>
+    
 </form>

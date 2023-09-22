@@ -1,15 +1,16 @@
 import { HttpEvent } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, DebugElement, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
+import { FORMAT_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { LookupViewDto } from 'src/app/_models/admin';
 import { MaxLength } from 'src/app/_models/common';
 import { EmployeeBasicDetailDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { LookupService } from 'src/app/_services/lookup.service';
-import {MIN_LENGTH_2, RG_ALPHA_NUMERIC, RG_ALPHA_ONLY, RG_EMAIL, RG_PHONE_NO } from 'src/app/_shared/regex';
+import { MIN_LENGTH_2, RG_ALPHA_ONLY, RG_EMAIL, RG_PHONE_NO } from 'src/app/_shared/regex';
 
 
 interface General {
@@ -31,11 +32,23 @@ export class BasicDetailsComponent implements OnInit {
   maxLength: MaxLength = new MaxLength();
   addFlag: boolean = true;
   basicDetails: EmployeeBasicDetailDto[];
+  empbasicDetails = new EmployeeBasicDetailDto();
   bloodgroups: LookupViewDto[] = [];
   employeeId: any;
-  constructor(private router: Router, private employeeService: EmployeeService, private formbuilder: FormBuilder, private lookupService: LookupService, private alertMessage: AlertmessageService) { }
+  submitLabel!: string;
+  ShowEmpBasicDetails: boolean = false;
+
+  constructor(private router: Router, private route: ActivatedRoute,
+    private employeeService: EmployeeService, private formbuilder: FormBuilder, private lookupService: LookupService, private alertMessage: AlertmessageService) {
+
+  }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.employeeId = 119;
+    });
+    if(this.employeeId)
+    this.getEmployeeBasedonId();
     this.basicDetailsForm();
     this.initBloodGroups();
     this.genders = [
@@ -80,31 +93,50 @@ export class BasicDetailsComponent implements OnInit {
       this.bloodgroups = resp as unknown as LookupViewDto[];
     });
   }
+  getEmployeeBasedonId() {
+    this.employeeService.GetViewEmpPersDtls(this.employeeId).subscribe((resp) => {
+      this.empbasicDetails = resp as EmployeeBasicDetailDto;
+      this.editEducationDetails(this.empbasicDetails);
+    });
+  }
   savebasicDetails(): Observable<HttpEvent<EmployeeBasicDetailDto>> {
-    return this.employeeService.CreateBasicDetails(this.fbbasicDetails.value)
-  }
-  onSubmit() {
-    if (this.fbbasicDetails.valid) {
-      if (this.addFlag) {
-        this.save();
-      }
-    } else {
-      this.fbbasicDetails.markAllAsTouched();
+
+    if (this.employeeId == null) {
+      return this.employeeService.CreateBasicDetails(this.fbbasicDetails.value)
     }
+    else return this.employeeService.updateViewEmpPersDtls(this.fbbasicDetails.value)
   }
+
   save() {
-    if (this.fbbasicDetails.valid) {
-      this.savebasicDetails().subscribe(resp => {
-        console.log(resp);
-        this.employeeId = resp;
-        this.fbbasicDetails.disable();
-        this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "SBD001" : "SBD002"]);
-        this.navigateToNext()
-      })
-    }
-    else {
-      this.fbbasicDetails.markAllAsTouched();
-    }
+    this.savebasicDetails().subscribe(resp => {
+      this.employeeId = resp;
+      this.navigateToNext();
+      this.alertMessage.displayAlertMessage(ALERT_CODES["SBD001"]);
+    })
+  }
+  editEducationDetails(empbasicDetails) {
+    this.addFlag = false;
+    this.fbbasicDetails.patchValue(
+      {
+        employeeId: empbasicDetails.employeeId,
+        code: empbasicDetails.code,
+        firstName: empbasicDetails.firstName,
+        middleName: empbasicDetails.middleName,
+        lastName: empbasicDetails.lastName,
+        userId: empbasicDetails.userId,
+        gender: empbasicDetails.gender,
+        bloodGroupId: empbasicDetails.bloodGroupId,
+        maritalStatus: empbasicDetails.maritalStatus,
+        mobileNumber: empbasicDetails.mobileNumber,
+        alternateMobileNumber: empbasicDetails.alternateMobileNumber,
+        originalDob: FORMAT_DATE(new Date(empbasicDetails.originalDOB)),
+        certificateDob: FORMAT_DATE(new Date(empbasicDetails.certificateDOB)),
+        emailId: empbasicDetails.emailId,
+        isActive: empbasicDetails.isActive,
+        photo: empbasicDetails.photo,
+        signDate: empbasicDetails.signDate
+      }
+    );
   }
   restrictSpaces(event: KeyboardEvent) {
     if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {
@@ -132,7 +164,7 @@ export class BasicDetailsComponent implements OnInit {
     };
   }
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/educationdetails']);
+    this.router.navigate(['employee/onboardingemployee/educationdetails', this.employeeId]);
 
   }
 }

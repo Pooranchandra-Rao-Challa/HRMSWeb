@@ -1,6 +1,7 @@
+ <p-toast key="tst"></p-toast>
 <div class="col-12">
   <div class="card">
-    <p-toast key="tst"></p-toast>
+   
     <!-- Toolbar -->
     <p-toolbar styleClass="p-mb-4">
       <ng-template pTemplate="left">
@@ -23,7 +24,7 @@
                 <div class="field col-12 md:col-4">
                   <label>Code: <sup class="p-error">*</sup>
                   </label>&nbsp; <input pInputText id="Project_code" type="text" formControlName="code"
-                    [readonly]="projectFormControls['code'].value!== null" [maxlength]="maxLength.code"
+                  [readonly]="projectFormControls['projectId'].value!== null" [maxlength]="maxLength.code"
                     placeholder="Enter Code" #code alphaNumeric />
                   <div class="flex">
                     <div class="align-left w-60" style="width:70%">
@@ -47,7 +48,7 @@
                 <div class="field col-12 md:col-4">
                   <label>Name: <sup class="p-error">*</sup>
                   </label>&nbsp; <input pInputText id="Project_name" type="text" formControlName="name"
-                    [readonly]="projectFormControls['name'].value!== null" [maxlength]="maxLength.name"
+                  [readonly]="projectFormControls['projectId'].value!== null" [maxlength]="maxLength.name"
                     placeholder="Enter Name" #name alphaNumeric />
                   <div class="flex">
                     <div class="align-left w-60" style="width:70%">
@@ -148,7 +149,7 @@
                   <label>Company Full Name: <sup class="p-error">*</sup>
                   </label>&nbsp;
                   <p-autoComplete formControlName="companyName" [suggestions]="this.filteredClients"
-                    [readonly]="fcClientDetails.controls['companyName'].value!== null"
+                  [readonly]="projectFormControls['projectId'].value!== null"
                     placeholder="Enter Company Full Name" #companyName (completeMethod)="filterClients($event)"
                     (onSelect)="onAutocompleteSelect($event)" field="companyName" id="Project_fullName">
                   </p-autoComplete>
@@ -344,7 +345,7 @@
                       </div>
                     </ng-template>
                   </p-multiSelect>
-                  <p-multiSelect *ngIf="this.addFlag == false" placeholder="Select Employees" [options]="Employees"
+                  <p-multiSelect *ngIf="this.addFlag == false" placeholder="Select Employees" [options]="Employees" 
                     optionLabel="employeeName" formControlName="ProjectAllotments" [filter]="true"
                     filterBy="employeeId,employeeName" appendTo="body">
                     <ng-template let-employee pTemplate="selectedItem">
@@ -413,6 +414,22 @@
                 </div>
               </ng-template>
             </p-organizationChart>
+          </div>
+        </p-tabPanel>
+        <p-tabPanel header="D3Js View">
+          <div id="hrms" class="scroll_div scroll  pb-5">
+            <app-d3-org-chart [data]="data"></app-d3-org-chart>
+            <div id="myDiagramDiv" style="width: 100%; height: 500px;"></div>
+            <div id="chart-container" class="chart-container"></div>
+            <!-- <p-organizationChart [value]="projectTreeData" selectionMode="single" [preserveSpace]="false">
+              <ng-template let-node pTemplate="person">
+                <div class="p-1 text-center" (click)="hierarchialDialog(node)">
+                  <img [src]="node.data.image" class="mb-3 w-3rem h-3rem" />
+                  <div class="font-bold">{{ node.data.name }}</div>
+                  <div>{{ node.data.title }}</div>
+                </div>
+              </ng-template>
+            </p-organizationChart> -->
           </div>
         </p-tabPanel>
       </p-tabView>

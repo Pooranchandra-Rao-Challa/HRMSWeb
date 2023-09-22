@@ -5,7 +5,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { familyDetailViewDto } from 'src/app/demo/api/security';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { LookupViewDto } from 'src/app/_models/admin';
@@ -31,7 +30,7 @@ relationshipStatus: General[] |undefined ;
   fafamilyDetails!: FormArray;
   showFamilyDetails: boolean = true;
   submitLabel: string;
-  employeeId: number;
+  employeeId: any;
   maxLength: MaxLength = new MaxLength();
   relationships: LookupViewDto[] = [];
   address: EmployeAdressViewDto[] = [];
@@ -40,6 +39,7 @@ relationshipStatus: General[] |undefined ;
   ShowfamilyDetails: boolean = false;
   mediumDate: string = MEDIUM_DATE;
   addFlag: boolean = true;
+  empFamDetails = new FamilyDetailsDto();
 
 
   constructor(private router: Router,
@@ -50,9 +50,10 @@ relationshipStatus: General[] |undefined ;
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.employee = params['employee'];
+      this.employeeId = params['employeeId'];
     });
-    console.log(this.employeeId)
+    console.log(this.employeeId);
+    this.getFamilyDetails();
     this.initFamily();
     this.addFamilyMembers();
     this.initRelationship();
@@ -71,7 +72,7 @@ relationshipStatus: General[] |undefined ;
   initFamily() {
     this.fbfamilyDetails = this.formbuilder.group({
       familyInformationId: [null],
-      employeeId: [22],
+      employeeId: this.employeeId,
       name: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2)]),
       relationshipId: new FormControl(null, [Validators.required]),
       addressId: new FormControl(null),
@@ -89,7 +90,7 @@ relationshipStatus: General[] |undefined ;
     });
   }
   initAddress() {
-    this.employeeService.GetAddress(5).subscribe((resp) => {
+    this.employeeService.GetAddress(this.employeeId).subscribe((resp) => {
       this.address = resp as unknown as EmployeAdressViewDto[];
       console.log('this.address', this.address);
     });
@@ -97,29 +98,40 @@ relationshipStatus: General[] |undefined ;
   get FormControls() {
     return this.fbfamilyDetails.controls;
   }
+  getFamilyDetails() {
+    return this.employeeService.getFamilyDetails(this.employeeId).subscribe((data) => {
+      this.empFamDetails = data as FamilyDetailsDto;
+      console.log(data);
+      this.editFamilyDetails(this.empFamDetails);
+    })
+  }
+  editFamilyDetails(empFamDetails) {
+    this.addFlag = false;
+    this.familyDetails = empFamDetails;
+  }
   restrictSpaces(event: KeyboardEvent) {
     if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {
       event.preventDefault();
     }
   }
-  faFamilyDetail(): FormArray {
-    return this.fbfamilyDetails.get("familyDetails") as FormArray
-  }
+  // faFamilyDetail(): FormArray {
+  //   return this.fbfamilyDetails.get("familyDetails") as FormArray
+  // }
 
-  generaterow(familyDetails: FamilyDetailsDto = new FamilyDetailsDto()): FormGroup {
-    return this.formbuilder.group({
-      familyInformationId: new FormControl(familyDetails.familyInformationId),
-      employeeId: new FormControl(familyDetails.employeeId),
-      name: new FormControl(familyDetails.name, [Validators.required, Validators.minLength(MIN_LENGTH_2)]),
-      relationshipId: new FormControl(familyDetails.relationshipId, [Validators.required]),
-      addressId: new FormControl(familyDetails.addressId),
-      dob: new FormControl(familyDetails.dob, [Validators.required]),
-      adhaarNo: new FormControl(familyDetails.adhaarNo, [Validators.required]),
-      panno: new FormControl(familyDetails.panno, [Validators.pattern(RG_PANNO)]),
-      mobileNumber: new FormControl(familyDetails.mobileNumber, [Validators.required, Validators.pattern(RG_PHONE_NO)]),
-      isNominee: new FormControl(familyDetails.isNominee),
-    });
-  }
+  // generaterow(familyDetails: FamilyDetailsDto = new FamilyDetailsDto()): FormGroup {
+  //   return this.formbuilder.group({
+  //     familyInformationId: new FormControl({value:familyDetails.familyInformationId,disabled:true}),
+  //     employeeId: new FormControl({value:familyDetails.employeeId,disabled:true}),
+  //     name: new FormControl({value:familyDetails.name,disabled:true}),
+  //     relationshipId: new FormControl({value:familyDetails.relationshipId,disabled:true}),
+  //     addressId: new FormControl({values:familyDetails.addressId,disabled:true}),
+  //     dob: new FormControl({value:familyDetails.dob,disabled:true}),
+  //     adhaarNo: new FormControl({value:familyDetails.adhaarNo,disabled:true}),
+  //     panno: new FormControl({value:familyDetails.panno,disabled:true}),
+  //     mobileNumber: new FormControl({value:familyDetails.mobileNumber,disabled:true}),
+  //     isNominee: new FormControl({value:familyDetails.isNominee,disabled:true}),
+  //   });
+  // }
   clearForm() {
     this.fbfamilyDetails.reset();
     this.fbfamilyDetails.get('isNominee').setValue(true);
@@ -128,39 +140,32 @@ relationshipStatus: General[] |undefined ;
     if (this.fbfamilyDetails.valid) {
       const familyData = this.fbfamilyDetails.value;
       this.familyDetails.push(familyData);
-      this.fbfamilyDetails.disable;
       console.log(this.familyDetails.values);
       this.clearForm();
-      this.ShowfamilyDetails = true;
     }
   }
   savefamilyDetails(): Observable<HttpEvent<FamilyDetailsDto[]>> {
-    return this.employeeService.CreateFamilyDetails(this.familyDetails);
+    return this.employeeService.CreateFamilyDetails(this.familyDetails)
   }
   onSubmit() {
-    if (this.addFlag) {
-      debugger
-      this.save();
-      this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "SFD001" : "SFD002"]);
-    }
-    else {
-      this.fbfamilyDetails.markAllAsTouched();
-    }
-  }
-  save() {
     this.savefamilyDetails().subscribe(resp => {
-      console.log(resp);
-      // this.employeeId = resp;
+      if(resp){
+        this.alertMessage.displayAlertMessage(ALERT_CODES["SFD001" ]);
+        this.navigateToNext();
+      }
+      else{
+        this.alertMessage.displayAlertMessage(ALERT_CODES["SFD002" ]);
+      }
       this.navigateToNext();
     })
 
   }
   navigateToPrev() {
-    this.router.navigate(['employee/onboardingemployee/uploadfiles'])
+    this.router.navigate(['employee/onboardingemployee/uploadfiles',this.employeeId])
   }
 
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/bankdetails'])
+    this.router.navigate(['employee/onboardingemployee/bankdetails',this.employeeId])
   }
 
 

@@ -27,14 +27,15 @@ const routes: Routes = [];
       {
         path: 'onboardingemployee', data: { breadcrumb: 'On-Boarding Employees' }, component: OnboardingemployeesComponent,
         children: [
-          { path: 'addressdetails', component: AddressComponent },
+          { path: 'addressdetails/:employeeId', component: AddressComponent },
           { path: 'basicdetails', component: BasicDetailsComponent },
-          { path: 'educationdetails', component: EducationDetailsComponent },
-          { path: 'experiencedetails', component: ExperienceDetailsComponent },
-          { path: 'bankdetails', component: BankDetailsComponent },
-          { path: 'uploadfiles', component: UploadDocumentsComponent },
-          { path: 'finalsubmit', component: FinalSubmitComponent },
-          { path: 'familydetails', component: FamilyDeatilsComponent }
+          { path: 'basicdetailsbyId/:employeeId', component: BasicDetailsComponent },
+          { path: 'educationdetails/:employeeId', component: EducationDetailsComponent },
+          { path: 'experiencedetails/:employeeId', component: ExperienceDetailsComponent },
+          { path: 'bankdetails/:employeeId', component: BankDetailsComponent },
+          { path: 'uploadfiles/:employeeId', component: UploadDocumentsComponent },
+          { path: 'finalsubmit/:employeeId', component: FinalSubmitComponent },
+          { path: 'familydetails/:employeeId', component: FamilyDeatilsComponent }
         ],
       },
       { path: 'viewemployees', data: { breadcrumb: 'Employee Name' }, component: ViewemployeesComponent }

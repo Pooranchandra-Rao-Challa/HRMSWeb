@@ -2,14 +2,13 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
+import { AssetAllotment } from 'src/app/_models/common';
 import { AdminService } from 'src/app/_services/admin.service';
 import { MIN_LENGTH_2 } from 'src/app/_shared/regex';
 
 @Component({
     selector: 'app-unassignasset.dialog',
     templateUrl: './unassignasset.dialog.component.html',
-    styles: [
-    ]
 })
 export class UnassignassetDialogComponent {
     fbUnAssignAsset!: FormGroup;
@@ -18,8 +17,10 @@ export class UnassignassetDialogComponent {
         private adminService: AdminService,
         private alertMessage: AlertmessageService,
         public ref: DynamicDialogRef,
-        private config: DynamicDialogConfig) { }
+        private config: DynamicDialogConfig) {
+            console.log(this.config.data);
 
+        }
 
     ngOnInit() {
         this.unAssignAssetForm();
@@ -39,15 +40,17 @@ export class UnassignassetDialogComponent {
     }
 
     onSubmitUnAssignedAsset() {
-        debugger
         this.adminService.UnassignAssetAllotment(this.fbUnAssignAsset.value).subscribe((resp) => {
             if (resp) {
                 this.alertMessage.displayAlertMessage(ALERT_CODES["SAAAA002"]);
-                this.ref.close(resp);
+                this.ref.close({
+                    "UpdatedModal": AssetAllotment.Unassign
+                });
             }
             else {
                 this.alertMessage.displayErrorMessage(ALERT_CODES["EAAAA002"]);
             }
         });
     }
+
 }

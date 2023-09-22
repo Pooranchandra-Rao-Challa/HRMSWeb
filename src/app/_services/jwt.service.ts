@@ -63,13 +63,15 @@ export class JwtService {
         localStorage.setItem(REFRESHTOKEN_KEY, tokens.refreshToken)
     }
 
-    public addLookupKeys(keys: string) {
-        if (keys && !this.HasLookupKey) {
-            localStorage.setItem(LOOKUP_KEYS, keys)
+    public addLookupKeys(keys: {},forceLocal:boolean = false) {
+        if ((keys && !this.HasLookupKey) || forceLocal) {
+            localStorage.setItem(LOOKUP_KEYS, JSON.stringify(keys))
         }
     }
 
     public get LookupKeys() {
+        console.log(JSON.parse(localStorage.getItem(LOOKUP_KEYS)).Lookups);
+
         if (this.HasLookupKey)
             return JSON.parse(localStorage.getItem(LOOKUP_KEYS)).Lookups;
         else return {}

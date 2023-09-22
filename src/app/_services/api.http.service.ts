@@ -5,7 +5,7 @@ import { URI_ENDPOINT, URI_ENDPOINT_WITH_ID, URI_ENDPOINT_WITH_PARAMS } from 'sr
 import { ResponseModel } from '../_models/login.model';
 import { JwtService } from './jwt.service';
 import { MessageService } from 'primeng/api';
-import { LOOKUP_LOOKUPS_URI } from './api.uri.service';
+import { LOOKUP_LOOKUPS_URI, LOOKUP_LOOKUP_KEYS_URI } from './api.uri.service';
 
 const TOKEN_KEY = 'auth-token';
 
@@ -18,14 +18,17 @@ export class ApiHttpService {
     constructor(private http: HttpClient,
         public jwtService: JwtService,
         public messageService: MessageService) {
-        this.UpdateLookups()
+
     }
 
-    public UpdateLookups() {
+    public UpdateLookups(forceLocal:boolean = false) {
+        console.log(this.jwtService.IsLoggedIn);
+
         if (this.jwtService.IsLoggedIn) {
-            this.get<any>(LOOKUP_LOOKUPS_URI).subscribe({
+            this.get<any>(LOOKUP_LOOKUP_KEYS_URI).subscribe({
                 next: (resp) => {
-                    this.jwtService.addLookupKeys(resp + "");
+                    console.log(resp);
+                    this.jwtService.addLookupKeys(resp, forceLocal);
                 },
                 error: (error) => { }
             }

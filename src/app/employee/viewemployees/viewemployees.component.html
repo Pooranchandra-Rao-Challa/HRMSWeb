@@ -4,19 +4,13 @@
     <p-toast key="tst"></p-toast>
     <div class="col-12 lg:col-2">
       <div class="fex">
-        <!-- <div class="flex flex-column w-2 justify-content-between" style="row-gap: 1rem"><img
-                          *ngFor="let image of images; let i = index"
-                          [ngClass]="{ 'border-primary': selectedImageIndex === i }"
-                          src="assets/demo/images/ecommerce/productoverview/{{ image }}"
-                          class="w-full cursor-pointer border-2 border-transparent transition-colors transition-duration-150 border-round"
-                          (click)="selectedImageIndex = i"
-                      /></div> -->
+        
 
         <!-- Basic details card view -->
         <div class="col text-center">
           <img
             [src]="employeePrsDtls.photo ? employeePrsDtls.photo : 'https://t3.ftcdn.net/jpg/02/18/21/86/360_F_218218632_jF6XAkcrlBjv1mAg9Ow0UBMLBaJrhygH.jpg'"
-            [alt]="employeePrsDtls.employeeName" class="shadow-2 my-1 mx-0 employee_profile_pic zoomable-img"
+            [alt]="employeePrsDtls.employeeName" class="shadow-2 my-1 mx-0 employee_profile_pic employee_profile_pic_view"
             style="width: 70%;" />
         </div>
         <div class=" align-items-center text-xl text-center font-medium text-900 mb-1">{{employeePrsDtls?.employeeName}}
@@ -107,30 +101,30 @@
       </div>
     </div>
   </div>
-
   <p-tabView>
+
     <!-- Education Details card view -->
     <p-tabPanel header="Education Details ">
       <div class="grid">
         <div class="col-12 lg:col-4" *ngFor="let education of educationDetails">
           <div class="card">
-            <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">{{education.stream}}</div>
+            <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">{{education?.stream}}</div>
 
             <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
               <li class="mb-3">
-                <span class="font-semibold ">Institution Name :</span> {{education.institutionName}}
+                <span class="font-semibold ">Institution Name :</span> {{education?.institutionName}}
               </li>
               <li class="mb-3">
-                <span class="font-semibold">College Name :</span> {{education.authorityName}}
+                <span class="font-semibold">College Name :</span> {{education?.authorityName}}
               </li>
               <li class="mb-3">
-                <span class="font-semibold">YOP:</span> {{education.passedOutyear | date: mediumDate}}
+                <span class="font-semibold">YOP:</span> {{education?.passedOutyear | date: mediumDate}}
               </li>
               <li class="mb-3">
-                <span class="font-semibold ">Grading System :</span> {{education.gradingMethod}}
+                <span class="font-semibold ">Grading System :</span> {{education?.gradingMethod}}
               </li>
               <li class="mb-3">
-                <span class="font-semibold ">Score/Percentage :</span> {{education.gradingValue}}
+                <span class="font-semibold ">Score/Percentage :</span> {{education?.gradingValue}}
               </li>
             </ul>
           </div>
@@ -145,6 +139,7 @@
         </div>
       </div>
     </p-tabPanel>
+
     <!-- Work Experience card view -->
     <p-tabPanel header="Work Experience ">
       <div class="grid">
@@ -187,7 +182,8 @@
             <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">
               <button pButton pRipple icon="pi pi-pencil"
                 class="p-element p-ripple p-button-text p-button p-component float-button position-relative"
-                (click)="editFamilyDetails(i)"></button>{{familyDetails.employeeName}}</div>
+                (click)="editFamilyDetails(i)"></button>{{familyDetails.employeeName}}
+            </div>
             <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
               <li class="mb-3">
                 <span class="font-semibold">Date Of Birth:</span> {{familyDetails.dob | date: mediumDate}}
@@ -238,14 +234,14 @@
         </div>
         <div class="col-12 lg:col-4">
           <div class="card text-center">
-            <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-text p-button p-component m-5 p-5"
-              (click)="showAddressDetails()">
+            <button pButton pRipple icon="pi pi-plus"
+              class="p-element p-ripple p-button-text p-button p-component m-5 p-5" (click)="showAddressDetails()">
               Add
             </button>
           </div>
         </div>
       </div>
-    
+
     </p-tabPanel>
     <!-- Upload Documents card view -->
     <p-tabPanel header="Upload Documents">
@@ -260,18 +256,20 @@
                 <th>Actions</th>
               </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-UploadedDocuments let-rowIndex="rowIndex">
+            <ng-template pTemplate="body" let-UploadedDocument let-rowIndex="rowIndex">
               <tr>
                 <td class="pl-5">{{ rowIndex + 1 }}</td>
-                <td>{{ UploadedDocuments.EmployeeName }}</td>
-                <td class="pl-5">{{ UploadedDocuments.fileName }}</td>
+                <td>{{ UploadedDocument.title }}</td>
+                <td class="pl-5">{{ UploadedDocument.fileName }}</td>
                 <td>
                   <div class="flex">
-                    <button pButton pRipple icon="pi pi-download" style="padding: 0px;"
-                      class="p-element p-ripple p-button-text p-button p-component col-6"></button>
+                     <!-- <button pButton pRipple icon="pi pi-download" style="padding: 0px;"
+                      class="p-element p-ripple p-button-text p-button p-component col-6"
+                      (click)="downloadDocument(UploadedDocument)"></button>
                     <button pButton pRipple icon="pi pi-trash" id="delete"
-                      class="p-element p-ripple p-button-text p-button p-component col-6 "></button>
-                  </div>
+                      class="p-element p-ripple p-button-text p-button p-component col-6"
+                      (click)="removeDocument(UploadedDocument)"></button> -->
+                  </div> 
                 </td>
               </tr>
             </ng-template>
@@ -299,46 +297,46 @@
             </ul>
           </div>
         </div>
-    
+
       </div>
     </p-tabPanel>
 
     <!-- Bank Details card view -->
-  <p-tabPanel header="Bank Details">
-    <div class="grid">
-      <div class="col-12 lg:col-4" *ngFor="let bank of bankDetails1; let i = index">
-        <div class="card">
-          <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2"><button pButton pRipple icon="pi pi-pencil"
-              class="p-element p-ripple p-button-text p-button p-component float-button position-relative"
-              (click)="editBankDetails(i)"></button>{{bank.bankName}}
+    <p-tabPanel header="Bank Details">
+      <div class="grid">
+        <div class="col-12 lg:col-4" *ngFor="let bank of bankDetails1; let i = index">
+          <div class="card">
+            <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2"><button pButton pRipple icon="pi pi-pencil"
+                class="p-element p-ripple p-button-text p-button p-component float-button position-relative"
+                (click)="editBankDetails(i)"></button>{{bank.bankName}}
+            </div>
+            <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
+              <li class="mb-2">
+                <span class="font-semibold "> Name :</span> {{bank.employeeName}}
+              </li>
+              <li class="mb-2">
+                <span class="font-semibold ">AccountNo :</span> {{bank.accountNumber}}
+              </li>
+              <li class="mb-2">
+                <span class="font-semibold ">IFSCCode :</span> {{bank.ifsc}}
+              </li>
+              <li class="mb-2">
+                <span class="font-semibold mb-1">BranchName :</span> {{bank.branchName}}
+              </li>
+            </ul>
           </div>
-          <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
-      <li class="mb-2">
-        <span class="font-semibold "> Name :</span> {{bank.employeeName}}
-      </li>
-            <li class="mb-2">
-              <span class="font-semibold ">AccountNo :</span> {{bank.accountNumber}}
-            </li>
-            <li class="mb-2">
-              <span class="font-semibold ">IFSCCode :</span> {{bank.ifsc}}
-            </li>
-            <li class="mb-2">
-              <span class="font-semibold mb-1">BranchName :</span> {{bank.branchName}}
-            </li>
-          </ul>
+        </div>
+
+        <div class="col-12 lg:col-4">
+          <div class="card text-center">
+            <button pButton pRipple icon="pi pi-plus"
+              class="p-element p-ripple p-button-text p-button p-component m-5 p-5" (click)="showBankDetails()">
+              Add</button>
+          </div>
         </div>
       </div>
-  
-      <div class="col-12 lg:col-4">
-        <div class="card text-center">
-          <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-text p-button p-component m-5 p-5"
-            (click)="showBankDetails()">
-            Add</button>
-        </div>
-      </div>
-    </div>
-  </p-tabPanel>
- 
+    </p-tabPanel>
+
 
   </p-tabView>
 
@@ -397,7 +395,7 @@
               </div>
               <div class="field col-12 md:col-4">
                 <label>Marital Status: <sup class="p-error">*</sup> </label>
-                <p-dropdown id="maritalStatus" placeholder="Enter Marital Status" [options]="status"  optionLabel="name" 
+                <p-dropdown id="maritalStatus" placeholder="Enter Marital Status" [options]="status" optionLabel="name"
                   formControlName="maritalStatus" optionValue="name"></p-dropdown>
               </div>
               <div class="field col-12 md:col-4">
@@ -504,9 +502,11 @@
 
   </p-dialog>
 </div>
-<!-- p-dialog Education Details-->
-<p-dialog header=" CIS202214 Education Details" [(visible)]="Education" [modal]="true" showEffect="fade"
-  [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
+
+<!--p-dialog Education Details-->
+
+<p-dialog header="Education Details" [(visible)]="Education" [modal]="true" showEffect="fade"
+  [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '80%'}">
   <div class="flex flex-column align-items-center justify-content-center">
     <form [formGroup]="fbEducationDetails">
       <div class="grid">
@@ -521,9 +521,13 @@
               <p-table #dt2 [value]="faeducationDetail().controls" dataKey="id" [rows]="10" [rowHover]="true"
                 *ngIf="ShoweducationDetails" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
                 [paginator]="false" [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]">>
-                <ng-template pTemplate="header">
+                <ng-template pTemplate="header" let-experience let-experienceDetailsIndex="rowIndex">
                   <tr>
-                    <th>Course <sup class="p-error">*</sup>
+                    <th>Circulum<sup class="p-error">*</sup>
+                    </th>
+                    <th>Stream <sup class="p-error">*</sup>
+                    </th>
+                    <th>Country <sup class="p-error">*</sup>
                     </th>
                     <th>State <sup class="p-error">*</sup>
                     </th>
@@ -531,59 +535,83 @@
                     </th>
                     <th>Board/University Name<sup class="p-error">*</sup>
                     </th>
-                    <th>Stream <sup class="p-error">*</sup>
-                    </th>
                     <th>Year of pass <sup class="p-error">*</sup>
                     </th>
-                    <th>Grading System <sup class="p-error">*</sup>Stream
+                    <th>Grading System <sup class="p-error">*</sup>
                     </th>
                     <th>CGPA/Percentage System <sup class="p-error">*</sup>
                     </th>
                     <th *ngIf="fbEducationDetails.controls['educationDetails'].value.length > 1"></th>
                   </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-experience let-experienceDetailsIndex="rowIndex">
-                  <tr [formGroupName]="experienceDetailsIndex">
+                <ng-template pTemplate="body" let-education let-educationDetailsIndex="rowIndex">
+                  <tr [formGroupName]="educationDetailsIndex">
                     <td class="vertical-align-top">
-                      <input pInputText class="form-control" placeholder="Enter Course">
+                      <p-dropdown id="circulum_dropdown" [autoDisplayFirst]="false" [options]="circulum" 
+                        placeholder="Select Circulum" optionLabel="name" appendTo="body" optionValue="lookupDetailId"
+                        formControlName="curriculumId" (onChange)="getStreamByCirculumId($event.value)">
+                      </p-dropdown>
                     </td>
                     <td class="vertical-align-top">
-                      <input pInputText class="form-control" placeholder="Enter State">
+                      <p-dropdown id="stream_dropdown" [autoDisplayFirst]="false" optionLabel="name" [options]="stream"
+                        optionValue="lookupDetailId" appendTo="body" formControlName="streamId" placeholder="Select Stream">
+                      </p-dropdown>
+                    </td>
+                    <td class="vertical-align-top">
+                      <p-dropdown id="country_dropdown" [autoDisplayFirst]="false" optionLabel="name" appendTo="body"
+                      [options]="countries" optionValue="lookupDetailId" formControlName="countryId" 
+                      placeholder="Select country"
+                      (onChange)="getStatesByCountryId($event.value)">
+                  </p-dropdown>
+                    <td class="vertical-align-top">
+                      <p-dropdown id="states_dropdown" appendTo="body" optionLabel="name" placeholder="Select State"
+                        [options]="states" optionValue="lookupDetailId" formControlName="stateId">
+                      </p-dropdown>
+                    </td>
+                    <td class="vertical-align-top">
+                      <input pInputText class="form-control" formControlName="institutionName"
+                        placeholder="Enter School/College Name">
 
                     </td>
                     <td class="vertical-align-top">
-                      <input pInputText class="form-control" placeholder="Enter School/College Name ">
-
+                      <input pInputText class="form-control" formControlName="authorityName"
+                        placeholder="Enter Board/University Name">
                     </td>
                     <td class="vertical-align-top">
-                      <input pInputText class="form-control" placeholder="Enter Board/University Name">
+                        <p-calendar [yearNavigator]="true" [yearRange]="'1996:2025'" appendTo="body" placeholder="select calender"
+                            [showIcon]="true" dateFormat="yy-mm-dd" formControlName="passedOutyear" >
+                        </p-calendar>
                     </td>
                     <td class="vertical-align-top">
-                      <input pInputText class="form-control" placeholder="Enter Stream">
+                        <p-dropdown id="gradingStystem_dropdown" [autoDisplayFirst]="false"  appendTo="body"
+                          placeholder="Select Grading Method" [options]="gradingMethods"
+                        optionLabel="name" optionValue="lookupDetailId" formControlName="gradingMethodId">
+                    </p-dropdown>
                     </td>
                     <td class="vertical-align-top">
-                      <input pInputText class="form-control" placeholder="Enter Year of pass">
-
+                      <input pInputText class="form-control" formControlName="gradingValue"
+                        placeholder="Enter CGPA/Percentage System">
                     </td>
-                    <td class="vertical-align-top">
-                      <input pInputText class="form-control" placeholder="Enter Grading System">
-                    </td>
-                    <td class="vertical-align-top">
-                      <input pInputText class="form-control" placeholder="Enter CGPA/Percentage System ">
-                    </td>
-                    <td *ngIf="fbEducationDetails.controls['educationDetails'].value.length > 1">
+                    <!-- <td *ngIf="fbEducationDetails.controls['educationDetails'].value.length > 1">
                       <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer"
                         *ngIf="!this.faeducationDetail().controls[experienceDetailsIndex].get('id')?.value"
                         (click)="faeducationDetail().removeAt(experienceDetailsIndex)"></i>
                       <i class="pi pi-fw pi-verified text-3xl"
                         *ngIf="this.faeducationDetail().controls[experienceDetailsIndex].get('id')?.value"></i>
+                    </td> -->
+                    <td *ngIf="fbEducationDetails.controls['educationDetails'].value.length > 1">
+                      <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer"
+                        *ngIf="!this.faeducationDetail().controls[educationDetailsIndex].get('id')?.value"
+                        (click)="removeEducationDetail(educationDetailsIndex)"></i>
+                      <i class="pi pi-fw pi-verified text-3xl"
+                        *ngIf="this.faeducationDetail().controls[educationDetailsIndex].get('id')?.value"></i>
                     </td>
                   </tr>
                 </ng-template>
               </p-table>
             </div>
             <div class=" button-container d-flex flex-row justify-content-end">
-              <p-button type="button" label="Add/Update Education"></p-button>
+              <p-button type="button" label="Add/Update Education" (click)="saveEducationDetails()"></p-button>
             </div>
           </div>
         </div>
@@ -594,7 +622,7 @@
 
 <!-- p-dialog Work Experience -->
 <p-dialog header="Experience Details" [(visible)]="Experience" [modal]="true" showEffect="fade"
-  [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
+  [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '80%'}">
   <div class="flex flex-column align-items-center justify-content-center">
     <form [formGroup]="fbexperience">
       <div class="grid">
@@ -613,11 +641,21 @@
                   <tr>
                     <th>Company Name <sup class="p-error">*</sup>
                     </th>
-                    <th>From Date <sup class="p-error">*</sup>
+                    <th>Location<sup class="p-error">*</sup>
                     </th>
-                    <th>To Date <sup class="p-error">*</sup>
+                    <th>Company Emp Id<sup class="p-error">*</sup>
+                    </th>
+                    <th>Country <sup class="p-error">*</sup>
+                    </th>
+                    <th>State<sup class="p-error">*</sup>
                     </th>
                     <th>Designation <sup class="p-error">*</sup>
+                    </th>
+                    <th>Date Of Joining<sup class="p-error">*</sup>
+                    </th>
+                    <th>Date Of Relaving<sup class="p-error">*</sup>
+                    </th>
+                    <th>Skill Areas<sup class="p-error">*</sup>
                     </th>
                     <th *ngIf="fbexperience.controls['experienceDetails'].value.length > 1"></th>
                   </tr>
@@ -629,19 +667,49 @@
                         placeholder="Enter companyName">
                     </td>
                     <td class="vertical-align-top">
-                      <p-calendar [showIcon]="true" formControlName="fromDate" appendTo="body"
-                        placeholder="Select From Date"></p-calendar>
-
+                      <input pInputText class="form-control" formControlName="companyLocation"
+                        placeholder="Enter Location">
                     </td>
                     <td class="vertical-align-top">
-                      <p-calendar [showIcon]="true" formControlName="toDate" appendTo="body"
-                        placeholder="Select From Date"></p-calendar>
-
+                      <input pInputText class="form-control" formControlName="companyEmployeeId"
+                        placeholder="Enter Company Emp Id">
                     </td>
                     <td class="vertical-align-top">
-                      <input pInputText class="form-control" formControlName="designation"
-                        placeholder="Enter Designation">
+                    <p-dropdown id="country_dropdown" [autoDisplayFirst]="false" placeholder="Select country" optionLabel="name" appendTo="body"
+                    [options]="countries" optionValue="lookupDetailId" formControlName="countryId"
+                    (onChange)="getStatesByCountryId($event.value)">
+                </p-dropdown>
                     </td>
+                    <td class="vertical-align-top">
+                      <p-dropdown id="states_dropdown" appendTo="body" optionLabel="name" placeholder="Select State"
+                        [options]="states" optionValue="lookupDetailId" formControlName="stateId">
+                      </p-dropdown>
+                    </td>
+                    <td class="vertical-align-top">
+                      <p-dropdown id="designation" appendTo="body" optionLabel="name" placeholder="Select designation"
+                        [options]="designation" optionValue="lookupDetailId" formControlName="designationId">
+                      </p-dropdown>
+                    </td>
+                    <td class="vertical-align-top">
+                      <p-calendar [showIcon]="true" formControlName="dateOfJoining" appendTo="body"
+                        placeholder="Select From Date"></p-calendar>
+                    </td>
+                    <td class="vertical-align-top">
+                      <p-calendar [showIcon]="true" formControlName="dateOfReliving" appendTo="body"
+                        placeholder="Select From Date"></p-calendar>
+                    </td>
+                    <td class="vertical-align-top">
+                      <p-multiSelect placeholder="Select Skill Areas" inputId="multiselect" id="Experience_skillArea" optionValue="lookupDetailId"
+                        (onChange)="onSelectSkill($event)" [options]="skillarea" optionLabel="name" [filter]="false" [(ngModel)]="skillset"
+                        filterBy="name" #multiSelect formControlName="workExperienceXrefs"
+                        appendTo="body">
+                      </p-multiSelect>
+                    </td>
+                    <!-- <td class="vertical-align-top">
+                      <p-dropdown  appendTo="body" optionLabel="name" placeholder="Select Skill Area"
+                        [options]="skillarea" optionValue="lookupDetailId" formControlName="skillareaId">
+                      </p-dropdown>
+                    </td> -->
                     <td *ngIf="fbexperience.controls['experienceDetails'].value.length > 1">
                       <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer"
                         *ngIf="!this.faexperienceDetail().controls[experienceDetailsIndex].get('id')?.value"
@@ -653,7 +721,7 @@
                 </ng-template>
               </p-table>
             </div>
-            <div class=" button-container d-flex flex-row justify-content-end">
+            <div class=" button-container d-flex flex-row justify-content-end" (click)="saveEmpExperienceDetails()">
               <p-button type="button" label="Add/Update Experience"></p-button>
             </div>
           </div>
@@ -667,149 +735,156 @@
 <p-dialog header="CIS202214 Family Details" [(visible)]="Family" [modal]="true" showEffect="fade"
   [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
   <div class="flex flex-column align-items-center justify-content-center">
-  <form [formGroup]="fbfamilyDetails">
-    <div class="grid mt-3">
-      <div class="col-12 roles-container">
-        <div class="p-fluid p-formgrid grid">
-          <div class="field col-12 md:col-4">
-            <span class="p-float-label">
-              <input type="text" id="inputtext" pInputText formControlName="name" #name [maxlength]="20" alphaNumeric
-                (keydown)="restrictSpaces($event)"
-                [ngClass]="{ 'is-invalid ng-dirty': familyFormControls['name'].touched && familyFormControls['name'].errors }" />
-              <label class="required">Name</label>
-            </span>
-            <div class="flex">
-              <div class="align-left w-60" style="width:70%">
-                <span *ngIf="familyFormControls['name'].touched && familyFormControls['name'].invalid">
-                  <div class="ng-invalid ng-touched p-error" *ngIf="familyFormControls['name'].errors?.['required']">
-                    Please Enter Name.</div>
-                  <div class="ng-invalid ng-touched p-error" *ngIf="familyFormControls['name'].errors?.['minlength']">
-                    Name Min Length Is 2.</div>
-                </span>
-              </div>
-              <div class="align-right w-40" style="width:30%; text-align:right;">
-                <small>{{name.value.length}}/{{maxLength.name}} </small>
-              </div>
-            </div>
-          </div>
-          <div class="field col-12 md:col-4">
-            <span class="p-float-label">
-              <p-dropdown id="relationship_dropdown" [autoDisplayFirst]="false" optionLabel="name"
-                [options]="relationships" optionValue="lookupDetailId" formControlName="relationshipId"
-                [ngClass]="{'is-invalid ng-dirty': familyFormControls['relationshipId'].touched && familyFormControls['relationshipId'].errors}">
-              </p-dropdown>
-              <label class="required">Relationship</label>
-            </span>
-            <div class="flex">
-              <div class="align-left w-60" style="width:70%">
-                <span *ngIf="familyFormControls['relationshipId'].touched && familyFormControls['relationshipId'].invalid">
-                  <div class="ng-invalid ng-touched p-error" *ngIf="familyFormControls['relationshipId'].errors?.['required']">
-                    Please Select Relationship.
-                  </div>
-                </span>
+    <form [formGroup]="fbfamilyDetails">
+      <div class="grid mt-3">
+        <div class="col-12 roles-container">
+          <div class="p-fluid p-formgrid grid">
+            <div class="field col-12 md:col-4">
+              <span class="p-float-label">
+                <input type="text" id="inputtext" pInputText formControlName="name" #name [maxlength]="20" alphaNumeric
+                  (keydown)="restrictSpaces($event)"
+                  [ngClass]="{ 'is-invalid ng-dirty': familyFormControls['name'].touched && familyFormControls['name'].errors }" />
+                <label class="required">Name</label>
+              </span>
+              <div class="flex">
+                <div class="align-left w-60" style="width:70%">
+                  <span *ngIf="familyFormControls['name'].touched && familyFormControls['name'].invalid">
+                    <div class="ng-invalid ng-touched p-error" *ngIf="familyFormControls['name'].errors?.['required']">
+                      Please Enter Name.</div>
+                    <div class="ng-invalid ng-touched p-error" *ngIf="familyFormControls['name'].errors?.['minlength']">
+                      Name Min Length Is 2.</div>
+                  </span>
+                </div>
+                <div class="align-right w-40" style="width:30%; text-align:right;">
+                  <small>{{name.value.length}}/{{maxLength.name}} </small>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="field col-12 md:col-4">
-            <span class="p-float-label">
-              <p-dropdown id="address_dropdown" formControlName="addressId" [autoDisplayFirst]="false"
-                optionLabel="addressLine1" [options]="address" optionValue="addressId">
-              </p-dropdown>
-              <label>Address</label>
-            </span>
-          </div>
-          <div class="field col-12 md:col-4">
-            <span class="p-float-label">
-              <p-calendar [readonlyInput]="true" [showIcon]="true" id="dob" #DOB mask="99/99/9999" formControlName="dob"
-                [ngClass]="{ 'is-invalid ng-dirty': familyFormControls['dob'].touched && familyFormControls['dob'].errors }">
-              </p-calendar>
-              <label class="required"> DOB</label>
-            </span>
-            <div class="flex">
-              <div class="align-left w-60" style="width:70%">
-                <span *ngIf="familyFormControls['dob'].touched && familyFormControls['dob'].invalid">
-                  <div class="ng-invalid ng-touched p-error" *ngIf="familyFormControls['dob'].errors?.['required']">
-                    Please Select DOB.</div>
-                </span>
+            <div class="field col-12 md:col-4">
+              <span class="p-float-label">
+                <p-dropdown id="relationship_dropdown" [autoDisplayFirst]="false" optionLabel="name"
+                  [options]="relationships" optionValue="lookupDetailId" formControlName="relationshipId"
+                  [ngClass]="{'is-invalid ng-dirty': familyFormControls['relationshipId'].touched && familyFormControls['relationshipId'].errors}">
+                </p-dropdown>
+                <label class="required">Relationship</label>
+              </span>
+              <div class="flex">
+                <div class="align-left w-60" style="width:70%">
+                  <span
+                    *ngIf="familyFormControls['relationshipId'].touched && familyFormControls['relationshipId'].invalid">
+                    <div class="ng-invalid ng-touched p-error"
+                      *ngIf="familyFormControls['relationshipId'].errors?.['required']">
+                      Please Select Relationship.
+                    </div>
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="field col-12 md:col-4">
-            <span class="p-float-label">
-              <input type="text" id="adhaar_No" pInputText formControlName="adhaarNo" numericOnly [maxLength]="12"
-                #adhaarno
-                [ngClass]="{ 'is-invalid ng-dirty': familyFormControls['adhaarNo'].touched && familyFormControls['adhaarNo'].errors }" />
-              <label class="required">Adhaar No.</label>
-            </span>
-            <div class="flex">
-              <div class="align-left w-60" style="width:70%">
-                <span *ngIf="familyFormControls['adhaarNo'].touched && familyFormControls['adhaarNo'].invalid">
-                  <div class="ng-invalid ng-touched p-error" *ngIf="familyFormControls['adhaarNo'].errors?.['required']">
-                    Please Enter Adhaar No.</div>
-                </span>
-              </div>
-              <div class="align-right w-40" style="width:30%; text-align:right;">
-                <small>{{adhaarno.value.length}}/{{maxLength.aadhaarNo}} </small>
+            <div class="field col-12 md:col-4">
+              <span class="p-float-label">
+                <p-dropdown id="address_dropdown" formControlName="addressId" [autoDisplayFirst]="false"
+                  optionLabel="addressLine1" [options]="address" optionValue="addressId">
+                </p-dropdown>
+                <label>Address</label>
+              </span>
+            </div>
+            <div class="field col-12 md:col-4">
+              <span class="p-float-label">
+                <p-calendar [readonlyInput]="true" [showIcon]="true" id="dob" #DOB mask="99/99/9999"
+                  formControlName="dob"
+                  [ngClass]="{ 'is-invalid ng-dirty': familyFormControls['dob'].touched && familyFormControls['dob'].errors }">
+                </p-calendar>
+                <label class="required"> DOB</label>
+              </span>
+              <div class="flex">
+                <div class="align-left w-60" style="width:70%">
+                  <span *ngIf="familyFormControls['dob'].touched && familyFormControls['dob'].invalid">
+                    <div class="ng-invalid ng-touched p-error" *ngIf="familyFormControls['dob'].errors?.['required']">
+                      Please Select DOB.</div>
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="field col-12 md:col-4">
-            <span class="p-float-label">
-              <input type="text" id="pan_No" pInputText formControlName="panno" #panNo [maxLength]="10"
-                [ngClass]="{ 'is-invalid ng-dirty': familyFormControls['panno'].touched && familyFormControls['panno'].errors }" />
-              <label>Pan No.</label>
-            </span>
-            <div class="flex">
-              <div class="align-left w-60" style="width:70%">
-                <span *ngIf="familyFormControls['panno'].touched && familyFormControls['panno'].invalid">
-                  <div class="ng-invalid ng-touched p-error" *ngIf="familyFormControls['panno'].errors?.['required']">
-                    Please Enter Pan No.</div>
-                  <div class="ng-invalid ng-touched p-error" *ngIf="familyFormControls['panno'].errors?.['pattern']">
-                    Invalid Pan No Eg:AAAAA1234A.</div>
-                </span>
-              </div>
-              <div class="align-right w-40" style="width:30%; text-align:right;">
-                <small>{{panNo.value.length}}/{{maxLength.panNo}} </small>
-              </div>
-            </div>
-          </div>
-          <div class="field col-12 md:col-4">
-            <span class="p-float-label">
-              <input type="text" id="mobile_Number" pInputText formControlName="mobileNumber" #phoneNo numericOnly
-                [maxLength]="10"
-                [ngClass]="{ 'is-invalid ng-dirty': familyFormControls['mobileNumber'].touched && familyFormControls['mobileNumber'].errors }" />
-              <label class="required">Mobile No.</label>
-            </span>
-            <div class="flex">
-              <div class="align-left w-60" style="width:70%">
-                <span *ngIf="familyFormControls['mobileNumber'].touched && familyFormControls['mobileNumber'].invalid">
-                  <div class="ng-invalid ng-touched p-error" *ngIf="familyFormControls['mobileNumber'].errors?.['required']">
-                    Please Enter Mobile No.</div>
-                  <div class="ng-invalid ng-touched p-error" *ngIf="familyFormControls['mobileNumber'].errors?.['pattern']">
-                    First Digit Should Be Greater Than 4 And Must Contains 10 Digits.</div>
-                </span>
-              </div>
-              <div class="align-right w-40" style="width:30%; text-align:right;">
-                <small>{{phoneNo.value.length}}/{{maxLength.phoneNo}} </small>
+            <div class="field col-12 md:col-4">
+              <span class="p-float-label">
+                <input type="text" id="adhaar_No" pInputText formControlName="adhaarNo" numericOnly [maxLength]="12"
+                  #adhaarno
+                  [ngClass]="{ 'is-invalid ng-dirty': familyFormControls['adhaarNo'].touched && familyFormControls['adhaarNo'].errors }" />
+                <label class="required">Adhaar No.</label>
+              </span>
+              <div class="flex">
+                <div class="align-left w-60" style="width:70%">
+                  <span *ngIf="familyFormControls['adhaarNo'].touched && familyFormControls['adhaarNo'].invalid">
+                    <div class="ng-invalid ng-touched p-error"
+                      *ngIf="familyFormControls['adhaarNo'].errors?.['required']">
+                      Please Enter Adhaar No.</div>
+                  </span>
+                </div>
+                <div class="align-right w-40" style="width:30%; text-align:right;">
+                  <small>{{adhaarno.value.length}}/{{maxLength.aadhaarNo}} </small>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="field col-12 md:col-4">
-            <span class="p-float-label">
-              <label for="binary" class="ml-3">Make him/her as Nominee<sup class="p-error">*</sup></label>
-              <p-checkbox [binary]="true" id="binary" class="mr-2" formControlName="isNominee"></p-checkbox>
-            </span>
-          </div>
-          <div class="d-flex flex-row justify-content-center col-12 md:col-4 mt-2">
-            <div class="button-container">
-              <p-button type="button" label="{{submitLabel}}" (click)="savefamilyDetails() " >
-              </p-button>
+            <div class="field col-12 md:col-4">
+              <span class="p-float-label">
+                <input type="text" id="pan_No" pInputText formControlName="panno" #panNo [maxLength]="10"
+                  [ngClass]="{ 'is-invalid ng-dirty': familyFormControls['panno'].touched && familyFormControls['panno'].errors }" />
+                <label>Pan No.</label>
+              </span>
+              <div class="flex">
+                <div class="align-left w-60" style="width:70%">
+                  <span *ngIf="familyFormControls['panno'].touched && familyFormControls['panno'].invalid">
+                    <div class="ng-invalid ng-touched p-error" *ngIf="familyFormControls['panno'].errors?.['required']">
+                      Please Enter Pan No.</div>
+                    <div class="ng-invalid ng-touched p-error" *ngIf="familyFormControls['panno'].errors?.['pattern']">
+                      Invalid Pan No Eg:AAAAA1234A.</div>
+                  </span>
+                </div>
+                <div class="align-right w-40" style="width:30%; text-align:right;">
+                  <small>{{panNo.value.length}}/{{maxLength.panNo}} </small>
+                </div>
+              </div>
+            </div>
+            <div class="field col-12 md:col-4">
+              <span class="p-float-label">
+                <input type="text" id="mobile_Number" pInputText formControlName="mobileNumber" #phoneNo numericOnly
+                  [maxLength]="10"
+                  [ngClass]="{ 'is-invalid ng-dirty': familyFormControls['mobileNumber'].touched && familyFormControls['mobileNumber'].errors }" />
+                <label class="required">Mobile No.</label>
+              </span>
+              <div class="flex">
+                <div class="align-left w-60" style="width:70%">
+                  <span
+                    *ngIf="familyFormControls['mobileNumber'].touched && familyFormControls['mobileNumber'].invalid">
+                    <div class="ng-invalid ng-touched p-error"
+                      *ngIf="familyFormControls['mobileNumber'].errors?.['required']">
+                      Please Enter Mobile No.</div>
+                    <div class="ng-invalid ng-touched p-error"
+                      *ngIf="familyFormControls['mobileNumber'].errors?.['pattern']">
+                      First Digit Should Be Greater Than 4 And Must Contains 10 Digits.</div>
+                  </span>
+                </div>
+                <div class="align-right w-40" style="width:30%; text-align:right;">
+                  <small>{{phoneNo.value.length}}/{{maxLength.phoneNo}} </small>
+                </div>
+              </div>
+            </div>
+            <div class="field col-12 md:col-4">
+              <span class="p-float-label">
+                <label for="binary" class="ml-3">Make him/her as Nominee<sup class="p-error">*</sup></label>
+                <p-checkbox [binary]="true" id="binary" class="mr-2" formControlName="isNominee"></p-checkbox>
+              </span>
+            </div>
+            <div class="d-flex flex-row justify-content-center col-12 md:col-4 mt-2">
+              <div class="button-container">
+                <p-button type="button" label="{{submitLabel}}" (click)="savefamilyDetails() ">
+                </p-button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </form>
+    </form>
   </div>
 </p-dialog>
 
@@ -844,49 +919,53 @@
             </div>
             <div class="field col-12 md:col-4">
               <span class="p-float-label">
-                <input type="text" id="inputtext" pInputText formControlName="zipcode" numericOnly/>
-                <label for="inputtext" >ZIP Code <sup class="p-error">*</sup>
+                <input type="text" id="inputtext" pInputText formControlName="zipcode" numericOnly />
+                <label for="inputtext">ZIP Code <sup class="p-error">*</sup>
                 </label>
               </span>
             </div>
             <div class="field col-12 md:col-4">
               <span class="p-float-label">
-                <input type="text" id="inputtext" pInputText   formControlName="city"/>
+                <input type="text" id="inputtext" pInputText formControlName="city" />
                 <label for="inputtext">City <sup class="p-error">*</sup>
                 </label>
               </span>
             </div>
             <div class="field col-12 md:col-4">
               <span class="p-float-label">
-                <p-dropdown inputId="dropdown" formControlName="stateId" [autoDisplayFirst]="false" [options]="states"  optionValue="lookupDetailId"
-                  optionLabel="name" ></p-dropdown>
-                <label for="dropdown">State <sup class="p-error">*</sup>
+                <p-dropdown inputId="dropdown" formControlName="countryId" (onChange)="getStatesByCountryId($event.value)"
+                  [autoDisplayFirst]="false" [options]="countries" optionValue="lookupDetailId" optionLabel="name"></p-dropdown>
+                <label for="dropdown">Country <sup class="p-error">*</sup>
                 </label>
               </span>
             </div>
             <div class="field col-12 md:col-4">
               <span class="p-float-label">
-                <p-dropdown inputId="dropdown" formControlName="countryId" [autoDisplayFirst]="false" [options]="countries"
-                  optionValue="lookupDetailId" optionLabel="name" ></p-dropdown>
-                <label for="dropdown">Country <sup class="p-error">*</sup>
+                <p-dropdown inputId="dropdown" formControlName="stateId" [autoDisplayFirst]="false" [options]="states"
+                  optionValue="lookupDetailId" optionLabel="name"></p-dropdown>
+                <label for="dropdown">State <sup class="p-error">*</sup>
                 </label>
               </span>
             </div>
-            
+           
+
             <div class="grid formgrid pl-5">
               <div class="flex flex-wrap gap-3">
                 <div class="flex align-items-center">
-                  <p-radioButton value="Permanent Address" formControlName="addressType"  value="Permanent Address" inputId="ingredient1"></p-radioButton>
+                  <p-radioButton value="Permanent Address" formControlName="addressType" value="Permanent Address"
+                    inputId="ingredient1"></p-radioButton>
                   <label for="ingredient1" class="ml-2">Permanent Address</label>
                 </div>
 
                 <div class="flex align-items-center">
-                  <p-radioButton value="Temoprary Address" formControlName="addressType" inputId="ingredient2"></p-radioButton>
+                  <p-radioButton value="Temoprary Address" formControlName="addressType" inputId="ingredient2">
+                  </p-radioButton>
                   <label for="ingredient2" class="ml-2">Temoprary Address</label>
                 </div>
 
                 <div class="flex align-items-center">
-                  <p-radioButton value="Current Address" formControlName="addressType" inputId="ingredient3"></p-radioButton>
+                  <p-radioButton value="Current Address" formControlName="addressType" inputId="ingredient3">
+                  </p-radioButton>
                   <label for="ingredient3" class="ml-2">Current Address</label>
                 </div>
               </div>
@@ -905,20 +984,65 @@
 
 <!-- p-dialog Upload Documents -->
 <p-dialog header="CIS202214 Documents Details" [(visible)]="Documents" [modal]="true" showEffect="fade"
-  [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: 'auto'}">
+  [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '30%'}">
   <div class="flex flex-column align-items-center justify-content-center">
     <div class="grid">
-      <div class="col-12 p-5 mt-4">
-        <p-fileUpload name="demo[]" url="./upload.php" (onUpload)="onUpload($event)" [multiple]="true" accept="image/*"
-          [maxFileSize]="1000000">
-          <ng-template pTemplate="content">
-            <ul *ngIf="uploadedFiles.length">
-              <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
-            </ul>
-          </ng-template>
-        </p-fileUpload>
+    
+      <div class="field col-12 md:col-4">
+        <span class="p-float-label">
+          <input type="text" id="Upload_title" pInputText [(ngModel)]="title" required #titleInput="ngModel">
+          <label for="inputtext">Title:<sup class="p-error">*</sup></label>
+        </span>
+        <!-- <div *ngIf="titleInput.invalid && (titleInput.dirty || titleInput.touched)"
+             [ngStyle]="{'color':'red'}">
+                Title is required.
+            </div> -->
+      </div>
+    
+      <div class="field col-12 md:col-4 pt-5">
+        <div class="upload-btn-wrapper">
+          <label for="singleFile">
+            <i class="pi pi-paperclip"></i> Attach File
+          </label>
+          <input id="singleFile" #fileUpload name="myFile" accept=".pdf, .jpg, .jpeg, .png, .gif" type="file" hidden="true"
+            [size]="fileSize" (click)="onClick()" />
+        </div>
       </div>
     </div>
+    
+    <div class="col-12 scrolling_content">
+      <div class="col-12 scrolling_content">
+        <p-table #dt2 [value]="files" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
+          styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true"
+          [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Title</th>
+              <th>Filename</th>
+              <th>FileType</th>
+              <th *ngIf="files.length > 1"></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-file let-i="rowIndex">
+            <tr>
+              <td>{{file.title }}</td>
+              <td>{{file.data.name}}</td>
+              <td>{{file.data.type }}</td>
+              <td *ngIf="files.length > 1">
+                <p-button icon="pi pi-trash" (click)="removeItem(i)" id="uploadDetailsRemove-Btn"
+                  styleClass="p-button-rounded p-button-danger p-button-text p-button-raised">
+                </p-button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+  <div class=" col-4">
+    <button p-button class="p-element p-ripple p-button-info p-button p-component w-100"(click)="uploadFiles()">Save
+    </button>
   </div>
 </p-dialog>
 
@@ -1028,7 +1152,7 @@
   </div>
   <ng-template pTemplate="footer">
     <div class="col-4" style="float:right">
-      <button pButton pRipple type="submit" (click)="saveBankDetails()"  label="{{submitLabel}}"
+      <button pButton pRipple type="submit" (click)="saveBankDetails()" label="{{submitLabel}}"
         class="p-button-raised p-button-primary"></button>
     </div>
   </ng-template>

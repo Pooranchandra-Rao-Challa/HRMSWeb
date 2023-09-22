@@ -19,8 +19,8 @@ export class EmployeeBasicDetailDto {
 	userId?: string;
 	gender?: string;
 	bloodGroupId?: number;
-	mobileNumber?: number;
-	alternateMobileNumber?: number;
+	mobileNumber?: string;
+	alternateMobileNumber?: string;
 	originalDob?: Date;
 	certificateDob?: Date;
 	maritalStatus?: string;
@@ -36,10 +36,11 @@ export class EducationDetailsDto{
 	stateId?:number;
 	institutionName?:string;
 	authorityName?:string;
-	passedOutyear?:string;
-	gradingMethodId?:string;
-	gradingValue?:string;
+	passedOutyear?:Date;
+	gradingMethodId?:number;
+	gradingValue?:number;
 }
+
 export class FamilyDetailsDto {
 	familyInformationId?: number;
 	employeeId?: number;
@@ -72,26 +73,47 @@ export class BankDetailsDto {
 	accountNumber?: number;
 	isActive?: boolean;
 }
-export class UploadDocuments{
-	uploadDocumentId?:number;
-	employeeId?:number;
-	title?:string;
-	fileName?:string;
+export class UploadDocuments {
+	uploadDocumentId?: number;
+	employeeId?: number;
+	title?: string;
+	fileName?: string;
 }
-export class AddressDetailsDto{
-	employeeId:number
+export class AddressDetailsDto {
+	employeeId: number
 	addressId: number
-	AddressLine1: string
-	AddressLine2: string
-	Landmark:string
-	ZIPCode:number
-	City:string
-	stateId:number
+	addressLine1: string
+	addressLine2: string
+	landmark: string
+	zipCode: number
+	city: string
+	stateId: number
 	countryId: number
 	addressType: string
-	IsActive:boolean
+	isActive: boolean
 }
 
+export class Employee {
+	id?: number;
+	empname?: string;
+	image?: string;
+	empcode?: string;
+	dob?: Date;
+	designation?: string;
+	gender?: string;
+	maritalStatus?: string;
+	doj?: Date;
+	email?: string;
+	currentAddress?: string;
+	permanentAddress?: string;
+	phoneno?: number;
+	skillSets?: string;
+	shift?: string;
+	officeEmailID?: string;
+	reportedTo?: string;
+	pfEligible?: string;
+	esiEligible?: string;
+}
 export class EmployeeBasicDetailViewDto {
 	employeeId?: number;
 	code?: string;
@@ -102,8 +124,8 @@ export class EmployeeBasicDetailViewDto {
 	gender?: string;
 	bloodGroupId?: number;
 	bloodGroup?: string;
-	mobileNumber?: number;
-	alternateMobileNumber?: number;
+	mobileNumber?: string;
+	alternateMobileNumber?: string;
 	originalDOB?: Date;
 	certificateDOB?: Date;
 	maritalStatus?: string;
@@ -116,16 +138,38 @@ export class EmployeeBasicDetailViewDto {
 	updatedAt?: Date;
 	updatedBy?: string;
 }
-export class States{
-	lookupDetailId:number
+export class States {
+	lookupDetailId: number
 	code: string
-    name: string
+	name: string
 }
-export class Countries{
-	lookupDetailId:number
+
+export class SkillArea{
+	lookupDetailId: number
 	code: string
-    name: string
+	name: string
 }
+export class Countries {
+	lookupDetailId: number
+	code: string
+	name: string
+}
+export class ExperienceDetailsDto {
+	workExperienceId: number
+	employeeId: number
+	isAfresher: boolean
+	companyName: string
+	companyLocation: string
+	companyEmployeeId: string
+	designationId: number
+	dateOfJoining: Date
+	dateOfReliving: Date
+	countryId:number;
+	stateId: number
+	workExperienceXrefs: []
+}
+
+
 export class EmployeeOfficedetailsviewDto {
 	employeeId?: number;
 	employeeName?: string;
@@ -231,3 +275,49 @@ export class FamilyDetailsViewDto {
 	updatedBy: string;
 }
 
+export class employeeEducDtlsViewDto {
+	employeeId?: number;
+	employeeName?: string;
+	code?: string;
+	educationDetailId?: number;
+	curriculumId?: number;
+	curriculum?: string;
+	streamId?: number;
+	stream?: string;
+	countryId?:  number;
+	country?: string;
+	stateId?: number;
+	state?: string;
+	institutionName?: string;
+	authorityName?: string;
+	passedOutyear?: Date;
+	gradingMethodId?: number;
+	gradingMethod?: string;
+	gradingValue?: number;
+	createdAt?: Date;
+	createdBy?: string
+	updatedAt?: Date;
+	updatedBy?: string
+}
+export class employeeExperienceDtlsViewDto {
+	workExperienceId?: number;
+	employeeId?: number;
+	isAFresher?: boolean;
+	companyName?: string;
+	companyLocation?: string;
+	companyEmployeeId?:  String;
+	designationId?:  number;
+	designation?: string;
+	dateOfJoining?: Date;
+	dateOfReliving?: Date;
+	stateId?: number;
+	state?: string;
+	countryId?: number;
+	country?: string;
+	skillAreaIds?: number;
+	skillAreaNames?: string;
+	createdAt?:  Date;
+	createdBy?: string;
+	updatedAt?: Date;
+	updatedBy?: string;
+}

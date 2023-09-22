@@ -18,7 +18,6 @@ export class HRMSAPIInterceptor implements HttpInterceptor {
         this.loaderService.isLoading.next(true);
         const isApiUrl = request.url.startsWith(environment.ApiUrl);
         const isLoggedIn = this.jwtService.IsLoggedIn;
-        console.log(isLoggedIn);
 
         //isLogin true block
         if (isLoggedIn && isApiUrl) {
