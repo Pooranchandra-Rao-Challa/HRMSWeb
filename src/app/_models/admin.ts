@@ -122,7 +122,7 @@ export class ProjectViewDto {
 export class EmployeesList{
   employeeId: number
   employeeName: string
-  employeeCode: string; 
+  employeeCode: string;
 }
 export class ProjectAllotments
 {
@@ -172,5 +172,9 @@ export interface EmployeesForAllottedAssetsViewDto {
     employeeRoleName: string;
     mobileNumber: string;
     photo: string;
+    certificateDOB?: Date;
+    gender?: string;
+    designationId?: number;
+    designation?: string;
+    dateofJoin?: Date;
 }
-
