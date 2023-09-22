@@ -133,7 +133,7 @@
                         <input type="text" id="mobileno" pInputText formControlName="mobileNumber" #mobileNo numericOnly
                             [maxlength]="10" (keydown)="restrictSpaces($event)"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['mobileNumber'].touched && FormControls['mobileNumber'].errors }" />
-                        <label for="inputtext3">Mobile No.<sup class="p-error">*</sup></label>
+                        <label class="required" for="inputtext3">Mobile No.</label>
                     </span>
 
                     <div class="flex">
@@ -215,7 +215,7 @@
                     <span class="p-float-label">
                         <input type="text" id="inputtext" pInputText formControlName="emailId" #email
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['emailId'].touched && FormControls['emailId'].errors }" />
-                        <label for="inputtext">Email ID<sup class="p-error">*</sup></label>
+                        <label class="required" for="inputtext">Email ID</label>
                     </span>
                     <div class="flex">
                         <div class="align-left w-60" style="width:70%">

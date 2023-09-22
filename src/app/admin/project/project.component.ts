@@ -135,7 +135,6 @@ export class ProjectComponent implements OnInit {
     this.fcUnAssignAsset['projectId']?.setValue(employee.projectId);
     this.fcUnAssignAsset['employeeId']?.setValue(employee.employeeId);
     this.fcUnAssignAsset['isActive']?.setValue(false);
-    debugger
     this.adminService.UnassignEmployee(this.fbUnAssignEmployee.value).subscribe((resp) => {
       if ( this.visible) {
         this.alertMessage.displayAlertMessage(ALERT_CODES["SMEUA001"]);

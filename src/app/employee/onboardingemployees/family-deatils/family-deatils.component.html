@@ -1,4 +1,3 @@
-<p-toast key="tst"></p-toast>
 <div class="col-12 text-right m-0 p-2 ">
     <button pButton pRipple class="mb-3" (click)="toggleTab()">Add Family Details</button>
 </div>
@@ -56,9 +55,10 @@
                                 optionLabel="addressLine1" [options]="address" optionValue="addressId">
                                 <ng-template let-address pTemplate="item">
                                     <!-- Customize the label to display multiple values -->
-                                    {{ address.addressLine1 }}, {{ address.city }}, {{ address.landmark }}
-                                    ,{{address.state}},{{address.country}}
-                                  </ng-template>
+                                    {{ address.addressLine1 }}, {{ address.addressLine2 }},{{ address.landmark }} ,{{
+                                    address.city }}
+                                    ,{{address.state}},{{address.zipCode}},{{address.country}}
+                                </ng-template>
                             </p-dropdown>
                             <label>Address</label>
                         </span>
@@ -149,7 +149,7 @@
                     </div>
                     <div class="field col-12 md:col-4">
                         <span class="p-float-label">
-                            <label for="binary" class="ml-3">Make him/her as Nominee<sup class="p-error">*</sup></label>
+                            <label class="required" for="binary" class="ml-3">Make him/her as Nominee</label>
                             <p-checkbox [binary]="true" id="binary" class="mr-2" formControlName="isNominee">
                             </p-checkbox>
                         </span>
@@ -165,8 +165,6 @@
             </div>
         </div>
     </form>
-
-
     <div class="col-12 scrolling_content fadeinup animation-duration-1000 p-1 pt-0" *ngIf="showFamilyDetails">
         <p-table id="table" [value]="empFamDetails" dataKey="id" [rows]="10" [rowHover]="true"
             [alwaysShowPaginator]="false" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
@@ -201,10 +199,12 @@
                         <span *ngIf=" col?.field == 'relationshipId' ">
                             {{familyData.relationship?familyData.relationship:familyData[col.field]}}
                         </span>
-                        <span *ngIf="col?.field == 'addressId' || col?.field == 'countryId'">
+                        <span *ngIf="col?.field == 'addressId'">
                             {{familyData.addressLine1?familyData.addressLine1:familyData[col.field]}},
+                            {{familyData.addressLine2?familyData.addressLine2:familyData[col.field]}},
                             {{familyData.city?familyData.city:familyData[col.field]}},
-                            {{familyData.state?familyData.state:familyData[col.field]}}
+                            {{familyData.state?familyData.state:familyData[col.field]}},
+                            {{familyData.zipCode?familyData.zipCode:familyData[col.field]}},
                             {{familyData.country?familyData.country:familyData[col.field]}}
                         </span>
                         <span *ngIf="col?.field == 'dob' ">
