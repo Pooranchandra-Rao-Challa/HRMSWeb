@@ -1,5 +1,5 @@
 <div class="col-12 text-right m-0 p-2 ">
-    <button pButton pRipple class="mb-3" (click)="toggleTab()">Add Family Details</button>
+    <button pButton pRipple class="mb-3 pi pi-plus" (click)="toggleTab()"></button>
 </div>
 <div class="content_scroll" id="hrms">
     <form [formGroup]="fbfamilyDetails">
@@ -54,10 +54,8 @@
                             <p-dropdown id="address_dropdown" formControlName="addressId" [autoDisplayFirst]="false"
                                 optionLabel="addressLine1" [options]="address" optionValue="addressId">
                                 <ng-template let-address pTemplate="item">
-                                    <!-- Customize the label to display multiple values -->
-                                    {{ address.addressLine1 }}, {{ address.addressLine2 }},{{ address.landmark }} ,{{
-                                    address.city }}
-                                    ,{{address.state}},{{address.zipCode}},{{address.country}}
+                                    {{ address.addressLine1 }}, {{ address.addressLine2 }},{{ address.landmark }},
+                                    {{address.city }},{{address.state}},{{address.zipCode}},{{address.country}}
                                 </ng-template>
                             </p-dropdown>
                             <label>Address</label>

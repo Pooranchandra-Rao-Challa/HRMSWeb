@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { LookupDetailsDto, LookupViewDto } from '../_models/admin';
 import { ApiHttpService } from './api.http.service';
-import { GET_DESIGNATION_URI, GET_SKILL_AREA_URI, LOOKUP_ASSET_CATEGORIES_URI, LOOKUP_ASSET_STATUS_URI, LOOKUP_ASSET_TYPE_URI, LOOKUP_BLOOD_GROUPS_URI, LOOKUP_CIRCULUM_URI, LOOKUP_COUNTRY_URI, LOOKUP_GRADING_SYSTEM_URI, LOOKUP_RELATIONSHIP_URI, LOOKUP_STATES_URI, LOOKUP_STREAM_URI } from './api.uri.service';
+import { GET_DESIGNATION_URI, GET_SKILL_AREA_URI, LOOKUP_ASSET_CATEGORIES_URI, LOOKUP_ASSET_STATUS_URI, LOOKUP_ASSET_TYPE_URI, LOOKUP_BLOOD_GROUPS_URI,LOOKUP_COUNTRY_URI, LOOKUP_CURRICULUM_URI, LOOKUP_GRADING_SYSTEM_URI, LOOKUP_RELATIONSHIP_URI, LOOKUP_STATES_URI, LOOKUP_STREAM_URI } from './api.uri.service';
 
 @Injectable({
   providedIn: 'root'
@@ -31,8 +31,8 @@ export class LookupService  extends ApiHttpService{
   public GetSkillArea() {
     return this.get<LookupDetailsDto[]>(GET_SKILL_AREA_URI);
   }
-  public Circulum(){
-    return this.get<LookupDetailsDto[]>(LOOKUP_CIRCULUM_URI);
+  public Curriculum(){
+    return this.get<LookupDetailsDto[]>(LOOKUP_CURRICULUM_URI);
   }
 
   public Stream(lookupDetailId:number){

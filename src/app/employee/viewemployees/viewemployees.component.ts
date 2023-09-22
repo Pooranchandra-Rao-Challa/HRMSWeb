@@ -390,7 +390,7 @@ export class ViewemployeesComponent {
   }
 
   initCirculum() {
-    this.lookupService.Circulum().subscribe((resp) => {
+    this.lookupService.Curriculum().subscribe((resp) => {
       this.circulum = resp as unknown as LookupViewDto[];
     });
   }

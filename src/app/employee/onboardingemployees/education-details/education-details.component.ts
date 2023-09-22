@@ -26,12 +26,11 @@ export class EducationDetailsComponent implements OnInit {
   maxLength: MaxLength = new MaxLength();
   country: LookupDetailsDto[] = [];
   states: LookupDetailsDto[] = [];
-  circulum: LookupDetailsDto[] = [];
+  curriculum: LookupDetailsDto[] = [];
   stream: LookupDetailsDto[] = [];
   gradingMethod: LookupDetailsDto[] = [];
   mediumDate: string = MEDIUM_DATE;
   addFlag: boolean = true;
-  circulums: LookupDetailsDto = new LookupDetailsDto();
   STREAM?: String;
   empEduDetails: EducationDetailsDto[] = [];
   constructor(private formbuilder: FormBuilder,
@@ -63,7 +62,7 @@ export class EducationDetailsComponent implements OnInit {
     this.fbEducationDetails = this.formbuilder.group({
       educationDetailId: [null],
       employeeId: this.employeeId,
-      circulumId: new FormControl(null, [Validators.required]),
+      curriculumId: new FormControl(null, [Validators.required]),
       streamId: new FormControl(null, [Validators.required]),
       countryId: new FormControl(null, [Validators.required]),
       stateId: new FormControl(null, [Validators.required]),
@@ -79,8 +78,8 @@ export class EducationDetailsComponent implements OnInit {
     return this.fbEducationDetails.controls;
   }
   initCirculum() {
-    this.lookupService.Circulum().subscribe((resp) => {
-      this.circulum = resp as unknown as LookupDetailsDto[];
+    this.lookupService.Curriculum().subscribe((resp) => {
+      this.curriculum = resp as unknown as LookupDetailsDto[];
     });
   }
   initGrading() {

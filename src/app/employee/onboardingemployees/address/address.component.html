@@ -1,6 +1,6 @@
 <p-toast key="tst"></p-toast>
 <div class="col-12 text-right m-0 p-2 ">
-    <button pButton pRipple class="mb-3" (click)="toggleTab()">Add Address Details</button>
+    <button pButton pRipple class="mb-3 pi pi-plus" (click)="toggleTab()"></button>
 </div>
 <div class="content_scroll" id="hrms">
     <form [formGroup]="fbAddressDetails">
@@ -144,7 +144,7 @@
                                 <span *ngIf="FormControls['stateId'].touched && FormControls['stateId'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="FormControls['stateId'].errors?.['required']">
-                                        Please Select state.</div>
+                                        Please Select Country First.</div>
                                 </span>
                             </div>
                         </div>
@@ -181,7 +181,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="field col-12 md:col-2">
+                    <div class="field col-12 md:col-4">
                         <div class="button-container">
                             <p-button type="button" label="Save New Address" id="AddressDetails-Btn"
                                 (click)="addAddress()" [disabled]="fbAddressDetails.invalid">
