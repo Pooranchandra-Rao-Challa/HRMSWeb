@@ -36,7 +36,7 @@ export class FamilyDeatilsComponent implements OnInit {
   ShowfamilyDetails: boolean = false;
   mediumDate: string = MEDIUM_DATE;
   addFlag: boolean = true;
-  empFamDetails: any[] = [];
+  empFamDetails: FamilyDetailsDto[] = [];
 
 
   constructor(private router: Router,
@@ -96,7 +96,7 @@ export class FamilyDeatilsComponent implements OnInit {
   }
   getFamilyDetails() {
     return this.employeeService.getFamilyDetails(this.employeeId).subscribe((data) => {
-      this.empFamDetails = data as unknown as FamilyDetailsViewDto[];
+      this.empFamDetails = data as unknown as FamilyDetailsDto[];
       console.log(data)
     })
   }
