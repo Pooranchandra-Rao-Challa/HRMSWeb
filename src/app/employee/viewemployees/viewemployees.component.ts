@@ -230,7 +230,7 @@ export class ViewemployeesComponent {
     this.initGetWorkExperience();
     this.initGetFamilyDetails();
     this.initGetAddress();
-    this.initCountry()
+    this.initCountries()
     this.initUploadedDocuments();
     this.initBankDetails();
     this.initviewAssets();
@@ -430,6 +430,7 @@ export class ViewemployeesComponent {
     }
   }
 
+
   faeducationDetail(): FormArray {
     return this.fbEducationDetails.get('educationDetails') as FormArray;
   }
@@ -458,9 +459,9 @@ export class ViewemployeesComponent {
     this.Education = false;
     (this.fbEducationDetails.get('educationDetails') as FormArray).clear();
   }
-  // Employee Work Experience
+   // Employee Work Experience
 
-  initExperience() {
+   initExperience() {
     this.fbexperience = this.formbuilder.group({
       experienceDetails: this.formbuilder.array([])
     });
@@ -479,6 +480,7 @@ export class ViewemployeesComponent {
       designationId: new FormControl(experienceDetails.designationId),
       dateOfJoining: new FormControl(experienceDetails.dateOfJoining ? new Date(experienceDetails.dateOfJoining) : null),
       dateOfReliving: new FormControl(experienceDetails.dateOfReliving ? new Date(experienceDetails.dateOfReliving) : null),
+      skillAreaIds:new FormControl(),
       workExperienceXrefs: new FormControl(experienceDetails.workExperienceXrefs),
     });
   }
@@ -486,7 +488,7 @@ export class ViewemployeesComponent {
   initGetWorkExperience() {
     this.employeeService.GetWorkExperience(this.employeeId).subscribe((resp) => {
       this.workExperience = resp as unknown as employeeExperienceDtlsViewDto[];
-      console.log(this.workExperience);
+      console.log('this.workExperience',this.workExperience);
 
     });
   }
@@ -507,33 +509,27 @@ export class ViewemployeesComponent {
   addexperienceDetails() {
     this.ShowexperienceDetails = true;
     this.faexperienceDetails = this.fbexperience.get('experienceDetails') as FormArray;
-    if (this.faexperienceDetails.length >= 1) {
-      // Loop through this.workExperience and create a new row for each entry
-      this.workExperience.forEach((experience: ExperienceDetailsDto) => {
-        if (experience && experience.employeeId) {
-          const newexperienceRow = this.generaterow({
-            employeeId: experience.employeeId,
-            workExperienceId: null,
-            isAfresher: false,
-            companyName: '',
-            companyLocation: '',
-            companyEmployeeId: '',
-            designationId: null,
-            dateOfJoining: null,
-            dateOfReliving: null,
-            countryId: null,
-            stateId: null,
-            workExperienceXrefs: [{ workExperienceXrefId: null, skillAreaId: null }]
-          });
-          this.faexperienceDetails.push(newexperienceRow);
-        }
-      });
-      // Optionally, you can patch the employeeId for all rows
-      this.faexperienceDetails.controls.forEach((control, index) => {
-        if (this.workExperience[index] && this.workExperience[index].employeeId) {
-          control.get('employeeId')?.patchValue(this.workExperience[index].employeeId);
-        }
-      });
+    // Check if there are no rows already
+    if (this.faexperienceDetails.length) {
+      const experience = this.workExperience.find((exp) => exp && exp.employeeId);
+      if (experience) {
+        // Add a single row with the employee ID
+        const newexperienceRow = this.generaterow({
+          employeeId: experience.employeeId,
+          workExperienceId: null,
+          isAfresher: false,
+          companyName: '',
+          companyLocation: '',
+          companyEmployeeId: '',
+          designationId: null,
+          dateOfJoining: null,
+          dateOfReliving: null,
+          countryId: null,
+          stateId: null,
+          workExperienceXrefs: [{ workExperienceXrefId: null, skillAreaId: null }]
+        });
+        this.faexperienceDetails.push(newexperienceRow);
+      }
     }
   }
 
@@ -542,7 +538,7 @@ export class ViewemployeesComponent {
   }
 
   showExperienceDetails() {
-    this.workExperience.forEach((experienceDetails: ExperienceDetailsDto) => {
+    this.workExperience.forEach((experienceDetails : any) => {
       this.faexperienceDetail().push(this.generaterow(experienceDetails));
     })
     this.fbexperience.patchValue(this.workExperience)
@@ -553,7 +549,7 @@ export class ViewemployeesComponent {
     return this.fbexperience.get('experienceDetails') as FormArray;
   }
 
-  onSelectSkill(e) {
+  onSelectSkill(e, index) {
     this.viewSelectedSkills = e.value
     let CurrentArray = e.value;
     console.log(CurrentArray)
@@ -566,13 +562,13 @@ export class ViewemployeesComponent {
       })
     }
     const experienceDetailControl = this.fbexperience.get('experienceDetails') as FormArray;
-    const workExperienceXrefsControl = experienceDetailControl.at(e.index).get('workExperienceXrefs');
-
+    const workExperienceXrefsControl = experienceDetailControl.at(index).get('workExperienceXrefs');
     if (workExperienceXrefsControl) {
       workExperienceXrefsControl.patchValue(updatedArray);
     }
     // this.fbexperience.controls['experienceDetails'].value[index].get('workExperienceXrefs')?.patchValue(updatedArray);
   }
+
 
   onCloseExp() {
     this.Experience = false;
@@ -675,17 +671,17 @@ export class ViewemployeesComponent {
   //Employee Address
   initAddress() {
     this.fbAddressDetails = this.formbuilder.group({
-      employeeId: [],
-      addressId: [''],
+      employeeId: [this.employeeId],
+      addressId: [null],
       addressLine1: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
-      addressLine2: new FormControl(''),
-      landmark: new FormControl(''),
-      zipcode: new FormControl(''),
-      city: new FormControl(''),
-      stateId: new FormControl(''),
-      countryId: new FormControl(''),
-      addressType: new FormControl(''),
-      isActive: [true]
+      addressLine2: new FormControl('', [Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
+      landmark: new FormControl('', [Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
+      zipcode: new FormControl('', [Validators.required]),
+      city: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
+      stateId: new FormControl('', [Validators.required]),
+      countryId: new FormControl('', [Validators.required]),
+      addressType: new FormControl('', [Validators.required]),
+      isActive: new FormControl(true, Validators.requiredTrue),
     })
   }
   initGetAddress() {
@@ -694,11 +690,9 @@ export class ViewemployeesComponent {
       console.log('this.address', this.address);
     });
   }
-  initCountry() {
+  initCountries() {
     this.lookupService.Countries().subscribe((resp) => {
       this.countries = resp as unknown as LookupViewDto[];
-      console.log( this.countries);
-
     })
   }
   getStatesByCountryId(id: number) {
@@ -718,9 +712,14 @@ export class ViewemployeesComponent {
   //     });
   //   });
   // }
+
+  get FormControls() {
+    return this.fbAddressDetails.controls;
+  }
+
   editAddress(index: number) {
     const address = this.address[index];
-    this.initCountry()
+    this.initCountries()
     this.fbAddressDetails.patchValue({
       addressId: address.addressId,
       employeeId: address.employeeId,
@@ -914,7 +913,7 @@ export class ViewemployeesComponent {
 
     else if (action == Actions.edit && content === this.BankdetailsDialogComponent) {
       this.dialogRequest.dialogData = dialogData;
-      this.dialogRequest.header = "Edit Bank Details";
+      this.dialogRequest.header = " Bank Details";
       this.dialogRequest.width = "40";
     }
 

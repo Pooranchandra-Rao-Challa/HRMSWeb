@@ -1,7 +1,7 @@
 <p-toast key="tst"></p-toast>
 <div class="content_scroll" id="hrms">
     <div class="grid m-0 mt-3 p-0">
-        <div class="  p-1">
+        <div class=" flex justify-content-center p-1">
             <div class="flex flex-wrap gap-3">
                 <div class="flex align-items-center">
                     <p-radioButton name="experienceDetails" value="Fresher" [(ngModel)]="selectedOption"
@@ -16,20 +16,14 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="grid m-0 mt-2 p-0">
+        <br>
         <div *ngIf="selectedOption=='Experience'">
-            <div class="col-12 text-right m-0 p-2 ">
-                <button pButton pRipple (click)="toggleTab()" class="mb-3"
-                >Add Experience Details</button>
-            </div>
-            <div *ngIf="addexperiencedetailsshowForm" class="fadeinup animation-duration-1000 p-1 pt-0">
-                
+            <div>
                 <form [formGroup]="fbexperience">
                     <div class="grid m-0 p-0">
-                        <div class="col-12 roles-container  m-0 p-0">
-                            <div class="p-fluid p-formgrid grid m-0 p-0">
-                                <div class="field col-12 md:col-4 m-0 p-2 px-2">
+                        <div class="col-12 roles-container">
+                            <div class="p-fluid p-formgrid grid">
+                                <div class="field col-12  m-0 md:col-4">
                                     <label>Company Name:<sup class="p-error">*</sup></label>&nbsp;
                                     <input pInputText id="Experience_companyname" type="text" #company
                                         formControlName="companyName"
@@ -55,7 +49,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="field col-12 md:col-4 m-0 p-2 px-2">
+                                <div class="field col-12 md:col-4">
                                     <label>Location:<sup class="p-error">*</sup></label>&nbsp;
                                     <input pInputText id="Experience_Location" type="text" #location
                                         formControlName="companyLocation"
@@ -82,7 +76,7 @@
                                     </div>
                                 </div>
 
-                                <div class="field col-12 md:col-4 m-0 p-2 px-2">
+                                <div class="field col-12 md:col-4">
                                     <label>Company EmpId:</label>&nbsp;
                                     <input pInputText id="Experience_EmpId" type="text" #empId
                                         formControlName="companyEmployeeId" placeholder="Enter Company Employee Id"
@@ -104,7 +98,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="field col-12 md:col-4 m-0 p-2 px-2">
+                                <div class="field col-12 md:col-4">
                                     <label>Country:<sup class="p-error">*</sup></label>&nbsp;
                                     <p-dropdown inputId="dropdown" id="Experience_stateId" [autoDisplayFirst]="false"
                                         placeholder="Select State"
@@ -123,7 +117,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="field col-12 md:col-4 m-0 p-2 px-2">
+                                <div class="field col-12 md:col-4">
                                     <label>State:<sup class="p-error">*</sup></label>&nbsp;
                                     <p-dropdown inputId="dropdown" id="Experience_stateId" [autoDisplayFirst]="false"
                                         placeholder="Select State"
@@ -137,12 +131,12 @@
                                                 *ngIf="FormControls['stateId'].touched && FormControls['stateId'].invalid">
                                                 <div class="ng-invalid ng-touched p-error"
                                                     *ngIf="FormControls['stateId'].errors?.['required']">
-                                                    Please Select Country next Select State.</div>
+                                                    Please Select Country First.</div>
                                             </span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="field col-12 md:col-4 m-0 p-2 px-2">
+                                <div class="field col-12 md:col-4">
                                     <label>Designation:<sup class="p-error">*</sup></label>&nbsp;
                                     <p-dropdown inputId="dropdown" id="Experience_designationId"
                                         [autoDisplayFirst]="false" formControlName="designationId"
@@ -162,12 +156,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="field col-12 md:col-4 m-0 p-2 px-2">
+                                <div class="field col-12 md:col-4">
                                     <label>SkillAreas:<sup class="p-error">*</sup></label>&nbsp;
                                     <p-multiSelect placeholder="Select SkillAreas" id="Experience_skillArea"
                                         [options]="skills" optionLabel="name" [filter]="true" filterBy="name"
                                         #multiSelect formControlName="skills" optionValue="lookupDetailId"
-                                         (onChange)="onSelectSkill($event)"
+                                        (onChange)="onSelectSkill($event)"
                                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['skills'].touched && FormControls['skills'].errors }"
                                         appendTo="body">
                                         <ng-template let-skill pTemplate="selectedItem">
@@ -177,7 +171,8 @@
                                         </ng-template>
                                     </p-multiSelect>
                                 </div>
-                                <div class="field col-12 md:col-4 m-0 p-2 px-2">
+
+                                <div class="field col-12 md:col-4">
                                     <label>Date of joining:<sup class="p-error">*</sup></label>&nbsp;
                                     <p-calendar [showIcon]="true" formControlName="dateOfJoining"
                                         id="Experience_dateOfJoining" appendTo="body"
@@ -195,7 +190,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="field col-12 md:col-4 m-0 p-2 px-2">
+                                <div class="field col-12 md:col-4">
                                     <label>Date of Reliving:<sup class="p-error">*</sup></label>&nbsp;
                                     <p-calendar [showIcon]="true" formControlName="dateOfReliving"
                                         id="Experience_dateOfReliving" appendTo="body"
@@ -214,7 +209,7 @@
                                     </div>
                                 </div>
 
-                                <div class=" col-12 md:col-4 pt-4 m-0 p-0 px-2">
+                                <div class=" col-12 md:col-4 pt-4">
                                     <div class=" button-container">
                                         <p-button type="button" label="Add Experience Details" id="Experience_addExp"
                                             [disabled]="fbexperience.invalid" (click)="addexperienceDetails()">
@@ -229,13 +224,13 @@
             </div>
         </div>
     </div>
-    <div class="col-12 scrolling_content m-0 p-1" *ngIf="selectedOption=='Experience'">
-        <div class="col-12 scrolling_content fadeinup animation-duration-1000 m-0 p-0" *ngIf="ShowexperienceDetails">
-            <p-table #dt2 [value]="empExperienceDetails"  dataKey="id" [rows]="10" [rowHover]="true"
-            [alwaysShowPaginator]="false" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
-            [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-            [showCurrentPageReport]="true" [autoLayout]="true" responsiveLayout="scroll"
-            [rowsPerPageOptions]="[10,25,50]">
+    <div class="col-12 scrolling_content" *ngIf="selectedOption=='Experience'">
+        <div class="col-12 scrolling_content">
+            <p-table #dt2 [value]="empExperienceDetails" dataKey="id" [rows]="10" [rowHover]="true"
+                [alwaysShowPaginator]="false" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
+                [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [showCurrentPageReport]="true" [autoLayout]="true" responsiveLayout="scroll"
+                [rowsPerPageOptions]="[10,25,50]">
                 <ng-template pTemplate="header">
                     <tr>
                         <th style="width:5px" *ngIf="permissions?.CanManageEmployee">Actions</th>
@@ -248,7 +243,7 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-experienceDetail let-experienceDetailsIndex="rowIndex">
                     <tr>
-                        <td *ngIf="permissions?.CanManageEmployee" >
+                        <td *ngIf="permissions?.CanManageEmployee" class="flex">
                             <button pButton pRipple icon="pi pi-pencil" (click)="editForm(experienceDetail)"
                                 class="p-element p-ripple p-button-text p-button p-component col-2 p-0 "></button>
                             <button pButton pRipple icon="pi pi-trash" id="AddressDetailsRemove-Btn"
@@ -256,17 +251,25 @@
                                 (click)="removeItem(experienceDetailsIndex)">
                             </button>
                         </td>
-                        <td *ngFor="let col of headers" [ngClass]="col?.field == 'companyName' || col?.field == 'companyLocation' || col?.field == 'companyEmployeeId'  ||col?.field == 'stateId'  ||  col?.field == 'designationId'
+                        <td *ngFor="let col of headers"
+                            [ngClass]="col?.field == 'companyName' || col?.field == 'companyLocation' || col?.field == 'companyEmployeeId'  ||col?.field == 'stateId'  ||  col?.field == 'designationId'
                     ||col?.field == 'dateOfJoining'|| col?.field == 'dateOfReliving'|| col?.field == 'workExperienceXrefs' ? 'text-center' : ''">
                             <span
-                                *ngIf="col?.field == 'companyName' || col?.field == 'companyLocation' || col?.field == 'companyEmployeeId'  ||col?.field == 'stateId' || col?.field == 'designationId'">
+                                *ngIf="col?.field == 'companyName' || col?.field == 'companyLocation' || col?.field == 'companyEmployeeId'">
                                 {{experienceDetail[col.field]}}
+                            </span>
+                            <span *ngIf="col?.field == 'stateId'">
+                                {{experienceDetail.state?experienceDetail.state:experienceDetail[col.field]}}
+                            </span>
+                            <span *ngIf="col?.field == 'designationId'">
+                                {{experienceDetail.designation?experienceDetail.designation:experienceDetail[col.field]}}
                             </span>
                             <span *ngIf="col?.field == 'dateOfReliving'||col?.field == 'dateOfJoining'">
                                 {{experienceDetail[col.field]|date:mediumDate}}
                             </span>
                             <span *ngIf="col?.field == 'workExperienceXrefs'">
-                               {{experienceDetail.skillAreaNames?experienceDetail.skillAreaNames: this.viewSelectedSkills}}
+                                {{experienceDetail.skillAreaNames?experienceDetail.skillAreaNames:
+                                this.viewSelectedSkills}}
                             </span>
                         </td>
                     </tr>
@@ -277,18 +280,18 @@
 </div>
 
 
-<div class="grid mt-3">
-    <div class="field  col-4 m-0 p-1 px-3">
+<div class="grid mt-5">
+    <div class="field col-4">
         <button p-button id="ExperiencetoEducation-Btn"
             class="p-element p-ripple p-button-primary p-button p-component w-100 text-right"
             (click)="navigateToPrev()">Educational Details</button>
     </div>
-    <div class=" col-4 m-0 p-1 px-3">
+    <div class=" col-4">
         <button p-button id="ExperienceSave-Btn" class="p-element p-ripple p-button-info p-button p-component w-100"
             (click)="onSubmit()">Save
             as Draft</button>
     </div>
-    <div class=" col-4 m-0 p-1 px-3">
+    <div class=" col-4">
         <button p-button id="ExperiencetoAddress-Btn"
             class="p-element p-ripple p-button-primary p-button p-component w-100" (click)="navigateToNext()">Address
             Details </button>

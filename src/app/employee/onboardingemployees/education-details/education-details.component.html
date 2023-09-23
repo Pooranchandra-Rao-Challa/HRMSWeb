@@ -1,11 +1,10 @@
 <div class="text-right">
-    <button pButton pRipple (click)="toggleTab()" class="mb-3"
-    >Add Education Details</button>
+    <button pButton pRipple (click)="toggleTab()" class="mb-3 pi pi-plus"></button>
 </div>
-
 <div class="content_scroll" id="hrms">
     <form [formGroup]="fbEducationDetails" autocomplete="off">
-        <div p-overlayPanel class="fadeinup animation-duration-1000 grid  m-0 mt-3 p-0"  *ngIf="addeducationdetailsshowForm"  >
+        <div p-overlayPanel class="fadeinup animation-duration-1000 grid  m-0 mt-3 p-0"
+            *ngIf="addeducationdetailsshowForm">
             <div class="col-12 roles-container">
                 <div class="p-fluid p-formgrid grid">
                     <div class="field col-12 md:col-4">
@@ -65,7 +64,7 @@
                                 <span *ngIf="FormControls['stateId'].touched && FormControls['stateId'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="FormControls['stateId'].errors?.['required']">
-                                        Please Select Country next Select State.</div>
+                                        Please Select Country First.</div>
                                 </span>
                             </div>
                         </div>
@@ -92,19 +91,20 @@
                     </div>
                     <div class="field col-12 md:col-4">
                         <span class="p-float-label">
-                            <p-dropdown id="circulum_dropdown" [autoDisplayFirst]="false" [options]="circulum"
-                                optionLabel="name" optionValue="lookupDetailId" formControlName="circulumId"
+                            <p-dropdown id="circulum_dropdown" [autoDisplayFirst]="false" [options]="curriculum"
+                                optionLabel="name" optionValue="lookupDetailId" formControlName="curriculumId"
                                 (onChange)="getStreamByCirculumId($event.value)"
-                                [ngClass]="{'is-invalid ng-dirty': FormControls['circulumId'].touched && FormControls['circulumId'].errors }">
+                                [ngClass]="{'is-invalid ng-dirty': FormControls['curriculumId'].touched && FormControls['curriculumId'].errors }">
                             </p-dropdown>
-                            <label class="required">Circulum</label>
+                            <label class="required">Curriculum</label>
                         </span>
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
-                                <span *ngIf="FormControls['circulumId'].touched && FormControls['circulumId'].invalid">
+                                <span
+                                    *ngIf="FormControls['curriculumId'].touched && FormControls['curriculumId'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
-                                        *ngIf="FormControls['circulumId'].errors?.['required']">
-                                        Please Select Circulum.</div>
+                                        *ngIf="FormControls['curriculumId'].errors?.['required']">
+                                        Please Select Curriculum.</div>
                                 </span>
                             </div>
                         </div>
@@ -122,15 +122,15 @@
                                 <span *ngIf="FormControls['streamId'].touched && FormControls['streamId'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="FormControls['streamId'].errors?.['required']">
-                                        Please Select Circulum next Select Stream.</div>
+                                        Please Select Curriculum First.</div>
                                 </span>
                             </div>
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
                         <span class="p-float-label">
-                            <p-calendar [yearNavigator]="true" [yearRange]="'1996:2025'" [readonlyInput]="true"
-                                [showIcon]="true" dateFormat="yy" formControlName="passedOutyear"
+                            <p-calendar [yearRange]="'1996:2025'" [readonlyInput]="true" [showIcon]="true"
+                                formControlName="passedOutyear"
                                 [ngClass]="{'is-invalid ng-dirty': FormControls['passedOutyear'].touched && FormControls['passedOutyear'].errors }">
                             </p-calendar>
                             <label class="required">Passed Out Year</label>
@@ -187,7 +187,7 @@
                     <div class="field col-12 md:col-4">
                         <span>
                             <button pButton pRipple (click)="addEducationDetails()"
-                                [disabled]="fbEducationDetails.invalid">Save Education Details</button>
+                                [disabled]="fbEducationDetails.invalid">Add Education Details</button>
                         </span>
                     </div>
                 </div>
@@ -195,7 +195,7 @@
         </div>
     </form>
     <!-- table -->
-    <div  class="col-12 scrolling_content fadeinup animation-duration-1000" *ngIf="ShoweducationDetails">
+    <div class="col-12 scrolling_content fadeinup animation-duration-1000" *ngIf="ShoweducationDetails">
         <p-table id="table" [value]="empEduDetails" dataKey="id" [rows]="10" [rowHover]="true"
             [alwaysShowPaginator]="false" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
             [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
@@ -228,13 +228,13 @@
                         </span>
                         <span *ngIf="col?.field == 'stateId'">
                             {{educationData.state?educationData.state:educationData[col.field]}}
-                          </span>
+                        </span>
                         <span *ngIf="col?.field == 'streamId'">
                             {{educationData.stream?educationData.stream:educationData[col.field]}}
                         </span>
                         <span *ngIf="col?.field == 'passedOutyear'">
                             {{educationData[col.field] | date:mediumDate}}
-                        </span> 
+                        </span>
                         <span *ngIf="col?.field == 'gradingMethodId'">
                             {{educationData.gradingMethod?educationData.gradingMethod:educationData[col.field]}}
                         </span>

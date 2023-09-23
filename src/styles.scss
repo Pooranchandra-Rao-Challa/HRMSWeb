@@ -258,4 +258,10 @@ p-calendar input {
 
 .p-dynamic-dialog .p-dialog-content {
     padding: 0px;
+    overflow: hidden;
+}
+
+.p-dynamic-dialog .p-dialog-content .dialog-scroll {
+    height: 75vh;
+    overflow-y: scroll;
 }

@@ -1,9 +1,12 @@
 <p-toast key="tst"></p-toast>
+<div class="col-12 text-right m-0 p-2 ">
+    <button pButton pRipple class="mb-3 pi pi-plus" (click)="toggleTab()"></button>
+</div>
 <div class="content_scroll" id="hrms">
     <form [formGroup]="fbAddressDetails">
-        <div class="grid m-0 mt-3 p-0">
-            <div class="col-12 roles-container">
-                <div class="p-fluid p-formgrid grid">
+        <div class="grid mt-3 fadeinup animation-duration-1000 p-0 m-0 pt-0" *ngIf="addaddressdetailsshowForm">
+            <div class="col-12 roles-container m-0 p-0">
+                <div class="p-fluid p-formgrid grid m-0 p-0">
                     <div class="field col-12 md:col-4">
                         <span class="p-float-label">
                             <input type="text" id="Address_address1" pInputText formControlName="addressLine1" #address1
@@ -99,7 +102,7 @@
                                         *ngIf="FormControls['city'].errors?.['minlength']">
                                         City Min Characters Is 2.</div>
                                     <div class="ng-invalid ng-touched p-error"
-                                        *ngIf="FormControls['City'].errors?.['maxlength']">
+                                        *ngIf="FormControls['city'].errors?.['maxlength']">
                                         City Max Characters Is 50.</div>
                                 </span>
                             </div>
@@ -141,7 +144,7 @@
                                 <span *ngIf="FormControls['stateId'].touched && FormControls['stateId'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="FormControls['stateId'].errors?.['required']">
-                                        Please Select state.</div>
+                                        Please Select Country First.</div>
                                 </span>
                             </div>
                         </div>
@@ -178,7 +181,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="field col-12 md:col-2">
+                    <div class="field col-12 md:col-4">
                         <div class="button-container">
                             <p-button type="button" label="Save New Address" id="AddressDetails-Btn"
                                 (click)="addAddress()" [disabled]="fbAddressDetails.invalid">
@@ -190,56 +193,53 @@
             </div>
         </div>
     </form>
-    <div class="col-12 m-0 p-0 scrolling_content">
-        <div class="col-12 scrolling_content">
-            <p-table #dt2 [value]="empAddrDetails" dataKey="id" [rows]="10" [rowHover]="true"
-                [alwaysShowPaginator]="false" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
-                [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                [showCurrentPageReport]="true" [autoLayout]="true" responsiveLayout="scroll"
-                [rowsPerPageOptions]="[10,25,50]">
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th style="width:5px" *ngIf="permissions?.CanManageEmployee">Actions</th>
-                        <th *ngFor="let col of headers"
-                            [ngClass]="col?.field == 'addressLine1' || col?.field == 'addressLine2' || col?.field == 'landmark'  ||col?.field == 'zipCode'  ||  col?.field == 'city'
+    <div class="col-12 scrolling_content fadeinup animation-duration-1000 p-1 pt-0" *ngIf="showAddressDetails">
+        <p-table #dt2 [value]="empAddrDetails" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
+            styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [showCurrentPageReport]="true" [autoLayout]="true" responsiveLayout="scroll"
+            [rowsPerPageOptions]="[10,25,50]">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width:5px" *ngIf="permissions?.CanManageEmployee">Actions</th>
+                    <th *ngFor="let col of headers"
+                        [ngClass]="col?.field == 'addressLine1' || col?.field == 'addressLine2' || col?.field == 'landmark'  ||col?.field == 'zipCode'  ||  col?.field == 'city'
                         ||col?.field == 'stateId'|| col?.field == 'countryId' ||col?.field == 'addressType' ||col?.field == 'isActive'? 'text-center' : ''">
-                            {{col?.label}}
-                        </th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-addressDetails let-addressDetailsIndex="rowIndex">
-                    <tr>
-                        <td *ngIf="permissions?.CanManageEmployee" class="flex">
-                            <button pButton pRipple icon="pi pi-pencil" (click)="editForm(addressDetails)"
-                                class="p-element p-ripple p-button-text p-button p-component col-2 p-0 "></button>
-                            <button pButton pRipple icon="pi pi-trash" id="AddressDetailsRemove-Btn"
-                                class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
-                                (click)="removeItem(addressDetailsIndex)">
-                            </button>
-                        </td>
-                        <td *ngFor="let col of headers"
-                            [ngClass]="col?.field == 'addressLine1' || col?.field == 'addressLine2' || col?.field == 'landmark'  ||col?.field == 'zipCode'  ||  col?.field == 'city'
+                        {{col?.label}}
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-addressDetails let-addressDetailsIndex="rowIndex">
+                <tr>
+                    <td *ngIf="permissions?.CanManageEmployee" class="flex">
+                        <button pButton pRipple icon="pi pi-pencil" (click)="editForm(addressDetails)"
+                            class="p-element p-ripple p-button-text p-button p-component col-2 p-0 "></button>
+                        <button pButton pRipple icon="pi pi-trash" id="AddressDetailsRemove-Btn"
+                            class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
+                            (click)="removeItem(addressDetailsIndex)">
+                        </button>
+                    </td>
+                    <td *ngFor="let col of headers"
+                        [ngClass]="col?.field == 'addressLine1' || col?.field == 'addressLine2' || col?.field == 'landmark'  ||col?.field == 'zipCode'  ||  col?.field == 'city'
                         ||col?.field == 'stateId'|| col?.field == 'countryId'|| col?.field == 'addressType'|| col?.field == 'isActive' ? 'text-center' : ''">
-                            <span
-                                *ngIf="col?.field == 'addressLine1' || col?.field == 'addressLine2' || col?.field == 'landmark'  ||col?.field == 'zipCode' || col?.field == 'city'
+                        <span *ngIf="col?.field == 'addressLine1' || col?.field == 'addressLine2' || col?.field == 'landmark'  ||col?.field == 'zipCode' || col?.field == 'city'
                                     || col?.field == 'addressType'">
-                                {{addressDetails[col.field]}}
-                            </span >
+                            {{addressDetails[col.field]}}
+                        </span>
 
-                            <span *ngIf="col?.field == 'stateId'">
-                                {{addressDetails.state?addressDetails.state:addressDetails[col.field]}}
-                            </span>
-                            <span *ngIf="col?.field == 'isActive'">
-                                <p-checkbox [binary]="true" [(ngModel)]="addressDetails[col.field]">
-                                </p-checkbox>
-                            </span>
-                        </td>
+                        <span *ngIf="col?.field == 'stateId'">
+                            {{addressDetails.state?addressDetails.state:addressDetails[col.field]}}
+                        </span>
+                        <span *ngIf="col?.field == 'isActive'">
+                            <p-checkbox [binary]="true" [(ngModel)]="addressDetails[col.field]">
+                            </p-checkbox>
+                        </span>
+                    </td>
 
 
-                    </tr>
-                </ng-template>
-            </p-table>
-        </div>
+                </tr>
+            </ng-template>
+        </p-table>
     </div>
 </div>
 

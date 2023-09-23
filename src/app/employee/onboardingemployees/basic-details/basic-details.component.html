@@ -133,7 +133,7 @@
                         <input type="text" id="mobileno" pInputText formControlName="mobileNumber" #mobileNo numericOnly
                             [maxlength]="10" (keydown)="restrictSpaces($event)"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['mobileNumber'].touched && FormControls['mobileNumber'].errors }" />
-                        <label for="inputtext3">Mobile No.<sup class="p-error">*</sup></label>
+                        <label class="required" for="inputtext3">Mobile No.</label>
                     </span>
 
                     <div class="flex">
@@ -215,7 +215,7 @@
                     <span class="p-float-label">
                         <input type="text" id="inputtext" pInputText formControlName="emailId" #email
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['emailId'].touched && FormControls['emailId'].errors }" />
-                        <label for="inputtext">Email ID<sup class="p-error">*</sup></label>
+                        <label class="required" for="inputtext">Email ID</label>
                     </span>
                     <div class="flex">
                         <div class="align-left w-60" style="width:70%">
@@ -264,20 +264,19 @@
 
                 
             </div>
-            <div class="p-fluid p-formgrid grid">
-                <div class="field col-4">
-                </div>
-                <div class=" md:col-4">
-                    <button p-button class="p-element p-ripple p-button-info p-button p-component"
-                        [disabled]="fbbasicDetails.invalid" (click)="save()">Save as
-                        Draft</button>
-                </div>
-                <div class=" md:col-4">
-                    <button p-button class="p-element p-ripple p-button-primary p-button p-component"
-                (click)="navigateToNext()">Education Details </button>
-                </div>
-            </div>
         </div>
     </div>
-    
+    <div class="p-fluid p-formgrid grid">
+        <div class="field col-4 m-0 p-1 px-3">
+        </div>
+        <div class=" col-4 m-0 p-1 px-3">
+            <button p-button class="p-element p-ripple p-button-info p-button p-component"
+                [disabled]="fbbasicDetails.invalid" (click)="save()">Save as
+                Draft</button>
+        </div>
+        <div class="col-4 m-0 p-1 px-3">
+            <button p-button class="p-element p-ripple p-button-primary p-button p-component"
+        (click)="navigateToNext()">Education Details </button>
+        </div>
+    </div>    
 </form>
