@@ -50,6 +50,8 @@ export class AddressComponent {
     })
   }
   getStatesByCountryId(id: number) {
+    console.log(id);
+
     this.lookupService.States(id).subscribe((resp) => {
       if (resp) {
         this.states = resp as unknown as LookupViewDto[];
