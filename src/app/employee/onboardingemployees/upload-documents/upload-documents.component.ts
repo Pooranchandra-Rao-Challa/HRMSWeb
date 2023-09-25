@@ -109,13 +109,12 @@ export class UploadDocumentsComponent {
     })
   }
   uploadFiles() {
+    debugger
     this.fileUpload.nativeElement.value = '';
     this.uploadedFiles.forEach(file => {
       this.uploadFile(file);
     });
   }
-
-
 
   navigateToPrev() {
     this.router.navigate(['employee/onboardingemployee/addressdetails', this.employeeId])

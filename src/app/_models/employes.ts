@@ -195,6 +195,8 @@ export class EmployeeOfficedetailsviewDto {
 	createdBy?: string;
 	updatedAt?: Date;
 	updatedBy?: string;
+	designation?:string;
+   designationId?: number;
 }
 
 

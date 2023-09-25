@@ -12,31 +12,22 @@ import { EmployeeService } from 'src/app/_services/employee.service';
 import { LookupService } from 'src/app/_services/lookup.service';
 import { MIN_LENGTH_2, RG_PANNO, RG_PHONE_NO } from 'src/app/_shared/regex';
 
-interface General {
-  name: string;
-  code: string;
-}
-
 @Component({
   selector: 'app-family-deatils',
   templateUrl: './family-deatils.component.html',
   styleUrls: []
 })
 export class FamilyDeatilsComponent implements OnInit {
-  relationshipStatus: General[] | undefined;
   fbfamilyDetails: FormGroup;
   showFamilyDetails: boolean = true;
   addfamilydetailsshowForm: boolean = false;
-  submitLabel: string;
   employeeId: any;
   maxLength: MaxLength = new MaxLength();
   relationships: LookupDetailsDto[] = [];
   address: EmployeAdressViewDto[] = [];
-  employee: number;
   mediumDate: string = MEDIUM_DATE;
   addFlag: boolean = true;
   empFamDetails: FamilyDetailsDto[] = [];
-
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -141,7 +132,7 @@ export class FamilyDeatilsComponent implements OnInit {
       isNominee: new FormControl(familyDetails.isNominee),
     });
   }
-  editAddressDetails(familyDetails) {
+  editFamilyDetails(familyDetails) {
     this.fbfamilyDetails.patchValue({
       familyInformationId: familyDetails.familyInformationId,
       employeeId: familyDetails.employeeId,
@@ -178,14 +169,8 @@ export class FamilyDeatilsComponent implements OnInit {
   }
   onSubmit() {
     this.savefamilyDetails().subscribe(resp => {
-      if (resp) {
-        this.alertMessage.displayAlertMessage(ALERT_CODES["SFD001"]);
-        this.navigateToNext();
-      }
-      else {
-        this.alertMessage.displayAlertMessage(ALERT_CODES["SFD002"]);
-      }
-      this.navigateToNext();
+        this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "SFD001" : "SFD002"]);
+        this.navigateToNext();      
     })
     this.addfamilydetailsshowForm = !this.addfamilydetailsshowForm;
     this.showFamilyDetails = !this.showFamilyDetails;

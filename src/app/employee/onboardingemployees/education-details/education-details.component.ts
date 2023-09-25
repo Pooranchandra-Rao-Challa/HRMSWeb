@@ -1,3 +1,4 @@
+import { Countries } from './../../../_models/employes';
 import { HttpEvent } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from '@angular/forms';
@@ -5,7 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
-import { LookupDetailsDto } from 'src/app/_models/admin';
+import { LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
 import { ITableHeader, MaxLength } from 'src/app/_models/common';
 import { EducationDetailsDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
@@ -17,10 +18,8 @@ import { LookupService } from 'src/app/_services/lookup.service';
   // styleUrls: ['./education-details.component.scss']
 })
 export class EducationDetailsComponent implements OnInit {
-  showDialog: boolean = false;
   addeducationdetailsshowForm: boolean = false;
   fbEducationDetails!: FormGroup;
-  selectedYear: Date;
   ShoweducationDetails: boolean = true;
   employeeId: any;
   maxLength: MaxLength = new MaxLength();
@@ -31,7 +30,6 @@ export class EducationDetailsComponent implements OnInit {
   gradingMethod: LookupDetailsDto[] = [];
   mediumDate: string = MEDIUM_DATE;
   addFlag: boolean = true;
-  STREAM?: String;
   empEduDetails: EducationDetailsDto[] = [];
   constructor(private formbuilder: FormBuilder,
     private router: Router,
@@ -44,9 +42,9 @@ export class EducationDetailsComponent implements OnInit {
       this.employeeId = params['employeeId'];
     });
     this.educationForm();
-    this.initCirculum();
-    this.initCountry();
-    this.initGrading();
+    // this.initCirculum();
+    // this.initCountry();
+    // this.initGrading();
     this.getEmpEducaitonDetails();
   }
   headers: ITableHeader[] = [
@@ -77,35 +75,35 @@ export class EducationDetailsComponent implements OnInit {
   get FormControls() {
     return this.fbEducationDetails.controls;
   }
-  initCirculum() {
-    this.lookupService.Curriculum().subscribe((resp) => {
-      this.curriculum = resp as unknown as LookupDetailsDto[];
-    });
-  }
-  initGrading() {
-    this.lookupService.GradingMethods().subscribe((resp) => {
-      this.gradingMethod = resp as unknown as LookupDetailsDto[];
-    });
-  }
-  initCountry() {
-    this.lookupService.Country().subscribe((resp) => {
-      this.country = resp as unknown as LookupDetailsDto[];
-    })
-  }
-  getStatesByCountryId(id: number) {
-    this.lookupService.getStates(id).subscribe((resp) => {
-      if (resp) {
-        this.states = resp as unknown as LookupDetailsDto[];
-      }
-    })
-  }
-  getStreamByCirculumId(Id: number) {
-    this.lookupService.Stream(Id).subscribe((resp) => {
-      if (resp) {
-        this.stream = resp as unknown as LookupDetailsDto[];
-      }
-    });
-  }
+  // initCirculum() {
+  //   this.lookupService.Curriculum().subscribe((resp) => {
+  //     this.curriculum = resp as unknown as LookupDetailsDto[];
+  //   });
+  // }
+  // initGrading() {
+  //   this.lookupService.GradingMethods().subscribe((resp) => {
+  //     this.gradingMethod = resp as unknown as LookupDetailsDto[];
+  //   });
+  // }
+  // initCountry() {
+  //   this.lookupService.Country().subscribe((resp) => {
+  //     this.country = resp as unknown as LookupDetailsDto[];
+  //   })
+  // }
+  // getStatesByCountryId(id: number) {
+  //   this.lookupService.getStates(id).subscribe((resp) => {
+  //     if (resp) {
+  //       this.states = resp as unknown as LookupDetailsDto[];
+  //     }
+  //   })
+  // }
+  // getStreamByCirculumId(Id: number) {
+  //   this.lookupService.Stream(Id).subscribe((resp) => {
+  //     if (resp) {
+  //       this.stream = resp as unknown as LookupDetailsDto[];
+  //     }
+  //   });
+  // }
   addEducationDetails() {
     let eduDetailId = this.fbEducationDetails.get('educationDetailId').value
     if (eduDetailId == null) {
@@ -123,7 +121,7 @@ export class EducationDetailsComponent implements OnInit {
       this.addFlag = true;
     }
     else {
-      this.addFlag = false;
+      this.addFlag = false
       this.onSubmit();
     }
     this.addeducationdetailsshowForm = !this.addeducationdetailsshowForm;
@@ -132,6 +130,7 @@ export class EducationDetailsComponent implements OnInit {
   getEmpEducaitonDetails() {
     return this.employeeService.GetEducationDetails(this.employeeId).subscribe((data) => {
       this.empEduDetails = data as unknown as EducationDetailsDto[];
+      console.log(data)
     })
   }
   faEducationDetail(): FormArray {
@@ -141,6 +140,7 @@ export class EducationDetailsComponent implements OnInit {
     const formGroup = this.formbuilder.group({
       educationDetailId: educationDetails.educationDetailId,
       employeeId: educationDetails.employeeId,
+      curriculumId: educationDetails.curriculumId,
       streamId: educationDetails.streamId,
       stateId: educationDetails.stateId,
       institutionName: educationDetails.institutionName,
@@ -152,12 +152,12 @@ export class EducationDetailsComponent implements OnInit {
     return formGroup;
   }
   editEducationDetails(educationDetails) {
-    this.getStatesByCountryId(educationDetails.countryId);
-    this.getStreamByCirculumId(educationDetails.curriculumId);
+    // this.getStatesByCountryId(educationDetails.countryId);
+    // this.getStreamByCirculumId(educationDetails.curriculumId);
     this.fbEducationDetails.patchValue({
       educationDetailId: educationDetails.educationDetailId,
       employeeId: educationDetails.employeeId,
-      circulumId: educationDetails.curriculumId,
+      curriculumId: educationDetails.curriculumId,
       streamId: educationDetails.streamId,
       countryId: educationDetails.countryId,
       stateId: educationDetails.stateId,
@@ -180,6 +180,12 @@ export class EducationDetailsComponent implements OnInit {
       this.empEduDetails.splice(index, 1); // Remove 1 item at the specified index
     }
   }
+  initCurriculum() {
+    this.lookupService.Curriculums().subscribe((resp) => {
+      this.curriculum = resp as unknown as LookupViewDto[];
+    });
+  }
+
   clearForm() {
     this.fbEducationDetails.reset();
   }
@@ -191,19 +197,14 @@ export class EducationDetailsComponent implements OnInit {
   }
   onSubmit() {
     this.saveeducationDetails().subscribe(resp => {
-      if (resp) {
-        this.alertMessage.displayAlertMessage(ALERT_CODES["SFD001"]);
-      }
-      else {
-        this.alertMessage.displayAlertMessage(ALERT_CODES["SFD002"]);
-      }
+      this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "SEDU001" : "SEDU002"]);
       this.navigateToNext();
     })
-
   }
   navigateToPrev() {
     this.router.navigate(['employee/onboardingemployee/basicdetailsbyId', this.employeeId])
   }
+
 
   navigateToNext() {
     this.router.navigate(['employee/onboardingemployee/experiencedetails', this.employeeId])

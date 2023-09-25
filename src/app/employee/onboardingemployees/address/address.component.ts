@@ -47,12 +47,14 @@ export class AddressComponent {
     this.getEmpAddressDetails();
   }
   initCountries() {
-    this.lookupService.Country().subscribe((resp) => {
-      this.countries = resp as unknown as LookupDetailsDto[];
+    this.lookupService.Countries().subscribe((resp) => {
+      this.countries = resp as unknown as LookupViewDto[];
     })
   }
   getStatesByCountryId(id: number) {
-    this.lookupService.getStates(id).subscribe((resp) => {
+    console.log(id);
+
+    this.lookupService.States(id).subscribe((resp) => {
       if (resp) {
         this.states = resp as unknown as LookupDetailsDto[];
       }
@@ -217,6 +219,8 @@ export class AddressComponent {
       addressType: addressDetails.addressType,
       isActive: addressDetails.isActive,
     })
+    this.addaddressdetailsshowForm = !this.addaddressdetailsshowForm;
+    this.showAddressDetails = !this.showAddressDetails;
   }
 
 

@@ -70,9 +70,9 @@ export class ProjectComponent implements OnInit {
     // ).then(data => {
     //   this.data = data;
     //   let prevIndex = 0;
-      
+
     // });
-    
+
     // this.diagram = new go.Diagram('myDiagramDiv');
 
     // this.diagram.nodeTemplate =
@@ -93,7 +93,7 @@ export class ProjectComponent implements OnInit {
     //   { key: '4', name: 'Employee 1', parent: '2' },
     //   { key: '5', name: 'Employee 2', parent: '2' },
     // ]);
-  
+
   }
   projectForm(){
     this.fbproject = this.formbuilder.group({
@@ -211,7 +211,7 @@ export class ProjectComponent implements OnInit {
     this.editEmployeesList(projectDetails.projectId);
     this.editEmployee(projectDetails);
   }
-  
+
   onAutocompleteSelect(selectedOption: ClientNamesDto) {
     this.adminService.GetClientDetails(selectedOption.clientId).subscribe(resp => {
       this.clientDetails = resp[0];

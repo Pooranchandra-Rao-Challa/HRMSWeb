@@ -1,4 +1,5 @@
 import { HttpEvent } from '@angular/common/http';
+import { ThisReceiver } from '@angular/compiler';
 import { Component, DebugElement, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -31,12 +32,9 @@ export class BasicDetailsComponent implements OnInit {
   selectedFileBase64: string | null = null; // To store the selected file as base64
   maxLength: MaxLength = new MaxLength();
   addFlag: boolean = true;
-  basicDetails: EmployeeBasicDetailDto[];
   empbasicDetails = new EmployeeBasicDetailDto();
   bloodgroups: LookupViewDto[] = [];
   employeeId: any;
-  submitLabel!: string;
-  ShowEmpBasicDetails: boolean = false;
 
   constructor(private router: Router, private route: ActivatedRoute,
     private employeeService: EmployeeService, private formbuilder: FormBuilder, private lookupService: LookupService, private alertMessage: AlertmessageService) {
@@ -45,10 +43,10 @@ export class BasicDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.employeeId = 119;
+      this.employeeId = params['employeeId'];
     });
-    if(this.employeeId)
-    this.getEmployeeBasedonId();
+    if (this.employeeId)
+      this.getEmployeeBasedonId();
     this.basicDetailsForm();
     this.initBloodGroups();
     this.genders = [
@@ -100,7 +98,6 @@ export class BasicDetailsComponent implements OnInit {
     });
   }
   savebasicDetails(): Observable<HttpEvent<EmployeeBasicDetailDto>> {
-
     if (this.employeeId == null) {
       return this.employeeService.CreateBasicDetails(this.fbbasicDetails.value)
     }
@@ -111,7 +108,7 @@ export class BasicDetailsComponent implements OnInit {
     this.savebasicDetails().subscribe(resp => {
       this.employeeId = resp;
       this.navigateToNext();
-      this.alertMessage.displayAlertMessage(ALERT_CODES["SBD001"]);
+      this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "SBD001" : "SBD002"]);
     })
   }
   editEducationDetails(empbasicDetails) {
