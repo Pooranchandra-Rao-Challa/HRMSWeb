@@ -63,7 +63,7 @@
                 <div class="field col-12 md:col-4">
                     <label class="required">Assigned On:</label>
                     <p-calendar id="assigned-on" [showIcon]="true" placeholder="Select Assigned On"
-                        formControlName="assignedOn" appendTo="body" [maxDate]="maxDate"
+                        formControlName="assignedOn" appendTo="body" [maxDate]="maxDate" [readonlyInput]="true"
                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['assignedOn'].touched && FormControls['assignedOn'].errors }">
                     </p-calendar>
                     <span *ngIf="FormControls['assignedOn'].touched && FormControls['assignedOn'].invalid">
