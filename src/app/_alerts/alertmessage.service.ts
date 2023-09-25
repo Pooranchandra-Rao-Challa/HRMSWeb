@@ -156,16 +156,16 @@ export const ALERT_CODES: { [key: string]: string } = {
 
     // View Employee Office Details
     'EVEOFF001': 'Office Details Updated Successfully',
-    'EVEOFF002': 'Office Details Updated Faild',
+    'EVEOFF002': 'Office Details Added Successfully',
+    'EVEOFF003': 'Office Details Updated Faild',
 
     // View Employee Experience Details
     'EVEEXP001': 'Experience Details Updated Successfully',
     'EVEEXP002': 'Experience Details Updated Faild',
 
   // View Employee Education Details
-    'EVEEDU001': 'Education Details Updated Successfully',
-    'EVEEDU002': 'Education Details Added Successfully',
-    'EVEEDU003': 'Education Details Faild',
+    'EVEEDU001': 'Education Details Submitted Successfully',
+    'EVEEDU002': 'Education Details Faild',
 
     //Bank Details
     'SMBD001': 'Bank Details Added Successfully',
