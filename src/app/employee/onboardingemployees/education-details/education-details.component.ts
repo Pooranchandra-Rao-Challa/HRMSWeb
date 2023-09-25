@@ -18,6 +18,7 @@ import { LookupService } from 'src/app/_services/lookup.service';
   // styleUrls: ['./education-details.component.scss']
 })
 export class EducationDetailsComponent implements OnInit {
+  isReadOnly: boolean = false;
   addeducationdetailsshowForm: boolean = false;
   fbEducationDetails!: FormGroup;
   ShoweducationDetails: boolean = true;
@@ -40,11 +41,12 @@ export class EducationDetailsComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.employeeId = params['employeeId'];
+      this.isReadOnly = params['isReadOnly'] === 'false'; // Convert the route parameter to a boolean
     });
     this.educationForm();
-    // this.initCirculum();
-    // this.initCountry();
-    // this.initGrading();
+    this.initCurriculum();
+    this.initCountry();
+    this.initGrading();
     this.getEmpEducaitonDetails();
   }
   headers: ITableHeader[] = [
@@ -75,35 +77,42 @@ export class EducationDetailsComponent implements OnInit {
   get FormControls() {
     return this.fbEducationDetails.controls;
   }
-  // initCirculum() {
-  //   this.lookupService.Curriculum().subscribe((resp) => {
-  //     this.curriculum = resp as unknown as LookupDetailsDto[];
-  //   });
-  // }
-  // initGrading() {
-  //   this.lookupService.GradingMethods().subscribe((resp) => {
-  //     this.gradingMethod = resp as unknown as LookupDetailsDto[];
-  //   });
-  // }
-  // initCountry() {
-  //   this.lookupService.Country().subscribe((resp) => {
-  //     this.country = resp as unknown as LookupDetailsDto[];
-  //   })
-  // }
-  // getStatesByCountryId(id: number) {
-  //   this.lookupService.getStates(id).subscribe((resp) => {
-  //     if (resp) {
-  //       this.states = resp as unknown as LookupDetailsDto[];
-  //     }
-  //   })
-  // }
-  // getStreamByCirculumId(Id: number) {
-  //   this.lookupService.Stream(Id).subscribe((resp) => {
-  //     if (resp) {
-  //       this.stream = resp as unknown as LookupDetailsDto[];
-  //     }
-  //   });
-  // }
+  
+  initCurriculum() {
+    this.lookupService.Curriculums().subscribe((resp) => {
+      this.curriculum = resp as unknown as LookupViewDto[];
+    });
+  }
+
+  initCirculum() {
+    this.lookupService.Curriculums().subscribe((resp) => {
+      this.curriculum = resp as unknown as LookupDetailsDto[];
+    });
+  }
+  initGrading() {
+    this.lookupService.GradingMethods().subscribe((resp) => {
+      this.gradingMethod = resp as unknown as LookupDetailsDto[];
+    });
+  }
+  initCountry() {
+    this.lookupService.Countries().subscribe((resp) => {
+      this.country = resp as unknown as LookupDetailsDto[];
+    })
+  }
+  getStatesByCountryId(id: number) {
+    this.lookupService.States(id).subscribe((resp) => {
+      if (resp) {
+        this.states = resp as unknown as LookupDetailsDto[];
+      }
+    })
+  }
+  getStreamByCurriculumId(Id: number) {
+    this.lookupService.Streams(Id).subscribe((resp) => {
+      if (resp) {
+        this.stream = resp as unknown as LookupDetailsDto[];
+      }
+    });
+  }
   addEducationDetails() {
     let eduDetailId = this.fbEducationDetails.get('educationDetailId').value
     if (eduDetailId == null) {
@@ -152,8 +161,8 @@ export class EducationDetailsComponent implements OnInit {
     return formGroup;
   }
   editEducationDetails(educationDetails) {
-    // this.getStatesByCountryId(educationDetails.countryId);
-    // this.getStreamByCirculumId(educationDetails.curriculumId);
+    this.getStatesByCountryId(educationDetails.countryId);
+    this.getStreamByCurriculumId(educationDetails.curriculumId);
     this.fbEducationDetails.patchValue({
       educationDetailId: educationDetails.educationDetailId,
       employeeId: educationDetails.employeeId,
@@ -180,12 +189,6 @@ export class EducationDetailsComponent implements OnInit {
       this.empEduDetails.splice(index, 1); // Remove 1 item at the specified index
     }
   }
-  initCurriculum() {
-    this.lookupService.Curriculums().subscribe((resp) => {
-      this.curriculum = resp as unknown as LookupViewDto[];
-    });
-  }
-
   clearForm() {
     this.fbEducationDetails.reset();
   }
