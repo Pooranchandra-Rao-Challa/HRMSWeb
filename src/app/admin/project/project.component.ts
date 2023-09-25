@@ -70,9 +70,9 @@ export class ProjectComponent implements OnInit {
     // ).then(data => {
     //   this.data = data;
     //   let prevIndex = 0;
-      
+
     // });
-    
+
     // this.diagram = new go.Diagram('myDiagramDiv');
 
     // this.diagram.nodeTemplate =
@@ -93,7 +93,7 @@ export class ProjectComponent implements OnInit {
     //   { key: '4', name: 'Employee 1', parent: '2' },
     //   { key: '5', name: 'Employee 2', parent: '2' },
     // ]);
-  
+
   }
   projectForm(){
     this.fbproject = this.formbuilder.group({
@@ -135,7 +135,6 @@ export class ProjectComponent implements OnInit {
     this.fcUnAssignAsset['projectId']?.setValue(employee.projectId);
     this.fcUnAssignAsset['employeeId']?.setValue(employee.employeeId);
     this.fcUnAssignAsset['isActive']?.setValue(false);
-    debugger
     this.adminService.UnassignEmployee(this.fbUnAssignEmployee.value).subscribe((resp) => {
       if ( this.visible) {
         this.alertMessage.displayAlertMessage(ALERT_CODES["SMEUA001"]);
@@ -212,7 +211,7 @@ export class ProjectComponent implements OnInit {
     this.editEmployeesList(projectDetails.projectId);
     this.editEmployee(projectDetails);
   }
-  
+
   onAutocompleteSelect(selectedOption: ClientNamesDto) {
     this.adminService.GetClientDetails(selectedOption.clientId).subscribe(resp => {
       this.clientDetails = resp[0];

@@ -1,96 +1,95 @@
 <div class="card">
-  <div class="grid mb-3">
-    <p-toast key="tst"></p-toast>
-    <div class="col-12 lg:col-2">
-      <div class="fex">
-        <!-- Basic details card view -->
-        <div class="col text-center">
-          <img
-            [src]="employeePrsDtls.photo ? employeePrsDtls.photo : 'https://t3.ftcdn.net/jpg/02/18/21/86/360_F_218218632_jF6XAkcrlBjv1mAg9Ow0UBMLBaJrhygH.jpg'"
-            [alt]="employeePrsDtls.employeeName"
-            class="shadow-2 my-1 mx-0 employee_profile_pic employee_profile_pic_view" style="width: 70%;" />
+    <div class="grid mb-3">
+      <p-toast key="tst"></p-toast>
+      <div class="col-12 lg:col-2">
+        <div class="fex">
+          <!-- Basic details card view -->
+          <div class="col text-center">
+            <img
+              [src]="employeePrsDtls.photo ? employeePrsDtls.photo : 'https://t3.ftcdn.net/jpg/02/18/21/86/360_F_218218632_jF6XAkcrlBjv1mAg9Ow0UBMLBaJrhygH.jpg'"
+              [alt]="employeePrsDtls.employeeName"
+              class="shadow-2 my-1 mx-0 employee_profile_pic employee_profile_pic_view" style="width: 70%;" />
+          </div>
+          <div class=" align-items-center text-xl text-center font-medium text-900 mb-1">{{employeePrsDtls?.employeeName}}
+          </div>
+          <!-- <div class=" align-items-center text-md text-center font-medium text-500 mb-1 text-secondary">Sr Angular
+            developer </div> -->
+          <span class="text-900 font-medium text-primary text-center text-3xl block">{{employeePrsDtls?.code}}</span>
         </div>
-        <div class=" align-items-center text-xl text-center font-medium text-900 mb-1">{{employeePrsDtls?.employeeName}}
-        </div>
-        <!-- <div class=" align-items-center text-md text-center font-medium text-500 mb-1 text-secondary">Sr Angular
-          developer </div> -->
-        <span class="text-900 font-medium text-primary text-center text-3xl block">{{employeePrsDtls?.code}}</span>
       </div>
-    </div>
-    <div class="col-12 lg:col-6 py-3 lg:pl-2">
-      <div class="grid p-3 position-relative">
-        <h5 class="col-12">Basic Details </h5>
-        <hr />
-        <div class="col-12 lg:col-6 ">
-          <span class="text-primary font-bold text-900">Gender:</span> {{employeePrsDtls?.gender}}
-        </div>
-        <div class="col-12 lg:col-6 ">
-          <span class="text-primary font-bold text-900">Blood Group:</span> {{employeePrsDtls?.bloodGroup}}
-        </div>
-        <div class="col-12 lg:col-6 ">
-          <span class="text-primary font-bold text-900">Mobile Number:</span>{{employeePrsDtls?.mobileNumber}}
-        </div>
-        <div class="col-12 lg:col-6">
-          <span class="text-primary font-bold text-900">Alt Mobile Number:
-          </span>{{employeePrsDtls?.alternateMobileNumber}}
-        </div>
-        <div class="col-12 lg:col-6 ">
-          <span class="text-primary font-bold text-900">DOB:</span> {{employeePrsDtls?.originalDOB | date:mediumDate }}
-        </div>
-        <div class="col-12 lg:col-6 ">
-          <span class="text-primary font-bold text-900">Certificate DOB:</span> {{employeePrsDtls?.certificateDOB |
-          date:mediumDate }}
-        </div>
-        <div class="col-12 lg:col-6 ">
-          <span class="text-primary font-bold text-900">Marital Status:</span> {{employeePrsDtls?.maritalStatus}}
-        </div>
-        <div class="col-12 lg:col-6 ">
-          <span class="text-primary font-bold text-900">Email ID:</span> {{employeePrsDtls?.emailId}}
-        </div>
-        <button pButton pRipple icon="pi pi-pencil" id="basic_details"
-          class="p-element p-ripple p-button-text p-button p-component mr-2 float-button"
-          (click)="showEmpPersDtlsDialog(employeePrsDtls)"></button>
-      </div>
-    </div>
-    <!-- office details card view -->
-    <div class="col-12 lg:col-4 py-3 lg:pl-6">
-      <div class="">
-        <div class="grid p-3  position-relative">
-          <h5 class="col-12"> Office Details </h5>
-          <button pButton pRipple icon="pi pi-pencil" type="button" id="office_details"
+      <div class="col-12 lg:col-6 py-3 lg:pl-2">
+        <div class="grid p-3 position-relative">
+          <h5 class="col-12">Basic Details </h5>
+          <hr />
+          <div class="col-12 lg:col-6 ">
+            <span class="text-primary font-bold text-900">Gender:</span> {{employeePrsDtls?.gender}}
+          </div>
+          <div class="col-12 lg:col-6 ">
+            <span class="text-primary font-bold text-900">Blood Group:</span> {{employeePrsDtls?.bloodGroup}}
+          </div>
+          <div class="col-12 lg:col-6 ">
+            <span class="text-primary font-bold text-900">Mobile Number:</span>{{employeePrsDtls?.mobileNumber}}
+          </div>
+          <div class="col-12 lg:col-6">
+            <span class="text-primary font-bold text-900">Alt Mobile Number:
+            </span>{{employeePrsDtls?.alternateMobileNumber}}
+          </div>
+          <div class="col-12 lg:col-6 ">
+            <span class="text-primary font-bold text-900">DOB:</span> {{employeePrsDtls?.originalDOB | date:mediumDate }}
+          </div>
+          <div class="col-12 lg:col-6 ">
+            <span class="text-primary font-bold text-900">Certificate DOB:</span> {{employeePrsDtls?.certificateDOB |
+            date:mediumDate }}
+          </div>
+          <div class="col-12 lg:col-6 ">
+            <span class="text-primary font-bold text-900">Marital Status:</span> {{employeePrsDtls?.maritalStatus}}
+          </div>
+          <div class="col-12 lg:col-6 ">
+            <span class="text-primary font-bold text-900">Email ID:</span> {{employeePrsDtls?.emailId}}
+          </div>
+          <button pButton pRipple icon="pi pi-pencil" id="basic_details"
             class="p-element p-ripple p-button-text p-button p-component mr-2 float-button"
-            (click)="showEmpOfficDtlsDialog(employeeofficeDtls)"></button>
-          <div class="col-12">
-            <span class="text-primary font-bold text-900">Time In:</span> {{employeeofficeDtls?.timeIn}}
+            (click)="showEmpPersDtlsDialog(employeePrsDtls)"></button>
+        </div>
+      </div>
+      <!-- office details card view -->
+      <div class="col-12 lg:col-4 py-3 lg:pl-6">
+        <div class="">
+          <div class="grid p-3  position-relative">
+            <h5 class="col-12"> Office Details </h5>
+            <button pButton pRipple icon="pi pi-pencil" type="button" id="office_details"
+              class="p-element p-ripple p-button-text p-button p-component mr-2 float-button"
+              (click)="showEmpOfficDtlsDialog(employeeofficeDtls)"></button>
+            <div class="col-12">
+              <span class="text-primary font-bold text-900">Time In:</span> {{employeeofficeDtls?.timeIn}}
+            </div>
+            <div class="col-12">
+              <span class="text-primary font-bold text-900">Time Out:</span> {{employeeofficeDtls?.timeOut}}
+            </div>
+            <div class="col-12">
+              <span class="text-primary font-bold text-900">Office Email ID:</span> {{employeeofficeDtls?.officeEmailId}}
+            </div>
+            <div class="col-12">
+              <span class="text-primary font-bold text-900">Joining Date:</span> {{employeeofficeDtls?.dateofJoin |
+              date:mediumDate}}
+            </div>
+            <div class="col-12">
+              <span class="text-primary font-bold text-900">Designation:</span> {{employeeofficeDtls?.designation}}
+            </div>
+            <div class="col-12">
+              <span class="text-primary font-bold text-900">Reported To:</span> {{employeeofficeDtls?.reportingTo}}
+            </div>
+            <div class="col-12">
+              <span class="text-primary font-bold text-900">PF Eligible:</span> {{employeeofficeDtls?.isPFEligible}}
+            </div>
+            <div class="col-12">
+              <span class="text-primary font-bold text-900">ESI Elgible:</span> {{employeeofficeDtls?.isESIEligible}}
+            </div>
+            <br />
           </div>
-          <div class="col-12">
-            <span class="text-primary font-bold text-900">Time Out:</span> {{employeeofficeDtls?.timeOut}}
-          </div>
-          <div class="col-12">
-            <span class="text-primary font-bold text-900">Office Email ID:</span> {{employeeofficeDtls?.officeEmailId}}
-          </div>
-          <div class="col-12">
-            <span class="text-primary font-bold text-900">Joining Date:</span> {{employeeofficeDtls?.dateofJoin |
-            date:mediumDate}}
-          </div>
-          <div class="col-12">
-            <span class="text-primary font-bold text-900">Designation:</span> {{employeeofficeDtls?.designation}}
-          </div>
-          <div class="col-12">
-            <span class="text-primary font-bold text-900">Reported To:</span> {{employeeofficeDtls?.reportingTo}}
-          </div>
-          <div class="col-12">
-            <span class="text-primary font-bold text-900">PF Eligible:</span> {{employeeofficeDtls?.isPFEligible}}
-          </div>
-          <div class="col-12">
-            <span class="text-primary font-bold text-900">ESI Elgible:</span> {{employeeofficeDtls?.isESIEligible}}
-          </div>
-          <br />
         </div>
       </div>
     </div>
-  </div>
-
   <!-- Education Details card view -->
   <p-tabView>
     <p-tabPanel header="Education Details ">

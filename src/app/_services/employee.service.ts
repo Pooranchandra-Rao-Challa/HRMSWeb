@@ -63,18 +63,18 @@ export class EmployeeService extends ApiHttpService {
   public CreateFamilyDetails(family: FamilyDetailsDto[]) {
     return this.post<FamilyDetailsDto[]>(CREATE_FAMILY_DETAILS_URI, family)
   }
-  public Getstates() {
-    return this.get<States>(GET_STATES_URI);
-  }
-  public GetDesignation() {
-    return this.get<LookupViewDto[]>(GET_DESIGNATION_URI);
-  }
-  public GetSkillArea() {
-    return this.get<SkillArea>(GET_SKILL_AREA_URI);
-  }
-  public GetCountries() {
-    return this.get<Countries>(GET_COUNTRIES_URI);
-  }
+//   public Getstates() {
+//     return this.get<States>(GET_STATES_URI);
+//   }
+//   public Designation() {
+//     return this.get<LookupViewDto[]>(GET_DESIGNATION_URI);
+//   }
+//   public GetSkillArea() {
+//     return this.get<SkillArea>(GET_SKILL_AREA_URI);
+//   }
+//   public GetCountries() {
+//     return this.get<Countries>(GET_COUNTRIES_URI);
+//   }
   public GetViewEmpPersDtls(employeeId: number) {
     return this.getWithId<EmployeeBasicDetailViewDto[]>(GET_EMPLOYEE_BASED_ON_ID_URI, [employeeId])
   }

@@ -18,7 +18,7 @@ export class LogInSuccessModel {
     providedIn: 'root'
 })
 export class LoginService extends ApiHttpService {
-    private respSubject?: BehaviorSubject<ResponseModel>;
+    //private respSubject?: BehaviorSubject<ResponseModel>;
     ApiUrl: string = environment.ApiUrl;
     private userSubject: BehaviorSubject<any>;
     public user: Observable<any>;
@@ -38,8 +38,9 @@ export class LoginService extends ApiHttpService {
                 console.log(resp);
 
                 this.saveToken((resp as ResponseModel))
-                localStorage.setItem("respModel", JSON.stringify(resp as ResponseModel))
-                this.respSubject = new BehaviorSubject<ResponseModel>(resp as ResponseModel);
+                this.UpdateLookups(true);
+                //localStorage.setItem("respModel", JSON.stringify(resp as ResponseModel))
+                //this.respSubject = new BehaviorSubject<ResponseModel>(resp as ResponseModel);
                 const model: LogInSuccessModel = {
                     isFirstTimeLogin: this.IsFirstTimeLogin,
                     isLoginSuccess: true,

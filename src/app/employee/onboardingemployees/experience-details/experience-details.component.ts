@@ -97,25 +97,25 @@ export class ExperienceDetailsComponent {
     });
   }
   initCountries() {
-    this.lookupService.Country().subscribe((resp) => {
-      this.countries = resp as unknown as LookupDetailsDto[];
+    this.lookupService.Countries().subscribe((resp) => {
+      this.countries = resp as unknown as LookupViewDto[];
     })
   }
   getStatesByCountryId(id: number) {
-    this.lookupService.getStates(id).subscribe((resp) => {
+    this.lookupService.States(id).subscribe((resp) => {
       if (resp) {
         this.states = resp as unknown as LookupDetailsDto[];
       }
     })
   }
   initSkills() {
-    this.lookupService.GetSkillArea().subscribe((resp) => {
-      this.skills = resp as unknown as LookupDetailsDto[];
+    this.lookupService.SkillAreas().subscribe((resp) => {
+      this.skills = resp as unknown as LookupViewDto[];
     })
   }
   initDesignations() {
-    this.lookupService.GetDesignation().subscribe((resp) => {
-      this.designation = resp as unknown as LookupDetailsDto[];
+    this.lookupService.Designations().subscribe((resp) => {
+      this.designation = resp as unknown as LookupViewDto[];
       console.log(this.designation)
     })
   }
@@ -158,8 +158,14 @@ export class ExperienceDetailsComponent {
         // Push current values into the FormArray
         this.faExperienceDetail().push(this.generaterow(this.fbexperience.getRawValue()));
 
-        for (let item of this.fbexperience.get('experienceDetails').value)
+        for (let item of this.fbexperience.get('experienceDetails').value) {
+          let stateName = this.states.filter(x => x.lookupDetailId == item.stateId);
+          item.state = stateName[0].name
+          let designation = this.designation.filter(x => x.lookupDetailId == item.designationId);
+          item.designation = designation[0].name
           this.empExperienceDetails.push(item)
+        }
+
         // Reset form controls for the next entry
         this.fbexperience.patchValue({
           employeeId: this.employeeId,
@@ -254,7 +260,6 @@ export class ExperienceDetailsComponent {
   getEmpExperienceDetails() {
     this.employeeService.GetWorkExperience(this.employeeId).subscribe((data) => {
       this.empExperienceDetails = data;
-      console.log(this.empExperienceDetails)
       if (this.empExperienceDetails.length > 0)
         this.selectedOption = 'Experience';
     })
