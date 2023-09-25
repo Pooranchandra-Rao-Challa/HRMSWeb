@@ -10,6 +10,7 @@ export class AssetAllotmentDto {
     revokedOn?: Date;
     reasonForRevoke?: string;
     isActive?: boolean;
+    comment?: string;
 }
 
 export interface AssetAllotmentViewDto {
@@ -26,8 +27,7 @@ export interface AssetAllotmentViewDto {
     updatedAt?: string;
     updatedBy?: string;
     assetCategory?: string;
-  
-
+    comment?: string;
 }
 
 export interface AssetsByAssetTypeIdViewDto {
