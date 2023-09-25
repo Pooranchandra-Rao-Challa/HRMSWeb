@@ -72,6 +72,15 @@
                             Please Select Assigned Date.</div>
                     </span>
                 </div>
+                <div class="field col-12 md:col-4">
+                    <label>Comment:</label>
+                    <textarea id="comment" #comment rows="5" cols="30" placeholder="Enter Comment"
+                        formControlName="comment" pInputTextarea class="freeze_text-area" [maxLength]="256">
+                </textarea>
+                    <div class="align-right w-40" style="text-align:right;">
+                        <small>{{comment.value.length}}/256</small>
+                    </div>
+                </div>
             </div>
         </div>
     </form>
