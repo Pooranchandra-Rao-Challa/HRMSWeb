@@ -35,7 +35,7 @@
                         <span class="p-float-label">
                             <p-dropdown id="country_dropdown" [autoDisplayFirst]="false" optionLabel="name"
                                 [options]="country" optionValue="lookupDetailId" formControlName="countryId"
-                                (onChange)="getStatesByCountryId($event.value)" appendTo="body" 
+                                appendTo="body" 
                                 [ngClass]="{'is-invalid ng-dirty': FormControls['countryId'].touched && FormControls['countryId'].errors }">
                             </p-dropdown>
                             <label class="required">Country</label>
@@ -92,7 +92,7 @@
                         <span class="p-float-label">
                             <p-dropdown id="circulum_dropdown" [autoDisplayFirst]="false" [options]="curriculum"
                                 optionLabel="name" optionValue="lookupDetailId" formControlName="curriculumId"
-                                (onChange)="getStreamByCirculumId($event.value)" appendTo="body" 
+                                 appendTo="body" 
                                 [ngClass]="{'is-invalid ng-dirty': FormControls['curriculumId'].touched && FormControls['curriculumId'].errors }">
                             </p-dropdown>
                             <label class="required">Curriculum</label>

@@ -116,7 +116,7 @@
                             <p-dropdown inputId="dropdown" id="Address_country" [autoDisplayFirst]="false"
                                 [ngClass]="{ 'is-invalid ng-dirty': FormControls['countryId'].touched && FormControls['countryId'].errors }"
                                 formControlName="countryId" [options]="countries" optionValue="lookupDetailId"
-                                optionLabel="name" (onChange)="getStatesByCountryId($event.value)">
+                                optionLabel="name" (onChange)="getStatesByCountryId($event)">
                             </p-dropdown>
                             <label for="inputtext">Country<sup class="p-error">*</sup></label>
                         </span>

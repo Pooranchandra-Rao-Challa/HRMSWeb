@@ -54,7 +54,6 @@ export class ViewemployeesComponent {
   imageSize: any;
   selectedFileBase64: string | null = null; // To store the selected file as base64
   status: Status[];
-  mediumDate: string = MEDIUM_DATE;
   // employee office details
   fbOfficDtls!: FormGroup;
   employeeofficeDtls = new EmployeeOfficedetailsviewDto();
@@ -107,6 +106,7 @@ export class ViewemployeesComponent {
   images: string[] = [];
   selectedImageIndex: number = 0;
   quantity: number = 1;
+  // employees: Employee[] = [];
   genders: Gender[];
   shifts: Shift[];
   relationships: LookupViewDto[] = [];
@@ -124,6 +124,7 @@ export class ViewemployeesComponent {
   designation: LookupViewDto[] = [];
   employeeId: any;
   bloodgroups: LookupViewDto[] = [];
+  mediumDate: string = MEDIUM_DATE;
   ActionTypes = Actions;
   @ViewChild("fileUpload", { static: false }) fileUpload: ElementRef;
   files = [];
@@ -195,14 +196,18 @@ export class ViewemployeesComponent {
     private alertMessage: AlertmessageService,
     public ref: DynamicDialogRef,
     private dialogService: DialogService,
-  ) { }
+
+
+  ) {
+
+   }
 
   ngOnInit(): void {
     this.initdeasignation();
     this.getemployeeview();
     this.Data();
     this.EmpBasicDtlsForm();
-    this.initCirculum();
+    this.initCurriculum();
     //this.bankDetailsForm();
     this.initFamily();
 
@@ -215,7 +220,6 @@ export class ViewemployeesComponent {
     this.initBloodGroups()
     this.initskillArea();
     this.initGrading();
-    this.initCountries()
   }
 
   getemployeeview() {
@@ -226,6 +230,7 @@ export class ViewemployeesComponent {
     this.initGetWorkExperience();
     this.initGetFamilyDetails();
     this.initGetAddress();
+    this.initCountries()
     this.initUploadedDocuments();
     this.initBankDetails();
     this.initviewAssets();
@@ -382,15 +387,15 @@ export class ViewemployeesComponent {
   }
 
   getStreamByCirculumId(Id: number) {
-    this.lookupService.Stream(Id).subscribe((resp) => {
+    this.lookupService.Streams(Id).subscribe((resp) => {
       if (resp) {
         this.stream = resp as unknown as LookupViewDto[];
       }
     });
   }
 
-  initCirculum() {
-    this.lookupService.Curriculum().subscribe((resp) => {
+  initCurriculum() {
+    this.lookupService.Curriculums().subscribe((resp) => {
       this.circulum = resp as unknown as LookupViewDto[];
     });
   }
@@ -418,13 +423,7 @@ export class ViewemployeesComponent {
   addEducationDetails() {
     this.ShoweducationDetails = true;
     this.faeducationDetails = this.fbEducationDetails.get('educationDetails') as FormArray;
-    if(this.educationDetails){
-      if (this.faeducationDetails.length >=1) {
-        const employeeIdFromDetails = this.educationDetails.length > 0 ? this.educationDetails[0].employeeId : null;
-        const newEducationRow = this.generateEducationRow({ employeeId: employeeIdFromDetails });
-        this.faeducationDetails.push(newEducationRow);
-      }
-    }else{
+    if (this.faeducationDetails.length >= 1) {
       const employeeIdFromDetails = this.educationDetails.length > 0 ? this.educationDetails[0].employeeId : null;
       const newEducationRow = this.generateEducationRow({ employeeId: employeeIdFromDetails });
       this.faeducationDetails.push(newEducationRow);
@@ -490,22 +489,23 @@ export class ViewemployeesComponent {
     this.employeeService.GetWorkExperience(this.employeeId).subscribe((resp) => {
       this.workExperience = resp as unknown as employeeExperienceDtlsViewDto[];
       console.log('this.workExperience',this.workExperience);
-      
+
     });
   }
 
   initdeasignation() {
-    this.lookupService.GetDesignation().subscribe((resp) => {
+    this.lookupService.Designations().subscribe((resp) => {
       this.designation = resp as unknown as LookupViewDto[];
     })
   }
 
   initskillArea() {
-    this.lookupService.GetSkillArea().subscribe((resp) => {
+    this.lookupService.SkillAreas().subscribe((resp) => {
       this.skillarea = resp as unknown as LookupViewDto[];
     })
   }
- 
+
+
   addexperienceDetails() {
     this.ShowexperienceDetails = true;
     this.faexperienceDetails = this.fbexperience.get('experienceDetails') as FormArray;
@@ -569,6 +569,7 @@ export class ViewemployeesComponent {
     // this.fbexperience.controls['experienceDetails'].value[index].get('workExperienceXrefs')?.patchValue(updatedArray);
   }
 
+
   onCloseExp() {
     this.Experience = false;
     (this.fbexperience.get('experienceDetails') as FormArray).clear();
@@ -586,6 +587,9 @@ export class ViewemployeesComponent {
       }
     })
   }
+
+
+
 
   initUploadedDocuments() {
     this.employeeService.GetUploadedDocuments(this.employeeId).subscribe((resp) => {
@@ -687,38 +691,48 @@ export class ViewemployeesComponent {
     });
   }
   initCountries() {
-    this.lookupService.Country().subscribe((resp) => {
+    this.lookupService.Countries().subscribe((resp) => {
       this.countries = resp as unknown as LookupViewDto[];
     })
   }
   getStatesByCountryId(id: number) {
-    this.lookupService.getStates(id).subscribe((resp) => {
+    this.lookupService.States(id).subscribe((resp) => {
       if (resp) {
         this.states = resp as unknown as LookupViewDto[];
       }
     })
   }
-  
+  // initCountries(): Promise<void> {
+  //   return new Promise<void>((resolve) => {
+  //     this.employeeService.GetCountries().subscribe((resp) => {
+  //       this.countries = resp as unknown as Countries[];
+  //       console.log('this.countries', this.countries);
+
+  //       resolve();
+  //     });
+  //   });
+  // }
+
   get FormControls() {
     return this.fbAddressDetails.controls;
   }
 
   editAddress(index: number) {
     const address = this.address[index];
-    this.getStatesByCountryId(address.countryId)
+    this.initCountries()
     this.fbAddressDetails.patchValue({
-      employeeId: address.employeeId,
       addressId: address.addressId,
+      employeeId: address.employeeId,
       addressLine1: address.addressLine1,
       addressLine2: address.addressLine2,
       landmark: address.landmark,
       zipcode: address.zipCode,
       city: address.city,
-      countryId: address.countryId,
       stateId: address.stateId,
+      countryId: address.countryId, // Assuming countryId is correct
       addressType: address.addressType,
-      isActive: address.isActive,
-    })
+      isActive: address.isActive
+    });
     this.submitLabel = "Update Adress";
     console.log(address);
     this.Address = true;
@@ -728,7 +742,10 @@ export class ViewemployeesComponent {
     this.employeeId = +this.activatedRoute.snapshot.queryParams['employeeId'];
     const formValue = { ...this.fbAddressDetails.value, employeeId: this.employeeId };
     const isUpdate = this.fbAddressDetails.value.addressId !== null;
-    this.employeeService.CreateAddress([formValue]).subscribe((resp) => {
+    if (!isUpdate) {
+      formValue.isActive = true;
+    }
+    this.employeeService.CreateAddress(formValue).subscribe((resp) => {
       if (resp) {
         const alertCode = isUpdate ? "SMAD004" : "SAD001";
         this.alertMessage.displayAlertMessage(ALERT_CODES[alertCode]);
@@ -874,7 +891,6 @@ export class ViewemployeesComponent {
 
   openComponentDialog(content: any,
     dialogData, action: Actions = this.ActionTypes.add) {
-    debugger
     if (action == Actions.unassign && content === this.unassignassetDialogComponent) {
       this.dialogRequest.dialogData = dialogData;
       this.dialogRequest.header = "Unassign Asset";
@@ -889,26 +905,26 @@ export class ViewemployeesComponent {
     }
     else if (action == Actions.view && content === this.BankdetailsDialogComponent) {
       this.dialogRequest.dialogData = {
-        
+        employeeId: this.employeeId
       }
       this.dialogRequest.header = "Bank Details";
       this.dialogRequest.width = "70%";
     }
-      
+
     else if (action == Actions.edit && content === this.BankdetailsDialogComponent) {
-      
       this.dialogRequest.dialogData = dialogData;
       this.dialogRequest.header = " Bank Details";
       this.dialogRequest.width = "40";
-
     }
-      
-    else if (action == Actions.add && content === this.BankdetailsDialogComponent) {
-      ;
+
+    else if (action == Actions.view && content === this.BankdetailsDialogComponent) {
+      this.dialogRequest.dialogData = {
+        employeeId: this.employeeId
+      }
       this.dialogRequest.header = "Asset Allotment";
       this.dialogRequest.width = "70%";
     }
-    
+
     this.ref = this.dialogService.open(content, {
       data: this.dialogRequest.dialogData,
       header: this.dialogRequest.header,
