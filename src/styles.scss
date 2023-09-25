@@ -265,3 +265,6 @@ p-calendar input {
     height: 75vh;
     overflow-y: scroll;
 }
+.p-steps .p-steps-item .p-menuitem-link:not(.p-disabled):focus {
+    box-shadow: none !important;
+}

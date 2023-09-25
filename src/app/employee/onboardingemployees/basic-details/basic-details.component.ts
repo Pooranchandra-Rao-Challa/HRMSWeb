@@ -44,8 +44,6 @@ export class BasicDetailsComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.employeeId = params['employeeId']
-      this.isReadOnly = params['isReadOnly'] === 'false'; // Convert the route parameter to a boolean
-
     });
     if (this.employeeId)
       this.getEmployeeBasedonId();
