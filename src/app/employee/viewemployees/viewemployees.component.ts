@@ -884,7 +884,7 @@ export class ViewemployeesComponent {
       this.dialogRequest.dialogData = {
         employeeId: this.employeeId
       }
-      this.dialogRequest.header = "Bank Details";
+      this.dialogRequest.header = "Add Assets";
       this.dialogRequest.width = "50%";
     }
     else if (action == Actions.view && content === this.BankdetailsDialogComponent) {

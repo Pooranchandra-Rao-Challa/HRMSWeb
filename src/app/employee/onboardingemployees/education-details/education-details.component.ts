@@ -17,10 +17,8 @@ import { LookupService } from 'src/app/_services/lookup.service';
   // styleUrls: ['./education-details.component.scss']
 })
 export class EducationDetailsComponent implements OnInit {
-  showDialog: boolean = false;
   addeducationdetailsshowForm: boolean = false;
   fbEducationDetails!: FormGroup;
-  selectedYear: Date;
   ShoweducationDetails: boolean = true;
   employeeId: any;
   maxLength: MaxLength = new MaxLength();
@@ -31,7 +29,6 @@ export class EducationDetailsComponent implements OnInit {
   gradingMethod: LookupDetailsDto[] = [];
   mediumDate: string = MEDIUM_DATE;
   addFlag: boolean = true;
-  STREAM?: String;
   empEduDetails: EducationDetailsDto[] = [];
   constructor(private formbuilder: FormBuilder,
     private router: Router,
@@ -120,10 +117,10 @@ export class EducationDetailsComponent implements OnInit {
         this.empEduDetails.push(item)
       }
       this.clearForm();
-      this.addFlag = true;
+      this.addFlag=true;
     }
     else {
-      this.addFlag = false;
+      this.addFlag=false
       this.onSubmit();
     }
     this.addeducationdetailsshowForm = !this.addeducationdetailsshowForm;
@@ -132,6 +129,7 @@ export class EducationDetailsComponent implements OnInit {
   getEmpEducaitonDetails() {
     return this.employeeService.GetEducationDetails(this.employeeId).subscribe((data) => {
       this.empEduDetails = data as unknown as EducationDetailsDto[];
+      console.log(data)
     })
   }
   faEducationDetail(): FormArray {
@@ -141,6 +139,7 @@ export class EducationDetailsComponent implements OnInit {
     const formGroup = this.formbuilder.group({
       educationDetailId: educationDetails.educationDetailId,
       employeeId: educationDetails.employeeId,
+      curriculumId:educationDetails.curriculumId,
       streamId: educationDetails.streamId,
       stateId: educationDetails.stateId,
       institutionName: educationDetails.institutionName,
@@ -157,7 +156,7 @@ export class EducationDetailsComponent implements OnInit {
     this.fbEducationDetails.patchValue({
       educationDetailId: educationDetails.educationDetailId,
       employeeId: educationDetails.employeeId,
-      circulumId: educationDetails.curriculumId,
+      curriculumId: educationDetails.curriculumId,
       streamId: educationDetails.streamId,
       countryId: educationDetails.countryId,
       stateId: educationDetails.stateId,
@@ -191,15 +190,9 @@ export class EducationDetailsComponent implements OnInit {
   }
   onSubmit() {
     this.saveeducationDetails().subscribe(resp => {
-      if (resp) {
-        this.alertMessage.displayAlertMessage(ALERT_CODES["SFD001"]);
-      }
-      else {
-        this.alertMessage.displayAlertMessage(ALERT_CODES["SFD002"]);
-      }
+        this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "SEDU001" : "SEDU002"]);      
       this.navigateToNext();
     })
-
   }
   navigateToPrev() {
     this.router.navigate(['employee/onboardingemployee/basicdetailsbyId', this.employeeId])

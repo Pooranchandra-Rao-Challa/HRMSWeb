@@ -217,6 +217,8 @@ export class AddressComponent {
       addressType: addressDetails.addressType,
       isActive: addressDetails.isActive,
     })
+    this.addaddressdetailsshowForm = !this.addaddressdetailsshowForm;
+    this.showAddressDetails = !this.showAddressDetails;
   }
 
 

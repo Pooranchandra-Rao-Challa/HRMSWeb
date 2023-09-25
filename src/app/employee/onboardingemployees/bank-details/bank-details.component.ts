@@ -3,8 +3,9 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { MaxLength } from 'src/app/_models/common';
-import { BankDetailsDto, EmployeeBasicDetailDto } from 'src/app/_models/employes';
+import { BankDetailsDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { MIN_LENGTH_2, MIN_LENGTH_8, RG_ALPHA_ONLY, RG_IFSC, RG_NUMERIC_ONLY } from 'src/app/_shared/regex';
 
@@ -17,11 +18,13 @@ import { MIN_LENGTH_2, MIN_LENGTH_8, RG_ALPHA_ONLY, RG_IFSC, RG_NUMERIC_ONLY } f
 export class BankDetailsComponent {
     fbbankDetails!: FormGroup;
     maxLength: MaxLength = new MaxLength();
-    addFlag: boolean = true;
-    employees: EmployeeBasicDetailDto[];
     employeeId: any;
 
-    constructor(private router: Router, private route: ActivatedRoute, private formbuilder: FormBuilder, private employeeService: EmployeeService) { }
+    constructor(private router: Router,
+        private route: ActivatedRoute,
+        private formbuilder: FormBuilder,
+        private employeeService: EmployeeService,
+        private alertMessage: AlertmessageService) { }
 
     ngOnInit(): void {
         this.route.params.subscribe(params => {
@@ -51,6 +54,7 @@ export class BankDetailsComponent {
     onSubmit() {
         if (this.fbbankDetails.valid) {
             this.savebankDetails().subscribe(resp => {
+                this.alertMessage.displayAlertMessage(ALERT_CODES["SBDS001"]);
             })
         }
         else {

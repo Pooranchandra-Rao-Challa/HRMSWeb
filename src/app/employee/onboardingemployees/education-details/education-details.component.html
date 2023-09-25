@@ -35,7 +35,7 @@
                         <span class="p-float-label">
                             <p-dropdown id="country_dropdown" [autoDisplayFirst]="false" optionLabel="name"
                                 [options]="country" optionValue="lookupDetailId" formControlName="countryId"
-                                (onChange)="getStatesByCountryId($event.value)"
+                                (onChange)="getStatesByCountryId($event.value)" appendTo="body" 
                                 [ngClass]="{'is-invalid ng-dirty': FormControls['countryId'].touched && FormControls['countryId'].errors }">
                             </p-dropdown>
                             <label class="required">Country</label>
@@ -53,8 +53,7 @@
                     <div class="field col-12 md:col-4">
                         <span class="p-float-label">
                             <p-dropdown id="states_dropdown" [autoDisplayFirst]="false" optionLabel="name"
-                                [options]="states" optionValue="lookupDetailId" formControlName="stateId"
-                                (onChange)="getStreamByCirculumId($event.value)"
+                                [options]="states" optionValue="lookupDetailId" formControlName="stateId"appendTo="body" 
                                 [ngClass]="{'is-invalid ng-dirty': FormControls['stateId'].touched && FormControls['stateId'].errors }">
                             </p-dropdown>
                             <label class="required">State</label>
@@ -93,7 +92,7 @@
                         <span class="p-float-label">
                             <p-dropdown id="circulum_dropdown" [autoDisplayFirst]="false" [options]="curriculum"
                                 optionLabel="name" optionValue="lookupDetailId" formControlName="curriculumId"
-                                (onChange)="getStreamByCirculumId($event.value)"
+                                (onChange)="getStreamByCirculumId($event.value)" appendTo="body" 
                                 [ngClass]="{'is-invalid ng-dirty': FormControls['curriculumId'].touched && FormControls['curriculumId'].errors }">
                             </p-dropdown>
                             <label class="required">Curriculum</label>
@@ -112,7 +111,7 @@
                     <div class="field col-12 md:col-4">
                         <span class="p-float-label">
                             <p-dropdown id="stream_dropdown" [autoDisplayFirst]="false" optionLabel="name"
-                                [options]="stream" optionValue="lookupDetailId" formControlName="streamId"
+                                [options]="stream" optionValue="lookupDetailId" formControlName="streamId" appendTo="body" 
                                 [ngClass]="{'is-invalid ng-dirty': FormControls['streamId'].touched && FormControls['streamId'].errors }">
                             </p-dropdown>
                             <label class="required">Stream</label>
@@ -150,7 +149,7 @@
                         <span class="p-float-label">
                             <p-dropdown id="gradingStystem_dropdown" [autoDisplayFirst]="false"
                                 [options]="gradingMethod" optionLabel="name" optionValue="lookupDetailId"
-                                formControlName="gradingMethodId"
+                                formControlName="gradingMethodId" appendTo="body" 
                                 [ngClass]="{'is-invalid ng-dirty': FormControls['gradingMethodId'].touched && FormControls['gradingMethodId'].errors }">
                             </p-dropdown>
                             <label class="required">Grading System</label>
@@ -213,7 +212,7 @@
             <ng-template pTemplate="body" let-educationData let-educationDataIndex="rowIndex">
                 <tr>
                     <td>
-                        <button pButton pRipple icon="pi pi-pencil" (click)="editEducationDetails(educationData)"
+                        <button pButton pRipple icon="pi pi-pencil" id="educationDetailsAdd-Btn" (click)="editEducationDetails(educationData)"
                             class="p-element p-ripple p-button-text p-button p-component mr-3 p-0 ">
                         </button>
                         <button pButton pRipple icon="pi pi-trash" id="educationDetailsRemove-Btn"
