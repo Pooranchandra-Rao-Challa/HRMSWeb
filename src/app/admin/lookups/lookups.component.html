@@ -61,17 +61,17 @@
               <div class="grid">
                 <div class=" col">
                   <span class="p-float-label">
-                    <p-dropdown id="lookup_dropdown" [autoDisplayFirst]="false" appendTo="body">
+                    <p-dropdown id="lookup_dropdown" class="w100" [autoDisplayFirst]="false" appendTo="body">
                     </p-dropdown>
                     <label class="required">Lookup</label>
                   </span>
                 </div>
-                <div class=" col">
+                <div class="col text-center">
                   <label>Is Active: </label>
                   <br> &nbsp; <p-inputSwitch formControlName="isActive" id="Lookup_lookupIsActive"></p-inputSwitch>
                 </div>
-                <div class=" col">
-                  <p-button type="button" label="Add Lookup Details" (click)="addLookupDetails()"></p-button>
+                <div class="col">
+                  <p-button  label="Add Lookup Details" (click)="addLookupDetails()" class="w-100"></p-button>
                 </div>
                 <div class="col-12 scrolling_content" formArrayName="lookUpDetails" *ngIf="ShowlookupDetails">
                   <p-table #dt2 [value]=" falookupDetails().controls" dataKey="id" [rows]="10" [rowHover]="true"
