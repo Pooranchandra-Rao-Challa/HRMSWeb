@@ -125,12 +125,14 @@ export const ALERT_CODES: { [key: string]: string } = {
     //Basic Details
     'SBD001': 'Basic Details Added Successfully',
     'SBD002': 'Basic Details Updated Successfully',
+    //Educaiton Details 
+    'SEDU001': 'Education Details Added Successfully',
+    'SEDU002':'Education Details Updated Successfully',
     //Family Details 
     'SFD001': 'Family Details Added Successfully',
-    'SFD002': 'Family Details Not Added',
+    'SFD002': 'Family Details Updated Successfully',
     //Bank Details
     'SBDS001': 'Bank Details Added Successfully',
-    'SBDS002': 'Bank Details Not Added',
     //Address Details
     'SAD001': 'Address Details Added Successfully',
     'SAD002': 'Address Details Not Added',
@@ -159,16 +161,16 @@ export const ALERT_CODES: { [key: string]: string } = {
 
     // View Employee Office Details
     'EVEOFF001': 'Office Details Updated Successfully',
-    'EVEOFF002': 'Office Details Updated Faild',
+    'EVEOFF002': 'Office Details Added Successfully',
+    'EVEOFF003': 'Office Details Updated Faild',
 
     // View Employee Experience Details
-    'EVEEXP001': 'Experience Details Updated Successfully',
-    'EVEEXP002': 'Experience Details Updated Faild',
+    'EVEEXP001': 'Experience Details Submitted Successfully',
+    'EVEEXP002': 'Experience Details Faild',
 
   // View Employee Education Details
-    'EVEEDU001': 'Education Details Updated Successfully',
-    'EVEEDU002': 'Education Details Added Successfully',
-    'EVEEDU003': 'Education Details Faild',
+    'EVEEDU001': 'Education Details Submitted Successfully',
+    'EVEEDU002': 'Education Details Faild',
 
     //Bank Details
     'SMBD001': 'Bank Details Added Successfully',

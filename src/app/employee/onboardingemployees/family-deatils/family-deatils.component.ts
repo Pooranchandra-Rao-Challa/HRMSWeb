@@ -12,32 +12,22 @@ import { EmployeeService } from 'src/app/_services/employee.service';
 import { LookupService } from 'src/app/_services/lookup.service';
 import { MIN_LENGTH_2, RG_PANNO, RG_PHONE_NO } from 'src/app/_shared/regex';
 
-interface General {
-  name: string;
-  code: string;
-}
-
 @Component({
   selector: 'app-family-deatils',
   templateUrl: './family-deatils.component.html',
   styleUrls: []
 })
 export class FamilyDeatilsComponent implements OnInit {
-relationshipStatus: General[] |undefined ;
   fbfamilyDetails: FormGroup;
   showFamilyDetails: boolean = true;
   addfamilydetailsshowForm: boolean = false;
-  submitLabel: string;
   employeeId: any;
   maxLength: MaxLength = new MaxLength();
   relationships: LookupDetailsDto[] = [];
   address: EmployeAdressViewDto[] = [];
-  employee: number;
-  ShowfamilyDetails: boolean = false;
   mediumDate: string = MEDIUM_DATE;
   addFlag: boolean = true;
   empFamDetails: FamilyDetailsDto[] = [];
-
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -88,7 +78,6 @@ relationshipStatus: General[] |undefined ;
   initAddress() {
     this.employeeService.GetAddress(this.employeeId).subscribe((resp) => {
       this.address = resp as unknown as EmployeAdressViewDto[];
-      console.log(resp);
     });
   }
   get FormControls() {
@@ -97,7 +86,6 @@ relationshipStatus: General[] |undefined ;
   getFamilyDetails() {
     return this.employeeService.getFamilyDetails(this.employeeId).subscribe((data) => {
       this.empFamDetails = data as unknown as FamilyDetailsDto[];
-      console.log(data)
     })
   }
   addFamilyMembers() {
@@ -105,14 +93,15 @@ relationshipStatus: General[] |undefined ;
     if (famDetailId == null) {
       this.faFamilyDetail().push(this.generaterow(this.fbfamilyDetails.getRawValue()));
       for (let item of this.fbfamilyDetails.get('familyDetails').value) {
-        console.log(item)
         let relationShipName = this.relationships.filter(x => x.lookupDetailId == item.relationshipId);
         item.relationship = relationShipName[0].name
         let addressName = this.address.filter(x => x.addressId == item.addressId);
         item.addressLine1 = addressName[0].addressLine1
+        item.addressLine2 = addressName[0].addressLine2
+        item.zipCode = addressName[0].zipCode
         item.city = addressName[0].city
-        item.state =addressName[0].state
-        item.country =addressName[0].country
+        item.state = addressName[0].state
+        item.country = addressName[0].country
         this.empFamDetails.push(item)
       }
       this.clearForm();
@@ -143,7 +132,7 @@ relationshipStatus: General[] |undefined ;
       isNominee: new FormControl(familyDetails.isNominee),
     });
   }
-  editAddressDetails(familyDetails) {
+  editFamilyDetails(familyDetails) {
     this.fbfamilyDetails.patchValue({
       familyInformationId: familyDetails.familyInformationId,
       employeeId: familyDetails.employeeId,
@@ -180,14 +169,8 @@ relationshipStatus: General[] |undefined ;
   }
   onSubmit() {
     this.savefamilyDetails().subscribe(resp => {
-      if (resp) {
-        this.alertMessage.displayAlertMessage(ALERT_CODES["SFD001"]);
-        this.navigateToNext();
-      }
-      else {
-        this.alertMessage.displayAlertMessage(ALERT_CODES["SFD002"]);
-      }
-      this.navigateToNext();
+        this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "SFD001" : "SFD002"]);
+        this.navigateToNext();      
     })
     this.addfamilydetailsshowForm = !this.addfamilydetailsshowForm;
     this.showFamilyDetails = !this.showFamilyDetails;

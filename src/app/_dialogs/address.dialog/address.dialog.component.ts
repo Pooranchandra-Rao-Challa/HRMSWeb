@@ -64,7 +64,7 @@ export class AddressDialogComponent {
     }
     
     initCountries() {
-        this.lookupService.Country().subscribe((resp) => {
+        this.lookupService.Countries().subscribe((resp) => {
             this.countries = resp as unknown as LookupDetailsDto[];
             console.log('countries', this.countries);
             
@@ -72,7 +72,7 @@ export class AddressDialogComponent {
     }
     
     getStatesByCountryId(id: number) {
-        this.lookupService.getStates(id).subscribe((resp) => {
+        this.lookupService.States(id).subscribe((resp) => {
             if (resp) {
                 this.states = resp as unknown as LookupDetailsDto[];
             }

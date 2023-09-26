@@ -38,13 +38,20 @@ export const UNASSIGNED_ASSET_ALLOTMENT_URI = "Admin/InactiveAssetAllotment";
 export const LOOKUP_ASSET_TYPE_URI = "Lookup/AssetTypes";
 export const LOOKUP_ASSET_CATEGORIES_URI = "Lookup/AssetCategories";
 export const LOOKUP_ASSET_STATUS_URI = "Lookup/Status";
-export const LOOKUP_CIRCULUM_URI ="Lookup/Curriculums";
+export const LOOKUP_CURRICULUM_URI ="Lookup/Curriculums";
 export const LOOKUP_STREAM_URI ="Lookup/Streams";
 export const LOOKUP_GRADING_SYSTEM_URI ="Lookup/GradingMethods";
 export const LOOKUP_COUNTRY_URI ="Lookup/Countries";
 export const LOOKUP_STATES_URI = "Lookup/States";
 export const LOOKUP_BLOOD_GROUPS_URI = "Lookup/BloodGroups";
 export const LOOKUP_RELATIONSHIP_URI="Lookup/Relations";
+
+export const LOOKUP_LOOKUPS_URI="Lookup/Lookups";
+export const LOOKUP_LOOKUP_KEYS_URI="Lookup/LookupKeys";
+export const LOOKUP_DETAILS_URI="Lookup/LookupDetails";
+export const LOOKUP_NAMES_URI="Lookup/LookupNames";
+export const LOOKUP_NAMES_NOT_CONFIGURE_URI="Lookup/LookupNamesNotConfigured";
+
 // END LOOKUPS
 
 export const GET_PROJECTS_URI = "Admin/GetProjectDetails";
@@ -64,7 +71,7 @@ export const CREATE_EDUCATION_DETAILS_URI ="Employee/UpdateEducationDetails";
 export const EMPLOYEES_FOR_ALLOTTED_ASSETS_URI = "Admin/GetAssetsForEmployees";
 export const GET_EMPLOYEE_BASED_ON_ID_URI = "Employee/GetEmployeeBasedOnId";
 export const CREATE_BANK_DETAILS_URI = "Employee/UpateBankDetails";
-export const CREATE_DOCUMENTS_URI="UploadDocument/UpateUploadDocument";
+export const CREATE_DOCUMENTS_URI="UploadDocument/UploadDocuments";
 export const CREATE_FAMILY_DETAILS_URI ="Employee/UpdateFamilyInformation";
 export const CREATE_ADDRESS_URI="Employee/UpdateAddress";
 export const CREATE_EXPERIENCE_URI="Employee/UpdateWorkExperience";

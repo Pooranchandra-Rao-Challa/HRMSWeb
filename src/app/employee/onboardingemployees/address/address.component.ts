@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Observable } from 'rxjs';
+import { count, Observable } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { AddressDetailsDto, EmployeAdressViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
@@ -30,9 +30,10 @@ export class AddressComponent {
   maxLength: MaxLength = new MaxLength();
   empAddrDetails: any = [];
   permissions: any;
+  addressCount: number;
   showAddressDetails: boolean = true;
   addaddressdetailsshowForm: boolean = false;
-  constructor(private router: Router, private route: ActivatedRoute,  private jwtService: JwtService,private formbuilder: FormBuilder,
+  constructor(private router: Router, private route: ActivatedRoute, private jwtService: JwtService, private formbuilder: FormBuilder,
     private alertMessage: AlertmessageService, private employeeService: EmployeeService,
     private lookupService: LookupService,
   ) { }
@@ -47,12 +48,12 @@ export class AddressComponent {
     this.getEmpAddressDetails();
   }
   initCountries() {
-    this.lookupService.Country().subscribe((resp) => {
-      this.countries = resp as unknown as LookupDetailsDto[];
+    this.lookupService.Countries().subscribe((resp) => {
+      this.countries = resp as unknown as LookupViewDto[];
     })
   }
   getStatesByCountryId(id: number) {
-    this.lookupService.getStates(id).subscribe((resp) => {
+    this.lookupService.States(id).subscribe((resp) => {
       if (resp) {
         this.states = resp as unknown as LookupDetailsDto[];
       }
@@ -100,12 +101,12 @@ export class AddressComponent {
       let count = 0, count1 = 0;
       let addressArray = this.empAddrDetails;
       let length = addressArray.length;
-      if (length > 0) {
+      if (length > 0 || this.addressCount>0) {
         addressArray.forEach((control) => {
-          if (control.addressType == "PermanentAddress" && this.fbAddressDetails.get('addressType').value == "PermanentAddress") {
+          if (control.addressType == "Permanent Address" && this.fbAddressDetails.get('addressType').value == "Permanent Address") {
             count++;
           }
-          if (control.addressType == "CurrentAddress" && this.fbAddressDetails.get('addressType').value == "CurrentAddress") {
+          if (control.addressType == "Current Address" && this.fbAddressDetails.get('addressType').value == "Current Address") {
             count1++;
           }
         });
@@ -121,6 +122,8 @@ export class AddressComponent {
     else{
       this.save();
     }
+    this.addaddressdetailsshowForm = !this.addaddressdetailsshowForm;
+    this.showAddressDetails = !this.showAddressDetails;
   }
   this.addaddressdetailsshowForm = !this.addaddressdetailsshowForm;
   this.showAddressDetails = !this.showAddressDetails;
@@ -183,7 +186,12 @@ export class AddressComponent {
   getEmpAddressDetails() {
     this.employeeService.GetAddress(this.employeeId).subscribe((data) => {
       this.empAddrDetails = data;
+      this.addressCount = this.countPermenentAddress(this.empAddrDetails, "Permanent Address")
+      console.log(this.addressCount)
     })
+  }
+  countPermenentAddress(list: any[], targetValue: any): number {
+    return list.filter(item => item.addressType === "Permanent Address").length;
   }
   onSubmit() {
     this.saveAddress().subscribe(res => {
@@ -202,6 +210,7 @@ export class AddressComponent {
   }
 
   editForm(addressDetails) {
+    console.log(addressDetails)
     this.addFlag = false;
     this.getStatesByCountryId(addressDetails.countryId)
     this.fbAddressDetails.patchValue({
@@ -217,6 +226,8 @@ export class AddressComponent {
       addressType: addressDetails.addressType,
       isActive: addressDetails.isActive,
     })
+    this.addaddressdetailsshowForm = !this.addaddressdetailsshowForm;
+    this.showAddressDetails = !this.showAddressDetails;
   }
 
 

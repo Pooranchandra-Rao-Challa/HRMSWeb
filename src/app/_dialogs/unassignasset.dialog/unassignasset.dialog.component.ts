@@ -40,7 +40,6 @@ export class UnassignassetDialogComponent {
     }
 
     onSubmitUnAssignedAsset() {
-        debugger
         this.adminService.UnassignAssetAllotment(this.fbUnAssignAsset.value).subscribe((resp) => {
             if (resp) {
                 this.alertMessage.displayAlertMessage(ALERT_CODES["SAAAA002"]);

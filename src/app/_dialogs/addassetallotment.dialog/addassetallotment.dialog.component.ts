@@ -75,6 +75,7 @@ export class AddassetallotmentDialogComponent {
             assetTypeId: new FormControl('', [Validators.required]),
             assetId: new FormControl('', [Validators.required]),
             assignedOn: new FormControl(new Date(), [Validators.required]),
+            comment: ''
         });
     }
 
