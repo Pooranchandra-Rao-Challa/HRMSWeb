@@ -116,7 +116,7 @@
 
 <div class=" footer dialog-footer">
 	
-		<p-button pRipple type="Submit " (click)="saveBankDetails()" label="Submit Bank Details"
+		<p-button pRipple type="Submit " (click)="saveBankDetails()" [disabled]="!fbBankDetails.valid" label="Submit"
 			class="p-button-raised p-button-primary"></p-button>
 	
 </div>

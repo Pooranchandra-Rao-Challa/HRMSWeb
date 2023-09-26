@@ -19,7 +19,6 @@ import { FORMAT_DATE } from 'src/app/_helpers/date.formate.pipe';
 
 export class FamilydetailsDialogComponent {
 
-    familyDetails: FamilyDetailsViewDto[];
     fbfamilyDetails: FormGroup;
     employeeId: number;
     relationships: LookupDetailsDto[] = [];
