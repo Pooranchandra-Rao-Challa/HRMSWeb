@@ -27,7 +27,7 @@
                         <div class="col-12 roles-container">
                             <div class="p-fluid p-formgrid grid">
                                 <div class="field col-12  m-0 md:col-4">
-                                    <label>Company Name:<sup class="p-error">*</sup></label>&nbsp;
+                                    <label class="required">Company Name:</label>&nbsp;
                                     <input pInputText id="Experience_companyname" type="text" #company
                                         formControlName="companyName"
                                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['companyName'].touched && FormControls['companyName'].errors }"
@@ -53,7 +53,7 @@
                                     </div>
                                 </div>
                                 <div class="field col-12 md:col-4">
-                                    <label>Location:<sup class="p-error">*</sup></label>&nbsp;
+                                    <label class="required">Location:</label>&nbsp;
                                     <input pInputText id="Experience_Location" type="text" #location
                                         formControlName="companyLocation"
                                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['companyLocation'].touched && FormControls['companyLocation'].errors }"
@@ -80,7 +80,7 @@
                                 </div>
 
                                 <div class="field col-12 md:col-4">
-                                    <label>Company EmpId:</label>&nbsp;
+                                    <label >Company EmpId:</label>&nbsp;
                                     <input pInputText id="Experience_EmpId" type="text" #empId
                                         formControlName="companyEmployeeId" placeholder="Enter Company Employee Id"
                                         [maxlength]="maxLength.code" />
@@ -102,7 +102,7 @@
                                     </div>
                                 </div>
                                 <div class="field col-12 md:col-4">
-                                    <label>Country:<sup class="p-error">*</sup></label>&nbsp;
+                                    <label class="required">Country:</label>&nbsp;
                                     <p-dropdown inputId="dropdown" id="Experience_stateId" [autoDisplayFirst]="false"
                                         placeholder="Select State"
                                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['countryId'].touched && FormControls['countryId'].errors }"
@@ -121,7 +121,7 @@
                                     </div>
                                 </div>
                                 <div class="field col-12 md:col-4">
-                                    <label>State:<sup class="p-error">*</sup></label>&nbsp;
+                                    <label class="required">State:</label>&nbsp;
                                     <p-dropdown inputId="dropdown" id="Experience_stateId" [autoDisplayFirst]="false"
                                         placeholder="Select State"
                                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['stateId'].touched && FormControls['stateId'].errors }"
@@ -140,7 +140,7 @@
                                     </div>
                                 </div>
                                 <div class="field col-12 md:col-4">
-                                    <label>Designation:<sup class="p-error">*</sup></label>&nbsp;
+                                    <label class="required">Designation:</label>&nbsp;
                                     <p-dropdown inputId="dropdown" id="Experience_designationId"
                                         [autoDisplayFirst]="false" formControlName="designationId"
                                         [options]="designation" optionValue="lookupDetailId"
@@ -160,7 +160,7 @@
                                     </div>
                                 </div>
                                 <div class="field col-12 md:col-4">
-                                    <label>SkillAreas:<sup class="p-error">*</sup></label>&nbsp;
+                                    <label class="required">SkillAreas:</label>&nbsp;
                                     <p-multiSelect placeholder="Select SkillAreas" id="Experience_skillArea"
                                         [options]="skills" optionLabel="name" [filter]="true" filterBy="name"
                                         #multiSelect formControlName="skills" optionValue="lookupDetailId"
@@ -176,7 +176,7 @@
                                 </div>
 
                                 <div class="field col-12 md:col-4">
-                                    <label>Date of joining:<sup class="p-error">*</sup></label>&nbsp;
+                                    <label class="required">Date of joining:</label>&nbsp;
                                     <p-calendar [showIcon]="true" formControlName="dateOfJoining"
                                         id="Experience_dateOfJoining" appendTo="body"
                                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['dateOfJoining'].touched && FormControls['dateOfJoining'].errors }"
@@ -194,7 +194,7 @@
                                     </div>
                                 </div>
                                 <div class="field col-12 md:col-4">
-                                    <label>Date of Reliving:<sup class="p-error">*</sup></label>&nbsp;
+                                    <label class="required">Date of Reliving:</label>&nbsp;
                                     <p-calendar [showIcon]="true" formControlName="dateOfReliving"
                                         id="Experience_dateOfReliving" appendTo="body"
                                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['dateOfReliving'].touched && FormControls['dateOfReliving'].errors }"

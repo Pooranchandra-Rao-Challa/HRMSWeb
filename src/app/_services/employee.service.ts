@@ -20,6 +20,7 @@ import {ExperienceDetailsDto,SkillArea,AddressDetailsDto, BankDetailsDto, Countr
 
 import { ApiHttpService } from './api.http.service';
 import { LookupViewDto } from '../_models/admin';
+import { HttpHeaders, HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -55,10 +56,16 @@ export class EmployeeService extends ApiHttpService {
   public CreateBankDetails(bankdetails: BankDetailsDto) {
     return this.post<BankDetailsDto>(CREATE_BANK_DETAILS_URI, bankdetails);
   }
-  public UploadDocuments(documents) {
+  public UploadDocuments(documents: FormData,params?:HttpParams) {
     console.log(documents)
-    return this.post(CREATE_DOCUMENTS_URI, documents)
+    let header=new HttpHeaders()
+    header=header.set('Content-Type','multipart/form-data')
+    return this.upload(CREATE_DOCUMENTS_URI, 
+      documents,
+      header,params);
   }
+
+
   //Familly Details of Employee
   public CreateFamilyDetails(family: FamilyDetailsDto[]) {
     return this.post<FamilyDetailsDto[]>(CREATE_FAMILY_DETAILS_URI, family)
@@ -78,6 +85,7 @@ export class EmployeeService extends ApiHttpService {
   public GetViewEmpPersDtls(employeeId: number) {
     return this.getWithId<EmployeeBasicDetailViewDto[]>(GET_EMPLOYEE_BASED_ON_ID_URI, [employeeId])
   }
+ 
   public EmployeeOfficedetailsviewDto(employeeId: number) {
     return this.getWithId<EmployeeOfficedetailsviewDto[]>(GET_OFFICE_DETAILS_URI, [employeeId])
   }
