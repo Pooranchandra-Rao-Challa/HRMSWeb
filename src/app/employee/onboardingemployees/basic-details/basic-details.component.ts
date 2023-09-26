@@ -35,7 +35,7 @@ export class BasicDetailsComponent implements OnInit {
   empbasicDetails = new EmployeeBasicDetailDto();
   bloodgroups: LookupViewDto[] = [];
   employeeId: any;
-
+  isReadOnly:boolean = false
   constructor(private router: Router, private route: ActivatedRoute,
     private employeeService: EmployeeService, private formbuilder: FormBuilder, private lookupService: LookupService, private alertMessage: AlertmessageService) {
 
@@ -43,7 +43,7 @@ export class BasicDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.employeeId = params['employeeId'];
+      this.employeeId = 119
     });
     if (this.employeeId)
       this.getEmployeeBasedonId();
@@ -94,7 +94,7 @@ export class BasicDetailsComponent implements OnInit {
   getEmployeeBasedonId() {
     this.employeeService.GetViewEmpPersDtls(this.employeeId).subscribe((resp) => {
       this.empbasicDetails = resp as EmployeeBasicDetailDto;
-      this.editEducationDetails(this.empbasicDetails);
+      this.editBasicDetails(this.empbasicDetails);
     });
   }
   savebasicDetails(): Observable<HttpEvent<EmployeeBasicDetailDto>> {
@@ -111,7 +111,7 @@ export class BasicDetailsComponent implements OnInit {
       this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "SBD001" : "SBD002"]);
     })
   }
-  editEducationDetails(empbasicDetails) {
+  editBasicDetails(empbasicDetails) {
     this.addFlag = false;
     this.fbbasicDetails.patchValue(
       {
@@ -161,7 +161,7 @@ export class BasicDetailsComponent implements OnInit {
     };
   }
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/educationdetails', this.employeeId]);
+    this.router.navigate(['employee/onboardingemployee/educationdetails', this.employeeId,this.isReadOnly]);
 
   }
 }

@@ -71,6 +71,7 @@ export class ViewemployeesComponent {
   gradingMethods: LookupViewDto[] = [];
   countries: LookupViewDto[] = [];
   // employee experience details
+  // enRollEmployee: boolean = false;
   fbexperience!: FormGroup;
   faexperienceDetails!: FormArray;
   stream: LookupViewDto[] = [];
@@ -271,6 +272,8 @@ export class ViewemployeesComponent {
   initViewEmpDtls() {
     this.employeeService.GetViewEmpPersDtls(this.employeeId).subscribe((resp) => {
       this.employeePrsDtls = resp as unknown as EmployeeBasicDetailViewDto;
+      // if(!this.employeePrsDtls.signDate) this.enRollEmployee = true;
+
     });
   }
 

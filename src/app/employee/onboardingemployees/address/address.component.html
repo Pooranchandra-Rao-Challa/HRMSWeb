@@ -116,7 +116,7 @@
                             <p-dropdown inputId="dropdown" id="Address_country" [autoDisplayFirst]="false"
                                 [ngClass]="{ 'is-invalid ng-dirty': FormControls['countryId'].touched && FormControls['countryId'].errors }"
                                 formControlName="countryId" [options]="countries" optionValue="lookupDetailId"
-                                optionLabel="name" (onChange)="getStatesByCountryId($event)">
+                                optionLabel="name" (onChange)="getStatesByCountryId($event.value)">
                             </p-dropdown>
                             <label for="inputtext">Country<sup class="p-error">*</sup></label>
                         </span>
@@ -152,19 +152,19 @@
                         <label for="inputtext">Address Type:<sup class="p-error">*</sup></label>
                         <div class="flex flex-wrap gap-3">
                             <div class="flex align-items-center">
-                                <p-radioButton value="PermanentAddress" id="Address_addressType1"
+                                <p-radioButton value="Permanent Address" id="Address_addressType1"
                                     formControlName="addressType"></p-radioButton>
                                 <label class="ml-2">Permanent Address</label>
                             </div>
 
                             <div class="flex align-items-center">
-                                <p-radioButton value="TemporaryAddress" id="Address_addressType2"
+                                <p-radioButton value="Temporary Address" id="Address_addressType2"
                                     formControlName="addressType"></p-radioButton>
                                 <label class="ml-2">Temporary Address</label>
                             </div>
 
                             <div class="flex align-items-center">
-                                <p-radioButton value="CurrentAddress" id="Address_addressType3"
+                                <p-radioButton value="Current Address" id="Address_addressType3"
                                     formControlName="addressType"></p-radioButton>
                                 <label class="ml-2">Current Address</label>
                             </div>
@@ -243,16 +243,16 @@
 </div>
 
 
-<div class="grid mt-5">
-    <div class="field col-4">
+<div class="grid mt-2">
+    <div class="field col-4 m-0 p-1 px-3">
         <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100 text-right"
             (click)="navigateToPrev()">Experience Details</button>
     </div>
-    <div class=" col-4">
+    <div class="col-4 m-0 p-1 px-3">
         <button p-button class="p-element p-ripple p-button-info p-button p-component w-100" (click)="onSubmit()">Save
             as Draft</button>
     </div>
-    <div class=" col-4">
+    <div class="col-4 m-0 p-1 px-3">
         <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100"
             (click)="navigateToNext()">Upload Documents</button>
     </div>

@@ -12,6 +12,7 @@ import { AdminService } from 'src/app/_services/admin.service';
 import { JwtService } from 'src/app/_services/jwt.service';
 import { MAX_LENGTH_20, MIN_LENGTH_2, RG_ALPHA_NUMERIC, RG_ALPHA_ONLY } from 'src/app/_shared/regex';
 import { GlobalFilterService } from 'src/app/_services/global.filter.service';
+import { LookupService } from 'src/app/_services/lookup.service';
 
 @Component({
   selector: 'app-lookup',
@@ -23,12 +24,14 @@ export class LookupsComponent implements OnInit {
   @ViewChild('filter') filter!: ElementRef;
   @ViewChild('lookUp') lookUp: Table; // Reference to the main table
   @ViewChild('lookUpDetails') lookUpDetails: Table; //Reference to the Sub Table
+  selectedValue: any;
   showDialog: boolean = false;
   fblookup!: FormGroup;
   falookUpDetails!: FormArray;
   addfields: any;
   addFlag: boolean = true;
   submitLabel!: string;
+  dependentLookup: string[] = []
   lookups: LookupViewDto[] = [];
   ShowlookupDetails: boolean = false;
   isLookupChecked: boolean = false;
@@ -42,7 +45,8 @@ export class LookupsComponent implements OnInit {
     private adminService: AdminService,
     private alertMessage: AlertmessageService,
     private jwtService: JwtService,
-    private globalFilterService: GlobalFilterService) { }
+    private globalFilterService: GlobalFilterService,
+    private lookupService: LookupService) { }
 
   lookupHeader: ITableHeader[] = [
     { field: 'code', header: 'code', label: 'Code' },
@@ -70,7 +74,7 @@ export class LookupsComponent implements OnInit {
   }
   ngOnInit(): void {
     this.permissions = this.jwtService.Permissions;
-
+    this.initDependentLookups();
     this.lookupForm();
     this.onChangeisLookupChecked();
     //Column Header for selecting particular columns to display
@@ -82,7 +86,12 @@ export class LookupsComponent implements OnInit {
       { field: 'updatedBy', header: 'updatedBy', label: 'Updated By' },
     ];
   }
-
+  initDependentLookups() {
+    this.lookupService.LookupNames().subscribe((resp) => {
+      this.dependentLookup = resp as unknown as string[];
+      console.log(resp);
+    });
+  }
   lookupForm() {
     this.addfields = []
     this.fblookup = this.formbuilder.group({
@@ -194,7 +203,7 @@ export class LookupsComponent implements OnInit {
   onGlobalFilter(table: Table, event: Event) {
     const searchTerm = (event.target as HTMLInputElement).value;
     this.globalFilterService.filterTableByDate(table, searchTerm);
-}
+  }
   clear() {
     this.clearTableFiltersAndSorting(this.lookUp);
     this.clearTableFiltersAndSorting(this.lookUpDetails);

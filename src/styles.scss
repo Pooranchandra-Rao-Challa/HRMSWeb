@@ -232,8 +232,8 @@ p-calendar input {
 }
 
 .content_scroll {
-    height: 400px;
-    overflow-y: scroll;
+    height: 350px;
+    overflow-y: auto;
 }
 
 .svg-chart-container{
@@ -244,6 +244,9 @@ p-calendar input {
     position: absolute;
     right: 0;
 
+}
+.w100 .p-dropdown{
+    width:100% !important;
 }
 
 /* Fixed positioning for the footer - common dialog */
@@ -264,4 +267,7 @@ p-calendar input {
 .p-dynamic-dialog .p-dialog-content .dialog-scroll {
     height: 75vh;
     overflow-y: scroll;
+}
+.p-steps .p-steps-item .p-menuitem-link:not(.p-disabled):focus {
+    box-shadow: none !important;
 }

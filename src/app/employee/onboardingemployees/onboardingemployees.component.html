@@ -39,7 +39,7 @@
                 <ng-template pTemplate="body" let-employee>
                   <tr>
                     <td>
-                      <img [src]="employee.photo ? employee.photo : 'https://t3.ftcdn.net/jpg/02/18/21/86/360_F_218218632_jF6XAkcrlBjv1mAg9Ow0UBMLBaJrhygH.jpg'" [alt]="employee.employeeName" class="my-4 md:my-0 w-10 md:w-10rem shadow-2 mr-2" />
+                      <img [src]="employee.photo ? employee.photo : 'https://cdn-icons-png.flaticon.com/512/5987/5987420.png'" [alt]="employee.employeeName" class="my-4 md:my-0 w-10 md:w-10rem shadow-2 mr-2" />
                     </td>
                     <td *ngFor="let col of headers">
                       <span>{{employee[col.field]}}</span>
@@ -64,7 +64,7 @@
               <div class="card m-2 border-1 surface-border">
                 <div class=" mb-3 grid">
                   <div class="col-12 lg:col-4 md:col-12 p-1 employee_profile_pic_div">
-                    <img [src]="employee.photo ? employee.photo : 'https://t3.ftcdn.net/jpg/02/18/21/86/360_F_218218632_jF6XAkcrlBjv1mAg9Ow0UBMLBaJrhygH.jpg'" [alt]="employee.employeeName" class="shadow-2 my-1 mx-0 employee_profile_pic zoomable-img" />
+                    <img [src]="employee.photo ? employee.photo : 'https://cdn-icons-png.flaticon.com/512/5987/5987420.png'" [alt]="employee.employeeName" class="shadow-2 my-1 mx-0 employee_profile_pic zoomable-img" />
                     <span class="text-600 font-medium text-md">
                       <i class="pi pi-id-card text-300 text-primary text-1xl pb-1"></i> : {{employee.code}}
                     </span>
@@ -119,8 +119,8 @@
     </div>
   </div>
   <p-dialog header="Add Employee" [(visible)]="visible" [modal]="true" [style]="{ width: '75%' }" [draggable]="false" [resizable]="false" (onHide)="cancelModel()" class="on_boarding_form">
-    <p-steps [model]="newEmployeeSteps"></p-steps>
+    <p-steps [model]="newEmployeeSteps" [readonly]="isReadOnly"></p-steps>
     <div class="p-5">
-      <router-outlet></router-outlet>
+      <router-outlet ></router-outlet>
     </div>
   </p-dialog>
