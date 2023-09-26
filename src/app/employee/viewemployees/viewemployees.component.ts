@@ -73,8 +73,9 @@ export class ViewemployeesComponent {
   empEduDetails = new EducationDetailsDto();
   gradingMethods: LookupViewDto[] = [];
   countries: LookupViewDto[] = [];
+  streamPerRow: LookupViewDto[][] = [];
   // employee experience details
-  // enRollEmployee: boolean = false;
+  statesPerRow: LookupViewDto[][] = [];
   fbexperience!: FormGroup;
   faexperienceDetails!: FormArray;
   stream: LookupViewDto[] = [];
@@ -103,7 +104,7 @@ export class ViewemployeesComponent {
   officedialog: boolean = false;
   Experience: boolean = false;
   Family: boolean = false;
- 
+
   ShoweducationDetails: boolean = false;
   ShowexperienceDetails: boolean = false;
   bankDetailsshow: boolean = false;
@@ -140,6 +141,8 @@ export class ViewemployeesComponent {
   uploadDocumentsDialogComponent = uploadDocumentsDialogComponent;
   FamilydetailsDialogComponent = FamilydetailsDialogComponent;
   dialogRequest: DialogRequest = new DialogRequest();
+  selectedCountry: number[] = [];
+  selectedCurriculumId: number[] = [];
 
   showFamilyDetails() {
     this.Family = true;
@@ -153,7 +156,7 @@ export class ViewemployeesComponent {
   showbankDetail() {
     this.showbankDetails = true;
   }
-  
+
 
   Courses = [
     { name: 'SSC', code: 'SSC' },
@@ -177,7 +180,7 @@ export class ViewemployeesComponent {
       { name: 'Un Married', code: 'NS' },
       { name: 'Single', code: 'SN' },
     ]
-    
+
   }
   constructor(
     private formbuilder: FormBuilder,
@@ -188,10 +191,8 @@ export class ViewemployeesComponent {
     private alertMessage: AlertmessageService,
     public ref: DynamicDialogRef,
     private dialogService: DialogService,
-
-
   ) {
-
+    this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
   }
 
   ngOnInit(): void {
@@ -204,14 +205,12 @@ export class ViewemployeesComponent {
     this.OfficDtlsForm();
     this.initEducation();
     this.initExperience();
-    this.addexperienceDetails();
-    this.initBloodGroups()
+    this.initBloodGroups();
     this.initskillArea();
     this.initGrading();
   }
 
   getemployeeview() {
-    this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
     this.initViewEmpDtls();
     this.initofficeEmpDtls();
     this.initGetEducationDetails();
@@ -225,6 +224,7 @@ export class ViewemployeesComponent {
   }
 
   // EMPLOYEE Basic details
+
   EmpBasicDtlsForm() {
     this.fbEmpBasDtls = this.formbuilder.group({
       employeeId: [null],
@@ -276,7 +276,7 @@ export class ViewemployeesComponent {
 
   saveEmpBscDtls() {
     this.employeeService.updateViewEmpPersDtls(this.fbEmpBasDtls.value).subscribe((resp) => {
-      if (resp) {    
+      if (resp) {
         this.alertMessage.displayAlertMessage(ALERT_CODES["EVEBD001"]);
         this.dialog = false;
         this.fbEmpBasDtls.reset();
@@ -308,6 +308,7 @@ export class ViewemployeesComponent {
       callback(base64String);
     };
   }
+
   // Employee OFFICE DETAils
 
   OfficDtlsForm() {
@@ -337,7 +338,7 @@ export class ViewemployeesComponent {
 
   initEmployees() {
     this.adminService.getEmployeesList().subscribe(resp => {
-      this.employees = resp as unknown as EmployeesList[]; 
+      this.employees = resp as unknown as EmployeesList[];
     });
   }
 
@@ -407,6 +408,15 @@ export class ViewemployeesComponent {
     });
   }
 
+  onCurriculumChange(selectedCurriculumId: number, rowIndex: number) {
+    this.selectedCurriculumId[rowIndex] = selectedCurriculumId;
+    this.lookupService.Streams(selectedCurriculumId).subscribe((resp) => {
+      if (resp) {
+        this.streamPerRow[rowIndex] = resp as unknown as LookupViewDto[];
+      }
+    });
+  }
+
   getStreamByCirculumId(Id: number) {
     this.lookupService.Streams(Id).subscribe((resp) => {
       if (resp) {
@@ -435,9 +445,9 @@ export class ViewemployeesComponent {
   }
 
   ShowEducationDetails() {
-    this.educationDetails.forEach((empEduDetails: EducationDetailsDto) => {
-      this.getStatesByCountryId(empEduDetails.countryId);
-      this.getStreamByCirculumId(empEduDetails.curriculumId);
+    this.educationDetails.forEach((empEduDetails: EducationDetailsDto, rowIndex) => {
+      this.onCountryChange(empEduDetails.countryId, rowIndex);
+      this.onCurriculumChange(empEduDetails.curriculumId, rowIndex);
       this.faeducationDetail().push(this.generateEducationRow(empEduDetails));
     })
     if (this.educationDetails.length == 0) this.faeducationDetail().push(this.generateEducationRow());
@@ -537,6 +547,17 @@ export class ViewemployeesComponent {
     })
   }
 
+  onCountryChange(selectedCountryId: number, rowIndex: number) {
+    // Update the selected country for the corresponding row
+    this.selectedCountry[rowIndex] = selectedCountryId;
+    // Update the states array for the specific row
+    this.lookupService.States(selectedCountryId).subscribe((resp) => {
+      if (resp) {
+        this.statesPerRow[rowIndex] = resp as unknown as LookupViewDto[];
+      }
+    });
+  }
+
   addexperienceDetails() {
     this.faexperienceDetails = this.fbexperience.get('experienceDetails') as FormArray;
     this.faexperienceDetails.push(this.generaterow());
@@ -546,17 +567,15 @@ export class ViewemployeesComponent {
     // });
   }
 
-
-
   faExperienceDetail(): FormArray {
     return this.fbexperience.get('experienceDetails') as FormArray
   }
 
   showExperienceDetails() {
     debugger
-    this.workExperience.forEach((experienceDetails: any,) => {
+    this.workExperience.forEach((experienceDetails: any, rowIndex) => {
       // this.onSelectSkill(experienceDetails.skillAreaId,index)
-      this.getStatesByCountryId(experienceDetails.countryId);
+      this.onCountryChange(experienceDetails.countryId, rowIndex);
       this.faexperienceDetail().push(this.generaterow(experienceDetails));
     })
     if (this.workExperience.length == 0) this.faexperienceDetail().push(this.generaterow());
@@ -571,7 +590,7 @@ export class ViewemployeesComponent {
 
   onSelectSkill(e, index) {
     let CurrentArray = e.value;
-    console.log(CurrentArray)
+    console.log(CurrentArray = e.value)
     let updatedArray = [];
     for (let i = 0; i < CurrentArray.length; i++) {
       updatedArray.push({
@@ -585,9 +604,7 @@ export class ViewemployeesComponent {
     if (workExperienceXrefsControl) {
       workExperienceXrefsControl.patchValue(updatedArray);
     }
-    // this.fbexperience.controls['experienceDetails'].value[index].get('workExperienceXrefs')?.patchValue(updatedArray);
   }
-
 
   onCloseExp() {
     this.Experience = false;
@@ -607,17 +624,14 @@ export class ViewemployeesComponent {
     })
   }
 
-
   initviewAssets() {
     this.adminService.GetAssetAllotments(this.employeeId).subscribe((resp) => {
       if (resp) {
         this.assetAllotments = resp as unknown as AssetAllotmentViewDto[];
-        if (this.assetAllotments) this.employeeId = this.assetAllotments[0]?.employeeId;
-        console.log('assetAllotments', this.assetAllotments);
-
       }
     });
   }
+
   //Upload Documents
   initUploadedDocuments() {
     this.employeeService.GetUploadedDocuments(this.employeeId).subscribe((resp) => {
@@ -638,6 +652,7 @@ export class ViewemployeesComponent {
       this.address = resp as unknown as EmployeAdressViewDto[];
     });
   }
+
   initCountries() {
     this.lookupService.Countries().subscribe((resp) => {
       this.countries = resp as unknown as LookupViewDto[];
@@ -648,9 +663,9 @@ export class ViewemployeesComponent {
       if (resp) {
         this.states = resp as unknown as LookupViewDto[];
       }
-    })
+    });
   }
-  
+
   //Employee FamilyDetails
   initGetFamilyDetails() {
     this.employeeService.getFamilyDetails(this.employeeId).subscribe((resp) => {
@@ -736,7 +751,7 @@ export class ViewemployeesComponent {
       width: this.dialogRequest.width
     });
 
-    
+
     this.ref.onClose.subscribe((res: any) => {
       debugger
       if (res.UpdatedModal == ViewEmployeeScreen.AssetAllotments) {
@@ -745,12 +760,12 @@ export class ViewemployeesComponent {
         this.initBankDetails();
       } else if (res.UpdatedModal == ViewEmployeeScreen.Address) {
         this.initGetAddress();
-      }  else if (res.UpdatedModal == ViewEmployeeScreen.FamilyDetails) {
+      } else if (res.UpdatedModal == ViewEmployeeScreen.FamilyDetails) {
         this.initGetFamilyDetails();
       } else if (res.UpdatedModal == ViewEmployeeScreen.UploadDocuments) {
         this.initUploadedDocuments();
-      } 
-   
+      }
+
       event.preventDefault(); // Prevent the default form submission
     });
   }
