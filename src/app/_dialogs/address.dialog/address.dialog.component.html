@@ -159,7 +159,7 @@
 						<div class="flex flex-wrap gap-3">
 							<div class="flex align-items-center">
 								<p-radioButton [disabled]="hasPermanentAddress" value="Permanent Address" id="Address_addressType1"
-									formControlName="addressType" [pTooltip]="hasPermanentAddress ? 'Every employee can have only one Permanent Address please Select Other Type' : null"
+									formControlName="addressType" [pTooltip]="hasPermanentAddress ? 'Every Employee Can Have Only One Permanent Address Please Select Other Type' : null"
 									tooltipPosition="left"></p-radioButton>
 								<label class="ml-2" >Permanent Address</label>
 							</div>
@@ -173,7 +173,7 @@
 					
 							<div class="flex align-items-center">
 								<p-radioButton [disabled]="hasCurrentAddress" 
-								[pTooltip]="hasCurrentAddress ? 'Every employee can have only one Current Address please Select Other Type' : null"
+								[pTooltip]="hasCurrentAddress ? 'Every Employee Can Have Only One Current Address Please Select Other Type' : null"
 									tooltipPosition="right"value="Current Address" id="Address_addressType3"
 									formControlName="addressType"></p-radioButton>
 								<label class="ml-2">Current Address</label>
@@ -190,7 +190,7 @@
 
 
 <div  class=" footer dialog-footer">
-	<p-button type="button" (click)="saveAddress()" label="Submit Address"
+	<p-button type="button" (click)="saveAddress()" [disabled]="!fbAddressDetails.valid" label="Submit"
 		class="p-element p-ripple p-button-primary  p-component"></p-button>
 		
 </div>

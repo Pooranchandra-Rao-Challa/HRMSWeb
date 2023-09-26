@@ -57,7 +57,6 @@ export class AddressDialogComponent {
         })
     }
 
-
     initGetAddress() {
         this.employeeService.GetAddress(this.employeeId).subscribe((resp) => {
             this.address = resp as unknown as EmployeAdressViewDto[];
