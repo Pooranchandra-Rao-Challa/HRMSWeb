@@ -67,7 +67,7 @@ export class OnboardingemployeesComponent {
       },
       {
         label: 'Education Details',
-        routerLink: 'educationdetails/:employeeId/:isReadOnly',
+        routerLink: 'educationdetails/:employeeId',
       },
       {
         label: 'Experience Details',

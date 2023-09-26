@@ -30,7 +30,7 @@ const routes: Routes = [];
           { path: 'addressdetails/:employeeId', component: AddressComponent },
           { path: 'basicdetails', component: BasicDetailsComponent },
           { path: 'basicdetailsbyId/:employeeId', component: BasicDetailsComponent },
-          { path: 'educationdetails/:employeeId/:isReadOnly', component: EducationDetailsComponent },
+          { path: 'educationdetails/:employeeId', component: EducationDetailsComponent },
           { path: 'experiencedetails/:employeeId', component: ExperienceDetailsComponent },
           { path: 'bankdetails/:employeeId', component: BankDetailsComponent },
           { path: 'uploadfiles/:employeeId', component: UploadDocumentsComponent },
