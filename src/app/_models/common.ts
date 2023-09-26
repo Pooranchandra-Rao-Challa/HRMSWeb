@@ -15,6 +15,7 @@ export class MaxLength {
   Code:number=20;
   listingorder:number=2;
   description:number = 256;
+  gradingvalues=3
 }
 export interface ITableHeader {
     field: string;

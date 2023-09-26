@@ -162,8 +162,8 @@ export const ALERT_CODES: { [key: string]: string } = {
     'EVEOFF003': 'Office Details Updated Faild',
 
     // View Employee Experience Details
-    'EVEEXP001': 'Experience Details Updated Successfully',
-    'EVEEXP002': 'Experience Details Updated Faild',
+    'EVEEXP001': 'Experience Details Submitted Successfully',
+    'EVEEXP002': 'Experience Details Faild',
 
   // View Employee Education Details
     'EVEEDU001': 'Education Details Submitted Successfully',
