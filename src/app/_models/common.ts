@@ -15,6 +15,7 @@ export class MaxLength {
   Code:number=20;
   listingorder:number=2;
   description:number = 256;
+  gradingvalues=3
 }
 export interface ITableHeader {
     field: string;
@@ -39,14 +40,13 @@ export class DialogRequest {
     width?: string;
 }
 
-export enum AssetAllotment {
-    Add,
-    View,
-    Unassign
+export enum ViewEmployeeScreen {
+  AssetAllotments,
+  BankDetails,
+  Address,
+  FamilyDetails,
+  UploadDocuments
 }
-export enum BankDetails {
-  Add,
-  View,
-  Edit
-}
+
+
 

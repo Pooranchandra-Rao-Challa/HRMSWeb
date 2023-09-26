@@ -1,33 +1,28 @@
-import { HttpEvent } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
-import { AdminService } from 'src/app/_services/admin.service';
-import { LookupService } from 'src/app/_services/lookup.service';
+
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { BankDetailViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { MIN_LENGTH_2, MIN_LENGTH_8, RG_ALPHA_ONLY, RG_IFSC, RG_NUMERIC_ONLY } from 'src/app/_shared/regex';
 import { ActivatedRoute } from '@angular/router';
-import { Actions, BankDetails, DialogRequest, MaxLength } from 'src/app/_models/common';
+import { Actions, DialogRequest, MaxLength, ViewEmployeeScreen } from 'src/app/_models/common';
 
 @Component({
     selector: 'app-bankdetails.dialog',
     templateUrl: './bankdetails.dialog.component.html'
 })
 export class BankdetailsDialogComponent {
-    
+
     fbBankDetails!: FormGroup;
-    bankDetails1: BankDetailViewDto[];
-    submitLabel: string;
-    label: string
+    bankDetails: BankDetailViewDto[];
     employeeId: any
     ActionTypes = Actions;
     bankData: any
     maxLength: MaxLength = new MaxLength();
-    dialogRequest: DialogRequest = new DialogRequest();
-    BankdetailsDialogComponent = BankdetailsDialogComponent;
+    //dialogRequest: DialogRequest = new DialogRequest();
+    //BankdetailsDialogComponent = BankdetailsDialogComponent;
 
     constructor(private formbuilder: FormBuilder,
         private alertMessage: AlertmessageService,
@@ -36,9 +31,7 @@ export class BankdetailsDialogComponent {
         private employeeService: EmployeeService,
         private activatedRoute: ActivatedRoute,
 
-    ) {
-        console.log('this.config.data', this.config.data);
-    }
+    ) { }
 
     ngOnInit() {
         this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
@@ -49,11 +42,10 @@ export class BankdetailsDialogComponent {
 
     initBankDetails() {
         this.employeeService.GetBankDetails(this.employeeId).subscribe((resp) => {
-            this.bankDetails1 = resp as unknown as BankDetailViewDto[];
-            console.log('this.BankDetails', this.bankDetails1);
+            this.bankDetails = resp as unknown as BankDetailViewDto[];
         });
     }
-    
+
     bankDetailsForm() {
         this.fbBankDetails = this.formbuilder.group({
             bankId: [0],
@@ -65,7 +57,7 @@ export class BankdetailsDialogComponent {
             isActive: new FormControl(true)
         });
     }
-    
+
     get FormControls() {
         return this.fbBankDetails.controls;
     }
@@ -79,28 +71,27 @@ export class BankdetailsDialogComponent {
             ifsc: bank.ifsc,
             accountNumber: bank.accountNumber,
             isActive: bank.isActive
-
         });
     }
-    
+
     saveBankDetails() {
-        this.employeeId = +this.activatedRoute.snapshot.queryParams['employeeId'];
-        const { ...formValue } = this.fbBankDetails.value;
-        const isUpdate = this.fbBankDetails.value.bankId !== null;
-        formValue.employeeId = this.employeeId;
+        this.activatedRoute.queryParams.subscribe((queryParams) => {
+            const employeeId = +queryParams['employeeId'];
+            const isUpdate = this.fbBankDetails.value.bankId !== null;
+            this.fbBankDetails.patchValue({ employeeId });
 
-        this.employeeService.CreateBankDetails(formValue).subscribe((resp) => {
-            if (resp) {
-                const alertCode = isUpdate ? "SMBD002" : "SMBD001";
-                this.alertMessage.displayAlertMessage(ALERT_CODES[alertCode]);
-
-                this.ref.close({
-
-                    "UpdatedModal": BankDetails.Add
-
-                });
-
-            }
+            this.employeeService.CreateBankDetails(this.fbBankDetails.value).subscribe((resp) => {
+                if (resp) {
+                    const alertCode = isUpdate ? "SMBD002" : "SMBD001";
+                    this.alertMessage.displayAlertMessage(ALERT_CODES[alertCode]);
+                    debugger
+                    this.ref.close({
+                        "UpdatedModal": ViewEmployeeScreen.BankDetails
+                       
+                    });
+                  
+                }
+            });
         });
     }
 

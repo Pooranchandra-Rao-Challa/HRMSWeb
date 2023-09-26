@@ -197,6 +197,7 @@ export class ExperienceDetailsComponent {
   }
 
   onSelectSkill(e) {
+    this.fbexperience.get('workExperienceXrefs')?.setValue('');
     this.viewSelectedSkills = [];
     let CurrentArray = e.value;
     let updatedArray = [];
@@ -260,6 +261,7 @@ export class ExperienceDetailsComponent {
   getEmpExperienceDetails() {
     this.employeeService.GetWorkExperience(this.employeeId).subscribe((data) => {
       this.empExperienceDetails = data;
+      console.log(this.empExperienceDetails)
       if (this.empExperienceDetails.length > 0)
         this.selectedOption = 'Experience';
     })

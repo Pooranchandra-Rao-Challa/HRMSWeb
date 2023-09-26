@@ -138,7 +138,10 @@ export const ALERT_CODES: { [key: string]: string } = {
     'SAD002': 'Address Details Not Added',
     'SAP001':'Permanent address already Existed',
     'SAC001': 'Current address already Existed',
-    'SMAD004': 'Address Details Added Successfully',
+    'SMAD004': 'Address Details Update Successfully',
+    'SMAD005': 'Employee already has a Permanent Address',
+    'SMAD006': 'Employee already has a Current Address.',
+   
   
 
     //uploadDocuments
@@ -162,8 +165,8 @@ export const ALERT_CODES: { [key: string]: string } = {
     'EVEOFF003': 'Office Details Updated Faild',
 
     // View Employee Experience Details
-    'EVEEXP001': 'Experience Details Updated Successfully',
-    'EVEEXP002': 'Experience Details Updated Faild',
+    'EVEEXP001': 'Experience Details Submitted Successfully',
+    'EVEEXP002': 'Experience Details Faild',
 
   // View Employee Education Details
     'EVEEDU001': 'Education Details Submitted Successfully',

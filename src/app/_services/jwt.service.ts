@@ -44,7 +44,7 @@ export class JwtService {
         this.saveRefreshToken(tokens);
     }
     public get IsLoggedIn(): boolean {
-        return this.DecodedJWT != undefined;
+return this.DecodedJWT !=undefined ;
     }
     public get Permissions(): any {
         const jwt = this.DecodedJWT;
