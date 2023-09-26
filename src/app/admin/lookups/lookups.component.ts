@@ -24,14 +24,15 @@ export class LookupsComponent implements OnInit {
   @ViewChild('filter') filter!: ElementRef;
   @ViewChild('lookUp') lookUp: Table; // Reference to the main table
   @ViewChild('lookUpDetails') lookUpDetails: Table; //Reference to the Sub Table
-  selectedValue: any;
   showDialog: boolean = false;
   fblookup!: FormGroup;
   falookUpDetails!: FormArray;
   addfields: any;
   addFlag: boolean = true;
   submitLabel!: string;
-  dependentLookup: string[] = []
+  lookupNames: string[] = [];
+  lookupNamesNotConfigured: string[] = [];
+  dependantLookupData:LookupViewDto[]=[];
   lookups: LookupViewDto[] = [];
   ShowlookupDetails: boolean = false;
   isLookupChecked: boolean = false;
@@ -41,6 +42,7 @@ export class LookupsComponent implements OnInit {
   mediumDate: string = MEDIUM_DATE
   selectedColumnHeader!: ITableHeader[];
   _selectedColumns!: ITableHeader[];
+  DependentDropdown = false;
   constructor(private formbuilder: FormBuilder,
     private adminService: AdminService,
     private alertMessage: AlertmessageService,
@@ -75,6 +77,7 @@ export class LookupsComponent implements OnInit {
   ngOnInit(): void {
     this.permissions = this.jwtService.Permissions;
     this.initDependentLookups();
+    this.initNotConfiguredLookups();
     this.lookupForm();
     this.onChangeisLookupChecked();
     //Column Header for selecting particular columns to display
@@ -88,21 +91,53 @@ export class LookupsComponent implements OnInit {
   }
   initDependentLookups() {
     this.lookupService.LookupNames().subscribe((resp) => {
-      this.dependentLookup = resp as unknown as string[];
+      this.lookupNames = resp as unknown as string[];
       console.log(resp);
     });
   }
+  initNotConfiguredLookups() {
+    this.lookupService.LookupNamesNotConfigured().subscribe((resp) => {
+      this.lookupNamesNotConfigured = resp as unknown as string[];
+    })
+  }
+
   lookupForm() {
     this.addfields = []
     this.fblookup = this.formbuilder.group({
       lookupId: [0],
       code: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_NUMERIC), Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_20)]),
+      lookupNames: new FormControl(''),
       name: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
       isActive: new FormControl('', [Validators.required]),
       lookUpDetails: this.formbuilder.array([], FormArrayValidationForDuplication())
     });
   }
+  onLookupChange(event) {
+    const selectedValue = event.value; // Get the selected value
+    if (selectedValue) {
+      this.getDependantLookupData(selectedValue);
+      this.DependentDropdown = true;
+    } else {
+      this.DependentDropdown = false;
+    }
+  }
 
+  getDependantLookupData(value) {
+    if(value == 'Countries') this.initCountries();
+    else if (value == 'Curriculums') this.initCurriculums();
+  }
+
+  initCountries() {
+    this.lookupService.Countries().subscribe((resp)=>{
+      this.dependantLookupData =resp as unknown as LookupViewDto[];
+    })
+  }
+  initCurriculums(){
+    this.lookupService.Curriculums().subscribe((resp)=>{
+      this.dependantLookupData =resp as unknown as LookupViewDto[];
+    })
+  }
+  
   onChangeisLookupChecked() {
     this.GetLookUp(this.isLookupChecked)
   }
@@ -218,7 +253,6 @@ export class LookupsComponent implements OnInit {
     this.falookUpDetails = this.fblookup.get("lookUpDetails") as FormArray
     this.falookUpDetails.push(this.generaterow())
     this.setDefaultIsActiveForAllRows();
-
   }
   setDefaultIsActiveForAllRows() {
     this.falookUpDetails = this.fblookup.get("lookUpDetails") as FormArray;
@@ -242,6 +276,7 @@ export class LookupsComponent implements OnInit {
   onClose() {
     this.fblookup.reset();
     this.ShowlookupDetails = false;
+    this.DependentDropdown = false;
     this.falookupDetails().clear();
   }
   editLookUp(lookup: LookupViewDto) {

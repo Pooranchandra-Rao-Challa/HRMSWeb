@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { URI_ENDPOINT, URI_ENDPOINT_WITH_ID, URI_ENDPOINT_WITH_PARAMS } from 'src/environments/environment';
@@ -81,6 +81,20 @@ export class ApiHttpService {
                     return throwError(() => errorMsg);
                 })
             );
+    }
+    public upload<T>(uri:string,body:any,headers:HttpHeaders,params:HttpParams){
+        console.log(body)
+        return this.http.post<T>(URI_ENDPOINT(uri),body,{headers:headers,params:params,observe:'events',responseType:'json',reportProgress:true}).pipe(
+            catchError(error => {
+                let errorMsg: {};
+                if (error.error instanceof ErrorEvent) {
+                    errorMsg = this.getNormalErrorMessage(error.error);
+                } else {
+                    errorMsg = this.getServerErrorMessage(error);
+                }
+                return throwError(() => errorMsg);
+            })
+        );
     }
 
     public getWithParams<T>(uri: string, params: any[], options?: any) {

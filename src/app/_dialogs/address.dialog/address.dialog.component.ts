@@ -53,10 +53,9 @@ export class AddressDialogComponent {
             stateId: new FormControl('', [Validators.required]),
             countryId: new FormControl('', [Validators.required]),
             addressType: new FormControl('', [Validators.required]),
-            isActive: new FormControl(true, Validators.requiredTrue),
+            isActive: new FormControl(true),
         })
     }
-
 
     initGetAddress() {
         this.employeeService.GetAddress(this.employeeId).subscribe((resp) => {
@@ -104,21 +103,24 @@ export class AddressDialogComponent {
     }
 
     saveAddress() {
-        this.activatedRoute.queryParams.subscribe((queryParams) => {
-            const employeeId = +queryParams['employeeId'];
-            const isUpdate = this.fbAddressDetails.value.addressId !== null;
+        if (this.fbAddressDetails.valid) {
+            this.activatedRoute.queryParams.subscribe((queryParams) => {
+                const employeeId = +queryParams['employeeId'];
+                const isUpdate = this.fbAddressDetails.value.addressId !== null;
 
-            this.employeeService.CreateAddress([{ ...this.fbAddressDetails.value, employeeId }])
-                .subscribe((resp) => {
-                    if (resp) {
-                        const alertCode = isUpdate ? 'SMAD004' : 'SAD001';
-                        this.alertMessage.displayAlertMessage(ALERT_CODES[alertCode]);
-                        this.ref.close({
-                            "UpdatedModal": ViewEmployeeScreen.Address
-                        });
-                    }
-                });
+                this.employeeService.CreateAddress([{ ...this.fbAddressDetails.value, employeeId }])
+                    .subscribe((resp) => {
+                        if (resp) {
+                            const alertCode = isUpdate ? 'SMAD004' : 'SAD001';
+                            this.alertMessage.displayAlertMessage(ALERT_CODES[alertCode]);
+                            this.ref.close({
+                                "UpdatedModal": ViewEmployeeScreen.Address
+                            });
+                        }
+                    });
+            }
+            )
         }
-        )
     }
+    
 }

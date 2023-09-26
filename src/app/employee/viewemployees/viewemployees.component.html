@@ -138,19 +138,19 @@
       <div class="grid">
         <div class="col-12 lg:col-4" *ngFor="let experiance of workExperience">
           <div class="card">
-            <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">{{experiance.companyName}}</div>
+            <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">{{experiance?.companyName}}</div>
             <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
               <li class="mb-2">
-                <span class="font-semibold ">Company Location :</span>{{experiance.companyLocation}}
+                <span class="font-semibold ">Company Location:</span>{{experiance?.companyLocation}}
               </li>
               <li class="mb-2">
-                <span class="font-semibold ">From :</span> {{experiance.dateOfJoining | date: mediumDate}}
+                <span class="font-semibold ">From:</span> {{experiance?.dateOfJoining | date: mediumDate}}
               </li>
               <li class="mb-2">
-                <span class="font-semibold ">To :</span> {{experiance.dateOfReliving | date: mediumDate}}
+                <span class="font-semibold ">To:</span> {{experiance?.dateOfReliving | date: mediumDate}}
               </li>
               <li class="mb-2">
-                <span class="font-semibold mb-1">Designation :</span> {{experiance.designation}}
+                <span class="font-semibold mb-1">Designation:</span> {{experiance?.designation}}
               </li>
             </ul>
           </div>
@@ -186,7 +186,7 @@
                 <span class="font-semibold">Mobile No:</span> {{familyDetails.mobileNumber}}
               </li>
               <li class="mb-3">
-                <span class="font-semibold">Address:</span> {{familyDetails.addressLine1}}
+                <span class="font-semibold">Address:</span> {{familyDetails.addressLine1}},{{familyDetails.city}},{{familyDetails.state}},{{familyDetails.zipCode}}
               </li>
               <li class="mb-3">
                 <span class="font-semibold">State:</span> {{familyDetails.state}}
@@ -763,8 +763,8 @@
               <tr [formGroupName]="educationDetailsIndex">
                 <td class="vertical-align-top">
                   <p-dropdown id="circulum_dropdown" [autoDisplayFirst]="false" [options]="circulum"
-                    placeholder="Select Circulum" optionLabel="name" appendTo="body" optionValue="lookupDetailId"
-                    formControlName="curriculumId" (onChange)="getStreamByCirculumId($event.value)" [ngClass]="{'is-invalid ng-dirty': formArrayControls(educationDetailsIndex,'curriculumId')?.touched &&
+                    placeholder="Select Curriculum" optionLabel="name" appendTo="body" optionValue="lookupDetailId"
+                    formControlName="curriculumId" (onChange)="onCurriculumChange($event.value, educationDetailsIndex)" [ngClass]="{'is-invalid ng-dirty': formArrayControls(educationDetailsIndex,'curriculumId')?.touched &&
                     formArrayControls(educationDetailsIndex,'curriculumId')?.errors }"></p-dropdown>
                   <div class="flex">
                     <div class="align-left w-60" style="width:70%">
@@ -779,7 +779,7 @@
                   </div>
                 </td>
                 <td class="vertical-align-top">
-                  <p-dropdown id="stream_dropdown" [autoDisplayFirst]="false" optionLabel="name" [options]="stream"
+                  <p-dropdown id="stream_dropdown" [autoDisplayFirst]="false" optionLabel="name" [options]="streamPerRow[educationDetailsIndex]"
                     optionValue="lookupDetailId" appendTo="body" formControlName="streamId" placeholder="Select Stream"
                     [ngClass]="{'is-invalid ng-dirty': formArrayControls(educationDetailsIndex,'streamId')?.touched &&
                     formArrayControls(educationDetailsIndex,'streamId')?.errors }">
@@ -799,7 +799,7 @@
                 <td class="vertical-align-top">
                   <p-dropdown id="country_dropdown" [autoDisplayFirst]="false" placeholder="Select Country"
                     optionLabel="name" appendTo="body" [options]="countries" optionValue="lookupDetailId"
-                    formControlName="countryId" (onChange)="getStatesByCountryId($event.value)" [ngClass]="{'is-invalid ng-dirty': formArrayControls(educationDetailsIndex,'countryId')?.touched &&
+                    formControlName="countryId" (onChange)="onCountryChange($event.value, educationDetailsIndex)" [ngClass]="{'is-invalid ng-dirty': formArrayControls(educationDetailsIndex,'countryId')?.touched &&
                     formArrayControls(educationDetailsIndex,'countryId')?.errors }"></p-dropdown>
                   <div class="flex">
                     <div class="align-left w-60" style="width:70%">
@@ -815,7 +815,7 @@
                 </td>
                 <td class="vertical-align-top">
                   <p-dropdown id="states_dropdown" appendTo="body" optionLabel="name" placeholder="Select State"
-                    [options]="states" optionValue="lookupDetailId" formControlName="stateId" [ngClass]="{'is-invalid ng-dirty': formArrayControls(educationDetailsIndex,'stateId')?.touched &&
+                  [options]="statesPerRow[educationDetailsIndex]" optionValue="lookupDetailId" formControlName="stateId" [ngClass]="{'is-invalid ng-dirty': formArrayControls(educationDetailsIndex,'stateId')?.touched &&
                     formArrayControls(educationDetailsIndex,'stateId')?.errors }"></p-dropdown>
                   <div class="flex">
                     <div class="align-left w-60" style="width:70%">
@@ -1034,12 +1034,13 @@
                 <td class="vertical-align-top">
                   <p-dropdown inputId="dropdown" id="Address_country" [autoDisplayFirst]="false"  appendTo="body"
                     placeholder="Select Country" formControlName="countryId" [options]="countries"
-                    optionValue="lookupDetailId" optionLabel="name" (onChange)="getStatesByCountryId($event.value)">
+                    optionValue="lookupDetailId" optionLabel="name"  (onChange)="onCountryChange($event.value, experienceDetailsIndex)" >
                   </p-dropdown>
+                  <!-- (onChange)="getStatesByCountryId($event.value)" -->
                 </td>
                 <td class="vertical-align-top">
                   <p-dropdown id="states_dropdown" appendTo="body" optionLabel="name" placeholder="Select State"
-                    [options]="states" optionValue="lookupDetailId" formControlName="stateId" ></p-dropdown>
+                    [options]="statesPerRow[experienceDetailsIndex]" optionValue="lookupDetailId" formControlName="stateId" ></p-dropdown>
                 </td>
                 <td class="vertical-align-top">
                   <p-dropdown id="designation" appendTo="body" optionLabel="name" placeholder="Select Designation"
@@ -1107,19 +1108,3 @@
   </ng-template>
 </p-dialog>
 
-<!-- p-dialog Family Details -->
-<p-dialog header=" Add Family Member" [(visible)]="Family" [modal]="true" showEffect="fade"
-  [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
-
-</p-dialog>
-<!-- p-dialog Address Details -->
-<p-dialog header="Address Details" [(visible)]="Address" [modal]="true" showEffect="fade"
-  [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
-
-</p-dialog>
-<!-- p-dialog Upload Documents -->
-<p-dialog header=" Documents Details" [(visible)]="Documents" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '40%', '640px': '40%'}" [style]="{width: '30%'}">
-</p-dialog>
-<!-- BankDetails -->
-<p-dialog header="Bank Details" [(visible)]="showbankDetails" [modal]="true" showEffect="fade"  [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
-</p-dialog>

@@ -43,7 +43,7 @@ export class BasicDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.employeeId = 119
+      this.employeeId = params['employeeId']
     });
     if (this.employeeId)
       this.getEmployeeBasedonId();
@@ -161,7 +161,7 @@ export class BasicDetailsComponent implements OnInit {
     };
   }
   navigateToNext() {
-    this.router.navigate(['employee/onboardingemployee/educationdetails', this.employeeId,this.isReadOnly]);
+    this.router.navigate(['employee/onboardingemployee/educationdetails', this.employeeId]);
 
   }
 }
