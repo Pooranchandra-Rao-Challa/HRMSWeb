@@ -70,18 +70,11 @@ export class ViewemployeesComponent {
   skillarea: LookupViewDto[] = [];
   workExperience: employeeExperienceDtlsViewDto[];
   skillset: any;
-  // Employee FamilyDetails
+  // FamilyDetails,AdressDetails,UploadedDocuments,BankDetails
   familyDetails: FamilyDetailsViewDto[];
-  Family: boolean = false;
-  // Employee AdressDetails
   address: EmployeAdressViewDto[];
-  Address: boolean = false;
-  // Employee  UploadedDocuments
   UploadedDocuments: any[];
-  Documents: boolean = false;
-  // EmployeeBankDetails
   bankDetails: BankDetailViewDto[];
-  showbankDetails: boolean = false;
 
   officeDtls: any[];
   assetAllotments: AssetAllotmentViewDto[] = [];
@@ -94,7 +87,6 @@ export class ViewemployeesComponent {
   ShoweducationDetails: boolean = false;
   ShowexperienceDetails: boolean = false;
   images: string[] = [];
-  // employees: Employee[] = [];
   genders: Gender[];
   selectedOption: string;
   maxLength: MaxLength = new MaxLength();
@@ -119,19 +111,6 @@ export class ViewemployeesComponent {
   selectedCountry: number[] = [];
   selectedCurriculumId: number[] = [];
   enRollEmployee: boolean = false;
-
-  showFamilyDetails() {
-    this.Family = true;
-  }
-  showAddressDetails() {
-    this.Address = true;
-  }
-  showDocumentsDetails() {
-    this.Documents = true;
-  }
-  showbankDetail() {
-    this.showbankDetails = true;
-  }
 
   Courses = [
     { name: 'SSC', code: 'SSC' },

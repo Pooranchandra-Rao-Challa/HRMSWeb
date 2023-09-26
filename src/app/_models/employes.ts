@@ -269,6 +269,7 @@ export class FamilyDetailsViewDto {
 	adhaarNo: string;
 	panNo: string | null;
 	dob: Date;
+	zipCode:any
 	relationshipId: number;
 	relationship: string;
 	addressId: number;
