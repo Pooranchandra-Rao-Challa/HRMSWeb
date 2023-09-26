@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { LookupService } from 'src/app/_services/lookup.service';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import {EmployeAdressViewDto, FamilyDetailsViewDto } from 'src/app/_models/employes';
+import { EmployeAdressViewDto, FamilyDetailsViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { MIN_LENGTH_2, RG_PANNO, RG_PHONE_NO } from 'src/app/_shared/regex';
 import { ActivatedRoute } from '@angular/router';
@@ -28,7 +28,6 @@ export class FamilydetailsDialogComponent {
     dialogRequest: DialogRequest = new DialogRequest();
     FamilydetailsDialogComponent = FamilydetailsDialogComponent;
 
-
     constructor(private formbuilder: FormBuilder,
         private alertMessage: AlertmessageService,
         private config: DynamicDialogConfig,
@@ -42,7 +41,7 @@ export class FamilydetailsDialogComponent {
         this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
         this.initFamily();
         this.initGetAddress()
-        if (this.config.data) this.editFamilyDetails(this.config.data);          
+        if (this.config.data) this.editFamilyDetails(this.config.data);
     }
 
     initFamily() {
@@ -59,25 +58,23 @@ export class FamilydetailsDialogComponent {
             isNominee: new FormControl(true),
         });
     }
-    
+
     initRelationship() {
         this.lookupService.Relationships().subscribe((resp) => {
             this.relationships = resp as unknown as LookupViewDto[];
-            console.log('this.relationships', this.familyDetails);
         });
     }
 
     initGetAddress() {
         this.employeeService.GetAddress(this.employeeId).subscribe((resp) => {
             this.address = resp as unknown as EmployeAdressViewDto[];
-            console.log('this.address', this.address);
         });
     }
-    
+
     get familyFormControls() {
         return this.fbfamilyDetails.controls;
     }
-    
+
     editFamilyDetails(familyDetails) {
         const dobValue = familyDetails.dob ? FORMAT_DATE(new Date(familyDetails.dob)) : null;
         this.initRelationship();
@@ -114,7 +111,6 @@ export class FamilydetailsDialogComponent {
             });
         });
     }
-
 
     restrictSpaces(event: KeyboardEvent) {
         if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {

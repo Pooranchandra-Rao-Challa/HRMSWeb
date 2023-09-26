@@ -17,7 +17,9 @@ import { LookupDetailsDto } from 'src/app/_models/admin';
 })
 export class AddressDialogComponent {
     fbAddressDetails: FormGroup;
-    employeeId: number
+    employeeId: number;
+    hasPermanentAddress: boolean = false;
+    hasCurrentAddress: boolean = false;
     address: EmployeAdressViewDto[];
     countries: LookupDetailsDto[] = [];
     states: LookupDetailsDto[] = [];
@@ -38,7 +40,7 @@ export class AddressDialogComponent {
         this.initCountries();
         if (this.config.data) this.editAddress(this.config.data);
     }
-    
+
     initAddress() {
         this.fbAddressDetails = this.formbuilder.group({
             employeeId: [this.employeeId],
@@ -54,23 +56,24 @@ export class AddressDialogComponent {
             isActive: new FormControl(true, Validators.requiredTrue),
         })
     }
-    
+
+
     initGetAddress() {
         this.employeeService.GetAddress(this.employeeId).subscribe((resp) => {
             this.address = resp as unknown as EmployeAdressViewDto[];
-            console.log('this.address', this.address);
-           
+            // Check if the employee has Permanent Address
+            this.hasPermanentAddress = this.address.some(addr => addr.addressType === 'Permanent Address');
+            // Check if the employee has Current Address
+            this.hasCurrentAddress = this.address.some(addr => addr.addressType === 'Current Address');
         });
     }
-    
+
     initCountries() {
         this.lookupService.Countries().subscribe((resp) => {
             this.countries = resp as unknown as LookupDetailsDto[];
-            console.log('countries', this.countries);
-            
         })
     }
-    
+
     getStatesByCountryId(id: number) {
         this.lookupService.States(id).subscribe((resp) => {
             if (resp) {
@@ -99,54 +102,23 @@ export class AddressDialogComponent {
             isActive: address.isActive,
         })
     }
-   
+
     saveAddress() {
-        // Get the employeeId from query parameters
         this.activatedRoute.queryParams.subscribe((queryParams) => {
             const employeeId = +queryParams['employeeId'];
             const isUpdate = this.fbAddressDetails.value.addressId !== null;
 
-            // Call checkExistingAddressType and handle the result
-            const validationResult = this.checkExistingAddressType();
-            if (validationResult.isValid) {
-                this.employeeService
-                    .CreateAddress([{ ...this.fbAddressDetails.value, employeeId }])
-                    .subscribe((resp) => {
-                        if (resp) {
-                            const alertCode = isUpdate ? 'SMAD004' : 'SAD001';
-                            this.alertMessage.displayAlertMessage(ALERT_CODES[alertCode]);
-                            this.ref.close({
-                                "UpdatedModal": ViewEmployeeScreen.Address
-                            });
-                           
-                        }
-                    });
-            } else {
-                // Display an alert message if validation fails
-                this.alertMessage.displayErrorMessage(validationResult.message);
-            }
-        });
-    }
-    
-
-    checkExistingAddressType() {
-        const addressType = this.fbAddressDetails.value.addressType;
-        if (addressType === 'Permanent Address' && this.hasPermanentAddress()) {
-            return { isValid: false, message: ALERT_CODES["SMAD005"] };
+            this.employeeService.CreateAddress([{ ...this.fbAddressDetails.value, employeeId }])
+                .subscribe((resp) => {
+                    if (resp) {
+                        const alertCode = isUpdate ? 'SMAD004' : 'SAD001';
+                        this.alertMessage.displayAlertMessage(ALERT_CODES[alertCode]);
+                        this.ref.close({
+                            "UpdatedModal": ViewEmployeeScreen.Address
+                        });
+                    }
+                });
         }
-        
-        if (addressType === 'Current Address' && this.hasCurrentAddress()) {
-            return { isValid: false, message: ALERT_CODES["SMAD006"] };
-        }
-        // Validation passed
-        return { isValid: true, message: null };
-    }
-
-    hasPermanentAddress(): boolean {
-        return this.address.some((addr) => addr.addressType === 'Permanent Address');
-    }
-
-    hasCurrentAddress(): boolean {
-        return this.address.some((addr) => addr.addressType === 'Current Address');
+        )
     }
 }

@@ -84,6 +84,7 @@ export class ViewemployeesComponent {
   skillset: any;
   // Employee FamilyDetails
   familyDetails: FamilyDetailsViewDto[];
+  Family: boolean = false;
   // Employee AdressDetails
   address: EmployeAdressViewDto[];
   Address: boolean = false;
@@ -93,7 +94,7 @@ export class ViewemployeesComponent {
   // EmployeeBankDetails
   bankDetails: BankDetailViewDto[];
   showbankDetails: boolean = false;
-
+  
   officeDtls: any[];
   assetAllotments: AssetAllotmentViewDto[] = [];
   size: string = 'M';
@@ -102,26 +103,14 @@ export class ViewemployeesComponent {
   dialog: boolean = false;
   officedialog: boolean = false;
   Experience: boolean = false;
-  Family: boolean = false;
  
   ShoweducationDetails: boolean = false;
   ShowexperienceDetails: boolean = false;
-  bankDetailsshow: boolean = false;
   images: string[] = [];
-  selectedImageIndex: number = 0;
-  quantity: number = 1;
   // employees: Employee[] = [];
   genders: Gender[];
-  shifts: Shift[];
-  relationships: LookupViewDto[] = [];
-  valRadio: string;
-  skillSets!: Skills[];
-  uploadedFiles: any[] = [];
   selectedOption: string;
-  inputValue: string;
   maxLength: MaxLength = new MaxLength();
-  addFlag: boolean = true;
-  relationshipStatus: General[];
   submitLabel: string;
   value: Date;
   states: LookupViewDto[] = [];
@@ -154,7 +143,6 @@ export class ViewemployeesComponent {
     this.showbankDetails = true;
   }
   
-
   Courses = [
     { name: 'SSC', code: 'SSC' },
     { name: 'Inter', code: 'Inter' },
@@ -188,11 +176,7 @@ export class ViewemployeesComponent {
     private alertMessage: AlertmessageService,
     public ref: DynamicDialogRef,
     private dialogService: DialogService,
-
-
-  ) {
-
-  }
+  ) { }
 
   ngOnInit(): void {
     this.initdesignation();
@@ -209,7 +193,6 @@ export class ViewemployeesComponent {
     this.initskillArea();
     this.initGrading();
   }
-
   getemployeeview() {
     this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
     this.initViewEmpDtls();
@@ -382,7 +365,6 @@ export class ViewemployeesComponent {
   }
 
   // Employee Education details
-
   initEducation() {
     this.fbEducationDetails = this.formbuilder.group({
       educationDetails: this.formbuilder.array([]),
@@ -482,9 +464,8 @@ export class ViewemployeesComponent {
     this.Education = false;
     (this.fbEducationDetails.get('educationDetails') as FormArray).clear();
   }
-
+  
   // Employee Work Experience
-
   initExperience() {
     this.fbexperience = this.formbuilder.group({
       experienceDetails: this.formbuilder.array([])
@@ -512,7 +493,6 @@ export class ViewemployeesComponent {
     });
 
   }
-
   expDtlsformArrayControls(i: number, formControlName: string) {
     return this.faExperienceDetail().controls[i].get(formControlName);
   }
@@ -546,8 +526,6 @@ export class ViewemployeesComponent {
     // });
   }
 
-
-
   faExperienceDetail(): FormArray {
     return this.fbexperience.get('experienceDetails') as FormArray
   }
@@ -563,8 +541,6 @@ export class ViewemployeesComponent {
     this.fbexperience.patchValue(this.workExperience)
     this.Experience = true;
   }
-
-
   faexperienceDetail(): FormArray {
     return this.fbexperience.get('experienceDetails') as FormArray;
   }
@@ -587,8 +563,6 @@ export class ViewemployeesComponent {
     }
     // this.fbexperience.controls['experienceDetails'].value[index].get('workExperienceXrefs')?.patchValue(updatedArray);
   }
-
-
   onCloseExp() {
     this.Experience = false;
     (this.fbexperience.get('experienceDetails') as FormArray).clear();
@@ -606,8 +580,6 @@ export class ViewemployeesComponent {
       }
     })
   }
-
-
   initviewAssets() {
     this.adminService.GetAssetAllotments(this.employeeId).subscribe((resp) => {
       if (resp) {
@@ -618,13 +590,14 @@ export class ViewemployeesComponent {
       }
     });
   }
+  
   //Upload Documents
   initUploadedDocuments() {
     this.employeeService.GetUploadedDocuments(this.employeeId).subscribe((resp) => {
       this.UploadedDocuments = resp as unknown as any[];
     });
   }
-
+  
   // Employee BankDetails
   initBankDetails() {
     this.employeeService.GetBankDetails(this.employeeId).subscribe((resp) => {
@@ -636,6 +609,13 @@ export class ViewemployeesComponent {
   initGetAddress() {
     this.employeeService.GetAddress(this.employeeId).subscribe((resp) => {
       this.address = resp as unknown as EmployeAdressViewDto[];
+    });
+  }
+  //Employee FamilyDetails
+  initGetFamilyDetails() {
+    this.employeeService.getFamilyDetails(this.employeeId).subscribe((resp) => {
+      this.familyDetails = resp as unknown as FamilyDetailsViewDto[];
+      console.log('this.familyDetails', this.familyDetails);
     });
   }
   initCountries() {
@@ -651,25 +631,16 @@ export class ViewemployeesComponent {
     })
   }
   
-  //Employee FamilyDetails
-  initGetFamilyDetails() {
-    this.employeeService.getFamilyDetails(this.employeeId).subscribe((resp) => {
-      this.familyDetails = resp as unknown as FamilyDetailsViewDto[];
-      console.log('this.familyDetails', this.familyDetails);
-    });
-  }
-
   toggleInputField(option: string) {
     this.selectedOption = option;
   }
-
 
   restrictSpaces(event: KeyboardEvent) {
     if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {
       event.preventDefault();
     }
   }
-
+  
   openComponentDialog(content: any,
     dialogData, action: Actions = this.ActionTypes.add) {
     if (action == Actions.unassign && content === this.unassignassetDialogComponent) {
@@ -750,7 +721,6 @@ export class ViewemployeesComponent {
       } else if (res.UpdatedModal == ViewEmployeeScreen.UploadDocuments) {
         this.initUploadedDocuments();
       } 
-   
       event.preventDefault(); // Prevent the default form submission
     });
   }
