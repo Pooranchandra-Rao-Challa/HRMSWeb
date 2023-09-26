@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { LookupViewDto } from '../_models/admin';
 import { ApiHttpService } from './api.http.service';
-import { LOOKUP_DETAILS_URI, LOOKUP_NAMES_URI } from './api.uri.service';
+import { LOOKUP_DETAILS_URI, LOOKUP_NAMES_NOT_CONFIGURE_URI, LOOKUP_NAMES_URI } from './api.uri.service';
 
 @Injectable({
     providedIn: 'root'
@@ -9,6 +9,9 @@ import { LOOKUP_DETAILS_URI, LOOKUP_NAMES_URI } from './api.uri.service';
 export class LookupService extends ApiHttpService {
     public LookupNames() {
         return this.get<string[]>(LOOKUP_NAMES_URI);
+    }
+    public LookupNamesNotConfigured(){
+        return this.get<string[]>(LOOKUP_NAMES_NOT_CONFIGURE_URI);
     }
     public AssetTypes() {
         console.log('AssetTypes');
