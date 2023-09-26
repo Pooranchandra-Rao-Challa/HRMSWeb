@@ -12,6 +12,7 @@ import { AdminService } from 'src/app/_services/admin.service';
 import { JwtService } from 'src/app/_services/jwt.service';
 import { MAX_LENGTH_20, MIN_LENGTH_2, RG_ALPHA_NUMERIC, RG_ALPHA_ONLY } from 'src/app/_shared/regex';
 import { GlobalFilterService } from 'src/app/_services/global.filter.service';
+import { LookupService } from 'src/app/_services/lookup.service';
 
 @Component({
   selector: 'app-lookup',
@@ -29,6 +30,9 @@ export class LookupsComponent implements OnInit {
   addfields: any;
   addFlag: boolean = true;
   submitLabel!: string;
+  lookupNames: string[] = [];
+  lookupNamesNotConfigured: string[] = [];
+  dependantLookupData:LookupViewDto[]=[];
   lookups: LookupViewDto[] = [];
   ShowlookupDetails: boolean = false;
   isLookupChecked: boolean = false;
@@ -38,11 +42,13 @@ export class LookupsComponent implements OnInit {
   mediumDate: string = MEDIUM_DATE
   selectedColumnHeader!: ITableHeader[];
   _selectedColumns!: ITableHeader[];
+  DependentDropdown = false;
   constructor(private formbuilder: FormBuilder,
     private adminService: AdminService,
     private alertMessage: AlertmessageService,
     private jwtService: JwtService,
-    private globalFilterService: GlobalFilterService) { }
+    private globalFilterService: GlobalFilterService,
+    private lookupService: LookupService) { }
 
   lookupHeader: ITableHeader[] = [
     { field: 'code', header: 'code', label: 'Code' },
@@ -70,7 +76,8 @@ export class LookupsComponent implements OnInit {
   }
   ngOnInit(): void {
     this.permissions = this.jwtService.Permissions;
-
+    this.initDependentLookups();
+    this.initNotConfiguredLookups();
     this.lookupForm();
     this.onChangeisLookupChecked();
     //Column Header for selecting particular columns to display
@@ -82,18 +89,55 @@ export class LookupsComponent implements OnInit {
       { field: 'updatedBy', header: 'updatedBy', label: 'Updated By' },
     ];
   }
+  initDependentLookups() {
+    this.lookupService.LookupNames().subscribe((resp) => {
+      this.lookupNames = resp as unknown as string[];
+      console.log(resp);
+    });
+  }
+  initNotConfiguredLookups() {
+    this.lookupService.LookupNamesNotConfigured().subscribe((resp) => {
+      this.lookupNamesNotConfigured = resp as unknown as string[];
+    })
+  }
 
   lookupForm() {
     this.addfields = []
     this.fblookup = this.formbuilder.group({
       lookupId: [0],
       code: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_NUMERIC), Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_20)]),
+      lookupNames: new FormControl(''),
       name: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
       isActive: new FormControl('', [Validators.required]),
       lookUpDetails: this.formbuilder.array([], FormArrayValidationForDuplication())
     });
   }
+  onLookupChange(event) {
+    const selectedValue = event.value; // Get the selected value
+    if (selectedValue) {
+      this.getDependantLookupData(selectedValue);
+      this.DependentDropdown = true;
+    } else {
+      this.DependentDropdown = false;
+    }
+  }
 
+  getDependantLookupData(value) {
+    if(value == 'Countries') this.initCountries();
+    else if (value == 'Curriculums') this.initCurriculums();
+  }
+
+  initCountries() {
+    this.lookupService.Countries().subscribe((resp)=>{
+      this.dependantLookupData =resp as unknown as LookupViewDto[];
+    })
+  }
+  initCurriculums(){
+    this.lookupService.Curriculums().subscribe((resp)=>{
+      this.dependantLookupData =resp as unknown as LookupViewDto[];
+    })
+  }
+  
   onChangeisLookupChecked() {
     this.GetLookUp(this.isLookupChecked)
   }
@@ -194,7 +238,7 @@ export class LookupsComponent implements OnInit {
   onGlobalFilter(table: Table, event: Event) {
     const searchTerm = (event.target as HTMLInputElement).value;
     this.globalFilterService.filterTableByDate(table, searchTerm);
-}
+  }
   clear() {
     this.clearTableFiltersAndSorting(this.lookUp);
     this.clearTableFiltersAndSorting(this.lookUpDetails);
@@ -209,7 +253,6 @@ export class LookupsComponent implements OnInit {
     this.falookUpDetails = this.fblookup.get("lookUpDetails") as FormArray
     this.falookUpDetails.push(this.generaterow())
     this.setDefaultIsActiveForAllRows();
-
   }
   setDefaultIsActiveForAllRows() {
     this.falookUpDetails = this.fblookup.get("lookUpDetails") as FormArray;
@@ -233,6 +276,7 @@ export class LookupsComponent implements OnInit {
   onClose() {
     this.fblookup.reset();
     this.ShowlookupDetails = false;
+    this.DependentDropdown = false;
     this.falookupDetails().clear();
   }
   editLookUp(lookup: LookupViewDto) {

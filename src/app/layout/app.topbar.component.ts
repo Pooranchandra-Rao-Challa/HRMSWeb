@@ -18,6 +18,7 @@ export class AppTopbarComponent {
     activeItem!: number;
     loggedInUser: String = "";
     isUpdating: boolean;
+    // userPhoto: string;
 
     constructor(public layoutService: LayoutService,
         private jwtService: JwtService,
@@ -27,6 +28,7 @@ export class AppTopbarComponent {
         private loginService: LoginService,
         private updateStatusService: UpdateStatusService) {
         this.loggedInUser = this.jwtService.GivenName;
+        // this.userPhoto = this.jwtService.UserPhoto;
     }
 
     onMenuButtonClick() {

@@ -9,7 +9,7 @@
                 <input type="text" pInputText placeholder="Search by Name or Id" (input)="onFilter(dv, $event)" [disabled]="dv._layout == 'list'" />
               </span>
               <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
-              <p-button class="p-element p-ripple p-button p-component p-2 pt-0 pb-0" (click)="showDialog()" icon="pi pi-plus" label="Add Employee"></p-button>
+              <p-button class="p-element p-ripple  p-component p-2 pt-0 pb-0" (click)="showDialog()" icon="pi pi-plus" label="Add Employee"></p-button>
             </div>
           </ng-template>
           <ng-template let-employee pTemplate="listItem" let-item>
@@ -39,7 +39,7 @@
                 <ng-template pTemplate="body" let-employee>
                   <tr>
                     <td>
-                      <img [src]="employee.photo ? employee.photo : 'https://t3.ftcdn.net/jpg/02/18/21/86/360_F_218218632_jF6XAkcrlBjv1mAg9Ow0UBMLBaJrhygH.jpg'" [alt]="employee.employeeName" class="my-4 md:my-0 w-10 md:w-10rem shadow-2 mr-2" />
+                      <img [src]="employee.photo ? employee.photo : 'https://cdn-icons-png.flaticon.com/512/5987/5987420.png'" [alt]="employee.employeeName" class="my-4 md:my-0 w-10 md:w-10rem shadow-2 mr-2" />
                     </td>
                     <td *ngFor="let col of headers">
                       <span>{{employee[col.field]}}</span>

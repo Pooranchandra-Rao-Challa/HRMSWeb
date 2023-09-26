@@ -255,7 +255,7 @@ p-calendar input {
     bottom: 0;
     background-color: #fff2e5;
     border-top: 1px solid #fff2e5;
-    padding: 16px;
+    padding: 10px;
     text-align: right;
 }
 
@@ -268,6 +268,7 @@ p-calendar input {
     height: 75vh;
     overflow-y: scroll;
 }
+
 .p-steps .p-steps-item .p-menuitem-link:not(.p-disabled):focus {
     box-shadow: none !important;
 }

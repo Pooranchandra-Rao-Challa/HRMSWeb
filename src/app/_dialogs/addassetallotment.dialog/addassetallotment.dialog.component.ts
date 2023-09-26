@@ -8,7 +8,7 @@ import { AdminService } from 'src/app/_services/admin.service';
 import { LookupService } from 'src/app/_services/lookup.service';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EmployeesList, LookupDetailsDto } from 'src/app/_models/admin';
-import { AssetAllotment } from 'src/app/_models/common';
+import { ViewEmployeeScreen } from 'src/app/_models/common';
 
 @Component({
     selector: 'app-addassetallotment.dialog',
@@ -94,7 +94,7 @@ export class AddassetallotmentDialogComponent {
             if (resp) {
                 this.alertMessage.displayAlertMessage(ALERT_CODES["SAAAA001"]);
                 this.ref.close({
-                    "UpdatedModal": AssetAllotment.Add
+                    "UpdatedModal": ViewEmployeeScreen.AssetAllotments
                 });
             }
             else {

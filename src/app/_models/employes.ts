@@ -168,6 +168,7 @@ export class ExperienceDetailsDto {
 	countryId: number;
 	stateId: number;
 	workExperienceXrefs: SkillAreas[]
+	skillAreaId: any
 }
 export class SkillAreas {
 	workExperienceXrefId?: number;
@@ -268,6 +269,7 @@ export class FamilyDetailsViewDto {
 	adhaarNo: string;
 	panNo: string | null;
 	dob: Date;
+	zipCode:any
 	relationshipId: number;
 	relationship: string;
 	addressId: number;
