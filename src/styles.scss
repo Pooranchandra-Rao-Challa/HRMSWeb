@@ -233,7 +233,7 @@ p-calendar input {
 
 .content_scroll {
     height: 350px;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .svg-chart-container{
@@ -244,6 +244,9 @@ p-calendar input {
     position: absolute;
     right: 0;
 
+}
+.w100 .p-dropdown{
+    width:100% !important;
 }
 
 /* Fixed positioning for the footer - common dialog */
