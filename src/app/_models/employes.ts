@@ -168,6 +168,7 @@ export class ExperienceDetailsDto {
 	countryId: number;
 	stateId: number;
 	workExperienceXrefs: SkillAreas[]
+	skillAreaId: any
 }
 export class SkillAreas {
 	workExperienceXrefId?: number;
