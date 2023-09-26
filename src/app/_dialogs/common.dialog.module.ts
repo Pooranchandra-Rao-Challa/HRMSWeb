@@ -5,13 +5,19 @@ import { AddassetallotmentDialogComponent } from './addassetallotment.dialog/add
 import { UnassignassetDialogComponent } from './unassignasset.dialog/unassignasset.dialog.component';
 import { ViewAssetAllotmentsDialogComponent } from './viewassetallotments.dialog/viewassetallotments.dialog.component';
 import { BankdetailsDialogComponent } from './bankDetails.Dialog/bankdetails.dialog.component';
+import { AddressDialogComponent } from './address.dialog/address.dialog.component';
+import { uploadDocumentsDialogComponent } from './uploadDocuments.dialog/uploadDocuments.dialog.component';
+import { FamilydetailsDialogComponent } from './familydetails.dailog/familydetails.dialog.component';
 
 @NgModule({
   declarations: [
     AddassetallotmentDialogComponent,
     UnassignassetDialogComponent,
     ViewAssetAllotmentsDialogComponent,
-    BankdetailsDialogComponent
+    BankdetailsDialogComponent,
+    AddressDialogComponent,
+    uploadDocumentsDialogComponent,
+    FamilydetailsDialogComponent
   ],
   imports: [SharedModule],
   providers: [DialogService, DynamicDialogRef]

@@ -119,12 +119,14 @@ export class AddressComponent {
           this.save();
         }
       }
-      else {
-        this.save();
-      }
+    else{
+      this.save();
     }
     this.addaddressdetailsshowForm = !this.addaddressdetailsshowForm;
     this.showAddressDetails = !this.showAddressDetails;
+  }
+  this.addaddressdetailsshowForm = !this.addaddressdetailsshowForm;
+  this.showAddressDetails = !this.showAddressDetails;
   }
 
   save() {
