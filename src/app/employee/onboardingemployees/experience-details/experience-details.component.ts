@@ -97,25 +97,26 @@ export class ExperienceDetailsComponent {
     });
   }
   initCountries() {
-    this.lookupService.Country().subscribe((resp) => {
-      this.countries = resp as unknown as LookupDetailsDto[];
+    this.lookupService.Countries().subscribe((resp) => {
+      this.countries = resp as unknown as LookupViewDto[];
     })
   }
   getStatesByCountryId(id: number) {
-    this.lookupService.getStates(id).subscribe((resp) => {
+    this.lookupService.States(id).subscribe((resp) => {
       if (resp) {
         this.states = resp as unknown as LookupDetailsDto[];
       }
     })
   }
   initSkills() {
-    this.lookupService.GetSkillArea().subscribe((resp) => {
-      this.skills = resp as unknown as LookupDetailsDto[];
+    this.lookupService.SkillAreas().subscribe((resp) => {
+      this.skills = resp as unknown as LookupViewDto[];
     })
   }
   initDesignations() {
-    this.lookupService.GetDesignation().subscribe((resp) => {
-      this.designation = resp as unknown as LookupDetailsDto[];
+    this.lookupService.Designations().subscribe((resp) => {
+      this.designation = resp as unknown as LookupViewDto[];
+      console.log(this.designation)
     })
   }
   generaterow(experienceDetails: ExperienceDetailsDto = new ExperienceDetailsDto()): FormGroup {

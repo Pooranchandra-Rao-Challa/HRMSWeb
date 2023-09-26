@@ -232,7 +232,7 @@ p-calendar input {
 }
 
 .content_scroll {
-    height: 400px;
+    height: 350px;
     overflow-y: scroll;
 }
 
@@ -264,4 +264,7 @@ p-calendar input {
 .p-dynamic-dialog .p-dialog-content .dialog-scroll {
     height: 75vh;
     overflow-y: scroll;
+}
+.p-steps .p-steps-item .p-menuitem-link:not(.p-disabled):focus {
+    box-shadow: none !important;
 }

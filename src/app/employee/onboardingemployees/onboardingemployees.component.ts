@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem, SelectItem } from 'primeng/api';
 import { DataView } from 'primeng/dataview';
@@ -18,6 +18,8 @@ import { SecurityService } from 'src/app/_services/security.service';
 })
 export class OnboardingemployeesComponent {
   @ViewChild('filter') filter!: ElementRef;
+  @Input() isReadOnly: boolean =false 
+
   globalFilterFields: string[] = ['employeeName', 'code', 'gender', 'employeeRoleName', 'officeEmailId', 'mobileNumber',];
   color1: string = 'Bluegray';
   visible: boolean = false;
@@ -65,31 +67,31 @@ export class OnboardingemployeesComponent {
       },
       {
         label: 'Education Details',
-        routerLink: 'educationdetails',
+        routerLink: 'educationdetails/:employeeId/:isReadOnly',
       },
       {
         label: 'Experience Details',
-        routerLink: 'experiencedetails',
+        routerLink: 'experiencedetails/:employeeId',
       },
       {
         label: 'Address Details',
-        routerLink:'addressdetails',
+        routerLink:'addressdetails/:employeeId',
       },
       {
         label: 'Upload Documents',
-        routerLink: 'uploadfiles',
+        routerLink: 'uploadfiles/:employeeId',
       },
       {
         label: 'Family Details',
-        routerLink: 'familydetails',
+        routerLink: 'familydetails/:employeeId',
       },
       {
         label:'Bank Details',
-        routerLink:'bankdetails',
+        routerLink:'bankdetails/:employeeId',
       },
       {
         label: 'Final Submission',
-        routerLink: 'finalsubmit',
+        routerLink: 'finalsubmit/:employeeId',
       },
     ];
   }
