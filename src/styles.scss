@@ -252,10 +252,16 @@ p-calendar input {
     bottom: 0;
     background-color: #fff2e5;
     border-top: 1px solid #fff2e5;
-    padding: 16px;
+    padding: 10px;
     text-align: right;
 }
 
 .p-dynamic-dialog .p-dialog-content {
     padding: 0px;
+    overflow: hidden;
+}
+
+.p-dynamic-dialog .p-dialog-content .dialog-scroll {
+    height: 75vh;
+    overflow-y: scroll;
 }

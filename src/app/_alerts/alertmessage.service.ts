@@ -136,7 +136,10 @@ export const ALERT_CODES: { [key: string]: string } = {
     'SAD002': 'Address Details Not Added',
     'SAP001':'Permanent address already Existed',
     'SAC001': 'Current address already Existed',
-    'SMAD004': 'Address Details Added Successfully',
+    'SMAD004': 'Address Details Update Successfully',
+    'SMAD005': 'Employee already has a Permanent Address',
+    'SMAD006': 'Employee already has a Current Address.',
+   
   
 
     //uploadDocuments
