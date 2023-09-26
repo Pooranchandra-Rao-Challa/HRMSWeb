@@ -15,6 +15,14 @@
         <!-- <div class=" align-items-center text-md text-center font-medium text-500 mb-1 text-secondary">Sr Angular
             developer </div> -->
         <span class="text-900 font-medium text-primary text-center text-3xl block">{{employeePrsDtls?.code}}</span>
+        <ng-container *ngIf="enRollEmployee">
+            <div class="mt-5">
+              <app-final-submit
+                [style.pointer-events]="educationDetails.length && workExperience.length && address.length && UploadedDocuments.length ? 'auto' : 'none'"
+                [style.opacity]="educationDetails.length && workExperience.length && address.length && UploadedDocuments.length ? 1 : 0.5"
+                ></app-final-submit>
+            </div>
+          </ng-container>
       </div>
     </div>
     <div class="col-12 lg:col-6 py-3 lg:pl-2">
@@ -53,7 +61,7 @@
       </div>
     </div>
     <!-- office details card view -->
-    <div class="col-12 lg:col-4 py-3 lg:pl-6">
+    <div class="col-12 lg:col-4 py-3 lg:pl-6" *ngIf="!enRollEmployee">
       <div class="">
         <div class="grid p-3  position-relative">
           <h5 class="col-12"> Office Details </h5>
@@ -254,7 +262,7 @@
       </div>
     </p-tabPanel>
     <!-- Assets card view -->
-    <p-tabPanel header="Assets">
+    <p-tabPanel header="Assets" *ngIf="!enRollEmployee">
       <div class="grid">
         <div class="col-12 lg:col-4" *ngFor="let asset of assetAllotments">
           <div class="card">
@@ -894,7 +902,7 @@
                   </div>
                 </td>
                 <td class="vertical-align-top">
-                  <input pInputText class="form-control" formControlName="gradingValue" numericOnly maxlength="3" #gradingValue 
+                  <input pInputText class="form-control" formControlName="gradingValue" numericOnly maxlength="3" #gradingValue
                     placeholder="Enter CGPA/Percentage System" id="grading_Value" numericOnly [ngClass]="{'is-invalid ng-dirty': formArrayControls(educationDetailsIndex,'gradingValue')?.touched &&
                     formArrayControls(educationDetailsIndex,'gradingValue')?.errors }">
                   <div class="flex">
@@ -1005,7 +1013,7 @@
                 </td>
                 <td class="vertical-align-top">
                   <input pInputText class="form-control" id="company_Employee_Id" formControlName="companyEmployeeId"
-                    alphaNumeric placeholder="Enter Company Emp Id" #companyEmployeeId maxlength="10" 
+                    alphaNumeric placeholder="Enter Company Emp Id" #companyEmployeeId maxlength="10"
                     [ngClass]="{'is-invalid ng-dirty': expDtlsformArrayControls(experienceDetailsIndex,'companyEmployeeId')?.touched &&
                    expDtlsformArrayControls(experienceDetailsIndex,'companyEmployeeId')?.errors }">
                    <div class="flex">
@@ -1103,12 +1111,12 @@
 <!-- p-dialog Family Details -->
 <p-dialog header=" Add Family Member" [(visible)]="Family" [modal]="true" showEffect="fade"
   [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
-  
+
 </p-dialog>
 <!-- p-dialog Address Details -->
 <p-dialog header="Address Details" [(visible)]="Address" [modal]="true" showEffect="fade"
   [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}">
- 
+
 </p-dialog>
 <!-- p-dialog Upload Documents -->
 <p-dialog header=" Documents Details" [(visible)]="Documents" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '40%', '640px': '40%'}" [style]="{width: '30%'}">

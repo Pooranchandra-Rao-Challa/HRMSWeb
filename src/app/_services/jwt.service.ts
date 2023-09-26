@@ -89,8 +89,6 @@ return this.DecodedJWT !=undefined ;
         return jwt.ThemeName;
     }
 
-
-
     public get GivenName(): string {
         const jwt = this.DecodedJWT;
         return jwt.GivenName;
@@ -100,5 +98,10 @@ return this.DecodedJWT !=undefined ;
         const jwt = this.DecodedJWT;
         return jwt.Id;
     }
+
+    // public get UserPhoto(): string {
+    //     const jwt = this.DecodedJWT;
+    //     return jwt.Photo;
+    // }
 }
 

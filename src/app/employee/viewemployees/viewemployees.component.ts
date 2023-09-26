@@ -1,50 +1,37 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import {
-  Form, FormArray, FormBuilder, FormControl, FormGroup, Validators,
+  FormArray, FormBuilder, FormControl, FormGroup, Validators,
 } from '@angular/forms'; import { ActivatedRoute } from '@angular/router';
-import { EmployeesList, LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
-import { BankDetailViewDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, employeeEducDtlsViewDto, employeeExperienceDtlsViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, ExperienceDetailsDto, FamilyDetailsDto, FamilyDetailsViewDto } from 'src/app/_models/employes';
+import { EmployeesList, LookupViewDto } from 'src/app/_models/admin';
+import { BankDetailViewDto, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, employeeEducDtlsViewDto,
+    employeeExperienceDtlsViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, ExperienceDetailsDto, FamilyDetailsViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { LookupService } from 'src/app/_services/lookup.service';
 import { AssetAllotmentViewDto } from 'src/app/_models/admin/assetsallotment';
 import { AdminService } from 'src/app/_services/admin.service';
-import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
+import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { Actions, DialogRequest, ViewEmployeeScreen } from 'src/app/_models/common';
 import { AddassetallotmentDialogComponent } from 'src/app/_dialogs/addassetallotment.dialog/addassetallotment.dialog.component';
 import { UnassignassetDialogComponent } from 'src/app/_dialogs/unassignasset.dialog/unassignasset.dialog.component';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { MAX_LENGTH_20, MAX_LENGTH_256, MAX_LENGTH_50, MIN_LENGTH_2, MIN_LENGTH_8, RG_ALPHA_ONLY, RG_EMAIL, RG_IFSC, RG_NUMERIC_ONLY, RG_PANNO, RG_PHONE_NO } from 'src/app/_shared/regex';
+import { MIN_LENGTH_2, RG_ALPHA_ONLY, RG_EMAIL, RG_PHONE_NO } from 'src/app/_shared/regex';
 import { MaxLength } from 'src/app/_models/common';
-import { Observable } from 'rxjs';
-import { HttpEvent } from '@angular/common/http';
 import { BankdetailsDialogComponent } from 'src/app/_dialogs/bankDetails.Dialog/bankdetails.dialog.component';
 import { AddressDialogComponent } from 'src/app/_dialogs/address.dialog/address.dialog.component';
 import { uploadDocumentsDialogComponent } from 'src/app/_dialogs/uploadDocuments.dialog/uploadDocuments.dialog.component';
 import { FamilydetailsDialogComponent } from 'src/app/_dialogs/familydetails.dailog/familydetails.dialog.component';
-import { FormArrayValidationForDuplication } from 'src/app/_validators/unique-branch-validators';
 
-interface General {
-  name: string;
-  code: string;
-}
 interface Gender {
   name: string;
   code: string;
 }
-interface Shift {
-  type: string;
-  code: string;
-}
+
 export class Status {
   name: string;
   code: string;
 }
 
-interface Skills {
-  name: string;
-  code: string;
-}
 @Component({
   selector: 'app-viewemployees',
   templateUrl: './viewemployees.component.html',
@@ -85,6 +72,7 @@ export class ViewemployeesComponent {
   skillset: any;
   // Employee FamilyDetails
   familyDetails: FamilyDetailsViewDto[];
+  Family: boolean = false;
   // Employee AdressDetails
   address: EmployeAdressViewDto[];
   Address: boolean = false;
@@ -103,26 +91,13 @@ export class ViewemployeesComponent {
   dialog: boolean = false;
   officedialog: boolean = false;
   Experience: boolean = false;
-  Family: boolean = false;
-
   ShoweducationDetails: boolean = false;
   ShowexperienceDetails: boolean = false;
-  bankDetailsshow: boolean = false;
   images: string[] = [];
-  selectedImageIndex: number = 0;
-  quantity: number = 1;
   // employees: Employee[] = [];
   genders: Gender[];
-  shifts: Shift[];
-  relationships: LookupViewDto[] = [];
-  valRadio: string;
-  skillSets!: Skills[];
-  uploadedFiles: any[] = [];
   selectedOption: string;
-  inputValue: string;
   maxLength: MaxLength = new MaxLength();
-  addFlag: boolean = true;
-  relationshipStatus: General[];
   submitLabel: string;
   value: Date;
   states: LookupViewDto[] = [];
@@ -143,6 +118,7 @@ export class ViewemployeesComponent {
   dialogRequest: DialogRequest = new DialogRequest();
   selectedCountry: number[] = [];
   selectedCurriculumId: number[] = [];
+  enRollEmployee: boolean = false;
 
   showFamilyDetails() {
     this.Family = true;
@@ -156,7 +132,6 @@ export class ViewemployeesComponent {
   showbankDetail() {
     this.showbankDetails = true;
   }
-
 
   Courses = [
     { name: 'SSC', code: 'SSC' },
@@ -209,7 +184,6 @@ export class ViewemployeesComponent {
     this.initskillArea();
     this.initGrading();
   }
-
   getemployeeview() {
     this.initViewEmpDtls();
     this.initofficeEmpDtls();
@@ -259,8 +233,7 @@ export class ViewemployeesComponent {
   initViewEmpDtls() {
     this.employeeService.GetViewEmpPersDtls(this.employeeId).subscribe((resp) => {
       this.employeePrsDtls = resp as unknown as EmployeeBasicDetailViewDto;
-      // if(!this.employeePrsDtls.signDate) this.enRollEmployee = true;
-
+      if(!this.employeePrsDtls.signDate) this.enRollEmployee = true;
     });
   }
 
@@ -383,7 +356,6 @@ export class ViewemployeesComponent {
   }
 
   // Employee Education details
-
   initEducation() {
     this.fbEducationDetails = this.formbuilder.group({
       educationDetails: this.formbuilder.array([]),
@@ -494,7 +466,6 @@ export class ViewemployeesComponent {
   }
 
   // Employee Work Experience
-
   initExperience() {
     this.fbexperience = this.formbuilder.group({
       experienceDetails: this.formbuilder.array([])
@@ -522,7 +493,6 @@ export class ViewemployeesComponent {
     });
 
   }
-
   expDtlsformArrayControls(i: number, formControlName: string) {
     return this.faExperienceDetail().controls[i].get(formControlName);
   }
@@ -582,8 +552,6 @@ export class ViewemployeesComponent {
     this.fbexperience.patchValue(this.workExperience)
     this.Experience = true;
   }
-
-
   faexperienceDetail(): FormArray {
     return this.fbexperience.get('experienceDetails') as FormArray;
   }
@@ -678,7 +646,6 @@ export class ViewemployeesComponent {
     this.selectedOption = option;
   }
 
-
   restrictSpaces(event: KeyboardEvent) {
     if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {
       event.preventDefault();
@@ -694,7 +661,7 @@ export class ViewemployeesComponent {
     }
     else if (action == Actions.add && content === this.addassetallotmentDialogComponent) {
       this.dialogRequest.dialogData = {
-        employeeId: this.employeeId
+        employeeId: parseInt(this.employeeId)
       }
       this.dialogRequest.header = "Add Asset";
       this.dialogRequest.width = "50%";
@@ -765,7 +732,6 @@ export class ViewemployeesComponent {
       } else if (res.UpdatedModal == ViewEmployeeScreen.UploadDocuments) {
         this.initUploadedDocuments();
       }
-
       event.preventDefault(); // Prevent the default form submission
     });
   }

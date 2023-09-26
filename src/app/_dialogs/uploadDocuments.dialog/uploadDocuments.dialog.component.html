@@ -1,13 +1,13 @@
 <div class=" align-items-center justify-content-center">
     <div class="grd">
         <form [formGroup]="fbUpload">
-            <div class="grid m-0 mt-3 p-3 w-100">    
+            <div class="grid m-0 mt-3 p-3 w-100">
                 <div class="col-6 ">
                     <div class="p-fluid p-formgrid">
                         <div class="">
                             <span class="p-float-label w-100">
                                 <input type="text" id="Upload_title" pInputText formControlName="title" class="w-100">
-                                <label for="inputtext" class="required">Title: 
+                                <label for="inputtext" class="required">Title:
                                 </label>
                             </span>
                         </div>
@@ -32,17 +32,17 @@
                     <div class="upload-btn-wrapper">
                         <label for="singleFile">
                             <i class="pi pi-paperclip"></i> Attach File </label>
-                        <input id="singleFile" #fileUpload name="myFile" accept=".pdf, .jpg, .jpeg, .png, .gif" type="file" hidden="true"
-                            (click)="onClick()" />
+                        <input id="singleFile" #fileUpload name="myFile" accept=".pdf, .jpg, .jpeg, .png, .gif"
+                            type="file" hidden="true" (click)="onClick()" />
                     </div>
                 </div>
             </div>
         </form>
         <div class="grid  m-0 mt-3 p-3 w-100 ">
             <div class="col-12 scrolling_content">
-                <p-table #dt2 [value]="uploadedFiles" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
-                    styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true"
-                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                <p-table #dt2 [value]="uploadedFiles" dataKey="id" [rows]="10" [rowHover]="true"
+                    [alwaysShowPaginator]="false" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
+                    [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                     [showCurrentPageReport]="true" [autoLayout]="true" responsiveLayout="scroll"
                     [rowsPerPageOptions]="[10,25,50]">
                     <ng-template pTemplate="header">
@@ -72,7 +72,7 @@
 </div>
 
 <div class=" footer dialog-footer">
-        <button pButton pRipple  class="p-button-raised p-button-primary" id="Upload_save"
-            (click)="uploadFiles()">upload Files</button>
-    
+    <button pButton pRipple class="p-button-raised p-button-primary" id="Upload_save" (click)="uploadFiles()">upload
+        Files</button>
+
 </div>

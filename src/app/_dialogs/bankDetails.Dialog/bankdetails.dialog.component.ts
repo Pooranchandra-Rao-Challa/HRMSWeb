@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
-
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { BankDetailViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { MIN_LENGTH_2, MIN_LENGTH_8, RG_ALPHA_ONLY, RG_IFSC, RG_NUMERIC_ONLY } from 'src/app/_shared/regex';
 import { ActivatedRoute } from '@angular/router';
-import { Actions, DialogRequest, MaxLength, ViewEmployeeScreen } from 'src/app/_models/common';
+import { Actions, MaxLength, ViewEmployeeScreen } from 'src/app/_models/common';
 
 @Component({
     selector: 'app-bankdetails.dialog',
@@ -19,10 +18,7 @@ export class BankdetailsDialogComponent {
     bankDetails: BankDetailViewDto[];
     employeeId: any
     ActionTypes = Actions;
-    bankData: any
     maxLength: MaxLength = new MaxLength();
-    //dialogRequest: DialogRequest = new DialogRequest();
-    //BankdetailsDialogComponent = BankdetailsDialogComponent;
 
     constructor(private formbuilder: FormBuilder,
         private alertMessage: AlertmessageService,
@@ -30,7 +26,6 @@ export class BankdetailsDialogComponent {
         private config: DynamicDialogConfig,
         private employeeService: EmployeeService,
         private activatedRoute: ActivatedRoute,
-
     ) { }
 
     ngOnInit() {
@@ -87,9 +82,7 @@ export class BankdetailsDialogComponent {
                     debugger
                     this.ref.close({
                         "UpdatedModal": ViewEmployeeScreen.BankDetails
-                       
                     });
-                  
                 }
             });
         });
