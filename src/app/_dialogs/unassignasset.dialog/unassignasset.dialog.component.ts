@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
-import { AssetAllotment } from 'src/app/_models/common';
+import { ViewEmployeeScreen } from 'src/app/_models/common';
 import { AdminService } from 'src/app/_services/admin.service';
 import { MIN_LENGTH_2 } from 'src/app/_shared/regex';
 
@@ -45,7 +45,7 @@ export class UnassignassetDialogComponent {
             if (resp) {
                 this.alertMessage.displayAlertMessage(ALERT_CODES["SAAAA002"]);
                 this.ref.close({
-                    "UpdatedModal": AssetAllotment.Unassign
+                    "UpdatedModal": ViewEmployeeScreen.AssetAllotments
                 });
             }
             else {
