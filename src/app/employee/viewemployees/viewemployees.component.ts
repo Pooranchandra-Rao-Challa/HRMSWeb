@@ -1,21 +1,15 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import {
-  FormArray, FormBuilder, FormControl, FormGroup, Validators,
-} from '@angular/forms'; import { ActivatedRoute } from '@angular/router';
-import { EmployeesList, LookupViewDto } from 'src/app/_models/admin';
-import { BankDetailViewDto, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, employeeEducDtlsViewDto,
-    employeeExperienceDtlsViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, ExperienceDetailsDto, FamilyDetailsViewDto } from 'src/app/_models/employes';
+import { Component} from '@angular/core';
+ import { ActivatedRoute } from '@angular/router';
+import { BankDetailViewDto,  EmployeAdressViewDto, EmployeeBasicDetailViewDto, employeeEducDtlsViewDto,
+    employeeExperienceDtlsViewDto,  EmployeeOfficedetailsviewDto,FamilyDetailsViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
-import { LookupService } from 'src/app/_services/lookup.service';
 import { AssetAllotmentViewDto } from 'src/app/_models/admin/assetsallotment';
 import { AdminService } from 'src/app/_services/admin.service';
-import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
-import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
+import {  MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { Actions, DialogRequest, ViewEmployeeScreen } from 'src/app/_models/common';
 import { AddassetallotmentDialogComponent } from 'src/app/_dialogs/addassetallotment.dialog/addassetallotment.dialog.component';
 import { UnassignassetDialogComponent } from 'src/app/_dialogs/unassignasset.dialog/unassignasset.dialog.component';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { MIN_LENGTH_2, RG_ALPHA_ONLY, RG_EMAIL, RG_PHONE_NO } from 'src/app/_shared/regex';
 import { MaxLength } from 'src/app/_models/common';
 import { BankdetailsDialogComponent } from 'src/app/_dialogs/bankDetails.Dialog/bankdetails.dialog.component';
 import { AddressDialogComponent } from 'src/app/_dialogs/address.dialog/address.dialog.component';
@@ -91,6 +85,7 @@ export class ViewemployeesComponent {
 
   // EMPLOYEE Basic details
   initViewEmpDtls() {
+    this.enRollEmployee = false;
     this.employeeService.GetViewEmpPersDtls(this.employeeId).subscribe((resp) => {
       this.employeePrsDtls = resp as unknown as EmployeeBasicDetailViewDto;
       if(!this.employeePrsDtls.signDate) this.enRollEmployee = true;

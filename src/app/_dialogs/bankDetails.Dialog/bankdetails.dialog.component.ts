@@ -72,12 +72,12 @@ export class BankdetailsDialogComponent {
     saveBankDetails() {
         this.activatedRoute.queryParams.subscribe((queryParams) => {
             const employeeId = +queryParams['employeeId'];
-            const isUpdate = this.fbBankDetails.value.bankId !== null;
+            const isUpdate = this.fbBankDetails.value.bankId == null;
             this.fbBankDetails.patchValue({ employeeId });
 
             this.employeeService.CreateBankDetails(this.fbBankDetails.value).subscribe((resp) => {
                 if (resp) {
-                    const alertCode = isUpdate ? "SMBD002" : "SMBD001";
+                    const alertCode = isUpdate ? "SMBD001" : "SMBD002";
                     this.alertMessage.displayAlertMessage(ALERT_CODES[alertCode]);
                     debugger
                     this.ref.close({

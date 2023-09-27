@@ -6,7 +6,7 @@
         <!-- Basic details card view -->
         <div class="col text-center">
           <img
-            [src]="employeePrsDtls.photo ? employeePrsDtls.photo : 'https://t3.ftcdn.net/jpg/02/18/21/86/360_F_218218632_jF6XAkcrlBjv1mAg9Ow0UBMLBaJrhygH.jpg'"
+            [src]="employeePrsDtls.photo ? employeePrsDtls.photo : '/assets/layout/images/default_icon_employee.jpg'"
             [alt]="employeePrsDtls.employeeName"
             class="shadow-2 my-1 mx-0 employee_profile_pic employee_profile_pic_view" style="width: 70%;" />
         </div>
@@ -188,7 +188,7 @@
                 <span class="font-semibold">Mobile No:</span> {{familyDetails.mobileNumber}}
               </li>
               <li class="mb-3">
-                <span class="font-semibold">Address:</span> {{familyDetails.addressLine1}}
+                <span class="font-semibold">Address:</span> {{familyDetails.addressLine1}},{{familyDetails.city}},{{familyDetails.state}},{{familyDetails.zipCode}}
               </li>
               <li class="mb-3">
                 <span class="font-semibold">State:</span> {{familyDetails.state}}
