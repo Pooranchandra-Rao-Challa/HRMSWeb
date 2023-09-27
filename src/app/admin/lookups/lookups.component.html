@@ -1,6 +1,5 @@
 <div class="col-12">
   <div class="card">
-    <p-toast key="tst"></p-toast>
     <!-- Toolbar -->
     <p-toolbar styleClass="p-mb-4">
       <ng-template pTemplate="left">
@@ -14,7 +13,7 @@
     <!-- dialog -->
     <p-dialog header="Lookup" [(visible)]="showDialog" [modal]="true" showEffect="fade"
       [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '50%'}" (onHide)="onClose()">
-      <div class="flex flex-column align-items-center justify-content-center">
+      <div class="flex flex-column justify-content-center">
         <form [formGroup]="fblookup" id="Lookup_lookupForm">
           <div class="grid">
             <div class="col-12 roles-container">
@@ -41,7 +40,7 @@
                 <div class="field col-12 md:col-6">
                   <label>Dependent Lookup: </label>&nbsp;
                   <p-dropdown id="lookupName_Dropdown" [autoDisplayFirst]="false" [options]="lookupNames"
-                    formControlName="lookupNames" appendTo="body" (onChange)="onLookupChange($event)"
+                    formControlName="fkeySelfId" appendTo="body" (onChange)="onLookupChange($event)"
                     placeholder="Select Dependent Lookup" [showClear]="true">
                   </p-dropdown>
                 </div>
@@ -113,10 +112,11 @@
                         </div>
                       </td>
                       <td class="vertical-align-top" *ngIf="DependentDropdown">
-                          <p-dropdown *ngIf="this.fblookup.value.lookupNames" class="w-100" id="lookup_dropdown"
-                             [options]="dependantLookupData" optionLabel="name"
-                            [autoDisplayFirst]="false" appendTo="body" placeholder="Select Lookup Name">
-                          </p-dropdown>
+                        <p-dropdown *ngIf="this.fblookup.value.fkeySelfId" class="w-100" id="lookup_dropdown"
+                          [options]="dependentLookupData" optionLabel="name" optionValue="lookupDetailId"
+                          formControlName="fkeySelfId" [autoDisplayFirst]="false" appendTo="body"
+                          placeholder="Select Lookup Name">
+                        </p-dropdown>
                       </td>
                       <td class="vertical-align-top">
                         <input pInputText class="form-control" formControlName="name" placeholder="Enter Name*" #name
