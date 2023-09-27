@@ -101,6 +101,9 @@ export class ViewemployeesComponent {
   files = [];
   fileSize = 20;
   title: string;
+  hasPermanentAddress: boolean = false;
+  hasCurrentAddress: boolean = false;
+  hasTemporaryAddres: boolean = false;
   addassetallotmentDialogComponent = AddassetallotmentDialogComponent;
   BankdetailsDialogComponent = BankdetailsDialogComponent;
   unassignassetDialogComponent = UnassignassetDialogComponent;
@@ -598,6 +601,12 @@ export class ViewemployeesComponent {
   initGetAddress() {
     this.employeeService.GetAddress(this.employeeId).subscribe((resp) => {
       this.address = resp as unknown as EmployeAdressViewDto[];
+      // Check if the employee has Permanent Address
+      this.hasPermanentAddress = this.address.some(addr => addr.addressType === 'Permanent Address');
+      // Check if the employee has Current Address
+      this.hasCurrentAddress = this.address.some(addr => addr.addressType === 'Current Address');
+      // Check if the employee has Temporary Address
+      this.hasTemporaryAddres = this.address.some(addr => addr.addressType === 'Temporary Address');
     });
   }
 
@@ -665,10 +674,15 @@ export class ViewemployeesComponent {
       this.dialogRequest.width = "70%";
     }
     else if (action == Actions.add && content === this.AddressDialogComponent) {
-      this.dialogRequest.dialogData = {
+      if (this.hasPermanentAddress && this.hasCurrentAddress && this.hasTemporaryAddres) {
+        return this.alertMessage.displayErrorMessage(ALERT_CODES["SMAD006"]);
       }
-      this.dialogRequest.header = "Add Address Details";
-      this.dialogRequest.width = "70%";
+      else {
+        this.dialogRequest.dialogData = {
+        }
+        this.dialogRequest.header = "Add Address Details";
+        this.dialogRequest.width = "70%";
+      }
     }
     //uploadDocuments
     else if (action == Actions.add && content === this.uploadDocumentsDialogComponent) {
@@ -709,6 +723,7 @@ export class ViewemployeesComponent {
         this.initGetAddress();
       } else if (res.UpdatedModal == ViewEmployeeScreen.FamilyDetails) {
         this.initGetFamilyDetails();
+        
       } else if (res.UpdatedModal == ViewEmployeeScreen.UploadDocuments) {
         this.initUploadedDocuments();
       }

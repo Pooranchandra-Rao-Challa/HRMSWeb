@@ -140,7 +140,8 @@ export const ALERT_CODES: { [key: string]: string } = {
     'SAC001': 'Current address already Existed',
     'SMAD004': 'Address Details Update Successfully',
     'SMAD005': 'Employee already has a Permanent Address',
-    'SMAD006': 'Employee already has a Current Address.',
+    'SMAD006': 'Employee already has three types of addresses. Please edit an existing address.',
+
    
   
 
