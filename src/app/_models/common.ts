@@ -31,7 +31,7 @@ export class ConfirmationRequest {
 }
 
 export enum Actions {
-    new, add, view, edit, delete, unassign
+    new, add, view, edit, save, delete, unassign
   }
 
 export class DialogRequest {
@@ -41,6 +41,10 @@ export class DialogRequest {
 }
 
 export enum ViewEmployeeScreen {
+  BasicDetails,
+  OfficDetails,
+  EducationDetails,
+  ExperienceDetails,
   AssetAllotments,
   BankDetails,
   Address,
