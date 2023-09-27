@@ -14,6 +14,7 @@ import { MAX_LENGTH_20, MIN_LENGTH_2 } from 'src/app/_shared/regex';
 export class uploadDocumentsDialogComponent {
 
     @ViewChild("fileUpload", { static: false }) fileUpload: ElementRef;
+    files: { fileBlob: Blob, title: string,fileName:string }[] = [];
     uploadedFiles: any = [];
     fbUpload!: FormGroup;
     employeeId: number;

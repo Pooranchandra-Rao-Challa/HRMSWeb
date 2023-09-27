@@ -4,6 +4,7 @@ import { MenuItem, SelectItem } from 'primeng/api';
 import { DataView } from 'primeng/dataview';
 import { Table } from 'primeng/table/public_api';
 import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
+import { OnboardEmployeeService } from 'src/app/_helpers/view.notificaton.services';
 import { ITableHeader } from 'src/app/_models/common';
 import { BankDetailViewDto, Employee, EmployeesViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
@@ -18,7 +19,7 @@ import { SecurityService } from 'src/app/_services/security.service';
 })
 export class OnboardingemployeesComponent {
   @ViewChild('filter') filter!: ElementRef;
-  @Input() isReadOnly: boolean =false 
+  @Input() isReadOnly: boolean =false
 
   globalFilterFields: string[] = ['employeeName', 'code', 'gender', 'employeeRoleName', 'officeEmailId', 'mobileNumber',];
   color1: string = 'Bluegray';
@@ -40,9 +41,9 @@ export class OnboardingemployeesComponent {
     { field: 'mobileNumber', header: 'mobileNumber', label: 'Phone No' },
     { field: 'dateofJoin', header: 'dateofJoin', label: 'Date of Join' },
   ]
-  
+
   showDialog() {
-    this.router.navigate(['basicdetails'], { relativeTo: this.route })
+    this.router.navigate(['basicdetails'], { queryParams: {'employeeId':119}, relativeTo: this.route })
     this.visible = true;
   }
 
@@ -51,6 +52,7 @@ export class OnboardingemployeesComponent {
     private router: Router,
     private route: ActivatedRoute,
     private EmployeeService:EmployeeService,
+    private onboardEmployeeService: OnboardEmployeeService
    ) { }
 
   cancelModel() {
@@ -58,44 +60,63 @@ export class OnboardingemployeesComponent {
   }
 
   ngOnInit() {
-    this.employeeId = this.route.snapshot.queryParams['employeeId']; 
-    this.initEmployees()
-    this.newEmployeeSteps = [
-      {
-        label: 'Personal Details',
-        routerLink: 'basicdetails',
-      },
-      {
-        label: 'Education Details',
-        routerLink: 'educationdetails/:employeeId',
-      },
-      {
-        label: 'Experience Details',
-        routerLink: 'experiencedetails/:employeeId',
-      },
-      {
-        label: 'Address Details',
-        routerLink:'addressdetails/:employeeId',
-      },
-      {
-        label: 'Upload Documents',
-        routerLink: 'uploadfiles/:employeeId',
-      },
-      {
-        label: 'Family Details',
-        routerLink: 'familydetails/:employeeId',
-      },
-      {
-        label:'Bank Details',
-        routerLink:'bankdetails/:employeeId',
-      },
-      {
-        label: 'Final Submission',
-        routerLink: 'finalsubmit/:employeeId',
-      },
-    ];
-  }
+    this.employeeId = this.route.snapshot.queryParams['employeeId'];
+    console.log(this.employeeId);
+    this.updateMenuItems();
+    this.onboardEmployeeService.getData().subscribe(employeeId => {
+        this.employeeId = employeeId;
+        this.updateMenuItems();
+    });
 
+    this.initEmployees()
+
+    console.log(this.newEmployeeSteps);
+
+  }
+  updateMenuItems(){
+    this.newEmployeeSteps = [
+        {
+          label: 'Personal Details',
+          routerLink: 'basicdetails',
+          disabled: false
+        },
+        {
+          label: 'Education Details',
+          routerLink: `educationdetails/${this.employeeId}`,
+          disabled: this.employeeId === undefined,
+        },
+        {
+          label: 'Experience Details',
+          routerLink: `experiencedetails/${this.employeeId}`,
+          disabled: this.employeeId === undefined
+        },
+        {
+          label: 'Address Details',
+          routerLink:`addressdetails/${this.employeeId}`,
+          disabled: this.employeeId === undefined
+        },
+        {
+          label: 'Upload Documents',
+          routerLink: `uploadfiles/${this.employeeId}`,
+          disabled: this.employeeId === undefined
+        },
+        {
+          label: 'Family Details',
+          routerLink: `familydetails/${this.employeeId}`,
+          disabled: this.employeeId === undefined
+        },
+        {
+          label:'Bank Details',
+          routerLink:`bankdetails/${this.employeeId}`,
+          disabled: this.employeeId === undefined
+        },
+        {
+          label: 'Final Submission',
+          routerLink: `finalsubmit/${this.employeeId}`,
+          disabled: this.employeeId === undefined
+        },
+      ];
+  }
 
 
   onSortChange(event: any) {

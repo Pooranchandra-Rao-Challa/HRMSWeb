@@ -40,6 +40,8 @@ export class EducationDetailsComponent implements OnInit {
     private alertMessage: AlertmessageService) { }
   ngOnInit() {
     this.route.params.subscribe(params => {
+        console.log(params);
+
       this.employeeId = params['employeeId'];
       this.isReadOnly = params['isReadOnly'] === 'false'; // Convert the route parameter to a boolean
     });
@@ -77,7 +79,7 @@ export class EducationDetailsComponent implements OnInit {
   get FormControls() {
     return this.fbEducationDetails.controls;
   }
-  
+
   initCurriculum() {
     this.lookupService.Curriculums().subscribe((resp) => {
       this.curriculum = resp as unknown as LookupViewDto[];
