@@ -5,29 +5,27 @@ import {
   Input,
   ViewChild,
   ElementRef
-} from '@angular/core';
-
-// import { OrgChart } from 'd3-org-chart';
+} from "@angular/core";
+// import  TreeChart from "d3-org-chart";
+// import  {OrgChart}  from "d3-org-chart";
 
 @Component({
-  selector: 'app-d3-org-chart',
-  templateUrl: './d3-org-chart.component.html',
-  styleUrls: ['./d3-org-chart.component.scss']
+  selector: "app-d3-org-chart",
+  templateUrl: "./d3-org-chart.component.html",
+  styleUrls: ["./d3-org-chart.component.scss"]
 })
 export class D3OrgChartComponent implements OnInit, OnChanges {
-  @ViewChild('chartContainer') chartContainer: ElementRef;
+  @ViewChild("chartContainer") chartContainer: ElementRef;
   @Input() data: any[];
   chart;
 
   constructor() {}
 
-  ngOnInit() {
-    
-  }
+  ngOnInit() {}
 
   ngAfterViewInit() {
     if (!this.chart) {
-      // this.chart = new OrgChart();
+      // this.chart = new TreeChart();
     }
     this.updateChart();
   }
@@ -37,16 +35,17 @@ export class D3OrgChartComponent implements OnInit, OnChanges {
   }
   updateChart() {
     if (!this.data) {
-      return;
+      return; 
     }
     if (!this.chart) {
-      return;
+      return; 
     }
     this.chart
       .container(this.chartContainer.nativeElement)
       .data(this.data)
-      .nodeWidth(d => 200)
-      .nodeHeight(d => 120)
+      .svgWidth(500)
+      .initialZoom(0.4)
+      .onNodeClick(d => console.log(d + " node clicked"))
       .render();
   }
 }

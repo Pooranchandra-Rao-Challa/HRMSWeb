@@ -8,6 +8,10 @@ import { BankdetailsDialogComponent } from './bankDetails.Dialog/bankdetails.dia
 import { AddressDialogComponent } from './address.dialog/address.dialog.component';
 import { uploadDocumentsDialogComponent } from './uploadDocuments.dialog/uploadDocuments.dialog.component';
 import { FamilydetailsDialogComponent } from './familydetails.dailog/familydetails.dialog.component';
+import { BasicdetailsDialogComponent } from './basicdetails.dialog/basicdetails.dialog.component';
+import { OfficedetailsDialogComponent } from './officedetails.dialog/officedetails.dialog.component';
+import { EducationdetailsDialogComponent } from './educationdetails.dialog/educationdetails.dialog.component';
+import { ExperiencedetailsDialogComponent } from './experiencedetails.dialog/experiencedetails.dialog.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +21,11 @@ import { FamilydetailsDialogComponent } from './familydetails.dailog/familydetai
     BankdetailsDialogComponent,
     AddressDialogComponent,
     uploadDocumentsDialogComponent,
-    FamilydetailsDialogComponent
+    FamilydetailsDialogComponent,
+    BasicdetailsDialogComponent,
+    OfficedetailsDialogComponent,
+    EducationdetailsDialogComponent,
+    ExperiencedetailsDialogComponent
   ],
   imports: [SharedModule],
   providers: [DialogService, DynamicDialogRef]
