@@ -154,10 +154,12 @@
 							</div>
 						</div>
 					</div>
-					<div class="field col-12 md:col-8">
+					<div class="field col-12 md:col-8" >
 						<label class="required">Address Type:</label>
-						<div class="flex flex-wrap gap-3">
-							<div class="flex align-items-center">
+						<div class="flex flex-wrap gap-3" >
+							
+							<div class="flex align-items-center" >
+							
 								<p-radioButton [disabled]="hasPermanentAddress" value="Permanent Address" id="Address_addressType1"
 									formControlName="addressType" [pTooltip]="hasPermanentAddress ? 'Every Employee Can Have Only One Permanent Address Please Select Other Type' : null"
 									tooltipPosition="left"></p-radioButton>
@@ -167,6 +169,10 @@
 						
 							<div class="flex align-items-center">
 								<p-radioButton value="Temporary Address" id="Address_addressType2"
+								 [disabled]="hasTemporaryAddres" 
+								 
+
+								 [pTooltip]="hasTemporaryAddres ? 'Every Employee Can Have Only One Temporary Address Please Select Other Type' : null"
 									formControlName="addressType"></p-radioButton>
 								<label class="ml-2">Temporary Address</label>
 							</div>

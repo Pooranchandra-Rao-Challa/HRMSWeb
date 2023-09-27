@@ -16,10 +16,12 @@ import { LookupDetailsDto } from 'src/app/_models/admin';
     templateUrl: './address.dialog.component.html'
 })
 export class AddressDialogComponent {
+    editMode: boolean = false;
     fbAddressDetails: FormGroup;
     employeeId: number;
     hasPermanentAddress: boolean = false;
     hasCurrentAddress: boolean = false;
+    hasTemporaryAddres: boolean = false;
     address: EmployeAdressViewDto[];
     countries: LookupDetailsDto[] = [];
     states: LookupDetailsDto[] = [];
@@ -38,7 +40,7 @@ export class AddressDialogComponent {
         this.initAddress();
         this.initGetAddress();
         this.initCountries();
-        if (this.config.data) this.editAddress(this.config.data);
+        if (this.config.data) this.editAddress(this.config.data)  
     }
 
     initAddress() {
@@ -51,7 +53,7 @@ export class AddressDialogComponent {
             zipcode: new FormControl('', [Validators.required]),
             city: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
             stateId: new FormControl('', [Validators.required]),
-            countryId: new FormControl('', [Validators.required]),
+            countryId: new FormControl([{ value: '', disabled: this.editMode }], [Validators.required]),
             addressType: new FormControl('', [Validators.required]),
             isActive: new FormControl(true),
         })
@@ -60,12 +62,36 @@ export class AddressDialogComponent {
     initGetAddress() {
         this.employeeService.GetAddress(this.employeeId).subscribe((resp) => {
             this.address = resp as unknown as EmployeAdressViewDto[];
+
             // Check if the employee has Permanent Address
             this.hasPermanentAddress = this.address.some(addr => addr.addressType === 'Permanent Address');
             // Check if the employee has Current Address
             this.hasCurrentAddress = this.address.some(addr => addr.addressType === 'Current Address');
+            // Check if the employee has Temporary Address
+            this.hasTemporaryAddres = this.address.some(addr => addr.addressType === 'Temporary Address');
+
+            const addressTypeControl = this.fbAddressDetails.get('addressType');
+            if (!addressTypeControl.value) {
+                if (this.hasPermanentAddress && this.hasCurrentAddress) {
+                    addressTypeControl.setValue('Temporary Address');
+                } else if (this.hasPermanentAddress) {
+                    addressTypeControl.setValue('Current Address');
+                } else {
+                    addressTypeControl.setValue('Permanent Address');
+                }
+            }
+
         });
     }
+
+    initdisable() {
+        if (this.config.data) {
+            this.editAddress(this.config.data);
+            this.fbAddressDetails.get('addressType').disable();
+        }
+
+    }
+
 
     initCountries() {
         this.lookupService.Countries().subscribe((resp) => {
@@ -86,21 +112,23 @@ export class AddressDialogComponent {
     }
 
     editAddress(address) {
-        this.getStatesByCountryId(address.countryId)
-        this.fbAddressDetails.patchValue({
-            employeeId: address.employeeId,
-            addressId: address.addressId,
-            addressLine1: address.addressLine1,
-            addressLine2: address.addressLine2,
-            landmark: address.landmark,
-            zipcode: address.zipCode,
-            city: address.city,
-            countryId: address.countryId,
-            stateId: address.stateId,
-            addressType: address.addressType,
-            isActive: address.isActive,
-        })
-    }
+            this.getStatesByCountryId(address.countryId);
+            this.fbAddressDetails.patchValue({
+                employeeId: address.employeeId,
+                addressId: address.addressId,
+                addressLine1: address.addressLine1,
+                addressLine2: address.addressLine2,
+                landmark: address.landmark,
+                zipcode: address.zipCode,
+                city: address.city,
+                countryId: address.countryId,
+                stateId: address.stateId,
+                addressType: address.addressType,
+                isActive: address.isActive,
+            });
+        }
+        
+    
 
     saveAddress() {
         if (this.fbAddressDetails.valid) {
@@ -122,5 +150,5 @@ export class AddressDialogComponent {
             )
         }
     }
-    
+
 }
