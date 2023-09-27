@@ -65,12 +65,11 @@ export class ProjectComponent implements OnInit {
     this.initClientNames();
     this.initEmployees();
     this.unAssignEmployeeForm();
-    // d3.csv(
-    //   'https://raw.githubusercontent.com/bumbeishvili/sample-data/main/org.csv'
+    
+    // d3.json(
+    //   "https://gist.githubusercontent.com/bumbeishvili/dc0d47bc95ef359fdc75b63cd65edaf2/raw/c33a3a1ef4ba927e3e92b81600c8c6ada345c64b/orgChart.json"
     // ).then(data => {
-    //   this.data = data;
-    //   let prevIndex = 0;
-
+    //     this.data = data;
     // });
 
     // this.diagram = new go.Diagram('myDiagramDiv');
