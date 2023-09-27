@@ -61,7 +61,7 @@
       </div>
     </div>
     <!-- office details card view -->
-    <div class="col-12 lg:col-4 py-3 lg:pl-6" *ngIf="!enRollEmployee">
+    <div class="col-12 lg:col-4 py-3 lg:pl-6" *ngIf="showOfcAndAssetDetails">
       <div class="">
         <div class="grid p-3  position-relative">
           <h5 class="col-12"> Office Details </h5>
@@ -262,7 +262,7 @@
       </div>
     </p-tabPanel>
     <!-- Assets card view -->
-    <p-tabPanel header="Assets" *ngIf="!enRollEmployee">
+    <p-tabPanel header="Assets" *ngIf="showOfcAndAssetDetails">
       <div class="grid">
         <div class="col-12 lg:col-4" *ngFor="let asset of assetAllotments">
           <div class="card">

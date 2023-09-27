@@ -111,6 +111,7 @@ export class ViewemployeesComponent {
   selectedCountry: number[] = [];
   selectedCurriculumId: number[] = [];
   enRollEmployee: boolean = false;
+  showOfcAndAssetDetails: boolean = false;
 
   Courses = [
     { name: 'SSC', code: 'SSC' },
@@ -214,6 +215,7 @@ export class ViewemployeesComponent {
     this.employeeService.GetViewEmpPersDtls(this.employeeId).subscribe((resp) => {
       this.employeePrsDtls = resp as unknown as EmployeeBasicDetailViewDto;
       if(!this.employeePrsDtls.signDate) this.enRollEmployee = true;
+      else this.showOfcAndAssetDetails = true;
     });
   }
 
