@@ -26,7 +26,7 @@ export class AddressComponent {
   faAddressDetails!: FormArray;
   submitLabel: string;
   employeeId: any;
-  isAddressChecked: boolean = true;
+  isAddressChecked: boolean = false;
   addFlag: boolean = true;
   maxLength: MaxLength = new MaxLength();
   empAddrDetails: any = [];
@@ -34,6 +34,7 @@ export class AddressComponent {
   hasPermanentAddress: boolean = false;
   temporaryaddress: boolean = false
   currentaddress: boolean = false
+  addressType: string = '';
   showAddressDetails: boolean = true;
   addaddressdetailsshowForm: boolean = false;
   constructor(private router: Router, private route: ActivatedRoute, private jwtService: JwtService, private formbuilder: FormBuilder,
@@ -75,7 +76,7 @@ export class AddressComponent {
       stateId: new FormControl('', [Validators.required]),
       countryId: new FormControl('', [Validators.required]),
       addressType: new FormControl('', [Validators.required]),
-      isActive: new FormControl(true, Validators.requiredTrue),
+      isActive: new FormControl(true),
       addressDetails: this.formbuilder.array([])
     });
   }
@@ -92,20 +93,32 @@ export class AddressComponent {
   removeItem(index: number): void {
     this.empAddrDetails.splice(index, 1);
   }
-  
+  onAddressTypeChange() {
+    this.fbAddressDetails.get('addressType').setValue(this.addressType);
+  }
   addAddress() {
+
+    this.fbAddressDetails.get('addressType').enable();
     if (this.fbAddressDetails.get('addressId').value) {
       this.fbAddressDetails.get('addressId').setValue(null);
       this.onSubmit();
     }
     else {
-      if (this.fbAddressDetails.invalid) {
+       if ((this.hasPermanentAddress && this.fbAddressDetails.get('addressType').value == "Permanent Address") ||
+        (this.currentaddress && this.fbAddressDetails.get('addressType').value == "Current Address") ||
+        (this.temporaryaddress && this.fbAddressDetails.get('addressType').value == "Temporary Address")) {
+
+        this.fbAddressDetails.get('addressType')?.setValue('');
         this.fbAddressDetails.markAllAsTouched();
-        return;
+        this.alertMessage.displayErrorMessage(ALERT_CODES["SMAD007"]);
+      }
+      else {
+        this.save();
+        this.addaddressdetailsshowForm = !this.addaddressdetailsshowForm;
+        this.showAddressDetails = !this.showAddressDetails;
       }
     }
-    this.addaddressdetailsshowForm = !this.addaddressdetailsshowForm;
-    this.showAddressDetails = !this.showAddressDetails;
+
   }
 
   save() {
@@ -143,7 +156,7 @@ export class AddressComponent {
   }
   generaterow(addressDetails: AddressDetailsDto = new AddressDetailsDto()): FormGroup {
     const formGroup = this.formbuilder.group({
-      employeeId: new FormControl({ value: addressDetails.employeeId, disabled: true }),
+      employeeId: new FormControl({ value: this.employeeId, disabled: true }),
       addressId: new FormControl({ value: addressDetails.addressId, disabled: true }),
       addressLine1: new FormControl({ value: addressDetails.addressLine1, disabled: true }),
       addressLine2: new FormControl({ value: addressDetails.addressLine2, disabled: true }),
@@ -152,7 +165,7 @@ export class AddressComponent {
       city: new FormControl({ value: addressDetails.city, disabled: true }),
       stateId: new FormControl({ value: addressDetails.stateId, disabled: true }),
       addressType: new FormControl({ value: addressDetails.addressType, disabled: true }),
-      isActive: new FormControl({ value: addressDetails.isActive, disabled: true }),
+      isActive: new FormControl({ value: true, disabled: true }),
     });
     return formGroup;
   }
@@ -163,11 +176,12 @@ export class AddressComponent {
       return this.employeeService.CreateAddress([this.fbAddressDetails.value]);
   }
   getEmpAddressDetails(isbool: boolean) {
-    this.employeeService.GetAddresses(this.employeeId,isbool).subscribe((data) => {
+    this.employeeService.GetAddresses(this.employeeId, isbool).subscribe((data) => {
       this.empAddrDetails = data;
-      this.hasPermanentAddress = this.empAddrDetails.some(addr => addr.addressType === 'Permanent Address');
-      this.currentaddress = this.empAddrDetails.some(addr => addr.addressType === 'Current Address');
-      this.temporaryaddress = this.empAddrDetails.some(addr => addr.addressType === 'Temporary Address');
+      console.log(data)
+      this.hasPermanentAddress = this.empAddrDetails.some(addr => addr.addressType === 'Permanent Address' && addr.isActive === true);
+      this.currentaddress = this.empAddrDetails.some(addr => addr.addressType === 'Current Address' && addr.isActive === true);
+      this.temporaryaddress = this.empAddrDetails.some(addr => addr.addressType === 'Temporary Address' && addr.isActive === true);
     })
   }
   onChangeAddressChecked() {
@@ -224,7 +238,6 @@ export class AddressComponent {
     this.router.navigate(['employee/onboardingemployee/uploadfiles', this.employeeId])
   }
   toggleTab() {
-    this.fbAddressDetails.reset();
     if (this.hasPermanentAddress && this.currentaddress && this.temporaryaddress) {
       this.alertMessage.displayErrorMessage(ALERT_CODES["EMAD001"]);
     }
