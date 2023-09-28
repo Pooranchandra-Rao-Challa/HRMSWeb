@@ -15,7 +15,7 @@ export class AdminService extends ApiHttpService {
     public GetLookUp(isbool) {
         return this.get<LookupViewDto[]>(GET_LOOKUP_URI + '/' + isbool);
     }
-    public CreateLookUp(lookup: LookupViewDto) {
+    public CreateLookUp(lookup: LookupViewDto[]) {
         return this.post<LookupViewDto>(CREATE_LOOKUP_URI, lookup);
     }
     public UpdateLookUp(lookup: LookupViewDto) {
