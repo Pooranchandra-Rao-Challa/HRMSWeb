@@ -32,7 +32,7 @@ export class LookupsComponent implements OnInit {
   submitLabel!: string;
   lookupNames: string[] = [];
   lookupNamesNotConfigured: string[] = [];
-  dependantLookupData:LookupViewDto[]=[];
+  dependentLookupData: LookupViewDto[] = [];
   lookups: LookupViewDto[] = [];
   ShowlookupDetails: boolean = false;
   isLookupChecked: boolean = false;
@@ -78,6 +78,7 @@ export class LookupsComponent implements OnInit {
     this.permissions = this.jwtService.Permissions;
     this.initDependentLookups();
     this.initNotConfiguredLookups();
+    this.initCountries();
     this.lookupForm();
     this.onChangeisLookupChecked();
     //Column Header for selecting particular columns to display
@@ -88,6 +89,17 @@ export class LookupsComponent implements OnInit {
       { field: 'updatedAt', header: 'updatedAt', label: 'Updated Date' },
       { field: 'updatedBy', header: 'updatedBy', label: 'Updated By' },
     ];
+  }
+  
+  // getmethod
+  GetLookUp(isbool: boolean) {
+    this.adminService.GetLookUp(isbool).subscribe((resp) => {
+      this.lookups = resp as unknown as LookupViewDto[];
+      this.lookups.forEach(element => {
+        element.expandLookupDetails = JSON.parse(element.lookupDetails) as unknown as LookupDetailsDto[];
+      });
+      console.log(resp)
+    })
   }
   initDependentLookups() {
     this.lookupService.LookupNames().subscribe((resp) => {
@@ -100,13 +112,28 @@ export class LookupsComponent implements OnInit {
       this.lookupNamesNotConfigured = resp as unknown as string[];
     })
   }
+  getDependentLookupData(value) {
+    if (value == 'Countries') this.initCountries();
+    else if (value == 'Curriculums') this.initCurriculums();
+  }
+
+  initCountries() {
+    this.lookupService.Countries().subscribe((resp) => {
+      this.dependentLookupData = resp as unknown as LookupViewDto[];
+    })
+  }
+  initCurriculums() {
+    this.lookupService.Curriculums().subscribe((resp) => {
+      this.dependentLookupData = resp as unknown as LookupViewDto[];
+    })
+  }
 
   lookupForm() {
     this.addfields = []
     this.fblookup = this.formbuilder.group({
-      lookupId: [0],
+      lookupId: [null],
       code: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_NUMERIC), Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_20)]),
-      lookupNames: new FormControl(''),
+      fkeySelfId:[],
       name: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
       isActive: new FormControl('', [Validators.required]),
       lookUpDetails: this.formbuilder.array([], FormArrayValidationForDuplication())
@@ -115,40 +142,14 @@ export class LookupsComponent implements OnInit {
   onLookupChange(event) {
     const selectedValue = event.value; // Get the selected value
     if (selectedValue) {
-      this.getDependantLookupData(selectedValue);
+      this.getDependentLookupData(selectedValue);
       this.DependentDropdown = true;
     } else {
       this.DependentDropdown = false;
     }
   }
-
-  getDependantLookupData(value) {
-    if(value == 'Countries') this.initCountries();
-    else if (value == 'Curriculums') this.initCurriculums();
-  }
-
-  initCountries() {
-    this.lookupService.Countries().subscribe((resp)=>{
-      this.dependantLookupData =resp as unknown as LookupViewDto[];
-    })
-  }
-  initCurriculums(){
-    this.lookupService.Curriculums().subscribe((resp)=>{
-      this.dependantLookupData =resp as unknown as LookupViewDto[];
-    })
-  }
-  
   onChangeisLookupChecked() {
     this.GetLookUp(this.isLookupChecked)
-  }
-  // getmethod
-  GetLookUp(isbool: boolean) {
-    this.adminService.GetLookUp(isbool).subscribe((resp) => {
-      this.lookups = resp as unknown as LookupViewDto[];
-      this.lookups.forEach(element => {
-        element.expandLookupDetails = JSON.parse(element.lookupDetails) as unknown as LookupDetailsDto[];
-      });
-    })
   }
   restrictSpaces(event: KeyboardEvent) {
     if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {
@@ -159,7 +160,8 @@ export class LookupsComponent implements OnInit {
   generaterow(lookupDetail: LookupDetailsDto = new LookupDetailsDto()): FormGroup {
     return this.formbuilder.group({
       lookupId: [lookupDetail.lookupId],
-      lookupDetailId: [lookupDetail.lookupDetailId],
+      lookupDetailId:  [lookupDetail.lookupDetailId],
+      fkeySelfId:[lookupDetail.lookupDetailId],
       code: new FormControl(lookupDetail.code, [Validators.required, Validators.minLength(2)]),
       name: new FormControl(lookupDetail.name, [Validators.required, Validators.minLength(2)]),
       description: new FormControl(lookupDetail.description),
@@ -221,6 +223,7 @@ export class LookupsComponent implements OnInit {
   }
   save() {
     if (this.fblookup.valid) {
+      console.log(this.fblookup.value);
       this.savelookup().subscribe(resp => {
         if (resp) {
           this.GetLookUp(false);
@@ -249,6 +252,7 @@ export class LookupsComponent implements OnInit {
     this.filter.nativeElement.value = '';
   }
   addLookupDetails() {
+    debugger
     this.ShowlookupDetails = true;
     this.falookUpDetails = this.fblookup.get("lookUpDetails") as FormArray
     this.falookUpDetails.push(this.generaterow())
@@ -269,6 +273,7 @@ export class LookupsComponent implements OnInit {
     this.fblookup.reset();
     this.addFlag = true;
     this.addLookupDetails();
+    // this.fblookup.controls['fkeySelfId'].setValue(100);
     this.fblookup.controls['isActive'].setValue(true);
     this.submitLabel = "Add Lookup";
     this.showDialog = true;

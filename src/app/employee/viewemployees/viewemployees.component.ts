@@ -19,6 +19,7 @@ import { BasicdetailsDialogComponent } from 'src/app/_dialogs/basicdetails.dialo
 import { OfficedetailsDialogComponent } from 'src/app/_dialogs/officedetails.dialog/officedetails.dialog.component';
 import { EducationdetailsDialogComponent } from 'src/app/_dialogs/educationdetails.dialog/educationdetails.dialog.component';
 import { ExperiencedetailsDialogComponent } from 'src/app/_dialogs/experiencedetails.dialog/experiencedetails.dialog.component';
+import { ALERT_CODES, AlertmessageService } from 'src/app/_alerts/alertmessage.service';
 
 @Component({
   selector: 'app-viewemployees',
@@ -40,6 +41,7 @@ export class ViewemployeesComponent {
   selectedOption: string;
   // Employee AdressDetails
   address: EmployeAdressViewDto[] = [];
+  isAddressChecked: boolean = true;
   // Employee  UploadedDocuments
   UploadedDocuments: any[] = [];
   // EmployeeBankDetails
@@ -49,6 +51,12 @@ export class ViewemployeesComponent {
   maxLength: MaxLength = new MaxLength();
   employeeId: any;
   ActionTypes = Actions;
+  files = [];
+  fileSize = 20;
+  title: string;
+  hasPermanentAddress: boolean = false;
+  hasCurrentAddress: boolean = false;
+  hasTemporaryAddres: boolean = false;
   addassetallotmentDialogComponent = AddassetallotmentDialogComponent;
   BankdetailsDialogComponent = BankdetailsDialogComponent;
   unassignassetDialogComponent = UnassignassetDialogComponent;
@@ -61,9 +69,10 @@ export class ViewemployeesComponent {
   experiencedetailsDialogComponent = ExperiencedetailsDialogComponent;
   dialogRequest: DialogRequest = new DialogRequest();
   enRollEmployee: boolean = false;
-  isAFresher: boolean;
+  showOfcAndAssetDetails: boolean = false;
 
   constructor(
+    private alertMessage:AlertmessageService,
     private employeeService: EmployeeService,
     private activatedRoute: ActivatedRoute,
     private adminService: AdminService,
@@ -78,7 +87,7 @@ export class ViewemployeesComponent {
     this.initGetEducationDetails();
     this.initGetWorkExperience();
     this.initGetFamilyDetails();
-    this.initGetAddress();
+    this.onChangeAddressChecked();
     this.initUploadedDocuments();
     this.initBankDetails();
     this.initviewAssets();
@@ -90,6 +99,7 @@ export class ViewemployeesComponent {
     this.employeeService.GetViewEmpPersDtls(this.employeeId).subscribe((resp) => {
       this.employeePrsDtls = resp as unknown as EmployeeBasicDetailViewDto;
       if(!this.employeePrsDtls.signDate) this.enRollEmployee = true;
+      else this.showOfcAndAssetDetails = true;
     });
   }
 
@@ -111,9 +121,6 @@ export class ViewemployeesComponent {
   initGetWorkExperience() {
     this.employeeService.GetWorkExperience(this.employeeId).subscribe((resp) => {
       this.workExperience = resp as unknown as employeeExperienceDtlsViewDto[];
-      console.log(this.workExperience);  
-      this.isAFresher = this.workExperience.some((experience) => experience.isAFresher === true);
-      console.log(this.isAFresher);   
       if (this.workExperience.values)
       this.selectedOption = 'Experience';
     });
@@ -143,10 +150,19 @@ export class ViewemployeesComponent {
   }
 
   //Employee Address
-  initGetAddress() {
-    this.employeeService.GetAddress(this.employeeId).subscribe((resp) => {
+  initGetAddress(isbool) {
+    this.employeeService.GetAddresses(this.employeeId, isbool).subscribe((resp) => {
       this.address = resp as unknown as EmployeAdressViewDto[];
+      // Check if the employee has Permanent Address
+      this.hasPermanentAddress = this.address.some(addr => addr.addressType === 'Permanent Address');
+      // Check if the employee has Current Address
+      this.hasCurrentAddress = this.address.some(addr => addr.addressType === 'Current Address');
+      // Check if the employee has Temporary Address
+      this.hasTemporaryAddres = this.address.some(addr => addr.addressType === 'Temporary Address');
     });
+  }
+  onChangeAddressChecked() {
+    this.initGetAddress(this.isAddressChecked)
   }
 
   //Employee FamilyDetails
@@ -198,9 +214,15 @@ export class ViewemployeesComponent {
       this.dialogRequest.width = "70%";
     }
     else if (action == Actions.add && content === this.AddressDialogComponent) {
-      this.dialogRequest.dialogData = {}
-      this.dialogRequest.header = "Add Address Details";
-      this.dialogRequest.width = "70%";
+      if (this.hasPermanentAddress && this.hasCurrentAddress && this.hasTemporaryAddres) {
+        return this.alertMessage.displayErrorMessage(ALERT_CODES["EMAD001"]);
+      }
+      else {
+        this.dialogRequest.dialogData = {
+        }
+        this.dialogRequest.header = "Add Address Details";
+        this.dialogRequest.width = "70%";
+      }
     }
     //uploadDocuments
     else if (action == Actions.add && content === this.uploadDocumentsDialogComponent) {
@@ -255,9 +277,10 @@ export class ViewemployeesComponent {
       } else if (res.UpdatedModal == ViewEmployeeScreen.BankDetails) {
         this.initBankDetails();
       } else if (res.UpdatedModal == ViewEmployeeScreen.Address) {
-        this.initGetAddress();
+        this.onChangeAddressChecked();
       } else if (res.UpdatedModal == ViewEmployeeScreen.FamilyDetails) {
         this.initGetFamilyDetails();
+        
       } else if (res.UpdatedModal == ViewEmployeeScreen.UploadDocuments) {
         this.initUploadedDocuments();
       } else if (res.UpdatedModal == ViewEmployeeScreen.BasicDetails) {

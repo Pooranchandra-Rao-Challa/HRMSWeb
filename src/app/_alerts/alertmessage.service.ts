@@ -141,7 +141,8 @@ export const ALERT_CODES: { [key: string]: string } = {
     'SMAD004': 'Address Details Update Successfully',
     'SMAD005': 'Employee already has a Permanent Address',
     'SMAD006': 'Employee already has a Current Address.',
-   
+    'SMAD007': 'Each employee is allowed to have only one permanent address and one temporary address and one current address.',
+    'EMAD001':'All the 3 types of Addresses existed in DataBase you can only alter the Address',
   
 
     //uploadDocuments

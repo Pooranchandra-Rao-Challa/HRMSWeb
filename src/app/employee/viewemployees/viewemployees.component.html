@@ -58,7 +58,7 @@
       </div>
     </div>
     <!-- office details card view -->
-    <div class="col-12 lg:col-4 py-3 lg:pl-6" *ngIf="!enRollEmployee">
+    <div class="col-12 lg:col-4 py-3 lg:pl-6" *ngIf="showOfcAndAssetDetails">
       <div class="">
         <div class="grid p-3  position-relative">
           <h5 class="col-12"> Office Details </h5>
@@ -204,22 +204,33 @@
     </p-tabPanel>
     <!-- Address Details card view -->
     <p-tabPanel header="Address Details">
+      <div class="field text-center m-1 mx-2">
+        <label>{{ isAddressChecked ? 'Show All Addresses' : 'Show InActive Addresses' }}</label>
+        <br />&nbsp;
+        <p-inputSwitch [(ngModel)]="isAddressChecked" (onChange)="onChangeAddressChecked()"
+          id="Employee_addressUnActive"></p-inputSwitch>
+      </div>
       <div class="grid">
         <div class="col-12 lg:col-4" *ngFor="let newadredss of address; let i = index">
-          <div class="card">
-            <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2 position-relative">
-              <button pButton pRipple icon="pi pi-pencil" class="p-element p-ripple p-button-text p-button p-component right-float-button" (click)="openComponentDialog(AddressDialogComponent, newadredss, ActionTypes.edit)"></button> {{ newadredss.addressType }}
+          <div class="col-12 lg-4" *ngIf="isAddressChecked || newadredss.isActive">
+            <div class="card ">
+              <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2 position-relative">
+                <button pButton pRipple icon="pi pi-pencil"
+                  class="p-element p-ripple p-button-text p-button p-component right-float-button"
+                  (click)="openComponentDialog(AddressDialogComponent, newadredss, ActionTypes.edit)"*ngIf="isAddressChecked" ></button>
+                {{ newadredss.addressType }}
+              </div>
+              {{ newadredss.employeeName }}, {{ newadredss.addressLine1 }}, {{ newadredss.city }},{{ newadredss.landmark }},
+              {{ newadredss.state }}
+              {{ newadredss.zipCode }},{{ newadredss.country }}
             </div>
-            {{ newadredss.employeeName }}, {{ newadredss.addressLine1 }}, {{ newadredss.city }},{{ newadredss.landmark
-            }}, {{ newadredss.state }}
-            {{ newadredss.zipCode }},{{ newadredss.country }}
           </div>
         </div>
+    
         <div class="col-12 lg:col-4">
           <div class="card text-center">
-            <button pButton pRipple icon="pi pi-plus"
-              class="p-element p-ripple p-button-text p-button p-component m-5 p-5" (click)="openComponentDialog(AddressDialogComponent, null, ActionTypes.add)"> Add
-              Address</button>
+            <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-text p-button p-component m-5 p-5"
+              (click)="openComponentDialog(AddressDialogComponent, null, ActionTypes.add)"> Add Address</button>
           </div>
         </div>
       </div>
@@ -261,7 +272,7 @@
       </div>
     </p-tabPanel>
     <!-- Assets card view -->
-    <p-tabPanel header="Assets" *ngIf="!enRollEmployee">
+    <p-tabPanel header="Assets" *ngIf="showOfcAndAssetDetails">
       <div class="grid">
         <div class="col-12 lg:col-4" *ngFor="let asset of assetAllotments">
           <div class="card">
@@ -301,13 +312,13 @@
                 <span class="font-semibold "> Name :</span> {{bank.employeeName}}
               </li>
               <li class="mb-2">
-                <span class="font-semibold ">AccountNo :</span> {{bank.accountNumber}}
+                <span class="font-semibold ">Account No. :</span> {{bank.accountNumber}}
               </li>
               <li class="mb-2">
-                <span class="font-semibold ">IFSCCode :</span> {{bank.ifsc}}
+                <span class="font-semibold ">IFSC Code :</span> {{bank.ifsc}}
               </li>
               <li class="mb-2">
-                <span class="font-semibold mb-1">BranchName :</span> {{bank.branchName}}
+                <span class="font-semibold mb-1">Branch Name :</span> {{bank.branchName}}
               </li>
             </ul>
           </div>

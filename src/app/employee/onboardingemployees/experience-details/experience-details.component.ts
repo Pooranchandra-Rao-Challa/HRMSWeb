@@ -29,17 +29,15 @@ export class ExperienceDetailsComponent {
   designation: LookupDetailsDto[] = []
   skills: LookupDetailsDto[] = []
   selectedOption: string;
+  workExperienceId:number;
   maxLength: MaxLength = new MaxLength();
   viewSelectedSkills = [];
   addFlag: boolean = true;
   fbexperience!: FormGroup;
   fbfresher!: FormGroup
   faexperienceDetails!: FormArray;
-  dialog: boolean = false;
   permissions: any;
   employeeId: any;
-  skillAreaNames: string;
-  @ViewChild('multiSelect') multiSelect: any;
   empExperienceDetails: any = [];
 
   constructor(private router: Router, private formbuilder: FormBuilder, private route: ActivatedRoute, private jwtService: JwtService,
@@ -154,18 +152,27 @@ export class ExperienceDetailsComponent {
         return;
       }
       else {
-        this.fbexperience.value
         // Push current values into the FormArray
         this.faExperienceDetail().push(this.generaterow(this.fbexperience.getRawValue()));
-
+      
         for (let item of this.fbexperience.get('experienceDetails').value) {
-          let stateName = this.states.filter(x => x.lookupDetailId == item.stateId);
-          item.state = stateName[0].name
-          let designation = this.designation.filter(x => x.lookupDetailId == item.designationId);
-          item.designation = designation[0].name
-          this.empExperienceDetails.push(item)
+          if (item.stateId !== null && item.designationId !== null) {
+            // Check if the item already exists in empExperienceDetails
+            const exists = this.empExperienceDetails.some(existingItem => 
+              existingItem.stateId === item.stateId && existingItem.designationId === item.designationId
+            );
+            // If the item doesn't exist, add it
+            if (!exists) {
+              let stateName = this.states.filter(x => x.lookupDetailId == item.stateId);
+              item.state = stateName.length > 0 ? stateName[0].name : '';
+              let designation = this.designation.filter(x => x.lookupDetailId == item.designationId);
+              item.designation = designation.length > 0 ? designation[0].name : '';
+              this.empExperienceDetails.push(item);
+            }
+          }
+          
         }
-
+        
         // Reset form controls for the next entry
         this.fbexperience.patchValue({
           employeeId: this.employeeId,
@@ -201,9 +208,17 @@ export class ExperienceDetailsComponent {
     this.viewSelectedSkills = [];
     let CurrentArray = e.value;
     let updatedArray = [];
-    for (let i = 0; i < CurrentArray.length; i++) {
-      updatedArray.push({ workExperienceXrefId: 0, workExperienceId: 0, skillAreaId: CurrentArray[i] })
+    if(this.workExperienceId){
+      for (let i = 0; i < CurrentArray.length; i++) {
+        updatedArray.push({ workExperienceXrefId: 0, workExperienceId: this.workExperienceId, skillAreaId: CurrentArray[i] })
+      }
     }
+    else{
+      for (let i = 0; i < CurrentArray.length; i++) {
+        updatedArray.push({ workExperienceXrefId: 0, workExperienceId: 0, skillAreaId: CurrentArray[i] })
+      }
+    }
+    
     for (let item of e.value)
       this.skills.forEach(each => {
         if (each.lookupDetailId == item) {
@@ -213,6 +228,7 @@ export class ExperienceDetailsComponent {
     this.fbexperience.get('workExperienceXrefs')?.setValue(updatedArray);
   }
   editForm(experienceDetail) {
+    console.log(experienceDetail)
     this.addFlag = false;
     const skillAreaIdsArray = experienceDetail.skillAreaId ? experienceDetail.skillAreaId.split(',').map(Number) : [];
     this.getStatesByCountryId(experienceDetail.countryId)
@@ -226,9 +242,11 @@ export class ExperienceDetailsComponent {
       countryId: experienceDetail.countryId,
       designationId: experienceDetail.designationId,
       dateOfJoining: FORMAT_DATE(new Date(experienceDetail.dateOfJoining)),
-      dateOfReliving: FORMAT_DATE(new Date(experienceDetail.dateOfReliving))
+      dateOfReliving: FORMAT_DATE(new Date(experienceDetail.dateOfReliving)),
     });
     this.fbexperience.get('skills').patchValue(skillAreaIdsArray);
+    this.workExperienceId=experienceDetail.workExperienceId;
+    
     this.addexperiencedetailsshowForm = !this.addexperiencedetailsshowForm;
     this.ShowexperienceDetails = !this.ShowexperienceDetails;
   }
@@ -261,7 +279,6 @@ export class ExperienceDetailsComponent {
   getEmpExperienceDetails() {
     this.employeeService.GetWorkExperience(this.employeeId).subscribe((data) => {
       this.empExperienceDetails = data;
-      console.log(this.empExperienceDetails)
       if (this.empExperienceDetails.length > 0)
         this.selectedOption = 'Experience';
     })
