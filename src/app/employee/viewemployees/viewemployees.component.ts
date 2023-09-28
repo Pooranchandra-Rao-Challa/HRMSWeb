@@ -41,6 +41,7 @@ export class ViewemployeesComponent {
   selectedOption: string;
   // Employee AdressDetails
   address: EmployeAdressViewDto[] = [];
+  isAddressChecked: boolean = true;
   // Employee  UploadedDocuments
   UploadedDocuments: any[] = [];
   // EmployeeBankDetails
@@ -86,7 +87,7 @@ export class ViewemployeesComponent {
     this.initGetEducationDetails();
     this.initGetWorkExperience();
     this.initGetFamilyDetails();
-    this.initGetAddress();
+    this.onChangeAddressChecked();
     this.initUploadedDocuments();
     this.initBankDetails();
     this.initviewAssets();
@@ -147,8 +148,8 @@ export class ViewemployeesComponent {
   }
 
   //Employee Address
-  initGetAddress() {
-    this.employeeService.GetAddress(this.employeeId).subscribe((resp) => {
+  initGetAddress(isbool) {
+    this.employeeService.GetAddresses(this.employeeId, isbool).subscribe((resp) => {
       this.address = resp as unknown as EmployeAdressViewDto[];
       // Check if the employee has Permanent Address
       this.hasPermanentAddress = this.address.some(addr => addr.addressType === 'Permanent Address');
@@ -157,6 +158,9 @@ export class ViewemployeesComponent {
       // Check if the employee has Temporary Address
       this.hasTemporaryAddres = this.address.some(addr => addr.addressType === 'Temporary Address');
     });
+  }
+  onChangeAddressChecked() {
+    this.initGetAddress(this.isAddressChecked)
   }
 
   //Employee FamilyDetails
@@ -271,7 +275,7 @@ export class ViewemployeesComponent {
       } else if (res.UpdatedModal == ViewEmployeeScreen.BankDetails) {
         this.initBankDetails();
       } else if (res.UpdatedModal == ViewEmployeeScreen.Address) {
-        this.initGetAddress();
+        this.onChangeAddressChecked();
       } else if (res.UpdatedModal == ViewEmployeeScreen.FamilyDetails) {
         this.initGetFamilyDetails();
         

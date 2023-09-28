@@ -22,6 +22,7 @@ export class AddressDialogComponent {
     hasPermanentAddress: boolean = false;
     hasCurrentAddress: boolean = false;
     hasTemporaryAddres: boolean = false;
+    isAddressChecked: boolean = true;
     address: EmployeAdressViewDto[];
     countries: LookupDetailsDto[] = [];
     states: LookupDetailsDto[] = [];
@@ -38,7 +39,7 @@ export class AddressDialogComponent {
     ngOnInit(): void {
         this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
         this.initAddress();
-        this.initGetAddress();
+        this.onChangeAddressChecked()
         this.initCountries();
         if (this.config.data) this.editAddress(this.config.data)  
     }
@@ -59,8 +60,8 @@ export class AddressDialogComponent {
         })
     }
 
-    initGetAddress() {
-        this.employeeService.GetAddress(this.employeeId).subscribe((resp) => {
+    initGetAddress(isbool: boolean) {
+        this.employeeService.GetAddresses(this.employeeId, isbool).subscribe((resp) => {
             this.address = resp as unknown as EmployeAdressViewDto[];
 
             // Check if the employee has Permanent Address
@@ -82,6 +83,9 @@ export class AddressDialogComponent {
             }
 
         });
+    }
+    onChangeAddressChecked() {
+        this.initGetAddress(this.isAddressChecked)
     }
 
     initdisable() {
