@@ -26,11 +26,14 @@ export class AddressComponent {
   faAddressDetails!: FormArray;
   submitLabel: string;
   employeeId: any;
+  isAddressChecked: boolean = true;
   addFlag: boolean = true;
   maxLength: MaxLength = new MaxLength();
   empAddrDetails: any = [];
   permissions: any;
-  addressCount: number;
+  hasPermanentAddress: boolean = false;
+  temporaryaddress: boolean = false
+  currentaddress: boolean = false
   showAddressDetails: boolean = true;
   addaddressdetailsshowForm: boolean = false;
   constructor(private router: Router, private route: ActivatedRoute, private jwtService: JwtService, private formbuilder: FormBuilder,
@@ -45,7 +48,7 @@ export class AddressComponent {
     });
     this.initAddress();
     this.initCountries();
-    this.getEmpAddressDetails();
+    this.onChangeAddressChecked();
   }
   initCountries() {
     this.lookupService.Countries().subscribe((resp) => {
@@ -89,44 +92,20 @@ export class AddressComponent {
   removeItem(index: number): void {
     this.empAddrDetails.splice(index, 1);
   }
-
+  
   addAddress() {
     if (this.fbAddressDetails.get('addressId').value) {
+      this.fbAddressDetails.get('addressId').setValue(null);
       this.onSubmit();
     }
     else {
       if (this.fbAddressDetails.invalid) {
+        this.fbAddressDetails.markAllAsTouched();
         return;
       }
-      let count = 0, count1 = 0;
-      let addressArray = this.empAddrDetails;
-      let length = addressArray.length;
-      if (length > 0 || this.addressCount>0) {
-        addressArray.forEach((control) => {
-          if (control.addressType == "Permanent Address" && this.fbAddressDetails.get('addressType').value == "Permanent Address") {
-            count++;
-          }
-          if (control.addressType == "Current Address" && this.fbAddressDetails.get('addressType').value == "Current Address") {
-            count1++;
-          }
-        });
-        if (count >= 1 || count1 >= 1) {
-          this.alertMessage.displayErrorMessage(count >= 1 ? ALERT_CODES["SAP001"] : ALERT_CODES['SAC001']);
-          this.fbAddressDetails.get('addressType')?.setValue('');
-          this.fbAddressDetails.markAllAsTouched();
-        }
-        else {
-          this.save();
-        }
-      }
-    else{
-      this.save();
     }
     this.addaddressdetailsshowForm = !this.addaddressdetailsshowForm;
     this.showAddressDetails = !this.showAddressDetails;
-  }
-  this.addaddressdetailsshowForm = !this.addaddressdetailsshowForm;
-  this.showAddressDetails = !this.showAddressDetails;
   }
 
   save() {
@@ -183,15 +162,20 @@ export class AddressComponent {
     else
       return this.employeeService.CreateAddress([this.fbAddressDetails.value]);
   }
-  getEmpAddressDetails() {
-    this.employeeService.GetAddress(this.employeeId).subscribe((data) => {
+  getEmpAddressDetails(isbool: boolean) {
+    this.employeeService.GetAddresses(this.employeeId,isbool).subscribe((data) => {
       this.empAddrDetails = data;
-      this.addressCount = this.countPermenentAddress(this.empAddrDetails, "Permanent Address")
-      console.log(this.addressCount)
+      this.hasPermanentAddress = this.empAddrDetails.some(addr => addr.addressType === 'Permanent Address');
+      this.currentaddress = this.empAddrDetails.some(addr => addr.addressType === 'Current Address');
+      this.temporaryaddress = this.empAddrDetails.some(addr => addr.addressType === 'Temporary Address');
     })
   }
-  countPermenentAddress(list: any[], targetValue: any): number {
-    return list.filter(item => item.addressType === "Permanent Address").length;
+  onChangeAddressChecked() {
+    this.getEmpAddressDetails(this.isAddressChecked)
+  }
+
+  getCountByType(type: string): number {
+    return this.empAddrDetails.filter(address => address.type === type).length;
   }
   onSubmit() {
     this.saveAddress().subscribe(res => {
@@ -226,6 +210,7 @@ export class AddressComponent {
       addressType: addressDetails.addressType,
       isActive: addressDetails.isActive,
     })
+    this.fbAddressDetails.get('addressType').disable();
     this.addaddressdetailsshowForm = !this.addaddressdetailsshowForm;
     this.showAddressDetails = !this.showAddressDetails;
   }
@@ -239,7 +224,15 @@ export class AddressComponent {
     this.router.navigate(['employee/onboardingemployee/uploadfiles', this.employeeId])
   }
   toggleTab() {
-    this.addaddressdetailsshowForm = !this.addaddressdetailsshowForm;
-    this.showAddressDetails = !this.showAddressDetails;
+    this.fbAddressDetails.reset();
+    if (this.hasPermanentAddress && this.currentaddress && this.temporaryaddress) {
+      this.alertMessage.displayErrorMessage(ALERT_CODES["EMAD001"]);
+    }
+    else {
+      this.fbAddressDetails.get('addressType').enable();
+      this.addaddressdetailsshowForm = !this.addaddressdetailsshowForm;
+      this.showAddressDetails = !this.showAddressDetails;
+    }
+
   }
 }

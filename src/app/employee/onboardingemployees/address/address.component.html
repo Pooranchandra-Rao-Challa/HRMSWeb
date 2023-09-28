@@ -7,8 +7,9 @@
             <div class="col-12 roles-container m-0 p-0">
                 <div class="p-fluid p-formgrid grid m-0 p-0">
                     <div class="field col-12 md:col-4">
-                        <label  class="required">AddressLine1</label>
-                        <input type="text" id="Address_address1" pInputText formControlName="addressLine1" #address1 placeholder="Enter AddressLine1"
+                        <label class="required">AddressLine1</label>
+                        <input type="text" id="Address_address1" pInputText formControlName="addressLine1" #address1
+                            placeholder="Enter AddressLine1"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['addressLine1'].touched && FormControls['addressLine1'].errors }"
                             [maxlength]="maxLength.description">
                         <div class="flex">
@@ -33,8 +34,8 @@
                     </div>
                     <div class="field col-12 md:col-4">
                         <label>AddressLine2</label>
-                        <input type="text" id="Address_address2" pInputText formControlName="addressLine2" #address2 placeholder="Enter AddressLine2"
-                            [maxlength]="maxLength.description">
+                        <input type="text" id="Address_address2" pInputText formControlName="addressLine2" #address2
+                            placeholder="Enter AddressLine2" [maxlength]="maxLength.description">
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                             </div>
@@ -45,8 +46,8 @@
                     </div>
                     <div class="field col-12 md:col-4">
                         <label>Landmark</label>
-                        <input type="text" id="Address_landmark" pInputText formControlName="landmark" #Landmark placeholder="Enter Landmark"
-                            [maxlength]="maxLength.description">
+                        <input type="text" id="Address_landmark" pInputText formControlName="landmark" #Landmark
+                            placeholder="Enter Landmark" [maxlength]="maxLength.description">
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                             </div>
@@ -57,10 +58,11 @@
                     </div>
                     <div class="field col-12 md:col-4">
                         <label class="required">ZIP Code</label>
-                        <input type="text" id="Address_ZIPCode" pInputText formControlName="zipCode" placeholder="Enter ZIPCode"
+                        <input type="text" id="Address_ZIPCode" pInputText formControlName="zipCode"
+                            placeholder="Enter ZIPCode"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['zipCode'].touched && FormControls['zipCode'].errors }"
                             [maxlength]="maxLength.pinCode" #zip />
-                        
+
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                                 <span *ngIf="FormControls['zipCode'].touched && FormControls['zipCode'].invalid">
@@ -79,7 +81,8 @@
                     </div>
                     <div class="field col-12 md:col-4">
                         <label class="required">City</label>
-                        <input type="text" id="Address_city" pInputText formControlName="city" alphaOnly placeholder="Enter City"
+                        <input type="text" id="Address_city" pInputText formControlName="city" alphaOnly
+                            placeholder="Enter City"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['city'].touched && FormControls['city'].errors }"
                             [maxlength]="maxLength.name" #city />
                         <div class="flex">
@@ -104,11 +107,12 @@
 
                     <div class="field col-12 md:col-4">
                         <label class="required">Country</label>
-                            <p-dropdown inputId="dropdown" id="Address_country" [autoDisplayFirst]="false" placeholder="Select Country"
-                                [ngClass]="{ 'is-invalid ng-dirty': FormControls['countryId'].touched && FormControls['countryId'].errors }"
-                                formControlName="countryId" [options]="countries" optionValue="lookupDetailId"
-                                optionLabel="name" (onChange)="getStatesByCountryId($event.value)">
-                            </p-dropdown>
+                        <p-dropdown inputId="dropdown" id="Address_country" [autoDisplayFirst]="false"
+                            placeholder="Select Country"
+                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['countryId'].touched && FormControls['countryId'].errors }"
+                            formControlName="countryId" [options]="countries" optionValue="lookupDetailId"
+                            appendTo="body" optionLabel="name" (onChange)="getStatesByCountryId($event.value)">
+                        </p-dropdown>
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                                 <span *ngIf="FormControls['countryId'].touched && FormControls['countryId'].invalid">
@@ -121,10 +125,11 @@
                     </div>
                     <div class="field col-12 md:col-4">
                         <label for="dropdown" class="required">State</label>
-                            <p-dropdown inputId="dropdown" id="Address_state" [autoDisplayFirst]="false" placeholder="Enter State"
-                                [ngClass]="{ 'is-invalid ng-dirty': FormControls['stateId'].touched && FormControls['stateId'].errors }"
-                                formControlName="stateId" [options]="states" optionValue="lookupDetailId"
-                                optionLabel="name"></p-dropdown>
+                        <p-dropdown inputId="dropdown" id="Address_state" [autoDisplayFirst]="false"
+                            placeholder="Enter State"
+                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['stateId'].touched && FormControls['stateId'].errors }"
+                            formControlName="stateId" [options]="states" optionValue="lookupDetailId" appendTo="body"
+                            optionLabel="name"></p-dropdown>
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                                 <span *ngIf="FormControls['stateId'].touched && FormControls['stateId'].invalid">
@@ -140,18 +145,24 @@
                         <div class="flex flex-wrap gap-3">
                             <div class="flex align-items-center">
                                 <p-radioButton value="Permanent Address" id="Address_addressType1"
-                                    formControlName="addressType"></p-radioButton>
+                                    formControlName="addressType"
+                                    [pTooltip]="hasPermanentAddress ? 'Every Employee Can Have Only One Permanent Address Please Select Other Type' : null"
+                                    tooltipPosition="left" [disabled]="true">
+                                </p-radioButton>
                                 <label class="ml-2">Permanent Address</label>
                             </div>
-
                             <div class="flex align-items-center">
                                 <p-radioButton value="Temporary Address" id="Address_addressType2"
-                                    formControlName="addressType"></p-radioButton>
+                                    [disabled]="temporaryaddress=== true"
+                                    [pTooltip]="temporaryaddress ? 'Every Employee Can Have Only One Temporary Address Please Select Other Type' : null"
+                                    tooltipPosition="right" formControlName="addressType"></p-radioButton>
                                 <label class="ml-2">Temporary Address</label>
                             </div>
 
                             <div class="flex align-items-center">
-                                <p-radioButton value="Current Address" id="Address_addressType3"
+                                <p-radioButton [disabled]="currentaddress=== true"
+                                    [pTooltip]="currentaddress ? 'Every Employee Can Have Only One Current Address Please Select Other Type' : null"
+                                    tooltipPosition="right" value="Current Address" id="Address_addressType3"
                                     formControlName="addressType"></p-radioButton>
                                 <label class="ml-2">Current Address</label>
                             </div>
@@ -180,6 +191,11 @@
         </div>
     </form>
     <div class="col-12 scrolling_content fadeinup animation-duration-1000 p-1 pt-0" *ngIf="showAddressDetails">
+        <div class="field text-center m-1 mx-2">
+            <label>Show All Addresses</label>
+            <br /> &nbsp; <p-inputSwitch [(ngModel)]="isAddressChecked" (onChange)="onChangeAddressChecked()"
+              id="Employee_addressUnActive"></p-inputSwitch>
+          </div>
         <p-table #dt2 [value]="empAddrDetails" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
             styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
@@ -197,13 +213,15 @@
             </ng-template>
             <ng-template pTemplate="body" let-addressDetails let-addressDetailsIndex="rowIndex">
                 <tr>
-                    <td *ngIf="permissions?.CanManageEmployee" class="flex">
-                        <button pButton pRipple icon="pi pi-pencil" (click)="editForm(addressDetails)"
-                            class="p-element p-ripple p-button-text p-button p-component col-2 p-0 "></button>
-                        <button pButton pRipple icon="pi pi-trash" id="AddressDetailsRemove-Btn"
-                            class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
-                            (click)="removeItem(addressDetailsIndex)">
-                        </button>
+                    <td *ngIf="permissions?.CanManageEmployee">
+                        <div class="flex">
+                            <button pButton pRipple icon="pi pi-pencil" (click)="editForm(addressDetails)"
+                                class="p-element p-ripple p-button-text p-button p-component col-2 p-0 "></button>
+                            <button pButton pRipple icon="pi pi-trash" id="AddressDetailsRemove-Btn"
+                                class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
+                                (click)="removeItem(addressDetailsIndex)">
+                            </button>
+                        </div>
                     </td>
                     <td *ngFor="let col of headers"
                         [ngClass]="col?.field == 'addressLine1' || col?.field == 'addressLine2' || col?.field == 'landmark'  ||col?.field == 'zipCode'  ||  col?.field == 'city'
@@ -217,7 +235,7 @@
                             {{addressDetails.state?addressDetails.state:addressDetails[col.field]}}
                         </span>
                         <span *ngIf="col?.field == 'isActive'">
-                            <p-checkbox [binary]="true" [(ngModel)]="addressDetails[col.field]">
+                            <p-checkbox [binary]="true" [(ngModel)]="addressDetails[col.field]" [disabled]="true">
                             </p-checkbox>
                         </span>
                     </td>
