@@ -53,7 +53,7 @@ export class AddressDialogComponent {
             zipcode: new FormControl('', [Validators.required]),
             city: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
             stateId: new FormControl('', [Validators.required]),
-            countryId: new FormControl([{ value: '', disabled: this.editMode }], [Validators.required]),
+            countryId: new FormControl('', [Validators.required]),
             addressType: new FormControl('', [Validators.required]),
             isActive: new FormControl(true),
         })
@@ -62,7 +62,6 @@ export class AddressDialogComponent {
     initGetAddress(isbool: boolean) {
         this.employeeService.GetAddresses(this.employeeId, isbool).subscribe((resp) => {
             this.address = resp as unknown as EmployeAdressViewDto[];
-
             // Check if the employee has Permanent Address
             this.hasPermanentAddress = this.address.some(addr => addr.addressType === 'Permanent Address');
             // Check if the employee has Current Address
@@ -150,5 +149,6 @@ export class AddressDialogComponent {
             )
         }
     }
+    
 
 }

@@ -213,7 +213,7 @@ export class ViewemployeesComponent {
     }
     else if (action == Actions.add && content === this.AddressDialogComponent) {
       if (this.hasPermanentAddress && this.hasCurrentAddress && this.hasTemporaryAddres) {
-        return this.alertMessage.displayErrorMessage(ALERT_CODES["EMAD001"]);
+        return this.alertMessage.displayErrorMessage(ALERT_CODES["EMSEA001"]);
       }
       else {
         this.dialogRequest.dialogData = {
