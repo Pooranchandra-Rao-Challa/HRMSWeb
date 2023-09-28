@@ -61,6 +61,7 @@ export class ViewemployeesComponent {
   experiencedetailsDialogComponent = ExperiencedetailsDialogComponent;
   dialogRequest: DialogRequest = new DialogRequest();
   enRollEmployee: boolean = false;
+  isAFresher: boolean;
 
   constructor(
     private employeeService: EmployeeService,
@@ -110,6 +111,11 @@ export class ViewemployeesComponent {
   initGetWorkExperience() {
     this.employeeService.GetWorkExperience(this.employeeId).subscribe((resp) => {
       this.workExperience = resp as unknown as employeeExperienceDtlsViewDto[];
+      console.log(this.workExperience);  
+      this.isAFresher = this.workExperience.some((experience) => experience.isAFresher === true);
+      console.log(this.isAFresher);   
+      if (this.workExperience.values)
+      this.selectedOption = 'Experience';
     });
   }
 
