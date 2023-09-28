@@ -104,7 +104,7 @@ export class AddressComponent {
       this.onSubmit();
     }
     else {
-       if ((this.hasPermanentAddress && this.fbAddressDetails.get('addressType').value == "Permanent Address") ||
+      if ((this.hasPermanentAddress && this.fbAddressDetails.get('addressType').value == "Permanent Address") ||
         (this.currentaddress && this.fbAddressDetails.get('addressType').value == "Current Address") ||
         (this.temporaryaddress && this.fbAddressDetails.get('addressType').value == "Temporary Address")) {
 
@@ -126,9 +126,17 @@ export class AddressComponent {
     this.faAddressDetail().push(this.generaterow(this.fbAddressDetails.getRawValue()));
     // Reset form controls for the next entry
     for (let item of this.fbAddressDetails.get('addressDetails').value) {
-      let stateName = this.states.filter(x => x.lookupDetailId == item.stateId);
-      item.state = stateName[0].name
-      this.empAddrDetails.push(item)
+      if (item.stateId !== null) {
+          const exists = this.empAddrDetails.some(existingItem => 
+            existingItem.stateId === item.stateId 
+          );
+        
+          if (!exists) {
+        let stateName = this.states.filter(x => x.lookupDetailId == item.stateId);
+        item.state = stateName.length > 0 ? stateName[0].name : '';
+        this.empAddrDetails.push(item)
+          }
+      }
     }
     this.fbAddressDetails.patchValue({
       employeeId: this.employeeId,

@@ -152,18 +152,27 @@ export class ExperienceDetailsComponent {
         return;
       }
       else {
-        this.fbexperience.value
         // Push current values into the FormArray
         this.faExperienceDetail().push(this.generaterow(this.fbexperience.getRawValue()));
-
+      
         for (let item of this.fbexperience.get('experienceDetails').value) {
-          let stateName = this.states.filter(x => x.lookupDetailId == item.stateId);
-          item.state = stateName[0].name
-          let designation = this.designation.filter(x => x.lookupDetailId == item.designationId);
-          item.designation = designation[0].name
-          this.empExperienceDetails.push(item)
+          if (item.stateId !== null && item.designationId !== null) {
+            // Check if the item already exists in empExperienceDetails
+            const exists = this.empExperienceDetails.some(existingItem => 
+              existingItem.stateId === item.stateId && existingItem.designationId === item.designationId
+            );
+            // If the item doesn't exist, add it
+            if (!exists) {
+              let stateName = this.states.filter(x => x.lookupDetailId == item.stateId);
+              item.state = stateName.length > 0 ? stateName[0].name : '';
+              let designation = this.designation.filter(x => x.lookupDetailId == item.designationId);
+              item.designation = designation.length > 0 ? designation[0].name : '';
+              this.empExperienceDetails.push(item);
+            }
+          }
+          
         }
-
+        
         // Reset form controls for the next entry
         this.fbexperience.patchValue({
           employeeId: this.employeeId,
