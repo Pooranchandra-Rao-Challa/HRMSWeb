@@ -10,7 +10,6 @@ import { MAX_LENGTH_256, MAX_LENGTH_50, MIN_LENGTH_2 } from 'src/app/_shared/reg
 import { ActivatedRoute } from '@angular/router';
 import { MaxLength, ViewEmployeeScreen } from 'src/app/_models/common';
 import { LookupDetailsDto } from 'src/app/_models/admin';
-
 @Component({
     selector: 'app-address.dialog',
     templateUrl: './address.dialog.component.html'
@@ -41,7 +40,7 @@ export class AddressDialogComponent {
         this.initAddress();
         this.onChangeAddressChecked()
         this.initCountries();
-        if (this.config.data) this.editAddress(this.config.data)  
+        if (this.config.data) this.editAddress(this.config.data)
     }
 
     initAddress() {
@@ -81,9 +80,9 @@ export class AddressDialogComponent {
                     addressTypeControl.setValue('Permanent Address');
                 }
             }
-
         });
     }
+
     onChangeAddressChecked() {
         this.initGetAddress(this.isAddressChecked)
     }
@@ -95,7 +94,6 @@ export class AddressDialogComponent {
         }
 
     }
-
 
     initCountries() {
         this.lookupService.Countries().subscribe((resp) => {
@@ -116,23 +114,21 @@ export class AddressDialogComponent {
     }
 
     editAddress(address) {
-            this.getStatesByCountryId(address.countryId);
-            this.fbAddressDetails.patchValue({
-                employeeId: address.employeeId,
-                addressId: address.addressId,
-                addressLine1: address.addressLine1,
-                addressLine2: address.addressLine2,
-                landmark: address.landmark,
-                zipcode: address.zipCode,
-                city: address.city,
-                countryId: address.countryId,
-                stateId: address.stateId,
-                addressType: address.addressType,
-                isActive: address.isActive,
-            });
-        }
-        
-    
+        this.getStatesByCountryId(address.countryId);
+        this.fbAddressDetails.patchValue({
+            employeeId: address.employeeId,
+            addressId: address.addressId,
+            addressLine1: address.addressLine1,
+            addressLine2: address.addressLine2,
+            landmark: address.landmark,
+            zipcode: address.zipCode,
+            city: address.city,
+            countryId: address.countryId,
+            stateId: address.stateId,
+            addressType: address.addressType,
+            isActive: address.isActive,
+        });
+    }
 
     saveAddress() {
         if (this.fbAddressDetails.valid) {
