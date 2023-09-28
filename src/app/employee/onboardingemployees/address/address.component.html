@@ -147,20 +147,19 @@
                                 <p-radioButton value="Permanent Address" id="Address_addressType1"
                                     formControlName="addressType"
                                     [pTooltip]="hasPermanentAddress ? 'Every Employee Can Have Only One Permanent Address Please Select Other Type' : null"
-                                    tooltipPosition="left" [disabled]="true">
+                                    tooltipPosition="left">
                                 </p-radioButton>
                                 <label class="ml-2">Permanent Address</label>
                             </div>
                             <div class="flex align-items-center">
                                 <p-radioButton value="Temporary Address" id="Address_addressType2"
-                                    [disabled]="temporaryaddress=== true"
                                     [pTooltip]="temporaryaddress ? 'Every Employee Can Have Only One Temporary Address Please Select Other Type' : null"
                                     tooltipPosition="right" formControlName="addressType"></p-radioButton>
                                 <label class="ml-2">Temporary Address</label>
                             </div>
 
                             <div class="flex align-items-center">
-                                <p-radioButton [disabled]="currentaddress=== true"
+                                <p-radioButton
                                     [pTooltip]="currentaddress ? 'Every Employee Can Have Only One Current Address Please Select Other Type' : null"
                                     tooltipPosition="right" value="Current Address" id="Address_addressType3"
                                     formControlName="addressType"></p-radioButton>
@@ -215,7 +214,7 @@
                 <tr>
                     <td *ngIf="permissions?.CanManageEmployee">
                         <div class="flex">
-                            <button pButton pRipple icon="pi pi-pencil" (click)="editForm(addressDetails)"
+                            <button *ngIf="addressDetails.isActive" pButton pRipple icon="pi pi-pencil" (click)="editForm(addressDetails)"
                                 class="p-element p-ripple p-button-text p-button p-component col-2 p-0 "></button>
                             <button pButton pRipple icon="pi pi-trash" id="AddressDetailsRemove-Btn"
                                 class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
@@ -232,7 +231,7 @@
                         </span>
 
                         <span *ngIf="col?.field == 'stateId'">
-                            {{addressDetails.state?addressDetails.state:addressDetails[col.field]}}
+                            {{addressDetails.state}}
                         </span>
                         <span *ngIf="col?.field == 'isActive'">
                             <p-checkbox [binary]="true" [(ngModel)]="addressDetails[col.field]" [disabled]="true">

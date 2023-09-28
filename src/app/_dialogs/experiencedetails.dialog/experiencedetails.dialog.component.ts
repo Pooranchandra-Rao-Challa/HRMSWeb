@@ -18,6 +18,7 @@ import { MIN_LENGTH_2 } from 'src/app/_shared/regex';
 export class ExperiencedetailsDialogComponent {
   fbexperience!: FormGroup;
   faexperienceDetails!: FormArray;
+  workExperience:employeeExperienceDtlsViewDto[];
   maxLength: MaxLength = new MaxLength();
   countries: LookupViewDto[] = [];
   selectedCountry: number[] = [];
@@ -25,24 +26,26 @@ export class ExperiencedetailsDialogComponent {
   statesPerRow: LookupViewDto[][] = [];
   designation: LookupViewDto[] = [];
   skillarea: LookupViewDto[] = [];
-  employeeId:any;
-
+  employeeId: any;
+ 
   constructor(
     private formbuilder: FormBuilder,
     private lookupService: LookupService,
     private employeeService: EmployeeService,
     private alertMessage: AlertmessageService,
-     public ref: DynamicDialogRef,
-     private config: DynamicDialogConfig,
-     private activatedRoute: ActivatedRoute,) {
+    public ref: DynamicDialogRef,
+    private config: DynamicDialogConfig,
+    private activatedRoute: ActivatedRoute,) {
     this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
   }
 
-ngOnInit(): void {
+  ngOnInit(): void {
+
     this.initdesignation();
     this.initExperience();
     this.initCountries();
     this.initskillArea();
+
     if (this.config.data) this.showExperienceDetails(this.config.data);
   }
 
@@ -53,9 +56,13 @@ ngOnInit(): void {
   }
 
   generaterow(experienceDetails: ExperienceDetailsDto = new ExperienceDetailsDto()): FormGroup {
-    // const employeeId = parseInt(this.activatedRoute.snapshot.queryParams['employeeId']);
-    // experienceDetails.employeeId = employeeId;
     const skillAreaIdsArray = experienceDetails.skillAreaId ? experienceDetails.skillAreaId.split(',').map(Number) : [];
+    const workExperienceXrefs = skillAreaIdsArray.length > 0 ?
+      skillAreaIdsArray.map(skillAreaId => ({
+        workExperienceXrefId: 0,
+        workExperienceId: experienceDetails.workExperienceId,
+        skillAreaId: skillAreaId
+      })) : [];
     return this.formbuilder.group({
       employeeId: new FormControl(this.employeeId),
       workExperienceId: new FormControl(experienceDetails.workExperienceId),
@@ -66,12 +73,13 @@ ngOnInit(): void {
       countryId: new FormControl(experienceDetails.countryId),
       stateId: new FormControl(experienceDetails.stateId),
       designationId: new FormControl(experienceDetails.designationId, [Validators.required]),
-      dateOfJoining: new FormControl(experienceDetails.dateOfJoining ? FORMAT_DATE(new Date(experienceDetails.dateOfJoining)) : null),
-      dateOfReliving: new FormControl(experienceDetails.dateOfReliving ? FORMAT_DATE( new Date(experienceDetails.dateOfReliving)) : null),
+      dateOfJoining: new FormControl(experienceDetails.dateOfJoining ? FORMAT_DATE(new Date(experienceDetails.dateOfJoining)) : null, [Validators.required]),
+      dateOfReliving: new FormControl(experienceDetails.dateOfReliving ? FORMAT_DATE(new Date(experienceDetails.dateOfReliving)) : null),
       skillAreaIds: new FormControl(skillAreaIdsArray, [Validators.required]),
-      workExperienceXrefs: new FormControl(experienceDetails.workExperienceXrefs),
+      workExperienceXrefs: new FormControl(workExperienceXrefs),
     });
   }
+
 
   addexperienceDetails() {
     this.faexperienceDetails = this.fbexperience.get('experienceDetails') as FormArray;
@@ -81,12 +89,9 @@ ngOnInit(): void {
   faexperienceDetail(): FormArray {
     return this.fbexperience.get('experienceDetails') as FormArray;
   }
-  faExperienceDetail(): FormArray {
-    return this.fbexperience.get('experienceDetails') as FormArray
-  }
 
   expDtlsformArrayControls(i: number, formControlName: string) {
-    return this.faExperienceDetail().controls[i].get(formControlName);
+    return this.faexperienceDetail().controls[i].get(formControlName);
   }
 
   initCountries() {
@@ -116,36 +121,44 @@ ngOnInit(): void {
     })
   }
 
-  onSelectSkill(e, index) {
-    let CurrentArray = e.value;
-    console.log(CurrentArray = e.value)
-    let updatedArray = [];
-    for (let i = 0; i < CurrentArray.length; i++) {
-      updatedArray.push({
-        workExperienceXrefId: 0,
-        workExperienceId: 0,
-        skillAreaId: CurrentArray[i]
-      })
-    }
 
+  onSelectSkill(e, experienceDetailsIndex) {
+    let CurrentArray = e.value;
+    let updatedArray = [];
     const experienceDetailControl = this.fbexperience.get('experienceDetails') as FormArray;
-    const workExperienceXrefsControl = experienceDetailControl.at(index).get('workExperienceXrefs');
-    if (workExperienceXrefsControl) {
-      workExperienceXrefsControl.patchValue(updatedArray);
+    const workExperienceXrefsControl = experienceDetailControl.at(experienceDetailsIndex).get('workExperienceXrefs') as FormControl;
+ 
+    if (workExperienceXrefsControl.value.length > 0) {
+      let workExpId = workExperienceXrefsControl.value[0].workExperienceId;
+      for (let i = 0; i < CurrentArray.length; i++) {
+        updatedArray.push({ workExperienceXrefId: 0, workExperienceId: workExpId, skillAreaId: CurrentArray[i] })
+      }
     }
+    else {
+      for (let i = 0; i < CurrentArray.length; i++) {
+        updatedArray.push({ workExperienceXrefId: 0, workExperienceId: 0, skillAreaId: CurrentArray[i] });
+      }
+
+    }
+    workExperienceXrefsControl.patchValue(updatedArray);
   }
 
-  showExperienceDetails(workExperience :  employeeExperienceDtlsViewDto[]) {
-    workExperience.forEach((experienceDetails: any, rowIndex) => {
-      // this.onSelectSkill(experienceDetails.skillAreaId,index)
-      this.onCountryChange(experienceDetails.countryId, rowIndex);
-      this.faexperienceDetail().push(this.generaterow(experienceDetails));
-    })
-    if (workExperience.length == 0) this.faexperienceDetail().push(this.generaterow());
+
+
+  showExperienceDetails(workExperience: employeeExperienceDtlsViewDto[]) {
+    if (workExperience.length == 0) {
+      this.faexperienceDetail().push(this.generaterow());
+    } else {
+      workExperience.forEach((experienceDetails: any, rowIndex) => {
+        this.onCountryChange(experienceDetails.countryId, rowIndex);
+        this.faexperienceDetail().push(this.generaterow(experienceDetails));
+      })
+    }
     this.fbexperience.patchValue(workExperience)
   }
 
   saveEmpExperienceDetails() {
+    debugger
     this.employeeService.updateViewEmpExperienceDtls(this.fbexperience.get('experienceDetails').value).subscribe((resp) => {
       if (resp) {
         this.alertMessage.displayAlertMessage(ALERT_CODES["EVEEXP001"]);
@@ -160,3 +173,4 @@ ngOnInit(): void {
   }
 
 }
+
