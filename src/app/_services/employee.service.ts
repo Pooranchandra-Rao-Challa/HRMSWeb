@@ -90,6 +90,9 @@ export class EmployeeService extends ApiHttpService {
     return this.getWithId<EmployeeOfficedetailsviewDto[]>(GET_OFFICE_DETAILS_URI, [employeeId])
   }
   
+  public GetAddress(employeeId: number) {
+    return this.getWithId<EmployeAdressViewDto[]>(GET_ADDRESS_BASED_ON_ID_URI,[employeeId] )
+  }
   public GetAddresses(employeeId: number,isbool:boolean) {
     return this.getWithId<EmployeAdressViewDto[]>(GET_ADDRESS_BASED_ON_ID_URI , [employeeId+'/'+isbool])
   }
