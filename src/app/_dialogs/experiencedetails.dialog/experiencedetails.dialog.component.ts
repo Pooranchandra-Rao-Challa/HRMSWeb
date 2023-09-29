@@ -1,7 +1,9 @@
+import { HttpEvent } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { Observable } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { FORMAT_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { LookupViewDto } from 'src/app/_models/admin';
@@ -17,8 +19,9 @@ import { MIN_LENGTH_2 } from 'src/app/_shared/regex';
 })
 export class ExperiencedetailsDialogComponent {
   fbexperience!: FormGroup;
+  fbfresher!: FormGroup
   faexperienceDetails!: FormArray;
-  workExperience:employeeExperienceDtlsViewDto[];
+  workExperience: employeeExperienceDtlsViewDto[];
   maxLength: MaxLength = new MaxLength();
   countries: LookupViewDto[] = [];
   selectedCountry: number[] = [];
@@ -27,7 +30,7 @@ export class ExperiencedetailsDialogComponent {
   designation: LookupViewDto[] = [];
   skillarea: LookupViewDto[] = [];
   employeeId: any;
- 
+
   constructor(
     private formbuilder: FormBuilder,
     private lookupService: LookupService,
@@ -40,14 +43,14 @@ export class ExperiencedetailsDialogComponent {
   }
 
   ngOnInit(): void {
-
     this.initdesignation();
     this.initExperience();
     this.initCountries();
     this.initskillArea();
-
     if (this.config.data) this.showExperienceDetails(this.config.data);
   }
+
+  
 
   initExperience() {
     this.fbexperience = this.formbuilder.group({
@@ -127,7 +130,7 @@ export class ExperiencedetailsDialogComponent {
     let updatedArray = [];
     const experienceDetailControl = this.fbexperience.get('experienceDetails') as FormArray;
     const workExperienceXrefsControl = experienceDetailControl.at(experienceDetailsIndex).get('workExperienceXrefs') as FormControl;
- 
+
     if (workExperienceXrefsControl.value.length > 0) {
       let workExpId = workExperienceXrefsControl.value[0].workExperienceId;
       for (let i = 0; i < CurrentArray.length; i++) {
@@ -140,7 +143,7 @@ export class ExperiencedetailsDialogComponent {
       }
 
     }
-    workExperienceXrefsControl.patchValue(updatedArray);
+    workExperienceXrefsControl.patchValue(updatedArray);8    
   }
 
 
@@ -157,8 +160,8 @@ export class ExperiencedetailsDialogComponent {
     this.fbexperience.patchValue(workExperience)
   }
 
+
   saveEmpExperienceDetails() {
-    debugger
     this.employeeService.updateViewEmpExperienceDtls(this.fbexperience.get('experienceDetails').value).subscribe((resp) => {
       if (resp) {
         this.alertMessage.displayAlertMessage(ALERT_CODES["EVEEXP001"]);
@@ -170,6 +173,8 @@ export class ExperiencedetailsDialogComponent {
         this.alertMessage.displayErrorMessage(ALERT_CODES["EVEEXP002"])
       }
     })
+
+
   }
 
 }
