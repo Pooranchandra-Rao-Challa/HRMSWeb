@@ -206,15 +206,29 @@
     </p-tabPanel>
     <!-- Address Details card view -->
     <p-tabPanel header="Address Details">
-      <div class="field text-center m-1 mx-2">
-        <label>{{ isAddressChecked ? 'Show All Addresses' : 'Show Active Addresses' }}</label>
-        <br />&nbsp;
-      <p-inputSwitch [(ngModel)]="isAddressChecked" (onChange)="onChangeAddressChecked()"
-        id="Employee_addressUnActive"></p-inputSwitch>
-      </div>
+     
       <div class="grid">
-        <div class="col-12 lg:col-4" *ngFor="let newadredss of address; let i = index">
-          <div class="col-12 lg-4" *ngIf="isAddressChecked || newadredss.isActive">
+        <div class="card  m-0 p-3 w-100">
+          <div class="grid p-0 ">
+            <div class="col-12 lg:col-6 text-left m-0 p-3 pb-1" >
+              <label>{{ isAddressChecked ? 'Show All Addresses' : 'Show Active Addresses' }}</label>
+              <br />&nbsp;
+              <p-inputSwitch [(ngModel)]="isAddressChecked" (onChange)="onChangeAddressChecked()"
+              id="Employee_addressUnActive"></p-inputSwitch>
+            </div>
+            <div class="col-12 lg:col-6 text-right m-0 p-3 pb-1" *ngIf="!isAddressChecked">          
+              <button pButton pRipple icon="pi pi-plus"
+                class="p-element p-ripple p-button-outline p-button p-component"
+                (click)="openComponentDialog(AddressDialogComponent, null, ActionTypes.add)">
+                &nbsp; Add  </button>            
+            </div>
+
+          </div>
+       
+        
+        </div>
+        <div class="col-12 lg:col-4  p-0" *ngFor="let newadredss of address; let i = index">
+          <div class="col-12 lg-4 p-2 pl-0 pr-3" *ngIf="isAddressChecked || newadredss.isActive">
             <div class="card "  >
               <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2 position-relative">
                 <button pButton pRipple icon="pi pi-pencil"
@@ -229,12 +243,7 @@
           </div>
         </div>
     
-        <div class="col-12 lg:col-4">
-          <div class="card text-center" *ngIf="!isAddressChecked">
-            <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-text p-button p-component m-5 p-5"
-              (click)="openComponentDialog(AddressDialogComponent, null, ActionTypes.add)"> Add Address</button>
-          </div>
-        </div>
+        
       </div>
     </p-tabPanel>
     <!-- Upload Documents card view -->
