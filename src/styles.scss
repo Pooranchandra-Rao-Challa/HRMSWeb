@@ -272,3 +272,15 @@ p-calendar input {
 .p-steps .p-steps-item .p-menuitem-link:not(.p-disabled):focus {
     box-shadow: none !important;
 }
+.only-icon {
+    .p-inputtext{
+      display: none;
+    }
+    button.ui-datepicker-trigger.ui-calendar-button  {
+      border-radius: 4px !important;
+    }
+    .p-datepicker-monthpicker {
+        top:0px !important;
+        left:0px !important;
+    }
+   }
