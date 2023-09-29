@@ -174,8 +174,8 @@
                 </div>
                 <div class="field col-12 md:col-4">
                     <span class="p-float-label">
-                        <p-calendar [readonlyInput]="true" [showIcon]="true" id="original_dob"
-                            formControlName="originalDob" mask="99/99/9999"
+                        <p-calendar [readonlyInput]="true"  appendTo="body" [showIcon]="true" id="original_dob"
+                            formControlName="originalDob" mask="99/99/9999" 
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['originalDob'].touched && FormControls['originalDob'].errors}">
                         </p-calendar>
                         <label class="required">Original DOB</label>
@@ -193,8 +193,8 @@
                 </div>
                 <div class="field col-12 md:col-4">
                     <span class="p-float-label">
-                        <p-calendar [readonlyInput]="true" [showIcon]="true" id="certificate_dob" mask="99/99/9999"
-                            formControlName="certificateDob"
+                        <p-calendar [readonlyInput]="true" appendTo="body" [showIcon]="true" id="certificate_dob" mask="99/99/9999"
+                            formControlName="certificateDob" 
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['certificateDob'].touched && FormControls['certificateDob'].errors}">
                         </p-calendar>
                         <label class="required">Certificate DOB</label>
