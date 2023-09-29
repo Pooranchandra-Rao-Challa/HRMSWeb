@@ -37,7 +37,7 @@ export class FamilydetailsDialogComponent {
     ngOnInit() {
         this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
         this.initFamily();
-        this.initGetAddress()
+        this.initGetAddress(true)
         if (this.config.data) this.editFamilyDetails(this.config.data);
     }
 
@@ -62,8 +62,8 @@ export class FamilydetailsDialogComponent {
         });
     }
 
-    initGetAddress() {
-        this.employeeService.GetAddress(this.employeeId).subscribe((resp) => {
+    initGetAddress(isbool: boolean) {
+        this.employeeService.GetAddresses(this.employeeId, isbool).subscribe((resp) => {
             this.address = resp as unknown as EmployeAdressViewDto[];
         });
     }
@@ -75,7 +75,7 @@ export class FamilydetailsDialogComponent {
     editFamilyDetails(familyDetails) {
         const dobValue = familyDetails.dob ? FORMAT_DATE(new Date(familyDetails.dob)) : null;
         this.initRelationship();
-        this.initGetAddress();
+        this.initGetAddress(true);
         this.fbfamilyDetails.patchValue({
             familyInformationId: familyDetails.familyInformationId,
             employeeId: familyDetails.employeeId,
