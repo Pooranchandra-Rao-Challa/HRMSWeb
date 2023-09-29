@@ -7,8 +7,10 @@
                         (input)="onGlobalFilter(dt1, $event)" />
                 </div>
                 <div class="field col-6 md:col-3">
-                    <p-calendar
-                    view="month"
+                    <p-calendar 
+                    styleClass="only-icon"
+                    [showIcon]="true"
+                    view="month"s
                     dateFormat="mm/yy"
                     [yearNavigator]="true"
                     yearRange="2000:2030"
