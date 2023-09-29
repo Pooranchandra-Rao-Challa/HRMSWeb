@@ -207,19 +207,19 @@
     <!-- Address Details card view -->
     <p-tabPanel header="Address Details">
       <div class="field text-center m-1 mx-2">
-        <label>{{ isAddressChecked ? 'Show All Addresses' : 'Show InActive Addresses' }}</label>
+        <label>{{ isAddressChecked ? 'Show All Addresses' : 'Show Active Addresses' }}</label>
         <br />&nbsp;
-        <p-inputSwitch [(ngModel)]="isAddressChecked" (onChange)="onChangeAddressChecked()"
-          id="Employee_addressUnActive"></p-inputSwitch>
+      <p-inputSwitch [(ngModel)]="isAddressChecked" (onChange)="onChangeAddressChecked()"
+        id="Employee_addressUnActive"></p-inputSwitch>
       </div>
       <div class="grid">
         <div class="col-12 lg:col-4" *ngFor="let newadredss of address; let i = index">
           <div class="col-12 lg-4" *ngIf="isAddressChecked || newadredss.isActive">
-            <div class="card ">
+            <div class="card "  >
               <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2 position-relative">
                 <button pButton pRipple icon="pi pi-pencil"
                   class="p-element p-ripple p-button-text p-button p-component right-float-button"
-                  (click)="openComponentDialog(AddressDialogComponent, newadredss, ActionTypes.edit)"*ngIf="isAddressChecked"></button>
+                  (click)="openComponentDialog(AddressDialogComponent, newadredss, ActionTypes.edit)"*ngIf="newadredss.isActive"></button>
                 {{ newadredss.addressType }}
               </div>
               {{ newadredss.employeeName }}, {{ newadredss.addressLine1 }}, {{ newadredss.landmark }},{{ newadredss.city }},
@@ -230,9 +230,9 @@
         </div>
     
         <div class="col-12 lg:col-4">
-          <div class="card text-center"*ngIf="isAddressChecked">
+          <div class="card text-center" *ngIf="!isAddressChecked">
             <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-text p-button p-component m-5 p-5"
-              (click)="openComponentDialog(AddressDialogComponent, null, ActionTypes.add)" > Add Address</button>
+              (click)="openComponentDialog(AddressDialogComponent, null, ActionTypes.add)"> Add Address</button>
           </div>
         </div>
       </div>
