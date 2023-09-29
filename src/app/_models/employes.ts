@@ -196,8 +196,8 @@ export class EmployeeOfficedetailsviewDto {
 	createdBy?: string;
 	updatedAt?: Date;
 	updatedBy?: string;
-	designation?:string;
-   designationId?: number;
+	designation?: string;
+	designationId?: number;
 }
 
 
@@ -269,7 +269,7 @@ export class FamilyDetailsViewDto {
 	adhaarNo: string;
 	panNo: string | null;
 	dob: Date;
-	zipCode:any
+	zipCode: any
 	relationshipId: number;
 	relationship: string;
 	addressId: number;
@@ -310,9 +310,9 @@ export class employeeEducDtlsViewDto {
 	updatedBy?: string
 }
 export class employeeExperienceDtlsViewDto {
-  length() {
-    throw new Error('Method not implemented.')
-  }
+	length() {
+		throw new Error('Method not implemented.')
+	}
 	workExperienceId?: number;
 	employeeId?: number;
 	isAFresher?: boolean;
@@ -333,4 +333,10 @@ export class employeeExperienceDtlsViewDto {
 	createdBy?: string;
 	updatedAt?: Date;
 	updatedBy?: string;
+}
+
+export class employeeAttendenceDto {
+	employeeId: number;
+	employeeName: string;
+	dates: { [date: string]: string | {} };
 }
