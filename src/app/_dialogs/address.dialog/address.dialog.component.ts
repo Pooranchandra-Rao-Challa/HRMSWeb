@@ -86,14 +86,6 @@ export class AddressDialogComponent {
         this.initGetAddress(this.isAddressChecked)
     }
 
-    initdisable() {
-        if (this.config.data) {
-            this.editAddress(this.config.data);
-            this.fbAddressDetails.get('addressType').disable();
-        }
-
-    }
-
     initCountries() {
         this.lookupService.Countries().subscribe((resp) => {
             this.countries = resp as unknown as LookupDetailsDto[];
@@ -130,11 +122,14 @@ export class AddressDialogComponent {
     }
 
     saveAddress() {
+        
         if (this.fbAddressDetails.valid) {
             this.activatedRoute.queryParams.subscribe((queryParams) => {
                 const employeeId = +queryParams['employeeId'];
                 const isUpdate = this.fbAddressDetails.value.addressId !== null;
-
+                if (isUpdate) 
+                    this.fbAddressDetails.get('addressId').setValue(null);
+                
                 this.employeeService.CreateAddress([{ ...this.fbAddressDetails.value, employeeId }])
                     .subscribe((resp) => {
                         if (resp) {
