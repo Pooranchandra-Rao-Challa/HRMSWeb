@@ -93,16 +93,18 @@ export class FamilyDeatilsComponent implements OnInit {
     if (famDetailId == null) {
       this.faFamilyDetail().push(this.generaterow(this.fbfamilyDetails.getRawValue()));
       for (let item of this.fbfamilyDetails.get('familyDetails').value) {
-        let relationShipName = this.relationships.filter(x => x.lookupDetailId == item.relationshipId);
-        item.relationship = relationShipName[0].name
-        let addressName = this.address.filter(x => x.addressId == item.addressId);
-        item.addressLine1 = addressName[0].addressLine1
-        item.addressLine2 = addressName[0].addressLine2
-        item.zipCode = addressName[0].zipCode
-        item.city = addressName[0].city
-        item.state = addressName[0].state
-        item.country = addressName[0].country
-        this.empFamDetails.push(item)
+        if (item.relationshipId !== null && item.addressId !== null ) {
+          let relationShipName = this.relationships.filter(x => x.lookupDetailId == item.relationshipId);
+          item.relationship = relationShipName.length > 0 ? relationShipName[0].name :'';
+          let addressName = this.address.filter(x => x.addressId == item.addressId);
+          item.addressLine1 = addressName.length > 0 ? addressName[0].addressLine1 :'';
+          item.addressLine2 = addressName.length > 0 ? addressName[0].addressLine2 :'';
+          item.zipCode = addressName.length > 0 ? addressName[0].zipCode :'';
+          item.city = addressName.length > 0 ? addressName[0].city :'';
+          item.state = addressName.length > 0 ? addressName[0].state :'';
+          item.country = addressName.length > 0 ? addressName[0].country :'';
+          this.empFamDetails.push(item)
+        }
       }
       this.clearForm();
       this.addFlag = true;
