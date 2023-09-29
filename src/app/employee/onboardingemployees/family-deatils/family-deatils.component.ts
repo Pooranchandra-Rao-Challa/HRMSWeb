@@ -42,7 +42,7 @@ export class FamilyDeatilsComponent implements OnInit {
     this.getFamilyDetails();
     this.initFamily();
     this.initRelationship();
-    this.initAddress();
+    this.initGetAddress(true)
   }
   headers: ITableHeader[] = [
     { field: 'name', header: 'name', label: 'Name' },
@@ -75,8 +75,8 @@ export class FamilyDeatilsComponent implements OnInit {
       this.relationships = resp as unknown as LookupDetailsDto[];
     });
   }
-  initAddress() {
-    this.employeeService.GetAddress(this.employeeId).subscribe((resp) => {
+  initGetAddress(isbool: boolean) {
+    this.employeeService.GetAddresses(this.employeeId, isbool).subscribe((resp) => {
       this.address = resp as unknown as EmployeAdressViewDto[];
     });
   }
