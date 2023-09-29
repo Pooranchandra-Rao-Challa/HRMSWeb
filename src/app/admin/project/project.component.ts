@@ -9,9 +9,9 @@ import { JwtService } from 'src/app/_services/jwt.service';
 import { MAX_LENGTH_20, MAX_LENGTH_256, MAX_LENGTH_50, MIN_LENGTH_2, MIN_LENGTH_20, MIN_LENGTH_4, RG_PHONE_NO } from 'src/app/_shared/regex';
 import { TreeNode } from 'primeng/api';
 import { dE } from '@fullcalendar/core/internal-common';
-// import * as go from 'gojs';
-// import  {OrgChart}  from "d3-org-chart";
-// import * as d3 from 'd3';
+import * as go from 'gojs';
+import  {OrgChart}  from "d3-org-chart";
+import * as d3 from 'd3';
 interface AutoCompleteCompleteEvent {
   originalEvent: Event;
   query: string;
@@ -23,7 +23,7 @@ interface AutoCompleteCompleteEvent {
 })
 export class ProjectComponent implements OnInit {
   data: null;
-  // private diagram: go.Diagram;
+  private diagram: go.Diagram;
   employees: EmployeesList[] = [];
   projects: ProjectViewDto[] = [];
   clientsNames: ClientNamesDto[] = [];
@@ -66,11 +66,11 @@ export class ProjectComponent implements OnInit {
     this.initEmployees();
     this.unAssignEmployeeForm();
     
-    // d3.json(
-    //   "https://gist.githubusercontent.com/bumbeishvili/dc0d47bc95ef359fdc75b63cd65edaf2/raw/c33a3a1ef4ba927e3e92b81600c8c6ada345c64b/orgChart.json"
-    // ).then(data => {
-    //     this.data = data;
-    // });
+    d3.json(
+      "https://gist.githubusercontent.com/bumbeishvili/dc0d47bc95ef359fdc75b63cd65edaf2/raw/c33a3a1ef4ba927e3e92b81600c8c6ada345c64b/orgChart.json"
+    ).then(data => {
+        this.data = data;
+    });
 
     // this.diagram = new go.Diagram('myDiagramDiv');
 

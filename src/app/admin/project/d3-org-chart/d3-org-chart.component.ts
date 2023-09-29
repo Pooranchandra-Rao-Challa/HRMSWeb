@@ -6,7 +6,7 @@ import {
   ViewChild,
   ElementRef
 } from "@angular/core";
-// import  TreeChart from "d3-org-chart";
+import  TreeChart from "d3-org-chart";
 // import  {OrgChart}  from "d3-org-chart";
 
 @Component({
@@ -25,7 +25,7 @@ export class D3OrgChartComponent implements OnInit, OnChanges {
 
   ngAfterViewInit() {
     if (!this.chart) {
-      // this.chart = new TreeChart();
+      this.chart = new TreeChart();
     }
     this.updateChart();
   }

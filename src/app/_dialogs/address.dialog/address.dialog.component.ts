@@ -53,7 +53,7 @@ export class AddressDialogComponent {
             zipcode: new FormControl('', [Validators.required]),
             city: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
             stateId: new FormControl('', [Validators.required]),
-            countryId: new FormControl([{ value: '', disabled: this.editMode }], [Validators.required]),
+            countryId: new FormControl('', [Validators.required]),
             addressType: new FormControl('', [Validators.required]),
             isActive: new FormControl(true),
         })
@@ -62,13 +62,12 @@ export class AddressDialogComponent {
     initGetAddress(isbool: boolean) {
         this.employeeService.GetAddresses(this.employeeId, isbool).subscribe((resp) => {
             this.address = resp as unknown as EmployeAdressViewDto[];
-
             // Check if the employee has Permanent Address
-            this.hasPermanentAddress = this.address.some(addr => addr.addressType === 'Permanent Address');
+            this.hasPermanentAddress = this.address.some(addr => addr.addressType === 'Permanent Address' && addr.isActive === true);
             // Check if the employee has Current Address
-            this.hasCurrentAddress = this.address.some(addr => addr.addressType === 'Current Address');
+            this.hasCurrentAddress = this.address.some(addr => addr.addressType === 'Current Address' && addr.isActive === true);
             // Check if the employee has Temporary Address
-            this.hasTemporaryAddres = this.address.some(addr => addr.addressType === 'Temporary Address');
+            this.hasTemporaryAddres = this.address.some(addr => addr.addressType === 'Temporary Address' && addr.isActive === true);
 
             const addressTypeControl = this.fbAddressDetails.get('addressType');
             if (!addressTypeControl.value) {
@@ -85,14 +84,6 @@ export class AddressDialogComponent {
 
     onChangeAddressChecked() {
         this.initGetAddress(this.isAddressChecked)
-    }
-
-    initdisable() {
-        if (this.config.data) {
-            this.editAddress(this.config.data);
-            this.fbAddressDetails.get('addressType').disable();
-        }
-
     }
 
     initCountries() {
@@ -135,6 +126,8 @@ export class AddressDialogComponent {
             this.activatedRoute.queryParams.subscribe((queryParams) => {
                 const employeeId = +queryParams['employeeId'];
                 const isUpdate = this.fbAddressDetails.value.addressId !== null;
+                if (isUpdate)
+                    this.fbAddressDetails.get('addressId').setValue(null);
 
                 this.employeeService.CreateAddress([{ ...this.fbAddressDetails.value, employeeId }])
                     .subscribe((resp) => {
@@ -150,5 +143,6 @@ export class AddressDialogComponent {
             )
         }
     }
+
 
 }

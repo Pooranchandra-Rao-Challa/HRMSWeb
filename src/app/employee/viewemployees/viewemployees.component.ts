@@ -41,7 +41,7 @@ export class ViewemployeesComponent {
   selectedOption: string;
   // Employee AdressDetails
   address: EmployeAdressViewDto[] = [];
-  isAddressChecked: boolean = true;
+  isAddressChecked: boolean;
   // Employee  UploadedDocuments
   UploadedDocuments: any[] = [];
   // EmployeeBankDetails
@@ -148,8 +148,10 @@ export class ViewemployeesComponent {
   }
 
   //Employee Address
-  initGetAddress(isbool) {
+  initGetAddress() {
+    const isbool = this.isAddressChecked ? true : false;
     this.employeeService.GetAddresses(this.employeeId, isbool).subscribe((resp) => {
+      this.address = resp as unknown as EmployeAdressViewDto[];
       this.address = resp as unknown as EmployeAdressViewDto[];
       // Check if the employee has Permanent Address
       this.hasPermanentAddress = this.address.some(addr => addr.addressType === 'Permanent Address');
@@ -160,7 +162,7 @@ export class ViewemployeesComponent {
     });
   }
   onChangeAddressChecked() {
-    this.initGetAddress(this.isAddressChecked)
+    this.initGetAddress()
   }
 
   //Employee FamilyDetails
