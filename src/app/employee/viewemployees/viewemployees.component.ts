@@ -121,8 +121,6 @@ export class ViewemployeesComponent {
   initGetWorkExperience() {
     this.employeeService.GetWorkExperience(this.employeeId).subscribe((resp) => {
       this.workExperience = resp as unknown as employeeExperienceDtlsViewDto[];
-      if (this.workExperience.values)
-      this.selectedOption = 'Experience';
     });
   }
 

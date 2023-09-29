@@ -6,6 +6,7 @@ import { EmployeesViewDto } from 'src/app/_models/employes';
 import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { ITableHeader } from 'src/app/_models/common';
 import { Router } from '@angular/router';
+import { JwtService } from 'src/app/_services/jwt.service';
 
 @Component({
     selector: 'app-all-employees',
@@ -21,6 +22,7 @@ export class AllEmployeesComponent {
     employees: EmployeesViewDto[] = [];
     sortOrder: number = 0;
     sortField: string = '';
+    permissions: any;
     mediumDate: string = MEDIUM_DATE
 
     headers: ITableHeader[] = [
@@ -34,13 +36,14 @@ export class AllEmployeesComponent {
 
     ];
     constructor(private EmployeeService: EmployeeService,
-        private router: Router) { }
+        private router: Router, private jwtService: JwtService) { }
 
     ngOnInit() {
         this.initEmployees()
     }
 
     initEmployees() {
+        this.permissions = this.jwtService.Permissions
         // Fetch only records where IsEnrolled is true
         const isEnrolled = true;
         this.EmployeeService.GetEmployees(isEnrolled).subscribe(resp => {
