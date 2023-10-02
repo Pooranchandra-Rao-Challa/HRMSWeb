@@ -74,19 +74,19 @@ export class BasicdetailsDialogComponent {
 
   empBasicDtlsForm() {
     this.fbEmpBasDtls = this.formbuilder.group({
-      employeeId: [this.employeeId],
+      employeeId: (this.employeeId),
       firstName: new FormControl(null, [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
       middleName: new FormControl(null, [Validators.minLength(MIN_LENGTH_2)]),
       lastName: new FormControl(null, [Validators.required, Validators.minLength(MIN_LENGTH_2)]),
       code: [null],
-      gender: new FormControl('', [Validators.required]),
-      bloodGroupId: new FormControl('', [Validators.required]),
-      maritalStatus: new FormControl('', [Validators.required]),
-      mobileNumber: new FormControl('', [Validators.required, Validators.pattern(RG_PHONE_NO)]),
-      alternateMobileNumber: new FormControl('', [Validators.pattern(RG_PHONE_NO)]),
-      originalDob: new FormControl('', [Validators.required]),
-      certificateDob: new FormControl('', [Validators.required]),
-      emailId: new FormControl('', [Validators.required, Validators.pattern(RG_EMAIL)]),
+      gender: new FormControl(null, [Validators.required]),
+      bloodGroupId: new FormControl(null, [Validators.required]),
+      maritalStatus: new FormControl(null, [Validators.required]),
+      mobileNumber: new FormControl(null, [Validators.required, Validators.pattern(RG_PHONE_NO)]),
+      alternateMobileNumber: new FormControl(null, [Validators.pattern(RG_PHONE_NO)]),
+      originalDob: new FormControl(null, [Validators.required]),
+      certificateDob: new FormControl(null, [Validators.required]),
+      emailId: new FormControl(null, [Validators.required, Validators.pattern(RG_EMAIL)]),
       isActive: (''),
       signDate: (''),
       photo: []

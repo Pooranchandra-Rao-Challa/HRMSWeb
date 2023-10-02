@@ -172,16 +172,6 @@ export class ViewemployeesComponent {
     });
   }
 
-  toggleInputField(option: string) {
-    this.selectedOption = option;
-  }
-
-  restrictSpaces(event: KeyboardEvent) {
-    if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {
-      event.preventDefault();
-    }
-  }
-
   openComponentDialog(content: any,
     dialogData, action: Actions = this.ActionTypes.add) {
     if (action == Actions.unassign && content === this.unassignassetDialogComponent) {
