@@ -98,13 +98,11 @@ export class LookupsComponent implements OnInit {
       this.lookups.forEach(element => {
         element.expandLookupDetails = JSON.parse(element.lookupDetails) as unknown as LookupDetailsDto[];
       });
-      console.log(resp)
     })
   }
   initDependentLookups() {
     this.lookupService.LookupNames().subscribe((resp) => {
       this.lookupNames = resp as unknown as string[];
-      console.log(resp);
     });
   }
   initNotConfiguredLookups() {
@@ -223,7 +221,6 @@ export class LookupsComponent implements OnInit {
   }
   save() {
     if (this.fblookup.valid) {
-      console.log(this.fblookup.value);
       this.savelookup().subscribe(resp => {
         if (resp) {
           this.GetLookUp(false);
@@ -252,7 +249,6 @@ export class LookupsComponent implements OnInit {
     this.filter.nativeElement.value = '';
   }
   addLookupDetails() {
-    debugger
     this.ShowlookupDetails = true;
     this.falookUpDetails = this.fblookup.get("lookUpDetails") as FormArray
     this.falookUpDetails.push(this.generaterow())
