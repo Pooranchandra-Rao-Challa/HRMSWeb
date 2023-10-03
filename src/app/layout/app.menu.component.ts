@@ -158,6 +158,13 @@ export class AppMenuComponent implements OnInit {
 
                     },
                     {
+                        label: 'Leave',
+                        icon: 'pi pi-fw pi-circle',
+                        routerLink: ['employee/leaves'],
+                        permission: this.jwtService.Permissions.CanViewAssetsAllotments
+
+                    },
+                    {
                         label: 'Notifications',
                         icon: 'pi pi-fw pi-clone',
                         routerLink: ['employee/notifications'],
