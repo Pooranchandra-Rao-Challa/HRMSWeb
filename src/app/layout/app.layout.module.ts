@@ -22,6 +22,7 @@ import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { StyleClassModule } from 'primeng/styleclass';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { CommonDialogModule } from '../_dialogs/common.dialog.module';
 
 @NgModule({
     declarations: [AppLayoutComponent, AppBreadcrumbComponent, AppSidebarComponent, AppTopbarComponent, AppProfileSidebarComponent, AppMenuComponent, AppMenuitemComponent],
@@ -41,7 +42,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
         RouterModule,
         AppConfigModule,
         ButtonModule,
-        ProgressSpinnerModule
+        ProgressSpinnerModule,
+        CommonDialogModule
     ]
 })
 export class AppLayoutModule {}
