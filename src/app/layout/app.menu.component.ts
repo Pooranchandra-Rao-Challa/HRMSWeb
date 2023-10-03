@@ -155,21 +155,18 @@ export class AppMenuComponent implements OnInit {
                         icon: 'pi pi-fw pi-calendar-times',
                         routerLink: ['employee/attendance'],
                         permission: this.jwtService.Permissions.CanViewAssetsAllotments
-
                     },
                     {
                         label: 'Leave',
                         icon: 'pi pi-fw pi-circle',
                         routerLink: ['employee/leaves'],
                         permission: this.jwtService.Permissions.CanViewAssetsAllotments
-
                     },
                     {
                         label: 'Notifications',
                         icon: 'pi pi-fw pi-clone',
                         routerLink: ['employee/notifications'],
                         permission: this.jwtService.Permissions.CanViewAssetsAllotments
-
                     },
 
                 ]
