@@ -97,7 +97,6 @@ export class AddressComponent {
     this.fbAddressDetails.get('addressType').setValue(this.addressType);
   }
   addAddress() {
-
     this.fbAddressDetails.get('addressType').enable();
     if (this.fbAddressDetails.get('addressId').value) {
       this.fbAddressDetails.get('addressId').setValue(null);
@@ -125,18 +124,10 @@ export class AddressComponent {
     // Push current values into the FormArray
     this.faAddressDetail().push(this.generaterow(this.fbAddressDetails.getRawValue()));
     // Reset form controls for the next entry
-    for (let item of this.fbAddressDetails.get('addressDetails').value) {
-      if (item.stateId !== null) {
-          const exists = this.empAddrDetails.some(existingItem => 
-            existingItem.stateId === item.stateId 
-          );
-        
-          if (!exists) {
+    this.empAddrDetails.push(this.fbAddressDetails.value);
+    for (let item of this.empAddrDetails) {
         let stateName = this.states.filter(x => x.lookupDetailId == item.stateId);
-        item.state = stateName.length > 0 ? stateName[0].name : '';
-        this.empAddrDetails.push(item)
-          }
-      }
+        item.state =stateName.length > 0 ? stateName[0].name : '';
     }
     this.fbAddressDetails.patchValue({
       employeeId: this.employeeId,
@@ -146,6 +137,7 @@ export class AddressComponent {
       landmark: '',
       zipCode: '',
       city: '',
+      countryId:'',
       stateId: '',
       addressType: '',
       isActive: true,
@@ -186,7 +178,7 @@ export class AddressComponent {
   getEmpAddressDetails(isbool: boolean) {
     this.employeeService.GetAddresses(this.employeeId, isbool).subscribe((data) => {
       this.empAddrDetails = data;
-      console.log(data)
+   
       this.hasPermanentAddress = this.empAddrDetails.some(addr => addr.addressType === 'Permanent Address' && addr.isActive === true);
       this.currentaddress = this.empAddrDetails.some(addr => addr.addressType === 'Current Address' && addr.isActive === true);
       this.temporaryaddress = this.empAddrDetails.some(addr => addr.addressType === 'Temporary Address' && addr.isActive === true);
@@ -216,7 +208,6 @@ export class AddressComponent {
   }
 
   editForm(addressDetails) {
-    console.log(addressDetails)
     this.addFlag = false;
     this.getStatesByCountryId(addressDetails.countryId)
     this.fbAddressDetails.patchValue({

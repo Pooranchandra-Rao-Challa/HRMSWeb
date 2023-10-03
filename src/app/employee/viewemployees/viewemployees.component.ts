@@ -41,7 +41,7 @@ export class ViewemployeesComponent {
   selectedOption: string;
   // Employee AdressDetails
   address: EmployeAdressViewDto[] = [];
-  isAddressChecked: boolean = true;
+  isAddressChecked: boolean;
   // Employee  UploadedDocuments
   UploadedDocuments: any[] = [];
   // EmployeeBankDetails
@@ -121,8 +121,6 @@ export class ViewemployeesComponent {
   initGetWorkExperience() {
     this.employeeService.GetWorkExperience(this.employeeId).subscribe((resp) => {
       this.workExperience = resp as unknown as employeeExperienceDtlsViewDto[];
-      if (this.workExperience.values)
-      this.selectedOption = 'Experience';
     });
   }
 
@@ -150,8 +148,10 @@ export class ViewemployeesComponent {
   }
 
   //Employee Address
-  initGetAddress(isbool) {
+  initGetAddress() {
+    const isbool = this.isAddressChecked ? true : false;
     this.employeeService.GetAddresses(this.employeeId, isbool).subscribe((resp) => {
+      this.address = resp as unknown as EmployeAdressViewDto[];
       this.address = resp as unknown as EmployeAdressViewDto[];
       // Check if the employee has Permanent Address
       this.hasPermanentAddress = this.address.some(addr => addr.addressType === 'Permanent Address');
@@ -162,7 +162,7 @@ export class ViewemployeesComponent {
     });
   }
   onChangeAddressChecked() {
-    this.initGetAddress(this.isAddressChecked)
+    this.initGetAddress()
   }
 
   //Employee FamilyDetails
@@ -170,16 +170,6 @@ export class ViewemployeesComponent {
     this.employeeService.getFamilyDetails(this.employeeId).subscribe((resp) => {
       this.familyDetails = resp as unknown as FamilyDetailsViewDto[];
     });
-  }
-
-  toggleInputField(option: string) {
-    this.selectedOption = option;
-  }
-
-  restrictSpaces(event: KeyboardEvent) {
-    if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {
-      event.preventDefault();
-    }
   }
 
   openComponentDialog(content: any,

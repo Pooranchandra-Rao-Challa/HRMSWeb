@@ -63,11 +63,11 @@ export class AddressDialogComponent {
         this.employeeService.GetAddresses(this.employeeId, isbool).subscribe((resp) => {
             this.address = resp as unknown as EmployeAdressViewDto[];
             // Check if the employee has Permanent Address
-            this.hasPermanentAddress = this.address.some(addr => addr.addressType === 'Permanent Address');
+            this.hasPermanentAddress = this.address.some(addr => addr.addressType === 'Permanent Address' && addr.isActive === true);
             // Check if the employee has Current Address
-            this.hasCurrentAddress = this.address.some(addr => addr.addressType === 'Current Address');
+            this.hasCurrentAddress = this.address.some(addr => addr.addressType === 'Current Address' && addr.isActive === true);
             // Check if the employee has Temporary Address
-            this.hasTemporaryAddres = this.address.some(addr => addr.addressType === 'Temporary Address');
+            this.hasTemporaryAddres = this.address.some(addr => addr.addressType === 'Temporary Address' && addr.isActive === true);
 
             const addressTypeControl = this.fbAddressDetails.get('addressType');
             if (!addressTypeControl.value) {
@@ -84,14 +84,6 @@ export class AddressDialogComponent {
 
     onChangeAddressChecked() {
         this.initGetAddress(this.isAddressChecked)
-    }
-
-    initdisable() {
-        if (this.config.data) {
-            this.editAddress(this.config.data);
-            this.fbAddressDetails.get('addressType').disable();
-        }
-
     }
 
     initCountries() {
@@ -134,6 +126,8 @@ export class AddressDialogComponent {
             this.activatedRoute.queryParams.subscribe((queryParams) => {
                 const employeeId = +queryParams['employeeId'];
                 const isUpdate = this.fbAddressDetails.value.addressId !== null;
+                if (isUpdate)
+                    this.fbAddressDetails.get('addressId').setValue(null);
 
                 this.employeeService.CreateAddress([{ ...this.fbAddressDetails.value, employeeId }])
                     .subscribe((resp) => {
@@ -149,6 +143,6 @@ export class AddressDialogComponent {
             )
         }
     }
-    
+
 
 }

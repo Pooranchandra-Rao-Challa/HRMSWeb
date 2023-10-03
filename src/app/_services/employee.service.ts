@@ -14,9 +14,10 @@ import {
   UPDATE_EDUCATION_DETAILS,
   UPDATE_EMPLOYEE_BASED_ON_ID_URI,
   UPDATE_OFFICE_DETAILS_URI,
-  UPDATE_EXPERIENCE_DETAILS
+  UPDATE_EXPERIENCE_DETAILS,
+  GET_ATTENDENCE
 } from './api.uri.service';
-import {ExperienceDetailsDto,SkillArea,AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments, employeeExperienceDtlsViewDto, FamilyDetailsViewDto } from '../_models/employes';
+import {ExperienceDetailsDto,SkillArea,AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments, employeeExperienceDtlsViewDto, FamilyDetailsViewDto, employeeAttendenceDto } from '../_models/employes';
 
 import { ApiHttpService } from './api.http.service';
 import { LookupViewDto } from '../_models/admin';
@@ -27,13 +28,16 @@ import { HttpHeaders, HttpParams } from '@angular/common/http';
 })
 export class EmployeeService extends ApiHttpService {
 
-
+  public GetAttendence(month:number){
+    console.log(month)
+    return this.getWithId<employeeAttendenceDto>(GET_ATTENDENCE,month);
+  }
   //Search Employee
   public GetEmployees(IsEnrolled: boolean) {
     const url = `${GET_EMPLOYEES_URI}/${IsEnrolled}`;
     return this.get<EmployeesViewDto[]>(url);
   }
-
+  
   //personal Details of Employee
   public CreateBasicDetails(basicdetails: EmployeeBasicDetailDto) {
     return this.post<EmployeeBasicDetailDto>(CREATE_BASIC_DETAILS_URI, basicdetails);
@@ -130,7 +134,6 @@ export class EmployeeService extends ApiHttpService {
   }
 
   public updateViewEmpExperienceDtls(empExpDtls: ExperienceDetailsDto ) {
-    debugger
     return this.post<ExperienceDetailsDto>(UPDATE_EXPERIENCE_DETAILS, empExpDtls);
   }
 }

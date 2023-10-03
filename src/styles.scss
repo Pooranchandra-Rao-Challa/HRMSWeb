@@ -27,13 +27,13 @@ $gutter: 1rem; //for primeflex grid system
     background-color: #F5F5F5;
 }
 
-#hrms::-webkit-scrollbar {
+::-webkit-scrollbar {
     width: 7px;
     height: 7px;
     background-color: #F5F5F5;
 }
 
-#hrms::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
     background-color: var(--primary-light-color);
     border: 0px solid #555555;
 }
@@ -272,3 +272,15 @@ p-calendar input {
 .p-steps .p-steps-item .p-menuitem-link:not(.p-disabled):focus {
     box-shadow: none !important;
 }
+.only-icon {
+    .p-inputtext{
+      display: none;
+    }
+    button.ui-datepicker-trigger.ui-calendar-button  {
+      border-radius: 4px !important;
+    }
+    .p-datepicker-monthpicker {
+        top:0px !important;
+        left:0px !important;
+    }
+   }

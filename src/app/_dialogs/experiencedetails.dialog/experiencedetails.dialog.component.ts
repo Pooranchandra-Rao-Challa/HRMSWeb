@@ -17,8 +17,9 @@ import { MIN_LENGTH_2 } from 'src/app/_shared/regex';
 })
 export class ExperiencedetailsDialogComponent {
   fbexperience!: FormGroup;
+  fbfresher!: FormGroup
   faexperienceDetails!: FormArray;
-  workExperience:employeeExperienceDtlsViewDto[];
+  workExperience: employeeExperienceDtlsViewDto[];
   maxLength: MaxLength = new MaxLength();
   countries: LookupViewDto[] = [];
   selectedCountry: number[] = [];
@@ -26,8 +27,8 @@ export class ExperiencedetailsDialogComponent {
   statesPerRow: LookupViewDto[][] = [];
   designation: LookupViewDto[] = [];
   skillarea: LookupViewDto[] = [];
-  employeeId: any;
- 
+  employeeId: string;
+
   constructor(
     private formbuilder: FormBuilder,
     private lookupService: LookupService,
@@ -40,12 +41,10 @@ export class ExperiencedetailsDialogComponent {
   }
 
   ngOnInit(): void {
-
     this.initdesignation();
     this.initExperience();
     this.initCountries();
     this.initskillArea();
-
     if (this.config.data) this.showExperienceDetails(this.config.data);
   }
 
@@ -64,7 +63,7 @@ export class ExperiencedetailsDialogComponent {
         skillAreaId: skillAreaId
       })) : [];
     return this.formbuilder.group({
-      employeeId: new FormControl(this.employeeId),
+      employeeId: (this.employeeId),
       workExperienceId: new FormControl(experienceDetails.workExperienceId),
       isAfresher: new FormControl(false),
       companyName: new FormControl(experienceDetails.companyName, [Validators.minLength(MIN_LENGTH_2)]),
@@ -79,7 +78,6 @@ export class ExperiencedetailsDialogComponent {
       workExperienceXrefs: new FormControl(workExperienceXrefs),
     });
   }
-
 
   addexperienceDetails() {
     this.faexperienceDetails = this.fbexperience.get('experienceDetails') as FormArray;
@@ -100,11 +98,11 @@ export class ExperiencedetailsDialogComponent {
     })
   }
 
-  onCountryChange(selectedCountryId: number, rowIndex: number) {
-    this.selectedCountry[rowIndex] = selectedCountryId;
+  onCountryChange(selectedCountryId: number, experienceDetailsIndex: number) {
+    this.selectedCountry[experienceDetailsIndex] = selectedCountryId;
     this.lookupService.States(selectedCountryId).subscribe((resp) => {
       if (resp) {
-        this.statesPerRow[rowIndex] = resp as unknown as LookupViewDto[];
+        this.statesPerRow[experienceDetailsIndex] = resp as unknown as LookupViewDto[];
       }
     });
   }
@@ -121,13 +119,11 @@ export class ExperiencedetailsDialogComponent {
     })
   }
 
-
   onSelectSkill(e, experienceDetailsIndex) {
     let CurrentArray = e.value;
     let updatedArray = [];
     const experienceDetailControl = this.fbexperience.get('experienceDetails') as FormArray;
     const workExperienceXrefsControl = experienceDetailControl.at(experienceDetailsIndex).get('workExperienceXrefs') as FormControl;
- 
     if (workExperienceXrefsControl.value.length > 0) {
       let workExpId = workExperienceXrefsControl.value[0].workExperienceId;
       for (let i = 0; i < CurrentArray.length; i++) {
@@ -138,19 +134,16 @@ export class ExperiencedetailsDialogComponent {
       for (let i = 0; i < CurrentArray.length; i++) {
         updatedArray.push({ workExperienceXrefId: 0, workExperienceId: 0, skillAreaId: CurrentArray[i] });
       }
-
     }
     workExperienceXrefsControl.patchValue(updatedArray);
   }
-
-
 
   showExperienceDetails(workExperience: employeeExperienceDtlsViewDto[]) {
     if (workExperience.length == 0) {
       this.faexperienceDetail().push(this.generaterow());
     } else {
-      workExperience.forEach((experienceDetails: any, rowIndex) => {
-        this.onCountryChange(experienceDetails.countryId, rowIndex);
+      workExperience.forEach((experienceDetails: ExperienceDetailsDto, experienceDetailsIndex) => {
+        this.onCountryChange(experienceDetails.countryId, experienceDetailsIndex);
         this.faexperienceDetail().push(this.generaterow(experienceDetails));
       })
     }
@@ -158,18 +151,18 @@ export class ExperiencedetailsDialogComponent {
   }
 
   saveEmpExperienceDetails() {
-    debugger
-    this.employeeService.updateViewEmpExperienceDtls(this.fbexperience.get('experienceDetails').value).subscribe((resp) => {
-      if (resp) {
-        this.alertMessage.displayAlertMessage(ALERT_CODES["EVEEXP001"]);
-        this.ref.close({
-          "UpdatedModal": ViewEmployeeScreen.ExperienceDetails
-        });
-      }
-      else {
-        this.alertMessage.displayErrorMessage(ALERT_CODES["EVEEXP002"])
-      }
-    })
+    this.employeeService.updateViewEmpExperienceDtls(this.fbexperience.get('experienceDetails').value).subscribe(
+      (resp) => {
+        if (resp) {
+          this.alertMessage.displayAlertMessage(ALERT_CODES["EVEEXP001"]);
+          this.ref.close({
+            "UpdatedModal": ViewEmployeeScreen.ExperienceDetails
+          });
+        }
+        else {
+          this.alertMessage.displayErrorMessage(ALERT_CODES["EVEEXP002"])
+        }
+      })
   }
 
 }

@@ -114,7 +114,6 @@ export class ExperienceDetailsComponent {
   initDesignations() {
     this.lookupService.Designations().subscribe((resp) => {
       this.designation = resp as unknown as LookupViewDto[];
-      console.log(this.designation)
     })
   }
   generaterow(experienceDetails: ExperienceDetailsDto = new ExperienceDetailsDto()): FormGroup {
@@ -144,6 +143,7 @@ export class ExperienceDetailsComponent {
     { field: 'workExperienceXrefs', header: 'workExperienceXrefs', label: 'SkillArea' }
   ];
   addexperienceDetails() {
+    
     if (this.fbexperience.get('workExperienceId').value) {
       this.onSubmit();
     }
@@ -154,25 +154,14 @@ export class ExperienceDetailsComponent {
       else {
         // Push current values into the FormArray
         this.faExperienceDetail().push(this.generaterow(this.fbexperience.getRawValue()));
-      
-        for (let item of this.fbexperience.get('experienceDetails').value) {
-          if (item.stateId !== null && item.designationId !== null) {
-            // Check if the item already exists in empExperienceDetails
-            const exists = this.empExperienceDetails.some(existingItem => 
-              existingItem.stateId === item.stateId && existingItem.designationId === item.designationId
-            );
-            // If the item doesn't exist, add it
-            if (!exists) {
-              let stateName = this.states.filter(x => x.lookupDetailId == item.stateId);
-              item.state = stateName.length > 0 ? stateName[0].name : '';
-              let designation = this.designation.filter(x => x.lookupDetailId == item.designationId);
-              item.designation = designation.length > 0 ? designation[0].name : '';
-              this.empExperienceDetails.push(item);
-            }
-          }
-          
+
+        this.empExperienceDetails.push(this.fbexperience.value)
+        for (let item of this.empExperienceDetails) {
+          let stateName = this.states.filter(x => x.lookupDetailId == item.stateId);
+          item.state =stateName.length > 0 ? stateName[0].name : '';
+          let designation = this.designation.filter(x => x.lookupDetailId == item.designationId);
+          item.designation = designation.length > 0 ? designation[0].name :'';
         }
-        
         // Reset form controls for the next entry
         this.fbexperience.patchValue({
           employeeId: this.employeeId,
@@ -191,6 +180,9 @@ export class ExperienceDetailsComponent {
         // Clear validation errors
         this.fbexperience.markAsPristine();
         this.fbexperience.markAsUntouched();
+
+
+
       }
       this.addexperiencedetailsshowForm = !this.addexperiencedetailsshowForm;
       this.ShowexperienceDetails = !this.ShowexperienceDetails;
@@ -228,7 +220,6 @@ export class ExperienceDetailsComponent {
     this.fbexperience.get('workExperienceXrefs')?.setValue(updatedArray);
   }
   editForm(experienceDetail) {
-    console.log(experienceDetail)
     this.addFlag = false;
     const skillAreaIdsArray = experienceDetail.skillAreaId ? experienceDetail.skillAreaId.split(',').map(Number) : [];
     this.getStatesByCountryId(experienceDetail.countryId)
