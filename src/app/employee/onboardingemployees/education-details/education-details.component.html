@@ -131,7 +131,7 @@
                     <div class="field col-12 md:col-4">
                         <span class="p-float-label">
                             <p-calendar [yearRange]="'1996:2025'" [readonlyInput]="true" [showIcon]="true"
-                                formControlName="passedOutyear"
+                                formControlName="passedOutyear" appendTo="body"
                                 [ngClass]="{'is-invalid ng-dirty': FormControls['passedOutyear'].touched && FormControls['passedOutyear'].errors }">
                             </p-calendar>
                             <label class="required">Passed Out Year</label>

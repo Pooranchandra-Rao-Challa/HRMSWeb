@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { EmployeesList, LookupViewDto } from 'src/app/_models/admin';
 import { ViewEmployeeScreen } from 'src/app/_models/common';
@@ -19,13 +19,13 @@ export class OfficedetailsDialogComponent {
   fbOfficDtls!: FormGroup;
   designation: LookupViewDto[] = [];
   employees: EmployeesList[] = [];
-  employeeId:string;
-  
+  employeeId: string;
+
   constructor(
     private formbuilder: FormBuilder,
     private lookupService: LookupService,
     private employeeService: EmployeeService,
-     private adminService: AdminService,
+    private adminService: AdminService,
     private alertMessage: AlertmessageService,
     private activatedRoute: ActivatedRoute,
     public ref: DynamicDialogRef,
@@ -37,7 +37,7 @@ export class OfficedetailsDialogComponent {
     this.initdesignation();
     this.OfficDtlsForm();
     this.initEmployees();
-    if(this.config.data) this.showEmpOfficDtlsDialog(this.config.data);
+    if (this.config.data) this.showEmpOfficDtlsDialog(this.config.data);
   }
 
   OfficDtlsForm() {
@@ -64,6 +64,7 @@ export class OfficedetailsDialogComponent {
       this.designation = resp as unknown as LookupViewDto[];
     })
   }
+
   initEmployees() {
     this.adminService.getEmployeesList().subscribe(resp => {
       this.employees = resp as unknown as EmployeesList[];
@@ -81,17 +82,17 @@ export class OfficedetailsDialogComponent {
       employeeofficDtl.isEsieligible = employeeOfficeDtls.isESIEligible;
       employeeofficDtl.isActive = true;
       this.fbOfficDtls.patchValue(employeeofficDtl);
-    } 
+    }
   }
 
   saveEmpOfficDtls() {
     this.employeeService.updateViewEmpOfficDtls(this.fbOfficDtls.value).subscribe((resp) => {
       if (resp) {
-          this.alertMessage.displayAlertMessage(ALERT_CODES["EVEOFF001"]);
-          this.ref.close({
-            "UpdatedModal": ViewEmployeeScreen.OfficDetails
+        this.alertMessage.displayAlertMessage(ALERT_CODES["EVEOFF001"]);
+        this.ref.close({
+          "UpdatedModal": ViewEmployeeScreen.OfficDetails
         });
-        }     
+      }
       else {
         this.alertMessage.displayErrorMessage(ALERT_CODES["EVEOFF002"])
       }

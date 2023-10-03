@@ -4,6 +4,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { ActivatedRoute } from '@angular/router';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
+import { FORMAT_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { LookupViewDto } from 'src/app/_models/admin';
 import { MaxLength, ViewEmployeeScreen } from 'src/app/_models/common';
 import { EducationDetailsDto, employeeEducDtlsViewDto, } from 'src/app/_models/employes';
@@ -18,7 +19,7 @@ export class EducationdetailsDialogComponent {
   fbEducationDetails!: FormGroup;
   faeducationDetails!: FormArray;
   stream: LookupViewDto[] = [];
-  circulum: LookupViewDto[] = [];
+  curriculum: LookupViewDto[] = [];
   selectedCurriculumId: number[] = [];
   streamPerRow: LookupViewDto[][] = [];
   countries: LookupViewDto[] = [];
@@ -27,7 +28,7 @@ export class EducationdetailsDialogComponent {
   maxLength: MaxLength = new MaxLength();
   gradingMethods: LookupViewDto[] = [];
   educationDetails: employeeEducDtlsViewDto[] = [];
-  employeeId: any;
+  employeeId: string;
 
   constructor(
     private formbuilder: FormBuilder,
@@ -48,7 +49,6 @@ export class EducationdetailsDialogComponent {
     if (this.config.data) this.ShowEducationDetails(this.config.data);
   }
 
-
   initEducation() {
     this.fbEducationDetails = this.formbuilder.group({
       educationDetails: this.formbuilder.array([]),
@@ -57,19 +57,20 @@ export class EducationdetailsDialogComponent {
 
   generateEducationRow(empEduDetails: EducationDetailsDto = new EducationDetailsDto()): FormGroup {
     return this.formbuilder.group({
+      employeeId: (this.employeeId),
       educationDetailId: new FormControl(empEduDetails.educationDetailId),
-      employeeId: new FormControl(this.employeeId),
       curriculumId: new FormControl(empEduDetails.curriculumId, [Validators.required,]),
       streamId: new FormControl(empEduDetails.streamId, [Validators.required,]),
       countryId: new FormControl(empEduDetails.countryId, [Validators.required,]),
       stateId: new FormControl(empEduDetails.stateId, [Validators.required,]),
       institutionName: new FormControl(empEduDetails.institutionName),
       authorityName: new FormControl(empEduDetails.authorityName, [Validators.required,]),
-      passedOutyear: new FormControl(empEduDetails.passedOutyear ? new Date(empEduDetails.passedOutyear) : null, [Validators.required,]),
+      passedOutyear: new FormControl(empEduDetails.passedOutyear ? FORMAT_DATE(new Date(empEduDetails.passedOutyear)) : null, [Validators.required,]),
       gradingMethodId: new FormControl(empEduDetails.gradingMethodId, [Validators.required,]),
       gradingValue: new FormControl(empEduDetails.gradingValue, [Validators.required,]),
     });
   }
+
   faeducationDetail(): FormArray {
     return this.fbEducationDetails.get('educationDetails') as FormArray;
   }
@@ -89,15 +90,15 @@ export class EducationdetailsDialogComponent {
 
   initCurriculum() {
     this.lookupService.Curriculums().subscribe((resp) => {
-      this.circulum = resp as unknown as LookupViewDto[];
+      this.curriculum = resp as unknown as LookupViewDto[];
     });
   }
 
-  onCurriculumChange(selectedCurriculumId: number, rowIndex: number) {
-    this.selectedCurriculumId[rowIndex] = selectedCurriculumId;
+  onCurriculumChange(selectedCurriculumId: number, educationDetailsIndex: number) {
+    this.selectedCurriculumId[educationDetailsIndex] = selectedCurriculumId;
     this.lookupService.Streams(selectedCurriculumId).subscribe((resp) => {
       if (resp) {
-        this.streamPerRow[rowIndex] = resp as unknown as LookupViewDto[];
+        this.streamPerRow[educationDetailsIndex] = resp as unknown as LookupViewDto[];
       }
     });
   }
@@ -107,14 +108,16 @@ export class EducationdetailsDialogComponent {
       this.countries = resp as unknown as LookupViewDto[];
     })
   }
-  onCountryChange(selectedCountryId: number, rowIndex: number) {
-    this.selectedCountry[rowIndex] = selectedCountryId;
+
+  onCountryChange(selectedCountryId: number, educationDetailsIndex: number) {
+    this.selectedCountry[educationDetailsIndex] = selectedCountryId;
     this.lookupService.States(selectedCountryId).subscribe((resp) => {
       if (resp) {
-        this.statesPerRow[rowIndex] = resp as unknown as LookupViewDto[];
+        this.statesPerRow[educationDetailsIndex] = resp as unknown as LookupViewDto[];
       }
     });
   }
+
   initGrading() {
     this.lookupService.GradingMethods().subscribe((resp) => {
       this.gradingMethods = resp as unknown as LookupViewDto[];
@@ -122,14 +125,12 @@ export class EducationdetailsDialogComponent {
   }
 
   ShowEducationDetails(educationDetails: employeeEducDtlsViewDto[]) {
-    debugger;
     if (educationDetails.length === 0) {
       this.faeducationDetail().push(this.generateEducationRow());
     } else {
-      console.log(educationDetails); 
-      educationDetails.forEach((empEduDetails: employeeEducDtlsViewDto, rowIndex) => {
-        this.onCountryChange(empEduDetails.countryId, rowIndex);
-        this.onCurriculumChange(empEduDetails.curriculumId, rowIndex);
+      educationDetails.forEach((empEduDetails: EducationDetailsDto, educationDetailsIndex) => {
+        this.onCountryChange(empEduDetails.countryId, educationDetailsIndex);
+        this.onCurriculumChange(empEduDetails.curriculumId, educationDetailsIndex);
         this.faeducationDetail().push(this.generateEducationRow(empEduDetails));
       });
     }

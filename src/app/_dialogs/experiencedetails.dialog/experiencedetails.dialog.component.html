@@ -1,13 +1,11 @@
 <div class="flex flex-column  justify-content-center">
   <form [formGroup]="fbexperience">
     <div class="grid mt-3 p-5">
-      <div class="col-12 roles-container">
-        
+      <div class="col-12 roles-container">        
         <div class="p-fluid p-formgrid grid">
-
           <div class=" col-12 md:col-4 ">
             <div class=" button-container" >
-              <p-button type="button"  label="Add Experience Details" (click)="addexperienceDetails()"></p-button>
+              <p-button type="button" id="Add_Experience_Details" label="Add Experience Details" (click)="addexperienceDetails()"></p-button>
             </div>
           </div>
           <div class="col-12 scrolling_content" formArrayName="experienceDetails" >
@@ -131,7 +129,7 @@
                         </div>
                   </td>
                   <td class="vertical-align-top">
-                    <p-calendar [showIcon]="true" formControlName="dateOfReliving" appendTo="body"
+                    <p-calendar [showIcon]="true" formControlName="dateOfReliving" appendTo="body" id="date_Of_Reliving"
                       placeholder="Select From Date"></p-calendar>
                   </td>
                   <td class="vertical-align-top">

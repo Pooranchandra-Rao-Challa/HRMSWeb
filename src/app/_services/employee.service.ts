@@ -144,7 +144,6 @@ export class EmployeeService extends ApiHttpService {
   }
 
   public updateViewEmpExperienceDtls(empExpDtls: ExperienceDetailsDto ) {
-    debugger
     return this.post<ExperienceDetailsDto>(UPDATE_EXPERIENCE_DETAILS, empExpDtls);
   }
 }

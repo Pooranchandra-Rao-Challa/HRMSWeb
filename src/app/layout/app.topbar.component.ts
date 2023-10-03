@@ -7,6 +7,9 @@ import { ALERT_CODES } from '../_alerts/alertmessage.service';
 import { UnsavedChangesGuard } from '../_guards/unsaved-changes.guard';
 import { ActivatedRoute } from '@angular/router';
 import { UpdateStatusService } from '../_services/updatestatus.service';
+import { Actions, DialogRequest } from '../_models/common';
+import { LookupDialogComponent } from '../_dialogs/lookup.dialog/lookup.dialog.component';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 
 @Component({
     selector: 'app-topbar',
@@ -19,6 +22,9 @@ export class AppTopbarComponent {
     loggedInUser: String = "";
     isUpdating: boolean;
     // userPhoto: string;
+    ActionTypes = Actions;
+    lookupDialogComponent = LookupDialogComponent;
+    dialogRequest: DialogRequest = new DialogRequest();
 
     constructor(public layoutService: LayoutService,
         private jwtService: JwtService,
@@ -26,7 +32,9 @@ export class AppTopbarComponent {
         private unsavedChangesGuard: UnsavedChangesGuard,
         private route: ActivatedRoute,
         private loginService: LoginService,
-        private updateStatusService: UpdateStatusService) {
+        private updateStatusService: UpdateStatusService,
+        private dialogService: DialogService,
+        public ref: DynamicDialogRef) {
         this.loggedInUser = this.jwtService.GivenName;
         // this.userPhoto = this.jwtService.UserPhoto;
     }
@@ -68,4 +76,22 @@ export class AppTopbarComponent {
             this.loginService.revokeToken(ALERT_CODES["HRMS002"]);
         }
     }
+
+    openComponentDialog(content: any,
+        dialogData, action: Actions = this.ActionTypes.add) {
+        if (action == Actions.save && content === this.lookupDialogComponent) {
+          this.dialogRequest.dialogData = dialogData;
+          this.dialogRequest.header = "Lookup";
+          this.dialogRequest.width = "70%";
+        }
+        this.ref = this.dialogService.open(content, {
+          data: this.dialogRequest.dialogData,
+          header: this.dialogRequest.header,
+          width: this.dialogRequest.width
+        });
+        // this.ref.onClose.subscribe((res: any) => {
+        //   if (res) this.getLookUp(true);
+        //   event.preventDefault(); // Prevent the default form submission
+        // });
+      }
 }
