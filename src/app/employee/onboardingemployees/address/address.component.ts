@@ -34,9 +34,9 @@ export class AddressComponent {
   hasPermanentAddress: boolean = false;
   temporaryaddress: boolean = false
   currentaddress: boolean = false
-  addressType: string = '';
   showAddressDetails: boolean = true;
   addaddressdetailsshowForm: boolean = false;
+  
   constructor(private router: Router, private route: ActivatedRoute, private jwtService: JwtService, private formbuilder: FormBuilder,
     private alertMessage: AlertmessageService, private employeeService: EmployeeService,
     private lookupService: LookupService,
@@ -93,9 +93,7 @@ export class AddressComponent {
   removeItem(index: number): void {
     this.empAddrDetails.splice(index, 1);
   }
-  onAddressTypeChange() {
-    this.fbAddressDetails.get('addressType').setValue(this.addressType);
-  }
+
   addAddress() {
     this.fbAddressDetails.get('addressType').enable();
     if (this.fbAddressDetails.get('addressId').value) {
@@ -103,10 +101,9 @@ export class AddressComponent {
       this.onSubmit();
     }
     else {
-      if ((this.hasPermanentAddress && this.fbAddressDetails.get('addressType').value == "Permanent Address") ||
-        (this.currentaddress && this.fbAddressDetails.get('addressType').value == "Current Address") ||
-        (this.temporaryaddress && this.fbAddressDetails.get('addressType').value == "Temporary Address")) {
-
+      if ((this.hasPermanentAddress && this.fbAddressDetails.get('addressType').value === "Permanent Address") ||
+        (this.currentaddress && this.fbAddressDetails.get('addressType').value === "Current Address") ||
+        (this.temporaryaddress && this.fbAddressDetails.get('addressType').value === "Temporary Address")) {
         this.fbAddressDetails.get('addressType')?.setValue('');
         this.fbAddressDetails.markAllAsTouched();
         this.alertMessage.displayErrorMessage(ALERT_CODES["SMAD007"]);
@@ -122,13 +119,21 @@ export class AddressComponent {
 
   save() {
     // Push current values into the FormArray
+    if (this.fbAddressDetails.get('addressType').value === "Permanent Address")
+      this.hasPermanentAddress = true;
+    else if (this.fbAddressDetails.get('addressType').value === "Current Address")
+      this.currentaddress = true;
+    else
+      this.temporaryaddress = true;
+
     this.faAddressDetail().push(this.generaterow(this.fbAddressDetails.getRawValue()));
     // Reset form controls for the next entry
-    this.empAddrDetails.push(this.fbAddressDetails.value);
-    for (let item of this.empAddrDetails) {
-        let stateName = this.states.filter(x => x.lookupDetailId == item.stateId);
-        item.state =stateName.length > 0 ? stateName[0].name : '';
+
+    if (this.fbAddressDetails.value) {
+      let stateName = this.states.filter(x => x.lookupDetailId === this.FormControls['stateId'].value);
+      this.empAddrDetails.push({ ...this.fbAddressDetails.value, state: stateName[0].name });
     }
+
     this.fbAddressDetails.patchValue({
       employeeId: this.employeeId,
       addressId: null,
@@ -137,7 +142,7 @@ export class AddressComponent {
       landmark: '',
       zipCode: '',
       city: '',
-      countryId:'',
+      countryId: '',
       stateId: '',
       addressType: '',
       isActive: true,
@@ -178,7 +183,7 @@ export class AddressComponent {
   getEmpAddressDetails(isbool: boolean) {
     this.employeeService.GetAddresses(this.employeeId, isbool).subscribe((data) => {
       this.empAddrDetails = data;
-   
+
       this.hasPermanentAddress = this.empAddrDetails.some(addr => addr.addressType === 'Permanent Address' && addr.isActive === true);
       this.currentaddress = this.empAddrDetails.some(addr => addr.addressType === 'Current Address' && addr.isActive === true);
       this.temporaryaddress = this.empAddrDetails.some(addr => addr.addressType === 'Temporary Address' && addr.isActive === true);
@@ -198,9 +203,8 @@ export class AddressComponent {
         this.alertMessage.displayAlertMessage(ALERT_CODES["SAD001"]);
         this.navigateToNext();
       }
-      else {
+      else 
         this.alertMessage.displayErrorMessage(ALERT_CODES["SAD001"]);
-      }
     });
   }
   clearForm() {
