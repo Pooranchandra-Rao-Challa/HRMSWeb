@@ -27,14 +27,14 @@
                     </div>
                     <div class="field col-12 md:col-6">
                         <label>Dependent Lookup: </label>&nbsp;
-                        <p-dropdown id="lookupName_Dropdown" [autoDisplayFirst]="false" appendTo="body"
+                        <p-dropdown id="lookupName_Dropdown"  appendTo="body" [autoDisplayFirst]="false"
                             [options]="lookupNames" formControlName="fkeySelfId" (onChange)="onLookupChange($event)"
                             placeholder="Select Dependent Lookup" [showClear]="true">
                         </p-dropdown>
                     </div>
                     <div class="field col-12 md:col-6">
                         <label class="required">Lookup Name: </label>&nbsp;
-                        <p-dropdown id="lookupName_Not_Configured_Dropdown" [autoDisplayFirst]="false" appendTo="body"
+                        <p-dropdown id="lookupName_Not_Configured_Dropdown" appendTo="body" [autoDisplayFirst]="false" 
                             [options]="lookupNamesNotConfigured" formControlName="name"
                             [readonly]="FormControls['lookupId'].value!== null" placeholder="Select Lookup Name"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['name'].touched && FormControls['name'].errors }">

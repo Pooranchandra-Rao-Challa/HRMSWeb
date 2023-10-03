@@ -337,3 +337,19 @@ export class employeeAttendenceDto {
 	employeeName: string;
 	dates: { [date: string]: string | {} };
 }
+
+export class LeaveDto{
+	id?: number;
+	employeeId?:number;
+	fromDate?: Date;
+	toDate?: Date;
+	leaveTypeId?: number;
+	note?: string;
+	acceptedBy?: string;
+	acceptedAt?: Date;
+	approvedBy?: string;
+	approvedAt?:Date;
+	rejected?: boolean;
+	createdAt?: Date;
+	createdBy?: string;
+}
