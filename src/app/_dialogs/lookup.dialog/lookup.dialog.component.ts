@@ -1,7 +1,7 @@
 import { HttpEvent } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { DynamicDialogConfig } from 'primeng/dynamicdialog';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
@@ -33,7 +33,8 @@ export class LookupDialogComponent {
     private adminService: AdminService,
     private alertMessage: AlertmessageService,
     private lookupService: LookupService,
-    private config: DynamicDialogConfig) { }
+    private config: DynamicDialogConfig,
+    public ref: DynamicDialogRef) { }
 
   ngOnInit(): void {
     this.initDependentLookups();
@@ -47,9 +48,7 @@ export class LookupDialogComponent {
     this.lookupService.LookupNames().subscribe((resp) => {
       this.lookupNames = resp as unknown as string[];
       console.log(resp);
-
     });
-    
   }
 
   initNotConfiguredLookups() {
@@ -198,20 +197,14 @@ export class LookupDialogComponent {
       this.savelookup().subscribe(resp => {
         if (resp) {
           this.isLookupChecked = false;
-          this.onClose();
           this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "SML001" : "SML002"]);
+          this.ref.close(true);
         }
       })
     }
     else {
       this.fblookup.markAllAsTouched();
     }
-  }
-  onClose() {
-    this.fblookup.reset();
-    this.showlookupDetails = false;
-    this.dependentDropdown = false;
-    this.falookupDetails().clear();
   }
   savelookup(): Observable<HttpEvent<LookupViewDto>> {
     if (this.addFlag) {
