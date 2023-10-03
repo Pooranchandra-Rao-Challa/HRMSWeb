@@ -42,6 +42,7 @@ export const LOOKUP_CURRICULUM_URI ="Lookup/Curriculums";
 export const LOOKUP_STREAM_URI ="Lookup/Streams";
 export const LOOKUP_GRADING_SYSTEM_URI ="Lookup/GradingMethods";
 export const LOOKUP_COUNTRY_URI ="Lookup/Countries";
+export const LOOKUP_DAYWORKSTATUS_URI="Lookup/DayWorkStatus"
 export const LOOKUP_STATES_URI = "Lookup/States";
 export const LOOKUP_BLOOD_GROUPS_URI = "Lookup/BloodGroups";
 export const LOOKUP_RELATIONSHIP_URI="Lookup/Relations";
@@ -95,3 +96,5 @@ export const UPDATE_EXPERIENCE_DETAILS ="Employee/UpdateWorkExperience";
 //Attendence
 
 export const GET_ATTENDENCE="Attendance/GetMonthlyAttendanceReport";
+export const POST_ATTENDENCE="Attendance/AddAttendance";
+export const GET_NOTUPDATED_EMPLOYEES="Attendance/GetNotUpdatedEmployeesInAttendance";

@@ -61,7 +61,7 @@ export class ExperienceDetailsComponent {
   fresherForm() {
     this.fbfresher = this.formbuilder.group({
       employeeId: this.employeeId,
-      workExperienceId: [],
+      workExperienceId: [null],
       isAfresher: new FormControl(true, [Validators.required]),
       companyName: new FormControl(''),
       companyLocation: new FormControl(''),
@@ -70,7 +70,7 @@ export class ExperienceDetailsComponent {
       designationId: new FormControl(null),
       dateOfJoining: new FormControl(null),
       dateOfReliving: new FormControl(null),
-      workExperienceXrefs: new FormControl()
+      workExperienceXrefs: new FormControl([])
     });
   }
   removeItem(index: number): void {
@@ -154,14 +154,13 @@ export class ExperienceDetailsComponent {
       else {
         // Push current values into the FormArray
         this.faExperienceDetail().push(this.generaterow(this.fbexperience.getRawValue()));
-
-        this.empExperienceDetails.push(this.fbexperience.value)
-        for (let item of this.empExperienceDetails) {
-          let stateName = this.states.filter(x => x.lookupDetailId == item.stateId);
-          item.state =stateName.length > 0 ? stateName[0].name : '';
-          let designation = this.designation.filter(x => x.lookupDetailId == item.designationId);
-          item.designation = designation.length > 0 ? designation[0].name :'';
+      
+        if(this.fbexperience.value){
+          let stateName = this.states.filter(x => x.lookupDetailId === this.FormControls['stateId'].value);
+          let designationName = this.designation.filter(x => x.lookupDetailId === this.FormControls['designationId'].value);
+          this.empExperienceDetails.push({...this.fbexperience.value,state:stateName[0].name,designation:designationName[0].name});
         }
+        
         // Reset form controls for the next entry
         this.fbexperience.patchValue({
           employeeId: this.employeeId,
@@ -243,6 +242,7 @@ export class ExperienceDetailsComponent {
   }
 
   saveExperience(): Observable<HttpEvent<any>> {
+    debugger
     if (this.selectedOption == 'Experience') {
       if (this.addFlag)
         return this.employeeService.CreateExperience(this.fbexperience.get('experienceDetails').value);
@@ -270,8 +270,12 @@ export class ExperienceDetailsComponent {
   getEmpExperienceDetails() {
     this.employeeService.GetWorkExperience(this.employeeId).subscribe((data) => {
       this.empExperienceDetails = data;
-      if (this.empExperienceDetails.length > 0)
+      console.log(data)
+      if (data[0].isAFresher===false)
         this.selectedOption = 'Experience';
+        else
+        this.selectedOption='Fresher';
+        
     })
   }
   navigateToPrev() {

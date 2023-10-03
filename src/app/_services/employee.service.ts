@@ -15,7 +15,9 @@ import {
   UPDATE_EMPLOYEE_BASED_ON_ID_URI,
   UPDATE_OFFICE_DETAILS_URI,
   UPDATE_EXPERIENCE_DETAILS,
-  GET_ATTENDENCE
+  GET_ATTENDENCE,
+  POST_ATTENDENCE,
+  GET_NOTUPDATED_EMPLOYEES
 } from './api.uri.service';
 import {ExperienceDetailsDto,SkillArea,AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments, employeeExperienceDtlsViewDto, FamilyDetailsViewDto, employeeAttendenceDto } from '../_models/employes';
 
@@ -32,6 +34,10 @@ export class EmployeeService extends ApiHttpService {
     console.log(month)
     return this.getWithId<employeeAttendenceDto>(GET_ATTENDENCE,month);
   }
+
+  public AddAttendence(data){
+    return this.post(POST_ATTENDENCE,data);
+  }
   //Search Employee
   public GetEmployees(IsEnrolled: boolean) {
     const url = `${GET_EMPLOYEES_URI}/${IsEnrolled}`;
@@ -42,6 +48,10 @@ export class EmployeeService extends ApiHttpService {
   public CreateBasicDetails(basicdetails: EmployeeBasicDetailDto) {
     return this.post<EmployeeBasicDetailDto>(CREATE_BASIC_DETAILS_URI, basicdetails);
 
+  }
+  public GetNotUpdatedEmployees(date){
+    console.log(GET_NOTUPDATED_EMPLOYEES,`${date}`)
+    return this.get(GET_NOTUPDATED_EMPLOYEES+'/'+`${date}`);
   }
   //Education Details of Employee
   public CreateEducationDetails(educationdetails: EducationDetailsDto[]){

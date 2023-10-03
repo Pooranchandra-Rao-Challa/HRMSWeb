@@ -3,13 +3,13 @@
         <div class=" flex justify-content-center p-1">
             <div class="flex flex-wrap gap-3">
                 <div class="flex align-items-center">
-                    <p-radioButton name="experienceDetails" value="Fresher" [(ngModel)]="selectedOption"
-                        inputId="fresher" seleted></p-radioButton>
+                    <p-radioButton name="experienceDetails" value="Fresher" [(ngModel)]="this.selectedOption"
+                        inputId="fresher" seleted [disabled]="this.empExperienceDetails[0]?.isAFresher===false"></p-radioButton>
                     <label for="fresher" class="ml-2">Fresher</label>
                 </div>
 
                 <div class="flex align-items-center">
-                    <p-radioButton name="experienceDetails" value="Experience" [(ngModel)]="selectedOption"
+                    <p-radioButton name="experienceDetails" value="Experience" [(ngModel)]="this.selectedOption" [disabled]="this.empExperienceDetails[0]?.isAFresher===true"
                         inputId="experience"></p-radioButton>
                     <label for="experience" class="ml-2">Experience</label>
                 </div>
@@ -264,10 +264,10 @@
                                 {{experienceDetail[col.field]}}
                             </span>
                             <span *ngIf="col?.field == 'stateId'">
-                                {{experienceDetail.state?experienceDetail.state:experienceDetail[col.field]}}
+                                {{experienceDetail.state}}
                             </span>
                             <span *ngIf="col?.field == 'designationId'">
-                                {{experienceDetail.designation?experienceDetail.designation:experienceDetail[col.field]}}
+                                {{experienceDetail.designation}}
                             </span>
                             <span *ngIf="col?.field == 'dateOfReliving'||col?.field == 'dateOfJoining'">
                                 {{experienceDetail[col.field]|date:mediumDate}}
