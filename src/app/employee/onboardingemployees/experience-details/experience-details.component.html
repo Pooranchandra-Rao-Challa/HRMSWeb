@@ -3,13 +3,13 @@
         <div class=" flex justify-content-center p-1">
             <div class="flex flex-wrap gap-3">
                 <div class="flex align-items-center">
-                    <p-radioButton name="experienceDetails" value="Fresher" [(ngModel)]="selectedOption"
-                        inputId="fresher" seleted></p-radioButton>
+                    <p-radioButton name="experienceDetails" value="Fresher" [(ngModel)]="this.selectedOption"
+                        inputId="fresher" seleted [disabled]="this.empExperienceDetails[0]?.isAFresher===false"></p-radioButton>
                     <label for="fresher" class="ml-2">Fresher</label>
                 </div>
 
                 <div class="flex align-items-center">
-                    <p-radioButton name="experienceDetails" value="Experience" [(ngModel)]="selectedOption"
+                    <p-radioButton name="experienceDetails" value="Experience" [(ngModel)]="this.selectedOption" [disabled]="this.empExperienceDetails[0]?.isAFresher===true"
                         inputId="experience"></p-radioButton>
                     <label for="experience" class="ml-2">Experience</label>
                 </div>
@@ -104,7 +104,7 @@
                                 <div class="field col-12 md:col-4">
                                     <label class="required">Country:</label>&nbsp;
                                     <p-dropdown inputId="dropdown" id="Experience_stateId" [autoDisplayFirst]="false"
-                                        placeholder="Select State"
+                                        placeholder="Select State" appendTo="body"
                                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['countryId'].touched && FormControls['countryId'].errors }"
                                         formControlName="countryId" [options]="countries" optionValue="lookupDetailId"
                                         optionLabel="name" (onChange)="getStatesByCountryId($event.value)">
@@ -123,7 +123,7 @@
                                 <div class="field col-12 md:col-4">
                                     <label class="required">State:</label>&nbsp;
                                     <p-dropdown inputId="dropdown" id="Experience_stateId" [autoDisplayFirst]="false"
-                                        placeholder="Select State"
+                                        placeholder="Select State" appendTo="body"
                                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['stateId'].touched && FormControls['stateId'].errors }"
                                         formControlName="stateId" [options]="states" optionValue="lookupDetailId"
                                         optionLabel="name">
@@ -143,7 +143,7 @@
                                     <label class="required">Designation:</label>&nbsp;
                                     <p-dropdown inputId="dropdown" id="Experience_designationId"
                                         [autoDisplayFirst]="false" formControlName="designationId"
-                                        [options]="designation" optionValue="lookupDetailId"
+                                        [options]="designation" optionValue="lookupDetailId" appendTo="body"
                                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['designationId'].touched && FormControls['designationId'].errors }"
                                         optionLabel="name" placeholder="Select Designation" [options]="designation"
                                         optionLabel="name">
@@ -164,7 +164,7 @@
                                     <p-multiSelect placeholder="Select SkillAreas" id="Experience_skillArea"
                                         [options]="skills" optionLabel="name" [filter]="true" filterBy="name"
                                         #multiSelect formControlName="skills" optionValue="lookupDetailId"
-                                        (onChange)="onSelectSkill($event)"
+                                        (onChange)="onSelectSkill($event)" 
                                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['skills'].touched && FormControls['skills'].errors }"
                                         appendTo="body">
                                         <ng-template let-skill pTemplate="selectedItem">
@@ -246,13 +246,15 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-experienceDetail let-experienceDetailsIndex="rowIndex">
                     <tr>
-                        <td *ngIf="permissions?.CanManageEmployee" class="flex">
-                            <button pButton pRipple icon="pi pi-pencil" (click)="editForm(experienceDetail)"
+                        <td *ngIf="permissions?.CanManageEmployee" >
+                            <div class="flex">
+                                <button pButton pRipple icon="pi pi-pencil" (click)="editForm(experienceDetail)"
                                 class="p-element p-ripple p-button-text p-button p-component col-2 p-0 "></button>
                             <button pButton pRipple icon="pi pi-trash" id="AddressDetailsRemove-Btn"
                                 class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
                                 (click)="removeItem(experienceDetailsIndex)">
                             </button>
+                            </div>
                         </td>
                         <td *ngFor="let col of headers"
                             [ngClass]="col?.field == 'companyName' || col?.field == 'companyLocation' || col?.field == 'companyEmployeeId'  ||col?.field == 'stateId'  ||  col?.field == 'designationId'
@@ -262,10 +264,10 @@
                                 {{experienceDetail[col.field]}}
                             </span>
                             <span *ngIf="col?.field == 'stateId'">
-                                {{experienceDetail.state?experienceDetail.state:experienceDetail[col.field]}}
+                                {{experienceDetail.state}}
                             </span>
                             <span *ngIf="col?.field == 'designationId'">
-                                {{experienceDetail.designation?experienceDetail.designation:experienceDetail[col.field]}}
+                                {{experienceDetail.designation}}
                             </span>
                             <span *ngIf="col?.field == 'dateOfReliving'||col?.field == 'dateOfJoining'">
                                 {{experienceDetail[col.field]|date:mediumDate}}

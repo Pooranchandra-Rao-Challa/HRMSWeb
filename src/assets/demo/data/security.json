@@ -1,4 +1,111 @@
 {
+    "leave":[
+        {
+            "id":1,
+            "employeeId": 98,
+            "fromDate": "09-10-2020",
+            "toDate": "19-11-2020",
+            "leaveTypeId": "CL",
+            "note": "kjksajdfkljsakldfjkls",
+            "acceptedBy": "Nikhitha",
+            "acceptedAt": "05-10-2020",
+            "approvedBy": "Nikhitha",
+            "approvedAt":"05-10-2020",
+            "rejected":true,
+            "createdAt": "12-02-2020",
+            "createdBy": "12-09-2020"   
+          },
+          {
+            "id":1,
+            "employeeId": 98,
+            "fromDate": "09-10-2020",
+            "toDate": "19-11-2020",
+            "leaveTypeId": "CL",
+            "note": "kjksajdfkljsakldfjkls",
+            "acceptedBy": "Nikhitha",
+            "acceptedAt": "05-10-2020",
+            "approvedBy": "Nikhitha",
+            "approvedAt":"05-10-2020",
+            "rejected":true,
+            "createdAt": "12-02-2020",
+            "createdBy": "12-09-2020"   
+          },
+          {
+            "id":1,
+            "employeeId": 98,
+            "fromDate": "09-10-2020",
+            "toDate": "19-11-2020",
+            "leaveTypeId": "CL",
+            "note": "kjksajdfkljsakldfjkls",
+            "acceptedBy": "Nikhitha",
+            "acceptedAt": "05-10-2020",
+            "approvedBy": "Nikhitha",
+            "approvedAt":"05-10-2020",
+            "rejected":true,
+            "createdAt": "12-02-2020",
+            "createdBy": "12-09-2020"   
+          },
+          {
+            "id":1,
+            "employeeId": 98,
+            "fromDate": "09-10-2020",
+            "toDate": "19-11-2020",
+            "leaveTypeId": "CL",
+            "note": "kjksajdfkljsakldfjkls",
+            "acceptedBy": "Nikhitha",
+            "acceptedAt": "05-10-2020",
+            "approvedBy": "Nikhitha",
+            "approvedAt":"05-10-2020",
+            "rejected":true,
+            "createdAt": "12-02-2020",
+            "createdBy": "12-09-2020"   
+          },
+          {
+            "id":1,
+            "employeeId": 98,
+            "fromDate": "09-10-2020",
+            "toDate": "19-11-2020",
+            "leaveTypeId": "CL",
+            "note": "kjksajdfkljsakldfjkls",
+            "acceptedBy": "Nikhitha",
+            "acceptedAt": "05-10-2020",
+            "approvedBy": "Nikhitha",
+            "approvedAt":"05-10-2020",
+            "rejected":true,
+            "createdAt": "12-02-2020",
+            "createdBy": "12-09-2020"   
+          },
+          {
+            "id":1,
+            "employeeId": 98,
+            "fromDate": "09-10-2020",
+            "toDate": "19-11-2020",
+            "leaveTypeId": "CL",
+            "note": "kjksajdfkljsakldfjkls",
+            "acceptedBy": "Nikhitha",
+            "acceptedAt": "05-10-2020",
+            "approvedBy": "Nikhitha",
+            "approvedAt":"05-10-2020",
+            "rejected":true,
+            "createdAt": "12-02-2020",
+            "createdBy": "12-09-2020"   
+          },
+          {
+            "id":1,
+            "employeeId": 98,
+            "fromDate": "09-10-2020",
+            "toDate": "19-11-2020",
+            "leaveTypeId": "CL",
+            "note": "kjksajdfkljsakldfjkls",
+            "acceptedBy": "Nikhitha",
+            "acceptedAt": "05-10-2020",
+            "approvedBy": "Nikhitha",
+            "approvedAt":"05-10-2020",
+            "rejected":true,
+            "createdAt": "12-02-2020",
+            "createdBy": "12-09-2020"   
+          }
+    ],
     "employee": [
         {
             "id": "100",
@@ -736,7 +843,7 @@
             ]
         }
     ],
-    "leave": [
+    "Holiday": [
         {
             "id": "20",
             "leaveTitle": "Sankranti",

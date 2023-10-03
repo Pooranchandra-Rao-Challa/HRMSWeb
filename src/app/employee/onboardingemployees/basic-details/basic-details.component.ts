@@ -42,77 +42,71 @@ export class BasicDetailsComponent implements OnInit {
         private lookupService: LookupService, private alertMessage: AlertmessageService,
         private onboardEmployeeService: OnboardEmployeeService) {
 
-    }
+  }
 
-    ngOnInit() {
-        console.log(this.route);
+  ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+        this.employeeId = params['employeeId']
+        this.onboardEmployeeService.sendData(this.employeeId);
+    });
+    if (this.employeeId)
+      this.getEmployeeBasedonId();
+    this.basicDetailsForm();
+    this.initBloodGroups();
+    this.genders = [
+      { name: 'Male', code: 'male' },
+      { name: 'Female', code: 'female' }
+    ];
+    this.MaritalStatus = [
+      { name: 'Single', code: 'single' },
+      { name: 'Married', code: 'married' },
+      { name: 'Widow', code: 'widow' },
+      { name: 'Divorced', code: 'divorced' },
+    ];
+  }
+  basicDetailsForm() {
+    this.fbbasicDetails = this.formbuilder.group({
+      employeeId: [0],
+      code: [null],
+      firstName: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
+      middleName: new FormControl('', [Validators.minLength(MIN_LENGTH_2)]),
+      lastName: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2)]),
+      userId: [null],
+      gender: new FormControl('', [Validators.required]),
+      bloodGroupId: new FormControl('', [Validators.required]),
+      maritalStatus: new FormControl('', [Validators.required]),
+      mobileNumber: new FormControl('', [Validators.required, Validators.pattern(RG_PHONE_NO)]),
+      alternateMobileNumber: new FormControl('', [Validators.pattern(RG_PHONE_NO)]),
+      originalDob: new FormControl('', [Validators.required]),
+      certificateDob: new FormControl('', [Validators.required]),
+      emailId: new FormControl('', [Validators.required, Validators.pattern(RG_EMAIL)]),
+      isActive: new FormControl(true, [Validators.required]),
+      photo: [],
+      signDate: [null]
+    });
 
-        this.route.queryParams.subscribe(params => {
-            this.employeeId = params['employeeId']
-        });
-        console.log(this.employeeId );
+  }
+  get FormControls() {
+    return this.fbbasicDetails.controls;
+  }
 
-        if (this.employeeId){
-            this.getEmployeeBasedonId();
-            this.onboardEmployeeService.sendData(this.employeeId)
-        }
-
-        this.basicDetailsForm();
-        this.initBloodGroups();
-        this.genders = [
-            { name: 'Male', code: 'male' },
-            { name: 'Female', code: 'female' }
-        ];
-        this.MaritalStatus = [
-            { name: 'Single', code: 'single' },
-            { name: 'Married', code: 'married' },
-            { name: 'Widow', code: 'widow' },
-            { name: 'Divorced', code: 'divorced' },
-        ];
+  initBloodGroups() {
+    this.lookupService.BloodGroups().subscribe((resp) => {
+      this.bloodgroups = resp as unknown as LookupViewDto[];
+    });
+  }
+  getEmployeeBasedonId() {
+    this.employeeService.GetViewEmpPersDtls(this.employeeId).subscribe((resp) => {
+      this.empbasicDetails = resp as EmployeeBasicDetailDto;
+      this.editBasicDetails(this.empbasicDetails);
+    });
+  }
+  savebasicDetails(): Observable<HttpEvent<EmployeeBasicDetailDto>> {
+    if (this.employeeId == null) {
+      return this.employeeService.CreateBasicDetails(this.fbbasicDetails.value)
     }
-    basicDetailsForm() {
-        this.fbbasicDetails = this.formbuilder.group({
-            employeeId: [0],
-            code: [null],
-            firstName: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
-            middleName: new FormControl('', [Validators.minLength(MIN_LENGTH_2)]),
-            lastName: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2)]),
-            userId: [null],
-            gender: new FormControl('', [Validators.required]),
-            bloodGroupId: new FormControl('', [Validators.required]),
-            maritalStatus: new FormControl('', [Validators.required]),
-            mobileNumber: new FormControl('', [Validators.required, Validators.pattern(RG_PHONE_NO)]),
-            alternateMobileNumber: new FormControl('', [Validators.pattern(RG_PHONE_NO)]),
-            originalDob: new FormControl('', [Validators.required]),
-            certificateDob: new FormControl('', [Validators.required]),
-            emailId: new FormControl('', [Validators.required, Validators.pattern(RG_EMAIL)]),
-            isActive: new FormControl(true, [Validators.required]),
-            photo: [],
-            signDate: [null]
-        });
-
-    }
-    get FormControls() {
-        return this.fbbasicDetails.controls;
-    }
-
-    initBloodGroups() {
-        this.lookupService.BloodGroups().subscribe((resp) => {
-            this.bloodgroups = resp as unknown as LookupViewDto[];
-        });
-    }
-    getEmployeeBasedonId() {
-        this.employeeService.GetViewEmpPersDtls(this.employeeId).subscribe((resp) => {
-            this.empbasicDetails = resp as EmployeeBasicDetailDto;
-            this.editBasicDetails(this.empbasicDetails);
-        });
-    }
-    savebasicDetails(): Observable<HttpEvent<EmployeeBasicDetailDto>> {
-        if (this.employeeId == null) {
-            return this.employeeService.CreateBasicDetails(this.fbbasicDetails.value)
-        }
-        else return this.employeeService.updateViewEmpPersDtls(this.fbbasicDetails.value)
-    }
+    else return this.employeeService.updateViewEmpPersDtls(this.fbbasicDetails.value)
+  }
 
     save() {
         this.savebasicDetails().subscribe(resp => {

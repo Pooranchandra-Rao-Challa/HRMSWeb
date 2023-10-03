@@ -29,17 +29,15 @@ export class ExperienceDetailsComponent {
   designation: LookupDetailsDto[] = []
   skills: LookupDetailsDto[] = []
   selectedOption: string;
+  workExperienceId:number;
   maxLength: MaxLength = new MaxLength();
   viewSelectedSkills = [];
   addFlag: boolean = true;
   fbexperience!: FormGroup;
   fbfresher!: FormGroup
   faexperienceDetails!: FormArray;
-  dialog: boolean = false;
   permissions: any;
   employeeId: any;
-  skillAreaNames: string;
-  @ViewChild('multiSelect') multiSelect: any;
   empExperienceDetails: any = [];
 
   constructor(private router: Router, private formbuilder: FormBuilder, private route: ActivatedRoute, private jwtService: JwtService,
@@ -64,7 +62,7 @@ export class ExperienceDetailsComponent {
   fresherForm() {
     this.fbfresher = this.formbuilder.group({
       employeeId: this.employeeId,
-      workExperienceId: [],
+      workExperienceId: [null],
       isAfresher: new FormControl(true, [Validators.required]),
       companyName: new FormControl(''),
       companyLocation: new FormControl(''),
@@ -73,7 +71,7 @@ export class ExperienceDetailsComponent {
       designationId: new FormControl(null),
       dateOfJoining: new FormControl(null),
       dateOfReliving: new FormControl(null),
-      workExperienceXrefs: new FormControl()
+      workExperienceXrefs: new FormControl([])
     });
   }
   removeItem(index: number): void {
@@ -117,7 +115,6 @@ export class ExperienceDetailsComponent {
   initDesignations() {
     this.lookupService.Designations().subscribe((resp) => {
       this.designation = resp as unknown as LookupViewDto[];
-      console.log(this.designation)
     })
   }
   generaterow(experienceDetails: ExperienceDetailsDto = new ExperienceDetailsDto()): FormGroup {
@@ -147,6 +144,7 @@ export class ExperienceDetailsComponent {
     { field: 'workExperienceXrefs', header: 'workExperienceXrefs', label: 'SkillArea' }
   ];
   addexperienceDetails() {
+    
     if (this.fbexperience.get('workExperienceId').value) {
       this.onSubmit();
     }
@@ -155,18 +153,15 @@ export class ExperienceDetailsComponent {
         return;
       }
       else {
-        this.fbexperience.value
         // Push current values into the FormArray
         this.faExperienceDetail().push(this.generaterow(this.fbexperience.getRawValue()));
-
-        for (let item of this.fbexperience.get('experienceDetails').value) {
-          let stateName = this.states.filter(x => x.lookupDetailId == item.stateId);
-          item.state = stateName[0].name
-          let designation = this.designation.filter(x => x.lookupDetailId == item.designationId);
-          item.designation = designation[0].name
-          this.empExperienceDetails.push(item)
+      
+        if(this.fbexperience.value){
+          let stateName = this.states.filter(x => x.lookupDetailId === this.FormControls['stateId'].value);
+          let designationName = this.designation.filter(x => x.lookupDetailId === this.FormControls['designationId'].value);
+          this.empExperienceDetails.push({...this.fbexperience.value,state:stateName[0].name,designation:designationName[0].name});
         }
-
+        
         // Reset form controls for the next entry
         this.fbexperience.patchValue({
           employeeId: this.employeeId,
@@ -185,6 +180,9 @@ export class ExperienceDetailsComponent {
         // Clear validation errors
         this.fbexperience.markAsPristine();
         this.fbexperience.markAsUntouched();
+
+
+
       }
       this.addexperiencedetailsshowForm = !this.addexperiencedetailsshowForm;
       this.ShowexperienceDetails = !this.ShowexperienceDetails;
@@ -202,9 +200,17 @@ export class ExperienceDetailsComponent {
     this.viewSelectedSkills = [];
     let CurrentArray = e.value;
     let updatedArray = [];
-    for (let i = 0; i < CurrentArray.length; i++) {
-      updatedArray.push({ workExperienceXrefId: 0, workExperienceId: 0, skillAreaId: CurrentArray[i] })
+    if(this.workExperienceId){
+      for (let i = 0; i < CurrentArray.length; i++) {
+        updatedArray.push({ workExperienceXrefId: 0, workExperienceId: this.workExperienceId, skillAreaId: CurrentArray[i] })
+      }
     }
+    else{
+      for (let i = 0; i < CurrentArray.length; i++) {
+        updatedArray.push({ workExperienceXrefId: 0, workExperienceId: 0, skillAreaId: CurrentArray[i] })
+      }
+    }
+    
     for (let item of e.value)
       this.skills.forEach(each => {
         if (each.lookupDetailId == item) {
@@ -227,14 +233,17 @@ export class ExperienceDetailsComponent {
       countryId: experienceDetail.countryId,
       designationId: experienceDetail.designationId,
       dateOfJoining: FORMAT_DATE(new Date(experienceDetail.dateOfJoining)),
-      dateOfReliving: FORMAT_DATE(new Date(experienceDetail.dateOfReliving))
+      dateOfReliving: FORMAT_DATE(new Date(experienceDetail.dateOfReliving)),
     });
     this.fbexperience.get('skills').patchValue(skillAreaIdsArray);
+    this.workExperienceId=experienceDetail.workExperienceId;
+    
     this.addexperiencedetailsshowForm = !this.addexperiencedetailsshowForm;
     this.ShowexperienceDetails = !this.ShowexperienceDetails;
   }
 
   saveExperience(): Observable<HttpEvent<any>> {
+    debugger
     if (this.selectedOption == 'Experience') {
       if (this.addFlag)
         return this.employeeService.CreateExperience(this.fbexperience.get('experienceDetails').value);
@@ -262,9 +271,12 @@ export class ExperienceDetailsComponent {
   getEmpExperienceDetails() {
     this.employeeService.GetWorkExperience(this.employeeId).subscribe((data) => {
       this.empExperienceDetails = data;
-      console.log(this.empExperienceDetails)
-      if (this.empExperienceDetails.length > 0)
+      console.log(data)
+      if (data[0].isAFresher===false)
         this.selectedOption = 'Experience';
+        else
+        this.selectedOption='Fresher';
+        
     })
   }
   navigateToPrev() {

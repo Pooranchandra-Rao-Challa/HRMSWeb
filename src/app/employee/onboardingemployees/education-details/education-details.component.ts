@@ -120,13 +120,18 @@ export class EducationDetailsComponent implements OnInit {
     if (eduDetailId == null) {
       this.faEducationDetail().push(this.generaterow(this.fbEducationDetails.getRawValue()));
       for (let item of this.fbEducationDetails.get('educationDetails').value) {
-        let stateName = this.states.filter(x => x.lookupDetailId == item.stateId);
-        item.state = stateName[0].name
-        let streamName = this.stream.filter(x => x.lookupDetailId == item.streamId);
-        item.stream = streamName[0].name
-        let gradeName = this.gradingMethod.filter(x => x.lookupDetailId == item.gradingMethodId);
-        item.gradingMethod = gradeName[0].name;
-        this.empEduDetails.push(item)
+        if (item.stateId !== null && item.streamId !== null && item.gradingMethodId !== null) {
+          let stateName = this.states.filter(x => x.lookupDetailId == item.stateId);
+          item.state = stateName.length > 0 ? stateName[0].name : '';
+        
+          let streamName = this.stream.filter(x => x.lookupDetailId == item.streamId);
+          item.stream = streamName.length > 0 ? streamName[0].name : '';
+        
+          let gradeName = this.gradingMethod.filter(x => x.lookupDetailId == item.gradingMethodId);
+          item.gradingMethod = gradeName.length > 0 ? gradeName[0].name : '';
+        
+          this.empEduDetails.push(item);
+        }
       }
       this.clearForm();
       this.addFlag = true;

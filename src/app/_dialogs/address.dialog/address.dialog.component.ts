@@ -10,16 +10,18 @@ import { MAX_LENGTH_256, MAX_LENGTH_50, MIN_LENGTH_2 } from 'src/app/_shared/reg
 import { ActivatedRoute } from '@angular/router';
 import { MaxLength, ViewEmployeeScreen } from 'src/app/_models/common';
 import { LookupDetailsDto } from 'src/app/_models/admin';
-
 @Component({
     selector: 'app-address.dialog',
     templateUrl: './address.dialog.component.html'
 })
 export class AddressDialogComponent {
+    editMode: boolean = false;
     fbAddressDetails: FormGroup;
     employeeId: number;
     hasPermanentAddress: boolean = false;
     hasCurrentAddress: boolean = false;
+    hasTemporaryAddres: boolean = false;
+    isAddressChecked: boolean = true;
     address: EmployeAdressViewDto[];
     countries: LookupDetailsDto[] = [];
     states: LookupDetailsDto[] = [];
@@ -36,9 +38,9 @@ export class AddressDialogComponent {
     ngOnInit(): void {
         this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
         this.initAddress();
-        this.initGetAddress();
+        this.onChangeAddressChecked()
         this.initCountries();
-        if (this.config.data) this.editAddress(this.config.data);
+        if (this.config.data) this.editAddress(this.config.data)
     }
 
     initAddress() {
@@ -57,14 +59,31 @@ export class AddressDialogComponent {
         })
     }
 
-    initGetAddress() {
-        this.employeeService.GetAddress(this.employeeId).subscribe((resp) => {
+    initGetAddress(isbool: boolean) {
+        this.employeeService.GetAddresses(this.employeeId, isbool).subscribe((resp) => {
             this.address = resp as unknown as EmployeAdressViewDto[];
             // Check if the employee has Permanent Address
-            this.hasPermanentAddress = this.address.some(addr => addr.addressType === 'Permanent Address');
+            this.hasPermanentAddress = this.address.some(addr => addr.addressType === 'Permanent Address' && addr.isActive === true);
             // Check if the employee has Current Address
-            this.hasCurrentAddress = this.address.some(addr => addr.addressType === 'Current Address');
+            this.hasCurrentAddress = this.address.some(addr => addr.addressType === 'Current Address' && addr.isActive === true);
+            // Check if the employee has Temporary Address
+            this.hasTemporaryAddres = this.address.some(addr => addr.addressType === 'Temporary Address' && addr.isActive === true);
+
+            const addressTypeControl = this.fbAddressDetails.get('addressType');
+            if (!addressTypeControl.value) {
+                if (this.hasPermanentAddress && this.hasCurrentAddress) {
+                    addressTypeControl.setValue('Temporary Address');
+                } else if (this.hasPermanentAddress) {
+                    addressTypeControl.setValue('Current Address');
+                } else {
+                    addressTypeControl.setValue('Permanent Address');
+                }
+            }
         });
+    }
+
+    onChangeAddressChecked() {
+        this.initGetAddress(this.isAddressChecked)
     }
 
     initCountries() {
@@ -86,7 +105,7 @@ export class AddressDialogComponent {
     }
 
     editAddress(address) {
-        this.getStatesByCountryId(address.countryId)
+        this.getStatesByCountryId(address.countryId);
         this.fbAddressDetails.patchValue({
             employeeId: address.employeeId,
             addressId: address.addressId,
@@ -99,7 +118,7 @@ export class AddressDialogComponent {
             stateId: address.stateId,
             addressType: address.addressType,
             isActive: address.isActive,
-        })
+        });
     }
 
     saveAddress() {
@@ -107,6 +126,8 @@ export class AddressDialogComponent {
             this.activatedRoute.queryParams.subscribe((queryParams) => {
                 const employeeId = +queryParams['employeeId'];
                 const isUpdate = this.fbAddressDetails.value.addressId !== null;
+                if (isUpdate)
+                    this.fbAddressDetails.get('addressId').setValue(null);
 
                 this.employeeService.CreateAddress([{ ...this.fbAddressDetails.value, employeeId }])
                     .subscribe((resp) => {
@@ -122,5 +143,6 @@ export class AddressDialogComponent {
             )
         }
     }
-    
+
+
 }

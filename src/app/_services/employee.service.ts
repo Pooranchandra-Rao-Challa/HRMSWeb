@@ -14,9 +14,12 @@ import {
     UPDATE_EDUCATION_DETAILS,
     UPDATE_EMPLOYEE_BASED_ON_ID_URI,
     UPDATE_OFFICE_DETAILS_URI,
-    UPDATE_EXPERIENCE_DETAILS
+    UPDATE_EXPERIENCE_DETAILS,
+    GET_NOTUPDATED_EMPLOYEES,
+    POST_ATTENDENCE,
+    GET_ATTENDENCE
 } from './api.uri.service';
-import { ExperienceDetailsDto, SkillArea, AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments, employeeExperienceDtlsViewDto, FamilyDetailsViewDto } from '../_models/employes';
+import { ExperienceDetailsDto, SkillArea, AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments, employeeExperienceDtlsViewDto, FamilyDetailsViewDto, employeeAttendenceDto } from '../_models/employes';
 
 import { ApiHttpService } from './api.http.service';
 import { LookupViewDto } from '../_models/admin';
@@ -27,7 +30,14 @@ import { HttpHeaders, HttpParams } from '@angular/common/http';
 })
 export class EmployeeService extends ApiHttpService {
 
+    public GetAttendence(month: number) {
+        console.log(month)
+        return this.getWithId<employeeAttendenceDto>(GET_ATTENDENCE, month);
+    }
 
+    public AddAttendence(data) {
+        return this.post(POST_ATTENDENCE, data);
+    }
     //Search Employee
     public GetEmployees(IsEnrolled: boolean) {
         const url = `${GET_EMPLOYEES_URI}/${IsEnrolled}`;
@@ -38,6 +48,10 @@ export class EmployeeService extends ApiHttpService {
     public CreateBasicDetails(basicdetails: EmployeeBasicDetailDto) {
         return this.post<EmployeeBasicDetailDto>(CREATE_BASIC_DETAILS_URI, basicdetails);
 
+    }
+    public GetNotUpdatedEmployees(date) {
+        console.log(GET_NOTUPDATED_EMPLOYEES, `${date}`)
+        return this.get(GET_NOTUPDATED_EMPLOYEES + '/' + `${date}`);
     }
     //Education Details of Employee
     public CreateEducationDetails(educationdetails: EducationDetailsDto[]) {
@@ -93,6 +107,9 @@ export class EmployeeService extends ApiHttpService {
     public GetAddress(employeeId: number) {
         return this.getWithId<EmployeAdressViewDto[]>(GET_ADDRESS_BASED_ON_ID_URI, [employeeId])
     }
+    public GetAddresses(employeeId: number, isbool: boolean) {
+        return this.getWithId<EmployeAdressViewDto[]>(GET_ADDRESS_BASED_ON_ID_URI, [employeeId + '/' + isbool])
+    }
     public GetEducationDetails(employeeId: number) {
         return this.getWithId<EducationDetailsDto[]>(GET_EDUCATION_DETAILS_URI, [employeeId])
     }
@@ -106,6 +123,23 @@ export class EmployeeService extends ApiHttpService {
         return this.getWithId<any[]>(GET_GETUPLOADEDDOCUMENTS_URI, [employeeId])
 
     }
+
+    // public GetAddress(employeeId: number) {
+    //         return this.getWithId<EmployeAdressViewDto[]>(GET_ADDRESS_BASED_ON_ID_URI, [employeeId])
+    //     }
+    //     public GetEducationDetails(employeeId: number) {
+    //         return this.getWithId<EducationDetailsDto[]>(GET_EDUCATION_DETAILS_URI, [employeeId])
+    //     }
+    //     public GetWorkExperience(employeeId: number) {
+    //         return this.getWithId<employeeExperienceDtlsViewDto[]>(GET_WORKEXPERIENCE_URI, [employeeId])
+    //     }
+    //     public getFamilyDetails(employeeId: number) {
+    //         return this.getWithId<FamilyDetailsDto[]>(GET_GETFAMILYDETAILS_URI, [employeeId])
+    //     }
+    //     public GetUploadedDocuments(employeeId: number) {
+    //         return this.getWithId<any[]>(GET_GETUPLOADEDDOCUMENTS_URI, [employeeId])
+
+    //     }
 
 
     public GetBankDetails(employeeId: number) {
@@ -127,7 +161,6 @@ export class EmployeeService extends ApiHttpService {
     }
 
     public updateViewEmpExperienceDtls(empExpDtls: ExperienceDetailsDto) {
-        debugger
         return this.post<ExperienceDetailsDto>(UPDATE_EXPERIENCE_DETAILS, empExpDtls);
     }
 }

@@ -65,8 +65,8 @@
                     </div>
                     <div class="field col-12 md:col-4">
                         <span class="p-float-label">
-                            <p-calendar [readonlyInput]="true" [showIcon]="true" id="dob" #DOB mask="99/99/9999"
-                                formControlName="dob"
+                            <p-calendar appendTo="body" [readonlyInput]="true" [showIcon]="true" id="dob" #DOB mask="99/99/9999"
+                                formControlName="dob" 
                                 [ngClass]="{ 'is-invalid ng-dirty': FormControls['dob'].touched && FormControls['dob'].errors }">
                             </p-calendar>
                             <label class="required"> DOB</label>

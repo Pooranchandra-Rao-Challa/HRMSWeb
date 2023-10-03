@@ -3,6 +3,7 @@ export class LookupViewDto {
     code?: string;
     name?: string;
     isActive?: boolean;
+    fkeySelfId?:number;
     lookupDetails?: string;
     expandLookupDetails?: LookupDetailsDto[];
     updatedAt?: Date;
@@ -18,6 +19,7 @@ export class LookupDetailsDto {
     name?: string;
     description?: string;
     isActive?: boolean;
+    fkeySelfId?:number;
     updatedAt?: Date;
     createdAt?: Date;
     updatedBy?: string;

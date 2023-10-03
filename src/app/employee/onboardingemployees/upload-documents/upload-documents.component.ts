@@ -52,8 +52,8 @@ export class UploadDocumentsComponent {
                         const file = fileUpload.files[index];
                         console.log(file)
                         this.files.push({ fileBlob: file, title: this.fbUpload.get('title').value , fileName:  file.name});
-                        this.empUploadDetails.push({ uploadedFiles: file, title: this.fbUpload.get('title').value,filename:  file.name })
-                        console.log(this.empUploadDetails)
+                        //this.empUploadDetails.push({ uploadedFiles: file, title: this.fbUpload.get('title').value,filename:  file.name })
+                        console.log(this.files)
                     }
                     this.clearForm();
                 }
@@ -99,6 +99,9 @@ export class UploadDocumentsComponent {
     uploadFiles() {
         this.fileUpload.nativeElement.value = '';
         this.files.forEach((file: {fileBlob: Blob,title:string,fileName:string}) => {
+            console.log(file);
+
+            if(file.fileBlob)
             this.uploadFile(file);
         });
     }

@@ -42,7 +42,7 @@ export class FamilyDeatilsComponent implements OnInit {
     this.getFamilyDetails();
     this.initFamily();
     this.initRelationship();
-    this.initAddress();
+    this.initGetAddress(true)
   }
   headers: ITableHeader[] = [
     { field: 'name', header: 'name', label: 'Name' },
@@ -75,8 +75,8 @@ export class FamilyDeatilsComponent implements OnInit {
       this.relationships = resp as unknown as LookupDetailsDto[];
     });
   }
-  initAddress() {
-    this.employeeService.GetAddress(this.employeeId).subscribe((resp) => {
+  initGetAddress(isbool: boolean) {
+    this.employeeService.GetAddresses(this.employeeId, isbool).subscribe((resp) => {
       this.address = resp as unknown as EmployeAdressViewDto[];
     });
   }
@@ -93,16 +93,18 @@ export class FamilyDeatilsComponent implements OnInit {
     if (famDetailId == null) {
       this.faFamilyDetail().push(this.generaterow(this.fbfamilyDetails.getRawValue()));
       for (let item of this.fbfamilyDetails.get('familyDetails').value) {
-        let relationShipName = this.relationships.filter(x => x.lookupDetailId == item.relationshipId);
-        item.relationship = relationShipName[0].name
-        let addressName = this.address.filter(x => x.addressId == item.addressId);
-        item.addressLine1 = addressName[0].addressLine1
-        item.addressLine2 = addressName[0].addressLine2
-        item.zipCode = addressName[0].zipCode
-        item.city = addressName[0].city
-        item.state = addressName[0].state
-        item.country = addressName[0].country
-        this.empFamDetails.push(item)
+        if (item.relationshipId !== null && item.addressId !== null ) {
+          let relationShipName = this.relationships.filter(x => x.lookupDetailId == item.relationshipId);
+          item.relationship = relationShipName.length > 0 ? relationShipName[0].name :'';
+          let addressName = this.address.filter(x => x.addressId == item.addressId);
+          item.addressLine1 = addressName.length > 0 ? addressName[0].addressLine1 :'';
+          item.addressLine2 = addressName.length > 0 ? addressName[0].addressLine2 :'';
+          item.zipCode = addressName.length > 0 ? addressName[0].zipCode :'';
+          item.city = addressName.length > 0 ? addressName[0].city :'';
+          item.state = addressName.length > 0 ? addressName[0].state :'';
+          item.country = addressName.length > 0 ? addressName[0].country :'';
+          this.empFamDetails.push(item)
+        }
       }
       this.clearForm();
       this.addFlag = true;

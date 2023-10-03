@@ -60,8 +60,7 @@ export class OnboardingemployeesComponent {
   }
 
   ngOnInit() {
-    this.employeeId = this.route.snapshot.queryParams['employeeId'];
-    console.log(this.employeeId);
+    this.route.queryParams.forEach((params)=>this.employeeId = params["employeeId"]);
     this.updateMenuItems();
     this.onboardEmployeeService.getData().subscribe(employeeId => {
         this.employeeId = employeeId;

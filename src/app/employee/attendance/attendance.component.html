@@ -7,14 +7,11 @@
                         (input)="onGlobalFilter(dt1, $event)" />
                 </div>
                 <div class="field col-6 md:col-3">
+                    <p-calendar styleClass="only-icon" [showIcon]="true" view="month" s dateFormat="mm/yy"
+                        [yearNavigator]="true" yearRange="2000:2030" [readonlyInput]="true" inputId="monthpicker">
+                    </p-calendar>
+                </div>
 
-                </div>
-                <div class="field col-6 md:col-3">
-
-                </div>
-                <div class="field col-6 md:col-3">
-                    <p-button label="Add Attendance" (click)="showDialog()"></p-button>
-                </div>
             </div>
         </div>
     </div>
@@ -26,38 +23,34 @@
             <div class="p-fluid p-formgrid">
                 <div style="margin-bottom: 15px;">
                     <label>Employee:<sup class="p-error">*</sup></label>&nbsp;
-                    <p-dropdown [options]="employees" formControlName="empId" optionLabel="empcode" [filter]="true"
-                        filterBy="empcode,empname" [showClear]="true" placeholder="Select Employee"
-                        optionValue="empcode">
+                    <p-dropdown [options]="employees" [readonly]="FormControls['employeeId'].value!== null"
+                        formControlName="employeeId" optionLabel="employeeName" [filter]="true"
+                        filterBy="employeeCode,employeeName" placeholder="Select Employee" optionValue="employeeId">
                         <ng-template let-employee pTemplate="item">
                             <div class="country-item">
-                                <div>{{ employee.empcode }}</div>
-                                <div>{{ employee.empname }}</div>
+                                <div>{{ employee.employeeCode }}</div>
+                                <div>{{ employee.employeeName }}</div>
                             </div>
                         </ng-template>
                     </p-dropdown>
                 </div>
                 <div style="margin-bottom: 15px;">
                     <label>Leave Type:<sup class="p-error">*</sup></label>&nbsp;
-                    <p-dropdown formControlName="leaveTitle" [options]="leaves" optionLabel="leaveTitle"
-                        placeholder="Select Leave Type"></p-dropdown>
+                    <p-dropdown formControlName="dayWorkStatusId" [options]="LeaveType" optionLabel="name"
+                        optionValue="lookupDetailId" placeholder="Select Leave Type"></p-dropdown>
                 </div>
                 <div style="margin-bottom: 15px;">
                     <label>From Date:<sup class="p-error">*</sup></label>&nbsp;
-                    <p-calendar formControlName="fromDate" placeholder="Enter From Date" [showIcon]="true"></p-calendar>
+                    <p-calendar formControlName="date" [readonlyInput]="FormControls['employeeId'].value!== null"
+                        appendTo="body" placeholder="Enter From Date" [showIcon]="true"></p-calendar>
                 </div>
                 <div style="margin-bottom: 15px;">
                     <label>To Date:<sup class="p-error">*</sup></label>&nbsp;
-                    <p-calendar [showIcon]="true" formControlName="toDate" placeholder="Enter To Date">
+                    <p-calendar [showIcon]="true" formControlName="toDate" placeholder="Enter To Date" appendTo="body">
                     </p-calendar>
                 </div>
                 <div style="margin-bottom: 15px;">
-                    <label>Number Of Days:<sup class="p-error">*</sup></label>&nbsp;
-                    <input pInputText id="description" type="number" formControlName="numberOfDays"
-                        placeholder="Enter Leave Description" />
-                </div>
-                <div style="margin-bottom: 15px;">
-                    <label>Leave Reason:<sup class="p-error">*</sup></label>&nbsp;
+                    <label>Leave Narration:<sup class="p-error">*</sup></label>&nbsp;
                     <textarea rows="5" cols="30" pInputTextarea formControlName="leaveDescription"></textarea>
                 </div>
             </div>
@@ -70,79 +63,80 @@
         </div>
     </ng-template>
 </p-dialog>
+<p-button type="button" label="Add Attendence" id="AddressDetails-Btn"
+                                (click)="addPresent()" >
+                            </p-button>
+
 <!-- p-table -->
-<p-table #dt1 [value]="employees" [rowHover]="true" styleClass="p-datatable-striped" responsiveLayout="scroll"
-    [globalFilterFields]="globalFilterFields" [tableStyle]="{'min-width': '50rem'}">
+<p-table #dt1 [value]="employeeAttendenceList" [rowHover]="true" styleClass="p-datatable-striped"
+    responsiveLayout="scroll" [globalFilterFields]="globalFilterFields" [tableStyle]="{'min-width': '50rem'}">
     <ng-template pTemplate="header">
         <tr>
             <th>Employee</th>
-            <th>1</th>
-            <th>2</th>
-            <th>3</th>
-            <th>4</th>
-            <th>5</th>
-            <th>6</th>
-            <th>7</th>
-            <th>8</th>
-            <th>9</th>
-            <th>10</th>
-            <th>11</th>
-            <th>12</th>
-            <th>13</th>
-            <th>14</th>
-            <th>15</th>
-            <th>16</th>
-            <th>17</th>
-            <th>18</th>
-            <th>19</th>
-            <th>20</th>
-            <th>21</th>
-            <th>22</th>
-            <th>23</th>
-            <th>24</th>
-            <th>25</th>
-            <th>26</th>
-            <th>27</th>
-            <th>28</th>
-            <th>29</th>
-            <th>30</th>
-            <th>31</th>
+            <th *ngFor="let i of days">{{i}}</th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-employee>
         <tr>
-            <td>{{employee.empname}}</td>
-            <td><i class="pi pi-check" style="font-size: 1rem;color: green"></i></td>
-            <td><i class="pi pi-check" style="font-size: 1rem;color: green"></i></td>
-            <td><i class="pi pi-check" style="font-size: 1rem;color: green"></i></td>
-            <td><i class="pi pi-check" style="font-size: 1rem;color: green"></i></td>
-            <td><i class="pi pi-check" style="font-size: 1rem;color: green"></i></td>
-            <td><i class="pi pi-times" style="color: red"></i></td>
-            <td><i class="pi pi-times" style="color: red"></i></td>
-            <td><i class="pi pi-check" style="font-size: 1rem;color: green"></i></td>
-            <td><i class="pi pi-check" style="font-size: 1rem;color: green"></i></td>
-            <td><i class="pi pi-check" style="font-size: 1rem;color: green"></i></td>
-            <td><i class="pi pi-check" style="font-size: 1rem;color: green"></i></td>
-            <td><i class="pi pi-check" style="font-size: 1rem;color: green"></i></td>
-            <td><i class="pi pi-times" style="color: red"></i></td>
-            <td><i class="pi pi-times" style="color: red"></i></td>
-            <td><i class="pi pi-check" style="font-size: 1rem;color: green"></i></td>
-            <td><i class="pi pi-check" style="font-size: 1rem;color: green"></i></td>
-            <td><i class="pi pi-check" style="font-size: 1rem;color: green"></i></td>
-            <td><i class="pi pi-check" style="font-size: 1rem;color: green"></i></td>
-            <td><i class="pi pi-check" style="font-size: 1rem;color: green"></i></td>
-            <td><i class="pi pi-times" style="color: red"></i></td>
-            <td><i class="pi pi-times" style="color: red"></i></td>
-            <td><i class="pi pi-check" style="font-size: 1rem;color: green"></i></td>
-            <td><i class="pi pi-check" style="font-size: 1rem;color: green"></i></td>
-            <td><i class="pi pi-check" style="font-size: 1rem;color: green"></i></td>
-            <td><i class="pi pi-check" style="font-size: 1rem;color: green"></i></td>
-            <td><i class="pi pi-check" style="font-size: 1rem;color: green"></i></td>
-            <td><i class="pi pi-times" style="color: red"></i></td>
-            <td><i class="pi pi-times" style="color: red"></i></td>
-            <td><i class="pi pi-check" style="font-size: 1rem;color: green"></i></td>
-            <td><i class="pi pi-check" style="font-size: 1rem;color: green"></i></td>
-            <td><i class="pi pi-check" style="font-size: 1rem;color: green"></i></td>
+            <td>{{employee.EmployeeName}}</td>
+            <td *ngFor="let i of days" [ngStyle]="{'background-color':isEligibleForLeave(employee, i)==='WOff'?'grey':'','border-left':isEligibleForLeave(employee, i)==='WOff'?'0.5px solid white':''}">
+                <ng-container *ngIf="isEligibleForLeave(employee, i)">
+                    <span
+                        [ngStyle]="{'font-size': '1rem','color': employee[getFormattedDate(i)] === 'PT' ? 'green' : ''}"
+                        (click)="showDialog(employee.EmployeeId, getFormattedDate(i))"
+                        *ngIf="isEligibleForLeave(employee, i) === 'PT'">
+                        {{ employee[getFormattedDate(i)] }}
+                    </span>
+                    <span
+                        [ngStyle]="{'font-size': '1rem','color': employee[getFormattedDate(i)] === 'AT' ? 'green' : ''}"
+                        (click)="showDialog(employee.EmployeeId, getFormattedDate(i))"
+                        *ngIf="isEligibleForLeave(employee, i) === 'AT'">
+                        {{ employee[getFormattedDate(i)] }}
+                    </span>
+                    <span
+                        [ngStyle]="{'font-size': '1rem','color': employee[getFormattedDate(i)] === 'CL' ? 'orange' : ''}"
+                        (click)="showDialog(employee.EmployeeId, getFormattedDate(i))"
+                        *ngIf="isEligibleForLeave(employee, i) === 'CL'">
+                        {{ employee[getFormattedDate(i)] }}
+                    </span>
+                    <span
+                        [ngStyle]="{'font-size': '1rem','color': employee[getFormattedDate(i)] === 'PL' ? 'pink' : ''}"
+                        (click)="showDialog(employee.EmployeeId, getFormattedDate(i))"
+                        *ngIf="isEligibleForLeave(employee, i) === 'PL'">
+                        {{ employee[getFormattedDate(i)] }}
+                    </span>
+                    <span
+                        [ngStyle]="{'font-size': '1rem','color': employee[getFormattedDate(i)] === 'EL' ? 'black' : ''}"
+                        (click)="showDialog(employee.EmployeeId, getFormattedDate(i))"
+                        *ngIf="isEligibleForLeave(employee, i) === 'EL'">
+                        {{ employee[getFormattedDate(i)] }}
+                    </span>
+                    <span [ngStyle]="{'font-size': '1rem','color': employee[getFormattedDate(i)] === 'SL' ? 'red' : ''}"
+                        (click)="showDialog(employee.EmployeeId, getFormattedDate(i))"
+                        *ngIf="isEligibleForLeave(employee, i) === 'SL'">
+                        {{ employee[getFormattedDate(i)] }}
+                    </span>
+                    <span
+                        [ngStyle]="{'font-size': '1rem','color': employee[getFormattedDate(i)] === 'WOff' ? 'white' : ''}"
+                        (click)="showDialog(employee.EmployeeId, getFormattedDate(i))"
+                        *ngIf="isEligibleForLeave(employee, i) === 'WOff'">
+                        {{ employee[getFormattedDate(i)] }}
+                    </span>
+                    <span
+                        [ngStyle]="{'font-size': '1rem','color': employee[getFormattedDate(i)] === 'HD' ? 'blue' : ''}"
+                        (click)="showDialog(employee.EmployeeId, getFormattedDate(i))"
+                        *ngIf="isEligibleForLeave(employee, i) === 'HD'">
+                        {{ employee[getFormattedDate(i)] }}
+                    </span>
+                    <span
+                        [ngStyle]="{'font-size': '1rem','color': employee[getFormattedDate(i)] === 'NU' ? 'blue' : ''}"
+                        (click)="showDialog(employee.EmployeeId, getFormattedDate(i))"
+                        *ngIf="isEligibleForLeave(employee, i) === 'NU'">
+                        {{ employee[getFormattedDate(i)] }}
+                    </span>
+                </ng-container>
+
+            </td>
         </tr>
     </ng-template>
 </p-table>

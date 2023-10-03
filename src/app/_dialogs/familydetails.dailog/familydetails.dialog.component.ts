@@ -24,8 +24,6 @@ export class FamilydetailsDialogComponent {
     relationships: LookupDetailsDto[] = [];
     address: EmployeAdressViewDto[];
     maxLength: MaxLength = new MaxLength();
-    dialogRequest: DialogRequest = new DialogRequest();
-    FamilydetailsDialogComponent = FamilydetailsDialogComponent;
 
     constructor(private formbuilder: FormBuilder,
         private alertMessage: AlertmessageService,
@@ -39,7 +37,7 @@ export class FamilydetailsDialogComponent {
     ngOnInit() {
         this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
         this.initFamily();
-        this.initGetAddress()
+        this.initGetAddress(true)
         if (this.config.data) this.editFamilyDetails(this.config.data);
     }
 
@@ -54,7 +52,7 @@ export class FamilydetailsDialogComponent {
             adhaarNo: new FormControl('', [Validators.required]),
             panno: new FormControl('', [Validators.pattern(RG_PANNO)]),
             mobileNumber: new FormControl('', [Validators.required, Validators.pattern(RG_PHONE_NO)]),
-            isNominee: new FormControl(true),
+            isNominee: [true, Validators.requiredTrue],
         });
     }
 
@@ -64,8 +62,8 @@ export class FamilydetailsDialogComponent {
         });
     }
 
-    initGetAddress() {
-        this.employeeService.GetAddress(this.employeeId).subscribe((resp) => {
+    initGetAddress(isbool: boolean) {
+        this.employeeService.GetAddresses(this.employeeId, isbool).subscribe((resp) => {
             this.address = resp as unknown as EmployeAdressViewDto[];
         });
     }
@@ -77,7 +75,7 @@ export class FamilydetailsDialogComponent {
     editFamilyDetails(familyDetails) {
         const dobValue = familyDetails.dob ? FORMAT_DATE(new Date(familyDetails.dob)) : null;
         this.initRelationship();
-        this.initGetAddress();
+        this.initGetAddress(true);
         this.fbfamilyDetails.patchValue({
             familyInformationId: familyDetails.familyInformationId,
             employeeId: familyDetails.employeeId,
@@ -93,22 +91,24 @@ export class FamilydetailsDialogComponent {
     }
 
     savefamilyDetails() {
-        this.activatedRoute.queryParams.subscribe((queryParams) => {
-            const employeeId = +queryParams['employeeId'];
-            const isUpdate = this.fbfamilyDetails.value.familyInformationId !== null;
-            this.fbfamilyDetails.patchValue({ employeeId });
+        if (this.fbfamilyDetails.valid) {
+            this.activatedRoute.queryParams.subscribe((queryParams) => {
+                const employeeId = +queryParams['employeeId'];
+                const isUpdate = this.fbfamilyDetails.value.familyInformationId !== null;
+                this.fbfamilyDetails.patchValue({ employeeId });
 
-            this.employeeService.CreateFamilyDetails([this.fbfamilyDetails.value]).subscribe((resp) => {
-                if (resp) {
-                    const alertCode = isUpdate ? "SMFD002" : "SMFD001"
-                    this.alertMessage.displayAlertMessage(ALERT_CODES[alertCode]);
-                    this.ref.close({
-                        "UpdatedModal": ViewEmployeeScreen.FamilyDetails
-                    });
-                }
+                this.employeeService.CreateFamilyDetails([this.fbfamilyDetails.value]).subscribe((resp) => {
+                    if (resp) {
+                        const alertCode = isUpdate ? "SMFD002" : "SMFD001"
+                        this.alertMessage.displayAlertMessage(ALERT_CODES[alertCode]);
+                        this.ref.close({
+                            "UpdatedModal": ViewEmployeeScreen.FamilyDetails
+                        });
+                    }
 
+                });
             });
-        });
+        }
     }
 
     restrictSpaces(event: KeyboardEvent) {

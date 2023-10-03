@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { LookupViewDto } from '../_models/admin';
+import { LookupDetailsDto, LookupViewDto } from '../_models/admin';
 import { ApiHttpService } from './api.http.service';
-import { LOOKUP_DETAILS_URI, LOOKUP_NAMES_NOT_CONFIGURE_URI, LOOKUP_NAMES_URI } from './api.uri.service';
+import { LOOKUP_DAYWORKSTATUS_URI, LOOKUP_DETAILS_URI, LOOKUP_NAMES_NOT_CONFIGURE_URI, LOOKUP_NAMES_URI } from './api.uri.service';
 
 @Injectable({
     providedIn: 'root'
@@ -32,6 +32,10 @@ export class LookupService extends ApiHttpService {
     public States(countryId?: number) {
         console.log('States');
         return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.States, countryId]);
+    }
+    public DayWorkStatus(){
+        console.log('DayWorkStatus');
+        return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI,[this.LookupKeys.DayWorkStatus]);
     }
 
     public Countries() {

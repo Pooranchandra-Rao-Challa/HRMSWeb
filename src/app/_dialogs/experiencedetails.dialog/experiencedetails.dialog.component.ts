@@ -17,7 +17,9 @@ import { MIN_LENGTH_2 } from 'src/app/_shared/regex';
 })
 export class ExperiencedetailsDialogComponent {
   fbexperience!: FormGroup;
+  fbfresher!: FormGroup
   faexperienceDetails!: FormArray;
+  workExperience: employeeExperienceDtlsViewDto[];
   maxLength: MaxLength = new MaxLength();
   countries: LookupViewDto[] = [];
   selectedCountry: number[] = [];
@@ -25,20 +27,20 @@ export class ExperiencedetailsDialogComponent {
   statesPerRow: LookupViewDto[][] = [];
   designation: LookupViewDto[] = [];
   skillarea: LookupViewDto[] = [];
-  employeeId:any;
+  employeeId: string;
 
   constructor(
     private formbuilder: FormBuilder,
     private lookupService: LookupService,
     private employeeService: EmployeeService,
     private alertMessage: AlertmessageService,
-     public ref: DynamicDialogRef,
-     private config: DynamicDialogConfig,
-     private activatedRoute: ActivatedRoute,) {
+    public ref: DynamicDialogRef,
+    private config: DynamicDialogConfig,
+    private activatedRoute: ActivatedRoute,) {
     this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
   }
 
-ngOnInit(): void {
+  ngOnInit(): void {
     this.initdesignation();
     this.initExperience();
     this.initCountries();
@@ -53,11 +55,15 @@ ngOnInit(): void {
   }
 
   generaterow(experienceDetails: ExperienceDetailsDto = new ExperienceDetailsDto()): FormGroup {
-    // const employeeId = parseInt(this.activatedRoute.snapshot.queryParams['employeeId']);
-    // experienceDetails.employeeId = employeeId;
     const skillAreaIdsArray = experienceDetails.skillAreaId ? experienceDetails.skillAreaId.split(',').map(Number) : [];
+    const workExperienceXrefs = skillAreaIdsArray.length > 0 ?
+      skillAreaIdsArray.map(skillAreaId => ({
+        workExperienceXrefId: 0,
+        workExperienceId: experienceDetails.workExperienceId,
+        skillAreaId: skillAreaId
+      })) : [];
     return this.formbuilder.group({
-      employeeId: new FormControl(this.employeeId),
+      employeeId: (this.employeeId),
       workExperienceId: new FormControl(experienceDetails.workExperienceId),
       isAfresher: new FormControl(false),
       companyName: new FormControl(experienceDetails.companyName, [Validators.minLength(MIN_LENGTH_2)]),
@@ -66,10 +72,10 @@ ngOnInit(): void {
       countryId: new FormControl(experienceDetails.countryId),
       stateId: new FormControl(experienceDetails.stateId),
       designationId: new FormControl(experienceDetails.designationId, [Validators.required]),
-      dateOfJoining: new FormControl(experienceDetails.dateOfJoining ? FORMAT_DATE(new Date(experienceDetails.dateOfJoining)) : null),
-      dateOfReliving: new FormControl(experienceDetails.dateOfReliving ? FORMAT_DATE( new Date(experienceDetails.dateOfReliving)) : null),
+      dateOfJoining: new FormControl(experienceDetails.dateOfJoining ? FORMAT_DATE(new Date(experienceDetails.dateOfJoining)) : null, [Validators.required]),
+      dateOfReliving: new FormControl(experienceDetails.dateOfReliving ? FORMAT_DATE(new Date(experienceDetails.dateOfReliving)) : null),
       skillAreaIds: new FormControl(skillAreaIdsArray, [Validators.required]),
-      workExperienceXrefs: new FormControl(experienceDetails.workExperienceXrefs),
+      workExperienceXrefs: new FormControl(workExperienceXrefs),
     });
   }
 
@@ -81,12 +87,9 @@ ngOnInit(): void {
   faexperienceDetail(): FormArray {
     return this.fbexperience.get('experienceDetails') as FormArray;
   }
-  faExperienceDetail(): FormArray {
-    return this.fbexperience.get('experienceDetails') as FormArray
-  }
 
   expDtlsformArrayControls(i: number, formControlName: string) {
-    return this.faExperienceDetail().controls[i].get(formControlName);
+    return this.faexperienceDetail().controls[i].get(formControlName);
   }
 
   initCountries() {
@@ -95,11 +98,11 @@ ngOnInit(): void {
     })
   }
 
-  onCountryChange(selectedCountryId: number, rowIndex: number) {
-    this.selectedCountry[rowIndex] = selectedCountryId;
+  onCountryChange(selectedCountryId: number, experienceDetailsIndex: number) {
+    this.selectedCountry[experienceDetailsIndex] = selectedCountryId;
     this.lookupService.States(selectedCountryId).subscribe((resp) => {
       if (resp) {
-        this.statesPerRow[rowIndex] = resp as unknown as LookupViewDto[];
+        this.statesPerRow[experienceDetailsIndex] = resp as unknown as LookupViewDto[];
       }
     });
   }
@@ -116,47 +119,51 @@ ngOnInit(): void {
     })
   }
 
-  onSelectSkill(e, index) {
+  onSelectSkill(e, experienceDetailsIndex) {
     let CurrentArray = e.value;
-    console.log(CurrentArray = e.value)
     let updatedArray = [];
-    for (let i = 0; i < CurrentArray.length; i++) {
-      updatedArray.push({
-        workExperienceXrefId: 0,
-        workExperienceId: 0,
-        skillAreaId: CurrentArray[i]
-      })
-    }
-
     const experienceDetailControl = this.fbexperience.get('experienceDetails') as FormArray;
-    const workExperienceXrefsControl = experienceDetailControl.at(index).get('workExperienceXrefs');
-    if (workExperienceXrefsControl) {
-      workExperienceXrefsControl.patchValue(updatedArray);
+    const workExperienceXrefsControl = experienceDetailControl.at(experienceDetailsIndex).get('workExperienceXrefs') as FormControl;
+    if (workExperienceXrefsControl.value.length > 0) {
+      let workExpId = workExperienceXrefsControl.value[0].workExperienceId;
+      for (let i = 0; i < CurrentArray.length; i++) {
+        updatedArray.push({ workExperienceXrefId: 0, workExperienceId: workExpId, skillAreaId: CurrentArray[i] })
+      }
     }
+    else {
+      for (let i = 0; i < CurrentArray.length; i++) {
+        updatedArray.push({ workExperienceXrefId: 0, workExperienceId: 0, skillAreaId: CurrentArray[i] });
+      }
+    }
+    workExperienceXrefsControl.patchValue(updatedArray);
   }
 
-  showExperienceDetails(workExperience :  employeeExperienceDtlsViewDto[]) {
-    workExperience.forEach((experienceDetails: any, rowIndex) => {
-      // this.onSelectSkill(experienceDetails.skillAreaId,index)
-      this.onCountryChange(experienceDetails.countryId, rowIndex);
-      this.faexperienceDetail().push(this.generaterow(experienceDetails));
-    })
-    if (workExperience.length == 0) this.faexperienceDetail().push(this.generaterow());
+  showExperienceDetails(workExperience: employeeExperienceDtlsViewDto[]) {
+    if (workExperience.length == 0) {
+      this.faexperienceDetail().push(this.generaterow());
+    } else {
+      workExperience.forEach((experienceDetails: ExperienceDetailsDto, experienceDetailsIndex) => {
+        this.onCountryChange(experienceDetails.countryId, experienceDetailsIndex);
+        this.faexperienceDetail().push(this.generaterow(experienceDetails));
+      })
+    }
     this.fbexperience.patchValue(workExperience)
   }
 
   saveEmpExperienceDetails() {
-    this.employeeService.updateViewEmpExperienceDtls(this.fbexperience.get('experienceDetails').value).subscribe((resp) => {
-      if (resp) {
-        this.alertMessage.displayAlertMessage(ALERT_CODES["EVEEXP001"]);
-        this.ref.close({
-          "UpdatedModal": ViewEmployeeScreen.ExperienceDetails
-        });
-      }
-      else {
-        this.alertMessage.displayErrorMessage(ALERT_CODES["EVEEXP002"])
-      }
-    })
+    this.employeeService.updateViewEmpExperienceDtls(this.fbexperience.get('experienceDetails').value).subscribe(
+      (resp) => {
+        if (resp) {
+          this.alertMessage.displayAlertMessage(ALERT_CODES["EVEEXP001"]);
+          this.ref.close({
+            "UpdatedModal": ViewEmployeeScreen.ExperienceDetails
+          });
+        }
+        else {
+          this.alertMessage.displayErrorMessage(ALERT_CODES["EVEEXP002"])
+        }
+      })
   }
 
 }
+

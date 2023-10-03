@@ -141,7 +141,8 @@ export const ALERT_CODES: { [key: string]: string } = {
     'SMAD004': 'Address Details Update Successfully',
     'SMAD005': 'Employee already has a Permanent Address',
     'SMAD006': 'Employee already has a Current Address.',
-   
+    'SMAD007': 'Each employee is allowed to have only one permanent address and one temporary address and one current address.',
+    'EMAD001':'Each employee is allowed to have only one permanent address, one temporary address, and one current address. Please edit existing addresses.',
   
 
     //uploadDocuments
@@ -151,7 +152,7 @@ export const ALERT_CODES: { [key: string]: string } = {
     //Enroll Employee
 
     'SEE001': 'Employee Enrolled Successfully',
-    'SEE002': 'Employee Not Enrolled',
+    'SEE002': 'Employee Not Enrolled Please Enter required fields',
     //Experience Details
     'SED001': 'Experience Details Added Successfully',
     'SED002': 'Experience Details Not Added',
@@ -179,5 +180,8 @@ export const ALERT_CODES: { [key: string]: string } = {
     'SMFD001': 'Family Details Added Successfully',
     'SMFD002': 'Family Details Update Successfully',
 
+    //Attendence
+    'EAAS001':'Attendence Added Successfully',
+    'EAAS002':'Attendence Details Not Added',
 }
 

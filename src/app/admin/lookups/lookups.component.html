@@ -1,6 +1,5 @@
 <div class="col-12">
   <div class="card">
-    <p-toast key="tst"></p-toast>
     <!-- Toolbar -->
     <p-toolbar styleClass="p-mb-4">
       <ng-template pTemplate="left">
@@ -8,177 +7,11 @@
       </ng-template>
       <ng-template pTemplate="right">
         <button pButton pRipple label="New Lookup" icon="pi pi-plus" class="p-button-primary p-mr-2"
-          id="Lookup_addLookup" (click)="addLookupDialog()" *ngIf="permissions?.CanManageLookups"></button>
+          id="Lookup_addLookup" (click)="openComponentDialog(lookupDialogComponent, null, ActionTypes.save)"
+          *ngIf="permissions?.CanManageLookups"></button>
       </ng-template>
     </p-toolbar>
-    <!-- dialog -->
-    <p-dialog header="Lookup" [(visible)]="showDialog" [modal]="true" showEffect="fade"
-      [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '50%'}" (onHide)="onClose()">
-      <div class="flex flex-column align-items-center justify-content-center">
-        <form [formGroup]="fblookup" id="Lookup_lookupForm">
-          <div class="grid">
-            <div class="col-12 roles-container">
-              <div class="p-fluid p-formgrid grid">
-                <div class="field col-12 md:col-6">
-                  <label class="required">Code: </label>&nbsp; <input pInputText id="Lookup_lookupCode" type="text"
-                    formControlName="code" [readonly]="FormControls['lookupId'].value!== null" placeholder="Enter Code"
-                    #code [maxlength]="20" alphaNumeric (keydown)="restrictSpaces($event)"
-                    [ngClass]="{ 'is-invalid ng-dirty': FormControls['code'].touched && FormControls['code'].errors }" />
-                  <div class="flex">
-                    <div class="align-left w-60" style="width:70%">
-                      <span *ngIf="FormControls['code'].touched && FormControls['code'].invalid">
-                        <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['code'].errors?.['required']">
-                          Please Enter Code.</div>
-                        <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['code'].errors?.['minlength']">
-                          Code Min Length Is 2.</div>
-                      </span>
-                    </div>
-                    <div class="align-right w-40" style="width:30%; text-align:right;">
-                      <small>{{code.value.length}}/{{maxLength.code}} </small>
-                    </div>
-                  </div>
-                </div>
-                <div class="field col-12 md:col-6">
-                  <label>Dependent Lookup: </label>&nbsp;
-                  <p-dropdown id="lookupName_Dropdown" [autoDisplayFirst]="false" [options]="lookupNames"
-                    formControlName="lookupNames" appendTo="body" (onChange)="onLookupChange($event)"
-                    placeholder="Select Dependent Lookup" [showClear]="true">
-                  </p-dropdown>
-                </div>
-                <div class="field col-12 md:col-6">
-                  <label class="required">Lookup Name: </label>&nbsp;
-                  <p-dropdown id="lookupName_Not_Configured_Dropdown" [autoDisplayFirst]="false"
-                    [options]="lookupNamesNotConfigured" appendTo="body" formControlName="name"
-                    [readonly]="FormControls['lookupId'].value!== null" placeholder="Select Lookup Name"
-                    [ngClass]="{ 'is-invalid ng-dirty': FormControls['name'].touched && FormControls['name'].errors }">
-                  </p-dropdown>
-                  <div class="flex">
-                    <div class="align-left w-60" style="width:70%">
-                      <span *ngIf="FormControls['name'].touched && FormControls['name'].invalid">
-                        <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['name'].errors?.['required']">
-                          Please Select Lookup Name.</div>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div class="field col-12 md:col-6">
-                </div>
-                <div class="field col-12 md:col-6">
-                  <label>Is Active: </label>
-                  <br> &nbsp; <p-inputSwitch formControlName="isActive" id="Lookup_lookupIsActive"></p-inputSwitch>
-                </div>
-                <div class="field col-12 md:col-6">
-                  <p-button type="button" label="Add Lookup Details" (click)="addLookupDetails()"></p-button>
-                </div>
-              </div>
-              <div class="col-12 scrolling_content" formArrayName="lookUpDetails" *ngIf="ShowlookupDetails">
-                <p-table #dt2 [value]=" falookupDetails().controls" dataKey="id" [rows]="10" [rowHover]="true"
-                  styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="false"
-                  [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]">> <ng-template
-                    pTemplate="header">
-                    <tr>
-                      <th>Code </th>
-                      <th *ngIf="DependentDropdown">Lookup Details</th>
-                      <th>Name </th>
-                      <th>Description </th>
-                      <th>Is Active </th>
-                      <th *ngIf="fblookup.controls['lookUpDetails'].value.length > 1"></th>
-                    </tr>
-                  </ng-template>
-                  <ng-template pTemplate="body" let-lookUp let-lookUpDetailsIndex="rowIndex">
-                    <tr [formGroupName]="lookUpDetailsIndex">
-                      <td class="vertical-align-top">
-                        <input pInputText class="form-control" formControlName="code" #Code placeholder="Enter Code*"
-                          alphaNumeric (keydown)="restrictSpaces($event)" [maxlength]="20" [ngClass]="{'is-invalid ng-dirty': formArrayControls(lookUpDetailsIndex, 'code')?.touched &&
-                                formArrayControls(lookUpDetailsIndex, 'code')?.errors }" id="Lookup_lookupDetaisCode">
-                        <div class="flex">
-                          <div class="align-left w-60" style="width:70%">
-                            <span *ngIf="formArrayControls(lookUpDetailsIndex,'code')?.errors?.['notUnique']">
-                              <div class="ng-invalid ng-touched p-error"> lookUp Details Code Must Be Unique. </div>
-                            </span>
-                            <span
-                              *ngIf="formArrayControls(lookUpDetailsIndex,'code')?.touched && formArrayControls(lookUpDetailsIndex,'code')?.invalid">
-                              <div class="ng-invalid ng-touched p-error"
-                                *ngIf="formArrayControls(lookUpDetailsIndex,'code')?.errors?.['required']"> Please
-                                Enter
-                                Code.</div>
-                              <div class="ng-invalid ng-touched p-error"
-                                *ngIf="formArrayControls(lookUpDetailsIndex,'code')?.errors?.['minlength']"> Code Min
-                                Length Is 2.</div>
-                            </span>
-                          </div>
-                          <div class="align-right w-40" style="width:30%; text-align:right;">
-                            <small>{{Code.value.length}}/{{maxLength.code}} </small>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="vertical-align-top" *ngIf="DependentDropdown">
-                          <p-dropdown *ngIf="this.fblookup.value.lookupNames" class="w-100" id="lookup_dropdown"
-                             [options]="dependantLookupData" optionLabel="name"
-                            [autoDisplayFirst]="false" appendTo="body" placeholder="Select Lookup Name">
-                          </p-dropdown>
-                      </td>
-                      <td class="vertical-align-top">
-                        <input pInputText class="form-control" formControlName="name" placeholder="Enter Name*" #name
-                          alphaOnly (keydown)="restrictSpaces($event)" [ngClass]="{'is-invalid ng-dirty': formArrayControls(lookUpDetailsIndex,'name')?.touched &&
-                             formArrayControls(lookUpDetailsIndex,'name')?.errors }" [maxlength]="50"
-                          id="Lookup_lookupDetailsName">
-                        <div class="flex">
-                          <div class="align-left w-60" style="width:70%">
-                            <span *ngIf="formArrayControls(lookUpDetailsIndex,'name')?.errors?.['notUnique']">
-                              <div class="ng-invalid ng-touched p-error"> lookUp Details Name Must Be Unique. </div>
-                            </span>
-                            <span
-                              *ngIf="formArrayControls(lookUpDetailsIndex,'name')?.touched &&formArrayControls(lookUpDetailsIndex,'name')?.invalid">
-                              <div class="ng-invalid ng-touched p-error"
-                                *ngIf="formArrayControls(lookUpDetailsIndex,'name')?.errors?.['required']"> Please
-                                Enter
-                                Name.</div>
-                              <div class="ng-invalid ng-touched p-error"
-                                *ngIf="formArrayControls(lookUpDetailsIndex,'name')?.errors?.['minlength']"> Name Min
-                                Length Is 2.</div>
-                            </span>
-                          </div>
-                          <div class="align-right w-40" style="width:30%; text-align:right;">
-                            <small>{{name.value.length}}/{{maxLength.name}} </small>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="vertical-align-top">
-                        <textarea class="form-control freeze_text-area" pInputTextarea formControlName="description"
-                          placeholder="Enter Description" #description (keydown)="restrictSpaces($event)"
-                          [maxlength]="256" id="Lookup_lookupDetailsDescription"></textarea>
-                        <div class="flex">
-                          <div class="align-right w-100" style="width:50%; text-align:right;">
-                            <small>{{description.value.length}}/{{maxLength.description}}</small>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="vertical-align-top" [ngClass]="'isActive' ? 'text-center' : ''">
-                        <p-inputSwitch formControlName="isActive" id="Lookup_lookupDetailsIsActive"></p-inputSwitch>
-                      </td>
-                      <td *ngIf="fblookup.controls['lookUpDetails'].value.length > 1">
-                        <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer"
-                          *ngIf="!this.falookupDetails().controls[lookUpDetailsIndex].get('lookupId')?.value"
-                          (click)="  falookupDetails().removeAt(lookUpDetailsIndex)"></i>
-                        <i class="pi pi-fw pi-verified text-3xl"
-                          *ngIf="this.falookupDetails().controls[lookUpDetailsIndex].get('lookupId')?.value"></i>
-                      </td>
-                    </tr>
-                  </ng-template>
-                </p-table>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-      <ng-template pTemplate="footer">
-        <div class="col-4" style="float:right">
-          <button pButton pRipple type="submit" label="{{submitLabel}}" class="p-button-raised p-button-primary"
-            id="Lookup_lookupSubmit" [disabled]="fblookup.invalid" (click)="onSubmit()"></button>
-        </div>
-      </ng-template>
-    </p-dialog>
+
     <!-- table -->
     <p-table #lookUp [value]="lookups" paginatorDropdownAppendTo="body" dataKey="lookupId" [rows]="10" [rowHover]="true"
       [alwaysShowPaginator]="false" [paginator]="true"
@@ -244,7 +77,8 @@
           </td>
           <td *ngIf="permissions?.CanManageLookups">
             <button pButton pRipple icon="pi pi-pencil" style="padding: 0px;" id="Lookup_lookupEdit"
-              class="p-element p-ripple p-button-text p-button p-component" (click)=" editLookUp(lookup)"></button>
+              class="p-element p-ripple p-button-text p-button p-component"
+              (click)="openComponentDialog(lookupDialogComponent, lookup, ActionTypes.save)"></button>
           </td>
         </tr>
       </ng-template>
@@ -292,5 +126,6 @@
   </tr>
   </ng-template>
   </p-table>
+
 </div>
 </div>
