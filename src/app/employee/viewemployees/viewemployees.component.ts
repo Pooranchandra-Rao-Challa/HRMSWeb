@@ -38,7 +38,6 @@ export class ViewemployeesComponent {
   workExperience: employeeExperienceDtlsViewDto[] = [];
   // Employee FamilyDetails
   familyDetails: FamilyDetailsViewDto[];
-  selectedOption: string;
   // Employee AdressDetails
   address: EmployeAdressViewDto[] = [];
   isAddressChecked: boolean;
