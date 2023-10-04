@@ -8,8 +8,8 @@ import { SecurityquestionsComponent } from './securityquestions/securityquestion
 import { SharedModule } from '../_shared/shared.module';
 import { SettingsComponent } from './settings/settings.component';
 import { ToastModule } from 'primeng/toast';
-import { AlertmessageService } from '../_alerts/alertmessage.service';
-import { CommonDialogModule } from '../_dialogs/common.dialog.module';
+import { AlertmessageService } from '../_alerts/alertmessage.service';;
+import { ConfirmationDialogService } from '../_alerts/confirmationdialog.service';
 
 @NgModule({
     declarations: [
@@ -23,8 +23,7 @@ import { CommonDialogModule } from '../_dialogs/common.dialog.module';
         AuthRoutingModule,
         SharedModule,
         ToastModule,
-        CommonDialogModule
     ],
-    providers: [AlertmessageService]
+    providers: [AlertmessageService,ConfirmationDialogService]
 })
 export class AuthModule { }
