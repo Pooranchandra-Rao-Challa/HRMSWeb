@@ -17,9 +17,10 @@ import {
     UPDATE_EXPERIENCE_DETAILS,
     GET_NOTUPDATED_EMPLOYEES,
     POST_ATTENDENCE,
-    GET_ATTENDENCE
+    GET_ATTENDENCE,
+    CREATE_EMPLOYEE_LEAVE_DETAILS
 } from './api.uri.service';
-import { ExperienceDetailsDto, SkillArea, AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments, employeeExperienceDtlsViewDto, FamilyDetailsViewDto, employeeAttendenceDto } from '../_models/employes';
+import { ExperienceDetailsDto, SkillArea, AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments, employeeExperienceDtlsViewDto, FamilyDetailsViewDto, employeeAttendenceDto,EmployeeLeaveDto } from '../_models/employes';
 
 import { ApiHttpService } from './api.http.service';
 import { LookupViewDto } from '../_models/admin';
@@ -162,5 +163,9 @@ export class EmployeeService extends ApiHttpService {
 
     public updateViewEmpExperienceDtls(empExpDtls: ExperienceDetailsDto[]) {
         return this.post<ExperienceDetailsDto>(UPDATE_EXPERIENCE_DETAILS, empExpDtls);
+    }
+
+    public CreateEmployeeLeaveDetails(leaveDetails: EmployeeLeaveDto[]){
+        return this.post<EmployeeLeaveDto[]>(CREATE_EMPLOYEE_LEAVE_DETAILS,leaveDetails)
     }
 }

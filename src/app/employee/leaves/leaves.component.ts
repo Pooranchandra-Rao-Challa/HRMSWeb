@@ -2,7 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Table } from 'primeng/table';
 import { Actions, DialogRequest, ITableHeader } from 'src/app/_models/common';
 import { GlobalFilterService } from 'src/app/_services/global.filter.service';
-import { LeaveDto } from 'src/app/_models/employes';
+import { EmployeeLeaveDto } from 'src/app/_models/employes';
 import { SecurityService } from 'src/app/demo/service/security.service';
 import { LeaveDialogComponent } from 'src/app/_dialogs/leave.dialog/leave.dialog.component';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -14,8 +14,8 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
   ]
 })
 export class LeavesComponent {
-  leaves: LeaveDto[] = [];
-  globalFilterFields: string[] = ['leaveTypeId', 'fromDate', 'toDate', 'toDate', 'note', 'acceptedBy', 'acceptedAt', 'approvedBy', 'approvedAt']
+  leaves: EmployeeLeaveDto[] = [];
+  globalFilterFields: string[] = ['employeeId','leaveTypeId', 'fromDate', 'toDate', 'toDate', 'note', 'acceptedBy', 'acceptedAt', 'approvedBy', 'approvedAt']
   @ViewChild('filter') filter!: ElementRef;
   ActionTypes = Actions;
   leaveDialogComponent = LeaveDialogComponent;

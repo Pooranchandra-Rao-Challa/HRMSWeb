@@ -98,3 +98,4 @@ export const UPDATE_EXPERIENCE_DETAILS ="Employee/UpdateWorkExperience";
 export const GET_ATTENDENCE="Attendance/GetMonthlyAttendanceReport";
 export const POST_ATTENDENCE="Attendance/AddAttendance";
 export const GET_NOTUPDATED_EMPLOYEES="Attendance/GetNotUpdatedEmployeesInAttendance";
+export const CREATE_EMPLOYEE_LEAVE_DETAILS ="Attendance/CreateEmployeeLeave";
