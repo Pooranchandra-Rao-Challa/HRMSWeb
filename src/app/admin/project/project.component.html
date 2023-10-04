@@ -1,7 +1,6 @@
- <p-toast key="tst"></p-toast>
 <div class="col-12">
   <div class="card">
-   
+
     <!-- Toolbar -->
     <p-toolbar styleClass="p-mb-4">
       <ng-template pTemplate="left">
@@ -12,6 +11,7 @@
           id="Project_addProject" *ngIf="permission?.CanManageProjects" (click)="initProject(null)"></button>
       </ng-template>
     </p-toolbar>
+
     <!-- dialog -->
     <p-dialog header="Project" [(visible)]="dialog" [modal]="true" showEffect="fade"
       [breakpoints]="{'960px': '70%', '640px': '60%'}" [style]="{width: '80%'}">
@@ -345,7 +345,7 @@
                       </div>
                     </ng-template>
                   </p-multiSelect>
-                  <p-multiSelect *ngIf="this.addFlag == false" placeholder="Select Employees" [options]="Employees" 
+                  <p-multiSelect *ngIf="this.addFlag == false" placeholder="Select Employees" [options]="Employees"
                     optionLabel="employeeName" formControlName="ProjectAllotments" [filter]="true"
                     filterBy="employeeId,employeeName" appendTo="body">
                     <ng-template let-employee pTemplate="selectedItem">
@@ -421,7 +421,7 @@
             <app-d3-org-chart [data]="data"></app-d3-org-chart>
 
             <!-- <div id="myDiagramDiv" style="width: 100%; height: 500px;"></div>
-            
+
             <div id="chart-container" class="chart-container"></div>
              -->
           </div>
@@ -539,6 +539,6 @@
             class="p-button-raised p-button-primary" (click)="onSubmit()"></button>
         </div>
       </ng-template>
-    </p-dialog>  
+    </p-dialog>
       </div>
   </div>
