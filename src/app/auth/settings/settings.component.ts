@@ -11,6 +11,8 @@ import { HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, catchError, throwError } from 'rxjs';
 import jwtdecode from 'jwt-decode';
 import { UpdateStatusService } from 'src/app/_services/updatestatus.service';
+import { ConfirmationDialogService } from 'src/app/_alerts/confirmationdialog.service';
+import { ConfirmationRequest } from 'src/app/_models/common';
 
 
 @Component({
@@ -29,14 +31,15 @@ export class SettingsComponent {
     qstnSubmitLabel: String;
     fbChangePassword!: FormGroup;
     isUpdating: boolean = false;
-
+    confirmationRequest: ConfirmationRequest = new ConfirmationRequest();
     constructor(
         private formbuilder: FormBuilder,
         private securityService: SecurityService,
         public layoutService: LayoutService,
         private jwtService: JwtService,
         private alertMessage: AlertmessageService,
-        private updateStatusService: UpdateStatusService
+        private updateStatusService: UpdateStatusService,
+        private confirmationDialogService: ConfirmationDialogService,
     ) {
         // Function to update isUpdating value
         this.updateStatusService.setIsUpdating(this.isUpdating);
@@ -51,6 +54,7 @@ export class SettingsComponent {
     getUserQuestionsAndAnswers() {
         this.securityService.UserSecurityQuestions().subscribe((resp) => {
             this.userQuestions = resp as unknown as UserQuestionDto[];
+            console.log(  this.userQuestions);      
             this.filterSecureQuestions();
         });
     }
@@ -64,7 +68,7 @@ export class SettingsComponent {
 
     initGetSecureQuestions() {
         this.securityService.GetSecureQuestions().subscribe((resp) => {
-            this.allSecureQuestions = resp as unknown as SecureQuestionDto[];
+            this.allSecureQuestions = resp as unknown as SecureQuestionDto[];     
             this.secureQuestions.next(this.allSecureQuestions);
             this.filterSecureQuestions();
         });
@@ -105,10 +109,28 @@ export class SettingsComponent {
     }
 
     deleteSecurityQuestion(question: String) {
-        this.userQuestions.splice(this.userQuestions.findIndex(item => item.question === question), 1);
-        this.filterSecureQuestions();
+        debugger
+        // this.userQuestions.splice(this.userQuestions.findIndex(item => item.question === question), 1);
+        // this.filterSecureQuestions();
+        this.confirmationDialogService.comfirmationDialog(this.confirmationRequest).subscribe(userChoice => {
+            if (userChoice) {
+            
+            }
+          });
     }
+ 
 
+//     deleteSecurityQuestion(userQuestions: UserQuestionDto[]) {
+//         debugger
+//         console.log([userQuestions]);
+//         this.securityService.DeleteSecurityQuestions([userQuestions])
+//         .subscribe((resp) => {
+//             if(resp){
+//                 this.initGetSecureQuestions()
+//             }
+//     })
+// }
+    
     filterSecureQuestions(security: UserQuestionDto = {}) {
         if (this.userQuestions && this.allSecureQuestions) {
             const filteredQuestions = this.allSecureQuestions.filter((secureQuestion) => {
