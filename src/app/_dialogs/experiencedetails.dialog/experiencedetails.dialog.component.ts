@@ -154,7 +154,6 @@ export class ExperiencedetailsDialogComponent {
     })
   }
 
-
   onSelectSkill(e, experienceDetailsIndex) {
     let CurrentArray = e.value;
     let updatedArray = [];
@@ -171,9 +170,8 @@ export class ExperiencedetailsDialogComponent {
       for (let i = 0; i < CurrentArray.length; i++) {
         updatedArray.push({ workExperienceXrefId: 0, workExperienceId: 0, skillAreaId: CurrentArray[i] });
       }
-
     }
-    workExperienceXrefsControl.patchValue(updatedArray);8    
+    workExperienceXrefsControl.patchValue(updatedArray);    
   }
 
   showExperienceDetails(workExperience: employeeExperienceDtlsViewDto[]) {
@@ -187,7 +185,6 @@ export class ExperiencedetailsDialogComponent {
     }
     this.fbexperience.patchValue(workExperience)
   }
-
 
   saveExperience(): Observable<HttpEvent<any>> {
     if (this.selectedOption == 'Experience') {

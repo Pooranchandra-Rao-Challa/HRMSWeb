@@ -105,7 +105,7 @@
                                         (click)="editSecurityQuestion(securityQuestion)"></button>
                                     <button pButton pRipple icon="pi pi-trash" id="delete"
                                         class="p-element p-ripple p-button-text p-button p-component m-2"
-                                        (click)="deleteSecurityQuestion(securityQuestion.question)"
+                                        (click)="deleteSecurityQuestion(securityQuestion.userQuestionId)"
                                         *ngIf="userQuestions.length>2"></button>
                                 </td>
                                 <td>{{securityQuestion.question}}</td>

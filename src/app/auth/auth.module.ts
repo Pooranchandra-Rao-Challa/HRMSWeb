@@ -9,6 +9,7 @@ import { SharedModule } from '../_shared/shared.module';
 import { SettingsComponent } from './settings/settings.component';
 import { ToastModule } from 'primeng/toast';
 import { AlertmessageService } from '../_alerts/alertmessage.service';
+import { CommonDialogModule } from '../_dialogs/common.dialog.module';
 
 @NgModule({
     declarations: [
@@ -22,6 +23,7 @@ import { AlertmessageService } from '../_alerts/alertmessage.service';
         AuthRoutingModule,
         SharedModule,
         ToastModule,
+        CommonDialogModule
     ],
     providers: [AlertmessageService]
 })
