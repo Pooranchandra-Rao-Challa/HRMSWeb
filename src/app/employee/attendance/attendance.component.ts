@@ -1,5 +1,8 @@
+import { ListRange } from '@angular/cdk/collections';
+import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { List } from 'gojs';
 import { Table } from 'primeng/table';
 import { Leave } from 'src/app/demo/api/security';
 import { SecurityService } from 'src/app/demo/service/security.service';
@@ -33,19 +36,50 @@ export class AttendanceComponent {
   Months: Month[] | undefined;
   dialog: boolean = false;
   fbleave!: FormGroup;
+  notUpdatedDates = [];
+  display: boolean = false;
   LeaveType: LookupDetailsDto[] = [];
-  NotUpdatesEmployees = [];
+  NotUpdatesEmployees: EmployeesList[] = [];
 
-  constructor(private securityService: SecurityService, private adminService: AdminService,
+  constructor(private securityService: SecurityService, private adminService: AdminService, private datePipe: DatePipe,
     private formbuilder: FormBuilder, private alertMessage: AlertmessageService, private employeeService: EmployeeService, private lookupService: LookupService) { }
 
   ngOnInit() {
+    this.findMissingDates();
     this.initLeaveForm();
     this.initAtendence();
     this.getDaysInMonth(this.year, this.month);
     this.initEmployees();
     this.initDayWorkStatus();
-    this.getNotUpdatedEmployeesList();
+  }
+
+
+  showConfirmationDialog() {
+    this.getNotUpdatedEmployeesList(this.notUpdatedDates[0])
+    this.display = true;
+  }
+  onReject() {
+    this.display = false;
+  }
+  getNotUpdatedEmployeesList(date: string) {
+    this.employeeService.GetNotUpdatedEmployees(date).subscribe(resp => {
+      this.NotUpdatesEmployees = resp as unknown as EmployeesList[];
+      if (this.NotUpdatesEmployees.length > 0) {
+        this.notUpdatedDates.push(date)
+      }
+      if (this.notUpdatedDates.length === 1) {
+        return this.alertMessage.displayErrorMessage(ALERT_CODES["EAAS003"] + " " + `${this.notUpdatedDates[0]}`);
+      }
+    });
+  }
+  findMissingDates() {
+    const currentDate = new Date();
+    const previousDate = new Date(currentDate);
+    previousDate.setDate(currentDate.getDate() - 1);
+    for (let date = previousDate; date <= currentDate; date.setDate(date.getDate() + 1)) {
+      const formattedDate = this.datePipe.transform(date, 'yyyy-MM-dd');
+      this.getNotUpdatedEmployeesList(formattedDate);
+    }
   }
   initLeaveForm() {
     this.fbleave = this.formbuilder.group({
@@ -55,7 +89,7 @@ export class AttendanceComponent {
       dayWorkStatusId: new FormControl('', [Validators.required]),
       date: new FormControl('', [Validators.required]),
       toDate: new FormControl(''),
-      leaveDescription: new FormControl('')
+      note: new FormControl('')
     });
   }
   initEmployees() {
@@ -66,24 +100,27 @@ export class AttendanceComponent {
   initDayWorkStatus() {
     this.lookupService.DayWorkStatus().subscribe(resp => {
       this.LeaveType = resp as unknown as LookupDetailsDto[];
+      console.log(this.LeaveType)
     })
   }
   initAtendence() {
     this.employeeService.GetAttendence(this.month).subscribe((resp) => {
       this.employeeAttendenceList = resp as unknown as employeeAttendenceDto[];
+      console.log(resp)
     });
   }
-  getNotUpdatedEmployeesList() {
-    this.employeeService.GetNotUpdatedEmployees("2023-10-03").subscribe(resp => {
-      this.NotUpdatesEmployees = resp as unknown as EmployeesList[];
-    })
-  }
 
-  showDialog(empId, date) {
+  showDialog(empId:number, date) {
     this.dialog = true;
     this.fbleave.reset();
-    this.fbleave.get('employeeId').setValue(empId);
-    this.fbleave.get('date').setValue(FORMAT_DATE(new Date(date)));
+    const StatusId=this.LeaveType.filter(each =>each.name == 'PT')     
+    this.fbleave.patchValue({
+      employeeId: empId,
+      dayWorkStatusId:StatusId[0].lookupDetailId ,
+      date:new Date(date)
+    });
+
+    console.log(this.fbleave.get('date').value)
   }
   get FormControls() {
     return this.fbleave.controls;
@@ -110,6 +147,23 @@ export class AttendanceComponent {
       }
     );
   }
+  addSingleAttendence() {
+    if (this.fbleave.get('dayWorkStatusId').value != 263 && this.fbleave.get('dayWorkStatusId').value != 264 && this.fbleave.get('note').value == null)
+      return this.alertMessage.displayErrorMessage(ALERT_CODES["EAAS004"]);
+    else {
+      console.log(this.fbleave.value)
+      this.employeeService.CreateAttendence(this.fbleave.value).subscribe(response => {
+        if (response) {
+          this.alertMessage.displayAlertMessage(ALERT_CODES["EAAS001"]);
+          this.initAtendence();
+        }
+        else
+          this.alertMessage.displayErrorMessage(ALERT_CODES["EAAS002"]);
+      }
+      )
+
+    }
+  }
   addPresent() {
     const EmployeesList = [];
     this.NotUpdatesEmployees.forEach(each => {
@@ -117,7 +171,7 @@ export class AttendanceComponent {
       this.fbleave.patchValue({
         employeeId: each.employeeId,
         dayWorkStatusId: type[0].lookupDetailId,
-        date: FORMAT_DATE(new Date("03-oct-2023")),
+        date: FORMAT_DATE(new Date(this.notUpdatedDates[0])),
         notReported: false
       })
       EmployeesList.push(this.fbleave.value)
@@ -137,6 +191,6 @@ export class AttendanceComponent {
   getFormattedDate(i: number): string {
     const day = i.toString().padStart(2, '0');
     const month = this.month.toString().padStart(2, '0');
-    return `${day}-${month}-2023`;
+    return `${day}-${month}-${this.year}`;
   }
 }

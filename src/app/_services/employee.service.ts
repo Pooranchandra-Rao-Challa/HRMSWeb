@@ -16,10 +16,11 @@ import {
   UPDATE_OFFICE_DETAILS_URI,
   UPDATE_EXPERIENCE_DETAILS,
   GET_ATTENDENCE,
-  POST_ATTENDENCE,
-  GET_NOTUPDATED_EMPLOYEES
+  GET_NOTUPDATED_EMPLOYEES,
+  POST_ATTENDANCES,
+  POST_ATTENDANCE
 } from './api.uri.service';
-import {ExperienceDetailsDto,SkillArea,AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments, employeeExperienceDtlsViewDto, FamilyDetailsViewDto, employeeAttendenceDto } from '../_models/employes';
+import {ExperienceDetailsDto,SkillArea,AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments, employeeExperienceDtlsViewDto, FamilyDetailsViewDto, employeeAttendenceDto, EmployeeAttendanceList } from '../_models/employes';
 
 import { ApiHttpService } from './api.http.service';
 import { LookupViewDto } from '../_models/admin';
@@ -35,8 +36,11 @@ export class EmployeeService extends ApiHttpService {
     return this.getWithId<employeeAttendenceDto>(GET_ATTENDENCE,month);
   }
 
-  public AddAttendence(data){
-    return this.post(POST_ATTENDENCE,data);
+  public AddAttendence(data:EmployeeAttendanceList[]){
+    return this.post<EmployeeAttendanceList[]>(POST_ATTENDANCES,data);
+  }
+  public CreateAttendence(data:EmployeeAttendanceList){
+     return this.post<EmployeeAttendanceList>(POST_ATTENDANCE,data);
   }
   //Search Employee
   public GetEmployees(IsEnrolled: boolean) {
@@ -50,7 +54,6 @@ export class EmployeeService extends ApiHttpService {
 
   }
   public GetNotUpdatedEmployees(date){
-    console.log(GET_NOTUPDATED_EMPLOYEES,`${date}`)
     return this.get(GET_NOTUPDATED_EMPLOYEES+'/'+`${date}`);
   }
   //Education Details of Employee
