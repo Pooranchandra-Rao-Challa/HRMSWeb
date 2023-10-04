@@ -1,0 +1,47 @@
+<div class="flex flex-column justify-content-center">
+    <form [formGroup]="fbLeave">
+        <div class="grid">
+            <div class="col-12 roles-container">
+                <div class="p-fluid p-formgrid grid">
+                    <div class="field col-12 md:col-4">
+                        <label class="required">Employee Name:</label>
+                        <p-dropdown id="employeeName" appendTo="body" [filter]="true"
+                            filterBy="employeeId,employeeName" [showClear]="true"
+                            placeholder="Select Employee Name" formControlName="employeeId"
+                            [options]="employees" optionLabel="employeeName" optionValue="lookupDetailId">
+                        </p-dropdown>
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label class="required">Leave Type:</label>
+                        <p-dropdown placeholder="Select Leave Type" formControlName="leaveTypeId"
+                            [options]="leaveType" optionLabel="name">
+                        </p-dropdown>
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label class="required">From Date:</label>
+                        <p-calendar appendTo="body" placeholder="Select From Date" [readonlyInput]="true"
+                            [showIcon]="true" formControlName="fromDate" id="fromDate">
+                        </p-calendar>
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label>To Date:</label>
+                        <p-calendar appendTo="body" placeholder="Select To Date" [readonlyInput]="true"
+                            [showIcon]="true" formControlName="toDate" id="toDate">
+                        </p-calendar>
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label htmlFor="description">Description:</label>
+                        <textarea class="form-control freeze_text-area" pInputTextarea
+                            formControlName="note" placeholder="Enter Description" #description
+                            [maxlength]="256" id="Description"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class=" footer dialog-footer">
+    <button pButton pRipple type="submit" label="Save" class="p-button-raised p-button-primary"
+        [disabled]="fbLeave.invalid" ></button>
+</div>
