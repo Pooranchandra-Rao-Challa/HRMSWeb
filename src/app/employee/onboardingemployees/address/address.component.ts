@@ -183,7 +183,6 @@ export class AddressComponent {
   getEmpAddressDetails(isbool: boolean) {
     this.employeeService.GetAddresses(this.employeeId, isbool).subscribe((data) => {
       this.empAddrDetails = data;
-
       this.hasPermanentAddress = this.empAddrDetails.some(addr => addr.addressType === 'Permanent Address' && addr.isActive === true);
       this.currentaddress = this.empAddrDetails.some(addr => addr.addressType === 'Current Address' && addr.isActive === true);
       this.temporaryaddress = this.empAddrDetails.some(addr => addr.addressType === 'Temporary Address' && addr.isActive === true);

@@ -18,9 +18,11 @@ import {
     GET_NOTUPDATED_EMPLOYEES,
     POST_ATTENDENCE,
     GET_ATTENDENCE,
-    CREATE_EMPLOYEE_LEAVE_DETAILS
+    CREATE_EMPLOYEE_LEAVE_DETAILS,
+    POST_ATTENDANCES,
+    POST_ATTENDANCE
 } from './api.uri.service';
-import { ExperienceDetailsDto, SkillArea, AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments, employeeExperienceDtlsViewDto, FamilyDetailsViewDto, employeeAttendenceDto,EmployeeLeaveDto } from '../_models/employes';
+import { ExperienceDetailsDto, SkillArea, AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments, employeeExperienceDtlsViewDto, FamilyDetailsViewDto, employeeAttendenceDto,EmployeeLeaveDto, EmployeeAttendanceList } from '../_models/employes';
 
 import { ApiHttpService } from './api.http.service';
 import { LookupViewDto } from '../_models/admin';
@@ -36,49 +38,51 @@ export class EmployeeService extends ApiHttpService {
         return this.getWithId<employeeAttendenceDto>(GET_ATTENDENCE, month);
     }
 
-    public AddAttendence(data) {
-        return this.post(POST_ATTENDENCE, data);
-    }
-    //Search Employee
-    public GetEmployees(IsEnrolled: boolean) {
-        const url = `${GET_EMPLOYEES_URI}/${IsEnrolled}`;
-        return this.get<EmployeesViewDto[]>(url);
-    }
+  public AddAttendence(data:EmployeeAttendanceList[]){
+    return this.post<EmployeeAttendanceList[]>(POST_ATTENDANCES,data);
+  }
+  public CreateAttendence(data:EmployeeAttendanceList){
+     return this.post<EmployeeAttendanceList>(POST_ATTENDANCE,data);
+  }
+  //Search Employee
+  public GetEmployees(IsEnrolled: boolean) {
+    const url = `${GET_EMPLOYEES_URI}/${IsEnrolled}`;
+    return this.get<EmployeesViewDto[]>(url);
+  }
+  
+  //personal Details of Employee
+  public CreateBasicDetails(basicdetails: EmployeeBasicDetailDto) {
+    return this.post<EmployeeBasicDetailDto>(CREATE_BASIC_DETAILS_URI, basicdetails);
 
-    //personal Details of Employee
-    public CreateBasicDetails(basicdetails: EmployeeBasicDetailDto) {
-        return this.post<EmployeeBasicDetailDto>(CREATE_BASIC_DETAILS_URI, basicdetails);
-
-    }
-    public GetNotUpdatedEmployees(date) {
-        console.log(GET_NOTUPDATED_EMPLOYEES, `${date}`)
-        return this.get(GET_NOTUPDATED_EMPLOYEES + '/' + `${date}`);
-    }
-    //Education Details of Employee
-    public CreateEducationDetails(educationdetails: EducationDetailsDto[]) {
-        return this.post<EducationDetailsDto[]>(CREATE_EDUCATION_DETAILS_URI, educationdetails);
-    }
-    public CreateAddress(addressDetails: AddressDetailsDto[]) {
-        return this.post<AddressDetailsDto>(CREATE_ADDRESS_URI, addressDetails)
-    }
-    public CreateExperience(experienceDetails: ExperienceDetailsDto[]) {
-        return this.post<AddressDetailsDto>(CREATE_EXPERIENCE_URI, experienceDetails)
-    }
-    public EnrollUser(employeeId: number) {
-        return this.post(ENROLL_URI, employeeId)
-    }
-    //Bank Details of Employee
-    public CreateBankDetails(bankdetails: BankDetailsDto) {
-        return this.post<BankDetailsDto>(CREATE_BANK_DETAILS_URI, bankdetails);
-    }
-    public UploadDocuments(documents: FormData, params?: HttpParams) {
-        console.log(documents)
-        let header = new HttpHeaders()
-        header = header.set('Content-Type', 'multipart/form-data')
-        return this.upload(CREATE_DOCUMENTS_URI,
-            documents,
-            header, params);
-    }
+  }
+  public GetNotUpdatedEmployees(date){
+    return this.get(GET_NOTUPDATED_EMPLOYEES+'/'+`${date}`);
+  }
+  //Education Details of Employee
+  public CreateEducationDetails(educationdetails: EducationDetailsDto[]){
+    return this.post<EducationDetailsDto[]>(CREATE_EDUCATION_DETAILS_URI,educationdetails);
+  }
+  public CreateAddress(addressDetails: AddressDetailsDto[]) {
+    return this.post<AddressDetailsDto>(CREATE_ADDRESS_URI, addressDetails)
+  }
+  public CreateExperience(experienceDetails: ExperienceDetailsDto[]) {
+    return this.post<AddressDetailsDto>(CREATE_EXPERIENCE_URI, experienceDetails)
+  }
+  public EnrollUser(employeeId:number){
+    return this.post(ENROLL_URI,employeeId)
+  }
+  //Bank Details of Employee
+  public CreateBankDetails(bankdetails: BankDetailsDto) {
+    return this.post<BankDetailsDto>(CREATE_BANK_DETAILS_URI, bankdetails);
+  }
+  public UploadDocuments(documents: FormData,params?:HttpParams) {
+    console.log(documents)
+    let header=new HttpHeaders()
+    header=header.set('Content-Type','multipart/form-data')
+    return this.upload(CREATE_DOCUMENTS_URI, 
+      documents,
+      header,params);
+  }
 
 
     //Familly Details of Employee

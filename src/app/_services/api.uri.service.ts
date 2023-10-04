@@ -31,7 +31,7 @@ export const CREATE_ASSET_ALLOTMENT_URI = "Admin/CreateAssetAllotment";
 export const GET_YEARS_FROM_HOLIDAYS_URI = "Admin/GetYearsFromHolidays";
 export const GET_ASSET_ALLOTMENTS_URI = "Admin/GetAssetAllotmentDetails";
 export const UNASSIGNED_ASSET_ALLOTMENT_URI = "Admin/InactiveAssetAllotment";
-
+export const DELETE_USER_QUESTIONS_URI = "Security/DeleteUserQuestions";
 
 // BEGIN LOOKUPS
 
@@ -97,5 +97,7 @@ export const UPDATE_EXPERIENCE_DETAILS ="Employee/UpdateWorkExperience";
 
 export const GET_ATTENDENCE="Attendance/GetMonthlyAttendanceReport";
 export const POST_ATTENDENCE="Attendance/AddAttendance";
-export const GET_NOTUPDATED_EMPLOYEES="Attendance/GetNotUpdatedEmployeesInAttendance";
 export const CREATE_EMPLOYEE_LEAVE_DETAILS ="Attendance/CreateEmployeeLeave";
+export const POST_ATTENDANCES="Attendance/AddAttendance";
+export const POST_ATTENDANCE="Attendance/CreateAttendance";
+export const GET_NOTUPDATED_EMPLOYEES="Attendance/GetNotUpdatedEmployeesInAttendance";

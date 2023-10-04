@@ -2,13 +2,14 @@ import { Injectable } from "@angular/core";
 // import { ForgotUserPasswordDto, UserQuestionDto, UserViewDto } from "../_models/security";
 import { ApiHttpService } from "./api.http.service";
 import {
-    CHANGE_PASSWORD_URI, CREATE_ROLE_URI, CREATE_SECURITY_QUESTIONS_URI, Delete_USER_URI, FORGOT_PASSWORD_URI, GET_ALL_USER_QUESTIONS_URI, GET_PERMISSIONS_URI, GET_ROLES_URI, GET_ROLE_PERMISSIONS_URI,
+    CHANGE_PASSWORD_URI, CREATE_ROLE_URI, CREATE_SECURITY_QUESTIONS_URI, DELETE_USER_QUESTIONS_URI, Delete_USER_URI, FORGOT_PASSWORD_URI, GET_ALL_USER_QUESTIONS_URI, GET_PERMISSIONS_URI, GET_ROLES_URI, GET_ROLE_PERMISSIONS_URI,
     GET_SECURITY_QUESTIONS_URI, GET_USERS_URI, UPDATE_ROLE_URI, UPDATE_USER_QUESTIONS_URI, UPDATE_USER_URI, VALIDATE_USER_QUESTIONS_URI,
 } from "./api.uri.service";
 import {
     ChangePasswordDto, CreateUserQuestionDto, ForgotUserPasswordDto, RoleDto, RolePermissionDto, RoleViewDto, SecureQuestionDto, UserQuestionDto, UserUpdateDto,
     UserViewDto
 } from "../_models/security";
+import { HttpHeaders } from "@angular/common/http";
 
 @Injectable({ providedIn: 'root' })
 
@@ -69,5 +70,9 @@ export class SecurityService extends ApiHttpService {
 
     public UpdateSecurityQuestions(updateQuestions: UserQuestionDto[]) {
         return this.post<UserQuestionDto[]>(UPDATE_USER_QUESTIONS_URI, updateQuestions, { responseType: 'text' });
+    }
+
+    public DeleteSecurityQuestions(userQuestions: any[]) {
+        return this.post(DELETE_USER_QUESTIONS_URI, {body: userQuestions},{ responseType: 'text' });
     }
 }

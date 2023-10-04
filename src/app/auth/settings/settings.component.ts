@@ -7,10 +7,12 @@ import { SecureQuestionDto, UserQuestionDto } from 'src/app/_models/security';
 import { SecurityService } from 'src/app/_services/security.service';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { ConfirmedValidator } from 'src/app/_validators/confirmValidator';
-import { HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, catchError, throwError } from 'rxjs';
+import { HttpEvent, HttpHeaders } from '@angular/common/http';
+import { BehaviorSubject, catchError, Observable, throwError } from 'rxjs';
 import jwtdecode from 'jwt-decode';
 import { UpdateStatusService } from 'src/app/_services/updatestatus.service';
+import { ConfirmationDialogService } from 'src/app/_alerts/confirmationdialog.service';
+import { ConfirmationRequest } from 'src/app/_models/common';
 
 
 @Component({
@@ -29,6 +31,8 @@ export class SettingsComponent {
     qstnSubmitLabel: String;
     fbChangePassword!: FormGroup;
     isUpdating: boolean = false;
+    confirmationRequest: ConfirmationRequest = new ConfirmationRequest();
+    addFlag: boolean;
 
     constructor(
         private formbuilder: FormBuilder,
@@ -36,7 +40,8 @@ export class SettingsComponent {
         public layoutService: LayoutService,
         private jwtService: JwtService,
         private alertMessage: AlertmessageService,
-        private updateStatusService: UpdateStatusService
+        private updateStatusService: UpdateStatusService,
+        private confirmationDialogService: ConfirmationDialogService,
     ) {
         // Function to update isUpdating value
         this.updateStatusService.setIsUpdating(this.isUpdating);
@@ -51,6 +56,7 @@ export class SettingsComponent {
     getUserQuestionsAndAnswers() {
         this.securityService.UserSecurityQuestions().subscribe((resp) => {
             this.userQuestions = resp as unknown as UserQuestionDto[];
+            console.log(this.userQuestions);
             this.filterSecureQuestions();
         });
     }
@@ -100,13 +106,21 @@ export class SettingsComponent {
         Object.assign(this.security, s);
         Object.assign(this.oldSecurity, s);
         this.qstnSubmitLabel = "Update";
+        this.addFlag = false;
         this.showDialog = true;
         this.filterSecureQuestions(this.security);
     }
 
     deleteSecurityQuestion(question: String) {
-        this.userQuestions.splice(this.userQuestions.findIndex(item => item.question === question), 1);
-        this.filterSecureQuestions();
+        debugger
+        this.confirmationDialogService.comfirmationDialog(this.confirmationRequest).subscribe(userChoice => {
+            if (userChoice) {
+                this.userQuestions.splice(this.userQuestions.findIndex(item => item.question === question), 1);
+                this.filterSecureQuestions();
+                this.addFlag = true;
+                // this.onSubmit();
+            }
+        });
     }
 
     filterSecureQuestions(security: UserQuestionDto = {}) {
@@ -149,6 +163,12 @@ export class SettingsComponent {
         this.updateStatusService.setIsUpdating(this.isUpdating);
     }
 
+    saveUpdateuserQuestions(): Observable<HttpEvent<any>> {
+        if (!this.addFlag) return this.securityService.UpdateSecurityQuestions(this.userQuestions);
+        else return this.securityService.DeleteSecurityQuestions([this.userQuestions]);
+
+    }
+    
     onSubmit() {
         const username = this.jwtService.GivenName;
         const userId = this.jwtService.UserId;
@@ -162,21 +182,19 @@ export class SettingsComponent {
                 question: security.question,
             };
         });
-        this.securityService
-            .UpdateSecurityQuestions(this.userQuestions)
-            .subscribe((resp) => {
-                if (resp) {
-                    this.alertMessage.displayAlertMessage(ALERT_CODES["SSESQ001"]);
-                    this.getUserQuestionsAndAnswers();
-                    this.isUpdating = false;
-                    // Function to update isUpdating value
-                    this.updateStatusService.setIsUpdating(this.isUpdating);
-                }
-                else {
-                    this.alertMessage.displayErrorMessage(ALERT_CODES["SSESQ002"]);
-                }
+        this.saveUpdateuserQuestions().subscribe((resp) => {
+            if (resp) {
+                this.alertMessage.displayAlertMessage(ALERT_CODES["SSESQ001"]);
+                this.getUserQuestionsAndAnswers();
+                this.isUpdating = false;
+                // Function to update isUpdating value
+                this.updateStatusService.setIsUpdating(this.isUpdating);
+            }
+            else {
+                this.alertMessage.displayErrorMessage(ALERT_CODES["SSESQ002"]);
+            }
 
-            });
+        });
 
     }
 
