@@ -1,3 +1,4 @@
+import { interval, Subject, takeUntil } from 'rxjs';
 import { ViewAssetAllotmentsDialogComponent } from './../../_dialogs/viewassetallotments.dialog/viewassetallotments.dialog.component';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { DataView } from 'primeng/dataview';
@@ -9,6 +10,7 @@ import { EmployeesForAllottedAssetsViewDto, EmployeesList } from 'src/app/_model
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { AddassetallotmentDialogComponent } from 'src/app/_dialogs/addassetallotment.dialog/addassetallotment.dialog.component';
 import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
+import { Unsubscribe } from 'src/app/_helpers/unsubscribe';
 
 @Component({
     selector: 'app-assetsallotment',
@@ -16,7 +18,7 @@ import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
     styles: [
     ]
 })
-export class AssetsallotmentComponent {
+export class AssetsallotmentComponent extends Unsubscribe {
     assets: AssetsByAssetTypeIdViewDto[] = [];
     sortField: string = '';
     sortOrder: number = 0;
@@ -49,19 +51,20 @@ export class AssetsallotmentComponent {
     dialogRequest: DialogRequest = new DialogRequest();
     mediumDate: string = MEDIUM_DATE;
 
-
     constructor(private adminService: AdminService,
         public ref: DynamicDialogRef,
-        private dialogService: DialogService) { }
+        private dialogService: DialogService) {
+        super();
+    }
 
     ngOnInit() {
         this.initEmployeesForAllottedAssets();
     }
 
     initEmployeesForAllottedAssets() {
-        this.adminService.EmployeesForAllottedAssets().subscribe((resp) => {
+        this.adminService.EmployeesForAllottedAssets().pipe(takeUntil(this.unsubscribe$)).subscribe((resp) => {
             this.employeesForAllottedAssets = resp as unknown as EmployeesForAllottedAssetsViewDto[];
-        })
+        });
     }
 
     openComponentDialog(content: any,
