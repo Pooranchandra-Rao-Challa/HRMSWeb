@@ -160,7 +160,7 @@ export class EmployeeService extends ApiHttpService {
         return this.post<EducationDetailsDto[]>(UPDATE_EDUCATION_DETAILS, empEduDtls);
     }
 
-    public updateViewEmpExperienceDtls(empExpDtls: ExperienceDetailsDto) {
+    public updateViewEmpExperienceDtls(empExpDtls: ExperienceDetailsDto[]) {
         return this.post<ExperienceDetailsDto>(UPDATE_EXPERIENCE_DETAILS, empExpDtls);
     }
 }
