@@ -13,6 +13,7 @@ import { OfficedetailsDialogComponent } from './officedetails.dialog/officedetai
 import { EducationdetailsDialogComponent } from './educationdetails.dialog/educationdetails.dialog.component';
 import { ExperiencedetailsDialogComponent } from './experiencedetails.dialog/experiencedetails.dialog.component';
 import { LookupDialogComponent } from './lookup.dialog/lookup.dialog.component';
+import { LeaveDialogComponent } from './leave.dialog/leave.dialog.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { LookupDialogComponent } from './lookup.dialog/lookup.dialog.component';
     OfficedetailsDialogComponent,
     EducationdetailsDialogComponent,
     ExperiencedetailsDialogComponent,
-    LookupDialogComponent
+    LookupDialogComponent,
+    LeaveDialogComponent
   ],
   imports: [SharedModule],
   providers: [DialogService, DynamicDialogRef]

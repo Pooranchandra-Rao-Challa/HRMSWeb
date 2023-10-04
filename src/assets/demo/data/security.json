@@ -2,7 +2,7 @@
     "leave":[
         {
             "id":1,
-            "employeeId": 98,
+            "employeeId": "Divya",
             "fromDate": "09-10-2020",
             "toDate": "19-11-2020",
             "leaveTypeId": "CL",
@@ -16,8 +16,8 @@
             "createdBy": "12-09-2020"   
           },
           {
-            "id":1,
-            "employeeId": 98,
+            "id":2,
+            "employeeId": "Divya",
             "fromDate": "09-10-2020",
             "toDate": "19-11-2020",
             "leaveTypeId": "CL",
@@ -26,13 +26,13 @@
             "acceptedAt": "05-10-2020",
             "approvedBy": "Nikhitha",
             "approvedAt":"05-10-2020",
-            "rejected":true,
+            "rejected":false,
             "createdAt": "12-02-2020",
             "createdBy": "12-09-2020"   
           },
           {
-            "id":1,
-            "employeeId": 98,
+            "id":3,
+            "employeeId": "Divya",
             "fromDate": "09-10-2020",
             "toDate": "19-11-2020",
             "leaveTypeId": "CL",
@@ -41,13 +41,13 @@
             "acceptedAt": "05-10-2020",
             "approvedBy": "Nikhitha",
             "approvedAt":"05-10-2020",
-            "rejected":true,
+            "rejected":null,
             "createdAt": "12-02-2020",
             "createdBy": "12-09-2020"   
           },
           {
-            "id":1,
-            "employeeId": 98,
+            "id":4,
+            "employeeId": "Divya",
             "fromDate": "09-10-2020",
             "toDate": "19-11-2020",
             "leaveTypeId": "CL",
@@ -56,13 +56,13 @@
             "acceptedAt": "05-10-2020",
             "approvedBy": "Nikhitha",
             "approvedAt":"05-10-2020",
-            "rejected":true,
+            "rejected":false,
             "createdAt": "12-02-2020",
             "createdBy": "12-09-2020"   
           },
           {
-            "id":1,
-            "employeeId": 98,
+            "id":5,
+            "employeeId": "Divya",
             "fromDate": "09-10-2020",
             "toDate": "19-11-2020",
             "leaveTypeId": "CL",
@@ -71,13 +71,13 @@
             "acceptedAt": "05-10-2020",
             "approvedBy": "Nikhitha",
             "approvedAt":"05-10-2020",
-            "rejected":true,
+            "rejected":null,
             "createdAt": "12-02-2020",
             "createdBy": "12-09-2020"   
           },
           {
-            "id":1,
-            "employeeId": 98,
+            "id":6,
+            "employeeId": "Divya",
             "fromDate": "09-10-2020",
             "toDate": "19-11-2020",
             "leaveTypeId": "CL",
@@ -86,13 +86,13 @@
             "acceptedAt": "05-10-2020",
             "approvedBy": "Nikhitha",
             "approvedAt":"05-10-2020",
-            "rejected":true,
+            "rejected":false,
             "createdAt": "12-02-2020",
             "createdBy": "12-09-2020"   
           },
           {
-            "id":1,
-            "employeeId": 98,
+            "id":7,
+            "employeeId": "Divya",
             "fromDate": "09-10-2020",
             "toDate": "19-11-2020",
             "leaveTypeId": "CL",
