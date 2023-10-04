@@ -46,6 +46,7 @@ export class ExperienceDetailsComponent {
   ngOnInit() {
     this.permissions = this.jwtService.Permissions
     this.route.params.subscribe(params => {
+        console.log(params);
       this.employeeId = params['employeeId'];
     });
     this.initDesignations();

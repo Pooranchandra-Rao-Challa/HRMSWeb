@@ -31,7 +31,7 @@ export const CREATE_ASSET_ALLOTMENT_URI = "Admin/CreateAssetAllotment";
 export const GET_YEARS_FROM_HOLIDAYS_URI = "Admin/GetYearsFromHolidays";
 export const GET_ASSET_ALLOTMENTS_URI = "Admin/GetAssetAllotmentDetails";
 export const UNASSIGNED_ASSET_ALLOTMENT_URI = "Admin/InactiveAssetAllotment";
-
+export const DELETE_USER_QUESTIONS_URI = "Security/DeleteUserQuestions";
 
 // BEGIN LOOKUPS
 

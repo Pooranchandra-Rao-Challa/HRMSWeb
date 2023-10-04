@@ -18,34 +18,36 @@ import { SharedModule } from '../_shared/shared.module';
 import { AddressComponent } from './onboardingemployees/address/address.component';
 import { BankDetailsComponent } from './onboardingemployees/bank-details/bank-details.component';
 import { CommonDialogModule } from '../_dialogs/common.dialog.module';
+import { OnboardEmployeeService } from 'src/app/_helpers/view.notificaton.services'
 
 
 
 @NgModule({
-  declarations: [
-    AllEmployeesComponent,
-    LeavesComponent,
-    AttendanceComponent,
-    NotificationsComponent,
-    OnboardingemployeesComponent,
-    ViewemployeesComponent,
-    BasicDetailsComponent,
-    EducationDetailsComponent,
-    ExperienceDetailsComponent,
-    UploadDocumentsComponent,
-    FinalSubmitComponent,
-    FamilyDeatilsComponent,
-    AddressComponent,
-    BankDetailsComponent
-  ],
+    declarations: [
+        AllEmployeesComponent,
+        LeavesComponent,
+        AttendanceComponent,
+        NotificationsComponent,
+        OnboardingemployeesComponent,
+        ViewemployeesComponent,
+        BasicDetailsComponent,
+        EducationDetailsComponent,
+        ExperienceDetailsComponent,
+        UploadDocumentsComponent,
+        FinalSubmitComponent,
+        FamilyDeatilsComponent,
+        AddressComponent,
+        BankDetailsComponent
+    ],
 
-  imports: [
-    // ListDemoRoutingModule,
-    EmployeeRoutingModule,
-    StepsModule,
-    FileUploadModule,
-    SharedModule,
-    CommonDialogModule
-  ]
+    imports: [
+        // ListDemoRoutingModule,
+        EmployeeRoutingModule,
+        StepsModule,
+        FileUploadModule,
+        SharedModule,
+        CommonDialogModule
+    ],
+    providers: [OnboardEmployeeService]
 })
 export class EmployeeModule { }
