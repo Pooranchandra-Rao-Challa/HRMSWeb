@@ -22,7 +22,7 @@
         <form [formGroup]="fbleave">
             <div class="p-fluid p-formgrid">
                 <div style="margin-bottom: 15px;">
-                    <label>Employee:<sup class="p-error">*</sup></label>&nbsp;
+                    <label class="required">Employee:</label>&nbsp;
                     <p-dropdown [options]="employees" [readonly]="FormControls['employeeId'].value!== null"
                         formControlName="employeeId" optionLabel="employeeName" [filter]="true"
                         filterBy="employeeCode,employeeName" placeholder="Select Employee" optionValue="employeeId">
@@ -35,22 +35,32 @@
                     </p-dropdown>
                 </div>
                 <div style="margin-bottom: 15px;">
-                    <label>Leave Type:<sup class="p-error">*</sup></label>&nbsp;
+                    <label class="required">Leave Type:</label>&nbsp;
                     <p-dropdown formControlName="dayWorkStatusId" [options]="LeaveType" optionLabel="name"
                         optionValue="lookupDetailId" placeholder="Select Leave Type"></p-dropdown>
+
+                        <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                                <span *ngIf="FormControls['dayWorkStatusId'].touched && FormControls['dayWorkStatusId'].invalid">
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="FormControls['dayWorkStatusId'].errors?.['required']">
+                                        Please Select Leave Type.</div>
+                                </span>
+                            </div>
+                        </div>
                 </div>
                 <div style="margin-bottom: 15px;">
-                    <label>From Date:<sup class="p-error">*</sup></label>&nbsp;
+                    <label class="required">From Date:</label>&nbsp;
                     <p-calendar formControlName="date" [readonlyInput]="FormControls['employeeId'].value!== null"
                         appendTo="body" placeholder="Enter From Date" [showIcon]="true"></p-calendar>
                 </div>
                 <div style="margin-bottom: 15px;">
-                    <label>To Date:<sup class="p-error">*</sup></label>&nbsp;
+                    <label>To Date:</label>&nbsp;
                     <p-calendar [showIcon]="true" formControlName="toDate" placeholder="Enter To Date" appendTo="body">
                     </p-calendar>
                 </div>
                 <div style="margin-bottom: 15px;">
-                    <label>Leave Narration:<sup class="p-error">*</sup></label>&nbsp;
+                    <label class="required">Leave Narration:</label>&nbsp;
                     <textarea rows="5" cols="30" pInputTextarea formControlName="note"></textarea>
                 </div>
             </div>
@@ -58,7 +68,7 @@
     </div>
     <ng-template pTemplate="footer">
         <div class="flex justify-content-center">
-            <button pButton pRipple type="submit" class="p-button-raised p-button-primary" (click)="addSingleAttendence()"
+            <button pButton pRipple type="submit" class="p-button-raised p-button-primary" (click)="addSingleAttendence()" [disabled]="!this.fbleave.valid"
                 label="Add Attendance"></button>
         </div>
     </ng-template>
@@ -79,58 +89,58 @@
     <ng-template pTemplate="body" let-employee>
         <tr>
             <td>{{employee.EmployeeName}}</td>
-            <td *ngFor="let i of days" [ngStyle]="{'background-color':isEligibleForLeave(employee, i)==='WOff'?'grey':'','border-left':isEligibleForLeave(employee, i)==='WOff'?'0.5px solid white':''}">
+            <td *ngFor="let i of days" 
+             [ngStyle]="{'background-color':isEligibleForLeave(employee, i)==='WOff'?'grey':'','border-left':isEligibleForLeave(employee, i)==='WOff'?'0.5px solid white':''}" 
+             >
                 <ng-container *ngIf="isEligibleForLeave(employee, i)">
                     <span
                         [ngStyle]="{'font-size': '1rem','color': employee[getFormattedDate(i)] === 'PT' ? 'green' : ''}"
-                        (click)="showDialog(employee.EmployeeId,getFormattedDate(i))"
+                        (click)="showDialog(employee.EmployeeId,getFormattedDate(i),employee[getFormattedDate(i)])" 
                         *ngIf="isEligibleForLeave(employee, i) === 'PT'">
                         {{ employee[getFormattedDate(i)] }}
                     </span>
                     <span
-                        [ngStyle]="{'font-size': '1rem','color': employee[getFormattedDate(i)] === 'AT' ? 'green' : ''}"
-                        (click)="showDialog(employee.EmployeeId, getFormattedDate(i))"
+                        [ngStyle]="{'font-size': '1rem','color': employee[getFormattedDate(i)] === 'AT' ? 'red' : ''}"
+                        (click)="showDialog(employee.EmployeeId, getFormattedDate(i),employee[getFormattedDate(i)])"
                         *ngIf="isEligibleForLeave(employee, i) === 'AT'">
                         {{ employee[getFormattedDate(i)] }}
                     </span>
                     <span
                         [ngStyle]="{'font-size': '1rem','color': employee[getFormattedDate(i)] === 'CL' ? 'orange' : ''}"
-                        (click)="showDialog(employee.EmployeeId, getFormattedDate(i))"
+                        (click)="showDialog(employee.EmployeeId, getFormattedDate(i),employee[getFormattedDate(i)])"
                         *ngIf="isEligibleForLeave(employee, i) === 'CL'">
                         {{ employee[getFormattedDate(i)] }}
                     </span>
                     <span
                         [ngStyle]="{'font-size': '1rem','color': employee[getFormattedDate(i)] === 'PL' ? 'pink' : ''}"
-                        (click)="showDialog(employee.EmployeeId, getFormattedDate(i))"
+                        (click)="showDialog(employee.EmployeeId, getFormattedDate(i),employee[getFormattedDate(i)])"
                         *ngIf="isEligibleForLeave(employee, i) === 'PL'">
                         {{ employee[getFormattedDate(i)] }}
                     </span>
                     <span
                         [ngStyle]="{'font-size': '1rem','color': employee[getFormattedDate(i)] === 'EL' ? 'black' : ''}"
-                        (click)="showDialog(employee.EmployeeId, getFormattedDate(i))"
+                        (click)="showDialog(employee.EmployeeId, getFormattedDate(i),employee[getFormattedDate(i)])"
                         *ngIf="isEligibleForLeave(employee, i) === 'EL'">
                         {{ employee[getFormattedDate(i)] }}
                     </span>
                     <span [ngStyle]="{'font-size': '1rem','color': employee[getFormattedDate(i)] === 'SL' ? 'red' : ''}"
-                        (click)="showDialog(employee.EmployeeId, getFormattedDate(i))"
+                        (click)="showDialog(employee.EmployeeId, getFormattedDate(i),employee[getFormattedDate(i)])"
                         *ngIf="isEligibleForLeave(employee, i) === 'SL'">
                         {{ employee[getFormattedDate(i)] }}
                     </span>
                     <span
                         [ngStyle]="{'font-size': '1rem','color': employee[getFormattedDate(i)] === 'WOff' ? 'white' : ''}"
-                        (click)="showDialog(employee.EmployeeId, getFormattedDate(i))"
                         *ngIf="isEligibleForLeave(employee, i) === 'WOff'">
                         WO
                     </span>
                     <span
                         [ngStyle]="{'font-size': '1rem','color': employee[getFormattedDate(i)] === 'HD' ? 'blue' : ''}"
-                        (click)="showDialog(employee.EmployeeId, getFormattedDate(i))"
                         *ngIf="isEligibleForLeave(employee, i) === 'HD'">
                         {{ employee[getFormattedDate(i)] }}
                     </span>
                     <span
                         [ngStyle]="{'font-size': '1rem','color': employee[getFormattedDate(i)] === 'NU' ? 'blue' : ''}"
-                        (click)="showDialog(employee.EmployeeId, getFormattedDate(i))"
+                        (click)="showDialog(employee.EmployeeId, getFormattedDate(i),employee[getFormattedDate(i)])"
                         *ngIf="isEligibleForLeave(employee, i) === 'NU'">
                         {{ employee[getFormattedDate(i)] }}
                     </span>

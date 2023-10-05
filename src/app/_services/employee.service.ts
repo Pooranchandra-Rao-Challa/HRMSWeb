@@ -17,8 +17,8 @@ import {
   UPDATE_EXPERIENCE_DETAILS,
   GET_ATTENDENCE,
   GET_NOTUPDATED_EMPLOYEES,
-  POST_ATTENDANCES,
-  POST_ATTENDANCE
+  POST_ATTENDANCE,
+  POST_LISTOF_ATTENDANCES
 } from './api.uri.service';
 import {ExperienceDetailsDto,SkillArea,AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments, employeeExperienceDtlsViewDto, FamilyDetailsViewDto, employeeAttendenceDto, EmployeeAttendanceList } from '../_models/employes';
 
@@ -37,7 +37,7 @@ export class EmployeeService extends ApiHttpService {
     }
 
   public AddAttendence(data:EmployeeAttendanceList[]){
-    return this.post<EmployeeAttendanceList[]>(POST_ATTENDANCES,data);
+    return this.post<EmployeeAttendanceList[]>(POST_LISTOF_ATTENDANCES,data);
   }
   public CreateAttendence(data:EmployeeAttendanceList){
      return this.post<EmployeeAttendanceList>(POST_ATTENDANCE,data);

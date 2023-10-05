@@ -100,47 +100,46 @@ export class AttendanceComponent {
   initDayWorkStatus() {
     this.lookupService.DayWorkStatus().subscribe(resp => {
       this.LeaveType = resp as unknown as LookupDetailsDto[];
-      console.log(this.LeaveType)
     })
   }
   initAtendence() {
     this.employeeService.GetAttendence(this.month).subscribe((resp) => {
       this.employeeAttendenceList = resp as unknown as employeeAttendenceDto[];
-      console.log(resp)
     });
   }
 
-  showDialog(empId:number, date) {
+  showDialog(empId:number, date,leaveType:string) {
+    if(this.isFutureDate(date)){
+      return
+    }
+    else{
     this.dialog = true;
     this.fbleave.reset();
-    const StatusId=this.LeaveType.filter(each =>each.name == 'PT')     
+    const StatusId=this.LeaveType.filter(each =>each.name == leaveType)     
     this.fbleave.patchValue({
+      attendanceId:0,
       employeeId: empId,
-      dayWorkStatusId:StatusId[0].lookupDetailId ,
-      date:new Date(date)
+      dayWorkStatusId:StatusId[0]?.lookupDetailId ,
+      date: FORMAT_DATE(new Date(this.datePipe.transform(date, 'yyyy-dd-MM'))),
+      notReported: false
     });
-
-    console.log(this.fbleave.get('date').value)
+  }
   }
   get FormControls() {
     return this.fbleave.controls;
   }
-  getDaysInMonth(year: number, month: number) {
-    const date = new Date(year, month - 1, 1);
-    date.setMonth(date.getMonth() + 1);
-    date.setDate(date.getDate() - 1);
-    let day = date.getDate();
-    for (let i = 1; i <= day; i++) {
-      this.days.push(i);
-    }
+  isFutureDate(dateString: string): boolean {
+    const stringDateObject = new Date(dateString);
+    const currentDate = new Date();
+    return stringDateObject > currentDate;
   }
-
   save(data) {
     this.employeeService.AddAttendence(data).subscribe(
       (response) => {
         if (response) {
           this.alertMessage.displayAlertMessage(ALERT_CODES["EAAS001"]);
-          this.initAtendence();
+          this.dialog = false;
+          this.ngOnInit();
         }
         else
           this.alertMessage.displayErrorMessage(ALERT_CODES["EAAS002"]);
@@ -151,17 +150,15 @@ export class AttendanceComponent {
     if (this.fbleave.get('dayWorkStatusId').value != 263 && this.fbleave.get('dayWorkStatusId').value != 264 && this.fbleave.get('note').value == null)
       return this.alertMessage.displayErrorMessage(ALERT_CODES["EAAS004"]);
     else {
-      console.log(this.fbleave.value)
       this.employeeService.CreateAttendence(this.fbleave.value).subscribe(response => {
         if (response) {
           this.alertMessage.displayAlertMessage(ALERT_CODES["EAAS001"]);
-          this.initAtendence();
+          this.dialog = false;
+          this.ngOnInit();
         }
         else
           this.alertMessage.displayErrorMessage(ALERT_CODES["EAAS002"]);
-      }
-      )
-
+      })
     }
   }
   addPresent() {
@@ -193,4 +190,14 @@ export class AttendanceComponent {
     const month = this.month.toString().padStart(2, '0');
     return `${day}-${month}-${this.year}`;
   }
+  getDaysInMonth(year: number, month: number) {
+    const date = new Date(year, month - 1, 1);
+    date.setMonth(date.getMonth() + 1);
+    date.setDate(date.getDate() - 1);
+    let day = date.getDate();
+    for (let i = 1; i <= day; i++) {
+      this.days.push(i);
+    }
+  }
+
 }
