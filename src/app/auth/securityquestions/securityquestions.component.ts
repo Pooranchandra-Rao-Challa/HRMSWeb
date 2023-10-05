@@ -117,7 +117,6 @@ export class SecurityquestionsComponent {
         }
     }
 
-
     onSubmit() {
         const username = this.jwtService.GivenName;
         const userId = this.jwtService.UserId;
@@ -134,12 +133,12 @@ export class SecurityquestionsComponent {
             .CreateSecurityQuestions(createUserQuestions)
             .subscribe((resp) => {
                 if (resp) {
-                    this.alertMessage.displayAlertMessage(ALERT_CODES["SSESQ001"]);
+                    this.alertMessage.displayAlertMessage(ALERT_CODES["SCUQ001"]);
                     this.securityDto = [];
                     this.router.navigate(['./dashboard/admin']);
                 }
                 else {
-                    this.alertMessage.displayErrorMessage(ALERT_CODES["SSESQ002"]);
+                    this.alertMessage.displayErrorMessage(ALERT_CODES["SCUQ002"]);
                 }
             })
     }
