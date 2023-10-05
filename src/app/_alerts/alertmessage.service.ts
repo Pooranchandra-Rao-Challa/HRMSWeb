@@ -139,19 +139,20 @@ export const ALERT_CODES: { [key: string]: string } = {
     //Address Details
     'SAD001': 'Address Details Added Successfully',
     'SAD002': 'Address Details Not Added',
-    'SAP001':'Permanent address already Existed',
-    'SAC001': 'Current address already Existed',
+    'SAP001':'Permanent Address Already Existed',
+    'SAC001': 'Current Address Already Existed',
     'SMAD004': 'Address Details Update Successfully',
-    'SMAD005': 'Employee already has a Permanent Address',
-    'SMAD006': 'Employee already has a Current Address.',
+    'SMAD005': 'Employee Already Has a Permanent Address',
+    'SMAD006': 'Employee Already Has a Current Address.',
     'SMAD007': 'Each employee is allowed to have only one permanent address and one temporary address and one current address.',
-    'EMAD001':'Each employee is allowed to have only one permanent address, one temporary address, and one current address. Please edit existing addresses.',
+    'EMAD001':'All The 3 Types Of Addresses Existing In Database You Can Only Alter The addresses.',
   
 
     //uploadDocuments
-    'EAD001':'More than 5 Files not Accepted',
-    'EAD002':'Upload documents Added Successfully',
-    'EAD003':'Upload documents Not Added',
+    'EAD001':'More Than 5 Files Not Accepted',
+    'EAD002':'Upload Documents Added Successfully',
+    'EAD003':'Upload Documents Not Added',
+    'EAD004':'Please Enter Title',
     //Enroll Employee
 
     'SEE001': 'Employee Enrolled Successfully',
@@ -186,5 +187,8 @@ export const ALERT_CODES: { [key: string]: string } = {
     //Attendence
     'EAAS001':'Attendence Added Successfully',
     'EAAS002':'Attendence Details Not Added',
+    'EAAS003':'Please Enter Attendance For',
+    'EAAS004':'Please Enter Leave Narration',
+
 }
 

@@ -29,6 +29,7 @@ export class EmployeeBasicDetailDto {
 	signDate?: Date;
 	isActive?: boolean;
 }
+
 export class EducationDetailsDto {
 	educationDetailId?: number;
 	employeeId?: number;
@@ -332,14 +333,14 @@ export class employeeExperienceDtlsViewDto {
 	updatedBy?: string;
 }
 
-export class employeeAttendenceDto {
+export class employeeAttendanceDto {
 	employeeId: number;
 	employeeName: string;
 	dates: { [date: string]: string | {} };
 }
 
-export class LeaveDto{
-	id?: number;
+export class EmployeeLeaveDto{
+	employeeLeaveId?: number;
 	employeeId?:number;
 	fromDate?: Date;
 	toDate?: Date;
@@ -353,3 +354,10 @@ export class LeaveDto{
 	createdAt?: Date;
 	createdBy?: string;
 }
+export class EmployeeAttendanceList{
+	attendanceId?:number;
+	employeeId ?:number;
+	date:Date
+	DayWorkStatusId?:number;
+	 NotReported:boolean
+	}

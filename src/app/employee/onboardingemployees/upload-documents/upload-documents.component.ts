@@ -15,7 +15,7 @@ import { MAX_LENGTH_20, MIN_LENGTH_2 } from 'src/app/_shared/regex';
 export class UploadDocumentsComponent {
     @ViewChild("fileUpload", { static: false }) fileUpload: ElementRef;
 
-    files: { fileBlob: Blob, title: string,fileName:string }[] = [];
+    files: { fileBlob: Blob, title: string, fileName: string }[] = [];
     fbUpload!: FormGroup;
     employeeId: any;
     fileSize = 20;
@@ -50,10 +50,8 @@ export class UploadDocumentsComponent {
                 if (this.fbUpload.valid) {
                     for (let index = 0; index < fileUpload.files.length; index++) {
                         const file = fileUpload.files[index];
-                        console.log(file)
-                        this.files.push({ fileBlob: file, title: this.fbUpload.get('title').value , fileName:  file.name});
-                        //this.empUploadDetails.push({ uploadedFiles: file, title: this.fbUpload.get('title').value,filename:  file.name })
-                        console.log(this.files)
+                        // this.files.push({ fileBlob: file, title: this.fbUpload.get('title').value , fileName:  file.name});
+                        this.empUploadDetails.push({ fileBlob: file, title: this.fbUpload.get('title').value, fileName: file.name });
                     }
                     this.clearForm();
                 }
@@ -66,8 +64,12 @@ export class UploadDocumentsComponent {
                 return
             }
         }
-    }
 
+    }
+    checkTitle() {
+        if(!this.fbUpload.valid)
+        this.alertMessage.displayErrorMessage(ALERT_CODES["EAD004"]);
+    }
     clearForm() {
         this.fbUpload.patchValue({
             title: '',
@@ -84,8 +86,7 @@ export class UploadDocumentsComponent {
         let params = new HttpParams();
         params = params.set("employeeId", this.employeeId).set('title', file.title).set('module', 'project').set('fileName', file.fileName);
         let formData = new FormData();
-        formData.set('uploadedFiles', file.fileBlob, file.fileName)
-        console.log(formData);
+        formData.set('uploadedFiles', file.fileBlob, file.fileName);
 
         this.employeeService.UploadDocuments(formData, params).subscribe(resp => {
             if (resp) {
@@ -98,19 +99,16 @@ export class UploadDocumentsComponent {
     }
     uploadFiles() {
         this.fileUpload.nativeElement.value = '';
-        this.files.forEach((file: {fileBlob: Blob,title:string,fileName:string}) => {
-            console.log(file);
+        this.empUploadDetails.forEach((file: { fileBlob: Blob, title: string, fileName: string }) => {
 
-            if(file.fileBlob)
-            this.uploadFile(file);
+            if (file.fileBlob)
+                this.uploadFile(file);
         });
-    }
-    editForm(file) {
-
     }
     getUploadDocuments() {
         this.employeeService.GetUploadedDocuments(this.employeeId).subscribe((data) => {
-            this.files = data as unknown as  {fileBlob: Blob, title: string , fileName:  string}[];
+            this.files = data as unknown as { fileBlob: Blob, title: string, fileName: string }[];
+            this.empUploadDetails = data as unknown as { fileBlob: Blob, title: string, fileName: string }[];
         })
     }
 
