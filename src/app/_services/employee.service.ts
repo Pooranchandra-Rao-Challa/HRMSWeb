@@ -10,17 +10,20 @@ import {
 
     GET_STATES_URI,
 
-    GET_WORKEXPERIENCE_URI,
-    UPDATE_EDUCATION_DETAILS,
-    UPDATE_EMPLOYEE_BASED_ON_ID_URI,
-    UPDATE_OFFICE_DETAILS_URI,
-    UPDATE_EXPERIENCE_DETAILS,
-    GET_NOTUPDATED_EMPLOYEES,
-    POST_ATTENDENCE,
-    GET_ATTENDENCE,
+  GET_WORKEXPERIENCE_URI,
+  UPDATE_EDUCATION_DETAILS,
+  UPDATE_EMPLOYEE_BASED_ON_ID_URI,
+  UPDATE_OFFICE_DETAILS_URI,
+  UPDATE_EXPERIENCE_DETAILS,
+  GET_ATTENDENCE,
+  GET_NOTUPDATED_EMPLOYEES,
+  POST_ATTENDANCE,
+  POST_LISTOF_ATTENDANCES,
+  
+  
     CREATE_EMPLOYEE_LEAVE_DETAILS,
     POST_ATTENDANCES,
-    POST_ATTENDANCE
+  
 } from './api.uri.service';
 import { ExperienceDetailsDto, SkillArea, AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments, employeeExperienceDtlsViewDto, FamilyDetailsViewDto, employeeAttendenceDto,EmployeeLeaveDto, EmployeeAttendanceList } from '../_models/employes';
 
@@ -39,7 +42,7 @@ export class EmployeeService extends ApiHttpService {
     }
 
   public AddAttendence(data:EmployeeAttendanceList[]){
-    return this.post<EmployeeAttendanceList[]>(POST_ATTENDANCES,data);
+    return this.post<EmployeeAttendanceList[]>(POST_LISTOF_ATTENDANCES,data);
   }
   public CreateAttendence(data:EmployeeAttendanceList){
      return this.post<EmployeeAttendanceList>(POST_ATTENDANCE,data);
