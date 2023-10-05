@@ -31,7 +31,7 @@ export class ExperiencedetailsDialogComponent {
   skillarea: LookupViewDto[] = [];
   employeeId: any;
   selectedOption: string;
-  isAFresher:boolean ;
+  isAFresher: boolean;
 
   constructor(
     private formbuilder: FormBuilder,
@@ -70,15 +70,15 @@ export class ExperiencedetailsDialogComponent {
     this.fbfresher = this.formbuilder.group({
       employeeId: this.employeeId,
       workExperienceId: [],
-      isAfresher: new FormControl(true, [Validators.required]),
-      companyName: new FormControl(''),
-      companyLocation: new FormControl(''),
-      companyEmployeeId: new FormControl(null),
-      stateId: new FormControl(null),
-      designationId: new FormControl(null),
-      dateOfJoining: new FormControl(null),
-      dateOfReliving: new FormControl(null),
-      workExperienceXrefs: new FormControl([])
+      isAfresher: (true),
+      companyName: (''),
+      companyLocation: (''),
+      companyEmployeeId: (null),
+      stateId: (null),
+      designationId: (null),
+      dateOfJoining: (null),
+      dateOfReliving: (null),
+      workExperienceXrefs: ([])
     });
   }
 
@@ -97,11 +97,11 @@ export class ExperiencedetailsDialogComponent {
         skillAreaId: skillAreaId
       })) : [];
     return this.formbuilder.group({
-      employeeId: new FormControl(this.employeeId),
+      employeeId: (this.employeeId),
       workExperienceId: new FormControl(experienceDetails.workExperienceId),
       isAfresher: new FormControl(false),
-      companyName: new FormControl(experienceDetails.companyName, [Validators.required,Validators.minLength(MIN_LENGTH_2)]),
-      companyLocation: new FormControl(experienceDetails.companyLocation, [Validators.required,Validators.minLength(MIN_LENGTH_2)]),
+      companyName: new FormControl(experienceDetails.companyName, [Validators.required, Validators.minLength(MIN_LENGTH_2)]),
+      companyLocation: new FormControl(experienceDetails.companyLocation, [Validators.required, Validators.minLength(MIN_LENGTH_2)]),
       companyEmployeeId: new FormControl(experienceDetails.companyEmployeeId, [Validators.minLength(MIN_LENGTH_2)]),
       countryId: new FormControl(experienceDetails.countryId),
       stateId: new FormControl(experienceDetails.stateId),
@@ -171,7 +171,7 @@ export class ExperiencedetailsDialogComponent {
         updatedArray.push({ workExperienceXrefId: 0, workExperienceId: 0, skillAreaId: CurrentArray[i] });
       }
     }
-    workExperienceXrefsControl.patchValue(updatedArray);    
+    workExperienceXrefsControl.patchValue(updatedArray);
   }
 
   showExperienceDetails(workExperience: employeeExperienceDtlsViewDto[]) {
@@ -188,7 +188,7 @@ export class ExperiencedetailsDialogComponent {
 
   saveExperience(): Observable<HttpEvent<any>> {
     if (this.selectedOption == 'Experience') {
-        return  this.employeeService.updateViewEmpExperienceDtls(this.fbexperience.get('experienceDetails').value);
+      return this.employeeService.updateViewEmpExperienceDtls(this.fbexperience.get('experienceDetails').value);
     }
     else
       return this.employeeService.updateViewEmpExperienceDtls([this.fbfresher.value]);
@@ -199,8 +199,8 @@ export class ExperiencedetailsDialogComponent {
       if (res) {
         this.alertMessage.displayAlertMessage(ALERT_CODES["EVEEXP001"]);
         this.ref.close({
-                "UpdatedModal": ViewEmployeeScreen.ExperienceDetails
-              });
+          "UpdatedModal": ViewEmployeeScreen.ExperienceDetails
+        });
       }
       else {
         this.alertMessage.displayErrorMessage(ALERT_CODES["EVEEXP002"]);

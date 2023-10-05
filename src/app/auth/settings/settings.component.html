@@ -151,12 +151,11 @@
                             <div class="col-4" style="float:right">
                                 <button pButton pRipple type="submit" class="p-button-raised p-button-success"
                                     (click)="saveSecurityQuestions()" id="user-questions"
-                                    [disabled]="!security.answer || !security.question">{{qstnSubmitLabel}}</button>
+                                    [disabled]="!security.answer || !security.question"
+                                    (click)="onSubmit()">{{qstnSubmitLabel}}</button>
                             </div>
                         </ng-template>
                     </p-dialog>
-                    <button pButton pRipple label="Update Questions" [disabled]="userQuestions.length<2"
-                        class="p-button-success p-mr-2 m-5 sQuestion" id="update-user-questions" (click)="onSubmit()"></button>
                 </div>
             </p-tabPanel>
         </p-tabView>

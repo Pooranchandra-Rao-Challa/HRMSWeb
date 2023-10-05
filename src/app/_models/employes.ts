@@ -333,7 +333,7 @@ export class employeeExperienceDtlsViewDto {
 	updatedBy?: string;
 }
 
-export class employeeAttendenceDto {
+export class employeeAttendanceDto {
 	employeeId: number;
 	employeeName: string;
 	dates: { [date: string]: string | {} };

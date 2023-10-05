@@ -15,15 +15,17 @@ import {
   UPDATE_EMPLOYEE_BASED_ON_ID_URI,
   UPDATE_OFFICE_DETAILS_URI,
   UPDATE_EXPERIENCE_DETAILS,
-  GET_NOTUPDATED_EMPLOYEES,
-  POST_ATTENDENCE,
   GET_ATTENDENCE,
-  CREATE_EMPLOYEE_LEAVE_DETAILS,
-  POST_ATTENDANCES,
+  GET_NOTUPDATED_EMPLOYEES,
   POST_ATTENDANCE,
-  GET_EMPLOYEE_LEAVE_DETAILS
+  POST_LISTOF_ATTENDANCES,
+  
+  
+    CREATE_EMPLOYEE_LEAVE_DETAILS,
+    POST_ATTENDANCES,
+  
 } from './api.uri.service';
-import { ExperienceDetailsDto, SkillArea, AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments, employeeExperienceDtlsViewDto, FamilyDetailsViewDto, employeeAttendenceDto, EmployeeLeaveDto, EmployeeAttendanceList } from '../_models/employes';
+import { ExperienceDetailsDto, SkillArea, AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments, employeeExperienceDtlsViewDto, FamilyDetailsViewDto, employeeAttendanceDto,EmployeeLeaveDto, EmployeeAttendanceList } from '../_models/employes';
 
 import { ApiHttpService } from './api.http.service';
 import { LookupViewDto } from '../_models/admin';
@@ -34,16 +36,16 @@ import { HttpHeaders, HttpParams } from '@angular/common/http';
 })
 export class EmployeeService extends ApiHttpService {
 
-  public GetAttendence(month: number) {
-    console.log(month)
-    return this.getWithId<employeeAttendenceDto>(GET_ATTENDENCE, month);
-  }
+    public GetAttendance(month: number) {
+        console.log(month)
+        return this.getWithId<employeeAttendanceDto>(GET_ATTENDENCE, month);
+    }
 
-  public AddAttendence(data: EmployeeAttendanceList[]) {
-    return this.post<EmployeeAttendanceList[]>(POST_ATTENDANCES, data);
+  public AddAttendance(data:EmployeeAttendanceList[]){
+    return this.post<EmployeeAttendanceList[]>(POST_LISTOF_ATTENDANCES,data);
   }
-  public CreateAttendence(data: EmployeeAttendanceList) {
-    return this.post<EmployeeAttendanceList>(POST_ATTENDANCE, data);
+  public CreateAttendance(data:EmployeeAttendanceList){
+     return this.post<EmployeeAttendanceList>(POST_ATTENDANCE,data);
   }
   //Search Employee
   public GetEmployees(IsEnrolled: boolean) {
