@@ -1,8 +1,8 @@
-<div class="flex flex-column justify-content-center">
+<div class="flex flex-column align-items-center justify-content-center">
     <form [formGroup]="fblookup" id="Lookup_lookupForm">
-        <div class="grid">
-            <div class="col-12 roles-container">
-                <div class="p-fluid p-formgrid grid">
+        <div class="grid mt-3 p-5">
+			<div class="col-12 roles-container">
+				<div class="p-fluid p-formgrid grid">
                     <div class="field col-12 md:col-6">
                         <label class="required">Code: </label>&nbsp; <input pInputText id="Lookup_lookupCode"
                             type="text" formControlName="code" [readonly]="FormControls['lookupId'].value!== null"

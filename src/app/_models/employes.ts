@@ -339,8 +339,8 @@ export class employeeAttendenceDto {
 	dates: { [date: string]: string | {} };
 }
 
-export class LeaveDto{
-	id?: number;
+export class EmployeeLeaveDto{
+	employeeLeaveId?: number;
 	employeeId?:number;
 	fromDate?: Date;
 	toDate?: Date;

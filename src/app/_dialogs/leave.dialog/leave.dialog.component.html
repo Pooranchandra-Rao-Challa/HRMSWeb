@@ -1,27 +1,57 @@
-<div class="flex flex-column justify-content-center">
+<div class="flex flex-column align-items-center justify-content-center">
     <form [formGroup]="fbLeave">
-        <div class="grid">
-            <div class="col-12 roles-container">
-                <div class="p-fluid p-formgrid grid">
+        <div class="grid mt-3 p-5">
+			<div class="col-12 roles-container">
+				<div class="p-fluid p-formgrid grid">
                     <div class="field col-12 md:col-4">
                         <label class="required">Employee Name:</label>
-                        <p-dropdown id="employeeName" appendTo="body" [filter]="true"
-                            filterBy="employeeId,employeeName" [showClear]="true"
-                            placeholder="Select Employee Name" formControlName="employeeId"
-                            [options]="employees" optionLabel="employeeName" optionValue="lookupDetailId">
+                        <p-dropdown id="employeeName" appendTo="body" [filter]="true" [options]="employees"
+                            optionLabel="employeeName" optionValue="employeeId" placeholder="Select Employee Name"
+                            formControlName="employeeId"
+                            [ngClass]="{'is-invalid ng-dirty': FormControls['employeeId'].touched && FormControls['employeeId'].errors}">
                         </p-dropdown>
+                        <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                                <span *ngIf="FormControls['employeeId'].touched && FormControls['employeeId'].invalid">
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="FormControls['employeeId'].errors?.['required']">
+                                        Please Select Employee Name.</div>
+                                </span>
+                            </div>
+                        </div>
                     </div>
                     <div class="field col-12 md:col-4">
                         <label class="required">Leave Type:</label>
-                        <p-dropdown placeholder="Select Leave Type" formControlName="leaveTypeId"
-                            [options]="leaveType" optionLabel="name">
+                        <p-dropdown placeholder="Select Leave Type" formControlName="leaveTypeId" [options]="filteredLeaveTypes"
+                            optionLabel="name"  optionValue="lookupDetailId"
+                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['leaveTypeId'].touched && FormControls['leaveTypeId'].errors }">
                         </p-dropdown>
+                        <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                                <span
+                                    *ngIf="FormControls['leaveTypeId'].touched && FormControls['leaveTypeId'].invalid">
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="FormControls['leaveTypeId'].errors?.['required']">
+                                        Please Select Leave Type.</div>
+                                </span>
+                            </div>
+                        </div>
                     </div>
                     <div class="field col-12 md:col-4">
                         <label class="required">From Date:</label>
                         <p-calendar appendTo="body" placeholder="Select From Date" [readonlyInput]="true"
-                            [showIcon]="true" formControlName="fromDate" id="fromDate">
+                            [showIcon]="true" formControlName="fromDate" id="fromDate"
+                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['fromDate'].touched && FormControls['fromDate'].errors }">
                         </p-calendar>
+                        <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                                <span *ngIf="FormControls['fromDate'].touched && FormControls['fromDate'].invalid">
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="FormControls['fromDate'].errors?.['required']">
+                                        Please Select From Date.</div>
+                                </span>
+                            </div>
+                        </div>
                     </div>
                     <div class="field col-12 md:col-4">
                         <label>To Date:</label>
@@ -30,10 +60,22 @@
                         </p-calendar>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <label htmlFor="description">Description:</label>
-                        <textarea class="form-control freeze_text-area" pInputTextarea
-                            formControlName="note" placeholder="Enter Description" #description
-                            [maxlength]="256" id="Description"></textarea>
+                        <label class="required">Description:</label>
+                        <textarea class="form-control freeze_text-area" pInputTextarea formControlName="note"
+                            placeholder="Enter Description" #description [maxlength]="256" id="Description"
+                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['note'].touched && FormControls['note'].errors }"></textarea>
+                        <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                                <span *ngIf="FormControls['note'].touched && FormControls['note'].invalid">
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="FormControls['note'].errors?.['required']">
+                                        Please Enter Leave Description.</div>
+                                </span>
+                            </div>
+                            <div class="align-right w-100" style="width:50%; text-align:right;">
+                                <small>{{description.value.length}}/{{maxLength.description}}</small>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -43,5 +85,5 @@
 
 <div class=" footer dialog-footer">
     <button pButton pRipple type="submit" label="Save" class="p-button-raised p-button-primary"
-        [disabled]="fbLeave.invalid" ></button>
+        [disabled]="fbLeave.invalid" (click)="onSubmit()"></button>
 </div>
