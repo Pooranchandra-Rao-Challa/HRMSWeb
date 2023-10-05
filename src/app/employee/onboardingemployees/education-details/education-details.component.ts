@@ -146,7 +146,6 @@ export class EducationDetailsComponent implements OnInit {
   getEmpEducaitonDetails() {
     return this.employeeService.GetEducationDetails(this.employeeId).subscribe((data) => {
       this.empEduDetails = data as unknown as EducationDetailsDto[];
-      console.log(data)
     })
   }
   faEducationDetail(): FormArray {

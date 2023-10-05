@@ -185,6 +185,8 @@ export const ALERT_CODES: { [key: string]: string } = {
     'EAAS002':'Attendence Details Not Added',
     'EAAS003':'Please Enter Attendance For',
     'EAAS004':'Please Enter Leave Narration',
-
+    
+    //Leave Details
+    'ELD001': 'Employee Leave Details Added Successfully'
 }
 

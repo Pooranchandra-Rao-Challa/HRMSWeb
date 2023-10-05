@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable } from 'rxjs';
-import { ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
+import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { EmployeesList, LookupViewDto } from 'src/app/_models/admin';
 import { MaxLength } from 'src/app/_models/common';
 import { EmployeeLeaveDto } from 'src/app/_models/employes';
@@ -19,7 +19,7 @@ import { LookupService } from 'src/app/_services/lookup.service';
 export class LeaveDialogComponent {
   fbLeave!: FormGroup;
   employees: EmployeesList[] = [];
-  LeaveType: LookupViewDto[] = [];
+  leaveType: LookupViewDto[] = [];
   filteredLeaveTypes: LookupViewDto[] = [];
   maxLength: MaxLength = new MaxLength();
   filterCriteria: string[] = ['PT', 'AT'];
@@ -28,8 +28,8 @@ export class LeaveDialogComponent {
     private adminService: AdminService,
     private lookupService: LookupService,
     private employeeService: EmployeeService,
-    private jwtService: JwtService,
-    public ref: DynamicDialogRef) { }
+    public ref: DynamicDialogRef,
+    public alertMessage:AlertmessageService) { }
 
   ngOnInit(): void {
     this.getEmployees();
@@ -45,8 +45,8 @@ export class LeaveDialogComponent {
 
   getLeaveTypes() {
     this.lookupService.DayWorkStatus().subscribe(resp => {
-      this.LeaveType = resp as unknown as LookupViewDto[];
-      this.filteredLeaveTypes = this.LeaveType.filter(item => !this.filterCriteria.includes(item.name));
+      this.leaveType = resp as unknown as LookupViewDto[];
+      this.filteredLeaveTypes = this.leaveType.filter(item => !this.filterCriteria.includes(item.name));
     })
   }
   leaveForm() {
@@ -54,13 +54,14 @@ export class LeaveDialogComponent {
       employeeLeaveId: [null],
       employeeId: new FormControl('', [Validators.required]),
       fromDate: new FormControl('', [Validators.required]),
-      toDate: new FormControl(''),
+      toDate: new FormControl(null),
       leaveTypeId: new FormControl('', [Validators.required]),
       note: new FormControl('', [Validators.required]),
-      acceptedBy: new FormControl(''),
+      acceptedBy: new FormControl(null),
       acceptedAt: new FormControl(null),
-      approvedBy: new FormControl(''),
+      approvedBy: new FormControl(null),
       approvedAt: new FormControl(null),
+      rejected: new FormControl(null),
     });
   }
 
@@ -73,14 +74,11 @@ export class LeaveDialogComponent {
   }
 
   onSubmit() {
-    const acceptedBy = this.jwtService.GivenName;
-    const approvedBy = this.jwtService.GivenName
-    this.fbLeave.get('acceptedBy').patchValue(acceptedBy);
-    this.fbLeave.get('approvedBy').patchValue(approvedBy);
     if (this.fbLeave.valid) {
       this.save().subscribe(resp => { })
       console.log(this.fbLeave.value);
       this.ref.close(true);
+      this.alertMessage.displayAlertMessage(ALERT_CODES["ELD001"]);
     }
     else {
       this.fbLeave.markAllAsTouched();

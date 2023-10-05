@@ -97,6 +97,7 @@ export const UPDATE_EXPERIENCE_DETAILS ="Employee/UpdateWorkExperience";
 
 export const GET_ATTENDENCE="Attendance/GetMonthlyAttendanceReport";
 export const POST_ATTENDENCE="Attendance/AddAttendance";
+export const GET_EMPLOYEE_LEAVE_DETAILS ="Attendance/GetEmployeeLeaves";
 export const CREATE_EMPLOYEE_LEAVE_DETAILS ="Attendance/CreateEmployeeLeave";
 export const POST_ATTENDANCES="Attendance/AddAttendance";
 export const POST_ATTENDANCE="Attendance/CreateAttendance";
