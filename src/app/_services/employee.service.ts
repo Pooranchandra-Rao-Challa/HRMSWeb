@@ -23,6 +23,7 @@ import {
   
     CREATE_EMPLOYEE_LEAVE_DETAILS,
     POST_ATTENDANCES,
+    GET_EMPLOYEE_LEAVE_DETAILS,
   
 } from './api.uri.service';
 import { ExperienceDetailsDto, SkillArea, AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments, employeeExperienceDtlsViewDto, FamilyDetailsViewDto, employeeAttendanceDto,EmployeeLeaveDto, EmployeeAttendanceList } from '../_models/employes';
