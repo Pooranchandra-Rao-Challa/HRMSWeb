@@ -37,11 +37,6 @@
                     <p-calendar formControlName="date" [readonlyInput]="FormControls['employeeId'].value!== null"
                         appendTo="body" placeholder="Enter From Date" [showIcon]="true"></p-calendar>
                 </div>
-                <div style="margin-bottom: 15px;">
-                    <label>To Date:</label>&nbsp;
-                    <p-calendar [showIcon]="true" formControlName="toDate" placeholder="Enter To Date" appendTo="body">
-                    </p-calendar>
-                </div>
                 
                 <div style="margin-bottom: 15px;">
                     <label class="required">Leave Narration:</label>&nbsp;
@@ -165,7 +160,7 @@
 </p-table>
 <p-dialog header="Confirmation" [(visible)]="display">
     <p>Do you want to modify the status of {{this.NotUpdatesEmployees.length}} records to Present on
-        {{this.notUpdatedDates[0] | date:'MMM dd YYYY'}}? </p>
+        {{this.notUpdatedDates| date:'MMM dd YYYY'}}? </p>
     <button pButton type="button" class="btn btn-primary" label="Yes" (click)="addPresent()"></button>
     <button pButton type="button" class="btn btn-danger" label="Cancel" (click)="onReject()"></button>
 </p-dialog>

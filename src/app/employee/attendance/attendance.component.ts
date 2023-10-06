@@ -35,7 +35,8 @@ export class AttendanceComponent {
   permissions: any;
   dialog: boolean = false;
   fbleave!: FormGroup;
-  notUpdatedDates = [];
+  checkPreviousAttendance = true;
+  notUpdatedDates: any;
   display: boolean = false;
   LeaveType: LookupDetailsDto[] = [];
   NotUpdatesEmployees: EmployeesList[] = [];
@@ -45,8 +46,7 @@ export class AttendanceComponent {
 
   ngOnInit() {
     this.permissions = this.jwtService.Permissions;
-    // if (new Date().getMonth() + 1 == this.month)
-    this.findMissingDates();
+    this.CheckPreviousDayAttendance();
     this.initLeaveForm();
     this.initAttendance();
     this.getDaysInMonth(this.year, this.month);
@@ -60,32 +60,31 @@ export class AttendanceComponent {
   }
 
   showConfirmationDialog() {
-    this.getNotUpdatedEmployeesList(this.notUpdatedDates[0])
+    if (this.notUpdatedDates == undefined)
+      return this.alertMessage.displayErrorMessage(ALERT_CODES["EAAS006"]);
     this.display = true;
   }
   onReject() {
     this.display = false;
   }
-  getNotUpdatedEmployeesList(date: string) {
-    this.employeeService.GetNotUpdatedEmployees(date).subscribe(resp => {
+  getNotUpdatedEmployeesList(date: string, checkPreviousDate) {
+    this.employeeService.GetNotUpdatedEmployees(date, checkPreviousDate).subscribe(resp => {
       this.NotUpdatesEmployees = resp as unknown as EmployeesList[];
-      console.log(resp, date)
-      if (this.NotUpdatesEmployees.length > 0)
-        this.notUpdatedDates.push(date)
-
-      if (this.notUpdatedDates.length === 1)
-        return this.alertMessage.displayErrorMessage(ALERT_CODES["EAAS003"] + " " + `${this.notUpdatedDates[0]}`);
+      if (this.NotUpdatesEmployees.length > 0) {
+        this.notUpdatedDates = resp[0].date;
+        if (this.notUpdatedDates)
+          return this.alertMessage.displayErrorMessage(ALERT_CODES["EAAS003"] + "  " + `${this.datePipe.transform(this.notUpdatedDates, 'dd-MM-yyyy')}`);
+      }
+      else {
+        this.checkPreviousAttendance = false;
+        this.ngOnInit();
+      }
     });
   }
 
-  findMissingDates() {
-    const currentDate = new Date();
-    const previousDate = new Date(currentDate);
-    previousDate.setDate(currentDate.getDate() - 1);
-    for (let date = previousDate; date <= currentDate; date.setDate(date.getDate() + 1)) {
-      const formattedDate = this.datePipe.transform(date, 'yyyy-MM-dd');
-      this.getNotUpdatedEmployeesList(formattedDate);
-    }
+  CheckPreviousDayAttendance() {
+    const formattedDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+    this.getNotUpdatedEmployeesList(formattedDate, this.checkPreviousAttendance);
   }
 
   initLeaveForm() {
@@ -110,7 +109,7 @@ export class AttendanceComponent {
     })
   }
   initAttendance() {
-    this.employeeService.GetAttendance(this.month).subscribe((resp) => {
+    this.employeeService.GetAttendance(this.month, this.year).subscribe((resp) => {
       this.employeeAttendanceList = resp as unknown as employeeAttendanceDto[];
     });
   }
@@ -151,7 +150,7 @@ export class AttendanceComponent {
       (response) => {
         if (response) {
           this.alertMessage.displayAlertMessage(ALERT_CODES["EAAS001"]);
-          this.dialog = false;
+          this.display = false;
           this.ngOnInit();
         }
         else
@@ -166,7 +165,7 @@ export class AttendanceComponent {
     else {
       this.employeeService.CreateAttendance(this.fbleave.value).subscribe(response => {
         if (response) {
-          this.alertMessage.displayAlertMessage(ALERT_CODES["EAAS001"]);
+          this.alertMessage.displayAlertMessage(ALERT_CODES["EAAS005"]);
           this.dialog = false;
           this.ngOnInit();
         }
@@ -183,7 +182,7 @@ export class AttendanceComponent {
       this.fbleave.patchValue({
         employeeId: each.employeeId,
         dayWorkStatusId: type[0].lookupDetailId,
-        date: FORMAT_DATE(new Date(this.notUpdatedDates[0])),
+        date: FORMAT_DATE(new Date(this.notUpdatedDates)),
         notReported: false
       })
       EmployeesList.push(this.fbleave.value)

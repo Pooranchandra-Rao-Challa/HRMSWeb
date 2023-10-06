@@ -36,9 +36,9 @@ import { HttpHeaders, HttpParams } from '@angular/common/http';
 })
 export class EmployeeService extends ApiHttpService {
 
-    public GetAttendance(month: number) {
+    public GetAttendance(month: number,year:number) {
         console.log(month)
-        return this.getWithId<employeeAttendanceDto>(GET_ATTENDENCE, month);
+        return this.getWithId<employeeAttendanceDto>(GET_ATTENDENCE, [month + '/' + year]);
     }
 
   public AddAttendance(data:EmployeeAttendanceList[]){
@@ -58,8 +58,8 @@ export class EmployeeService extends ApiHttpService {
     return this.post<EmployeeBasicDetailDto>(CREATE_BASIC_DETAILS_URI, basicdetails);
 
   }
-  public GetNotUpdatedEmployees(date){
-    return this.get(GET_NOTUPDATED_EMPLOYEES+'/'+`${date}`);
+  public GetNotUpdatedEmployees(date,previousDay:boolean){
+    return this.get(GET_NOTUPDATED_EMPLOYEES+'/'+`${date}`+'/'+`${previousDay}`);
   }
   //Education Details of Employee
   public CreateEducationDetails(educationdetails: EducationDetailsDto[]){
