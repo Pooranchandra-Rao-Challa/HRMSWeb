@@ -78,6 +78,7 @@ export const ALERT_CODES: { [key: string]: string } = {
 
     // securityquestions screen
     'SCUQ001': 'Security Questions Added Successfully',
+    'SCUQ002': 'Security Questions Added Failed',
 
     // settings
     // change password
@@ -88,10 +89,12 @@ export const ALERT_CODES: { [key: string]: string } = {
     'SMR002': 'Role Updated Successfully',
 
     // updatesecurityquestions
-    'SSESQ001': 'Security Questions Updated Successfully',
-    'SSESQ002': 'Security Questions Updated Faild',
-    'SSESQ003': 'Security Questions Added Successfully',
-
+    'SSESQ001': 'Security Questions Added Successfully',
+    'SSESQ005': 'Security Questions Update Successfully',
+    'SSESQ002': 'Security Questions Saved Failed',
+    'SSESQ003': 'Security Questions Deleted Successfully',
+    'SSESQ004': 'Security Questions Deleted Failed',
+    
     //Projects
     'PAS001': 'Project Added Successfully',
     'PAS002': 'Project Updated Successfully',
@@ -189,5 +192,8 @@ export const ALERT_CODES: { [key: string]: string } = {
     'EAAS005':'Leave Applied Successfully.',
     'EAAS006':'Attendence Details Updated For Previous Date and Current Date.',
 
+    
+    //Leave Details
+    'ELD001': 'Employee Leave Details Added Successfully'
 }
 

@@ -72,7 +72,7 @@ export class SecurityService extends ApiHttpService {
         return this.post<UserQuestionDto[]>(UPDATE_USER_QUESTIONS_URI, updateQuestions, { responseType: 'text' });
     }
 
-    public DeleteSecurityQuestions(userQuestions: any[]) {
-        return this.post(DELETE_USER_QUESTIONS_URI, {body: userQuestions},{ responseType: 'text' });
+    public DeleteSecurityQuestions(userQuestions: UserQuestionDto[]) {
+        return this.post<UserQuestionDto[]>(DELETE_USER_QUESTIONS_URI,userQuestions,{responseType: 'text'});
     }
 }
