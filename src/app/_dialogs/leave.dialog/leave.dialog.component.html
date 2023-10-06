@@ -23,7 +23,7 @@
                     <div class="field col-12 md:col-4">
                         <label class="required">Leave Type:</label>
                         <p-dropdown placeholder="Select Leave Type" formControlName="leaveTypeId" [options]="filteredLeaveTypes"
-                            optionLabel="name"  optionValue="lookupDetailId"
+                            optionLabel="name"  optionValue="lookupDetailId" id="leaveTypes"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['leaveTypeId'].touched && FormControls['leaveTypeId'].errors }">
                         </p-dropdown>
                         <div class="flex">
@@ -40,7 +40,7 @@
                     <div class="field col-12 md:col-4">
                         <label class="required">From Date:</label>
                         <p-calendar appendTo="body" placeholder="Select From Date" [readonlyInput]="true"
-                            [showIcon]="true" formControlName="fromDate" id="fromDate"
+                            [showIcon]="true" formControlName="fromDate" id="fromDate" 
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['fromDate'].touched && FormControls['fromDate'].errors }">
                         </p-calendar>
                         <div class="flex">
@@ -84,6 +84,6 @@
 </div>
 
 <div class=" footer dialog-footer">
-    <button pButton pRipple type="submit" label="Save" class="p-button-raised p-button-primary"
+    <button pButton pRipple type="submit" label="Save" class="p-button-raised p-button-primary" id="SubmitLeaveForm"
         [disabled]="fbLeave.invalid" (click)="onSubmit()"></button>
 </div>
