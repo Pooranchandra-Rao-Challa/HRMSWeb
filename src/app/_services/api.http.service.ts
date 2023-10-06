@@ -27,7 +27,6 @@ export class ApiHttpService {
         if (this.jwtService.IsLoggedIn) {
             this.get<any>(LOOKUP_LOOKUP_KEYS_URI).subscribe({
                 next: (resp) => {
-                    console.log(resp);
                     this.jwtService.addLookupKeys(resp, forceLocal);
                 },
                 error: (error) => { }
@@ -53,8 +52,6 @@ export class ApiHttpService {
 
 
     public getWithId<T>(uri: string, id: any, options?: any) {
-        console.log(URI_ENDPOINT_WITH_ID(uri, id));
-
         return this.http.get<T>(URI_ENDPOINT_WITH_ID(uri, id), options)
             .pipe(
                 catchError(error => {
@@ -83,7 +80,6 @@ export class ApiHttpService {
             );
     }
     public upload<T>(uri:string,body:any,headers:HttpHeaders,params:HttpParams){
-        console.log(body)
         return this.http.post<T>(URI_ENDPOINT(uri),body,{headers:headers,params:params,observe:'events',responseType:'json',reportProgress:true}).pipe(
             catchError(error => {
                 let errorMsg: {};
@@ -98,7 +94,6 @@ export class ApiHttpService {
     }
 
     public getWithParams<T>(uri: string, params: any[], options?: any) {
-        console.log(URI_ENDPOINT_WITH_PARAMS(uri, params));
         return this.http.get<T>(URI_ENDPOINT_WITH_PARAMS(uri, params), options)
             .pipe(
                 catchError(error => {

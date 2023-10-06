@@ -22,7 +22,6 @@ import {
   
   
     CREATE_EMPLOYEE_LEAVE_DETAILS,
-    POST_ATTENDANCES,
     GET_EMPLOYEE_LEAVE_DETAILS,
   
 } from './api.uri.service';
@@ -37,9 +36,8 @@ import { HttpHeaders, HttpParams } from '@angular/common/http';
 })
 export class EmployeeService extends ApiHttpService {
 
-    public GetAttendance(month: number) {
-        console.log(month)
-        return this.getWithId<employeeAttendanceDto>(GET_ATTENDENCE, month);
+    public GetAttendance(month: number,year:number) {
+        return this.getWithId<employeeAttendanceDto>(GET_ATTENDENCE, [month + '/' + year]);
     }
 
   public AddAttendance(data:EmployeeAttendanceList[]){
@@ -59,8 +57,8 @@ export class EmployeeService extends ApiHttpService {
     return this.post<EmployeeBasicDetailDto>(CREATE_BASIC_DETAILS_URI, basicdetails);
 
   }
-  public GetNotUpdatedEmployees(date) {
-    return this.get(GET_NOTUPDATED_EMPLOYEES + '/' + `${date}`);
+  public GetNotUpdatedEmployees(date,previousDay:boolean){
+    return this.get(GET_NOTUPDATED_EMPLOYEES+'/'+`${date}`+'/'+`${previousDay}`);
   }
   //Education Details of Employee
   public CreateEducationDetails(educationdetails: EducationDetailsDto[]) {
@@ -80,7 +78,6 @@ export class EmployeeService extends ApiHttpService {
     return this.post<BankDetailsDto>(CREATE_BANK_DETAILS_URI, bankdetails);
   }
   public UploadDocuments(documents: FormData, params?: HttpParams) {
-    console.log(documents)
     let header = new HttpHeaders()
     header = header.set('Content-Type', 'multipart/form-data')
     return this.upload(CREATE_DOCUMENTS_URI,

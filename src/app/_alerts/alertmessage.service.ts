@@ -185,11 +185,14 @@ export const ALERT_CODES: { [key: string]: string } = {
     'SMFD002': 'Family Details Update Successfully',
 
     //Attendence
-    'EAAS001': 'Attendence Added Successfully',
-    'EAAS002': 'Attendence Details Not Added',
-    'EAAS003': 'Please Enter Attendance For',
-    'EAAS004': 'Please Enter Leave Narration',
+    'EAAS001':'Attendence Added Successfully',
+    'EAAS002':'Attendence Details Not Added',
+    'EAAS003':'Please Enter Attendance For ',
+    'EAAS004':'Please Enter Leave Narration',
+    'EAAS005':'Leave Applied Successfully.',
+    'EAAS006':'Attendence Details Updated For Previous Date and Current Date.',
 
+    
     //Leave Details
     'ELD001': 'Employee Leave Details Added Successfully',
     'ELA001': 'Leave Approved Successfully',
