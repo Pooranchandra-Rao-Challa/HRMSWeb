@@ -97,10 +97,12 @@
         <tr>
             <td>{{employee.EmployeeName}}</td>
             <td *ngFor="let i of days" 
-             [ngStyle]="{'background-color':isEligibleForLeave(employee, i)==='WOff'?'grey':'','border-left':isEligibleForLeave(employee, i)==='WOff'?'0.5px solid white':''}" 
+            [ngClass]="{'woff': isEligibleForLeave(employee, i) === 'WOff',}"
+             
              >
                 <ng-container *ngIf="isEligibleForLeave(employee, i)">
                     <span
+                        [ngClass]="{'pt': employee[getFormattedDate(i)] === 'PT',}"
                         [ngStyle]="{'font-size': '1rem','color': employee[getFormattedDate(i)] === 'PT' ? 'green' : ''}"
                         (click)="showDialog(employee.EmployeeId,getFormattedDate(i),employee[getFormattedDate(i)])" 
                         *ngIf="isEligibleForLeave(employee, i) === 'PT'">
@@ -136,8 +138,9 @@
                         {{ employee[getFormattedDate(i)] }}
                     </span>
                     <span
-                        [ngStyle]="{'font-size': '1rem','color': employee[getFormattedDate(i)] === 'WOff' ? 'white' : ''}"
+                        
                         *ngIf="isEligibleForLeave(employee, i) === 'WOff'">
+                        
                         WO
                     </span>
                     <span
