@@ -31,15 +31,15 @@ export class AttendanceComponent {
   employeesList!: EmployeesList[];
   employeeAttendanceList: employeeAttendanceDto[];
   globalFilterFields: string[] = ['EmployeeName'];
-  selectedMonths: Date;
+  selectedMonth: Date;
   permissions: any;
   dialog: boolean = false;
   fbleave!: FormGroup;
   checkPreviousAttendance = true;
   notUpdatedDates: any;
   display: boolean = false;
-  LeaveType: LookupDetailsDto[] = [];
-  NotUpdatesEmployees: EmployeesList[] = [];
+  LeaveTypes: LookupDetailsDto[] = [];
+  NotUpdatedEmployees: EmployeesList[] = [];
 
   constructor(private adminService: AdminService, private datePipe: DatePipe, private jwtService: JwtService,
     private formbuilder: FormBuilder, private alertMessage: AlertmessageService, private employeeService: EmployeeService, private lookupService: LookupService) { }
@@ -53,31 +53,34 @@ export class AttendanceComponent {
     this.initEmployees();
     this.initDayWorkStatus();
   }
+
   onMonthSelect(event) {
-    this.month = this.selectedMonths.getMonth() + 1; // Month is zero-indexed
-    this.year = this.selectedMonths.getFullYear();
-    this.ngOnInit();
+    this.month = this.selectedMonth.getMonth() + 1; // Month is zero-indexed
+    this.year = this.selectedMonth.getFullYear();
+    this.initAttendance();
   }
 
   showConfirmationDialog() {
-    if (this.notUpdatedDates == undefined)
-      return this.alertMessage.displayErrorMessage(ALERT_CODES["EAAS006"]);
-    this.display = true;
+    if (typeof this.notUpdatedDates === 'undefined')
+      this.alertMessage.displayErrorMessage(ALERT_CODES["EAAS006"]);
+    else
+      this.display = true;
+
   }
   onReject() {
     this.display = false;
   }
-  getNotUpdatedEmployeesList(date: string, checkPreviousDate) {
+  getNotUpdatedEmployeesList(date, checkPreviousDate) {
     this.employeeService.GetNotUpdatedEmployees(date, checkPreviousDate).subscribe(resp => {
-      this.NotUpdatesEmployees = resp as unknown as EmployeesList[];
-      if (this.NotUpdatesEmployees.length > 0) {
+      this.NotUpdatedEmployees = resp as unknown as EmployeesList[];
+      if (this.NotUpdatedEmployees.length > 0) {
         this.notUpdatedDates = resp[0].date;
         if (this.notUpdatedDates)
           return this.alertMessage.displayErrorMessage(ALERT_CODES["EAAS003"] + "  " + `${this.datePipe.transform(this.notUpdatedDates, 'dd-MM-yyyy')}`);
       }
-      else {
+      else if (this.checkPreviousAttendance) {
         this.checkPreviousAttendance = false;
-        this.ngOnInit();
+        this.CheckPreviousDayAttendance();
       }
     });
   }
@@ -105,7 +108,7 @@ export class AttendanceComponent {
   }
   initDayWorkStatus() {
     this.lookupService.DayWorkStatus().subscribe(resp => {
-      this.LeaveType = resp as unknown as LookupDetailsDto[];
+      this.LeaveTypes = resp as unknown as LookupDetailsDto[];
     })
   }
   initAttendance() {
@@ -120,7 +123,7 @@ export class AttendanceComponent {
     else {
       this.dialog = true;
       this.fbleave.reset();
-      const StatusId = this.LeaveType.filter(each => each.name == leaveType)
+      const StatusId = this.LeaveTypes.filter(each => each.name == leaveType)
       this.fbleave.patchValue({
         attendanceId: 0,
         employeeId: empId,
@@ -151,7 +154,8 @@ export class AttendanceComponent {
         if (response) {
           this.alertMessage.displayAlertMessage(ALERT_CODES["EAAS001"]);
           this.display = false;
-          this.ngOnInit();
+          this.initAttendance();
+          this.CheckPreviousDayAttendance();
         }
         else
           this.alertMessage.displayErrorMessage(ALERT_CODES["EAAS002"]);
@@ -167,7 +171,7 @@ export class AttendanceComponent {
         if (response) {
           this.alertMessage.displayAlertMessage(ALERT_CODES["EAAS005"]);
           this.dialog = false;
-          this.ngOnInit();
+          this.initAttendance();
         }
         else
           this.alertMessage.displayErrorMessage(ALERT_CODES["EAAS002"]);
@@ -177,8 +181,8 @@ export class AttendanceComponent {
 
   addPresent() {
     const EmployeesList = [];
-    this.NotUpdatesEmployees.forEach(each => {
-      let type = this.LeaveType.filter(x => x.name === 'PT');
+    this.NotUpdatedEmployees.forEach(each => {
+      let type = this.LeaveTypes.filter(x => x.name === 'PT');
       this.fbleave.patchValue({
         employeeId: each.employeeId,
         dayWorkStatusId: type[0].lookupDetailId,
@@ -197,7 +201,7 @@ export class AttendanceComponent {
       this.month = 12;        // Reset to December
       this.year--;            // Decrement the year
     }
-    this.ngOnInit();
+    this.initAttendance();
   }
 
   gotoNextMonth() {
@@ -207,7 +211,7 @@ export class AttendanceComponent {
       this.month = 1; // Reset to January
       this.year++;    // Increment the year
     }
-    this.ngOnInit();
+    this.initAttendance();
   }
 
   onGlobalFilter(table: Table, event: Event) {

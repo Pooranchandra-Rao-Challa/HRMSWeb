@@ -22,7 +22,6 @@ import {
   
   
     CREATE_EMPLOYEE_LEAVE_DETAILS,
-    POST_ATTENDANCES,
     GET_EMPLOYEE_LEAVE_DETAILS,
   
 } from './api.uri.service';
@@ -38,7 +37,6 @@ import { HttpHeaders, HttpParams } from '@angular/common/http';
 export class EmployeeService extends ApiHttpService {
 
     public GetAttendance(month: number,year:number) {
-        console.log(month)
         return this.getWithId<employeeAttendanceDto>(GET_ATTENDENCE, [month + '/' + year]);
     }
 
@@ -80,7 +78,6 @@ export class EmployeeService extends ApiHttpService {
     return this.post<BankDetailsDto>(CREATE_BANK_DETAILS_URI, bankdetails);
   }
   public UploadDocuments(documents: FormData, params?: HttpParams) {
-    console.log(documents)
     let header = new HttpHeaders()
     header = header.set('Content-Type', 'multipart/form-data')
     return this.upload(CREATE_DOCUMENTS_URI,
