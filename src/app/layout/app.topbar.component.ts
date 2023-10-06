@@ -5,11 +5,12 @@ import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { AppSidebarComponent } from './app.sidebar.component';
 import { ALERT_CODES } from '../_alerts/alertmessage.service';
 import { UnsavedChangesGuard } from '../_guards/unsaved-changes.guard';
-import { ActivatedRoute } from '@angular/router';
 import { UpdateStatusService } from '../_services/updatestatus.service';
 import { Actions, DialogRequest } from '../_models/common';
 import { LookupDialogComponent } from '../_dialogs/lookup.dialog/lookup.dialog.component';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { EmployeeService } from '../_services/employee.service';
+import { EmployeeBasicDetailViewDto } from '../_models/employes';
 
 @Component({
     selector: 'app-topbar',
@@ -21,22 +22,35 @@ export class AppTopbarComponent {
     activeItem!: number;
     loggedInUser: String = "";
     isUpdating: boolean;
-    // userPhoto: string;
     ActionTypes = Actions;
     lookupDialogComponent = LookupDialogComponent;
     dialogRequest: DialogRequest = new DialogRequest();
+    employeeDtls = new EmployeeBasicDetailViewDto();
+    EmployeeId: number;
 
     constructor(public layoutService: LayoutService,
         private jwtService: JwtService,
         public el: ElementRef,
         private unsavedChangesGuard: UnsavedChangesGuard,
-        private route: ActivatedRoute,
         private loginService: LoginService,
         private updateStatusService: UpdateStatusService,
         private dialogService: DialogService,
-        public ref: DynamicDialogRef) {
+        public ref: DynamicDialogRef,
+        private employeeService: EmployeeService,) {
         this.loggedInUser = this.jwtService.GivenName;
-        // this.userPhoto = this.jwtService.UserPhoto;
+        this.EmployeeId = this.jwtService.EmployeeId;
+    }
+
+    ngOnInit(): void {
+        if (this.EmployeeId) {
+            this.initViewEmpDtls();
+        }
+    }
+
+    initViewEmpDtls() {
+        this.employeeService.GetViewEmpPersDtls(this.EmployeeId).subscribe((resp) => {
+            this.employeeDtls = resp as unknown as EmployeeBasicDetailViewDto;
+        });
     }
 
     onMenuButtonClick() {
@@ -54,10 +68,7 @@ export class AppTopbarComponent {
     logOut() {
         // Set the flag before initiating the logout action
         this.unsavedChangesGuard.setLogoutInProgress(false);
-
         this.isUpdating = this.updateStatusService.getIsUpdating();
-
-
         if (this.isUpdating) {
             this.unsavedChangesGuard.openDialog().subscribe((canLogout) => {
                 if (canLogout) {
@@ -80,18 +91,18 @@ export class AppTopbarComponent {
     openComponentDialog(content: any,
         dialogData, action: Actions = this.ActionTypes.add) {
         if (action == Actions.save && content === this.lookupDialogComponent) {
-          this.dialogRequest.dialogData = dialogData;
-          this.dialogRequest.header = "Lookup";
-          this.dialogRequest.width = "70%";
+            this.dialogRequest.dialogData = dialogData;
+            this.dialogRequest.header = "Lookup";
+            this.dialogRequest.width = "70%";
         }
         this.ref = this.dialogService.open(content, {
-          data: this.dialogRequest.dialogData,
-          header: this.dialogRequest.header,
-          width: this.dialogRequest.width
+            data: this.dialogRequest.dialogData,
+            header: this.dialogRequest.header,
+            width: this.dialogRequest.width
         });
         // this.ref.onClose.subscribe((res: any) => {
         //   if (res) this.getLookUp(true);
         //   event.preventDefault(); // Prevent the default form submission
         // });
-      }
+    }
 }

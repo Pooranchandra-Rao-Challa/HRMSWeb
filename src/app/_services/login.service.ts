@@ -31,12 +31,9 @@ export class LoginService extends ApiHttpService {
     }
 
     public Authenticate(data: LoginModel): Observable<LogInSuccessModel> {
-        console.log(data);
 
         return this.post<ResponseModel>(LOGIN_URI, data).pipe(
             switchMap(resp => {
-                console.log(resp);
-
                 this.saveToken((resp as ResponseModel))
                 this.UpdateLookups(true);
                 //localStorage.setItem("respModel", JSON.stringify(resp as ResponseModel))

@@ -80,7 +80,6 @@ export class UserComponent implements OnInit {
         this.loading = true;
         this.securityService.GetUsers().subscribe(resp => {
             this.users = resp as unknown as UserViewDto[];
-            console.log('usersList:', this.users);
             this.loading = false;
         }, error => {
             this.loading = false;
