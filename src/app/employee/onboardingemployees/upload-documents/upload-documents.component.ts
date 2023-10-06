@@ -18,14 +18,21 @@ export class UploadDocumentsComponent {
     files: { fileBlob: Blob, title: string, fileName: string }[] = [];
     fbUpload!: FormGroup;
     employeeId: any;
-    fileSize = 20;
     empUploadDetails: any = [];
-    title: string;
     permissions: any;
-    constructor(private router: Router, private route: ActivatedRoute, private formbuilder: FormBuilder,
-        private employeeService: EmployeeService, private alertMessage: AlertmessageService, private jwtService: JwtService) {
 
+    constructor(private router: Router, private route: ActivatedRoute, private formbuilder: FormBuilder,
+        private employeeService: EmployeeService, private alertMessage: AlertmessageService, private jwtService: JwtService) { }
+
+    ngOnInit() {
+        this.permissions = this.jwtService.Permissions
+        this.route.params.subscribe(params => {
+            this.employeeId = params['employeeId'];
+        });
+        this.initUpload();
+        this.getUploadDocuments();
     }
+
     initUpload() {
         this.fbUpload = this.formbuilder.group({
             title: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_20)]),
@@ -35,14 +42,7 @@ export class UploadDocumentsComponent {
     get FormControls() {
         return this.fbUpload.controls;
     }
-    ngOnInit() {
-        this.permissions = this.jwtService.Permissions
-        this.route.params.subscribe(params => {
-            this.employeeId = params['employeeId'];
-        });
-        this.initUpload();
-        this.getUploadDocuments();
-    }
+
     onClick() {
         const fileUpload = this.fileUpload.nativeElement;
         fileUpload.onchange = () => {
@@ -67,8 +67,8 @@ export class UploadDocumentsComponent {
 
     }
     checkTitle() {
-        if(!this.fbUpload.valid)
-        this.alertMessage.displayErrorMessage(ALERT_CODES["EAD004"]);
+        if (!this.fbUpload.valid)
+            this.alertMessage.displayErrorMessage(ALERT_CODES["EAD004"]);
     }
     clearForm() {
         this.fbUpload.patchValue({

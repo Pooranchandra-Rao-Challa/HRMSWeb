@@ -7,7 +7,8 @@
             </ng-template>
             <ng-template pTemplate="right">
                 <button pButton pRipple label="Add Leave" id="addLeaveButton" icon="pi pi-plus"
-                    class="p-button-primary p-mr-2"(click)="openComponentDialog(leaveDialogComponent, null, ActionTypes.save)"></button>
+                    class="p-button-primary p-mr-2"
+                    (click)="openComponentDialog(leaveDialogComponent, null, ActionTypes.save)"></button>
             </ng-template>
         </p-toolbar>
         <!-- p-table -->
@@ -39,32 +40,39 @@
             </ng-template>
             <ng-template pTemplate="body" let-leave>
                 <tr>
-                    <td *ngFor="let col of headers" [ngClass]="col?.field == 'rejected' ? 'text-center' : ''">
+                    <td *ngFor="let col of headers" [ngClass]="col?.field == 'status'  ? 'text-center' : ''">
                         <span
-                            *ngIf=" col?.field == 'employeeId' || col?.field == 'leaveTypeId'|| col?.field == 'note'||col?.field == 'fromDate' || col?.field == 'toDate'||col?.field == 'acceptedBy' || col?.field == 'acceptedAt' || col?.field == 'approvedBy' || col?.field == 'approvedAt'||col?.field =='createdAt' || col?.field == 'createdBy'">
+                            *ngIf=" col?.field == 'employeeName' || col?.field == 'note'||col?.field == 'acceptedBy'  || col?.field == 'approvedBy'||col?.field =='createdAt' || col?.field == 'createdBy'">
                             {{leave[col.field]}}
                         </span>
-                        <span *ngIf="col?.field == 'rejected'">
-                            <ng-container *ngIf="leave.rejected === true; else falseBlock">
+                        <span 
+                            *ngIf="col?.field == 'fromDate' || col?.field == 'toDate'|| col?.field == 'acceptedAt' || col?.field == 'approvedAt'">
+                            {{leave[col.field] | date: mediumDate}}
+                        </span>
+                        <span *ngIf=" col?.field == 'leaveTypeId'">
+                            {{ leaveTypeMap[leave.leaveTypeId] }}
+                        </span>
+                        <span *ngIf="col?.field == 'status'">
+                            <ng-container *ngIf="leave.status === 'Approved'; else falseBlock">
                                 <i class="pi pi-check text-green-500"></i>
                             </ng-container>
                             <ng-template #falseBlock>
-                                <ng-container *ngIf="leave.rejected === false; else nullBlock">
-                                    <i class="pi pi-times text-red-500" ></i>
+                                <ng-container *ngIf="leave.status === 'Rejected'; else nullBlock">
+                                    <i class="pi pi-times text-red-500"></i>
                                 </ng-container>
                                 <ng-template #nullBlock>
-                                    <i class="pi pi-spin pi-spinner text-primary" ></i>
+                                    <i class="pi pi-spin pi-spinner text-primary"></i>
                                 </ng-template>
                             </ng-template>
                         </span>
-                        
                     </td>
                     <td>
-                        <div class="flex">
-                            <button pButton pRipple icon="pi pi-check" 
-                                class="p-element p-ripple  p-button  p-button-outlined p-button-success mr-3 p-0"></button>
+                        <div class="flex" *ngIf="leave.rejected === null">
+                            <button pButton pRipple icon="pi pi-check"
+                                class="p-element p-ripple  p-button  p-button-outlined p-button-success mr-3 p-0" (click)="confirmationDialog('approve')"></button>
                             <button pButton pRipple icon="pi pi-times"
-                                class="p-element p-ripple p-button-outlined p-button-danger p-button col-2 p-0"></button>
+                                class="p-element p-ripple p-button-outlined p-button-danger p-button col-2 p-0" 
+                                (click)="confirmationDialog('reject')"></button>
                         </div>
                     </td>
                 </tr>
@@ -77,3 +85,19 @@
         </p-table>
     </div>
 </div>
+
+<!-- Confirmation Dialog -->
+<p-dialog [(visible)]="dialog" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}">
+    <div class="flex flex-column justify-content-center">
+        <form [formGroup]="fbLeave">
+            <div class="p-fluid p-formgrid grid">
+                Are you sure you want to Approve this Leave.
+            </div>
+        </form>
+    </div>
+    <ng-template pTemplate="footer">
+        <div class="col-4" style="float:right">
+            <button pButton pRipple label="Yes" class="p-button-primary p-mr-2" (click)="onYesButtonClick()"></button>
+        </div>
+    </ng-template>
+</p-dialog>

@@ -18,7 +18,7 @@
                 </div>
                 <div style="margin-bottom: 15px;">
                     <label class="required">Leave Type:</label>&nbsp;
-                    <p-dropdown formControlName="dayWorkStatusId" [options]="LeaveType" optionLabel="name"
+                    <p-dropdown formControlName="dayWorkStatusId" [options]="LeaveTypes" optionLabel="name"
                         optionValue="lookupDetailId" placeholder="Select Leave Type"></p-dropdown>
 
                     <div class="flex">
@@ -36,11 +36,6 @@
                     <label class="required">From Date:</label>&nbsp;
                     <p-calendar formControlName="date" [readonlyInput]="FormControls['employeeId'].value!== null"
                         appendTo="body" placeholder="Enter From Date" [showIcon]="true"></p-calendar>
-                </div>
-                <div style="margin-bottom: 15px;">
-                    <label>To Date:</label>&nbsp;
-                    <p-calendar [showIcon]="true" formControlName="toDate" placeholder="Enter To Date" appendTo="body">
-                    </p-calendar>
                 </div>
                 
                 <div style="margin-bottom: 15px;">
@@ -70,7 +65,7 @@
             <p-button icon="pi pi-angle-left mr-2" (click)="gotoPreviousMonth()"></p-button>
         </div>
         <div>
-            <p-calendar styleClass="only-icon" [(ngModel)]="selectedMonths" [showIcon]="true" view="month" dateFormat="mm/yy"
+            <p-calendar styleClass="only-icon" [(ngModel)]="selectedMonth" [showIcon]="true" view="month" dateFormat="mm/yy"
                 [yearNavigator]="true" yearRange="2000:2030" [readonlyInput]="true" inputId="monthpicker" (onSelect)="onMonthSelect($event)">
             </p-calendar>
         </div>
@@ -164,8 +159,8 @@
     </ng-template>
 </p-table>
 <p-dialog header="Confirmation" [(visible)]="display">
-    <p>Do you want to modify the status of {{this.NotUpdatesEmployees.length}} records to Present on
-        {{this.notUpdatedDates[0] | date:'MMM dd YYYY'}}? </p>
+    <p>Do you want to modify the status of {{this.NotUpdatedEmployees.length}} records to Present on
+        {{this.notUpdatedDates| date:'MMM dd YYYY'}}? </p>
     <button pButton type="button" class="btn btn-primary" label="Yes" (click)="addPresent()"></button>
     <button pButton type="button" class="btn btn-danger" label="Cancel" (click)="onReject()"></button>
 </p-dialog>
