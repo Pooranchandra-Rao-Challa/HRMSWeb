@@ -5,7 +5,7 @@ import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { FORMAT_DATE } from 'src/app/_helpers/date.formate.pipe';
-import { EmployeesList, LookupViewDto } from 'src/app/_models/admin';
+import { EmployeesList, HolidaysViewDto, LookupViewDto } from 'src/app/_models/admin';
 import { MaxLength } from 'src/app/_models/common';
 import { EmployeeLeaveDto } from 'src/app/_models/employes';
 import { AdminService } from 'src/app/_services/admin.service';
@@ -24,6 +24,10 @@ export class LeaveDialogComponent {
   filteredLeaveTypes: LookupViewDto[] = [];
   maxLength: MaxLength = new MaxLength();
   filterCriteria: string[] = ['PT', 'AT'];
+  disabledDates: Date[] = [];
+  holidays: HolidaysViewDto[] = [];
+  year: string;
+
   constructor(
     private formbuilder: FormBuilder,
     private adminService: AdminService,
@@ -36,6 +40,97 @@ export class LeaveDialogComponent {
     this.getEmployees();
     this.getLeaveTypes();
     this.leaveForm();
+
+    const today = new Date();
+    const currentYear = today.getFullYear();
+    this.year = new Date().getFullYear().toString(); // Set year dynamically
+    this.adminService.GetHolidays(this.year).subscribe(
+      (response) => {
+        console.log(response);
+        this.holidays = response as unknown as HolidaysViewDto[];
+        this.initializeDisabledDates(currentYear);
+      },
+      (error) => {
+        console.error('Failed to fetch holiday dates:', error);
+      }
+    );
+  }
+
+  // Initialize the disabled dates array for all months of the year
+  initializeDisabledDates(currentYear: number): void {
+    const datesToDisable: Date[] = [];
+
+    for (let currentMonth = 0; currentMonth < 12; currentMonth++) {
+      const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
+      const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0);
+
+      for (let day = 1; day <= 31; day++) {
+        const currentDate = new Date(firstDayOfMonth);
+        currentDate.setDate(day);
+
+        if (currentDate >= firstDayOfMonth && currentDate <= lastDayOfMonth) {
+          if (this.isWeekend(currentDate) || this.isHoliday(currentDate, this.holidays)) {
+            datesToDisable.push(currentDate);
+          }
+        }
+      }
+    }
+    this.disabledDates = datesToDisable;
+  }
+
+  // Check if a date is a weekend (Saturday or Sunday)
+  isWeekend(date: Date): boolean {
+    return date.getDay() === 0 || date.getDay() === 6;
+  }
+
+  isHoliday(date: Date, holidayDates: HolidaysViewDto[]): boolean {
+    const dateString = date.toLocaleDateString('en-US', {
+      month: '2-digit',
+      day: '2-digit',
+      year: 'numeric',
+    });
+
+    return holidayDates.some((holiday) => {
+      const holidayFromDate = new Date(holiday.fromDate);
+      const holidayToDate = new Date(holiday.toDate);
+
+      if (!isNaN(holidayFromDate.getTime())) {
+        // Check if the date is the same as fromDate
+        const formattedHolidayFromDateString = holidayFromDate.toLocaleDateString('en-US', {
+          month: '2-digit',
+          day: '2-digit',
+          year: 'numeric',
+        });
+
+        if (dateString === formattedHolidayFromDateString) {
+          return true;
+        }
+      }
+
+      if (!isNaN(holidayFromDate.getTime()) && !isNaN(holidayToDate.getTime())) {
+        // Both fromDate and toDate are available, check if the date falls within the range
+        const formattedHolidayFromDateString = holidayFromDate.toLocaleDateString('en-US', {
+          month: '2-digit',
+          day: '2-digit',
+          year: 'numeric',
+        });
+
+        const formattedHolidayToDateString = holidayToDate.toLocaleDateString('en-US', {
+          month: '2-digit',
+          day: '2-digit',
+          year: 'numeric',
+        });
+
+        if (
+          dateString >= formattedHolidayFromDateString &&
+          dateString <= formattedHolidayToDateString
+        ) {
+          return true;
+        }
+      }
+      return false;
+    });
+
   }
 
   getEmployees() {

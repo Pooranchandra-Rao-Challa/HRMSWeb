@@ -36,6 +36,8 @@ export class LeavesComponent {
   dialog: boolean = false;
   selectedAction: string | null = null;
   leaveData: EmployeeLeaveDto;
+
+
   headers: ITableHeader[] = [
     { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
     { field: 'leaveTypeId', header: 'leaveTypeId', label: 'Leave Type' },
@@ -91,6 +93,7 @@ export class LeavesComponent {
     table.clear();
     this.filter.nativeElement.value = '';
   }
+
   leaveForm() {
     this.fbLeave = this.formbuilder.group({
       employeeLeaveId: [null],
@@ -117,8 +120,8 @@ export class LeavesComponent {
   }
 
   processLeave() {
-    const acceptedBy = this.selectedAction === 'approve' ? this.jwtService.GivenName : null;
-    const approvedBy = this.selectedAction === 'approve' ? this.jwtService.GivenName : null;
+    const acceptedBy = this.selectedAction === 'approve' ? this.jwtService.UserId : null;
+    const approvedBy = this.selectedAction === 'approve' ? this.jwtService.UserId : null;
     this.fbLeave.patchValue({
       employeeLeaveId: this.leaveData.employeeLeaveId,
       employeeId: this.leaveData.employeeId,
@@ -151,12 +154,12 @@ export class LeavesComponent {
     })
   }
 
-  onYesButtonClick() {
-    this.processLeave();
+  onClose(){
+    this.dialog = false;
   }
 
   save(): Observable<HttpEvent<EmployeeLeaveDto[]>> {
-    return this.employeeService.CreateEmployeeLeaveDetails(this.fbLeave.value)
+    return this.employeeService.CreateEmployeeLeaveDetails(this.fbLeave.value);
   }
 
   openComponentDialog(content: any,

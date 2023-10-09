@@ -1,4 +1,4 @@
-<div class="col-12" >
+<div class="col-12">
     <div class="card" id="main-card">
         <!-- Toolbar -->
         <p-toolbar styleClass="p-mb-4">
@@ -32,7 +32,8 @@
                 <tr>
                     <th *ngFor="let col of headers" [pSortableColumn]="col.header">
                         {{col?.label}}
-                        <p-columnFilter type="text" [field]="col.header"  id="Leaves_ColumnFilter" display="menu"></p-columnFilter>
+                        <p-columnFilter type="text" [field]="col.header" id="Leaves_ColumnFilter" display="menu">
+                        </p-columnFilter>
                         <p-sortIcon [field]="col.header"></p-sortIcon>
                     </th>
                     <th> Actions </th>
@@ -45,7 +46,7 @@
                             *ngIf=" col?.field == 'employeeName' || col?.field == 'note'||col?.field == 'acceptedBy'  || col?.field == 'approvedBy'||col?.field =='createdAt' || col?.field == 'createdBy'">
                             {{leave[col.field]}}
                         </span>
-                        <span 
+                        <span
                             *ngIf="col?.field == 'fromDate' || col?.field == 'toDate'|| col?.field == 'acceptedAt' || col?.field == 'approvedAt'">
                             {{leave[col.field] | date: mediumDate}}
                         </span>
@@ -69,9 +70,10 @@
                     <td>
                         <div class="flex" *ngIf="leave.rejected === null">
                             <button pButton pRipple icon="pi pi-check" id="Leave_Approved_Button"
-                                class="p-element p-ripple  p-button  p-button-outlined p-button-success mr-3 p-0" (click)="confirmationDialog('approve',leave)"></button>
+                                class="p-element p-ripple  p-button  p-button-outlined p-button-success mr-3 p-0"
+                                (click)="confirmationDialog('approve',leave)"></button>
                             <button pButton pRipple icon="pi pi-times" id="Levave_Rejected_Button"
-                                class="p-element p-ripple p-button-outlined p-button-danger p-button col-2 p-0"  
+                                class="p-element p-ripple p-button-outlined p-button-danger p-button col-2 p-0"
                                 (click)="confirmationDialog('reject',leave)"></button>
                         </div>
                     </td>
@@ -89,16 +91,21 @@
 <!-- Confirmation Dialog -->
 <p-dialog [(visible)]="dialog" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}">
     <div class="flex flex-column justify-content-center">
-            <div class="p-fluid p-formgrid grid" *ngIf="this.selectedAction === 'approve'">
-                Are you sure you want to Approve this Leave.
-            </div>
-            <div class="p-fluid p-formgrid grid" *ngIf="this.selectedAction === 'reject'">
-                Are you sure you want to Reject this Leave.
-            </div>
+        <div class="p-fluid p-formgrid grid" *ngIf="this.selectedAction === 'approve'">
+            Are you sure you want to Approve this Leave.
+        </div>
+        <div class="p-fluid p-formgrid grid" *ngIf="this.selectedAction === 'reject'">
+            Are you sure you want to Reject this Leave.
+        </div>
     </div>
     <ng-template pTemplate="footer">
         <div class="col-4" style="float:right">
-            <button pButton pRipple label="Yes" id="Leave_Approve_Rejected_Button" class="p-button-primary p-mr-2" (click)="onYesButtonClick()"></button>
+            <button pButton pRipple label="No" id="Leave_Approve_Rejected_Button" class="p-button-primary p-mr-2"
+              (click)="onClose()"></button>
+        </div>
+        <div class="col-4" style="float:right">
+            <button pButton pRipple label="Yes" id="Leave_Approve_Rejected_Button" class="p-button-primary p-mr-2"
+                (click)="processLeave()"></button>
         </div>
     </ng-template>
 </p-dialog>

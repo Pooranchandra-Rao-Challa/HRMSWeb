@@ -1,8 +1,8 @@
 <div class="flex flex-column align-items-center justify-content-center">
     <form [formGroup]="fbLeave">
         <div class="grid mt-3 p-5">
-			<div class="col-12 roles-container">
-				<div class="p-fluid p-formgrid grid">
+            <div class="col-12 roles-container">
+                <div class="p-fluid p-formgrid grid">
                     <div class="field col-12 md:col-4">
                         <label class="required">Employee Name:</label>
                         <p-dropdown id="employeeName" appendTo="body" [filter]="true" [options]="employees"
@@ -22,8 +22,9 @@
                     </div>
                     <div class="field col-12 md:col-4">
                         <label class="required">Leave Type:</label>
-                        <p-dropdown placeholder="Select Leave Type" formControlName="leaveTypeId" [options]="filteredLeaveTypes"
-                            optionLabel="name"  optionValue="lookupDetailId" id="leaveTypes"
+                        <p-dropdown placeholder="Select Leave Type" formControlName="leaveTypeId"
+                            [options]="filteredLeaveTypes" optionLabel="name" optionValue="lookupDetailId"
+                            id="leaveTypes"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['leaveTypeId'].touched && FormControls['leaveTypeId'].errors }">
                         </p-dropdown>
                         <div class="flex">
@@ -40,7 +41,7 @@
                     <div class="field col-12 md:col-4">
                         <label class="required">From Date:</label>
                         <p-calendar appendTo="body" placeholder="Select From Date" [readonlyInput]="true"
-                            [showIcon]="true" formControlName="fromDate" id="fromDate" 
+                            [showIcon]="true" formControlName="fromDate" id="fromDate" [disabledDates]="disabledDates"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['fromDate'].touched && FormControls['fromDate'].errors }">
                         </p-calendar>
                         <div class="flex">
@@ -56,7 +57,8 @@
                     <div class="field col-12 md:col-4">
                         <label>To Date:</label>
                         <p-calendar appendTo="body" placeholder="Select To Date" [readonlyInput]="true"
-                            [showIcon]="true" formControlName="toDate" id="toDate">
+                            [showIcon]="true" formControlName="toDate" id="toDate" [minDate]="fbLeave.value.fromDate"
+                            [disabledDates]="disabledDates">
                         </p-calendar>
                     </div>
                     <div class="field col-12 md:col-4">
@@ -84,6 +86,6 @@
 </div>
 
 <div class=" footer dialog-footer">
-    <button pButton pRipple type="submit" label="Save" class="p-button-raised p-button-primary" id="SubmitLeaveForm"
-        [disabled]="fbLeave.invalid" (click)="onSubmit()"></button>
+    <button pButton pRipple type="submit" label="Add Leave" class="p-button-raised p-button-primary"
+        id="SubmitLeaveForm" [disabled]="fbLeave.invalid" (click)="onSubmit()"></button>
 </div>
