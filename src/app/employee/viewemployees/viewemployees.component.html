@@ -4,8 +4,7 @@
       <div class="fex">
         <!-- Basic details card view -->
         <div class="col text-center">
-          <img
-            [src]="employeePrsDtls.photo ? employeePrsDtls.photo : '/assets/layout/images/default_icon_employee.jpg'"
+          <img [src]="employeePrsDtls.photo ? employeePrsDtls.photo : '/assets/layout/images/default_icon_employee.jpg'"
             [alt]="employeePrsDtls.employeeName"
             class="shadow-2 my-1 mx-0 employee_profile_pic employee_profile_pic_view" style="width: 70%;" />
         </div>
@@ -13,13 +12,13 @@
         </div>
         <span class="text-900 font-medium text-primary text-center text-3xl block">{{employeePrsDtls?.code}}</span>
         <ng-container *ngIf="enRollEmployee">
-            <div class="mt-5">
-              <app-final-submit
-                [style.pointer-events]="educationDetails.length && workExperience.length && address.length && UploadedDocuments.length ? 'auto' : 'none'"
-                [style.opacity]="educationDetails.length && workExperience.length && address.length && UploadedDocuments.length ? 1 : 0.5"
-                ></app-final-submit>
-            </div>
-          </ng-container>
+          <div class="mt-5">
+            <app-final-submit
+              [style.pointer-events]="educationDetails.length && workExperience.length && address.length && UploadedDocuments.length ? 'auto' : 'none'"
+              [style.opacity]="educationDetails.length && workExperience.length && address.length && UploadedDocuments.length ? 1 : 0.5">
+            </app-final-submit>
+          </div>
+        </ng-container>
       </div>
     </div>
     <div class="col-12 lg:col-6 py-3 lg:pl-2">
@@ -98,16 +97,15 @@
   <!-- Education Details card view -->
   <p-tabView>
     <p-tabPanel header="Education Details ">
-      <div class="grid"  >
+      <div class="grid">
         <div class="col-12 lg:col-12 m-0 p-3 pb-1">
           <div class="card text-right m-0 p-3">
-            <button pButton pRipple icon="pi pi-plus"
-              class="p-element p-ripple p-button-outline p-button p-component " 
+            <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-outline p-button p-component "
               (click)="openComponentDialog(educationdetailsDialogComponent,educationDetails,ActionTypes.save)">
               &nbsp; Add / Edit </button>
           </div>
         </div>
-        <div class="col-12 lg:col-4"  *ngFor="let education of educationDetails">
+        <div class="col-12 lg:col-4" *ngFor="let education of educationDetails">
           <div class="card">
             <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">{{education?.stream}}</div>
             <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
@@ -129,7 +127,7 @@
             </ul>
           </div>
         </div>
-        
+
       </div>
     </p-tabPanel>
     <!-- Work Experience card view -->
@@ -137,27 +135,26 @@
       <div class="grid">
         <div class="col-12 lg:col-12 m-0 p-3 pb-1">
           <div class="card text-right m-0 p-3">
-            <button pButton pRipple icon="pi pi-plus"
-              class="p-element p-ripple p-button-outline p-button p-component " id="add"
+            <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-outline p-button p-component " id="add"
               (click)="openComponentDialog(experiencedetailsDialogComponent, workExperience, ActionTypes.save)">
               &nbsp; Add / Edit </button>
           </div>
         </div>
-        <div class="col-12 lg:col-4" *ngFor="let experiance of workExperience">          
-          <div class="card">
-            <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">{{experiance?.companyName}}</div>
+        <div class="col-12 lg:col-4" *ngFor="let experience of workExperience" >
+          <div class="card"  *ngIf="!experience.isAFresher">
+            <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">{{experience?.companyName}}</div>
             <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
               <li class="mb-2">
-                <span class="font-semibold ">Company Location:</span>{{experiance?.companyLocation}}
+                <span class="font-semibold ">Company Location:</span>{{experience?.companyLocation}}
               </li>
               <li class="mb-2">
-                <span class="font-semibold ">From:</span> {{experiance?.dateOfJoining | date: mediumDate}}
+                <span class="font-semibold ">From:</span> {{experience?.dateOfJoining | date: mediumDate}}
               </li>
               <li class="mb-2">
-                <span class="font-semibold ">To:</span> {{experiance?.dateOfReliving | date: mediumDate}}
+                <span class="font-semibold ">To:</span> {{experience?.dateOfReliving | date: mediumDate}}
               </li>
               <li class="mb-2">
-                <span class="font-semibold mb-1">Designation:</span> {{experiance?.designation}}
+                <span class="font-semibold mb-1">Designation:</span> {{experience?.designation}}
               </li>
             </ul>
           </div>
@@ -169,16 +166,17 @@
       <div class="grid">
         <div class="col-12 lg:col-12 m-0 p-3 pb-1">
           <div class="card text-right m-0 p-3">
-            <button pButton pRipple icon="pi pi-plus"
-              class="p-element p-ripple p-button-outline p-button p-component"
+            <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-outline p-button p-component"
               (click)="openComponentDialog(FamilydetailsDialogComponent, null, ActionTypes.add)">
-              &nbsp; Add  </button>
+              &nbsp; Add </button>
           </div>
         </div>
         <div class="col-12 lg:col-4" *ngFor="let familyDetails of familyDetails; let i = index">
           <div class="card">
             <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2 position-relative">
-              <button pButton pRipple icon="pi pi-pencil" class="p-element p-ripple p-button-text p-button p-component right-float-button" (click)="openComponentDialog(FamilydetailsDialogComponent, familyDetails, ActionTypes.edit)"></button>{{familyDetails.name}}
+              <button pButton pRipple icon="pi pi-pencil"
+                class="p-element p-ripple p-button-text p-button p-component right-float-button"
+                (click)="openComponentDialog(FamilydetailsDialogComponent, familyDetails, ActionTypes.edit)"></button>{{familyDetails.name}}
             </div>
             <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
               <li class="mb-3">
@@ -194,7 +192,8 @@
                 <span class="font-semibold">Mobile No:</span> {{familyDetails.mobileNumber}}
               </li>
               <li class="mb-3">
-                <span class="font-semibold">Address:</span> {{familyDetails.addressLine1}},{{familyDetails.city}},{{familyDetails.state}},{{familyDetails.zipCode}}
+                <span class="font-semibold">Address:</span>
+                {{familyDetails.addressLine1}},{{familyDetails.city}},{{familyDetails.state}},{{familyDetails.zipCode}}
               </li>
               <li class="mb-3">
                 <span class="font-semibold">State:</span> {{familyDetails.state}}
@@ -206,51 +205,49 @@
     </p-tabPanel>
     <!-- Address Details card view -->
     <p-tabPanel header="Address Details">
-     
       <div class="grid">
         <div class="card  m-0 p-3 w-100">
           <div class="grid p-0 ">
-            <div class="col-12 lg:col-6 text-left m-0 p-3 pb-1" >
+            <div class="col-12 lg:col-6 text-left m-0 p-3 pb-1">
               <label>{{ isAddressChecked ? 'Show All Addresses' : 'Show Active Addresses' }}</label>
               <br />&nbsp;
               <p-inputSwitch [(ngModel)]="isAddressChecked" (onChange)="onChangeAddressChecked()"
-              id="Employee_addressUnActive"></p-inputSwitch>
+                id="Employee_addressUnActive"></p-inputSwitch>
             </div>
-            <div class="col-12 lg:col-6 text-right m-0 p-3 pb-1" *ngIf="!isAddressChecked">          
-              <button pButton pRipple icon="pi pi-plus"
-                class="p-element p-ripple p-button-outline p-button p-component"
+            <div class="col-12 lg:col-6 text-right m-0 p-3 pb-1" *ngIf="!isAddressChecked">
+              <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-outline p-button p-component"
                 (click)="openComponentDialog(AddressDialogComponent, null, ActionTypes.add)">
-                &nbsp; Add  </button>            
+                &nbsp; Add </button>
             </div>
-
           </div>
-       
-        
         </div>
         <div class="col-12 lg:col-4  p-0" *ngFor="let newadredss of address; let i = index">
           <div class="col-12 lg-4 p-2 pl-0 pr-3" *ngIf="isAddressChecked || newadredss.isActive">
-            <div class="card "  >
+            <div class="card ">
               <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2 position-relative">
                 <button pButton pRipple icon="pi pi-pencil"
                   class="p-element p-ripple p-button-text p-button p-component right-float-button"
-                  (click)="openComponentDialog(AddressDialogComponent, newadredss, ActionTypes.edit)"*ngIf="newadredss.isActive"></button>
+                  (click)="openComponentDialog(AddressDialogComponent, newadredss, ActionTypes.edit)"
+                  *ngIf="newadredss.isActive"></button>
                 {{ newadredss.addressType }}
               </div>
-              {{ newadredss.employeeName }}, {{ newadredss.addressLine1 }}, {{ newadredss.landmark }},{{ newadredss.city }},
+              {{ newadredss.employeeName }}, {{ newadredss.addressLine1 }}, {{ newadredss.landmark }},{{ newadredss.city
+              }},
               {{ newadredss.state }},
               {{ newadredss.zipCode }},{{ newadredss.country }}
             </div>
           </div>
         </div>
-    
-        
       </div>
     </p-tabPanel>
+
     <!-- Upload Documents card view -->
     <p-tabPanel header="Upload Documents">
       <div class="grid">
         <div class="col-12 text-right ">
-          <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-text p-button p-component mr-2 "  (click)="openComponentDialog(uploadDocumentsDialogComponent, null, ActionTypes.add)">&nbsp; Upload Document </button>
+          <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-text p-button p-component mr-2 "
+            (click)="openComponentDialog(uploadDocumentsDialogComponent, null, ActionTypes.add)">&nbsp; Upload Document
+          </button>
         </div>
         <div class="col-12 ">
           <p-table [value]="UploadedDocuments" [tableStyle]="{ 'min-width': '50rem' }">
@@ -259,7 +256,6 @@
                 <th>S.No</th>
                 <th>Title</th>
                 <th>FileName</th>
-                <th>Actions</th>
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-UploadedDocument let-rowIndex="rowIndex">
@@ -267,28 +263,19 @@
                 <td class="pl-5">{{ rowIndex + 1 }}</td>
                 <td>{{ UploadedDocument.title }}</td>
                 <td class="pl-5">{{ UploadedDocument.fileName }}</td>
-                <td>
-                  <div class="flex">
-                    <!-- <button pButton pRipple icon="pi pi-download" style="padding: 0px;"
-                      class="p-element p-ripple p-button-text p-button p-component col-6"
-                      (click)="downloadDocument(UploadedDocument)"></button><button pButton pRipple icon="pi pi-trash" id="delete"
-                      class="p-element p-ripple p-button-text p-button p-component col-6"
-                      (click)="removeDocument(UploadedDocument)"></button> -->
-                  </div>
-                </td>
               </tr>
             </ng-template>
           </p-table>
         </div>
       </div>
     </p-tabPanel>
+
     <!-- Assets card view -->
     <p-tabPanel header="Assets" *ngIf="showOfcAndAssetDetails">
       <div class="grid">
         <div class="col-12 lg:col-12 m-0 p-3 pb-1">
           <div class="card text-right m-0 p-3">
-            <button pButton pRipple icon="pi pi-plus"
-              class="p-element p-ripple p-button-outline p-button p-component"
+            <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-outline p-button p-component"
               (click)="openComponentDialog(addassetallotmentDialogComponent, null, ActionTypes.add)">
               &nbsp; Assign </button>
           </div>
@@ -313,8 +300,7 @@
       <div class="grid">
         <div class="col-12 lg:col-12 m-0 p-3 pb-1">
           <div class="card text-right m-0 p-3">
-            <button pButton pRipple icon="pi pi-plus"
-              class="p-element p-ripple p-button-outline p-button p-component"
+            <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-outline p-button p-component"
               (click)="openComponentDialog(BankdetailsDialogComponent, null, ActionTypes.add)">
               &nbsp; Add </button>
           </div>
@@ -342,8 +328,7 @@
             </ul>
           </div>
         </div>
-       
+
       </div>
     </p-tabPanel>
   </p-tabView>
-

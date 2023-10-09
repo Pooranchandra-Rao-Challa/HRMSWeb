@@ -19,13 +19,13 @@
               [rowsPerPageOptions]="[10,25,50]">
               <ng-template pTemplate="header" let-education let-educationDetailsIndex="rowIndex">
                 <tr>
-                  <th>Circulum <sup class="p-error">*</sup></th>
+                  <th>Curriculum<sup class="p-error">*</sup></th>
                   <th>Stream <sup class="p-error">*</sup></th>
                   <th>Country <sup class="p-error">*</sup></th>
                   <th>State <sup class="p-error">*</sup></th>
                   <th>School/College Name</th>
                   <th>Board/University Name <sup class="p-error">*</sup></th>
-                  <th>Year of pass <sup class="p-error">*</sup></th>
+                  <th>Year Of Pass <sup class="p-error">*</sup></th>
                   <th>Grading System <sup class="p-error">*</sup></th>
                   <th>CGPA/Percentage System <sup class="p-error">*</sup> </th>
                   <th *ngIf="fbEducationDetails.controls['educationDetails'].value.length > 1"></th>
@@ -45,7 +45,7 @@
                           *ngIf="formArrayControls(educationDetailsIndex,'curriculumId').touched && formArrayControls(educationDetailsIndex,'curriculumId').invalid">
                           <div class="ng-invalid ng-touched p-error"
                             *ngIf="formArrayControls(educationDetailsIndex,'curriculumId').hasError('required')">
-                            Please Select Circulum.
+                            Please Select Curriculum.
                           </div>
                         </span>
                       </div>
@@ -213,6 +213,6 @@
 </div>
 <div class=" footer dialog-footer">
   <button id="Save_Education_Details" pButton pRipple type="submit" label="Save Education Details"
-    class="p-button-raised p-button-primary" [disabled]="fbEducationDetails.invalid"
+    class="p-button-raised p-button-primary" [disabled]="!fbEducationDetails.valid"
     (click)="saveEducationDetails()"></button>
 </div>

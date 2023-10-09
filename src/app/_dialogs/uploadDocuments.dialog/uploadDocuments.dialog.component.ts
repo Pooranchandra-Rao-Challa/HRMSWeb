@@ -1,8 +1,8 @@
 import { HttpParams } from '@angular/common/http';
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ALERT_CODES, AlertmessageService } from 'src/app/_alerts/alertmessage.service';
 import { ViewEmployeeScreen } from 'src/app/_models/common';
 import { EmployeeService } from 'src/app/_services/employee.service';
@@ -18,21 +18,18 @@ export class uploadDocumentsDialogComponent {
     @ViewChild("fileUpload", { static: false }) fileUpload: ElementRef;
     files: { fileBlob: Blob, title: string, fileName: string }[] = [];
     fbUpload!: FormGroup;
-    employeeId: any;
-    fileSize = 20;
+    employeeId: string;
     empUploadDetails: any = [];
     title: string;
     permissions: any;
 
     constructor(
         private formbuilder: FormBuilder,
-        private config: DynamicDialogConfig,
         public ref: DynamicDialogRef,
         private employeeService: EmployeeService,
         private activatedRoute: ActivatedRoute,
         private alertMessage: AlertmessageService,
-        private jwtService: JwtService,
-       
+        private jwtService: JwtService,     
     ) {}
 
     ngOnInit() {
@@ -60,7 +57,7 @@ export class uploadDocumentsDialogComponent {
                         const file = fileUpload.files[index];
                         console.log(file)
                         this.files.push({ fileBlob: file, title: this.fbUpload.get('title').value, fileName: file.name });
-                        //this.empUploadDetails.push({ uploadedFiles: file, title: this.fbUpload.get('title').value,filename:  file.name })
+                        // this.empUploadDetails.push({ uploadedFiles: file, title: this.fbUpload.get('title').value,filename:  file.name })
                         console.log(this.files)
                     }  
                 }
@@ -84,9 +81,13 @@ export class uploadDocumentsDialogComponent {
     }
 
     removeItem(index: number): void {
-        this.empUploadDetails.splice(index, 1);
+        this.files.splice(index, 1);
     }
 
+    checkTitle() {
+        if (!this.fbUpload.valid)
+            this.alertMessage.displayErrorMessage(ALERT_CODES["EAD004"]);
+    }
     uploadFile(file) {
         let params = new HttpParams();
         params = params.set("employeeId", this.employeeId).set('title', file.title).set('module', 'project').set('fileName', file.fileName);
@@ -96,7 +97,6 @@ export class uploadDocumentsDialogComponent {
 
         this.employeeService.UploadDocuments(formData, params).subscribe(resp => {
             if (resp) {
-                debugger
                 this.alertMessage.displayAlertMessage(ALERT_CODES["EAD002"]);
             }
             else {
