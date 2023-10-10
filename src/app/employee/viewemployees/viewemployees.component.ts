@@ -50,8 +50,6 @@ export class ViewemployeesComponent {
   maxLength: MaxLength = new MaxLength();
   employeeId: any;
   ActionTypes = Actions;
-  files = [];
-  fileSize = 20;
   title: string;
   hasPermanentAddress: boolean = false;
   hasCurrentAddress: boolean = false;

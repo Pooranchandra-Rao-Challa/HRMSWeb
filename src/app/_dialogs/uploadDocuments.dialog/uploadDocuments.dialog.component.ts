@@ -29,8 +29,8 @@ export class uploadDocumentsDialogComponent {
         private employeeService: EmployeeService,
         private activatedRoute: ActivatedRoute,
         private alertMessage: AlertmessageService,
-        private jwtService: JwtService,     
-    ) {}
+        private jwtService: JwtService,
+    ) { }
 
     ngOnInit() {
         this.permissions = this.jwtService.Permissions
@@ -55,11 +55,9 @@ export class uploadDocumentsDialogComponent {
                 if (this.fbUpload.valid) {
                     for (let index = 0; index < fileUpload.files.length; index++) {
                         const file = fileUpload.files[index];
-                        console.log(file)
                         this.files.push({ fileBlob: file, title: this.fbUpload.get('title').value, fileName: file.name });
                         // this.empUploadDetails.push({ uploadedFiles: file, title: this.fbUpload.get('title').value,filename:  file.name })
-                        console.log(this.files)
-                    }  
+                    }
                 }
                 else {
                     this.fbUpload.markAllAsTouched();
@@ -68,7 +66,7 @@ export class uploadDocumentsDialogComponent {
             else {
                 this.alertMessage.displayErrorMessage(ALERT_CODES["EAD001"]);
                 return
-            } 
+            }
         }
     }
 
@@ -88,31 +86,35 @@ export class uploadDocumentsDialogComponent {
         if (!this.fbUpload.valid)
             this.alertMessage.displayErrorMessage(ALERT_CODES["EAD004"]);
     }
-    uploadFile(file) {
-        let params = new HttpParams();
-        params = params.set("employeeId", this.employeeId).set('title', file.title).set('module', 'project').set('fileName', file.fileName);
-        let formData = new FormData();
-        formData.set('uploadedFiles', file.fileBlob, file.fileName)
-        console.log(formData);
 
-        this.employeeService.UploadDocuments(formData, params).subscribe(resp => {
+    uploadFile(file) {
+        let Params = new HttpParams();
+        Params = Params.set("employeeId", this.employeeId).set('title', file.title).set('module', 'project').set('fileName', file.fileName);
+        let formData = new FormData();
+        formData.set('uploadedFiles', file.fileBlob, file.fileName);
+        let messageDisplayed = false;
+        this.employeeService.UploadDocuments(formData, Params).subscribe(resp => {
             if (resp) {
-                this.alertMessage.displayAlertMessage(ALERT_CODES["EAD002"]);
+                if (!messageDisplayed) {
+                    this.alertMessage.displayAlertMessage(ALERT_CODES["EAD002"]);
+                    messageDisplayed = true;
+                }
             }
             else {
-                this.alertMessage.displayErrorMessage(ALERT_CODES["EAD003"]);
+                if (!messageDisplayed) {
+                    this.alertMessage.displayErrorMessage(ALERT_CODES["EAD003"]);
+                    messageDisplayed = true;
+                }
             }
             this.ref.close({
                 "UpdatedModal": ViewEmployeeScreen.UploadDocuments
             });
-        })
+        });
     }
 
     uploadFiles() {
         this.fileUpload.nativeElement.value = '';
         this.files.forEach((file: { fileBlob: Blob, title: string, fileName: string }) => {
-            console.log(file);
-
             if (file.fileBlob)
                 this.uploadFile(file);
         });
