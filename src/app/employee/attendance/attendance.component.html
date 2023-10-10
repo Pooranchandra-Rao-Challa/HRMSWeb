@@ -103,6 +103,7 @@
                 [ngStyle]="{'background-color':getAttendanceType(employee, i)==='WOff'?'grey':'','border-left':getAttendanceType(employee, i)==='WOff'?'0.5px solid white':''}">
                 <ng-container *ngIf="getAttendanceType(employee, i)">
                     <span
+                        [ngClass]="{'pt': employee[getFormattedDate(i)] === 'PT',}"
                         [ngStyle]="{'font-size': '1rem','color': employee[getFormattedDate(i)] === 'PT' ? 'green' : ''}"
                         (click)="showDialog(employee.EmployeeId,getFormattedDate(i),employee[getFormattedDate(i)])"
                         *ngIf="getAttendanceType(employee, i) === 'PT'">

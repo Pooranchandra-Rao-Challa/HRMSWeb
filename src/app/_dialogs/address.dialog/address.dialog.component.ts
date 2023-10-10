@@ -10,12 +10,12 @@ import { MAX_LENGTH_256, MAX_LENGTH_50, MIN_LENGTH_2 } from 'src/app/_shared/reg
 import { ActivatedRoute } from '@angular/router';
 import { MaxLength, ViewEmployeeScreen } from 'src/app/_models/common';
 import { LookupDetailsDto } from 'src/app/_models/admin';
+import { ThisReceiver } from '@angular/compiler';
 @Component({
     selector: 'app-address.dialog',
     templateUrl: './address.dialog.component.html'
 })
 export class AddressDialogComponent {
-    editMode: boolean = false;
     fbAddressDetails: FormGroup;
     employeeId: number;
     hasPermanentAddress: boolean = false;
@@ -25,7 +25,7 @@ export class AddressDialogComponent {
     address: EmployeAdressViewDto[];
     countries: LookupDetailsDto[] = [];
     states: LookupDetailsDto[] = [];
-    maxLength: MaxLength = new MaxLength();
+    maxLength: MaxLength = new MaxLength()
 
     constructor(private formbuilder: FormBuilder,
         private alertMessage: AlertmessageService,
@@ -38,9 +38,11 @@ export class AddressDialogComponent {
     ngOnInit(): void {
         this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
         this.initAddress();
-        this.onChangeAddressChecked()
+        this.onChangeAddressChecked();
         this.initCountries();
-        if (this.config.data) this.editAddress(this.config.data)
+        if (this.config.data) {
+            this.editAddress(this.config.data);
+        }
     }
 
     initAddress() {
@@ -119,10 +121,12 @@ export class AddressDialogComponent {
             addressType: address.addressType,
             isActive: address.isActive,
         });
+        this.fbAddressDetails.get('addressType').disable();
     }
 
     saveAddress() {
         if (this.fbAddressDetails.valid) {
+            this.fbAddressDetails.get('addressType').enable();
             this.activatedRoute.queryParams.subscribe((queryParams) => {
                 const employeeId = +queryParams['employeeId'];
                 const isUpdate = this.fbAddressDetails.value.addressId !== null;
@@ -134,14 +138,18 @@ export class AddressDialogComponent {
                         if (resp) {
                             const alertCode = isUpdate ? 'SMAD004' : 'SAD001';
                             this.alertMessage.displayAlertMessage(ALERT_CODES[alertCode]);
-                            this.ref.close({
-                                "UpdatedModal": ViewEmployeeScreen.Address
-                            });
+                            this.fbAddressDetails.reset()
                         }
+                        this.ref.close({
+                            "UpdatedModal": ViewEmployeeScreen.Address
+
+                        });
                     });
             }
             )
         }
+        console.log(this.fbAddressDetails.value);
+
     }
 
 
