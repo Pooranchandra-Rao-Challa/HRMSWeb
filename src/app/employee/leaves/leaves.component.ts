@@ -13,6 +13,7 @@ import { HttpEvent } from '@angular/common/http';
 import { LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
 import { LookupService } from 'src/app/_services/lookup.service';
 import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
+import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 
 @Component({
   selector: 'app-leaves',
@@ -34,6 +35,8 @@ export class LeavesComponent {
   mediumDate: string = MEDIUM_DATE
   dialog: boolean = false;
   selectedAction: string | null = null;
+  leaveData: EmployeeLeaveDto;
+
 
   headers: ITableHeader[] = [
     { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
@@ -56,7 +59,8 @@ export class LeavesComponent {
     private dialogService: DialogService,
     public ref: DynamicDialogRef,
     private formbuilder: FormBuilder,
-    private jwtService: JwtService) { }
+    private jwtService: JwtService,
+    public alertMessage: AlertmessageService) { }
 
   ngOnInit(): void {
     this.getLeaves();
@@ -67,7 +71,7 @@ export class LeavesComponent {
   getLeaves() {
     this.employeeService.getEmployeeLeaveDetails().subscribe((resp) => {
       this.leaves = resp as unknown as EmployeeLeaveDto[];
-      console.log(resp);
+      console.log(this.leaves);
     })
   }
 
@@ -89,6 +93,7 @@ export class LeavesComponent {
     table.clear();
     this.filter.nativeElement.value = '';
   }
+
   leaveForm() {
     this.fbLeave = this.formbuilder.group({
       employeeLeaveId: [null],
@@ -107,77 +112,54 @@ export class LeavesComponent {
       status: new FormControl(null),
     });
   }
-  confirmationDialog(action: string) {
+
+  confirmationDialog(action: string, leaves: EmployeeLeaveDto) {
     this.dialog = true;
     this.selectedAction = action;
-  }
-  approveleave() {
-    const acceptedBy = this.jwtService.GivenName;
-    const approvedBy = this.jwtService.GivenName;
-    for (const empLeave of this.leaves) {
-      this.fbLeave.patchValue({
-        employeeLeaveId: empLeave.employeeLeaveId,
-        employeeId: empLeave.employeeId,
-        employeeName: empLeave.employeeName,
-        code: empLeave.code,
-        fromDate: FORMAT_DATE(new Date(empLeave.fromDate)),
-        toDate: empLeave.toDate ? FORMAT_DATE(new Date(empLeave.toDate)) : null,
-        leaveTypeId: empLeave.leaveTypeId,
-        note: empLeave.note,
-        acceptedBy: acceptedBy,
-        acceptedAt: empLeave.acceptedAt ? FORMAT_DATE(new Date(empLeave.acceptedAt)) : null,
-        approvedBy: approvedBy,
-        approvedAt: empLeave.approvedAt ? FORMAT_DATE(new Date(empLeave.approvedAt)) : null,
-        rejected: false,
-        status: empLeave.status,
-        createdBy: empLeave.createdBy
-      });
-      console.log(this.fbLeave.value);
-    }
-    this.onSubmit();
-    this.dialog =false;
+    this.leaveData = leaves;
   }
 
-  rejectedLeave() {
-    for (const empLeave of this.leaves) {
-      this.fbLeave.patchValue({
-        employeeLeaveId: empLeave.employeeLeaveId,
-        employeeId: empLeave.employeeId,
-        employeeName: empLeave.employeeName,
-        code: empLeave.code,
-        fromDate: FORMAT_DATE(new Date(empLeave.fromDate)),
-        toDate: empLeave.toDate ? FORMAT_DATE(new Date(empLeave.toDate)) : null,
-        leaveTypeId: empLeave.leaveTypeId,
-        note: empLeave.note,
-        acceptedBy: empLeave.acceptedBy,
-        acceptedAt: empLeave.acceptedAt ? FORMAT_DATE(new Date(empLeave.acceptedAt)) : null,
-        approvedBy: empLeave.approvedBy,
-        approvedAt: empLeave.approvedAt ? FORMAT_DATE(new Date(empLeave.approvedAt)) : null,
-        rejected: true,
-        status: empLeave.status,
-        createdBy: empLeave.createdBy
-      });
-    }
+  processLeave() {
+    const acceptedBy = this.selectedAction === 'approve' ? this.jwtService.UserId : null;
+    const approvedBy = this.selectedAction === 'approve' ? this.jwtService.UserId : null;
+    this.fbLeave.patchValue({
+      employeeLeaveId: this.leaveData.employeeLeaveId,
+      employeeId: this.leaveData.employeeId,
+      employeeName: this.leaveData.employeeName,
+      code: this.leaveData.code,
+      fromDate: this.leaveData.fromDate ? FORMAT_DATE(new Date(this.leaveData.fromDate)) : null,
+      toDate: this.leaveData.toDate ? FORMAT_DATE(new Date(this.leaveData.toDate)) : null,
+      leaveTypeId: this.leaveData.leaveTypeId,
+      note: this.leaveData.note,
+      acceptedBy: acceptedBy,
+      acceptedAt: this.leaveData.acceptedAt ? FORMAT_DATE(new Date(this.leaveData.acceptedAt)) : null,
+      approvedBy: approvedBy,
+      approvedAt: this.leaveData.approvedAt ? FORMAT_DATE(new Date(this.leaveData.approvedAt)) : null,
+      rejected: this.selectedAction === 'approve' ? false : true,
+      status: this.leaveData.status,
+      createdBy: this.leaveData.createdBy
+    });
     console.log(this.fbLeave.value)
-    this.onSubmit();
-    this.dialog =false;
+    this.save().subscribe(resp => {
+      if (resp) {
+        this.dialog = false;
+        this.getLeaves();
+        if (this.selectedAction === 'approve') {
+          this.alertMessage.displayAlertMessage(ALERT_CODES["ELA001"]);
+        }
+        else {
+          this.alertMessage.displayErrorMessage(ALERT_CODES["ELR002"]);
+        }
+      }
+    })
   }
 
-  onYesButtonClick() {
-    if (this.selectedAction === 'approve') {
-      this.approveleave();
-    } else if (this.selectedAction === 'reject') {
-      this.rejectedLeave();
-    }
+  onClose(){
+    this.dialog = false;
   }
 
   save(): Observable<HttpEvent<EmployeeLeaveDto[]>> {
-    return this.employeeService.CreateEmployeeLeaveDetails(this.fbLeave.value)
-  }
-
-  onSubmit() {
-    this.save().subscribe(resp => { })
-    console.log(this.fbLeave.value);
+    return this.employeeService.CreateEmployeeLeaveDetails(this.fbLeave.value);
   }
 
   openComponentDialog(content: any,
@@ -193,7 +175,7 @@ export class LeavesComponent {
       width: this.dialogRequest.width
     });
     this.ref.onClose.subscribe((res: any) => {
-      if (res) this.getLeaves();
+      if (res)this.getLeaves();
       event.preventDefault(); // Prevent the default form submission
     });
   }

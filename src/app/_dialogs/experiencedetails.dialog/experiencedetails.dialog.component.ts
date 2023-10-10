@@ -70,15 +70,15 @@ export class ExperiencedetailsDialogComponent {
     this.fbfresher = this.formbuilder.group({
       employeeId: this.employeeId,
       workExperienceId: [],
-      isAfresher: (true),
-      companyName: (''),
-      companyLocation: (''),
-      companyEmployeeId: (null),
-      stateId: (null),
-      designationId: (null),
-      dateOfJoining: (null),
-      dateOfReliving: (null),
-      workExperienceXrefs: ([])
+      isAfresher: new FormControl(true),
+      companyName: new FormControl(null),
+      companyLocation: new FormControl(null),
+      companyEmployeeId: new FormControl(null),
+      stateId: new FormControl(null),
+      designationId: new FormControl(null),
+      dateOfJoining: new FormControl(null),
+      dateOfReliving: new FormControl(null),
+      workExperienceXrefs: new FormControl([])
     });
   }
 
@@ -112,7 +112,6 @@ export class ExperiencedetailsDialogComponent {
       workExperienceXrefs: new FormControl(workExperienceXrefs),
     });
   }
-
 
   addexperienceDetails() {
     this.faexperienceDetails = this.fbexperience.get('experienceDetails') as FormArray;

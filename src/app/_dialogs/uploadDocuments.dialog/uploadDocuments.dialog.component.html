@@ -29,11 +29,11 @@
             </form>
         </div>
         <div class="col-12 md:col-4 pt-5 mt-5">
-            <div class="upload-btn-wrapper">
+            <div class="upload-btn-wrapper" (click)="checkTitle()">
                 <label for="singleFile">
                     <i class="pi pi-paperclip"></i> Attach File
                 </label>
-                <input id="singleFile" #fileUpload name="myFile" accept=".pdf, .jpg, .jpeg, .png, .gif" type="file"
+                <input id="singleFile" #fileUpload name="myFile" accept=".pdf, .jpg, .jpeg, .png, .gif" type="file" [disabled]="!this.fbUpload.valid"
                     hidden="true" (click)="onClick()" />
             </div>
         </div>
@@ -51,7 +51,6 @@
                         <th style="width:5px" *ngIf="permissions?.CanManageEmployee">Actions</th>
                         <th>Title</th>
                         <th>Filename</th>
-
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-file let-i="rowIndex">
@@ -59,7 +58,7 @@
                         <td *ngIf="permissions?.CanManageEmployee" class="flex">
                             <!-- <button pButton pRipple icon="pi pi-pencil" (click)="editForm(file)"
                                 class="p-element p-ripple p-button-text p-button p-component col-2 p-0 "></button> -->
-                            <button pButton pRipple icon="pi pi-trash" id="AddressDetailsRemove-Btn"
+                                <button pButton pRipple icon="pi pi-trash" id="AddressDetailsRemove-Btn"
                                 class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
                                 (click)="removeItem(file)">
                             </button>

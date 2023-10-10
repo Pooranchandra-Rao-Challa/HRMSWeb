@@ -48,7 +48,6 @@ export class AllEmployeesComponent {
         const isEnrolled = true;
         this.EmployeeService.GetEmployees(isEnrolled).subscribe(resp => {
             this.employees = resp as unknown as EmployeesViewDto[];
-            console.log(this.employees)
         });
     }
 

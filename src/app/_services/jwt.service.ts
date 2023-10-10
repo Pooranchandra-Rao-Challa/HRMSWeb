@@ -98,10 +98,10 @@ return this.DecodedJWT !=undefined ;
         const jwt = this.DecodedJWT;
         return jwt.Id;
     }
-
-    // public get UserPhoto(): string {
-    //     const jwt = this.DecodedJWT;
-    //     return jwt.Photo;
-    // }
+    
+    public get EmployeeId(): number {
+        const jwt = this.DecodedJWT;
+        return jwt.EmployeeId;
+    }
 }
 
