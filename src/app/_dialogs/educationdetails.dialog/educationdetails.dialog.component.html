@@ -177,8 +177,8 @@
                     </div>
                   </td>
                   <td class="vertical-align-top">
-                    <input pInputText class="form-control" formControlName="gradingValue" numericOnly maxlength="3"
-                      #gradingValue placeholder="Enter CGPA/Percentage System" id="grading_Value" numericOnly [ngClass]="{'is-invalid ng-dirty': formArrayControls(educationDetailsIndex,'gradingValue')?.touched &&
+                    <input pInputText class="form-control" formControlName="gradingValue" appNumericInput maxlength="3"
+                      #gradingValue placeholder="Enter CGPA/Percentage System" id="grading_Value"  [ngClass]="{'is-invalid ng-dirty': formArrayControls(educationDetailsIndex,'gradingValue')?.touched &&
                     formArrayControls(educationDetailsIndex,'gradingValue')?.errors }">
                     <div class="flex">
                       <div class="align-left w-60" style="width:70%">
