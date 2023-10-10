@@ -207,8 +207,7 @@ export class ViewemployeesComponent {
         return this.alertMessage.displayErrorMessage(ALERT_CODES["EMAD001"]);
       }
       else {
-        this.dialogRequest.dialogData = {
-        }
+        this.dialogRequest.dialogData = null
         this.dialogRequest.header = "Add Address Details";
         this.dialogRequest.width = "70%";
       }
