@@ -95,75 +95,54 @@
     </div>
   </div>
   <!-- Education Details card view -->
-  <!-- <div [ngStyle]="{'margin-top.%': showOfcAndAssetDetails ? 0 : -10}"> -->
-    <p-tabView>
-      <p-tabPanel header="Education Details ">
-        <div class="grid">
-          <div class="col-12 lg:col-12 m-0 p-3 pb-1">
-            <div class="card text-right m-0 p-3">
-              <button pButton pRipple icon="pi pi-plus"
-                class="p-element p-ripple p-button-outline p-button p-component "
-                (click)="openComponentDialog(educationdetailsDialogComponent,educationDetails,ActionTypes.save)">
-                &nbsp; Add / Edit </button>
-            </div>
+  <p-tabView>
+    <p-tabPanel header="Education Details ">
+      <div class="grid">
+        <div class="col-12 lg:col-12 m-0 p-3 pb-1">
+          <div class="card text-right m-0 p-3">
+            <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-outline p-button p-component "
+              (click)="openComponentDialog(educationdetailsDialogComponent,educationDetails,ActionTypes.save)">
+              &nbsp; Add / Edit </button>
           </div>
-          <div class="col-12 lg:col-4" *ngFor="let education of educationDetails">
-            <div class="card">
-              <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">{{education?.stream}}</div>
-              <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
-                <li class="mb-3">
-                  <span class="font-semibold ">Institution Name:</span> {{education?.institutionName}}
-                </li>
-                <li class="mb-3">
-                  <span class="font-semibold">College Name:</span> {{education?.authorityName}}
-                </li>
-                <li class="mb-3">
-                  <span class="font-semibold">YOP:</span> {{education?.passedOutyear | date: mediumDate}}
-                </li>
-                <li class="mb-3">
-                  <span class="font-semibold ">Grading System:</span> {{education?.gradingMethod}}
-                </li>
-                <li class="mb-3">
-                  <span class="font-semibold ">Score/Percentage:</span> {{education?.gradingValue}}
-                </li>
-              </ul>
-            </div>
-          </div>
-
         </div>
-<<<<<<< HEAD
-      </p-tabPanel>
-      <!-- Work Experience card view -->
-      <p-tabPanel header="Work Experience ">
-        <div class="grid">
-          <div class="col-12 lg:col-12 m-0 p-3 pb-1">
-            <div class="card text-right m-0 p-3">
-              <button pButton pRipple icon="pi pi-plus"
-                class="p-element p-ripple p-button-outline p-button p-component " id="add"
-                (click)="openComponentDialog(experiencedetailsDialogComponent, workExperience, ActionTypes.save)">
-                &nbsp; Add / Edit </button>
-            </div>
+        <div class="col-12 lg:col-4" *ngFor="let education of educationDetails">
+          <div class="card">
+            <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">{{education?.stream}}</div>
+            <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
+              <li class="mb-3">
+                <span class="font-semibold ">Institution Name:</span> {{education?.institutionName}}
+              </li>
+              <li class="mb-3">
+                <span class="font-semibold">College Name:</span> {{education?.authorityName}}
+              </li>
+              <li class="mb-3">
+                <span class="font-semibold">YOP:</span> {{education?.passedOutyear | date: mediumDate}}
+              </li>
+              <li class="mb-3">
+                <span class="font-semibold ">Grading System:</span> {{education?.gradingMethod}}
+              </li>
+              <li class="mb-3">
+                <span class="font-semibold ">Score/Percentage:</span> {{education?.gradingValue}}
+              </li>
+            </ul>
           </div>
-          <div class="col-12 lg:col-4" *ngFor="let experience of workExperience">
-            <div class="card" *ngIf="!experience.isAFresher">
-              <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">{{experience?.companyName}}</div>
-              <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
-                <li class="mb-2">
-                  <span class="font-semibold ">Company Location:</span>{{experience?.companyLocation}}
-                </li>
-                <li class="mb-2">
-                  <span class="font-semibold ">From:</span> {{experience?.dateOfJoining | date: mediumDate}}
-                </li>
-                <li class="mb-2">
-                  <span class="font-semibold ">To:</span> {{experience?.dateOfReliving | date: mediumDate}}
-                </li>
-                <li class="mb-2">
-                  <span class="font-semibold mb-1">Designation:</span> {{experience?.designation}}
-                </li>
-              </ul>
-=======
-        <div class="col-12 lg:col-4" *ngFor="let experience of workExperience" >
-          <div class="card"  *ngIf="!experience.isAFresher">
+        </div>
+
+      </div>
+    </p-tabPanel>
+    <!-- Work Experience card view -->
+    <p-tabPanel header="Work Experience ">
+      <div class="grid">
+        <div class="col-12 lg:col-12 m-0 p-3 pb-1">
+          <div class="card text-right m-0 p-3">
+            <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-outline p-button p-component "
+              id="add"
+              (click)="openComponentDialog(experiencedetailsDialogComponent, workExperience, ActionTypes.save)">
+              &nbsp; Add / Edit </button>
+          </div>
+        </div>
+        <div class="col-12 lg:col-4" *ngFor="let experience of workExperience">
+          <div class="card" *ngIf="!experience.isAFresher">
             <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">{{experience?.companyName}}</div>
             <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
               <li class="mb-2">
@@ -179,6 +158,25 @@
                 <span class="font-semibold mb-1">Designation:</span> {{experience?.designation}}
               </li>
             </ul>
+            <div class="col-12 lg:col-4" *ngFor="let experience of workExperience">
+              <div class="card" *ngIf="!experience.isAFresher">
+                <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">{{experience?.companyName}}</div>
+                <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
+                  <li class="mb-2">
+                    <span class="font-semibold ">Company Location:</span>{{experience?.companyLocation}}
+                  </li>
+                  <li class="mb-2">
+                    <span class="font-semibold ">From:</span> {{experience?.dateOfJoining | date: mediumDate}}
+                  </li>
+                  <li class="mb-2">
+                    <span class="font-semibold ">To:</span> {{experience?.dateOfReliving | date: mediumDate}}
+                  </li>
+                  <li class="mb-2">
+                    <span class="font-semibold mb-1">Designation:</span> {{experience?.designation}}
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -199,98 +197,91 @@
               <button pButton pRipple icon="pi pi-pencil"
                 class="p-element p-ripple p-button-text p-button p-component right-float-button"
                 (click)="openComponentDialog(FamilydetailsDialogComponent, familyDetails, ActionTypes.edit)"></button>{{familyDetails.name}}
->>>>>>> 2aa5722e50a059cf93e1214fd7200d90f7a7a35a
             </div>
           </div>
         </div>
-      </p-tabPanel>
-      <!-- Family Details card view -->
-      <p-tabPanel header="Family Details ">
-        <div class="grid">
-          <div class="col-12 lg:col-12 m-0 p-3 pb-1">
-            <div class="card text-right m-0 p-3">
+      </div>
+    </p-tabPanel>
+    <!-- Family Details card view -->
+    <p-tabPanel header="Family Details ">
+      <div class="grid">
+        <div class="col-12 lg:col-12 m-0 p-3 pb-1">
+          <div class="card text-right m-0 p-3">
+            <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-outline p-button p-component"
+              (click)="openComponentDialog(AddressDialogComponent, null, ActionTypes.add)">
+              &nbsp; Add Address Details </button>
+          </div>
+        </div>
+        <div class="col-12 lg:col-4" *ngFor="let familyDetails of familyDetails; let i = index">
+          <div class="card">
+            <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2 position-relative">
+              <button pButton pRipple icon="pi pi-pencil"
+                class="p-element p-ripple p-button-text p-button p-component right-float-button"
+                (click)="openComponentDialog(FamilydetailsDialogComponent, familyDetails, ActionTypes.edit)"></button>{{familyDetails.name}}
+            </div>
+            <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
+              <li class="mb-3">
+                <span class="font-semibold">Date Of Birth:</span> {{familyDetails.dob | date: mediumDate}}
+              </li>
+              <li class="mb-3">
+                <span class="font-semibold">Adhaar No:</span> {{familyDetails.adhaarNo}}
+              </li>
+              <li class="mb-3">
+                <span class="font-semibold">Relationship Status:</span> {{familyDetails.relationship}}
+              </li>
+              <li class="mb-3">
+                <span class="font-semibold">Mobile No:</span> {{familyDetails.mobileNumber}}
+              </li>
+              <li class="mb-3">
+                <span class="font-semibold">Address:</span>
+                {{familyDetails.addressLine1}},{{familyDetails.city}},{{familyDetails.state}},{{familyDetails.zipCode}}
+              </li>
+              <li class="mb-3">
+                <span class="font-semibold">State:</span> {{familyDetails.state}}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </p-tabPanel>
+    <!-- Address Details card view -->
+    <p-tabPanel header="Address Details">
+      <div class="grid">
+        <div class="card  m-0 p-3 w-100">
+          <div class="grid p-0 ">
+            <div class="col-12 lg:col-6 text-left m-0 p-3 pb-1">
+              <label>{{ isAddressChecked ? 'Show All Addresses' : 'Show Active Addresses' }}</label>
+              <br />&nbsp;
+              <p-inputSwitch [(ngModel)]="isAddressChecked" (onChange)="onChangeAddressChecked()"
+                id="Employee_addressUnActive"></p-inputSwitch>
+            </div>
+            <div class="col-12 lg:col-6 text-right m-0 p-3 pb-1" *ngIf="!isAddressChecked">
               <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-outline p-button p-component"
-<<<<<<< HEAD
-                (click)="openComponentDialog(FamilydetailsDialogComponent, null, ActionTypes.add)">
-                &nbsp; Add </button>
-=======
                 (click)="openComponentDialog(AddressDialogComponent, null, ActionTypes.add)">
-                &nbsp; Add Address Details </button>
->>>>>>> 2aa5722e50a059cf93e1214fd7200d90f7a7a35a
+                &nbsp; Add </button>
             </div>
           </div>
-          <div class="col-12 lg:col-4" *ngFor="let familyDetails of familyDetails; let i = index">
-            <div class="card">
+        </div>
+        <div class="col-12 lg:col-4  p-0" *ngFor="let newadredss of address; let i = index">
+          <div class="col-12 lg-4 p-2 pl-0 pr-3" *ngIf="isAddressChecked || newadredss.isActive">
+            <div class="card ">
               <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2 position-relative">
                 <button pButton pRipple icon="pi pi-pencil"
                   class="p-element p-ripple p-button-text p-button p-component right-float-button"
-                  (click)="openComponentDialog(FamilydetailsDialogComponent, familyDetails, ActionTypes.edit)"></button>{{familyDetails.name}}
+                  (click)="openComponentDialog(AddressDialogComponent, newadredss, ActionTypes.edit)"
+                  *ngIf="newadredss.isActive"></button>
+                {{ newadredss.addressType }}
               </div>
-              <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
-                <li class="mb-3">
-                  <span class="font-semibold">Date Of Birth:</span> {{familyDetails.dob | date: mediumDate}}
-                </li>
-                <li class="mb-3">
-                  <span class="font-semibold">Adhaar No:</span> {{familyDetails.adhaarNo}}
-                </li>
-                <li class="mb-3">
-                  <span class="font-semibold">Relationship Status:</span> {{familyDetails.relationship}}
-                </li>
-                <li class="mb-3">
-                  <span class="font-semibold">Mobile No:</span> {{familyDetails.mobileNumber}}
-                </li>
-                <li class="mb-3">
-                  <span class="font-semibold">Address:</span>
-                  {{familyDetails.addressLine1}},{{familyDetails.city}},{{familyDetails.state}},{{familyDetails.zipCode}}
-                </li>
-                <li class="mb-3">
-                  <span class="font-semibold">State:</span> {{familyDetails.state}}
-                </li>
-              </ul>
+              {{ newadredss.employeeName }}, {{ newadredss.addressLine1 }}, {{ newadredss.landmark }},{{
+              newadredss.city
+              }},
+              {{ newadredss.state }},
+              {{ newadredss.zipCode }},{{ newadredss.country }}
             </div>
           </div>
         </div>
-<<<<<<< HEAD
-      </p-tabPanel>
-      <!-- Address Details card view -->
-      <p-tabPanel header="Address Details">
-        <div class="grid">
-          <div class="card  m-0 p-3 w-100">
-            <div class="grid p-0 ">
-              <div class="col-12 lg:col-6 text-left m-0 p-3 pb-1">
-                <label>{{ isAddressChecked ? 'Show All Addresses' : 'Show Active Addresses' }}</label>
-                <br />&nbsp;
-                <p-inputSwitch [(ngModel)]="isAddressChecked" (onChange)="onChangeAddressChecked()"
-                  id="Employee_addressUnActive"></p-inputSwitch>
-              </div>
-              <div class="col-12 lg:col-6 text-right m-0 p-3 pb-1" *ngIf="!isAddressChecked">
-                <button pButton pRipple icon="pi pi-plus"
-                  class="p-element p-ripple p-button-outline p-button p-component"
-                  (click)="openComponentDialog(AddressDialogComponent, null, ActionTypes.add)">
-                  &nbsp; Add </button>
-              </div>
-            </div>
-          </div>
-          <div class="col-12 lg:col-4  p-0" *ngFor="let newadredss of address; let i = index">
-            <div class="col-12 lg-4 p-2 pl-0 pr-3" *ngIf="isAddressChecked || newadredss.isActive">
-              <div class="card ">
-                <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2 position-relative">
-                  <button pButton pRipple icon="pi pi-pencil"
-                    class="p-element p-ripple p-button-text p-button p-component right-float-button"
-                    (click)="openComponentDialog(AddressDialogComponent, newadredss, ActionTypes.edit)"
-                    *ngIf="newadredss.isActive"></button>
-                  {{ newadredss.addressType }}
-                </div>
-                {{ newadredss.employeeName }}, {{ newadredss.addressLine1 }}, {{ newadredss.landmark }},{{
-                newadredss.city
-                }},
-                {{ newadredss.state }},
-                {{ newadredss.zipCode }},{{ newadredss.country }}
-              </div>
-=======
       </div>
     </p-tabPanel>
-
     <!-- Upload Documents card view -->
     <p-tabPanel header="Upload Documents">
       <div class="grid">
@@ -361,103 +352,101 @@
               <button pButton pRipple icon="pi pi-pencil"
                 class="p-element p-ripple p-button-text p-button p-component right-float-button"
                 (click)="openComponentDialog(BankdetailsDialogComponent, bank, ActionTypes.edit)"></button>{{bank.bankName}}
->>>>>>> 2aa5722e50a059cf93e1214fd7200d90f7a7a35a
             </div>
           </div>
         </div>
-      </p-tabPanel>
+      </div>
+    </p-tabPanel>
 
-      <!-- Upload Documents card view -->
-      <p-tabPanel header="Upload Documents">
-        <div class="grid">
-          <div class="col-12 text-right ">
-            <button pButton pRipple icon="pi pi-plus"
-              class="p-element p-ripple p-button-text p-button p-component mr-2 "
-              (click)="openComponentDialog(uploadDocumentsDialogComponent, null, ActionTypes.add)">&nbsp; Upload
-              Document
-            </button>
-          </div>
-          <div class="col-12 ">
-            <p-table [value]="UploadedDocuments" [tableStyle]="{ 'min-width': '50rem' }">
-              <ng-template pTemplate="header">
-                <tr>
-                  <th>S.No</th>
-                  <th>Title</th>
-                  <th>FileName</th>
-                </tr>
-              </ng-template>
-              <ng-template pTemplate="body" let-UploadedDocument let-rowIndex="rowIndex">
-                <tr>
-                  <td class="pl-5">{{ rowIndex + 1 }}</td>
-                  <td>{{ UploadedDocument.title }}</td>
-                  <td class="pl-5">{{ UploadedDocument.fileName }}</td>
-                </tr>
-              </ng-template>
-            </p-table>
-          </div>
+    <!-- Upload Documents card view -->
+    <p-tabPanel header="Upload Documents">
+      <div class="grid">
+        <div class="col-12 text-right ">
+          <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-text p-button p-component mr-2 "
+            (click)="openComponentDialog(uploadDocumentsDialogComponent, null, ActionTypes.add)">&nbsp; Upload
+            Document
+          </button>
         </div>
-      </p-tabPanel>
+        <div class="col-12 ">
+          <p-table [value]="UploadedDocuments" [tableStyle]="{ 'min-width': '50rem' }">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>S.No</th>
+                <th>Title</th>
+                <th>FileName</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-UploadedDocument let-rowIndex="rowIndex">
+              <tr>
+                <td class="pl-5">{{ rowIndex + 1 }}</td>
+                <td>{{ UploadedDocument.title }}</td>
+                <td class="pl-5">{{ UploadedDocument.fileName }}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </p-tabPanel>
 
-      <!-- Assets card view -->
-      <p-tabPanel header="Assets" *ngIf="showOfcAndAssetDetails">
-        <div class="grid">
-          <div class="col-12 lg:col-12 m-0 p-3 pb-1">
-            <div class="card text-right m-0 p-3">
-              <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-outline p-button p-component"
-                (click)="openComponentDialog(addassetallotmentDialogComponent, null, ActionTypes.add)">
-                &nbsp; Assign </button>
-            </div>
-          </div>
-          <div class="col-12 lg:col-4" *ngFor="let asset of assetAllotments">
-            <div class="card">
-              <div class="text-900 font-bold text-2xl text-primary mb-1 mt-2">{{asset.assetName}}</div>
-              <ul class="list-none p-0 m-0 text-600  text-600">
-                <li class="mb-3">
-                  <span class="font-semibold">Assigned On:</span>{{asset.assignedOn | date: mediumDate}}
-                </li>
-                <button id="unassign-asset-btn" pButton pRipple type="submit" label="Unassign"
-                  class="p-element p-ripple p-button-text p-button p-component p-button-primary w-100"
-                  (click)="openComponentDialog(unassignassetDialogComponent, asset, ActionTypes.unassign)"></button>
-              </ul>
-            </div>
+    <!-- Assets card view -->
+    <p-tabPanel header="Assets" *ngIf="showOfcAndAssetDetails">
+      <div class="grid">
+        <div class="col-12 lg:col-12 m-0 p-3 pb-1">
+          <div class="card text-right m-0 p-3">
+            <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-outline p-button p-component"
+              (click)="openComponentDialog(addassetallotmentDialogComponent, null, ActionTypes.add)">
+              &nbsp; Assign </button>
           </div>
         </div>
-      </p-tabPanel>
-      <!-- Bank Details card view -->
-      <p-tabPanel header="Bank Details">
-        <div class="grid">
-          <div class="col-12 lg:col-12 m-0 p-3 pb-1">
-            <div class="card text-right m-0 p-3">
-              <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-outline p-button p-component"
-                (click)="openComponentDialog(BankdetailsDialogComponent, null, ActionTypes.add)">
-                &nbsp; Add </button>
-            </div>
+        <div class="col-12 lg:col-4" *ngFor="let asset of assetAllotments">
+          <div class="card">
+            <div class="text-900 font-bold text-2xl text-primary mb-1 mt-2">{{asset.assetName}}</div>
+            <ul class="list-none p-0 m-0 text-600  text-600">
+              <li class="mb-3">
+                <span class="font-semibold">Assigned On:</span>{{asset.assignedOn | date: mediumDate}}
+              </li>
+              <button id="unassign-asset-btn" pButton pRipple type="submit" label="Unassign"
+                class="p-element p-ripple p-button-text p-button p-component p-button-primary w-100"
+                (click)="openComponentDialog(unassignassetDialogComponent, asset, ActionTypes.unassign)"></button>
+            </ul>
           </div>
-          <div class="col-12 lg:col-4" *ngFor="let bank of bankDetails; let i = index">
-            <div class="card">
-              <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2 position-relative">
-                <button pButton pRipple icon="pi pi-pencil"
-                  class="p-element p-ripple p-button-text p-button p-component right-float-button"
-                  (click)="openComponentDialog(BankdetailsDialogComponent, bank, ActionTypes.edit)"></button>{{bank.bankName}}
-              </div>
-              <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
-                <li class="mb-2">
-                  <span class="font-semibold "> Name :</span> {{bank.employeeName}}
-                </li>
-                <li class="mb-2">
-                  <span class="font-semibold ">Account No. :</span> {{bank.accountNumber}}
-                </li>
-                <li class="mb-2">
-                  <span class="font-semibold ">IFSC Code :</span> {{bank.ifsc}}
-                </li>
-                <li class="mb-2">
-                  <span class="font-semibold mb-1">Branch Name :</span> {{bank.branchName}}
-                </li>
-              </ul>
-            </div>
+        </div>
+      </div>
+    </p-tabPanel>
+    <!-- Bank Details card view -->
+    <p-tabPanel header="Bank Details">
+      <div class="grid">
+        <div class="col-12 lg:col-12 m-0 p-3 pb-1">
+          <div class="card text-right m-0 p-3">
+            <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-outline p-button p-component"
+              (click)="openComponentDialog(BankdetailsDialogComponent, null, ActionTypes.add)">
+              &nbsp; Add </button>
           </div>
+        </div>
+        <div class="col-12 lg:col-4" *ngFor="let bank of bankDetails; let i = index">
+          <div class="card">
+            <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2 position-relative">
+              <button pButton pRipple icon="pi pi-pencil"
+                class="p-element p-ripple p-button-text p-button p-component right-float-button"
+                (click)="openComponentDialog(BankdetailsDialogComponent, bank, ActionTypes.edit)"></button>{{bank.bankName}}
+            </div>
+            <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
+              <li class="mb-2">
+                <span class="font-semibold "> Name :</span> {{bank.employeeName}}
+              </li>
+              <li class="mb-2">
+                <span class="font-semibold ">Account No. :</span> {{bank.accountNumber}}
+              </li>
+              <li class="mb-2">
+                <span class="font-semibold ">IFSC Code :</span> {{bank.ifsc}}
+              </li>
+              <li class="mb-2">
+                <span class="font-semibold mb-1">Branch Name :</span> {{bank.branchName}}
+              </li>
+            </ul>
+          </div>
+        </div>
 
-        </div>
-      </p-tabPanel>
-    </p-tabView>
-  <!-- </div> -->
+      </div>
+    </p-tabPanel>
+  </p-tabView>
