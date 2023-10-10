@@ -26,10 +26,9 @@ export class BankdetailsDialogComponent {
         private config: DynamicDialogConfig,
         private employeeService: EmployeeService,
         private activatedRoute: ActivatedRoute,
-    ) { }
+    ) {this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId']}
 
     ngOnInit() {
-        this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
         this.initBankDetails();
         this.bankDetailsForm();
         if (this.config.data) this.editBankDetails(this.config.data);
@@ -71,26 +70,13 @@ export class BankdetailsDialogComponent {
 
     saveBankDetails() {
         if (this.fbBankDetails.valid) {
-            this.activatedRoute.queryParams.subscribe((queryParams) => {
-                const employeeId = +queryParams['employeeId'];
-                const isUpdate = this.fbBankDetails.value.bankId == null;
-                this.fbBankDetails.patchValue({ employeeId });
-
-                this.employeeService.CreateBankDetails(this.fbBankDetails.value).subscribe((resp) => {
-                    if (resp) {
-                        const alertCode = isUpdate ? "SMBD001" : "SMBD002";
-                        this.alertMessage.displayAlertMessage(ALERT_CODES[alertCode]);
-                        debugger
-                        this.ref.close({
-                            "UpdatedModal": ViewEmployeeScreen.BankDetails
-                        });
-                    }
-                });
+            this.employeeService.CreateBankDetails(this.fbBankDetails.value).subscribe(resp => {
+                this.alertMessage.displayAlertMessage(ALERT_CODES['SMBD001']);
+                this.ref.close({ "UpdatedModal": ViewEmployeeScreen.BankDetails });
             });
         }
-       
     }
-
+    
     restrictSpaces(event: KeyboardEvent) {
         if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {
             event.preventDefault();

@@ -50,8 +50,6 @@ export class ViewemployeesComponent {
   maxLength: MaxLength = new MaxLength();
   employeeId: any;
   ActionTypes = Actions;
-  files = [];
-  fileSize = 20;
   title: string;
   hasPermanentAddress: boolean = false;
   hasCurrentAddress: boolean = false;
@@ -192,7 +190,7 @@ export class ViewemployeesComponent {
       this.dialogRequest.width = "40%";
     }
     else if (action == Actions.add && content === this.BankdetailsDialogComponent) {
-      this.dialogRequest.dialogData = {}
+      this.dialogRequest.dialogData = null
       this.dialogRequest.header = "Add Bank Details";
       this.dialogRequest.width = "50%";
     }
@@ -207,8 +205,7 @@ export class ViewemployeesComponent {
         return this.alertMessage.displayErrorMessage(ALERT_CODES["EMAD001"]);
       }
       else {
-        this.dialogRequest.dialogData = {
-        }
+        this.dialogRequest.dialogData = null
         this.dialogRequest.header = "Add Address Details";
         this.dialogRequest.width = "70%";
       }
@@ -226,7 +223,7 @@ export class ViewemployeesComponent {
       this.dialogRequest.width = "70%";
     }
     else if (action == Actions.add && content === this.FamilydetailsDialogComponent) {
-      this.dialogRequest.dialogData = {}
+      this.dialogRequest.dialogData = null
       this.dialogRequest.header = "Add Family Details";
       this.dialogRequest.width = "70%";
     }

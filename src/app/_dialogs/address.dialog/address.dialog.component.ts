@@ -15,7 +15,6 @@ import { LookupDetailsDto } from 'src/app/_models/admin';
     templateUrl: './address.dialog.component.html'
 })
 export class AddressDialogComponent {
-    editMode: boolean = false;
     fbAddressDetails: FormGroup;
     employeeId: number;
     hasPermanentAddress: boolean = false;
@@ -25,7 +24,7 @@ export class AddressDialogComponent {
     address: EmployeAdressViewDto[];
     countries: LookupDetailsDto[] = [];
     states: LookupDetailsDto[] = [];
-    maxLength: MaxLength = new MaxLength();
+    maxLength: MaxLength = new MaxLength()
 
     constructor(private formbuilder: FormBuilder,
         private alertMessage: AlertmessageService,
@@ -38,9 +37,11 @@ export class AddressDialogComponent {
     ngOnInit(): void {
         this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
         this.initAddress();
-        this.onChangeAddressChecked()
+        this.onChangeAddressChecked();
         this.initCountries();
-        if (this.config.data) this.editAddress(this.config.data)
+        if (this.config.data) {
+            this.editAddress(this.config.data);
+        }
     }
 
     initAddress() {
@@ -119,30 +120,18 @@ export class AddressDialogComponent {
             addressType: address.addressType,
             isActive: address.isActive,
         });
+        this.fbAddressDetails.get('addressType').disable();
     }
 
     saveAddress() {
         if (this.fbAddressDetails.valid) {
-            this.activatedRoute.queryParams.subscribe((queryParams) => {
-                const employeeId = +queryParams['employeeId'];
-                const isUpdate = this.fbAddressDetails.value.addressId !== null;
-                if (isUpdate)
-                    this.fbAddressDetails.get('addressId').setValue(null);
-
-                this.employeeService.CreateAddress([{ ...this.fbAddressDetails.value, employeeId }])
-                    .subscribe((resp) => {
-                        if (resp) {
-                            const alertCode = isUpdate ? 'SMAD004' : 'SAD001';
-                            this.alertMessage.displayAlertMessage(ALERT_CODES[alertCode]);
-                            this.ref.close({
-                                "UpdatedModal": ViewEmployeeScreen.Address
-                            });
-                        }
-                    });
-            }
-            )
+            this.fbAddressDetails.get('addressType').enable();
+            this.fbAddressDetails.get('addressId').setValue(null);
+            this.employeeService.CreateAddress([this.fbAddressDetails.value]).subscribe(resp => {
+                this.alertMessage.displayAlertMessage(ALERT_CODES['SAD001']);
+                this.fbAddressDetails.reset();
+                this.ref.close({ "UpdatedModal": ViewEmployeeScreen.Address });
+            });
         }
     }
-
-
 }

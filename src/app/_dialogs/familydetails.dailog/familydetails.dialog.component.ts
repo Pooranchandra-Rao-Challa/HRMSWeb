@@ -8,7 +8,7 @@ import { EmployeAdressViewDto, FamilyDetailsViewDto } from 'src/app/_models/empl
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { MIN_LENGTH_2, RG_PANNO, RG_PHONE_NO } from 'src/app/_shared/regex';
 import { ActivatedRoute } from '@angular/router';
-import { DialogRequest, MaxLength, ViewEmployeeScreen } from 'src/app/_models/common';
+import {  MaxLength, ViewEmployeeScreen } from 'src/app/_models/common';
 import { LookupViewDto, LookupDetailsDto } from 'src/app/_models/admin';
 import { FORMAT_DATE } from 'src/app/_helpers/date.formate.pipe';
 
@@ -32,19 +32,20 @@ export class FamilydetailsDialogComponent {
         private employeeService: EmployeeService,
         private activatedRoute: ActivatedRoute,
         private lookupService: LookupService,
-    ) { }
+    ) {this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId']}
+   
 
     ngOnInit() {
-        this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
         this.initFamily();
-        this.initGetAddress(true)
+        this.initGetAddress(true);
+        this.initRelationship();
         if (this.config.data) this.editFamilyDetails(this.config.data);
     }
 
     initFamily() {
         this.fbfamilyDetails = this.formbuilder.group({
-            familyInformationId: [],
-            employeeId: this.employeeId,
+            familyInformationId: [null],
+            employeeId: [this.employeeId],
             name: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2)]),
             relationshipId: new FormControl(null, [Validators.required]),
             addressId: new FormControl(),
@@ -90,23 +91,11 @@ export class FamilydetailsDialogComponent {
         });
     }
 
-    savefamilyDetails() {
+    saveFamilyDetails() {
         if (this.fbfamilyDetails.valid) {
-            this.activatedRoute.queryParams.subscribe((queryParams) => {
-                const employeeId = +queryParams['employeeId'];
-                const isUpdate = this.fbfamilyDetails.value.familyInformationId !== null;
-                this.fbfamilyDetails.patchValue({ employeeId });
-
-                this.employeeService.CreateFamilyDetails([this.fbfamilyDetails.value]).subscribe((resp) => {
-                    if (resp) {
-                        const alertCode = isUpdate ? "SMFD002" : "SMFD001"
-                        this.alertMessage.displayAlertMessage(ALERT_CODES[alertCode]);
-                        this.ref.close({
-                            "UpdatedModal": ViewEmployeeScreen.FamilyDetails
-                        });
-                    }
-
-                });
+            this.employeeService.CreateFamilyDetails([this.fbfamilyDetails.value]).subscribe(resp => {
+                this.alertMessage.displayAlertMessage(ALERT_CODES['SMFD001']);
+                this.ref.close({ "UpdatedModal": ViewEmployeeScreen.FamilyDetails });
             });
         }
     }
