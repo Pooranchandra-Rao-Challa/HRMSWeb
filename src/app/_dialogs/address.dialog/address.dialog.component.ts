@@ -132,7 +132,6 @@ export class AddressDialogComponent {
 
         const employeeId = +this.activatedRoute.snapshot.queryParams['employeeId'];
         const requestData = [{ ...this.fbAddressDetails.value, employeeId }];
-
         this.employeeService.CreateAddress(requestData).subscribe(resp => {
             const alertCode = isUpdate ? 'SMAD004' : 'SAD001';
             this.alertMessage.displayAlertMessage(ALERT_CODES[alertCode]);
