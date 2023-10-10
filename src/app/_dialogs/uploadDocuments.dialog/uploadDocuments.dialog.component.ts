@@ -1,10 +1,12 @@
+import { HttpParams } from '@angular/common/http';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ALERT_CODES, AlertmessageService } from 'src/app/_alerts/alertmessage.service';
 import { ViewEmployeeScreen } from 'src/app/_models/common';
 import { EmployeeService } from 'src/app/_services/employee.service';
+import { JwtService } from 'src/app/_services/jwt.service';
 import { MAX_LENGTH_20, MIN_LENGTH_2 } from 'src/app/_shared/regex';
 
 @Component({
@@ -14,39 +16,35 @@ import { MAX_LENGTH_20, MIN_LENGTH_2 } from 'src/app/_shared/regex';
 export class uploadDocumentsDialogComponent {
 
     @ViewChild("fileUpload", { static: false }) fileUpload: ElementRef;
-    files: { fileBlob: Blob, title: string,fileName:string }[] = [];
-    uploadedFiles: any = [];
+    files: { fileBlob: Blob, title: string, fileName: string }[] = [];
     fbUpload!: FormGroup;
-    employeeId: number;
+    employeeId: any;
     fileSize = 20;
+    empUploadDetails: any = [];
     title: string;
+    permissions: any;
 
     constructor(
         private formbuilder: FormBuilder,
+        private config: DynamicDialogConfig,
         public ref: DynamicDialogRef,
         private employeeService: EmployeeService,
         private activatedRoute: ActivatedRoute,
-        private alertMessage: AlertmessageService,) {
-    }
+        private alertMessage: AlertmessageService,
+        private jwtService: JwtService,
+       
+    ) {}
 
     ngOnInit() {
+        this.permissions = this.jwtService.Permissions
         this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
         this.initUpload();
     }
 
     initUpload() {
         this.fbUpload = this.formbuilder.group({
-            employeeId: this.employeeId,
-            uploadDocumentId: [null],
             title: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_20)]),
-            fileName: new FormControl(),
-            uploadedFiles: new FormControl(),
-            uploadDocuments: this.formbuilder.array([])
         })
-    }
-
-    faupload(): FormArray {
-        return this.fbUpload.get('uploadDocuments') as FormArray
     }
 
     get FormControls() {
@@ -56,17 +54,15 @@ export class uploadDocumentsDialogComponent {
     onClick() {
         const fileUpload = this.fileUpload.nativeElement;
         fileUpload.onchange = () => {
-            if (this.uploadedFiles.length < 5) {
+            if (this.files.length < 5) {
                 if (this.fbUpload.valid) {
                     for (let index = 0; index < fileUpload.files.length; index++) {
                         const file = fileUpload.files[index];
-                        this.faupload().push(this.generaterow(file));
-                    }
-                    this.uploadedFiles = []
-                    for (let item of this.fbUpload.get('uploadDocuments').value) {
-                        this.uploadedFiles.push(item)
-                    }
-                    this.clearForm();
+                        console.log(file)
+                        this.files.push({ fileBlob: file, title: this.fbUpload.get('title').value, fileName: file.name });
+                        //this.empUploadDetails.push({ uploadedFiles: file, title: this.fbUpload.get('title').value,filename:  file.name })
+                        console.log(this.files)
+                    }  
                 }
                 else {
                     this.fbUpload.markAllAsTouched();
@@ -75,57 +71,51 @@ export class uploadDocumentsDialogComponent {
             else {
                 this.alertMessage.displayErrorMessage(ALERT_CODES["EAD001"]);
                 return
-            }
+            } 
         }
-    }
-
-    generaterow(file): FormGroup {
-        const formGroup = this.formbuilder.group({
-            employeeId: this.employeeId,
-            uploadDocumentId: null,
-            title: this.fbUpload.get('title').value,
-            fileName: file.name,
-            uploadedFiles: file,
-        });
-        return formGroup;
     }
 
     clearForm() {
         this.fbUpload.patchValue({
-            employeeId: this.employeeId,
-            uploadDocumentId: null,
             title: '',
-            fileName: '',
-            uploadedFiles: '',
         });
         this.fbUpload.markAsPristine();
         this.fbUpload.markAsUntouched();
     }
 
     removeItem(index: number): void {
-        this.uploadedFiles.splice(index, 1);
+        this.empUploadDetails.splice(index, 1);
     }
 
     uploadFile(file) {
-        this.employeeService.UploadDocuments(file).subscribe(resp => {
+        let params = new HttpParams();
+        params = params.set("employeeId", this.employeeId).set('title', file.title).set('module', 'project').set('fileName', file.fileName);
+        let formData = new FormData();
+        formData.set('uploadedFiles', file.fileBlob, file.fileName)
+        console.log(formData);
+
+        this.employeeService.UploadDocuments(formData, params).subscribe(resp => {
             if (resp) {
+                debugger
                 this.alertMessage.displayAlertMessage(ALERT_CODES["EAD002"]);
-                this.ref.close({
-                    "UpdatedModal": ViewEmployeeScreen.UploadDocuments,
-                });
             }
             else {
                 this.alertMessage.displayErrorMessage(ALERT_CODES["EAD003"]);
             }
+            this.ref.close({
+                "UpdatedModal": ViewEmployeeScreen.UploadDocuments
+            });
         })
     }
 
     uploadFiles() {
         this.fileUpload.nativeElement.value = '';
-        this.uploadedFiles.forEach(file => {
-            this.uploadFile(file);
-        });
+        this.files.forEach((file: { fileBlob: Blob, title: string, fileName: string }) => {
+            console.log(file);
 
+            if (file.fileBlob)
+                this.uploadFile(file);
+        });
     }
 
 }

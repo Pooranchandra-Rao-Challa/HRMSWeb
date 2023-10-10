@@ -333,7 +333,7 @@ export class employeeExperienceDtlsViewDto {
 	updatedBy?: string;
 }
 
-export class employeeAttendenceDto {
+export class employeeAttendanceDto {
 	employeeId: number;
 	employeeName: string;
 	dates: { [date: string]: string | {} };
@@ -342,6 +342,8 @@ export class employeeAttendenceDto {
 export class EmployeeLeaveDto{
 	employeeLeaveId?: number;
 	employeeId?:number;
+	employeeName?: string;
+	code?:string;
 	fromDate?: Date;
 	toDate?: Date;
 	leaveTypeId?: number;
@@ -351,9 +353,11 @@ export class EmployeeLeaveDto{
 	approvedBy?: string;
 	approvedAt?:Date;
 	rejected?: boolean;
+	status?: string;
 	createdAt?: Date;
 	createdBy?: string;
 }
+
 export class EmployeeAttendanceList{
 	attendanceId?:number;
 	employeeId ?:number;

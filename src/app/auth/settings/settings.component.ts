@@ -1,25 +1,21 @@
 import { JwtService } from 'src/app/_services/jwt.service';
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MessageService } from 'primeng/api';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { SecureQuestionDto, UserQuestionDto } from 'src/app/_models/security';
 import { SecurityService } from 'src/app/_services/security.service';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { ConfirmedValidator } from 'src/app/_validators/confirmValidator';
-import { HttpEvent, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, catchError, Observable, throwError } from 'rxjs';
-import jwtdecode from 'jwt-decode';
+import { BehaviorSubject, catchError, throwError } from 'rxjs';
 import { UpdateStatusService } from 'src/app/_services/updatestatus.service';
 import { ConfirmationDialogService } from 'src/app/_alerts/confirmationdialog.service';
 import { ConfirmationRequest } from 'src/app/_models/common';
 
-
 @Component({
     selector: 'app-settings',
     templateUrl: './settings.component.html',
-    // styleUrls: ['./settings.component.scss']
 })
+
 export class SettingsComponent {
     secureQuestions: BehaviorSubject<SecureQuestionDto[]> = new BehaviorSubject([]);
     allSecureQuestions: SecureQuestionDto[] = []
@@ -33,6 +29,7 @@ export class SettingsComponent {
     isUpdating: boolean = false;
     confirmationRequest: ConfirmationRequest = new ConfirmationRequest();
     addFlag: boolean;
+    deletedUserQuestionId: number;
 
     constructor(
         private formbuilder: FormBuilder,
@@ -56,7 +53,6 @@ export class SettingsComponent {
     getUserQuestionsAndAnswers() {
         this.securityService.UserSecurityQuestions().subscribe((resp) => {
             this.userQuestions = resp as unknown as UserQuestionDto[];
-            console.log(this.userQuestions);
             this.filterSecureQuestions();
         });
     }
@@ -64,7 +60,8 @@ export class SettingsComponent {
     addSecurityQuestion() {
         this.security = {};
         this.submitted = false;
-        this.qstnSubmitLabel = "Add";
+        this.addFlag = true;
+        this.qstnSubmitLabel = "Add Question";
         this.showDialog = true;
     }
 
@@ -105,20 +102,25 @@ export class SettingsComponent {
     editSecurityQuestion(s: UserQuestionDto) {
         Object.assign(this.security, s);
         Object.assign(this.oldSecurity, s);
-        this.qstnSubmitLabel = "Update";
+        this.qstnSubmitLabel = "Update Question";
         this.addFlag = false;
         this.showDialog = true;
         this.filterSecureQuestions(this.security);
     }
 
-    deleteSecurityQuestion(question: String) {
-        debugger
+    deleteSecurityQuestion(userQuestionId: UserQuestionDto) {
         this.confirmationDialogService.comfirmationDialog(this.confirmationRequest).subscribe(userChoice => {
             if (userChoice) {
-                this.userQuestions.splice(this.userQuestions.findIndex(item => item.question === question), 1);
-                this.filterSecureQuestions();
-                this.addFlag = true;
-                // this.onSubmit();
+                this.securityService.DeleteSecurityQuestions([userQuestionId]).subscribe((resp) => {
+                    if (resp) {
+                        this.alertMessage.displayAlertMessage(ALERT_CODES["SSESQ003"]);
+                        this.getUserQuestionsAndAnswers();
+                        this.filterSecureQuestions();
+                    }
+                    else {
+                        this.alertMessage.displayErrorMessage(ALERT_CODES["SSESQ004"]);
+                    }
+                })
             }
         });
     }
@@ -163,12 +165,6 @@ export class SettingsComponent {
         this.updateStatusService.setIsUpdating(this.isUpdating);
     }
 
-    saveUpdateuserQuestions(): Observable<HttpEvent<any>> {
-        if (!this.addFlag) return this.securityService.UpdateSecurityQuestions(this.userQuestions);
-        else return this.securityService.DeleteSecurityQuestions([this.userQuestions]);
-
-    }
-    
     onSubmit() {
         const username = this.jwtService.GivenName;
         const userId = this.jwtService.UserId;
@@ -182,9 +178,9 @@ export class SettingsComponent {
                 question: security.question,
             };
         });
-        this.saveUpdateuserQuestions().subscribe((resp) => {
+        this.securityService.UpdateSecurityQuestions(this.userQuestions).subscribe((resp) => {
             if (resp) {
-                this.alertMessage.displayAlertMessage(ALERT_CODES["SSESQ001"]);
+                this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag? "SSESQ001":"SSESQ005"]);
                 this.getUserQuestionsAndAnswers();
                 this.isUpdating = false;
                 // Function to update isUpdating value
@@ -193,7 +189,6 @@ export class SettingsComponent {
             else {
                 this.alertMessage.displayErrorMessage(ALERT_CODES["SSESQ002"]);
             }
-
         });
 
     }

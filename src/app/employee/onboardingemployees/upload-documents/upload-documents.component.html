@@ -28,11 +28,11 @@
             </form>
         </div>
         <div class="col-12 md:col-4 pt-5 mt-5">
-            <div class="upload-btn-wrapper">
+            <div class="upload-btn-wrapper" (click)="checkTitle()">
                 <label for="singleFile">
                     <i class="pi pi-paperclip"></i> Attach File
                 </label>
-                <input id="singleFile" #fileUpload name="myFile" accept=".pdf, .jpg, .jpeg, .png, .gif" type="file"
+                <input id="singleFile" #fileUpload name="myFile" accept=".pdf, .jpg, .jpeg, .png, .gif" type="file" [disabled]="!this.fbUpload.valid"
                     hidden="true" (click)="onClick()" />
             </div>
         </div>
@@ -40,7 +40,7 @@
 
     <div class="grid p-0 m-0">
         <div class="col-12 ">
-            <p-table #dt2 [value]="files" dataKey="id" [rows]="10" [rowHover]="true"
+            <p-table #dt2 [value]="empUploadDetails" dataKey="id" [rows]="10" [rowHover]="true"
                 [alwaysShowPaginator]="false" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
                 [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                 [showCurrentPageReport]="true" [autoLayout]="true" responsiveLayout="scroll"
@@ -55,7 +55,7 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-file let-i="rowIndex">
                     <tr>
-                        <td *ngIf="permissions?.CanManageEmployee" class="flex">
+                        <td *ngIf="permissions?.CanManageEmployee" >
                             <!-- <button pButton pRipple icon="pi pi-pencil" (click)="editForm(file)"
                                 class="p-element p-ripple p-button-text p-button p-component col-2 p-0 "></button> -->
                             <button pButton pRipple icon="pi pi-trash" id="AddressDetailsRemove-Btn"
