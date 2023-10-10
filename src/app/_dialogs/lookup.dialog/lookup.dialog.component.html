@@ -77,7 +77,7 @@
                         <ng-template pTemplate="body" let-lookUp let-lookUpDetailsIndex="rowIndex">
                             <tr [formGroupName]="lookUpDetailsIndex">
                                 <td class="vertical-align-top">
-                                    <input pInputText class="form-control" formControlName="code" #Code
+                                    <input pInputText class="form-control w-100" formControlName="code" #Code
                                         placeholder="Enter Code*" alphaNumeric (keydown)="restrictSpaces($event)"
                                         [maxlength]="20" [ngClass]="{'is-invalid ng-dirty': formArrayControls(lookUpDetailsIndex, 'code')?.touched &&
                             formArrayControls(lookUpDetailsIndex, 'code')?.errors }" id="Lookup_lookupDetaisCode">
@@ -114,7 +114,7 @@
                                     </p-dropdown>
                                 </td>
                                 <td class="vertical-align-top">
-                                    <input pInputText class="form-control" formControlName="name"
+                                    <input pInputText class="form-control w-100" formControlName="name"
                                         placeholder="Enter Name*" #name alphaOnly (keydown)="restrictSpaces($event)"
                                         [ngClass]="{'is-invalid ng-dirty': formArrayControls(lookUpDetailsIndex,'name')?.touched &&
                          formArrayControls(lookUpDetailsIndex,'name')?.errors }" [maxlength]="50"
@@ -145,7 +145,7 @@
                                     </div>
                                 </td>
                                 <td class="vertical-align-top">
-                                    <textarea class="form-control freeze_text-area" pInputTextarea
+                                    <textarea class="form-control freeze_text-area w-100" pInputTextarea
                                         formControlName="description" placeholder="Enter Description" #description
                                         (keydown)="restrictSpaces($event)" [maxlength]="256"
                                         id="Lookup_lookupDetailsDescription"></textarea>
