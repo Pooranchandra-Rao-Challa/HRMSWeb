@@ -46,11 +46,10 @@ export class BasicDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
-      this.employeeId = params['employeeId']
+      this.employeeId = params['employeeId'] 
+      console.log(this.employeeId);
       this.onboardEmployeeService.sendData(this.employeeId);
     });
-    if (this.employeeId)
-      this.getEmployeeBasedonId();
     this.basicDetailsForm();
     this.initBloodGroups();
     this.genders = [
@@ -63,6 +62,8 @@ export class BasicDetailsComponent implements OnInit {
       { name: 'Widow', code: 'widow' },
       { name: 'Divorced', code: 'divorced' },
     ];
+    if (this.employeeId)
+      this.getEmployeeBasedonId();
   }
   basicDetailsForm() {
     this.fbbasicDetails = this.formbuilder.group({
@@ -95,12 +96,43 @@ export class BasicDetailsComponent implements OnInit {
       this.bloodgroups = resp as unknown as LookupViewDto[];
     });
   }
+
+  restrictSpaces(event: KeyboardEvent) {
+    if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {
+      event.preventDefault();
+    }
+  }
+
+  onFileSelect(event: any): void {
+    const selectedFile = event.files[0];
+    this.imageSize = selectedFile.size;
+    if (selectedFile) {
+      this.convertFileToBase64(selectedFile, (base64String) => {
+        this.selectedFileBase64 = base64String;
+        this.fbbasicDetails.get('photo').setValue(this.selectedFileBase64);
+      });
+    } else {
+      this.selectedFileBase64 = null;
+    }
+  }
+
+  private convertFileToBase64(file: File, callback: (base64String: string) => void): void {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      const base64String = reader.result as string;
+      callback(base64String);
+    };
+  }
+  
   getEmployeeBasedonId() {
     this.employeeService.GetViewEmpPersDtls(this.employeeId).subscribe((resp) => {
       this.empbasicDetails = resp as EmployeeBasicDetailDto;
+      console.log(this.empbasicDetails)
       this.editBasicDetails(this.empbasicDetails);
     });
   }
+
   savebasicDetails(): Observable<HttpEvent<EmployeeBasicDetailDto>> {
     if (this.employeeId == null) {
       return this.employeeService.CreateBasicDetails(this.fbbasicDetails.value)
@@ -119,8 +151,8 @@ export class BasicDetailsComponent implements OnInit {
 
     })
   }
+
   editBasicDetails(empbasicDetails) {
-    this.addFlag = false;
     this.fbbasicDetails.patchValue(
       {
         employeeId: empbasicDetails.employeeId,
@@ -143,31 +175,7 @@ export class BasicDetailsComponent implements OnInit {
       }
     );
   }
-  restrictSpaces(event: KeyboardEvent) {
-    if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {
-      event.preventDefault();
-    }
-  }
-  onFileSelect(event: any): void {
-    const selectedFile = event.files[0];
-    this.imageSize = selectedFile.size;
-    if (selectedFile) {
-      this.convertFileToBase64(selectedFile, (base64String) => {
-        this.selectedFileBase64 = base64String;
-        this.fbbasicDetails.get('photo').setValue(this.selectedFileBase64);
-      });
-    } else {
-      this.selectedFileBase64 = null;
-    }
-  }
-  private convertFileToBase64(file: File, callback: (base64String: string) => void): void {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      const base64String = reader.result as string;
-      callback(base64String);
-    };
-  }
+
   navigateToNext() {
     this.router.navigate(['employee/onboardingemployee/educationdetails', this.employeeId]);
 

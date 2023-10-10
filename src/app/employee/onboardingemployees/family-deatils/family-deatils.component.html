@@ -156,7 +156,7 @@
                     </div>
                     <div class="d-flex flex-row justify-content-center col-12 md:col-4 mt-2">
                         <div class="button-container">
-                            <p-button type="button" label="Add Family Members" [disabled]="fbfamilyDetails.invalid"
+                            <p-button type="button" label="Add Family Members" [disabled]="fbfamilyDetails.invalid" id="AddFamilyMembersBtn"
                                 (click)="addFamilyMembers()">
                             </p-button>
                         </div>
@@ -211,7 +211,7 @@
                             {{familyData[col.field]| date: mediumDate }}
                         </span>
                         <span *ngIf=" col?.field=='isNominee'">
-                            <p-checkbox name=" isNominee" value="isNominee" [binary]="true"
+                            <p-checkbox name=" isNominee" value="isNominee" [binary]="true" id="isNominee_CheckBox"
                                 [(ngModel)]="familyData[col.field]" [disabled]="true">
                             </p-checkbox>
                         </span>
@@ -223,15 +223,15 @@
 </div>
 <div class="grid mt-2">
     <div class="field col-4 m-0 p-1 px-3">
-        <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100 text-right"
+        <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100 text-right" id="NavigateToUploadDocumentsBtn"
             (click)="navigateToPrev()">Upload Documents</button>
     </div>
     <div class=" col-4 m-0 p-1 px-3">
-        <button p-button class="p-element p-ripple p-button-info p-button p-component w-100"
+        <button p-button class="p-element p-ripple p-button-info p-button p-component w-100" id="SavingFamilyDetailsBtn"
             [disabled]="this.empFamDetails.length == 0" (click)="onSubmit()">Save as Draft</button>
     </div>
     <div class=" col-4 m-0 p-1 px-3">
-        <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100"
+        <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100" id="NavigateToBankDetailsBtn"
             (click)="navigateToNext()">Bank Details </button>
     </div>
 </div>

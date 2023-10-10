@@ -107,14 +107,15 @@
 
 <div class="grid mt-2">
     <div class="field col-4 m-0 p-1 px-3">
-        <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100 text-right"
+        <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100 text-right" id="NavigateToFamilyDetailsBtn"
             (click)="navigateToPrev()">Family Details</button>
     </div>
     <div class=" col-4 m-0 p-1 px-3">
-        <button p-button class="p-element p-ripple p-button-info p-button p-component w-100"[disabled]="fbbankDetails.invalid" (click)="onSubmit()">Save as Draft</button>
+        <button p-button class="p-element p-ripple p-button-info p-button p-component w-100" id="SavingBankDetailsBtn"
+        [disabled]="fbbankDetails.invalid" (click)="onSubmit()">Save as Draft</button>
     </div>
     <div class=" col-4 m-0 p-1 px-3">
-        <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100"
+        <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100" id="NavigateToFinalSubmissionBtn"
             (click)="navigateToNext()">Final Submission </button>
     </div>
 </div>

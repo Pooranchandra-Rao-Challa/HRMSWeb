@@ -87,16 +87,25 @@ export class UploadDocumentsComponent {
         params = params.set("employeeId", this.employeeId).set('title', file.title).set('module', 'project').set('fileName', file.fileName);
         let formData = new FormData();
         formData.set('uploadedFiles', file.fileBlob, file.fileName);
-
+        let messageDisplayed = false;
         this.employeeService.UploadDocuments(formData, params).subscribe(resp => {
+            console.log(resp);
             if (resp) {
-                this.alertMessage.displayAlertMessage(ALERT_CODES["EAD002"]);
+                if (!messageDisplayed) {
+                    this.alertMessage.displayAlertMessage(ALERT_CODES["EAD002"]);
+                    this.navigateToNext();
+                    messageDisplayed = true; 
+                }
             }
             else {
-                this.alertMessage.displayErrorMessage(ALERT_CODES["EAD003"]);
+                if (!messageDisplayed) {
+                    this.alertMessage.displayErrorMessage(ALERT_CODES["EAD003"]);
+                    messageDisplayed = true; 
+                }
             }
-        })
+        });
     }
+    
     uploadFiles() {
         this.fileUpload.nativeElement.value = '';
         this.empUploadDetails.forEach((file: { fileBlob: Blob, title: string, fileName: string }) => {

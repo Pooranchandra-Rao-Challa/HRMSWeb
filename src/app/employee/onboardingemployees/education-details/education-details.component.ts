@@ -32,18 +32,18 @@ export class EducationDetailsComponent implements OnInit {
   mediumDate: string = MEDIUM_DATE;
   addFlag: boolean = true;
   empEduDetails: EducationDetailsDto[] = [];
+
   constructor(private formbuilder: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
     private lookupService: LookupService,
     private employeeService: EmployeeService,
     private alertMessage: AlertmessageService) { }
+
   ngOnInit() {
     this.route.params.subscribe(params => {
-        console.log(params);
-
+      console.log(params);
       this.employeeId = params['employeeId'];
-      this.isReadOnly = params['isReadOnly'] === 'false'; // Convert the route parameter to a boolean
     });
     this.educationForm();
     this.initCurriculum();
@@ -51,6 +51,7 @@ export class EducationDetailsComponent implements OnInit {
     this.initGrading();
     this.getEmpEducaitonDetails();
   }
+
   headers: ITableHeader[] = [
     { field: 'authorityName', header: 'authorityName', label: 'Authority Name' },
     { field: 'stateId', header: 'stateId', label: 'State' },
@@ -60,6 +61,7 @@ export class EducationDetailsComponent implements OnInit {
     { field: 'gradingMethodId', header: 'gradingMethodId', label: 'Grading System' },
     { field: 'gradingValue', header: 'gradingValue', label: 'CGPA/Percentage System' }
   ];
+
   educationForm() {
     this.fbEducationDetails = this.formbuilder.group({
       educationDetailId: [null],
@@ -76,6 +78,7 @@ export class EducationDetailsComponent implements OnInit {
       educationDetails: this.formbuilder.array([])
     });
   }
+
   get FormControls() {
     return this.fbEducationDetails.controls;
   }
@@ -91,16 +94,19 @@ export class EducationDetailsComponent implements OnInit {
       this.curriculum = resp as unknown as LookupDetailsDto[];
     });
   }
+
   initGrading() {
     this.lookupService.GradingMethods().subscribe((resp) => {
       this.gradingMethod = resp as unknown as LookupDetailsDto[];
     });
   }
+
   initCountry() {
     this.lookupService.Countries().subscribe((resp) => {
       this.country = resp as unknown as LookupDetailsDto[];
     })
   }
+
   getStatesByCountryId(id: number) {
     this.lookupService.States(id).subscribe((resp) => {
       if (resp) {
@@ -108,6 +114,7 @@ export class EducationDetailsComponent implements OnInit {
       }
     })
   }
+
   getStreamByCurriculumId(Id: number) {
     this.lookupService.Streams(Id).subscribe((resp) => {
       if (resp) {
@@ -115,6 +122,7 @@ export class EducationDetailsComponent implements OnInit {
       }
     });
   }
+
   addEducationDetails() {
     let eduDetailId = this.fbEducationDetails.get('educationDetailId').value
     if (eduDetailId == null) {
@@ -123,13 +131,13 @@ export class EducationDetailsComponent implements OnInit {
         if (item.stateId !== null && item.streamId !== null && item.gradingMethodId !== null) {
           let stateName = this.states.filter(x => x.lookupDetailId == item.stateId);
           item.state = stateName.length > 0 ? stateName[0].name : '';
-        
+
           let streamName = this.stream.filter(x => x.lookupDetailId == item.streamId);
           item.stream = streamName.length > 0 ? streamName[0].name : '';
-        
+
           let gradeName = this.gradingMethod.filter(x => x.lookupDetailId == item.gradingMethodId);
           item.gradingMethod = gradeName.length > 0 ? gradeName[0].name : '';
-        
+
           this.empEduDetails.push(item);
         }
       }
@@ -143,14 +151,17 @@ export class EducationDetailsComponent implements OnInit {
     this.addeducationdetailsshowForm = !this.addeducationdetailsshowForm;
     this.ShoweducationDetails = !this.ShoweducationDetails;
   }
+
   getEmpEducaitonDetails() {
     return this.employeeService.GetEducationDetails(this.employeeId).subscribe((data) => {
       this.empEduDetails = data as unknown as EducationDetailsDto[];
     })
   }
+
   faEducationDetail(): FormArray {
     return this.fbEducationDetails.get('educationDetails') as FormArray
   }
+
   generaterow(educationDetails: EducationDetailsDto = new EducationDetailsDto()): FormGroup {
     const formGroup = this.formbuilder.group({
       educationDetailId: educationDetails.educationDetailId,
@@ -166,6 +177,7 @@ export class EducationDetailsComponent implements OnInit {
     });
     return formGroup;
   }
+
   editEducationDetails(educationDetails) {
     this.getStatesByCountryId(educationDetails.countryId);
     this.getStreamByCurriculumId(educationDetails.curriculumId);
@@ -185,35 +197,43 @@ export class EducationDetailsComponent implements OnInit {
     this.addeducationdetailsshowForm = !this.addeducationdetailsshowForm;
     this.ShoweducationDetails = !this.ShoweducationDetails;
   }
+
   restrictSpaces(event: KeyboardEvent) {
     if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {
       event.preventDefault();
     }
   }
+
   removeRow(index: number): void {
     if (index >= 0 && index < this.empEduDetails.length) {
       this.empEduDetails.splice(index, 1); // Remove 1 item at the specified index
     }
   }
+
   clearForm() {
     this.fbEducationDetails.reset();
   }
+
   saveeducationDetails(): Observable<HttpEvent<EducationDetailsDto[]>> {
     if (this.addFlag) {
       return this.employeeService.CreateEducationDetails(this.empEduDetails);
     } else
       return this.employeeService.CreateEducationDetails([this.fbEducationDetails.value]);
   }
+
   onSubmit() {
     this.saveeducationDetails().subscribe(resp => {
       this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "SEDU001" : "SEDU002"]);
       this.navigateToNext();
     })
   }
-  navigateToPrev() {
-    this.router.navigate(['employee/onboardingemployee/basicdetailsbyId', this.employeeId])
-  }
 
+  navigateToPrev() {
+    console.log(this.employeeId)
+    this.router.navigate(['employee/onboardingemployee/basicdetails'], {
+      queryParams: { employeeId: this.employeeId }
+    });
+  }
 
   navigateToNext() {
     this.router.navigate(['employee/onboardingemployee/experiencedetails', this.employeeId])

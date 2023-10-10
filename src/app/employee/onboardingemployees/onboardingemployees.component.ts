@@ -1,12 +1,12 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MenuItem, SelectItem } from 'primeng/api';
+import { MenuItem } from 'primeng/api';
 import { DataView } from 'primeng/dataview';
 import { Table } from 'primeng/table/public_api';
 import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { OnboardEmployeeService } from 'src/app/_helpers/view.notificaton.services';
 import { ITableHeader } from 'src/app/_models/common';
-import { BankDetailViewDto, Employee, EmployeesViewDto } from 'src/app/_models/employes';
+import { Employee, EmployeesViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { SecurityService } from 'src/app/_services/security.service';
 
@@ -19,7 +19,7 @@ import { SecurityService } from 'src/app/_services/security.service';
 })
 export class OnboardingemployeesComponent {
   @ViewChild('filter') filter!: ElementRef;
-  @Input() isReadOnly: boolean =false
+  @Input() isReadOnly: boolean = false
 
   globalFilterFields: string[] = ['employeeName', 'code', 'gender', 'employeeRoleName', 'officeEmailId', 'mobileNumber',];
   color1: string = 'Bluegray';
@@ -43,7 +43,7 @@ export class OnboardingemployeesComponent {
   ]
 
   showDialog() {
-    this.router.navigate(['basicdetails'], { queryParams: {'employeeId':this.employeeId}, relativeTo: this.route })
+    this.router.navigate(['basicdetails'], { queryParams: { 'employeeId':this.employeeId}, relativeTo: this.route })
     this.visible = true;
   }
 
@@ -51,20 +51,20 @@ export class OnboardingemployeesComponent {
   constructor(private securityService: SecurityService,
     private router: Router,
     private route: ActivatedRoute,
-    private EmployeeService:EmployeeService,
+    private EmployeeService: EmployeeService,
     private onboardEmployeeService: OnboardEmployeeService
-   ) { }
+  ) { }
 
   cancelModel() {
     this.router.navigate(['employee/onboardingemployee'])
   }
 
   ngOnInit() {
-    this.route.queryParams.forEach((params)=>this.employeeId = params["employeeId"]);
+    this.route.queryParams.forEach((params) => this.employeeId = params["employeeId"]);
     this.updateMenuItems();
     this.onboardEmployeeService.getData().subscribe(employeeId => {
-        this.employeeId = employeeId;
-        this.updateMenuItems();
+      this.employeeId = employeeId;
+      this.updateMenuItems();
     });
 
     this.initEmployees()
@@ -72,49 +72,50 @@ export class OnboardingemployeesComponent {
     console.log(this.newEmployeeSteps);
 
   }
-  updateMenuItems(){
+  updateMenuItems() {
     this.newEmployeeSteps = [
-        {
-          label: 'Personal Details',
-          routerLink: 'basicdetails',
-          disabled: false
-        },
-        {
-          label: 'Education Details',
-          routerLink: `educationdetails/${this.employeeId}`,
-          disabled: this.employeeId === undefined,
-        },
-        {
-          label: 'Experience Details',
-          routerLink: `experiencedetails/${this.employeeId}`,
-          disabled: this.employeeId === undefined
-        },
-        {
-          label: 'Address Details',
-          routerLink:`addressdetails/${this.employeeId}`,
-          disabled: this.employeeId === undefined
-        },
-        {
-          label: 'Upload Documents',
-          routerLink: `uploadfiles/${this.employeeId}`,
-          disabled: this.employeeId === undefined
-        },
-        {
-          label: 'Family Details',
-          routerLink: `familydetails/${this.employeeId}`,
-          disabled: this.employeeId === undefined
-        },
-        {
-          label:'Bank Details',
-          routerLink:`bankdetails/${this.employeeId}`,
-          disabled: this.employeeId === undefined
-        },
-        {
-          label: 'Final Submission',
-          routerLink: `finalsubmit/${this.employeeId}`,
-          disabled: this.employeeId === undefined
-        },
-      ];
+      {
+        label: 'Personal Details',
+        routerLink: 'basicdetails',
+        queryParams: { employeeId: this.employeeId },
+        disabled: this.employeeId === undefined,
+      },
+      {
+        label: 'Education Details',
+        routerLink: `educationdetails/${this.employeeId}`,
+        disabled: this.employeeId === undefined,
+      },
+      {
+        label: 'Experience Details',
+        routerLink: `experiencedetails/${this.employeeId}`,
+        disabled: this.employeeId === undefined
+      },
+      {
+        label: 'Address Details',
+        routerLink: `addressdetails/${this.employeeId}`,
+        disabled: this.employeeId === undefined
+      },
+      {
+        label: 'Upload Documents',
+        routerLink: `uploadfiles/${this.employeeId}`,
+        disabled: this.employeeId === undefined
+      },
+      {
+        label: 'Family Details',
+        routerLink: `familydetails/${this.employeeId}`,
+        disabled: this.employeeId === undefined
+      },
+      {
+        label: 'Bank Details',
+        routerLink: `bankdetails/${this.employeeId}`,
+        disabled: this.employeeId === undefined
+      },
+      {
+        label: 'Final Submission',
+        routerLink: `finalsubmit/${this.employeeId}`,
+        disabled: this.employeeId === undefined
+      },
+    ];
   }
 
 
@@ -151,6 +152,6 @@ export class OnboardingemployeesComponent {
   }
 
   viewEmployeeDtls(employeeId: number) {
-    this.router.navigate(['employee/viewemployees'], { queryParams: { employeeId: employeeId }});
+    this.router.navigate(['employee/viewemployees'], { queryParams: { employeeId: employeeId } });
   }
 }

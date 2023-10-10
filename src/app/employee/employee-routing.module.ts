@@ -29,7 +29,6 @@ const routes: Routes = [];
         children: [
           { path: 'addressdetails/:employeeId', component: AddressComponent },
           { path: 'basicdetails', component: BasicDetailsComponent },
-          { path: 'basicdetailsbyId/:employeeId', component: BasicDetailsComponent },
           { path: 'educationdetails/:employeeId', component: EducationDetailsComponent },
           { path: 'experiencedetails/:employeeId', component: ExperienceDetailsComponent },
           { path: 'bankdetails/:employeeId', component: BankDetailsComponent },
