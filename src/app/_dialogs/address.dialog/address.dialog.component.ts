@@ -125,31 +125,20 @@ export class AddressDialogComponent {
     }
 
     saveAddress() {
-        if (this.fbAddressDetails.valid) {
-            this.fbAddressDetails.get('addressType').enable();
-            this.activatedRoute.queryParams.subscribe((queryParams) => {
-                const employeeId = +queryParams['employeeId'];
-                const isUpdate = this.fbAddressDetails.value.addressId !== null;
-                if (isUpdate)
-                    this.fbAddressDetails.get('addressId').setValue(null);
+        if (!this.fbAddressDetails.valid) return;
+        this.fbAddressDetails.get('addressType').enable();
+        const isUpdate = this.fbAddressDetails.value.addressId !== null;
+        if (isUpdate) this.fbAddressDetails.get('addressId').setValue(null);
 
-                this.employeeService.CreateAddress([{ ...this.fbAddressDetails.value, employeeId }])
-                    .subscribe((resp) => {
-                        if (resp) {
-                            const alertCode = isUpdate ? 'SMAD004' : 'SAD001';
-                            this.alertMessage.displayAlertMessage(ALERT_CODES[alertCode]);
-                            this.fbAddressDetails.reset()
-                        }
-                        this.ref.close({
-                            "UpdatedModal": ViewEmployeeScreen.Address
+        const employeeId = +this.activatedRoute.snapshot.queryParams['employeeId'];
+        const requestData = [{ ...this.fbAddressDetails.value, employeeId }];
 
-                        });
-                    });
-            }
-            )
-        }
-        console.log(this.fbAddressDetails.value);
-
+        this.employeeService.CreateAddress(requestData).subscribe(resp => {
+            const alertCode = isUpdate ? 'SMAD004' : 'SAD001';
+            this.alertMessage.displayAlertMessage(ALERT_CODES[alertCode]);
+            this.fbAddressDetails.reset();
+            this.ref.close({ "UpdatedModal": ViewEmployeeScreen.Address });
+        });
     }
 
 

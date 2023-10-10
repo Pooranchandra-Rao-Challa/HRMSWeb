@@ -70,25 +70,16 @@ export class BankdetailsDialogComponent {
     }
 
     saveBankDetails() {
-        if (this.fbBankDetails.valid) {
-            this.activatedRoute.queryParams.subscribe((queryParams) => {
-                const employeeId = +queryParams['employeeId'];
-                const isUpdate = this.fbBankDetails.value.bankId == null;
-                this.fbBankDetails.patchValue({ employeeId });
-
-                this.employeeService.CreateBankDetails(this.fbBankDetails.value).subscribe((resp) => {
-                    if (resp) {
-                        const alertCode = isUpdate ? "SMBD001" : "SMBD002";
-                        this.alertMessage.displayAlertMessage(ALERT_CODES[alertCode]);
-                        debugger
-                        this.ref.close({
-                            "UpdatedModal": ViewEmployeeScreen.BankDetails
-                        });
-                    }
-                });
-            });
-        }
-       
+        if (!this.fbBankDetails.valid) return;
+        const isUpdate = this.fbBankDetails.value.bankId == null;
+        const employeeId = +this.activatedRoute.snapshot.queryParams['employeeId'];
+        
+        this.fbBankDetails.patchValue({ employeeId });
+        this.employeeService.CreateBankDetails(this.fbBankDetails.value).subscribe(resp => {
+            const alertCode = isUpdate ? 'SMBD001' : 'SMBD002';
+            this.alertMessage.displayAlertMessage(ALERT_CODES[alertCode]);
+            this.ref.close({ "UpdatedModal": ViewEmployeeScreen.BankDetails });
+        });
     }
 
     restrictSpaces(event: KeyboardEvent) {

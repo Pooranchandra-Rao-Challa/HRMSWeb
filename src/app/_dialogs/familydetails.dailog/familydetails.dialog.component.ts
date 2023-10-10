@@ -90,25 +90,17 @@ export class FamilydetailsDialogComponent {
         });
     }
 
-    savefamilyDetails() {
-        if (this.fbfamilyDetails.valid) {
-            this.activatedRoute.queryParams.subscribe((queryParams) => {
-                const employeeId = +queryParams['employeeId'];
-                const isUpdate = this.fbfamilyDetails.value.familyInformationId !== null;
-                this.fbfamilyDetails.patchValue({ employeeId });
-
-                this.employeeService.CreateFamilyDetails([this.fbfamilyDetails.value]).subscribe((resp) => {
-                    if (resp) {
-                        const alertCode = isUpdate ? "SMFD002" : "SMFD001"
-                        this.alertMessage.displayAlertMessage(ALERT_CODES[alertCode]);
-                        this.ref.close({
-                            "UpdatedModal": ViewEmployeeScreen.FamilyDetails
-                        });
-                    }
-
-                });
-            });
-        }
+    saveFamilyDetails() {
+        if (!this.fbfamilyDetails.valid) return;
+        const isUpdate = this.fbfamilyDetails.value.familyInformationId == null;
+        const employeeId = +this.activatedRoute.snapshot.queryParams['employeeId'];
+        this.fbfamilyDetails.patchValue({ employeeId });
+    
+        this.employeeService.CreateFamilyDetails([this.fbfamilyDetails.value]).subscribe(resp => {
+            const alertCode = isUpdate ? 'SMFD001' : 'SMFD002';
+            this.alertMessage.displayAlertMessage(ALERT_CODES[alertCode]);
+            this.ref.close({ "UpdatedModal": ViewEmployeeScreen.FamilyDetails });
+        });
     }
 
     restrictSpaces(event: KeyboardEvent) {
