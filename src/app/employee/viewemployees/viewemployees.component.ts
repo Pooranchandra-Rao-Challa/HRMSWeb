@@ -190,7 +190,7 @@ export class ViewemployeesComponent {
       this.dialogRequest.width = "40%";
     }
     else if (action == Actions.add && content === this.BankdetailsDialogComponent) {
-      this.dialogRequest.dialogData = {}
+      this.dialogRequest.dialogData = null
       this.dialogRequest.header = "Add Bank Details";
       this.dialogRequest.width = "50%";
     }
@@ -223,7 +223,7 @@ export class ViewemployeesComponent {
       this.dialogRequest.width = "70%";
     }
     else if (action == Actions.add && content === this.FamilydetailsDialogComponent) {
-      this.dialogRequest.dialogData = {}
+      this.dialogRequest.dialogData = null
       this.dialogRequest.header = "Add Family Details";
       this.dialogRequest.width = "70%";
     }

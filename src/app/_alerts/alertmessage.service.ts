@@ -137,7 +137,7 @@ export const ALERT_CODES: { [key: string]: string } = {
     //Bank Details
     'SBDS001': 'Bank Details Added Successfully',
     //Address Details
-    'SAD001': 'Address Details Added Successfully',
+    'SAD001': 'Address Details Saved Successfully',
     'SAD002': 'Address Details Not Added',
     'SAP001': 'Permanent Address Already Existed',
     'SAC001': 'Current Address Already Existed',
@@ -146,6 +146,7 @@ export const ALERT_CODES: { [key: string]: string } = {
     'SMAD006': 'Employee Already Has a Current Address.',
     'SMAD007': 'Each employee is allowed to have only one permanent address and one temporary address and one current address.',
     'EMAD001': 'All The 3 Types Of Addresses Existing In Database You Can Only Alter The addresses.',
+
 
 
     //uploadDocuments
@@ -177,12 +178,10 @@ export const ALERT_CODES: { [key: string]: string } = {
     'EVEEDU002': 'Education Details Faild',
 
     //Bank Details
-    'SMBD001': 'Bank Details Added Successfully',
-    'SMBD002': 'Bank Details Update Successfully',
+    'SMBD001': 'Bank Details Saved Successfully',
 
     //Family Details
-    'SMFD001': 'Family Details Added Successfully',
-    'SMFD002': 'Family Details Update Successfully',
+    'SMFD001': 'Family Details Saved Successfully',
 
     //Attendence
     'EAAS001':'Attendence Added Successfully',
