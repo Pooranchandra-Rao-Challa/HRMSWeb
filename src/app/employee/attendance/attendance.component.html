@@ -53,7 +53,32 @@
     </ng-template>
 </p-dialog>
 
-
+<p-table #dt1 [rowHover]="true" styleClass="p-datatable-striped p-datatable-gridlines top_note_bar"
+    responsiveLayout="scroll" [tableStyle]="{'min-width': '50rem'}">
+    <ng-template pTemplate="header">
+        <tr>
+            <td class="woff"> WO </td>
+            <td colspan="2">Weekoff </td>
+            <td class="pt"> PT </td>
+            <td colspan="2"> Present </td>
+            <td class="nu"> NU</td>
+            <td colspan="2">Not Updated</td>
+            <td class="hd">HD</td>
+            <td colspan="2">Holiday</td>
+            <td class="at"> AT </td>
+            <td colspan="2">Absent</td>
+            <td class="cl">CL</td>
+            <td colspan="2">Casual Leave</td>
+            <td class="pl">PL</td>
+            <td colspan="2">Privilege Leave</td>
+            <td class="el">EL</td>
+            <td colspan="2">Earned Leave</td>
+            <td class="sl">SL</td>
+            <td colspan="2">Sick leave </td>
+            
+        </tr>
+    </ng-template>
+</p-table>
 <!-- Toolbar -->
 <p-toolbar styleClass="p-mb-4">
     <ng-template pTemplate="left">
@@ -88,8 +113,11 @@
     </ng-template>
 </p-toolbar>
 <!-- p-table -->
+
+
 <p-table #dt1 [value]="employeeAttendanceList" [rowHover]="true" styleClass="p-datatable-striped p-datatable-gridlines"
     responsiveLayout="scroll" [globalFilterFields]="globalFilterFields" [tableStyle]="{'min-width': '50rem'}">
+   
     <ng-template pTemplate="header">
         <tr>
             <th>Employee</th>
@@ -97,6 +125,7 @@
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-employee>
+        
         <tr>
             <td>{{employee.EmployeeName}}</td>
             <td *ngFor="let i of days"
