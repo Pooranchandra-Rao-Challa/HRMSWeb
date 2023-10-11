@@ -1,10 +1,10 @@
+import { HttpEvent, HttpResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
-import { EmployeesViewDto } from 'src/app/_models/employes';
+import { Employee, EmployeesViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
-
 @Component({
   selector: 'app-final-submit',
   templateUrl: './final-submit.component.html',
@@ -17,9 +17,11 @@ export class FinalSubmitComponent {
   displayDialog: boolean;
   employees: any;
   employeeObj: any = {};
+  userData: any;
   constructor(private router: Router, private employeeService: EmployeeService,
     private formbuilder: FormBuilder, private alertMessage: AlertmessageService,
-    private activatedRoute: ActivatedRoute) {
+    private activatedRoute: ActivatedRoute,
+    private EmployeeService: EmployeeService) {
     this.employeeId = this.activatedRoute.snapshot.params['employeeId'] || this.activatedRoute.snapshot.queryParams['employeeId'];
   }
 
@@ -54,6 +56,16 @@ export class FinalSubmitComponent {
     });
   }
 
+  onsubmit() {
+    this.employeeService.EnrollUser(this.fbEnroll.value).subscribe((resp) => {
+      this.userData = resp;
+      if (this.userData) {
+        this.dialog = true;
+        this.alertMessage.displayAlertMessage(ALERT_CODES["SEE001"]);
+        this.router.navigate(['employee/all-employees']);
+      }
+    });
+  }
   onSubmit() {
     this.employeeService.EnrollUser(this.fbEnroll.value).subscribe(res => {
       this.message = res;
@@ -68,4 +80,9 @@ export class FinalSubmitComponent {
       this.alertMessage.displayAlertMessage(ALERT_CODES["SEE001"]);
     }
   }
+  closeDialogAndNavigate() {
+    this.dialog = false;
+    this.router.navigate(['employee/all-employees']);
+  }
+
 }

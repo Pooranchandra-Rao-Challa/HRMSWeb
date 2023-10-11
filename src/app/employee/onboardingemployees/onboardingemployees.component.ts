@@ -61,13 +61,16 @@ export class OnboardingemployeesComponent {
 
   ngOnInit() {
     this.route.queryParams.forEach((params) => this.employeeId = params["employeeId"]);
+    this.initEmployees()
     this.updateMenuItems();
     this.onboardEmployeeService.getData().subscribe(employeeId => {
       this.employeeId = employeeId;
       this.updateMenuItems();
+      if (employeeId) {
+        this.initEmployees();
+      }
     });
 
-    this.initEmployees()
 
     console.log(this.newEmployeeSteps);
 
@@ -136,7 +139,6 @@ export class OnboardingemployeesComponent {
     const isEnrolled = false;
     this.EmployeeService.GetEmployees(isEnrolled).subscribe(resp => {
       this.employees = resp as unknown as EmployeesViewDto[];
-      console.log(this.employees)
     });
   }
   onGlobalFilter(table: Table, event: Event) {
