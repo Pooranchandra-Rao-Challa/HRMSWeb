@@ -42,7 +42,6 @@ export class EducationDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      console.log(params);
       this.employeeId = params['employeeId'];
     });
     this.educationForm();
@@ -169,6 +168,7 @@ export class EducationDetailsComponent implements OnInit {
       curriculumId: educationDetails.curriculumId,
       streamId: educationDetails.streamId,
       stateId: educationDetails.stateId,
+      countryId:educationDetails.countryId,
       institutionName: educationDetails.institutionName,
       authorityName: educationDetails.authorityName,
       passedOutyear: educationDetails.passedOutyear,
@@ -195,7 +195,7 @@ export class EducationDetailsComponent implements OnInit {
       gradingValue: educationDetails.gradingValue
     });
     this.addeducationdetailsshowForm = !this.addeducationdetailsshowForm;
-    this.ShoweducationDetails = !this.ShoweducationDetails;
+    this.ShoweducationDetails = !this.ShoweducationDetails;    
   }
 
   restrictSpaces(event: KeyboardEvent) {
@@ -229,7 +229,6 @@ export class EducationDetailsComponent implements OnInit {
   }
 
   navigateToPrev() {
-    console.log(this.employeeId)
     this.router.navigate(['employee/onboardingemployee/basicdetails'], {
       queryParams: { employeeId: this.employeeId }
     });

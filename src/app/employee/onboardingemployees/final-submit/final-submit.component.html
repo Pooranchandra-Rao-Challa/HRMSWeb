@@ -1,5 +1,81 @@
-<div class="grid content_scroll" id="hrms" >
+<div class="grid content_scroll" id="hrms">
     <div class="col-12 p-5 text-center">
-        <p-button (click)="onSubmit()">Enroll Employee</p-button>
+        <p-button (click)="confirmationDialog()">Enroll Employee</p-button>
     </div>
 </div>
+
+<!-- Confirmation Dialog -->
+<p-dialog [(visible)]="dialog" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}">
+    <div class="flex flex-column justify-content-center">
+      <div class="grid">
+        <div class="card" *ngIf="displayDialog !== false; else employeeCard">
+          <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">{{message?.message}}</div>
+          <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
+            <li class="mb-2">
+              <span class="font-semibold">UserName:</span>{{message?.username}}
+            </li>
+            <li class="mb-2">
+              <span class="font-semibold">Password:</span> {{message?.password}}
+            </li>
+          </ul>
+        </div>
+        <ng-template #employeeCard>
+          <div class="card">
+            <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">
+              First you need to fill these Details, Next you Enroll
+            </div>
+            <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
+              <li class="mb-2">
+                <span class="font-semibold">pending:</span> {{employeeObj?.pendingDetails}}
+              </li>
+            </ul>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+    <ng-template pTemplate="footer" *ngIf="displayDialog !== false">
+      <div class="col-4" style="float:right">
+        <button pButton pRipple label="Okay" id="Leave_Approve_Rejected_Button" class="p-button-primary p-mr-2"
+          (click)="onClose()"></button>
+      </div>
+    </ng-template>
+  </p-dialog>
+  
+<!-- 
+<p-dialog [(visible)]="dialog" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}">
+    <div class="flex flex-column justify-content-center">
+        <div class="grid">
+            <div class="card" *ngIf="this.displayDialog !== false">
+                <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">{{message?.message}}</div>
+                <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
+                    <li class="mb-2">
+                        <span class="font-semibold ">UserName:</span>{{message?.username}}
+                    </li>
+                    <li class="mb-2">
+                        <span class="font-semibold ">Password:</span> {{message?.password}}
+                    </li>
+                </ul>
+            </div>
+            <div *ngIf="this.displayDialog == false">
+                <div *ngFor="let employeeData of employees">
+                    <div class="card"  *ngIf="employeeId == employeeData.employeeId">
+                        <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">
+                            First you need to fill these Details, Next you Enroll
+                        </div>
+                        <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
+                            <li class="mb-2">
+                                <span class="font-semibold">pending:</span> {{employeeData?.pendingDetails}}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-template pTemplate="footer" *ngIf="this.displayDialog !== false">
+        <div class=" col-4" style="float:right">
+            <button pButton pRipple label="Okay" id="Leave_Approve_Rejected_Button" class="p-button-primary p-mr-2"
+                (click)="onClose()"></button>
+        </div>
+    </ng-template>
+</p-dialog> -->

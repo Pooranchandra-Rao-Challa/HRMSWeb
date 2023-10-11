@@ -51,7 +51,6 @@ export class EmployeeService extends ApiHttpService {
     const url = `${GET_EMPLOYEES_URI}/${IsEnrolled}`;
     return this.get<EmployeesViewDto[]>(url);
   }
-
   //personal Details of Employee
   public CreateBasicDetails(basicdetails: EmployeeBasicDetailDto) {
     return this.post<EmployeeBasicDetailDto>(CREATE_BASIC_DETAILS_URI, basicdetails);

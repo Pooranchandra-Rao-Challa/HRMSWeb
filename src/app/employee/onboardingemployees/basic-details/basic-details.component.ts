@@ -153,6 +153,7 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   editBasicDetails(empbasicDetails) {
+    this.addFlag = false;
     this.fbbasicDetails.patchValue(
       {
         employeeId: empbasicDetails.employeeId,
