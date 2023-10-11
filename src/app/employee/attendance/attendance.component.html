@@ -88,7 +88,7 @@
     </ng-template>
 </p-toolbar>
 <!-- p-table -->
-<p-table #dt1 [value]="employeeAttendanceList" [rowHover]="true" styleClass="p-datatable-striped"
+<p-table #dt1 [value]="employeeAttendanceList" [rowHover]="true" styleClass="p-datatable-striped p-datatable-gridlines"
     responsiveLayout="scroll" [globalFilterFields]="globalFilterFields" [tableStyle]="{'min-width': '50rem'}">
     <ng-template pTemplate="header">
         <tr>
@@ -100,60 +100,64 @@
         <tr>
             <td>{{employee.EmployeeName}}</td>
             <td *ngFor="let i of days"
-                [ngStyle]="{'background-color':getAttendanceType(employee, i)==='WOff'?'grey':'','border-left':getAttendanceType(employee, i)==='WOff'?'0.5px solid white':''}">
-                <ng-container *ngIf="getAttendanceType(employee, i)">
-                    <span
-                        [ngClass]="{'pt': employee[getFormattedDate(i)] === 'PT',}"
-                        [ngStyle]="{'font-size': '1rem','color': employee[getFormattedDate(i)] === 'PT' ? 'green' : ''}"
-                        (click)="showDialog(employee.EmployeeId,getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendanceType(employee, i) === 'PT'">
-                        {{ employee[getFormattedDate(i)] }}
-                    </span>
-                    <span [ngStyle]="{'font-size': '1rem','color': employee[getFormattedDate(i)] === 'AT' ? 'red' : ''}"
-                        (click)="showDialog(employee.EmployeeId, getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendanceType(employee, i) === 'AT'">
-                        {{ employee[getFormattedDate(i)] }}
-                    </span>
-                    <span
-                        [ngStyle]="{'font-size': '1rem','color': employee[getFormattedDate(i)] === 'CL' ? 'orange' : ''}"
-                        (click)="showDialog(employee.EmployeeId, getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendanceType(employee, i) === 'CL'">
-                        {{ employee[getFormattedDate(i)] }}
-                    </span>
-                    <span
-                        [ngStyle]="{'font-size': '1rem','color': employee[getFormattedDate(i)] === 'PL' ? 'pink' : ''}"
-                        (click)="showDialog(employee.EmployeeId, getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendanceType(employee, i) === 'PL'">
-                        {{ employee[getFormattedDate(i)] }}
-                    </span>
-                    <span
-                        [ngStyle]="{'font-size': '1rem','color': employee[getFormattedDate(i)] === 'EL' ? 'black' : ''}"
-                        (click)="showDialog(employee.EmployeeId, getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendanceType(employee, i) === 'EL'">
-                        {{ employee[getFormattedDate(i)] }}
-                    </span>
-                    <span [ngStyle]="{'font-size': '1rem','color': employee[getFormattedDate(i)] === 'SL' ? 'red' : ''}"
-                        (click)="showDialog(employee.EmployeeId, getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendanceType(employee, i) === 'SL'">
-                        {{ employee[getFormattedDate(i)] }}
-                    </span>
-                    <span
-                        [ngStyle]="{'font-size': '1rem','color': employee[getFormattedDate(i)] === 'WOff' ? 'white' : ''}"
-                        *ngIf="getAttendanceType(employee, i) === 'WOff'">
-                        WO
-                    </span>
-                    <span
-                        [ngStyle]="{'font-size': '1rem','color': employee[getFormattedDate(i)] === 'HD' ? 'blue' : ''}"
-                        *ngIf="getAttendanceType(employee, i) === 'HD'">
-                        {{ employee[getFormattedDate(i)] }}
-                    </span>
-                    <span
-                        [ngStyle]="{'font-size': '1rem','color': employee[getFormattedDate(i)] === 'NU' ? 'blue' : ''}"
-                        (click)="showDialog(employee.EmployeeId, getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendanceType(employee, i) === 'NU'">
-                        {{ employee[getFormattedDate(i)] }}
-                    </span>
-                </ng-container>
+            [ngClass]="{'woff': getAttendanceType(employee, i) === 'WOff',
+                        'pt': employee[getFormattedDate(i)] === 'PT',
+                        'nu': employee[getFormattedDate(i)] === 'NU',
+                        'hd': employee[getFormattedDate(i)] === 'HD',
+                        'at': employee[getFormattedDate(i)] === 'AT',
+                        'cl': employee[getFormattedDate(i)] === 'CL',
+                        'pl': employee[getFormattedDate(i)] === 'PL',
+                        'el': employee[getFormattedDate(i)] === 'EL',
+                        'sl': employee[getFormattedDate(i)] === 'SL'                        
+                       }"
+            >
+            <ng-container *ngIf="getAttendanceType(employee, i)">
+                <span
+                    [ngClass]="{'pt': employee[getFormattedDate(i)] === 'PT',}"                      
+                    (click)="showDialog(employee.EmployeeId,getFormattedDate(i),employee[getFormattedDate(i)])"
+                    *ngIf="getAttendanceType(employee, i) === 'PT'">
+                    {{ employee[getFormattedDate(i)] }}
+                </span>
+                <span 
+                    (click)="showDialog(employee.EmployeeId, getFormattedDate(i),employee[getFormattedDate(i)])"
+                    *ngIf="getAttendanceType(employee, i) === 'AT'">
+                    {{ employee[getFormattedDate(i)] }}
+                </span>
+                <span                        
+                    (click)="showDialog(employee.EmployeeId, getFormattedDate(i),employee[getFormattedDate(i)])"
+                    *ngIf="getAttendanceType(employee, i) === 'CL'">
+                    {{ employee[getFormattedDate(i)] }}
+                </span>
+                <span
+                    (click)="showDialog(employee.EmployeeId, getFormattedDate(i),employee[getFormattedDate(i)])"
+                    *ngIf="getAttendanceType(employee, i) === 'PL'">
+                    {{ employee[getFormattedDate(i)] }}
+                </span>
+                <span
+                    (click)="showDialog(employee.EmployeeId, getFormattedDate(i),employee[getFormattedDate(i)])"
+                    *ngIf="getAttendanceType(employee, i) === 'EL'">
+                    {{ employee[getFormattedDate(i)] }}
+                </span>
+                <span 
+                    (click)="showDialog(employee.EmployeeId, getFormattedDate(i),employee[getFormattedDate(i)])"
+                    *ngIf="getAttendanceType(employee, i) === 'SL'">
+                    {{ employee[getFormattedDate(i)] }}
+                </span>
+                <span
+                    
+                    *ngIf="getAttendanceType(employee, i) === 'WOff'">
+                    WO
+                </span>
+                <span                       
+                    *ngIf="getAttendanceType(employee, i) === 'HD'">
+                    {{ employee[getFormattedDate(i)] }}
+                </span>
+                <span                        
+                    (click)="showDialog(employee.EmployeeId, getFormattedDate(i),employee[getFormattedDate(i)])"
+                    *ngIf="getAttendanceType(employee, i) === 'NU'">
+                    {{ employee[getFormattedDate(i)] }}
+                </span>
+            </ng-container>
 
             </td>
         </tr>

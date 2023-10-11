@@ -289,12 +289,49 @@ p-calendar input {
 .woff{
     background-color:  var( --surface-500);
     opacity:0.5;
-    // padding:10px !important;
+    padding:10px !important;
     color:white;
     font-size:1rem;
     text-align: center;
+    // opacity: 0.5;
 }
 .pt{
     color:green;
-    background-color: rgb(243, 255, 243);
+    // font-weight: bold;
+    background-color: rgb(239, 251, 239);
+}
+.nu{
+    color:rgb(140, 63, 0);
+    // font-weight: bold;
+    background-color: rgb(248, 227, 211);
+}
+.hd{
+    color:rgb(5, 118, 92);
+    // font-weight: bold;
+    background-color: rgb(232, 235, 251);
+}
+.at{
+    color:rgb(162, 1, 1);
+    // font-weight: bold;
+    background-color: rgb(255, 224, 224);
+}
+.cl{
+    color:rgb(188, 0, 138);
+    // font-weight: bold;
+    background-color: rgb(255, 192, 239);
+}
+.pl{
+    color:rgb(3, 6, 107);
+    // font-weight: bold;
+    background-color: rgb(194, 203, 253);
+}
+.el{
+    color:rgb(178, 180, 21);
+    // font-weight: bold;
+    background-color: rgb(249, 242, 200);
+}
+.sl{
+    color:rgb(140, 155, 1);
+    // font-weight: bold;
+    background-color: rgb(252, 246, 160);
 }
