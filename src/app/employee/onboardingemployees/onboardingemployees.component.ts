@@ -71,7 +71,6 @@ export class OnboardingemployeesComponent {
       }
     });
 
-   
 
     console.log(this.newEmployeeSteps);
 

@@ -30,6 +30,12 @@ export class ConfirmationRequest {
     class: string ='text-red';
 }
 
+export class ConfirmationRequestforemployee {
+  message: string = 'This is your USERNAME & PASSWORD Save for Further Use...!';
+  header: string = 'Confirmation';
+  icon: string = 'pi pi-exclamation-triangle';
+  class: string ='text-red';
+}
 export enum Actions {
     new, add, view, edit, save, delete, unassign
   }
