@@ -170,7 +170,7 @@
                     <div class="field col-12 md:col-4">
                         <span class="p-float-label">
                             <input pInputText class="form-control" formControlName="gradingValue" appNumericInput
-                                maxlength="3" #gradingValue placeholder="Enter CGPA/Percentage System"
+                                maxlength="3" #gradingValue
                                 id="grading_Value" (keydown)="restrictSpaces($event)"
                                 [ngClass]="{'is-invalid ng-dirty': FormControls['gradingValue'].touched && FormControls['gradingValue'].errors }">
                             <label class="required">CGPA/Percentage System</label>
