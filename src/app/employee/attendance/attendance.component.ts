@@ -2,6 +2,7 @@ import { ListRange } from '@angular/cdk/collections';
 import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { List } from 'gojs';
 import { Table } from 'primeng/table';
 import { Leave } from 'src/app/demo/api/security';
@@ -41,7 +42,7 @@ export class AttendanceComponent {
   LeaveTypes: LookupDetailsDto[] = [];
   NotUpdatedEmployees: EmployeesList[] = [];
 
-  constructor(private adminService: AdminService, private datePipe: DatePipe, private jwtService: JwtService,
+  constructor(private adminService: AdminService, private datePipe: DatePipe, private jwtService: JwtService, private router: Router,
     private formbuilder: FormBuilder, private alertMessage: AlertmessageService, private employeeService: EmployeeService, private lookupService: LookupService) { }
 
   ngOnInit() {
@@ -114,6 +115,7 @@ export class AttendanceComponent {
   initAttendance() {
     this.employeeService.GetAttendance(this.month, this.year).subscribe((resp) => {
       this.employeeAttendanceList = resp as unknown as employeeAttendanceDto[];
+      console.log(this.employeeAttendanceList)
     });
   }
 
@@ -175,7 +177,9 @@ export class AttendanceComponent {
         }
         else
           this.alertMessage.displayErrorMessage(ALERT_CODES["EAAS002"]);
-      })
+      });
+      if (this.fbleave.get('dayWorkStatusId').value != 263 && this.fbleave.get('dayWorkStatusId').value != 264)
+        this.router.navigate(['employee/leaves']);
     }
   }
 

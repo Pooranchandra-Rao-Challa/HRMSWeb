@@ -271,8 +271,7 @@ export class ExperienceDetailsComponent {
   getEmpExperienceDetails() {
     this.employeeService.GetWorkExperience(this.employeeId).subscribe((data) => {
       this.empExperienceDetails = data;
-      console.log(data)
-      if (data[0].isAFresher===false)
+      if (data[0]?.isAFresher===false)
         this.selectedOption = 'Experience';
         else
         this.selectedOption='Fresher';
