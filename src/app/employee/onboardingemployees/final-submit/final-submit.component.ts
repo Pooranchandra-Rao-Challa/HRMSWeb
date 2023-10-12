@@ -56,16 +56,7 @@ export class FinalSubmitComponent {
     });
   }
 
-  onsubmit() {
-    this.employeeService.EnrollUser(this.fbEnroll.value).subscribe((resp) => {
-      this.userData = resp;
-      if (this.userData) {
-        this.dialog = true;
-        this.alertMessage.displayAlertMessage(ALERT_CODES["SEE001"]);
-        this.router.navigate(['employee/all-employees']);
-      }
-    });
-  }
+
   onSubmit() {
     this.employeeService.EnrollUser(this.fbEnroll.value).subscribe(res => {
       this.message = res;
@@ -80,9 +71,5 @@ export class FinalSubmitComponent {
       this.alertMessage.displayAlertMessage(ALERT_CODES["SEE001"]);
     }
   }
-  closeDialogAndNavigate() {
-    this.dialog = false;
-    this.router.navigate(['employee/all-employees']);
-  }
-
+  
 }

@@ -169,8 +169,9 @@
                     </div>
                     <div class="field col-12 md:col-4">
                         <span class="p-float-label">
-                            <input type="text" id="grading_Value" pInputText formControlName="gradingValue" numericOnly
-                                (keydown)="restrictSpaces($event)"
+                            <input pInputText class="form-control" formControlName="gradingValue" appNumericInput
+                                maxlength="3" #gradingValue placeholder="Enter CGPA/Percentage System"
+                                id="grading_Value" (keydown)="restrictSpaces($event)"
                                 [ngClass]="{'is-invalid ng-dirty': FormControls['gradingValue'].touched && FormControls['gradingValue'].errors }">
                             <label class="required">CGPA/Percentage System</label>
                         </span>
@@ -182,6 +183,9 @@
                                         *ngIf="FormControls['gradingValue'].errors?.['required']">
                                         Please Enter CGPA/Percentage System.</div>
                                 </span>
+                            </div>
+                            <div class="align-right w-40" style="width:30%; text-align:right;">
+                                <small>{{gradingValue.value.length}}/{{maxLength.gradingvalues}} </small>
                             </div>
                         </div>
                     </div>
@@ -248,15 +252,16 @@
 </div>
 <div class="grid mt-2">
     <div class="field col-4 m-0 p-1 px-3">
-        <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100 text-right" id="NavigateToPersonalDetailsBtn"
-            (click)="navigateToPrev()">Personal Details</button>
+        <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100 text-right"
+            id="NavigateToPersonalDetailsBtn" (click)="navigateToPrev()">Personal Details</button>
     </div>
     <div class=" col-4  m-0 p-1 px-3">
-        <button p-button class="p-element p-ripple p-button-info p-button p-component w-100" id="SavingEducationDetailsBtn"
-            [disabled]="this.empEduDetails.length == 0" (click)="onSubmit()">Save as Draft</button>
+        <button p-button class="p-element p-ripple p-button-info p-button p-component w-100"
+            id="SavingEducationDetailsBtn" [disabled]="this.empEduDetails.length == 0" (click)="onSubmit()">Save as
+            Draft</button>
     </div>
     <div class=" col-4  m-0 p-1 px-3">
-        <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100"  id="NavigateToExperienceDetailsBtn"
-            (click)="navigateToNext()">Experience Details </button>
+        <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100"
+            id="NavigateToExperienceDetailsBtn" (click)="navigateToNext()">Experience Details </button>
     </div>
 </div>
