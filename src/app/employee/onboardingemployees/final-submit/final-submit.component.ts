@@ -12,13 +12,16 @@ import { EmployeeService } from 'src/app/_services/employee.service';
 export class FinalSubmitComponent {
   employeeId: string;
   fbEnroll!: FormGroup;
-  employees: Employee[] = [];
-  userData:any;
-  dialog:boolean;
+  message: any;
+  dialog: boolean = false;
+  displayDialog: boolean;
+  employees: any;
+  employeeObj: any = {};
+  userData: any;
   constructor(private router: Router, private employeeService: EmployeeService,
     private formbuilder: FormBuilder, private alertMessage: AlertmessageService,
     private activatedRoute: ActivatedRoute,
-    private EmployeeService:EmployeeService) {
+    private EmployeeService: EmployeeService) {
     this.employeeId = this.activatedRoute.snapshot.params['employeeId'] || this.activatedRoute.snapshot.queryParams['employeeId'];
   }
 
@@ -28,8 +31,32 @@ export class FinalSubmitComponent {
     })
   }
 
+  getEmployees() {
+    const isEnrolled = false;
+    this.employeeService.GetEmployees(isEnrolled).subscribe(resp => {
+      this.employees = resp
+      console.log(this.employees)
+    });
+  }
 
-  onSubmit() {
+  confirmationDialog() {
+    const isEnrolled = false;
+    this.employeeService.GetEmployees(isEnrolled).subscribe(resp => {
+      this.employees = resp
+      this.dialog = true;
+      this.employeeObj = this.employees.find(x => x.employeeId == this.employeeId);
+      console.log(this.employeeObj)
+      if (this.employeeObj.pendingDetails == "BankDetails, FamilyInformation") {
+        this.displayDialog = true;
+        this.onSubmit();
+      }
+      else {
+        this.displayDialog = false;
+      }
+    });
+  }
+
+  onsubmit() {
     this.employeeService.EnrollUser(this.fbEnroll.value).subscribe((resp) => {
       this.userData = resp;
       if (this.userData) {
@@ -37,15 +64,25 @@ export class FinalSubmitComponent {
         this.alertMessage.displayAlertMessage(ALERT_CODES["SEE001"]);
         this.router.navigate(['employee/all-employees']);
       }
-      else {
-        this.alertMessage.displayErrorMessage(ALERT_CODES["SEE002"]);
-      }
     });
   }
+  onSubmit() {
+    this.employeeService.EnrollUser(this.fbEnroll.value).subscribe(res => {
+      this.message = res;
+      console.log(this.message);
+    });
+    this.dialog = true;
+  }
 
+  onClose() {
+    this.router.navigate(['employee/all-employees']);
+    if (this.message !== null) {
+      this.alertMessage.displayAlertMessage(ALERT_CODES["SEE001"]);
+    }
+  }
   closeDialogAndNavigate() {
-    this.dialog = false; 
-    this.router.navigate(['employee/all-employees']); 
+    this.dialog = false;
+    this.router.navigate(['employee/all-employees']);
   }
 
 }
