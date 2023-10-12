@@ -3,12 +3,10 @@
         <div class="col-12 roles-container">
             <div class="p-fluid p-formgrid grid">
                 <div class="field col-12 md:col-4">
-                    <span class="p-float-label">
-                        <input type="text" id="bank_Name" pInputText formControlName="name" #bankname alphaOnly
-                            [maxlength]="50" (keydown)="restrictSpaces($event)"
-                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['name'].touched && FormControls['name'].errors }" />
-                        <label class="required">Bank Name</label>
-                    </span>
+                    <label class="required">Bank Name</label>
+                    <input type="text" id="bank_Name" placeholder="Enter Bank Name" pInputText formControlName="name"
+                        #bankname alphaOnly [maxlength]="50" (keydown)="restrictSpaces($event)"
+                        [ngClass]="{ 'is-invalid ng-dirty': FormControls['name'].touched && FormControls['name'].errors }" />
                     <div class="flex">
                         <div class="align-left w-60" style="width:70%">
                             <span *ngIf="FormControls['name'].touched && FormControls['name'].invalid">
@@ -26,12 +24,11 @@
                     </div>
                 </div>
                 <div class="field col-12 md:col-4">
-                    <span class="p-float-label">
-                        <input type="text" id="branch_Name" pInputText formControlName="branchName" #branchname
-                            alphaOnly [maxlength]="50" (keydown)="restrictSpaces($event)"
-                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['branchName'].touched && FormControls['branchName'].errors }" />
-                        <label>Branch Name</label>
-                    </span>
+                    <label>Branch Name</label>
+                    <input type="text" id="branch_Name" placeholder="Enter Branch Name" pInputText
+                        formControlName="branchName" #branchname alphaOnly [maxlength]="50"
+                        (keydown)="restrictSpaces($event)"
+                        [ngClass]="{ 'is-invalid ng-dirty': FormControls['branchName'].touched && FormControls['branchName'].errors }" />
                     <div class="flex">
                         <div class="align-left w-60" style="width:70%">
                             <span *ngIf="FormControls['branchName'].touched && FormControls['branchName'].invalid">
@@ -46,12 +43,10 @@
                     </div>
                 </div>
                 <div class="field col-12 md:col-4">
-                    <span class="p-float-label">
-                        <input type="text" id="ifsc_Code" pInputText formControlName="ifsc" #ifscCode [maxlength]="11"
-                            [minlength]="11" (keydown)="restrictSpaces($event)"
-                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['ifsc'].touched && FormControls['ifsc'].errors }" />
-                        <label class="required">IFSC Code</label>
-                    </span>
+                    <label class="required">IFSC Code</label>
+                    <input type="text" id="ifsc_Code" placeholder="Enter IFSC Code" pInputText formControlName="ifsc"
+                        #ifscCode [maxlength]="11" [minlength]="11" (keydown)="restrictSpaces($event)"
+                        [ngClass]="{ 'is-invalid ng-dirty': FormControls['ifsc'].touched && FormControls['ifsc'].errors }" />
                     <div class="flex">
                         <div class="align-left w-60" style="width:70%">
                             <span *ngIf="FormControls['ifsc'].touched && FormControls['ifsc'].invalid">
@@ -72,12 +67,11 @@
                     </div>
                 </div>
                 <div class="field col-12 md:col-4">
-                    <span class="p-float-label">
-                        <input type="text" id="account_Number" pInputText formControlName="accountNumber" #accountnumber
-                            numericOnly [maxlength]="18" (keydown)="restrictSpaces($event)"
-                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['accountNumber'].touched && FormControls['accountNumber'].errors }" />
-                        <label class="required">Account Number</label>
-                    </span>
+                    <label class="required">Account Number</label>
+                    <input type="text" id="account_Number" placeholder="Enter Account Number" pInputText
+                        formControlName="accountNumber" #accountnumber numericOnly [maxlength]="18"
+                        (keydown)="restrictSpaces($event)"
+                        [ngClass]="{ 'is-invalid ng-dirty': FormControls['accountNumber'].touched && FormControls['accountNumber'].errors }" />
                     <div class="flex">
                         <div class="align-left w-60" style="width:70%">
                             <span
@@ -107,15 +101,15 @@
 
 <div class="grid mt-2">
     <div class="field col-4 m-0 p-1 px-3">
-        <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100 text-right" id="NavigateToFamilyDetailsBtn"
-            (click)="navigateToPrev()">Family Details</button>
+        <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100 text-right"
+            id="NavigateToFamilyDetailsBtn" (click)="navigateToPrev()">Family Details</button>
     </div>
     <div class=" col-4 m-0 p-1 px-3">
         <button p-button class="p-element p-ripple p-button-info p-button p-component w-100" id="SavingBankDetailsBtn"
-        [disabled]="fbbankDetails.invalid" (click)="onSubmit()">Save as Draft</button>
+            [disabled]="fbbankDetails.invalid" (click)="onSubmit()">Save as Draft</button>
     </div>
     <div class=" col-4 m-0 p-1 px-3">
-        <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100" id="NavigateToFinalSubmissionBtn"
-            (click)="navigateToNext()">Final Submission </button>
+        <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100"
+            id="NavigateToFinalSubmissionBtn" (click)="navigateToNext()">Final Submission </button>
     </div>
 </div>

@@ -36,17 +36,22 @@ export class BasicDetailsComponent implements OnInit {
   empbasicDetails = new EmployeeBasicDetailDto();
   bloodgroups: LookupViewDto[] = [];
   employeeId: any;
-  isReadOnly: boolean = false
+  isReadOnly: boolean = false;
+  maxDate: Date;
+
+
   constructor(private router: Router, private route: ActivatedRoute,
     private employeeService: EmployeeService, private formbuilder: FormBuilder,
     private lookupService: LookupService, private alertMessage: AlertmessageService,
     private onboardEmployeeService: OnboardEmployeeService) {
-
+      const currentDate = new Date();
+      this.maxDate = currentDate;
+  
   }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
-      this.employeeId = params['employeeId'] 
+      this.employeeId = params['employeeId']
       this.onboardEmployeeService.sendData(this.employeeId);
     });
     this.basicDetailsForm();
@@ -123,7 +128,7 @@ export class BasicDetailsComponent implements OnInit {
       callback(base64String);
     };
   }
-  
+
   getEmployeeBasedonId() {
     this.employeeService.GetViewEmpPersDtls(this.employeeId).subscribe((resp) => {
       this.empbasicDetails = resp as EmployeeBasicDetailDto;
