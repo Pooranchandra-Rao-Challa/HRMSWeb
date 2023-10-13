@@ -163,19 +163,19 @@ export const ALERT_CODES: { [key: string]: string } = {
     'SED002': 'Experience Details Not Added',
     // View Employee Basic Details
     'EVEBD001': 'Basic Details Updated Successfully',
-    'EVEBD002': 'Basic Details Updated Faild',
+    'EVEBD002': 'Basic Details Updated Failed',
 
     // View Employee Office Details
     'EVEOFF001': 'Office Details Saved Successfully',
-    'EVEOFF002': 'Office Details Updated Faild',
+    'EVEOFF002': 'Office Details Updated Failed',
 
     // View Employee Experience Details
     'EVEEXP001': 'Experience Details Saved Successfully',
-    'EVEEXP002': 'Experience Details Faild',
+    'EVEEXP002': 'Experience Details Failed',
 
     // View Employee Education Details
     'EVEEDU001': 'Education Details Saved Successfully',
-    'EVEEDU002': 'Education Details Faild',
+    'EVEEDU002': 'Education Details Failed',
 
     //Bank Details
     'SMBD001': 'Bank Details Saved Successfully',
@@ -190,6 +190,8 @@ export const ALERT_CODES: { [key: string]: string } = {
     'EAAS004':'Please Enter Leave Narration',
     'EAAS005':'Leave Applied Successfully.',
     'EAAS006':'Attendence Details Updated For Previous Date and Current Date.',
+    'EAAS007':'Please Enter Previous Day Attendance.',
+    
 
     
     //Leave Details

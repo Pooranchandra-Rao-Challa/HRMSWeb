@@ -339,11 +339,11 @@ export class employeeAttendanceDto {
 	dates: { [date: string]: string | {} };
 }
 
-export class EmployeeLeaveDto{
+export class EmployeeLeaveDto {
 	employeeLeaveId?: number;
-	employeeId?:number;
+	employeeId?: number;
 	employeeName?: string;
-	code?:string;
+	code?: string;
 	fromDate?: Date;
 	toDate?: Date;
 	leaveTypeId?: number;
@@ -351,17 +351,17 @@ export class EmployeeLeaveDto{
 	acceptedBy?: string;
 	acceptedAt?: Date;
 	approvedBy?: string;
-	approvedAt?:Date;
+	approvedAt?: Date;
 	rejected?: boolean;
 	status?: string;
 	createdAt?: Date;
 	createdBy?: string;
 }
 
-export class EmployeeAttendanceList{
-	attendanceId?:number;
-	employeeId ?:number;
-	date:Date
-	DayWorkStatusId?:number;
-	 NotReported:boolean
-	}
+export class EmployeeAttendanceList {
+	attendanceId?: number;
+	employeeId?: number;
+	date: Date
+	DayWorkStatusId?: number;
+	NotReported: boolean
+}
