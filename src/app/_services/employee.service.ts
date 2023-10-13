@@ -43,7 +43,7 @@ export class EmployeeService extends ApiHttpService {
   public AddAttendance(data:EmployeeAttendanceList[]){
     return this.post<EmployeeAttendanceList[]>(POST_LISTOF_ATTENDANCES,data);
   }
-  public CreateAttendance(data:EmployeeAttendanceList){
+  public CreateAttendance(data:EmployeeLeaveDto){
      return this.post<EmployeeAttendanceList>(POST_ATTENDANCE,data);
   }
   //Search Employee

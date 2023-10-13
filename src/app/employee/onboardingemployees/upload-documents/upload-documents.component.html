@@ -6,9 +6,10 @@
                     <div class="p-fluid p-formgrid ">
                         <div class="field col-12  ">
                             <label class="required">Title:</label>
-                            <input type="text" id="Upload_title" pInputText formControlName="title" class="w-100" placeholder="Enter Title">
+                            <input type="text" id="Upload_title" pInputText formControlName="title" class="w-100"
+                                placeholder="Enter Title" #title [maxlength]="maxLength.code">
                             <div class="flex">
-                                <div class="align-left w-60">
+                                <div class="align-left w-60" style="width:70%">
                                     <span *ngIf="FormControls['title'].touched && FormControls['title'].invalid">
                                         <div class="ng-invalid ng-touched p-error"
                                             *ngIf="FormControls['title'].errors?.['required']">
@@ -19,7 +20,13 @@
                                         <div class="ng-invalid ng-touched p-error"
                                             *ngIf="FormControls['title'].errors?.['maxlength']">
                                             Title Max Characters Is 20.</div>
+                                        <div class="ng-invalid ng-touched p-error"
+                                            *ngIf="FormControls['title'].errors?.['pattern']">
+                                            Invalid Pattern.</div>
                                     </span>
+                                </div>
+                                <div class="align-right w-40" style="width:30%; text-align:right;">
+                                    <small>{{title.value.length}}/20</small>
                                 </div>
                             </div>
                         </div>
@@ -32,8 +39,8 @@
                 <label for="singleFile">
                     <i class="pi pi-paperclip"></i> Attach File
                 </label>
-                <input id="singleFile" #fileUpload name="myFile" accept=".pdf, .jpg, .jpeg, .png, .gif" type="file" [disabled]="!this.fbUpload.valid"
-                    hidden="true" (click)="onClick()" />
+                <input id="Upload_singleFile" #fileUpload name="myFile" accept=".pdf, .jpg, .jpeg, .png, .gif" type="file"
+                    [disabled]="!this.fbUpload.valid" hidden="true" (click)="onClick()" />
             </div>
         </div>
     </div>
@@ -55,7 +62,7 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-file let-i="rowIndex">
                     <tr>
-                        <td *ngIf="permissions?.CanManageEmployee" >
+                        <td *ngIf="permissions?.CanManageEmployee">
                             <!-- <button pButton pRipple icon="pi pi-pencil" (click)="editForm(file)"
                                 class="p-element p-ripple p-button-text p-button p-component col-2 p-0 "></button> -->
                             <button pButton pRipple icon="pi pi-trash" id="AddressDetailsRemove-Btn"
@@ -75,7 +82,7 @@
 <div class="grid mt-2">
     <div class="field col-4 m-0 p-1 px-3">
         <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100 text-right"
-            id="Upload_navigatePrvious" (click)="navigateToPrev()">Address Details</button>
+            id="Upload_navigatePrevious" (click)="navigateToPrev()">Address Details</button>
     </div>
     <div class="col-4 m-0 p-1 px-3">
         <button p-button class="p-element p-ripple p-button-info p-button p-component w-100" id="Upload_save"
@@ -83,6 +90,6 @@
     </div>
     <div class="col-4 m-0 p-1 px-3">
         <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100" id="Upload_navigateNext"
-        id="Upload_navigateNext" (click)="navigateToNext()">Family Details</button>
+            id="Upload_navigateNext" (click)="navigateToNext()">Family Details</button>
     </div>
 </div>

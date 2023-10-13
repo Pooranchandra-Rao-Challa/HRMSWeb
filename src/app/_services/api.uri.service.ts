@@ -99,5 +99,5 @@ export const GET_ATTENDENCE="Attendance/GetMonthlyAttendanceReport";
 export const POST_LISTOF_ATTENDANCES="Attendance/CreateAttendanceForEmployees";
 export const GET_EMPLOYEE_LEAVE_DETAILS ="Attendance/GetEmployeeLeaves";
 export const CREATE_EMPLOYEE_LEAVE_DETAILS ="Attendance/CreateEmployeeLeave";
-export const POST_ATTENDANCE="Attendance/CreateAttendanceForEmployee";
+export const POST_ATTENDANCE="Attendance/CreateEmployeeLeave";
 export const GET_NOTUPDATED_EMPLOYEES="Attendance/GetNotUpdatedEmployeesInAttendance";

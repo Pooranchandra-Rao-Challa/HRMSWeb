@@ -3,6 +3,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ALERT_CODES, AlertmessageService } from 'src/app/_alerts/alertmessage.service';
+import { MaxLength } from 'src/app/_models/common';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { JwtService } from 'src/app/_services/jwt.service';
 import { MAX_LENGTH_20, MIN_LENGTH_2 } from 'src/app/_shared/regex';
@@ -18,6 +19,7 @@ export class UploadDocumentsComponent {
     files: { fileBlob: Blob, title: string, fileName: string }[] = [];
     fbUpload!: FormGroup;
     employeeId: any;
+    maxLength: MaxLength = new MaxLength();
     empUploadDetails: any = [];
     permissions: any;
 
@@ -35,7 +37,7 @@ export class UploadDocumentsComponent {
 
     initUpload() {
         this.fbUpload = this.formbuilder.group({
-            title: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_20)]),
+            title: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_20),Validators.pattern(/^[a-zA-Z.]*$/)]),
         })
     }
 
@@ -117,6 +119,7 @@ export class UploadDocumentsComponent {
     getUploadDocuments() {
         this.employeeService.GetUploadedDocuments(this.employeeId).subscribe((data) => {
             this.files = data as unknown as { fileBlob: Blob, title: string, fileName: string }[];
+            console.log(data)
             this.empUploadDetails = data as unknown as { fileBlob: Blob, title: string, fileName: string }[];
         })
     }
