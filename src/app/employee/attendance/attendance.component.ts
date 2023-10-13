@@ -9,7 +9,6 @@ import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.s
 import { LeaveDialogComponent } from 'src/app/_dialogs/leave.dialog/leave.dialog.component';
 import { FORMAT_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { EmployeesList, LookupDetailsDto } from 'src/app/_models/admin';
-import { DialogRequest, LeaveDialog } from 'src/app/_models/common';
 import { employeeAttendanceDto, EmployeeLeaveDto } from 'src/app/_models/employes';
 import { AdminService } from 'src/app/_services/admin.service';
 import { EmployeeService } from 'src/app/_services/employee.service';
