@@ -10,7 +10,7 @@ import { ITableHeader, MaxLength } from 'src/app/_models/common';
 import { EmployeAdressViewDto, FamilyDetailsDto, FamilyDetailsViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { LookupService } from 'src/app/_services/lookup.service';
-import { MIN_LENGTH_2, RG_PANNO, RG_PHONE_NO } from 'src/app/_shared/regex';
+import { MIN_AADHAAR, MIN_LENGTH_2, RG_AADHAAR, RG_PANNO, RG_PHONE_NO } from 'src/app/_shared/regex';
 
 @Component({
   selector: 'app-family-deatils',
@@ -28,12 +28,13 @@ export class FamilyDeatilsComponent implements OnInit {
   mediumDate: string = MEDIUM_DATE;
   addFlag: boolean = true;
   empFamDetails: FamilyDetailsDto[] = [];
+  maxDate: Date;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
     private formbuilder: FormBuilder,
     private lookupService: LookupService,
-    private employeeService: EmployeeService, private alertMessage: AlertmessageService) { }
+    private employeeService: EmployeeService, private alertMessage: AlertmessageService) {}
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -42,14 +43,16 @@ export class FamilyDeatilsComponent implements OnInit {
     this.getFamilyDetails();
     this.initFamily();
     this.initRelationship();
-    this.initGetAddress(true)
+    this.initGetAddress(true);
+    const currentDate = new Date();
+    this.maxDate = currentDate;
   }
   headers: ITableHeader[] = [
     { field: 'name', header: 'name', label: 'Name' },
     { field: 'relationshipId', header: 'relationshipId', label: 'Relationship' },
     { field: 'addressId', header: 'addressId', label: 'Address' },
     { field: 'dob', header: 'dob', label: 'DOB' },
-    { field: 'adhaarNo', header: 'adhaarNo', label: 'Adhaar Number' },
+    { field: 'adhaarNo', header: 'adhaarNo', label: 'Aadhar Number' },
     { field: 'panNo', header: 'panNo', label: 'Pan Number' },
     { field: 'mobileNumber', header: 'mobileNumber', label: 'Mobile Number' },
     { field: 'isNominee', header: 'isNominee', label: 'Is Nominee' }
@@ -62,7 +65,7 @@ export class FamilyDeatilsComponent implements OnInit {
       relationshipId: new FormControl(null, [Validators.required]),
       addressId: new FormControl(null),
       dob: new FormControl('', [Validators.required]),
-      adhaarNo: new FormControl('', [Validators.required]),
+      adhaarNo: new FormControl('', [Validators.required,Validators.pattern(RG_AADHAAR)]),
       panno: new FormControl('', [Validators.pattern(RG_PANNO)]),
       mobileNumber: new FormControl('', [Validators.required, Validators.pattern(RG_PHONE_NO)]),
       isNominee: new FormControl(true),

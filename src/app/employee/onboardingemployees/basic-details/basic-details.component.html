@@ -104,7 +104,7 @@
                     </div>
                 </div>
                 <div class="field col-12 md:col-4">
-                    <label class="required">Marital status</label>
+                    <label class="required">Marital Status</label>
                     <p-dropdown id="maritalStatus_dropdown" placeholder="Select Marital Status"
                         [autoDisplayFirst]="false" [options]="MaritalStatus" optionLabel="name"
                         formControlName="maritalStatus" optionValue="name" appendTo="body"
@@ -174,7 +174,7 @@
                             <span *ngIf="FormControls['originalDob'].touched && FormControls['originalDob'].invalid">
                                 <div class="ng-invalid ng-touched p-error"
                                     *ngIf="FormControls['originalDob'].errors?.['required']">
-                                    Please Select Original Date.
+                                    Please Select Original DOB.
                                 </div>
                             </span>
                         </div>
@@ -193,7 +193,7 @@
                                 *ngIf="FormControls['certificateDob'].touched && FormControls['certificateDob'].invalid">
                                 <div class="ng-invalid ng-touched p-error"
                                     *ngIf="FormControls['certificateDob'].errors?.['required']">
-                                    Please Select Certificate Date.
+                                    Please Select Certificate DOB.
                                 </div>
                             </span>
                         </div>
@@ -209,7 +209,7 @@
                             <span *ngIf="FormControls['emailId'].touched && FormControls['emailId'].invalid">
                                 <div class="ng-invalid ng-touched p-error"
                                     *ngIf="FormControls['emailId'].errors?.['required']">
-                                    Please Enter EmailId.</div>
+                                    Please Enter Email ID.</div>
                                 <div class="ng-invalid ng-touched p-error"
                                     *ngIf="FormControls['emailId'].errors?.['pattern']">
                                     Must in Email Format.</div>

@@ -354,6 +354,7 @@ export class EmployeeLeaveDto{
 	approvedAt?:Date;
 	rejected?: boolean;
 	status?: string;
+	isApprovalEscalated?: boolean;
 	createdAt?: Date;
 	createdBy?: string;
 }

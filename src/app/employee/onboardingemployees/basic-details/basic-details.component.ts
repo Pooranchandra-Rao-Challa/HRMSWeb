@@ -44,8 +44,6 @@ export class BasicDetailsComponent implements OnInit {
     private employeeService: EmployeeService, private formbuilder: FormBuilder,
     private lookupService: LookupService, private alertMessage: AlertmessageService,
     private onboardEmployeeService: OnboardEmployeeService) {
-      const currentDate = new Date();
-      this.maxDate = currentDate;
   
   }
 
@@ -68,6 +66,9 @@ export class BasicDetailsComponent implements OnInit {
     ];
     if (this.employeeId)
       this.getEmployeeBasedonId();
+      
+      const currentDate = new Date();
+      this.maxDate = currentDate;
   }
   basicDetailsForm() {
     this.fbbasicDetails = this.formbuilder.group({

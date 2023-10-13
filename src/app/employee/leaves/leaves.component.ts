@@ -2,7 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Table } from 'primeng/table';
 import { Actions, DialogRequest, ITableHeader } from 'src/app/_models/common';
 import { GlobalFilterService } from 'src/app/_services/global.filter.service';
-import { EmployeeLeaveDto } from 'src/app/_models/employes';
+import { employeeAttendanceDto, EmployeeLeaveDto } from 'src/app/_models/employes';
 import { LeaveDialogComponent } from 'src/app/_dialogs/leave.dialog/leave.dialog.component';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -14,6 +14,7 @@ import { LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
 import { LookupService } from 'src/app/_services/lookup.service';
 import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
+import { NgPluralCase } from '@angular/common';
 
 @Component({
   selector: 'app-leaves',
@@ -36,7 +37,6 @@ export class LeavesComponent {
   dialog: boolean = false;
   selectedAction: string | null = null;
   leaveData: EmployeeLeaveDto;
-
 
   headers: ITableHeader[] = [
     { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
@@ -110,6 +110,7 @@ export class LeavesComponent {
       approvedAt: new FormControl(null),
       rejected: new FormControl(null),
       status: new FormControl(null),
+      isapprovalEscalated: new FormControl(NgPluralCase)
     });
   }
 
@@ -120,41 +121,42 @@ export class LeavesComponent {
   }
 
   processLeave() {
-    const acceptedBy = this.selectedAction === 'approve' ? this.jwtService.UserId : null;
-    const approvedBy = this.selectedAction === 'approve' ? this.jwtService.UserId : null;
-    this.fbLeave.patchValue({
-      employeeLeaveId: this.leaveData.employeeLeaveId,
-      employeeId: this.leaveData.employeeId,
-      employeeName: this.leaveData.employeeName,
-      code: this.leaveData.code,
-      fromDate: this.leaveData.fromDate ? FORMAT_DATE(new Date(this.leaveData.fromDate)) : null,
-      toDate: this.leaveData.toDate ? FORMAT_DATE(new Date(this.leaveData.toDate)) : null,
-      leaveTypeId: this.leaveData.leaveTypeId,
-      note: this.leaveData.note,
-      acceptedBy: acceptedBy,
-      acceptedAt: this.leaveData.acceptedAt ? FORMAT_DATE(new Date(this.leaveData.acceptedAt)) : null,
-      approvedBy: approvedBy,
-      approvedAt: this.leaveData.approvedAt ? FORMAT_DATE(new Date(this.leaveData.approvedAt)) : null,
-      rejected: this.selectedAction === 'approve' ? false : true,
-      status: this.leaveData.status,
-      createdBy: this.leaveData.createdBy
-    });
-    console.log(this.fbLeave.value)
-    this.save().subscribe(resp => {
-      if (resp) {
-        this.dialog = false;
-        this.getLeaves();
-        if (this.selectedAction === 'approve') {
-          this.alertMessage.displayAlertMessage(ALERT_CODES["ELA001"]);
+      const acceptedBy = this.selectedAction === 'approve' ? this.jwtService.UserId : null;
+      const approvedBy = this.selectedAction === 'approve' ? this.jwtService.UserId : null;
+      this.fbLeave.patchValue({
+        employeeLeaveId: this.leaveData.employeeLeaveId,
+        employeeId: this.leaveData.employeeId,
+        employeeName: this.leaveData.employeeName,
+        code: this.leaveData.code,
+        fromDate: this.leaveData.fromDate ? FORMAT_DATE(new Date(this.leaveData.fromDate)) : null,
+        toDate: this.leaveData.toDate ? FORMAT_DATE(new Date(this.leaveData.toDate)) : null,
+        leaveTypeId: this.leaveData.leaveTypeId,
+        note: this.leaveData.note,
+        acceptedBy: acceptedBy,
+        acceptedAt: this.leaveData.acceptedAt ? FORMAT_DATE(new Date(this.leaveData.acceptedAt)) : null,
+        approvedBy: approvedBy,
+        approvedAt: this.leaveData.approvedAt ? FORMAT_DATE(new Date(this.leaveData.approvedAt)) : null,
+        rejected: this.selectedAction === 'approve' ? false : true,
+        status: this.leaveData.status,
+        isapprovalEscalated:true,
+        createdBy: this.leaveData.createdBy
+      });
+      this.save().subscribe(resp => {
+        if (resp) {
+          this.dialog = false;
+          this.getLeaves();
+          if (this.selectedAction === 'approve') {
+            this.alertMessage.displayAlertMessage(ALERT_CODES["ELA001"]);
+          }
+          else {
+            this.alertMessage.displayErrorMessage(ALERT_CODES["ELR002"]);
+          }
         }
-        else {
-          this.alertMessage.displayErrorMessage(ALERT_CODES["ELR002"]);
-        }
-      }
-    })
+      })
+    
   }
 
-  onClose(){
+  onClose() {
     this.dialog = false;
   }
 
@@ -175,7 +177,7 @@ export class LeavesComponent {
       width: this.dialogRequest.width
     });
     this.ref.onClose.subscribe((res: any) => {
-      if (res)this.getLeaves();
+      if (res) this.getLeaves();
       event.preventDefault(); // Prevent the default form submission
     });
   }

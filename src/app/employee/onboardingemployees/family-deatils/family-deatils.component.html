@@ -9,8 +9,7 @@
                     <div class="field col-12 md:col-4">
                         <label class="required">Family Member Name</label>
                         <input type="text" id="familyMembers_Name" pInputText placeholder="Enter Family Member Name"
-                            formControlName="name" #name [maxlength]="20" alphaNumeric
-                            (keydown)="restrictSpaces($event)"
+                            formControlName="name" #name [maxlength]="50" alphaOnly (keydown)="restrictSpaces($event)"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['name'].touched && FormControls['name'].errors }" />
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
@@ -62,7 +61,7 @@
                     <div class="field col-12 md:col-4">
                         <label class="required"> DOB</label>
                         <p-calendar appendTo="body" placeholder="Select DOB" [readonlyInput]="true" [showIcon]="true"
-                            id="dob" #DOB mask="99/99/9999" formControlName="dob"
+                            id="dob" #DOB mask="99/99/9999" formControlName="dob" [maxDate]="maxDate"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['dob'].touched && FormControls['dob'].errors }">
                         </p-calendar>
                         <div class="flex">
@@ -76,27 +75,30 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <label class="required">Adhaar No.</label>
-                        <input type="text" id="adhaar_No" placeholder="Enter Adhaar Number" pInputText
-                            formControlName="adhaarNo" numericOnly [maxLength]="12" #adhaarno
+                        <label class="required">Aadhar No.</label>
+                        <input type="text" id="aadhar_No" placeholder="Enter Aadhar Number" pInputText
+                            formControlName="adhaarNo" numericOnly [minLength]="12" [maxLength]="12" #aadharno [minLength]="12"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['adhaarNo'].touched && FormControls['adhaarNo'].errors }" />
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                                 <span *ngIf="FormControls['adhaarNo'].touched && FormControls['adhaarNo'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="FormControls['adhaarNo'].errors?.['required']">
-                                        Please Enter Adhaar No.</div>
+                                        Please Enter Aadhar No.</div>
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="FormControls['adhaarNo'].errors?.['pattern']">
+                                        Aadhar No Should not start with 0,Please Enter valid Aadhar No Ex:397788000234.</div>
                                 </span>
                             </div>
                             <div class="align-right w-40" style="width:30%; text-align:right;">
-                                <small>{{adhaarno.value.length}}/{{maxLength.aadhaarNo}} </small>
+                                <small>{{aadharno.value.length}}/{{maxLength.aadhaarNo}} </small>
                             </div>
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
                         <label>Pan No.</label>
                         <input type="text" id="pan_No" placeholder="Enter PAN Number" pInputText formControlName="panno"
-                            #panNo [maxLength]="10"
+                            #panNo [maxLength]="10" alphaNumeric
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['panno'].touched && FormControls['panno'].errors }" />
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
