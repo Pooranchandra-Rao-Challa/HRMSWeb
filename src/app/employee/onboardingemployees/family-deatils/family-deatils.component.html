@@ -7,18 +7,17 @@
             <div class="col-12 roles-container m-0 p-0">
                 <div class="p-fluid p-formgrid grid m-0 p-0">
                     <div class="field col-12 md:col-4">
-                        <span class="p-float-label">
-                            <input type="text" id="familyMembers_Name" pInputText formControlName="name" #name [maxlength]="20"
-                                alphaNumeric (keydown)="restrictSpaces($event)"
-                                [ngClass]="{ 'is-invalid ng-dirty': FormControls['name'].touched && FormControls['name'].errors }" />
-                            <label class="required">Name</label>
-                        </span>
+                        <label class="required">Family Member Name</label>
+                        <input type="text" id="familyMembers_Name" pInputText placeholder="Enter Family Member Name"
+                            formControlName="name" #name [maxlength]="20" alphaNumeric
+                            (keydown)="restrictSpaces($event)"
+                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['name'].touched && FormControls['name'].errors }" />
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                                 <span *ngIf="FormControls['name'].touched && FormControls['name'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="FormControls['name'].errors?.['required']">
-                                        Please Enter Name.</div>
+                                        Please Enter Family Member Name.</div>
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="FormControls['name'].errors?.['minlength']">
                                         Name Min Length Is 2.</div>
@@ -30,14 +29,12 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <span class="p-float-label">
-                            <p-dropdown id="relationship_dropdown" [autoDisplayFirst]="false" optionLabel="name"
-                                appendTo="body" [options]="relationships" optionValue="lookupDetailId"
-                                formControlName="relationshipId"
-                                [ngClass]="{'is-invalid ng-dirty': FormControls['relationshipId'].touched && FormControls['relationshipId'].errors}">
-                            </p-dropdown>
-                            <label class="required">Relationship</label>
-                        </span>
+                        <label class="required">Relationship</label>
+                        <p-dropdown id="relationship_dropdown" placeholder="Select Relationship"
+                            [autoDisplayFirst]="false" optionLabel="name" appendTo="body" [options]="relationships"
+                            optionValue="lookupDetailId" formControlName="relationshipId"
+                            [ngClass]="{'is-invalid ng-dirty': FormControls['relationshipId'].touched && FormControls['relationshipId'].errors}">
+                        </p-dropdown>
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                                 <span
@@ -51,26 +48,23 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <span class="p-float-label">
-                            <p-dropdown id="address_dropdown" formControlName="addressId" [autoDisplayFirst]="false"
-                                appendTo="body" optionLabel="addressLine1" [options]="address" optionValue="addressId">
-                                <ng-template let-address pTemplate="item">
-                                    {{ address.addressLine1 }},{{ address.addressLine2 }},<br>
-                                    {{ address.landmark }},{{address.city }},<br>
-                                    {{address.state}},{{address.zipCode}},{{address.country}}
-                                </ng-template>
-                            </p-dropdown>
-                            <label>Address</label>
-                        </span>
+                        <label>Address</label>
+                        <p-dropdown id="address_dropdown" placeholder="Select Address" formControlName="addressId"
+                            [autoDisplayFirst]="false" appendTo="body" optionLabel="addressLine1" [options]="address"
+                            optionValue="addressId">
+                            <ng-template let-address pTemplate="item">
+                                {{ address.addressLine1 }},{{ address.addressLine2 }},<br>
+                                {{ address.landmark }},{{address.city }},<br>
+                                {{address.state}},{{address.zipCode}},{{address.country}}
+                            </ng-template>
+                        </p-dropdown>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <span class="p-float-label">
-                            <p-calendar appendTo="body" [readonlyInput]="true" [showIcon]="true" id="dob" #DOB mask="99/99/9999"
-                                formControlName="dob" 
-                                [ngClass]="{ 'is-invalid ng-dirty': FormControls['dob'].touched && FormControls['dob'].errors }">
-                            </p-calendar>
-                            <label class="required"> DOB</label>
-                        </span>
+                        <label class="required"> DOB</label>
+                        <p-calendar appendTo="body" placeholder="Select DOB" [readonlyInput]="true" [showIcon]="true"
+                            id="dob" #DOB mask="99/99/9999" formControlName="dob"
+                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['dob'].touched && FormControls['dob'].errors }">
+                        </p-calendar>
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                                 <span *ngIf="FormControls['dob'].touched && FormControls['dob'].invalid">
@@ -82,12 +76,10 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <span class="p-float-label">
-                            <input type="text" id="adhaar_No" pInputText formControlName="adhaarNo" numericOnly
-                                [maxLength]="12" #adhaarno
-                                [ngClass]="{ 'is-invalid ng-dirty': FormControls['adhaarNo'].touched && FormControls['adhaarNo'].errors }" />
-                            <label class="required">Adhaar No.</label>
-                        </span>
+                        <label class="required">Adhaar No.</label>
+                        <input type="text" id="adhaar_No" placeholder="Enter Adhaar Number" pInputText
+                            formControlName="adhaarNo" numericOnly [maxLength]="12" #adhaarno
+                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['adhaarNo'].touched && FormControls['adhaarNo'].errors }" />
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                                 <span *ngIf="FormControls['adhaarNo'].touched && FormControls['adhaarNo'].invalid">
@@ -102,11 +94,10 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <span class="p-float-label">
-                            <input type="text" id="pan_No" pInputText formControlName="panno" #panNo [maxLength]="10"
-                                [ngClass]="{ 'is-invalid ng-dirty': FormControls['panno'].touched && FormControls['panno'].errors }" />
-                            <label>Pan No.</label>
-                        </span>
+                        <label>Pan No.</label>
+                        <input type="text" id="pan_No" placeholder="Enter PAN Number" pInputText formControlName="panno"
+                            #panNo [maxLength]="10"
+                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['panno'].touched && FormControls['panno'].errors }" />
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                                 <span *ngIf="FormControls['panno'].touched && FormControls['panno'].invalid">
@@ -124,12 +115,10 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <span class="p-float-label">
-                            <input type="text" id="mobile_Number" pInputText formControlName="mobileNumber" #phoneNo
-                                numericOnly [maxLength]="10"
-                                [ngClass]="{ 'is-invalid ng-dirty': FormControls['mobileNumber'].touched && FormControls['mobileNumber'].errors }" />
-                            <label class="required">Mobile No.</label>
-                        </span>
+                        <label class="required">Mobile No.</label>
+                        <input type="text" id="mobile_Number" placeholder="Enter Mobile Number" pInputText
+                            formControlName="mobileNumber" #phoneNo numericOnly [maxLength]="10"
+                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['mobileNumber'].touched && FormControls['mobileNumber'].errors }" />
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                                 <span
@@ -148,16 +137,14 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <span class="p-float-label">
-                            <label class="required" for="is_Nominee" class="ml-3">Make him/her as Nominee</label>
-                            <p-checkbox [binary]="true" id="is_Nominee" class="mr-2" formControlName="isNominee">
-                            </p-checkbox>
-                        </span>
+                        <label class="required" for="is_Nominee" class="ml-3">Make him/her as Nominee</label>
+                        <p-checkbox [binary]="true" id="is_Nominee" class="mr-2" formControlName="isNominee">
+                        </p-checkbox>
                     </div>
                     <div class="d-flex flex-row justify-content-center col-12 md:col-4 mt-2">
                         <div class="button-container">
-                            <p-button type="button" label="Add Family Members" [disabled]="fbfamilyDetails.invalid" id="AddFamilyMembersBtn"
-                                (click)="addFamilyMembers()">
+                            <p-button type="button" label="Add Family Members" [disabled]="fbfamilyDetails.invalid"
+                                id="AddFamilyMembersBtn" (click)="addFamilyMembers()">
                             </p-button>
                         </div>
                     </div>
@@ -183,7 +170,8 @@
             <ng-template pTemplate="body" let-familyData let-familyDataIndex="rowIndex">
                 <tr>
                     <td>
-                        <button pButton pRipple icon="pi pi-pencil" id="familyDetailsAdd-Btn" (click)="editFamilyDetails(familyData)"
+                        <button pButton pRipple icon="pi pi-pencil" id="familyDetailsAdd-Btn"
+                            (click)="editFamilyDetails(familyData)"
                             class="p-element p-ripple p-button-text p-button p-component mr-3  p-0">
                         </button>
                         <button pButton pRipple icon="pi pi-trash" id="familyDetailsRemove-Btn"
@@ -223,15 +211,15 @@
 </div>
 <div class="grid mt-2">
     <div class="field col-4 m-0 p-1 px-3">
-        <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100 text-right" id="NavigateToUploadDocumentsBtn"
-            (click)="navigateToPrev()">Upload Documents</button>
+        <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100 text-right"
+            id="NavigateToUploadDocumentsBtn" (click)="navigateToPrev()">Upload Documents</button>
     </div>
     <div class=" col-4 m-0 p-1 px-3">
         <button p-button class="p-element p-ripple p-button-info p-button p-component w-100" id="SavingFamilyDetailsBtn"
             [disabled]="this.empFamDetails.length == 0" (click)="onSubmit()">Save as Draft</button>
     </div>
     <div class=" col-4 m-0 p-1 px-3">
-        <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100" id="NavigateToBankDetailsBtn"
-            (click)="navigateToNext()">Bank Details </button>
+        <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100"
+            id="NavigateToBankDetailsBtn" (click)="navigateToNext()">Bank Details </button>
     </div>
 </div>

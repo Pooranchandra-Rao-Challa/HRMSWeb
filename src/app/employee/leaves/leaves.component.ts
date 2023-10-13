@@ -22,7 +22,7 @@ import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.s
   ]
 })
 export class LeavesComponent {
-  globalFilterFields: string[] = ['employeeId', 'leaveTypeId', 'fromDate', 'toDate', 'toDate', 'note', 'acceptedBy', 'acceptedAt', 'approvedBy', 'approvedAt']
+  globalFilterFields: string[] = ['employeeName', 'leaveTypeId', 'fromDate', 'toDate', 'note', 'acceptedBy', 'acceptedAt', 'approvedBy']
   @ViewChild('filter') filter!: ElementRef;
   ActionTypes = Actions;
   leaveDialogComponent = LeaveDialogComponent;

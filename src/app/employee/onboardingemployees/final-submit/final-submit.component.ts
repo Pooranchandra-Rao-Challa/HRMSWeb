@@ -56,16 +56,6 @@ export class FinalSubmitComponent {
     });
   }
 
-  onsubmit() {
-    this.employeeService.EnrollUser(this.fbEnroll.value).subscribe((resp) => {
-      this.userData = resp;
-      if (this.userData) {
-        this.dialog = true;
-        this.alertMessage.displayAlertMessage(ALERT_CODES["SEE001"]);
-        this.router.navigate(['employee/all-employees']);
-      }
-    });
-  }
   onSubmit() {
     this.employeeService.EnrollUser(this.fbEnroll.value).subscribe(res => {
       this.message = res;
@@ -75,14 +65,15 @@ export class FinalSubmitComponent {
   }
 
   onClose() {
-    this.router.navigate(['employee/all-employees']);
-    if (this.message !== null) {
-      this.alertMessage.displayAlertMessage(ALERT_CODES["SEE001"]);
+    if (this.employeeObj.pendingDetails == "BankDetails, FamilyInformation") {
+      if (this.message !== null) {
+        this.router.navigate(['employee/all-employees']);
+        this.alertMessage.displayAlertMessage(ALERT_CODES["SEE001"]);
+      }
     }
-  }
-  closeDialogAndNavigate() {
-    this.dialog = false;
-    this.router.navigate(['employee/all-employees']);
-  }
+    else {
+      this.dialog = false;
+    }
 
+  }
 }
