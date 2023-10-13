@@ -85,6 +85,7 @@ export class AttendanceComponent {
   initDayWorkStatus() {
     this.lookupService.DayWorkStatus().subscribe(resp => {
       this.LeaveTypes = resp as unknown as LookupDetailsDto[];
+      console.log(resp)
     })
   }
   initAttendance() {
@@ -107,7 +108,6 @@ export class AttendanceComponent {
           this.alertMessage.displayAlertMessage(ALERT_CODES["EAAS001"]);
           this.display = false;
           this.initAttendance();
-          this.CheckPreviousDayAttendance();
         }
         else
           this.alertMessage.displayErrorMessage(ALERT_CODES["EAAS002"]);
@@ -127,7 +127,8 @@ export class AttendanceComponent {
       })
       EmployeesList.push(this.fbAttendance.value)
     })
-    this.save(EmployeesList)
+    this.save(EmployeesList);
+    this.CheckPreviousDayAttendance();
   }
 
   onReject() {
@@ -193,20 +194,33 @@ export class AttendanceComponent {
 
 
   addAttendance() {
-    this.fbleave.patchValue({
-      acceptedBy: this.jwtService.UserId,
-      approvedBy: this.jwtService.UserId,
-      rejected: false
-    });
-    this.saveAttendance().subscribe(resp => {
-      if (resp) {
-        this.dialog = false;
-        this.initAttendance();
-        this.alertMessage.displayAlertMessage(ALERT_CODES["EAAS001"]);
-      }
-      else
-        return this.alertMessage.displayErrorMessage(ALERT_CODES["EAAS002"]);
-    })
+    const StatusId = this.LeaveTypes.filter(each => each.lookupDetailId === this.fbleave.get('leaveTypeId').value);
+    if (StatusId[0].name == 'PT' || StatusId[0].name == 'AT') {
+      this.fbAttendance.patchValue({
+        employeeId: this.fbleave.get('employeeId').value,
+        dayWorkStatusId: StatusId[0].lookupDetailId,
+        date: this.fbleave.get('fromDate').value,
+        notReported: false
+      });
+      this.save([this.fbAttendance.value]);
+    }
+    else {
+      this.fbleave.patchValue({
+        acceptedBy: this.jwtService.UserId,
+        approvedBy: this.jwtService.UserId,
+        rejected: false
+      });
+      this.saveAttendance().subscribe(resp => {
+        if (resp) {
+          this.alertMessage.displayAlertMessage(ALERT_CODES["ELD001"]);
+        }
+        else
+          return this.alertMessage.displayErrorMessage(ALERT_CODES["ELR002"]);
+          this.initAttendance();  
+      })
+    }
+    this.dialog = false;
+    
   }
 
   checkLeaveType() {
@@ -216,8 +230,8 @@ export class AttendanceComponent {
       this.fbleave.get('note').setValue('Leave is Updated through Attendance form by Admin the approve is generated Automatically.');
   }
 
-  saveAttendance(): Observable<HttpEvent<EmployeeLeaveDto[]>> {
-    return this.employeeService.CreateEmployeeLeaveDetails(this.fbleave.value);
+  saveAttendance() {
+    return this.employeeService.CreateAttendance(this.fbleave.value);
   }
 
 
