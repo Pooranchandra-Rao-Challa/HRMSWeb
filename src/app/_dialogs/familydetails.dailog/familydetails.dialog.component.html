@@ -1,5 +1,5 @@
 <div class="flex flex-column align-items-center justify-content-center">
-    <form [formGroup]="fbfamilyDetails">
+    <form [formGroup]="fbfamilyDetails" autocomplete="off">
         <div class="grid mt-3 p-5">
             <div class="col-12 roles-container">
                 <div class="p-fluid p-formgrid grid">
@@ -83,7 +83,7 @@
                             <input type="text" id="adhaar_No" pInputText formControlName="adhaarNo" numericOnly
                                 [maxLength]="12" #adhaarno
                                 [ngClass]="{ 'is-invalid ng-dirty': familyFormControls['adhaarNo'].touched && familyFormControls['adhaarNo'].errors }" />
-                            <label class="required">Adhaar No.</label>
+                            <label class="required">Aadhaar No.</label>
                         </span>
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
@@ -92,6 +92,11 @@
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="familyFormControls['adhaarNo'].errors?.['required']">
                                         Please Enter Adhaar No.</div>
+                                        <!-- <div class="ng-invalid ng-touched p-error"
+                                  *ngIf="familyFormControls['adhaarNo'].errors?.['minlength']">
+                                  Aadhaar No Min Length Is 12.</div> -->
+                                <div class="ng-invalid ng-touched p-error"
+                                  *ngIf="familyFormControls['adhaarNo'].errors?.['pattern']">Please Enter valid Aadhar No Ex:397788000234.</div>
                                 </span>
                             </div>
                             <div class="align-right w-40" style="width:30%; text-align:right;">

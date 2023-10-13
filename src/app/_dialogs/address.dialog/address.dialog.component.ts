@@ -6,7 +6,7 @@ import { LookupService } from 'src/app/_services/lookup.service';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EmployeAdressViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
-import { MAX_LENGTH_256, MAX_LENGTH_50, MIN_LENGTH_2 } from 'src/app/_shared/regex';
+import { MAX_LENGTH_256, MAX_LENGTH_50, MIN_LENGTH_2, MIN_LENGTH_6, RG_PINCODE } from 'src/app/_shared/regex';
 import { ActivatedRoute } from '@angular/router';
 import { MaxLength, ViewEmployeeScreen } from 'src/app/_models/common';
 import { LookupDetailsDto } from 'src/app/_models/admin';
@@ -51,7 +51,7 @@ export class AddressDialogComponent {
             addressLine1: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
             addressLine2: new FormControl('', [Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
             landmark: new FormControl('', [Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
-            zipcode: new FormControl('', [Validators.required]),
+            zipcode: new FormControl('', [Validators.required, Validators.pattern(RG_PINCODE), Validators.maxLength(MIN_LENGTH_6),]),
             city: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
             stateId: new FormControl('', [Validators.required]),
             countryId: new FormControl('', [Validators.required]),
