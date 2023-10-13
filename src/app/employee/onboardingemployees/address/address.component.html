@@ -59,7 +59,7 @@
                     <div class="field col-12 md:col-4">
                         <label class="required">ZIP Code</label>
                         <input type="text" id="Address_ZIPCode" pInputText formControlName="zipCode"
-                            placeholder="Enter ZIPCode"
+                            placeholder="Enter ZIPCode" numericOnly
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['zipCode'].touched && FormControls['zipCode'].errors }"
                             [maxlength]="maxLength.pinCode" #zip />
 
@@ -71,7 +71,7 @@
                                         Please Enter ZIPCode.</div>
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="FormControls['zipCode'].errors?.['pattern']">
-                                        Invalid Pan No Eg:524005.</div>
+                                        First Digit Should Be Greater Than 0 And Must Contains 6 Digits.</div>
                                 </span>
                             </div>
                             <div class="align-right w-40" style="width:30%; text-align:right;">
@@ -193,8 +193,8 @@
         <div class="field text-center m-1 mx-2">
             <label>Show All Addresses</label>
             <br /> &nbsp; <p-inputSwitch [(ngModel)]="isAddressChecked" (onChange)="onChangeAddressChecked()"
-              id="Employee_addressUnActive"></p-inputSwitch>
-          </div>
+                id="Employee_addressUnActive"></p-inputSwitch>
+        </div>
         <p-table #dt2 [value]="empAddrDetails" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
             styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
@@ -214,7 +214,8 @@
                 <tr>
                     <td *ngIf="permissions?.CanManageEmployee">
                         <div class="flex">
-                            <button *ngIf="addressDetails.isActive" pButton pRipple icon="pi pi-pencil" (click)="editForm(addressDetails)"
+                            <button *ngIf="addressDetails.isActive" pButton pRipple icon="pi pi-pencil"
+                                (click)="editForm(addressDetails)"
                                 class="p-element p-ripple p-button-text p-button p-component col-2 p-0 "></button>
                             <button pButton pRipple icon="pi pi-trash" id="AddressDetailsRemove-Btn"
                                 class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
@@ -253,7 +254,8 @@
             (click)="navigateToPrev()">Experience Details</button>
     </div>
     <div class="col-4 m-0 p-1 px-3">
-        <button p-button class="p-element p-ripple p-button-info p-button p-component w-100" (click)="onSubmit()">Save
+        <button p-button class="p-element p-ripple p-button-info p-button p-component w-100"
+            [disabled]="this.empAddrDetails.length == 0" (click)="onSubmit()">Save
             as Draft</button>
     </div>
     <div class="col-4 m-0 p-1 px-3">
