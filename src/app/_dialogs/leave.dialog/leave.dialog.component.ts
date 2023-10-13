@@ -27,6 +27,7 @@ export class LeaveDialogComponent {
   disabledDates: Date[] = [];
   holidays: HolidaysViewDto[] = [];
   year: string;
+  minDate: Date;
 
   constructor(
     private formbuilder: FormBuilder,
@@ -46,7 +47,6 @@ export class LeaveDialogComponent {
     this.year = new Date().getFullYear().toString(); // Set year dynamically
     this.adminService.GetHolidays(this.year).subscribe(
       (response) => {
-        console.log(response);
         this.holidays = response as unknown as HolidaysViewDto[];
         this.initializeDisabledDates(currentYear);
       },
@@ -54,6 +54,7 @@ export class LeaveDialogComponent {
         console.error('Failed to fetch holiday dates:', error);
       }
     );
+    this.minDate = new Date();
   }
 
   // Initialize the disabled dates array for all months of the year
@@ -184,6 +185,7 @@ export class LeaveDialogComponent {
     else {
       this.fbLeave.markAllAsTouched();
     }
+    console.log(this.fbLeave.value);
   }
 
 }

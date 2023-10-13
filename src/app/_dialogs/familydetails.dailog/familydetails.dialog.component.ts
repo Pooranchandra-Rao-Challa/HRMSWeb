@@ -6,7 +6,7 @@ import { LookupService } from 'src/app/_services/lookup.service';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EmployeAdressViewDto, FamilyDetailsViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
-import { MIN_LENGTH_2, RG_PANNO, RG_PHONE_NO } from 'src/app/_shared/regex';
+import { MIN_AADHAAR, MIN_LENGTH_2, RG_AADHAAR, RG_PANNO, RG_PHONE_NO } from 'src/app/_shared/regex';
 import { ActivatedRoute } from '@angular/router';
 import {  MaxLength, ViewEmployeeScreen } from 'src/app/_models/common';
 import { LookupViewDto, LookupDetailsDto } from 'src/app/_models/admin';
@@ -50,7 +50,7 @@ export class FamilydetailsDialogComponent {
             relationshipId: new FormControl(null, [Validators.required]),
             addressId: new FormControl(),
             dob: new FormControl(null, [Validators.required]),
-            adhaarNo: new FormControl('', [Validators.required]),
+            adhaarNo: new FormControl('', [Validators.required, Validators.pattern(RG_AADHAAR), Validators.minLength(MIN_AADHAAR)]),
             panno: new FormControl('', [Validators.pattern(RG_PANNO)]),
             mobileNumber: new FormControl('', [Validators.required, Validators.pattern(RG_PHONE_NO)]),
             isNominee: [true, Validators.requiredTrue],

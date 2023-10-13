@@ -1,6 +1,6 @@
 
 <div class="flex flex-column align-items-center justify-content-center">
-	<form [formGroup]="fbAddressDetails">
+	<form [formGroup]="fbAddressDetails" autocomplete="off">
 		<div class="grid mt-3 p-5">
 			<div class="col-12 roles-container">
 				<div class="p-fluid p-formgrid grid">
@@ -63,7 +63,7 @@
 					</div>
 					<div class="field col-12 md:col-4">
 						<span class="p-float-label">
-							<input type="text" id="Address_ZIPCode" pInputText formControlName="zipcode"
+							<input type="text" id="Address_ZIPCode" pInputText formControlName="zipcode" numericOnly [maxlength]="6" [minlength]="6"
 								[ngClass]="{ 'is-invalid ng-dirty': FormControls['zipcode'].touched && FormControls['zipcode'].errors }"
 								[maxlength]="maxLength.pinCode" #zip />
 							<label class="required">ZIP Code</label>
@@ -74,10 +74,10 @@
 									*ngIf="FormControls['zipcode'].touched && FormControls['zipcode'].invalid">
 									<div class="ng-invalid ng-touched p-error"
 										*ngIf="FormControls['zipcode'].errors?.['required']">
-										Please Enter ZIPCode.</div>
+										Please Enter ZIP Code.</div>
 									<div class="ng-invalid ng-touched p-error"
 										*ngIf="FormControls['zipcode'].errors?.['pattern']">
-										Invalid Pan No Eg:524005.</div>
+										Invalid ZIP Code Ex:524005.</div>
 								</span>
 							</div>
 							<div class="align-right w-40" style="width:30%; text-align:right;">

@@ -32,6 +32,7 @@ export class EducationDetailsComponent implements OnInit {
   mediumDate: string = MEDIUM_DATE;
   addFlag: boolean = true;
   empEduDetails: EducationDetailsDto[] = [];
+  maxDate: Date;
 
   constructor(private formbuilder: FormBuilder,
     private router: Router,
@@ -49,6 +50,8 @@ export class EducationDetailsComponent implements OnInit {
     this.initCountry();
     this.initGrading();
     this.getEmpEducaitonDetails();
+    const currentDate = new Date();
+    this.maxDate = currentDate;
   }
 
   headers: ITableHeader[] = [
