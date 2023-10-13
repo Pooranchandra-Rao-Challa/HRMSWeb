@@ -39,8 +39,8 @@
                 <label for="singleFile">
                     <i class="pi pi-paperclip"></i> Attach File
                 </label>
-                <input id="Upload_singleFile" #fileUpload name="myFile" accept=".pdf, .jpg, .jpeg, .png, .gif" type="file"
-                    [disabled]="!this.fbUpload.valid" hidden="true" (click)="onClick()" />
+                <input id="singleFile" #fileUpload name="myFile" accept=".pdf, .jpg, .jpeg, .png, .gif" type="file" [disabled]="!this.fbUpload.valid"
+                    hidden="true" (click)="onClick()" />
             </div>
         </div>
     </div>

@@ -2,11 +2,12 @@ import { HttpErrorResponse, HttpEvent, HttpEventType, HttpParams, HttpResponse }
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { dE } from '@fullcalendar/core/internal-common';
 import { ALERT_CODES, AlertmessageService } from 'src/app/_alerts/alertmessage.service';
 import { MaxLength } from 'src/app/_models/common';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { JwtService } from 'src/app/_services/jwt.service';
-import { MAX_LENGTH_20, MIN_LENGTH_2 } from 'src/app/_shared/regex';
+import { MAX_LENGTH_20, MIN_LENGTH_2, RG_ALPHA_ONLY } from 'src/app/_shared/regex';
 // import { MessageService } from 'primeng/api/messageservice';
 
 @Component({
@@ -37,7 +38,7 @@ export class UploadDocumentsComponent {
 
     initUpload() {
         this.fbUpload = this.formbuilder.group({
-            title: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_20),Validators.pattern(/^[a-zA-Z.]*$/)]),
+            title: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_20),Validators.pattern(RG_ALPHA_ONLY)]),
         })
     }
 
