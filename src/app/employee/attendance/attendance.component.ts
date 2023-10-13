@@ -128,7 +128,6 @@ export class AttendanceComponent {
       EmployeesList.push(this.fbAttendance.value)
     })
     this.save(EmployeesList);
-    this.CheckPreviousDayAttendance();
   }
 
   onReject() {
@@ -160,7 +159,7 @@ export class AttendanceComponent {
     const currentDate = this.datePipe.transform(new Date(), 'dd-MM-yyyy');
     const dayBeforeYesterday = new Date();
     dayBeforeYesterday.setDate(dayBeforeYesterday.getDate() - 2);
-    if (formattedDate > currentDate || formattedDate <= this.datePipe.transform(dayBeforeYesterday, 'dd-MM-yyyy')) //Disable Click for future Dates
+    if (formattedDate > currentDate || formattedDate <= this.datePipe.transform(dayBeforeYesterday, 'dd-MM-yyyy'))
       return
     else if (formattedDate < currentDate && !this.checkPreviousAttendance)
       return;
