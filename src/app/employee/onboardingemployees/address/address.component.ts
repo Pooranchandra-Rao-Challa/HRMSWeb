@@ -71,7 +71,7 @@ export class AddressComponent {
       addressLine1: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
       addressLine2: new FormControl('', [Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
       landmark: new FormControl('', [Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
-      zipCode: new FormControl('', [Validators.required]),
+      zipCode: new FormControl('', [Validators.required,Validators.pattern(RG_PINCODE)]),
       city: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
       stateId: new FormControl('', [Validators.required]),
       countryId: new FormControl('', [Validators.required]),

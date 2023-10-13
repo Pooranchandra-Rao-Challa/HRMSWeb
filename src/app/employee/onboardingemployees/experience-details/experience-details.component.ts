@@ -30,6 +30,7 @@ export class ExperienceDetailsComponent {
   skills: LookupDetailsDto[] = []
   selectedOption: string;
   workExperienceId:number;
+  currentDate: Date;
   maxLength: MaxLength = new MaxLength();
   viewSelectedSkills = [];
   addFlag: boolean = true;
@@ -44,7 +45,8 @@ export class ExperienceDetailsComponent {
     private alertMessage: AlertmessageService, private employeeService: EmployeeService, private lookupService: LookupService) { }
 
   ngOnInit() {
-    this.permissions = this.jwtService.Permissions
+    this.permissions = this.jwtService.Permissions;
+    this.currentDate = new Date();
     this.route.params.subscribe(params => {
         console.log(params);
       this.employeeId = params['employeeId'];
