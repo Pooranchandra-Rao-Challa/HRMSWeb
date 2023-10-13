@@ -45,7 +45,7 @@
                 <div class="field col-12 md:col-4">
                     <label class="required">IFSC Code</label>
                     <input type="text" id="ifsc_Code" placeholder="Enter IFSC Code" pInputText formControlName="ifsc"
-                        #ifscCode [maxlength]="11" [minlength]="11" (keydown)="restrictSpaces($event)"
+                        #ifscCode [maxlength]="11" [minlength]="11" (keydown)="restrictSpaces($event)" alphaNumeric
                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['ifsc'].touched && FormControls['ifsc'].errors }" />
                     <div class="flex">
                         <div class="align-left w-60" style="width:70%">
