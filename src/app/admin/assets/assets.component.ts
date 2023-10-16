@@ -186,7 +186,6 @@ export class AssetsComponent {
   }
 
   save() {
-    debugger
     this.fbassets.value.purchasedDate = FORMAT_DATE(this.fbassets.value.purchasedDate);
     this.saveAssets().subscribe(resp => {
       if (resp) {
