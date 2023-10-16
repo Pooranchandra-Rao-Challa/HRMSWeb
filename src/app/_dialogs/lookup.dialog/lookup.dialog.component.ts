@@ -20,7 +20,7 @@ export class LookupDialogComponent {
   addfields: any;
   dependentDropdown: boolean = false;
   dependentLookupData: LookupViewDto[] = [];
-  showlookupDetails: boolean = false;
+  ShowlookupDetails: boolean = false;
   falookUpDetails!: FormArray;
   addFlag: boolean = true;
   lookups: LookupViewDto[] = [];
@@ -28,6 +28,7 @@ export class LookupDialogComponent {
   maxLength: MaxLength = new MaxLength();
   lookupNames: string[] = [];
   lookupNamesNotConfigured: string[] = [];
+  DependentDropdown = false;
 
   constructor(private formbuilder: FormBuilder,
     private adminService: AdminService,
@@ -57,12 +58,65 @@ export class LookupDialogComponent {
     })
   }
 
+  initAssetsType() {
+    this.lookupService.AssetTypes().subscribe((resp) => {
+      this.dependentLookupData = resp as unknown as LookupViewDto[];
+    })
+  }
+  initAssetsCategories() {
+    debugger
+    this.lookupService.AssetCategories().subscribe((resp) => {
+      this.dependentLookupData = resp as unknown as LookupViewDto[];
+      console.log(resp);
+    })
+  }
+  initAssetStatus() {
+    this.lookupService.AssetStatus().subscribe((resp) => {
+      this.dependentLookupData = resp as unknown as LookupViewDto[];
+    })
+  }
+  initRelationships() {
+    this.lookupService.Relationships().subscribe((resp) => {
+      this.dependentLookupData = resp as unknown as LookupViewDto[];
+    })
+  }
+  initGradingMethods() {
+    this.lookupService.GradingMethods().subscribe((resp) => {
+      this.dependentLookupData = resp as unknown as LookupViewDto[];
+    })
+  }
+  initDesignations() {
+    this.lookupService.Designations().subscribe((resp) => {
+      this.dependentLookupData = resp as unknown as LookupViewDto[];
+    })
+  }
+  initSkillAreas() {
+    this.lookupService.SkillAreas().subscribe((resp) => {
+      this.dependentLookupData = resp as unknown as LookupViewDto[];
+    })
+  }
+  initBloodGroups() {
+    this.lookupService.BloodGroups().subscribe((resp) => {
+      this.dependentLookupData = resp as unknown as LookupViewDto[];
+    })
+  }
+  initCountries() {
+    this.lookupService.Countries().subscribe((resp) => {
+      this.dependentLookupData = resp as unknown as LookupViewDto[];
+    })
+  }
+  initCurriculums() {
+    this.lookupService.Curriculums().subscribe((resp) => {
+      this.dependentLookupData = resp as unknown as LookupViewDto[];
+    })
+  }
+
   lookupForm() {
     this.addfields = [];
     this.fblookup = this.formbuilder.group({
       lookupId: [null],
       code: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_NUMERIC), Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_20)]),
-      fkeySelfId:  new FormControl(''),
+      fkeySelfId: [null],
       name: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
       isActive: new FormControl(true, [Validators.required]),
       lookUpDetails: this.formbuilder.array([], FormArrayValidationForDuplication())
@@ -122,12 +176,36 @@ export class LookupDialogComponent {
   }
 
   getDependentLookupData(value) {
-    if (value == 5) this.getCountries();
-    else if (value == 10) this.getCurriculums();
+    if (value ==" Asset Types") {
+      this.initAssetsType()
+    } else if (value == "Asset Categories") {
+      this.initAssetsCategories()
+    } else if (value =="Status") {
+      this.initAssetStatus()
+    } else if (value == "Countries") {
+      this.initCountries()
+    } else if (value =="Relations" ) {
+      this.initRelationships()
+    } else if (value ==  "Blood Groups") {
+      this.initBloodGroups()
+    } else if (value == "Designations") {
+      this.initDesignations()
+    } else if (value == "Skill Areas" ) {
+      this.initSkillAreas()
+    } else if (value =="Curriculums") {
+      this.initCurriculums()
+    } else if (value == "Grading Methods") {
+      this.initGradingMethods()
+    }
   }
 
+  // getDependentLookupData(value) {
+  //   if (value == 5) this.getCountries();
+  //   else if (value == 10) this.getCurriculums();
+  // }
+
   addLookupDetails() {
-    this.showlookupDetails = true;
+    this.ShowlookupDetails = true;
     this.falookUpDetails = this.fblookup.get("lookUpDetails") as FormArray
     this.falookUpDetails.push(this.generaterow())
     this.setDefaultIsActiveForAllRows();
@@ -167,7 +245,7 @@ export class LookupDialogComponent {
     })
     this.fblookup.patchValue(lookup);
     this.addFlag = false;
-    this.showlookupDetails = true;
+    this.ShowlookupDetails = true;
   }
 
   onSubmit() {
@@ -190,6 +268,7 @@ export class LookupDialogComponent {
     } else {
       this.fblookup.markAllAsTouched();
     }
+
   }
 
   save() {
@@ -205,6 +284,8 @@ export class LookupDialogComponent {
     else {
       this.fblookup.markAllAsTouched();
     }
+    console.log(this.fblookup.value);
+
   }
   savelookup(): Observable<HttpEvent<LookupViewDto>> {
     if (this.addFlag) {
