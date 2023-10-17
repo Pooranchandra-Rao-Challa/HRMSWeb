@@ -29,6 +29,7 @@ export class EducationdetailsDialogComponent {
   gradingMethods: LookupViewDto[] = [];
   educationDetails: employeeEducDtlsViewDto[] = [];
   employeeId: string;
+  currentDate = new Date();
 
   constructor(
     private formbuilder: FormBuilder,

@@ -7,12 +7,11 @@
         <ng-template pTemplate="header">
           <div class="flex flex-column md:flex-row md:justify-content-between gap-2">
             <span class="p-input-icon-left">
-              <i class="pi pi-search"></i>
+              <i class="pi pi-search"  *ngIf="dv._layout !== 'list'"></i>
               <input type="text" pInputText placeholder="Search by Name or Id" (input)="onFilter(dv, $event)"
-                [disabled]="dv._layout == 'list'" />
+                *ngIf="dv._layout !== 'list'" />
             </span>
             <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
-
           </div>
         </ng-template>
 
@@ -51,7 +50,8 @@
               </ng-template>
               <ng-template pTemplate="body" let-employee>
                 <tr>
-                  <td *ngIf="permissions?.CanManageEmployee">
+                  <td *ngIf="permissions?.CanManageEmployee"></td>
+                  <td>
                     <img
                       [src]="employee.photo ? employee.photo : '/assets/layout/images/default_icon_employee.jpg'"
                       [alt]="employee.employeeName" class="my-4 md:my-0 w-10 md:w-10rem shadow-2 mr-2" />

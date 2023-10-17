@@ -8,7 +8,7 @@ import { EmployeAdressViewDto, FamilyDetailsViewDto } from 'src/app/_models/empl
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { MIN_AADHAAR, MIN_LENGTH_2, RG_AADHAAR, RG_PANNO, RG_PHONE_NO } from 'src/app/_shared/regex';
 import { ActivatedRoute } from '@angular/router';
-import {  MaxLength, ViewEmployeeScreen } from 'src/app/_models/common';
+import { MaxLength, ViewEmployeeScreen } from 'src/app/_models/common';
 import { LookupViewDto, LookupDetailsDto } from 'src/app/_models/admin';
 import { FORMAT_DATE } from 'src/app/_helpers/date.formate.pipe';
 
@@ -24,6 +24,7 @@ export class FamilydetailsDialogComponent {
     relationships: LookupDetailsDto[] = [];
     address: EmployeAdressViewDto[];
     maxLength: MaxLength = new MaxLength();
+    currentDate = new Date();
 
     constructor(private formbuilder: FormBuilder,
         private alertMessage: AlertmessageService,
@@ -32,8 +33,8 @@ export class FamilydetailsDialogComponent {
         private employeeService: EmployeeService,
         private activatedRoute: ActivatedRoute,
         private lookupService: LookupService,
-    ) {this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId']}
-   
+    ) { this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'] }
+
 
     ngOnInit() {
         this.initFamily();
@@ -92,6 +93,7 @@ export class FamilydetailsDialogComponent {
     }
 
     saveFamilyDetails() {
+        this.fbfamilyDetails.value.dob = FORMAT_DATE(this.fbfamilyDetails.value.dob);
         if (this.fbfamilyDetails.valid) {
             this.employeeService.CreateFamilyDetails([this.fbfamilyDetails.value]).subscribe(resp => {
                 this.alertMessage.displayAlertMessage(ALERT_CODES['SMFD001']);
