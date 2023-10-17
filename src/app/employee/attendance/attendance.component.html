@@ -1,5 +1,6 @@
 <!-- p-dialog -->
-<p-dialog header="Attendance" [(visible)]="dialog" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}">
+<p-dialog header="Attendance" [(visible)]="dialog" [modal]="true" showEffect="fade"
+    [breakpoints]="{'960px': '70%', '640px': '80%'}">
     <div class="flex flex-column align-items-center justify-content-center">
         <form [formGroup]="fbleave">
             <div class="p-fluid p-formgrid">
@@ -72,11 +73,11 @@
             <td class="cl">CL</td>
             <td colspan="2">Casual Leave</td>
             <td class="pl">PL</td>
-            <td colspan="2">Privilege Leave</td>
+            <td colspan="2">Paid Leave</td>
             <td class="el">EL</td>
-            <td colspan="2">Earned Leave</td>
+            <td colspan="2">Emergency Leave</td>
             <td class="sl">SL</td>
-            <td colspan="2">Sick leave </td>
+            <td colspan="2">Sick Leave </td>
 
         </tr>
     </ng-template>
@@ -93,7 +94,7 @@
             </p-button>
         </div>
         <div>
-            <p-calendar styleClass="only-icon" [(ngModel)]="selectedMonth" [showIcon]="true" view="month" 
+            <p-calendar styleClass="only-icon" [(ngModel)]="selectedMonth" [showIcon]="true" view="month"
                 dateFormat="mm/yy" id="Attendance_selectMonth" [yearNavigator]="true" yearRange="2000:2030"
                 [readonlyInput]="true" inputId="monthpicker" (onSelect)="onMonthSelect($event)">
             </p-calendar>
@@ -120,7 +121,8 @@
 <!-- p-table -->
 
 
-<p-table #dt1 [value]="employeeAttendanceList" [rowHover]="true"
+<p-table #dt1 [value]="employeeAttendanceList" [rowHover]="true" paginatorDropdownAppendTo="body" [rows]="10"
+    [rowHover]="true" [alwaysShowPaginator]="false" [paginator]="true"
     styleClass="p-datatable-striped p-datatable-gridlines attendance_table" responsiveLayout="scroll"
     [globalFilterFields]="globalFilterFields" [tableStyle]="{'min-width': '50rem'}">
 

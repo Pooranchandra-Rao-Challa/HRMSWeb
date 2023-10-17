@@ -239,7 +239,11 @@ export class ExperienceDetailsComponent {
     });
     this.fbexperience.get('skills').patchValue(skillAreaIdsArray);
     this.workExperienceId=experienceDetail.workExperienceId;
-    
+    let updatedArray = [];
+    for (let i = 0; i < skillAreaIdsArray.length; i++) {
+      updatedArray.push({ workExperienceXrefId: 0, workExperienceId: this.workExperienceId, skillAreaId: skillAreaIdsArray[i] })
+    }
+    this.fbexperience.get('workExperienceXrefs')?.setValue(updatedArray);
     this.addexperiencedetailsshowForm = !this.addexperiencedetailsshowForm;
     this.ShowexperienceDetails = !this.ShowexperienceDetails;
   }

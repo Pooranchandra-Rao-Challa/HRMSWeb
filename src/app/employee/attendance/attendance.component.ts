@@ -1,4 +1,4 @@
-import { DatePipe } from '@angular/common';
+import { DatePipe, formatDate } from '@angular/common';
 import { HttpEvent } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -42,7 +42,9 @@ export class AttendanceComponent {
 
 
   constructor(private adminService: AdminService, private datePipe: DatePipe, private jwtService: JwtService, public ref: DynamicDialogRef, private dialogService: DialogService,
-    private formbuilder: FormBuilder, private alertMessage: AlertmessageService, private employeeService: EmployeeService, private lookupService: LookupService) { }
+    private formbuilder: FormBuilder, private alertMessage: AlertmessageService, private employeeService: EmployeeService, private lookupService: LookupService) {
+
+  }
 
   ngOnInit() {
     this.permissions = this.jwtService.Permissions;
@@ -159,7 +161,8 @@ export class AttendanceComponent {
     const currentDate = this.datePipe.transform(new Date(), 'dd-MM-yyyy');
     const dayBeforeYesterday = new Date();
     dayBeforeYesterday.setDate(dayBeforeYesterday.getDate() - 2);
-    if (formattedDate > currentDate || formattedDate <= this.datePipe.transform(dayBeforeYesterday, 'dd-MM-yyyy'))
+    if (formattedDate > currentDate || (formattedDate <= this.datePipe.transform(dayBeforeYesterday, 'dd-MM-yyyy')
+      && formattedDate !== this.datePipe.transform(this.notUpdatedDates, 'dd-MM-yyyy')))
       return
     else if (formattedDate < currentDate && !this.checkPreviousAttendance)
       return;
@@ -215,11 +218,11 @@ export class AttendanceComponent {
         }
         else
           return this.alertMessage.displayErrorMessage(ALERT_CODES["ELR002"]);
-          this.initAttendance();  
+        this.initAttendance();
       })
     }
     this.dialog = false;
-    
+
   }
 
   checkLeaveType() {

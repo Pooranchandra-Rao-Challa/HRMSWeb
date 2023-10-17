@@ -4,7 +4,7 @@
       <div class="fex">
         <!-- Basic details card view -->
         <div class="col text-center">
-          <img [src]="employeePrsDtls.photo ? employeePrsDtls.photo : '/assets/layout/images/default_icon_employee.jpg'"
+          <img [src]="employeePrsDtls.photo ? employeePrsDtls.photo : './assets/layout/images/default_icon_employee.jpg'"
             [alt]="employeePrsDtls.employeeName"
             class="shadow-2 my-1 mx-0 employee_profile_pic employee_profile_pic_view" style="width: 70%;" />
         </div>
@@ -23,7 +23,7 @@
     </div>
     <div class="col-12 lg:col-6 py-3 lg:pl-2">
       <div class="grid p-3 position-relative">
-        <h5 class="col-12">Basic Details </h5>
+        <h5 class="col-12">Personal Details </h5>
         <hr />
         <div class="col-12 lg:col-6 ">
           <span class="text-primary font-bold text-900">Gender:</span> {{employeePrsDtls?.gender}}
@@ -110,10 +110,10 @@
             <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">{{education?.stream}}</div>
             <ul class="list-none p-0 m-0 text-600 mb-4 text-600">
               <li class="mb-3">
-                <span class="font-semibold ">Institution Name:</span> {{education?.institutionName}}
+                <span class="font-semibold ">Board/University Name:</span> {{education?.authorityName}}
               </li>
               <li class="mb-3">
-                <span class="font-semibold">College Name:</span> {{education?.authorityName}}
+                <span class="font-semibold">School/College Name:</span> {{education?.institutionName}}
               </li>
               <li class="mb-3">
                 <span class="font-semibold">YOP:</span> {{education?.passedOutyear | date: mediumDate}}

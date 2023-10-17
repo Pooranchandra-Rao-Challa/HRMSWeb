@@ -82,6 +82,7 @@ export class ProjectComponent implements OnInit {
     //   console.log(resp);
     //   this.data = resp;
     // });
+    
 
     // this.diagram = new go.Diagram('myDiagramDiv');
 
