@@ -48,11 +48,17 @@ export class UploadDocumentsComponent {
 
     onClick() {
         const fileUpload = this.fileUpload.nativeElement;
+        const maxSizeInBytes = 10* 1024 *1024;
         fileUpload.onchange = () => {
             if (this.files.length < 5) {
                 if (this.fbUpload.valid) {
                     for (let index = 0; index < fileUpload.files.length; index++) {
-                        const file = fileUpload.files[index];
+                        const file = fileUpload.files[index];                        
+                        if (file.size > maxSizeInBytes) {
+                            this.alertMessage.displayErrorMessage(ALERT_CODES["EAD005"]);
+                            fileUpload.value = '';
+                            return; 
+                        }
                         // this.files.push({ fileBlob: file, title: this.fbUpload.get('title').value , fileName:  file.name});
                         this.empUploadDetails.push({ fileBlob: file, title: this.fbUpload.get('title').value, fileName: file.name });
                     }
@@ -72,6 +78,7 @@ export class UploadDocumentsComponent {
     checkTitle() {
         if (!this.fbUpload.valid)
             this.alertMessage.displayErrorMessage(ALERT_CODES["EAD004"]);
+            this.fbUpload.markAllAsTouched();
     }
     clearForm() {
         this.fbUpload.patchValue({

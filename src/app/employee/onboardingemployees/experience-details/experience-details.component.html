@@ -11,7 +11,7 @@
 
                 <div class="flex align-items-center">
                     <p-radioButton name="experienceDetails" id="Experience_isexperirenced" value="Experience"
-                        [(ngModel)]="this.selectedOption" [disabled]="this.empExperienceDetails[0]?.isAFresher===true"
+                        [(ngModel)]="this.selectedOption"  [disabled]="this.empExperienceDetails[0]?.isAFresher===true"
                         inputId="experience"></p-radioButton>
                     <label for="experience" class="ml-2">Experience</label>
                 </div>
@@ -178,7 +178,7 @@
                                 </div>
 
                                 <div class="field col-12 md:col-4">
-                                    <label class="required">Date of joining:</label>&nbsp;
+                                    <label class="required">Date of Joining:</label>&nbsp;
                                     <p-calendar [showIcon]="true" formControlName="dateOfJoining"
                                         id="Experience_dateOfJoining" appendTo="body"
                                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['dateOfJoining'].touched && FormControls['dateOfJoining'].errors }"
