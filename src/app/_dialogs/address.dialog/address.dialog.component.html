@@ -1,4 +1,3 @@
-
 <div class="flex flex-column align-items-center justify-content-center">
 	<form [formGroup]="fbAddressDetails" autocomplete="off">
 		<div class="grid mt-3 p-5">
@@ -6,8 +5,7 @@
 				<div class="p-fluid p-formgrid grid">
 					<div class="field col-12 md:col-4">
 						<span class="p-float-label">
-							<input type="text" id="Address_address1" pInputText
-								formControlName="addressLine1" #address1
+							<input type="text" id="Address_address1" pInputText formControlName="addressLine1" #address1
 								[ngClass]="{ 'is-invalid ng-dirty': FormControls['addressLine1'].touched && FormControls['addressLine1'].errors }"
 								[maxlength]="maxLength.description">
 							<label class="required">AddressLine1</label>
@@ -34,8 +32,7 @@
 					</div>
 					<div class="field col-12 md:col-4">
 						<span class="p-float-label">
-							<input type="text" id="Address_address2" pInputText
-								formControlName="addressLine2" #address2
+							<input type="text" id="Address_address2" pInputText formControlName="addressLine2" #address2
 								[maxlength]="maxLength.description">
 							<label for="inputtext">AddressLine2</label>
 						</span>
@@ -49,8 +46,8 @@
 					</div>
 					<div class="field col-12 md:col-4">
 						<span class="p-float-label">
-							<input type="text" id="Address_landmark" pInputText formControlName="landmark"
-								#Landmark [maxlength]="maxLength.description">
+							<input type="text" id="Address_landmark" pInputText formControlName="landmark" #Landmark
+								[maxlength]="maxLength.description">
 							<label for="inputtext">Landmark</label>
 						</span>
 						<div class="flex">
@@ -63,15 +60,15 @@
 					</div>
 					<div class="field col-12 md:col-4">
 						<span class="p-float-label">
-							<input type="text" id="Address_ZIPCode" pInputText formControlName="zipcode" numericOnly [maxlength]="6" [minlength]="6"
+							<input type="text" id="Address_ZIPCode" pInputText formControlName="zipcode" numericOnly
+								[maxlength]="6" [minlength]="6"
 								[ngClass]="{ 'is-invalid ng-dirty': FormControls['zipcode'].touched && FormControls['zipcode'].errors }"
 								[maxlength]="maxLength.pinCode" #zip />
 							<label class="required">ZIP Code</label>
 						</span>
 						<div class="flex">
 							<div class="align-left w-60" style="width:70%">
-								<span
-									*ngIf="FormControls['zipcode'].touched && FormControls['zipcode'].invalid">
+								<span *ngIf="FormControls['zipcode'].touched && FormControls['zipcode'].invalid">
 									<div class="ng-invalid ng-touched p-error"
 										*ngIf="FormControls['zipcode'].errors?.['required']">
 										Please Enter ZIP Code.</div>
@@ -87,16 +84,14 @@
 					</div>
 					<div class="field col-12 md:col-4">
 						<span class="p-float-label">
-							<input type="text" id="Address_city" pInputText formControlName="city"
-								alphaOnly
+							<input type="text" id="Address_city" pInputText formControlName="city" alphaOnly
 								[ngClass]="{ 'is-invalid ng-dirty': FormControls['city'].touched && FormControls['city'].errors }"
 								[maxlength]="maxLength.name" #city />
 							<label class="required">City</label>
 						</span>
 						<div class="flex">
 							<div class="align-left w-60" style="width:70%">
-								<span
-									*ngIf="FormControls['city'].touched && FormControls['city'].invalid">
+								<span *ngIf="FormControls['city'].touched && FormControls['city'].invalid">
 									<div class="ng-invalid ng-touched p-error"
 										*ngIf="FormControls['city'].errors?.['required']">
 										Please Enter City.</div>
@@ -118,16 +113,14 @@
 						<span class="p-float-label">
 							<p-dropdown inputId="dropdown" id="Address_country" [autoDisplayFirst]="false"
 								[ngClass]="{ 'is-invalid ng-dirty': FormControls['countryId'].touched && FormControls['countryId'].errors }"
-								formControlName="countryId" [options]="countries"
-								optionValue="lookupDetailId" optionLabel="name"
-								(onChange)="getStatesByCountryId($event.value)">
+								formControlName="countryId" [options]="countries" optionValue="lookupDetailId"
+								optionLabel="name" (onChange)="getStatesByCountryId($event.value)">
 							</p-dropdown>
 							<label class="required">Country</label>
 						</span>
 						<div class="flex">
 							<div class="align-left w-60" style="width:70%">
-								<span
-									*ngIf="FormControls['countryId'].touched && FormControls['countryId'].invalid">
+								<span *ngIf="FormControls['countryId'].touched && FormControls['countryId'].invalid">
 									<div class="ng-invalid ng-touched p-error"
 										*ngIf="FormControls['countryId'].errors?.['required']">
 										Please Select Country.</div>
@@ -145,8 +138,7 @@
 						</span>
 						<div class="flex">
 							<div class="align-left w-60" style="width:70%">
-								<span
-									*ngIf="FormControls['stateId'].touched && FormControls['stateId'].invalid">
+								<span *ngIf="FormControls['stateId'].touched && FormControls['stateId'].invalid">
 									<div class="ng-invalid ng-touched p-error"
 										*ngIf="FormControls['stateId'].errors?.['required']">
 										Please Select state.</div>
@@ -154,33 +146,32 @@
 							</div>
 						</div>
 					</div>
-					<div class="field col-12 md:col-8" >
+					<div class="field col-12 md:col-8">
 						<label class="required">Address Type:</label>
-						<div class="flex flex-wrap gap-3" >
-							
-							<div class="flex align-items-center" >
-							
-								<p-radioButton [disabled]="hasPermanentAddress" value="Permanent Address" id="Address_addressType1"
-									formControlName="addressType" [pTooltip]="hasPermanentAddress ? 'Every Employee Can Have Only One Permanent Address Please Select Other Type' : null"
+						<div class="flex flex-wrap gap-3">
+
+							<div class="flex align-items-center">
+
+								<p-radioButton [disabled]="hasPermanentAddress" value="Permanent Address"
+									id="Address_addressType1" formControlName="addressType"
+									[pTooltip]="hasPermanentAddress ? 'Every Employee Can Have Only One Permanent Address Please Select Other Type' : null"
 									tooltipPosition="left"></p-radioButton>
-								<label class="ml-2" >Permanent Address</label>
+								<label class="ml-2">Permanent Address</label>
 							</div>
-						
-						
+
+
 							<div class="flex align-items-center">
 								<p-radioButton value="Temporary Address" id="Address_addressType2"
-								 [disabled]="hasTemporaryAddres" 
-								 
-
-								 [pTooltip]="hasTemporaryAddres ? 'Every Employee Can Have Only One Temporary Address Please Select Other Type' : null"
+									[disabled]="hasTemporaryAddres"
+									[pTooltip]="hasTemporaryAddres ? 'Every Employee Can Have Only One Temporary Address Please Select Other Type' : null"
 									formControlName="addressType"></p-radioButton>
 								<label class="ml-2">Temporary Address</label>
 							</div>
-					
+
 							<div class="flex align-items-center">
-								<p-radioButton [disabled]="hasCurrentAddress" 
-								[pTooltip]="hasCurrentAddress ? 'Every Employee Can Have Only One Current Address Please Select Other Type' : null"
-									tooltipPosition="right"value="Current Address" id="Address_addressType3"
+								<p-radioButton [disabled]="hasCurrentAddress"
+									[pTooltip]="hasCurrentAddress ? 'Every Employee Can Have Only One Current Address Please Select Other Type' : null"
+									tooltipPosition="right" value="Current Address" id="Address_addressType3"
 									formControlName="addressType"></p-radioButton>
 								<label class="ml-2">Current Address</label>
 							</div>
@@ -192,8 +183,8 @@
 	</form>
 </div>
 
-<div  class=" footer dialog-footer">
+<div class=" footer dialog-footer">
 	<p-button type="button" (click)="saveAddress()" [disabled]="fbAddressDetails.invalid" label="Submit"
 		class="p-element p-ripple p-button-primary  p-component"></p-button>
-		
+
 </div>

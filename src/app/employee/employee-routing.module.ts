@@ -37,7 +37,7 @@ const routes: Routes = [];
           { path: 'familydetails/:employeeId', component: FamilyDeatilsComponent }
         ],
       },
-      { path: 'viewemployees', data: { breadcrumb: 'Employee Name' }, component: ViewemployeesComponent }
+      { path: 'viewemployees', data: { breadcrumb: 'View Employee' }, component: ViewemployeesComponent }
     ])
   ],
   exports: [RouterModule]

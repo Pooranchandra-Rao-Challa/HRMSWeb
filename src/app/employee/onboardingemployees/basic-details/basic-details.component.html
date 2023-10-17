@@ -232,14 +232,14 @@
                     <img [src]="this.fbbasicDetails.get('photo').value"
                         onerror="this.onerror=null; this.src='https://t3.ftcdn.net/jpg/02/18/21/86/360_F_218218632_jF6XAkcrlBjv1mAg9Ow0UBMLBaJrhygH.jpg'"
                         alt="photo" height="100px" width="100px" class="up_logo">
-                    <p-fileUpload mode="basic" [maxFileSize]="1000000" chooseLabel="Choose Photo"
+                    <p-fileUpload mode="basic" [maxFileSize]="10000" chooseLabel="Choose Photo"
                         url="https://www.primefaces.org/cdn/api/upload.php" (onSelect)="onFileSelect($event)"
                         accept="image/jpeg, image/png, image/jpg">
                     </p-fileUpload>
                     <div class="flex">
                         <div class="align-left w-60">
                             <span *ngIf="FormControls['photo'].touched && FormControls['photo'].invalid">
-                                <div class="ng-invalid ng-touched p-error" *ngIf="this.imageSize>1000000">
+                                <div class="ng-invalid ng-touched p-error" *ngIf="this.imageSize>10000">
                                     Image dimensions are too large.</div>
                             </span>
                         </div>

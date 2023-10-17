@@ -48,8 +48,8 @@ export class FamilyDeatilsComponent implements OnInit {
     this.maxDate = currentDate;
   }
   headers: ITableHeader[] = [
-    { field: 'name', header: 'name', label: 'Name' },
-    { field: 'relationshipId', header: 'relationshipId', label: 'Relationship' },
+    { field: 'name', header: 'name', label: 'Family Member Name' },
+    { field: 'relationshipId', header: 'relationshipId', label: 'Relationship Type' },
     { field: 'addressId', header: 'addressId', label: 'Address' },
     { field: 'dob', header: 'dob', label: 'DOB' },
     { field: 'adhaarNo', header: 'adhaarNo', label: 'Aadhar Number' },

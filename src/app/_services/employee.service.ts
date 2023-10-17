@@ -23,9 +23,10 @@ import {
   
     CREATE_EMPLOYEE_LEAVE_DETAILS,
     GET_EMPLOYEE_LEAVE_DETAILS,
+    GET_COMPANY_HIERARCHY,
   
 } from './api.uri.service';
-import { ExperienceDetailsDto, SkillArea, AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments, employeeExperienceDtlsViewDto, FamilyDetailsViewDto, employeeAttendanceDto,EmployeeLeaveDto, EmployeeAttendanceList } from '../_models/employes';
+import { ExperienceDetailsDto, SkillArea, AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments, employeeExperienceDtlsViewDto, FamilyDetailsViewDto, employeeAttendanceDto,EmployeeLeaveDto, EmployeeAttendanceList, CompanyHierarchyViewDto } from '../_models/employes';
 
 import { ApiHttpService } from './api.http.service';
 import { LookupViewDto } from '../_models/admin';
@@ -175,5 +176,9 @@ export class EmployeeService extends ApiHttpService {
 
   public CreateEmployeeLeaveDetails(leaveDetails: EmployeeLeaveDto[]) {
     return this.post<EmployeeLeaveDto[]>(CREATE_EMPLOYEE_LEAVE_DETAILS, leaveDetails)
+  }
+
+  public getCompanyHierarchy(){
+    return this.get<CompanyHierarchyViewDto[]>(GET_COMPANY_HIERARCHY)
   }
 }
