@@ -48,7 +48,6 @@ export class ExperienceDetailsComponent {
     this.permissions = this.jwtService.Permissions;
     this.currentDate = new Date();
     this.route.params.subscribe(params => {
-        console.log(params);
       this.employeeId = params['employeeId'];
     });
     this.initDesignations();
@@ -146,7 +145,7 @@ export class ExperienceDetailsComponent {
     { field: 'workExperienceXrefs', header: 'workExperienceXrefs', label: 'SkillArea' }
   ];
   addexperienceDetails() {
-    
+    debugger
     if (this.fbexperience.get('workExperienceId').value) {
       this.onSubmit();
     }
@@ -156,6 +155,8 @@ export class ExperienceDetailsComponent {
       }
       else {
         // Push current values into the FormArray
+        this.fbexperience.get('dateOfJoining').setValue(FORMAT_DATE(new Date(this.fbexperience.get('dateOfJoining').value)));
+        this.fbexperience.get('dateOfReliving').setValue(FORMAT_DATE(new Date(this.fbexperience.get('dateOfReliving').value)));
         this.faExperienceDetail().push(this.generaterow(this.fbexperience.getRawValue()));
       
         if(this.fbexperience.value){
@@ -163,7 +164,7 @@ export class ExperienceDetailsComponent {
           let designationName = this.designation.filter(x => x.lookupDetailId === this.FormControls['designationId'].value);
           this.empExperienceDetails.push({...this.fbexperience.value,state:stateName[0].name,designation:designationName[0].name});
         }
-        
+        console.log(this.empExperienceDetails)
         // Reset form controls for the next entry
         this.fbexperience.patchValue({
           employeeId: this.employeeId,

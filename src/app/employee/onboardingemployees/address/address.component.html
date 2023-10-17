@@ -135,10 +135,11 @@
                             <div class="align-left w-60" style="width:70%">
                                 <span *ngIf="FormControls['stateId'].touched && FormControls['stateId'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
-                                        *ngIf="FormControls['countryId'].untouched">
+                                        *ngIf="FormControls['countryId'].untouched && FormControls['stateId'].touched ||
+                                         FormControls['countryId'].invalid&& FormControls['stateId'].touched">
                                         Please Select Country First.</div>
                                         <div class="ng-invalid ng-touched p-error"
-                                        *ngIf="FormControls['countryId'].touched &&FormControls['stateId'].errors?.['required']">
+                                        *ngIf="FormControls['countryId'].touched &&FormControls['stateId'].errors?.['required']&&FormControls['countryId'].valid">
                                         Please Select State.</div>
                                 </span>
                             </div>
@@ -183,7 +184,7 @@
                     </div>
                     <div class="field col-12 md:col-4">
                         <div class="button-container">
-                            <p-button type="button" label="Save New Address" id="AddressDetails-Btn"
+                            <p-button type="button" label="Add New Address" id="AddressDetails-Btn"
                                 (click)="addAddress()" [disabled]="fbAddressDetails.invalid">
                             </p-button>
                         </div>
