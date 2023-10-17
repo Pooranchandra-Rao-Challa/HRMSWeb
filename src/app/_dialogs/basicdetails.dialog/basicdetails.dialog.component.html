@@ -151,7 +151,7 @@
                     <div class="field col-12 md:col-4">
                         <label>Orginal DOB:</label>
                         <p-calendar [readonlyInput]="true" [showIcon]="true" id="original_dob"
-                            formControlName="originalDob" mask="99/99/9999" placeholder="Select Original DOB"
+                            formControlName="originalDob" mask="99/99/9999" placeholder="Select Original DOB" [maxDate]="maxDate"
                             [ngClass]="{ 'is-invalid ng-dirty': empBasDtlsFormControls['originalDob'].touched && empBasDtlsFormControls['originalDob'].errors}">
                         </p-calendar>
                         <div class="flex">

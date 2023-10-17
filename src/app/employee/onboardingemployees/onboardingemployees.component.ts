@@ -8,6 +8,7 @@ import { OnboardEmployeeService } from 'src/app/_helpers/view.notificaton.servic
 import { ITableHeader } from 'src/app/_models/common';
 import { Employee, EmployeesViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
+import { JwtService } from 'src/app/_services/jwt.service';
 import { SecurityService } from 'src/app/_services/security.service';
 
 
@@ -30,16 +31,14 @@ export class OnboardingemployeesComponent {
   employees: Employee[] = [];
   sortOrder: number = 0;
   sortField: string = '';
+  permissions: any;
 
 
   headers: ITableHeader[] = [
     { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
     { field: 'gender', header: 'gender', label: 'Gender' },
-    { field: 'code', header: 'code', label: 'Employee Code' },
-    { field: 'employeeRoleName', header: 'employeeRoleName', label: 'Designation' },
     { field: 'officeEmailId', header: 'officeEmailId', label: 'Email' },
     { field: 'mobileNumber', header: 'mobileNumber', label: 'Phone No' },
-    { field: 'dateofJoin', header: 'dateofJoin', label: 'Date of Join' },
   ]
 
   showDialog() {
@@ -50,7 +49,8 @@ export class OnboardingemployeesComponent {
 
   constructor(private securityService: SecurityService,
     private router: Router,
-    private route: ActivatedRoute,
+    private route: ActivatedRoute,   
+    private jwtService: JwtService,
     private EmployeeService: EmployeeService,
     private onboardEmployeeService: OnboardEmployeeService
   ) { }
@@ -60,6 +60,7 @@ export class OnboardingemployeesComponent {
   }
 
   ngOnInit() {
+    this.permissions = this.jwtService.Permissions;
     this.route.queryParams.forEach((params) => this.employeeId = params["employeeId"]);
     this.initEmployees()
     this.updateMenuItems();

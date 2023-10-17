@@ -36,6 +36,7 @@ export class BasicdetailsDialogComponent {
   maxLength: MaxLength = new MaxLength();
   bloodgroups: LookupViewDto[] = [];
   employeeId: string;
+  maxDate: Date =new Date();
 
   constructor(
     private formbuilder: FormBuilder,

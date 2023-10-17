@@ -2,7 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Table } from 'primeng/table';
 import { Actions, DialogRequest, ITableHeader } from 'src/app/_models/common';
 import { GlobalFilterService } from 'src/app/_services/global.filter.service';
-import { employeeAttendanceDto, EmployeeLeaveDto } from 'src/app/_models/employes';
+import { EmployeeLeaveDto } from 'src/app/_models/employes';
 import { LeaveDialogComponent } from 'src/app/_dialogs/leave.dialog/leave.dialog.component';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -37,6 +37,7 @@ export class LeavesComponent {
   dialog: boolean = false;
   selectedAction: string | null = null;
   leaveData: EmployeeLeaveDto;
+  permissions :any;
 
   headers: ITableHeader[] = [
     { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
@@ -63,6 +64,7 @@ export class LeavesComponent {
     public alertMessage: AlertmessageService) { }
 
   ngOnInit(): void {
+    this.permissions = this.jwtService.Permissions;
     this.getLeaves();
     this.getLeaveTypes();
     this.leaveForm();

@@ -69,8 +69,6 @@ export class ProjectComponent implements OnInit {
     this.initEmployees();
     this.unAssignEmployeeForm();
 
-    
-
       this.employeeService.getCompanyHierarchy().subscribe((resp) => {
         this.companyHierarchy = resp as unknown as CompanyHierarchyViewDto[];
         console.log(this.companyHierarchy);
