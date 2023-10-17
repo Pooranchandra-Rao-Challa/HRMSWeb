@@ -194,6 +194,12 @@ export class ExperiencedetailsDialogComponent {
   }
 
   saveEmpExperienceDetails() {
+    for (const control of this.faexperienceDetail().controls) {
+      control.get('dateOfJoining').setValue(FORMAT_DATE(control.get('dateOfJoining').value));
+      if (control.get('dateOfReliving').value) {
+        control.get('dateOfReliving').setValue(FORMAT_DATE(control.get('dateOfReliving').value));
+      }
+    }
     this.saveExperience().subscribe(res => {
       if (res) {
         this.alertMessage.displayAlertMessage(ALERT_CODES["EVEEXP001"]);

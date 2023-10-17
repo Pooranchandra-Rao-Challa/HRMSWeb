@@ -138,6 +138,9 @@ export class EducationdetailsDialogComponent {
   }
 
   saveEducationDetails() {
+    for (const control of this.faeducationDetail().controls) {
+      control.get('passedOutyear').setValue(FORMAT_DATE(control.get('passedOutyear').value));
+    }
     this.employeeService.updateViewEmpEduDtls(this.fbEducationDetails.value.educationDetails).subscribe((resp) => {
       if (resp) {
         this.alertMessage.displayAlertMessage(ALERT_CODES["EVEEDU001"]);

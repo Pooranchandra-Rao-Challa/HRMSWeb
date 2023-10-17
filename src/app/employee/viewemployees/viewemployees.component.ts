@@ -230,7 +230,7 @@ export class ViewemployeesComponent {
     // Basicdetails
     else if (action == Actions.save && content === this.basicdetailsDialogComponent) {
       this.dialogRequest.dialogData = dialogData;
-      this.dialogRequest.header = "Basic Details";
+      this.dialogRequest.header = "Personal Details";
       this.dialogRequest.width = "70%";
     }
     // Officedetails

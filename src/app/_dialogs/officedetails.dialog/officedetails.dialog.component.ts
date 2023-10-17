@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute } from '@angular/router';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
+import { FORMAT_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { EmployeesList, LookupViewDto } from 'src/app/_models/admin';
 import { ViewEmployeeScreen } from 'src/app/_models/common';
 import { EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto } from 'src/app/_models/employes';
@@ -86,6 +87,7 @@ export class OfficedetailsDialogComponent {
   }
 
   saveEmpOfficDtls() {
+    this.fbOfficDtls.value.dateofJoin = FORMAT_DATE(this.fbOfficDtls.value.dateofJoin);
     this.employeeService.updateViewEmpOfficDtls(this.fbOfficDtls.value).subscribe((resp) => {
       if (resp) {
         this.alertMessage.displayAlertMessage(ALERT_CODES["EVEOFF001"]);
