@@ -35,8 +35,11 @@ export class EducationDetailsDto {
 	employeeId?: number;
 	streamId?: number;
 	curriculumId?: number;
+	curriculum?: string;
 	countryId?: number;
+	country?:string;
 	stateId?: number;
+	state?: string;
 	institutionName?: string;
 	authorityName?: string;
 	passedOutyear?: Date;
@@ -365,4 +368,13 @@ export class EmployeeAttendanceList {
 	date: Date
 	DayWorkStatusId?: number;
 	NotReported: boolean
+}
+
+export class CompanyHierarchyViewDto{
+	chartId?:number;
+	chartTitle?:string;
+	selfId?:number;
+	roleId?:number;
+	roleName?:string;
+	hierarchyLevel?:number;
 }

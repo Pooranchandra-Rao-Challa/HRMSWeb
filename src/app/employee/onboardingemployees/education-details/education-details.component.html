@@ -213,13 +213,19 @@
                             (click)="removeRow(educationDataIndex)"></button>
                     </td>
                     <td *ngFor="let col of headers"
-                        [ngClass]="col?.field == 'institutionName' || col?.field == 'authorityName'  ||col?.field == 'passedOutyear'  ||  col?.field == 'circulumId'  || col?.field == 'streamId'||col?.field == 'stateId'|| col?.field == 'gradingMethodId' ||col?.field == 'gradingValue' ? 'text-center' : ''">
+                        [ngClass]="col?.field == 'institutionName' || col?.field == 'authorityName'  ||col?.field == 'passedOutyear'  || col?.field == 'streamId'||col?.field == 'stateId'|| col?.field == 'gradingMethodId' ||col?.field == 'gradingValue' ? 'text-center' : ''">
                         <span
                             *ngIf="col?.field == 'institutionName'  ||col?.field == 'authorityName'  ||  col?.field == 'gradingValue'  ">
                             {{educationData[col.field]}}
                         </span>
+                        <span *ngIf="col?.field == 'countryId'">
+                            {{educationData.country?educationData.country:educationData[col.field]}}
+                        </span>
                         <span *ngIf="col?.field == 'stateId'">
                             {{educationData.state?educationData.state:educationData[col.field]}}
+                        </span>
+                        <span *ngIf="col?.field == 'curriculumId'">
+                            {{educationData.curriculum?educationData.curriculum:educationData[col.field]}}
                         </span>
                         <span *ngIf="col?.field == 'streamId'">
                             {{educationData.stream?educationData.stream:educationData[col.field]}}
