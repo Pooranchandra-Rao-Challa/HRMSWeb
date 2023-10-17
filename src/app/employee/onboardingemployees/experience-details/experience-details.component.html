@@ -11,7 +11,7 @@
 
                 <div class="flex align-items-center">
                     <p-radioButton name="experienceDetails" id="Experience_isexperirenced" value="Experience"
-                        [(ngModel)]="this.selectedOption"  [disabled]="this.empExperienceDetails[0]?.isAFresher===true"
+                        [(ngModel)]="this.selectedOption" [disabled]="this.empExperienceDetails[0]?.isAFresher===true" 
                         inputId="experience"></p-radioButton>
                     <label for="experience" class="ml-2">Experience</label>
                 </div>
@@ -134,10 +134,11 @@
                                         <div class="align-left w-60" style="width:70%">
                                             <span *ngIf="FormControls['stateId'].touched && FormControls['stateId'].invalid">
                                                 <div class="ng-invalid ng-touched p-error"
-                                                    *ngIf="FormControls['countryId'].untouched">
+                                                    *ngIf="FormControls['countryId'].untouched && FormControls['stateId'].touched ||
+                                                     FormControls['countryId'].invalid&& FormControls['stateId'].touched">
                                                     Please Select Country First.</div>
                                                     <div class="ng-invalid ng-touched p-error"
-                                                    *ngIf="FormControls['countryId'].touched &&FormControls['stateId'].errors?.['required']">
+                                                    *ngIf="FormControls['countryId'].touched &&FormControls['stateId'].errors?.['required']&&FormControls['countryId'].valid">
                                                     Please Select State.</div>
                                             </span>
                                         </div>
@@ -287,7 +288,7 @@
                                 {{experienceDetail[col.field]|date:mediumDate}}
                             </span>
                             <span *ngIf="col?.field == 'workExperienceXrefs'">
-                                {{experienceDetail.skillAreaNames?experienceDetail.skillAreaNames:
+                                {{experienceDetail.workExperienceId?experienceDetail.skillAreaNames:
                                 this.viewSelectedSkills}}
                             </span>
                         </td>

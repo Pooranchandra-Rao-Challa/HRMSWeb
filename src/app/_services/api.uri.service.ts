@@ -52,6 +52,7 @@ export const LOOKUP_LOOKUP_KEYS_URI="Lookup/LookupKeys";
 export const LOOKUP_DETAILS_URI="Lookup/LookupDetails";
 export const LOOKUP_NAMES_URI="Lookup/LookupNames";
 export const LOOKUP_NAMES_NOT_CONFIGURE_URI="Lookup/LookupNamesNotConfigured";
+export const LOOKUP_NAMES_CONFIGURE_URI="Lookup/LookupNamesConfigured";
 
 // END LOOKUPS
 

@@ -1,8 +1,8 @@
 <div class="flex flex-column align-items-center justify-content-center">
     <form [formGroup]="fblookup" id="Lookup_lookupForm">
         <div class="grid mt-3 p-5">
-			<div class="col-12 roles-container">
-				<div class="p-fluid p-formgrid grid">
+            <div class="col-12 roles-container">
+                <div class="p-fluid p-formgrid grid">
                     <div class="field col-12 md:col-6">
                         <label class="required">Code: </label>&nbsp; <input pInputText id="Lookup_lookupCode"
                             type="text" formControlName="code" [readonly]="FormControls['lookupId'].value!== null"
@@ -26,15 +26,8 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-6">
-                        <label>Dependent Lookup: </label>&nbsp;
-                        <p-dropdown id="lookupName_Dropdown"  appendTo="body" [autoDisplayFirst]="false"
-                            [options]="lookupNames" formControlName="fkeySelfId" (onChange)="onLookupChange($event)"
-                            placeholder="Select Dependent Lookup" [showClear]="true">
-                        </p-dropdown>
-                    </div>
-                    <div class="field col-12 md:col-6">
                         <label class="required">Lookup Name: </label>&nbsp;
-                        <p-dropdown id="lookupName_Not_Configured_Dropdown" appendTo="body" [autoDisplayFirst]="false" 
+                        <p-dropdown id="lookupName_Not_Configured_Dropdown" appendTo="body" [autoDisplayFirst]="false"
                             [options]="lookupNamesNotConfigured" formControlName="name"
                             [readonly]="FormControls['lookupId'].value!== null" placeholder="Select Lookup Name"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['name'].touched && FormControls['name'].errors }">
@@ -49,7 +42,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="field col-12 md:col-6">
+                    <div class="field col-12 md:col-6" *ngIf="FormControls['fkeySelfId'].value!== null || addFlag">
+                        <label>Dependent Lookup: </label>&nbsp;
+                        <p-dropdown id="lookupName_Dropdown" appendTo="body" [autoDisplayFirst]="false"
+                            optionLabel="name" optionValue="lookupId" [options]="lookupNamesConfigured"
+                            formControlName="fkeySelfId" (onChange)="onLookupChange($event)"
+                            placeholder="Select Dependent Lookup" [showClear]="true"
+                            [readonly]="FormControls['lookupId'].value!== null">
+                        </p-dropdown>
+                    </div>
+                    <div class="field col-12 md:col-6" *ngIf="FormControls['fkeySelfId'].value!== null || addFlag">
                     </div>
                     <div class="field col-12 md:col-6">
                         <label>Is Active: </label>
@@ -60,14 +62,17 @@
                         <p-button type="button" label="Add Lookup Details" (click)="addLookupDetails()"></p-button>
                     </div>
                 </div>
-                <div class="col-12 scrolling_content" formArrayName="lookUpDetails">
-                    <p-table #dt2 [value]=" falookupDetails().controls" dataKey="id" [rows]="10" [rowHover]="true"
+                <div class="col-12 scrolling_content" formArrayName="lookUpDetails" style="overflow-y: auto;
+                height: calc(100vh - 600px);
+                padding-bottom: 20px;">
+                    <p-table #dt2 [value]="falookupDetails().controls" dataKey="id" [rows]="10" [rowHover]="true"
                         styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="false"
-                        [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]">> <ng-template
-                            pTemplate="header">
+                        [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]" [scrollable]="true">
+                        <ng-template
+                            pTemplate="header" >
                             <tr>
+                                <th *ngIf="dependentDropdown">{{lookupName}}</th>
                                 <th>Code </th>
-                                <th *ngIf="dependentDropdown">Lookup Details</th>
                                 <th>Name </th>
                                 <th>Description </th>
                                 <th>Is Active </th>
@@ -76,6 +81,13 @@
                         </ng-template>
                         <ng-template pTemplate="body" let-lookUp let-lookUpDetailsIndex="rowIndex">
                             <tr [formGroupName]="lookUpDetailsIndex">
+                                <td class="vertical-align-top" *ngIf="dependentDropdown">
+                                    <p-dropdown *ngIf="this.fblookup.value.fkeySelfId" class="w-100"
+                                        id="lookup_dropdown" [options]="dependentLookupData" optionLabel="name"
+                                        optionValue="lookupDetailId" formControlName="fkeySelfId"
+                                        [autoDisplayFirst]="false" appendTo="body" placeholder="Select Lookup Name">
+                                    </p-dropdown>
+                                </td>
                                 <td class="vertical-align-top">
                                     <input pInputText class="form-control w-100" formControlName="code" #Code
                                         placeholder="Enter Code*" alphaNumeric (keydown)="restrictSpaces($event)"
@@ -105,13 +117,6 @@
                                             <small>{{Code.value.length}}/{{maxLength.code}} </small>
                                         </div>
                                     </div>
-                                </td>
-                                <td class="vertical-align-top" *ngIf="dependentDropdown">
-                                    <p-dropdown *ngIf="this.fblookup.value.fkeySelfId" class="w-100"
-                                        id="lookup_dropdown" [options]="dependentLookupData" optionLabel="name"
-                                        optionValue="lookupDetailId" formControlName="fkeySelfId"
-                                        [autoDisplayFirst]="false" appendTo="body" placeholder="Select Lookup Name">
-                                    </p-dropdown>
                                 </td>
                                 <td class="vertical-align-top">
                                     <input pInputText class="form-control w-100" formControlName="name"
