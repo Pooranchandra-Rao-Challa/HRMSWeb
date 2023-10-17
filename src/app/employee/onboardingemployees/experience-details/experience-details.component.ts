@@ -164,7 +164,6 @@ export class ExperienceDetailsComponent {
           let designationName = this.designation.filter(x => x.lookupDetailId === this.FormControls['designationId'].value);
           this.empExperienceDetails.push({...this.fbexperience.value,state:stateName[0].name,designation:designationName[0].name});
         }
-        console.log(this.empExperienceDetails)
         // Reset form controls for the next entry
         this.fbexperience.patchValue({
           employeeId: this.employeeId,
@@ -184,13 +183,13 @@ export class ExperienceDetailsComponent {
         this.fbexperience.markAsPristine();
         this.fbexperience.markAsUntouched();
 
-
-
       }
       this.addexperiencedetailsshowForm = !this.addexperiencedetailsshowForm;
       this.ShowexperienceDetails = !this.ShowexperienceDetails;
     }
   }
+
+
   faExperienceDetail(): FormArray {
     return this.fbexperience.get('experienceDetails') as FormArray
   }
@@ -292,7 +291,24 @@ export class ExperienceDetailsComponent {
   navigateToNext() {
     this.router.navigate(['employee/onboardingemployee/addressdetails', this.employeeId])
   }
+  resetForm(){
+    this.fbexperience.patchValue({
+      employeeId: this.employeeId,
+      workExperienceId: null,
+      companyName: '',
+      companyLocation: '',
+      companyEmployeeId: null,
+      stateId: '',
+      countryId: '',
+      skills: '',
+      designationId: '',
+      dateOfJoining: '',
+      dateOfReliving: '',
+      workExperienceXrefs: ''
+    });
+  }
   toggleTab() {
+    this.resetForm();
     this.addexperiencedetailsshowForm = !this.addexperiencedetailsshowForm;
     this.ShowexperienceDetails = !this.ShowexperienceDetails;
   }
