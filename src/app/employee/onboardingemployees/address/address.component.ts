@@ -36,7 +36,7 @@ export class AddressComponent {
   currentaddress: boolean = false
   showAddressDetails: boolean = true;
   addaddressdetailsshowForm: boolean = false;
-  
+
   constructor(private router: Router, private route: ActivatedRoute, private jwtService: JwtService, private formbuilder: FormBuilder,
     private alertMessage: AlertmessageService, private employeeService: EmployeeService,
     private lookupService: LookupService,
@@ -71,7 +71,7 @@ export class AddressComponent {
       addressLine1: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
       addressLine2: new FormControl('', [Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
       landmark: new FormControl('', [Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
-      zipCode: new FormControl('', [Validators.required,Validators.pattern(RG_PINCODE)]),
+      zipCode: new FormControl('', [Validators.required, Validators.pattern(RG_PINCODE)]),
       city: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
       stateId: new FormControl('', [Validators.required]),
       countryId: new FormControl('', [Validators.required]),
@@ -91,7 +91,20 @@ export class AddressComponent {
     { field: 'isActive', header: 'isActive', label: 'IsActive' }
   ];
   removeItem(index: number): void {
-    this.empAddrDetails.splice(index, 1);
+    const removedObject = this.empAddrDetails.splice(index, 1);
+    const addressTypeMapping = {
+      'Current Address': 'currentaddress',
+      'Temporary Address': 'hasPermanentAddress',
+      'Permanent Address': 'temporaryaddress',
+    };
+    
+    const propertyName = addressTypeMapping[removedObject[0].addressType];
+    
+    if (propertyName !== undefined) {
+      this[propertyName] = false;
+      console.log(this[propertyName])
+    }
+
   }
 
   addAddress() {
@@ -202,7 +215,7 @@ export class AddressComponent {
         this.alertMessage.displayAlertMessage(ALERT_CODES["SAD001"]);
         this.navigateToNext();
       }
-      else 
+      else
         this.alertMessage.displayErrorMessage(ALERT_CODES["SAD001"]);
     });
   }
@@ -240,10 +253,24 @@ export class AddressComponent {
     this.router.navigate(['employee/onboardingemployee/uploadfiles', this.employeeId])
   }
   toggleTab() {
+
     if (this.hasPermanentAddress && this.currentaddress && this.temporaryaddress) {
       this.alertMessage.displayErrorMessage(ALERT_CODES["EMAD001"]);
     }
     else {
+      this.fbAddressDetails.patchValue({
+        employeeId: this.employeeId,
+        addressId: null,
+        addressLine1: '',
+        addressLine2: '',
+        landmark: '',
+        zipCode: '',
+        city: '',
+        countryId: '',
+        stateId: '',
+        addressType: '',
+        isActive: true,
+      });
       this.fbAddressDetails.get('addressType').enable();
       this.addaddressdetailsshowForm = !this.addaddressdetailsshowForm;
       this.showAddressDetails = !this.showAddressDetails;
