@@ -119,19 +119,16 @@ export class UploadDocumentsComponent {
     uploadFiles() {
         this.fileUpload.nativeElement.value = '';
         this.empUploadDetails.forEach((file: { fileBlob: Blob, title: string, fileName: string }) => {
-
             if (file.fileBlob)
-                this.uploadFile(file);
+                this.uploadFile(file);            
         });
     }
     getUploadDocuments() {
         this.employeeService.GetUploadedDocuments(this.employeeId).subscribe((data) => {
             this.files = data as unknown as { fileBlob: Blob, title: string, fileName: string }[];
-            console.log(data)
             this.empUploadDetails = data as unknown as { fileBlob: Blob, title: string, fileName: string }[];
         })
     }
-
     navigateToPrev() {
         this.router.navigate(['employee/onboardingemployee/addressdetails', this.employeeId])
     }

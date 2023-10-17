@@ -1,5 +1,5 @@
 <div class="col-12 text-right m-0 p-2 ">
-    <button pButton pRipple class="mb-3 pi pi-plus" (click)="toggleTab()"></button>
+    <button pButton pRipple class="mb-3 pi pi-plus" *ngIf="permissions?.CanManageEmployee" (click)="toggleTab()"></button>
 </div>
 <div class="content_scroll" id="hrms">
     <form [formGroup]="fbAddressDetails">
