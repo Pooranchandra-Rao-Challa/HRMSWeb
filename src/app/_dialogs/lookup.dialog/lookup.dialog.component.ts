@@ -13,7 +13,20 @@ import { FormArrayValidationForDuplication } from 'src/app/_validators/unique-br
 
 @Component({
   selector: 'app-lookup.dialog',
-  templateUrl: './lookup.dialog.component.html'
+  templateUrl: './lookup.dialog.component.html',
+  styles: [`
+    :host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0px;
+    }
+
+    @media screen and (max-width: 64em) {
+        :host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+            top: 0px;
+        }
+    }
+  `]
 })
 export class LookupDialogComponent {
   fblookup!: FormGroup;
@@ -28,6 +41,8 @@ export class LookupDialogComponent {
   maxLength: MaxLength = new MaxLength();
   lookupNames: string[] = [];
   lookupNamesNotConfigured: string[] = [];
+  lookupNamesConfigured: LookupViewDto[] = [];
+  lookupName:string;
 
   constructor(private formbuilder: FormBuilder,
     private adminService: AdminService,
@@ -37,32 +52,58 @@ export class LookupDialogComponent {
     public ref: DynamicDialogRef) { }
 
   ngOnInit(): void {
-    this.initDependentLookups();
-    this.initNotConfiguredLookups();
     this.lookupForm();
+    this.initDependentLookups();
+    this.initConfiguredLookups();
+    this.initNotConfiguredLookups();
     if (this.config.data) this.editLookUp(this.config.data);
     else this.addLookupDetails();
+    this.setDependentLookup();
   }
 
   initDependentLookups() {
     this.lookupService.LookupNames().subscribe((resp) => {
       this.lookupNames = resp as unknown as string[];
-      console.log(resp);
     });
   }
 
   initNotConfiguredLookups() {
-    this.lookupService.LookupNamesNotConfigured().subscribe((resp) => {
+    let lookupId = null;
+    if (this.config.data) lookupId = this.config.data.lookupId;
+    console.log(`lookupId: ${lookupId}`);
+    this.lookupService.LookupNamesNotConfigured(lookupId).subscribe((resp) => {
       this.lookupNamesNotConfigured = resp as unknown as string[];
     })
   }
 
+  initConfiguredLookups() {
+    this.lookupService.LookupNamesConfigured().subscribe((resp) => {
+      this.lookupNamesConfigured = resp as unknown as LookupViewDto[];
+      console.log(resp);
+    })
+  }
+
+  setDependentLookup(){
+    let value = this.FormControls['fkeySelfId'].value;
+    console.log(`value ${value}`);
+    this.dependentDropdown = value > 0;
+    this.getDependentLookupData(value);
+  }
+
+
   lookupForm() {
+    let fkeyselfid = -1;
+    if (this.config.data) {
+        fkeyselfid = this.config.data.fKeySelfId;
+
+        console.log(this.config.data);
+
+    }
     this.addfields = [];
     this.fblookup = this.formbuilder.group({
       lookupId: [null],
       code: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_NUMERIC), Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_20)]),
-      fkeySelfId:  new FormControl(''),
+      fkeySelfId:  new FormControl(fkeyselfid),
       name: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
       isActive: new FormControl(true, [Validators.required]),
       lookUpDetails: this.formbuilder.array([], FormArrayValidationForDuplication())
@@ -85,7 +126,7 @@ export class LookupDialogComponent {
     return this.formbuilder.group({
       lookupId: [lookupDetail.lookupId],
       lookupDetailId: [lookupDetail.lookupDetailId],
-      fkeySelfId: [lookupDetail.lookupDetailId],
+      fkeySelfId: [lookupDetail.fkeySelfId],
       code: new FormControl(lookupDetail.code, [Validators.required, Validators.minLength(2)]),
       name: new FormControl(lookupDetail.name, [Validators.required, Validators.minLength(2)]),
       description: new FormControl(lookupDetail.description),
@@ -100,13 +141,14 @@ export class LookupDialogComponent {
   }
 
   onLookupChange(event) {
-    const selectedValue = event.value; // Get the selected value
-    if (selectedValue) {
-      this.getDependentLookupData(selectedValue);
-      this.dependentDropdown = true;
-    } else {
-      this.dependentDropdown = false;
-    }
+    this.setDependentLookup();
+    // const selectedValue = event.value; // Get the selected value
+    // if (selectedValue) {
+    //   this.getDependentLookupData(selectedValue);
+    //   this.dependentDropdown = true;
+    // } else {
+    //   this.dependentDropdown = false;
+    // }
   }
 
   getCountries() {
@@ -122,8 +164,14 @@ export class LookupDialogComponent {
   }
 
   getDependentLookupData(value) {
-    if (value == 5) this.getCountries();
-    else if (value == 10) this.getCurriculums();
+    if (this.lookupService.isCountries(value)){
+        this.lookupName = "Countries";
+        this.getCountries();
+    }
+    else if (this.lookupService.isCurriculums(value)){
+        this.lookupName = "Curriculums";
+        this.getCurriculums();
+    }
   }
 
   addLookupDetails() {
