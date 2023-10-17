@@ -1,5 +1,5 @@
 <div class="col-12 text-right m-0 p-2 ">
-    <button pButton pRipple class="mb-3 pi pi-plus" (click)="toggleTab()"></button>
+    <button pButton pRipple class="mb-3 pi pi-plus" *ngIf="permissions?.CanManageEmployee" (click)="toggleTab()"></button>
 </div>
 <div class="content_scroll" id="hrms">
     <form [formGroup]="fbAddressDetails">
@@ -7,52 +7,52 @@
             <div class="col-12 roles-container m-0 p-0">
                 <div class="p-fluid p-formgrid grid m-0 p-0">
                     <div class="field col-12 md:col-4">
-                        <label class="required">AddressLine1</label>
+                        <label class="required">Address Line1</label>
                         <input type="text" id="Address_address1" pInputText formControlName="addressLine1" #address1
-                            placeholder="Enter AddressLine1"
+                            placeholder="Enter Address Line1"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['addressLine1'].touched && FormControls['addressLine1'].errors }"
-                            [maxlength]="maxLength.description">
+                            [maxlength]="maxLength.name">
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                                 <span
                                     *ngIf="FormControls['addressLine1'].touched && FormControls['addressLine1'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="FormControls['addressLine1'].errors?.['required']">
-                                        Please Enter AddressLine.</div>
+                                        Please Enter Address Line1.</div>
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="FormControls['addressLine1'].errors?.['minlength']">
                                         AddressLine1 Min Characters Is 2.</div>
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="FormControls['addressLine1'].errors?.['maxlength']">
-                                        AddressLine1 Max Characters Is 256.</div>
+                                        AddressLine1 Max Characters Is 50.</div>
                                 </span>
                             </div>
                             <div class="align-right w-40" style="width:30%; text-align:right;">
-                                <small>{{address1.value.length}}/256</small>
+                                <small>{{address1.value.length}}/50</small>
                             </div>
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <label>AddressLine2</label>
+                        <label>Address Line2</label>
                         <input type="text" id="Address_address2" pInputText formControlName="addressLine2" #address2
-                            placeholder="Enter AddressLine2" [maxlength]="maxLength.description">
+                            placeholder="Enter Address Line2" [maxlength]="maxLength.name">
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                             </div>
                             <div class="align-right w-40" style="width:30%; text-align:right;">
-                                <small>{{address2.value.length}}/256</small>
+                                <small>{{address2.value.length}}/50</small>
                             </div>
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
                         <label>Landmark</label>
                         <input type="text" id="Address_landmark" pInputText formControlName="landmark" #Landmark
-                            placeholder="Enter Landmark" [maxlength]="maxLength.description">
+                            placeholder="Enter Landmark" [maxlength]="maxLength.name">
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                             </div>
                             <div class="align-right w-40" style="width:30%; text-align:right;">
-                                <small>{{Landmark.value.length}}/256</small>
+                                <small>{{Landmark.value.length}}/50</small>
                             </div>
                         </div>
                     </div>
@@ -119,6 +119,7 @@
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="FormControls['countryId'].errors?.['required']">
                                         Please Select Country.</div>
+                                        
                                 </span>
                             </div>
                         </div>
@@ -126,7 +127,7 @@
                     <div class="field col-12 md:col-4">
                         <label for="dropdown" class="required">State</label>
                         <p-dropdown inputId="dropdown" id="Address_state" [autoDisplayFirst]="false"
-                            placeholder="Enter State"
+                            placeholder="Select State"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['stateId'].touched && FormControls['stateId'].errors }"
                             formControlName="stateId" [options]="states" optionValue="lookupDetailId" appendTo="body"
                             optionLabel="name"></p-dropdown>
@@ -134,8 +135,12 @@
                             <div class="align-left w-60" style="width:70%">
                                 <span *ngIf="FormControls['stateId'].touched && FormControls['stateId'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
-                                        *ngIf="FormControls['stateId'].errors?.['required']">
+                                        *ngIf="FormControls['countryId'].untouched && FormControls['stateId'].touched ||
+                                         FormControls['countryId'].invalid&& FormControls['stateId'].touched">
                                         Please Select Country First.</div>
+                                        <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="FormControls['countryId'].touched &&FormControls['stateId'].errors?.['required']&&FormControls['countryId'].valid">
+                                        Please Select State.</div>
                                 </span>
                             </div>
                         </div>
@@ -179,7 +184,7 @@
                     </div>
                     <div class="field col-12 md:col-4">
                         <div class="button-container">
-                            <p-button type="button" label="Save New Address" id="AddressDetails-Btn"
+                            <p-button type="button" label="Add New Address" id="AddressDetails-Btn"
                                 (click)="addAddress()" [disabled]="fbAddressDetails.invalid">
                             </p-button>
                         </div>
@@ -217,7 +222,7 @@
                             <button *ngIf="addressDetails.isActive" pButton pRipple icon="pi pi-pencil"
                                 (click)="editForm(addressDetails)"
                                 class="p-element p-ripple p-button-text p-button p-component col-2 p-0 "></button>
-                            <button pButton pRipple icon="pi pi-trash" id="AddressDetailsRemove-Btn"
+                            <button pButton pRipple icon="pi pi-trash" id="AddressDetailsRemove-Btn" *ngIf="!addressDetails.addressId"
                                 class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
                                 (click)="removeItem(addressDetailsIndex)">
                             </button>

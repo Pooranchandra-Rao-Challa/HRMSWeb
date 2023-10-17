@@ -33,7 +33,7 @@ export class LookupDialogComponent {
   addfields: any;
   dependentDropdown: boolean = false;
   dependentLookupData: LookupViewDto[] = [];
-  showlookupDetails: boolean = false;
+  ShowlookupDetails: boolean = false;
   falookUpDetails!: FormArray;
   addFlag: boolean = true;
   lookups: LookupViewDto[] = [];
@@ -70,7 +70,6 @@ export class LookupDialogComponent {
   initNotConfiguredLookups() {
     let lookupId = null;
     if (this.config.data) lookupId = this.config.data.lookupId;
-    console.log(`lookupId: ${lookupId}`);
     this.lookupService.LookupNamesNotConfigured(lookupId).subscribe((resp) => {
       this.lookupNamesNotConfigured = resp as unknown as string[];
     })
@@ -79,13 +78,11 @@ export class LookupDialogComponent {
   initConfiguredLookups() {
     this.lookupService.LookupNamesConfigured().subscribe((resp) => {
       this.lookupNamesConfigured = resp as unknown as LookupViewDto[];
-      console.log(resp);
     })
   }
 
   setDependentLookup(){
     let value = this.FormControls['fkeySelfId'].value;
-    console.log(`value ${value}`);
     this.dependentDropdown = value > 0;
     this.getDependentLookupData(value);
   }
@@ -95,9 +92,6 @@ export class LookupDialogComponent {
     let fkeyselfid = -1;
     if (this.config.data) {
         fkeyselfid = this.config.data.fKeySelfId;
-
-        console.log(this.config.data);
-
     }
     this.addfields = [];
     this.fblookup = this.formbuilder.group({
@@ -175,7 +169,7 @@ export class LookupDialogComponent {
   }
 
   addLookupDetails() {
-    this.showlookupDetails = true;
+    this.ShowlookupDetails = true;
     this.falookUpDetails = this.fblookup.get("lookUpDetails") as FormArray
     this.falookUpDetails.push(this.generaterow())
     this.setDefaultIsActiveForAllRows();
@@ -215,7 +209,7 @@ export class LookupDialogComponent {
     })
     this.fblookup.patchValue(lookup);
     this.addFlag = false;
-    this.showlookupDetails = true;
+    this.ShowlookupDetails = true;
   }
 
   onSubmit() {
@@ -238,6 +232,7 @@ export class LookupDialogComponent {
     } else {
       this.fblookup.markAllAsTouched();
     }
+
   }
 
   save() {
@@ -253,6 +248,8 @@ export class LookupDialogComponent {
     else {
       this.fblookup.markAllAsTouched();
     }
+    console.log(this.fblookup.value);
+
   }
   savelookup(): Observable<HttpEvent<LookupViewDto>> {
     if (this.addFlag) {
