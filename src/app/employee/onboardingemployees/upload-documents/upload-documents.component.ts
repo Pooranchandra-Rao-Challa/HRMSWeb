@@ -48,11 +48,17 @@ export class UploadDocumentsComponent {
 
     onClick() {
         const fileUpload = this.fileUpload.nativeElement;
+        const maxSizeInBytes = 10* 1024 *1024;
         fileUpload.onchange = () => {
             if (this.files.length < 5) {
                 if (this.fbUpload.valid) {
                     for (let index = 0; index < fileUpload.files.length; index++) {
-                        const file = fileUpload.files[index];
+                        const file = fileUpload.files[index];                        
+                        if (file.size > maxSizeInBytes) {
+                            this.alertMessage.displayErrorMessage(ALERT_CODES["EAD005"]);
+                            fileUpload.value = '';
+                            return; 
+                        }
                         // this.files.push({ fileBlob: file, title: this.fbUpload.get('title').value , fileName:  file.name});
                         this.empUploadDetails.push({ fileBlob: file, title: this.fbUpload.get('title').value, fileName: file.name });
                     }
@@ -72,6 +78,7 @@ export class UploadDocumentsComponent {
     checkTitle() {
         if (!this.fbUpload.valid)
             this.alertMessage.displayErrorMessage(ALERT_CODES["EAD004"]);
+            this.fbUpload.markAllAsTouched();
     }
     clearForm() {
         this.fbUpload.patchValue({
@@ -112,19 +119,16 @@ export class UploadDocumentsComponent {
     uploadFiles() {
         this.fileUpload.nativeElement.value = '';
         this.empUploadDetails.forEach((file: { fileBlob: Blob, title: string, fileName: string }) => {
-
             if (file.fileBlob)
-                this.uploadFile(file);
+                this.uploadFile(file);            
         });
     }
     getUploadDocuments() {
         this.employeeService.GetUploadedDocuments(this.employeeId).subscribe((data) => {
             this.files = data as unknown as { fileBlob: Blob, title: string, fileName: string }[];
-            console.log(data)
             this.empUploadDetails = data as unknown as { fileBlob: Blob, title: string, fileName: string }[];
         })
     }
-
     navigateToPrev() {
         this.router.navigate(['employee/onboardingemployee/addressdetails', this.employeeId])
     }

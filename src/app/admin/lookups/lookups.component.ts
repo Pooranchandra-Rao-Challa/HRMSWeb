@@ -79,6 +79,8 @@ export class LookupsComponent implements OnInit {
       this.lookups.forEach(element => {
         element.expandLookupDetails = JSON.parse(element.lookupDetails) as unknown as LookupDetailsDto[];
       });
+      console.log(this.lookups);
+
     })
   }
 

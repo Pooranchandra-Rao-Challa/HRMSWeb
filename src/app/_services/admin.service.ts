@@ -13,7 +13,7 @@ export class AdminService extends ApiHttpService {
 
     // lookup
     public GetLookUp(isbool) {
-        return this.get<LookupViewDto[]>(GET_LOOKUP_URI + '/' + isbool);
+        return this.getWithParams<LookupViewDto[]>(GET_LOOKUP_URI, [isbool]);
     }
     public CreateLookUp(lookup: LookupViewDto[]) {
         return this.post<LookupViewDto>(CREATE_LOOKUP_URI, lookup);
@@ -21,7 +21,7 @@ export class AdminService extends ApiHttpService {
     public UpdateLookUp(lookup: LookupViewDto) {
         return this.post<LookupViewDto>(UPDATE_LOOKUP_URI, lookup);
     }
-    
+
     public GetHolidays(year: string) {
         const url = `${GET_HOLIDAY_URI}${year}`;
         return this.get<HolidaysViewDto[]>(url);
@@ -47,7 +47,7 @@ export class AdminService extends ApiHttpService {
     }
 
     // Assest Allotment
-   
+
     public GetAssetsByAssetType(assetTypeId: number) {
         return this.getWithId<AssetsByAssetTypeIdViewDto[]>(GET_ASSETS_BY_ASSETTYPE_URI, assetTypeId);
     }

@@ -27,7 +27,7 @@ export class LeaveDialogComponent {
   disabledDates: Date[] = [];
   holidays: HolidaysViewDto[] = [];
   year: string;
-  minDate: Date;
+  minDate: Date = new Date();
 
   constructor(
     private formbuilder: FormBuilder,
@@ -54,7 +54,7 @@ export class LeaveDialogComponent {
         console.error('Failed to fetch holiday dates:', error);
       }
     );
-    this.minDate = new Date();
+
   }
 
   // Initialize the disabled dates array for all months of the year
@@ -144,6 +144,8 @@ export class LeaveDialogComponent {
     this.lookupService.DayWorkStatus().subscribe(resp => {
       this.leaveType = resp as unknown as LookupViewDto[];
       this.filteredLeaveTypes = this.leaveType.filter(item => !this.filterCriteria.includes(item.name));
+      console.log(this.filteredLeaveTypes);
+      
     })
   }
 

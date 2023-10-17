@@ -9,7 +9,7 @@
                 <input type="text" pInputText placeholder="Search by Name or Id" (input)="onFilter(dv, $event)" />
               </span>
               <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
-              <p-button class="p-element p-ripple  p-component p-2 pt-0 pb-0" (click)="showDialog()" icon="pi pi-plus" label="Add Employee"></p-button>
+              <p-button class="p-element p-ripple  p-component p-2 pt-0 pb-0" (click)="showDialog()" icon="pi pi-plus" label="Add Employee" *ngIf="permissions?.CanManageEmployees"></p-button>
             </div>
           </ng-template>
           <ng-template let-employee pTemplate="listItem" let-item>

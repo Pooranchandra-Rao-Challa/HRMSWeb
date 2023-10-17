@@ -154,6 +154,7 @@ export const ALERT_CODES: { [key: string]: string } = {
     'EAD002': 'Upload Documents Added Successfully',
     'EAD003': 'Upload Documents Not Added',
     'EAD004': 'Please Enter Title',
+    'EAD005': 'File size is too large. Please select a smaller file.',
     //Enroll Employee
 
     'SEE001': 'Employee Enrolled Successfully',
@@ -184,16 +185,16 @@ export const ALERT_CODES: { [key: string]: string } = {
     'SMFD001': 'Family Details Saved Successfully',
 
     //Attendence
-    'EAAS001':'Attendence Added Successfully',
-    'EAAS002':'Attendence Details Not Added',
-    'EAAS003':'Please Enter Attendance For ',
-    'EAAS004':'Please Enter Leave Narration',
-    'EAAS005':'Leave Applied Successfully.',
-    'EAAS006':'Attendence Details Updated For Previous Date and Current Date.',
-    'EAAS007':'Please Enter Previous Day Attendance.',
-    
+    'EAAS001': 'Attendence Added Successfully',
+    'EAAS002': 'Attendence Details Not Added',
+    'EAAS003': 'Please Enter Attendance For ',
+    'EAAS004': 'Please Enter Leave Narration',
+    'EAAS005': 'Leave Applied Successfully.',
+    'EAAS006': 'Attendence Details Updated For Previous Date and Current Date.',
+    'EAAS007': 'Please Enter Previous Day Attendance.',
 
-    
+
+
     //Leave Details
     'ELD001': 'Leave Details Added Successfully',
     'ELA001': 'Leave Approved Successfully',

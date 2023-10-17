@@ -52,6 +52,7 @@ export const LOOKUP_LOOKUP_KEYS_URI="Lookup/LookupKeys";
 export const LOOKUP_DETAILS_URI="Lookup/LookupDetails";
 export const LOOKUP_NAMES_URI="Lookup/LookupNames";
 export const LOOKUP_NAMES_NOT_CONFIGURE_URI="Lookup/LookupNamesNotConfigured";
+export const LOOKUP_NAMES_CONFIGURE_URI="Lookup/LookupNamesConfigured";
 
 // END LOOKUPS
 
@@ -101,3 +102,4 @@ export const GET_EMPLOYEE_LEAVE_DETAILS ="Attendance/GetEmployeeLeaves";
 export const CREATE_EMPLOYEE_LEAVE_DETAILS ="Attendance/CreateEmployeeLeave";
 export const POST_ATTENDANCE="Attendance/CreateEmployeeLeave";
 export const GET_NOTUPDATED_EMPLOYEES="Attendance/GetNotUpdatedEmployeesInAttendance";
+export const GET_COMPANY_HIERARCHY="Employee/GetCompanyHierarchy";

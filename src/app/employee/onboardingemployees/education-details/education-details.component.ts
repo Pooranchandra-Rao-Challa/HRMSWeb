@@ -32,7 +32,7 @@ export class EducationDetailsComponent implements OnInit {
   mediumDate: string = MEDIUM_DATE;
   addFlag: boolean = true;
   empEduDetails: EducationDetailsDto[] = [];
-  maxDate: Date;
+  maxDate: Date = new Date();
 
   constructor(private formbuilder: FormBuilder,
     private router: Router,
@@ -50,14 +50,14 @@ export class EducationDetailsComponent implements OnInit {
     this.initCountry();
     this.initGrading();
     this.getEmpEducaitonDetails();
-    const currentDate = new Date();
-    this.maxDate = currentDate;
   }
 
   headers: ITableHeader[] = [
-    { field: 'authorityName', header: 'authorityName', label: 'Authority Name' },
+    { field: 'authorityName', header: 'authorityName', label: 'University Name' },
+    { field: 'countryId', header: 'countryId', label: 'Country' },
     { field: 'stateId', header: 'stateId', label: 'State' },
     { field: 'institutionName', header: 'institutionName', label: 'Institution Name' },
+    { field: 'curriculumId', header: 'curriculumId', label: 'Curriculum' },
     { field: 'streamId', header: 'streamId', label: 'Stream' },
     { field: 'passedOutyear', header: 'passedOutyear', label: 'Passed Out Year' },
     { field: 'gradingMethodId', header: 'gradingMethodId', label: 'Grading System' },
@@ -88,12 +88,6 @@ export class EducationDetailsComponent implements OnInit {
   initCurriculum() {
     this.lookupService.Curriculums().subscribe((resp) => {
       this.curriculum = resp as unknown as LookupViewDto[];
-    });
-  }
-
-  initCirculum() {
-    this.lookupService.Curriculums().subscribe((resp) => {
-      this.curriculum = resp as unknown as LookupDetailsDto[];
     });
   }
 
@@ -130,9 +124,15 @@ export class EducationDetailsComponent implements OnInit {
     if (eduDetailId == null) {
       this.faEducationDetail().push(this.generaterow(this.fbEducationDetails.getRawValue()));
       for (let item of this.fbEducationDetails.get('educationDetails').value) {
-        if (item.stateId !== null && item.streamId !== null && item.gradingMethodId !== null) {
+        if (item.countyId !==null && item.stateId !== null && item.curriculumId !==null && item.streamId !== null && item.gradingMethodId !== null) {
+          let countryName = this.country.filter(x => x.lookupDetailId == item.countryId);
+          item.country = countryName.length > 0 ? countryName[0].name : '';
+
           let stateName = this.states.filter(x => x.lookupDetailId == item.stateId);
           item.state = stateName.length > 0 ? stateName[0].name : '';
+
+          let curriculumName = this.curriculum.filter(x => x.lookupDetailId == item.curriculumId);
+          item.curriculum = curriculumName.length > 0 ? curriculumName[0].name : '';
 
           let streamName = this.stream.filter(x => x.lookupDetailId == item.streamId);
           item.stream = streamName.length > 0 ? streamName[0].name : '';
@@ -165,13 +165,14 @@ export class EducationDetailsComponent implements OnInit {
   }
 
   generaterow(educationDetails: EducationDetailsDto = new EducationDetailsDto()): FormGroup {
+    debugger
     const formGroup = this.formbuilder.group({
       educationDetailId: educationDetails.educationDetailId,
       employeeId: educationDetails.employeeId,
       curriculumId: educationDetails.curriculumId,
       streamId: educationDetails.streamId,
       stateId: educationDetails.stateId,
-      countryId:educationDetails.countryId,
+      countryId: educationDetails.countryId,
       institutionName: educationDetails.institutionName,
       authorityName: educationDetails.authorityName,
       passedOutyear: educationDetails.passedOutyear,
@@ -198,7 +199,7 @@ export class EducationDetailsComponent implements OnInit {
       gradingValue: educationDetails.gradingValue
     });
     this.addeducationdetailsshowForm = !this.addeducationdetailsshowForm;
-    this.ShoweducationDetails = !this.ShoweducationDetails;    
+    this.ShoweducationDetails = !this.ShoweducationDetails;
   }
 
   restrictSpaces(event: KeyboardEvent) {

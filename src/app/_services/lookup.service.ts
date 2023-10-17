@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { LookupDetailsDto, LookupViewDto } from '../_models/admin';
 import { ApiHttpService } from './api.http.service';
-import { LOOKUP_DAYWORKSTATUS_URI, LOOKUP_DETAILS_URI, LOOKUP_NAMES_NOT_CONFIGURE_URI, LOOKUP_NAMES_URI } from './api.uri.service';
+import { LOOKUP_DAYWORKSTATUS_URI, LOOKUP_DETAILS_URI, LOOKUP_NAMES_CONFIGURE_URI, LOOKUP_NAMES_NOT_CONFIGURE_URI, LOOKUP_NAMES_URI } from './api.uri.service';
 
 @Injectable({
     providedIn: 'root'
@@ -10,8 +10,11 @@ export class LookupService extends ApiHttpService {
     public LookupNames() {
         return this.get<string[]>(LOOKUP_NAMES_URI);
     }
-    public LookupNamesNotConfigured(){
-        return this.get<string[]>(LOOKUP_NAMES_NOT_CONFIGURE_URI);
+    public LookupNamesNotConfigured(lookupId?: number){
+        return this.getWithParams<string[]>(LOOKUP_NAMES_NOT_CONFIGURE_URI,[lookupId]);
+    }
+    public LookupNamesConfigured(){
+        return this.get<string[]>(LOOKUP_NAMES_CONFIGURE_URI);
     }
     public AssetTypes() {
         console.log('AssetTypes');
@@ -75,6 +78,13 @@ export class LookupService extends ApiHttpService {
         console.log('SkillAreas');
         return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.SkillAreas]);
         //return this.get<LookupViewDto[]>(GET_SKILL_AREA_URI);
+    }
+    public isCountries(lookupId: number): boolean{
+        return this.LookupKeys.Countries == lookupId;
+    }
+
+    public isCurriculums(lookupId: number): boolean{
+        return this.LookupKeys.Curriculums == lookupId;
     }
 
     // public AssetStatus() {
