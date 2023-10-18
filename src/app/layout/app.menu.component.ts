@@ -24,7 +24,7 @@ export class AppMenuComponent implements OnInit {
             case 'Assets':
                 return this.jwtService.Permissions.CanViewAssets || this.jwtService.Permissions.CanViewAssetsAllotments;
             case 'Employee':
-                    return this.jwtService.Permissions.CanViewLookups || this.jwtService.Permissions.CanViewHolidays 
+                    return this.jwtService.Permissions.CanViewLookups || this.jwtService.Permissions.CanViewHolidays||this.jwtService.Permissions.CanViewAttendances  
             default:
                 return false;
         }
@@ -154,7 +154,7 @@ export class AppMenuComponent implements OnInit {
                         label: 'Attendance',
                         icon: 'pi pi-fw pi-calendar-times',
                         routerLink: ['employee/attendance'],
-                        permission: this.jwtService.Permissions.CanViewAssetsAllotments
+                        permission: this.jwtService.Permissions.CanViewAttendances 
                     },
                     {
                         label: 'Leave',

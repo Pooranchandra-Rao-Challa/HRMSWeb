@@ -35,11 +35,7 @@ export class OnboardingemployeesComponent {
   headers: ITableHeader[] = [
     { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
     { field: 'gender', header: 'gender', label: 'Gender' },
-    { field: 'code', header: 'code', label: 'Employee Code' },
-    { field: 'employeeRoleName', header: 'employeeRoleName', label: 'Designation' },
-    { field: 'officeEmailId', header: 'officeEmailId', label: 'Email' },
     { field: 'mobileNumber', header: 'mobileNumber', label: 'Phone No' },
-    { field: 'dateofJoin', header: 'dateofJoin', label: 'Date of Join' },
   ]
 
   showDialog() {
@@ -70,9 +66,6 @@ export class OnboardingemployeesComponent {
         this.initEmployees();
       }
     });
-
-
-    console.log(this.newEmployeeSteps);
 
   }
   updateMenuItems() {
@@ -139,7 +132,6 @@ export class OnboardingemployeesComponent {
     const isEnrolled = false;
     this.EmployeeService.GetEmployees(isEnrolled).subscribe(resp => {
       this.employees = resp as unknown as EmployeesViewDto[];
-      console.log(this.employees)
     });
   }
   onGlobalFilter(table: Table, event: Event) {
