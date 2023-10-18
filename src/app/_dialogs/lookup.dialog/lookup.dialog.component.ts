@@ -1,4 +1,5 @@
 import { HttpEvent } from '@angular/common/http';
+import { ThisReceiver } from '@angular/compiler';
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -31,7 +32,7 @@ import { FormArrayValidationForDuplication } from 'src/app/_validators/unique-br
 export class LookupDialogComponent {
   fblookup!: FormGroup;
   addfields: any;
-  dependentDropdown: boolean = false;
+  dependentDropdown: boolean = true;
   dependentLookupData: LookupViewDto[] = [];
   ShowlookupDetails: boolean = false;
   falookUpDetails!: FormArray;
@@ -53,7 +54,6 @@ export class LookupDialogComponent {
 
   ngOnInit(): void {
     this.lookupForm();
-    this.initDependentLookups();
     this.initConfiguredLookups();
     this.initNotConfiguredLookups();
     if (this.config.data) this.editLookUp(this.config.data);
@@ -61,14 +61,8 @@ export class LookupDialogComponent {
     this.setDependentLookup();
   }
 
-  initDependentLookups() {
-    this.lookupService.LookupNames().subscribe((resp) => {
-      this.lookupNames = resp as unknown as string[];
-    });
-  }
-
   initNotConfiguredLookups() {
-    let lookupId = null;
+    let lookupId = 0;
     if (this.config.data) lookupId = this.config.data.lookupId;
     this.lookupService.LookupNamesNotConfigured(lookupId).subscribe((resp) => {
       this.lookupNamesNotConfigured = resp as unknown as string[];
@@ -83,10 +77,11 @@ export class LookupDialogComponent {
 
   setDependentLookup(){
     let value = this.FormControls['fkeySelfId'].value;
+    this.lookupName=' ';
+    this.dependentLookupData = [];
     this.dependentDropdown = value > 0;
     this.getDependentLookupData(value);
   }
-
 
   lookupForm() {
     let fkeyselfid = -1;
@@ -136,13 +131,6 @@ export class LookupDialogComponent {
 
   onLookupChange(event) {
     this.setDependentLookup();
-    // const selectedValue = event.value; // Get the selected value
-    // if (selectedValue) {
-    //   this.getDependentLookupData(selectedValue);
-    //   this.dependentDropdown = true;
-    // } else {
-    //   this.dependentDropdown = false;
-    // }
   }
 
   getCountries() {
@@ -234,14 +222,21 @@ export class LookupDialogComponent {
     }
 
   }
+  
+  savelookup(): Observable<HttpEvent<LookupViewDto>> {
+    if (this.addFlag) {
+      return this.adminService.CreateLookUp(this.fblookup.value)
+    }
+    else return this.adminService.UpdateLookUp(this.fblookup.value)
+  }
 
   save() {
     if (this.fblookup.valid) {
       this.savelookup().subscribe(resp => {
         if (resp) {
           this.isLookupChecked = false;
-          this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "SML001" : "SML002"]);
           this.ref.close(true);
+          this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "SML001" : "SML002"]);
         }
       })
     }
@@ -250,12 +245,6 @@ export class LookupDialogComponent {
     }
     console.log(this.fblookup.value);
 
-  }
-  savelookup(): Observable<HttpEvent<LookupViewDto>> {
-    if (this.addFlag) {
-      return this.adminService.CreateLookUp(this.fblookup.value)
-    }
-    else return this.adminService.UpdateLookUp(this.fblookup.value)
   }
 
 }

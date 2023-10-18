@@ -120,6 +120,7 @@ export class LookupsComponent implements OnInit {
       width: this.dialogRequest.width
     });
     this.ref.onClose.subscribe((res: any) => {
+      debugger
       if (res) this.getLookUp(true);
       event.preventDefault(); // Prevent the default form submission
     });

@@ -27,7 +27,8 @@ export class LeaveDialogComponent {
   disabledDates: Date[] = [];
   holidays: HolidaysViewDto[] = [];
   year: string;
-  minDate: Date = new Date();
+  minDate: Date = new Date(new Date());
+  maxDate: Date = new Date(new Date()); // Set the maxDate to a future date
 
   constructor(
     private formbuilder: FormBuilder,
@@ -41,6 +42,7 @@ export class LeaveDialogComponent {
     this.getEmployees();
     this.getLeaveTypes();
     this.leaveForm();
+    this.setMinMaxDates();
 
     const today = new Date();
     const currentYear = today.getFullYear();
@@ -55,6 +57,13 @@ export class LeaveDialogComponent {
       }
     );
 
+  }
+
+  setMinMaxDates() {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+    this.minDate = tomorrow; 
   }
 
   // Initialize the disabled dates array for all months of the year
@@ -191,4 +200,3 @@ export class LeaveDialogComponent {
   }
 
 }
-

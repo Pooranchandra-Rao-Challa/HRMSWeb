@@ -44,10 +44,10 @@
                     </div>
                     <div class="field col-12 md:col-6" *ngIf="FormControls['fkeySelfId'].value!== null || addFlag">
                         <label>Dependent Lookup: </label>&nbsp;
-                        <p-dropdown id="lookupName_Dropdown" appendTo="body" [autoDisplayFirst]="false"
+                        <p-dropdown appendTo="body" id="lookupName_Dropdown" [autoDisplayFirst]="false"
                             optionLabel="name" optionValue="lookupId" [options]="lookupNamesConfigured"
                             formControlName="fkeySelfId" (onChange)="onLookupChange($event)"
-                            placeholder="Select Dependent Lookup" [showClear]="true"
+                            placeholder="Select Dependent Lookup" [showClear]="FormControls['lookupId'].value == null ? true : false"
                             [readonly]="FormControls['lookupId'].value!== null">
                         </p-dropdown>
                     </div>
