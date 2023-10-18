@@ -37,7 +37,7 @@ export class BasicDetailsComponent implements OnInit {
   bloodgroups: LookupViewDto[] = [];
   employeeId: any;
   isReadOnly: boolean = false;
-  maxDate: Date;
+  maxDate: Date = new Date();
 
 
   constructor(private router: Router, private route: ActivatedRoute,
@@ -66,9 +66,6 @@ export class BasicDetailsComponent implements OnInit {
     ];
     if (this.employeeId)
       this.getEmployeeBasedonId();
-      
-      const currentDate = new Date();
-      this.maxDate = currentDate;
   }
   basicDetailsForm() {
     this.fbbasicDetails = this.formbuilder.group({

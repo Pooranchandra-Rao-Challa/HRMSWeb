@@ -32,7 +32,8 @@ export class ExperiencedetailsDialogComponent {
   employeeId: any;
   selectedOption: string;
   isAFresher: boolean;
-
+  currentDate = new Date();
+  
   constructor(
     private formbuilder: FormBuilder,
     private lookupService: LookupService,

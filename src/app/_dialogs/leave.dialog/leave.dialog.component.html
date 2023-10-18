@@ -40,7 +40,7 @@
                     </div>
                     <div class="field col-12 md:col-4">
                         <label class="required">From Date:</label>
-                        <p-calendar appendTo="body" placeholder="Select From Date" [readonlyInput]="true"  
+                        <p-calendar appendTo="body" placeholder="Select From Date" [readonlyInput]="true" [minDate]="minDate"
                             [showIcon]="true" formControlName="fromDate" id="fromDateCalendar" [disabledDates]="disabledDates"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['fromDate'].touched && FormControls['fromDate'].errors }">
                         </p-calendar>
@@ -62,16 +62,16 @@
                         </p-calendar>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <label class="required">Description:</label>
+                        <label class="required">Leave Narration:</label>
                         <textarea class="form-control freeze_text-area" pInputTextarea formControlName="note"
-                            placeholder="Enter Description" #description [maxlength]="256" id="Description"
+                            placeholder="Enter Leave Narration" #description [maxlength]="256" id="Description"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['note'].touched && FormControls['note'].errors }"></textarea>
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                                 <span *ngIf="FormControls['note'].touched && FormControls['note'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="FormControls['note'].errors?.['required']">
-                                        Please Enter Leave Description.</div>
+                                        Please Enter Leave Narration.</div>
                                 </span>
                             </div>
                             <div class="align-right w-100" style="width:50%; text-align:right;">

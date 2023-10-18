@@ -144,7 +144,7 @@
                     </div>
                   </td>
                   <td class="vertical-align-top">
-                    <p-calendar [showIcon]="true" formControlName="passedOutyear" id="passed_Out_year" appendTo="body"
+                    <p-calendar [showIcon]="true" formControlName="passedOutyear" id="passed_Out_year" appendTo="body" [maxDate]="currentDate"
                       placeholder="Select Year of pass" [ngClass]="{'is-invalid ng-dirty': formArrayControls(educationDetailsIndex,'passedOutyear')?.touched &&
                   formArrayControls(educationDetailsIndex,'passedOutyear')?.errors }"></p-calendar>
                     <div class="flex">

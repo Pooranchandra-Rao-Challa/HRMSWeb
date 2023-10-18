@@ -8,7 +8,7 @@
             <ng-template pTemplate="right">
                 <button pButton pRipple label="Add Leave" id="addLeaveButton" icon="pi pi-plus"
                     class="p-button-primary p-mr-2"
-                    (click)="openComponentDialog(leaveDialogComponent, null, ActionTypes.save)"></button>
+                    (click)="openComponentDialog(leaveDialogComponent, null, ActionTypes.save)" *ngIf="permissions?.CanManageLeave"></button>
             </ng-template>
         </p-toolbar>
         <!-- p-table -->
@@ -36,7 +36,7 @@
                         </p-columnFilter>
                         <p-sortIcon [field]="col.header"></p-sortIcon>
                     </th>
-                    <th> Actions </th>
+                    <th *ngIf="permissions?.CanManageLeave"> Actions </th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-leave>
@@ -67,7 +67,7 @@
                             </ng-template>
                         </span>
                     </td>
-                    <td>
+                    <td *ngIf="permissions?.CanManageLeave">
                         <div class="flex" *ngIf="leave.rejected === null">
                             <button pButton pRipple icon="pi pi-check" id="Leave_Approved_Button"
                                 class="p-element p-ripple  p-button  p-button-outlined p-button-success mr-3 p-0"

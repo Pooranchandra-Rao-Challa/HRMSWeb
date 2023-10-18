@@ -4,18 +4,16 @@
             <div class="col-12 roles-container">
                 <div class="p-fluid p-formgrid grid">
                     <div class="field col-12 md:col-4">
-                        <span class="p-float-label">
-                            <input type="text" id="inputtext" pInputText formControlName="name" #name [maxlength]="20"
-                                alphaNumeric (keydown)="restrictSpaces($event)"
-                                [ngClass]="{ 'is-invalid ng-dirty': familyFormControls['name'].touched && familyFormControls['name'].errors }" />
-                            <label class="required">Name</label>
-                        </span>
+                        <label class="required">Family Member Name:</label>
+                        <input type="text" id="inputtext" pInputText formControlName="name" #name [maxlength]="50"
+                            alphaNumeric (keydown)="restrictSpaces($event)" placeholder="Enter Family Member Name"
+                            [ngClass]="{ 'is-invalid ng-dirty': familyFormControls['name'].touched && familyFormControls['name'].errors }" />
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                                 <span *ngIf="familyFormControls['name'].touched && familyFormControls['name'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="familyFormControls['name'].errors?.['required']">
-                                        Please Enter Name.</div>
+                                        Please Enter Family Member Name.</div>
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="familyFormControls['name'].errors?.['minlength']">
                                         Name Min Length Is 2.</div>
@@ -27,13 +25,12 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <span class="p-float-label">
-                            <p-dropdown id="relationship_dropdown" [autoDisplayFirst]="false" optionLabel="name"
-                                [options]="relationships" optionValue="lookupDetailId" formControlName="relationshipId"
-                                [ngClass]="{'is-invalid ng-dirty': familyFormControls['relationshipId'].touched && familyFormControls['relationshipId'].errors}">
-                            </p-dropdown>
-                            <label class="required">Relationship</label>
-                        </span>
+                        <label class="required">Relationship:</label>
+                        <p-dropdown id="relationship_dropdown" [autoDisplayFirst]="false" optionLabel="name"
+                            [options]="relationships" optionValue="lookupDetailId" formControlName="relationshipId"
+                            placeholder=" Select Relationship"
+                            [ngClass]="{'is-invalid ng-dirty': familyFormControls['relationshipId'].touched && familyFormControls['relationshipId'].errors}">
+                        </p-dropdown>
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                                 <span
@@ -47,27 +44,21 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <span class="p-float-label">
-                            <p-dropdown id="address_dropdown" formControlName="addressId" [autoDisplayFirst]="false"
-                                optionLabel="addressLine1" [options]="address" optionValue="addressId"></p-dropdown>
-                            <label>Address</label>
-                        </span>
+                        <label>Address:</label>
+                        <p-dropdown id="address_dropdown" formControlName="addressId" [autoDisplayFirst]="false"
+                            placeholder="Select Address" optionLabel="addressLine1" [options]="address"
+                            optionValue="addressId"></p-dropdown>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <span class="p-float-label">
-                            <p-calendar [readonlyInput]="false" [showIcon]="true" id="dob" #DOB
-                                placeholder="Select Dob Date" mask="99/99/9999" formControlName="dob"
-                                [ngClass]="{ 'is-invalid ng-dirty': familyFormControls['dob'].touched && familyFormControls['dob'].errors }">
-                            </p-calendar>
-
-                            <!-- <p-calendar [readonlyInput]="true" [showIcon]="true" mask="99/99/9999" 
+                        <label class="required">DOB:</label>
+                        <p-calendar [readonlyInput]="false" [showIcon]="true" id="dob" #DOB placeholder="Select DOB"
+                            mask="99/99/9999" formControlName="dob" [maxDate]="currentDate"
+                            [ngClass]="{ 'is-invalid ng-dirty': familyFormControls['dob'].touched && familyFormControls['dob'].errors }">
+                        </p-calendar>
+                        <!-- <p-calendar [readonlyInput]="true" [showIcon]="true" mask="99/99/9999" 
                                 [minDate]="plotInfo.measuredDate!"  formControlName="dob"
-                                placeholder="Select Dob Date" appendTo="body" 
-                               >
+                                placeholder="Select Dob Date" appendTo="body">
                             </p-calendar> -->
-
-                            <label class="required"> DOB</label>
-                        </span>
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                                 <span *ngIf="familyFormControls['dob'].touched && familyFormControls['dob'].invalid">
@@ -79,24 +70,23 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <span class="p-float-label">
-                            <input type="text" id="adhaar_No" pInputText formControlName="adhaarNo" numericOnly
-                                [maxLength]="12" #adhaarno
-                                [ngClass]="{ 'is-invalid ng-dirty': familyFormControls['adhaarNo'].touched && familyFormControls['adhaarNo'].errors }" />
-                            <label class="required">Aadhaar No.</label>
-                        </span>
+                        <label class="required">Aadhaar No:</label>
+                        <input type="text" id="adhaar_No" pInputText formControlName="adhaarNo" numericOnly
+                            [maxLength]="12" #adhaarno placeholder="Enter Aadhaar No"
+                            [ngClass]="{ 'is-invalid ng-dirty': familyFormControls['adhaarNo'].touched && familyFormControls['adhaarNo'].errors }" />
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                                 <span
                                     *ngIf="familyFormControls['adhaarNo'].touched && familyFormControls['adhaarNo'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="familyFormControls['adhaarNo'].errors?.['required']">
-                                        Please Enter Adhaar No.</div>
-                                        <!-- <div class="ng-invalid ng-touched p-error"
+                                        Please Enter Aadhaar No.</div>
+                                    <!-- <div class="ng-invalid ng-touched p-error"
                                   *ngIf="familyFormControls['adhaarNo'].errors?.['minlength']">
                                   Aadhaar No Min Length Is 12.</div> -->
-                                <div class="ng-invalid ng-touched p-error"
-                                  *ngIf="familyFormControls['adhaarNo'].errors?.['pattern']">Please Enter valid Aadhar No Ex:397788000234.</div>
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="familyFormControls['adhaarNo'].errors?.['pattern']">Please Enter valid
+                                        Aadhar No Ex:397788000234.</div>
                                 </span>
                             </div>
                             <div class="align-right w-40" style="width:30%; text-align:right;">
@@ -105,11 +95,9 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <span class="p-float-label">
-                            <input type="text" id="pan_No" pInputText formControlName="panno" #panNo [maxLength]="10"
+                        <label>Pan No:</label>
+                            <input type="text" id="pan_No" pInputText formControlName="panno" #panNo [maxLength]="10" placeholder="Enter Pan No"
                                 [ngClass]="{ 'is-invalid ng-dirty': familyFormControls['panno'].touched && familyFormControls['panno'].errors }" />
-                            <label>Pan No.</label>
-                        </span>
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                                 <span
@@ -128,12 +116,10 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <span class="p-float-label">
+                        <label class="required">Mobile No:</label>
                             <input type="text" id="mobile_Number" pInputText formControlName="mobileNumber" #phoneNo
-                                numericOnly [maxLength]="10"
+                                numericOnly [maxLength]="10" placeholder="Enter Mobile No"
                                 [ngClass]="{ 'is-invalid ng-dirty': familyFormControls['mobileNumber'].touched && familyFormControls['mobileNumber'].errors }" />
-                            <label class="required">Mobile No.</label>
-                        </span>
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                                 <span
@@ -152,13 +138,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="field col-12 md:col-4">
-                        <span class="p-float-label">
-                            <label for="binary" class="ml-3 required" >Make him/her as Nominee 
+                    <div class="field col-12 md:col-4 mt-4">
+                        <p-checkbox [binary]="true" id="binary" class="mr-2" formControlName="isNominee">
+                        </p-checkbox>
+                            <label for="binary" class="ml-3 required">Make him/her as Nominee
                             </label>
-                            <p-checkbox [binary]="true" id="binary" class="mr-2" formControlName="isNominee">
-                            </p-checkbox>
-                        </span>
                     </div>
                 </div>
             </div>

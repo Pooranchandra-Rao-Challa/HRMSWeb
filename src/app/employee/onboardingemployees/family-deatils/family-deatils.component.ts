@@ -28,7 +28,7 @@ export class FamilyDeatilsComponent implements OnInit {
   mediumDate: string = MEDIUM_DATE;
   addFlag: boolean = true;
   empFamDetails: FamilyDetailsDto[] = [];
-  maxDate: Date;
+  maxDate: Date = new Date();
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -44,8 +44,6 @@ export class FamilyDeatilsComponent implements OnInit {
     this.initFamily();
     this.initRelationship();
     this.initGetAddress(true);
-    const currentDate = new Date();
-    this.maxDate = currentDate;
   }
   headers: ITableHeader[] = [
     { field: 'name', header: 'name', label: 'Family Member Name' },
