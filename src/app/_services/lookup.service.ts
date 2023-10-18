@@ -61,23 +61,19 @@ export class LookupService extends ApiHttpService {
     public Streams(lookupDetailId: number) {
         console.log('Streams');
         return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.Streams,lookupDetailId]);
-        //return this.getWithId<LookupViewDto[]>(LOOKUP_STREAM_URI, lookupDetailId);
     }
     public GradingMethods() {
         console.log('GradingMethods');
         return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.GradingMethods]);
-        //return this.get<LookupViewDto[]>(LOOKUP_GRADING_SYSTEM_URI);
     }
 
     public Designations() {
         console.log('Designations');
         return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.Designations]);
-        //return this.get<LookupViewDto[]>(GET_DESIGNATION_URI);
     }
     public SkillAreas() {
         console.log('SkillAreas');
         return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.SkillAreas]);
-        //return this.get<LookupViewDto[]>(GET_SKILL_AREA_URI);
     }
     public isCountries(lookupId: number): boolean{
         return this.LookupKeys.Countries == lookupId;
@@ -87,26 +83,4 @@ export class LookupService extends ApiHttpService {
         return this.LookupKeys.Curriculums == lookupId;
     }
 
-    // public AssetStatus() {
-    //     return this.get<LookupViewDto[]>(LOOKUP_ASSET_STATUS_URI);
-    // }
-    // public Country() {
-    //     return this.get<LookupViewDto[]>(LOOKUP_COUNTRY_URI);
-    // }
-    // public getStates(lookupDetailId: number) {
-    //     return this.getWithId<LookupViewDto[]>(LOOKUP_STATES_URI, lookupDetailId);
-    // }
-    // public GetDesignation() {
-    //     return this.get<LookupViewDto[]>(GET_DESIGNATION_URI);
-    // }
-    // public GetSkillArea() {
-    //     return this.get<LookupViewDto[]>(GET_SKILL_AREA_URI);
-    // }
-
-    // public BloodGroups() {
-    //     return this.get<LookupViewDto[]>(LOOKUP_BLOOD_GROUPS_URI);
-    // }
-    // public Relationships() {
-    //     return this.get<LookupViewDto[]>(LOOKUP_RELATIONSHIP_URI);
-    // }
 }
