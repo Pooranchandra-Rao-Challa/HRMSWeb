@@ -1,19 +1,19 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { FORMAT_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { ClientDetailsDto, ClientNamesDto, EmployeesList, ProjectAllotments, ProjectViewDto } from 'src/app/_models/admin';
 import { MaxLength } from 'src/app/_models/common';
 import { AdminService } from 'src/app/_services/admin.service';
 import { JwtService } from 'src/app/_services/jwt.service';
-import { MAX_LENGTH_20, MAX_LENGTH_256, MAX_LENGTH_50, MIN_LENGTH_2, MIN_LENGTH_20, MIN_LENGTH_4, RG_PHONE_NO } from 'src/app/_shared/regex';
+import { MAX_LENGTH_20, MAX_LENGTH_256, MAX_LENGTH_50, MIN_LENGTH_2, MIN_LENGTH_20, MIN_LENGTH_4, RG_ALPHA_NUMERIC, RG_EMAIL, RG_PHONE_NO } from 'src/app/_shared/regex';
 import { TreeNode } from 'primeng/api';
 import { dE } from '@fullcalendar/core/internal-common';
 import * as go from 'gojs';
 import { OrgChart } from "d3-org-chart";
 import * as d3 from 'd3';
-import { EmployeeService } from 'src/app/_services/employee.service';
 import { CompanyHierarchyViewDto } from 'src/app/_models/employes';
+import { EmployeeService } from 'src/app/_services/employee.service';
 import { D3OrgChartComponent } from './d3-org-chart/d3-org-chart.component';
 interface AutoCompleteCompleteEvent {
   originalEvent: Event;
@@ -43,11 +43,11 @@ export class ProjectComponent implements OnInit {
   permission: any;
   addFlag: boolean = true;
   submitLabel!: string;
-  minDateVal = new Date();
   projectDetails: any = {};
   selectedFileBase64: string | null = null; // To store the selected file as base64
-  companyHierarchy :CompanyHierarchyViewDto[]=[];
-  
+  companyHierarchy: CompanyHierarchyViewDto[] = [];
+
+
   projectTreeData: TreeNode[];
   rootProject: TreeNode = {
     type: 'person',
@@ -58,7 +58,8 @@ export class ProjectComponent implements OnInit {
       name: 'Calibrage',
     },
   };
-  constructor(private formbuilder: FormBuilder, private adminService: AdminService, private employeeService:EmployeeService, private alertMessage: AlertmessageService,
+
+  constructor(private formbuilder: FormBuilder, private adminService: AdminService, private employeeService: EmployeeService, private alertMessage: AlertmessageService,
     private jwtService: JwtService) { }
 
   ngOnInit() {
@@ -69,18 +70,22 @@ export class ProjectComponent implements OnInit {
     this.initEmployees();
     this.unAssignEmployeeForm();
 
-      this.employeeService.getCompanyHierarchy().subscribe((resp) => {
-        this.companyHierarchy = resp as unknown as CompanyHierarchyViewDto[];
-        console.log(this.companyHierarchy);
-      });
-    
+    this.employeeService.getCompanyHierarchy().subscribe((resp) => {
+      this.companyHierarchy = resp as unknown as CompanyHierarchyViewDto[];
+      console.log(this.companyHierarchy);
+    });
+
     // d3.json(
     //   "https://gist.githubusercontent.com/bumbeishvili/dc0d47bc95ef359fdc75b63cd65edaf2/raw/c33a3a1ef4ba927e3e92b81600c8c6ada345c64b/orgChart.json"
     // ).then(resp => {
     //   console.log(resp);
     //   this.data = resp;
     // });
-    
+
+    this.employeeService.getCompanyHierarchy().subscribe((resp) => {
+      this.companyHierarchy = resp as unknown as CompanyHierarchyViewDto[];
+      console.log(this.companyHierarchy);
+    });
 
     // this.diagram = new go.Diagram('myDiagramDiv');
 
@@ -108,7 +113,7 @@ export class ProjectComponent implements OnInit {
     this.fbproject = this.formbuilder.group({
       clientId: [0],
       projectId: [0],
-      isActive: ['', [Validators.required]],
+      isActive: [true, [Validators.required]],
       code: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_4), Validators.maxLength(MAX_LENGTH_20)]),
       name: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
       InceptionAt: new FormControl('', [Validators.required]),
@@ -116,10 +121,10 @@ export class ProjectComponent implements OnInit {
       logo: [],
       clients: this.formbuilder.group({
         clientId: [],
-        isActive: ['', [Validators.required]],
+        isActive: [true, [Validators.required]],
         companyName: new FormControl(null, [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
         Name: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
-        email: new FormControl('', [Validators.required]),
+        email: new FormControl('', [Validators.required, Validators.pattern(RG_EMAIL),]),
         mobileNumber: new FormControl('', [Validators.required, Validators.pattern(RG_PHONE_NO)]),
         cinno: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_20), Validators.maxLength(MAX_LENGTH_50)]),
         pocName: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
@@ -138,6 +143,12 @@ export class ProjectComponent implements OnInit {
       isActive: new FormControl('', [Validators.required]),
     });
   }
+  
+  restrictSpaces(event: KeyboardEvent) {
+    if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {
+      event.preventDefault();
+    }
+  } 
 
   unAssignedEmployee(employee: ProjectAllotments) {
     this.fcUnAssignAsset['projectAllotmentId']?.setValue(employee.projectAllotmentId);
@@ -182,6 +193,7 @@ export class ProjectComponent implements OnInit {
       this.submitLabel = "Add Project";
       this.fbproject.reset();
       this.fcClientDetails.get('isActive')?.setValue(true);
+      this.fbproject.get('isActive')?.setValue(true);
     }
   }
 
@@ -222,6 +234,7 @@ export class ProjectComponent implements OnInit {
   }
 
   onAutocompleteSelect(selectedOption: ClientNamesDto) {
+    console.log(selectedOption)
     this.adminService.GetClientDetails(selectedOption.clientId).subscribe(resp => {
       this.clientDetails = resp[0];
       this.fcClientDetails.get('clientId')?.setValue(this.clientDetails.clientId);
@@ -240,6 +253,7 @@ export class ProjectComponent implements OnInit {
       if (this.clientDetails) {
         this.fcClientDetails.get('companyName')?.setValue(this.clientDetails.companyName);
       }
+
       return this.adminService.CreateProject(this.fbproject.value);
     }
     else {

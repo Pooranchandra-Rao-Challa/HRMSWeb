@@ -23,7 +23,7 @@ import { NgPluralCase } from '@angular/common';
   ]
 })
 export class LeavesComponent {
-  globalFilterFields: string[] = ['employeeName', 'leaveTypeId', 'fromDate', 'toDate', 'note', 'acceptedBy', 'acceptedAt', 'approvedBy']
+  globalFilterFields: string[] = ['employeeName', 'leaveType', 'fromDate', 'toDate', 'note', 'acceptedBy', 'acceptedAt', 'approvedBy']
   @ViewChild('filter') filter!: ElementRef;
   ActionTypes = Actions;
   leaveDialogComponent = LeaveDialogComponent;
@@ -41,7 +41,7 @@ export class LeavesComponent {
 
   headers: ITableHeader[] = [
     { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
-    { field: 'leaveTypeId', header: 'leaveTypeId', label: 'Leave Type' },
+    { field: 'leaveType', header: 'leaveType', label: 'Leave Type' },
     { field: 'fromDate', header: 'fromDate', label: 'From Date' },
     { field: 'toDate', header: 'toDate', label: 'To Date' },
     { field: 'note', header: 'note', label: 'Leave Description' },
@@ -81,7 +81,7 @@ export class LeavesComponent {
     this.lookupService.DayWorkStatus().subscribe((resp) => {
       this.leaveTypes = resp as unknown as LookupViewDto[];
       this.leaveTypes.forEach((type) => {
-        this.leaveTypeMap[type.lookupDetailId] = type.name;
+        this.leaveTypeMap[type.name] = type.name;
       });
     });
   }
@@ -104,7 +104,7 @@ export class LeavesComponent {
       code: new FormControl(''),
       fromDate: new FormControl('', [Validators.required]),
       toDate: new FormControl(),
-      leaveTypeId: new FormControl('', [Validators.required]),
+      leaveType: new FormControl('', [Validators.required]),
       note: new FormControl('', [Validators.required]),
       acceptedBy: new FormControl(''),
       acceptedAt: new FormControl(null),
@@ -132,7 +132,7 @@ export class LeavesComponent {
         code: this.leaveData.code,
         fromDate: this.leaveData.fromDate ? FORMAT_DATE(new Date(this.leaveData.fromDate)) : null,
         toDate: this.leaveData.toDate ? FORMAT_DATE(new Date(this.leaveData.toDate)) : null,
-        leaveTypeId: this.leaveData.leaveTypeId,
+        leaveType: this.leaveData.leaveType,
         note: this.leaveData.note,
         acceptedBy: acceptedBy,
         acceptedAt: this.leaveData.acceptedAt ? FORMAT_DATE(new Date(this.leaveData.acceptedAt)) : null,

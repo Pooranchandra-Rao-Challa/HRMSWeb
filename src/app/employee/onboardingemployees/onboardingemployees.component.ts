@@ -38,10 +38,6 @@ export class OnboardingemployeesComponent {
     { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
     { field: 'gender', header: 'gender', label: 'Gender' },
     { field: 'mobileNumber', header: 'mobileNumber', label: 'Phone No' },
-    // { field: 'code', header: 'code', label: 'Employee Code' },
-    // { field: 'employeeRoleName', header: 'employeeRoleName', label: 'Designation' },
-    // { field: 'officeEmailId', header: 'officeEmailId', label: 'Email' },   
-    // { field: 'dateofJoin', header: 'dateofJoin', label: 'Date of Join' },
   ]
 
   showDialog() {

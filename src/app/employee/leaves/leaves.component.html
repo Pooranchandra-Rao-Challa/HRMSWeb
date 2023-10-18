@@ -50,8 +50,8 @@
                             *ngIf="col?.field == 'fromDate' || col?.field == 'toDate'|| col?.field == 'acceptedAt' || col?.field == 'approvedAt'">
                             {{leave[col.field] | date: mediumDate}}
                         </span>
-                        <span *ngIf=" col?.field == 'leaveTypeId'">
-                            {{ leaveTypeMap[leave.leaveTypeId] }}
+                        <span *ngIf=" col?.field == 'leaveType'">
+                            {{ leaveTypeMap[leave.leaveType] }}
                         </span>
                         <span *ngIf="col?.field == 'status'">
                             <ng-container *ngIf="leave.status === 'Approved'; else falseBlock">

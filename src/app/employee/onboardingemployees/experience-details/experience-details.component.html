@@ -195,7 +195,7 @@
                                     <p-calendar [showIcon]="true" formControlName="dateOfJoining"
                                         id="Experience_dateOfJoining" appendTo="body"
                                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['dateOfJoining'].touched && FormControls['dateOfJoining'].errors }"
-                                        placeholder="Enter From Date">
+                                        placeholder="Enter Date Of Joining">
                                     </p-calendar>
                                     <div class="flex">
                                         <div class="align-left w-60" style="width:70%">
@@ -203,7 +203,7 @@
                                                 *ngIf="FormControls['dateOfJoining'].touched && FormControls['dateOfJoining'].invalid">
                                                 <div class="ng-invalid ng-touched p-error"
                                                     *ngIf="FormControls['dateOfJoining'].errors?.['required']">
-                                                    Please Select Date Of Join.</div>
+                                                    Please Select Date Of Joining.</div>
                                             </span>
                                         </div>
                                     </div>
@@ -213,7 +213,7 @@
                                     <p-calendar [showIcon]="true" formControlName="dateOfReliving"
                                         id="Experience_dateOfReliving" appendTo="body" [maxDate]="currentDate"
                                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['dateOfReliving'].touched && FormControls['dateOfReliving'].errors }"
-                                        placeholder="Enter To Date">
+                                        placeholder="Enter Date of Reliving">
                                     </p-calendar>
                                     <div class="flex">
                                         <div class="align-left w-60" style="width:70%">

@@ -24,7 +24,7 @@ export class AppMenuComponent implements OnInit {
             case 'Assets':
                 return this.jwtService.Permissions.CanViewAssets || this.jwtService.Permissions.CanViewAssetsAllotments;
             case 'Employee':
-                    return this.jwtService.Permissions.CanViewLookups || this.jwtService.Permissions.CanViewHolidays || this.jwtService.Permissions.CanViewLeaves || this.jwtService.Permissions.CanViewEmployees
+                    return this.jwtService.Permissions.CanViewLookups || this.jwtService.Permissions.CanViewHolidays||this.jwtService.Permissions.CanViewAttendances  
             default:
                 return false;
         }
@@ -140,27 +140,27 @@ export class AppMenuComponent implements OnInit {
                         label: 'Search Employees',
                         icon: 'pi pi-fw pi-users',
                         routerLink: ['employee/all-employees'],
-                        permission: this.jwtService.Permissions.CanViewEmployees
+                        permission: this.jwtService.Permissions.CanViewAssetsAllotments
 
                     },
                     {
                         label: 'On Boarding Employee',
                         icon: 'pi pi-fw pi-user',
                         routerLink: ['employee/onboardingemployee'],
-                        permission: this.jwtService.Permissions.CanViewEmployees
+                        permission: this.jwtService.Permissions.CanViewAssetsAllotments
 
                     },
                     {
                         label: 'Attendance',
                         icon: 'pi pi-fw pi-calendar-times',
                         routerLink: ['employee/attendance'],
-                        permission: this.jwtService.Permissions.CanViewAssetsAllotments
+                        permission: this.jwtService.Permissions.CanViewAttendances 
                     },
                     {
                         label: 'Leave',
                         icon: 'pi pi-fw pi-circle',
                         routerLink: ['employee/leaves'],
-                        permission: this.jwtService.Permissions.CanViewLeaves
+                        permission: this.jwtService.Permissions.CanViewAssetsAllotments
                     },
                     {
                         label: 'Notifications',
