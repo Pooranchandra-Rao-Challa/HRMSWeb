@@ -21,6 +21,7 @@
                 <div style="margin-bottom: 15px;">
                     <label class="required">Leave Type:</label>&nbsp;
                     <p-dropdown formControlName="leaveTypeId" [options]="LeaveTypes" optionLabel="name"
+                        [ngClass]="{ 'is-invalid ng-dirty': FormControls['leaveTypeId'].touched && FormControls['leaveTypeId'].errors }"
                         (onChange)="checkLeaveType()" id="Attendance_leaveType" optionValue="lookupDetailId"
                         placeholder="Select Leave Type"></p-dropdown>
                     <div class="flex">
