@@ -6,9 +6,8 @@ import { EmployeesViewDto } from 'src/app/_models/employes';
 import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { ITableHeader } from 'src/app/_models/common';
 import { Router } from '@angular/router';
-import { JwtService } from 'src/app/_services/jwt.service';
 
-@Component({
+@Component({ 
     selector: 'app-all-employees',
     templateUrl: './all-employees.component.html',
     styles: [
@@ -22,7 +21,6 @@ export class AllEmployeesComponent {
     employees: EmployeesViewDto[] = [];
     sortOrder: number = 0;
     sortField: string = '';
-    permissions: any;
     mediumDate: string = MEDIUM_DATE
 
     headers: ITableHeader[] = [
@@ -32,18 +30,17 @@ export class AllEmployeesComponent {
         { field: 'employeeRoleName', header: 'employeeRoleName', label: 'Designation' },
         { field: 'officeEmailId', header: 'officeEmailId', label: 'Email' },
         { field: 'mobileNumber', header: 'mobileNumber', label: 'Phone No' },
-        { field: 'dateofJoin', header: 'dateofJoin', label: 'Date of Join' },
+        { field: 'dateofJoin', header: 'dateofJoin', label: 'Date of Joining' },
 
     ];
     constructor(private EmployeeService: EmployeeService,
-        private router: Router, private jwtService: JwtService) { }
+        private router: Router) { }
 
     ngOnInit() {
         this.initEmployees()
     }
 
     initEmployees() {
-        this.permissions = this.jwtService.Permissions
         // Fetch only records where IsEnrolled is true
         const isEnrolled = true;
         this.EmployeeService.GetEmployees(isEnrolled).subscribe(resp => {
@@ -65,10 +62,9 @@ export class AllEmployeesComponent {
     onFilter(dv: DataView, event: Event) {
         dv.filter((event.target as HTMLInputElement).value);
     }
+
     viewEmployeeDtls(employeeId: number) {
         this.router.navigate(['employee/viewemployees'], { queryParams: { employeeId: employeeId } });
     }
-
-
 
 }

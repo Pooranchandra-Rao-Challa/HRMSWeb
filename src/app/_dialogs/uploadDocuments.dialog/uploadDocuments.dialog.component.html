@@ -6,8 +6,8 @@
                     <div class="p-fluid p-formgrid ">
                         <div class="field col-12  ">
                             <label class="required">Title:</label>
-                            <input type="text" id="Upload_title" pInputText formControlName="title" class="w-100"
-                                placeholder="Enter Title">
+                            <input type="text" id="Upload_title" pInputText formControlName="title" class="w-100" placeholder="Enter Title"
+                                [ngClass]="{ 'is-invalid ng-dirty': FormControls['title'].touched && FormControls['title'].errors }">
                             <div class="flex">
                                 <div class="align-left w-60">
                                     <span *ngIf="FormControls['title'].touched && FormControls['title'].invalid">
@@ -33,8 +33,8 @@
                 <label for="singleFile">
                     <i class="pi pi-paperclip"></i> Attach File
                 </label>
-                <input id="singleFile" #fileUpload name="myFile" accept=".pdf, .jpg, .jpeg, .png, .gif" type="file" [disabled]="!this.fbUpload.valid"
-                    hidden="true" (click)="onClick()" />
+                <input id="singleFile" #fileUpload name="myFile" accept=".pdf, .jpg, .jpeg, .png, .gif" type="file"
+                    [disabled]="!this.fbUpload.valid" hidden="true" (click)="onClick()" />
             </div>
         </div>
     </div>
@@ -48,17 +48,17 @@
                 [rowsPerPageOptions]="[10,25,50]">
                 <ng-template pTemplate="header">
                     <tr>
-                        <th style="width:5px" *ngIf="permissions?.CanManageEmployee">Actions</th>
+                        <th style="width:5px">Actions</th>
                         <th>Title</th>
                         <th>Filename</th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-file let-i="rowIndex">
                     <tr>
-                        <td *ngIf="permissions?.CanManageEmployee" class="flex">
+                        <td>
                             <!-- <button pButton pRipple icon="pi pi-pencil" (click)="editForm(file)"
                                 class="p-element p-ripple p-button-text p-button p-component col-2 p-0 "></button> -->
-                                <button pButton pRipple icon="pi pi-trash" id="AddressDetailsRemove-Btn"
+                            <button pButton pRipple icon="pi pi-trash" id="AddressDetailsRemove-Btn"
                                 class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
                                 (click)="removeItem(file)">
                             </button>
@@ -73,6 +73,6 @@
 </div>
 
 <div class=" footer dialog-footer">
-    <button pButton pRipple class="p-button-raised p-button-primary" id="Upload_save" (click)="uploadFiles()">Upload
-        Files</button>
+    <button pButton pRipple class="p-button-raised p-button-primary" id="Upload_save"  label="Save Upload Documents"
+    [disabled]="files.length === 0"  (click)="uploadFiles()"></button>
 </div>

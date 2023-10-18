@@ -20,6 +20,7 @@ import { OfficedetailsDialogComponent } from 'src/app/_dialogs/officedetails.dia
 import { EducationdetailsDialogComponent } from 'src/app/_dialogs/educationdetails.dialog/educationdetails.dialog.component';
 import { ExperiencedetailsDialogComponent } from 'src/app/_dialogs/experiencedetails.dialog/experiencedetails.dialog.component';
 import { ALERT_CODES, AlertmessageService } from 'src/app/_alerts/alertmessage.service';
+import { JwtService } from 'src/app/_services/jwt.service';
 
 @Component({
   selector: 'app-viewemployees',
@@ -67,8 +68,10 @@ export class ViewemployeesComponent {
   dialogRequest: DialogRequest = new DialogRequest();
   enRollEmployee: boolean = false;
   showOfcAndAssetDetails: boolean = false;
+  permissions: any;
 
   constructor(
+    private jwtService: JwtService,
     private alertMessage:AlertmessageService,
     private employeeService: EmployeeService,
     private activatedRoute: ActivatedRoute,
@@ -79,6 +82,7 @@ export class ViewemployeesComponent {
   }
 
   ngOnInit(): void {
+    this.permissions = this.jwtService.Permissions;
     this.initViewEmpDtls();
     this.initofficeEmpDtls();
     this.initGetEducationDetails();
@@ -186,7 +190,7 @@ export class ViewemployeesComponent {
     //Bank Details
     else if (action == Actions.edit && content === this.BankdetailsDialogComponent) {
       this.dialogRequest.dialogData = dialogData;
-      this.dialogRequest.header = " Bank Details";
+      this.dialogRequest.header = "Edit Bank Details";
       this.dialogRequest.width = "40%";
     }
     else if (action == Actions.add && content === this.BankdetailsDialogComponent) {
@@ -219,7 +223,7 @@ export class ViewemployeesComponent {
     //Familydetails
     else if (action == Actions.edit && content === this.FamilydetailsDialogComponent) {
       this.dialogRequest.dialogData = dialogData;
-      this.dialogRequest.header = " Update Family Details";
+      this.dialogRequest.header = "Edit Family Details";
       this.dialogRequest.width = "70%";
     }
     else if (action == Actions.add && content === this.FamilydetailsDialogComponent) {

@@ -1,126 +1,147 @@
 <div class="grid">
-    <div class="col-12">
-      <div class="card">
-        <p-dataView #dv [value]="employees" [paginator]="true" [rows]="12" filterBy="employeeName,code,employeeRoleName,dateofJoin,officeEmailId,mobileNumber,certificateDOB,gender" [sortField]="sortField" [sortOrder]="sortOrder" layout="grid">
-          <ng-template pTemplate="header">
-            <div class="flex flex-column md:flex-row md:justify-content-between gap-2">
-              <span class="p-input-icon-left" *ngIf="dv._layout !== 'list'">
-                <i class="pi pi-search"></i>
-                <input type="text" pInputText placeholder="Search by Name or Id" (input)="onFilter(dv, $event)" />
-              </span>
-              <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
-              <p-button class="p-element p-ripple  p-component p-2 pt-0 pb-0" (click)="showDialog()" icon="pi pi-plus" label="Add Employee" *ngIf="permissions?.CanManageEmployees"></p-button>
-            </div>
-          </ng-template>
-          <ng-template let-employee pTemplate="listItem" let-item>
-            <ng-container *ngIf="item === employees[0]">
-              <!-- table -->
-              <p-table #dtEmployees [value]="employees" dataKey="id" [rows]="10" [rowHover]="true" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm pb-5" [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true" [alwaysShowPaginator]="false" [globalFilterFields]="globalFilterFields" [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]" [tableStyle]="{ width: 'max-content'}">
-                <ng-template pTemplate="caption">
-                  <div class="flex justify-content-between flex-column sm:flex-row">
-                    <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="clear(dtEmployees)"></button>
-                    <span class="p-input-icon-left mb-2">
-                      <i class="pi pi-search"></i>
-                      <input pInputText type="text" #filter (input)="onGlobalFilter(dtEmployees, $event)" placeholder="Search Keyword" class="w-full" />
-                    </span>
-                  </div>
-                </ng-template>
-                <ng-template pTemplate="header">
-                  <tr>
-                    <th>Image</th>
-                    <th *ngFor="let col of headers" [pSortableColumn]="col.header">
-                      {{col?.label}}
-                      <p-columnFilter type="text" [field]="col.header" display="menu"></p-columnFilter>
-                      <p-sortIcon [field]="col.header"></p-sortIcon>
-                    </th>
-                    <th></th>
-                  </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-employee>
-                  <tr>
-                    <td>
-                      <img [src]="employee.photo ? employee.photo : './assets/layout/images/default_icon_employee.jpg'" [alt]="employee.employeeName" class="my-4 md:my-0 w-10 md:w-10rem shadow-2 mr-2" />
-                    </td>
-                    <td *ngFor="let col of headers">
-                      <span>{{employee[col.field]}}</span>
-                    </td>
-                    <td>
-                      <button pbutton="" pripple="" type="button" label="Primary" routerLink="/employee/viewemployees" routerLinkActive="router-link-active" class="p-element p-ripple p-button-text p-button p-component view_profile_button" ng-reflect-label="Primary">
-                        <span class="p-button-label pi pi-chevron-right"></span>
-                      </button>
-                    </td>
-                  </tr>
-                </ng-template>
-                <ng-template pTemplate="emptymessage">
-                  <tr>
-                    <td class="text-center m-5" colspan="15">No Employees Found.</td>
-                  </tr>
-                </ng-template>
-              </p-table>
-            </ng-container>
-          </ng-template>
-          <ng-template let-employee pTemplate="gridItem">
-            <div class="col-12 md:col-4 lg:col-3 sm:col-6">
-              <div class="card m-2 border-1 surface-border">
-                <div class=" mb-3 grid">
-                  <div class="col-12 lg:col-4 md:col-12 p-1 employee_profile_pic_div">
-                    <img [src]="employee.photo ? employee.photo : './assets/layout/images/default_icon_employee.jpg'" [alt]="employee.employeeName" class="shadow-2 my-1 mx-0 employee_profile_pic zoomable-img" />
-                    <!-- <span class="text-600 font-medium text-md">
+  <div class="col-12">
+    <div class="card">
+      <p-dataView #dv [value]="employees" [paginator]="true" [rows]="12"
+        filterBy="employeeName,code,employeeRoleName,dateofJoin,officeEmailId,mobileNumber,certificateDOB,gender"
+        [sortField]="sortField" [sortOrder]="sortOrder" layout="grid">
+        <ng-template pTemplate="header">
+          <div class="flex flex-column md:flex-row md:justify-content-between gap-2">
+            <span class="p-input-icon-left" *ngIf="dv._layout !== 'list'">
+              <i class="pi pi-search"></i>
+              <input type="text" pInputText placeholder="Search by Name or Id" (input)="onFilter(dv, $event)" />
+            </span>
+            <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+            <p-button class="p-element p-ripple  p-component p-2 pt-0 pb-0" (click)="showDialog()"
+              *ngIf="permissions?.CanManageEmployee" icon="pi pi-plus" label="Add Employee"></p-button>
+          </div>
+        </ng-template>
+        <ng-template let-employee pTemplate="listItem" let-item>
+          <ng-container *ngIf="item === employees[0]">
+            <!-- table -->
+            <p-table #dtEmployees [value]="employees" dataKey="id" [rows]="10" [rowHover]="true"
+              styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm pb-5" [paginator]="true"
+              currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+              [showCurrentPageReport]="true" [alwaysShowPaginator]="false" [globalFilterFields]="globalFilterFields"
+              [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]"
+              [tableStyle]="{ width: 'max-content'}">
+              <ng-template pTemplate="caption">
+                <div class="flex justify-content-between flex-column sm:flex-row">
+                  <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
+                    (click)="clear(dtEmployees)"></button>
+                  <span class="p-input-icon-left mb-2">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" #filter (input)="onGlobalFilter(dtEmployees, $event)"
+                      placeholder="Search Keyword" class="w-full" />
+                  </span>
+                </div>
+              </ng-template>
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>Image</th>
+                  <th *ngFor="let col of headers" [pSortableColumn]="col.header">
+                    {{col?.label}}
+                    <p-columnFilter type="text" [field]="col.header" display="menu"></p-columnFilter>
+                    <p-sortIcon [field]="col.header"></p-sortIcon>
+                  </th>
+                  <th></th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-employee>
+                <tr>
+                  <td>
+                    <img [src]="employee.photo ? employee.photo : './assets/layout/images/default_icon_employee.jpg'"
+                      [alt]="employee.employeeName" class="my-4 md:my-0 w-10 md:w-10rem shadow-2 mr-2" />
+                  </td>
+                  <td *ngFor="let col of headers">
+                    <span>{{employee[col.field]}}</span>
+                  </td>
+                  <td>
+                    <button pbutton="" pripple="" type="button" label="Primary"
+                      (click)="viewEmployeeDtls(employee?.employeeId)"
+                      class="p-element p-ripple p-button-text p-button p-component view_profile_button"
+                      ng-reflect-label="Primary">
+                      <span class="p-button-label pi pi-chevron-right"></span>
+                    </button>
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage">
+                <tr>
+                  <td class="text-center m-5" colspan="15">No Employees Found.</td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </ng-container>
+        </ng-template>
+        <ng-template let-employee pTemplate="gridItem">
+          <div class="col-12 md:col-4 lg:col-3 sm:col-6">
+            <div class="card m-2 border-1 surface-border">
+              <div class=" mb-3 grid">
+                <div class="col-12 lg:col-4 md:col-12 p-1 employee_profile_pic_div">
+                  <img [src]="employee.photo ? employee.photo : './assets/layout/images/default_icon_employee.jpg'"
+                    [alt]="employee.employeeName" class="shadow-2 my-1 mx-0 employee_profile_pic zoomable-img" />
+                  <!-- <span class="text-600 font-medium text-md">
                       <i class="pi pi-id-card text-300 text-primary text-1xl pb-1"></i> : {{employee?.code}}
                     </span> -->
-                    <br />
-                    <span class="text-500 font-medium text-md">
-                      <i class="pi pi-users text-600 text-primary text-1xl  pb-2"></i> : {{employee?.gender}}
-                    </span>
-                  </div>
-                  <div class="col-12 lg:col-8 md:col-12 p-1 px-2 employee_info">
-                    <div class="text-xl font-bold">{{ employee?.employeeName }}</div>
-                    <span class="text-600 font-medium text-md">
-                      <i class="pi pi-calendar text-300 text-primary text-1xl  pb-1"></i> : {{employee?.certificateDOB| date: mediumDate}}
-                    </span>
-                    <br />
-                    <!-- <span class="text-600 font-medium text-md">
+                  <br />
+                  <span class="text-500 font-medium text-md">
+                    <i class="pi pi-users text-600 text-primary text-1xl  pb-2"></i> : {{employee?.gender}}
+                  </span>
+                </div>
+                <div class="col-12 lg:col-8 md:col-12 p-1 px-2 employee_info">
+                  <div class="text-xl font-bold">{{ employee?.employeeName }}</div>
+                  <span class="text-600 font-medium text-md">
+                    <i class="pi pi-calendar text-300 text-primary text-1xl  pb-1"></i> : {{employee?.certificateDOB|
+                    date: mediumDate}}
+                  </span>
+                  <br />
+                  <!-- <span class="text-600 font-medium text-md">
                       <i class="pi pi-star text-500 text-primary text-1xl  pb-1"></i> : {{employee?.employeeRoleName }}
                     </span>
                     <br /> -->
-                    <!-- <span class="text-600 font-medium text-md">
+                  <!-- <span class="text-600 font-medium text-md">
                       <i class="pi pi-calendar text-500 text-primary text-1xl pb-1"> DOJ </i> : {{employee.dateofJoin | date: mediumDate}}
                     </span> -->
-                    <!-- <br /> -->
-                    <!-- <span class="text-600 font-medium text-md">
+                  <!-- <br /> -->
+                  <!-- <span class="text-600 font-medium text-md">
                       <i class="pi pi-at text-500 text-primary text-1xl pb-1"></i> : {{employee.officeEmailId}}
                     </span>
                     <br /> -->
-                    <span class="text-600 font-medium text-md">
-                      <i class="pi pi-phone text-500 text-primary text-1xl pb-1"></i> : {{employee?.mobileNumber}}
-                    </span>
-                    <br />
-                  </div>
+                  <span class="text-600 font-medium text-md">
+                    <i class="pi pi-phone text-500 text-primary text-1xl pb-1"></i> : {{employee?.mobileNumber}}
+                  </span>
+                  <br />
                 </div>
-                <div class="grid">
-                  <div class="relative col-12 p-0 mb-3  employee_info"></div>
-                  <div class="grid m-0 ">
-                    <div class="relative col-9 p-0 mb-3  employee_info">
-                      <span class="text-600 font-medium text-md">
-                        <i class="pi  text-500 text-primary text-1xl pb-1">Pending </i> : {{employee?.pendingDetails}}</span>
-                    </div>
-                    <div class="mb-3 col-3 p-0">
-                      <button pbutton="" pripple="" type="button" label="Primary" (click)="viewEmployeeDtls(employee?.employeeId)" class="p-element p-ripple p-button-text p-button p-component view_profile_button" ng-reflect-label="Primary">
-                        <span class="p-button-label pi pi-chevron-right"></span>
-                      </button>
-                    </div>
+              </div>
+              <div class="grid">
+                <div class="relative col-12 p-0 mb-3  employee_info"></div>
+                <div class="grid m-0 ">
+                  <div class="relative col-9 p-0 mb-3  employee_info">
+                    <span class="text-600 font-medium text-md">
+                      <i class="pi  text-500 text-primary text-1xl pb-1">Pending </i> :
+                      {{employee?.pendingDetails}}</span>
+                  </div>
+                  <div class="mb-3 col-3 p-0">
+                    <button pbutton="" pripple="" type="button" label="Primary"
+                      (click)="viewEmployeeDtls(employee?.employeeId)"
+                      class="p-element p-ripple p-button-text p-button p-component view_profile_button"
+                      ng-reflect-label="Primary">
+                      <span class="p-button-label pi pi-chevron-right"></span>
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
-          </ng-template>
-        </p-dataView>
-      </div>
+          </div>
+        </ng-template>
+      </p-dataView>
     </div>
   </div>
-  <p-dialog header="Add Employee" [(visible)]="visible" [modal]="true" [style]="{ width: '75%' }" [draggable]="false" [resizable]="false" (onHide)="cancelModel()" class="on_boarding_form">
-    <p-steps [model]="newEmployeeSteps" [readonly]="isReadOnly"></p-steps>
-    <div class="p-5">
-      <router-outlet ></router-outlet>
-    </div>
-  </p-dialog>
+</div>
+<p-dialog header="Add Employee" [(visible)]="visible" [modal]="true" [style]="{ width: '75%' }" [draggable]="false"
+  [resizable]="false" (onHide)="cancelModel()" class="on_boarding_form">
+  <p-steps [model]="newEmployeeSteps" [readonly]="isReadOnly"></p-steps>
+  <div class="p-5">
+    <router-outlet></router-outlet>
+  </div>
+</p-dialog>
