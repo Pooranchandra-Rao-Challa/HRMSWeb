@@ -6,14 +6,14 @@ import { ClientDetailsDto, ClientNamesDto, EmployeesList, ProjectAllotments, Pro
 import { MaxLength } from 'src/app/_models/common';
 import { AdminService } from 'src/app/_services/admin.service';
 import { JwtService } from 'src/app/_services/jwt.service';
-import { MAX_LENGTH_20, MAX_LENGTH_256, MAX_LENGTH_50, MIN_LENGTH_2, MIN_LENGTH_20, MIN_LENGTH_4, RG_PHONE_NO } from 'src/app/_shared/regex';
+import { MAX_LENGTH_20, MAX_LENGTH_256, MAX_LENGTH_50, MIN_LENGTH_2, MIN_LENGTH_20, MIN_LENGTH_4, RG_ALPHA_NUMERIC, RG_EMAIL, RG_PHONE_NO } from 'src/app/_shared/regex';
 import { TreeNode } from 'primeng/api';
 import { dE } from '@fullcalendar/core/internal-common';
 import * as go from 'gojs';
-import { OrgChart } from "d3-org-chart";
+import  {OrgChart}  from "d3-org-chart";
 import * as d3 from 'd3';
-import { EmployeeService } from 'src/app/_services/employee.service';
 import { CompanyHierarchyViewDto } from 'src/app/_models/employes';
+import { EmployeeService } from 'src/app/_services/employee.service';
 import { D3OrgChartComponent } from './d3-org-chart/d3-org-chart.component';
 interface AutoCompleteCompleteEvent {
   originalEvent: Event;
@@ -38,7 +38,7 @@ export class ProjectComponent implements OnInit {
   fbproject!: FormGroup;
   maxLength: MaxLength = new MaxLength();
   imageSize: any;
-  dialog1: boolean;
+  dialog1:boolean;
   dialog: boolean;
   permission: any;
   addFlag: boolean = true;
@@ -47,6 +47,7 @@ export class ProjectComponent implements OnInit {
   projectDetails: any = {};
   selectedFileBase64: string | null = null; // To store the selected file as base64
   companyHierarchy :CompanyHierarchyViewDto[]=[];
+
   
   projectTreeData: TreeNode[];
   rootProject: TreeNode = {
@@ -58,7 +59,8 @@ export class ProjectComponent implements OnInit {
       name: 'Calibrage',
     },
   };
-  constructor(private formbuilder: FormBuilder, private adminService: AdminService, private employeeService:EmployeeService, private alertMessage: AlertmessageService,
+
+  constructor( private formbuilder: FormBuilder, private adminService: AdminService, private employeeService:EmployeeService, private alertMessage: AlertmessageService,
     private jwtService: JwtService) { }
 
   ngOnInit() {
@@ -81,6 +83,10 @@ export class ProjectComponent implements OnInit {
     //   this.data = resp;
     // });
     
+    this.employeeService.getCompanyHierarchy().subscribe((resp) => {
+      this.companyHierarchy = resp as unknown as CompanyHierarchyViewDto[];
+      console.log(this.companyHierarchy);
+    });
 
     // this.diagram = new go.Diagram('myDiagramDiv');
 
@@ -104,7 +110,7 @@ export class ProjectComponent implements OnInit {
     // ]);
 
   }
-  projectForm() {
+  projectForm(){
     this.fbproject = this.formbuilder.group({
       clientId: [0],
       projectId: [0],
@@ -117,9 +123,9 @@ export class ProjectComponent implements OnInit {
       clients: this.formbuilder.group({
         clientId: [],
         isActive: ['', [Validators.required]],
-        companyName: new FormControl(null, [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
+        companyName: new FormControl(null, [Validators.required, Validators.minLength(MIN_LENGTH_2),Validators.pattern(RG_ALPHA_NUMERIC), Validators.maxLength(MAX_LENGTH_50)]),
         Name: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
-        email: new FormControl('', [Validators.required]),
+        email: new FormControl('', [Validators.required,Validators.pattern(RG_EMAIL),]),
         mobileNumber: new FormControl('', [Validators.required, Validators.pattern(RG_PHONE_NO)]),
         cinno: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_20), Validators.maxLength(MAX_LENGTH_50)]),
         pocName: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
@@ -139,13 +145,13 @@ export class ProjectComponent implements OnInit {
     });
   }
 
-  unAssignedEmployee(employee: ProjectAllotments) {
+  unAssignedEmployee(employee:ProjectAllotments) {
     this.fcUnAssignAsset['projectAllotmentId']?.setValue(employee.projectAllotmentId);
     this.fcUnAssignAsset['projectId']?.setValue(employee.projectId);
     this.fcUnAssignAsset['employeeId']?.setValue(employee.employeeId);
     this.fcUnAssignAsset['isActive']?.setValue(false);
     this.adminService.UnassignEmployee(this.fbUnAssignEmployee.value).subscribe((resp) => {
-      if (this.visible) {
+      if ( this.visible) {
         this.alertMessage.displayAlertMessage(ALERT_CODES["SMEUA001"]);
         this.ngOnInit();
         this.visible = false;
@@ -185,7 +191,7 @@ export class ProjectComponent implements OnInit {
     }
   }
 
-  editEmployee(project) {
+  editEmployee(project){
     this.addFlag = false;
     this.submitLabel = "Update Project Details";
     this.fbproject.patchValue({
@@ -215,8 +221,8 @@ export class ProjectComponent implements OnInit {
     });
   }
 
-  addEmployees(projectDetails: ProjectViewDto) {
-    this.dialog1 = true;
+  addEmployees(projectDetails:ProjectViewDto){
+    this.dialog1=true;
     this.editEmployeesList(projectDetails.projectId);
     this.editEmployee(projectDetails);
   }
@@ -319,9 +325,9 @@ export class ProjectComponent implements OnInit {
           this.dialog = false;
           this.initProjects();
           this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "PAS001" : "PAS002"]);
-          if (this.dialog1) {
+          if(this.dialog1){
             this.dialog1 = false;
-            this.visible = false;
+            this.visible=false;
           }
         }
       })
@@ -379,7 +385,7 @@ export class ProjectComponent implements OnInit {
       this.employees = resp as unknown as EmployeesList[];
     });
   }
-  editEmployeesList(projectId: number) {
+  editEmployeesList(projectId:number) {
     this.adminService.getEmployees(projectId).subscribe(resp => {
       this.Employees = resp as unknown as EmployeesList[];
     });

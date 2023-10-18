@@ -1,33 +1,35 @@
-
 <div class=" flex p-1">
   <div class="flex flex-wrap gap-3">
-      <div class="flex align-items-center">
-          <p-radioButton name="experienceDetails" value="Fresher"  [(ngModel)]="selectedOption" id="fresher"
-              inputId="fresher" [disabled]="workExperience && workExperience.length > 0 && !this.workExperience[0]?.isAFresher" ></p-radioButton>
-          <label for="fresher" class="ml-2">Fresher</label>
-      </div>
+    <div class="flex align-items-center">
+      <p-radioButton name="experienceDetails" value="Fresher" [(ngModel)]="selectedOption" id="fresher"
+        inputId="fresher"
+        [disabled]="workExperience && workExperience.length > 0 && !this.workExperience[0]?.isAFresher"></p-radioButton>
+      <label for="fresher" class="ml-2">Fresher</label>
+    </div>
 
-      <div class="flex align-items-center">
-          <p-radioButton name="experienceDetails" value="Experience" [(ngModel)]="selectedOption" id="experience"
-              inputId="experience" ></p-radioButton>
-          <label for="experience" class="ml-2">Experience</label>
-      </div>
+    <div class="flex align-items-center">
+      <p-radioButton name="experienceDetails" value="Experience" [(ngModel)]="selectedOption" id="experience"
+        inputId="experience"></p-radioButton>
+      <label for="experience" class="ml-2">Experience</label>
+    </div>
   </div>
 </div>
 <div class="flex flex-column  justify-content-center">
   <form [formGroup]="fbexperience">
     <div *ngIf="selectedOption=='Experience'" class="grid mt-3 p-5">
-      <div class="col-12 roles-container">        
+      <div class="col-12 roles-container">
         <div class="p-fluid p-formgrid grid">
           <div class=" col-12 md:col-4 ">
-            <div class=" button-container" >
-              <p-button type="button" id="Add_Experience_Details" label="Add Experience Details" (click)="addexperienceDetails()"></p-button>
+            <div class=" button-container">
+              <p-button type="button" id="Add_Experience_Details" label="Add Experience Details"
+                (click)="addexperienceDetails()"></p-button>
             </div>
           </div>
-          <div class="col-12 scrolling_content" formArrayName="experienceDetails" >
+          <div class="col-12 scrolling_content" formArrayName="experienceDetails">
             <p-table #dt2 [value]="faexperienceDetail().controls" dataKey="id" [rows]="10" [rowHover]="true"
               styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="false"
-              [autoLayout]="true" responsiveLayout="scroll" [tableStyle]="{ width: 'max-content'}" [rowsPerPageOptions]="[10,25,50]">>
+              [autoLayout]="true" responsiveLayout="scroll" [tableStyle]="{ width: 'max-content'}"
+              [rowsPerPageOptions]="[10,25,50]">>
               <ng-template pTemplate="header">
                 <tr>
                   <th>Company Name <sup class="p-error">*</sup></th>
@@ -45,17 +47,18 @@
               <ng-template pTemplate="body" let-experience let-experienceDetailsIndex="rowIndex">
                 <tr [formGroupName]="experienceDetailsIndex">
                   <td class="vertical-align-top">
-                    <input pInputText class="form-control" formControlName="companyName" placeholder="Enter Company Name"
-                      alphaOnly maxlength="50" #companyName id="company_Name" [ngClass]="{'is-invalid ng-dirty': expDtlsformArrayControls(experienceDetailsIndex,'companyName')?.touched &&
+                    <input pInputText class="form-control" formControlName="companyName"
+                      placeholder="Enter Company Name" alphaOnly maxlength="50" #companyName id="company_Name"
+                      [ngClass]="{'is-invalid ng-dirty': expDtlsformArrayControls(experienceDetailsIndex,'companyName')?.touched &&
                     expDtlsformArrayControls(experienceDetailsIndex,'companyName')?.errors }">
                     <div class="flex">
                       <div class="align-left w-60" style="width:70%">
                         <span
                           *ngIf="expDtlsformArrayControls(experienceDetailsIndex,'companyName').touched && expDtlsformArrayControls(experienceDetailsIndex,'companyName').invalid">
                           <div class="ng-invalid ng-touched p-error"
-                          *ngIf="expDtlsformArrayControls(experienceDetailsIndex,'companyName').hasError('required')">
-                          Please Enter Company Name.
-                        </div>
+                            *ngIf="expDtlsformArrayControls(experienceDetailsIndex,'companyName').hasError('required')">
+                            Please Enter Company Name.
+                          </div>
                           <div class="ng-invalid ng-touched p-error"
                             *ngIf="expDtlsformArrayControls(experienceDetailsIndex,'companyName').hasError('minLength')">
                             Please Enter Minimum 2 letters.
@@ -76,9 +79,9 @@
                         <span
                           *ngIf="expDtlsformArrayControls(experienceDetailsIndex,'companyLocation').touched && expDtlsformArrayControls(experienceDetailsIndex,'companyLocation').invalid">
                           <div class="ng-invalid ng-touched p-error"
-                          *ngIf="expDtlsformArrayControls(experienceDetailsIndex,'companyLocation').hasError('required')">
-                          Please Enter Location.
-                        </div>
+                            *ngIf="expDtlsformArrayControls(experienceDetailsIndex,'companyLocation').hasError('required')">
+                            Please Enter Location.
+                          </div>
                           <div class="ng-invalid ng-touched p-error"
                             *ngIf="expDtlsformArrayControls(experienceDetailsIndex,'companyLocation').hasError('minLength')">
                             Please Enter Minimum 2 letters.
@@ -92,8 +95,7 @@
                   </td>
                   <td class="vertical-align-top">
                     <input pInputText class="form-control" id="company_Employee_Id" formControlName="companyEmployeeId"
-                      alphaNumeric placeholder="Enter Company Emp Id" #companyEmployeeId maxlength="10"
-                      [ngClass]="{'is-invalid ng-dirty': expDtlsformArrayControls(experienceDetailsIndex,'companyEmployeeId')?.touched &&
+                      alphaNumeric placeholder="Enter Company Emp Id" #companyEmployeeId maxlength="10" [ngClass]="{'is-invalid ng-dirty': expDtlsformArrayControls(experienceDetailsIndex,'companyEmployeeId')?.touched &&
                     expDtlsformArrayControls(experienceDetailsIndex,'companyEmployeeId')?.errors }">
                     <div class="flex">
                       <div class="align-left w-60" style="width:70%">
@@ -111,14 +113,16 @@
                     </div>
                   </td>
                   <td class="vertical-align-top">
-                    <p-dropdown inputId="dropdown" id="Address_country" [autoDisplayFirst]="false"  appendTo="body"
+                    <p-dropdown inputId="dropdown" id="Address_country" [autoDisplayFirst]="false" appendTo="body"
                       placeholder="Select Country" formControlName="countryId" [options]="countries"
-                      optionValue="lookupDetailId" optionLabel="name"  (onChange)="onCountryChange($event.value, experienceDetailsIndex)" >
+                      optionValue="lookupDetailId" optionLabel="name"
+                      (onChange)="onCountryChange($event.value, experienceDetailsIndex)">
                     </p-dropdown>
                   </td>
                   <td class="vertical-align-top">
                     <p-dropdown id="states_dropdown" appendTo="body" optionLabel="name" placeholder="Select State"
-                      [options]="statesPerRow[experienceDetailsIndex]" optionValue="lookupDetailId" formControlName="stateId" ></p-dropdown>
+                      [options]="statesPerRow[experienceDetailsIndex]" optionValue="lookupDetailId"
+                      formControlName="stateId"></p-dropdown>
                   </td>
                   <td class="vertical-align-top">
                     <p-dropdown id="designation" appendTo="body" optionLabel="name" placeholder="Select Designation"
@@ -138,19 +142,19 @@
                   </td>
                   <td class="vertical-align-top">
                     <p-calendar [showIcon]="true" formControlName="dateOfJoining" id="date_Of_Joining" appendTo="body"
-                      placeholder="Select Date Of Joining" [ngClass]="{'is-invalid ng-dirty': expDtlsformArrayControls(experienceDetailsIndex,'dateOfJoining')?.touched &&
+                      [maxDate]="currentDate" placeholder="Select Date Of Joining" [ngClass]="{'is-invalid ng-dirty': expDtlsformArrayControls(experienceDetailsIndex,'dateOfJoining')?.touched &&
                       expDtlsformArrayControls(experienceDetailsIndex,'dateOfJoining')?.errors }"></p-calendar>
-                      <div class="flex">
-                          <div class="align-left w-60" style="width:70%">
-                            <span
-                              *ngIf="expDtlsformArrayControls(experienceDetailsIndex,'dateOfJoining').touched && expDtlsformArrayControls(experienceDetailsIndex,'dateOfJoining').invalid">
-                              <div class="ng-invalid ng-touched p-error"
-                                *ngIf="expDtlsformArrayControls(experienceDetailsIndex,'dateOfJoining').hasError('required')">
-                                Please Select Date Of Joining.
-                              </div>
-                            </span>
+                    <div class="flex">
+                      <div class="align-left w-60" style="width:70%">
+                        <span
+                          *ngIf="expDtlsformArrayControls(experienceDetailsIndex,'dateOfJoining').touched && expDtlsformArrayControls(experienceDetailsIndex,'dateOfJoining').invalid">
+                          <div class="ng-invalid ng-touched p-error"
+                            *ngIf="expDtlsformArrayControls(experienceDetailsIndex,'dateOfJoining').hasError('required')">
+                            Please Select Date Of Joining.
                           </div>
-                        </div>
+                        </span>
+                      </div>
+                    </div>
                   </td>
                   <td class="vertical-align-top">
                     <p-calendar [showIcon]="true" formControlName="dateOfReliving" appendTo="body" id="date_Of_Reliving"
@@ -158,12 +162,13 @@
                   </td>
                   <td class="vertical-align-top">
                     <p-multiSelect placeholder="Select Skill Areas" inputId="multiselect" id="Experience_skillArea"
-                      optionValue="lookupDetailId"   [filter]="false" filterBy="name" (onChange)="onSelectSkill($event,experienceDetailsIndex)"
-                      formControlName="skillAreaIds" [options]="skillarea" optionLabel="name" [filter]="false"
-                      filterBy="name" appendTo="body" [ngClass]="{'is-invalid ng-dirty': expDtlsformArrayControls(experienceDetailsIndex,'skillAreaIds')?.touched &&
+                      optionValue="lookupDetailId" [filter]="false" filterBy="name"
+                      (onChange)="onSelectSkill($event,experienceDetailsIndex)" formControlName="skillAreaIds"
+                      [options]="skillarea" optionLabel="name" [filter]="false" filterBy="name" appendTo="body"
+                      [ngClass]="{'is-invalid ng-dirty': expDtlsformArrayControls(experienceDetailsIndex,'skillAreaIds')?.touched &&
                       expDtlsformArrayControls(experienceDetailsIndex,'skillAreaIds')?.errors }">
                     </p-multiSelect>
-                
+
                     <div class="flex">
                       <div class="align-left w-60" style="width:70%">
                         <span
@@ -193,7 +198,8 @@
     </div>
   </form>
 </div>
-  <div class=" footer dialog-footer">
-    <button id="Save_Experience_Details" pButton pRipple type="submit" label="Save Experience Details" class="p-button-raised p-button-primary"
-    [disabled]="selectedOption === 'Experience' && fbexperience.invalid" (click)="saveEmpExperienceDetails()"></button>
-    </div>
+<div class=" footer dialog-footer">
+  <button id="Save_Experience_Details" pButton pRipple type="submit" label="Save Experience Details"
+    class="p-button-raised p-button-primary" [disabled]="selectedOption === 'Experience' && fbexperience.invalid"
+    (click)="saveEmpExperienceDetails()"></button>
+</div>

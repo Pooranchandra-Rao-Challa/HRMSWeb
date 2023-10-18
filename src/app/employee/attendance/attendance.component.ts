@@ -87,7 +87,6 @@ export class AttendanceComponent {
   initDayWorkStatus() {
     this.lookupService.DayWorkStatus().subscribe(resp => {
       this.LeaveTypes = resp as unknown as LookupDetailsDto[];
-      console.log(resp)
     })
   }
   initAttendance() {
@@ -141,7 +140,7 @@ export class AttendanceComponent {
       this.NotUpdatedEmployees = resp as unknown as EmployeesList[];
       if (this.NotUpdatedEmployees.length > 0) {
         this.notUpdatedDates = resp[0].date;
-        if (this.notUpdatedDates)
+        if (this.notUpdatedDates && this.permissions?.CanManageAttendance)
           return this.alertMessage.displayErrorMessage(ALERT_CODES["EAAS003"] + "  " + `${this.datePipe.transform(this.notUpdatedDates, 'dd-MM-yyyy')}`);
       }
       else if (this.checkPreviousAttendance) {
@@ -157,27 +156,29 @@ export class AttendanceComponent {
   }
 
   openDialog(empId: number, date: string, leaveType: string) {
-    const formattedDate = this.datePipe.transform(this.isFutureDate(date), 'dd-MM-yyyy');
-    const currentDate = this.datePipe.transform(new Date(), 'dd-MM-yyyy');
-    const dayBeforeYesterday = new Date();
-    dayBeforeYesterday.setDate(dayBeforeYesterday.getDate() - 2);
-    if (formattedDate > currentDate || (formattedDate <= this.datePipe.transform(dayBeforeYesterday, 'dd-MM-yyyy')
-      && formattedDate !== this.datePipe.transform(this.notUpdatedDates, 'dd-MM-yyyy')))
-      return
-    else if (formattedDate < currentDate && !this.checkPreviousAttendance)
-      return;
-    else if (formattedDate === currentDate && this.checkPreviousAttendance)
-      return this.alertMessage.displayErrorMessage(ALERT_CODES["EAAS007"]);
-    else {
-      this.dialog = true;
-      this.fbleave.reset();
-      const StatusId = this.LeaveTypes.filter(each => each.name === leaveType)
-      this.fbleave.patchValue({
-        employeeId: empId,
-        leaveTypeId: StatusId[0]?.lookupDetailId,
-        fromDate: FORMAT_DATE(new Date(this.datePipe.transform(this.isFutureDate(date), 'yyyy-MM-dd'))),
-        notReported: false
-      });
+    if (this.permissions?.CanManageAttendance) {
+      const formattedDate = this.datePipe.transform(this.isFutureDate(date), 'dd-MM-yyyy');
+      const currentDate = this.datePipe.transform(new Date(), 'dd-MM-yyyy');
+      const dayBeforeYesterday = new Date();
+      dayBeforeYesterday.setDate(dayBeforeYesterday.getDate() - 2);
+      if (formattedDate > currentDate || (formattedDate <= this.datePipe.transform(dayBeforeYesterday, 'dd-MM-yyyy')
+        && formattedDate !== this.datePipe.transform(this.notUpdatedDates, 'dd-MM-yyyy')))
+        return
+      else if (formattedDate < currentDate && !this.checkPreviousAttendance)
+        return;
+      else if (formattedDate === currentDate && this.checkPreviousAttendance)
+        return this.alertMessage.displayErrorMessage(ALERT_CODES["EAAS007"]);
+      else {
+        this.dialog = true;
+        this.fbleave.reset();
+        const StatusId = this.LeaveTypes.filter(each => each.name === leaveType)
+        this.fbleave.patchValue({
+          employeeId: empId,
+          leaveTypeId: StatusId[0]?.lookupDetailId,
+          fromDate: FORMAT_DATE(new Date(this.datePipe.transform(this.isFutureDate(date), 'yyyy-MM-dd'))),
+          notReported: false
+        });
+      }
     }
   }
 

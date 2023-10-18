@@ -243,7 +243,7 @@ export class LookupDialogComponent {
     else {
       this.fblookup.markAllAsTouched();
     }
-    console.log(this.fblookup.value);
+
 
   }
 

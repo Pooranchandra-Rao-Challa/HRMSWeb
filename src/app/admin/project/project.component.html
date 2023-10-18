@@ -24,7 +24,7 @@
                 <div class="field col-12 md:col-4">
                   <label>Code: <sup class="p-error">*</sup>
                   </label>&nbsp; <input pInputText id="Project_code" type="text" formControlName="code"
-                  [readonly]="projectFormControls['projectId'].value!== null" [maxlength]="maxLength.code"
+                    [readonly]="projectFormControls['projectId'].value!== null" [maxlength]="maxLength.code"
                     placeholder="Enter Code" #code alphaNumeric />
                   <div class="flex">
                     <div class="align-left w-60" style="width:70%">
@@ -48,7 +48,7 @@
                 <div class="field col-12 md:col-4">
                   <label>Name: <sup class="p-error">*</sup>
                   </label>&nbsp; <input pInputText id="Project_name" type="text" formControlName="name"
-                  [readonly]="projectFormControls['projectId'].value!== null" [maxlength]="maxLength.name"
+                    [readonly]="projectFormControls['projectId'].value!== null" [maxlength]="maxLength.name"
                     placeholder="Enter Name" #name alphaNumeric />
                   <div class="flex">
                     <div class="align-left w-60" style="width:70%">
@@ -149,8 +149,8 @@
                   <label>Company Full Name: <sup class="p-error">*</sup>
                   </label>&nbsp;
                   <p-autoComplete formControlName="companyName" [suggestions]="this.filteredClients"
-                  [readonly]="projectFormControls['projectId'].value!== null"
-                    placeholder="Enter Company Full Name" #companyName (completeMethod)="filterClients($event)"
+                    [readonly]="projectFormControls['projectId'].value!== null" [maxlength]="maxLength.name"
+                    placeholder="Enter Company Full Name" #CompanyName (completeMethod)="filterClients($event)"
                     (onSelect)="onAutocompleteSelect($event)" field="companyName" id="Project_fullName">
                   </p-autoComplete>
 
@@ -167,9 +167,11 @@
                         <div class="ng-invalid ng-touched p-error"
                           *ngIf="fcClientDetails.controls['companyName'].errors?.['maxlength']">
                           CompanyName Max Characters Is 50.</div>
+                        <div class="ng-invalid ng-touched p-error"
+                          *ngIf="fcClientDetails.controls['companyName'].errors?.['pattern']">
+                          Company Name Should Contain AlphaNumerics Only.</div>
                       </span>
                     </div>
-
                   </div>
                 </div>
                 <div class="field col-12 md:col-4">
@@ -210,6 +212,9 @@
                         <div class="ng-invalid ng-touched p-error"
                           *ngIf="fcClientDetails.controls['email'].errors?.['required']">
                           Please Enter Client MailId.</div>
+                        <div class="ng-invalid ng-touched p-error"
+                          *ngIf="fcClientDetails.controls['email'].errors?.['pattern']">
+                          Please Enter Valid Client MailId.</div>
                       </span>
                     </div>
                   </div>
@@ -218,7 +223,7 @@
                   <label>Client Mobile No:
                   </label>&nbsp;
                   <input pInputText id="Project_clientMobileNo" type="text" placeholder="Enter Mobile Number" #clientNo
-                    formControlName="mobileNumber" />
+                    [maxlength]="maxLength.phoneNo" formControlName="mobileNumber" numericOnly />
                   <div class="flex">
                     <div class="align-left w-60" style="width:70%">
                       <span
@@ -226,6 +231,9 @@
                         <div class="ng-invalid ng-touched p-error"
                           *ngIf="fcClientDetails.controls['mobileNumber'].errors?.['required']">
                           Please Enter Client MobileNo.</div>
+                          <div class="ng-invalid ng-touched p-error"
+                          *ngIf="fcClientDetails.controls['mobileNumber'].errors?.['pattern']">
+                          Please Enter Valid Client MobileNo.</div>
                       </span>
                     </div>
                     <div class="align-right w-40" style="width:30%; text-align:right;">
@@ -236,7 +244,7 @@
                 <div class="field col-12 md:col-4">
                   <label>CIN/GST No: <sup class="p-error">*</sup>
                   </label>&nbsp; <input pInputText id="Project_cinNo" type="text" placeholder="Enter CIS/GST No" #cinno
-                    [maxlength]="maxLength.cinNo" formControlName="cinno" />
+                    alphaNumeric [maxlength]="maxLength.cinNo" formControlName="cinno" />
                   <div class="flex">
                     <div class="align-left w-60" style="width:70%">
                       <span
@@ -288,8 +296,9 @@
                 </div>
                 <div class="field col-12 md:col-4">
                   <label>POC Ph.no: <sup class="p-error">*</sup>
-                  </label>&nbsp; <input pInputText id="Project_pocMobileNo" type="text" #pocNo
-                    placeholder="Enter POC Mobile Number" formControlName="pocMobileNumber" />
+                  </label>&nbsp; <input pInputText id="Project_pocMobileNo" type="text" #pocNo numericOnly
+                    [maxlength]="maxLength.phoneNo" placeholder="Enter POC Mobile Number"
+                    formControlName="pocMobileNumber" />
                   <div class="flex">
                     <div class="align-left w-60" style="width:70%">
                       <span
@@ -297,6 +306,9 @@
                         <div class="ng-invalid ng-touched p-error"
                           *ngIf="fcClientDetails.controls['pocMobileNumber'].errors?.['required']">
                           Please Enter POC Mobile No.</div>
+                          <div class="ng-invalid ng-touched p-error"
+                          *ngIf="fcClientDetails.controls['pocMobileNumber'].errors?.['pattern']">
+                          Please Enter Valid Client MobileNo.</div>
                       </span>
                     </div>
                     <div class="align-right w-40" style="width:30%; text-align:right;">
@@ -511,9 +523,8 @@
         <form [formGroup]="fbproject" (ngSubmit)="onSubmit()" id="Role_roleForm">
           <div class="grid">
             <div class="col-12 ">
-              <p-multiSelect placeholder="Select Employees" [options]="Employees"
-                optionLabel="employeeName" formControlName="ProjectAllotments" [filter]="true"
-                filterBy="employeeId,employeeName" appendTo="body">
+              <p-multiSelect placeholder="Select Employees" [options]="Employees" optionLabel="employeeName"
+                formControlName="ProjectAllotments" [filter]="true" filterBy="employeeId,employeeName" appendTo="body">
                 <ng-template let-employee pTemplate="selectedItem">
                   <div class="block align-items-center gap-3">
                     <div>{{employee.employeeName}}</div>
@@ -540,5 +551,5 @@
         </div>
       </ng-template>
     </p-dialog>
-      </div>
   </div>
+</div>

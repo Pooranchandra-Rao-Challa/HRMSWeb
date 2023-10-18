@@ -6,19 +6,79 @@
         [sortField]="sortField" [sortOrder]="sortOrder" layout="grid">
         <ng-template pTemplate="header">
           <div class="flex flex-column md:flex-row md:justify-content-between gap-2">
-            <span class="p-input-icon-left">
-              <i class="pi pi-search"></i>
-              <input type="text" pInputText placeholder="Search by Name or Id" (input)="onFilter(dv, $event)"
-                [disabled]="dv._layout == 'list'" />
-            </span>
+            <div >
+              <span class="p-input-icon-left"  *ngIf="dv._layout != 'list'">
+                <i class="pi pi-search"></i>
+                <input type="text" pInputText placeholder="Search by Name or Id" (input)="onFilter(dv, $event)"
+                   />
+              </span>
+            </div>
+            
             <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
-
           </div>
         </ng-template>
 
         <ng-template let-employee pTemplate="listItem" let-item>
           <ng-container *ngIf="item === employees[0]">
             <!-- table -->
+            <div class="col-12">
+              <p-table #dtEmployees [value]="employees" dataKey="id" [rows]="10" [rowHover]="true"
+                styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm pb-5" [paginator]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [showCurrentPageReport]="true" [alwaysShowPaginator]="false" [globalFilterFields]="globalFilterFields"
+                [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]"
+                >
+                <ng-template pTemplate="caption">
+                  <div class="flex justify-content-between flex-column sm:flex-row">
+                    <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
+                      (click)="clear(dtEmployees)"></button>
+                    <span class="p-input-icon-left mb-2">
+                      <i class="pi pi-search"></i>
+                      <input pInputText type="text" #filter (input)="onGlobalFilter(dtEmployees, $event)"
+                        placeholder="Search Keyword" class="w-full" />
+                    </span>
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                  <tr>
+
+                    <th>Image</th>
+                    <th *ngFor="let col of headers" [pSortableColumn]="col.header">
+                      {{col?.label}}
+                      <p-columnFilter type="text" [field]="col.header" display="menu">
+                      </p-columnFilter>
+                      <p-sortIcon [field]="col.header"></p-sortIcon>
+                    </th>
+                    <th *ngIf="permissions?.CanManageEmployee"></th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-employee>
+                  <tr>
+                    <td *ngIf="permissions?.CanManageEmployee">
+                      <img [src]="employee.photo ? employee.photo : '/assets/layout/images/default_icon_employee.jpg'"
+                        [alt]="employee.employeeName" class="my-4 md:my-0 w-10 md:w-10rem shadow-2 mr-2" />
+                    </td>
+                    <td *ngFor="let col of headers">
+                      <span>{{ col.field === 'dateofJoin' ? (employee[col.field] | date: mediumDate) :
+                        employee[col.field] }}</span>
+                    </td>
+                    <td>
+                      <button pbutton="" pripple="" type="button" label="Primary" routerLink="/employee/viewemployees"
+                        routerLinkActive="router-link-active"
+                        class="p-element p-ripple p-button-text p-button p-component view_profile_button"
+                        ng-reflect-label="Primary">
+                        <span class="p-button-label pi pi-chevron-right"></span>
+                      </button>
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                  <tr>
+                    <td class="text-center m-5" colspan="15">No Employees Found.</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
             <p-table #dtEmployees [value]="employees" dataKey="id" [rows]="10" [rowHover]="true"
               styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm pb-5" [paginator]="true"
               currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
@@ -51,7 +111,8 @@
               </ng-template>
               <ng-template pTemplate="body" let-employee>
                 <tr>
-                  <td *ngIf="permissions?.CanManageEmployee">
+                  <td *ngIf="permissions?.CanManageEmployee"></td>
+                  <td>
                     <img
                       [src]="employee.photo ? employee.photo : '/assets/layout/images/default_icon_employee.jpg'"
                       [alt]="employee.employeeName" class="my-4 md:my-0 w-10 md:w-10rem shadow-2 mr-2" />
@@ -79,12 +140,11 @@
           </ng-container>
         </ng-template>
         <ng-template let-employee pTemplate="gridItem">
-          <div class="col-12 md:col-4 lg:col-3 sm:col-6">
+          <div class="col-12 md:col-4 lg:col-3 sm:col-6" >
             <div class="card m-2 border-1 surface-border">
               <div class=" mb-3 grid">
                 <div class="col-12 lg:col-4 md:col-12 p-1 employee_profile_pic_div">
-                  <img
-                    [src]="employee.photo ? employee.photo : '/assets/layout/images/default_icon_employee.jpg'"
+                  <img [src]="employee.photo ? employee.photo : '/assets/layout/images/default_icon_employee.jpg'"
                     [alt]="employee.employeeName" class="shadow-2 my-1 mx-0 employee_profile_pic zoomable-img "
                     style="width: 70%;" />
                   <span class="text-500 font-medium text-md">
@@ -131,8 +191,10 @@
                   <br />
                 </div>
                 <div class="mb-3 col-3 p-0">
-                  <button pbutton="" pripple="" type="button" label="Primary" (click)="viewEmployeeDtls(employee.employeeId)"
-                    class="p-element p-ripple p-button-text p-button p-component view_profile_button" ng-reflect-label="Primary">
+                  <button pbutton="" pripple="" type="button" label="Primary"
+                    (click)="viewEmployeeDtls(employee.employeeId)"
+                    class="p-element p-ripple p-button-text p-button p-component view_profile_button"
+                    ng-reflect-label="Primary">
                     <span class="p-button-label pi pi-chevron-right"></span>
                   </button>
                 </div>
