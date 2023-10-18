@@ -8,7 +8,7 @@
             <div class="col-12 roles-container">
                 <div class="p-fluid p-formgrid grid">
                     <div class="field col-12 md:col-4">
-                        <label class="required">Board/University Name</label>
+                        <label class="required">Board/University Name:</label>
                         <input type="text" id="authority_Name" pInputText placeholder="Enter Board/University Name"
                             formControlName="authorityName" #authorityname alphaOnly [maxLength]="50"
                             (keydown)="restrictSpaces($event)"
@@ -31,7 +31,7 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <label class="required">Country</label>
+                        <label class="required">Country:</label>
                         <p-dropdown id="country_dropdown" [autoDisplayFirst]="false" placeholder="Select Country Name"
                             optionLabel="name" [options]="country" optionValue="lookupDetailId"
                             formControlName="countryId" appendTo="body" (onChange)="getStatesByCountryId($event.value)"
@@ -48,7 +48,7 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <label class="required">State</label>
+                        <label class="required">State:</label>
                         <p-dropdown id="states_dropdown" [autoDisplayFirst]="false" placeholder="Select State Name"
                             optionLabel="name" [options]="states" optionValue="lookupDetailId" formControlName="stateId"
                             appendTo="body"
@@ -65,7 +65,7 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <label>School/College Name</label>
+                        <label>School/College Name:</label>
                         <input type="text" id="institute_Name" pInputText placeholder="Enter School/College Name"
                             formControlName="institutionName" alphaOnly [maxLength]="50" #institutename
                             (keydown)="restrictSpaces($event)" />
@@ -84,7 +84,7 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <label class="required">Curriculum</label>
+                        <label class="required">Curriculum:</label>
                         <p-dropdown id="circulum_dropdown" [autoDisplayFirst]="false" placeholder="Select Curriculum"
                             [options]="curriculum" optionLabel="name" optionValue="lookupDetailId"
                             formControlName="curriculumId" appendTo="body"
@@ -103,7 +103,7 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <label class="required">Stream</label>
+                        <label class="required">Stream:</label>
                         <p-dropdown id="stream_Dropdown" [autoDisplayFirst]="false" placeholder="Select Stream"
                             optionLabel="name" [options]="stream" optionValue="lookupDetailId"
                             formControlName="streamId" appendTo="body"
@@ -120,7 +120,7 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <label class="required">Passed Out Year</label>
+                        <label class="required">Passed Out Year:</label>
                         <p-calendar [yearRange]="'1996:2025'" [readonlyInput]="true" [showIcon]="true"
                             placeholder="Select Passed Out Year" formControlName="passedOutyear" appendTo="body"
                             id="passedOutYear_Calendar" [maxDate]="maxDate"
@@ -138,7 +138,7 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <label class="required">Grading System</label>
+                        <label class="required">Grading System:</label>
                         <p-dropdown id="gradingStystem_Dropdown" [autoDisplayFirst]="false"
                             placeholder="Select Grading System" [options]="gradingMethod" optionLabel="name"
                             optionValue="lookupDetailId" formControlName="gradingMethodId" appendTo="body"
@@ -156,7 +156,7 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <label class="required">CGPA/Percentage System</label>
+                        <label class="required">CGPA/Percentage System:</label>
                         <input pInputText class="form-control" placeholder="Enter CGPA/Percentage System"
                             formControlName="gradingValue" appNumericInput maxlength="5" #gradingValue
                             id="grading_Value" (keydown)="restrictSpaces($event)"
