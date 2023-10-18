@@ -38,7 +38,6 @@
                 </ng-template>
                 <ng-template pTemplate="header">
                   <tr>
-
                     <th>Image</th>
                     <th *ngFor="let col of headers" [pSortableColumn]="col.header">
                       {{col?.label}}
@@ -46,6 +45,7 @@
                       </p-columnFilter>
                       <p-sortIcon [field]="col.header"></p-sortIcon>
                     </th>
+                    <th></th>
                   </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-employee>
@@ -59,8 +59,8 @@
                         employee[col.field] }}</span>
                     </td>
                     <td>
-                      <button pbutton="" pripple="" type="button" label="Primary" routerLink="/employee/viewemployees"
-                        routerLinkActive="router-link-active"
+                      <button pbutton="" pripple="" type="button" label="Primary"
+                        (click)="viewEmployeeDtls(employee?.employeeId)"
                         class="p-element p-ripple p-button-text p-button p-component view_profile_button"
                         ng-reflect-label="Primary">
                         <span class="p-button-label pi pi-chevron-right"></span>
@@ -129,8 +129,10 @@
                   <br />
                 </div>
                 <div class="mb-3 col-3 p-0">
-                  <button pbutton="" pripple="" type="button" label="Primary" (click)="viewEmployeeDtls(employee?.employeeId)"
-                    class="p-element p-ripple p-button-text p-button p-component view_profile_button" ng-reflect-label="Primary">
+                  <button pbutton="" pripple="" type="button" label="Primary"
+                    (click)="viewEmployeeDtls(employee?.employeeId)"
+                    class="p-element p-ripple p-button-text p-button p-component view_profile_button"
+                    ng-reflect-label="Primary">
                     <span class="p-button-label pi pi-chevron-right"></span>
                   </button>
                 </div>
