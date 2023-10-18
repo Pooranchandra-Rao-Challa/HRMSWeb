@@ -152,9 +152,7 @@ export class LeaveDialogComponent {
   getLeaveTypes() {
     this.lookupService.DayWorkStatus().subscribe(resp => {
       this.leaveType = resp as unknown as LookupViewDto[];
-      this.filteredLeaveTypes = this.leaveType.filter(item => !this.filterCriteria.includes(item.name));
-      console.log(this.filteredLeaveTypes);
-      
+      this.filteredLeaveTypes = this.leaveType.filter(item => !this.filterCriteria.includes(item.name));      
     })
   }
 
@@ -196,7 +194,6 @@ export class LeaveDialogComponent {
     else {
       this.fbLeave.markAllAsTouched();
     }
-    console.log(this.fbLeave.value);
   }
 
 }

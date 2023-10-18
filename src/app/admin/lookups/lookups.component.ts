@@ -79,18 +79,12 @@ export class LookupsComponent implements OnInit {
       this.lookups.forEach(element => {
         element.expandLookupDetails = JSON.parse(element.lookupDetails) as unknown as LookupDetailsDto[];
       });
-      console.log(this.lookups);
-
     })
   }
 
   onChangeisLookupChecked() {
     this.getLookUp(this.isLookupChecked)
   }
-
-  // isLookupIdReadonly(): boolean {
-  //   return this.fblookup.get('lookupId').value !== null;
-  // }
 
   onGlobalFilter(table: Table, event: Event) {
     const searchTerm = (event.target as HTMLInputElement).value;
@@ -120,8 +114,7 @@ export class LookupsComponent implements OnInit {
       width: this.dialogRequest.width
     });
     this.ref.onClose.subscribe((res: any) => {
-      debugger
-      if (res) this.getLookUp(true);
+      if (res) this.getLookUp(false);
       event.preventDefault(); // Prevent the default form submission
     });
   }
