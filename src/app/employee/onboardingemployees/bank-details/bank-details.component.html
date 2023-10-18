@@ -3,7 +3,7 @@
         <div class="col-12 roles-container">
             <div class="p-fluid p-formgrid grid">
                 <div class="field col-12 md:col-4">
-                    <label class="required">Bank Name</label>
+                    <label class="required">Bank Name:</label>
                     <input type="text" id="bank_Name" placeholder="Enter Bank Name" pInputText formControlName="name"
                         #bankname alphaOnly [maxlength]="50" (keydown)="restrictSpaces($event)"
                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['name'].touched && FormControls['name'].errors }" />
@@ -24,7 +24,7 @@
                     </div>
                 </div>
                 <div class="field col-12 md:col-4">
-                    <label>Branch Name</label>
+                    <label>Branch Name:</label>
                     <input type="text" id="branch_Name" placeholder="Enter Branch Name" pInputText
                         formControlName="branchName" #branchname alphaOnly [maxlength]="50"
                         (keydown)="restrictSpaces($event)"
@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 <div class="field col-12 md:col-4">
-                    <label class="required">IFSC Code</label>
+                    <label class="required">IFSC Code:</label>
                     <input type="text" id="ifsc_Code" placeholder="Enter IFSC Code" pInputText formControlName="ifsc"
                         #ifscCode [maxlength]="11" [minlength]="11" (keydown)="restrictSpaces($event)" alphaNumeric
                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['ifsc'].touched && FormControls['ifsc'].errors }" />
@@ -67,7 +67,7 @@
                     </div>
                 </div>
                 <div class="field col-12 md:col-4">
-                    <label class="required">Account Number</label>
+                    <label class="required">Account Number:</label>
                     <input type="text" id="account_Number" placeholder="Enter Account Number" pInputText
                         formControlName="accountNumber" #accountnumber numericOnly [maxlength]="18"
                         (keydown)="restrictSpaces($event)"
