@@ -25,7 +25,6 @@ export class D3OrgChartComponent implements OnChanges {
 
 
   ngOnChanges() {
-    debugger
     console.log(this.data);
     const width = 800;
     const height = 400;
