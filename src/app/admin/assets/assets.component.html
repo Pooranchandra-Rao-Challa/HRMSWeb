@@ -303,7 +303,7 @@
                 class="p-element p-ripple p-button-text p-button p-component col-6 "></button>
             </div>
           </td>
-          <td *ngFor="let col of AssetsTypeTable"  [ngClass]="col?.field == 'isActive'? 'text-center' : ''">
+          <td *ngFor="let col of AssetsTypeTable" [ngClass]="{'text-center': col.field === 'isActive', 'text-wrap': col.field === 'description'}">
             <span *ngIf="col?.field != 'updatedAt' && col?.field != 'createdAt' && col?.field != 'purchasedDate'&& col?.field != 'isAssigned'
                           && col?.field != 'isActive'" >{{assetstypes[col.field]}}</span>
             <span *ngIf="col?.field == 'createdAt' || col?.field == 'updatedAt' || col?.field == 'purchasedDate'">
