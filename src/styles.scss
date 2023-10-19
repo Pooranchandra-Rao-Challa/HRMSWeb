@@ -380,3 +380,7 @@ p-calendar input {
     padding: 5px;
     margin: 2px;
 }
+
+.hide-close-icon .p-dialog-header-icons {
+    display: none !important;
+}
