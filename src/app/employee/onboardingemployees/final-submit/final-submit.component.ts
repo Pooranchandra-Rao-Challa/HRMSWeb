@@ -46,7 +46,7 @@ export class FinalSubmitComponent {
       this.dialog = true;
       this.employeeObj = this.employees.find(x => x.employeeId == this.employeeId);
       console.log(this.employeeObj)
-      if (this.employeeObj.pendingDetails == "BankDetails, FamilyInformation") {
+      if (this.employeeObj.pendingDetails == "BankDetails, FamilyInformation" || this.employeeObj.pendingDetails == "BankDetails" || this.employeeObj.pendingDetails == "FamilyInformation" ) {
         this.displayDialog = true;
         this.onSubmit();
       }
@@ -65,7 +65,7 @@ export class FinalSubmitComponent {
   }
 
   onClose() {
-    if (this.employeeObj.pendingDetails == "BankDetails, FamilyInformation") {
+    if (this.employeeObj.pendingDetails == "BankDetails, FamilyInformation" || this.employeeObj.pendingDetails == "BankDetails" || this.employeeObj.pendingDetails == "FamilyInformation" ) {
       if (this.message !== null) {
         this.router.navigate(['employee/all-employees']);
         this.alertMessage.displayAlertMessage(ALERT_CODES["SEE001"]);

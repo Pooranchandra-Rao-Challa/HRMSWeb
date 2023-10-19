@@ -24,7 +24,7 @@
                 <div class="field col-12 md:col-4">
                   <label class="required">Code:
                   </label>&nbsp; <input pInputText id="Project_code" type="text" formControlName="code"
-                  [ngClass]="{ 'is-invalid ng-dirty': projectFormControls['code'].touched &&projectFormControls['code'].errors }"
+                    [ngClass]="{ 'is-invalid ng-dirty': projectFormControls['code'].touched &&projectFormControls['code'].errors }"
                     (keydown)="restrictSpaces($event)" [readonly]="projectFormControls['projectId'].value!== null"
                     [maxlength]="maxLength.code" placeholder="Enter Code" #code alphaNumeric />
                   <div class="flex">
@@ -49,7 +49,7 @@
                 <div class="field col-12 md:col-4">
                   <label class="required">Name:
                   </label>&nbsp; <input pInputText id="Project_name" type="text" formControlName="name"
-                  [ngClass]="{ 'is-invalid ng-dirty': projectFormControls['name'].touched &&projectFormControls['name'].errors }"
+                    [ngClass]="{ 'is-invalid ng-dirty': projectFormControls['name'].touched &&projectFormControls['name'].errors }"
                     (keydown)="restrictSpaces($event)" [readonly]="projectFormControls['projectId'].value!== null"
                     [maxlength]="maxLength.name" placeholder="Enter Name" #name alphaNumeric />
                   <div class="flex">
@@ -74,7 +74,7 @@
                 <div class="field col-12 md:col-4">
                   <label class="required">Start Date:
                   </label>&nbsp; <p-calendar inputId="calendar" [readonlyInput]="true" [showIcon]="true"
-                  [ngClass]="{ 'is-invalid ng-dirty': projectFormControls['InceptionAt'].touched &&projectFormControls['InceptionAt'].errors }"
+                    [ngClass]="{ 'is-invalid ng-dirty': projectFormControls['InceptionAt'].touched &&projectFormControls['InceptionAt'].errors }"
                     yearRange="2000:2030" id="Project_InceptionAt" placeholder="Select Start Date" mask="99/99/9999"
                     formControlName="InceptionAt">
                   </p-calendar>
@@ -92,7 +92,7 @@
                 <div class="field col-12 md:col-4">
                   <label for="textarea">Description <sup class="p-error">*</sup>
                   </label>&nbsp; <textarea inputId="textarea" rows="5" cols="30" pInputTextarea
-                  [ngClass]="{ 'is-invalid ng-dirty': projectFormControls['description'].touched &&projectFormControls['description'].errors }"
+                    [ngClass]="{ 'is-invalid ng-dirty': projectFormControls['description'].touched &&projectFormControls['description'].errors }"
                     (keydown)="restrictSpaces($event)" [maxlength]="maxLength.description" id="Project_description"
                     class="freeze_text-area" #description placeholder="Enter Description"
                     formControlName="description"></textarea>
@@ -137,7 +137,8 @@
                 <div class="field col-12 md:col-4">
                   <label class="required">Is Active:
                   </label>
-                  <br> &nbsp; <p-inputSwitch formControlName="isActive" id="Project_IsActive" [readonly]="projectFormControls['projectId'].value== null"></p-inputSwitch>
+                  <br> &nbsp; <p-inputSwitch formControlName="isActive" id="Project_IsActive"
+                    [readonly]="projectFormControls['projectId'].value== null"></p-inputSwitch>
                 </div>
               </div>
               <h5>Client Details</h5>
@@ -146,7 +147,7 @@
                   <label class="required">Company Full Name:
                   </label>&nbsp;
                   <p-autoComplete formControlName="companyName" [suggestions]="this.filteredClients"
-                  [ngClass]="{ 'is-invalid ng-dirty': fcClientDetails.controls['companyName'].touched && fcClientDetails.controls['companyName'].errors }"
+                    [ngClass]="{ 'is-invalid ng-dirty': fcClientDetails.controls['companyName'].touched && fcClientDetails.controls['companyName'].errors }"
                     (keydown)="restrictSpaces($event)" [readonly]="projectFormControls['projectId'].value!== null"
                     [maxlength]="maxLength.name" placeholder="Enter Company Full Name" #CompanyName
                     (completeMethod)="filterClients($event)" (onSelect)="onAutocompleteSelect($event)"
@@ -177,7 +178,7 @@
                   <label class="required">Client Name:
                   </label>&nbsp;
                   <input pInputText id="Project_clientName" type="text" placeholder="Enter Client Name" alphaOnly
-                  [ngClass]="{ 'is-invalid ng-dirty': fcClientDetails.controls['Name'].touched && fcClientDetails.controls['Name'].errors }"
+                    [ngClass]="{ 'is-invalid ng-dirty': fcClientDetails.controls['Name'].touched && fcClientDetails.controls['Name'].errors }"
                     (keydown)="restrictSpaces($event)" [maxlength]="maxLength.name" #clientName
                     formControlName="Name" />
                   <div class="flex">
@@ -205,7 +206,7 @@
                   <label class="required">Client Email Id:
                   </label>&nbsp;
                   <input pInputText id="Project_clientEmail" placeholder="Enter Client Email Id" formControlName="email"
-                  [ngClass]="{ 'is-invalid ng-dirty': fcClientDetails.controls['email'].touched && fcClientDetails.controls['email'].errors }"
+                    [ngClass]="{ 'is-invalid ng-dirty': fcClientDetails.controls['email'].touched && fcClientDetails.controls['email'].errors }"
                     (keydown)="restrictSpaces($event)" />
                   <div class="flex">
                     <div class="align-left w-60" style="width:70%">
@@ -225,7 +226,7 @@
                   <label class="required">Client Mobile No:
                   </label>&nbsp;
                   <input pInputText id="Project_clientMobileNo" type="text" placeholder="Enter Client Mobile No"
-                  [ngClass]="{ 'is-invalid ng-dirty': fcClientDetails.controls['mobileNumber'].touched && fcClientDetails.controls['mobileNumber'].errors }"
+                    [ngClass]="{ 'is-invalid ng-dirty': fcClientDetails.controls['mobileNumber'].touched && fcClientDetails.controls['mobileNumber'].errors }"
                     #clientNo [maxlength]="maxLength.phoneNo" formControlName="mobileNumber" numericOnly />
                   <div class="flex">
                     <div class="align-left w-60" style="width:70%">
@@ -247,7 +248,7 @@
                 <div class="field col-12 md:col-4">
                   <label class="required">CIN/GST No:
                   </label>&nbsp; <input pInputText id="Project_cinNo" type="text" placeholder="Enter CIN/GST No" #cinno
-                  [ngClass]="{ 'is-invalid ng-dirty': fcClientDetails.controls['cinno'].touched && fcClientDetails.controls['cinno'].errors }"
+                    [ngClass]="{ 'is-invalid ng-dirty': fcClientDetails.controls['cinno'].touched && fcClientDetails.controls['cinno'].errors }"
                     (keydown)="restrictSpaces($event)" alphaNumeric [maxlength]="maxLength.cinNo"
                     formControlName="cinno" />
                   <div class="flex">
@@ -270,12 +271,13 @@
                 <div class="field col-12 md:col-4">
                   <label class="required">Is Active:
                   </label>
-                  <br> &nbsp; <p-inputSwitch formControlName="isActive" id="Project_clientIsActive" [readonly]="projectFormControls['projectId'].value== null"></p-inputSwitch>
+                  <br> &nbsp; <p-inputSwitch formControlName="isActive" id="Project_clientIsActive"
+                    [readonly]="projectFormControls['projectId'].value== null"></p-inputSwitch>
                 </div>
                 <div class="field col-12 md:col-4">
                   <label class="required">POC Name:
                   </label>&nbsp; <input pInputText id="Project_pocName" type="text" placeholder="Enter POC Name"
-                  [ngClass]="{ 'is-invalid ng-dirty': fcClientDetails.controls['pocName'].touched && fcClientDetails.controls['pocName'].errors }"
+                    [ngClass]="{ 'is-invalid ng-dirty': fcClientDetails.controls['pocName'].touched && fcClientDetails.controls['pocName'].errors }"
                     (keydown)="restrictSpaces($event)" #pocName [maxlength]="maxLength.name" alphaOnly
                     formControlName="pocName" />
                   <div class="flex">
@@ -301,7 +303,7 @@
                 <div class="field col-12 md:col-4">
                   <label class="required">POC Ph.no:
                   </label>&nbsp; <input pInputText id="Project_pocMobileNo" type="text" #pocNo numericOnly
-                  [ngClass]="{ 'is-invalid ng-dirty': fcClientDetails.controls['pocMobileNumber'].touched && fcClientDetails.controls['pocMobileNumber'].errors }"
+                    [ngClass]="{ 'is-invalid ng-dirty': fcClientDetails.controls['pocMobileNumber'].touched && fcClientDetails.controls['pocMobileNumber'].errors }"
                     [maxlength]="maxLength.phoneNo" placeholder="Enter POC Ph.no" formControlName="pocMobileNumber" />
                   <div class="flex">
                     <div class="align-left w-60" style="width:70%">
@@ -324,7 +326,7 @@
                   <label class="required">Address:
                   </label>&nbsp;
                   <textarea inputId="textarea" rows="3" cols="30" id="Project_clientAddress" pInputTextarea #address
-                  [ngClass]="{ 'is-invalid ng-dirty': fcClientDetails.controls['address'].touched && fcClientDetails.controls['address'].errors }"
+                    [ngClass]="{ 'is-invalid ng-dirty': fcClientDetails.controls['address'].touched && fcClientDetails.controls['address'].errors }"
                     (keydown)="restrictSpaces($event)" [maxlength]="maxLength.address" formControlName="address"
                     placeholder="Enter Address" class="freeze_text-area"></textarea>
                   <div class="flex">
@@ -500,7 +502,6 @@
               </div>
             </div>
             <div class="grid">
-
               <div class="col-12 md:col-3" *ngFor="let employee of this.projectDetails.expandEmployees">
                 <div class="m-2 card border-1 surface-border" *ngIf="employee.isActive==true">
                   <div class="text-xl font-bold">{{employee.employeeName}}</div>
@@ -518,38 +519,40 @@
       </div>
     </p-dialog>
     <p-dialog header="Project" [(visible)]="dialog1" [modal]="true" showEffect="fade"
-      [breakpoints]="{'960px': '70%', '640px': '60%'}" [style]="{width: '80%'}">
+      [breakpoints]="{'960px': '70%', '640px': '60%'}" [style]="{width: '40%'}">
       <div class="flex flex-column align-items-center justify-content-center">
         <form [formGroup]="fbproject" (ngSubmit)="onSubmit()" id="Role_roleForm">
           <div class="grid">
-            <div class="p-fluid p-formgrid grid">
-              <div class="field col-12">
-                <label>Employees:</label>&nbsp;
-                <p-multiSelect placeholder="Select Employees" [options]="Employees" optionLabel="employeeName"
-                  formControlName="projectAllotments" [filter]="true" filterBy="employeeId,employeeName"
-                  appendTo="body">
-                  <ng-template let-employee pTemplate="selectedItem">
-                    <div class="block align-items-center gap-3">
-                      <div>{{employee.employeeName}}</div>
-                      <div>{{employee.employeeId}}</div>
+            <div class="col-12">
+              <div class="p-fluid p-formgrid grid">
+                <div class="field col-12">
+                  <label>Employees:</label>&nbsp;
+                  <p-multiSelect placeholder="Select Employees" [options]="Employees" optionLabel="employeeName"
+                    formControlName="ProjectAllotments" [filter]="true" filterBy="employeeId,employeeName"
+                    appendTo="body">
+                    <ng-template let-employee pTemplate="selectedItem">
+                      <div class="block align-items-center gap-3">
+                        <div>{{employee.employeeName}}</div>
+                        <div>{{employee.employeeId}}</div>
+                      </div>
+                    </ng-template>
+                  </p-multiSelect>
+                  <div class="col-12 md:col-3" *ngFor="let employee of this.fbproject.get('ProjectAllotments').value">
+                    <div class="m-2 card border-1 surface-border">
+                      <div class="text-xl font-bold">{{employee.employeeName}}</div>
+                      <span class="text-600 font-medium text-sm">
+                        EmpId : {{employee.employeeId}}
+                      </span><br />
                     </div>
-                  </ng-template>
-                </p-multiSelect>
-              </div>
-              <div class="col-12 md:col-3" *ngFor="let employee of this.fbproject.get('projectAllotments').value">
-                <div class="m-2 card border-1 surface-border">
-                  <div class="text-xl font-bold">{{employee.employeeName}}</div>
-                  <span class="text-600 font-medium text-sm">
-                    EmpId : {{employee.employeeId}}
-                  </span><br />
+                  </div>
                 </div>
               </div>
             </div>
-            </div>
+          </div>
         </form>
       </div>
       <ng-template pTemplate="footer">
-        <div class="col-4" style="float:right">
+        <div class="col-6" style="float:right">
           <button pButton pRipple type="submit" [label]="submitLabel" [disabled]="!this.fbproject.valid"
             class="p-button-raised p-button-primary" (click)="onSubmit()"></button>
         </div>

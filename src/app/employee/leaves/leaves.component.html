@@ -8,7 +8,8 @@
             <ng-template pTemplate="right">
                 <button pButton pRipple label="Add Leave" id="addLeaveButton" icon="pi pi-plus"
                     class="p-button-primary p-mr-2"
-                    (click)="openComponentDialog(leaveDialogComponent, null, ActionTypes.save)" *ngIf="permissions?.CanManageLeave"></button>
+                    (click)="openComponentDialog(leaveDialogComponent, null, ActionTypes.save)"
+                    *ngIf="permissions?.CanManageLeave"></button>
             </ng-template>
         </p-toolbar>
         <!-- p-table -->
@@ -41,7 +42,7 @@
             </ng-template>
             <ng-template pTemplate="body" let-leave>
                 <tr>
-                    <td *ngFor="let col of headers" [ngClass]="col?.field == 'status'  ? 'text-center' : ''">
+                    <td *ngFor="let col of headers" [ngClass]="{'text-center':col?.field == 'status','text-wrap':col.field === 'note'}">
                         <span
                             *ngIf=" col?.field == 'employeeName' || col?.field == 'note'||col?.field == 'acceptedBy'  || col?.field == 'approvedBy'||col?.field =='createdAt' || col?.field == 'createdBy'">
                             {{leave[col.field]}}
@@ -101,7 +102,7 @@
     <ng-template pTemplate="footer">
         <div class="col-4" style="float:right">
             <button pButton pRipple label="No" id="Leave_Approve_Rejected_Button" class="p-button-primary p-mr-2"
-              (click)="onClose()"></button>
+                (click)="onClose()"></button>
         </div>
         <div class="col-4" style="float:right">
             <button pButton pRipple label="Yes" id="Leave_Approve_Rejected_Button" class="p-button-primary p-mr-2"
