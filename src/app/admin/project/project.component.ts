@@ -83,7 +83,7 @@ export class ProjectComponent implements OnInit {
       isActive: [true, [Validators.required]],
       code: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_4), Validators.maxLength(MAX_LENGTH_20)]),
       name: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
-      InceptionAt: new FormControl('', [Validators.required]),
+      startDate: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
       logo: [],
       clients: this.formbuilder.group({
@@ -125,8 +125,7 @@ export class ProjectComponent implements OnInit {
     this.adminService.UnassignEmployee(this.fbUnAssignEmployee.value).subscribe((resp) => {
       if (this.visible) {
         this.alertMessage.displayAlertMessage(ALERT_CODES["SMEUA001"]);
-        this.initProjects();
-        this.visible = false;
+        this.showProjectDetails(employee.projectId)
         this.fbUnAssignEmployee.reset();
       }
     });
@@ -134,6 +133,29 @@ export class ProjectComponent implements OnInit {
 
   get fcUnAssignAsset() {
     return this.fbUnAssignEmployee.controls;
+  }
+
+  showProjectDetails(projectId: number) {
+    this.visible = true;
+    this.getProjectWithId(projectId);
+  }
+
+  getProjectWithId(id: number) {
+    this.adminService.getProjectWithId(id).subscribe(resp => {
+      this.projectDetails = resp[0] as unknown as ProjectViewDto;
+      this.projectDetails.expandEmployees = JSON.parse(this.projectDetails.teamMembers);
+    });
+  }
+
+  initProjects() {
+    this.adminService.GetProjects().subscribe(resp => {
+      this.projects = resp as unknown as ProjectViewDto[];
+      this.projects.forEach(element => {
+        element.expandEmployees = JSON.parse(element.teamMembers);
+      });
+      this.rootProject.children = this.convertToTreeNode(resp as unknown as ProjectViewDto[]);
+      this.projectTreeData = [this.rootProject];
+    });
   }
 
   showProjectDetailsDialog(projectDetails: ProjectViewDto) {
@@ -170,7 +192,7 @@ export class ProjectComponent implements OnInit {
       code: project.code,
       name: project.name,
       isActive: project.isActive,
-      InceptionAt: FORMAT_DATE(new Date(project.startDate)),
+      startDate: FORMAT_DATE(new Date(project.startDate)),
       logo: project.logo,
       description: project.description
     })
@@ -193,6 +215,7 @@ export class ProjectComponent implements OnInit {
 
   addEmployees(projectDetails: ProjectViewDto) {
     this.dialog1 = true;
+    this.projectForm();
     this.getEmployeesListBasedOnProject(projectDetails.projectId);
     this.editEmployee(projectDetails);
   }
@@ -212,13 +235,14 @@ export class ProjectComponent implements OnInit {
   }
 
   saveProject() {
+    this.fbproject.get('startDate').setValue( FORMAT_DATE(new Date(this.fbproject.get('startDate').value)))
     if (this.addFlag) {
       if (this.clientDetails)
         this.fcClientDetails.get('companyName')?.setValue(this.clientDetails.companyName);
       return this.adminService.CreateProject(this.fbproject.value);
     }
     else {
-      this.getSelectedItemName(this.fcClientDetails.controls['companyName'].value)
+      this.getSelectedItemName(this.fcClientDetails.controls['companyName'].value);
       return this.adminService.UpdateProject(this.fbproject.value)
     }
   }
@@ -289,13 +313,12 @@ export class ProjectComponent implements OnInit {
     if (this.fbproject.valid) {
       this.saveProject().subscribe(resp => {
         if (resp) {
-          this.projectForm();
           this.dialog = false;
           this.initProjects();
           this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "PAS001" : "PAS002"]);
-          if (this.dialog1) {
-            this.dialog1 = false;
-          }
+          this.dialog1 = false;
+          if(this.visible)
+          this.showProjectDetails(this.projectDetails.projectId);
         }
       })
     }
@@ -306,17 +329,6 @@ export class ProjectComponent implements OnInit {
   }
   get fcClientDetails() {
     return this.fbproject.get('clients') as FormGroup;
-  }
-
-  initProjects() {
-    this.adminService.GetProjects().subscribe(resp => {
-      this.projects = resp as unknown as ProjectViewDto[];
-      this.projects.forEach(element => {
-        element.expandEmployees = JSON.parse(element.teamMembers);
-      });
-      this.rootProject.children = this.convertToTreeNode(resp as unknown as ProjectViewDto[]);
-      this.projectTreeData = [this.rootProject];
-    });
   }
 
   convertToTreeNode(projects: any[]): TreeNode[] {
@@ -369,7 +381,7 @@ export class ProjectComponent implements OnInit {
     }
     this.filteredClients = filtered;
   }
- 
+
 
 }
 

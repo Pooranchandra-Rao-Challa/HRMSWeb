@@ -74,16 +74,16 @@
                 <div class="field col-12 md:col-4">
                   <label class="required">Start Date:
                   </label>&nbsp; <p-calendar inputId="calendar" [readonlyInput]="true" [showIcon]="true"
-                    [ngClass]="{ 'is-invalid ng-dirty': projectFormControls['InceptionAt'].touched &&projectFormControls['InceptionAt'].errors }"
-                    yearRange="2000:2030" id="Project_InceptionAt" placeholder="Select Start Date" mask="99/99/9999"
-                    formControlName="InceptionAt">
+                    [ngClass]="{ 'is-invalid ng-dirty': projectFormControls['startDate'].touched &&projectFormControls['startDate'].errors }"
+                    yearRange="2000:2030" id="startDate" placeholder="Select Start Date" mask="99/99/9999"
+                    formControlName="startDate">
                   </p-calendar>
                   <div class="flex">
                     <div class="align-left w-60" style="width:70%">
                       <span
-                        *ngIf="projectFormControls['InceptionAt'].touched && projectFormControls['InceptionAt'].invalid">
+                        *ngIf="projectFormControls['startDate'].touched && projectFormControls['startDate'].invalid">
                         <div class="ng-invalid ng-touched p-error"
-                          *ngIf="projectFormControls['InceptionAt'].errors?.['required']">
+                          *ngIf="projectFormControls['startDate'].errors?.['required']">
                           Please Select Start Date.</div>
                       </span>
                     </div>
@@ -411,7 +411,7 @@
                 <img [src]="project.logo" alt="img" [style]="{width: '300px'}"
                   class="inline-flex align-items-center justify-content-center border-circle w-5rem h-5rem bg-primary-100 mb-5">
                 <div class="text-2xl mb-3 font-medium">
-                  <a class="cursor-pointer" (click)="showProjectDetailsDialog(project)"
+                  <a class="cursor-pointer" (click)="showProjectDetails(project.projectId)"
                     id="Project_viewDetails">{{project.name}} </a>
                   <button pButton pRipple icon="pi pi-pencil" *ngIf="permission?.CanManageProjects"
                     class="p-element p-ripple p-button-text p-button-primary p-component m-0 p-0 justify-content-end"
@@ -522,21 +522,21 @@
       [breakpoints]="{'960px': '70%', '640px': '60%'}" [style]="{width: '40%'}">
       <div class="flex flex-column align-items-center justify-content-center">
         <form [formGroup]="fbproject" (ngSubmit)="onSubmit()" id="Role_roleForm">
-          <div class="grid">
-            <div class="col-12">
-              <div class="p-fluid p-formgrid grid">
-                <div class="field col-12">
-                  <label>Employees:</label>&nbsp;
-                  <p-multiSelect placeholder="Select Employees" [options]="Employees" optionLabel="employeeName"
-                    formControlName="projectAllotments" [filter]="true" filterBy="employeeId,employeeName"
-                    appendTo="body">
-                    <ng-template let-employee pTemplate="selectedItem">
-                      <div class="block align-items-center gap-3">
-                        <div>{{employee.employeeName}}</div>
-                        <div>{{employee.employeeId}}</div>
-                      </div>
-                    </ng-template>
-                  </p-multiSelect>
+          <div class="col-12">
+            <div class="p-fluid p-formgrid grid">
+              <div class="field col-12">
+                <label>Employees:</label>&nbsp;
+                <p-multiSelect placeholder="Select Employees" [options]="Employees" optionLabel="employeeName"
+                  formControlName="projectAllotments" [filter]="true" filterBy="employeeId,employeeName"
+                  appendTo="body">
+                  <ng-template let-employee pTemplate="selectedItem">
+                    <div class="block align-items-center gap-3">
+                      <div>{{employee.employeeName}}</div>
+                      <div>{{employee.employeeId}}</div>
+                    </div>
+                  </ng-template>
+                </p-multiSelect>
+                <div class="grid">
                   <div class="col-12 md:col-3" *ngFor="let employee of this.fbproject.get('projectAllotments').value">
                     <div class="m-2 card border-1 surface-border">
                       <div class="text-xl font-bold">{{employee.employeeName}}</div>
@@ -546,6 +546,7 @@
                     </div>
                   </div>
                 </div>
+                
               </div>
             </div>
           </div>
