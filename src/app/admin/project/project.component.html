@@ -528,7 +528,7 @@
                 <div class="field col-12">
                   <label>Employees:</label>&nbsp;
                   <p-multiSelect placeholder="Select Employees" [options]="Employees" optionLabel="employeeName"
-                    formControlName="ProjectAllotments" [filter]="true" filterBy="employeeId,employeeName"
+                    formControlName="projectAllotments" [filter]="true" filterBy="employeeId,employeeName"
                     appendTo="body">
                     <ng-template let-employee pTemplate="selectedItem">
                       <div class="block align-items-center gap-3">
@@ -537,7 +537,7 @@
                       </div>
                     </ng-template>
                   </p-multiSelect>
-                  <div class="col-12 md:col-3" *ngFor="let employee of this.fbproject.get('ProjectAllotments').value">
+                  <div class="col-12 md:col-3" *ngFor="let employee of this.fbproject.get('projectAllotments').value">
                     <div class="m-2 card border-1 surface-border">
                       <div class="text-xl font-bold">{{employee.employeeName}}</div>
                       <span class="text-600 font-medium text-sm">
