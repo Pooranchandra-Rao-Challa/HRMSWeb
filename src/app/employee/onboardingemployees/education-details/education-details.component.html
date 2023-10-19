@@ -204,13 +204,16 @@
             <ng-template pTemplate="body" let-educationData let-educationDataIndex="rowIndex">
                 <tr>
                     <td>
-                        <button pButton pRipple icon="pi pi-pencil" id="educationDetailsAdd-Btn"
-                            (click)="editEducationDetails(educationData)"
-                            class="p-element p-ripple p-button-text p-button p-component mr-3 p-0 ">
-                        </button>
-                        <button pButton pRipple icon="pi pi-trash" id="educationDetailsRemove-Btn"
-                            class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
-                            (click)="removeRow(educationDataIndex)"></button>
+                        <div class="flex">
+                            <button pButton pRipple icon="pi pi-pencil" id="educationDetailsAdd-Btn"
+                                (click)="editEducationDetails(educationData)"
+                                class="p-element p-ripple p-button-text p-button p-component mr-3 p-0 ">
+                            </button>
+                            <button pButton pRipple icon="pi pi-trash" id="educationDetailsRemove-Btn"
+                                class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
+                                *ngIf="!educationData.educationDetailId"
+                                (click)="removeRow(educationDataIndex)"></button>
+                        </div>
                     </td>
                     <td *ngFor="let col of headers"
                         [ngClass]="col?.field == 'institutionName' || col?.field == 'authorityName'  ||col?.field == 'passedOutyear'  || col?.field == 'streamId'||col?.field == 'stateId'|| col?.field == 'gradingMethodId' ||col?.field == 'gradingValue' ? 'text-center' : ''">
