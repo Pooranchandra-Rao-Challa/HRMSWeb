@@ -258,11 +258,8 @@
                           *ngIf="fcClientDetails.controls['cinno'].errors?.['required']">
                           Please Enter CIN No.</div>
                         <div class="ng-invalid ng-touched p-error"
-                          *ngIf="fcClientDetails.controls['cinno'].errors?.['minlength']">
-                          CIN Min Characters Is 20.</div>
-                        <div class="ng-invalid ng-touched p-error"
-                          *ngIf="fcClientDetails.controls['cinno'].errors?.['maxlength']">
-                          CIN Max Characters Is 50.</div>
+                          *ngIf="fcClientDetails.controls['cinno'].errors?.['minlength']&&fcClientDetails.controls['cinno'].errors?.['maxlength']">
+                          CIN/GST No Must Be In 21 Digits.</div>
                       </span>
                     </div>
                     <div class="align-right w-40" style="width:30%; text-align:right;">

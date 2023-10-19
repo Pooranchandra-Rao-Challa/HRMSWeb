@@ -150,9 +150,8 @@ export class ProjectComponent implements OnInit {
   }
 
   initProject(project: ProjectViewDto) {
-    console.log(project);
-    
-    this.showDialog();
+    this.projectForm();
+    this.dialog = true;
     if (project != null) {
       this.editEmployee(project);
       this.getEmployeesListBasedOnProject(project.projectId)
@@ -370,10 +369,7 @@ export class ProjectComponent implements OnInit {
     }
     this.filteredClients = filtered;
   }
-  showDialog() {
-    this.projectForm();
-    this.dialog = true;
-  }
+ 
 
 }
 
