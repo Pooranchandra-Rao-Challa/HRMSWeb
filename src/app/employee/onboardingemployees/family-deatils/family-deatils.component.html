@@ -142,7 +142,9 @@
                     </div>
                     <div class="field col-12 md:col-4">
                         <label class="required" for="is_Nominee" class="ml-3">Make him/her as Nominee:</label>
-                        <p-checkbox [binary]="true" id="is_Nominee" class="mr-2" formControlName="isNominee">
+                        <br>
+                        <p-checkbox [pTooltip]="fbfamilyDetails.get('isNominee').value == true ? 'Employee Can Have Only One Nominee' : null"
+                            [binary]="true" id="is_Nominee" class="mr-2" formControlName="isNominee">
                         </p-checkbox>
                     </div>
                     <div class="d-flex flex-row justify-content-center col-12 md:col-4 mt-2">
