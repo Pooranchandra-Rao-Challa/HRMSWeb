@@ -6,7 +6,7 @@
                     <div class="p-fluid p-formgrid ">
                         <div class="field col-12  ">
                             <label class="required">Title:</label>
-                            <input type="text" id="Upload_title" pInputText formControlName="title" class="w-100"
+                            <input type="text" id="Upload_title" pInputText formControlName="title" class="w-100" (keydown)="restrictSpaces($event)"
                                 placeholder="Enter Title" #title [maxlength]="maxLength.code">
                             <div class="flex">
                                 <div class="align-left w-60" style="width:70%">

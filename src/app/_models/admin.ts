@@ -142,7 +142,7 @@ export class ProjectDetailsDto {
     logo: string;
     description: string;
     isActive?: boolean;
-    ProjectAllotments: string[]
+    projectAllotments?:[]
     clients?: ClientDetailsDto[];
     createdBy?: string
     createdAt?: string

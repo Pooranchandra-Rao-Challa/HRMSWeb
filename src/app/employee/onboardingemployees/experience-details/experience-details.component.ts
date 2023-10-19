@@ -29,7 +29,7 @@ export class ExperienceDetailsComponent {
   designation: LookupDetailsDto[] = []
   skills: LookupDetailsDto[] = []
   selectedOption: string;
-  workExperienceId:number;
+  workExperienceId: number;
   currentDate: Date;
   maxLength: MaxLength = new MaxLength();
   viewSelectedSkills = [];
@@ -158,11 +158,11 @@ export class ExperienceDetailsComponent {
         this.fbexperience.get('dateOfJoining').setValue(FORMAT_DATE(new Date(this.fbexperience.get('dateOfJoining').value)));
         this.fbexperience.get('dateOfReliving').setValue(FORMAT_DATE(new Date(this.fbexperience.get('dateOfReliving').value)));
         this.faExperienceDetail().push(this.generaterow(this.fbexperience.getRawValue()));
-      
-        if(this.fbexperience.value){
+
+        if (this.fbexperience.value) {
           let stateName = this.states.filter(x => x.lookupDetailId === this.FormControls['stateId'].value);
           let designationName = this.designation.filter(x => x.lookupDetailId === this.FormControls['designationId'].value);
-          this.empExperienceDetails.push({...this.fbexperience.value,state:stateName[0].name,designation:designationName[0].name});
+          this.empExperienceDetails.push({ ...this.fbexperience.value, state: stateName[0].name, designation: designationName[0].name });
         }
         // Reset form controls for the next entry
         this.fbexperience.patchValue({
@@ -202,17 +202,17 @@ export class ExperienceDetailsComponent {
     this.viewSelectedSkills = [];
     let CurrentArray = e.value;
     let updatedArray = [];
-    if(this.workExperienceId){
+    if (this.workExperienceId) {
       for (let i = 0; i < CurrentArray.length; i++) {
         updatedArray.push({ workExperienceXrefId: 0, workExperienceId: this.workExperienceId, skillAreaId: CurrentArray[i] })
       }
     }
-    else{
+    else {
       for (let i = 0; i < CurrentArray.length; i++) {
         updatedArray.push({ workExperienceXrefId: 0, workExperienceId: 0, skillAreaId: CurrentArray[i] })
       }
     }
-    
+
     for (let item of e.value)
       this.skills.forEach(each => {
         if (each.lookupDetailId == item) {
@@ -238,7 +238,7 @@ export class ExperienceDetailsComponent {
       dateOfReliving: FORMAT_DATE(new Date(experienceDetail.dateOfReliving)),
     });
     this.fbexperience.get('skills').patchValue(skillAreaIdsArray);
-    this.workExperienceId=experienceDetail.workExperienceId;
+    this.workExperienceId = experienceDetail.workExperienceId;
     let updatedArray = [];
     for (let i = 0; i < skillAreaIdsArray.length; i++) {
       updatedArray.push({ workExperienceXrefId: 0, workExperienceId: this.workExperienceId, skillAreaId: skillAreaIdsArray[i] })
@@ -277,11 +277,11 @@ export class ExperienceDetailsComponent {
   getEmpExperienceDetails() {
     this.employeeService.GetWorkExperience(this.employeeId).subscribe((data) => {
       this.empExperienceDetails = data;
-      if (data[0]?.isAFresher===false)
+      if (data[0]?.isAFresher === false)
         this.selectedOption = 'Experience';
-        else
-        this.selectedOption='Fresher';
-        
+      else
+        this.selectedOption = 'Fresher';
+
     })
   }
   navigateToPrev() {
@@ -291,7 +291,7 @@ export class ExperienceDetailsComponent {
   navigateToNext() {
     this.router.navigate(['employee/onboardingemployee/addressdetails', this.employeeId])
   }
-  resetForm(){
+  resetForm() {
     this.fbexperience.patchValue({
       employeeId: this.employeeId,
       workExperienceId: null,
@@ -311,5 +311,11 @@ export class ExperienceDetailsComponent {
     this.resetForm();
     this.addexperiencedetailsshowForm = !this.addexperiencedetailsshowForm;
     this.ShowexperienceDetails = !this.ShowexperienceDetails;
+  }
+
+  restrictSpaces(event: KeyboardEvent) {
+    if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {
+      event.preventDefault();
+    }
   }
 }

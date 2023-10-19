@@ -68,7 +68,7 @@ export class EmployeeService extends ApiHttpService {
     return this.post<AddressDetailsDto>(CREATE_ADDRESS_URI, addressDetails)
   }
   public CreateExperience(experienceDetails: ExperienceDetailsDto[]) {
-    return this.post<AddressDetailsDto>(CREATE_EXPERIENCE_URI, experienceDetails)
+    return this.post<ExperienceDetailsDto>(CREATE_EXPERIENCE_URI, experienceDetails)
   }
   public EnrollUser(employeeId: number) {
     return this.post(ENROLL_URI, employeeId)

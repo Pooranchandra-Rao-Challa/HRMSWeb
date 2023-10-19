@@ -77,7 +77,8 @@
                     <div class="field col-12 md:col-4">
                         <label class="required">Aadhar No:</label>
                         <input type="text" id="aadhar_No" placeholder="Enter Aadhar Number" pInputText
-                            formControlName="adhaarNo" numericOnly [minLength]="12" [maxLength]="12" #aadharno [minLength]="12"
+                            formControlName="adhaarNo" numericOnly [minLength]="12" [maxLength]="12" #aadharno
+                            [minLength]="12"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['adhaarNo'].touched && FormControls['adhaarNo'].errors }" />
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
@@ -87,7 +88,8 @@
                                         Please Enter Aadhar No.</div>
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="FormControls['adhaarNo'].errors?.['pattern']">
-                                        Aadhar No Should not start with 0,Please Enter valid Aadhar No Ex:397788000234.</div>
+                                        Aadhar No Should not start with 0,Please Enter valid Aadhar No Ex:397788000234.
+                                    </div>
                                 </span>
                             </div>
                             <div class="align-right w-40" style="width:30%; text-align:right;">
@@ -172,13 +174,15 @@
             <ng-template pTemplate="body" let-familyData let-familyDataIndex="rowIndex">
                 <tr>
                     <td>
-                        <button pButton pRipple icon="pi pi-pencil" id="familyDetailsAdd-Btn"
-                            (click)="editFamilyDetails(familyData)"
-                            class="p-element p-ripple p-button-text p-button p-component mr-3  p-0">
-                        </button>
-                        <button pButton pRipple icon="pi pi-trash" id="familyDetailsRemove-Btn"
-                            class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
-                            (click)="removeRow(familyDataIndex)"></button>
+                        <div class="flex">
+                            <button pButton pRipple icon="pi pi-pencil" id="familyDetailsAdd-Btn"
+                                (click)="editFamilyDetails(familyData)"
+                                class="p-element p-ripple p-button-text p-button p-component mr-3  p-0">
+                            </button>
+                            <button pButton pRipple icon="pi pi-trash" id="familyDetailsRemove-Btn"
+                                class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
+                                *ngIf="!familyData.familyInformationId" (click)="removeRow(familyDataIndex)"></button>
+                        </div>
                     </td>
                     <td *ngFor="let col of headers"
                         [ngClass]="col?.field == 'isNominee' || col?.field == 'name'  ||col?.field == 'adhaarNo'  ||  col?.field == 'panno'  || col?.field == 'mobileNumber'||col?.field == 'relationshipId'|| col?.field == 'addressId' ? 'text-center' : ''">
