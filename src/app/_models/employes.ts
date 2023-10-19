@@ -350,6 +350,7 @@ export class EmployeeLeaveDto {
 	fromDate?: Date;
 	toDate?: Date;
 	leaveTypeId?: number;
+	leaveType?:string;
 	note?: string;
 	acceptedBy?: string;
 	acceptedAt?: Date;

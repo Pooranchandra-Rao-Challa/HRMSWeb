@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { LookupService } from 'src/app/_services/lookup.service';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { EmployeAdressViewDto, FamilyDetailsViewDto } from 'src/app/_models/employes';
+import { EmployeAdressViewDto} from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { MIN_AADHAAR, MIN_LENGTH_2, RG_AADHAAR, RG_PANNO, RG_PHONE_NO } from 'src/app/_shared/regex';
 import { ActivatedRoute } from '@angular/router';
@@ -67,6 +67,8 @@ export class FamilydetailsDialogComponent {
     initGetAddress(isbool: boolean) {
         this.employeeService.GetAddresses(this.employeeId, isbool).subscribe((resp) => {
             this.address = resp as unknown as EmployeAdressViewDto[];
+            console.log(this.address );
+            
         });
     }
 

@@ -41,14 +41,13 @@ export class OnboardingemployeesComponent {
   ]
 
   showDialog() {
-    this.router.navigate(['basicdetails'], { queryParams: { 'employeeId':this.employeeId}, relativeTo: this.route })
+    this.router.navigate(['basicdetails'], { queryParams: { 'employeeId': this.employeeId }, relativeTo: this.route })
     this.visible = true;
   }
 
-
   constructor(private securityService: SecurityService,
     private router: Router,
-    private route: ActivatedRoute,   
+    private route: ActivatedRoute,
     private jwtService: JwtService,
     private EmployeeService: EmployeeService,
     private onboardEmployeeService: OnboardEmployeeService

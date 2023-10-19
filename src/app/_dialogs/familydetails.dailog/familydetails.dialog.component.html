@@ -46,8 +46,13 @@
                     <div class="field col-12 md:col-4">
                         <label>Address:</label>
                         <p-dropdown id="address_dropdown" formControlName="addressId" [autoDisplayFirst]="false"
-                            placeholder="Select Address" optionLabel="addressLine1" [options]="address"
-                            optionValue="addressId"></p-dropdown>
+                            placeholder="Select Address" optionLabel="addressLine1" [options]="address" appendTo="body" 
+                            optionValue="addressId">
+                            <ng-template let-address pTemplate="item">
+                                {{ address.addressLine1 }},{{ address.addressLine2 }},<br>
+                                {{ address.landmark }},{{address.city }},<br>
+                                {{address.state}},{{address.zipCode}},{{address.country}}
+                            </ng-template></p-dropdown>
                     </div>
                     <div class="field col-12 md:col-4">
                         <label class="required">DOB:</label>
@@ -151,6 +156,6 @@
 </div>
 
 <div class=" footer dialog-footer">
-    <p-button type="button" label="Submit" (click)="saveFamilyDetails()" [disabled]="!fbfamilyDetails.valid"
+    <p-button type="button" label="Save Family Details" (click)="saveFamilyDetails()" [disabled]="!fbfamilyDetails.valid"
         class="p-element p-ripple p-button-primary  p-component m-2 p-2"></p-button>
 </div>
