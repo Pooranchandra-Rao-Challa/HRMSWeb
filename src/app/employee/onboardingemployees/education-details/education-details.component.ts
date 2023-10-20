@@ -165,7 +165,6 @@ export class EducationDetailsComponent implements OnInit {
   }
 
   generaterow(educationDetails: EducationDetailsDto = new EducationDetailsDto()): FormGroup {
-    debugger
     const formGroup = this.formbuilder.group({
       educationDetailId: educationDetails.educationDetailId,
       employeeId: educationDetails.employeeId,
