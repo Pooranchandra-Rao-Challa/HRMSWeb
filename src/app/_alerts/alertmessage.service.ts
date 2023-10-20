@@ -158,7 +158,7 @@ export const ALERT_CODES: { [key: string]: string } = {
     //Enroll Employee
 
     'SEE001': 'Employee Enrolled Successfully',
-    'SEE002': 'Employee Not Enrolled Please Enter required fields',
+    'SEE002': 'Employee Not Enrolled Please Enter Valid Name',
     //Experience Details
     'SED001': 'Experience Details Added Successfully',
     'SED002': 'Experience Details Not Added',
