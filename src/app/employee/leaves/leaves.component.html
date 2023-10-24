@@ -17,7 +17,7 @@
             [alwaysShowPaginator]="false" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
             [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
             [showCurrentPageReport]="true" [globalFilterFields]="globalFilterFields" paginatorDropdownAppendTo="body"
-            [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]" [style]="{width: 'auto'}">
+            scrollDirection="horizontal" [rowsPerPageOptions]="[10,25,50]" [tableStyle]="{ width: 'max-content'}">
             <ng-template pTemplate="caption">
                 <div class="flex justify-content-between flex-column sm:flex-row">
                     <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
@@ -37,7 +37,9 @@
                         </p-columnFilter>
                         <p-sortIcon [field]="col.header"></p-sortIcon>
                     </th>
-                    <th *ngIf="permissions?.CanManageLeave"> Actions </th>
+                    <th *ngIf="permissions?.CanManageLeave" pFrozenColumn
+                    alignFrozen="right"
+                    [frozen]="true"> Actions </th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-leave>
@@ -69,7 +71,9 @@
                             </ng-template>
                         </span>
                     </td>
-                    <td *ngIf="permissions?.CanManageLeave">
+                    <td *ngIf="permissions?.CanManageLeave" pFrozenColumn
+                    alignFrozen="right"
+                    [frozen]="true">
                         <div class="flex" *ngIf="leave.rejected === null">
                             <button pButton pRipple icon="pi pi-check" id="Leave_Approved_Button"
                                 class="p-element p-ripple  p-button  p-button-outlined p-button-success mr-3 p-0"
@@ -104,13 +108,14 @@
         </div>
     </div>
     <ng-template pTemplate="footer">
-        <div class="grid gap-2" style="float:right;">
+        <div class="grid" >
+            <div class="col-2"></div>
             <div class="col-4">
-                <button pButton pRipple label="Yes" id="Leave_Approve_Rejected_Button" class="p-button-primary p-mr-2"
+                <button pButton pRipple label="Yes" id="Leave_Approve_Rejected_Button" icon="pi pi-check" class="p-button-success w-100"
                     (click)="processLeave()"></button>
             </div>
             <div class="col-4">
-                <button pButton pRipple label="No" id="Leave_Approve_Rejected_Button" class="p-button-primary p-mr-2"
+                <button pButton pRipple label="No" id="Leave_Approve_Rejected_Button" icon="pi pi-times" class="p-button-primary w-100"
                     (click)="onClose()"></button>
             </div>
         </div>
