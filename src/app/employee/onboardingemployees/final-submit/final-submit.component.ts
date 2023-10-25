@@ -37,7 +37,6 @@ export class FinalSubmitComponent {
     const isEnrolled = false;
     this.employeeService.GetEmployees(isEnrolled).subscribe(resp => {
       this.employees = resp
-      console.log(this.employees)
     });
   }
 
@@ -47,7 +46,6 @@ export class FinalSubmitComponent {
       this.employees = resp
       this.dialog = true;
       this.employeeObj = this.employees.find(x => x.employeeId == this.employeeId);
-      console.log(this.employeeObj)
       if (this.employeeObj.pendingDetails == "BankDetails, FamilyInformation" || this.employeeObj.pendingDetails == "BankDetails" || this.employeeObj.pendingDetails == "FamilyInformation") {
         this.displayDialog = true;
         this.onSubmit();
