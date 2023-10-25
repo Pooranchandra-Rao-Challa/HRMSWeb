@@ -68,6 +68,8 @@ export const UNASSIGNED_EMPLOYEE_URI = "Admin/InactiveProjectAllotment";
 
 
 //EMPLOYEE
+
+export const GET_EMPLOYEE_ROLES_INFO="Admin/GetERoles";
 export const GET_EMPLOYEES_URI = "Employee/GetEmployeeDetails";
 export const CREATE_BASIC_DETAILS_URI = "Employee/CreateEmployeeBasicDetails";
 export const CREATE_EDUCATION_DETAILS_URI ="Employee/UpdateEducationDetails";
