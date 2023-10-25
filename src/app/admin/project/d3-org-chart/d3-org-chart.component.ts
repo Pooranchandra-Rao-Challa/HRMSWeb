@@ -150,7 +150,7 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
         //   .compactMarginBetween((d) => 75)
         //   .compactMarginPair((d) => 80)
             .svgWidth(500)
-            .initialZoom(0.6)
+            .initialZoom(0.4)
             .onNodeClick(d => console.log(d + ' node clicked'))
             .render();
     }
