@@ -74,16 +74,16 @@
                 <div class="field col-12 md:col-4">
                   <label class="required">Start Date:
                   </label>&nbsp; <p-calendar inputId="calendar" [readonlyInput]="true" [showIcon]="true"
-                    [ngClass]="{ 'is-invalid ng-dirty': projectFormControls['startDate'].touched &&projectFormControls['startDate'].errors }"
+                    [ngClass]="{ 'is-invalid ng-dirty': projectFormControls['InceptionAt'].touched &&projectFormControls['InceptionAt'].errors }"
                     yearRange="2000:2030" id="startDate" placeholder="Select Start Date" mask="99/99/9999"
-                    formControlName="startDate">
+                    formControlName="InceptionAt">
                   </p-calendar>
                   <div class="flex">
                     <div class="align-left w-60" style="width:70%">
                       <span
-                        *ngIf="projectFormControls['startDate'].touched && projectFormControls['startDate'].invalid">
+                        *ngIf="projectFormControls['InceptionAt'].touched && projectFormControls['InceptionAt'].invalid">
                         <div class="ng-invalid ng-touched p-error"
-                          *ngIf="projectFormControls['startDate'].errors?.['required']">
+                          *ngIf="projectFormControls['InceptionAt'].errors?.['required']">
                           Please Select Start Date.</div>
                       </span>
                     </div>
