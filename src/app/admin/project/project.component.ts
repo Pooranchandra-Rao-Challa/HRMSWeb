@@ -8,99 +8,98 @@ import { AdminService } from 'src/app/_services/admin.service';
 import { JwtService } from 'src/app/_services/jwt.service';
 import { MAX_LENGTH_20, MAX_LENGTH_21, MAX_LENGTH_256, MAX_LENGTH_50, MIN_LENGTH_2, MIN_LENGTH_20, MIN_LENGTH_21, MIN_LENGTH_4, RG_ALPHA_NUMERIC, RG_EMAIL, RG_PHONE_NO } from 'src/app/_shared/regex';
 import { TreeNode } from 'primeng/api';
-import { dE } from '@fullcalendar/core/internal-common';
 import * as go from 'gojs';
-import { OrgChart } from "d3-org-chart";
-import * as d3 from 'd3';
 import { CompanyHierarchyViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { D3OrgChartComponent } from './d3-org-chart/d3-org-chart.component';
-import { LOGIN_URI } from 'src/app/_services/api.uri.service';
 interface AutoCompleteCompleteEvent {
-  originalEvent: Event;
-  query: string;
+    originalEvent: Event;
+    query: string;
 }
+
+
+
+
 @Component({
-  selector: 'app-project',
-  templateUrl: './project.component.html',
-  styles: ['']
+    selector: 'app-project',
+    templateUrl: './project.component.html',
+    styles: ['']
 })
 export class ProjectComponent implements OnInit {
-  data: null;
-  employees: EmployeesList[] = [];
-  projects: ProjectViewDto[] = [];
-  clientsNames: ClientNamesDto[] = [];
-  Employees: EmployeesList[] = [];
-  clientDetails: ClientDetailsDto;
-  visible: boolean = false;
-  filteredClients: any;
-  fbUnAssignEmployee!: FormGroup;
-  fbproject!: FormGroup;
-  maxLength: MaxLength = new MaxLength();
-  dialog1: boolean;
-  dialog: boolean;
-  permission: any;
-  addFlag: boolean = true;
-  submitLabel!: string;
-  projectDetails: any = {};
-  selectedFileBase64: string | null = null; // To store the selected file as base64
-  companyHierarchy: CompanyHierarchyViewDto[] = [];
+    data: null;
+    private diagram: go.Diagram;
+    employees: EmployeesList[] = [];
+    projects: ProjectViewDto[] = [];
+    clientsNames: ClientNamesDto[] = [];
+    Employees: EmployeesList[] = [];
+    clientDetails: ClientDetailsDto;
+    visible: boolean = false;
+    filteredClients: any;
+    fbUnAssignEmployee!: FormGroup;
+    fbproject!: FormGroup;
+    maxLength: MaxLength = new MaxLength();
+    imageSize: any;
+    dialog1: boolean;
+    dialog: boolean;
+    permission: any;
+    addFlag: boolean = true;
+    submitLabel!: string;
+    minDateVal = new Date();
+    projectDetails: any = {};
+    selectedFileBase64: string | null = null; // To store the selected file as base64
+    companyHierarchy: CompanyHierarchyViewDto[] = [];
 
+    projectTreeData: TreeNode[];
+    rootProject: TreeNode = {
+        type: 'person',
+        styleClass: ' text-orange',
+        expanded: true,
+        data: {
+            image: 'https://media.licdn.com/dms/image/C4D0BAQG7ReG72NaW1w/company-logo_200_200/0/1609833020211?e=2147483647&v=beta&t=s9wvhPXLVPXl7wY464a0BF69Qwpf3xqa2n4hf-GMRG0',
+            name: 'Calibrage',
+        },
+    };
 
-  projectTreeData: TreeNode[];
-  rootProject: TreeNode = {
-    type: 'person',
-    styleClass: ' text-orange',
-    expanded: true,
-    data: {
-      image: 'https://media.licdn.com/dms/image/C4D0BAQG7ReG72NaW1w/company-logo_200_200/0/1609833020211?e=2147483647&v=beta&t=s9wvhPXLVPXl7wY464a0BF69Qwpf3xqa2n4hf-GMRG0',
-      name: 'Calibrage',
-    },
-  };
+    preparOrgHierarchy() {
 
-  constructor(private formbuilder: FormBuilder, private adminService: AdminService, private employeeService: EmployeeService, private alertMessage: AlertmessageService,
-    private jwtService: JwtService) { }
+    }
+    constructor(private formbuilder: FormBuilder, private adminService: AdminService,
+        private employeeService: EmployeeService, private alertMessage: AlertmessageService,
+        private jwtService: JwtService) { }
 
-  ngOnInit() {
-    this.permission = this.jwtService.Permissions;
-    this.projectForm();
-    this.initProjects();
-    this.initClientNames();
-    this.initEmployees();
-    this.unAssignEmployeeForm();
-
-    this.employeeService.getCompanyHierarchy().subscribe((resp) => {
-      this.companyHierarchy = resp as unknown as CompanyHierarchyViewDto[];
-    });
-    this.employeeService.getCompanyHierarchy().subscribe((resp) => {
-      this.companyHierarchy = resp as unknown as CompanyHierarchyViewDto[];
-    });
-  }
-  projectForm() {
-    this.fbproject = this.formbuilder.group({
-      clientId: [0],
-      projectId: [null],
-      isActive: [true, [Validators.required]],
-      code: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_4), Validators.maxLength(MAX_LENGTH_20)]),
-      name: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
-      startDate: new FormControl('', [Validators.required]),
-      description: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
-      logo: [],
-      clients: this.formbuilder.group({
-        clientId: [],
-        isActive: [true, [Validators.required]],
-        companyName: new FormControl(null, [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
-        Name: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
-        email: new FormControl('', [Validators.required, Validators.pattern(RG_EMAIL),]),
-        mobileNumber: new FormControl('', [Validators.required, Validators.pattern(RG_PHONE_NO)]),
-        cinno: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_21), Validators.maxLength(MAX_LENGTH_21)]),
-        pocName: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
-        pocMobileNumber: new FormControl('', [Validators.required, Validators.pattern(RG_PHONE_NO)]),
-        address: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
-      }),
-      projectAllotments: new FormControl([])
-    });
-  }
+    ngOnInit() {
+        this.permission = this.jwtService.Permissions;
+        this.projectForm();
+        this.initProjects();
+        this.initClientNames();
+        this.initEmployees();
+        this.unAssignEmployeeForm();
+    }
+    projectForm() {
+        this.fbproject = this.formbuilder.group({
+            clientId: [0],
+            projectId: [0],
+            isActive: ['', [Validators.required]],
+            code: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_4), Validators.maxLength(MAX_LENGTH_20)]),
+            name: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
+            InceptionAt: new FormControl('', [Validators.required]),
+            description: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
+            logo: [],
+            clients: this.formbuilder.group({
+                clientId: [],
+                isActive: ['', [Validators.required]],
+                companyName: new FormControl(null, [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
+                Name: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
+                email: new FormControl('', [Validators.required]),
+                mobileNumber: new FormControl('', [Validators.required, Validators.pattern(RG_PHONE_NO)]),
+                cinno: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_20), Validators.maxLength(MAX_LENGTH_50)]),
+                pocName: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
+                pocMobileNumber: new FormControl('', [Validators.required, Validators.pattern(RG_PHONE_NO)]),
+                address: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
+            }),
+            ProjectAllotments: new FormControl()
+        });
+    }
 
   unAssignEmployeeForm() {
     this.fbUnAssignEmployee = this.formbuilder.group({
@@ -158,18 +157,18 @@ export class ProjectComponent implements OnInit {
     });
   }
 
-  showProjectDetailsDialog(projectDetails: ProjectViewDto) {
-    this.visible = true;
-    this.projectDetails = projectDetails;
-  }
+    showProjectDetailsDialog(projectDetails: ProjectViewDto) {
+        this.visible = true;
+        this.projectDetails = projectDetails;
+    }
 
-  hierarchialDialog(node) {
-    this.projects.filter(element => {
-      if (element.name == node.data.name) {
-        this.showProjectDetailsDialog(element);
-      }
-    })
-  }
+    hierarchialDialog(node) {
+        this.projects.filter(element => {
+            if (element.name == node.data.name) {
+                this.showProjectDetailsDialog(element);
+            }
+        })
+    }
 
   initProject(project: ProjectViewDto) {
     this.projectForm();
@@ -220,19 +219,19 @@ export class ProjectComponent implements OnInit {
     this.editEmployee(projectDetails);
   }
 
-  onAutocompleteSelect(selectedOption: ClientNamesDto) {
-    this.adminService.GetClientDetails(selectedOption.clientId).subscribe(resp => {
-      this.clientDetails = resp[0];
-      this.fcClientDetails.get('clientId')?.setValue(this.clientDetails.clientId);
-      this.fcClientDetails.get('Name')?.setValue(this.clientDetails.clientName);
-      this.fcClientDetails.get('email')?.setValue(this.clientDetails.email);
-      this.fcClientDetails.get('mobileNumber')?.setValue(this.clientDetails.mobileNumber);
-      this.fcClientDetails.get('cinno')?.setValue(this.clientDetails.cinno);
-      this.fcClientDetails.get('pocName')?.setValue(this.clientDetails.pocName);
-      this.fcClientDetails.get('pocMobileNumber')?.setValue(this.clientDetails.pocMobileNumber);
-      this.fcClientDetails.get('address')?.setValue(this.clientDetails.address);
-    })
-  }
+    onAutocompleteSelect(selectedOption: ClientNamesDto) {
+        this.adminService.GetClientDetails(selectedOption.clientId).subscribe(resp => {
+            this.clientDetails = resp[0];
+            this.fcClientDetails.get('clientId')?.setValue(this.clientDetails.clientId);
+            this.fcClientDetails.get('Name')?.setValue(this.clientDetails.clientName);
+            this.fcClientDetails.get('email')?.setValue(this.clientDetails.email);
+            this.fcClientDetails.get('mobileNumber')?.setValue(this.clientDetails.mobileNumber);
+            this.fcClientDetails.get('cinno')?.setValue(this.clientDetails.cinno);
+            this.fcClientDetails.get('pocName')?.setValue(this.clientDetails.pocName);
+            this.fcClientDetails.get('pocMobileNumber')?.setValue(this.clientDetails.pocMobileNumber);
+            this.fcClientDetails.get('address')?.setValue(this.clientDetails.address);
+        })
+    }
 
   saveProject() {
     this.fbproject.get('startDate').setValue( FORMAT_DATE(new Date(this.fbproject.get('startDate').value)))
@@ -247,48 +246,48 @@ export class ProjectComponent implements OnInit {
     }
   }
 
-  isUniqueProjectCode() {
-    const existingLookupCodes = this.projects.filter(project =>
-      project.code === this.fbproject.get('code').value &&
-      project.projectId !== this.fbproject.get('projectId').value
-    )
-    return existingLookupCodes.length > 0;
-  }
+    isUniqueProjectCode() {
+        const existingLookupCodes = this.projects.filter(project =>
+            project.code === this.fbproject.get('code').value &&
+            project.projectId !== this.fbproject.get('projectId').value
+        )
+        return existingLookupCodes.length > 0;
+    }
 
-  isUniqueLookupName() {
-    const existingLookupNames = this.projects.filter(project =>
-      project.name === this.fbproject.get('name').value &&
-      project.projectId !== this.fbproject.get('projectId').value
-    )
-    return existingLookupNames.length > 0;
-  }
+    isUniqueLookupName() {
+        const existingLookupNames = this.projects.filter(project =>
+            project.name === this.fbproject.get('name').value &&
+            project.projectId !== this.fbproject.get('projectId').value
+        )
+        return existingLookupNames.length > 0;
+    }
 
-  onSubmit() {
-    if (this.fbproject.valid) {
-      if (this.addFlag) {
-        if (this.isUniqueProjectCode()) {
-          this.alertMessage.displayErrorMessage(
-            `Lookup Code :"${this.fbproject.value.code}" Already Exists.`
-          );
-        } else if (this.isUniqueLookupName()) {
-          this.alertMessage.displayErrorMessage(
-            `Lookup Name :"${this.fbproject.value.name}" Already Exists.`
-          );
-        } else {
-          this.save();
+    onSubmit() {
+        if (this.fbproject.valid) {
+            if (this.addFlag) {
+                if (this.isUniqueProjectCode()) {
+                    this.alertMessage.displayErrorMessage(
+                        `Lookup Code :"${this.fbproject.value.code}" Already Exists.`
+                    );
+                } else if (this.isUniqueLookupName()) {
+                    this.alertMessage.displayErrorMessage(
+                        `Lookup Name :"${this.fbproject.value.name}" Already Exists.`
+                    );
+                } else {
+                    this.save();
+                }
+            } else {
+                this.save();
+            }
         }
-      } else {
-        this.save();
-      }
+        else {
+            this.fbproject.markAllAsTouched();
+        }
     }
-    else {
-      this.fbproject.markAllAsTouched();
-    }
-  }
 
-  getSelectedItemName(item: { clientId: number; companyName: string }) {
-    this.fcClientDetails.get('companyName')?.setValue(item.companyName);
-  }
+    getSelectedItemName(item: { clientId: number; companyName: string }) {
+        this.fcClientDetails.get('companyName')?.setValue(item.companyName);
+    }
 
   onFileSelect(event: any): void {
     const selectedFile = event.files[0];
@@ -331,14 +330,14 @@ export class ProjectComponent implements OnInit {
     return this.fbproject.get('clients') as FormGroup;
   }
 
-  convertToTreeNode(projects: any[]): TreeNode[] {
-    return projects.map((project) => ({
-      type: 'person',
-      styleClass: 'hirarchi_parent text-white',
-      expanded: false,
-      data: {
-        image: project.logo,
-        name: project.name,
+    convertToTreeNode(projects: any[]): TreeNode[] {
+        return projects.map((project) => ({
+            type: 'person',
+            styleClass: 'hirarchi_parent text-white',
+            expanded: false,
+            data: {
+                image: project.logo,
+                name: project.name,
 
       },
       children: [
