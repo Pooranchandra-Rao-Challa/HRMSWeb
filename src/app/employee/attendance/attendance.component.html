@@ -21,6 +21,7 @@
                 <div style="margin-bottom: 15px;">
                     <label class="required">Leave Type:</label>&nbsp;
                     <p-dropdown formControlName="leaveTypeId" [options]="LeaveTypes" optionLabel="name"
+                        [ngClass]="{ 'is-invalid ng-dirty': FormControls['leaveTypeId'].touched && FormControls['leaveTypeId'].errors }"
                         (onChange)="checkLeaveType()" id="Attendance_leaveType" optionValue="lookupDetailId"
                         placeholder="Select Leave Type"></p-dropdown>
                     <div class="flex">
@@ -111,7 +112,7 @@
             <input pInputText type="text" class="w-full" placeholder="Employee Name" #filter
                 id="Attendance_globalSearch" (input)="onGlobalFilter(dt1, $event)" />
         </div>
-        <div>
+        <div *ngIf="permissions?.CanManageAttendance">
             <button pButton pRipple label="Add Attendance" id="AddressDetails-Btn" icon="pi pi-plus"
                 id="Attendance_addAttendance" class="p-button-primary p-mr-2"
                 (click)="showConfirmationDialog()"></button>

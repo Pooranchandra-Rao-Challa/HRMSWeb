@@ -54,6 +54,7 @@
         </div>
         <button pButton pRipple icon="pi pi-pencil" id="basic_details"
           class="p-element p-ripple p-button-text p-button p-component mr-2 float-button"
+          *ngIf="permissions?.CanManageEmployee"
           (click)="openComponentDialog(basicdetailsDialogComponent, employeePrsDtls, ActionTypes.save)"></button>
       </div>
     </div>
@@ -64,6 +65,7 @@
           <h5 class="col-12"> Office Details </h5>
           <button pButton pRipple icon="pi pi-pencil" type="button" id="office_details"
             class="p-element p-ripple p-button-text p-button p-component mr-2 float-button"
+            *ngIf="permissions?.CanManageEmployee"
             (click)="openComponentDialog(officedetailsDialogComponent,employeeofficeDtls,ActionTypes.save)"></button>
           <div class="col-12">
             <span class="text-primary font-bold text-900">Time In:</span> {{employeeofficeDtls?.timeIn}}
@@ -102,6 +104,7 @@
         <div class="col-12 lg:col-12 m-0 p-3 pb-1">
           <div class="card text-right m-0 p-3">
             <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-outline p-button p-component "
+              *ngIf="permissions?.CanManageEmployee"
               (click)="openComponentDialog(educationdetailsDialogComponent,educationDetails,ActionTypes.save)">
               &nbsp; Add / Edit </button>
           </div>
@@ -137,7 +140,7 @@
         <div class="col-12 lg:col-12 m-0 p-3 pb-1">
           <div class="card text-right m-0 p-3">
             <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-outline p-button p-component "
-              id="add"
+              id="add" *ngIf="permissions?.CanManageEmployee"
               (click)="openComponentDialog(experiencedetailsDialogComponent, workExperience, ActionTypes.save)">
               &nbsp; Add / Edit </button>
           </div>
@@ -170,6 +173,7 @@
         <div class="col-12 lg:col-12 m-0 p-3 pb-1">
           <div class="card text-right m-0 p-3">
             <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-outline p-button p-component"
+              *ngIf="permissions?.CanManageEmployee"
               (click)="openComponentDialog(uploadDocumentsDialogComponent, null, ActionTypes.add)">&nbsp; Upload
               Document
             </button>
@@ -209,6 +213,7 @@
             </div>
             <div class="col-12 lg:col-6 text-right m-0 p-3 pb-1" *ngIf="!isAddressChecked">
               <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-outline p-button p-component"
+                *ngIf="permissions?.CanManageEmployee"
                 (click)="openComponentDialog(AddressDialogComponent, null, ActionTypes.add)">
                 &nbsp; Add Address Details </button>
             </div>
@@ -218,10 +223,12 @@
           <div class="col-12 lg-4 p-2 pl-0 pr-3" *ngIf="isAddressChecked || newadredss.isActive">
             <div class="card ">
               <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2 position-relative">
+                <div  *ngIf="permissions?.CanManageEmployee">
                 <button pButton pRipple icon="pi pi-pencil"
                   class="p-element p-ripple p-button-text p-button p-component right-float-button"
                   (click)="openComponentDialog(AddressDialogComponent, newadredss, ActionTypes.edit)"
                   *ngIf="newadredss.isActive"></button>
+                </div>
                 {{ newadredss.addressType }}
               </div>
               {{ newadredss.employeeName }}, {{ newadredss.addressLine1 }}, {{ newadredss.landmark }},{{ newadredss.city
@@ -240,6 +247,7 @@
         <div class="col-12 lg:col-12 m-0 p-3 pb-1">
           <div class="card text-right m-0 p-3">
             <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-outline p-button p-component"
+              *ngIf="permissions?.CanManageEmployee"
               (click)="openComponentDialog(FamilydetailsDialogComponent, null, ActionTypes.add)">
               &nbsp; Add Family Details</button>
           </div>
@@ -247,7 +255,7 @@
         <div class="col-12 lg:col-4" *ngFor="let familyDetails of familyDetails; let i = index">
           <div class="card">
             <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2 position-relative">
-              <button pButton pRipple icon="pi pi-pencil"
+              <button pButton pRipple icon="pi pi-pencil" *ngIf="permissions?.CanManageEmployee"
                 class="p-element p-ripple p-button-text p-button p-component right-float-button"
                 (click)="openComponentDialog(FamilydetailsDialogComponent, familyDetails, ActionTypes.edit)"></button>{{familyDetails.name}}
             </div>
@@ -283,6 +291,7 @@
         <div class="col-12 lg:col-12 m-0 p-3 pb-1">
           <div class="card text-right m-0 p-3">
             <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-outline p-button p-component"
+              *ngIf="permissions?.CanManageEmployee"
               (click)="openComponentDialog(addassetallotmentDialogComponent, null, ActionTypes.add)">
               &nbsp; Assign </button>
           </div>
@@ -308,6 +317,7 @@
         <div class="col-12 lg:col-12 m-0 p-3 pb-1">
           <div class="card text-right m-0 p-3">
             <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-outline p-button p-component"
+              *ngIf="permissions?.CanManageEmployee"
               (click)="openComponentDialog(BankdetailsDialogComponent, null, ActionTypes.add)">
               &nbsp; Add Bank Details </button>
           </div>
@@ -315,7 +325,7 @@
         <div class="col-12 lg:col-4" *ngFor="let bank of bankDetails; let i = index">
           <div class="card">
             <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2 position-relative">
-              <button pButton pRipple icon="pi pi-pencil"
+              <button pButton pRipple icon="pi pi-pencil" *ngIf="permissions?.CanManageEmployee"
                 class="p-element p-ripple p-button-text p-button p-component right-float-button"
                 (click)="openComponentDialog(BankdetailsDialogComponent, bank, ActionTypes.edit)"></button>{{bank.bankName}}
             </div>

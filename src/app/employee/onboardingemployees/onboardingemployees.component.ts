@@ -38,21 +38,16 @@ export class OnboardingemployeesComponent {
     { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
     { field: 'gender', header: 'gender', label: 'Gender' },
     { field: 'mobileNumber', header: 'mobileNumber', label: 'Phone No' },
-    // { field: 'code', header: 'code', label: 'Employee Code' },
-    // { field: 'employeeRoleName', header: 'employeeRoleName', label: 'Designation' },
-    // { field: 'officeEmailId', header: 'officeEmailId', label: 'Email' },   
-    // { field: 'dateofJoin', header: 'dateofJoin', label: 'Date of Join' },
   ]
 
   showDialog() {
-    this.router.navigate(['basicdetails'], { queryParams: { 'employeeId':this.employeeId}, relativeTo: this.route })
+    this.router.navigate(['basicdetails'], { queryParams: { 'employeeId': this.employeeId }, relativeTo: this.route })
     this.visible = true;
   }
 
-
   constructor(private securityService: SecurityService,
     private router: Router,
-    private route: ActivatedRoute,   
+    private route: ActivatedRoute,
     private jwtService: JwtService,
     private EmployeeService: EmployeeService,
     private onboardEmployeeService: OnboardEmployeeService

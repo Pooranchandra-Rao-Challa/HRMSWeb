@@ -3,7 +3,7 @@
         <div class="col-12 roles-container">
             <div id="hrms" class="p-fluid p-formgrid grid content_scroll">
                 <div class="field col-12 md:col-4">
-                    <label class="required">First Name</label>
+                    <label class="required">First Name:</label>
                     <input type="text" id="first_Name" pInputText placeholder="Enter First Name"
                         formControlName="firstName" #firstname alphaOnly [maxlength]="50"
                         (keydown)="restrictSpaces($event)"
@@ -25,7 +25,7 @@
                     </div>
                 </div>
                 <div class="field col-12 md:col-4">
-                    <label>Middle Name</label>
+                    <label>Middle Name:</label>
                     <input type="text" id="middle_Name" pInputText placeholder="Enter Middle Name"
                         formControlName="middleName" #middlename alphaOnly [maxlength]="50"
                         (keydown)="restrictSpaces($event)"
@@ -45,7 +45,7 @@
                     </div>
                 </div>
                 <div class="field col-12 md:col-4">
-                    <label class="required">Last Name</label>
+                    <label class="required">Last Name:</label>
                     <input type="text" id="last_Name" pInputText placeholder="Enter Last Name"
                         formControlName="lastName" #lastname alphaOnly [maxlength]="50"
                         (keydown)="restrictSpaces($event)"
@@ -67,7 +67,7 @@
                     </div>
                 </div>
                 <div class="field col-12 md:col-4">
-                    <label class="required">Gender</label>
+                    <label class="required">Gender:</label>
                     <p-dropdown id="gender_dropdown" placeholder="Select Gender" [autoDisplayFirst]="false"
                         [options]="genders" optionLabel="name" formControlName="gender" optionValue="name"
                         appendTo="body"
@@ -85,7 +85,7 @@
                     </div>
                 </div>
                 <div class="field col-12 md:col-4">
-                    <label class="required">Blood Group</label>
+                    <label class="required">Blood Group:</label>
                     <p-dropdown id="bloodgroup_dropdown" [autoDisplayFirst]="false" optionLabel="name"
                         [options]="bloodgroups" optionValue="lookupDetailId" formControlName="bloodGroupId"
                         appendTo="body" placeholder="Select Blood Group"
@@ -104,7 +104,7 @@
                     </div>
                 </div>
                 <div class="field col-12 md:col-4">
-                    <label class="required">Marital Status</label>
+                    <label class="required">Marital Status:</label>
                     <p-dropdown id="maritalStatus_dropdown" placeholder="Select Marital Status"
                         [autoDisplayFirst]="false" [options]="MaritalStatus" optionLabel="name"
                         formControlName="maritalStatus" optionValue="name" appendTo="body"
@@ -123,7 +123,7 @@
                     </div>
                 </div>
                 <div class="field col-12 md:col-4">
-                    <label class="required" for="inputtext3">Mobile No.</label>
+                    <label class="required" for="inputtext3">Mobile No:</label>
                     <input type="text" id="mobileno" placeholder="Enter Mobile Number" pInputText
                         formControlName="mobileNumber" #mobileNo numericOnly [maxlength]="10"
                         (keydown)="restrictSpaces($event)"
@@ -145,7 +145,7 @@
                     </div>
                 </div>
                 <div class="field col-12 md:col-4">
-                    <label>Alternative Mobile No.</label>
+                    <label>Alternative Mobile No:</label>
                     <input type="text" id="alternativePhoneNo" placeholder="Enter Alternative Mobile Number" pInputText
                         formControlName="alternateMobileNumber" #alternateNo numericOnly [maxlength]="10"
                         (keydown)="restrictSpaces($event)" />
@@ -164,7 +164,7 @@
                     </div>
                 </div>
                 <div class="field col-12 md:col-4">
-                    <label class="required">Original DOB</label>
+                    <label class="required">Original DOB:</label>
                     <p-calendar [readonlyInput]="true" placeholder="Select Original DOB" appendTo="body"
                         [showIcon]="true" id="original_dob" formControlName="originalDob" mask="99/99/9999" [maxDate]="maxDate"
                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['originalDob'].touched && FormControls['originalDob'].errors}">
@@ -181,7 +181,7 @@
                     </div>
                 </div>
                 <div class="field col-12 md:col-4">
-                    <label class="required">Certificate DOB</label>
+                    <label class="required">Certificate DOB:</label>
                     <p-calendar [readonlyInput]="true" placeholder="Select Certificate DOB" appendTo="body" 
                         [showIcon]="true" id="certificate_dob" mask="99/99/9999"
                         formControlName="certificateDob" [maxDate]="maxDate"
@@ -200,7 +200,7 @@
                     </div>
                 </div>
                 <div class="field col-12 md:col-4">
-                    <label class="required" for="inputtext">Email ID</label>
+                    <label class="required" for="inputtext">Email ID:</label>
                     <input type="text" id="email_Id" placeholder="Enter Email ID" pInputText formControlName="emailId"
                         #email
                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['emailId'].touched && FormControls['emailId'].errors }" />

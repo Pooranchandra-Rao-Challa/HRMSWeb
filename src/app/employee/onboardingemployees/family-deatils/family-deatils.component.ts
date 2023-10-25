@@ -29,6 +29,7 @@ export class FamilyDeatilsComponent implements OnInit {
   addFlag: boolean = true;
   empFamDetails: FamilyDetailsDto[] = [];
   maxDate: Date = new Date();
+  isNomineeTrue:Boolean = false;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -66,7 +67,7 @@ export class FamilyDeatilsComponent implements OnInit {
       adhaarNo: new FormControl('', [Validators.required,Validators.pattern(RG_AADHAAR)]),
       panno: new FormControl('', [Validators.pattern(RG_PANNO)]),
       mobileNumber: new FormControl('', [Validators.required, Validators.pattern(RG_PHONE_NO)]),
-      isNominee: new FormControl(true),
+      isNominee: new FormControl(false),
       familyDetails: this.formbuilder.array([])
     });
   }
@@ -87,12 +88,21 @@ export class FamilyDeatilsComponent implements OnInit {
   getFamilyDetails() {
     return this.employeeService.getFamilyDetails(this.employeeId).subscribe((data) => {
       this.empFamDetails = data as unknown as FamilyDetailsDto[];
+      this.isNomineeTrue = this.empFamDetails.some(item => item.isNominee === true);
+      if (this.isNomineeTrue) {
+        this.fbfamilyDetails.get('isNominee').disable();
+      }
     })
   }
   addFamilyMembers() {
     let famDetailId = this.fbfamilyDetails.get('familyInformationId').value
     if (famDetailId == null) {
       this.faFamilyDetail().push(this.generaterow(this.fbfamilyDetails.getRawValue()));
+      if(!this.isNomineeTrue){
+        if(this.fbfamilyDetails.get('isNominee').value){
+          this.fbfamilyDetails.get('isNominee').disable();
+        }
+      }
       for (let item of this.fbfamilyDetails.get('familyDetails').value) {
         if (item.relationshipId !== null && item.addressId !== null ) {
           let relationShipName = this.relationships.filter(x => x.lookupDetailId == item.relationshipId);
@@ -109,7 +119,6 @@ export class FamilyDeatilsComponent implements OnInit {
       }
       this.clearForm();
       this.addFlag = true;
-      this.fbfamilyDetails.get('isNominee').setValue(true);
     }
     else {
       this.addFlag = false;

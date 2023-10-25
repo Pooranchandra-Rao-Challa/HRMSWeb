@@ -28,7 +28,7 @@
                     <div class="field col-12 md:col-6">
                         <label class="required">Lookup Name: </label>&nbsp;
                         <p-dropdown id="lookupName_Not_Configured_Dropdown" appendTo="body" [autoDisplayFirst]="false"
-                            [options]="lookupNamesNotConfigured" formControlName="name"
+                            [options]="lookupNamesNotConfigured" formControlName="name" autoWidth="false" [style]="{'width':'100%'}"
                             [readonly]="FormControls['lookupId'].value!== null" placeholder="Select Lookup Name"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['name'].touched && FormControls['name'].errors }">
                         </p-dropdown>
@@ -44,10 +44,10 @@
                     </div>
                     <div class="field col-12 md:col-6" *ngIf="FormControls['fkeySelfId'].value!== null || addFlag">
                         <label>Dependent Lookup: </label>&nbsp;
-                        <p-dropdown id="lookupName_Dropdown" appendTo="body" [autoDisplayFirst]="false"
+                        <p-dropdown appendTo="body" id="lookupName_Dropdown" [autoDisplayFirst]="false"
                             optionLabel="name" optionValue="lookupId" [options]="lookupNamesConfigured"
-                            formControlName="fkeySelfId" (onChange)="onLookupChange($event)"
-                            placeholder="Select Dependent Lookup" [showClear]="true"
+                            formControlName="fkeySelfId" (onChange)="onLookupChange($event)" autoWidth="false" 
+                            placeholder="Select Dependent Lookup" [showClear]="FormControls['lookupId'].value == null ? true : false"
                             [readonly]="FormControls['lookupId'].value!== null">
                         </p-dropdown>
                     </div>

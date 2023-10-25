@@ -108,7 +108,7 @@
             <ng-template pTemplate="body" let-lookupDetails>
                 <tr>
                     <td *ngFor="let col of lookupDetailsHeader"
-                        [ngClass]="col?.field == 'isActive' ? 'text-center' : ''">
+                        [ngClass]="{'text-center': col.field === 'isActive', 'text-wrap': col.field === 'description'}">
                         <span
                             *ngIf="col?.field != 'createdAt' && col?.field != 'isActive'">{{lookupDetails[col.field]}}</span>
                         <span *ngIf="col?.field == 'createdAt' ">

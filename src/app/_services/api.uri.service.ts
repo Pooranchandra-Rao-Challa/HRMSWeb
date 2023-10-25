@@ -57,6 +57,7 @@ export const LOOKUP_NAMES_CONFIGURE_URI="Lookup/LookupNamesConfigured";
 // END LOOKUPS
 
 export const GET_PROJECTS_URI = "Admin/GetProjectDetails";
+export const GET_PROJECT_WITH_ID="Admin/GetProjectDetails"
 export const CREATE_PROJECT_URI = "Admin/CreateProjectWithDetails";
 export const UPDATE_PROJECT_URI = "Admin/UpdateProjectWithDetails";
 export const GET_CLIENTNAMES_URI = "Admin/GetClientNames";

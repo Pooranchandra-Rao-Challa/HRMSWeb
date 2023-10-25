@@ -2,10 +2,7 @@
   <form [formGroup]="fbEducationDetails">
     <div class="grid mt-3 p-5">
       <div class="col-12 roles-container">
-
         <div class="p-fluid p-formgrid grid">
-
-
           <div class=" col-12 md:col-4 text-right ">
             <div class=" button-container">
               <p-button type="button" label="Add Education Details" id="add_Education_Details"
@@ -20,14 +17,14 @@
               <ng-template pTemplate="header" let-education let-educationDetailsIndex="rowIndex">
                 <tr>
                   <th>Curriculum<sup class="p-error">*</sup></th>
-                  <th>Stream <sup class="p-error">*</sup></th>
-                  <th>Country <sup class="p-error">*</sup></th>
-                  <th>State <sup class="p-error">*</sup></th>
+                  <th>Stream<sup class="p-error">*</sup></th>
+                  <th>Country<sup class="p-error">*</sup></th>
+                  <th>State<sup class="p-error">*</sup></th>
                   <th>School/College Name</th>
-                  <th>Board/University Name <sup class="p-error">*</sup></th>
-                  <th>Year Of Pass <sup class="p-error">*</sup></th>
-                  <th>Grading System <sup class="p-error">*</sup></th>
-                  <th>CGPA/Percentage System <sup class="p-error">*</sup> </th>
+                  <th>Board/University Name<sup class="p-error">*</sup></th>
+                  <th>Year Of Passed Out<sup class="p-error">*</sup></th>
+                  <th>Grading System<sup class="p-error">*</sup></th>
+                  <th>CGPA/Percentage System<sup class="p-error">*</sup> </th>
                   <th *ngIf="fbEducationDetails.controls['educationDetails'].value.length > 1"></th>
                 </tr>
               </ng-template>
@@ -144,8 +141,8 @@
                     </div>
                   </td>
                   <td class="vertical-align-top">
-                    <p-calendar [showIcon]="true" formControlName="passedOutyear" id="passed_Out_year" appendTo="body" [maxDate]="currentDate"
-                      placeholder="Select Year of pass" [ngClass]="{'is-invalid ng-dirty': formArrayControls(educationDetailsIndex,'passedOutyear')?.touched &&
+                    <p-calendar [showIcon]="true" formControlName="passedOutyear" id="passed_Out_year" appendTo="body"
+                      [maxDate]="currentDate" placeholder="Select Year of passed Out" [ngClass]="{'is-invalid ng-dirty': formArrayControls(educationDetailsIndex,'passedOutyear')?.touched &&
                   formArrayControls(educationDetailsIndex,'passedOutyear')?.errors }"></p-calendar>
                     <div class="flex">
                       <div class="align-left w-60" style="width:70%">
@@ -153,7 +150,7 @@
                           *ngIf="formArrayControls(educationDetailsIndex,'passedOutyear').touched && formArrayControls(educationDetailsIndex,'passedOutyear').invalid">
                           <div class="ng-invalid ng-touched p-error"
                             *ngIf="formArrayControls(educationDetailsIndex,'passedOutyear').hasError('required')">
-                            Please Select Year of pass.
+                            Please Select Year of passed Out.
                           </div>
                         </span>
                       </div>
@@ -178,7 +175,7 @@
                   </td>
                   <td class="vertical-align-top">
                     <input pInputText class="form-control" formControlName="gradingValue" appNumericInput maxlength="3"
-                      #gradingValue placeholder="Enter CGPA/Percentage System" id="grading_Value"  [ngClass]="{'is-invalid ng-dirty': formArrayControls(educationDetailsIndex,'gradingValue')?.touched &&
+                      #gradingValue placeholder="Enter CGPA/Percentage System" id="grading_Value" [ngClass]="{'is-invalid ng-dirty': formArrayControls(educationDetailsIndex,'gradingValue')?.touched &&
                     formArrayControls(educationDetailsIndex,'gradingValue')?.errors }">
                     <div class="flex">
                       <div class="align-left w-60" style="width:70%">

@@ -7,7 +7,7 @@
             <div class="col-12 roles-container m-0 p-0">
                 <div class="p-fluid p-formgrid grid m-0 p-0">
                     <div class="field col-12 md:col-4">
-                        <label class="required">Family Member Name</label>
+                        <label class="required">Family Member Name:</label>
                         <input type="text" id="familyMembers_Name" pInputText placeholder="Enter Family Member Name"
                             formControlName="name" #name [maxlength]="50" alphaOnly (keydown)="restrictSpaces($event)"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['name'].touched && FormControls['name'].errors }" />
@@ -28,7 +28,7 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <label class="required">Relationship Type</label>
+                        <label class="required">Relationship Type:</label>
                         <p-dropdown id="relationship_dropdown" placeholder="Select Relationship Type"
                             [autoDisplayFirst]="false" optionLabel="name" appendTo="body" [options]="relationships"
                             optionValue="lookupDetailId" formControlName="relationshipId"
@@ -47,7 +47,7 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <label>Address</label>
+                        <label>Address:</label>
                         <p-dropdown id="address_dropdown" placeholder="Select Address" formControlName="addressId"
                             [autoDisplayFirst]="false" appendTo="body" optionLabel="addressLine1" [options]="address"
                             optionValue="addressId">
@@ -59,7 +59,7 @@
                         </p-dropdown>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <label class="required"> DOB</label>
+                        <label class="required"> DOB:</label>
                         <p-calendar appendTo="body" placeholder="Select DOB" [readonlyInput]="true" [showIcon]="true"
                             id="dob" #DOB mask="99/99/9999" formControlName="dob" [maxDate]="maxDate"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['dob'].touched && FormControls['dob'].errors }">
@@ -75,9 +75,10 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <label class="required">Aadhar No.</label>
+                        <label class="required">Aadhar No:</label>
                         <input type="text" id="aadhar_No" placeholder="Enter Aadhar Number" pInputText
-                            formControlName="adhaarNo" numericOnly [minLength]="12" [maxLength]="12" #aadharno [minLength]="12"
+                            formControlName="adhaarNo" numericOnly [minLength]="12" [maxLength]="12" #aadharno
+                            [minLength]="12"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['adhaarNo'].touched && FormControls['adhaarNo'].errors }" />
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
@@ -87,7 +88,8 @@
                                         Please Enter Aadhar No.</div>
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="FormControls['adhaarNo'].errors?.['pattern']">
-                                        Aadhar No Should not start with 0,Please Enter valid Aadhar No Ex:397788000234.</div>
+                                        Aadhar No Should not start with 0,Please Enter valid Aadhar No Ex:397788000234.
+                                    </div>
                                 </span>
                             </div>
                             <div class="align-right w-40" style="width:30%; text-align:right;">
@@ -96,7 +98,7 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <label>Pan No.</label>
+                        <label>Pan No:</label>
                         <input type="text" id="pan_No" placeholder="Enter PAN Number" pInputText formControlName="panno"
                             #panNo [maxLength]="10" alphaNumeric
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['panno'].touched && FormControls['panno'].errors }" />
@@ -117,7 +119,7 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <label class="required">Mobile No.</label>
+                        <label class="required">Mobile No:</label>
                         <input type="text" id="mobile_Number" placeholder="Enter Mobile Number" pInputText
                             formControlName="mobileNumber" #phoneNo numericOnly [maxLength]="10"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['mobileNumber'].touched && FormControls['mobileNumber'].errors }" />
@@ -139,8 +141,10 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <label class="required" for="is_Nominee" class="ml-3">Make him/her as Nominee</label>
-                        <p-checkbox [binary]="true" id="is_Nominee" class="mr-2" formControlName="isNominee">
+                        <label class="required" for="is_Nominee" class="ml-3">Make him/her as Nominee:</label>
+                        <br>
+                        <p-checkbox [pTooltip]="fbfamilyDetails.get('isNominee').value == true ? 'Employee Can Have Only One Nominee' : null"
+                            [binary]="true" id="is_Nominee" class="mr-2" formControlName="isNominee">
                         </p-checkbox>
                     </div>
                     <div class="d-flex flex-row justify-content-center col-12 md:col-4 mt-2">
@@ -172,13 +176,15 @@
             <ng-template pTemplate="body" let-familyData let-familyDataIndex="rowIndex">
                 <tr>
                     <td>
-                        <button pButton pRipple icon="pi pi-pencil" id="familyDetailsAdd-Btn"
-                            (click)="editFamilyDetails(familyData)"
-                            class="p-element p-ripple p-button-text p-button p-component mr-3  p-0">
-                        </button>
-                        <button pButton pRipple icon="pi pi-trash" id="familyDetailsRemove-Btn"
-                            class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
-                            (click)="removeRow(familyDataIndex)"></button>
+                        <div class="flex">
+                            <button pButton pRipple icon="pi pi-pencil" id="familyDetailsAdd-Btn"
+                                (click)="editFamilyDetails(familyData)"
+                                class="p-element p-ripple p-button-text p-button p-component mr-3  p-0">
+                            </button>
+                            <button pButton pRipple icon="pi pi-trash" id="familyDetailsRemove-Btn"
+                                class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
+                                *ngIf="!familyData.familyInformationId" (click)="removeRow(familyDataIndex)"></button>
+                        </div>
                     </td>
                     <td *ngFor="let col of headers"
                         [ngClass]="col?.field == 'isNominee' || col?.field == 'name'  ||col?.field == 'adhaarNo'  ||  col?.field == 'panno'  || col?.field == 'mobileNumber'||col?.field == 'relationshipId'|| col?.field == 'addressId' ? 'text-center' : ''">

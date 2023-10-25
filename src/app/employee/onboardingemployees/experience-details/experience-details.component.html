@@ -11,7 +11,7 @@
 
                 <div class="flex align-items-center">
                     <p-radioButton name="experienceDetails" id="Experience_isexperirenced" value="Experience"
-                        [(ngModel)]="this.selectedOption" [disabled]="this.empExperienceDetails[0]?.isAFresher===true" 
+                        [(ngModel)]="this.selectedOption" [disabled]="this.empExperienceDetails[0]?.isAFresher===true"
                         inputId="experience"></p-radioButton>
                     <label for="experience" class="ml-2">Experience</label>
                 </div>
@@ -31,7 +31,7 @@
                                 <div class="field col-12  m-0 md:col-4">
                                     <label class="required">Company Name:</label>&nbsp;
                                     <input pInputText id="Experience_companyname" type="text" #company alphaNumeric
-                                        formControlName="companyName"
+                                        formControlName="companyName" (keydown)="restrictSpaces($event)"
                                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['companyName'].touched && FormControls['companyName'].errors }"
                                         placeholder="Enter Company Name" [maxlength]="maxLength.name" />
                                     <div class="flex">
@@ -57,16 +57,16 @@
                                 <div class="field col-12 md:col-4">
                                     <label class="required">Location:</label>&nbsp;
                                     <input pInputText id="Experience_Location" type="text" #location
-                                        formControlName="companyLocation" alphaOnly
+                                        formControlName="companyLocation" alphaOnly (keydown)="restrictSpaces($event)"
                                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['companyLocation'].touched && FormControls['companyLocation'].errors }"
-                                        placeholder="Enter Company Location" [maxlength]="maxLength.name" />
+                                        placeholder="Enter Location" [maxlength]="maxLength.name" />
                                     <div class="flex">
                                         <div class="align-left w-60" style="width:70%">
                                             <span
                                                 *ngIf="FormControls['companyLocation'].touched && FormControls['companyLocation'].invalid">
                                                 <div class="ng-invalid ng-touched p-error"
                                                     *ngIf="FormControls['companyLocation'].errors?.['required']">
-                                                    Please Enter Company Location.</div>
+                                                    Please Enter Location.</div>
                                                 <div class="ng-invalid ng-touched p-error"
                                                     *ngIf="FormControls['companyLocation'].errors?.['minlength']">
                                                     CompanyLocation Min Characters Is 2.</div>
@@ -84,8 +84,8 @@
                                 <div class="field col-12 md:col-4">
                                     <label>Company EmpId:</label>&nbsp;
                                     <input pInputText id="Experience_EmpId" type="text" #empId alphaNumeric
-                                        formControlName="companyEmployeeId" placeholder="Enter Company Employee Id"
-                                        [maxlength]="maxLength.code" />
+                                        (keydown)="restrictSpaces($event)" formControlName="companyEmployeeId"
+                                        placeholder="Enter Company Employee Id" [maxlength]="maxLength.code" />
                                     <div class="flex">
                                         <div class="align-left w-60" style="width:70%">
                                             <span
@@ -106,7 +106,7 @@
                                 <div class="field col-12 md:col-4">
                                     <label class="required">Country:</label>&nbsp;
                                     <p-dropdown inputId="dropdown" id="Experience_stateId" [autoDisplayFirst]="false"
-                                        placeholder="Select State" appendTo="body"
+                                        placeholder="Select Country" appendTo="body"
                                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['countryId'].touched && FormControls['countryId'].errors }"
                                         formControlName="countryId" [options]="countries" optionValue="lookupDetailId"
                                         optionLabel="name" (onChange)="getStatesByCountryId($event.value)">
@@ -132,12 +132,13 @@
                                     </p-dropdown>
                                     <div class="flex">
                                         <div class="align-left w-60" style="width:70%">
-                                            <span *ngIf="FormControls['stateId'].touched && FormControls['stateId'].invalid">
+                                            <span
+                                                *ngIf="FormControls['stateId'].touched && FormControls['stateId'].invalid">
                                                 <div class="ng-invalid ng-touched p-error"
                                                     *ngIf="FormControls['countryId'].untouched && FormControls['stateId'].touched ||
                                                      FormControls['countryId'].invalid&& FormControls['stateId'].touched">
                                                     Please Select Country First.</div>
-                                                    <div class="ng-invalid ng-touched p-error"
+                                                <div class="ng-invalid ng-touched p-error"
                                                     *ngIf="FormControls['countryId'].touched &&FormControls['stateId'].errors?.['required']&&FormControls['countryId'].valid">
                                                     Please Select State.</div>
                                             </span>
@@ -169,7 +170,7 @@
                                     <p-multiSelect placeholder="Select SkillAreas" id="Experience_skillArea"
                                         [options]="skills" optionLabel="name" [filter]="true" filterBy="name"
                                         #multiSelect formControlName="skills" optionValue="lookupDetailId"
-                                        (onChange)="onSelectSkill($event)"
+                                        (keydown)="restrictSpaces($event)" (onChange)="onSelectSkill($event)"
                                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['skills'].touched && FormControls['skills'].errors }"
                                         appendTo="body">
                                         <ng-template let-skill pTemplate="selectedItem">
@@ -178,7 +179,7 @@
                                             </div>
                                         </ng-template>
                                     </p-multiSelect>
-                                     <div class="flex">
+                                    <div class="flex">
                                         <div class="align-left w-60" style="width:70%">
                                             <span
                                                 *ngIf="FormControls['skills'].touched && FormControls['skills'].invalid">
@@ -193,9 +194,9 @@
                                 <div class="field col-12 md:col-4">
                                     <label class="required">Date of Joining:</label>&nbsp;
                                     <p-calendar [showIcon]="true" formControlName="dateOfJoining"
-                                        id="Experience_dateOfJoining" appendTo="body"
+                                        id="Experience_dateOfJoining" appendTo="body" (keydown)="restrictSpaces($event)"
                                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['dateOfJoining'].touched && FormControls['dateOfJoining'].errors }"
-                                        placeholder="Enter From Date">
+                                        placeholder="Select Date Of Joining">
                                     </p-calendar>
                                     <div class="flex">
                                         <div class="align-left w-60" style="width:70%">
@@ -203,7 +204,7 @@
                                                 *ngIf="FormControls['dateOfJoining'].touched && FormControls['dateOfJoining'].invalid">
                                                 <div class="ng-invalid ng-touched p-error"
                                                     *ngIf="FormControls['dateOfJoining'].errors?.['required']">
-                                                    Please Select Date Of Join.</div>
+                                                    Please Select Date Of Joining.</div>
                                             </span>
                                         </div>
                                     </div>
@@ -211,9 +212,10 @@
                                 <div class="field col-12 md:col-4">
                                     <label class="required">Date of Reliving:</label>&nbsp;
                                     <p-calendar [showIcon]="true" formControlName="dateOfReliving"
-                                        id="Experience_dateOfReliving" appendTo="body" [maxDate]="currentDate"
+                                        (keydown)="restrictSpaces($event)" id="Experience_dateOfReliving"
+                                        appendTo="body" [maxDate]="currentDate"
                                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['dateOfReliving'].touched && FormControls['dateOfReliving'].errors }"
-                                        placeholder="Enter To Date">
+                                        placeholder="Select Date of Reliving">
                                     </p-calendar>
                                     <div class="flex">
                                         <div class="align-left w-60" style="width:70%">
@@ -265,7 +267,8 @@
                             <div class="flex">
                                 <button pButton pRipple icon="pi pi-pencil" (click)="editForm(experienceDetail)"
                                     class="p-element p-ripple p-button-text p-button p-component col-2 p-0 "></button>
-                                <button pButton pRipple icon="pi pi-trash" id="AddressDetailsRemove-Btn" *ngIf="!experienceDetail.workExperienceId"
+                                <button pButton pRipple icon="pi pi-trash" id="AddressDetailsRemove-Btn"
+                                    *ngIf="!experienceDetail.workExperienceId"
                                     class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
                                     (click)="removeItem(experienceDetailsIndex)">
                                 </button>
@@ -307,8 +310,8 @@
             (click)="navigateToPrev()">Educational Details</button>
     </div>
     <div class=" col-4">
-        <button p-button id="ExperienceSave-Btn" class="p-element p-ripple p-button-info p-button p-component w-100" 
-        [disabled]="this.empExperienceDetails.length == 0 && this.selectedOption=='Experience'"
+        <button p-button id="ExperienceSave-Btn" class="p-element p-ripple p-button-info p-button p-component w-100"
+            [disabled]="this.empExperienceDetails.length == 0 && this.selectedOption=='Experience'"
             (click)="onSubmit()">Save
             as Draft</button>
     </div>

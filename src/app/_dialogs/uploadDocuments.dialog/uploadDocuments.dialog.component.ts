@@ -21,7 +21,6 @@ export class uploadDocumentsDialogComponent {
     employeeId: string;
     empUploadDetails: any = [];
     title: string;
-    permissions: any;
 
     constructor(
         private formbuilder: FormBuilder,
@@ -29,11 +28,9 @@ export class uploadDocumentsDialogComponent {
         private employeeService: EmployeeService,
         private activatedRoute: ActivatedRoute,
         private alertMessage: AlertmessageService,
-        private jwtService: JwtService,
     ) { }
 
     ngOnInit() {
-        this.permissions = this.jwtService.Permissions
         this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
         this.initUpload();
     }

@@ -9,6 +9,7 @@ import { LookupService } from 'src/app/_services/lookup.service';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EmployeesList, LookupDetailsDto } from 'src/app/_models/admin';
 import { ViewEmployeeScreen } from 'src/app/_models/common';
+import { FORMAT_DATE } from 'src/app/_helpers/date.formate.pipe';
 
 @Component({
     selector: 'app-addassetallotment.dialog',
@@ -85,6 +86,7 @@ export class AddassetallotmentDialogComponent {
 
     saveAssetAllotment(): Observable<HttpEvent<AssetAllotmentDto>> {
         this.fbAssetAllotment.get('employeeId').enable();
+        this.fbAssetAllotment.get('assignedOn').setValue(FORMAT_DATE(new Date(this.fbAssetAllotment.get('assignedOn').value)))
         return this.adminService.CreateAssetAllotment(this.fbAssetAllotment.value)
     }
 

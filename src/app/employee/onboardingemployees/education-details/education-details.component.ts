@@ -56,7 +56,7 @@ export class EducationDetailsComponent implements OnInit {
     { field: 'authorityName', header: 'authorityName', label: 'University Name' },
     { field: 'countryId', header: 'countryId', label: 'Country' },
     { field: 'stateId', header: 'stateId', label: 'State' },
-    { field: 'institutionName', header: 'institutionName', label: 'Institution Name' },
+    { field: 'institutionName', header: 'institutionName', label: 'College Name' },
     { field: 'curriculumId', header: 'curriculumId', label: 'Curriculum' },
     { field: 'streamId', header: 'streamId', label: 'Stream' },
     { field: 'passedOutyear', header: 'passedOutyear', label: 'Passed Out Year' },
@@ -165,7 +165,6 @@ export class EducationDetailsComponent implements OnInit {
   }
 
   generaterow(educationDetails: EducationDetailsDto = new EducationDetailsDto()): FormGroup {
-    debugger
     const formGroup = this.formbuilder.group({
       educationDetailId: educationDetails.educationDetailId,
       employeeId: educationDetails.employeeId,

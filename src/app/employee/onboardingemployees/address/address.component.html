@@ -1,5 +1,6 @@
 <div class="col-12 text-right m-0 p-2 ">
-    <button pButton pRipple class="mb-3 pi pi-plus" *ngIf="permissions?.CanManageEmployee" (click)="toggleTab()"></button>
+    <button pButton pRipple class="mb-3 pi pi-plus" *ngIf="permissions?.CanManageEmployee"
+        (click)="toggleTab()"></button>
 </div>
 <div class="content_scroll" id="hrms">
     <form [formGroup]="fbAddressDetails">
@@ -9,7 +10,7 @@
                     <div class="field col-12 md:col-4">
                         <label class="required">Address Line1</label>
                         <input type="text" id="Address_address1" pInputText formControlName="addressLine1" #address1
-                            placeholder="Enter Address Line1"
+                            placeholder="Enter Address Line1" (keydown)="restrictSpaces($event)"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['addressLine1'].touched && FormControls['addressLine1'].errors }"
                             [maxlength]="maxLength.name">
                         <div class="flex">
@@ -35,7 +36,8 @@
                     <div class="field col-12 md:col-4">
                         <label>Address Line2</label>
                         <input type="text" id="Address_address2" pInputText formControlName="addressLine2" #address2
-                            placeholder="Enter Address Line2" [maxlength]="maxLength.name">
+                            (keydown)="restrictSpaces($event)" placeholder="Enter Address Line2"
+                            [maxlength]="maxLength.name">
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                             </div>
@@ -47,7 +49,8 @@
                     <div class="field col-12 md:col-4">
                         <label>Landmark</label>
                         <input type="text" id="Address_landmark" pInputText formControlName="landmark" #Landmark
-                            placeholder="Enter Landmark" [maxlength]="maxLength.name">
+                            (keydown)="restrictSpaces($event)" placeholder="Enter Landmark"
+                            [maxlength]="maxLength.name">
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                             </div>
@@ -82,7 +85,7 @@
                     <div class="field col-12 md:col-4">
                         <label class="required">City</label>
                         <input type="text" id="Address_city" pInputText formControlName="city" alphaOnly
-                            placeholder="Enter City"
+                            (keydown)="restrictSpaces($event)" placeholder="Enter City"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['city'].touched && FormControls['city'].errors }"
                             [maxlength]="maxLength.name" #city />
                         <div class="flex">
@@ -119,7 +122,7 @@
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="FormControls['countryId'].errors?.['required']">
                                         Please Select Country.</div>
-                                        
+
                                 </span>
                             </div>
                         </div>
@@ -134,11 +137,10 @@
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                                 <span *ngIf="FormControls['stateId'].touched && FormControls['stateId'].invalid">
-                                    <div class="ng-invalid ng-touched p-error"
-                                        *ngIf="FormControls['countryId'].untouched && FormControls['stateId'].touched ||
+                                    <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['countryId'].untouched && FormControls['stateId'].touched ||
                                          FormControls['countryId'].invalid&& FormControls['stateId'].touched">
                                         Please Select Country First.</div>
-                                        <div class="ng-invalid ng-touched p-error"
+                                    <div class="ng-invalid ng-touched p-error"
                                         *ngIf="FormControls['countryId'].touched &&FormControls['stateId'].errors?.['required']&&FormControls['countryId'].valid">
                                         Please Select State.</div>
                                 </span>
@@ -177,7 +179,7 @@
                                     *ngIf="FormControls['addressType'].touched && FormControls['addressType'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="FormControls['addressType'].errors?.['required']">
-                                        Please Enter AddressType.</div>
+                                        Please Select AddressType.</div>
                                 </span>
                             </div>
                         </div>
@@ -222,7 +224,8 @@
                             <button *ngIf="addressDetails.isActive" pButton pRipple icon="pi pi-pencil"
                                 (click)="editForm(addressDetails)"
                                 class="p-element p-ripple p-button-text p-button p-component col-2 p-0 "></button>
-                            <button pButton pRipple icon="pi pi-trash" id="AddressDetailsRemove-Btn" *ngIf="!addressDetails.addressId"
+                            <button pButton pRipple icon="pi pi-trash" id="AddressDetailsRemove-Btn"
+                                *ngIf="!addressDetails.addressId"
                                 class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
                                 (click)="removeItem(addressDetailsIndex)">
                             </button>

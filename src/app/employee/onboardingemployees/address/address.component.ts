@@ -97,9 +97,9 @@ export class AddressComponent {
       'Temporary Address': 'hasPermanentAddress',
       'Permanent Address': 'temporaryaddress',
     };
-    
+
     const propertyName = addressTypeMapping[removedObject[0].addressType];
-    
+
     if (propertyName !== undefined) {
       this[propertyName] = false;
       console.log(this[propertyName])
@@ -129,7 +129,11 @@ export class AddressComponent {
     }
 
   }
-
+  restrictSpaces(event: KeyboardEvent) {
+    if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {
+      event.preventDefault();
+    }
+  }
   save() {
     // Push current values into the FormArray
     if (this.fbAddressDetails.get('addressType').value === "Permanent Address")

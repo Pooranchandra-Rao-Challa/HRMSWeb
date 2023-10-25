@@ -33,7 +33,7 @@ export class ExperiencedetailsDialogComponent {
   selectedOption: string;
   isAFresher: boolean;
   currentDate = new Date();
-  
+
   constructor(
     private formbuilder: FormBuilder,
     private lookupService: LookupService,
@@ -105,8 +105,8 @@ export class ExperiencedetailsDialogComponent {
       companyLocation: new FormControl(experienceDetails.companyLocation, [Validators.required, Validators.minLength(MIN_LENGTH_2)]),
       companyEmployeeId: new FormControl(experienceDetails.companyEmployeeId, [Validators.minLength(MIN_LENGTH_2)]),
       countryId: new FormControl(experienceDetails.countryId),
-      stateId: new FormControl(experienceDetails.stateId),
-      designationId: new FormControl(experienceDetails.designationId, [Validators.required]),
+      stateId: new FormControl(experienceDetails.stateId || null),
+      designationId:new FormControl(experienceDetails.designationId,[Validators.required]),
       dateOfJoining: new FormControl(experienceDetails.dateOfJoining ? FORMAT_DATE(new Date(experienceDetails.dateOfJoining)) : null, [Validators.required]),
       dateOfReliving: new FormControl(experienceDetails.dateOfReliving ? FORMAT_DATE(new Date(experienceDetails.dateOfReliving)) : null),
       skillAreaIds: new FormControl(skillAreaIdsArray, [Validators.required]),
@@ -195,14 +195,16 @@ export class ExperiencedetailsDialogComponent {
   }
 
   saveEmpExperienceDetails() {
-    for (const control of this.faexperienceDetail().controls) {
-      control.get('dateOfJoining').setValue(FORMAT_DATE(control.get('dateOfJoining').value));
-      if (control.get('dateOfReliving').value) {
-        control.get('dateOfReliving').setValue(FORMAT_DATE(control.get('dateOfReliving').value));
+    if (this.selectedOption == 'Experience') {
+      for (const control of this.faexperienceDetail().controls) {
+        control.get('dateOfJoining').setValue(FORMAT_DATE(control.get('dateOfJoining').value));
+        if (control.get('dateOfReliving').value) {
+          control.get('dateOfReliving').setValue(FORMAT_DATE(control.get('dateOfReliving').value));
+        }
       }
     }
-    this.saveExperience().subscribe(res => {
-      if (res) {
+    this.saveExperience().subscribe(resp => {
+      if (resp) {
         this.alertMessage.displayAlertMessage(ALERT_CODES["EVEEXP001"]);
         this.ref.close({
           "UpdatedModal": ViewEmployeeScreen.ExperienceDetails
