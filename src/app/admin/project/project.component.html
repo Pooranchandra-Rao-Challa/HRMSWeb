@@ -436,10 +436,13 @@
           </div>
         </p-tabPanel> -->
         <p-tabPanel header="Organization Chart">
-          <p-dropdown style="float:right" appendTo="body" id="Project_dropdown" [autoDisplayFirst]="false" placeholder="Select Project Name">
-          </p-dropdown>
+          <div style="float:right" >
+            <p-dropdown appendTo="body" id="Project_dropdown" [autoDisplayFirst]="false" 
+              placeholder="Select Project Name" [options]="projects" optionValue="projectId" optionLabel="name" >
+            </p-dropdown>
+          </div>
           <div id="hrms" class="scroll_div scroll  pb-5">
-              <app-d3-org-chart></app-d3-org-chart>
+            <app-d3-org-chart></app-d3-org-chart>
           </div>
         </p-tabPanel>
       </p-tabView>
