@@ -27,10 +27,10 @@
                     </div>
                     <div class="field col-12 md:col-6">
                         <label class="required">Lookup Name: </label>&nbsp;
-                        <p-dropdown id="lookupName_Not_Configured_Dropdown" appendTo="body" [autoDisplayFirst]="false"
+                        <p-dropdown id="lookupName_Not_Configured_Dropdown" appendTo="body" [autoDisplayFirst]="false" 
                             [options]="lookupNamesNotConfigured" formControlName="name" autoWidth="false" [style]="{'width':'100%'}"
                             [readonly]="FormControls['lookupId'].value!== null" placeholder="Select Lookup Name"
-                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['name'].touched && FormControls['name'].errors }">
+                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['name'].touched && FormControls['name'].errors }" [readonly]="true">
                         </p-dropdown>
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
