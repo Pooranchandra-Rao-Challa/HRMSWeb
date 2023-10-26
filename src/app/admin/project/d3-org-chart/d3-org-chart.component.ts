@@ -191,6 +191,7 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
                 item.positionName = `Size-${org.selfId}`
                 item._upToTheRootHighlighted = true;
 
+
                 const val = Math.round(org.roleName.length / 2);
                 item.progress = [...new Array(val)].map((d) => Math.random() * 25 + 5);
 
@@ -273,7 +274,7 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
         this.chart.container(this.chartContainer.nativeElement)
             .svgHeight(window.innerHeight - 350)
             .data(this.data)
-            .nodeHeight((d) => 170)
+            .nodeHeight((d) => 180)
             .nodeWidth((d) => {
                 if (d.depth == 0) return 500;
                 return 330;
@@ -290,6 +291,7 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
                     }</span> ${node.data._directSubordinates}  </div>`;
             })
             .linkUpdate(function (d, i, arr) {
+
                 d3.select(this)
                     .attr("stroke", (d) =>
                         d.data._upToTheRootHighlighted ? "#fec087" : "#ff820e"
