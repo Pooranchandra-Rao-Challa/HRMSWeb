@@ -14,7 +14,7 @@ import { OrgChart } from "./orgChart";
 import { EmployeeService } from "src/app/_services/employee.service";
 import { CompanyHierarchyViewDto } from "src/app/_models/employes";
 import { jsPDF } from "jspdf";
-import { Observable, Subscription } from "rxjs";
+import { DownloadNotification } from "src/app/_services/notifier.services";
 /*
   "d3": "7.6.1",
     "d3-flextree": "2.1.2",
@@ -123,7 +123,7 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
     reName = /NAME/g;
     reDesignation = /DESIGNATION/g;
     reProject = /PROJECT/g;
-    constructor(private employeeService: EmployeeService,) { }
+    constructor(private employeeService: EmployeeService, private downloadNotifier: DownloadNotification,) { }
 
 
     ngOnDestroy() {
@@ -132,7 +132,12 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
 
     ngOnInit() {
         console.log(d3);
-       // this.eventsSubscription = this.events.subscribe(() => this.downloadPdf());
+        // this.eventsSubscription = this.events.subscribe(() => this.downloadPdf());
+        this.downloadNotifier.getData().subscribe(value => {
+            if (value === true) {
+                this.downloadPdf();
+            }
+        })
 
         this.employeeService.getCompanyHierarchy().subscribe((resp) => {
             let data = resp as unknown as CompanyHierarchyViewDto[];

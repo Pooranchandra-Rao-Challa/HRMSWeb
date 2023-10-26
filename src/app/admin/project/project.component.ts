@@ -11,8 +11,7 @@ import { TreeNode } from 'primeng/api';
 import * as go from 'gojs';
 import { CompanyHierarchyViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
-import { D3OrgChartComponent } from './d3-org-chart/d3-org-chart.component';
-import { Subject } from 'rxjs';
+import { DownloadNotification } from 'src/app/_services/notifier.services';
 interface AutoCompleteCompleteEvent {
     originalEvent: Event;
     query: string;
@@ -61,10 +60,11 @@ export class ProjectComponent implements OnInit {
         },
     };
 
-    eventsSubject: Subject<void> = new Subject<void>();
+    //eventsSubject: Subject<void> = new Subject<void>();
 
     emitEventToChild() {
-        this.eventsSubject.next();
+        //this.eventsSubject.next();
+        this.downloadNotifier.sendData(true);
     }
 
     preparOrgHierarchy() {
@@ -72,7 +72,7 @@ export class ProjectComponent implements OnInit {
     }
     constructor(private formbuilder: FormBuilder, private adminService: AdminService,
         private employeeService: EmployeeService, private alertMessage: AlertmessageService,
-        private jwtService: JwtService) { }
+        private jwtService: JwtService, private downloadNotifier: DownloadNotification) { }
 
     ngOnInit() {
         this.permission = this.jwtService.Permissions;

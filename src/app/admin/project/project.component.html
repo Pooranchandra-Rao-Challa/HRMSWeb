@@ -437,13 +437,13 @@
         </p-tabPanel> -->
         <p-tabPanel header="Org/Project Chart View">
             <div style="float:right;padding-bottom: 20px;" >
-                <p-button  appendTo="body" id="download-chart"  style="padding-right: 20px;">Download Chart</p-button>
+                <p-button  appendTo="body" id="download-chart" [style]="{'margin-right':'20px'}" (onClick)="emitEventToChild()">Download Chart</p-button>
                 <p-dropdown appendTo="body" id="Project_dropdown" [autoDisplayFirst]="false"
                   placeholder="Select Project Name" [options]="projects" optionValue="projectId" optionLabel="name" >
                 </p-dropdown>
               </div>
           <div id="hrms" class="scroll_div scroll  pb-5">
-            <app-d3-org-chart ></app-d3-org-chart><!--[events]="eventsSubject.asObservable()"   (onClick)="emitEventToChild()"  -->
+            <app-d3-org-chart ></app-d3-org-chart><!--[events]="eventsSubject.asObservable()"     -->
           </div>
         </p-tabPanel>
       </p-tabView>
