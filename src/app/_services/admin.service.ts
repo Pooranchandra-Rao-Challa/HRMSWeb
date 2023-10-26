@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { AssetsDto, AssetsViewDto, ClientDetailsDto, ClientNamesDto, EmployeeRolesDto, EmployeesForAllottedAssetsViewDto, EmployeesList, HolidayDto, HolidaysViewDto, LookupViewDto, ProjectAllotments, ProjectDetailsDto, ProjectViewDto } from '../_models/admin';
+import { AssetsDto, AssetsViewDto, ClientDetailsDto, ClientNamesDto, EmployeeHierarchyDto, EmployeeRolesDto, EmployeesForAllottedAssetsViewDto, EmployeesList, HolidayDto, HolidaysViewDto, LookupViewDto, ProjectAllotments, ProjectDetailsDto, ProjectViewDto } from '../_models/admin';
 import { AssetAllotmentDto, AssetAllotmentViewDto, AssetsByAssetTypeIdViewDto, RevokeAssetRequest } from '../_models/admin/assetsallotment';
 import { ApiHttpService } from './api.http.service';
 import {
-    CREATE_ASSETS_URI, CREATE_HOLIDAY_URI, CREATE_LOOKUP_URI, GET_ASSETS_BY_ASSETTYPE_URI, GET_ASSETS_URI, GET_HOLIDAY_URI,GET_LOOKUP_URI, UPDATE_ASSETS_URI, UPDATE_LOOKUP_URI, CREATE_ASSET_ALLOTMENT_URI, GET_PROJECTS_URI, GET_YEARS_FROM_HOLIDAYS_URI, GET_ASSET_ALLOTMENTS_URI, UNASSIGNED_ASSET_ALLOTMENT_URI, UPDATE_PROJECT_URI, CREATE_PROJECT_URI, GET_CLIENTNAMES_URI, GET_CLIENT_DETAILS, GET_EMPLOYEES, EMPLOYEES_FOR_ALLOTTED_ASSETS_URI, GET_EMPLOYEESLIST, UNASSIGNED_EMPLOYEE_URI, GET_PROJECT_WITH_ID, GET_EMPLOYEE_ROLES_INFO
+    CREATE_ASSETS_URI, CREATE_HOLIDAY_URI, CREATE_LOOKUP_URI, GET_ASSETS_BY_ASSETTYPE_URI, GET_ASSETS_URI, GET_HOLIDAY_URI, GET_LOOKUP_URI, UPDATE_ASSETS_URI, UPDATE_LOOKUP_URI, CREATE_ASSET_ALLOTMENT_URI, GET_PROJECTS_URI, GET_YEARS_FROM_HOLIDAYS_URI, GET_ASSET_ALLOTMENTS_URI, UNASSIGNED_ASSET_ALLOTMENT_URI, UPDATE_PROJECT_URI, CREATE_PROJECT_URI, GET_CLIENTNAMES_URI, GET_CLIENT_DETAILS, GET_EMPLOYEES, EMPLOYEES_FOR_ALLOTTED_ASSETS_URI, GET_EMPLOYEESLIST, UNASSIGNED_EMPLOYEE_URI, GET_PROJECT_WITH_ID, GET_EMPLOYEE_ROLES_INFO, GET_EMPLOYEE_HIERARCHY_BASED_ON_PROJECTS
 } from './api.uri.service';
 
 @Injectable({
@@ -58,14 +58,14 @@ export class AdminService extends ApiHttpService {
     public GetProjects() {
         return this.get<ProjectViewDto[]>(GET_PROJECTS_URI);
     }
-    public getProjectWithId(id:number){
-        return this.getWithId<ProjectViewDto>(GET_PROJECT_WITH_ID,id)
+    public getProjectWithId(id: number) {
+        return this.getWithId<ProjectViewDto>(GET_PROJECT_WITH_ID, id)
     }
-    public GetClientNames(){
+    public GetClientNames() {
         return this.get<ClientNamesDto[]>(GET_CLIENTNAMES_URI);
     }
-    public GetClientDetails(clientId:number){
-        return this.getWithId<ClientDetailsDto>(GET_CLIENT_DETAILS,clientId)
+    public GetClientDetails(clientId: number) {
+        return this.getWithId<ClientDetailsDto>(GET_CLIENT_DETAILS, clientId)
     }
     public CreateProject(project: ProjectDetailsDto) {
         return this.post<ProjectDetailsDto>(CREATE_PROJECT_URI, project);
@@ -73,14 +73,14 @@ export class AdminService extends ApiHttpService {
     public UpdateProject(project: ProjectDetailsDto) {
         return this.post<ProjectDetailsDto>(UPDATE_PROJECT_URI, project);
     }
-    public getEmployeesList(){
+    public getEmployeesList() {
         return this.get<EmployeesList>(GET_EMPLOYEES);
     }
     public UnassignEmployee(revokeRequest) {
         return this.post<ProjectAllotments>(UNASSIGNED_EMPLOYEE_URI, revokeRequest);
     }
-    public getEmployees(projectId:number){
-        return this.getWithId<EmployeesList>(GET_EMPLOYEESLIST,projectId);
+    public getEmployees(projectId: number) {
+        return this.getWithId<EmployeesList>(GET_EMPLOYEESLIST, projectId);
     }
     public GetAssetAllotments(employeeId: number) {
         return this.getWithId<AssetAllotmentViewDto[]>(GET_ASSET_ALLOTMENTS_URI, employeeId);
@@ -94,7 +94,11 @@ export class AdminService extends ApiHttpService {
         return this.get<EmployeesForAllottedAssetsViewDto[]>(EMPLOYEES_FOR_ALLOTTED_ASSETS_URI);
     }
 
-    public GetERoles(){
+    public GetERoles() {
         return this.get<EmployeeRolesDto>(GET_EMPLOYEE_ROLES_INFO);
+    }
+
+    public GetEmployeeHierarchy(projectId: number) {
+        return this.getWithId<EmployeeHierarchyDto[]>(GET_EMPLOYEE_HIERARCHY_BASED_ON_PROJECTS,projectId);
     }
 }

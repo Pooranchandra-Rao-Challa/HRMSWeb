@@ -4,7 +4,7 @@ import {
     Input,
     ViewChild,
     ElementRef,
-    OnInit
+    OnInit,
 } from "@angular/core";
 //import TreeChart from "d3-org-chart";
 //declare var OrgChart: any;
@@ -15,6 +15,10 @@ import { EmployeeService } from "src/app/_services/employee.service";
 import { CompanyHierarchyViewDto } from "src/app/_models/employes";
 import { jsPDF } from "jspdf";
 import { DownloadNotification } from "src/app/_services/notifier.services";
+import { AdminService } from "src/app/_services/admin.service";
+import { EmployeeHierarchyDto } from "src/app/_models/admin";
+import { devOnlyGuardedExpression } from "@angular/compiler";
+import { ProjectNotification } from "src/app/_services/projectnotification.service";
 /*
   "d3": "7.6.1",
     "d3-flextree": "2.1.2",
@@ -91,6 +95,7 @@ export class NodeItem {
 export class NodeProps {
     name: string;
     roleName: string;
+    designation: string;
     imageUrl: string;
     area: string;
     profileUrl: string;
@@ -114,7 +119,6 @@ export class NodeProps {
 export class D3OrgChartComponent implements OnChanges, OnInit {
     @ViewChild("chartContainer") chartContainer: ElementRef;
     data: any[] = null;
-    // private eventsSubscription: Subscription;
 
     // @Input() events: Observable<void>;
     chart: any;
@@ -123,7 +127,7 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
     reName = /NAME/g;
     reDesignation = /DESIGNATION/g;
     reProject = /PROJECT/g;
-    constructor(private employeeService: EmployeeService, private downloadNotifier: DownloadNotification,) { }
+    constructor(private employeeService: EmployeeService, private downloadNotifier: DownloadNotification, private projectNotifier: ProjectNotification, private adminService: AdminService) { }
 
 
     ngOnDestroy() {
@@ -131,19 +135,44 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
     }
 
     ngOnInit() {
-        console.log(d3);
+        // console.log(d3);
         // this.eventsSubscription = this.events.subscribe(() => this.downloadPdf());
+        this.organizationData();
         this.downloadNotifier.getData().subscribe(value => {
             if (value === true) {
                 this.downloadPdf();
             }
         })
+        this.projectNotifier.getSelectedProjectId().subscribe(value => {
+            console.log(value);
+            if (value === -1) {
+                this.organizationData();
+            }
+            else {
+                this.employeeProjectData(value);
+            }
+        })
+    }
 
+    ngAfterViewInit() {
+        if (!this.chart) {
+            this.chart = new OrgChart();
+        }
+        this.updateChart();
+    }
+
+    ngOnChanges() {
+        this.updateChart();
+    }
+
+    organizationData() {
+        this.data = [];
         this.employeeService.getCompanyHierarchy().subscribe((resp) => {
             let data = resp as unknown as CompanyHierarchyViewDto[];
             if (this.data == null) this.data = [];
 
             data.forEach(org => {
+
                 let item: NodeProps = new NodeProps()
 
                 item.id = `0-${org.chartId}`
@@ -162,6 +191,7 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
                 item.positionName = `Size-${org.selfId}`
                 item._upToTheRootHighlighted = true;
 
+
                 const val = Math.round(org.roleName.length / 2);
                 item.progress = [...new Array(val)].map((d) => Math.random() * 25 + 5);
 
@@ -177,16 +207,47 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
         });
     }
 
-    ngAfterViewInit() {
-        if (!this.chart) {
-            this.chart = new OrgChart();
-        }
-        this.updateChart();
+
+    employeeProjectData(projectId: number) {
+        this.data = [];
+        this.adminService.GetEmployeeHierarchy(projectId).subscribe((resp) => {
+            let data = resp as unknown as EmployeeHierarchyDto[];
+            console.log(data);
+            data.forEach(empchart => {
+                let item: NodeProps = new NodeProps()
+
+                item.id = `1-${empchart.chartId}`; // Use a unique prefix like "1-" for this project
+                if (empchart.selfId)
+                    item.parentId = `1-${empchart.selfId}`; // Make sure the parent ID is unique too
+                else item.parentId = null
+
+                item.name = empchart.employeeName;
+                item.roleName = empchart.employeeName;
+                item.designation = empchart.designation;
+                item.imageUrl = "url('http://localhost:4200/src/assets/layout/images/default_icon_employee.jpg')"
+                item.office = `Office-${empchart.hierarchyLevel}`
+                item.isLoggedUser = false;
+                item.area = empchart.employeeName;
+                item.profileUrl = "http://localhost:4200/src/assets/layout/images/default_icon_employee.jpg"
+                item.positionName = `Position-${empchart.roleId}`
+                item.positionName = `Size-${empchart.selfId}`
+                item._upToTheRootHighlighted = true;
+
+                const val = Math.round(empchart.roleName.length / 2);
+                item.progress = [...new Array(val)].map((d) => Math.random() * 25 + 5);
+
+                item._directSubordinates = data.filter(d => d.selfId == empchart.chartId).length;
+                item._totalSubordinates = data.filter(d => d.hierarchyLevel > empchart.hierarchyLevel).length;
+
+                this.data.push(item);
+            });
+
+            console.log(this.data);
+            this.updateChart();
+        });
     }
 
-    ngOnChanges() {
-        this.updateChart();
-    }
+
     updateChart() {
         if (!this.data || this.data.length == 0) {
             return;
@@ -213,7 +274,7 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
         this.chart.container(this.chartContainer.nativeElement)
             .svgHeight(window.innerHeight - 350)
             .data(this.data)
-            .nodeHeight((d) => 170)
+            .nodeHeight((d) => 180)
             .nodeWidth((d) => {
                 if (d.depth == 0) return 500;
                 return 330;
@@ -230,6 +291,7 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
                     }</span> ${node.data._directSubordinates}  </div>`;
             })
             .linkUpdate(function (d, i, arr) {
+
                 d3.select(this)
                     .attr("stroke", (d) =>
                         d.data._upToTheRootHighlighted ? "#fec087" : "#ff820e"
@@ -241,53 +303,56 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
                 }
             })
             .nodeContent(function (d, i, arr, state) {
-                const projectDesc = `<div class="pie-chart-wrapper" style="margin-left:10px;margin-top:5px;width:320px;height:300px">Testing- Add Project description At CEO Level</div>`;
-                const projectNoDesc = `<div class="pie-chart-wrapper" style="margin-left:10px;margin-top:5px;width:320px;height:300px"></div>`
+                const projectDesc = `
+                    <div class="pie-chart-wrapper" style="margin-left:10px;margin-top:5px;width:320px;height:300px">
+                        Testing- Add Project description At CEO Level
+                    </div>`;
+                const projectNoDesc = `
+                    <div class="pie-chart-wrapper" style="margin-left:10px;margin-top:5px;width:320px;height:300px"></div>`;
                 let desc = projectNoDesc;
+
                 const reCEO = /^CEO$/gi;
                 if (reCEO.test(d.data.name)) {
                     desc = projectDesc;
                 }
 
-                const svgStr = `<svg width=150 height=75  style="background-color:none"> <path d="M 0,15 L15,0 L135,0 L150,15 L150,60 L135,75 L15,75 L0,60" fill="#f3851f" stroke="#f3851f"/> </svg>`;
+                const svgStr = `<svg width=150 height=75 style="background-color:none">
+                    <path d="M 0,15 L15,0 L135,0 L150,15 L150,60 L135,75 L15,75 L0,60" fill="#f3851f" stroke="#f3851f"/>
+                </svg>`;
+
                 return `
-                        <div class="left-top" style="position:absolute;left:-10px;top:-10px">  ${svgStr}</div>
-                        <div class="right-top" style="position:absolute;right:-10px;top:-10px">  ${svgStr}</div>
-                        <div class="right-bottom" style="position:absolute;right:-10px;bottom:-14px">  ${svgStr}</div>
-                        <div class="left-bottom" style="position:absolute;left:-10px;bottom:-14px">  ${svgStr}</div>
-                        <div style="font-family: 'Inter'; background-color:#ffffff;sans-serif; position:absolute;margin-top:-1px; margin-left:-1px;width:${d.width
-                    }px;height:${d.height}px;border-radius:0px;border: 2px solid #ff820e">
-                           ${desc}
-                          <div style="color:black;position:absolute;right:15px;top:-20px;">
-                            <div style="font-size:15px;color:black;margin-top:32px"> ${d.data.name
-                    } </div>
-                            <div style="font-size:10px;"> ${d.data.positionName || ""
-                    } </div>
-                            <div style="font-size:10px;"> ${d.data.id || ""} </div>
+                    <div class="left-top" style="position:absolute;left:-10px;top:-10px">${svgStr}</div>
+                    <div class="right-top" style="position:absolute;right:-10px;top:-10px">${svgStr}</div>
+                    <div class="right-bottom" style="position:absolute;right:-10px;bottom:-14px">${svgStr}</div>
+                    <div class="left-bottom" style="position:absolute;left:-10px;bottom:-14px">${svgStr}</div>
+                    <div style="font-family: 'Inter'; background-color:#ffffff;sans-serif; position:absolute;margin-top:-1px; margin-left:-1px;width:${d.width}px;height:${d.height}px;border-radius:0px;border: 2px solid #ff820e">
+                        <div style="color:black;position:absolute;right:15px;top:-20px;">
+                            <div style="font-size:15px;color:black;margin-top:32px">${d.data.name}</div>
+                            <div style="font-size:10px;">${d.data.designation || ""}</div>
+                            <div style="font-size:10px;">${d.data.positionName || ""}</div>
+                            <div style="font-size:10px;">${d.data.id || ""}</div>
                             ${d.depth == 0
-                        ? `                              <br/>
-                            <div style="max-width:200px;font-size:10px;">
-                              A corporate history of Ian is a chronological account of a business or other co-operative organization he founded.  <br><br>Usually it is produced in written format but it can also be done in audio or audiovisually
-                            </div>`
+                        ? `<br/>
+                                <div style="max-width:200px;font-size:10px;">
+                                    A corporate history of Ian is a chronological account of a business or other co-operative organization he founded.
+                                    <br><br>Usually it is produced in written format but it can also be done in audio or audiovisually
+                                </div>`
                         : ""
                     }
-
-                          </div>
-
-                          <div style="position:absolute;left:-5px;bottom:10px;">
-                            <div style="font-size:10px;color:black;margin-left:20px;margin-top:32px"> Progress </div>
-                            <div style="color:black;margin-left:20px;margin-top:3px;font-size:10px;">
-                              <svg width=150 height=30> ${d.data.progress
-                        .map((h, i) => {
-                            return `<rect  width=10 x="${i * 12
-                                }" height=${h}  y=${30 - h} fill="#B41425"/>`;
-                        })
-                        .join("")}  </svg>
-                              </div>
-                          </div>
                         </div>
-
-    `;
+                        <div style="position:absolute;left:-5px;bottom:10px;">
+                            <div style="font-size:10px;color:black;margin-left:20px;margin-top:32px">Progress</div>
+                            <div style="color:black;margin-left:20px;margin-top:3px;font-size:10px;">
+                                <svg width=150 height=30> ${d.data.progress
+                        .map((h, i) => {
+                            return `<rect width=10 x="${i * 12}" height=${h} y=${30 - h} fill="#B41425"/>`;
+                        })
+                        .join("")}
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                `;
             })
             .nodeUpdate(function (d, i, arr) {
                 d3.select(this)

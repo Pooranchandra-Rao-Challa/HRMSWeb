@@ -12,6 +12,7 @@ import * as go from 'gojs';
 import { CompanyHierarchyViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { DownloadNotification } from 'src/app/_services/notifier.services';
+import { ProjectNotification } from 'src/app/_services/projectnotification.service';
 interface AutoCompleteCompleteEvent {
     originalEvent: Event;
     query: string;
@@ -48,6 +49,7 @@ export class ProjectComponent implements OnInit {
     projectDetails: any = {};
     selectedFileBase64: string | null = null; // To store the selected file as base64
     companyHierarchy: CompanyHierarchyViewDto[] = [];
+    selectedProjectId: number =-1; 
 
     projectTreeData: TreeNode[];
     rootProject: TreeNode = {
@@ -66,13 +68,16 @@ export class ProjectComponent implements OnInit {
         //this.eventsSubject.next();
         this.downloadNotifier.sendData(true);
     }
-
-    preparOrgHierarchy() {
-
+    preparOrgHierarchy() {        
+    }
+    onProjectChange(event) {
+        this.selectedProjectId = event;        
+        console.log('selectedProjectId in parent:', this.selectedProjectId);
+        this.projectNotifier.sendSelectedProjectId(this.selectedProjectId);
     }
     constructor(private formbuilder: FormBuilder, private adminService: AdminService,
         private employeeService: EmployeeService, private alertMessage: AlertmessageService,
-        private jwtService: JwtService, private downloadNotifier: DownloadNotification) { }
+        private jwtService: JwtService, private downloadNotifier: DownloadNotification, private projectNotifier: ProjectNotification) { }
 
     ngOnInit() {
         this.permission = this.jwtService.Permissions;
@@ -81,6 +86,7 @@ export class ProjectComponent implements OnInit {
         this.initClientNames();
         this.initEmployees();
         this.unAssignEmployeeForm();
+
     }
     projectForm() {
         this.fbproject = this.formbuilder.group({

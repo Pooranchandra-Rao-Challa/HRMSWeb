@@ -7,6 +7,7 @@ import { JobdesignComponent } from './jobdesign/jobdesign.component';
 import { LookupsComponent } from './lookups/lookups.component';
 import { ProjectComponent } from './project/project.component';
 import { RecruitmentComponent } from './recruitment/recruitment.component';
+import { D3OrgChartComponent } from './project/d3-org-chart/d3-org-chart.component';
 
 @NgModule({
     imports: [RouterModule.forChild([
@@ -17,6 +18,7 @@ import { RecruitmentComponent } from './recruitment/recruitment.component';
         { path: 'lookups', data: { breadcrumb: 'lookups' }, component: LookupsComponent },
         { path: 'recruitment', data: { breadcrumb: 'Recruitment' }, component: RecruitmentComponent },
         { path: 'project', data: { breadcrumb: 'Project' }, component: ProjectComponent },
+        {path:'d3-org-chart',component:D3OrgChartComponent}
     ])],
     exports: [RouterModule]
 })
