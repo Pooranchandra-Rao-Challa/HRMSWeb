@@ -114,9 +114,9 @@ export class NodeProps {
 export class D3OrgChartComponent implements OnChanges, OnInit {
     @ViewChild("chartContainer") chartContainer: ElementRef;
     data: any[] = null;
-    private eventsSubscription: Subscription;
+    // private eventsSubscription: Subscription;
 
-    @Input() events: Observable<void>;
+    // @Input() events: Observable<void>;
     chart: any;
     templateEmployee: string = '<div><div style="margin-left:70px; margin-top:10px; font-size:20pt; font-weight:bold;">NAME</div><div style="margin-left:70px; margin-top:3px;font-size:16pt;">DESIGNATION </div> <div style="margin-left:70px;margin-top:3px;font-size:14pt;">PROJECT</div></div>';
     templateOrg: string = '<div><div style="margin-left:70px; margin-top:10px; font-size:20pt; font-weight:bold;"> NAME </div> </div>';
@@ -127,12 +127,12 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
 
 
     ngOnDestroy() {
-        this.eventsSubscription.unsubscribe();
+        //this.eventsSubscription.unsubscribe();
     }
 
     ngOnInit() {
         console.log(d3);
-        this.eventsSubscription = this.events.subscribe(() => this.downloadPdf());
+       // this.eventsSubscription = this.events.subscribe(() => this.downloadPdf());
 
         this.employeeService.getCompanyHierarchy().subscribe((resp) => {
             let data = resp as unknown as CompanyHierarchyViewDto[];
