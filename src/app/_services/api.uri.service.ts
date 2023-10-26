@@ -65,11 +65,10 @@ export const GET_CLIENT_DETAILS = "Admin/GetClientDetails";
 export const GET_EMPLOYEES = "Employee/GetEmployeeDropdown";
 export const GET_EMPLOYEESLIST="Employee/GetEmployeesForProject";
 export const UNASSIGNED_EMPLOYEE_URI = "Admin/InactiveProjectAllotment";
-
+export const GET_EMPLOYEE_HIERARCHY_BASED_ON_PROJECTS="Admin/GetEmployeeHierarchy";
+export const GET_EMPLOYEE_ROLES_INFO="Admin/GetERoles";
 
 //EMPLOYEE
-
-export const GET_EMPLOYEE_ROLES_INFO="Admin/GetERoles";
 export const GET_EMPLOYEES_URI = "Employee/GetEmployeeDetails";
 export const CREATE_BASIC_DETAILS_URI = "Employee/CreateEmployeeBasicDetails";
 export const CREATE_EDUCATION_DETAILS_URI ="Employee/UpdateEducationDetails";

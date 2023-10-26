@@ -185,3 +185,21 @@ export class EmployeeRolesDto{
     eroleId?:number;
     name?:string;
 }
+
+export class EmployeeHierarchyDto{
+    employeeId?:number;
+    employeeName?:string;
+    designationId?:number;
+    designation?:string;
+    roleId?:number;
+    roleName?:string;
+    eRoleId?:number;
+    eRoleName?:string;
+    projectId?:number;
+    projectName?:string;
+    chartId?:number;
+    hierarchyLevel?:string;
+    selfId?:number;
+    ReportingToId?:number;
+    photo?:string;
+}

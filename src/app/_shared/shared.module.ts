@@ -13,8 +13,8 @@ import { NumericInputDirective } from "../_directives/numeric-input.directive";
 import { NumericDirective } from "../_directives/numericOnly.directive";
 import { GlobalFilterService } from "../_services/global.filter.service";
 import { PrimengModule } from "./primeng.module";
-import { DownloadNotification } from 'src/app/_services/notifier.services'
-
+import { DownloadNotification } from 'src/app/_services/notifier.services';
+import {ProjectNotification} from 'src/app/_services/projectnotification.service';
 @NgModule({
     declarations: [
         AlphaDirective,
@@ -41,6 +41,7 @@ import { DownloadNotification } from 'src/app/_services/notifier.services'
         ConfirmationDialogService,
         GlobalFilterService,
         DownloadNotification,
+        ProjectNotification,
         DatePipe
     ]
 })

@@ -49,7 +49,7 @@ export class OfficedetailsDialogComponent {
       officeEmailId: new FormControl(null, [Validators.required, Validators.pattern(RG_EMAIL)]),
       dateofJoin: new FormControl(null, [Validators.required]),
       designationId: new FormControl(null, [Validators.required]),
-      reportingToId: new FormControl(null, [Validators.required]),
+      reportingToId: new FormControl(null),
       isPfeligible: new FormControl(true, [Validators.required]),
       isEsieligible: new FormControl(false, [Validators.required]),
       isActive: (true),
@@ -87,6 +87,7 @@ export class OfficedetailsDialogComponent {
   }
 
   saveEmpOfficDtls() {
+    console.log(this.fbOfficDtls.value);
     this.fbOfficDtls.value.dateofJoin = FORMAT_DATE(this.fbOfficDtls.value.dateofJoin);
     this.employeeService.updateViewEmpOfficDtls(this.fbOfficDtls.value).subscribe((resp) => {
       if (resp) {
