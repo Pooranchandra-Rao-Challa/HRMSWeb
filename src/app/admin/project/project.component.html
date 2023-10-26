@@ -439,7 +439,7 @@
           <div style="float:right;padding-bottom: 20px;">
             <p-button appendTo="body" id="download-chart" [style]="{'margin-right':'20px'}"
               (onClick)="emitEventToChild()">Download Chart</p-button>
-            <p-dropdown appendTo="body" id="Project_dropdown" [autoDisplayFirst]="false"
+            <p-dropdown appendTo="body" id="Project_dropdown"
               placeholder="Select Project Name" [options]="projects" optionValue="projectId" optionLabel="name"
               [(ngModel)]="selectedProjectId" (ngModelChange)="onProjectChange($event)">
             </p-dropdown>

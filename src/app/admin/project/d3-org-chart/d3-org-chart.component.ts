@@ -216,9 +216,9 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
             data.forEach(empchart => {
                 let item: NodeProps = new NodeProps()
 
-                item.id = `1-${empchart.chartId}`; // Use a unique prefix like "1-" for this project
-                if (empchart.selfId)
-                    item.parentId = `1-${empchart.selfId}`; // Make sure the parent ID is unique too
+                item.id = `1-${empchart.chartId}-${empchart.employeeId}`; // Use a unique prefix like "1-" for this project
+                if (empchart.selfId && empchart.reportingToId)
+                    item.parentId = `1-${empchart.selfId}-${empchart.reportingToId}`; // Make sure the parent ID is unique too
                 else item.parentId = null
 
                 item.name = empchart.employeeName;

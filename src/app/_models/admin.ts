@@ -200,6 +200,6 @@ export class EmployeeHierarchyDto{
     chartId?:number;
     hierarchyLevel?:string;
     selfId?:number;
-    ReportingToId?:number;
+    reportingToId?:number;
     photo?:string;
 }
