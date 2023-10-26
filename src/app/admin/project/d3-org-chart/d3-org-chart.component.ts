@@ -6,14 +6,21 @@ import {
     ElementRef,
     OnInit
 } from "@angular/core";
-import TreeChart from "d3-org-chart";
-//import * as d3 from 'd3';
-// import { CompanyHierarchyViewDto } from "src/app/_models/employes";
-import * as d3 from "d3";
+//import TreeChart from "d3-org-chart";
+//declare var OrgChart: any;
+import * as d3 from 'd3';
+
+import { OrgChart } from "./orgChart";
 import { EmployeeService } from "src/app/_services/employee.service";
 import { CompanyHierarchyViewDto } from "src/app/_models/employes";
-
-
+/*
+  "d3": "7.6.1",
+    "d3-flextree": "2.1.2",
+    "d3-org-chart": "2.6.0",
+*/
+/**        "d3": "^5.15.1",
+        "d3-org-chart": "^1.0.12",
+ */
 export class nodeBorderColor {
     red: number = 255;
     green: number = 130;
@@ -54,7 +61,7 @@ export class connectorLine {
 
 export class nodeIcon {
     icon: string = null;
-    size: number = 10;
+    size: number = 20;
 }
 //"https://to.ly/1yZnX";
 //30
@@ -78,6 +85,25 @@ export class NodeItem {
     directSubordinates: number;
     totalSubordinates: number;
 }
+
+export class NodeProps {
+    name: string;
+    roleName: string;
+    imageUrl: string;
+    area: string;
+    profileUrl: string;
+    office: string;
+    tags: string;
+    isLoggedUser: boolean;
+    positionName: string;
+    id: string;
+    parentId: string;
+    size: string;
+    progress: number[];
+    _directSubordinates: number;
+    _totalSubordinates: number;
+    _upToTheRootHighlighted: boolean;
+}
 @Component({
     selector: "app-d3-org-chart",
     templateUrl: "./d3-org-chart.component.html",
@@ -86,9 +112,10 @@ export class NodeItem {
 export class D3OrgChartComponent implements OnChanges, OnInit {
     @ViewChild("chartContainer") chartContainer: ElementRef;
     data: any[] = null;
-    chart: TreeChart;
+    //chart: TreeChart;
+    chart: any;
     templateEmployee: string = '<div><div style="margin-left:70px; margin-top:10px; font-size:20pt; font-weight:bold;">NAME</div><div style="margin-left:70px; margin-top:3px;font-size:16pt;">DESIGNATION </div> <div style="margin-left:70px;margin-top:3px;font-size:14pt;">PROJECT</div></div>';
-    templateOrg:string = '<div><div style="margin-left:70px; margin-top:10px; font-size:20pt; font-weight:bold;"> NAME </div> </div>';
+    templateOrg: string = '<div><div style="margin-left:70px; margin-top:10px; font-size:20pt; font-weight:bold;"> NAME </div> </div>';
     reName = /NAME/g;
     reDesignation = /DESIGNATION/g;
     reProject = /PROJECT/g;
@@ -97,21 +124,37 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
 
 
     ngOnInit() {
+        console.log(d3);
+
         this.employeeService.getCompanyHierarchy().subscribe((resp) => {
             let data = resp as unknown as CompanyHierarchyViewDto[];
             if (this.data == null) this.data = [];
 
             data.forEach(org => {
-                let item: NodeItem = new NodeItem()
+                let item: NodeProps = new NodeProps()
 
-                item.nodeId = `0-${org.chartId}`
+                item.id = `0-${org.chartId}`
                 if (org.selfId)
-                    item.parentNodeId = `0-${org.selfId}`
-                else item.parentNodeId = null
+                    item.parentId = `0-${org.selfId}`
+                else item.parentId = null
 
-                item.directSubordinates = data.filter(d => d.selfId == org.chartId).length
-                item.totalSubordinates = data.filter(d => d.hierarchyLevel > org.hierarchyLevel).length
-                item.template = this.templateOrg.replace(this.reName, org.roleName);
+                item.name = org.roleName;
+                item.roleName = org.roleName;
+                item.imageUrl = "url('http://localhost:4200/src/assets/layout/images/default_icon_employee.jpg')"
+                item.office = `Office-${org.hierarchyLevel}`
+                item.isLoggedUser = false;
+                item.area = org.roleName;
+                item.profileUrl = "http://localhost:4200/src/assets/layout/images/default_icon_employee.jpg"
+                item.positionName = `Position-${org.roleId}`
+                item.positionName = `Size-${org.selfId}`
+                item._upToTheRootHighlighted = true;
+
+                const val = Math.round(org.roleName.length / 2);
+                item.progress = [...new Array(val)].map((d) => Math.random() * 25 + 5);
+
+                item._directSubordinates = data.filter(d => d.selfId == org.chartId).length
+                item._totalSubordinates = data.filter(d => d.hierarchyLevel > org.hierarchyLevel).length
+
 
                 this.data.push(item)
             });
@@ -123,7 +166,7 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
 
     ngAfterViewInit() {
         if (!this.chart) {
-            this.chart = new TreeChart();
+            this.chart = new OrgChart();
         }
         this.updateChart();
     }
@@ -140,338 +183,145 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
         }
         console.log(this.data);
         // this.data = d3.json(this.data)
-        this.chart
-            .container(this.chartContainer.nativeElement)
+        // this.chart
+        //     .container(this.chartContainer.nativeElement)
+        //     .data(this.data)
+        // //     .rootMargin(100)
+        // //   .nodeWidth((d) => 210)
+        // //   .nodeHeight((d) => 140)
+        // //   .childrenMargin((d) => 130)
+        // //   .compactMarginBetween((d) => 75)
+        // //   .compactMarginPair((d) => 80)
+        //     .svgWidth(500)
+        //     .initialZoom(0.6)
+        //     .onNodeClick(d => console.log(d + ' node clicked'))
+        //     .render();
+
+        this.chart.container(this.chartContainer.nativeElement)
+            .svgHeight(window.innerHeight - 350)
             .data(this.data)
-        //     .rootMargin(100)
-        //   .nodeWidth((d) => 210)
-        //   .nodeHeight((d) => 140)
-        //   .childrenMargin((d) => 130)
-        //   .compactMarginBetween((d) => 75)
-        //   .compactMarginPair((d) => 80)
-            .svgWidth(500)
-            .initialZoom(0.6)
-            .onNodeClick(d => console.log(d + ' node clicked'))
+            .nodeHeight((d) => 170)
+            .nodeWidth((d) => {
+                if (d.depth == 0) return 500;
+                return 330;
+            })
+            .childrenMargin((d) => 90)
+            .compactMarginBetween((d) => 65)
+            .compactMarginPair((d) => 100)
+            .neightbourMargin((a, b) => 50)
+            .siblingsMargin((d) => 100)
+            .buttonContent(({ node, state }) => {
+                return `<div style="color:black;border-radius:5px;padding:5px;font-size:10px;margin:auto auto;background-color:#ffffff;border: 1px solid #ff820e;margin-top:14px"> <span style="font-size:9px">${node.children
+                        ? `<i class="fas fa-angle-up"></i>`
+                        : `<i class="fas fa-angle-down"></i>`
+                    }</span> ${node.data._directSubordinates}  </div>`;
+            })
+            .linkUpdate(function (d, i, arr) {
+                d3.select(this)
+                    .attr("stroke", (d) =>
+                        d.data._upToTheRootHighlighted ? "#fec087" : "#ff820e"
+                    )
+                    .attr("stroke-width", (d) => (d.data._upToTheRootHighlighted ? 5 : 1));
+
+                if (d.data._upToTheRootHighlighted) {
+                    d3.select(this).raise();
+                }
+            })
+            .nodeContent(function (d, i, arr, state) {
+                const projectDesc = `<div class="pie-chart-wrapper" style="margin-left:10px;margin-top:5px;width:320px;height:300px">Testing- Add Project description At CEO Level</div>`;
+                const projectNoDesc = `<div class="pie-chart-wrapper" style="margin-left:10px;margin-top:5px;width:320px;height:300px"></div>`
+                let desc = projectNoDesc;
+                const reCEO  = /^CEO$/gi;
+                if(reCEO.test(d.data.name)){
+                    desc = projectDesc;
+                }
+
+                const svgStr = `<svg width=150 height=75  style="background-color:none"> <path d="M 0,15 L15,0 L135,0 L150,15 L150,60 L135,75 L15,75 L0,60" fill="#f3851f" stroke="#f3851f"/> </svg>`;
+                return `
+                        <div class="left-top" style="position:absolute;left:-10px;top:-10px">  ${svgStr}</div>
+                        <div class="right-top" style="position:absolute;right:-10px;top:-10px">  ${svgStr}</div>
+                        <div class="right-bottom" style="position:absolute;right:-10px;bottom:-14px">  ${svgStr}</div>
+                        <div class="left-bottom" style="position:absolute;left:-10px;bottom:-14px">  ${svgStr}</div>
+                        <div style="font-family: 'Inter'; background-color:#ffffff;sans-serif; position:absolute;margin-top:-1px; margin-left:-1px;width:${d.width
+                    }px;height:${d.height}px;border-radius:0px;border: 2px solid #ff820e">
+                           ${desc}
+                          <div style="color:black;position:absolute;right:15px;top:-20px;">
+                            <div style="font-size:15px;color:black;margin-top:32px"> ${d.data.name
+                    } </div>
+                            <div style="font-size:10px;"> ${d.data.positionName || ""
+                    } </div>
+                            <div style="font-size:10px;"> ${d.data.id || ""} </div>
+                            ${d.depth == 0
+                        ? `                              <br/>
+                            <div style="max-width:200px;font-size:10px;">
+                              A corporate history of Ian is a chronological account of a business or other co-operative organization he founded.  <br><br>Usually it is produced in written format but it can also be done in audio or audiovisually
+                            </div>`
+                        : ""
+                    }
+
+                          </div>
+
+                          <div style="position:absolute;left:-5px;bottom:10px;">
+                            <div style="font-size:10px;color:black;margin-left:20px;margin-top:32px"> Progress </div>
+                            <div style="color:black;margin-left:20px;margin-top:3px;font-size:10px;">
+                              <svg width=150 height=30> ${d.data.progress
+                        .map((h, i) => {
+                            return `<rect  width=10 x="${i * 12
+                                }" height=${h}  y=${30 - h} fill="#B41425"/>`;
+                        })
+                        .join("")}  </svg>
+                              </div>
+                          </div>
+                        </div>
+
+    `;
+            })
+            .nodeUpdate(function (d, i, arr) {
+                d3.select(this)
+                    .select(".node-rect")
+                    .attr("stroke", (d) =>
+                        d.data._highlighted || d.data._upToTheRootHighlighted
+                            ? "#fec087"
+                            : "none"
+                    )
+                    .attr(
+                        "stroke-width",
+                        d.data._highlighted || d.data._upToTheRootHighlighted ? 20 : 1
+                    );
+
+                //   const pieChartWrapperNode = d3
+                //     .select(this)
+                //     .select(".pie-chart-wrapper")
+                //     .node();
+                //   const val = (d.data.name.length * 5) % 100; // Dummy calc
+                //   // General pie chart invokation code
+                //   new PieChart()
+                //     .data([
+                //       { key: "plan", color: "#6EC2EA", value: val },
+                //       { key: "exec", color: "#0D5AAF", value: 100 - val }
+                //     ])
+                //     .container(pieChartWrapperNode)
+                //     .svgHeight(200)
+                //     .svgWidth(320)
+                //     .marginTop(40)
+                //     .image(d.data.imageUrl)
+                //     .backCircleColor("#1F72A7")
+                //     .defaultFont("Inter")
+                //     .render();
+            })
             .render();
+        const url: string = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAB4CAYAAAA5ZDbSAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4QMaAyMA1SdmlAAAAVRJREFUeNrt26FOw2AUhuFTElzrETNLMNPtJVRVVFbtlnYXKGQFqldANo3EoLDUITazzCxBTNBk53lv4M+XJ/ndKZ52L9uft9eP+Oeqbtgs8O7+cbWO36/PiIgmwd4ojsdIU9n2l7XzNBYZNj9Eos6oTRbcdMAZAwxYgAVYgAVYgAUYsAALsAALsAALMGABFmABFmABFmABBizAAqwFgZ/fv+slHl7q3aobNpn2proujIgo276ep/HgixZgARZgARZgAQYswAIswAIswAIswIAFWIAFWIAFWIABC7AAC7AAC7D+AHZdeN97XRf6ogVYgAVYgAVYgAELsAALsAALsAADFmABFmABFmABFmDAAizAAizAAqxrYNeF973XdaEvWoAFWIAFWIAFGLAAC7AAC7AACzBgARZgARZgARZgAQYswAIswAKsW0p1m1S2/WXtPI1Fhs0nxU1Jj2yxm2sAAAAASUVORK5CYII=`;
+        const replaced = url.replace(/(\r\n|\n|\r)/gm, '');
+        d3.select(".svg-chart-container")
+            .style(
+                "background",
+                'radial-gradient(circle at center, #04192B 0, #000B0E 100%) url("https://raw.githubusercontent.com/bumbeishvili/coronavirus.davidb.dev/master/glow.png")'
+            )
+            .style(
+                "background-image",
+                `url(${replaced}), radial-gradient(circle at center, #ffffff 0, #ffffff 100%)`
+            );
     }
 
-    // diagonal = d3.svg.diagonal().projection((d: any) => {
-    //     // return [d.x + this.rectW / 2, d.y + this.rectH / 2];
-    //     return [d.y, d.x];
-    // });
-
-
-    // // A recursive helper function for performing some setup by walking through all nodes
-    // public visit = (parent: any, visitFn: any, childrenFn: any): void => {
-    //     if (typeof childrenFn !== 'function') {
-    //         //default childrenFn =
-    //         childrenFn = function (node) {
-    //             return node.children || null;
-    //         };
-    //     }
-    //     if (!parent) {
-    //         return;
-    //     }
-    //     visitFn(parent);
-    //     var children = childrenFn(parent);
-    //     if (children) {
-    //         for (var i = 0, count = children.length; i < count; i++) {
-    //             this.visit(children[i], visitFn, childrenFn);
-    //         }
-    //     }
-    // }
-
-    // getNodes() {
-
-
-    //             // this._nodeDataService.root = data;
-    //             // debugger;
-    //             this.data.x0 = 0;
-    //             this.data.y0 = this.height / 2;
-    //             console.log("height", this.height);
-
-    //             this.collapse = (d: any) => {
-    //                 if (d.children) {
-    //                     d._children = d.children;
-    //                     d._children.forEach(this.collapse);
-    //                     d.children = null;
-    //                 }
-    //             };
-    //             this.data.children.forEach(this.collapse);
-
-
-    //             this.update(this.data);
-    //             // Call visit function to establish maxLabelLength
-    //             this.visit(this.data, (d: any) => {
-    //                 let totalNodes: number = 0;
-    //                 totalNodes++;
-    //                 this.maxLabelLength = Math.max(d.name.length, this.maxLabelLength);
-
-    //             }, (d: any) => {
-    //                 return d.children && d.children.length > 0 ? d.children : null;
-    //             });
-    // };
-
-    // //necessary so that zoom knows where to zoom and unzoom from
-    // // zm.translate([350, 20]);
-
-    // selectFrame = d3.select(self.frameElement).style("height", "800px");
-
-    // update = (source: any) => {
-    //     let i: number = 0;
-    //     // Compute the new tree layout.
-    //     let nodes = this.tree.nodes(this.data).reverse(),
-    //         links = this.tree.links(nodes);
-    //     // Normalize for fixed-depth.
-    //     nodes.forEach((n: any) => {
-    //         n.y = n.depth * 180;
-    //     });
-
-    //     // Update the nodes…
-    //     let node = this.svg.selectAll("g.node")
-    //         .data(nodes, function (n: any) {
-    //             return n.size || (n.id = ++i);
-    //         }
-
-    //         );
-
-    //     // Enter any new nodes at the parent's previous position.
-    //     let nodeEnter = node.enter().append("g")
-    //         .attr("class", "node")
-    //         .attr("transform", (n: any) => {
-
-    //             return "translate(" + source.y0 + "," + source.x0 + ")";
-    //         })
-
-    //         .on("click", this.click);
-
-    //     nodeEnter.append("rect")
-    //         .attr("width", this.rectW)
-    //         .attr("height", this.rectH)
-    //         .attr("stroke", "black")
-    //         .attr("stroke-width", 1)
-    //         .style("fill", (d) => {
-    //             return d._children ? "lightsteelblue" : "#fff";
-    //         });
-
-    //     nodeEnter.append("text")
-    //         .attr("x", this.rectW / 2)
-    //         .attr("y", this.rectH / 2)
-    //         .attr("dy", ".35em")
-    //         .attr("text-anchor", "middle")
-    //         .text((d: any) => {
-    //             return d.name;
-    //         });
-
-    //     // Transition nodes to their new position.
-    //     let nodeUpdate = node.transition()
-    //         .duration(this.duration)
-    //         .attr("transform", (d: any) => {
-    //             return "translate(" + d.y + "," + d.x + ")";
-    //         });
-
-    //     nodeUpdate.select("rect")
-    //         .attr("width", this.rectW)
-    //         .attr("height", this.rectH)
-    //         .attr("stroke", "black")
-    //         .attr("stroke-width", 1)
-    //         .style("fill", (d: any) => {
-    //             return d._children ? "lightsteelblue" : "#fff";
-    //         });
-
-    //     nodeUpdate.select("text")
-    //         .style("fill-opacity", 1);
-
-    //     // Transition exiting nodes to the parent's new position.
-    //     let nodeExit = node.exit().transition()
-    //         .duration(this.duration)
-    //         .attr("transform", (n: any) => {
-    //             return "translate(" + source.y + "," + source.x + ")";
-    //         })
-    //         .remove();
-
-    //     nodeExit.select("rect")
-    //         .attr("width", this.rectW)
-    //         .attr("height", this.rectH)
-    //         //.attr("width", bbox.getBBox().width)""
-    //         //.attr("height", bbox.getBBox().height)
-    //         .attr("stroke", "black")
-    //         .attr("stroke-width", 1);
-
-    //     nodeExit.select("text");
-
-    //     // Update the links…
-    //     var link = this.svg.selectAll("path.link")
-    //         .data(links, function (n: any) {
-    //             return n.target.id;
-    //         });
-
-    //     // Enter any new links at the parent's previous position.
-    //     // Enter any new links at the parent's previous position.
-    //     link.enter().insert("path", "g")
-    //         .attr("class", "link")
-    //         .attr("x", this.rectW / 2)
-    //         .attr("y", this.rectH / 2)
-    //         .attr("d", (d) => {
-    //             var o = {
-    //                 x: source.x0,
-    //                 y: source.y0
-    //             };
-    //             return this.diagonal({
-    //                 source: o,
-    //                 target: o
-    //             });
-    //         });
-
-    //     // Transition links to their new position.
-    //     link.transition()
-    //         .duration(this.duration)
-    //         .attr("d", this.diagonal);
-
-    //     // Transition exiting nodes to the parent's new position.
-    //     link.exit().transition()
-    //         .duration(this.duration)
-    //         .attr("d", (n: any) => {
-    //             var o = {
-    //                 x: source.x,
-    //                 y: source.y
-    //             }
-    //             return this.diagonal({
-    //                 source: o,
-    //                 target: o
-    //             });
-    //         })
-
-    //     // Stash the old positions for transition.
-    //     nodes.forEach((n: any) => {
-    //         n.x0 = n.x;
-    //         n.y0 = n.y;
-    //     });
-
-    // };
-    // click = (d): void => {
-    //     if (d.children) {
-    //         d._children = d.children;
-    //         d.children = null;
-    //     } else {
-    //         d.children = d._children;
-    //         d._children = null;
-    //     }
-    //     this.update(d);
-    // };
-
-    // redraw = (d) => {
-    //     this.svg.attr("transform",
-    //         "translate(" + d3.event.translate + ")"
-    //         + " scale(" + d3.event.scale + ")");
-    // }
 }
 
-
-//debugger
-// console.log(this.data);
-// const width = 800;
-// const height = 400;
-// const svg = d3.select(this.el.nativeElement).append('svg')
-//     .attr('width', width)
-//     .attr('height', height);
-
-// const nodes = this.data.map(d => ({
-//     id: d.roleId,
-//     name: d.roleName,
-//     level: d.hierarchyLevel
-// }));
-// console.log(nodes);
-
-// const links = this.data.map(d => ({
-//     source: d.selfId,
-//     target: d.roleId
-// }));
-// console.log(links);
-
-// const simulation = d3.forceSimulation(nodes)
-//     .force('link', d3.forceLink(links).id(d => d.id))
-//     .force('charge', d3.forceManyBody())
-//     .force('center', d3.forceCenter(width / 2, height / 2));
-// console.log(simulation);
-
-// const link = svg.selectAll('.link')
-//     .data(links)
-//     .enter().append('line')
-//     .attr('class', 'link');
-// console.log(link);
-
-// const node = svg.selectAll('.node')
-//     .data(nodes)
-//     .enter().append('circle')
-//     .attr('class', 'node')
-//     .attr('r', 10)
-//     .call(d3.drag()
-//         .on('start', dragstarted)
-//         .on('drag', dragged)
-//         .on('end', dragended));
-// console.log(node);
-
-// node.append('title')
-//     .text(d => d.name);
-
-// simulation.on('tick', () => {
-//     link
-//         .attr('x1', d => d.source.x)
-//         .attr('y1', d => d.source.y)
-//         .attr('x2', d => d.target.x)
-//         .attr('y2', d => d.target.y);
-
-//     node
-//         .attr('cx', d => d.x)
-//         .attr('cy', d => d.y);
-// });
-
-// function dragstarted(event, d) {
-//     if (!event.active) simulation.alphaTarget(0.3).restart();
-//     d.fx = d.x;
-//     d.fy = d.y;
-// }
-
-// function dragged(event, d) {
-//     d.fx = event.x;
-//     d.fy = event.y;
-// }
-
-// function dragended(event, d) {
-//     if (!event.active) simulation.alphaTarget(0);
-//     d.fx = null;
-//     d.fy = null;
-// }
-
-// if (this.data && this.data.length > 0) {
-//     // Filter data to exclude nodes with selfId !== null
-//     const filteredData = this.data.filter(item => item.selfId === null);
-//     console.log(filteredData);
-
-//     if (filteredData.length === 0) {
-//         console.error('No root node found.');
-//         return;
-//     }
-
-//     const rootNode = filteredData[0];
-//     console.log(rootNode);
-
-//     this.stratifiedData = d3.stratify<CompanyHierarchyViewDto>()
-//         .id(d => d.chartId.toString())
-//         .parentId(d => d.selfId ? d.selfId.toString() : rootNode.chartId.toString())
-//         (this.data);
-//     console.log(this.stratifiedData);
-
-//     // Initialize the chart here
-//     if (!this.chart) {
-//         this.chart = new TreeChart();
-//     }
-//     this.chart
-//         .container('chartContainer')
-//         .data(this.stratifiedData)
-//         .svgWidth(500)
-//         .initialZoom(0.4)
-//         .onNodeClick(d => console.log(d + " node clicked"))
-//         .render();
-// }
