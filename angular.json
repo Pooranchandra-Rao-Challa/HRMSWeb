@@ -25,7 +25,14 @@
                         ],
                         "allowedCommonJsDependencies": [
                             "sweetalert2",
-                            "d3-org-chart"
+                            "d3-org-chart",
+                            "jspdf",
+                            "canvg",
+                            "html2canvas",
+                            "dompurify",
+                            "rgbcolor",
+                            "raf",
+                            "core-js/modules/web.dom-collections.iterator.js"
                         ],
                         "tsConfig": "tsconfig.app.json",
                         "inlineStyleLanguage": "scss",
