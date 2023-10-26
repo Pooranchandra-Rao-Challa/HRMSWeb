@@ -146,14 +146,22 @@ export class ProjectComponent implements OnInit {
     });
   }
 
+  // initProjects() {
+  //   this.adminService.GetProjects().subscribe(resp => {
+  //     this.projects = resp as unknown as ProjectViewDto[];
+  //     console.log(this.projects);
+      
+  //     // this.projects.forEach(element => {
+  //     //   element.expandEmployees = JSON.parse(element.teamMembers);
+  //     // });
+  //     // this.rootProject.children = this.convertToTreeNode(resp as unknown as ProjectViewDto[]);
+  //     // this.projectTreeData = [this.rootProject];
+  //   });
+  // }
   initProjects() {
     this.adminService.GetProjects().subscribe(resp => {
       this.projects = resp as unknown as ProjectViewDto[];
-      this.projects.forEach(element => {
-        element.expandEmployees = JSON.parse(element.teamMembers);
-      });
-      this.rootProject.children = this.convertToTreeNode(resp as unknown as ProjectViewDto[]);
-      this.projectTreeData = [this.rootProject];
+      console.log(this.projects);
     });
   }
 

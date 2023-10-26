@@ -137,7 +137,7 @@ export class AppMenuComponent implements OnInit {
                 permission: this.GroupPermission('Employee'),
                 items: [
                     {
-                        label: 'Search Employees',
+                        label: 'Enrolled Employees',
                         icon: 'pi pi-fw pi-users',
                         routerLink: ['employee/all-employees'],
                         permission: this.jwtService.Permissions.CanViewAssetsAllotments

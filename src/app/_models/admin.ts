@@ -180,3 +180,8 @@ export interface EmployeesForAllottedAssetsViewDto {
     designation?: string;
     dateofJoin?: Date;
 }
+
+export class EmployeeRolesDto{
+    eroleId?:number;
+    name?:string;
+}
