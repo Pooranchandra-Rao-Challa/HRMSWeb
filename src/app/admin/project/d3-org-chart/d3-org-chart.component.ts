@@ -13,6 +13,8 @@ import * as d3 from 'd3';
 import { OrgChart } from "./orgChart";
 import { EmployeeService } from "src/app/_services/employee.service";
 import { CompanyHierarchyViewDto } from "src/app/_models/employes";
+import { jsPDF } from "jspdf";
+import { Observable, Subscription } from "rxjs";
 /*
   "d3": "7.6.1",
     "d3-flextree": "2.1.2",
@@ -112,7 +114,9 @@ export class NodeProps {
 export class D3OrgChartComponent implements OnChanges, OnInit {
     @ViewChild("chartContainer") chartContainer: ElementRef;
     data: any[] = null;
-    //chart: TreeChart;
+    private eventsSubscription: Subscription;
+
+    @Input() events: Observable<void>;
     chart: any;
     templateEmployee: string = '<div><div style="margin-left:70px; margin-top:10px; font-size:20pt; font-weight:bold;">NAME</div><div style="margin-left:70px; margin-top:3px;font-size:16pt;">DESIGNATION </div> <div style="margin-left:70px;margin-top:3px;font-size:14pt;">PROJECT</div></div>';
     templateOrg: string = '<div><div style="margin-left:70px; margin-top:10px; font-size:20pt; font-weight:bold;"> NAME </div> </div>';
@@ -122,9 +126,13 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
     constructor(private employeeService: EmployeeService,) { }
 
 
+    ngOnDestroy() {
+        this.eventsSubscription.unsubscribe();
+    }
 
     ngOnInit() {
         console.log(d3);
+        this.eventsSubscription = this.events.subscribe(() => this.downloadPdf());
 
         this.employeeService.getCompanyHierarchy().subscribe((resp) => {
             let data = resp as unknown as CompanyHierarchyViewDto[];
@@ -212,8 +220,8 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
             .siblingsMargin((d) => 100)
             .buttonContent(({ node, state }) => {
                 return `<div style="color:black;border-radius:5px;padding:5px;font-size:10px;margin:auto auto;background-color:#ffffff;border: 1px solid #ff820e;margin-top:14px"> <span style="font-size:9px">${node.children
-                        ? `<i class="fas fa-angle-up"></i>`
-                        : `<i class="fas fa-angle-down"></i>`
+                    ? `<i class="fas fa-angle-up"></i>`
+                    : `<i class="fas fa-angle-down"></i>`
                     }</span> ${node.data._directSubordinates}  </div>`;
             })
             .linkUpdate(function (d, i, arr) {
@@ -231,8 +239,8 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
                 const projectDesc = `<div class="pie-chart-wrapper" style="margin-left:10px;margin-top:5px;width:320px;height:300px">Testing- Add Project description At CEO Level</div>`;
                 const projectNoDesc = `<div class="pie-chart-wrapper" style="margin-left:10px;margin-top:5px;width:320px;height:300px"></div>`
                 let desc = projectNoDesc;
-                const reCEO  = /^CEO$/gi;
-                if(reCEO.test(d.data.name)){
+                const reCEO = /^CEO$/gi;
+                if (reCEO.test(d.data.name)) {
                     desc = projectDesc;
                 }
 
@@ -321,6 +329,31 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
                 "background-image",
                 `url(${replaced}), radial-gradient(circle at center, #ffffff 0, #ffffff 100%)`
             );
+    }
+
+
+    downloadPdf() {
+        if (this.chart) {
+            this.chart.exportImg({
+                save: false,
+                onLoad: (base64) => {
+                    var pdf = new jsPDF();
+                    var img = new Image();
+                    img.src = base64;
+                    img.onload = function () {
+                        pdf.addImage(
+                            img,
+                            "JPEG",
+                            5,
+                            5,
+                            595 / 3,
+                            ((img.height / img.width) * 595) / 3
+                        );
+                        pdf.save("chart.pdf");
+                    };
+                }
+            });
+        }
     }
 
 }
