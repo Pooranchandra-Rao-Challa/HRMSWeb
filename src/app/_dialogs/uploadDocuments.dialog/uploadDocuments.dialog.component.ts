@@ -44,7 +44,12 @@ export class uploadDocumentsDialogComponent {
     get FormControls() {
         return this.fbUpload.controls;
     }
-
+    
+    restrictSpaces(event: KeyboardEvent) {
+        if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {
+            event.preventDefault();
+        }
+    }
     onClick() {
         const fileUpload = this.fileUpload.nativeElement;
         fileUpload.onchange = () => {

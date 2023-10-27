@@ -1,6 +1,6 @@
 import { HttpErrorResponse, HttpEvent, HttpResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { Employee, EmployeesViewDto } from 'src/app/_models/employes';
@@ -16,12 +16,12 @@ export class FinalSubmitComponent {
   fbEnroll!: FormGroup;
   message: any;
   dialog: boolean = false;
-  displayDialog: boolean ;
+  displayDialog: boolean;
   employees: any;
   employeeObj: any = {};
   userData: any;
   errorMessage: string;
-  roles:RoleViewDto[]=[];
+  roles: RoleViewDto[] = [];
 
   constructor(private router: Router, private employeeService: EmployeeService,
     private formbuilder: FormBuilder, private alertMessage: AlertmessageService,
@@ -33,7 +33,7 @@ export class FinalSubmitComponent {
   ngOnInit() {
     this.fbEnroll = this.formbuilder.group({
       employeeId: [this.employeeId],
-      roleId:new FormControl(null)
+      roleId: new FormControl(null, [Validators.required])
     })
     this.getRoles();
   }
@@ -50,6 +50,10 @@ export class FinalSubmitComponent {
       this.roles = resp as unknown as RoleViewDto[];
       console.log(this.roles);
     });
+  }
+
+  get FormControls() {
+    return this.fbEnroll.controls;
   }
 
 

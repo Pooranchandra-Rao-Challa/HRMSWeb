@@ -1,16 +1,26 @@
+
 <form [formGroup]="fbEnroll">
   <div class="grid mt-3" id="hrms">
     <div class="col-12 roles-container">
       <div class="field col-12 md:col-4">
-        <label>Roles:</label>
+        <label>Role:</label>
         <p-dropdown id="roles_dropdown" [autoDisplayFirst]="false" optionLabel="name" [options]="roles"
-          optionValue="roleId" formControlName="roleId" appendTo="body" placeholder="Select Role" >
+          optionValue="roleId" formControlName="roleId" appendTo="body" placeholder="Select Role"
+          [ngClass]="{ 'is-invalid ng-dirty': FormControls['roleId'].touched && FormControls['roleId'].errors }">
         </p-dropdown>
+        <div class="flex">
+          <div class="align-left w-60" style="width:70%">
+            <span *ngIf="FormControls['roleId'].touched && FormControls['roleId'].invalid">
+              <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['roleId'].errors?.['required']">
+                Please Enter Role.</div>
+            </span>
+          </div>
+        </div>
       </div>
       <div class="field col-12 md:col-4">
-        <p-button (click)="confirmationDialog()">Enroll Employee</p-button>
+        <p-button (click)="confirmationDialog()" [disabled]="fbEnroll.invalid">Enroll Employee</p-button>
       </div>
-      <div *ngIf="displayDialog == false">
+      <div *ngIf="displayDialog">
         <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">
           First you need to fill these Details, Next you Enroll
         </div>
