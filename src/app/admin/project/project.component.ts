@@ -16,6 +16,7 @@ import { CompanyHierarchyViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { D3OrgChartComponent } from './d3-org-chart/d3-org-chart.component';
 import { LOGIN_URI } from 'src/app/_services/api.uri.service';
+import { FileUpload } from 'primeng/fileupload';
 interface AutoCompleteCompleteEvent {
   originalEvent: Event;
   query: string;
@@ -45,7 +46,7 @@ export class ProjectComponent implements OnInit {
   projectDetails: any = {};
   selectedFileBase64: string | null = null; // To store the selected file as base64
   companyHierarchy: CompanyHierarchyViewDto[] = [];
-
+  @ViewChild('fileUpload') fileUpload: FileUpload;
 
   projectTreeData: TreeNode[];
   rootProject: TreeNode = {
@@ -91,7 +92,7 @@ export class ProjectComponent implements OnInit {
         isActive: [true, [Validators.required]],
         companyName: new FormControl(null, [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
         Name: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
-        email: new FormControl('', [Validators.required, Validators.pattern(RG_EMAIL),]),
+        email: new FormControl('', [Validators.required, Validators.pattern(RG_EMAIL),Validators.maxLength(MAX_LENGTH_50)]),
         mobileNumber: new FormControl('', [Validators.required, Validators.pattern(RG_PHONE_NO)]),
         cinno: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_21), Validators.maxLength(MAX_LENGTH_21)]),
         pocName: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
@@ -153,6 +154,8 @@ export class ProjectComponent implements OnInit {
       this.projects.forEach(element => {
         element.expandEmployees = JSON.parse(element.teamMembers);
       });
+      console.log(this.projects);
+      
       this.rootProject.children = this.convertToTreeNode(resp as unknown as ProjectViewDto[]);
       this.projectTreeData = [this.rootProject];
     });
@@ -173,6 +176,7 @@ export class ProjectComponent implements OnInit {
 
   initProject(project: ProjectViewDto) {
     this.projectForm();
+    this.fileUpload.clear();
     this.dialog = true;
     if (project != null) {
       this.editEmployee(project);
@@ -200,8 +204,7 @@ export class ProjectComponent implements OnInit {
       clientId: project.clientId,
       isActive: project.clientIsActive,
       companyName: {
-        companyName: project.companyName,
-        clientId: project.clientId
+        companyName: project.companyName
       },
       Name: project.clientName,
       email: project.email,
@@ -211,6 +214,8 @@ export class ProjectComponent implements OnInit {
       pocMobileNumber: project.pocMobileNumber,
       address: project.address,
     });
+
+    this.fbproject.markAllAsTouched();
   }
 
   addEmployees(projectDetails: ProjectViewDto) {
@@ -221,6 +226,8 @@ export class ProjectComponent implements OnInit {
   }
 
   onAutocompleteSelect(selectedOption: ClientNamesDto) {
+    console.log(this.fcClientDetails.get('companyName').value);
+    
     this.adminService.GetClientDetails(selectedOption.clientId).subscribe(resp => {
       this.clientDetails = resp[0];
       this.fcClientDetails.get('clientId')?.setValue(this.clientDetails.clientId);
@@ -235,7 +242,7 @@ export class ProjectComponent implements OnInit {
   }
 
   saveProject() {
-    this.fbproject.get('startDate').setValue( FORMAT_DATE(new Date(this.fbproject.get('startDate').value)))
+    this.fbproject.get('startDate').setValue(FORMAT_DATE(new Date(this.fbproject.get('startDate').value)))
     if (this.addFlag) {
       if (this.clientDetails)
         this.fcClientDetails.get('companyName')?.setValue(this.clientDetails.companyName);
@@ -286,7 +293,7 @@ export class ProjectComponent implements OnInit {
     }
   }
 
-  getSelectedItemName(item: { clientId: number; companyName: string }) {
+  getSelectedItemName(item: {companyName: string }) {
     this.fcClientDetails.get('companyName')?.setValue(item.companyName);
   }
 
@@ -310,6 +317,8 @@ export class ProjectComponent implements OnInit {
     };
   }
   save() {
+    console.log(this.fbproject.value);
+    
     if (this.fbproject.valid) {
       this.saveProject().subscribe(resp => {
         if (resp) {
@@ -317,8 +326,8 @@ export class ProjectComponent implements OnInit {
           this.initProjects();
           this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "PAS001" : "PAS002"]);
           this.dialog1 = false;
-          if(this.visible)
-          this.showProjectDetails(this.projectDetails.projectId);
+          if (this.visible)
+            this.showProjectDetails(this.projectDetails.projectId);
         }
       })
     }
@@ -357,6 +366,8 @@ export class ProjectComponent implements OnInit {
   initClientNames() {
     this.adminService.GetClientNames().subscribe(resp => {
       this.clientsNames = resp as unknown as ClientNamesDto[];
+      console.log(this.clientsNames);
+      
     });
   }
   initEmployees() {

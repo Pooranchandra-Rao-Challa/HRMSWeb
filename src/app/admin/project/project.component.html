@@ -91,11 +91,10 @@
                 </div>
                 <div class="field col-12 md:col-4">
                   <label for="textarea">Description <sup class="p-error">*</sup>
-                  </label>&nbsp; <textarea inputId="textarea" rows="5" cols="30" pInputTextarea
+                  </label>&nbsp; <textarea inputId="textarea" pInputTextarea
                     [ngClass]="{ 'is-invalid ng-dirty': projectFormControls['description'].touched &&projectFormControls['description'].errors }"
                     (keydown)="restrictSpaces($event)" [maxlength]="maxLength.description" id="Project_description"
-                    class="freeze_text-area" #description placeholder="Enter Description"
-                    formControlName="description"></textarea>
+                    #description placeholder="Enter Description" formControlName="description"></textarea>
                   <div class="flex">
                     <div class="align-left w-60" style="width:70%">
                       <span
@@ -126,7 +125,7 @@
                         alt="logo" height="100px" width="100px" class="up_logo">
                     </div>
                     <div class="col " style="padding-top:50px">
-                      <p-fileUpload mode="basic" [maxFileSize]="1000000" chooseLabel="Choose logo"
+                      <p-fileUpload #fileUpload mode="basic" [maxFileSize]="1000000" chooseLabel="Choose logo"
                         url="https://www.primefaces.org/cdn/api/upload.php" (onSelect)="onFileSelect($event)"
                         accept="image/jpeg, image/png, image/jpg">
                       </p-fileUpload>
@@ -148,10 +147,11 @@
                   </label>&nbsp;
                   <p-autoComplete formControlName="companyName" [suggestions]="this.filteredClients"
                     [ngClass]="{ 'is-invalid ng-dirty': fcClientDetails.controls['companyName'].touched && fcClientDetails.controls['companyName'].errors }"
-                    (keydown)="restrictSpaces($event)" [readonly]="projectFormControls['projectId'].value!== null"
-                    [maxlength]="maxLength.name" placeholder="Enter Company Full Name" #CompanyName
-                    (completeMethod)="filterClients($event)" (onSelect)="onAutocompleteSelect($event)"
-                    field="companyName" id="Project_fullName">
+                    (keydown)="restrictSpaces($event)" [maxlength]="maxLength.name"
+                    [readonly]="projectFormControls['projectId'].value!== null"
+                    placeholder="Enter Company Full Name" #CompanyName (completeMethod)="filterClients($event)"
+                    (onSelect)="onAutocompleteSelect($event)" [field]="'companyName'" [dataKey]="null"
+                    id="Project_fullName">
                   </p-autoComplete>
 
                   <div class="flex">
@@ -175,9 +175,9 @@
                   </div>
                 </div>
                 <div class="field col-12 md:col-4">
-                  <label class="required">Client Name:
+                  <label class="required">Name:
                   </label>&nbsp;
-                  <input pInputText id="Project_clientName" type="text" placeholder="Enter Client Name" alphaOnly
+                  <input pInputText id="Project_clientName" type="text" placeholder="Enter Name" alphaOnly
                     [ngClass]="{ 'is-invalid ng-dirty': fcClientDetails.controls['Name'].touched && fcClientDetails.controls['Name'].errors }"
                     (keydown)="restrictSpaces($event)" [maxlength]="maxLength.name" #clientName
                     formControlName="Name" />
@@ -187,7 +187,7 @@
                         *ngIf="fcClientDetails.controls['Name'].touched && fcClientDetails.controls['Name'].invalid">
                         <div class="ng-invalid ng-touched p-error"
                           *ngIf="fcClientDetails.controls['Name'].errors?.['required']">
-                          Please Enter Client Name.</div>
+                          Please Enter Name.</div>
                         <div class="ng-invalid ng-touched p-error"
                           *ngIf="fcClientDetails.controls['Name'].errors?.['minlength']">
                           Name Min Characters Is 2.</div>
@@ -203,9 +203,9 @@
                 </div>
 
                 <div class="field col-12 md:col-4">
-                  <label class="required">Client Email Id:
+                  <label class="required">Email Id:
                   </label>&nbsp;
-                  <input pInputText id="Project_clientEmail" placeholder="Enter Client Email Id" formControlName="email"
+                  <input pInputText id="Project_clientEmail" placeholder="Enter Email Id" formControlName="email"
                     [ngClass]="{ 'is-invalid ng-dirty': fcClientDetails.controls['email'].touched && fcClientDetails.controls['email'].errors }"
                     (keydown)="restrictSpaces($event)" />
                   <div class="flex">
@@ -214,7 +214,7 @@
                         *ngIf="fcClientDetails.controls['email'].touched && fcClientDetails.controls['email'].invalid">
                         <div class="ng-invalid ng-touched p-error"
                           *ngIf="fcClientDetails.controls['email'].errors?.['required']">
-                          Please Enter Client Email Id.</div>
+                          Please Enter Email Id.</div>
                         <div class="ng-invalid ng-touched p-error"
                           *ngIf="fcClientDetails.controls['email'].errors?.['pattern']">
                           Please Enter Valid Client Email Id.</div>
@@ -223,9 +223,9 @@
                   </div>
                 </div>
                 <div class="field col-12 md:col-4">
-                  <label class="required">Client Mobile No:
+                  <label class="required">Mobile No:
                   </label>&nbsp;
-                  <input pInputText id="Project_clientMobileNo" type="text" placeholder="Enter Client Mobile No"
+                  <input pInputText id="Project_clientMobileNo" type="text" placeholder="Enter Mobile No"
                     [ngClass]="{ 'is-invalid ng-dirty': fcClientDetails.controls['mobileNumber'].touched && fcClientDetails.controls['mobileNumber'].errors }"
                     #clientNo [maxlength]="maxLength.phoneNo" formControlName="mobileNumber" numericOnly />
                   <div class="flex">
@@ -234,7 +234,7 @@
                         *ngIf="fcClientDetails.controls['mobileNumber'].touched && fcClientDetails.controls['mobileNumber'].invalid">
                         <div class="ng-invalid ng-touched p-error"
                           *ngIf="fcClientDetails.controls['mobileNumber'].errors?.['required']">
-                          Please Enter Client Mobile No.</div>
+                          Please Enter Mobile No.</div>
                         <div class="ng-invalid ng-touched p-error"
                           *ngIf="fcClientDetails.controls['mobileNumber'].errors?.['pattern']">
                           Please Enter Valid Client Mobile No.</div>
@@ -257,7 +257,7 @@
                         *ngIf="fcClientDetails.controls['cinno'].touched && fcClientDetails.controls['cinno'].invalid">
                         <div class="ng-invalid ng-touched p-error"
                           *ngIf="fcClientDetails.controls['cinno'].errors?.['required']">
-                          Please Enter CIN No.</div>
+                          Please Enter CIN/GST No.</div>
                         <div class="ng-invalid ng-touched p-error"
                           *ngIf="fcClientDetails.controls['cinno'].errors?.['minlength']&&fcClientDetails.controls['cinno'].errors?.['maxlength']">
                           CIN/GST No Must Be In 21 Digits.</div>
@@ -546,7 +546,7 @@
                     </div>
                   </div>
                 </div>
-                
+
               </div>
             </div>
           </div>
