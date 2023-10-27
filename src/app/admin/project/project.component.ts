@@ -16,6 +16,7 @@ import { LOGIN_URI } from 'src/app/_services/api.uri.service';
 import { FileUpload } from 'primeng/fileupload';
 import { DownloadNotification } from 'src/app/_services/notifier.services';
 import { ProjectNotification } from 'src/app/_services/projectnotification.service';
+import { DatePipe } from '@angular/common';
 interface AutoCompleteCompleteEvent {
     originalEvent: Event;
     query: string;
@@ -79,7 +80,8 @@ export class ProjectComponent implements OnInit {
     }
     constructor(private formbuilder: FormBuilder, private adminService: AdminService,
         private employeeService: EmployeeService, private alertMessage: AlertmessageService,
-        private jwtService: JwtService, private downloadNotifier: DownloadNotification, private projectNotifier: ProjectNotification) { }
+        private jwtService: JwtService, private downloadNotifier: DownloadNotification,
+         private projectNotifier: ProjectNotification, private datePipe: DatePipe) { }
 
     ngOnInit() {
         this.permission = this.jwtService.Permissions;
@@ -93,16 +95,16 @@ export class ProjectComponent implements OnInit {
     projectForm() {
         this.fbproject = this.formbuilder.group({
             clientId: [0],
-            projectId: [0],
-            isActive: ['', [Validators.required]],
+            projectId: [null],
+            isActive: [true, [Validators.required]],
             code: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_4), Validators.maxLength(MAX_LENGTH_20)]),
             name: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
-            InceptionAt: new FormControl('', [Validators.required]),
+            startDate: new FormControl('', [Validators.required]),
             description: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
             logo: [],
             clients: this.formbuilder.group({
                 clientId: [],
-                isActive: ['', [Validators.required]],
+                isActive: [true, [Validators.required]],
                 companyName: new FormControl(null, [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
                 Name: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
                 email: new FormControl('', [Validators.required]),
@@ -199,6 +201,8 @@ export class ProjectComponent implements OnInit {
 
     initProject(project: ProjectViewDto) {
         this.projectForm();
+        console.log(project);
+        
         this.dialog = true;
         if (project != null) {
             this.editEmployee(project);
