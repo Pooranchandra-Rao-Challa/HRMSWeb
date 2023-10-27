@@ -11,6 +11,9 @@ import { TreeNode } from 'primeng/api';
 import * as go from 'gojs';
 import { CompanyHierarchyViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
+import { D3OrgChartComponent } from './d3-org-chart/d3-org-chart.component';
+import { LOGIN_URI } from 'src/app/_services/api.uri.service';
+import { FileUpload } from 'primeng/fileupload';
 import { DownloadNotification } from 'src/app/_services/notifier.services';
 import { ProjectNotification } from 'src/app/_services/projectnotification.service';
 interface AutoCompleteCompleteEvent {
