@@ -65,9 +65,9 @@ export class LeavesComponent {
 
   ngOnInit(): void {
     this.permissions = this.jwtService.Permissions;
+    this.leaveForm();
     this.getLeaves();
     this.getLeaveTypes();
-    this.leaveForm();
   }
 
   getLeaves() {

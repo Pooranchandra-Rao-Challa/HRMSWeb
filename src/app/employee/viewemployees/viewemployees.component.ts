@@ -69,7 +69,8 @@ export class ViewemployeesComponent {
   enRollEmployee: boolean = false;
   showOfcAndAssetDetails: boolean = false;
   permissions: any;
-
+  dialog:boolean=false;
+  
   constructor(
     private jwtService: JwtService,
     private alertMessage:AlertmessageService,
@@ -93,7 +94,9 @@ export class ViewemployeesComponent {
     this.initBankDetails();
     this.initviewAssets();
   }
-
+  onEmployeeEnroll(){
+    this.dialog=true;
+  }
   // EMPLOYEE Basic details
   initViewEmpDtls() {
     this.enRollEmployee = false;
