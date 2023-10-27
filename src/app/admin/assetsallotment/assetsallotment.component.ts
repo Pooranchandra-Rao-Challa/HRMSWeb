@@ -67,6 +67,20 @@ export class AssetsallotmentComponent extends Unsubscribe {
         });
     }
 
+    onGlobalFilter(table: Table, event: Event) {
+        table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+    }
+
+
+    clear(table: Table) {
+        table.clear();
+        this.filter.nativeElement.value = '';
+    }
+
+    onFilter(dv: DataView, event: Event) {
+        dv.filter((event.target as HTMLInputElement).value);
+    }
+    
     openComponentDialog(content: any,
         dialogData, action: Actions = this.ActionTypes.add) {
         if (action == Actions.view && content === this.viewAssetAllotmentsDialogComponent) {
@@ -85,22 +99,9 @@ export class AssetsallotmentComponent extends Unsubscribe {
             width: this.dialogRequest.width
         });
         this.ref.onClose.subscribe((res: any) => {
+            this.initEmployeesForAllottedAssets();
             event.preventDefault(); // Prevent the default form submission
         });
-    }
-
-    onGlobalFilter(table: Table, event: Event) {
-        table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
-    }
-
-
-    clear(table: Table) {
-        table.clear();
-        this.filter.nativeElement.value = '';
-    }
-
-    onFilter(dv: DataView, event: Event) {
-        dv.filter((event.target as HTMLInputElement).value);
     }
 
 }

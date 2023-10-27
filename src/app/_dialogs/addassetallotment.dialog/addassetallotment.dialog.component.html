@@ -7,8 +7,8 @@
                 <div class="field col-12 md:col-4">
                     <label class="required">Employee:</label>
                     <p-dropdown id="select-employee" [options]="employeesDropdown" formControlName="employeeId"
-                        optionLabel="employeeCode" [filter]="true" filterBy="employeeCode,employeeName"
-                        placeholder="Select Employee" optionValue="employeeId" appendTo="body"
+                        optionLabel="employeeName" optionValue="employeeId" [filter]="true"
+                        filterBy="employeeCode,employeeName" placeholder="Select Employee" appendTo="body"
                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['employeeId'].touched && FormControls['employeeId'].errors }">
                         <ng-template let-employee pTemplate="item">
                             <div class="country-item">
@@ -20,7 +20,8 @@
                     <span *ngIf="FormControls['employeeId'].touched && FormControls['employeeId'].invalid">
                         <div class="ng-invalid ng-touched p-error"
                             *ngIf="FormControls['employeeId'].errors?.['required']">
-                            Please Select Employee.</div>
+                            Please Select Employee.
+                        </div>
                     </span>
                 </div>
                 <div class="field col-12 md:col-4">

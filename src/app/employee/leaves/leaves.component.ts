@@ -104,7 +104,7 @@ export class LeavesComponent {
       code: new FormControl(''),
       fromDate: new FormControl('', [Validators.required]),
       toDate: new FormControl(),
-      leaveType: new FormControl('', [Validators.required]),
+      leaveTypeId: new FormControl('', [Validators.required]),
       note: new FormControl('', [Validators.required]),
       acceptedBy: new FormControl(''),
       acceptedAt: new FormControl(null),
@@ -132,7 +132,7 @@ export class LeavesComponent {
         code: this.leaveData.code,
         fromDate: this.leaveData.fromDate ? FORMAT_DATE(new Date(this.leaveData.fromDate)) : null,
         toDate: this.leaveData.toDate ? FORMAT_DATE(new Date(this.leaveData.toDate)) : null,
-        leaveType: this.leaveData.leaveType,
+        leaveTypeId: this.leaveData.leaveTypeId,
         note: this.leaveData.note,
         acceptedBy: acceptedBy,
         acceptedAt: this.leaveData.acceptedAt ? FORMAT_DATE(new Date(this.leaveData.acceptedAt)) : null,
@@ -169,9 +169,9 @@ export class LeavesComponent {
   openComponentDialog(content: any,
     dialogData, action: Actions = this.ActionTypes.add) {
     if (action == Actions.save && content === this.leaveDialogComponent) {
-      this.dialogRequest.dialogData = dialogData;
+      this.dialogRequest.dialogData = {dialogData};
       this.dialogRequest.header = "Leave";
-      this.dialogRequest.width = "70%";
+      this.dialogRequest.width = "60%";
     }
     this.ref = this.dialogService.open(content, {
       data: this.dialogRequest.dialogData,

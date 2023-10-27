@@ -25,6 +25,8 @@ export class UserQuestionDto {
 export class RoleViewDto {
   roleId?: string;
   name?: string;
+  eroleId?:number;
+  eRole?:string;
   isActive?: boolean;
   createdBy?: string
   createdAt?: string
@@ -41,6 +43,7 @@ export class RolePermissionDto {
 export class RoleDto {
   roleId?: string
   name?: string
+  eroleId?:number;
   isActive?: boolean
   permissions?: RolePermissionDto[]
   createdBy?: string

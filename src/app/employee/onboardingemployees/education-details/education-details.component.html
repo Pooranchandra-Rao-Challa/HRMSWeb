@@ -19,10 +19,10 @@
                                     *ngIf="FormControls['authorityName'].touched && FormControls['authorityName'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="FormControls['authorityName'].errors?.['required']">
-                                        Please Enter University Name.</div>
+                                        Please Enter Board/University Name.</div>
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="FormControls['authorityName'].errors?.['minlength']">
-                                        University Name Min Length Is 2.</div>
+                                        Board/University Name Min Length Is 2.</div>
                                 </span>
                             </div>
                             <div class="align-right w-40" style="width:30%; text-align:right;">
@@ -32,7 +32,7 @@
                     </div>
                     <div class="field col-12 md:col-4">
                         <label class="required">Country:</label>
-                        <p-dropdown id="country_dropdown" [autoDisplayFirst]="false" placeholder="Select Country Name"
+                        <p-dropdown id="country_dropdown" [autoDisplayFirst]="false" placeholder="Select Country"
                             optionLabel="name" [options]="country" optionValue="lookupDetailId"
                             formControlName="countryId" appendTo="body" (onChange)="getStatesByCountryId($event.value)"
                             [ngClass]="{'is-invalid ng-dirty': FormControls['countryId'].touched && FormControls['countryId'].errors }">
@@ -49,7 +49,7 @@
                     </div>
                     <div class="field col-12 md:col-4">
                         <label class="required">State:</label>
-                        <p-dropdown id="states_dropdown" [autoDisplayFirst]="false" placeholder="Select State Name"
+                        <p-dropdown id="states_dropdown" [autoDisplayFirst]="false" placeholder="Select State"
                             optionLabel="name" [options]="states" optionValue="lookupDetailId" formControlName="stateId"
                             appendTo="body"
                             [ngClass]="{'is-invalid ng-dirty': FormControls['stateId'].touched && FormControls['stateId'].errors }">

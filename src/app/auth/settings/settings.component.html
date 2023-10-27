@@ -150,9 +150,8 @@
                         <ng-template pTemplate="footer">
                             <div class="col-4" style="float:right">
                                 <button pButton pRipple type="submit" class="p-button-raised p-button-success"
-                                    (click)="saveSecurityQuestions()" id="user-questions"
-                                    [disabled]="!security.answer || !security.question"
-                                    (click)="onSubmit()">{{qstnSubmitLabel}}</button>
+                                    (click)="saveSecurityQuestions();onSubmit()" id="user-questions"
+                                    [disabled]="!security.answer || !security.question">{{qstnSubmitLabel}}</button>
                             </div>
                         </ng-template>
                     </p-dialog>

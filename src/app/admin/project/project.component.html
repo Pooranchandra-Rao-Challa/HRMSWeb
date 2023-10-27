@@ -74,16 +74,16 @@
                 <div class="field col-12 md:col-4">
                   <label class="required">Start Date:
                   </label>&nbsp; <p-calendar inputId="calendar" [readonlyInput]="true" [showIcon]="true"
-                    [ngClass]="{ 'is-invalid ng-dirty': projectFormControls['startDate'].touched &&projectFormControls['startDate'].errors }"
+                    [ngClass]="{ 'is-invalid ng-dirty': projectFormControls['InceptionAt'].touched &&projectFormControls['InceptionAt'].errors }"
                     yearRange="2000:2030" id="startDate" placeholder="Select Start Date" mask="99/99/9999"
-                    formControlName="startDate">
+                    formControlName="InceptionAt">
                   </p-calendar>
                   <div class="flex">
                     <div class="align-left w-60" style="width:70%">
                       <span
-                        *ngIf="projectFormControls['startDate'].touched && projectFormControls['startDate'].invalid">
+                        *ngIf="projectFormControls['InceptionAt'].touched && projectFormControls['InceptionAt'].invalid">
                         <div class="ng-invalid ng-touched p-error"
-                          *ngIf="projectFormControls['startDate'].errors?.['required']">
+                          *ngIf="projectFormControls['InceptionAt'].errors?.['required']">
                           Please Select Start Date.</div>
                       </span>
                     </div>
@@ -422,7 +422,7 @@
             </div>
           </div>
         </p-tabPanel>
-        <p-tabPanel header="Hierarchy View">
+        <!-- <p-tabPanel header="Hierarchy View">
           <div id="hrms" class="scroll_div scroll  pb-5">
             <p-organizationChart [value]="projectTreeData" selectionMode="single" [preserveSpace]="false">
               <ng-template let-node pTemplate="person">
@@ -434,10 +434,18 @@
               </ng-template>
             </p-organizationChart>
           </div>
-        </p-tabPanel>
-        <p-tabPanel header="D3Js View">
+        </p-tabPanel> -->
+        <p-tabPanel header="Org/Project Chart View">
+          <div style="float:right;padding-bottom: 20px;">
+            <p-button appendTo="body" id="download-chart" [style]="{'margin-right':'20px'}"
+              (onClick)="emitEventToChild()">Download Chart</p-button>
+            <p-dropdown appendTo="body" id="Project_dropdown"
+              placeholder="Select Project Name" [options]="projects" optionValue="projectId" optionLabel="name"
+              [(ngModel)]="selectedProjectId" (ngModelChange)="onProjectChange($event)">
+            </p-dropdown>
+          </div>
           <div id="hrms" class="scroll_div scroll  pb-5">
-            <app-d3-org-chart [data]="companyHierarchy"></app-d3-org-chart>
+            <app-d3-org-chart></app-d3-org-chart><!--[events]="eventsSubject.asObservable()"     -->
           </div>
         </p-tabPanel>
       </p-tabView>

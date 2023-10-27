@@ -180,3 +180,26 @@ export interface EmployeesForAllottedAssetsViewDto {
     designation?: string;
     dateofJoin?: Date;
 }
+
+export class EmployeeRolesDto{
+    eroleId?:number;
+    name?:string;
+}
+
+export class EmployeeHierarchyDto{
+    employeeId?:number;
+    employeeName?:string;
+    designationId?:number;
+    designation?:string;
+    roleId?:number;
+    roleName?:string;
+    eRoleId?:number;
+    eRoleName?:string;
+    projectId?:number;
+    projectName?:string;
+    chartId?:number;
+    hierarchyLevel?:string;
+    selfId?:number;
+    reportingToId?:number;
+    photo?:string;
+}

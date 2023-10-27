@@ -44,7 +44,7 @@ export class AddassetallotmentDialogComponent {
 
     initEmployees() {
         this.adminService.getEmployeesList().subscribe((resp) => {
-            this.employeesDropdown = resp as unknown as EmployeesList[];
+            this.employeesDropdown = resp as unknown as EmployeesList[];            
         });
     }
 
@@ -75,7 +75,7 @@ export class AddassetallotmentDialogComponent {
             assetCategoryId: new FormControl('', [Validators.required]),
             assetTypeId: new FormControl('', [Validators.required]),
             assetId: new FormControl('', [Validators.required]),
-            assignedOn: new FormControl(new Date(), [Validators.required]),
+            assignedOn: new FormControl('', [Validators.required]),
             comment: ''
         });
     }
@@ -86,7 +86,6 @@ export class AddassetallotmentDialogComponent {
 
     saveAssetAllotment(): Observable<HttpEvent<AssetAllotmentDto>> {
         this.fbAssetAllotment.get('employeeId').enable();
-        this.fbAssetAllotment.get('assignedOn').setValue(FORMAT_DATE(new Date(this.fbAssetAllotment.get('assignedOn').value)))
         return this.adminService.CreateAssetAllotment(this.fbAssetAllotment.value)
     }
 

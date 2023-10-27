@@ -1,4 +1,4 @@
-import { HttpEvent, HttpResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpEvent, HttpResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -18,6 +18,8 @@ export class FinalSubmitComponent {
   employees: any;
   employeeObj: any = {};
   userData: any;
+  errorMessage: string;
+
   constructor(private router: Router, private employeeService: EmployeeService,
     private formbuilder: FormBuilder, private alertMessage: AlertmessageService,
     private activatedRoute: ActivatedRoute,
@@ -35,7 +37,6 @@ export class FinalSubmitComponent {
     const isEnrolled = false;
     this.employeeService.GetEmployees(isEnrolled).subscribe(resp => {
       this.employees = resp
-      console.log(this.employees)
     });
   }
 
@@ -45,8 +46,7 @@ export class FinalSubmitComponent {
       this.employees = resp
       this.dialog = true;
       this.employeeObj = this.employees.find(x => x.employeeId == this.employeeId);
-      console.log(this.employeeObj)
-      if (this.employeeObj.pendingDetails == "BankDetails, FamilyInformation" || this.employeeObj.pendingDetails == "BankDetails" || this.employeeObj.pendingDetails == "FamilyInformation" ) {
+      if (this.employeeObj.pendingDetails == "BankDetails, FamilyInformation" || this.employeeObj.pendingDetails == "BankDetails" || this.employeeObj.pendingDetails == "FamilyInformation") {
         this.displayDialog = true;
         this.onSubmit();
       }
@@ -59,21 +59,32 @@ export class FinalSubmitComponent {
   onSubmit() {
     this.employeeService.EnrollUser(this.fbEnroll.value).subscribe(res => {
       this.message = res;
-      console.log(this.message);
-    });
+    },
+      (error: HttpErrorResponse) => {
+        this.errorMessage = 'Request failed: ', error
+        if (error.status === 403) {
+          this.errorMessage = 'Access Denied: ', error.message
+        } else {
+          this.errorMessage = 'Duplicate UserName ' + error.message
+        }
+      });
     this.dialog = true;
   }
 
   onClose() {
-    if (this.employeeObj.pendingDetails == "BankDetails, FamilyInformation" || this.employeeObj.pendingDetails == "BankDetails" || this.employeeObj.pendingDetails == "FamilyInformation" ) {
-      if (this.message !== null) {
-        this.router.navigate(['employee/all-employees']);
-        this.alertMessage.displayAlertMessage(ALERT_CODES["SEE001"]);
-      }
-    }
-    else {
+    if (this.errorMessage) {
       this.dialog = false;
     }
-
+    else {
+      if (this.employeeObj.pendingDetails == "BankDetails, FamilyInformation" || this.employeeObj.pendingDetails == "BankDetails" || this.employeeObj.pendingDetails == "FamilyInformation") {
+        if (this.message !== null) {
+          this.router.navigate(['employee/all-employees']);
+          this.alertMessage.displayAlertMessage(ALERT_CODES["SEE001"]);
+        }
+      }
+      else {
+        this.dialog = false;
+      }
+    }
   }
 }

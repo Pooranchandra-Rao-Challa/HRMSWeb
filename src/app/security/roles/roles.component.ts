@@ -6,8 +6,10 @@ import { Table } from 'primeng/table';
 import { Observable } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
+import { EmployeeRolesDto } from 'src/app/_models/admin';
 import { ITableHeader, MaxLength } from 'src/app/_models/common';
 import { RoleDto, RolePermissionDto, RoleViewDto } from 'src/app/_models/security';
+import { AdminService } from 'src/app/_services/admin.service';
 import { GlobalFilterService } from 'src/app/_services/global.filter.service';
 import { JwtService } from 'src/app/_services/jwt.service';
 import { SecurityService } from 'src/app/_services/security.service';
@@ -18,7 +20,7 @@ import { MAX_LENGTH_50, MIN_LENGTH_2, RG_ALPHA_ONLY } from 'src/app/_shared/rege
     templateUrl: './roles.component.html'
 })
 export class RolesComponent implements OnInit {
-    globalFilterFields: string[] = ['name', 'isActive', 'createdAt', "createdBy", "updatedAt", "updatedBy"];
+    globalFilterFields: string[] = ['name', 'isActive','eRole', 'createdAt', "createdBy", "updatedAt", "updatedBy"];
     dialog: boolean = false;
     @ViewChild('filter') filter!: ElementRef;
     fbrole!: FormGroup;
@@ -31,25 +33,35 @@ export class RolesComponent implements OnInit {
     addFlag: boolean = true;
     maxLength: MaxLength = new MaxLength();
     mediumDate: string = MEDIUM_DATE;
-    user: any
+    user: any;
+    eRolesInfo:EmployeeRolesDto[]=[];
 
     constructor(private formbuilder: FormBuilder,
         private jwtService: JwtService,
         private alertMessage: AlertmessageService,
         private securityService: SecurityService,
-        private globalFilterService: GlobalFilterService) { }
+        private globalFilterService: GlobalFilterService,
+        private adminService:AdminService) { }
 
     ngOnInit(): void {
         this.permission = this.jwtService.Permissions;
         this.fbrole = this.formbuilder.group({
             roleId: [''],
             name: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
+            eroleId:new FormControl(null),
             isActive: [true],
             permissions: []
         });
         this.intiRoles();
+        this.getERolesInfo();
     }
 
+    getERolesInfo(){
+        this.adminService.GetERoles().subscribe(resp =>{
+            this.eRolesInfo= resp as unknown as EmployeeRolesDto[];
+            console.log(this.eRolesInfo);
+        })
+    }
     get roleFormControls() {
         return this.fbrole.controls;
     }
@@ -68,11 +80,13 @@ export class RolesComponent implements OnInit {
     intiRoles() {
         this.securityService.GetRoles().subscribe(resp => {
             this.roles = resp as unknown as RoleViewDto[];
+            console.log(this.roles);
         });
     }
 
     headers: ITableHeader[] = [
         { field: 'name', header: 'name', label: 'Name' },
+        {field:'eRole',header:'eRole',label:'Role Title'},
         { field: 'isActive', header: 'isActive', label: 'Is Active' },
         { field: 'createdAt', header: 'createdAt', label: 'Created Date' },
         { field: 'createdBy', header: 'createdBy', label: 'Created By' },
@@ -83,17 +97,20 @@ export class RolesComponent implements OnInit {
     initRole(role: RoleViewDto) {
         this.showDialog();
         this.screens = [];
+        debugger
         if (role.roleId != null) {
             this.addFlag = false;
             this.submitLabel = "Update Role";
             this.securityService.GetRoleWithPermissions(role.roleId).subscribe(resp => {
                 this.role.roleId = role.roleId
                 this.role.name = role.name;
+                this.role.eroleId =role.eroleId;
                 this.role.isActive = role.isActive;
                 this.role.permissions = (resp as unknown as RoleDto).permissions;
-                this.fbrole.setValue(this.role);
+                this.fbrole.setValue(this.role);                
                 this.screensInPermissions()
             })
+            
         } else {
             this.submitLabel = "Add Role";
             this.addFlag = true;
@@ -101,6 +118,7 @@ export class RolesComponent implements OnInit {
             this.role.roleId = "";
             this.role.name = "";
             this.role.isActive = true;
+            this.role.eroleId=null;
             this.initPermissoins();
         }
     }

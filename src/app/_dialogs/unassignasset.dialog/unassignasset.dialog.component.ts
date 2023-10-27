@@ -29,7 +29,7 @@ export class UnassignassetDialogComponent {
     unAssignAssetForm() {
         this.fbUnAssignAsset = this.formbuilder.group({
             assetAllotmentId: new FormControl(this.config.data.assetAllotmentId ? this.config.data.assetAllotmentId : null, [Validators.required]),
-            revokedOn: new FormControl(new Date(), [Validators.required]),
+            revokedOn: new FormControl('', [Validators.required]),
             reasonForRevoke: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2)]),
             isActive: new FormControl(false, [Validators.required]),
         });
