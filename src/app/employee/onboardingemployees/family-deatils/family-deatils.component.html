@@ -75,7 +75,7 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <label class="required">Aadhar No:</label>
+                        <label class="required">Aadhar Number:</label>
                         <input type="text" id="aadhar_No" placeholder="Enter Aadhar Number" pInputText
                             formControlName="adhaarNo" numericOnly [minLength]="12" [maxLength]="12" #aadharno
                             [minLength]="12"
@@ -85,10 +85,10 @@
                                 <span *ngIf="FormControls['adhaarNo'].touched && FormControls['adhaarNo'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="FormControls['adhaarNo'].errors?.['required']">
-                                        Please Enter Aadhar No.</div>
+                                        Please Enter Aadhar Number.</div>
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="FormControls['adhaarNo'].errors?.['pattern']">
-                                        Aadhar No Should not start with 0,Please Enter valid Aadhar No Ex:397788000234.
+                                        Aadhar Number Should not start with 0,Please Enter valid Aadhar Number Ex:397788000234.
                                     </div>
                                 </span>
                             </div>
@@ -98,19 +98,16 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <label>Pan No:</label>
-                        <input type="text" id="pan_No" placeholder="Enter PAN Number" pInputText formControlName="panno"
+                        <label>Pan Number:</label>
+                        <input type="text" id="pan_No" placeholder="Enter Pan Number" pInputText formControlName="panno"
                             #panNo [maxLength]="10" alphaNumeric
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['panno'].touched && FormControls['panno'].errors }" />
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                                 <span *ngIf="FormControls['panno'].touched && FormControls['panno'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
-                                        *ngIf="FormControls['panno'].errors?.['required']">
-                                        Please Enter Pan No.</div>
-                                    <div class="ng-invalid ng-touched p-error"
                                         *ngIf="FormControls['panno'].errors?.['pattern']">
-                                        Invalid Pan No Eg:AAAAA1234A.</div>
+                                        Invalid Pan Number Eg:AAAAA1234A.</div>
                                 </span>
                             </div>
                             <div class="align-right w-40" style="width:30%; text-align:right;">
@@ -119,7 +116,7 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <label class="required">Mobile No:</label>
+                        <label class="required">Mobile Number:</label>
                         <input type="text" id="mobile_Number" placeholder="Enter Mobile Number" pInputText
                             formControlName="mobileNumber" #phoneNo numericOnly [maxLength]="10"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['mobileNumber'].touched && FormControls['mobileNumber'].errors }" />
@@ -129,7 +126,7 @@
                                     *ngIf="FormControls['mobileNumber'].touched && FormControls['mobileNumber'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="FormControls['mobileNumber'].errors?.['required']">
-                                        Please Enter Mobile No.</div>
+                                        Please Enter Mobile Number.</div>
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="FormControls['mobileNumber'].errors?.['pattern']">
                                         First Digit Should Be Greater Than 4 And Must Contains 10 Digits.</div>
