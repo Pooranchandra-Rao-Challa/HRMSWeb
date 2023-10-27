@@ -114,7 +114,7 @@ export class ProjectComponent implements OnInit {
                 pocMobileNumber: new FormControl('', [Validators.required, Validators.pattern(RG_PHONE_NO)]),
                 address: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
             }),
-            projectAllotments: new FormControl()
+            projectAllotments: new FormControl([])
         });
     }
 
