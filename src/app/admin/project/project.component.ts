@@ -72,7 +72,6 @@ export class ProjectComponent implements OnInit {
     }
     onProjectChange(event) {
         this.selectedProjectId = event;        
-        console.log('selectedProjectId in parent:', this.selectedProjectId);
         this.projectNotifier.sendSelectedProjectId(this.selectedProjectId);
     }
     constructor(private formbuilder: FormBuilder, private adminService: AdminService,

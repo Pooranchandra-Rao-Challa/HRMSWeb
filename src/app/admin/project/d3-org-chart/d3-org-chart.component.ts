@@ -212,7 +212,6 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
         this.data = [];
         this.adminService.GetEmployeeHierarchy(projectId).subscribe((resp) => {
             let data = resp as unknown as EmployeeHierarchyDto[];
-            console.log(data);
             data.forEach(empchart => {
                 let item: NodeProps = new NodeProps()
 
