@@ -192,7 +192,7 @@
                                     <label htmlFor="description">Description:</label>
                                     <textarea class="form-control freeze_text-area" pInputTextarea
                                         formControlName="description" placeholder="Enter Description" #description
-                                        (keydown)="restrictSpaces($event)" [maxlength]="256"
+                                         (keydown)="restrictSpaces($event)" [maxlength]="256"
                                         id="Description"></textarea>
                                     <div class="flex">
                                         <div class="align-right w-100" style="width:50%; text-align:right;">
@@ -261,7 +261,7 @@
                                 (click)="showDialog(leave, ViewDialogs.delete)"></button>
                         </div>
                     </td>
-                    <td *ngFor="let col of headers" [ngClass]="col?.field == 'isActive' ? 'text-center' : ''">
+                    <td *ngFor="let col of headers" [ngClass]="{'text-center': col.field === 'isActive', 'text-wrap': col.field === 'description'}">
                         <span
                             *ngIf="col?.field != 'createdAt' && col?.field != 'updatedAt' && col?.field != 'fromDate' && col?.field != 'toDate' && col?.field != 'isActive'">{{leave[col.field]}}</span>
                         <span
