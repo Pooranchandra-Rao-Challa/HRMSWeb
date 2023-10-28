@@ -20,15 +20,13 @@
     </div>
     <!-- Confirmation Dialog -->
     <p-dialog [(visible)]="dialog" header="Confirmation Message" [modal]="true" showEffect="fade"
-      [breakpoints]="{'960px': '70%', '640px': '80%'}">
+      [breakpoints]="{'960px': '70%', '640px': '80%'}"  [style]="{width:'40%'}">
       <div class="flex flex-column justify-content-center">
         <div class="grid">
-          <div class="card">
             <app-final-submit
               [style.pointer-events]="educationDetails.length && workExperience.length && address.length && UploadedDocuments.length ? 'auto' : 'none'"
               [style.opacity]="educationDetails.length && workExperience.length && address.length && UploadedDocuments.length ? 1 : 0.5">
             </app-final-submit>
-          </div>
         </div>
       </div>
     </p-dialog>
