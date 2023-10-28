@@ -16,7 +16,7 @@ export class FinalSubmitComponent {
   fbEnroll!: FormGroup;
   message: any;
   dialog: boolean = false;
-  displayDialog: boolean;
+  displayDialog: boolean = false;
   employees: any;
   employeeObj: any = {};
   userData: any;
@@ -36,6 +36,14 @@ export class FinalSubmitComponent {
       roleId: new FormControl(null, [Validators.required])
     })
     this.getRoles();
+    const isEnrolled = false;
+    this.employeeService.GetEmployees(isEnrolled).subscribe(resp => {
+      this.employees = resp
+      this.employeeObj = this.employees.find(x => x.employeeId == this.employeeId);
+      if (this.employeeObj.pendingDetails == "BankDetails, FamilyInformation" || this.employeeObj.pendingDetails == "BankDetails" || this.employeeObj.pendingDetails == "FamilyInformation") {
+        this.displayDialog = true;
+      }
+    })
   }
 
   getEmployees() {
@@ -58,19 +66,10 @@ export class FinalSubmitComponent {
 
 
   confirmationDialog() {
-    const isEnrolled = false;
-    this.employeeService.GetEmployees(isEnrolled).subscribe(resp => {
-      this.employees = resp
-      this.employeeObj = this.employees.find(x => x.employeeId == this.employeeId);
-      if (this.employeeObj.pendingDetails == "BankDetails, FamilyInformation" || this.employeeObj.pendingDetails == "BankDetails" || this.employeeObj.pendingDetails == "FamilyInformation") {
-        this.dialog = true;
-        this.displayDialog = true;
-        this.onSubmit();
-      }
-      else {
-        this.displayDialog = false;
-      }
-    });
+    if(this.fbEnroll.valid){
+      this.dialog = true;
+      this.onSubmit();
+    }
   }
 
   onSubmit() {
