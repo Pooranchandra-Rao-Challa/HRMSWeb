@@ -20,7 +20,7 @@ import { MIN_LENGTH_2 } from 'src/app/_shared/regex';
 export class ExperiencedetailsDialogComponent {
   fbexperience!: FormGroup;
   fbfresher!: FormGroup
-  faexperienceDetails!: FormArray;
+  faExperienceDetails!: FormArray;
   workExperience: employeeExperienceDtlsViewDto[];
   maxLength: MaxLength = new MaxLength();
   countries: LookupViewDto[] = [];
@@ -46,7 +46,7 @@ export class ExperiencedetailsDialogComponent {
   }
 
   ngOnInit(): void {
-    this.initdesignation();
+    this.initDesignation();
     this.initExperience();
     this.initCountries();
     this.initskillArea();
@@ -89,7 +89,7 @@ export class ExperiencedetailsDialogComponent {
     });
   }
 
-  generaterow(experienceDetails: ExperienceDetailsDto = new ExperienceDetailsDto()): FormGroup {
+  generateRow(experienceDetails: ExperienceDetailsDto = new ExperienceDetailsDto()): FormGroup {
     const skillAreaIdsArray = experienceDetails.skillAreaId ? experienceDetails.skillAreaId.split(',').map(Number) : [];
     const workExperienceXrefs = skillAreaIdsArray.length > 0 ?
       skillAreaIdsArray.map(skillAreaId => ({
@@ -114,17 +114,17 @@ export class ExperiencedetailsDialogComponent {
     });
   }
 
-  addexperienceDetails() {
-    this.faexperienceDetails = this.fbexperience.get('experienceDetails') as FormArray;
-    this.faexperienceDetails.push(this.generaterow());
+  addExperienceDetails() {
+    this.faExperienceDetails = this.fbexperience.get('experienceDetails') as FormArray;
+    this.faExperienceDetails.push(this.generateRow());
   }
 
-  faexperienceDetail(): FormArray {
+  faExperienceDetail(): FormArray {
     return this.fbexperience.get('experienceDetails') as FormArray;
   }
 
   expDtlsformArrayControls(i: number, formControlName: string) {
-    return this.faexperienceDetail().controls[i].get(formControlName);
+    return this.faExperienceDetail().controls[i].get(formControlName);
   }
 
   initCountries() {
@@ -142,7 +142,7 @@ export class ExperiencedetailsDialogComponent {
     });
   }
 
-  initdesignation() {
+  initDesignation() {
     this.lookupService.Designations().subscribe((resp) => {
       this.designation = resp as unknown as LookupViewDto[];
     })
@@ -176,11 +176,11 @@ export class ExperiencedetailsDialogComponent {
 
   showExperienceDetails(workExperience: employeeExperienceDtlsViewDto[]) {
     if (workExperience.length == 0) {
-      this.faexperienceDetail().push(this.generaterow());
+      this.faExperienceDetail().push(this.generateRow());
     } else {
       workExperience.forEach((experienceDetails: any, rowIndex) => {
         this.onCountryChange(experienceDetails.countryId, rowIndex);
-        this.faexperienceDetail().push(this.generaterow(experienceDetails));
+        this.faExperienceDetail().push(this.generateRow(experienceDetails));
       })
     }
     this.fbexperience.patchValue(workExperience)
@@ -196,7 +196,7 @@ export class ExperiencedetailsDialogComponent {
 
   saveEmpExperienceDetails() {
     if (this.selectedOption == 'Experience') {
-      for (const control of this.faexperienceDetail().controls) {
+      for (const control of this.faExperienceDetail().controls) {
         control.get('dateOfJoining').setValue(FORMAT_DATE(control.get('dateOfJoining').value));
         if (control.get('dateOfReliving').value) {
           control.get('dateOfReliving').setValue(FORMAT_DATE(control.get('dateOfReliving').value));

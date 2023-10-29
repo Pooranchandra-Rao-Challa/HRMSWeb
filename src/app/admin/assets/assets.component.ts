@@ -46,7 +46,7 @@ export class AssetsComponent {
     private confirmationDialogService: ConfirmationDialogService, private jwtService: JwtService) {
   }
 
- 
+
   AssetsheaderTable: ITableHeader[] = [
     { field: 'assetType', header: 'assetType', label: 'Assets Type' },
     { field: 'assetCategory', header: 'assetCategory', label: 'Assets Category' },
@@ -61,13 +61,13 @@ export class AssetsComponent {
     { field: 'serialNumber', header: 'serialNumber', label: 'Serial Number' },
     { field: 'warranty', header: 'warranty', label: 'Warranty' },
     { field: 'addValue', header: 'addValue', label: 'Add Value' },
-    { field: 'description', header: 'description', label: 'Description' },
+    // { field: 'description', header: 'description', label: 'Description' },
     { field: 'status', header: 'status', label: 'Status' },
     { field: 'isActive', header: 'isActive', label: 'Is Active' },
-    { field: 'createdAt', header: 'createdAt', label: 'Created Date' },
-    { field: 'createdBy', header: 'createdBy', label: 'Created By' },
-    { field: 'updatedAt', header: 'updatedAt', label: 'Updated Date' },
-    { field: 'updatedBy', header: 'updatedBy', label: 'Updated By' },
+    // { field: 'createdAt', header: 'createdAt', label: 'Created Date' },
+    // { field: 'createdBy', header: 'createdBy', label: 'Created By' },
+    // { field: 'updatedAt', header: 'updatedAt', label: 'Updated Date' },
+    // { field: 'updatedBy', header: 'updatedBy', label: 'Updated By' },
   ];
 
   ngOnInit() {

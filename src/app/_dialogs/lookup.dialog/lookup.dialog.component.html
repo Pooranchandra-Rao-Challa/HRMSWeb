@@ -27,7 +27,7 @@
                     </div>
                     <div class="field col-12 md:col-6">
                         <label class="required">Lookup Name: </label>&nbsp;
-                        <p-dropdown id="lookupName_Not_Configured_Dropdown" appendTo="body" [autoDisplayFirst]="false" 
+                        <p-dropdown id="lookupName_Not_Configured_Dropdown" appendTo="body" [autoDisplayFirst]="false"
                             [options]="lookupNamesNotConfigured" formControlName="name" autoWidth="false" [style]="{'width':'100%'}"
                             [readonly]="FormControls['lookupId'].value!== null" placeholder="Select Lookup Name"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['name'].touched && FormControls['name'].errors }" [readonly]="true">
@@ -46,7 +46,7 @@
                         <label>Dependent Lookup: </label>&nbsp;
                         <p-dropdown appendTo="body" id="lookupName_Dropdown" [autoDisplayFirst]="false"
                             optionLabel="name" optionValue="lookupId" [options]="lookupNamesConfigured"
-                            formControlName="fkeySelfId" (onChange)="onLookupChange($event)" autoWidth="false" 
+                            formControlName="fkeySelfId" (onChange)="onLookupChange($event)" autoWidth="false"
                             placeholder="Select Dependent Lookup" [showClear]="FormControls['lookupId'].value == null ? true : false"
                             [readonly]="FormControls['lookupId'].value!== null">
                         </p-dropdown>
@@ -62,12 +62,13 @@
                         <p-button type="button" label="Add Lookup Details" (click)="addLookupDetails()"></p-button>
                     </div>
                 </div>
-                <div class="col-12 scrolling_content" formArrayName="lookUpDetails" style="overflow-y: auto;
-                height: calc(100vh - 600px);
-                padding-bottom: 20px;">
+                <div class="col-12 scrolling_content" formArrayName="lookUpDetails" style="
+                padding-bottom: 20px;"><!--overflow-y: auto;
+                height: calc(100vh - 600px);-->
                     <p-table #dt2 [value]="falookupDetails().controls" dataKey="id" [rows]="10" [rowHover]="true"
                         styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="false"
-                        [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]" [scrollable]="true">
+                        [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]" [scrollable]="true"
+                        scrollDirection="vertical" scrollHeight="300px">
                         <ng-template
                             pTemplate="header" >
                             <tr>

@@ -182,7 +182,7 @@
                 </div>
                 <div class="field col-12 md:col-4">
                     <label class="required">Certificate DOB:</label>
-                    <p-calendar [readonlyInput]="true" placeholder="Select Certificate DOB" appendTo="body" 
+                    <p-calendar [readonlyInput]="true" placeholder="Select Certificate DOB" appendTo="body"
                         [showIcon]="true" id="certificate_dob" mask="99/99/9999"
                         formControlName="certificateDob" [maxDate]="maxDate"
                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['certificateDob'].touched && FormControls['certificateDob'].errors}">
@@ -230,12 +230,12 @@
                 </div>
                 <div class="field col-12 md:col-4">
                     <img [src]="this.fbbasicDetails.get('photo').value"
-                        onerror="this.onerror=null; this.src='https://t3.ftcdn.net/jpg/02/18/21/86/360_F_218218632_jF6XAkcrlBjv1mAg9Ow0UBMLBaJrhygH.jpg'"
-                        alt="photo" height="100px" width="100px" class="up_logo">
-                    <p-fileUpload mode="basic" [maxFileSize]="10000" chooseLabel="Choose Photo"
-                        url="https://www.primefaces.org/cdn/api/upload.php" (onSelect)="onFileSelect($event)"
-                        accept="image/jpeg, image/png, image/jpg">
-                    </p-fileUpload>
+                        onerror="this.onerror=null; "+{{defaultPhoto}}
+                        alt="photo" width="100px" class="up_logo">
+                    <input id="singleFile" #fileUpload name="myFile"chooseLabel="Choose Photo"
+
+                         [accept] ="fileTypes" /><!--url="https://www.primefaces.org/cdn/api/upload.php"-->
+                   <!-- this.src='https://t3.ftcdn.net/jpg/02/18/21/86/360_F_218218632_jF6XAkcrlBjv1mAg9Ow0UBMLBaJrhygH.jpg'-->
                     <div class="flex">
                         <div class="align-left w-60">
                             <span *ngIf="FormControls['photo'].touched && FormControls['photo'].invalid">

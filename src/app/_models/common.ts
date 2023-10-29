@@ -58,5 +58,15 @@ export enum ViewEmployeeScreen {
   UploadDocuments
 }
 
-
+export class PhotoFileProperties {
+    Width: number;
+    Height: number;
+    FileName: string;
+    FileExtension: string;
+    Size: number;
+    File: any;
+    Message: string;
+    isPdf?: boolean = false;
+    Resize?: boolean = false;
+  }
 

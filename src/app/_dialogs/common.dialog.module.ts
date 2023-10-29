@@ -6,7 +6,7 @@ import { UnassignassetDialogComponent } from './unassignasset.dialog/unassignass
 import { ViewAssetAllotmentsDialogComponent } from './viewassetallotments.dialog/viewassetallotments.dialog.component';
 import { BankdetailsDialogComponent } from './bankDetails.Dialog/bankdetails.dialog.component';
 import { AddressDialogComponent } from './address.dialog/address.dialog.component';
-import { uploadDocumentsDialogComponent } from './uploadDocuments.dialog/uploadDocuments.dialog.component';
+import { UploadDocumentsDialogComponent } from './uploadDocuments.dialog/uploadDocuments.dialog.component';
 import { FamilydetailsDialogComponent } from './familydetails.dailog/familydetails.dialog.component';
 import { BasicdetailsDialogComponent } from './basicdetails.dialog/basicdetails.dialog.component';
 import { OfficedetailsDialogComponent } from './officedetails.dialog/officedetails.dialog.component';
@@ -22,7 +22,7 @@ import { LeaveDialogComponent } from './leave.dialog/leave.dialog.component';
     ViewAssetAllotmentsDialogComponent,
     BankdetailsDialogComponent,
     AddressDialogComponent,
-    uploadDocumentsDialogComponent,
+    UploadDocumentsDialogComponent,
     FamilydetailsDialogComponent,
     BasicdetailsDialogComponent,
     OfficedetailsDialogComponent,

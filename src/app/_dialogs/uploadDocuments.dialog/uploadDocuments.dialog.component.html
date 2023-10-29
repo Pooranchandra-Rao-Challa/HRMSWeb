@@ -30,11 +30,11 @@
         </div>
         <div class="col-12 md:col-4 pt-5 mt-5">
             <div class="upload-btn-wrapper" (click)="checkTitle()">
-                <label for="singleFile">
-                    <i class="pi pi-paperclip"></i> Attach File
+                <label for="singleFile" class="p-element p-ripple p-button-raised p-button-primary p-button p-component">
+                        <i class="pi pi-paperclip"></i> Attach File
                 </label>
-                <input id="singleFile" #fileUpload name="myFile" accept=".pdf, .jpg, .jpeg, .png, .gif" type="file"
-                    [disabled]="!this.fbUpload.valid" hidden="true" (click)="onClick()" />
+                <input id="singleFile" #fileUpload name="myFile" [accept]="fileTypes" type="file"
+                    [disabled]="!this.fbUpload.valid" hidden="true" />
             </div>
         </div>
     </div>

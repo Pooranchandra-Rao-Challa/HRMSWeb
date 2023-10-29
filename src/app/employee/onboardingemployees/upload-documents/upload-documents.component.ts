@@ -15,7 +15,7 @@ import { MAX_LENGTH_20, MIN_LENGTH_2, RG_ALPHA_ONLY } from 'src/app/_shared/rege
     templateUrl: './upload-documents.component.html'
 })
 export class UploadDocumentsComponent {
-    @ViewChild("fileUpload", { static: false }) fileUpload: ElementRef;
+    @ViewChild("fileUpload", { static: true }) fileUpload: ElementRef;
 
     files: { fileBlob: Blob, title: string, fileName: string }[] = [];
     fbUpload!: FormGroup;
@@ -98,7 +98,7 @@ export class UploadDocumentsComponent {
 
     uploadFile(file) {
         let params = new HttpParams();
-        params = params.set("employeeId", this.employeeId).set('title', file.title).set('module', 'project').set('fileName', file.fileName);
+        params = params.set("employeeId", this.employeeId).set('title', file.title).set('module', 'employee').set('fileName', file.fileName);
         let formData = new FormData();
         formData.set('uploadedFiles', file.fileBlob, file.fileName);
         let messageDisplayed = false;

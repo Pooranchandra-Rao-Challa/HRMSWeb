@@ -140,10 +140,10 @@ export class PieChart {
         calc.innerRadius * 2
       }px;display:flex;justify-content:center;align-items:center;text-align:center">
                <img height="${
-                 calc.innerRadius * 2 - 20
-               }"  style="border:2px solid ${backCircleColor};border-radius:40px" width="${
-        calc.innerRadius * 2 - 20
-      }" src="${image}" />
+                 calc.innerRadius * 2
+               }px"  style="border:2px solid ${backCircleColor};border-radius:40px" width="${
+        calc.innerRadius * 2
+      }px" src="${image}" />
   </div>
             </div>`);
     }
@@ -217,6 +217,7 @@ export class PieChart {
         .attr("font-family", defaultFont);
 
       //Add container g element
+      //alert(calc.chartLeftMargin )
       var chart = svg
         .patternify({
           tag: "g",
@@ -224,7 +225,7 @@ export class PieChart {
         })
         .attr(
           "transform",
-          "translate(" + calc.chartLeftMargin + "," + calc.chartTopMargin + ")"
+          "translate(" + (calc.chartLeftMargin - 30) + "," + calc.chartTopMargin + ")"
         );
 
       const centerPoint = chart

@@ -62,9 +62,8 @@ $gutter: 1rem; //for primeflex grid system
 
 .employee_profile_pic {
     border-radius: 100%;
-    border: 3px solid rgb(79, 223, 94);
-    height: 100px !important;
-    width: 100% !important;
+    border: 2px solid rgb(79, 223, 94);
+    width: 100px !important;
 }
 
 .employee_profile_pic_view {
@@ -388,3 +387,10 @@ p-calendar input {
 .hide-close-icon .p-dialog-header-icons {
     display: none !important;
 }
+
+::ng-deep .p-datatable-thead{
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+    z-index: 1000;
+  }

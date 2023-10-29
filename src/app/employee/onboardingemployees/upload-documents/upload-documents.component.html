@@ -6,8 +6,9 @@
                     <div class="p-fluid p-formgrid ">
                         <div class="field col-12  ">
                             <label class="required">Title:</label>
-                            <input type="text" id="Upload_title" pInputText formControlName="title" class="w-100" (keydown)="restrictSpaces($event)"
-                                placeholder="Enter Title" #title [maxlength]="maxLength.code">
+                            <input type="text" id="Upload_title" pInputText formControlName="title" class="w-100"
+                                (keydown)="restrictSpaces($event)" placeholder="Enter Title" #title
+                                [maxlength]="maxLength.code">
                             <div class="flex">
                                 <div class="align-left w-60" style="width:70%">
                                     <span *ngIf="FormControls['title'].touched && FormControls['title'].invalid">
@@ -36,11 +37,11 @@
         </div>
         <div class="col-12 md:col-4 pt-5 mt-5">
             <div class="upload-btn-wrapper" (click)="checkTitle()">
-                <label for="singleFile">
-                    <i class="pi pi-paperclip"></i> Attach File
+                <label for="singleFile" class="p-element p-ripple p-button-raised p-button-primary p-button p-component">
+                        <i class="pi pi-paperclip"></i> Attach File
                 </label>
-                <input id="singleFile" #fileUpload name="myFile" accept=".pdf, .jpg, .jpeg, .png, .gif" type="file" [disabled]="!this.fbUpload.valid"
-                    hidden="true" (click)="onClick()" />
+                <input id="singleFile" #fileUpload name="myFile" accept=".pdf, .jpg, .jpeg, .png, .gif" type="file"
+                    [disabled]="!this.fbUpload.valid" hidden="true" (click)="onClick()" />
             </div>
         </div>
     </div>
@@ -63,7 +64,13 @@
                 <ng-template pTemplate="body" let-file let-i="rowIndex">
                     <tr>
                         <td *ngIf="permissions?.CanManageEmployee ">
-                            <button pButton pRipple icon="pi pi-trash" id="AddressDetailsRemove-Btn" *ngIf="!file.uploadedDocumentId"
+                            <button pButton pRipple icon="pi pi-trash" id="Remove-Btn"
+                                *ngIf="!file.uploadedDocumentId"
+                                class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
+                                (click)="removeItem(i)">
+                            </button>
+                            <button pButton pRipple icon="pi pi-download" id="download-Btn"
+                                *ngIf="!file.uploadedDocumentId"
                                 class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
                                 (click)="removeItem(i)">
                             </button>

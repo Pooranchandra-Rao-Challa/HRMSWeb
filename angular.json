@@ -31,8 +31,9 @@
                             "html2canvas",
                             "dompurify",
                             "rgbcolor",
+                            "jspdf-autotable",
                             "raf",
-                            "core-js/modules/web.dom-collections.iterator.js"
+                            "core-js"
                         ],
                         "tsConfig": "tsconfig.app.json",
                         "inlineStyleLanguage": "scss",

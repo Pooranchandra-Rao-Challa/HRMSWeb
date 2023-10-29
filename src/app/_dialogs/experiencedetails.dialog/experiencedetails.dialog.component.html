@@ -22,11 +22,11 @@
           <div class=" col-12 md:col-4 ">
             <div class=" button-container">
               <p-button type="button" id="Add_Experience_Details" label="Add Experience Details"
-                (click)="addexperienceDetails()"></p-button>
+                (click)="addExperienceDetails()"></p-button>
             </div>
           </div>
           <div class="col-12 scrolling_content" formArrayName="experienceDetails">
-            <p-table #dt2 [value]="faexperienceDetail().controls" dataKey="id" [rows]="10" [rowHover]="true"
+            <p-table #dt2 [value]="faExperienceDetail().controls" dataKey="id" [rows]="10" [rowHover]="true"
               styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="false"
               [autoLayout]="true" responsiveLayout="scroll" [tableStyle]="{ width: 'max-content'}"
               [rowsPerPageOptions]="[10,25,50]">>
@@ -183,10 +183,10 @@
                   </td>
                   <td *ngIf="fbexperience.controls['experienceDetails'].value.length > 1">
                     <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer"
-                      *ngIf="!this.faexperienceDetail().controls[experienceDetailsIndex].get('id')?.value"
-                      (click)="faexperienceDetail().removeAt(experienceDetailsIndex)"></i>
+                      *ngIf="!this.faExperienceDetail().controls[experienceDetailsIndex].get('id')?.value"
+                      (click)="faExperienceDetail().removeAt(experienceDetailsIndex)"></i>
                     <i class="pi pi-fw pi-verified text-3xl"
-                      *ngIf="this.faexperienceDetail().controls[experienceDetailsIndex].get('id')?.value"></i>
+                      *ngIf="this.faExperienceDetail().controls[experienceDetailsIndex].get('id')?.value"></i>
                   </td>
                 </tr>
               </ng-template>

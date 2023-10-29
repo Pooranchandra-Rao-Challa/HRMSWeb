@@ -5,9 +5,9 @@
         <!-- Basic details card view -->
         <div class="col text-center">
           <img
-            [src]="employeePrsDtls.photo ? employeePrsDtls.photo : './assets/layout/images/default_icon_employee.jpg'"
+            [src]="employeePrsDtls.photo ? employeePrsDtls.photo : defaultPhoto"
             [alt]="employeePrsDtls.employeeName"
-            class="shadow-2 my-1 mx-0 employee_profile_pic employee_profile_pic_view" style="width: 70%;" />
+            class="shadow-2 my-1 mx-0 employee_profile_pic employee_profile_pic_view" width="100px" />
         </div>
         <div class=" align-items-center text-xl text-center font-medium text-900 mb-1">{{employeePrsDtls?.employeeName}}
         </div>
@@ -184,6 +184,7 @@
             <ng-template pTemplate="header">
               <tr *ngIf="UploadedDocuments.length > 0">
                 <th>S.No</th>
+                <th>Actions</th>
                 <th>Title</th>
                 <th>FileName</th>
               </tr>
@@ -191,6 +192,27 @@
             <ng-template pTemplate="body" let-UploadedDocument let-rowIndex="rowIndex">
               <tr>
                 <td class="pl-5">{{ rowIndex + 1 }}</td>
+                <td *ngIf="permissions?.CanManageEmployee ">
+
+                    <button pButton pRipple icon="pi pi-trash" id="Remove-Btn"
+                        *ngIf="UploadedDocument.uploadedDocumentId"
+                        class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
+                        (click)="removeItem(UploadedDocument)">
+                    </button>
+                    <button pButton pRipple icon="pi pi-download" id="download-Btn"
+                        *ngIf="UploadedDocument.uploadedDocumentId"
+                        class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
+                        (click)="downloadItem(UploadedDocument)">
+                    </button>
+
+                    <button pButton pRipple icon="fa fa-eye" id="download-Btn"
+                        *ngIf="UploadedDocument.uploadedDocumentId"
+                        class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
+                        (click)="downloadItem(UploadedDocument)">
+                    </button>
+
+
+                </td>
                 <td>{{ UploadedDocument?.title }}</td>
                 <td class="pl-5">{{ UploadedDocument?.fileName }}</td>
               </tr>

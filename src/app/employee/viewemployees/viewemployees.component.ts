@@ -13,7 +13,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { MaxLength } from 'src/app/_models/common';
 import { BankdetailsDialogComponent } from 'src/app/_dialogs/bankDetails.Dialog/bankdetails.dialog.component';
 import { AddressDialogComponent } from 'src/app/_dialogs/address.dialog/address.dialog.component';
-import { uploadDocumentsDialogComponent } from 'src/app/_dialogs/uploadDocuments.dialog/uploadDocuments.dialog.component';
+import { UploadDocumentsDialogComponent } from 'src/app/_dialogs/uploadDocuments.dialog/uploadDocuments.dialog.component';
 import { FamilydetailsDialogComponent } from 'src/app/_dialogs/familydetails.dailog/familydetails.dialog.component';
 import { BasicdetailsDialogComponent } from 'src/app/_dialogs/basicdetails.dialog/basicdetails.dialog.component';
 import { OfficedetailsDialogComponent } from 'src/app/_dialogs/officedetails.dialog/officedetails.dialog.component';
@@ -59,7 +59,7 @@ export class ViewemployeesComponent {
   BankdetailsDialogComponent = BankdetailsDialogComponent;
   unassignassetDialogComponent = UnassignassetDialogComponent;
   AddressDialogComponent = AddressDialogComponent;
-  uploadDocumentsDialogComponent = uploadDocumentsDialogComponent;
+  uploadDocumentsDialogComponent = UploadDocumentsDialogComponent;
   FamilydetailsDialogComponent = FamilydetailsDialogComponent;
   basicdetailsDialogComponent = BasicdetailsDialogComponent;
   officedetailsDialogComponent = OfficedetailsDialogComponent;
@@ -69,6 +69,7 @@ export class ViewemployeesComponent {
   enRollEmployee: boolean = false;
   showOfcAndAssetDetails: boolean = false;
   permissions: any;
+  defaultPhoto: string;
 
   constructor(
     private jwtService: JwtService,
@@ -99,6 +100,9 @@ export class ViewemployeesComponent {
     this.enRollEmployee = false;
     this.employeeService.GetViewEmpPersDtls(this.employeeId).subscribe((resp) => {
       this.employeePrsDtls = resp as unknown as EmployeeBasicDetailViewDto;
+      /^male$/gi.test(this.employeePrsDtls.gender)
+        ? this.defaultPhoto = '/assets/layout/images/men-emp.jpg'
+        : this.defaultPhoto = '/assets/layout/images/women-emp.jpg'
       if(!this.employeePrsDtls.signDate) this.enRollEmployee = true;
       else this.showOfcAndAssetDetails = true;
     });
@@ -138,6 +142,8 @@ export class ViewemployeesComponent {
   initUploadedDocuments() {
     this.employeeService.GetUploadedDocuments(this.employeeId).subscribe((resp) => {
       this.UploadedDocuments = resp as unknown as any[];
+      console.log(this.UploadedDocuments);
+
     });
   }
 
@@ -171,6 +177,14 @@ export class ViewemployeesComponent {
     this.employeeService.getFamilyDetails(this.employeeId).subscribe((resp) => {
       this.familyDetails = resp as unknown as FamilyDetailsViewDto[];
     });
+  }
+
+  removeItem(uploadedDoucment){
+
+  }
+
+  downloadItem(uploadedDoucment){
+
   }
 
   openComponentDialog(content: any,
@@ -216,7 +230,7 @@ export class ViewemployeesComponent {
     }
     //uploadDocuments
     else if (action == Actions.add && content === this.uploadDocumentsDialogComponent) {
-      this.dialogRequest.dialogData = {}
+      this.dialogRequest.dialogData = {module:'employee'}
       this.dialogRequest.header = "Upload Documents";
       this.dialogRequest.width = "30%";
     }
@@ -255,6 +269,7 @@ export class ViewemployeesComponent {
       this.dialogRequest.header = "Experience Details";
       this.dialogRequest.width = "70%";
     }
+
     this.ref = this.dialogService.open(content, {
       data: this.dialogRequest.dialogData,
       header: this.dialogRequest.header,
@@ -262,6 +277,7 @@ export class ViewemployeesComponent {
     });
 
     this.ref.onClose.subscribe((res: any) => {
+        if(!res) return;
       if (res.UpdatedModal == ViewEmployeeScreen.AssetAllotments) {
         this.initviewAssets();
       } else if (res.UpdatedModal == ViewEmployeeScreen.BankDetails) {
@@ -270,7 +286,7 @@ export class ViewemployeesComponent {
         this.onChangeAddressChecked();
       } else if (res.UpdatedModal == ViewEmployeeScreen.FamilyDetails) {
         this.initGetFamilyDetails();
-        
+
       } else if (res.UpdatedModal == ViewEmployeeScreen.UploadDocuments) {
         this.initUploadedDocuments();
       } else if (res.UpdatedModal == ViewEmployeeScreen.BasicDetails) {

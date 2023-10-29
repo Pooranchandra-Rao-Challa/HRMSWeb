@@ -279,58 +279,58 @@
           <td colspan="13">
             <div class="p-3">
               <p-table [value]="assest.expandassets" [columns]="AssetsTypeTable" dataKey="assetId"
-                [tableStyle]="{ width: 'max-content' }" [scrollable]="true"
+                [tableStyle]="{ width: 'max-content' }" [scrollable]="true" scrollDirection="both"
                 styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm">
                 <ng-template pTemplate="header">
-        <tr>
-          <th *ngIf="permissions?.CanManageAssets" style="width:5px;">Actions</th>
-          <th *ngFor="let col of AssetsTypeTable" [pSortableColumn]="col.header">
-            {{col?.label}}
-            <p-columnFilter type="text" [field]="col.header" display="menu"></p-columnFilter>
-            <p-sortIcon [field]="col.header"></p-sortIcon>
-          </th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-assetstypes>
-        <tr>
-          <td *ngIf="permissions?.CanManageAssets">
-            <div class="flex">
-              <button pButton pRipple icon="pi pi-pencil" style="padding: 0px;" id="editasset"
-                class="p-element p-ripple p-button-text p-button p-component col-6"
-                (click)="editAssets(assetstypes)"></button>
-              <button pButton pRipple icon="pi pi-trash" id="delete" *ngIf="assetstypes.isActive"
-                (click)="deleteDialog(assetstypes)" id="deletasset"
-                class="p-element p-ripple p-button-text p-button p-component col-6 "></button>
+                    <tr>
+                        <th *ngIf="permissions?.CanManageAssets" style="width:5px;">Actions</th>
+                        <th *ngFor="let col of AssetsTypeTable" [pSortableColumn]="col.header">
+                            {{col?.label}}
+                            <p-columnFilter type="text" [field]="col.header" display="menu"></p-columnFilter>
+                            <p-sortIcon [field]="col.header"></p-sortIcon>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-assetstypes>
+                    <tr>
+                    <td *ngIf="permissions?.CanManageAssets">
+                        <div class="flex">
+                        <button pButton pRipple icon="pi pi-pencil" style="padding: 0px;" id="editasset"
+                            class="p-element p-ripple p-button-text p-button p-component col-6"
+                            (click)="editAssets(assetstypes)"></button>
+                        <button pButton pRipple icon="pi pi-trash" id="delete" *ngIf="assetstypes.isActive"
+                            (click)="deleteDialog(assetstypes)" id="deletasset"
+                            class="p-element p-ripple p-button-text p-button p-component col-6 "></button>
+                        </div>
+                    </td>
+                    <td *ngFor="let col of AssetsTypeTable" [ngClass]="{'text-center': col.field === 'isActive', 'text-wrap': col.field === 'description'}">
+                        <span *ngIf="col?.field != 'updatedAt' && col?.field != 'createdAt' && col?.field != 'purchasedDate'&& col?.field != 'isAssigned'
+                                    && col?.field != 'isActive'" >{{assetstypes[col.field]}}</span>
+                        <span *ngIf="col?.field == 'createdAt' || col?.field == 'updatedAt' || col?.field == 'purchasedDate'">
+                        {{assetstypes[col.field] | date:mediumDate}}
+                        </span>
+                        <span *ngIf="col?.field == 'isActive'">
+                        <p-checkbox name="isActive" value="isActive" [binary]="true" [(ngModel)]="assetstypes[col.field]"
+                            [disabled]="true"></p-checkbox>
+                        </span>
+                    </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                    <td class="md:text-center m-5" colspan="12">No Assets Details Found.</td>
+                    </tr>
+                </ng-template>
+              </p-table>
             </div>
-          </td>
-          <td *ngFor="let col of AssetsTypeTable" [ngClass]="{'text-center': col.field === 'isActive', 'text-wrap': col.field === 'description'}">
-            <span *ngIf="col?.field != 'updatedAt' && col?.field != 'createdAt' && col?.field != 'purchasedDate'&& col?.field != 'isAssigned'
-                          && col?.field != 'isActive'" >{{assetstypes[col.field]}}</span>
-            <span *ngIf="col?.field == 'createdAt' || col?.field == 'updatedAt' || col?.field == 'purchasedDate'">
-              {{assetstypes[col.field] | date:mediumDate}}
-            </span>
-            <span *ngIf="col?.field == 'isActive'">
-              <p-checkbox name="isActive" value="isActive" [binary]="true" [(ngModel)]="assetstypes[col.field]"
-                [disabled]="true"></p-checkbox>
-            </span>
           </td>
         </tr>
       </ng-template>
       <ng-template pTemplate="emptymessage">
         <tr>
-          <td class="md:text-center m-5" colspan="12">No Assets Details Found.</td>
+        <td class="md:text-center m-5" colspan="8">No Assets Found.</td>
         </tr>
       </ng-template>
     </p-table>
   </div>
-  </td>
-  </tr>
-  </ng-template>
-  <ng-template pTemplate="emptymessage">
-    <tr>
-      <td class="md:text-center m-5" colspan="8">No Assets Found.</td>
-    </tr>
-  </ng-template>
-  </p-table>
-</div>
 </div>
