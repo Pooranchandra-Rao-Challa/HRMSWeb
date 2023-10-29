@@ -6,7 +6,8 @@
                     <div class="p-fluid p-formgrid ">
                         <div class="field col-12  ">
                             <label class="required">Title:</label>
-                            <input type="text" id="Upload_title" pInputText formControlName="title" class="w-100" placeholder="Enter Title"
+                            <input type="text" id="Upload_title" pInputText formControlName="title" alphaOnly
+                                class="w-100" placeholder="Enter Title" (keydown)="restrictSpaces($event)"
                                 [ngClass]="{ 'is-invalid ng-dirty': FormControls['title'].touched && FormControls['title'].errors }">
                             <div class="flex">
                                 <div class="align-left w-60">

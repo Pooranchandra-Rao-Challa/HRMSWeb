@@ -70,6 +70,7 @@ export class ViewemployeesComponent {
   showOfcAndAssetDetails: boolean = false;
   permissions: any;
   defaultPhoto: string;
+  dialog:boolean=false;
 
   constructor(
     private jwtService: JwtService,
@@ -94,7 +95,9 @@ export class ViewemployeesComponent {
     this.initBankDetails();
     this.initviewAssets();
   }
-
+  onEmployeeEnroll(){
+    this.dialog=true;
+  }
   // EMPLOYEE Basic details
   initViewEmpDtls() {
     this.enRollEmployee = false;

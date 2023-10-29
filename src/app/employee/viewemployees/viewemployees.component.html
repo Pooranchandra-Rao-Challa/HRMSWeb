@@ -12,16 +12,24 @@
         <div class=" align-items-center text-xl text-center font-medium text-900 mb-1">{{employeePrsDtls?.employeeName}}
         </div>
         <span class="text-900 font-medium text-primary text-center text-3xl block">{{employeePrsDtls?.code}}</span>
-        <ng-container *ngIf="enRollEmployee">
-          <div class="mt-5">
+        <div class="text-center" *ngIf="enRollEmployee">
+          <button pButton pRipple class="p-element p-ripple p-button-outline p-button p-component "(click)="onEmployeeEnroll()">
+            Enroll Employee </button>
+        </div>
+      </div>
+    </div>
+    <!-- Confirmation Dialog -->
+    <p-dialog [(visible)]="dialog" header="Confirmation Message" [modal]="true" showEffect="fade"
+      [breakpoints]="{'960px': '70%', '640px': '80%'}"  [style]="{width:'40%'}">
+      <div class="flex flex-column justify-content-center">
+        <div class="grid">
             <app-final-submit
               [style.pointer-events]="educationDetails.length && workExperience.length && address.length && UploadedDocuments.length ? 'auto' : 'none'"
               [style.opacity]="educationDetails.length && workExperience.length && address.length && UploadedDocuments.length ? 1 : 0.5">
             </app-final-submit>
-          </div>
-        </ng-container>
+        </div>
       </div>
-    </div>
+    </p-dialog>
     <div class="col-12 lg:col-6 py-3 lg:pl-2">
       <div class="grid p-3 position-relative">
         <h5 class="col-12">Personal Details </h5>
@@ -245,11 +253,11 @@
           <div class="col-12 lg-4 p-2 pl-0 pr-3" *ngIf="isAddressChecked || newadredss.isActive">
             <div class="card ">
               <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2 position-relative">
-                <div  *ngIf="permissions?.CanManageEmployee">
-                <button pButton pRipple icon="pi pi-pencil"
-                  class="p-element p-ripple p-button-text p-button p-component right-float-button"
-                  (click)="openComponentDialog(AddressDialogComponent, newadredss, ActionTypes.edit)"
-                  *ngIf="newadredss.isActive"></button>
+                <div *ngIf="permissions?.CanManageEmployee">
+                  <button pButton pRipple icon="pi pi-pencil"
+                    class="p-element p-ripple p-button-text p-button p-component right-float-button"
+                    (click)="openComponentDialog(AddressDialogComponent, newadredss, ActionTypes.edit)"
+                    *ngIf="newadredss.isActive"></button>
                 </div>
                 {{ newadredss.addressType }}
               </div>

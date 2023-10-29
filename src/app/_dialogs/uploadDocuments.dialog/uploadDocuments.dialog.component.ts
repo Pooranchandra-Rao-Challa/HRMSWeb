@@ -75,6 +75,12 @@ export class UploadDocumentsDialogComponent {
         return this.fbUpload.controls;
     }
 
+    restrictSpaces(event: KeyboardEvent) {
+        if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {
+            event.preventDefault();
+        }
+    }
+
 
     clearForm() {
         this.fbUpload.patchValue({

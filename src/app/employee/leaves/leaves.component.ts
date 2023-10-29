@@ -67,7 +67,6 @@ export class LeavesComponent {
     this.permissions = this.jwtService.Permissions;
     this.getLeaves();
     this.getLeaveTypes();
-    this.leaveForm();
   }
 
   getLeaves() {

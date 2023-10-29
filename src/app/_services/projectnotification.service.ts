@@ -8,7 +8,6 @@ export class ProjectNotification {
   private subject = new Subject<number>();
 
   sendSelectedProjectId(projectId: number){
-    console.log(projectId);
     this.subject.next(projectId);
   }
 
