@@ -7,7 +7,7 @@ import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.s
 import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
 import { ITableHeader, MaxLength } from 'src/app/_models/common';
-import { ExperienceDetailsDto } from 'src/app/_models/employes';
+import { EmployeeBasicDetailDto, ExperienceDetailsDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { JwtService } from 'src/app/_services/jwt.service';
 import { LookupService } from 'src/app/_services/lookup.service';
@@ -28,14 +28,12 @@ export class ExperienceDetailsComponent {
   states: LookupDetailsDto[] = [];
   designation: LookupDetailsDto[] = []
   skills: LookupDetailsDto[] = []
-  selectedOption: string;
   workExperienceId: number;
   currentDate: Date;
   maxLength: MaxLength = new MaxLength();
   viewSelectedSkills = [];
   addFlag: boolean = true;
   fbexperience!: FormGroup;
-  fbfresher!: FormGroup
   faexperienceDetails!: FormArray;
   permissions: any;
   employeeId: any;
@@ -53,27 +51,11 @@ export class ExperienceDetailsComponent {
     this.initDesignations();
     this.initCountries();
     this.initSkills();
-    this.fresherForm();
     this.experienceForm();
+    
 
-    this.selectedOption = 'Fresher';
     if (this.employeeId)
       this.getEmpExperienceDetails();
-  }
-  fresherForm() {
-    this.fbfresher = this.formbuilder.group({
-      employeeId: this.employeeId,
-      workExperienceId: [null],
-      isAfresher: new FormControl(true, [Validators.required]),
-      companyName: new FormControl(''),
-      companyLocation: new FormControl(''),
-      companyEmployeeId: new FormControl(null),
-      stateId: new FormControl(null),
-      designationId: new FormControl(null),
-      dateOfJoining: new FormControl(null),
-      dateOfReliving: new FormControl(null),
-      workExperienceXrefs: new FormControl([])
-    });
   }
   removeItem(index: number): void {
     this.empExperienceDetails.splice(index, 1);
@@ -118,6 +100,7 @@ export class ExperienceDetailsComponent {
       this.designation = resp as unknown as LookupViewDto[];
     })
   }
+ 
   generaterow(experienceDetails: ExperienceDetailsDto = new ExperienceDetailsDto()): FormGroup {
     const formGroup = this.formbuilder.group({
       employeeId: new FormControl({ value: experienceDetails.employeeId, disabled: true }),
@@ -249,16 +232,10 @@ export class ExperienceDetailsComponent {
   }
 
   saveExperience(): Observable<HttpEvent<any>> {
-    debugger
-    if (this.selectedOption == 'Experience') {
-      if (this.addFlag)
-        return this.employeeService.CreateExperience(this.fbexperience.get('experienceDetails').value);
-      else
-        return this.employeeService.CreateExperience([this.fbexperience.value]);
-    }
+    if (this.addFlag)
+      return this.employeeService.CreateExperience(this.fbexperience.get('experienceDetails').value);
     else
-      return this.employeeService.CreateExperience([this.fbfresher.value]);
-
+      return this.employeeService.CreateExperience([this.fbexperience.value]);
   }
 
   onSubmit() {
@@ -277,11 +254,6 @@ export class ExperienceDetailsComponent {
   getEmpExperienceDetails() {
     this.employeeService.GetWorkExperience(this.employeeId).subscribe((data) => {
       this.empExperienceDetails = data;
-      if (data[0]?.isAFresher === false)
-        this.selectedOption = 'Experience';
-      else
-        this.selectedOption = 'Fresher';
-
     })
   }
   navigateToPrev() {

@@ -1,11 +1,13 @@
-import { Component} from '@angular/core';
- import { ActivatedRoute } from '@angular/router';
-import { BankDetailViewDto,  EmployeAdressViewDto, EmployeeBasicDetailViewDto, employeeEducDtlsViewDto,
-    employeeExperienceDtlsViewDto,  EmployeeOfficedetailsviewDto,FamilyDetailsViewDto } from 'src/app/_models/employes';
+import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import {
+  BankDetailViewDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, employeeEducDtlsViewDto,
+  employeeExperienceDtlsViewDto, EmployeeOfficedetailsviewDto, FamilyDetailsViewDto
+} from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { AssetAllotmentViewDto } from 'src/app/_models/admin/assetsallotment';
 import { AdminService } from 'src/app/_services/admin.service';
-import {  MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
+import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { Actions, DialogRequest, ViewEmployeeScreen } from 'src/app/_models/common';
 import { AddassetallotmentDialogComponent } from 'src/app/_dialogs/addassetallotment.dialog/addassetallotment.dialog.component';
 import { UnassignassetDialogComponent } from 'src/app/_dialogs/unassignasset.dialog/unassignasset.dialog.component';
@@ -70,11 +72,13 @@ export class ViewemployeesComponent {
   showOfcAndAssetDetails: boolean = false;
   permissions: any;
   defaultPhoto: string;
-  dialog:boolean=false;
+  dialog: boolean = false;
+  empbasicDetails = new EmployeeBasicDetailDto();
+  selectedOption: boolean;
 
   constructor(
     private jwtService: JwtService,
-    private alertMessage:AlertmessageService,
+    private alertMessage: AlertmessageService,
     private employeeService: EmployeeService,
     private activatedRoute: ActivatedRoute,
     private adminService: AdminService,
@@ -94,21 +98,25 @@ export class ViewemployeesComponent {
     this.initUploadedDocuments();
     this.initBankDetails();
     this.initviewAssets();
+   
   }
-  onEmployeeEnroll(){
-    this.dialog=true;
+  onEmployeeEnroll() {
+    this.dialog = true;
   }
+  
   // EMPLOYEE Basic details
   initViewEmpDtls() {
     this.enRollEmployee = false;
     this.employeeService.GetViewEmpPersDtls(this.employeeId).subscribe((resp) => {
       this.employeePrsDtls = resp as unknown as EmployeeBasicDetailViewDto;
       console.log(this.employeePrsDtls);
-      
+      this.selectedOption = resp['isAFresher'];
+      console.log(this.selectedOption);
+
       /^male$/gi.test(this.employeePrsDtls.gender)
         ? this.defaultPhoto = '/assets/layout/images/men-emp.jpg'
         : this.defaultPhoto = '/assets/layout/images/women-emp.jpg'
-      if(!this.employeePrsDtls.signDate) this.enRollEmployee = true;
+      if (!this.employeePrsDtls.signDate) this.enRollEmployee = true;
       else this.showOfcAndAssetDetails = true;
     });
   }
@@ -184,11 +192,11 @@ export class ViewemployeesComponent {
     });
   }
 
-  removeItem(uploadedDoucment){
+  removeItem(uploadedDoucment) {
 
   }
 
-  downloadItem(uploadedDoucment){
+  downloadItem(uploadedDoucment) {
 
   }
 
@@ -235,7 +243,7 @@ export class ViewemployeesComponent {
     }
     //uploadDocuments
     else if (action == Actions.add && content === this.uploadDocumentsDialogComponent) {
-      this.dialogRequest.dialogData = {module:'employee'}
+      this.dialogRequest.dialogData = { module: 'employee' }
       this.dialogRequest.header = "Upload Documents";
       this.dialogRequest.width = "30%";
     }
@@ -282,7 +290,7 @@ export class ViewemployeesComponent {
     });
 
     this.ref.onClose.subscribe((res: any) => {
-        if(!res) return;
+      if (!res) return;
       if (res.UpdatedModal == ViewEmployeeScreen.AssetAllotments) {
         this.initviewAssets();
       } else if (res.UpdatedModal == ViewEmployeeScreen.BankDetails) {
@@ -296,9 +304,9 @@ export class ViewemployeesComponent {
         this.initUploadedDocuments();
       } else if (res.UpdatedModal == ViewEmployeeScreen.BasicDetails) {
         this.initViewEmpDtls();
-      }else if (res.UpdatedModal == ViewEmployeeScreen.OfficDetails) {
+      } else if (res.UpdatedModal == ViewEmployeeScreen.OfficDetails) {
         this.initofficeEmpDtls();
-      }else if (res.UpdatedModal == ViewEmployeeScreen.EducationDetails) {
+      } else if (res.UpdatedModal == ViewEmployeeScreen.EducationDetails) {
         this.initGetEducationDetails();
       }
       else if (res.UpdatedModal == ViewEmployeeScreen.ExperienceDetails) {

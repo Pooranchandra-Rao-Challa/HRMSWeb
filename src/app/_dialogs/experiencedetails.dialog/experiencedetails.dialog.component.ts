@@ -30,8 +30,6 @@ export class ExperiencedetailsDialogComponent {
   designation: LookupViewDto[] = [];
   skillarea: LookupViewDto[] = [];
   employeeId: any;
-  selectedOption: string;
-  isAFresher: boolean;
   currentDate = new Date();
 
   constructor(
@@ -50,8 +48,6 @@ export class ExperiencedetailsDialogComponent {
     this.initExperience();
     this.initCountries();
     this.initskillArea();
-    this.fresherForm();
-    this.selectedOption = 'Fresher';
     this.initGetWorkExperience();
     if (this.config.data) this.showExperienceDetails(this.config.data);
   }
@@ -59,27 +55,6 @@ export class ExperiencedetailsDialogComponent {
   initGetWorkExperience() {
     this.employeeService.GetWorkExperience(this.employeeId).subscribe((resp) => {
       this.workExperience = resp as unknown as employeeExperienceDtlsViewDto[];
-      if (resp[0].isAFresher === false) {
-        this.selectedOption = 'Experience';
-      } else {
-        this.selectedOption = 'Fresher';
-      }
-    });
-  }
-
-  fresherForm() {
-    this.fbfresher = this.formbuilder.group({
-      employeeId: this.employeeId,
-      workExperienceId: [],
-      isAfresher: new FormControl(true),
-      companyName: new FormControl(null),
-      companyLocation: new FormControl(null),
-      companyEmployeeId: new FormControl(null),
-      stateId: new FormControl(null),
-      designationId: new FormControl(null),
-      dateOfJoining: new FormControl(null),
-      dateOfReliving: new FormControl(null),
-      workExperienceXrefs: new FormControl([])
     });
   }
 
@@ -106,7 +81,7 @@ export class ExperiencedetailsDialogComponent {
       companyEmployeeId: new FormControl(experienceDetails.companyEmployeeId, [Validators.minLength(MIN_LENGTH_2)]),
       countryId: new FormControl(experienceDetails.countryId),
       stateId: new FormControl(experienceDetails.stateId || null),
-      designationId:new FormControl(experienceDetails.designationId,[Validators.required]),
+      designationId: new FormControl(experienceDetails.designationId, [Validators.required]),
       dateOfJoining: new FormControl(experienceDetails.dateOfJoining ? FORMAT_DATE(new Date(experienceDetails.dateOfJoining)) : null, [Validators.required]),
       dateOfReliving: new FormControl(experienceDetails.dateOfReliving ? FORMAT_DATE(new Date(experienceDetails.dateOfReliving)) : null),
       skillAreaIds: new FormControl(skillAreaIdsArray, [Validators.required]),
@@ -187,20 +162,15 @@ export class ExperiencedetailsDialogComponent {
   }
 
   saveExperience(): Observable<HttpEvent<any>> {
-    if (this.selectedOption == 'Experience') {
-      return this.employeeService.updateViewEmpExperienceDtls(this.fbexperience.get('experienceDetails').value);
-    }
-    else
-      return this.employeeService.updateViewEmpExperienceDtls([this.fbfresher.value]);
+    return this.employeeService.updateViewEmpExperienceDtls(this.fbexperience.get('experienceDetails').value);
+
   }
 
   saveEmpExperienceDetails() {
-    if (this.selectedOption == 'Experience') {
-      for (const control of this.faExperienceDetail().controls) {
-        control.get('dateOfJoining').setValue(FORMAT_DATE(control.get('dateOfJoining').value));
-        if (control.get('dateOfReliving').value) {
-          control.get('dateOfReliving').setValue(FORMAT_DATE(control.get('dateOfReliving').value));
-        }
+    for (const control of this.faExperienceDetail().controls) {
+      control.get('dateOfJoining').setValue(FORMAT_DATE(control.get('dateOfJoining').value));
+      if (control.get('dateOfReliving').value) {
+        control.get('dateOfReliving').setValue(FORMAT_DATE(control.get('dateOfReliving').value));
       }
     }
     this.saveExperience().subscribe(resp => {

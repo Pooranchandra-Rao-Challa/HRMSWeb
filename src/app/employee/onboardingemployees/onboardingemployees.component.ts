@@ -6,7 +6,7 @@ import { Table } from 'primeng/table/public_api';
 import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { OnboardEmployeeService } from 'src/app/_helpers/view.notificaton.services';
 import { ITableHeader } from 'src/app/_models/common';
-import { Employee, EmployeesViewDto } from 'src/app/_models/employes';
+import { Employee, EmployeeBasicDetailDto, EmployeesViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { JwtService } from 'src/app/_services/jwt.service';
 import { SecurityService } from 'src/app/_services/security.service';
@@ -32,6 +32,9 @@ export class OnboardingemployeesComponent {
   sortOrder: number = 0;
   sortField: string = '';
   permissions: any;
+  empbasicDetails = new EmployeeBasicDetailDto();
+  selectedOption: boolean;
+  showExperienceStep: boolean;
 
 
   headers: ITableHeader[] = [
@@ -41,7 +44,7 @@ export class OnboardingemployeesComponent {
   ]
 
   showDialog() {
-    this.router.navigate(['basicdetails'], { queryParams: { 'employeeId': 51 }, relativeTo: this.route })
+    this.router.navigate(['basicdetails'], { queryParams: { 'employeeId': this.employeeId }, relativeTo: this.route })
     this.visible = true;
   }
 
@@ -49,7 +52,7 @@ export class OnboardingemployeesComponent {
     private router: Router,
     private route: ActivatedRoute,
     private jwtService: JwtService,
-    private EmployeeService: EmployeeService,
+    private employeeService: EmployeeService,
     private onboardEmployeeService: OnboardEmployeeService
   ) { }
 
@@ -67,10 +70,17 @@ export class OnboardingemployeesComponent {
       this.updateMenuItems();
       if (employeeId) {
         this.initEmployees();
+        this.employeeService.GetViewEmpPersDtls(this.employeeId).subscribe((resp) => {
+          this.empbasicDetails = resp as unknown as EmployeeBasicDetailDto;
+          this.selectedOption = resp['isAFresher'];
+          this.showExperienceStep = this.selectedOption == false;
+          this.employeeId =employeeId
+          this.updateMenuItems();
+        });
       }
     });
-
   }
+
   updateMenuItems() {
     this.newEmployeeSteps = [
       {
@@ -87,7 +97,7 @@ export class OnboardingemployeesComponent {
       {
         label: 'Experience Details',
         routerLink: `experiencedetails/${this.employeeId}`,
-        disabled: this.employeeId === undefined
+        disabled: this.employeeId === undefined,
       },
       {
         label: 'Address Details',
@@ -115,6 +125,9 @@ export class OnboardingemployeesComponent {
         disabled: this.employeeId === undefined
       },
     ];
+    if (!this.showExperienceStep) {
+      this.newEmployeeSteps = this.newEmployeeSteps.filter(step => step.label !== 'Experience Details');
+    }
   }
 
 
@@ -133,10 +146,10 @@ export class OnboardingemployeesComponent {
   initEmployees() {
     // Fetch only records where IsEnrolled is true
     const isEnrolled = false;
-    this.EmployeeService.GetEmployees(isEnrolled).subscribe(resp => {
+    this.employeeService.GetEmployees(isEnrolled).subscribe(resp => {
       this.employees = resp as unknown as EmployeesViewDto[];
       console.log(this.employees);
-      
+
     });
   }
   onGlobalFilter(table: Table, event: Event) {

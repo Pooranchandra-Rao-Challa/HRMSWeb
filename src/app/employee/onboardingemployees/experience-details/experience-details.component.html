@@ -1,28 +1,10 @@
+<div class="text-right">
+    <button pButton pRipple (click)="toggleTab()" class="mb-3 pi pi-plus"></button>
+</div>
 <div class="content_scroll" id="hrms">
     <div class="grid m-0 mt-3 p-0">
-        <div class=" flex justify-content-center p-1">
-            <div class="flex flex-wrap gap-3">
-                <div class="flex align-items-center">
-                    <p-radioButton name="experienceDetails" value="Fresher" [(ngModel)]="this.selectedOption"
-                        id="Experience_isFresher" inputId="fresher" seleted
-                        [disabled]="this.empExperienceDetails[0]?.isAFresher===false"></p-radioButton>
-                    <label for="fresher" class="ml-2">Fresher</label>
-                </div>
-
-                <div class="flex align-items-center">
-                    <p-radioButton name="experienceDetails" id="Experience_isexperirenced" value="Experience"
-                        [(ngModel)]="this.selectedOption" [disabled]="this.empExperienceDetails[0]?.isAFresher===true"
-                        inputId="experience"></p-radioButton>
-                    <label for="experience" class="ml-2">Experience</label>
-                </div>
-            </div>
-        </div>
-        <br>
-        <div *ngIf="selectedOption=='Experience'">
             <div>
-                <div class="text-right">
-                    <button pButton pRipple (click)="toggleTab()" class="mb-3 pi pi-plus"></button>
-                </div>
+                
                 <form [formGroup]="fbexperience">
                     <div p-overlayPanel class="fadeinup animation-duration-1000 grid  m-0 mt-3 p-0"
                         *ngIf="addexperiencedetailsshowForm">
@@ -241,10 +223,10 @@
                     </div>
 
                 </form>
-            </div>
+            
         </div>
     </div>
-    <div class="col-12 scrolling_content" *ngIf="selectedOption=='Experience'">
+    <div class="col-12 scrolling_content" >
         <div class="col-12 scrolling_content fadeinup animation-duration-1000" *ngIf="ShowexperienceDetails">
             <p-table #dt2 [value]="empExperienceDetails" dataKey="id" [rows]="10" [rowHover]="true"
                 [alwaysShowPaginator]="false" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
@@ -265,7 +247,8 @@
                     <tr>
                         <td *ngIf="permissions?.CanManageEmployee">
                             <div class="flex">
-                                <button pButton pRipple icon="pi pi-pencil" (click)="editForm(experienceDetail)" *ngIf="experienceDetail.workExperienceId"
+                                <button pButton pRipple icon="pi pi-pencil" (click)="editForm(experienceDetail)"
+                                    *ngIf="experienceDetail.workExperienceId"
                                     class="p-element p-ripple p-button-text p-button p-component col-2 p-0 "></button>
                                 <button pButton pRipple icon="pi pi-trash" id="AddressDetailsRemove-Btn"
                                     *ngIf="!experienceDetail.workExperienceId"
@@ -311,8 +294,7 @@
     </div>
     <div class=" col-4">
         <button p-button id="ExperienceSave-Btn" class="p-element p-ripple p-button-info p-button p-component w-100"
-            [disabled]="this.empExperienceDetails.length == 0 && this.selectedOption=='Experience'"
-            (click)="onSubmit()">Save
+            [disabled]="this.empExperienceDetails.length == 0" (click)="onSubmit()">Save
             as Draft</button>
     </div>
     <div class=" col-4">
