@@ -42,16 +42,14 @@ export class BasicDetailsComponent implements OnInit {
 
     fileTypes: string = ".jpg, .jpeg, .gif"
     @Output() ImageValidator = new EventEmitter<PhotoFileProperties>();
-    defaultMenPhoto: string;
-    defaultWomenPhoto: string;
+    defaultPhoto: string;
 
     constructor(private router: Router, private route: ActivatedRoute,
         private employeeService: EmployeeService, private formbuilder: FormBuilder,
         private lookupService: LookupService, private alertMessage: AlertmessageService,
         private onboardEmployeeService: OnboardEmployeeService,
         private plaformLocation: PlatformLocation,) {
-        this.defaultMenPhoto = `${plaformLocation.protocol}//${plaformLocation.hostname}:${plaformLocation.port}/assets/layout/images/men-emp.jpg`;
-        this.defaultWomenPhoto = `${plaformLocation.protocol}//${plaformLocation.hostname}:${plaformLocation.port}/assets/layout/images/women-emp-2.jpg`;
+
     }
 
     ngOnInit() {
@@ -61,11 +59,9 @@ export class BasicDetailsComponent implements OnInit {
         });
         this.ImageValidator.subscribe((p: PhotoFileProperties) => {
 
-            if (this.fileTypes.indexOf(p.FileExtension) > 0 && p.Size < 1 * 1024 * 1024
-                && (p.isPdf || (!p.isPdf && p.Width <= 300 && p.Height <= 300))) {
-                this.convertFileToBase64(p.File, (base64String) => {
-                    this.fbbasicDetails.get('photo').setValue(base64String);
-                });
+            if (this.fileTypes.indexOf(p.FileExtension) > 0 && p.Resize || (p.Size / 1024 / 1024 < 1
+                && (p.isPdf || (!p.isPdf && p.Width <= 300 && p.Height <= 300)))) {
+                    this.fbbasicDetails.get('photo').setValue(p.File);
             } else {
                 this.alertMessage.displayErrorMessage(p.Message);
             }
@@ -90,7 +86,7 @@ export class BasicDetailsComponent implements OnInit {
         this.fileUpload.nativeElement.onchange = (source) => {
             for (let index = 0; index < this.fileUpload.nativeElement.files.length; index++) {
                 const file = this.fileUpload.nativeElement.files[index];
-                ValidateFileThenUpload(file, this.ImageValidator, 1024 * 1024, '300 x 300 pixels');
+                ValidateFileThenUpload(file, this.ImageValidator, 1024 * 1024, '300 x 300 pixels',true);
             }
         }
     }
@@ -133,27 +129,7 @@ export class BasicDetailsComponent implements OnInit {
         }
     }
 
-    onFileSelect(event: any): void {
-        const selectedFile = event.files[0];
-        this.imageSize = selectedFile.size;
-        if (selectedFile) {
-            this.convertFileToBase64(selectedFile, (base64String) => {
-                this.selectedFileBase64 = base64String;
-                this.fbbasicDetails.get('photo').setValue(this.selectedFileBase64);
-            });
-        } else {
-            this.selectedFileBase64 = null;
-        }
-    }
 
-    private convertFileToBase64(file: File, callback: (base64String: string) => void): void {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => {
-            const base64String = reader.result as string;
-            callback(base64String);
-        };
-    }
 
     getEmployeeBasedonId() {
         this.employeeService.GetViewEmpPersDtls(this.employeeId).subscribe((resp) => {
@@ -182,11 +158,6 @@ export class BasicDetailsComponent implements OnInit {
 
     editBasicDetails(empbasicDetails) {
         this.addFlag = false;
-        if (/^female$/i.test(empbasicDetails.gender)) {
-            this.fbbasicDetails.get('photo').setValue(this.defaultWomenPhoto);
-        } else {
-            this.fbbasicDetails.get('photo').setValue(this.defaultMenPhoto);
-        }
         this.fbbasicDetails.patchValue({
             employeeId: empbasicDetails.employeeId,
             code: empbasicDetails.code,
@@ -204,8 +175,10 @@ export class BasicDetailsComponent implements OnInit {
             emailId: empbasicDetails.emailId,
             isActive: empbasicDetails.isActive,
             isAFresher:empbasicDetails.isAFresher,
-            signDate: empbasicDetails.signDate
+            signDate: empbasicDetails.signDatel,
+            photo: empbasicDetails.photo
         });
+        this.defaultPhoto = /^female$/.test(empbasicDetails.gender) ? '/assets/layout/images/women-emp-2.jpg' : '/assets/layout/images/men-emp.jpg'
     }
 
     navigateToNext() {

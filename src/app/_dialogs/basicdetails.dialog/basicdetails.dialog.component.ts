@@ -68,7 +68,7 @@ export class BasicdetailsDialogComponent {
         this.ImageValidator.subscribe((p: PhotoFileProperties) => {
             console.log(p);
 
-            if (this.fileTypes.indexOf(p.FileExtension) > 0 && p.Resize || (p.Size < 1 * 1024 * 1024
+            if (this.fileTypes.indexOf(p.FileExtension) > 0 && p.Resize || (p.Size / 1024 / 1024 < 1
                 && (p.isPdf || ( !p.isPdf && p.Width <= 300 && p.Height <= 300)))) {
                     this.fbEmpBasDtls.get('photo').setValue(p.File);
             } else {
@@ -79,7 +79,7 @@ export class BasicdetailsDialogComponent {
         this.fileUpload.nativeElement.onchange = (source) => {
             for (let index = 0; index < this.fileUpload.nativeElement.files.length; index++) {
                 const file = this.fileUpload.nativeElement.files[index];
-                ValidateFileThenUpload(file, this.ImageValidator, 1024 * 1024, '300 x 300 pixels',true);
+                ValidateFileThenUpload(file, this.ImageValidator, 1, '300 x 300 pixels',true);
             }
         }
     }

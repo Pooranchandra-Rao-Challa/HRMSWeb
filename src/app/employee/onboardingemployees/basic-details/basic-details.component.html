@@ -230,12 +230,12 @@
                     <p-inputSwitch formControlName="isActive" id="PersonalDetails_IsActive"></p-inputSwitch>
                 </div>
                 <div class="field col-12 md:col-4">
-                    <label>Fresher:</label>
+                    <label>Is A Fresher:</label>
                     <br>
                     <p-inputSwitch formControlName="isAFresher" id="PersonalDetails_IsAFresher"></p-inputSwitch>
                 </div>
-                <div class="field col-12 md:col-4">
-                    <img [src]="this.fbbasicDetails.get('gender').value === 'Female' ? this.defaultWomenPhoto : this.defaultMenPhoto"
+                <div class="field col-12 md:col-4" style="display: grid;">
+                    <img [src]="this.fbbasicDetails.get('photo').value  ? this.fbbasicDetails.get('photo').value : this.defaultPhoto"
                         onerror="this.onerror=null" alt="photo" width="100px" class="up_logo">
                     <label for="singleFile"
                         class="p-element p-ripple p-button-raised p-button-primary p-button p-component"
