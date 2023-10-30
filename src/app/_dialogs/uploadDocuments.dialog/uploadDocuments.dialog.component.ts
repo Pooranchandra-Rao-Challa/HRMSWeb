@@ -39,7 +39,7 @@ export class UploadDocumentsDialogComponent {
         this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
         this.ImageValidator.subscribe((p: PhotoFileProperties) => {
             if (this.files.length < 5) {
-                if (this.fileTypes.indexOf(p.FileExtension) > 0 && p.Size < 10 * 1024 * 1024
+                if (this.fileTypes.indexOf(p.FileExtension) > 0 && p.Size/1024/1024 < 10
                     && (p.isPdf || (!p.isPdf && p.Width <= 595 && p.Height <= 842))) {
                     this.files.push({ fileBlob: p.File, title: this.fbUpload.get('title').value, fileName: p.FileName });
                 } else {

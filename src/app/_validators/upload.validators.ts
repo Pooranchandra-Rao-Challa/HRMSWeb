@@ -2,7 +2,7 @@ import { EventEmitter } from "@angular/core";
 import { PhotoFileProperties } from "../_models/common";
 
 export function ValidateFileThenUpload(file: any, emitProperties: EventEmitter<PhotoFileProperties>,
-    fileSize: number = 10 * 1024 * 1024,
+    fileSize: number = 10,
     dimensions: string = '595 x 842 pixels',
     resize: boolean = false,
     resizeTo: number = 300) {
@@ -13,8 +13,8 @@ export function ValidateFileThenUpload(file: any, emitProperties: EventEmitter<P
     fileReader.onload = function (e) {
         if (/(^pdf$)|(^doc[x]*)/gi.test(fileExtension)) {
             message =
-                `File can't be uploaded. May be File Size ${Math.round(file.size)} is grater than ${fileSize} bytes of the uploaded
-                \nfile name: ${file.name}`;
+                `File can't be uploaded. May be uploaded file '${file.name}' size ${Math.round(file.size/1024/1024)} Mb
+                is grater than allowed size ${fileSize} Mb`;
             var photoProperties: PhotoFileProperties = {
                 Width: 0,
                 Height: 0,
