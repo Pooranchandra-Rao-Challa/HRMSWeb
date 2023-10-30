@@ -1,4 +1,4 @@
-import { Countries } from './../../../_models/employes';
+import { Countries, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto } from './../../../_models/employes';
 import { HttpEvent } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from '@angular/forms';
@@ -33,6 +33,8 @@ export class EducationDetailsComponent implements OnInit {
   addFlag: boolean = true;
   empEduDetails: EducationDetailsDto[] = [];
   maxDate: Date = new Date();
+  empbasicDetails = new EmployeeBasicDetailDto();
+  selectedOption: boolean;
 
   constructor(private formbuilder: FormBuilder,
     private router: Router,
@@ -50,6 +52,13 @@ export class EducationDetailsComponent implements OnInit {
     this.initCountry();
     this.initGrading();
     this.getEmpEducaitonDetails();
+    this.getBasicDetails();
+  }
+  getBasicDetails() {
+    this.employeeService.GetViewEmpPersDtls(this.employeeId).subscribe((resp) => {
+      this.empbasicDetails = resp as unknown as EmployeeBasicDetailViewDto;
+      this.selectedOption = resp['isAFresher'];
+    })
   }
 
   headers: ITableHeader[] = [
@@ -124,7 +133,7 @@ export class EducationDetailsComponent implements OnInit {
     if (eduDetailId == null) {
       this.faEducationDetail().push(this.generaterow(this.fbEducationDetails.getRawValue()));
       for (let item of this.fbEducationDetails.get('educationDetails').value) {
-        if (item.countyId !==null && item.stateId !== null && item.curriculumId !==null && item.streamId !== null && item.gradingMethodId !== null) {
+        if (item.countyId !== null && item.stateId !== null && item.curriculumId !== null && item.streamId !== null && item.gradingMethodId !== null) {
           let countryName = this.country.filter(x => x.lookupDetailId == item.countryId);
           item.country = countryName.length > 0 ? countryName[0].name : '';
 
@@ -227,7 +236,10 @@ export class EducationDetailsComponent implements OnInit {
   onSubmit() {
     this.saveeducationDetails().subscribe(resp => {
       this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "SEDU001" : "SEDU002"]);
-      this.navigateToNext();
+      if (this.selectedOption)
+        this.navigateToAddress();
+      else
+        this.navigateToExperience();
     })
   }
 
@@ -237,8 +249,11 @@ export class EducationDetailsComponent implements OnInit {
     });
   }
 
-  navigateToNext() {
+  navigateToExperience() {
     this.router.navigate(['employee/onboardingemployee/experiencedetails', this.employeeId])
+  }
+  navigateToAddress() {
+    this.router.navigate(['employee/onboardingemployee/addressdetails', this.employeeId])
   }
   toggleTab() {
     this.addeducationdetailsshowForm = !this.addeducationdetailsshowForm;
