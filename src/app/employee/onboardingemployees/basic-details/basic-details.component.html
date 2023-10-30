@@ -70,7 +70,7 @@
                     <label class="required">Gender:</label>
                     <p-dropdown appendTo="body" id="gender_dropdown" placeholder="Select Gender"
                         [autoDisplayFirst]="false" [options]="genders" optionLabel="name" formControlName="gender"
-                        optionValue="name"
+                        optionValue="name" (ngModelChange)="onGenderChange()"
                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['gender'].touched && FormControls['gender'].errors}">
                     </p-dropdown>
                     <div class="flex">

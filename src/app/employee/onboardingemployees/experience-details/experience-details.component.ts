@@ -128,7 +128,6 @@ export class ExperienceDetailsComponent {
     { field: 'workExperienceXrefs', header: 'workExperienceXrefs', label: 'SkillArea' }
   ];
   addexperienceDetails() {
-    debugger
     if (this.fbexperience.get('workExperienceId').value) {
       this.onSubmit();
     }

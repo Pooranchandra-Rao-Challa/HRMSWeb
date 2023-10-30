@@ -155,11 +155,9 @@ export class AssetsComponent {
   }
 
   deleteDialog(assetstypes: AssetsDetailsViewDto) {
-    debugger
     this.deleteAsset = assetstypes;
     this.confirmationDialogService.comfirmationDialog(this.confirmationRequest).subscribe(userChoice => {
       if (userChoice) {
-        debugger
         this.asset = this.deleteAsset
         this.asset.purchasedDate = new Date(this.deleteAsset.purchasedDate);
         this.asset.isActive = false;

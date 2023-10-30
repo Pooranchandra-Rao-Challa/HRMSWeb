@@ -43,16 +43,12 @@ export class BasicDetailsComponent implements OnInit {
     fileTypes: string = ".jpg, .jpeg, .gif"
     @Output() ImageValidator = new EventEmitter<PhotoFileProperties>();
     defaultPhoto: string;
-    defaultMenPhoto:string ;
-    defaultWomenPhoto:string ;
 
     constructor(private router: Router, private route: ActivatedRoute,
         private employeeService: EmployeeService, private formbuilder: FormBuilder,
         private lookupService: LookupService, private alertMessage: AlertmessageService,
         private onboardEmployeeService: OnboardEmployeeService,
         private plaformLocation: PlatformLocation,) {
-            this.defaultMenPhoto = `${plaformLocation.protocol}//${plaformLocation.hostname}:${plaformLocation.port}/assets/layout/images/men-emp.jpg`;
-            this.defaultWomenPhoto = `${plaformLocation.protocol}//${plaformLocation.hostname}:${plaformLocation.port}/assets/layout/images/women-emp-2.jpg`;
     }
 
     ngOnInit() {
@@ -92,9 +88,17 @@ export class BasicDetailsComponent implements OnInit {
                 ValidateFileThenUpload(file, this.ImageValidator, 1024 * 1024, '300 x 300 pixels', true);
             }
         }
-        this.defaultPhoto = /^female$/.test(this.fbbasicDetails.get('gender').value) ? '/assets/layout/images/women-emp-2.jpg' : '/assets/layout/images/men-emp.jpg'
+        this.defaultPhoto = /^female$/gi.test(this.fbbasicDetails.get('gender').value) ? '/assets/layout/images/women-emp-2.jpg' : '/assets/layout/images/men-emp.jpg'
 
     }
+
+    onGenderChange() {
+        const selectedGender = this.fbbasicDetails.get('gender').value;
+        if (selectedGender) {
+            this.defaultPhoto = /^female$/gi.test(this.fbbasicDetails.get('gender').value) ? '/assets/layout/images/women-emp-2.jpg' : '/assets/layout/images/men-emp.jpg'
+        }
+    }
+
     basicDetailsForm() {
         this.fbbasicDetails = this.formbuilder.group({
             employeeId: [0],
@@ -163,11 +167,6 @@ export class BasicDetailsComponent implements OnInit {
 
     editBasicDetails(empbasicDetails) {
         this.addFlag = false;
-        if (/^female$/i.test(empbasicDetails.gender)) {
-            this.fbbasicDetails.get('photo').setValue(this.defaultWomenPhoto);
-        } else {
-            this.fbbasicDetails.get('photo').setValue(this.defaultMenPhoto);
-        }
         this.fbbasicDetails.patchValue({
             employeeId: empbasicDetails.employeeId,
             code: empbasicDetails.code,
@@ -187,7 +186,7 @@ export class BasicDetailsComponent implements OnInit {
             isAFresher: empbasicDetails.isAFresher,
             signDate: empbasicDetails.signDatel,
         });
-        // this.defaultPhoto = /^female$/.test(empbasicDetails.gender) ? '/assets/layout/images/women-emp-2.jpg' : '/assets/layout/images/men-emp.jpg'
+        this.defaultPhoto = /^female$/gi.test(empbasicDetails.gender) ? '/assets/layout/images/women-emp-2.jpg' : '/assets/layout/images/men-emp.jpg'
     }
 
     navigateToNext() {
