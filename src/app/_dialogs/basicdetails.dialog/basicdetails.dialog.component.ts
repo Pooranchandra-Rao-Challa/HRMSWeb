@@ -1,3 +1,4 @@
+import { PlatformLocation } from '@angular/common';
 import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -41,8 +42,8 @@ export class BasicdetailsDialogComponent {
 
     fileTypes: string = ".jpg, .jpeg, .gif"
     @Output() ImageValidator = new EventEmitter<PhotoFileProperties>();
-    defaultPhoto: string;
-
+    defaultMenPhoto: string;
+    defaultWomenPhoto: string;
 
     constructor(
         private formbuilder: FormBuilder,
@@ -51,8 +52,11 @@ export class BasicdetailsDialogComponent {
         private lookupService: LookupService,
         public ref: DynamicDialogRef,
         private config: DynamicDialogConfig,
-        private activatedRoute: ActivatedRoute,) {
+        private activatedRoute: ActivatedRoute,
+        private plaformLocation: PlatformLocation,) {
         this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
+        this.defaultMenPhoto = `${plaformLocation.protocol}//${plaformLocation.hostname}:${plaformLocation.port}/assets/layout/images/men-emp.jpg`;
+        this.defaultWomenPhoto = `${plaformLocation.protocol}//${plaformLocation.hostname}:${plaformLocation.port}/assets/layout/images/women-emp-2.jpg`;
     }
 
     ngOnInit(): void {
@@ -116,6 +120,7 @@ export class BasicdetailsDialogComponent {
             certificateDob: new FormControl(null, [Validators.required]),
             emailId: new FormControl(null, [Validators.required, Validators.pattern(RG_EMAIL)]),
             isActive: (''),
+            isAFresher:(''),
             signDate: (''),
             photo: []
         });
@@ -158,15 +163,32 @@ export class BasicdetailsDialogComponent {
         employeePrsDtl.originalDob = new Date(employeePrsDtls.originalDOB);
         employeePrsDtl.certificateDob = new Date(employeePrsDtls.certificateDOB);
         employeePrsDtl.isActive = true;
-        this.fbEmpBasDtls.patchValue(employeePrsDtl);
-        if (/^female$/gi.test(employeePrsDtl.gender)) {
-            this.defaultPhoto = '/assets/layout/images/woman-emp-2.jsp'
-        } else this.defaultPhoto = '/assets/layout/images/men-emp.jpg';
+        if (/^female$/i.test(employeePrsDtls.gender)) {
+            this.fbEmpBasDtls.get('photo').setValue(this.defaultWomenPhoto);
+        } else {
+            this.fbEmpBasDtls.get('photo').setValue(this.defaultMenPhoto);
+        }
+        this.fbEmpBasDtls.patchValue({
+            employeeId: employeePrsDtls.employeeId,
+            firstName:employeePrsDtls.firstName,
+            middleName: employeePrsDtls.middleName,
+            lastName:employeePrsDtls.lastName,
+            code:employeePrsDtl.code,
+            gender: employeePrsDtls.gender,
+            bloodGroupId: employeePrsDtls.bloodGroupId,
+            maritalStatus: employeePrsDtls.maritalStatus,
+            mobileNumber: employeePrsDtls.mobileNumber,
+            alternateMobileNumber: employeePrsDtls.alternateMobileNumber,
+            originalDob:  FORMAT_DATE(new Date(employeePrsDtls.originalDOB)),
+            certificateDob:  FORMAT_DATE(new Date(employeePrsDtls.certificateDOB)),
+            emailId:employeePrsDtls.emailId,
+            isActive: employeePrsDtls.isActive,
+            isAFresher:employeePrsDtl.isAFresher,
+            signDate:employeePrsDtls.signDate
+        });
     }
 
     saveEmpBscDtls() {
-        this.fbEmpBasDtls.value.originalDob = FORMAT_DATE(this.fbEmpBasDtls.value.originalDob);
-        this.fbEmpBasDtls.value.certificateDob = FORMAT_DATE(this.fbEmpBasDtls.value.certificateDob);
         this.employeeService.updateViewEmpPersDtls(this.fbEmpBasDtls.value).subscribe((resp) => {
             if (resp) {
                 this.alertMessage.displayAlertMessage(ALERT_CODES["EVEBD001"]);

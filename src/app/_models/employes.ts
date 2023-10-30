@@ -28,6 +28,7 @@ export class EmployeeBasicDetailDto {
 	photo?: string;
 	signDate?: Date;
 	isActive?: boolean;
+	isAFresher?:boolean;
 }
 
 export class EducationDetailsDto {
@@ -138,6 +139,7 @@ export class EmployeeBasicDetailViewDto {
 	photo?: string;
 	signDate?: Date;
 	isActive?: boolean;
+	isAFresher?:boolean;
 	createdAt?: Date;
 	createdBy?: string;
 	updatedAt?: Date;
