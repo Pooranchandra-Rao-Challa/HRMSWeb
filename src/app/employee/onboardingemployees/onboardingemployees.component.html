@@ -49,7 +49,7 @@
                 <ng-template pTemplate="body" let-employee>
                   <tr>
                     <td>
-                      <img [src]="employee.photo ? employee.photo : './assets/layout/images/default_icon_employee.jpg'"
+                      <img [src]="employee.photo ? employee.photo : employee?.gender == 'Male' ?  '/assets/layout/images/men-emp.jpg' : '/assets/layout/images/women-emp.jpg'"
                         [alt]="employee.employeeName" class="my-4 md:my-0 w-10 md:w-10rem shadow-2 mr-2" />
                     </td>
                     <td *ngFor="let col of headers">
@@ -79,7 +79,7 @@
             <div class="card m-2 border-1 surface-border card-height">
               <div class=" mb-3 grid">
                 <div class="col-12 lg:col-4 md:col-12 p-1 employee_profile_pic_div">
-                  <img [src]="employee.photo ? employee.photo : './assets/layout/images/default_icon_employee.jpg'"
+                  <img [src]="employee.photo ? employee.photo : employee?.gender == 'Male' ?  '/assets/layout/images/men-emp.jpg' : '/assets/layout/images/women-emp.jpg'"
                     [alt]="employee.employeeName" class="shadow-2 my-1 mx-0 employee_profile_pic zoomable-img" />
 
                   <span class="text-500 font-medium text-md">

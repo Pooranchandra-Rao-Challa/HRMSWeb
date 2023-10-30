@@ -206,7 +206,7 @@
                     <td>
                         <div class="flex">
                             <button pButton pRipple icon="pi pi-pencil" id="educationDetailsAdd-Btn"
-                                (click)="editEducationDetails(educationData)"
+                                (click)="editEducationDetails(educationData)" *ngIf="educationData.educationDetailId"
                                 class="p-element p-ripple p-button-text p-button p-component mr-3 p-0 ">
                             </button>
                             <button pButton pRipple icon="pi pi-trash" id="educationDetailsRemove-Btn"

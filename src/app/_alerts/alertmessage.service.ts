@@ -15,6 +15,9 @@ export class AlertmessageService {
     displayErrorMessage(message: string) {
         this.service.add({ key: 'tst', severity: 'error', summary: 'Error Message', detail: message, life: 5000 });
     }
+    displayInfo(message: string) {
+        this.service.add({ key: 'tst',severity: 'info', summary: 'Info', detail: message , life: 5000 });
+    }
 
 }
 

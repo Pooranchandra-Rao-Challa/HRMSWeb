@@ -228,25 +228,22 @@
               </div> -->
                         </div>
                     </div>
+                    <div class="field col-12 md:col-4">
+                        <label>Fresher:</label>
+                        <br>
+                        <p-inputSwitch formControlName="isAFresher" id="PersonalDetails_IsAFresher"></p-inputSwitch>
+                    </div>
                     <div class="field col-12 md:col-4" style="display: grid;">
-                        <!-- <img [src]="this.fbEmpBasDtls.get('photo').value"
-                            onerror="this.onerror=null; this.src='https://localhost:4200/asset/layout/images/men-emp.jpg'"
-                            alt="photo" width="100px" class="up_logo">
-                        <p-fileUpload mode="basic" [maxFileSize]="1000000" chooseLabel="Choose Photo"
-                             (onSelect)="onFileSelect($event)"
-                            accept="image/jpeg, image/png, image/jpg"></p-fileUpload> -->
-
-                        <img [src]="this.fbEmpBasDtls.get('photo').value" onerror="this.onerror=null;this.src='/assets/layout/images/men-emp.jpg'" alt="photo"
+                        <img [src]="this.fbEmpBasDtls.get('photo').value"
+                            onerror="this.onerror=null;this.src='/assets/layout/images/men-emp.jpg'" alt="photo"
                             width="100px" class="up_logo">
                         <label for="singleFile"
-                            class="p-element p-ripple p-button-raised p-button-primary p-button p-component" style="width:40% !important; white-space: nowrap;">
+                            class="p-element p-ripple p-button-raised p-button-primary p-button p-component"
+                            style="width:40% !important; white-space: nowrap;">
                             <i class="pi pi-paperclip"></i>Choose Photo
                         </label>
-                        <input id="singleFile" #fileUpload name="myFile" type="file"
-                            [accept]="fileTypes" hidden />
-
-                    </div><!--url="https://www.primefaces.org/cdn/api/upload.php"-->
-                    <!--  this.src='https://t3.ftcdn.net/jpg/02/18/21/86/360_F_218218632_jF6XAkcrlBjv1mAg9Ow0UBMLBaJrhygH.jpg'-->
+                        <input id="singleFile" #fileUpload name="myFile" type="file" [accept]="fileTypes" hidden />
+                    </div>
                 </div>
             </div>
         </div>

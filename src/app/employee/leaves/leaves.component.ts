@@ -168,7 +168,7 @@ export class LeavesComponent {
   openComponentDialog(content: any,
     dialogData, action: Actions = this.ActionTypes.add) {
     if (action == Actions.save && content === this.leaveDialogComponent) {
-      this.dialogRequest.dialogData = {dialogData};
+      this.dialogRequest.dialogData = dialogData;
       this.dialogRequest.header = "Leave";
       this.dialogRequest.width = "60%";
     }

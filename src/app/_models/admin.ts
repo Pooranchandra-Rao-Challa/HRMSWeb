@@ -125,6 +125,7 @@ export class EmployeesList{
   employeeId: number
   employeeName: string
   employeeCode: string;
+  date: string;
 }
 export class ProjectAllotments
 {

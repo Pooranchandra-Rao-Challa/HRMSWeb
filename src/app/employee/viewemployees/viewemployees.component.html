@@ -4,29 +4,28 @@
       <div class="fex">
         <!-- Basic details card view -->
         <div class="col text-center">
-          <img
-            [src]="employeePrsDtls.photo ? employeePrsDtls.photo : defaultPhoto"
-            [alt]="employeePrsDtls.employeeName"
+          <img [src]="employeePrsDtls.photo ? employeePrsDtls.photo : defaultPhoto" [alt]="employeePrsDtls.employeeName"
             class="shadow-2 my-1 mx-0 employee_profile_pic employee_profile_pic_view" width="100px" />
         </div>
         <div class=" align-items-center text-xl text-center font-medium text-900 mb-1">{{employeePrsDtls?.employeeName}}
         </div>
         <span class="text-900 font-medium text-primary text-center text-3xl block">{{employeePrsDtls?.code}}</span>
         <div class="text-center" *ngIf="enRollEmployee">
-          <button pButton pRipple class="p-element p-ripple p-button-outline p-button p-component "(click)="onEmployeeEnroll()">
+          <button pButton pRipple class="p-element p-ripple p-button-outline p-button p-component "
+            (click)="onEmployeeEnroll()">
             Enroll Employee </button>
         </div>
       </div>
     </div>
     <!-- Confirmation Dialog -->
     <p-dialog [(visible)]="dialog" header="Confirmation Message" [modal]="true" showEffect="fade"
-      [breakpoints]="{'960px': '70%', '640px': '80%'}"  [style]="{width:'40%'}">
+      [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width:'40%'}">
       <div class="flex flex-column justify-content-center">
         <div class="grid">
-            <app-final-submit
-              [style.pointer-events]="educationDetails.length && workExperience.length && address.length && UploadedDocuments.length ? 'auto' : 'none'"
-              [style.opacity]="educationDetails.length && workExperience.length && address.length && UploadedDocuments.length ? 1 : 0.5">
-            </app-final-submit>
+          <app-final-submit
+            [style.pointer-events]="educationDetails.length && workExperience.length && address.length && UploadedDocuments.length ? 'auto' : 'none'"
+            [style.opacity]="educationDetails.length && workExperience.length && address.length && UploadedDocuments.length ? 1 : 0.5">
+          </app-final-submit>
         </div>
       </div>
     </p-dialog>
@@ -56,6 +55,9 @@
         </div>
         <div class="col-12 lg:col-6 ">
           <span class="text-primary font-bold text-900">Marital Status:</span> {{employeePrsDtls?.maritalStatus}}
+        </div>
+        <div class="col-12 lg:col-6 ">
+          <span class="text-primary font-bold text-900">Fresher:</span> {{employeePrsDtls?.isAFresher}}
         </div>
         <div class="col-12 lg:col-6 ">
           <span class="text-primary font-bold text-900">Email ID:</span> {{employeePrsDtls?.emailId}}
@@ -202,22 +204,20 @@
                 <td class="pl-5">{{ rowIndex + 1 }}</td>
                 <td *ngIf="permissions?.CanManageEmployee ">
 
-                    <button pButton pRipple icon="pi pi-trash" id="Remove-Btn"
-                        *ngIf="UploadedDocument.uploadedDocumentId"
-                        class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
-                        (click)="removeItem(UploadedDocument)">
-                    </button>
-                    <button pButton pRipple icon="pi pi-download" id="download-Btn"
-                        *ngIf="UploadedDocument.uploadedDocumentId"
-                        class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
-                        (click)="downloadItem(UploadedDocument)">
-                    </button>
+                  <button pButton pRipple icon="pi pi-trash" id="Remove-Btn" *ngIf="UploadedDocument.uploadedDocumentId"
+                    class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
+                    (click)="removeItem(UploadedDocument)">
+                  </button>
+                  <button pButton pRipple icon="pi pi-download" id="download-Btn"
+                    *ngIf="UploadedDocument.uploadedDocumentId"
+                    class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
+                    (click)="downloadItem(UploadedDocument)">
+                  </button>
 
-                    <button pButton pRipple icon="fa fa-eye" id="download-Btn"
-                        *ngIf="UploadedDocument.uploadedDocumentId"
-                        class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
-                        (click)="downloadItem(UploadedDocument)">
-                    </button>
+                  <button pButton pRipple icon="fa fa-eye" id="download-Btn" *ngIf="UploadedDocument.uploadedDocumentId"
+                    class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
+                    (click)="downloadItem(UploadedDocument)">
+                  </button>
 
 
                 </td>

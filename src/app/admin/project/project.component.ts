@@ -53,7 +53,18 @@ export class ProjectComponent implements OnInit {
     projectDetails: any = {};
     selectedFileBase64: string | null = null; // To store the selected file as base64
     companyHierarchy: CompanyHierarchyViewDto[] = [];
-    selectedProjectId: number =-1; 
+    selectedProjectId: number = -1;
+    first: number = 0;
+    rows: number = 10;
+    
+    //For paginator 
+    onPageChange(event) {
+        this.first = event.first;
+        this.rows = event.rows;
+    }
+    get visibleProjects(): any[] {
+        return this.projects.slice(this.first, this.first + this.rows);
+    }
 
     projectTreeData: TreeNode[];
     rootProject: TreeNode = {
@@ -72,16 +83,16 @@ export class ProjectComponent implements OnInit {
         //this.eventsSubject.next();
         this.downloadNotifier.sendData(true);
     }
-    preparOrgHierarchy() {        
+    preparOrgHierarchy() {
     }
     onProjectChange(event) {
-        this.selectedProjectId = event;        
+        this.selectedProjectId = event;
         this.projectNotifier.sendSelectedProjectId(this.selectedProjectId);
     }
     constructor(private formbuilder: FormBuilder, private adminService: AdminService,
         private employeeService: EmployeeService, private alertMessage: AlertmessageService,
         private jwtService: JwtService, private downloadNotifier: DownloadNotification,
-         private projectNotifier: ProjectNotification, private datePipe: DatePipe) { }
+        private projectNotifier: ProjectNotification, private datePipe: DatePipe) { }
 
     ngOnInit() {
         this.permission = this.jwtService.Permissions;
@@ -202,7 +213,7 @@ export class ProjectComponent implements OnInit {
     initProject(project: ProjectViewDto) {
         this.projectForm();
         console.log(project);
-        
+
         this.dialog = true;
         if (project != null) {
             this.editEmployee(project);
