@@ -62,7 +62,7 @@
                     <div class="field col-12 md:col-4">
                         <label class="required">ZIP Code</label>
                         <input type="text" id="Address_ZIPCode" pInputText formControlName="zipCode"
-                            placeholder="Enter ZIPCode" numericOnly
+                            placeholder="Enter ZIP Code" numericOnly
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['zipCode'].touched && FormControls['zipCode'].errors }"
                             [maxlength]="maxLength.pinCode" #zip />
 
@@ -71,7 +71,7 @@
                                 <span *ngIf="FormControls['zipCode'].touched && FormControls['zipCode'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="FormControls['zipCode'].errors?.['required']">
-                                        Please Enter ZIPCode.</div>
+                                        Please Enter ZIP Code.</div>
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="FormControls['zipCode'].errors?.['pattern']">
                                         First Digit Should Be Greater Than 0 And Must Contains 6 Digits.</div>
@@ -221,7 +221,7 @@
                 <tr>
                     <td *ngIf="permissions?.CanManageEmployee">
                         <div class="flex">
-                            <button *ngIf="addressDetails.isActive" pButton pRipple icon="pi pi-pencil"
+                            <button *ngIf="addressDetails.isActive && addressDetails.addressId" pButton pRipple icon="pi pi-pencil"
                                 (click)="editForm(addressDetails)"
                                 class="p-element p-ripple p-button-text p-button p-component col-2 p-0 "></button>
                             <button pButton pRipple icon="pi pi-trash" id="AddressDetailsRemove-Btn"

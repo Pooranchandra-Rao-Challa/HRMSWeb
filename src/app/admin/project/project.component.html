@@ -91,7 +91,7 @@
                 </div>
                 <div class="field col-12 md:col-4">
                   <label for="textarea">Description <sup class="p-error">*</sup>
-                  </label>&nbsp; <textarea inputId="textarea" pInputTextarea
+                  </label>&nbsp; <textarea inputId="textarea" pInputTextarea rows="4" cols="30"
                     [ngClass]="{ 'is-invalid ng-dirty': projectFormControls['description'].touched &&projectFormControls['description'].errors }"
                     (keydown)="restrictSpaces($event)" [maxlength]="maxLength.description" id="Project_description"
                     #description placeholder="Enter Description" formControlName="description"></textarea>
@@ -404,9 +404,9 @@
 
     <div class="card">
       <p-tabView>
-        <p-tabPanel header="Card View ">
+        <p-tabPanel header="Card View " >
           <div class="grid mb-5">
-            <div class="col-12 md:col-4 mb-5" *ngFor="let project of projects; let i = index ">
+            <div class="col-12 md:col-4 mb-5" *ngFor="let project of visibleProjects; let i = index ">
               <div class="list-none m-0 p-0 text-center">
                 <img [src]="project.logo" alt="img" [style]="{width: '300px'}"
                   class="inline-flex align-items-center justify-content-center border-circle w-5rem h-5rem bg-primary-100 mb-5">
@@ -421,6 +421,7 @@
               </div>
             </div>
           </div>
+          <p-paginator (onPageChange)="onPageChange($event)" *ngIf="projects.length>10" [first]="first" [rows]="rows" [totalRecords]="projects.length" [rowsPerPageOptions]="[10, 20, 30]"></p-paginator>
         </p-tabPanel>
         <!-- <p-tabPanel header="Hierarchy View">
           <div id="hrms" class="scroll_div scroll  pb-5">

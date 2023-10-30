@@ -9,11 +9,13 @@ import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.s
 import { LeaveDialogComponent } from 'src/app/_dialogs/leave.dialog/leave.dialog.component';
 import { FORMAT_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { EmployeesList, LookupDetailsDto } from 'src/app/_models/admin';
+import { MaxLength } from 'src/app/_models/common';
 import { employeeAttendanceDto, EmployeeLeaveDto } from 'src/app/_models/employes';
 import { AdminService } from 'src/app/_services/admin.service';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { JwtService } from 'src/app/_services/jwt.service';
 import { LookupService } from 'src/app/_services/lookup.service';
+import { MAX_LENGTH_256 } from 'src/app/_shared/regex';
 
 
 @Component({
@@ -25,6 +27,7 @@ import { LookupService } from 'src/app/_services/lookup.service';
 export class AttendanceComponent {
   month: number = new Date().getMonth() + 1;
   days: number[] = [];
+  maxLength: MaxLength = new MaxLength();
   year: number = 2023;
   employeesList!: EmployeesList[];
   employeeAttendanceList: employeeAttendanceDto[];
@@ -38,6 +41,7 @@ export class AttendanceComponent {
   notUpdatedDates: any;
   display: boolean = false;
   LeaveTypes: LookupDetailsDto[] = [];
+  leaves: EmployeeLeaveDto[] = [];
   NotUpdatedEmployees: EmployeesList[] = [];
 
 
@@ -54,6 +58,7 @@ export class AttendanceComponent {
     this.getDaysInMonth(this.year, this.month);
     this.initEmployees();
     this.initDayWorkStatus();
+    this.getLeaves();
   }
 
   initLeaveForm() {
@@ -67,10 +72,11 @@ export class AttendanceComponent {
     this.fbleave = this.formbuilder.group({
       employeeLeaveId: [null],
       employeeId: new FormControl('', [Validators.required]),
+      employeeName: new FormControl(''),
       fromDate: new FormControl('', [Validators.required]),
       toDate: new FormControl(null),
       leaveTypeId: new FormControl('', [Validators.required]),
-      note: new FormControl(''),
+      note: new FormControl('', [Validators.maxLength(MAX_LENGTH_256)]),
       acceptedBy: new FormControl(null),
       acceptedAt: new FormControl(null),
       approvedBy: new FormControl(null),
@@ -97,9 +103,17 @@ export class AttendanceComponent {
 
   showConfirmationDialog() {
     if (typeof this.notUpdatedDates === 'undefined')
-      this.alertMessage.displayErrorMessage(ALERT_CODES["EAAS006"]);
+      this.alertMessage.displayInfo(ALERT_CODES["EAAS006"]);
     else
       this.display = true;
+  }
+
+  getLeaves() {
+    this.employeeService.getEmployeeLeaveDetails().subscribe((resp) => {
+      this.leaves = resp as unknown as EmployeeLeaveDto[];
+      console.log(this.leaves);
+
+    })
   }
 
   save(data) {
@@ -109,6 +123,7 @@ export class AttendanceComponent {
           this.alertMessage.displayAlertMessage(ALERT_CODES["EAAS001"]);
           this.display = false;
           this.initAttendance();
+          this.getNotUpdatedEmployees();
         }
         else
           this.alertMessage.displayErrorMessage(ALERT_CODES["EAAS002"]);
@@ -139,9 +154,9 @@ export class AttendanceComponent {
     this.employeeService.GetNotUpdatedEmployees(date, checkPreviousDate).subscribe(resp => {
       this.NotUpdatedEmployees = resp as unknown as EmployeesList[];
       if (this.NotUpdatedEmployees.length > 0) {
-        this.notUpdatedDates = resp[0].date;
+        this.notUpdatedDates = this.NotUpdatedEmployees[0].date;
         if (this.notUpdatedDates && this.permissions?.CanManageAttendance)
-          return this.alertMessage.displayErrorMessage(ALERT_CODES["EAAS003"] + "  " + `${this.datePipe.transform(this.notUpdatedDates, 'dd-MM-yyyy')}`);
+          return this.alertMessage.displayInfo(ALERT_CODES["EAAS003"] + "  " + `${this.datePipe.transform(this.notUpdatedDates, 'dd-MM-yyyy')}`);
       }
       else if (this.checkPreviousAttendance) {
         this.checkPreviousAttendance = false;
@@ -155,7 +170,7 @@ export class AttendanceComponent {
     this.getNotUpdatedEmployeesList(formattedDate, this.checkPreviousAttendance);
   }
 
-  openDialog(empId: number, date: string, leaveType: string) {
+  openDialog(emp: any, date: string, leaveType: string) {
     if (this.permissions?.CanManageAttendance) {
       const formattedDate = this.datePipe.transform(this.isFutureDate(date), 'dd-MM-yyyy');
       const currentDate = this.datePipe.transform(new Date(), 'dd-MM-yyyy');
@@ -167,17 +182,32 @@ export class AttendanceComponent {
       else if (formattedDate < currentDate && !this.checkPreviousAttendance)
         return;
       else if (formattedDate === currentDate && this.checkPreviousAttendance)
-        return this.alertMessage.displayErrorMessage(ALERT_CODES["EAAS007"]);
+        return this.alertMessage.displayInfo(ALERT_CODES["EAAS007"]);
       else {
         this.dialog = true;
         this.fbleave.reset();
-        const StatusId = this.LeaveTypes.filter(each => each.name === leaveType)
-        this.fbleave.patchValue({
-          employeeId: empId,
-          leaveTypeId: StatusId[0]?.lookupDetailId,
-          fromDate: FORMAT_DATE(new Date(this.datePipe.transform(this.isFutureDate(date), 'yyyy-MM-dd'))),
-          notReported: false
-        });
+        const result = this.leaves.filter(each => each.employeeId === emp.EmployeeId && this.datePipe.transform(each.fromDate, 'yyyy-MM-dd') === this.datePipe.transform(this.isFutureDate(date), 'yyyy-MM-dd'));
+
+        if (result.length > 0) {
+          this.fbleave.patchValue({
+            employeeId: result[0]?.employeeId,
+            employeeName: result[0]?.employeeName,
+            leaveTypeId: result[0]?.leaveTypeId,
+            fromDate: FORMAT_DATE(new Date(this.datePipe.transform(result[0]?.fromDate, 'yyyy-MM-dd'))),
+            note: result[0]?.note,
+            notReported: false
+          });
+        }
+        else {
+          const StatusId = this.LeaveTypes.filter(each => each.name === leaveType)
+          this.fbleave.patchValue({
+            employeeId: emp.EmployeeId,
+            employeeName: emp.EmployeeName,
+            leaveTypeId: StatusId[0]?.lookupDetailId,
+            fromDate: FORMAT_DATE(new Date(this.datePipe.transform(this.isFutureDate(date), 'yyyy-MM-dd'))),
+            notReported: false
+          });
+        }
       }
     }
   }
@@ -216,16 +246,23 @@ export class AttendanceComponent {
       this.saveAttendance().subscribe(resp => {
         if (resp) {
           this.alertMessage.displayAlertMessage(ALERT_CODES["ELD001"]);
+          this.getNotUpdatedEmployees();
         }
         else
           return this.alertMessage.displayErrorMessage(ALERT_CODES["ELR002"]);
         this.initAttendance();
-      })
+        this.getLeaves();
+      });
+
     }
     this.dialog = false;
 
   }
-
+  getNotUpdatedEmployees(){
+    this.employeeService.GetNotUpdatedEmployees(this.datePipe.transform(new Date(), 'yyyy-MM-dd'), this.checkPreviousAttendance).subscribe(resp => {
+      this.NotUpdatedEmployees = resp as unknown as EmployeesList[];
+    });
+  }
   checkLeaveType() {
     this.fbleave.get('note').setValue('');
     const StatusId = this.LeaveTypes.filter(each => each.lookupDetailId === this.fbleave.get('leaveTypeId').value);

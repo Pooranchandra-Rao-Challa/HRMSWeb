@@ -6,18 +6,11 @@
             <div class="p-fluid p-formgrid">
                 <div style="margin-bottom: 15px;">
                     <label class="required">Employee:</label>&nbsp;
-                    <p-dropdown [options]="employeesList" [readonly]="FormControls['employeeId'].value!== null"
-                        id="Attendance_employeeId" formControlName="employeeId" optionLabel="employeeName"
-                        [filter]="true" filterBy="employeeCode,employeeName" placeholder="Select Employee"
-                        optionValue="employeeId">
-                        <ng-template let-employee pTemplate="item">
-                            <div class="country-item">
-                                <div>{{ employee.employeeCode }}</div>
-                                <div>{{ employee.employeeName }}</div>
-                            </div>
-                        </ng-template>
-                    </p-dropdown>
+                    &nbsp; <input pInputText id="Attendance_employeeId"
+                        [readonly]="FormControls['employeeId'].value!== null" type="text" #pocNo alphaOnly
+                        placeholder="Enter Employee" formControlName="employeeName" />
                 </div>
+
                 <div style="margin-bottom: 15px;">
                     <label class="required">Leave Type:</label>&nbsp;
                     <p-dropdown formControlName="leaveTypeId" [options]="LeaveTypes" optionLabel="name"
@@ -43,10 +36,24 @@
 
                 <div style="margin-bottom: 15px;">
                     <label>Leave Narration:</label>&nbsp;
-                    <textarea rows="5" cols="30" pInputTextarea formControlName="note"
+                    <textarea rows="5" cols="30" pInputTextarea formControlName="note" #note
+                        [maxlength]="maxLength.description" placeholder="Enter Leave Narration"
                         id="Attendance_leaveNarration"></textarea>
+                    <div class="flex">
+                        <div class="align-left w-60" style="width:70%">
+                            <span *ngIf="FormControls['note'].touched && FormControls['note'].invalid">
+                                <div class="ng-invalid ng-touched p-error"
+                                    *ngIf="FormControls['note'].errors?.['maxlength']">
+                                    Leave Narration Max Characters Is 256.</div>
+                            </span>
+                        </div>
+                        <div class="align-right w-40" style="width:30%; text-align:right;">
+                            <small>{{note.value.length}}/256</small>
+                        </div>
+                    </div>
                 </div>
             </div>
+
         </form>
     </div>
     <ng-template pTemplate="footer">
@@ -149,27 +156,27 @@
                        }">
                 <ng-container *ngIf="getAttendance(employee, i)">
                     <span [ngClass]="{'pt': employee[getFormattedDate(i)] === 'PT',}"
-                        (click)="openDialog(employee.EmployeeId,getFormattedDate(i),employee[getFormattedDate(i)])"
+                        (click)="openDialog(employee,getFormattedDate(i),employee[getFormattedDate(i)])"
                         *ngIf="getAttendance(employee, i) === 'PT'">
                         {{ employee[getFormattedDate(i)] }}
                     </span>
-                    <span (click)="openDialog(employee.EmployeeId, getFormattedDate(i),employee[getFormattedDate(i)])"
+                    <span (click)="openDialog(employee, getFormattedDate(i),employee[getFormattedDate(i)])"
                         *ngIf="getAttendance(employee, i) === 'AT'">
                         {{ employee[getFormattedDate(i)] }}
                     </span>
-                    <span (click)="openDialog(employee.EmployeeId, getFormattedDate(i),employee[getFormattedDate(i)])"
+                    <span (click)="openDialog(employee, getFormattedDate(i),employee[getFormattedDate(i)])"
                         *ngIf="getAttendance(employee, i) === 'CL'">
                         {{ employee[getFormattedDate(i)] }}
                     </span>
-                    <span (click)="openDialog(employee.EmployeeId, getFormattedDate(i),employee[getFormattedDate(i)])"
+                    <span (click)="openDialog(employee, getFormattedDate(i),employee[getFormattedDate(i)])"
                         *ngIf="getAttendance(employee, i) === 'PL'">
                         {{ employee[getFormattedDate(i)] }}
                     </span>
-                    <span (click)="openDialog(employee.EmployeeId, getFormattedDate(i),employee[getFormattedDate(i)])"
+                    <span (click)="openDialog(employee, getFormattedDate(i),employee[getFormattedDate(i)])"
                         *ngIf="getAttendance(employee, i) === 'EL'">
                         {{ employee[getFormattedDate(i)] }}
                     </span>
-                    <span (click)="openDialog(employee.EmployeeId, getFormattedDate(i),employee[getFormattedDate(i)])"
+                    <span (click)="openDialog(employee, getFormattedDate(i),employee[getFormattedDate(i)])"
                         *ngIf="getAttendance(employee, i) === 'SL'">
                         {{ employee[getFormattedDate(i)] }}
                     </span>
@@ -179,7 +186,7 @@
                     <span *ngIf="getAttendance(employee, i) === 'HD'">
                         {{ employee[getFormattedDate(i)] }}
                     </span>
-                    <span (click)="openDialog(employee.EmployeeId, getFormattedDate(i),employee[getFormattedDate(i)])"
+                    <span (click)="openDialog(employee, getFormattedDate(i),employee[getFormattedDate(i)])"
                         *ngIf="getAttendance(employee, i) === 'NU'">
                         {{ employee[getFormattedDate(i)] }}
                     </span>

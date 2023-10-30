@@ -166,8 +166,8 @@
                                     </div>
                                 </div>
                                 <div class="field col-12 md:col-4">
-                                    <label class="required">SkillAreas:</label>&nbsp;
-                                    <p-multiSelect placeholder="Select SkillAreas" id="Experience_skillArea"
+                                    <label class="required">Skill Areas:</label>&nbsp;
+                                    <p-multiSelect placeholder="Select Skill Areas" id="Experience_skillArea"
                                         [options]="skills" optionLabel="name" [filter]="true" filterBy="name"
                                         #multiSelect formControlName="skills" optionValue="lookupDetailId"
                                         (keydown)="restrictSpaces($event)" (onChange)="onSelectSkill($event)"
@@ -265,7 +265,7 @@
                     <tr>
                         <td *ngIf="permissions?.CanManageEmployee">
                             <div class="flex">
-                                <button pButton pRipple icon="pi pi-pencil" (click)="editForm(experienceDetail)"
+                                <button pButton pRipple icon="pi pi-pencil" (click)="editForm(experienceDetail)" *ngIf="experienceDetail.workExperienceId"
                                     class="p-element p-ripple p-button-text p-button p-component col-2 p-0 "></button>
                                 <button pButton pRipple icon="pi pi-trash" id="AddressDetailsRemove-Btn"
                                     *ngIf="!experienceDetail.workExperienceId"

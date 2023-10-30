@@ -44,11 +44,13 @@ import { FileUploadModule } from 'primeng/fileupload';
 import {OrganizationChartModule} from 'primeng/organizationchart';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import {OverlayPanelModule} from 'primeng/overlaypanel';
+import { PaginatorModule } from 'primeng/paginator';
 
 @NgModule({
     exports: [
         ReactiveFormsModule,
         TabMenuModule,
+        PaginatorModule,
         TagModule,
         KeyFilterModule,
         ToolbarModule,
