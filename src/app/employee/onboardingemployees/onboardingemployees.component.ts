@@ -41,7 +41,7 @@ export class OnboardingemployeesComponent {
   ]
 
   showDialog() {
-    this.router.navigate(['basicdetails'], { queryParams: { 'employeeId': 51 }, relativeTo: this.route })
+    this.router.navigate(['basicdetails'], { queryParams: { 'employeeId': this.employeeId }, relativeTo: this.route })
     this.visible = true;
   }
 
