@@ -117,21 +117,17 @@
                 </div>
                 <div class="field col-12 md:col-4">
                   <label>Upload Project Logo: </label>
-                  <div class="grid">
-                    <div class="col">
-                      <br> &nbsp;
-                      <img [src]="this.fbproject.get('logo').value"
-                        onerror="this.onerror=null; this.src='https://t3.ftcdn.net/jpg/02/18/21/86/360_F_218218632_jF6XAkcrlBjv1mAg9Ow0UBMLBaJrhygH.jpg'"
-                        alt="logo" height="100px" width="100px" class="up_logo">
-                    </div>
-                    <div class="col " style="padding-top:50px">
-                      <p-fileUpload #fileUpload mode="basic" [maxFileSize]="1000000" chooseLabel="Choose logo"
-                        url="https://www.primefaces.org/cdn/api/upload.php" (onSelect)="onFileSelect($event)"
-                        accept="image/jpeg, image/png, image/jpg">
-                      </p-fileUpload>
-                    </div>
+                  <div class="field col-12 md:col-4">
+                    <img
+                      [src]="this.fbproject.get('logo').value  ? this.fbproject.get('logo').value : 'https://t3.ftcdn.net/jpg/02/18/21/86/360_F_218218632_jF6XAkcrlBjv1mAg9Ow0UBMLBaJrhygH.jpg'"
+                      onerror="this.onerror=null" alt="photo" width="100px" class="up_logo">
+                    <label for="singleFile"
+                      class="p-element p-ripple p-button-raised p-button-primary p-button p-component"
+                      style="width:100% !important; white-space: nowrap;">
+                      <i class="pi pi-paperclip"></i>Choose Logo:
+                    </label>
+                    <input id="singleFile" #fileUpload name="myFile" type="file" [accept]="fileTypes" hidden />
                   </div>
-
                 </div>
                 <div class="field col-12 md:col-4">
                   <label class="required">Is Active:
@@ -148,10 +144,9 @@
                   <p-autoComplete formControlName="companyName" [suggestions]="this.filteredClients"
                     [ngClass]="{ 'is-invalid ng-dirty': fcClientDetails.controls['companyName'].touched && fcClientDetails.controls['companyName'].errors }"
                     (keydown)="restrictSpaces($event)" [maxlength]="maxLength.name"
-                    [readonly]="projectFormControls['projectId'].value!== null"
-                    placeholder="Enter Company Full Name" #CompanyName (completeMethod)="filterClients($event)"
-                    (onSelect)="onAutocompleteSelect($event)" [field]="'companyName'" [dataKey]="null"
-                    id="Project_fullName">
+                    [readonly]="projectFormControls['projectId'].value!== null" placeholder="Enter Company Full Name"
+                    #CompanyName (completeMethod)="filterClients($event)" (onSelect)="onAutocompleteSelect($event)"
+                    [field]="'companyName'" [dataKey]="null" id="Project_fullName">
                   </p-autoComplete>
 
                   <div class="flex">
@@ -404,7 +399,7 @@
 
     <div class="card">
       <p-tabView>
-        <p-tabPanel header="Card View " >
+        <p-tabPanel header="Card View ">
           <div class="grid mb-5">
             <div class="col-12 md:col-4 mb-5" *ngFor="let project of visibleProjects; let i = index ">
               <div class="list-none m-0 p-0 text-center">
@@ -421,7 +416,8 @@
               </div>
             </div>
           </div>
-          <p-paginator (onPageChange)="onPageChange($event)" *ngIf="projects.length>10" [first]="first" [rows]="rows" [totalRecords]="projects.length" [rowsPerPageOptions]="[10, 20, 30]"></p-paginator>
+          <p-paginator (onPageChange)="onPageChange($event)" *ngIf="projects.length>10" [first]="first" [rows]="rows"
+            [totalRecords]="projects.length" [rowsPerPageOptions]="[10, 20, 30]"></p-paginator>
         </p-tabPanel>
         <!-- <p-tabPanel header="Hierarchy View">
           <div id="hrms" class="scroll_div scroll  pb-5">
@@ -440,13 +436,14 @@
           <div style="float:right;padding-bottom: 20px;">
             <p-button appendTo="body" id="download-chart" [style]="{'margin-right':'20px'}"
               (onClick)="emitEventToChild()">Download Chart</p-button>
-            <p-dropdown appendTo="body" id="Project_dropdown"
-              placeholder="Select Project Name" [options]="projects" optionValue="projectId" optionLabel="name"
-              [(ngModel)]="selectedProjectId" (ngModelChange)="onProjectChange($event)">
+            <p-dropdown appendTo="body" id="Project_dropdown" placeholder="Select Project Name" [options]="projects"
+              optionValue="projectId" optionLabel="name" [(ngModel)]="selectedProjectId"
+              (ngModelChange)="onProjectChange($event)">
             </p-dropdown>
           </div>
           <div id="hrms" class="scroll_div scroll  pb-5">
-            <app-d3-org-chart></app-d3-org-chart><!--[events]="eventsSubject.asObservable()"     -->
+            <app-d3-org-chart></app-d3-org-chart>
+            <!--[events]="eventsSubject.asObservable()"     -->
           </div>
         </p-tabPanel>
       </p-tabView>

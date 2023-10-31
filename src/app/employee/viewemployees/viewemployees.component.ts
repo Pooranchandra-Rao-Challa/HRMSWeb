@@ -109,9 +109,7 @@ export class ViewemployeesComponent {
     this.enRollEmployee = false;
     this.employeeService.GetViewEmpPersDtls(this.employeeId).subscribe((resp) => {
       this.employeePrsDtls = resp as unknown as EmployeeBasicDetailViewDto;
-      console.log(this.employeePrsDtls);
       this.selectedOption = resp['isAFresher'];
-      console.log(this.selectedOption);
 
       /^male$/gi.test(this.employeePrsDtls.gender)
         ? this.defaultPhoto = '/assets/layout/images/men-emp.jpg'

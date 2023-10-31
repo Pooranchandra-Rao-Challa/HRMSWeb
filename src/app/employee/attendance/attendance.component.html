@@ -37,7 +37,7 @@
                 <div style="margin-bottom: 15px;">
                     <label>Leave Narration:</label>&nbsp;
                     <textarea rows="5" cols="30" pInputTextarea formControlName="note" #note
-                        [maxlength]="maxLength.description" placeholder="Enter Leave Narration"
+                        [maxlength]="maxLength.description" placeholder="Enter Leave Narration" (keydown)="restrictSpaces($event)"
                         id="Attendance_leaveNarration"></textarea>
                     <div class="flex">
                         <div class="align-left w-60" style="width:70%">

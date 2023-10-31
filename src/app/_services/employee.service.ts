@@ -24,6 +24,7 @@ import {
     CREATE_EMPLOYEE_LEAVE_DETAILS,
     GET_EMPLOYEE_LEAVE_DETAILS,
     GET_COMPANY_HIERARCHY,
+    DELETE_DOCUMENT,
   
 } from './api.uri.service';
 import { ExperienceDetailsDto, SkillArea, AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments, employeeExperienceDtlsViewDto, FamilyDetailsViewDto, employeeAttendanceDto,EmployeeLeaveDto, EmployeeAttendanceList, CompanyHierarchyViewDto } from '../_models/employes';
@@ -40,7 +41,9 @@ export class EmployeeService extends ApiHttpService {
     public GetAttendance(month: number,year:number) {
         return this.getWithId<employeeAttendanceDto>(GET_ATTENDENCE, [month + '/' + year]);
     }
-
+  public DeleteDocument(documentId:number){
+    return this.delete(DELETE_DOCUMENT+'/'+documentId);
+  }
   public AddAttendance(data:EmployeeAttendanceList[]){
     return this.post<EmployeeAttendanceList[]>(POST_LISTOF_ATTENDANCES,data);
   }

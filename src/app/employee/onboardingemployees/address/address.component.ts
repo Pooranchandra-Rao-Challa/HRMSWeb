@@ -226,10 +226,9 @@ export class AddressComponent {
       this.addFlag = true;
       if (res) {
         this.alertMessage.displayAlertMessage(ALERT_CODES["SAD001"]);
-        if (this.selectedOption)
-          this.navigateToEducation();
-        else
-          this.navigateToExperience()
+        
+          this.navigateToNext();
+        
       }
       else
         this.alertMessage.displayErrorMessage(ALERT_CODES["SAD001"]);
