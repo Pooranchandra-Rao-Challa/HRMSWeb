@@ -394,3 +394,7 @@ p-calendar input {
     top: 0;
     z-index: 1000;
   }
+  .layout-topbar .topbar-menu li.topbar-item img{
+    width: 1.8rem !important;
+    height: unset !important;
+  }
