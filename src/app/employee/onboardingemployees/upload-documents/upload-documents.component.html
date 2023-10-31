@@ -56,7 +56,7 @@
                 [rowsPerPageOptions]="[10,25,50]">
                 <ng-template pTemplate="header">
                     <tr>
-                        <th style="width:5px" *ngIf="permissions?.CanManageEmployee">Actions</th>
+                        <th style="width:5px;text-align :center;" *ngIf="permissions?.CanManageEmployee">Actions</th>
                         <th>Title</th>
                         <th>Filename</th>
 
@@ -64,17 +64,16 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-file let-i="rowIndex">
                     <tr>
-                        <td *ngIf="permissions?.CanManageEmployee ">
-                            <div class="d-flex">
+                        <td td *ngIf="permissions?.CanManageEmployee ">
+                            <div class="flex">
                                 <button pButton pRipple icon="pi pi-trash" id="Remove-Btn"
-                                    *ngIf="file.uploadedDocumentId"
                                     class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
-                                    (click)="removeItem(file.uploadedDocumentId)">
+                                    (click)="removeItem(file,i)">
                                 </button>
                                 <button pButton pRipple icon="pi pi-download" id="download-Btn"
                                     *ngIf="file.uploadedDocumentId"
                                     class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
-                                    (click)="downloadItem(file)">
+                                    (click)="downloadItem(file.uploadedDocumentId)">
                                 </button>
 
                                 <button pButton pRipple icon="fa fa-eye" id="download-Btn"

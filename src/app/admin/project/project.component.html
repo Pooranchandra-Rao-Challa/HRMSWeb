@@ -123,7 +123,7 @@
                       onerror="this.onerror=null" alt="photo" width="100px" class="up_logo">
                     <label for="singleFile"
                       class="p-element p-ripple p-button-raised p-button-primary p-button p-component"
-                      style="width:100% !important; white-space: nowrap;">
+                      style="width:auto !important; white-space: nowrap;">
                       <i class="pi pi-paperclip"></i>Choose Logo:
                     </label>
                     <input id="singleFile" #fileUpload name="myFile" type="file" [accept]="fileTypes" hidden />
@@ -349,17 +349,7 @@
               <div class="p-fluid p-formgrid grid">
                 <div class="field col-12 md:col-4">
                   <label>Employees:</label>&nbsp;
-                  <p-multiSelect *ngIf="this.addFlag == true" placeholder="Select Employees" [options]="employees"
-                    optionLabel="employeeName" formControlName="projectAllotments" [filter]="true"
-                    filterBy="employeeId,employeeName" appendTo="body">
-                    <ng-template let-employee pTemplate="selectedItem">
-                      <div class="block align-items-center gap-3">
-                        <div>{{employee.employeeName}}</div>
-                        <div>{{employee.employeeCode}}</div>
-                      </div>
-                    </ng-template>
-                  </p-multiSelect>
-                  <p-multiSelect *ngIf="this.addFlag == false" placeholder="Select Employees" [options]="Employees"
+                  <p-multiSelect placeholder="Select Employees" [options]="Employees"
                     optionLabel="employeeName" formControlName="projectAllotments" [filter]="true"
                     filterBy="employeeId,employeeName" appendTo="body">
                     <ng-template let-employee pTemplate="selectedItem">
@@ -419,19 +409,6 @@
           <p-paginator (onPageChange)="onPageChange($event)" *ngIf="projects.length>10" [first]="first" [rows]="rows"
             [totalRecords]="projects.length" [rowsPerPageOptions]="[10, 20, 30]"></p-paginator>
         </p-tabPanel>
-        <!-- <p-tabPanel header="Hierarchy View">
-          <div id="hrms" class="scroll_div scroll  pb-5">
-            <p-organizationChart [value]="projectTreeData" selectionMode="single" [preserveSpace]="false">
-              <ng-template let-node pTemplate="person">
-                <div class="p-1 text-center" (click)="hierarchialDialog(node)">
-                  <img [src]="node.data.image" class="mb-3 w-3rem h-3rem" />
-                  <div class="font-bold">{{ node.data.name }}</div>
-                  <div>{{ node.data.title }}</div>
-                </div>
-              </ng-template>
-            </p-organizationChart>
-          </div>
-        </p-tabPanel> -->
         <p-tabPanel header="Org/Project Chart View">
           <div style="float:right;padding-bottom: 20px;">
             <p-button appendTo="body" id="download-chart" [style]="{'margin-right':'20px'}"

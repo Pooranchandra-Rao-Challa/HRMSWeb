@@ -61,7 +61,7 @@ export class AssetsComponent {
     { field: 'serialNumber', header: 'serialNumber', label: 'Serial Number' },
     { field: 'warranty', header: 'warranty', label: 'Warranty' },
     { field: 'addValue', header: 'addValue', label: 'Add Value' },
-    // { field: 'description', header: 'description', label: 'Description' },
+    { field: 'description', header: 'description', label: 'Description' },
     { field: 'status', header: 'status', label: 'Status' },
     { field: 'isActive', header: 'isActive', label: 'Is Active' },
     // { field: 'createdAt', header: 'createdAt', label: 'Created Date' },

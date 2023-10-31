@@ -19,15 +19,16 @@ import {
   GET_NOTUPDATED_EMPLOYEES,
   POST_ATTENDANCE,
   POST_LISTOF_ATTENDANCES,
-  
-  
-    CREATE_EMPLOYEE_LEAVE_DETAILS,
-    GET_EMPLOYEE_LEAVE_DETAILS,
-    GET_COMPANY_HIERARCHY,
-    DELETE_DOCUMENT,
-  
+
+
+  CREATE_EMPLOYEE_LEAVE_DETAILS,
+  GET_EMPLOYEE_LEAVE_DETAILS,
+  GET_COMPANY_HIERARCHY,
+  DELETE_DOCUMENT,
+  GET_PATH,
+
 } from './api.uri.service';
-import { ExperienceDetailsDto, SkillArea, AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments, employeeExperienceDtlsViewDto, FamilyDetailsViewDto, employeeAttendanceDto,EmployeeLeaveDto, EmployeeAttendanceList, CompanyHierarchyViewDto } from '../_models/employes';
+import { ExperienceDetailsDto, SkillArea, AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments, employeeExperienceDtlsViewDto, FamilyDetailsViewDto, employeeAttendanceDto, EmployeeLeaveDto, EmployeeAttendanceList, CompanyHierarchyViewDto } from '../_models/employes';
 
 import { ApiHttpService } from './api.http.service';
 import { LookupViewDto } from '../_models/admin';
@@ -38,17 +39,20 @@ import { HttpHeaders, HttpParams } from '@angular/common/http';
 })
 export class EmployeeService extends ApiHttpService {
 
-    public GetAttendance(month: number,year:number) {
-        return this.getWithId<employeeAttendanceDto>(GET_ATTENDENCE, [month + '/' + year]);
-    }
-  public DeleteDocument(documentId:number){
-    return this.delete(DELETE_DOCUMENT+'/'+documentId);
+  public GetAttendance(month: number, year: number) {
+    return this.getWithId<employeeAttendanceDto>(GET_ATTENDENCE, [month + '/' + year]);
   }
-  public AddAttendance(data:EmployeeAttendanceList[]){
-    return this.post<EmployeeAttendanceList[]>(POST_LISTOF_ATTENDANCES,data);
+  public DeleteDocument(documentId: number) {
+    return this.post(DELETE_DOCUMENT + '/' + documentId, null);
   }
-  public CreateAttendance(data:EmployeeLeaveDto){
-     return this.post<EmployeeAttendanceList>(POST_ATTENDANCE,data);
+  public GetDocumentPath(documentId: number) {
+    return this.getWithId(GET_PATH, [documentId]);
+  }
+  public AddAttendance(data: EmployeeAttendanceList[]) {
+    return this.post<EmployeeAttendanceList[]>(POST_LISTOF_ATTENDANCES, data);
+  }
+  public CreateAttendance(data: EmployeeLeaveDto) {
+    return this.post<EmployeeAttendanceList>(POST_ATTENDANCE, data);
   }
   //Search Employee
   public GetEmployees(IsEnrolled: boolean) {
@@ -60,8 +64,8 @@ export class EmployeeService extends ApiHttpService {
     return this.post<EmployeeBasicDetailDto>(CREATE_BASIC_DETAILS_URI, basicdetails);
 
   }
-  public GetNotUpdatedEmployees(date,previousDay:boolean){
-    return this.get(GET_NOTUPDATED_EMPLOYEES+'/'+`${date}`+'/'+`${previousDay}`);
+  public GetNotUpdatedEmployees(date, previousDay: boolean) {
+    return this.get(GET_NOTUPDATED_EMPLOYEES + '/' + `${date}` + '/' + `${previousDay}`);
   }
   //Education Details of Employee
   public CreateEducationDetails(educationdetails: EducationDetailsDto[]) {
@@ -181,7 +185,7 @@ export class EmployeeService extends ApiHttpService {
     return this.post<EmployeeLeaveDto[]>(CREATE_EMPLOYEE_LEAVE_DETAILS, leaveDetails)
   }
 
-  public getCompanyHierarchy(){
+  public getCompanyHierarchy() {
     return this.get<CompanyHierarchyViewDto[]>(GET_COMPANY_HIERARCHY)
   }
 }
