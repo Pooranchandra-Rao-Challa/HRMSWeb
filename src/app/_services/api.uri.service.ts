@@ -95,6 +95,7 @@ export const GET_SKILL_AREA_URI="Lookup/SkillAreas";
 export const ENROLL_URI="Employee/EnrollUser";
 export const UPDATE_EDUCATION_DETAILS="Employee/UpdateEducationDetails";
 export const UPDATE_EXPERIENCE_DETAILS ="Employee/UpdateWorkExperience";
+export const DELETE_DOCUMENT="UploadDocument/DeleteUploadDocument";
 
 //Attendence
 
