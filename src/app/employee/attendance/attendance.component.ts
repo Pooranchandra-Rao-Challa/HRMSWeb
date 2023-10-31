@@ -47,6 +47,8 @@ export class AttendanceComponent {
 
   constructor(private adminService: AdminService, private datePipe: DatePipe, private jwtService: JwtService, public ref: DynamicDialogRef, private dialogService: DialogService,
     private formbuilder: FormBuilder, private alertMessage: AlertmessageService, private employeeService: EmployeeService, private lookupService: LookupService) {
+      this.selectedMonth = FORMAT_DATE(new Date());
+      
 
   }
 
@@ -121,7 +123,7 @@ export class AttendanceComponent {
           this.alertMessage.displayAlertMessage(ALERT_CODES["EAAS001"]);
           this.display = false;
           this.initAttendance();
-          this.getNotUpdatedEmployees();
+          this.getNotUpdatedEmployeesList(this.datePipe.transform(new Date(), 'yyyy-MM-dd'), this.checkPreviousAttendance);
         }
         else
           this.alertMessage.displayErrorMessage(ALERT_CODES["EAAS002"]);
