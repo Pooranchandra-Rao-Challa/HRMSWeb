@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { count, Observable } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
-import { AddressDetailsDto, EmployeAdressViewDto } from 'src/app/_models/employes';
+import { AddressDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { MAX_LENGTH_256, MAX_LENGTH_50, MAX_LENGTH_6, MIN_LENGTH_2, MIN_LENGTH_6, RG_ALPHA_NUMERIC, RG_PINCODE } from 'src/app/_shared/regex';
 import { ITableHeader, MaxLength } from 'src/app/_models/common';
@@ -36,6 +36,8 @@ export class AddressComponent {
   currentaddress: boolean = false
   showAddressDetails: boolean = true;
   addaddressdetailsshowForm: boolean = false;
+  empbasicDetails = new EmployeeBasicDetailDto();
+  selectedOption: boolean;
 
   constructor(private router: Router, private route: ActivatedRoute, private jwtService: JwtService, private formbuilder: FormBuilder,
     private alertMessage: AlertmessageService, private employeeService: EmployeeService,
@@ -50,6 +52,13 @@ export class AddressComponent {
     this.initAddress();
     this.initCountries();
     this.onChangeAddressChecked();
+    this.getBasicDetails();
+  }
+  getBasicDetails() {
+    this.employeeService.GetViewEmpPersDtls(this.employeeId).subscribe((resp) => {
+      this.empbasicDetails = resp as unknown as EmployeeBasicDetailViewDto;
+      this.selectedOption = resp['isAFresher'];
+    })
   }
   initCountries() {
     this.lookupService.Countries().subscribe((resp) => {
@@ -217,7 +226,10 @@ export class AddressComponent {
       this.addFlag = true;
       if (res) {
         this.alertMessage.displayAlertMessage(ALERT_CODES["SAD001"]);
-        this.navigateToNext();
+        if (this.selectedOption)
+          this.navigateToEducation();
+        else
+          this.navigateToExperience()
       }
       else
         this.alertMessage.displayErrorMessage(ALERT_CODES["SAD001"]);
@@ -249,8 +261,11 @@ export class AddressComponent {
   }
 
 
-  navigateToPrev() {
+  navigateToExperience() {
     this.router.navigate(['employee/onboardingemployee/experiencedetails', this.employeeId])
+  }
+  navigateToEducation() {
+    this.router.navigate(['employee/onboardingemployee/educationdetails', this.employeeId])
   }
 
   navigateToNext() {

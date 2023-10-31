@@ -111,9 +111,7 @@ export class AttendanceComponent {
   getLeaves() {
     this.employeeService.getEmployeeLeaveDetails().subscribe((resp) => {
       this.leaves = resp as unknown as EmployeeLeaveDto[];
-      console.log(this.leaves);
-
-    })
+    });
   }
 
   save(data) {
@@ -258,7 +256,7 @@ export class AttendanceComponent {
     this.dialog = false;
 
   }
-  getNotUpdatedEmployees(){
+  getNotUpdatedEmployees() {
     this.employeeService.GetNotUpdatedEmployees(this.datePipe.transform(new Date(), 'yyyy-MM-dd'), this.checkPreviousAttendance).subscribe(resp => {
       this.NotUpdatedEmployees = resp as unknown as EmployeesList[];
     });

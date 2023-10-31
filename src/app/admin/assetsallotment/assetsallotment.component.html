@@ -53,7 +53,7 @@
                             <ng-template pTemplate="body" let-employee>
                                 <tr>
                                     <td>
-                                        <img [src]="employee.photo ? employee.photo : 'https://t3.ftcdn.net/jpg/02/18/21/86/360_F_218218632_jF6XAkcrlBjv1mAg9Ow0UBMLBaJrhygH.jpg'"
+                                        <img [src]="employee.photo ? employee.photo : employee?.gender == 'Male' ?  '/assets/layout/images/men-emp.jpg' : '/assets/layout/images/women-emp.jpg'"
                                             [alt]="employee.employeeName"
                                             class="my-4 md:my-0 w-10 md:w-10rem shadow-2 mr-2" />
                                     </td>
@@ -95,7 +95,7 @@
                         <div class="card m-2 border-1 surface-border">
                             <div class=" mb-3 grid">
                                 <div class="col-4 p-1 employee_profile_pic_div">
-                                    <img [src]="employee.photo ? employee.photo : 'https://t3.ftcdn.net/jpg/02/18/21/86/360_F_218218632_jF6XAkcrlBjv1mAg9Ow0UBMLBaJrhygH.jpg'"
+                                    <img [src]="employee.photo ? employee.photo : employee?.gender == 'Male' ?  '/assets/layout/images/men-emp.jpg' : '/assets/layout/images/women-emp.jpg'"
                                         [alt]="employee.employeeName"
                                         class="shadow-2 my-1 mx-0 employee_profile_pic zoomable-img"
                                         style="width: 70%;" />
