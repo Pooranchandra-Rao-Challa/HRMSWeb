@@ -101,36 +101,35 @@ export class UploadDocumentsComponent {
                 return this.alertMessage.displayErrorMessage(ALERT_CODES["EAD007"]);
         })
     }
-
-    downloadItem(uploadedDoucment) {
-        if (uploadedDoucment) {
-            uploadedDoucment.exportImg({
-                full: false,
-                save: false,
-                scale: 2,
-                onLoad: (base64) => {
-                    var pdf = new jsPDF('p', 'px', 'a4');
-                    var img = new Image();
-                    img.src = base64;
-                    //alert(`width:${pdf.internal.pageSize.getWidth()}--height:${pdf.internal.pageSize.getHeight()}`)
-                    var width = pdf.internal.pageSize.getWidth();
-                    var height = pdf.internal.pageSize.getHeight();//595 / 3   --- ((img.height / img.width) * 595) / 3
-                    img.onload = function () {
-                        //alert(`width:${img.width}--height:${img.height}`)
-                        pdf.addImage(
-                            img,
-                            "JPEG",
-                            20,
-                            60,
-                            (img.width / img.height) * width,
-                            (img.height / img.width) * height
-                        );
-                        pdf.save("uploadedDoucment.pdf");
-                    };
-                }
-            });
+    
+    downloadItem(uploadedDocument) {
+        if (uploadedDocument) {
+          uploadedDocument.exportImg({
+            full: false,
+            save: false,
+            scale: 2,
+            onLoad: (base64) => {
+              var pdf = new jsPDF('p', 'px', 'a4');
+              var img = new Image();
+              img.src = base64;
+              var width = pdf.internal.pageSize.getWidth();
+              var height = pdf.internal.pageSize.getHeight();
+              img.onload = function () {
+                pdf.addImage(
+                  img,
+                  "JPEG",
+                  20,
+                  60,
+                  (img.width / img.height) * width,
+                  height
+                );
+                // Use a more descriptive filename, or you can use the same filename as the uploaded document.
+                pdf.save("generated_document.pdf");
+              };
+            }
+          });
         }
-    }
+      }
     uploadFile(file) {
         let params = new HttpParams();
         params = params.set("employeeId", this.employeeId).set('title', file.title).set('module', 'employee').set('fileName', file.fileName);
