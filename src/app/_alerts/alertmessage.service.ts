@@ -158,6 +158,8 @@ export const ALERT_CODES: { [key: string]: string } = {
     'EAD003': 'Upload Documents Not Added',
     'EAD004': 'Please Enter Title',
     'EAD005': 'File size is too large. Please select a smaller file.',
+    'EAD006':'Document Deleted Successfully.',
+    'EAD007':'Document Not Deleted.',
     //Enroll Employee
 
     'SEE001': 'Employee Enrolled Successfully',

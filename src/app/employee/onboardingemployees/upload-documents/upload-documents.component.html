@@ -37,8 +37,9 @@
         </div>
         <div class="col-12 md:col-4 pt-5 mt-5">
             <div class="upload-btn-wrapper" (click)="checkTitle()">
-                <label for="singleFile" class="p-element p-ripple p-button-raised p-button-primary p-button p-component">
-                        <i class="pi pi-paperclip"></i> Attach File
+                <label for="singleFile"
+                    class="p-element p-ripple p-button-raised p-button-primary p-button p-component">
+                    <i class="pi pi-paperclip"></i> Attach File
                 </label>
                 <input id="singleFile" #fileUpload name="myFile" accept=".pdf, .jpg, .jpeg, .png, .gif" type="file"
                     [disabled]="!this.fbUpload.valid" hidden="true" (click)="onClick()" />
@@ -64,16 +65,24 @@
                 <ng-template pTemplate="body" let-file let-i="rowIndex">
                     <tr>
                         <td *ngIf="permissions?.CanManageEmployee ">
-                            <button pButton pRipple icon="pi pi-trash" id="Remove-Btn"
-                                *ngIf="!file.uploadedDocumentId"
-                                class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
-                                (click)="removeItem(i)">
-                            </button>
-                            <button pButton pRipple icon="pi pi-download" id="download-Btn"
-                                *ngIf="!file.uploadedDocumentId"
-                                class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
-                                (click)="removeItem(i)">
-                            </button>
+                            <div class="d-flex">
+                                <button pButton pRipple icon="pi pi-trash" id="Remove-Btn"
+                                    *ngIf="file.uploadedDocumentId"
+                                    class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
+                                    (click)="removeItem(file.uploadedDocumentId)">
+                                </button>
+                                <button pButton pRipple icon="pi pi-download" id="download-Btn"
+                                    *ngIf="file.uploadedDocumentId"
+                                    class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
+                                    (click)="downloadItem(file)">
+                                </button>
+
+                                <button pButton pRipple icon="fa fa-eye" id="download-Btn"
+                                    *ngIf="file.uploadedDocumentId"
+                                    class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
+                                    (click)="downloadItem(file)">
+                                </button>
+                            </div>
                         </td>
                         <td>{{file.title }}</td>
                         <td>{{file.fileName}}</td>

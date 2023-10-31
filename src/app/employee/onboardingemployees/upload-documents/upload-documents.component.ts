@@ -3,6 +3,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { dE } from '@fullcalendar/core/internal-common';
+import jsPDF from 'jspdf';
 import { ALERT_CODES, AlertmessageService } from 'src/app/_alerts/alertmessage.service';
 import { MaxLength } from 'src/app/_models/common';
 import { EmployeeService } from 'src/app/_services/employee.service';
@@ -92,10 +93,44 @@ export class UploadDocumentsComponent {
         this.fbUpload.markAsUntouched();
     }
 
-    removeItem(index: number): void {
-        this.empUploadDetails.splice(index, 1);
+    removeItem(uploadedDocumentId: any) {
+        this.employeeService.DeleteDocument(uploadedDocumentId).subscribe(resp => {
+            if (resp)
+                this.alertMessage.displayAlertMessage(ALERT_CODES["EAD006"]);
+            else
+                return this.alertMessage.displayErrorMessage(ALERT_CODES["EAD007"]);
+        })
     }
 
+    downloadItem(uploadedDoucment) {
+        if (uploadedDoucment) {
+            uploadedDoucment.exportImg({
+                full: false,
+                save: false,
+                scale: 2,
+                onLoad: (base64) => {
+                    var pdf = new jsPDF('p', 'px', 'a4');
+                    var img = new Image();
+                    img.src = base64;
+                    //alert(`width:${pdf.internal.pageSize.getWidth()}--height:${pdf.internal.pageSize.getHeight()}`)
+                    var width = pdf.internal.pageSize.getWidth();
+                    var height = pdf.internal.pageSize.getHeight();//595 / 3   --- ((img.height / img.width) * 595) / 3
+                    img.onload = function () {
+                        //alert(`width:${img.width}--height:${img.height}`)
+                        pdf.addImage(
+                            img,
+                            "JPEG",
+                            20,
+                            60,
+                            (img.width / img.height) * width,
+                            (img.height / img.width) * height
+                        );
+                        pdf.save("uploadedDoucment.pdf");
+                    };
+                }
+            });
+        }
+    }
     uploadFile(file) {
         let params = new HttpParams();
         params = params.set("employeeId", this.employeeId).set('title', file.title).set('module', 'employee').set('fileName', file.fileName);
@@ -140,6 +175,5 @@ export class UploadDocumentsComponent {
     navigateToNext() {
         this.router.navigate(['employee/onboardingemployee/familydetails', this.employeeId])
     }
-
 
 }
