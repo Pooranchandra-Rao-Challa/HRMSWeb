@@ -1,6 +1,7 @@
 <form [formGroup]="fbEnroll"  *ngIf="displayDialog == true">
-  <div class="grid mt-3" id="hrms">
+  <div class="grid content_scroll mt-3" id="hrms">
     <div class="col-12 roles-container">
+      <div class="field col-12 md:col-4"></div>
       <div class="field col-12 md:col-4">
         <label>Role:</label>
         <p-dropdown id="roles_dropdown" [autoDisplayFirst]="false" optionLabel="name" [options]="roles"
@@ -16,6 +17,7 @@
           </div>
         </div>
       </div>
+      <div class="field col-12 md:col-4"></div>
       <div class="field col-12 md:col-4">
         <p-button [disabled]="fbEnroll.invalid" (click)="confirmationDialog()" >Enroll Employee</p-button>
       </div>
@@ -23,7 +25,7 @@
   </div>
 </form>
 
-<div *ngIf="displayDialog == false">
+<div class="content_scroll" *ngIf="displayDialog == false">
   <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">
     First you need to fill these Details, Next you Enroll
   </div>
