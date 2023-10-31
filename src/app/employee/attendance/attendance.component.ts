@@ -128,7 +128,11 @@ export class AttendanceComponent {
       }
     );
   }
-
+  restrictSpaces(event: KeyboardEvent) {
+    if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {
+        event.preventDefault();
+    }
+}
   addPresent() {
     const EmployeesList = [];
     this.NotUpdatedEmployees.forEach(each => {
