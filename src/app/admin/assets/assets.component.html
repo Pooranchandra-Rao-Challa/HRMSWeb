@@ -206,13 +206,13 @@
               </div>
               <div class="field col-12 md:col-4">
                 <label htmlFor="description">Description:</label>
-                <textarea inputId="description" id="description" rows="5" maxlength="256" #description
-                  pInputTextarea maxlength="256" formControlName="description" class="freeze_text-area"
+                <textarea id="description" rows="5" maxlength="250" #description
+                  pInputTextarea  formControlName="description" class="freeze_text-area"
                   placeholder="Enter Description"></textarea>
                 <div class="flex">
                   <div class="align-left w-60" style="width:70%"></div>
                   <div class="align-right w-40" style="width:30%; text-align:right;">
-                    <small>{{description.value.length}}/256</small>
+                    <small>{{description.value.length}}/250</small>
                   </div>
                 </div>
               </div>

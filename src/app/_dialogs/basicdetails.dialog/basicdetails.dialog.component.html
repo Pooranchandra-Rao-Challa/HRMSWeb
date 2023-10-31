@@ -170,7 +170,7 @@
                     <div class="field col-12 md:col-4">
                         <label class="required">Certificate DOB:</label>
                         <p-calendar [readonlyInput]="true" [showIcon]="true" id="certificate_dob" mask="99/99/9999"
-                            formControlName="certificateDob" placeholder="Select Certificate DOB"
+                            formControlName="certificateDob" placeholder="Select Certificate DOB"  [maxDate]="maxDate"
                             [ngClass]="{ 'is-invalid ng-dirty': empBasDtlsFormControls['certificateDob'].touched && empBasDtlsFormControls['certificateDob'].errors}">
                         </p-calendar>
                         <div class="flex">

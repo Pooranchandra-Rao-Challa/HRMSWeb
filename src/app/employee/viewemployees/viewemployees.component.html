@@ -206,7 +206,7 @@
 
                   <button pButton pRipple icon="pi pi-trash" id="Remove-Btn" *ngIf="UploadedDocument.uploadedDocumentId"
                     class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
-                    (click)="removeItem(UploadedDocument)">
+                    (click)="removeItem(UploadedDocument.uploadedDocumentId)">
                   </button>
                   <button pButton pRipple icon="pi pi-download" id="download-Btn"
                     *ngIf="UploadedDocument.uploadedDocumentId"

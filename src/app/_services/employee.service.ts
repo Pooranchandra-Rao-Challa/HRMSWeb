@@ -42,7 +42,7 @@ export class EmployeeService extends ApiHttpService {
         return this.getWithId<employeeAttendanceDto>(GET_ATTENDENCE, [month + '/' + year]);
     }
   public DeleteDocument(documentId:number){
-    return this.delete(DELETE_DOCUMENT+'/'+documentId);
+    return this.post(DELETE_DOCUMENT + '/' + documentId, null);
   }
   public AddAttendance(data:EmployeeAttendanceList[]){
     return this.post<EmployeeAttendanceList[]>(POST_LISTOF_ATTENDANCES,data);
