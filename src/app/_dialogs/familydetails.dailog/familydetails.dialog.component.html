@@ -25,10 +25,10 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <label class="required">Relationship:</label>
+                        <label class="required">Relationship Type:</label>
                         <p-dropdown id="relationship_dropdown" [autoDisplayFirst]="false" optionLabel="name"
                             [options]="relationships" optionValue="lookupDetailId" formControlName="relationshipId"
-                            placeholder=" Select Relationship"
+                            placeholder=" Select Relationship Type"
                             [ngClass]="{'is-invalid ng-dirty': familyFormControls['relationshipId'].touched && familyFormControls['relationshipId'].errors}">
                         </p-dropdown>
                         <div class="flex">
@@ -37,7 +37,7 @@
                                     *ngIf="familyFormControls['relationshipId'].touched && familyFormControls['relationshipId'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="familyFormControls['relationshipId'].errors?.['required']">
-                                        Please Select Relationship.
+                                        Please Select Relationship Type.
                                     </div>
                                 </span>
                             </div>

@@ -162,6 +162,20 @@ export class ViewemployeesComponent {
     });
   }
 
+  removeItem(uploadedDocumentId: any) {
+    debugger
+    this.employeeService.DeleteDocument(uploadedDocumentId).subscribe(resp => {
+      console.log(resp);
+      
+        if (resp)
+            this.alertMessage.displayAlertMessage(ALERT_CODES["EAD006"]);
+        else
+            return this.alertMessage.displayErrorMessage(ALERT_CODES["EAD007"]);
+    })
+}
+  downloadItem(uploadedDoucment) {
+
+  }
   // Employee BankDetails
   initBankDetails() {
     this.employeeService.GetBankDetails(this.employeeId).subscribe((resp) => {
@@ -192,14 +206,6 @@ export class ViewemployeesComponent {
     this.employeeService.getFamilyDetails(this.employeeId).subscribe((resp) => {
       this.familyDetails = resp as unknown as FamilyDetailsViewDto[];
     });
-  }
-
-  removeItem(uploadedDoucment) {
-
-  }
-
-  downloadItem(uploadedDoucment) {
-
   }
 
   openComponentDialog(content: any,
