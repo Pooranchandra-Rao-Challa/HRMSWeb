@@ -202,8 +202,6 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
 
                 this.data.push(item)
             });
-
-            console.log(this.data);
             this.updateChart();
         });
     }
@@ -257,7 +255,7 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
         if (!this.chart) {
             return;
         }
-        console.log(this.data);
+
         // this.data = d3.json(this.data)
         // this.chart
         //     .container(this.chartContainer.nativeElement)
@@ -274,9 +272,9 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
         //     .render();
         const url: string = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAB4CAYAAAA5ZDbSAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4QMaAyMA1SdmlAAAAVRJREFUeNrt26FOw2AUhuFTElzrETNLMNPtJVRVVFbtlnYXKGQFqldANo3EoLDUITazzCxBTNBk53lv4M+XJ/ndKZ52L9uft9eP+Oeqbtgs8O7+cbWO36/PiIgmwd4ojsdIU9n2l7XzNBYZNj9Eos6oTRbcdMAZAwxYgAVYgAVYgAUYsAALsAALsAALMGABFmABFmABFmABBizAAqwFgZ/fv+slHl7q3aobNpn2proujIgo276ep/HgixZgARZgARZgAQYswAIswAIswAIswIAFWIAFWIAFWIABC7AAC7AAC7D+AHZdeN97XRf6ogVYgAVYgAVYgAELsAALsAALsAADFmABFmABFmABFmDAAizAAizAAqxrYNeF973XdaEvWoAFWIAFWIAFGLAAC7AAC7AACzBgARZgARZgARZgAQYswAIswAKsW0p1m1S2/WXtPI1Fhs0nxU1Jj2yxm2sAAAAASUVORK5CYII=`;
         const replaced =  url.replace(/(\r\n|\n|\r)/gm, '');
-
         this.chart.container(this.chartContainer.nativeElement)
             .svgHeight(window.innerHeight)
+            .svgWidth(window.innerWidth-300)
             .data(this.data)
             .nodeHeight((d) => 180)
             .nodeWidth((d) => {
@@ -414,7 +412,7 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
                 save: false,
                 scale:2,
                 onLoad: (base64) => {
-                    var pdf = new jsPDF('p','px','a4');
+                    var pdf = new jsPDF('p','px','a4',true);
                     var img = new Image();
                     img.src = base64;
                     //alert(`width:${pdf.internal.pageSize.getWidth()}--height:${pdf.internal.pageSize.getHeight()}`)
@@ -428,9 +426,11 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
                             20,
                             60,
                             (img.width/img.height) * width,
-                            (img.height/img.width) * height
+                            (img.height/img.width) * height,
+                            undefined,
+                            'FAST'
                         );
-                        pdf.save("chart.pdf");
+                        pdf.save("org-chart.pdf");
                     };
                 }
             });

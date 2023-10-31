@@ -1,3 +1,4 @@
+
 import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
@@ -8,7 +9,7 @@ import { EmployeeService } from 'src/app/_services/employee.service';
 import { AssetAllotmentViewDto } from 'src/app/_models/admin/assetsallotment';
 import { AdminService } from 'src/app/_services/admin.service';
 import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
-import { Actions, DialogRequest, ViewEmployeeScreen } from 'src/app/_models/common';
+import { Actions, ConfirmationRequest, DialogRequest, ViewEmployeeScreen } from 'src/app/_models/common';
 import { AddassetallotmentDialogComponent } from 'src/app/_dialogs/addassetallotment.dialog/addassetallotment.dialog.component';
 import { UnassignassetDialogComponent } from 'src/app/_dialogs/unassignasset.dialog/unassignasset.dialog.component';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -23,6 +24,7 @@ import { EducationdetailsDialogComponent } from 'src/app/_dialogs/educationdetai
 import { ExperiencedetailsDialogComponent } from 'src/app/_dialogs/experiencedetails.dialog/experiencedetails.dialog.component';
 import { ALERT_CODES, AlertmessageService } from 'src/app/_alerts/alertmessage.service';
 import { JwtService } from 'src/app/_services/jwt.service';
+import { ConfirmationDialogService } from 'src/app/_alerts/confirmationdialog.service';
 import { FinalSubmitComponent } from '../onboardingemployees/final-submit/final-submit.component';
 
 @Component({
@@ -78,7 +80,8 @@ export class ViewemployeesComponent {
   dialog: boolean = false;
   empbasicDetails = new EmployeeBasicDetailDto();
   selectedOption: boolean;
-
+  confirmationRequest: ConfirmationRequest = new ConfirmationRequest();
+  
   constructor(
     private jwtService: JwtService,
     private alertMessage: AlertmessageService,
@@ -86,7 +89,8 @@ export class ViewemployeesComponent {
     private activatedRoute: ActivatedRoute,
     private adminService: AdminService,
     public ref: DynamicDialogRef,
-    private dialogService: DialogService) {
+    private dialogService: DialogService,
+    private confirmationDialogService: ConfirmationDialogService,) {
     this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
   }
 
@@ -157,21 +161,23 @@ export class ViewemployeesComponent {
   initUploadedDocuments() {
     this.employeeService.GetUploadedDocuments(this.employeeId).subscribe((resp) => {
       this.UploadedDocuments = resp as unknown as any[];
-      console.log(this.UploadedDocuments);
-
     });
   }
 
   removeItem(uploadedDocumentId: any) {
-    debugger
-    this.employeeService.DeleteDocument(uploadedDocumentId).subscribe(resp => {
-      console.log(resp);
-      
-        if (resp)
-            this.alertMessage.displayAlertMessage(ALERT_CODES["EAD006"]);
-        else
+    this.confirmationDialogService.comfirmationDialog(this.confirmationRequest).subscribe(userChoice => {
+      if (userChoice) {
+        this.employeeService.DeleteDocument(uploadedDocumentId).subscribe(resp => {
+          if (resp){
+              this.alertMessage.displayAlertMessage(ALERT_CODES["EAD006"]);
+              this.UploadedDocuments = this.UploadedDocuments.filter(doc => doc.uploadedDocumentId !== uploadedDocumentId);
+          }
+          else{
             return this.alertMessage.displayErrorMessage(ALERT_CODES["EAD007"]);
-    })
+          }         
+      })
+      }
+    });
 }
   downloadItem(uploadedDoucment) {
 
