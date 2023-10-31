@@ -64,8 +64,8 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-file let-i="rowIndex">
                     <tr>
-                        <td *ngIf="permissions?.CanManageEmployee ">
-                            <div class="d-flex">
+                        <td td *ngIf="permissions?.CanManageEmployee ">
+                            <div class="flex">
                                 <button pButton pRipple icon="pi pi-trash" id="Remove-Btn"
                                     *ngIf="file.uploadedDocumentId"
                                     class="p-element p-ripple p-button-text p-button p-component col-2 p-0"

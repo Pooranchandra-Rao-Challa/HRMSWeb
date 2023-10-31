@@ -22,9 +22,7 @@
       [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width:'40%'}">
       <div class="flex flex-column justify-content-center">
         <div class="grid">
-          <app-final-submit
-            [style.pointer-events]="educationDetails.length && workExperience.length && address.length && UploadedDocuments.length ? 'auto' : 'none'"
-            [style.opacity]="educationDetails.length && workExperience.length && address.length && UploadedDocuments.length ? 1 : 0.5">
+          <app-final-submit>
           </app-final-submit>
         </div>
       </div>

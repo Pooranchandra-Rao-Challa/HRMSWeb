@@ -144,7 +144,7 @@ export class AppMenuComponent implements OnInit {
 
                     },
                     {
-                        label: 'On Boarding Employee',
+                        label: 'On Boarding Employees',
                         icon: 'pi pi-fw pi-user',
                         routerLink: ['employee/onboardingemployee'],
                         permission: this.jwtService.Permissions.CanViewAssetsAllotments
