@@ -101,32 +101,45 @@ export class UploadDocumentsComponent {
         this.fbUpload.markAsUntouched();
     }
 
-    removeItem(uploadedDocumentId: any) {
-        this.employeeService.DeleteDocument(uploadedDocumentId).subscribe(resp => {
-            if (resp)
-                this.alertMessage.displayAlertMessage(ALERT_CODES["EAD006"]);
-            else
-                return this.alertMessage.displayErrorMessage(ALERT_CODES["EAD007"]);
-        })
+    removeItem(uploadedDocument: any, index: number) {
+        if (uploadedDocument.uploadedDocumentId) {
+            this.employeeService.DeleteDocument(uploadedDocument.uploadedDocumentId).subscribe(resp => {
+                if (resp) {
+                    this.alertMessage.displayAlertMessage(ALERT_CODES["EAD006"]);
+                    this.getUploadDocuments();
+                }
+                else
+                    return this.alertMessage.displayErrorMessage(ALERT_CODES["EAD007"]);
+            })
+        }
+        else {
+            this.empUploadDetails.splice(index, 1);
+            this.fileUpload.nativeElement.value = '';
+        }
+
     }
+
     downloadItem(uploadedDocument) {
         console.log(uploadedDocument);
-        
-        this.document = uploadedDocument.fileName
-        this.downloadPdf();
+        this.employeeService.GetDocumentPath(uploadedDocument).subscribe(resp => {
+            console.log(resp);
+            this.document = resp['filePath']
+            this.downloadPdf();
+        });
     }
 
     downloadPdf() {
-        debugger
         const pdf = new jsPDF('p', 'px', 'a4');
         const img = new Image();
-        img.src =  this.document;
-
+        img.src = this.document;
         img.onload = () => {
-            const width = pdf.internal.pageSize.getWidth();
-            const height = (img.height / img.width) * width;
-            pdf.addImage(img, 'JPEG', 20, 60, width, height);
-            pdf.save('generated_document.pdf');
+          const width = pdf.internal.pageSize.getWidth();
+          const height = (img.height / img.width) * width;
+          pdf.addImage(img, 'JPEG', 20, 60, width, height);
+          pdf.save('generated_document.pdf');
+          
+          // Revoke the object URL to release resources (optional)
+          URL.revokeObjectURL(this.document);
         };
     }
 
@@ -137,7 +150,6 @@ export class UploadDocumentsComponent {
         formData.set('uploadedFiles', file.fileBlob, file.fileName);
         let messageDisplayed = false;
         this.employeeService.UploadDocuments(formData, params).subscribe(resp => {
-            console.log(resp);
             if (resp) {
                 if (!messageDisplayed) {
                     this.alertMessage.displayAlertMessage(ALERT_CODES["EAD002"]);
