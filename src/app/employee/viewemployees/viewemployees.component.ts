@@ -1,4 +1,5 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+
+import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
   BankDetailViewDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, employeeEducDtlsViewDto,
@@ -24,6 +25,7 @@ import { ExperiencedetailsDialogComponent } from 'src/app/_dialogs/experiencedet
 import { ALERT_CODES, AlertmessageService } from 'src/app/_alerts/alertmessage.service';
 import { JwtService } from 'src/app/_services/jwt.service';
 import { ConfirmationDialogService } from 'src/app/_alerts/confirmationdialog.service';
+import { FinalSubmitComponent } from '../onboardingemployees/final-submit/final-submit.component';
 
 @Component({
   selector: 'app-viewemployees',
@@ -31,6 +33,8 @@ import { ConfirmationDialogService } from 'src/app/_alerts/confirmationdialog.se
   styles: [],
 })
 export class ViewemployeesComponent {
+  @ViewChild(FinalSubmitComponent, { static: false })
+  finalSubmitComponent: FinalSubmitComponent;
   // employee basic details
   employeePrsDtls = new EmployeeBasicDetailViewDto();
   mediumDate: string = MEDIUM_DATE;
@@ -101,12 +105,13 @@ export class ViewemployeesComponent {
     this.initUploadedDocuments();
     this.initBankDetails();
     this.initviewAssets();
-   
+
   }
   onEmployeeEnroll() {
+    this.finalSubmitComponent.resetFinalSubmitComponent();
     this.dialog = true;
   }
-  
+
   // EMPLOYEE Basic details
   initViewEmpDtls() {
     this.enRollEmployee = false;

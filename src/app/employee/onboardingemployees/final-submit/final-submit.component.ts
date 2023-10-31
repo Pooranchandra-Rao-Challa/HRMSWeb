@@ -45,7 +45,18 @@ export class FinalSubmitComponent {
       }
     })
   }
-
+  
+  resetFinalSubmitComponent() {
+    const isEnrolled = false;
+    this.employeeService.GetEmployees(isEnrolled).subscribe(resp => {
+      this.employees = resp
+      this.employeeObj = this.employees.find(x => x.employeeId == this.employeeId);
+      if (this.employeeObj.pendingDetails == "BankDetails, FamilyInformation" || this.employeeObj.pendingDetails == "BankDetails" || this.employeeObj.pendingDetails == "FamilyInformation") {
+        this.displayDialog = true;
+      }
+    })
+    this.fbEnroll.reset();
+  }
   getEmployees() {
     const isEnrolled = false;
     this.employeeService.GetEmployees(isEnrolled).subscribe(resp => {

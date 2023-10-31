@@ -35,7 +35,6 @@ export class ProjectComponent implements OnInit {
     @ViewChild("fileUpload", { static: true }) fileUpload: ElementRef;
     data: null;
     private diagram: go.Diagram;
-    employees: EmployeesList[] = [];
     projects: ProjectViewDto[] = [];
     clientsNames: ClientNamesDto[] = [];
     Employees: EmployeesList[] = [];
@@ -104,11 +103,10 @@ export class ProjectComponent implements OnInit {
         this.projectForm();
         this.initProjects();
         this.initClientNames();
-        this.initEmployees();
         this.unAssignEmployeeForm();
         this.ImageValidator.subscribe((p: PhotoFileProperties) => {
             if (this.fileTypes.indexOf(p.FileExtension) > 0 && p.Resize || (p.Size / 1024 / 1024 < 1
-                && (p.isPdf || (!p.isPdf && p.Width <= 300 && p.Height <= 300)))) {
+                && (p.isPdf || (!p.isPdf && p.Width <= 400 && p.Height <= 500)))) {
                     this.fbproject.get('logo').setValue(p.File);
             } else {
                 this.alertMessage.displayErrorMessage(p.Message);
@@ -235,10 +233,11 @@ export class ProjectComponent implements OnInit {
         this.fileUpload.nativeElement.value = '';
         if (project != null) {
             this.editEmployee(project);
-            this.getEmployeesListBasedOnProject(project.projectId)
+            this.getEmployeesListBasedOnProject(project.projectId);
         } else {
             this.addFlag = true;
             this.submitLabel = "Add Project";
+            this.getEmployeesListBasedOnProject(0);
         }
     }
 
@@ -399,11 +398,7 @@ export class ProjectComponent implements OnInit {
             this.clientsNames = resp as unknown as ClientNamesDto[];
         });
     }
-    initEmployees() {
-        this.adminService.getEmployeesList().subscribe(resp => {
-            this.employees = resp as unknown as EmployeesList[];
-        });
-    }
+   
     getEmployeesListBasedOnProject(projectId: number) {
         this.adminService.getEmployees(projectId).subscribe(resp => {
             this.Employees = resp as unknown as EmployeesList[];
