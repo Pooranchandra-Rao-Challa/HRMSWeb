@@ -30,7 +30,7 @@
                         <p-dropdown id="lookupName_Not_Configured_Dropdown" appendTo="body" [autoDisplayFirst]="false"
                             [options]="lookupNamesNotConfigured" formControlName="name" autoWidth="false" [style]="{'width':'100%'}"
                             [readonly]="FormControls['lookupId'].value!== null" placeholder="Select Lookup Name"
-                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['name'].touched && FormControls['name'].errors }" [readonly]="true">
+                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['name'].touched && FormControls['name'].errors }">
                         </p-dropdown>
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
