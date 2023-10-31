@@ -22,8 +22,7 @@
       [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width:'40%'}">
       <div class="flex flex-column justify-content-center">
         <div class="grid">
-          <app-final-submit
-            [style.pointer-events]="educationDetails.length && workExperience.length && address.length && UploadedDocuments.length ? 'auto' : 'none'">
+          <app-final-submit>
           </app-final-submit>
         </div>
       </div>
@@ -205,7 +204,7 @@
 
                   <button pButton pRipple icon="pi pi-trash" id="Remove-Btn" *ngIf="UploadedDocument.uploadedDocumentId"
                     class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
-                    (click)="removeItem(UploadedDocument)">
+                    (click)="removeItem(UploadedDocument.uploadedDocumentId)">
                   </button>
                   <button pButton pRipple icon="pi pi-download" id="download-Btn"
                     *ngIf="UploadedDocument.uploadedDocumentId"

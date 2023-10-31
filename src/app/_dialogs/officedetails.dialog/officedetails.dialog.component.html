@@ -6,7 +6,7 @@
           <div class="field col-12 md:col-4">
             <label class="required">Time In:</label>
             <p-calendar class="cursor-pointer" [timeOnly]="true" [showIcon]="true" icon="pi pi-clock"
-              placeholder="Time In" [showSeconds]="false" dataType="string" [readonlyInput]="true"
+              placeholder="Select Time In" [showSeconds]="false" dataType="string" [readonlyInput]="true"
               formControlName="strTimeIn" id="time_in" appendTo="body"
               [ngClass]="{ 'is-invalid ng-dirty': EmpOfficeFormControls['strTimeIn'].touched && EmpOfficeFormControls['strTimeIn'].errors }">
             </p-calendar>
@@ -24,7 +24,7 @@
           <div class="field col-12 md:col-4">
             <label class="required">Time Out: </label>
             <p-calendar class="cursor-pointer" [timeOnly]="true" [showIcon]="true" icon="pi pi-clock"
-              placeholder="Time Out" [showSeconds]="false" dataType="string" [readonlyInput]="true"
+              placeholder="Select Time Out" [showSeconds]="false" dataType="string" [readonlyInput]="true"
               formControlName="strTimeOut" id="time_out" appendTo="body"
               [ngClass]="{ 'is-invalid ng-dirty': EmpOfficeFormControls['strTimeOut'].touched && EmpOfficeFormControls['strTimeOut'].errors }">
             </p-calendar>
@@ -41,7 +41,7 @@
             </div>
           </div>
           <div class="field col-12 md:col-4">
-            <label class="required">Office Email ID:</label>
+            <label class="required">Office Email Id:</label>
             <input pInputText id="office_Email_Id" #officeEmailId placeholder="Enter Office Email Id" type="text"
               formControlName="officeEmailId"
               [ngClass]="{ 'is-invalid ng-dirty': EmpOfficeFormControls['officeEmailId'].touched && EmpOfficeFormControls['officeEmailId'].errors }" />
