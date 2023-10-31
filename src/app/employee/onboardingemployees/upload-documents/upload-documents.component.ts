@@ -3,10 +3,12 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { dE } from '@fullcalendar/core/internal-common';
+import jsPDF from 'jspdf';
 import { ALERT_CODES, AlertmessageService } from 'src/app/_alerts/alertmessage.service';
 import { MaxLength } from 'src/app/_models/common';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { JwtService } from 'src/app/_services/jwt.service';
+import { DownloadNotification } from 'src/app/_services/notifier.services';
 import { MAX_LENGTH_20, MIN_LENGTH_2, RG_ALPHA_ONLY } from 'src/app/_shared/regex';
 // import { MessageService } from 'primeng/api/messageservice';
 
@@ -23,15 +25,22 @@ export class UploadDocumentsComponent {
     maxLength: MaxLength = new MaxLength();
     empUploadDetails: any = [];
     permissions: any;
+    document: any;
 
     constructor(private router: Router, private route: ActivatedRoute, private formbuilder: FormBuilder,
-        private employeeService: EmployeeService, private alertMessage: AlertmessageService, private jwtService: JwtService) { }
+        private employeeService: EmployeeService, private alertMessage: AlertmessageService, private jwtService: JwtService,
+        private downloadNotifier: DownloadNotification) { }
 
     ngOnInit() {
         this.permissions = this.jwtService.Permissions
         this.route.params.subscribe(params => {
             this.employeeId = params['employeeId'];
         });
+        this.downloadNotifier.getData().subscribe(value => {
+            if (value === true) {
+                this.downloadPdf();
+            }
+        })
         this.initUpload();
         this.getUploadDocuments();
     }
@@ -92,8 +101,46 @@ export class UploadDocumentsComponent {
         this.fbUpload.markAsUntouched();
     }
 
-    removeItem(index: number): void {
-        this.empUploadDetails.splice(index, 1);
+    removeItem(uploadedDocument: any, index: number) {
+        if (uploadedDocument.uploadedDocumentId) {
+            this.employeeService.DeleteDocument(uploadedDocument.uploadedDocumentId).subscribe(resp => {
+                if (resp) {
+                    this.alertMessage.displayAlertMessage(ALERT_CODES["EAD006"]);
+                    this.getUploadDocuments();
+                }
+                else
+                    return this.alertMessage.displayErrorMessage(ALERT_CODES["EAD007"]);
+            })
+        }
+        else {
+            this.empUploadDetails.splice(index, 1);
+            this.fileUpload.nativeElement.value = '';
+        }
+
+    }
+
+    downloadItem(uploadedDocument) {
+        console.log(uploadedDocument);
+        this.employeeService.GetDocumentPath(uploadedDocument).subscribe(resp => {
+            console.log(resp);
+            this.document = resp['filePath']
+            this.downloadPdf();
+        });
+    }
+
+    downloadPdf() {
+        const pdf = new jsPDF('p', 'px', 'a4');
+        const img = new Image();
+        img.src = this.document;
+        img.onload = () => {
+          const width = pdf.internal.pageSize.getWidth();
+          const height = (img.height / img.width) * width;
+          pdf.addImage(img, 'JPEG', 20, 60, width, height);
+          pdf.save('generated_document.pdf');
+          
+          // Revoke the object URL to release resources (optional)
+          URL.revokeObjectURL(this.document);
+        };
     }
 
     uploadFile(file) {
@@ -103,7 +150,6 @@ export class UploadDocumentsComponent {
         formData.set('uploadedFiles', file.fileBlob, file.fileName);
         let messageDisplayed = false;
         this.employeeService.UploadDocuments(formData, params).subscribe(resp => {
-            console.log(resp);
             if (resp) {
                 if (!messageDisplayed) {
                     this.alertMessage.displayAlertMessage(ALERT_CODES["EAD002"]);
@@ -140,6 +186,5 @@ export class UploadDocumentsComponent {
     navigateToNext() {
         this.router.navigate(['employee/onboardingemployee/familydetails', this.employeeId])
     }
-
 
 }

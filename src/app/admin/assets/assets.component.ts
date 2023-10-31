@@ -61,7 +61,7 @@ export class AssetsComponent {
     { field: 'serialNumber', header: 'serialNumber', label: 'Serial Number' },
     { field: 'warranty', header: 'warranty', label: 'Warranty' },
     { field: 'addValue', header: 'addValue', label: 'Add Value' },
-    // { field: 'description', header: 'description', label: 'Description' },
+    { field: 'description', header: 'description', label: 'Description' },
     { field: 'status', header: 'status', label: 'Status' },
     { field: 'isActive', header: 'isActive', label: 'Is Active' },
     // { field: 'createdAt', header: 'createdAt', label: 'Created Date' },
@@ -155,11 +155,9 @@ export class AssetsComponent {
   }
 
   deleteDialog(assetstypes: AssetsDetailsViewDto) {
-    debugger
     this.deleteAsset = assetstypes;
     this.confirmationDialogService.comfirmationDialog(this.confirmationRequest).subscribe(userChoice => {
       if (userChoice) {
-        debugger
         this.asset = this.deleteAsset
         this.asset.purchasedDate = new Date(this.deleteAsset.purchasedDate);
         this.asset.isActive = false;

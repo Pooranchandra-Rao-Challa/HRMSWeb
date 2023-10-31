@@ -49,7 +49,6 @@ export class BasicDetailsComponent implements OnInit {
         private lookupService: LookupService, private alertMessage: AlertmessageService,
         private onboardEmployeeService: OnboardEmployeeService,
         private plaformLocation: PlatformLocation,) {
-
     }
 
     ngOnInit() {
@@ -61,7 +60,7 @@ export class BasicDetailsComponent implements OnInit {
 
             if (this.fileTypes.indexOf(p.FileExtension) > 0 && p.Resize || (p.Size / 1024 / 1024 < 1
                 && (p.isPdf || (!p.isPdf && p.Width <= 300 && p.Height <= 300)))) {
-                    this.fbbasicDetails.get('photo').setValue(p.File);
+                this.fbbasicDetails.get('photo').setValue(p.File);
             } else {
                 this.alertMessage.displayErrorMessage(p.Message);
             }
@@ -86,10 +85,20 @@ export class BasicDetailsComponent implements OnInit {
         this.fileUpload.nativeElement.onchange = (source) => {
             for (let index = 0; index < this.fileUpload.nativeElement.files.length; index++) {
                 const file = this.fileUpload.nativeElement.files[index];
-                ValidateFileThenUpload(file, this.ImageValidator, 1024 * 1024, '300 x 300 pixels',true);
+                ValidateFileThenUpload(file, this.ImageValidator, 1024 * 1024, '300 x 300 pixels', true);
             }
         }
+        this.defaultPhoto = /^female$/gi.test(this.fbbasicDetails.get('gender').value) ? '/assets/layout/images/women-emp-2.jpg' : '/assets/layout/images/men-emp.jpg'
+
     }
+
+    onGenderChange() {
+        const selectedGender = this.fbbasicDetails.get('gender').value;
+        if (selectedGender) {
+            this.defaultPhoto = /^female$/gi.test(this.fbbasicDetails.get('gender').value) ? '/assets/layout/images/women-emp-2.jpg' : '/assets/layout/images/men-emp.jpg'
+        }
+    }
+
     basicDetailsForm() {
         this.fbbasicDetails = this.formbuilder.group({
             employeeId: [0],
@@ -107,7 +116,7 @@ export class BasicDetailsComponent implements OnInit {
             certificateDob: new FormControl('', [Validators.required]),
             emailId: new FormControl('', [Validators.required, Validators.pattern(RG_EMAIL)]),
             isActive: new FormControl(true, [Validators.required]),
-            isAFresher:new FormControl(true,[Validators.required]),
+            isAFresher: new FormControl(true, [Validators.required]),
             photo: [],
             signDate: [null]
         });
@@ -174,11 +183,10 @@ export class BasicDetailsComponent implements OnInit {
             certificateDob: FORMAT_DATE(new Date(empbasicDetails.certificateDOB)),
             emailId: empbasicDetails.emailId,
             isActive: empbasicDetails.isActive,
-            isAFresher:empbasicDetails.isAFresher,
+            isAFresher: empbasicDetails.isAFresher,
             signDate: empbasicDetails.signDatel,
-            photo: empbasicDetails.photo
         });
-        this.defaultPhoto = /^female$/.test(empbasicDetails.gender) ? '/assets/layout/images/women-emp-2.jpg' : '/assets/layout/images/men-emp.jpg'
+        this.defaultPhoto = /^female$/gi.test(empbasicDetails.gender) ? '/assets/layout/images/women-emp-2.jpg' : '/assets/layout/images/men-emp.jpg'
     }
 
     navigateToNext() {

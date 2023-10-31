@@ -30,8 +30,7 @@ export class ExperiencedetailsDialogComponent {
   designation: LookupViewDto[] = [];
   skillarea: LookupViewDto[] = [];
   employeeId: any;
-  currentDate = new Date();
-
+  maxDate: Date = new Date();
   constructor(
     private formbuilder: FormBuilder,
     private lookupService: LookupService,

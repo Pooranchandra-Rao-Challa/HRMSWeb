@@ -1,9 +1,9 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { FORMAT_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { ClientDetailsDto, ClientNamesDto, EmployeesList, ProjectAllotments, ProjectViewDto } from 'src/app/_models/admin';
-import { MaxLength } from 'src/app/_models/common';
+import { MaxLength, PhotoFileProperties } from 'src/app/_models/common';
 import { AdminService } from 'src/app/_services/admin.service';
 import { JwtService } from 'src/app/_services/jwt.service';
 import { MAX_LENGTH_20, MAX_LENGTH_21, MAX_LENGTH_256, MAX_LENGTH_50, MIN_LENGTH_2, MIN_LENGTH_20, MIN_LENGTH_21, MIN_LENGTH_4, RG_ALPHA_NUMERIC, RG_EMAIL, RG_PHONE_NO } from 'src/app/_shared/regex';
@@ -17,6 +17,7 @@ import { FileUpload } from 'primeng/fileupload';
 import { DownloadNotification } from 'src/app/_services/notifier.services';
 import { ProjectNotification } from 'src/app/_services/projectnotification.service';
 import { DatePipe } from '@angular/common';
+import { ValidateFileThenUpload } from 'src/app/_validators/upload.validators';
 interface AutoCompleteCompleteEvent {
     originalEvent: Event;
     query: string;
@@ -31,9 +32,9 @@ interface AutoCompleteCompleteEvent {
     styles: ['']
 })
 export class ProjectComponent implements OnInit {
+    @ViewChild("fileUpload", { static: true }) fileUpload: ElementRef;
     data: null;
     private diagram: go.Diagram;
-    employees: EmployeesList[] = [];
     projects: ProjectViewDto[] = [];
     clientsNames: ClientNamesDto[] = [];
     Employees: EmployeesList[] = [];
@@ -51,11 +52,14 @@ export class ProjectComponent implements OnInit {
     submitLabel!: string;
     minDateVal = new Date();
     projectDetails: any = {};
-    selectedFileBase64: string | null = null; // To store the selected file as base64
     companyHierarchy: CompanyHierarchyViewDto[] = [];
     selectedProjectId: number = -1;
     first: number = 0;
     rows: number = 10;
+
+    fileTypes: string = ".jpg, .jpeg, .gif"
+    @Output() ImageValidator = new EventEmitter<PhotoFileProperties>();
+    defaultPhoto: string;
     
     //For paginator 
     onPageChange(event) {
@@ -99,8 +103,21 @@ export class ProjectComponent implements OnInit {
         this.projectForm();
         this.initProjects();
         this.initClientNames();
-        this.initEmployees();
         this.unAssignEmployeeForm();
+        this.ImageValidator.subscribe((p: PhotoFileProperties) => {
+            if (this.fileTypes.indexOf(p.FileExtension) > 0 && p.Resize || (p.Size / 1024 / 1024 < 1
+                && (p.isPdf || (!p.isPdf && p.Width <= 400 && p.Height <= 500)))) {
+                    this.fbproject.get('logo').setValue(p.File);
+            } else {
+                this.alertMessage.displayErrorMessage(p.Message);
+            }
+        })
+        this.fileUpload.nativeElement.onchange = (source) => {
+            for (let index = 0; index < this.fileUpload.nativeElement.files.length; index++) {
+                const file = this.fileUpload.nativeElement.files[index];
+                ValidateFileThenUpload(file, this.ImageValidator, 1024 * 1024, '300 x 300 pixels', true);
+            }
+        }
 
     }
     projectForm() {
@@ -212,15 +229,15 @@ export class ProjectComponent implements OnInit {
 
     initProject(project: ProjectViewDto) {
         this.projectForm();
-        console.log(project);
-
         this.dialog = true;
+        this.fileUpload.nativeElement.value = '';
         if (project != null) {
             this.editEmployee(project);
-            this.getEmployeesListBasedOnProject(project.projectId)
+            this.getEmployeesListBasedOnProject(project.projectId);
         } else {
             this.addFlag = true;
             this.submitLabel = "Add Project";
+            this.getEmployeesListBasedOnProject(0);
         }
     }
 
@@ -331,25 +348,6 @@ export class ProjectComponent implements OnInit {
         this.fcClientDetails.get('companyName')?.setValue(item.companyName);
     }
 
-    onFileSelect(event: any): void {
-        const selectedFile = event.files[0];
-        if (selectedFile) {
-            this.convertFileToBase64(selectedFile, (base64String) => {
-                this.selectedFileBase64 = base64String;
-                this.fbproject.get('logo').setValue(this.selectedFileBase64);
-            });
-        } else {
-            this.selectedFileBase64 = null;
-        }
-    }
-    private convertFileToBase64(file: File, callback: (base64String: string) => void): void {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => {
-            const base64String = reader.result as string;
-            callback(base64String);
-        };
-    }
     save() {
         if (this.fbproject.valid) {
             this.saveProject().subscribe(resp => {
@@ -400,11 +398,7 @@ export class ProjectComponent implements OnInit {
             this.clientsNames = resp as unknown as ClientNamesDto[];
         });
     }
-    initEmployees() {
-        this.adminService.getEmployeesList().subscribe(resp => {
-            this.employees = resp as unknown as EmployeesList[];
-        });
-    }
+   
     getEmployeesListBasedOnProject(projectId: number) {
         this.adminService.getEmployees(projectId).subscribe(resp => {
             this.Employees = resp as unknown as EmployeesList[];
