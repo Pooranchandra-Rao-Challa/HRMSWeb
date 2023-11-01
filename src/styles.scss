@@ -201,6 +201,7 @@ input:read-only {
     background-color: #bfbfbf;
     // border:0px;
 }
+
 // .p-dropdown:read-only {
 //     background-color: #bfbfbf;
 //     // border:0px;
@@ -377,6 +378,21 @@ p-calendar input {
     height: 90%;
 }
 
+.pair {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.label {
+    width: 200px;
+    display: inline-block;
+}
+
+.value {
+    display: inline-block;
+}
+
 .text-wrap {
     max-width: 100px;
     overflow-wrap: break-word;
@@ -388,13 +404,14 @@ p-calendar input {
     display: none !important;
 }
 
-::ng-deep .p-datatable-thead{
+::ng-deep .p-datatable-thead {
     position: sticky;
     position: -webkit-sticky;
     top: 0;
     z-index: 1000;
-  }
-  .layout-topbar .topbar-menu li.topbar-item img{
+}
+
+.layout-topbar .topbar-menu li.topbar-item img {
     width: 1.8rem !important;
     height: unset !important;
-  }
+}

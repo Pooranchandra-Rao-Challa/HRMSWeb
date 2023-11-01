@@ -349,9 +349,9 @@
               <div class="p-fluid p-formgrid grid">
                 <div class="field col-12 md:col-4">
                   <label>Employees:</label>&nbsp;
-                  <p-multiSelect placeholder="Select Employees" [options]="Employees"
-                    optionLabel="employeeName" formControlName="projectAllotments" [filter]="true"
-                    filterBy="employeeId,employeeName" appendTo="body">
+                  <p-multiSelect placeholder="Select Employees" [options]="Employees" optionLabel="employeeName"
+                    formControlName="projectAllotments" [filter]="true" filterBy="employeeId,employeeName"
+                    appendTo="body">
                     <ng-template let-employee pTemplate="selectedItem">
                       <div class="block align-items-center gap-3">
                         <div>{{employee.employeeName}}</div>
@@ -406,7 +406,7 @@
                   <p class="line-height-3 mb-3">{{project.description}}</p>
                 </div>
               </div>
-             
+
             </div>
           </div>
           <p-paginator (onPageChange)="onPageChange($event)" *ngIf="projects.length>10" [first]="first" [rows]="rows"
@@ -441,40 +441,55 @@
             </div>
           </div>
           <div class="col-12 lg:col-9">
-            <div class=" grid " style="text-align: left;">
-              <div class="col-12 lg:col-12 "><span class="text-primary font-bold text-900">Project Name</span>:
-                {{this.projectDetails.name}}</div>
-              <div class="col-12 lg:col-12 "><span class="text-primary font-bold text-900">Project
-                  Manager</span>: {{this.projectDetails.manager}} </div>
-              <div class="col-12 lg:col-12 "><span class="text-primary font-bold text-900">Project Start
-                  Date</span>: {{this.projectDetails.startDate| date: 'dd-MMM-yyyy'}} </div>
-              <div class="col-12 lg:col-12 "><span class="text-primary font-bold text-900">Project
-                  Description</span>:<br /> {{this.projectDetails.description}} </div>
+            <div class="grid" style="text-align: left;">
+              <div class="col-12 lg:col-12">
+                <div class="pair">
+                  <span class="label text-primary font-bold text-900">Project Name</span>
+                  <span class="value">: {{this.projectDetails.name}}</span>
+                </div>
+                <div class="pair">
+                  <span class="label text-primary font-bold text-900">Project Manager</span>
+                  <span class="value">: {{this.projectDetails.manager}}</span>
+                </div>
+                <div class="pair">
+                  <span class="label text-primary font-bold text-900">Project Start Date</span>
+                  <span class="value">: {{this.projectDetails.startDate| date: 'dd-MMM-yyyy'}}</span>
+                </div>
+                <div class="pair">
+                  <span class="label text-primary font-bold text-900">Project Description</span>
+                  <br>
+                  <span class="value">: {{this.projectDetails.description}}</span>
+                </div>
+              </div>
             </div>
           </div>
+
         </div>
         <p-tabView>
           <p-tabPanel header="Client Details ">
-            <div class="grid">
-              <div class="col-12">
-                <div class="card">
-                  <ul class="list-none p-0 m-0 text-600 mb-7 text-600">
-                    <li class="mb-3">
-                      <span class="font-semibold mr-5">Company Full Name :</span>{{this.projectDetails.companyName}}
-                    </li>
-                    <li class="mb-3">
-                      <span class="font-semibold  mr-5">CIN/GST No :</span>{{this.projectDetails.cinno}}
-                    </li>
-                    <li class="mb-3">
-                      <span class="font-semibold  mr-5">POC Name :</span>{{this.projectDetails.pocName}}
-                    </li>
-                    <li class="mb-3">
-                      <span class="font-semibold  mr-5">POC Ph.No :</span>{{this.projectDetails.pocMobileNumber}}
-                    </li>
-                    <li class="mb-3">
-                      <span class="font-semibold  mr-5">Address :</span>{{this.projectDetails.address}}
-                    </li>
-                  </ul>
+            <div class="card">
+              <div class="grid">
+                <div class="col-12 md-4 lg-3 sm-6">
+                  <div class="pair">
+                    <span class="label font-semibold">Company Full Name</span>
+                    <span class="value">: {{this.projectDetails.companyName}}</span>
+                  </div>
+                  <div class="pair">
+                    <span class="label font-semibold">CIN/GST No</span>
+                    <span class="value">: {{this.projectDetails.cinno}}</span>
+                  </div>
+                  <div class="pair">
+                    <span class="label font-semibold">POC Name</span>
+                    <span class="value">: {{this.projectDetails.pocName}}</span>
+                  </div>
+                  <div class="pair">
+                    <span class="label font-semibold">POC Ph.No</span>
+                    <span class="value">: {{this.projectDetails.pocMobileNumber}}</span>
+                  </div>
+                  <div class="pair">
+                    <span class="label font-semibold">Address</span>
+                    <span class="value">: {{this.projectDetails.address}}</span>
+                  </div>
                 </div>
               </div>
             </div>
