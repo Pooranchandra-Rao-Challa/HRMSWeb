@@ -38,25 +38,14 @@ export class FinalSubmitComponent {
     this.getRoles();
     const isEnrolled = false;
     this.employeeService.GetEmployees(isEnrolled).subscribe(resp => {
-      this.employees = resp
+      this.employees = resp;
       this.employeeObj = this.employees.find(x => x.employeeId == this.employeeId);
-      if (this.employeeObj.pendingDetails == "BankDetails, FamilyInformation" || this.employeeObj.pendingDetails == "BankDetails" || this.employeeObj.pendingDetails == "FamilyInformation") {
+      if (this.employeeObj?.pendingDetails == "BankDetails, FamilyInformation" || this.employeeObj?.pendingDetails == "BankDetails" || this.employeeObj?.pendingDetails == "FamilyInformation") {
         this.displayDialog = true;
       }
-    })
+    });
   }
-  
-  resetFinalSubmitComponent() {
-    const isEnrolled = false;
-    this.employeeService.GetEmployees(isEnrolled).subscribe(resp => {
-      this.employees = resp
-      this.employeeObj = this.employees.find(x => x.employeeId == this.employeeId);
-      if (this.employeeObj.pendingDetails == "BankDetails, FamilyInformation" || this.employeeObj.pendingDetails == "BankDetails" || this.employeeObj.pendingDetails == "FamilyInformation") {
-        this.displayDialog = true;
-      }
-    })
-    this.fbEnroll.reset();
-  }
+
   getEmployees() {
     const isEnrolled = false;
     this.employeeService.GetEmployees(isEnrolled).subscribe(resp => {
@@ -67,7 +56,6 @@ export class FinalSubmitComponent {
   getRoles() {
     this.securityService.GetRoles().subscribe(resp => {
       this.roles = resp as unknown as RoleViewDto[];
-      console.log(this.roles);
     });
   }
 
@@ -77,7 +65,7 @@ export class FinalSubmitComponent {
 
 
   confirmationDialog() {
-    if(this.fbEnroll.valid){
+    if (this.fbEnroll.valid) {
       this.dialog = true;
       this.onSubmit();
     }

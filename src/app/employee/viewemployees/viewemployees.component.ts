@@ -111,7 +111,7 @@ export class ViewemployeesComponent {
   }
   
   onEmployeeEnroll() {
-    this.finalSubmitComponent.resetFinalSubmitComponent();
+    this.finalSubmitComponent.ngOnInit();
     this.dialog = true;
   }
 
