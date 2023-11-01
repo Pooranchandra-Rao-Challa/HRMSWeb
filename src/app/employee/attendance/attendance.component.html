@@ -37,8 +37,8 @@
                 <div style="margin-bottom: 15px;">
                     <label>Leave Narration:</label>&nbsp;
                     <textarea rows="5" cols="30" pInputTextarea formControlName="note" #note
-                        [maxlength]="maxLength.description" placeholder="Enter Leave Narration" (keydown)="restrictSpaces($event)"
-                        id="Attendance_leaveNarration"></textarea>
+                        [maxlength]="maxLength.description" placeholder="Enter Leave Narration"
+                        (keydown)="restrictSpaces($event)" id="Attendance_leaveNarration"></textarea>
                     <div class="flex">
                         <div class="align-left w-60" style="width:70%">
                             <span *ngIf="FormControls['note'].touched && FormControls['note'].invalid">
@@ -100,9 +100,8 @@
                 (click)="showConfirmationDialog()"></button>
         </div>
         <div *ngIf="permissions?.CanManageAttendance">
-            <!-- <button pButton pRipple label="" id="AddressDetails-Btn" icon="pi pi-plus"
-                id="Attendance_addAttendance" class="p-button-primary p-mr-2"
-                ></button> -->
+            <button pButton pRipple label="" id="AddressDetails-Btn" icon="pi pi-plus" id="Attendance_addAttendance"
+                class="p-button-primary p-mr-2" (click)="toggleTab()" ></button>
         </div>
     </ng-template>
 </p-toolbar>
@@ -110,7 +109,7 @@
 <p-table [rowHover]="true" styleClass="p-datatable-striped p-datatable-gridlines top_note_bar" responsiveLayout="scroll"
     [tableStyle]="{'min-width': '50rem'}">
     <ng-template pTemplate="header">
-        <tr>
+        <tr class="fadeinup" p-overlayPanel  *ngIf="showingLeavesOfColors">
             <td class="woff"> WO </td>
             <td colspan="2">Weekoff </td>
             <td class="pt"> PT </td>
