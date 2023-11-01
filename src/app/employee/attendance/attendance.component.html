@@ -107,9 +107,9 @@
 </p-toolbar>
 <!-- p-table -->
 <p-table [rowHover]="true" styleClass="p-datatable-striped p-datatable-gridlines top_note_bar" responsiveLayout="scroll"
-    [tableStyle]="{'min-width': '50rem'}">
+    [tableStyle]="{'min-width': '50rem'}" *ngIf="showingLeavesOfColors">
     <ng-template pTemplate="header">
-        <tr class="fadeinup" p-overlayPanel  *ngIf="showingLeavesOfColors">
+        <tr class="fadeinup" p-overlayPanel>
             <td class="woff"> WO </td>
             <td colspan="2">Weekoff </td>
             <td class="pt"> PT </td>
