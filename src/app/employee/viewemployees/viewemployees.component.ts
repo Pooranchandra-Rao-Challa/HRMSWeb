@@ -26,6 +26,7 @@ import { ALERT_CODES, AlertmessageService } from 'src/app/_alerts/alertmessage.s
 import { JwtService } from 'src/app/_services/jwt.service';
 import { ConfirmationDialogService } from 'src/app/_alerts/confirmationdialog.service';
 import { FinalSubmitComponent } from '../onboardingemployees/final-submit/final-submit.component';
+import jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-viewemployees',
@@ -81,6 +82,7 @@ export class ViewemployeesComponent {
   empbasicDetails = new EmployeeBasicDetailDto();
   selectedOption: boolean;
   confirmationRequest: ConfirmationRequest = new ConfirmationRequest();
+  document: any;
   
   constructor(
     private jwtService: JwtService,
@@ -107,6 +109,7 @@ export class ViewemployeesComponent {
     this.initviewAssets();
 
   }
+  
   onEmployeeEnroll() {
     this.finalSubmitComponent.resetFinalSubmitComponent();
     this.dialog = true;
@@ -179,9 +182,9 @@ export class ViewemployeesComponent {
       }
     });
 }
-  downloadItem(uploadedDoucment) {
+downloadItem(uploadedDocument) {
 
-  }
+}
   // Employee BankDetails
   initBankDetails() {
     this.employeeService.GetBankDetails(this.employeeId).subscribe((resp) => {

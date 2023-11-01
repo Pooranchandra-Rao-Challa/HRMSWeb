@@ -13,7 +13,7 @@
         <span class="text-900 font-medium text-primary text-center text-3xl block">{{employeePrsDtls?.code}}</span>
         <div class="text-center" *ngIf="enRollEmployee">
           <button pButton pRipple class="p-element p-ripple p-button-outline p-button p-component "
-            (click)="onEmployeeEnroll()">
+            (click)="onEmployeeEnroll()" >
             Enroll Employee </button>
         </div>
       </div>
@@ -210,7 +210,7 @@
                   <button pButton pRipple icon="pi pi-download" id="download-Btn"
                     *ngIf="UploadedDocument.uploadedDocumentId"
                     class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
-                    (click)="downloadItem(UploadedDocument)">
+                    (click)="downloadItem(UploadedDocument.uploadedDocumentId)">
                   </button>
 
                   <button pButton pRipple icon="fa fa-eye" id="download-Btn" *ngIf="UploadedDocument.uploadedDocumentId"
