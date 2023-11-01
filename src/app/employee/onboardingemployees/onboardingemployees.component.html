@@ -37,8 +37,8 @@
                 </ng-template>
                 <ng-template pTemplate="header">
                   <tr>
-                    <th>Image</th>
-                    <th *ngFor="let col of headers" [pSortableColumn]="col.header">
+                    <th class="text-center">Image</th>
+                    <th class="text-center" *ngFor="let col of headers" [pSortableColumn]="col.header">
                       {{col?.label}}
                       <p-columnFilter type="text" [field]="col.header" display="menu"></p-columnFilter>
                       <p-sortIcon [field]="col.header"></p-sortIcon>
@@ -48,14 +48,15 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-employee>
                   <tr>
-                    <td>
-                      <img [src]="employee.photo ? employee.photo : employee?.gender == 'Male' ?  '/assets/layout/images/men-emp.jpg' : '/assets/layout/images/women-emp.jpg'"
+                    <td class="text-center">
+                      <img
+                        [src]="employee.photo ? employee.photo : employee?.gender == 'Male' ?  '/assets/layout/images/men-emp.jpg' : '/assets/layout/images/women-emp.jpg'"
                         [alt]="employee.employeeName" class="my-4 md:my-0 w-10 md:w-10rem shadow-2 mr-2" />
                     </td>
-                    <td *ngFor="let col of headers">
+                    <td class="text-center" *ngFor="let col of headers">
                       <span>{{employee[col.field]}}</span>
                     </td>
-                    <td>
+                    <td class="text-center">
                       <button pbutton="" pripple="" type="button" label="Primary"
                         (click)="viewEmployeeDtls(employee?.employeeId)"
                         class="p-element p-ripple p-button-text p-button p-component view_profile_button"
@@ -79,7 +80,8 @@
             <div class="card m-2 border-1 surface-border card-height">
               <div class=" mb-3 grid">
                 <div class="col-12 lg:col-4 md:col-12 p-1 employee_profile_pic_div">
-                  <img [src]="employee.photo ? employee.photo : employee?.gender == 'Male' ?  '/assets/layout/images/men-emp.jpg' : '/assets/layout/images/women-emp.jpg'"
+                  <img
+                    [src]="employee.photo ? employee.photo : employee?.gender == 'Male' ?  '/assets/layout/images/men-emp.jpg' : '/assets/layout/images/women-emp.jpg'"
                     [alt]="employee.employeeName" class="shadow-2 my-1 mx-0 employee_profile_pic zoomable-img" />
 
                   <span class="text-500 font-medium text-md">
@@ -127,7 +129,7 @@
 </div>
 <p-dialog header="Add Employee" [(visible)]="visible" [modal]="true" [style]="{ width: '75%' }" [draggable]="false"
   [resizable]="false" (onHide)="cancelModel()" class="on_boarding_form">
-  <p-steps [model]="newEmployeeSteps"  [readonly]="isReadOnly"></p-steps>
+  <p-steps [model]="newEmployeeSteps" [readonly]="isReadOnly"></p-steps>
   <div class="p-5">
     <router-outlet></router-outlet>
   </div>
