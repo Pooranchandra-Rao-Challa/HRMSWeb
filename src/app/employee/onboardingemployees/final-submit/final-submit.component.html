@@ -1,8 +1,8 @@
 <form [formGroup]="fbEnroll"  *ngIf="displayDialog == true">
   <div class="mt-5 pt-5" id="hrms">
     <div class="grid content_scroll roles-container">
-      <div class=" col-12 md:col-4 lg:col-3"></div>
-      <div class=" col-12 md:col-4 lg:col-3">
+      <div class=" col-12 md:col-4 lg:col-2"></div>
+      <div class=" col-12 md:col-4 lg:col-4">
         <label>Role:</label><br/>
         <p-dropdown id="roles_dropdown" [autoDisplayFirst]="false" optionLabel="name" [options]="roles"
           optionValue="roleId" formControlName="roleId" appendTo="body" placeholder="Select Role"  
@@ -12,14 +12,14 @@
           <div class="align-left w-60" style="width:70%">
             <span *ngIf="FormControls['roleId'].touched && FormControls['roleId'].invalid">
               <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['roleId'].errors?.['required']">
-                Please Enter Role.</div>
+                Please Select Role.</div>
             </span>
           </div>
         </div>
       </div>
     
-      <div class=" col-12 md:col-4 lg:col-3 pt-3"><br/>
-        <p-button [disabled]="fbEnroll.invalid" (click)="confirmationDialog()" style="w-100" >Enroll Employee</p-button>
+      <div class=" col-12 md:col-4 lg:col-4 pt-3"><br/>
+        <p-button [disabled]="fbEnroll.invalid" (click)="confirmationDialog()" class="w-100" >Enroll Employee</p-button>
       </div>
     </div>
   </div>

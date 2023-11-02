@@ -38,8 +38,8 @@
                 </ng-template>
                 <ng-template pTemplate="header">
                   <tr>
-                    <th>Image</th>
-                    <th *ngFor="let col of headers" [pSortableColumn]="col.header">
+                    <th class="text-center">Image</th>
+                    <th class="text-center" *ngFor="let col of headers" [pSortableColumn]="col.header">
                       {{col?.label}}
                       <p-columnFilter type="text" [field]="col.header" display="menu">
                       </p-columnFilter>
@@ -50,15 +50,20 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-employee>
                   <tr>
-                    <td>
-                      <img  [src]="employee.photo ? employee.photo : employee?.gender == 'Male' ?  '/assets/layout/images/men-emp.jpg' : '/assets/layout/images/women-emp.jpg'"
+                    <td class="text-center">
+                      <img
+                        [src]="employee.photo ? employee.photo : employee?.gender == 'Male' ?  '/assets/layout/images/men-emp.jpg' : '/assets/layout/images/women-emp.jpg'"
                         [alt]="employee.employeeName" class="my-4 md:my-0 w-10 md:w-10rem shadow-2 mr-2" />
                     </td>
-                    <td *ngFor="let col of headers">
-                      <span>{{ col.field === 'dateofJoin' ? (employee[col.field] | date: mediumDate) :
-                        employee[col.field] }}</span>
+                    <td class="text-center" *ngFor="let col of headers">
+                      <span
+                            *ngIf=" col?.field == 'employeeName' || col?.field == 'employeeRoleName'||col?.field == 'gender'  || col?.field == 'mobileNumber'||col?.field =='officeEmailId' || col?.field == 'createdBy'">
+                            {{employee[col.field]}}
+                        </span>
+                      <span *ngIf="col.field == 'dateofJoin'">
+                        {{employee[col.field] | date:mediumDate}}</span>
                     </td>
-                    <td>
+                    <td class="text-center">
                       <button pbutton="" pripple="" type="button" label="Primary"
                         (click)="viewEmployeeDtls(employee?.employeeId)"
                         class="p-element p-ripple p-button-text p-button p-component view_profile_button"
@@ -82,9 +87,9 @@
             <div class="card m-2 border-1 surface-border card-height">
               <div class=" mb-3 grid">
                 <div class="col-12 lg:col-4 md:col-12 p-1 employee_profile_pic_div">
-                  <img [src]="employee.photo ? employee.photo : employee?.gender == 'Male' ?  '/assets/layout/images/men-emp.jpg' : '/assets/layout/images/women-emp.jpg'"
-                    [alt]="employee.employeeName" class="shadow-2 my-1 mx-0 employee_profile_pic zoomable-img "
-                    />
+                  <img
+                    [src]="employee.photo ? employee.photo : employee?.gender == 'Male' ?  '/assets/layout/images/men-emp.jpg' : '/assets/layout/images/women-emp.jpg'"
+                    [alt]="employee.employeeName" class="shadow-2 my-1 mx-0 employee_profile_pic zoomable-img " />
                   <span class="text-500 font-medium text-md">
                     <i class="pi pi-users text-600 text-primary text-1xl  pb-2"></i> :
                     {{employee?.gender}}

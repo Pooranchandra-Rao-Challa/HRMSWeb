@@ -3,9 +3,9 @@ import { DataView } from 'primeng/dataview';
 import { Table } from 'primeng/table';
 import { EmployeeService } from '../../_services/employee.service';
 import { EmployeesViewDto } from 'src/app/_models/employes';
-import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { ITableHeader } from 'src/app/_models/common';
 import { Router } from '@angular/router';
+import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 
 @Component({ 
     selector: 'app-all-employees',
@@ -24,10 +24,10 @@ export class AllEmployeesComponent {
     mediumDate: string = MEDIUM_DATE
 
     headers: ITableHeader[] = [
+        { field: 'code', header: 'code', label: 'Employee Code' },
         { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
         { field: 'gender', header: 'gender', label: 'Gender' },
-        { field: 'code', header: 'code', label: 'Employee Code' },
-        { field: 'employeeRoleName', header: 'employeeRoleName', label: 'Designation' },
+        { field: 'employeeRoleName', header: 'employeeRoleName', label: 'Employee Role Name' },
         { field: 'officeEmailId', header: 'officeEmailId', label: 'Email' },
         { field: 'mobileNumber', header: 'mobileNumber', label: 'Phone No' },
         { field: 'dateofJoin', header: 'dateofJoin', label: 'Date of Joining' },
@@ -45,6 +45,8 @@ export class AllEmployeesComponent {
         const isEnrolled = true;
         this.EmployeeService.GetEmployees(isEnrolled).subscribe(resp => {
             this.employees = resp as unknown as EmployeesViewDto[];
+            console.log(this.employees);
+            
         });
     }
 
