@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { RoleViewDto } from 'src/app/_models/security';
-import { Assets, Employee, Leave, LookUpHeaderDto, ProjectDetailsDto,  SecureQuestionDto } from '../api/security';
+import { Assets, Employee, JobDesign, Leave, LookUpHeaderDto, ProjectDetailsDto,  SecureQuestionDto } from '../api/security';
 
 @Injectable({
     providedIn: 'root'
@@ -46,6 +46,11 @@ export class SecurityService {
         .then((res: { project: ProjectDetailsDto[];}) => res.project as ProjectDetailsDto[])
         .then((data: any) => data);
     
+      }
+      getjobDesigns(){
+        return this.http.get<any>('assets/demo/data/security.json').toPromise()
+        .then((res:{jobDesign:JobDesign[];})=> res.jobDesign as JobDesign[])
+        .then((data:any)=>data)
       }
       public GetSecureQuestions() {
         return this.http.get<any>('assets/demo/data/security.json')

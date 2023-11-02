@@ -26,6 +26,7 @@ import { ALERT_CODES, AlertmessageService } from 'src/app/_alerts/alertmessage.s
 import { JwtService } from 'src/app/_services/jwt.service';
 import { ConfirmationDialogService } from 'src/app/_alerts/confirmationdialog.service';
 import { FinalSubmitComponent } from '../onboardingemployees/final-submit/final-submit.component';
+import jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-viewemployees',
@@ -83,7 +84,12 @@ export class ViewemployeesComponent {
   empbasicDetails = new EmployeeBasicDetailDto();
   selectedOption: boolean;
   confirmationRequest: ConfirmationRequest = new ConfirmationRequest();
+<<<<<<< HEAD
 
+=======
+  document: any;
+  
+>>>>>>> 52acb8b351fbc256a6c181cec2a9e51cdb0a398d
   constructor(
     private jwtService: JwtService,
     private alertMessage: AlertmessageService,
@@ -109,8 +115,9 @@ export class ViewemployeesComponent {
     this.initviewAssets();
 
   }
+  
   onEmployeeEnroll() {
-    this.finalSubmitComponent.resetFinalSubmitComponent();
+    this.finalSubmitComponent.ngOnInit();
     this.dialog = true;
   }
 

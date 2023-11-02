@@ -201,6 +201,7 @@ input:read-only {
     background-color: #bfbfbf;
     // border:0px;
 }
+
 // .p-dropdown:read-only {
 //     background-color: #bfbfbf;
 //     // border:0px;
@@ -310,7 +311,7 @@ p-calendar input {
 .pt {
     color: green;
     // font-weight: bold;
-    background-color: rgb(239, 251, 239);
+    background-color: rgb(203, 244, 203);
     padding: 10px;
 }
 
@@ -353,8 +354,8 @@ p-calendar input {
 }
 
 .el {
-    color: rgb(178, 180, 21);
-    background-color: rgb(249, 242, 200);
+    color: rgb(15, 200, 213);
+    background-color: rgb(220, 249, 247);
     padding: 10px !important;
     text-align: center !important;
 }
@@ -377,6 +378,21 @@ p-calendar input {
     height: 90%;
 }
 
+.pair {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.label {
+    width: 200px;
+    display: inline-block;
+}
+
+.value {
+    display: inline-block;
+}
+
 .text-wrap {
     max-width: 100px;
     overflow-wrap: break-word;
@@ -388,13 +404,14 @@ p-calendar input {
     display: none !important;
 }
 
-::ng-deep .p-datatable-thead{
+::ng-deep .p-datatable-thead {
     position: sticky;
     position: -webkit-sticky;
     top: 0;
     z-index: 1000;
-  }
-  .layout-topbar .topbar-menu li.topbar-item img{
+}
+
+.layout-topbar .topbar-menu li.topbar-item img {
     width: 1.8rem !important;
     height: unset !important;
   }
@@ -407,3 +424,10 @@ p-calendar input {
  .no-show-iframe {
     display: none;
   }
+  .overflow-container {
+    max-width: 1650px;
+    overflow-x: auto;
+    max-height: 250px;
+    overflow-y: auto;
+  }
+

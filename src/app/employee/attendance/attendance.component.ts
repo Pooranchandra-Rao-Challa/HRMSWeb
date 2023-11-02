@@ -43,6 +43,7 @@ export class AttendanceComponent {
   LeaveTypes: LookupDetailsDto[] = [];
   leaves: EmployeeLeaveDto[] = [];
   NotUpdatedEmployees: EmployeesList[] = [];
+  showingLeavesOfColors: boolean = false;
 
 
   constructor(private adminService: AdminService, private datePipe: DatePipe, private jwtService: JwtService, public ref: DynamicDialogRef, private dialogService: DialogService,
@@ -334,5 +335,8 @@ export class AttendanceComponent {
       this.days.push(i);
     }
   }
-
+  
+  toggleTab() {
+    this.showingLeavesOfColors= !this.showingLeavesOfColors;
+  }
 }

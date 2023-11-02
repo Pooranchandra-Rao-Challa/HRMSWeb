@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AccessdeniedComponent } from './accessdenied/accessdenied.component';
+import { EmailconfirmationComponent } from './emailconfirmation/emailconfirmation.component';
 import { ErrorComponent } from './error/error.component';
 import { LockScreenComponent } from './lockscreen/lockscreen.component';
 import { NewPasswordComponent } from './newpassword/newpassword.component';
@@ -18,6 +19,7 @@ import { SettingsComponent } from './settings/settings.component';
             { path: 'newpassword', data: { breadcrumb: 'NewPassword' }, component: NewPasswordComponent },
             { path: 'security',data:{breadcrumb:'Security Quesitons'},component:SecurityquestionsComponent},
             { path: 'lockscreen', data: { breadcrumb: 'LockScreen' }, component: LockScreenComponent },
+            { path: 'emailconfirmation', data: { breadcrumb: 'Email Confirmation' }, component: EmailconfirmationComponent },
             { path: '**', redirectTo: '/notfound' }
         ])
     ],

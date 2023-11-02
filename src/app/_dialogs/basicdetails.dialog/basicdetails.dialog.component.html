@@ -71,9 +71,9 @@
                     <div class="field col-12 md:col-4">
                         <label class="required">Gender: </label>
                         <p-dropdown id="gender" placeholder="Select Gender" [options]="genders" optionLabel="name"
-                            formControlName="gender" optionValue="name"
-                            [ngClass]="{ 'is-invalid ng-dirty': empBasDtlsFormControls['gender'].touched && empBasDtlsFormControls['gender'].errors}">
-                        </p-dropdown>
+                        formControlName="gender" optionValue="name"  (ngModelChange)="onGenderChange()"
+                        [ngClass]="{ 'is-invalid ng-dirty': empBasDtlsFormControls['gender'].touched && empBasDtlsFormControls['gender'].errors}">
+                    </p-dropdown>
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                                 <span
@@ -234,8 +234,8 @@
                         <p-inputSwitch formControlName="isAFresher" id="PersonalDetails_IsAFresher"></p-inputSwitch>
                     </div>
                     <div class="field col-12 md:col-4" style="display: grid;">
-                        <img [src]="this.fbEmpBasDtls.get('photo').value"
-                            onerror="this.onerror=null;this.src='/assets/layout/images/men-emp.jpg'" alt="photo"
+                        <img [src]="this.fbEmpBasDtls.get('photo').value  ? this.fbEmpBasDtls.get('photo').value : this.defaultPhoto"
+                            onerror="this.onerror=null;" alt="photo"
                             width="100px" class="up_logo">
                         <label for="singleFile"
                             class="p-element p-ripple p-button-raised p-button-primary p-button p-component"
