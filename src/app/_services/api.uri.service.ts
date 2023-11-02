@@ -96,7 +96,7 @@ export const ENROLL_URI="Employee/EnrollUser";
 export const UPDATE_EDUCATION_DETAILS="Employee/UpdateEducationDetails";
 export const UPDATE_EXPERIENCE_DETAILS ="Employee/UpdateWorkExperience";
 export const DELETE_DOCUMENT="UploadDocument/DeleteUploadDocument";
-export const GET_PATH="UploadDocument/GetDocument";
+export const GET_PATH="UploadDocument/DownloadFile";
 
 //Attendence
 

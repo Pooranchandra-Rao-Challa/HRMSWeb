@@ -1,5 +1,6 @@
 <div class="content_scroll" id="hrms">
     <div class="grid p-0 m-0">
+        <p-confirmDialog [style]="{width: '30%'}"></p-confirmDialog>
         <div class="col-12 md:col-4">
             <form [formGroup]="fbUpload ">
                 <div class="roles-container">
@@ -68,18 +69,18 @@
                             <div class="flex">
                                 <button pButton pRipple icon="pi pi-trash" id="Remove-Btn"
                                     class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
-                                    (click)="removeItem(file,i)">
+                                    (click)="removeItem(file.uploadedDocumentId,i)">
                                 </button>
                                 <button pButton pRipple icon="pi pi-download" id="download-Btn"
                                     *ngIf="file.uploadedDocumentId"
                                     class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
-                                    (click)="downloadItem(file.uploadedDocumentId)">
+                                    (click)="downloadItem(file)">
                                 </button>
 
                                 <button pButton pRipple icon="fa fa-eye" id="download-Btn"
                                     *ngIf="file.uploadedDocumentId"
                                     class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
-                                    (click)="downloadItem(file)">
+                                    (click)="getFileType(file);">
                                 </button>
                             </div>
                         </td>
@@ -89,6 +90,7 @@
                 </ng-template>
             </p-table>
         </div>
+
     </div>
 </div>
 

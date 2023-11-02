@@ -32,12 +32,15 @@ import { ExperienceDetailsDto, SkillArea, AddressDetailsDto, BankDetailsDto, Cou
 
 import { ApiHttpService } from './api.http.service';
 import { LookupViewDto } from '../_models/admin';
-import { HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import * as FileSaver from "file-saver";
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmployeeService extends ApiHttpService {
+  baseUrl: string = environment.ApiUrl;
 
   public GetAttendance(month: number, year: number) {
     return this.getWithId<employeeAttendanceDto>(GET_ATTENDENCE, [month + '/' + year]);
@@ -45,8 +48,44 @@ export class EmployeeService extends ApiHttpService {
   public DeleteDocument(documentId: number) {
     return this.post(DELETE_DOCUMENT + '/' + documentId, null);
   }
-  public GetDocumentPath(documentId: number) {
-    return this.getWithId(GET_PATH, [documentId]);
+  
+
+  public downloadAttachment<T>(module: string, documentId: number) {
+    const endpointUrl = GET_PATH + '/' + module + '/' + documentId;
+    return this.get(endpointUrl, { observe: "response", responseType: "arraybuffer" })
+      .subscribe(
+        (resp: HttpResponse<Blob>) => {
+          const blob = new Blob([resp.body], {
+            type: resp.headers.get("content-type"),
+          });
+          const document = window.URL.createObjectURL(blob);
+          FileSaver.saveAs(document);
+        },
+        (error) => {
+        }
+      );
+  }
+  public ViewAttachment(module: string, documentId: number) {
+    const endpointUrl =  GET_PATH + '/' + module + '/' + documentId;
+    return this.get(endpointUrl, { observe: "response", responseType: "arraybuffer" })
+      .subscribe(
+        (resp: HttpResponse<Blob>) => {
+          const blob = new Blob([resp.body], {
+            type: resp.headers.get("content-type"),
+          });
+
+          // Other Browsers
+          const url = (window.URL || window.webkitURL).createObjectURL(blob);
+          window.open(url, '_blank');
+
+          // rewoke URL after 15 minutes
+          setTimeout(() => {
+            window.URL.revokeObjectURL(url);
+          }, 15 * 60 * 1000);
+        },
+        (error) => {
+        }
+      );
   }
   public AddAttendance(data: EmployeeAttendanceList[]) {
     return this.post<EmployeeAttendanceList[]>(POST_LISTOF_ATTENDANCES, data);
@@ -65,7 +104,7 @@ export class EmployeeService extends ApiHttpService {
 
   }
   public GetNotUpdatedEmployees(date, previousDay: boolean) {
-    return this.get(GET_NOTUPDATED_EMPLOYEES + '/' + `${date}` + '/' + `${previousDay}`);
+    return this.get<any>(GET_NOTUPDATED_EMPLOYEES + '/' + `${date}` + '/' + `${previousDay}`);
   }
   //Education Details of Employee
   public CreateEducationDetails(educationdetails: EducationDetailsDto[]) {

@@ -9,6 +9,13 @@ import { EmployeeService } from 'src/app/_services/employee.service';
 import { ValidateFileThenUpload } from 'src/app/_validators/upload.validators'
 import { MAX_LENGTH_20, MIN_LENGTH_2 } from 'src/app/_shared/regex';
 
+
+enum DocumentModule {
+    Document = 'document',
+    Employee = 'employee',
+    None = 'none'
+}
+
 @Component({
     selector: 'app-uploadDocuments.dialogs',
     templateUrl: './uploadDocuments.dialog.component.html'
@@ -23,6 +30,7 @@ export class UploadDocumentsDialogComponent {
     title: string;
     fileTypes: string = ".pdf, .jpg, .jpeg, .png, .gif"
     @Output() ImageValidator = new EventEmitter<PhotoFileProperties>();
+    currentModule: DocumentModule = DocumentModule.None;
 
 
     constructor(
@@ -100,9 +108,9 @@ export class UploadDocumentsDialogComponent {
     }
 
     uploadFile(file) {
-        let module = this.config.data.module;
+        this.currentModule = file.fileBlob.type === 'application/pdf' ? DocumentModule.Document : DocumentModule.Employee;
         let Params = new HttpParams();
-        Params = Params.set("employeeId", this.employeeId).set('title', file.title).set('module', module).set('fileName', file.fileName);
+        Params = Params.set("employeeId", this.employeeId).set('title', file.title).set('module', this.currentModule).set('fileName', file.fileName);
         let formData = new FormData();
         formData.set('uploadedFiles', file.fileBlob, file.fileName);
         let messageDisplayed = false;

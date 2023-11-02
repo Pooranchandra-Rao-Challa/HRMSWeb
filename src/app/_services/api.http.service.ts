@@ -35,7 +35,7 @@ export class ApiHttpService {
             )
         }
     }
-    public get<T>(uri: string, options?: any) {
+    public get<T>(uri: string, options?: any) { 
         return this.http.get<T>(URI_ENDPOINT(uri), options)
             .pipe(
                 catchError(error => {

@@ -1,16 +1,24 @@
-import { HttpErrorResponse, HttpEvent, HttpEventType, HttpParams, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpEvent, HttpEventType, HttpParams, HttpResponse } from '@angular/common/http';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import * as FileSaver from "file-saver";
 import { dE } from '@fullcalendar/core/internal-common';
 import jsPDF from 'jspdf';
 import { ALERT_CODES, AlertmessageService } from 'src/app/_alerts/alertmessage.service';
-import { MaxLength } from 'src/app/_models/common';
+import { ConfirmationDialogService } from 'src/app/_alerts/confirmationdialog.service';
+import { ConfirmationRequest, MaxLength } from 'src/app/_models/common';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { JwtService } from 'src/app/_services/jwt.service';
 import { DownloadNotification } from 'src/app/_services/notifier.services';
 import { MAX_LENGTH_20, MIN_LENGTH_2, RG_ALPHA_ONLY } from 'src/app/_shared/regex';
 // import { MessageService } from 'primeng/api/messageservice';
+
+enum DocumentModule {
+    Document = 'document',
+    Employee = 'employee',
+    None = 'none'
+}
 
 @Component({
     selector: 'app-upload-documents',
@@ -18,7 +26,7 @@ import { MAX_LENGTH_20, MIN_LENGTH_2, RG_ALPHA_ONLY } from 'src/app/_shared/rege
 })
 export class UploadDocumentsComponent {
     @ViewChild("fileUpload", { static: true }) fileUpload: ElementRef;
-
+    confirmationRequest: ConfirmationRequest = new ConfirmationRequest();
     files: { fileBlob: Blob, title: string, fileName: string }[] = [];
     fbUpload!: FormGroup;
     employeeId: any;
@@ -26,21 +34,18 @@ export class UploadDocumentsComponent {
     empUploadDetails: any = [];
     permissions: any;
     document: any;
+    fileExtension: any;
+    currentModule: DocumentModule = DocumentModule.None;
 
     constructor(private router: Router, private route: ActivatedRoute, private formbuilder: FormBuilder,
         private employeeService: EmployeeService, private alertMessage: AlertmessageService, private jwtService: JwtService,
-        private downloadNotifier: DownloadNotification) { }
+        private downloadNotifier: DownloadNotification, private http: HttpClient, private confirmationDialogService: ConfirmationDialogService) { }
 
     ngOnInit() {
         this.permissions = this.jwtService.Permissions
         this.route.params.subscribe(params => {
             this.employeeId = params['employeeId'];
         });
-        this.downloadNotifier.getData().subscribe(value => {
-            if (value === true) {
-                this.downloadPdf();
-            }
-        })
         this.initUpload();
         this.getUploadDocuments();
     }
@@ -54,11 +59,13 @@ export class UploadDocumentsComponent {
     get FormControls() {
         return this.fbUpload.controls;
     }
+
     restrictSpaces(event: KeyboardEvent) {
         if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {
             event.preventDefault();
         }
     }
+
     onClick() {
         const fileUpload = this.fileUpload.nativeElement;
         const maxSizeInBytes = 10 * 1024 * 1024;
@@ -88,11 +95,12 @@ export class UploadDocumentsComponent {
         }
 
     }
+
     checkTitle() {
         if (!this.fbUpload.valid)
-            this.alertMessage.displayErrorMessage(ALERT_CODES["EAD004"]);
-        this.fbUpload.markAllAsTouched();
+            this.fbUpload.markAllAsTouched();
     }
+
     clearForm() {
         this.fbUpload.patchValue({
             title: '',
@@ -101,51 +109,50 @@ export class UploadDocumentsComponent {
         this.fbUpload.markAsUntouched();
     }
 
-    removeItem(uploadedDocument: any, index: number) {
-        if (uploadedDocument.uploadedDocumentId) {
-            this.employeeService.DeleteDocument(uploadedDocument.uploadedDocumentId).subscribe(resp => {
-                if (resp) {
-                    this.alertMessage.displayAlertMessage(ALERT_CODES["EAD006"]);
-                    this.getUploadDocuments();
+    removeItem(uploadedDocumentId: number, index: number) {
+        if (uploadedDocumentId) {
+            this.confirmationDialogService.comfirmationDialog(this.confirmationRequest).subscribe(userChoice => {
+                if (userChoice) {
+                    this.employeeService.DeleteDocument(uploadedDocumentId).subscribe(resp => {
+                        if (resp) {
+                            this.alertMessage.displayAlertMessage(ALERT_CODES["EAD006"]);
+                            this.getUploadDocuments();
+                        }
+                        else {
+                            return this.alertMessage.displayErrorMessage(ALERT_CODES["EAD007"]);
+                        }
+                    })
                 }
-                else
-                    return this.alertMessage.displayErrorMessage(ALERT_CODES["EAD007"]);
-            })
+            });
         }
         else {
             this.empUploadDetails.splice(index, 1);
             this.fileUpload.nativeElement.value = '';
         }
-
     }
 
-    downloadItem(uploadedDocument) {
-        console.log(uploadedDocument);
-        this.employeeService.GetDocumentPath(uploadedDocument).subscribe(resp => {
-            console.log(resp);
-            this.document = resp['filePath']
-            this.downloadPdf();
-        });
+    getFileType(file: any) {
+        this.fileExtension = file.fileName.split('.').pop();
+        this.fileExtension = this.fileExtension ? this.fileExtension.toLowerCase() : 'unknown';
+        const module = this.fileExtension === "pdf" ? DocumentModule.Document : DocumentModule.Employee;
+        this.employeeService.ViewAttachment(module, file.uploadedDocumentId);
     }
 
-    downloadPdf() {
-        const pdf = new jsPDF('p', 'px', 'a4');
-        const img = new Image();
-        img.src = this.document;
-        img.onload = () => {
-          const width = pdf.internal.pageSize.getWidth();
-          const height = (img.height / img.width) * width;
-          pdf.addImage(img, 'JPEG', 20, 60, width, height);
-          pdf.save('generated_document.pdf');
-          
-          // Revoke the object URL to release resources (optional)
-          URL.revokeObjectURL(this.document);
-        };
+
+    downloadItem(file) {
+        this.document = file.uploadedDocumentId;
+        this.fileExtension = file.fileName.split('.').pop();
+        this.fileExtension = this.fileExtension ? this.fileExtension.toLowerCase() : 'unknown';
+        const module = this.fileExtension === "pdf" ? DocumentModule.Document : DocumentModule.Employee;
+        this.employeeService.downloadAttachment(module, this.document);
     }
 
     uploadFile(file) {
+        this.currentModule = file.fileBlob.type === 'application/pdf' ? DocumentModule.Document : DocumentModule.Employee;
+        console.log(this.currentModule);
+
         let params = new HttpParams();
-        params = params.set("employeeId", this.employeeId).set('title', file.title).set('module', 'employee').set('fileName', file.fileName);
+        params = params.set("employeeId", this.employeeId).set('title', file.title).set('module', this.currentModule).set('fileName', file.fileName);
         let formData = new FormData();
         formData.set('uploadedFiles', file.fileBlob, file.fileName);
         let messageDisplayed = false;

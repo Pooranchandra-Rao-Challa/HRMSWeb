@@ -51,6 +51,8 @@ export class ViewemployeesComponent {
   isAddressChecked: boolean;
   // Employee  UploadedDocuments
   UploadedDocuments: any[] = [];
+  document: any;
+  fileExtension: any;
   // EmployeeBankDetails
   bankDetails: BankDetailViewDto[];
   // Employee Assets Details
@@ -81,7 +83,7 @@ export class ViewemployeesComponent {
   empbasicDetails = new EmployeeBasicDetailDto();
   selectedOption: boolean;
   confirmationRequest: ConfirmationRequest = new ConfirmationRequest();
-  
+
   constructor(
     private jwtService: JwtService,
     private alertMessage: AlertmessageService,
@@ -168,20 +170,33 @@ export class ViewemployeesComponent {
     this.confirmationDialogService.comfirmationDialog(this.confirmationRequest).subscribe(userChoice => {
       if (userChoice) {
         this.employeeService.DeleteDocument(uploadedDocumentId).subscribe(resp => {
-          if (resp){
-              this.alertMessage.displayAlertMessage(ALERT_CODES["EAD006"]);
-              this.UploadedDocuments = this.UploadedDocuments.filter(doc => doc.uploadedDocumentId !== uploadedDocumentId);
+          if (resp) {
+            this.alertMessage.displayAlertMessage(ALERT_CODES["EAD006"]);
+            this.UploadedDocuments = this.UploadedDocuments.filter(doc => doc.uploadedDocumentId !== uploadedDocumentId);
           }
-          else{
+          else {
             return this.alertMessage.displayErrorMessage(ALERT_CODES["EAD007"]);
-          }         
-      })
+          }
+        })
       }
     });
-}
-  downloadItem(uploadedDoucment) {
-
   }
+  getFileType(file: any) {
+    this.fileExtension = file.fileName.split('.').pop();
+    this.fileExtension = this.fileExtension ? this.fileExtension.toLowerCase() : 'unknown';
+    const module = this.fileExtension === "pdf" ? "document" : "employee";
+    this.employeeService.ViewAttachment(module, file.uploadedDocumentId);
+  }
+
+
+  downloadItem(file: any) {
+    this.document = file.uploadedDocumentId;
+    this.fileExtension = file.fileName.split('.').pop();
+    this.fileExtension = this.fileExtension ? this.fileExtension.toLowerCase() : 'unknown';
+    const module = this.fileExtension === "pdf" ? "document" : "employee";
+    this.employeeService.downloadAttachment(module, this.document);
+  }
+
   // Employee BankDetails
   initBankDetails() {
     this.employeeService.GetBankDetails(this.employeeId).subscribe((resp) => {
