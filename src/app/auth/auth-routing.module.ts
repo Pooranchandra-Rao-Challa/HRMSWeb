@@ -19,7 +19,7 @@ import { SettingsComponent } from './settings/settings.component';
             { path: 'newpassword', data: { breadcrumb: 'NewPassword' }, component: NewPasswordComponent },
             { path: 'security',data:{breadcrumb:'Security Quesitons'},component:SecurityquestionsComponent},
             { path: 'lockscreen', data: { breadcrumb: 'LockScreen' }, component: LockScreenComponent },
-            { path: 'emailconfirmaton', data: { breadcrumb: 'Email Confirmation' }, component: EmailconfirmationComponent },
+            { path: 'emailconfirmation', data: { breadcrumb: 'Email Confirmation' }, component: EmailconfirmationComponent },
             { path: '**', redirectTo: '/notfound' }
         ])
     ],

@@ -361,6 +361,7 @@ export class EmployeeLeaveDto {
 	rejected?: boolean;
 	status?: string;
 	isApprovalEscalated?: boolean;
+	url?:String;
 	createdAt?: Date;
 	createdBy?: string;
 }

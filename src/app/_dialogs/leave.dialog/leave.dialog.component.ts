@@ -1,5 +1,6 @@
+import { PlatformLocation } from '@angular/common';
 import { HttpEvent } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable } from 'rxjs';
@@ -29,6 +30,7 @@ export class LeaveDialogComponent {
   year: string;
   minDate: Date = new Date(new Date());
   maxDate: Date = new Date(new Date()); // Set the maxDate to a future date
+  emailURL: string;
 
   constructor(
     private formbuilder: FormBuilder,
@@ -36,7 +38,10 @@ export class LeaveDialogComponent {
     private lookupService: LookupService,
     private employeeService: EmployeeService,
     public ref: DynamicDialogRef,
-    public alertMessage: AlertmessageService) { }
+    public alertMessage: AlertmessageService,
+    private platformaLocation: PlatformLocation) {
+    this.emailURL =`${platformaLocation.protocol}//${platformaLocation.hostname}:${platformaLocation.port}/`
+    }
 
   ngOnInit(): void {
     this.getEmployees();
@@ -63,7 +68,7 @@ export class LeaveDialogComponent {
     const today = new Date();
     const tomorrow = new Date(today);
     tomorrow.setDate(today.getDate() + 1);
-    this.minDate = tomorrow; 
+    this.minDate = tomorrow;
   }
 
   // Initialize the disabled dates array for all months of the year
@@ -152,7 +157,7 @@ export class LeaveDialogComponent {
   getLeaveTypes() {
     this.lookupService.DayWorkStatus().subscribe(resp => {
       this.leaveType = resp as unknown as LookupViewDto[];
-      this.filteredLeaveTypes = this.leaveType.filter(item => !this.filterCriteria.includes(item.name));      
+      this.filteredLeaveTypes = this.leaveType.filter(item => !this.filterCriteria.includes(item.name));
     })
   }
 
@@ -169,6 +174,7 @@ export class LeaveDialogComponent {
       approvedBy: new FormControl(null),
       approvedAt: new FormControl(null),
       rejected: new FormControl(null),
+      url: new FormControl(null)
     });
   }
 
@@ -183,9 +189,11 @@ export class LeaveDialogComponent {
   onSubmit() {
     this.fbLeave.get('fromDate').setValue(FORMAT_DATE(new Date(this.fbLeave.get('fromDate').value)));
     this.fbLeave.get('toDate').setValue(this.fbLeave.get('toDate').value ? FORMAT_DATE(new Date(this.fbLeave.get('toDate').value)) : null);
+    this.fbLeave.get('url').setValue(this.emailURL);
     if (this.fbLeave.valid) {
       this.save().subscribe(resp => {
         if (resp) {
+          console.log(this.fbLeave.value);
           this.ref.close(true);
           this.alertMessage.displayAlertMessage(ALERT_CODES["ELD001"]);
         }
