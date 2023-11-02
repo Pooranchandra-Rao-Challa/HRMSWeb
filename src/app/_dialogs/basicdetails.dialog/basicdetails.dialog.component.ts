@@ -42,8 +42,7 @@ export class BasicdetailsDialogComponent {
 
     fileTypes: string = ".jpg, .jpeg, .gif"
     @Output() ImageValidator = new EventEmitter<PhotoFileProperties>();
-    defaultMenPhoto: string;
-    defaultWomenPhoto: string;
+    defaultPhoto: string;
 
     constructor(
         private formbuilder: FormBuilder,
@@ -55,8 +54,6 @@ export class BasicdetailsDialogComponent {
         private activatedRoute: ActivatedRoute,
         private plaformLocation: PlatformLocation,) {
         this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
-        this.defaultMenPhoto = `${plaformLocation.protocol}//${plaformLocation.hostname}:${plaformLocation.port}/assets/layout/images/men-emp.jpg`;
-        this.defaultWomenPhoto = `${plaformLocation.protocol}//${plaformLocation.hostname}:${plaformLocation.port}/assets/layout/images/women-emp-2.jpg`;
     }
 
     ngOnInit(): void {
@@ -69,8 +66,8 @@ export class BasicdetailsDialogComponent {
             console.log(p);
 
             if (this.fileTypes.indexOf(p.FileExtension) > 0 && p.Resize || (p.Size / 1024 / 1024 < 1
-                && (p.isPdf || ( !p.isPdf && p.Width <= 300 && p.Height <= 300)))) {
-                    this.fbEmpBasDtls.get('photo').setValue(p.File);
+                && (p.isPdf || (!p.isPdf && p.Width <= 300 && p.Height <= 300)))) {
+                this.fbEmpBasDtls.get('photo').setValue(p.File);
             } else {
                 this.alertMessage.displayErrorMessage(p.Message);
             }
@@ -79,9 +76,10 @@ export class BasicdetailsDialogComponent {
         this.fileUpload.nativeElement.onchange = (source) => {
             for (let index = 0; index < this.fileUpload.nativeElement.files.length; index++) {
                 const file = this.fileUpload.nativeElement.files[index];
-                ValidateFileThenUpload(file, this.ImageValidator, 1, '300 x 300 pixels',true);
+                ValidateFileThenUpload(file, this.ImageValidator, 1, '300 x 300 pixels', true);
             }
         }
+        this.defaultPhoto = /^female$/gi.test(this.fbEmpBasDtls.get('gender').value) ? '/assets/layout/images/women-emp-2.jpg' : '/assets/layout/images/men-emp.jpg'
     }
 
 
@@ -120,7 +118,7 @@ export class BasicdetailsDialogComponent {
             certificateDob: new FormControl(null, [Validators.required]),
             emailId: new FormControl(null, [Validators.required, Validators.pattern(RG_EMAIL)]),
             isActive: (''),
-            isAFresher:(''),
+            isAFresher: (''),
             signDate: (''),
             photo: []
         });
@@ -135,21 +133,12 @@ export class BasicdetailsDialogComponent {
             event.preventDefault();
         }
     }
-
     onGenderChange() {
-    const selectedGender = this.fbEmpBasDtls.get('gender').value;
-    if (selectedGender) {
-        const isFemale = /^female$/i.test(selectedGender);
-        const newPhotoSrc = isFemale
-            ? '/assets/layout/images/women-emp-2.jpg'
-            : '/assets/layout/images/men-emp.jpg';
-
-        // Update the image source
-        const photoElement = document.querySelector('.up_logo') as HTMLImageElement;
-        photoElement.src = newPhotoSrc;
+        const selectedGender = this.fbEmpBasDtls.get('gender').value;
+        if (selectedGender) {
+            this.defaultPhoto = /^female$/gi.test(this.fbEmpBasDtls.get('gender').value) ? '/assets/layout/images/women-emp-2.jpg' : '/assets/layout/images/men-emp.jpg'
+        }
     }
-}
-
 
     onFileSelect(event: any): void {
         const selectedFile = event.files[0];
@@ -178,29 +167,26 @@ export class BasicdetailsDialogComponent {
         employeePrsDtl.originalDob = new Date(employeePrsDtls.originalDOB);
         employeePrsDtl.certificateDob = new Date(employeePrsDtls.certificateDOB);
         employeePrsDtl.isActive = true;
-        if (/^female$/i.test(employeePrsDtls.gender)) {
-            this.fbEmpBasDtls.get('photo').setValue(this.defaultWomenPhoto);
-        } else {
-            this.fbEmpBasDtls.get('photo').setValue(this.defaultMenPhoto);
-        }
         this.fbEmpBasDtls.patchValue({
             employeeId: employeePrsDtls.employeeId,
-            firstName:employeePrsDtls.firstName,
+            firstName: employeePrsDtls.firstName,
             middleName: employeePrsDtls.middleName,
-            lastName:employeePrsDtls.lastName,
-            code:employeePrsDtl.code,
+            lastName: employeePrsDtls.lastName,
+            code: employeePrsDtl.code,
             gender: employeePrsDtls.gender,
             bloodGroupId: employeePrsDtls.bloodGroupId,
             maritalStatus: employeePrsDtls.maritalStatus,
             mobileNumber: employeePrsDtls.mobileNumber,
             alternateMobileNumber: employeePrsDtls.alternateMobileNumber,
-            originalDob:  FORMAT_DATE(new Date(employeePrsDtls.originalDOB)),
-            certificateDob:  FORMAT_DATE(new Date(employeePrsDtls.certificateDOB)),
-            emailId:employeePrsDtls.emailId,
+            originalDob: FORMAT_DATE(new Date(employeePrsDtls.originalDOB)),
+            certificateDob: FORMAT_DATE(new Date(employeePrsDtls.certificateDOB)),
+            emailId: employeePrsDtls.emailId,
             isActive: employeePrsDtls.isActive,
-            isAFresher:employeePrsDtl.isAFresher,
-            signDate:employeePrsDtls.signDate
+            isAFresher: employeePrsDtl.isAFresher,
+            signDate: employeePrsDtls.signDate
         });
+        this.defaultPhoto = /^female$/gi.test(employeePrsDtls.gender) ? '/assets/layout/images/women-emp-2.jpg' : '/assets/layout/images/men-emp.jpg'
+
     }
 
     saveEmpBscDtls() {
