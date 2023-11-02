@@ -136,6 +136,21 @@ export class BasicdetailsDialogComponent {
         }
     }
 
+    onGenderChange() {
+    const selectedGender = this.fbEmpBasDtls.get('gender').value;
+    if (selectedGender) {
+        const isFemale = /^female$/i.test(selectedGender);
+        const newPhotoSrc = isFemale
+            ? '/assets/layout/images/women-emp-2.jpg'
+            : '/assets/layout/images/men-emp.jpg';
+
+        // Update the image source
+        const photoElement = document.querySelector('.up_logo') as HTMLImageElement;
+        photoElement.src = newPhotoSrc;
+    }
+}
+
+
     onFileSelect(event: any): void {
         const selectedFile = event.files[0];
         this.imageSize = selectedFile.size;
