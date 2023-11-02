@@ -84,12 +84,9 @@ export class ViewemployeesComponent {
   empbasicDetails = new EmployeeBasicDetailDto();
   selectedOption: boolean;
   confirmationRequest: ConfirmationRequest = new ConfirmationRequest();
-<<<<<<< HEAD
 
-=======
-  document: any;
   
->>>>>>> 52acb8b351fbc256a6c181cec2a9e51cdb0a398d
+  
   constructor(
     private jwtService: JwtService,
     private alertMessage: AlertmessageService,
