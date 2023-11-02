@@ -414,4 +414,11 @@ p-calendar input {
 .layout-topbar .topbar-menu li.topbar-item img {
     width: 1.8rem !important;
     height: unset !important;
-}
+  }
+  .overflow-container {
+    max-width: 1650px;
+    overflow-x: auto;
+    max-height: 250px;
+    overflow-y: auto;
+  }
+
