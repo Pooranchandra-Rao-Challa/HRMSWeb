@@ -1,3 +1,14 @@
+export interface JobDesign{
+  id?:number;
+  jobDescription?: string;
+  projectName?:string;
+  position?:string;
+  technicalSkills?:string;
+  softSkills?:string;
+  description?:string;
+  natureOfJobs?:string;
+  compensationPackage?:string;
+}
 export interface Employee {
   id?: number;
   empname?: string;

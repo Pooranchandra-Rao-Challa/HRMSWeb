@@ -1,4 +1,49 @@
 {
+    "jobDesign":[
+        {
+            "id":1,
+            "jobDescription": "Backend Developer",
+            "projectName":"Jiva",
+            "position":"Team Member",
+            "technicalSkills":"SQL Server",
+            "softSkills":"Communication Skills",
+            "description":"This job is for Back Developer",
+            "natureOfJobs":"Full Time",
+            "compensationPackage":"10k per anum"
+        },
+        {
+            "id":2,
+            "jobDescription": "UI Developer",
+            "projectName":"3F",
+            "position":"Team Member",
+            "technicalSkills":"HTML,CSS,Angular",
+            "softSkills":"Communication Skills",
+            "description":"This job is for UI Developer",
+            "natureOfJobs":"Full Time",
+            "compensationPackage":"10k per anum"
+        },
+        {
+            "id":3,
+            "jobDescription": "Frontend Developer",
+            "projectName":"HRMS",
+            "position":"Team Member",
+            "technicalSkills":"C#, Angular",
+            "softSkills":"Communication Skills",
+            "description":"This job is for Frontend Developer",
+            "natureOfJobs":"Full Time",
+            "compensationPackage":"10k per anum"
+        },{
+            "id":4,
+            "jobDescription": "API Developer",
+            "projectName":"3F",
+            "position":"Team Member",
+            "technicalSkills":"C#",
+            "softSkills":"Communication Skills",
+            "description":"This job is for API Developer",
+            "natureOfJobs":"Full Time",
+            "compensationPackage":"10k per anum"
+        }
+    ] ,
     "leave":[
         {
             "id":1,
