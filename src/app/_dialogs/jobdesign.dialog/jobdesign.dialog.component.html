@@ -4,22 +4,10 @@
             <div class="col-12 roles-container">
                 <div class="p-fluid p-formgrid grid">
                     <div class="field col-12 md:col-4">
-                        <label>Job Description:</label>
-                        <input type="text" pInputText formControlName="jobDescription"
-                            placeholder="Enter Job Description" />
-                        <!-- <div class="flex">
-                            <div class="align-left w-60" style="width:70%">
-                                <span *ngIf="FormControls['employeeId'].touched && FormControls['employeeId'].invalid">
-                                    <div class="ng-invalid ng-touched p-error"
-                                        *ngIf="FormControls['employeeId'].errors?.['required']">
-                                        Please Select Employee Name.</div>
-                                </span>
-                            </div>
-                        </div> -->
-                    </div>
-                    <div class="field col-12 md:col-4">
                         <label>Project Name:</label>
-                        <input type="text" pInputText formControlName="projectName" placeholder="Enter Project Name" />
+                        <p-dropdown id="projectName" appendTo="body" [options]="projects" optionLabel="name"
+                            optionValue="name" placeholder="Select Project Name" formControlName="projectName">
+                        </p-dropdown>
                         <!-- <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                                 <span
@@ -32,14 +20,15 @@
                         </div> -->
                     </div>
                     <div class="field col-12 md:col-4">
-                        <label>Position:</label>
-                        <input type="text" pInputText formControlName="position" placeholder="Enter Position" />
+                        <label>Designation:</label>
+                        <input type="text" pInputText formControlName="designation"
+                            placeholder="Enter Job Designation" />
                         <!-- <div class="flex">
                             <div class="align-left w-60" style="width:70%">
-                                <span *ngIf="FormControls['fromDate'].touched && FormControls['fromDate'].invalid">
+                                <span *ngIf="FormControls['employeeId'].touched && FormControls['employeeId'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
-                                        *ngIf="FormControls['fromDate'].errors?.['required']">
-                                        Please Select From Date.</div>
+                                        *ngIf="FormControls['employeeId'].errors?.['required']">
+                                        Please Select Employee Name.</div>
                                 </span>
                             </div>
                         </div> -->
@@ -73,6 +62,13 @@
                         <!-- [ngClass]="{'is-invalid ng-dirty': FormControls['softSkills'].touched && FormControls['softSkills'].errors}" -->
                     </div>
                     <div class="field col-12 md:col-4">
+                        <label>Nature of Jobs:</label>
+                        <p-dropdown id="technicalSkills" appendTo="body" [options]="natureOfJobs" optionLabel="name"
+                            optionValue="name" placeholder="Select Nature of Jobs" formControlName="natureOfJobs">
+                        </p-dropdown>
+                        <!-- [ngClass]="{'is-invalid ng-dirty': FormControls['softSkills'].touched && FormControls['softSkills'].errors}" -->
+                    </div>
+                    <div class="field col-12 md:col-4">
                         <label>Description:</label>
                         <textarea class="form-control freeze_text-area" pInputTextarea formControlName="description"
                             placeholder="Enter Description" #description [maxlength]="256" id="Description"></textarea>
@@ -88,13 +84,6 @@
                                 <small>{{description.value.length}}/{{maxLength.description}}</small>
                             </div>
                         </div> -->
-                    </div>
-                    <div class="field col-12 md:col-4">
-                        <label>Nature of Jobs:</label>
-                        <p-dropdown id="technicalSkills" appendTo="body" [options]="natureOfJobs" optionLabel="name"
-                            optionValue="name" placeholder="Select Nature of Jobs" formControlName="natureOfJobs">
-                        </p-dropdown>
-                        <!-- [ngClass]="{'is-invalid ng-dirty': FormControls['softSkills'].touched && FormControls['softSkills'].errors}" -->
                     </div>
                     <div class="field col-12 md:col-4">
                         <label>Compensation Package:</label>
