@@ -72,7 +72,6 @@ export class LeavesComponent {
   getLeaves() {
     this.employeeService.getEmployeeLeaveDetails().subscribe((resp) => {
       this.leaves = resp as unknown as EmployeeLeaveDto[];
-      console.log(this.leaves);
     })
   }
 
