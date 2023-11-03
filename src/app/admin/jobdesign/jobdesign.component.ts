@@ -16,7 +16,7 @@ import { JobDesign } from 'src/app/demo/api/security';
   ]
 })
 export class JobdesignComponent {
-  globalFilterFields: string[] = ['jobDescription', 'projeectName', 'position', 'technicalSkills', 'softSkills', 'description', 'natureOfJobs','compensationPackage'];
+  globalFilterFields: string[] = ['designation', 'projeectName', 'technicalSkills', 'softSkills' , 'description', 'natureOfJobs','compensationPackage'];
   @ViewChild('filter') filter!: ElementRef;
   ActionTypes = Actions;
   dialogRequest: DialogRequest = new DialogRequest();
@@ -25,7 +25,6 @@ export class JobdesignComponent {
   mediumDate: string = MEDIUM_DATE
 
   headers: ITableHeader[] = [
-    { field: 'designation', header: 'designation', label: 'Job Designation' },
     { field: 'projectName', header: 'projectName', label: 'Project Name' },
     { field: 'designation', header: 'designation', label: 'Designation' },
     { field: 'technicalSkills', header: 'technicalSkills', label: 'Techincal Skills' },
