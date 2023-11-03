@@ -16,7 +16,7 @@ import { JobDesign } from 'src/app/demo/api/security';
   ]
 })
 export class JobdesignComponent {
-  globalFilterFields: string[] = ['designation', 'projeectName', 'technicalSkills', 'softSkills' , 'description', 'natureOfJobs','compensationPackage'];
+  globalFilterFields: string[] = ['designation', 'projeectName', 'technicalSkills', 'softSkills', 'description', 'natureOfJobs', 'compensationPackage'];
   @ViewChild('filter') filter!: ElementRef;
   ActionTypes = Actions;
   dialogRequest: DialogRequest = new DialogRequest();
@@ -42,14 +42,14 @@ export class JobdesignComponent {
     private globalFilterService: GlobalFilterService,
     private adminService: AdminService,
     public ref: DynamicDialogRef,
-    private dialogService:DialogService   ) { }
+    private dialogService: DialogService) { }
 
   ngOnInit() {
     this.getJobDetails();
   }
 
-   
-  getJobDetails(){
+
+  getJobDetails() {
     this.adminService.GetJobDetails().subscribe((resp) => {
       this.jobDesign = resp as unknown as JobDesignDto[];
     })
@@ -65,7 +65,7 @@ export class JobdesignComponent {
     this.globalFilterService.filterTableByDate(table, searchTerm);
   }
 
-  
+
   openComponentDialog(content: any,
     dialogData, action: Actions = this.ActionTypes.add) {
     if (action == Actions.save && content === this.jobDesignDialogComponent) {
