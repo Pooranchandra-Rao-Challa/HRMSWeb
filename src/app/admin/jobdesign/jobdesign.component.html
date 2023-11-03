@@ -30,27 +30,30 @@
                 </div>
             </ng-template>
             <ng-template pTemplate="header">
-                <tr>
+                <tr class="text-center">
                     <th *ngFor="let col of headers" [pSortableColumn]="col.header">
                         {{col?.label}}
-                        <p-columnFilter type="text" [field]="col.header" id="Leaves_ColumnFilter" display="menu">
+                        <p-columnFilter type="text" [field]="col.header" id="Job_ColumnFilter" display="menu">
                         </p-columnFilter>
                         <p-sortIcon [field]="col.header"></p-sortIcon>
                     </th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-job>
-                <tr>
+                <tr class="text-center">
                     <td *ngFor="let col of headers">
-                        <span>
+                        <span *ngIf="col?.field != 'createdAt' && col?.field != 'updatedAt'">
                             {{ job[col.field]}}
+                        </span>
+                        <span *ngIf="col?.field == 'createdAt' || col?.field == 'updatedAt'">
+                            {{ job[col.field] |date:mediumDate}}
                         </span>
                     </td>
                 </tr>
             </ng-template>
             <ng-template pTemplate="emptymessage">
                 <tr>
-                    <td class="md:text-center m-5" colspan="50%">No Leaves Found.</td>
+                    <td class="md:text-center m-5" colspan="50%">No Jobs Found.</td>
                 </tr>
             </ng-template>
         </p-table>

@@ -2,10 +2,12 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Table } from 'primeng/table';
 import { JobdesignDialogComponent } from 'src/app/_dialogs/jobdesign.dialog/jobdesign.dialog.component';
+import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
+import { JobDesignDto } from 'src/app/_models/admin';
 import { Actions, DialogRequest, ITableHeader } from 'src/app/_models/common';
+import { AdminService } from 'src/app/_services/admin.service';
 import { GlobalFilterService } from 'src/app/_services/global.filter.service';
 import { JobDesign } from 'src/app/demo/api/security';
-import { SecurityService } from 'src/app/demo/service/security.service';
 
 @Component({
   selector: 'app-jobdesign',
@@ -14,39 +16,45 @@ import { SecurityService } from 'src/app/demo/service/security.service';
   ]
 })
 export class JobdesignComponent {
-  globalFilterFields: string[] = ['jobDescription', 'projeectName', 'position', 'technicalSkills', 'softSkills', 'description', 'natureOfJobs','compensationPackage'];
+  globalFilterFields: string[] = ['designation', 'projeectName', 'technicalSkills', 'softSkills', 'description', 'natureOfJobs', 'compensationPackage'];
   @ViewChild('filter') filter!: ElementRef;
   ActionTypes = Actions;
   dialogRequest: DialogRequest = new DialogRequest();
   jobDesignDialogComponent = JobdesignDialogComponent;
+  jobDesign: JobDesignDto[] = [];
+  mediumDate: string = MEDIUM_DATE
 
   headers: ITableHeader[] = [
-    { field: 'jobDescription', header: 'jobDescription', label: 'Job Description' },
     { field: 'projectName', header: 'projectName', label: 'Project Name' },
-    { field: 'position', header: 'position', label: 'Position' },
+    { field: 'designation', header: 'designation', label: 'Designation' },
     { field: 'technicalSkills', header: 'technicalSkills', label: 'Techincal Skills' },
     { field: 'softSkills', header: 'softSkills', label: 'Soft Skills' },
     { field: 'description', header: 'description', label: 'Description' },
-    { field: 'natureOfJobs', header: 'natureOfJobs', label: 'Nature of Jobs' },
-    { field: 'compensationPackage', header: 'compensationPackage', label: 'Compensation Package' }
+    { field: 'natureOfJob', header: 'natureOfJob', label: 'Nature of Job' },
+    { field: 'compensationPackage', header: 'compensationPackage', label: 'Compensation Package' },
+    { field: 'createdAt', header: 'createdAt', label: 'Created Date' },
+    { field: 'createdBy', header: 'createdBy', label: 'Created By' },
+    { field: 'updatedAt', header: 'updatedAt', label: 'Updated Date' },
+    { field: 'updatedBy', header: 'updatedBy', label: 'Updated By' },
   ];
-  jobDesign: JobDesign[] = [];
+
   constructor(
     private globalFilterService: GlobalFilterService,
-    private securityService: SecurityService,
+    private adminService: AdminService,
     public ref: DynamicDialogRef,
-    private dialogService:DialogService   ) { }
+    private dialogService: DialogService) { }
+
   ngOnInit() {
-    this.getJobDesignDetails();
+    this.getJobDetails();
   }
 
-  getJobDesignDetails(){
-    this.securityService.getjobDesigns().then((resp) => {
-      this.jobDesign = resp as unknown as JobDesign[];
-      console.log(this.jobDesign);
 
+  getJobDetails() {
+    this.adminService.GetJobDetails().subscribe((resp) => {
+      this.jobDesign = resp as unknown as JobDesignDto[];
     })
   }
+
   clear(table: Table) {
     table.clear();
     this.filter.nativeElement.value = '';
@@ -57,7 +65,7 @@ export class JobdesignComponent {
     this.globalFilterService.filterTableByDate(table, searchTerm);
   }
 
-  
+
   openComponentDialog(content: any,
     dialogData, action: Actions = this.ActionTypes.add) {
     if (action == Actions.save && content === this.jobDesignDialogComponent) {
@@ -71,7 +79,7 @@ export class JobdesignComponent {
       width: this.dialogRequest.width
     });
     this.ref.onClose.subscribe((res: any) => {
-      if (res) this.getJobDesignDetails();
+      if (res) this.getJobDetails();
       event.preventDefault(); // Prevent the default form submission
     });
   }
