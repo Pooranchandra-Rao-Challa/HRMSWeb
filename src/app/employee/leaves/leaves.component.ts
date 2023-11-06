@@ -68,9 +68,7 @@ export class LeavesComponent {
   ngOnInit(): void {
     this.permissions = this.jwtService.Permissions;
     this.getLeaves();
-    this.getLeaveTypes();
     this.leaveForm();
-
   }
 
   getLeaves() {
@@ -78,16 +76,7 @@ export class LeavesComponent {
       this.leaves = resp as unknown as EmployeeLeaveDto[];
     })
   }
-
-  getLeaveTypes() {
-    this.lookupService.DayWorkStatus().subscribe((resp) => {
-      this.leaveTypes = resp as unknown as LookupViewDto[];
-      this.leaveTypes.forEach((type) => {
-        this.leaveTypeMap[type.name] = type.name;
-      });
-    });
-  }
-
+  
   onGlobalFilter(table: Table, event: Event) {
     const searchTerm = (event.target as HTMLInputElement).value;
     this.globalFilterService.filterTableByDate(table, searchTerm);
