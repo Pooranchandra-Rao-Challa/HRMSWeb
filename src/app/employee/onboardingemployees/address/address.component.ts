@@ -111,7 +111,6 @@ export class AddressComponent {
 
     if (propertyName !== undefined) {
       this[propertyName] = false;
-      console.log(this[propertyName])
     }
 
   }

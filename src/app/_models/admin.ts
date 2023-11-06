@@ -204,35 +204,9 @@ export class EmployeeHierarchyDto {
     photo?: string;
 }
 
-export class JobDesignDto {
-    jobDesignId?: number;
-    projectId?: number;
-    designationId?: number;
-    description?: string;
-    natureOfJobId?: number;
-    compensationPackage?: string;
-    toBeFilled?: Date;
-    isActive?: boolean;
-    JobDesignTechnicalSkillsXrefs: TechnicalSkills[];
-    JobDesignSoftSkillsXrefs: SoftSkills[];
-}
-
-export class TechnicalSkills {
-    JobDesignTechnicalSkillsXrefId?: number;
-    JobDesignId?: number;
-    TechnicalSkillId?: number;
-}
-
-export class SoftSkills {
-    JobDesignSoftSkillsXrefId?: number;
-    JobDesignId?: number;
-    SoftSkillId?: number;
-}
-
-
-
 export class JobDesignDetailsViewDto {
     id?: number;
+    jobDesignId?: number;
     projectId?: number;
     projectName?: string;
     designationId?: number;
@@ -247,8 +221,22 @@ export class JobDesignDetailsViewDto {
     technicalSkillIds?: string;
     technicalSkills?: string;
     isActive?: boolean;
+    JobDesignTechnicalSkillsXrefs: TechnicalSkills[];
+    JobDesignSoftSkillsXrefs: SoftSkills[];
     createdAt?: Date;
     createdBy?: string;
     updatedAt?: Date;
     updatedBy?: string;
+}
+
+export class TechnicalSkills {
+    JobDesignTechnicalSkillsXrefId?: number;
+    JobDesignId?: number;
+    TechnicalSkillId?: number;
+}
+
+export class SoftSkills {
+    JobDesignSoftSkillsXrefId?: number;
+    JobDesignId?: number;
+    SoftSkillId?: number;
 }

@@ -6,8 +6,9 @@
                 <h4>Job Design</h4>
             </ng-template>
             <ng-template pTemplate="right">
-                <button pButton pRipple label="Add Job Design" icon="pi pi-plus" class="p-button-primary p-mr-2" id="addJobDesign"
-                    (click)="openComponentDialog(jobDesignDialogComponent, null, ActionTypes.save)"></button>
+                <button pButton pRipple label="Add Job Design" icon="pi pi-plus" class="p-button-primary p-mr-2"
+                    id="addJobDesign" (click)="openComponentDialog(jobDesignDialogComponent, null, ActionTypes.save)"
+                    *ngIf="permissions?.CanManageJobDesign"></button>
             </ng-template>
         </p-toolbar>
         <!-- p-table -->
@@ -48,7 +49,7 @@
                             *ngIf="col?.field == 'createdAt' || col?.field == 'updatedAt' ||col?.field == 'toBeFilled' ">
                             {{ job[col.field] |date:mediumDate}}
                         </span>
-                        <span  *ngIf="col?.field == 'isActive'">
+                        <span *ngIf="col?.field == 'isActive'">
                             <p-checkbox name="isActive" value="isActive" [(ngModel)]="job['isActive']" [binary]="true"
                                 [disabled]="true"></p-checkbox>
                         </span>

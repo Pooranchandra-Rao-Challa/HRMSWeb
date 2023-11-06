@@ -67,7 +67,6 @@ export class FamilydetailsDialogComponent {
     initGetAddress(isbool: boolean) {
         this.employeeService.GetAddresses(this.employeeId, isbool).subscribe((resp) => {
             this.address = resp as unknown as EmployeAdressViewDto[];
-            console.log(this.address );
             
         });
     }

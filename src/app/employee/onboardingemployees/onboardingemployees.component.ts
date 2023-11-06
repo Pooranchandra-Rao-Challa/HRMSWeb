@@ -148,7 +148,6 @@ export class OnboardingemployeesComponent {
     const isEnrolled = false;
     this.employeeService.GetEmployees(isEnrolled).subscribe(resp => {
       this.employees = resp as unknown as EmployeesViewDto[];
-      console.log(this.employees);
 
     });
   }

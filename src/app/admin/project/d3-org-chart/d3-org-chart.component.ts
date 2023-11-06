@@ -28,70 +28,70 @@ import { ProjectNotification } from "src/app/_services/projectnotification.servi
 /**        "d3": "^5.15.1",
         "d3-org-chart": "^1.0.12",
  */
-export class nodeBorderColor {
-    red: number = 255;
-    green: number = 130;
-    blue: number = 14;
-    alpha: number = 1;
-};
-export class nodeBackgroundColor {
-    red: number = 51;
-    green: number = 182;
-    blue: number = 208;
-    alpha: number = 1;
-};
-export class nodeImageBorderColor {
-    red: number = 19;
-    green: number = 123;
-    blue: number = 128;
-    alpha: number = 1
-};
+// export class nodeBorderColor {
+//     red: number = 255;
+//     green: number = 130;
+//     blue: number = 14;
+//     alpha: number = 1;
+// };
+// export class nodeBackgroundColor {
+//     red: number = 51;
+//     green: number = 182;
+//     blue: number = 208;
+//     alpha: number = 1;
+// };
+// export class nodeImageBorderColor {
+//     red: number = 19;
+//     green: number = 123;
+//     blue: number = 128;
+//     alpha: number = 1
+// };
 
-export class nodeImage {
-    url: string = "https://raw.githubusercontent.com/bumbeishvili/Assets/master/Projects/D3/Organization%20Chart/female.jpg";
-    width: number = 100;
-    height: number = 100;
-    centerTopDistance: number = 0;
-    centerLeftDistance: number = 0;
-    cornerShape: string = "ROUNDED";
-    shadow: boolean = false;
-    borderWidth: number = 0;
-    borderColor: nodeImageBorderColor;
-}
+// export class nodeImage {
+//     url: string = "https://raw.githubusercontent.com/bumbeishvili/Assets/master/Projects/D3/Organization%20Chart/female.jpg";
+//     width: number = 100;
+//     height: number = 100;
+//     centerTopDistance: number = 0;
+//     centerLeftDistance: number = 0;
+//     cornerShape: string = "ROUNDED";
+//     shadow: boolean = false;
+//     borderWidth: number = 0;
+//     borderColor: nodeImageBorderColor;
+// }
 
-export class connectorLine {
-    red: number = 220;
-    green: number = 189;
-    blue: number = 207;
-    alpha: number = 1
-}
+// export class connectorLine {
+//     red: number = 220;
+//     green: number = 189;
+//     blue: number = 207;
+//     alpha: number = 1
+// }
 
-export class nodeIcon {
-    icon: string = null;
-    size: number = 20;
-}
-//"https://to.ly/1yZnX";
+// export class nodeIcon {
+//     icon: string = null;
+//     size: number = 20;
+// }
+// //"https://to.ly/1yZnX";
 //30
-export class NodeItem {
-    nodeId?: string;
-    parentNodeId?: string;
-    width: number = 511;
-    height: number = 284;
-    left: number = 300;
-    borderWidth: number = 1;
-    borderRadius: number = 5;
-    borderColor: nodeBorderColor = new nodeBorderColor();
-    backgroundColor: nodeBorderColor = new nodeBorderColor();
-    nodeImage: nodeImage = new nodeImage();
-    nodeIcon: nodeIcon = new nodeIcon();
-    template: string;
-    connectorLineColor: connectorLine = new connectorLine();
-    connectorLineWidth: number = 8;
-    dashArray: string = "";
-    expanded: boolean = true;
-    directSubordinates: number;
-    totalSubordinates: number;
-}
+// export class NodeItem {
+//     nodeId?: string;
+//     parentNodeId?: string;
+//     width: number = 511;
+//     height: number = 284;
+//     left: number = 300;
+//     borderWidth: number = 1;
+//     borderRadius: number = 5;
+//     // borderColor: nodeBorderColor = new nodeBorderColor();
+//     // backgroundColor: nodeBorderColor = new nodeBorderColor();
+//     // nodeImage: nodeImage = new nodeImage();
+//     // nodeIcon: nodeIcon = new nodeIcon();
+//     // template: string;
+//     // connectorLineColor: connectorLine = new connectorLine();
+//     connectorLineWidth: number = 8;
+//     dashArray: string = "";
+//     expanded: boolean = true;
+//     directSubordinates: number;
+//     totalSubordinates: number;
+// }
 
 export class NodeProps {
     name: string;
@@ -122,7 +122,7 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
     data: any[] = null;
 
     // @Input() events: Observable<void>;
-    chart: any;
+    chart: OrgChart;
     templateEmployee: string = '<div><div style="margin-left:70px; margin-top:10px; font-size:20pt; font-weight:bold;">NAME</div><div style="margin-left:70px; margin-top:3px;font-size:16pt;">DESIGNATION </div> <div style="margin-left:70px;margin-top:3px;font-size:14pt;">PROJECT</div></div>';
     templateOrg: string = '<div><div style="margin-left:70px; margin-top:10px; font-size:20pt; font-weight:bold;"> NAME </div> </div>';
     reName = /NAME/g;
@@ -145,7 +145,6 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
             }
         })
         this.projectNotifier.getSelectedProjectId().subscribe(value => {
-            console.log(value);
             if (value === -1) {
                 this.organizationData();
             }
@@ -256,20 +255,6 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
             return;
         }
 
-        // this.data = d3.json(this.data)
-        // this.chart
-        //     .container(this.chartContainer.nativeElement)
-        //     .data(this.data)
-        // //     .rootMargin(100)
-        // //   .nodeWidth((d) => 210)
-        // //   .nodeHeight((d) => 140)
-        // //   .childrenMargin((d) => 130)
-        // //   .compactMarginBetween((d) => 75)
-        // //   .compactMarginPair((d) => 80)
-        //     .svgWidth(500)
-        //     .initialZoom(0.6)
-        //     .onNodeClick(d => console.log(d + ' node clicked'))
-        //     .render();
         const url: string = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAB4CAYAAAA5ZDbSAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4QMaAyMA1SdmlAAAAVRJREFUeNrt26FOw2AUhuFTElzrETNLMNPtJVRVVFbtlnYXKGQFqldANo3EoLDUITazzCxBTNBk53lv4M+XJ/ndKZ52L9uft9eP+Oeqbtgs8O7+cbWO36/PiIgmwd4ojsdIU9n2l7XzNBYZNj9Eos6oTRbcdMAZAwxYgAVYgAVYgAUYsAALsAALsAALMGABFmABFmABFmABBizAAqwFgZ/fv+slHl7q3aobNpn2proujIgo276ep/HgixZgARZgARZgAQYswAIswAIswAIswIAFWIAFWIAFWIABC7AAC7AAC7D+AHZdeN97XRf6ogVYgAVYgAVYgAELsAALsAALsAADFmABFmABFmABFmDAAizAAizAAqxrYNeF973XdaEvWoAFWIAFWIAFGLAAC7AAC7AACzBgARZgARZgARZgAQYswAIswAKsW0p1m1S2/WXtPI1Fhs0nxU1Jj2yxm2sAAAAASUVORK5CYII=`;
         const replaced =  url.replace(/(\r\n|\n|\r)/gm, '');
         this.chart.container(this.chartContainer.nativeElement)
