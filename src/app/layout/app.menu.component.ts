@@ -126,7 +126,7 @@ export class AppMenuComponent implements OnInit {
                         label: 'Job Design',
                         icon: 'pi pi-fw pi-calendar-plus',
                         routerLink: ['admin/jobdesign'],
-                        permission: this.jwtService.Permissions.CanViewAssetsAllotments
+                        permission: this.jwtService.Permissions.CanViewJobDesigns
                      
                     },
                 ]

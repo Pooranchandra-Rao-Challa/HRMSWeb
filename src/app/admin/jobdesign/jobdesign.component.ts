@@ -7,6 +7,7 @@ import { JobDesignDto } from 'src/app/_models/admin';
 import { Actions, DialogRequest, ITableHeader } from 'src/app/_models/common';
 import { AdminService } from 'src/app/_services/admin.service';
 import { GlobalFilterService } from 'src/app/_services/global.filter.service';
+import { JwtService } from 'src/app/_services/jwt.service';
 
 @Component({
   selector: 'app-jobdesign',
@@ -21,7 +22,8 @@ export class JobdesignComponent {
   dialogRequest: DialogRequest = new DialogRequest();
   jobDesignDialogComponent = JobdesignDialogComponent;
   jobDesign: JobDesignDto[] = [];
-  mediumDate: string = MEDIUM_DATE
+  mediumDate: string = MEDIUM_DATE;
+  permissions: any;
 
   headers: ITableHeader[] = [
     { field: 'projectName', header: 'projectName', label: 'Project Name' },
@@ -43,9 +45,12 @@ export class JobdesignComponent {
     private globalFilterService: GlobalFilterService,
     private adminService: AdminService,
     public ref: DynamicDialogRef,
-    private dialogService: DialogService) { }
+    private dialogService: DialogService,
+    private jwtService: JwtService,
+    ) { }
 
   ngOnInit() {
+    this.permissions = this.jwtService.Permissions;
     this.getJobDetails();
   }
 
