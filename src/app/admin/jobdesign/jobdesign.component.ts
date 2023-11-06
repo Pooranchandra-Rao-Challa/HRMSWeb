@@ -16,7 +16,7 @@ import { JobDesign } from 'src/app/demo/api/security';
   ]
 })
 export class JobdesignComponent {
-  globalFilterFields: string[] = ['designation', 'projeectName', 'technicalSkills', 'softSkills', 'description', 'natureOfJobs', 'compensationPackage'];
+  globalFilterFields: string[] = ['designation', 'projectName', 'technicalSkills', 'softSkills', 'description', 'natureOfJobs', 'compensationPackage','toBeFilled','isActive'];
   @ViewChild('filter') filter!: ElementRef;
   ActionTypes = Actions;
   dialogRequest: DialogRequest = new DialogRequest();
