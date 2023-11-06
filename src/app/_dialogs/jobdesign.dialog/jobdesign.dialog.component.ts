@@ -25,6 +25,7 @@ export class JobdesignDialogComponent {
   jobDesignId: number;
   viewSelectedSkills = [];
   designation:LookupViewDto[]=[];
+  minDate: Date = new Date(new Date());
 
   constructor(private formbuilder: FormBuilder, 
               private lookupService: LookupService,
@@ -76,7 +77,7 @@ export class JobdesignDialogComponent {
     this.fbJobDesign = this.formbuilder.group({
       jobDesignId: [null],
       projectId:  new FormControl('', [Validators.required]),
-      designationId:  new FormControl(''),
+      designationId:  new FormControl('',[Validators.required]),
       description:  new FormControl('', [Validators.required]),
       natureOfJobId:  new FormControl('', [Validators.required]),
       compensationPackage:  new FormControl('', [Validators.required]),

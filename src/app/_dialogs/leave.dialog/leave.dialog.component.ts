@@ -40,13 +40,13 @@ export class LeaveDialogComponent {
     public ref: DynamicDialogRef,
     public alertMessage: AlertmessageService,
     private platformaLocation: PlatformLocation) {
-    this.emailURL =`${platformaLocation.protocol}//${platformaLocation.hostname}:${platformaLocation.port}/`
-    }
+    this.emailURL = `${platformaLocation.protocol}//${platformaLocation.hostname}:${platformaLocation.port}/`
+  }
 
   ngOnInit(): void {
+    this.leaveForm();
     this.getEmployees();
     this.getLeaveTypes();
-    this.leaveForm();
     this.setMinMaxDates();
 
     const today = new Date();
@@ -193,7 +193,6 @@ export class LeaveDialogComponent {
     if (this.fbLeave.valid) {
       this.save().subscribe(resp => {
         if (resp) {
-          console.log(this.fbLeave.value);
           this.ref.close(true);
           this.alertMessage.displayAlertMessage(ALERT_CODES["ELD001"]);
         }
