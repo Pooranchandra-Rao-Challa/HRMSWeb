@@ -93,7 +93,7 @@ export class FinalSubmitComponent {
       this.dialog = false;
     }
     else {
-      if (this.employeeObj.pendingDetails == "BankDetails, FamilyInformation" || this.employeeObj.pendingDetails == "BankDetails" || this.employeeObj.pendingDetails == "FamilyInformation") {
+      if (this.employeeObj?.pendingDetails=="No Pending Changes"||this.employeeObj.pendingDetails == "BankDetails, FamilyInformation" || this.employeeObj.pendingDetails == "BankDetails" || this.employeeObj.pendingDetails == "FamilyInformation") {
         if (this.message !== null) {
           this.router.navigate(['employee/all-employees']);
           this.alertMessage.displayAlertMessage(ALERT_CODES["SEE001"]);
