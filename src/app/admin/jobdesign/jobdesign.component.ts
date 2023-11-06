@@ -7,7 +7,6 @@ import { JobDesignDto } from 'src/app/_models/admin';
 import { Actions, DialogRequest, ITableHeader } from 'src/app/_models/common';
 import { AdminService } from 'src/app/_services/admin.service';
 import { GlobalFilterService } from 'src/app/_services/global.filter.service';
-import { JobDesign } from 'src/app/demo/api/security';
 
 @Component({
   selector: 'app-jobdesign',
