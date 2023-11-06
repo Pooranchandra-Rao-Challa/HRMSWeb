@@ -158,8 +158,8 @@
                     </tr>
                   </table>
                 <div class="flex flex-wrap gap-2 justify-content-between">
-                    <button pButton pRipple label="Accept" class="flex-auto p-button-outlined" ></button>
-                    <button pButton pRipple label="Reject" class="flex-auto"></button>
+                    <button pButton pRipple label="Accept"  (click)="openSweetAlert('Reason For Accept')" class="flex-auto p-button-outlined" ></button>
+                    <button pButton pRipple label="Reject"  (click)="openSweetAlert('Reason For Rejection')" class="flex-auto"></button>
                 </div>
             </div>
         </div>
