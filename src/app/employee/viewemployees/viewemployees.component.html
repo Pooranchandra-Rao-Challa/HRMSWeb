@@ -181,7 +181,7 @@
           <div class="card text-right m-0 p-3">
             <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-outline p-button p-component"
               *ngIf="permissions?.CanManageEmployee"
-              (click)="openComponentDialog(uploadDocumentsDialogComponent, null, ActionTypes.add)">&nbsp; Upload
+              (click)="openComponentDialog(uploadDocumentsDialogComponent, UploadedDocuments ,ActionTypes.add)">&nbsp; Upload
               Document
             </button>
           </div>

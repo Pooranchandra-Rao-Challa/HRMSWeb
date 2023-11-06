@@ -10,7 +10,8 @@ import { SettingsComponent } from './settings/settings.component';
 import { ToastModule } from 'primeng/toast';
 import { AlertmessageService } from '../_alerts/alertmessage.service';;
 import { ConfirmationDialogService } from '../_alerts/confirmationdialog.service';
-import { EmailconfirmationComponent } from './emailconfirmation/emailconfirmation.component';
+import { LeaveconfirmationComponent } from './leaveconfirmation/leaveconfirmation.component';
+
 
 
 @NgModule({
@@ -21,7 +22,7 @@ import { EmailconfirmationComponent } from './emailconfirmation/emailconfirmatio
         AccessdeniedComponent,
         SecurityquestionsComponent,
         SettingsComponent,
-        EmailconfirmationComponent,],
+        LeaveconfirmationComponent,],
     imports: [
         AuthRoutingModule,
         SharedModule,

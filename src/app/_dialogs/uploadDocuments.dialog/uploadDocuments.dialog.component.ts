@@ -25,13 +25,14 @@ export class UploadDocumentsDialogComponent {
     @ViewChild("fileUpload", { static: true }) fileUpload: ElementRef;
     files: { fileBlob: Blob, title: string, fileName: string }[] = [];
     fbUpload!: FormGroup;
-    employeeId: string;
+    employeeId: any;
     empUploadDetails: any = [];
     title: string;
     fileTypes: string = ".pdf, .jpg, .jpeg, .png, .gif"
     @Output() ImageValidator = new EventEmitter<PhotoFileProperties>();
     currentModule: DocumentModule = DocumentModule.None;
-
+    messageDisplayed :boolean = false;
+    UploadedDocuments: any[] = [];
 
     constructor(
         private formbuilder: FormBuilder,
@@ -39,24 +40,26 @@ export class UploadDocumentsDialogComponent {
         private employeeService: EmployeeService,
         private activatedRoute: ActivatedRoute,
         private alertMessage: AlertmessageService,
-        private config: DynamicDialogConfig,
-    ) {
+        private config: DynamicDialogConfig,) {
     }
 
     ngOnInit() {
         this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
         this.ImageValidator.subscribe((p: PhotoFileProperties) => {
-            if (this.files.length < 5) {
+            const filelength =   this.config.data.length + this.files.length;  
+            if ( filelength < 5) {
+                console.log(this.files.length);
                 if (this.fileTypes.indexOf(p.FileExtension) > 0 && p.Size/1024/1024 < 10
                     && (p.isPdf || (!p.isPdf && p.Width <= 595 && p.Height <= 842))) {
                     this.files.push({ fileBlob: p.File, title: this.fbUpload.get('title').value, fileName: p.FileName });
                 } else {
                     this.alertMessage.displayErrorMessage(p.Message);
                 }
-            }
+          }  
             else {
                 this.alertMessage.displayErrorMessage(ALERT_CODES["EAD001"]);
             }
+            this.clearForm()
         })
         this.initUpload();
         this.fileUpload.nativeElement.onchange = (source) => {
@@ -71,6 +74,7 @@ export class UploadDocumentsDialogComponent {
             }
 
         }
+       
     }
 
     initUpload() {
@@ -104,7 +108,8 @@ export class UploadDocumentsDialogComponent {
 
     checkTitle() {
         if (!this.fbUpload.valid)
-            this.alertMessage.displayErrorMessage(ALERT_CODES["EAD004"]);
+            // this.alertMessage.displayErrorMessage(ALERT_CODES["EAD004"]);
+            this.fbUpload.markAllAsTouched();
     }
 
     uploadFile(file) {
@@ -112,21 +117,17 @@ export class UploadDocumentsDialogComponent {
         let Params = new HttpParams();
         Params = Params.set("employeeId", this.employeeId).set('title', file.title).set('module', this.currentModule).set('fileName', file.fileName);
         let formData = new FormData();
-        formData.set('uploadedFiles', file.fileBlob, file.fileName);
-        let messageDisplayed = false;
+        formData.set('uploadedFiles', file.fileBlob, file.fileName);     
         this.employeeService.UploadDocuments(formData, Params).subscribe(resp => {
-            if (resp) {
-                if (!messageDisplayed) {
-                    this.alertMessage.displayAlertMessage(ALERT_CODES["EAD002"]);
-                    messageDisplayed = true;
-                }
+            if (resp && !this.messageDisplayed) {
+                this.alertMessage.displayAlertMessage(ALERT_CODES["EAD002"]);
+                this.messageDisplayed = true;
             }
-            else {
-                if (!messageDisplayed) {
-                    this.alertMessage.displayErrorMessage(ALERT_CODES["EAD003"]);
-                    messageDisplayed = true;
-                }
+            else if (!resp && !this.messageDisplayed) {
+                this.alertMessage.displayErrorMessage(ALERT_CODES["EAD003"]);
+                this.messageDisplayed = true;
             }
+            this.clearForm();
             this.ref.close({
                 "UpdatedModal": ViewEmployeeScreen.UploadDocuments
             });

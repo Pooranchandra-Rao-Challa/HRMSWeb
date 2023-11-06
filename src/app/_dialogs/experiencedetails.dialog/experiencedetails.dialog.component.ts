@@ -47,14 +47,8 @@ export class ExperiencedetailsDialogComponent {
     this.initExperience();
     this.initCountries();
     this.initskillArea();
-    this.initGetWorkExperience();
     if (this.config.data) this.showExperienceDetails(this.config.data);
-  }
-
-  initGetWorkExperience() {
-    this.employeeService.GetWorkExperience(this.employeeId).subscribe((resp) => {
-      this.workExperience = resp as unknown as employeeExperienceDtlsViewDto[];
-    });
+    this.workExperience =this.config.data;
   }
 
   initExperience() {

@@ -3,7 +3,7 @@ export class LookupViewDto {
     code?: string;
     name?: string;
     isActive?: boolean;
-    fKeySelfId?:number;
+    fKeySelfId?: number;
     lookupDetails?: string;
     expandLookupDetails?: LookupDetailsDto[];
     updatedAt?: Date;
@@ -19,7 +19,7 @@ export class LookupDetailsDto {
     name?: string;
     description?: string;
     isActive?: boolean;
-    fkeySelfId?:number;
+    fkeySelfId?: number;
     updatedAt?: Date;
     createdAt?: Date;
     updatedBy?: string;
@@ -98,41 +98,40 @@ export class HolidayDto {
     isActive?: boolean
 }
 export class ProjectViewDto {
-  projectId: number;
-  code: string;
-  name: string;
-  startDate: string;
-  description: string;
-  clientId: number;
-  clientName: string;
-  companyName: string;
-  email: string;
-  mobileNumber: string;
-  cinno: string;
-  pocName: string;
-  pocMobileNumber: string;
-  address: string;
-  logo:string;
-  teamMembers:string
-  expandEmployees:EmployeesList[];
-  isActive: boolean
-  createdBy?: string
-  createdAt?: string
-  updatedBy?: string
-  updatedAt?: string
+    projectId: number;
+    code: string;
+    name: string;
+    startDate: string;
+    description: string;
+    clientId: number;
+    clientName: string;
+    companyName: string;
+    email: string;
+    mobileNumber: string;
+    cinno: string;
+    pocName: string;
+    pocMobileNumber: string;
+    address: string;
+    logo: string;
+    teamMembers: string
+    expandEmployees: EmployeesList[];
+    isActive: boolean
+    createdBy?: string
+    createdAt?: string
+    updatedBy?: string
+    updatedAt?: string
 }
-export class EmployeesList{
-  employeeId: number
-  employeeName: string
-  employeeCode: string;
-  date: string;
+export class EmployeesList {
+    employeeId: number
+    employeeName: string
+    employeeCode: string;
+    date: string;
 }
-export class ProjectAllotments
-{
-  employeeId: number
-  projectAllotmentId:number
-  projectId:number
-  isActive:boolean
+export class ProjectAllotments {
+    employeeId: number
+    projectAllotmentId: number
+    projectId: number
+    isActive: boolean
 }
 export class ProjectDetailsDto {
     clientId: number
@@ -143,7 +142,7 @@ export class ProjectDetailsDto {
     logo: string;
     description: string;
     isActive?: boolean;
-    projectAllotments?:[]
+    projectAllotments?: []
     clients?: ClientDetailsDto[];
     createdBy?: string
     createdAt?: string
@@ -182,25 +181,74 @@ export interface EmployeesForAllottedAssetsViewDto {
     dateofJoin?: Date;
 }
 
-export class EmployeeRolesDto{
-    eroleId?:number;
-    name?:string;
+export class EmployeeRolesDto {
+    eroleId?: number;
+    name?: string;
 }
 
-export class EmployeeHierarchyDto{
-    employeeId?:number;
-    employeeName?:string;
-    designationId?:number;
-    designation?:string;
-    roleId?:number;
-    roleName?:string;
-    eRoleId?:number;
-    eRoleName?:string;
-    projectId?:number;
-    projectName?:string;
-    chartId?:number;
-    hierarchyLevel?:string;
-    selfId?:number;
-    reportingToId?:number;
-    photo?:string;
+export class EmployeeHierarchyDto {
+    employeeId?: number;
+    employeeName?: string;
+    designationId?: number;
+    designation?: string;
+    roleId?: number;
+    roleName?: string;
+    eRoleId?: number;
+    eRoleName?: string;
+    projectId?: number;
+    projectName?: string;
+    chartId?: number;
+    hierarchyLevel?: string;
+    selfId?: number;
+    reportingToId?: number;
+    photo?: string;
+}
+
+export class JobDesignDto {
+    jobDesignId?: number;
+    projectId?: number;
+    designationId?: number;
+    description?: string;
+    natureOfJobId?: number;
+    compensationPackage?: string;
+    toBeFilled?: Date;
+    isActive?: boolean;
+    JobDesignTechnicalSkillsXrefs: TechnicalSkills[];
+    JobDesignSoftSkillsXrefs: SoftSkills[];
+}
+
+export class TechnicalSkills {
+    JobDesignTechnicalSkillsXrefId?: number;
+    JobDesignId?: number;
+    TechnicalSkillId?: number;
+}
+
+export class SoftSkills {
+    JobDesignSoftSkillsXrefId?: number;
+    JobDesignId?: number;
+    SoftSkillId?: number;
+}
+
+
+
+export class JobDesignDetailsViewDto {
+    id?: number;
+    projectId?: number;
+    projectName?: string;
+    designationId?: number;
+    designation?: number;
+    natureOfJobId?: number;
+    natureOfJob?: number;
+    description?: string;
+    toBeFilled?: Date;
+    compensationPackage?: string;
+    softSkillIds?: string;
+    softSkills?: string;
+    technicalSkillIds?: string;
+    technicalSkills?: string;
+    isActive?: boolean;
+    createdAt?: Date;
+    createdBy?: string;
+    updatedAt?: Date;
+    updatedBy?: string;
 }

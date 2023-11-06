@@ -75,6 +75,14 @@ export class LookupService extends ApiHttpService {
         console.log('SkillAreas');
         return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.SkillAreas]);
     }
+    public SoftSkills(){
+        console.log('SoftSkills');
+        return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI,[this.LookupKeys.SoftSkills]);
+    }
+    public NatureOfJobs(){
+        console.log('NatureOfJobs');
+        return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI,[this.LookupKeys.NatureOfJob])
+    }
     public isCountries(lookupId: number): boolean{
         return this.LookupKeys.Countries == lookupId;
     }
