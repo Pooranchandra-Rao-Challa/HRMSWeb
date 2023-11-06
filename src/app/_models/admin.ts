@@ -213,26 +213,42 @@ export class JobDesignDto {
     compensationPackage?: string;
     toBeFilled?: Date;
     isActive?: boolean;
+    JobDesignTechnicalSkillsXrefs: TechnicalSkills[];
+    JobDesignSoftSkillsXrefs: SoftSkills[];
 }
 
-export class JobDesignDetailsViewDto{
-    id?:number;
-    projectId?:number;
-    projectName?:string;
-    designationId?:number;
-    designation ?:number;
-    natureOfJobId?:number;
-    natureOfJob?:number;
-    description?:string;
-    toBeFilled?:Date;
-    compensationPackage?:string;
-    softSkillIds?:string;
-    softSkills?:string;
-    technicalSkillIds?:string;
-    technicalSkills?:string;
-    isActive?:boolean;
-    createdAt?:Date;
-    createdBy ?:string;
-    updatedAt ?:Date;
-    updatedBy?:string;
+export class TechnicalSkills {
+    JobDesignTechnicalSkillsXrefId?: number;
+    JobDesignId?: number;
+    TechnicalSkillId?: number;
+}
+
+export class SoftSkills {
+    JobDesignSoftSkillsXrefId?: number;
+    JobDesignId?: number;
+    SoftSkillId?: number;
+}
+
+
+
+export class JobDesignDetailsViewDto {
+    id?: number;
+    projectId?: number;
+    projectName?: string;
+    designationId?: number;
+    designation?: number;
+    natureOfJobId?: number;
+    natureOfJob?: number;
+    description?: string;
+    toBeFilled?: Date;
+    compensationPackage?: string;
+    softSkillIds?: string;
+    softSkills?: string;
+    technicalSkillIds?: string;
+    technicalSkills?: string;
+    isActive?: boolean;
+    createdAt?: Date;
+    createdBy?: string;
+    updatedAt?: Date;
+    updatedBy?: string;
 }
