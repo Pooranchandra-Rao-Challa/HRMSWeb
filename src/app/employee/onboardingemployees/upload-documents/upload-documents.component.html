@@ -43,7 +43,7 @@
                     class="p-element p-ripple p-button-raised p-button-primary p-button p-component">
                     <i class="pi pi-paperclip"></i> Attach File
                 </label>
-                <input id="singleFile" #fileUpload name="myFile" accept=".pdf, .jpg, .jpeg, .png, .gif" type="file"
+                <input id="singleFile" #fileUpload name="myFile" [accept]="fileTypes" type="file"
                     [disabled]="!this.fbUpload.valid" hidden="true" (click)="onClick()" />
             </div>
         </div>
