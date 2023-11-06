@@ -16,7 +16,7 @@ import { JobDesign } from 'src/app/demo/api/security';
   ]
 })
 export class JobdesignComponent {
-  globalFilterFields: string[] = ['designation', 'projectName', 'technicalSkills', 'softSkills', 'description', 'natureOfJobs', 'compensationPackage','toBeFilled','isActive'];
+  globalFilterFields: string[] = ['designation', 'projectName', 'technicalSkills', 'softSkills', 'description', 'natureOfJobs', 'compensationPackage', 'toBeFilled', 'isActive'];
   @ViewChild('filter') filter!: ElementRef;
   ActionTypes = Actions;
   dialogRequest: DialogRequest = new DialogRequest();
@@ -32,8 +32,8 @@ export class JobdesignComponent {
     { field: 'description', header: 'description', label: 'Description' },
     { field: 'natureOfJob', header: 'natureOfJob', label: 'Nature of Job' },
     { field: 'compensationPackage', header: 'compensationPackage', label: 'Compensation Package' },
-    {field:'toBeFilled',header:'toBeFilled',label:'To Be Filled'},
-    {field:'isActive',header:'isActive',label:'Is Active'},
+    { field: 'toBeFilled', header: 'toBeFilled', label: 'To Be Filled' },
+    { field: 'isActive', header: 'isActive', label: 'Is Active' },
     { field: 'createdAt', header: 'createdAt', label: 'Created Date' },
     { field: 'createdBy', header: 'createdBy', label: 'Created By' },
     { field: 'updatedAt', header: 'updatedAt', label: 'Updated Date' },
@@ -53,8 +53,6 @@ export class JobdesignComponent {
 
   getJobDetails() {
     this.adminService.GetJobDetails().subscribe((resp) => {
-      console.log(resp);
-      
       this.jobDesign = resp as unknown as JobDesignDto[];
     })
   }

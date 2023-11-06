@@ -153,19 +153,13 @@ export class JobdesignDialogComponent {
 
 
   save(): Observable<HttpEvent<JobDesignDto[]>> {
-    console.log(this.fbJobDesign.value);
     return this.adminService.CreateJobDesignDetails([this.fbJobDesign.value])
   }
   
   onSubmit() {
     if (this.fbJobDesign.valid) {
-      console.log(this.fbJobDesign.value);
-
-      this.save().subscribe(resp => {
-        console.log(resp);
-        
+      this.save().subscribe(resp => {        
         if (resp) {
-          console.log(this.fbJobDesign.value);
           this.ref.close(true);
           this.alertMessage.displayAlertMessage(ALERT_CODES["JDD001"]);
         }

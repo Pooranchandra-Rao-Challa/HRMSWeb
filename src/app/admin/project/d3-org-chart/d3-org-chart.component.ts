@@ -145,7 +145,6 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
             }
         })
         this.projectNotifier.getSelectedProjectId().subscribe(value => {
-            console.log(value);
             if (value === -1) {
                 this.organizationData();
             }
