@@ -107,3 +107,8 @@ export const CREATE_EMPLOYEE_LEAVE_DETAILS ="Attendance/CreateEmployeeLeave";
 export const POST_ATTENDANCE="Attendance/CreateEmployeeLeave";
 export const GET_NOTUPDATED_EMPLOYEES="Attendance/GetNotUpdatedEmployeesInAttendance";
 export const GET_COMPANY_HIERARCHY="Employee/GetCompanyHierarchy";
+
+//Job Details
+
+export const GET_JOB_DETAILS="JobDesign/GetJobDesign";
+export const CREATE_JOB_DESIGN_DETAILS="JobDesign/CreateJobDesign";

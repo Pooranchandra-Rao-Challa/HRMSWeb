@@ -28,7 +28,7 @@ export class LeavesComponent {
   ActionTypes = Actions;
   leaveDialogComponent = LeaveDialogComponent;
   dialogRequest: DialogRequest = new DialogRequest();
-  fbLeave!: FormGroup;
+  fbLeave: FormGroup;
   leaves: EmployeeLeaveDto[] = [];
   leaveTypes: LookupDetailsDto[] = [];
   filteredLeaveTypes: LookupViewDto[] = [];
@@ -37,7 +37,7 @@ export class LeavesComponent {
   dialog: boolean = false;
   selectedAction: string | null = null;
   leaveData: EmployeeLeaveDto;
-  permissions :any;
+  permissions: any;
 
   headers: ITableHeader[] = [
     { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
@@ -61,30 +61,22 @@ export class LeavesComponent {
     public ref: DynamicDialogRef,
     private formbuilder: FormBuilder,
     private jwtService: JwtService,
-    public alertMessage: AlertmessageService) { }
+    public alertMessage: AlertmessageService) { 
+
+    }
 
   ngOnInit(): void {
     this.permissions = this.jwtService.Permissions;
     this.getLeaves();
-    this.getLeaveTypes();
+    this.leaveForm();
   }
 
   getLeaves() {
     this.employeeService.getEmployeeLeaveDetails().subscribe((resp) => {
       this.leaves = resp as unknown as EmployeeLeaveDto[];
-      console.log(this.leaves);
     })
   }
-
-  getLeaveTypes() {
-    this.lookupService.DayWorkStatus().subscribe((resp) => {
-      this.leaveTypes = resp as unknown as LookupViewDto[];
-      this.leaveTypes.forEach((type) => {
-        this.leaveTypeMap[type.name] = type.name;
-      });
-    });
-  }
-
+  
   onGlobalFilter(table: Table, event: Event) {
     const searchTerm = (event.target as HTMLInputElement).value;
     this.globalFilterService.filterTableByDate(table, searchTerm);
@@ -122,8 +114,8 @@ export class LeavesComponent {
   }
 
   processLeave() {
-      const acceptedBy = this.selectedAction === 'approve' ? this.jwtService.UserId : null;
-      const approvedBy = this.selectedAction === 'approve' ? this.jwtService.UserId : null;
+    const acceptedBy = this.selectedAction === 'approve' ? this.jwtService.UserId : null;
+    const approvedBy = this.selectedAction === 'approve' ? this.jwtService.UserId : null;
       this.fbLeave.patchValue({
         employeeLeaveId: this.leaveData.employeeLeaveId,
         employeeId: this.leaveData.employeeId,
@@ -139,22 +131,22 @@ export class LeavesComponent {
         approvedAt: this.leaveData.approvedAt ? FORMAT_DATE(new Date(this.leaveData.approvedAt)) : null,
         rejected: this.selectedAction === 'approve' ? false : true,
         status: this.leaveData.status,
-        isapprovalEscalated:true,
+        isapprovalEscalated: true,
         createdBy: this.leaveData.createdBy
       });
-      this.save().subscribe(resp => {
-        if (resp) {
-          this.dialog = false;
-          this.getLeaves();
-          if (this.selectedAction === 'approve') {
-            this.alertMessage.displayAlertMessage(ALERT_CODES["ELA001"]);
-          }
-          else {
-            this.alertMessage.displayErrorMessage(ALERT_CODES["ELR002"]);
-          }
+    this.save().subscribe(resp => {
+      if (resp) {
+        this.dialog = false;
+        this.getLeaves();
+        if (this.selectedAction === 'approve') {
+          this.alertMessage.displayAlertMessage(ALERT_CODES["ELA001"]);
         }
-      })
-    
+        else {
+          this.alertMessage.displayErrorMessage(ALERT_CODES["ELR002"]);
+        }
+      }
+    })
+
   }
 
   onClose() {

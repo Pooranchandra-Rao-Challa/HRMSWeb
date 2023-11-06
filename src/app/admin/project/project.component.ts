@@ -57,10 +57,10 @@ export class ProjectComponent implements OnInit {
     first: number = 0;
     rows: number = 10;
 
-    fileTypes: string = ".jpg, .jpeg, .gif"
+    fileTypes: string = ".jpg, .jpeg, .gif,.png"
     @Output() ImageValidator = new EventEmitter<PhotoFileProperties>();
     defaultPhoto: string;
-    
+
     //For paginator 
     onPageChange(event) {
         this.first = event.first;
@@ -107,7 +107,7 @@ export class ProjectComponent implements OnInit {
         this.ImageValidator.subscribe((p: PhotoFileProperties) => {
             if (this.fileTypes.indexOf(p.FileExtension) > 0 && p.Resize || (p.Size / 1024 / 1024 < 1
                 && (p.isPdf || (!p.isPdf && p.Width <= 400 && p.Height <= 500)))) {
-                    this.fbproject.get('logo').setValue(p.File);
+                this.fbproject.get('logo').setValue(p.File);
             } else {
                 this.alertMessage.displayErrorMessage(p.Message);
             }
@@ -398,7 +398,7 @@ export class ProjectComponent implements OnInit {
             this.clientsNames = resp as unknown as ClientNamesDto[];
         });
     }
-   
+
     getEmployeesListBasedOnProject(projectId: number) {
         this.adminService.getEmployees(projectId).subscribe(resp => {
             this.Employees = resp as unknown as EmployeesList[];

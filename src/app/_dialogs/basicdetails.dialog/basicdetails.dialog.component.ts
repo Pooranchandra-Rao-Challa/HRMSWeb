@@ -39,7 +39,6 @@ export class BasicdetailsDialogComponent {
     bloodgroups: LookupViewDto[] = [];
     employeeId: string;
     maxDate: Date = new Date();
-
     fileTypes: string = ".jpg, .jpeg, .gif"
     @Output() ImageValidator = new EventEmitter<PhotoFileProperties>();
     defaultPhoto: string;
@@ -61,7 +60,6 @@ export class BasicdetailsDialogComponent {
         this.staticData();
         this.initBloodGroups();
         if (this.config.data) this.showEmpPersDtlsDialog(this.config.data);
-
         this.ImageValidator.subscribe((p: PhotoFileProperties) => {
             console.log(p);
 
@@ -79,11 +77,8 @@ export class BasicdetailsDialogComponent {
                 ValidateFileThenUpload(file, this.ImageValidator, 1, '300 x 300 pixels', true);
             }
         }
-        this.defaultPhoto = /^female$/gi.test(this.fbEmpBasDtls.get('gender').value) ? '/assets/layout/images/women-emp-2.jpg' : '/assets/layout/images/men-emp.jpg'
+        this.defaultPhoto = /^female$/gi.test(this.fbEmpBasDtls.get('gender').value) ? './assets/layout/images/women-emp-2.jpg' : './assets/layout/images/men-emp.jpg'
     }
-
-
-
     staticData() {
         this.genders = [
             { name: 'Female', code: 'FM' },
@@ -91,8 +86,9 @@ export class BasicdetailsDialogComponent {
         ];
         this.status = [
             { name: 'Married', code: 'DS' },
-            { name: 'Un Married', code: 'NS' },
             { name: 'Single', code: 'SN' },
+            { name: 'Widow', code: 'WD' },
+            { name: 'Divorced', code: 'DV' },
         ];
     }
 
@@ -136,7 +132,7 @@ export class BasicdetailsDialogComponent {
     onGenderChange() {
         const selectedGender = this.fbEmpBasDtls.get('gender').value;
         if (selectedGender) {
-            this.defaultPhoto = /^female$/gi.test(this.fbEmpBasDtls.get('gender').value) ? '/assets/layout/images/women-emp-2.jpg' : '/assets/layout/images/men-emp.jpg'
+            this.defaultPhoto = /^female$/gi.test(this.fbEmpBasDtls.get('gender').value) ? './assets/layout/images/women-emp-2.jpg' : './assets/layout/images/men-emp.jpg'
         }
     }
 
@@ -183,13 +179,16 @@ export class BasicdetailsDialogComponent {
             emailId: employeePrsDtls.emailId,
             isActive: employeePrsDtls.isActive,
             isAFresher: employeePrsDtl.isAFresher,
-            signDate: employeePrsDtls.signDate
+            signDate: employeePrsDtls.signDate,
+            photo:employeePrsDtls.photo,
         });
-        this.defaultPhoto = /^female$/gi.test(employeePrsDtls.gender) ? '/assets/layout/images/women-emp-2.jpg' : '/assets/layout/images/men-emp.jpg'
+        this.defaultPhoto = /^female$/gi.test(employeePrsDtls.gender) ? './assets/layout/images/women-emp-2.jpg' : './assets/layout/images/men-emp.jpg'
 
     }
 
     saveEmpBscDtls() {
+        this.fbEmpBasDtls.value.originalDob = FORMAT_DATE(this.fbEmpBasDtls.value.originalDob);
+        this.fbEmpBasDtls.value.certificateDob = FORMAT_DATE(this.fbEmpBasDtls.value.certificateDob);
         this.employeeService.updateViewEmpPersDtls(this.fbEmpBasDtls.value).subscribe((resp) => {
             if (resp) {
                 this.alertMessage.displayAlertMessage(ALERT_CODES["EVEBD001"]);

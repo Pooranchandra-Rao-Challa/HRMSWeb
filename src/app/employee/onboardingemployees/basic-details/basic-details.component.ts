@@ -88,14 +88,14 @@ export class BasicDetailsComponent implements OnInit {
                 ValidateFileThenUpload(file, this.ImageValidator, 1024 * 1024, '300 x 300 pixels', true);
             }
         }
-        this.defaultPhoto = /^female$/gi.test(this.fbbasicDetails.get('gender').value) ? '/assets/layout/images/women-emp-2.jpg' : '/assets/layout/images/men-emp.jpg'
+        this.defaultPhoto = /^female$/gi.test(this.fbbasicDetails.get('gender').value) ? './assets/layout/images/women-emp-2.jpg' : './assets/layout/images/men-emp.jpg'
 
     }
 
     onGenderChange() {
         const selectedGender = this.fbbasicDetails.get('gender').value;
         if (selectedGender) {
-            this.defaultPhoto = /^female$/gi.test(this.fbbasicDetails.get('gender').value) ? '/assets/layout/images/women-emp-2.jpg' : '/assets/layout/images/men-emp.jpg'
+            this.defaultPhoto = /^female$/gi.test(this.fbbasicDetails.get('gender').value) ? './assets/layout/images/women-emp-2.jpg' : './assets/layout/images/men-emp.jpg'
         }
     }
 
@@ -185,8 +185,9 @@ export class BasicDetailsComponent implements OnInit {
             isActive: empbasicDetails.isActive,
             isAFresher: empbasicDetails.isAFresher,
             signDate: empbasicDetails.signDatel,
+            photo:empbasicDetails.photo
         });
-        this.defaultPhoto = /^female$/gi.test(empbasicDetails.gender) ? '/assets/layout/images/women-emp-2.jpg' : '/assets/layout/images/men-emp.jpg'
+        this.defaultPhoto = /^female$/gi.test(empbasicDetails.gender) ? './assets/layout/images/women-emp-2.jpg' : './assets/layout/images/men-emp.jpg'
     }
 
     navigateToNext() {

@@ -44,16 +44,18 @@ export class AttendanceComponent {
   leaves: EmployeeLeaveDto[] = [];
   NotUpdatedEmployees: EmployeesList[] = [];
   showingLeavesOfColors: boolean = false;
+  messageDisplayed: boolean;
 
 
   constructor(private adminService: AdminService, private datePipe: DatePipe, private jwtService: JwtService, public ref: DynamicDialogRef, private dialogService: DialogService,
     private formbuilder: FormBuilder, private alertMessage: AlertmessageService, private employeeService: EmployeeService, private lookupService: LookupService) {
-      this.selectedMonth = FORMAT_DATE(new Date());
-      
+    this.selectedMonth = FORMAT_DATE(new Date());
+
 
   }
 
   ngOnInit() {
+    this.messageDisplayed= false;
     this.permissions = this.jwtService.Permissions;
     this.CheckPreviousDayAttendance();
     this.initLeaveForm();
@@ -124,7 +126,7 @@ export class AttendanceComponent {
           this.alertMessage.displayAlertMessage(ALERT_CODES["EAAS001"]);
           this.display = false;
           this.initAttendance();
-          this.getNotUpdatedEmployeesList(this.datePipe.transform(new Date(), 'yyyy-MM-dd'), this.checkPreviousAttendance);
+          this.CheckPreviousDayAttendance();
         }
         else
           this.alertMessage.displayErrorMessage(ALERT_CODES["EAAS002"]);
@@ -133,9 +135,9 @@ export class AttendanceComponent {
   }
   restrictSpaces(event: KeyboardEvent) {
     if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {
-        event.preventDefault();
+      event.preventDefault();
     }
-}
+  }
   addPresent() {
     const EmployeesList = [];
     this.NotUpdatedEmployees.forEach(each => {
@@ -160,8 +162,10 @@ export class AttendanceComponent {
       this.NotUpdatedEmployees = resp as unknown as EmployeesList[];
       if (this.NotUpdatedEmployees.length > 0) {
         this.notUpdatedDates = this.NotUpdatedEmployees[0].date;
-        if (this.notUpdatedDates && this.permissions?.CanManageAttendance)
+        if (this.notUpdatedDates && this.permissions?.CanManageAttendance&& !this.messageDisplayed) {
+          this.messageDisplayed = true;
           return this.alertMessage.displayInfo(ALERT_CODES["EAAS003"] + "  " + `${this.datePipe.transform(this.notUpdatedDates, 'dd-MM-yyyy')}`);
+        }
       }
       else if (this.checkPreviousAttendance) {
         this.checkPreviousAttendance = false;
@@ -251,7 +255,7 @@ export class AttendanceComponent {
       this.saveAttendance().subscribe(resp => {
         if (resp) {
           this.alertMessage.displayAlertMessage(ALERT_CODES["ELD001"]);
-          this.getNotUpdatedEmployees();
+          this.CheckPreviousDayAttendance();
         }
         else
           return this.alertMessage.displayErrorMessage(ALERT_CODES["ELR002"]);
@@ -261,12 +265,6 @@ export class AttendanceComponent {
 
     }
     this.dialog = false;
-
-  }
-  getNotUpdatedEmployees() {
-    this.employeeService.GetNotUpdatedEmployees(this.datePipe.transform(new Date(), 'yyyy-MM-dd'), this.checkPreviousAttendance).subscribe(resp => {
-      this.NotUpdatedEmployees = resp as unknown as EmployeesList[];
-    });
   }
   checkLeaveType() {
     this.fbleave.get('note').setValue('');
@@ -335,8 +333,8 @@ export class AttendanceComponent {
       this.days.push(i);
     }
   }
-  
+
   toggleTab() {
-    this.showingLeavesOfColors= !this.showingLeavesOfColors;
+    this.showingLeavesOfColors = !this.showingLeavesOfColors;
   }
 }

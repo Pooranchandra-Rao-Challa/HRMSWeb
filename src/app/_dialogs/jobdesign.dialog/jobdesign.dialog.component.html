@@ -4,102 +4,159 @@
             <div class="col-12 roles-container">
                 <div class="p-fluid p-formgrid grid">
                     <div class="field col-12 md:col-4">
-                        <label>Job Description:</label>
-                        <input type="text" pInputText formControlName="jobDescription"
-                            placeholder="Enter Job Description" />
-                        <!-- <div class="flex">
+                        <label class="required">Project:</label>
+                        <p-dropdown id="projectName" appendTo="body" [options]="projects" optionLabel="name"
+                            optionValue="projectId" placeholder="Select Project" formControlName="projectId"
+                            [ngClass]="{'is-invalid ng-dirty': FormControls['projectId'].touched && FormControls['projectId'].errors}">
+                        </p-dropdown>
+                        <div class="flex">
                             <div class="align-left w-60" style="width:70%">
-                                <span *ngIf="FormControls['employeeId'].touched && FormControls['employeeId'].invalid">
+                                <span *ngIf="FormControls['projectId'].touched && FormControls['projectId'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
-                                        *ngIf="FormControls['employeeId'].errors?.['required']">
-                                        Please Select Employee Name.</div>
+                                        *ngIf="FormControls['projectId'].errors?.['required']">
+                                        Please Select Project.</div>
                                 </span>
                             </div>
-                        </div> -->
+                        </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <label>Project Name:</label>
-                        <input type="text" pInputText formControlName="projectName" placeholder="Enter Project Name" />
-                        <!-- <div class="flex">
+                        <label class="required">Designation:</label>
+                        <p-dropdown id="designationName" appendTo="body" [options]="designation" optionLabel="name"
+                            optionValue="lookupDetailId" placeholder="Select Designation" formControlName="designationId"
+                            [ngClass]="{'is-invalid ng-dirty': FormControls['designationId'].touched && FormControls['designationId'].errors}" >
+                        </p-dropdown>
+                        <div class="flex">
                             <div class="align-left w-60" style="width:70%">
-                                <span
-                                    *ngIf="FormControls['leaveTypeId'].touched && FormControls['leaveTypeId'].invalid">
+                                <span *ngIf="FormControls['designationId'].touched && FormControls['designationId'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
-                                        *ngIf="FormControls['leaveTypeId'].errors?.['required']">
-                                        Please Select Leave Type.</div>
+                                        *ngIf="FormControls['designationId'].errors?.['required']">
+                                        Please Select Designation.</div>
                                 </span>
                             </div>
-                        </div> -->
+                        </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <label>Position:</label>
-                        <input type="text" pInputText formControlName="position" placeholder="Enter Position" />
-                        <!-- <div class="flex">
-                            <div class="align-left w-60" style="width:70%">
-                                <span *ngIf="FormControls['fromDate'].touched && FormControls['fromDate'].invalid">
-                                    <div class="ng-invalid ng-touched p-error"
-                                        *ngIf="FormControls['fromDate'].errors?.['required']">
-                                        Please Select From Date.</div>
-                                </span>
-                            </div>
-                        </div> -->
-                    </div>
-                    <div class="field col-12 md:col-4">
-                        <label>Technical Skills:</label>
-                        <p-multiSelect appendTo="body" placeholder="Select Technical Skills" id="Experience_skillArea"
+                        <label class="required">Technical Skills:</label>
+                        <p-multiSelect appendTo="body" placeholder="Select Technical Skills" id="JobDesign_TechnicalSkills"
                             [options]="technicalskills" optionLabel="name" [filter]="true" filterBy="name" #multiSelect
                             formControlName="technicalSkills" optionValue="lookupDetailId"
-                            (keydown)="restrictSpaces($event)" >
+                            (keydown)="restrictSpaces($event)" (onChange)="onSelectTechnicalSkill($event)"
+                            [ngClass]="{'is-invalid ng-dirty': FormControls['technicalSkills'].touched && FormControls['technicalSkills'].errors}">
                             <ng-template let-skill pTemplate="selectedItem">
                                 <div class="block align-items-center gap-3">
                                     <div>{{skill.name}}</div>
                                 </div>
                             </ng-template>
                         </p-multiSelect>
-                        <!-- [ngClass]="{'is-invalid ng-dirty': FormControls['technicalSkills'].touched && FormControls['technicalSkills'].errors}" -->
-                    </div>
-                    <div class="field col-12 md:col-4">
-                        <label>Soft Skills:</label>
-                        <p-multiSelect appendTo="body" placeholder="Select Soft Skills" id="Experience_skillArea"
-                            [options]="softskills" optionLabel="name" [filter]="true" filterBy="name" #multiSelect
-                            formControlName="softSkills" optionValue="name"
-                            (keydown)="restrictSpaces($event)" >
-                            <ng-template let-skill pTemplate="selectedItem">
-                                <div class="block align-items-center gap-3">
-                                    <div>{{skill.name}}</div>
-                                </div>
-                            </ng-template>
-                        </p-multiSelect>
-                        <!-- [ngClass]="{'is-invalid ng-dirty': FormControls['softSkills'].touched && FormControls['softSkills'].errors}" -->
-                    </div>
-                    <div class="field col-12 md:col-4">
-                        <label>Description:</label>
-                        <textarea class="form-control freeze_text-area" pInputTextarea formControlName="description"
-                            placeholder="Enter Description" #description [maxlength]="256" id="Description"></textarea>
-                        <!-- <div class="flex">
+                        <div class="flex">
                             <div class="align-left w-60" style="width:70%">
-                                <span *ngIf="FormControls['note'].touched && FormControls['note'].invalid">
+                                <span
+                                    *ngIf="FormControls['technicalSkills'].touched && FormControls['technicalSkills'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
-                                        *ngIf="FormControls['note'].errors?.['required']">
-                                        Please Enter Leave Narration.</div>
+                                        *ngIf="FormControls['technicalSkills'].errors?.['required']">
+                                        Please Select Technical Skills.</div>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label class="required">Soft Skills:</label>
+                        <p-multiSelect appendTo="body" placeholder="Select Soft Skills" id="JobDesign_SoftSkills"
+                            [options]="softskills" optionLabel="name" [filter]="true" filterBy="name" #multiSelect
+                            formControlName="softSkills" optionValue="lookupDetailId" (keydown)="restrictSpaces($event)"
+                            (onChange)="onSelectSoftSkill($event)"
+                            [ngClass]="{'is-invalid ng-dirty': FormControls['softSkills'].touched && FormControls['softSkills'].errors}">
+                            <ng-template let-skill pTemplate="selectedItem">
+                                <div class="block align-items-center gap-3">
+                                    <div>{{skill.name}}</div>
+                                </div>
+                            </ng-template>
+                        </p-multiSelect>
+                        <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                                <span *ngIf="FormControls['softSkills'].touched && FormControls['softSkills'].invalid">
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="FormControls['softSkills'].errors?.['required']">
+                                        Please Select Soft Skills.</div>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label class="required">Nature of Job:</label>
+                        <p-dropdown id="NatureOfJob" appendTo="body" [options]="natureOfJobs" optionLabel="name"
+                            optionValue="lookupDetailId" placeholder="Select Nature of Job"
+                            formControlName="natureOfJobId"
+                            [ngClass]="{'is-invalid ng-dirty': FormControls['natureOfJobId'].touched && FormControls['natureOfJobId'].errors}">
+                        </p-dropdown>
+                        <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                                <span
+                                    *ngIf="FormControls['natureOfJobId'].touched && FormControls['natureOfJobId'].invalid">
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="FormControls['natureOfJobId'].errors?.['required']">
+                                        Please Select Nature Of Job.</div>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label class=" required">Description:</label>
+                        <textarea class="form-control freeze_text-area" pInputTextarea formControlName="description"
+                            placeholder="Enter Description" #description [maxlength]="256" id="Description"
+                            [ngClass]="{'is-invalid ng-dirty': FormControls['description'].touched && FormControls['description'].errors}">
+                        </textarea>
+                        <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                                <span
+                                    *ngIf="FormControls['description'].touched && FormControls['description'].invalid">
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="FormControls['description'].errors?.['required']">
+                                        Please Enter Description.</div>
                                 </span>
                             </div>
                             <div class="align-right w-40" style="width:30%; text-align:right;">
                                 <small>{{description.value.length}}/{{maxLength.description}}</small>
                             </div>
-                        </div> -->
+                        </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <label>Nature of Jobs:</label>
-                        <p-dropdown id="technicalSkills" appendTo="body" [options]="natureOfJobs" optionLabel="name"
-                            optionValue="name" placeholder="Select Nature of Jobs" formControlName="natureOfJobs">
-                        </p-dropdown>
-                        <!-- [ngClass]="{'is-invalid ng-dirty': FormControls['softSkills'].touched && FormControls['softSkills'].errors}" -->
+                        <label class="required">Compensation Package:</label>
+                        <textarea class="form-control freeze_text-area" pInputTextarea id="CompensationPackage"
+                            formControlName="compensationPackage" placeholder="Enter Compensation Package"
+                            [ngClass]="{'is-invalid ng-dirty': FormControls['compensationPackage'].touched && FormControls['compensationPackage'].errors}">
+                        </textarea>
+                        <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                                <span
+                                    *ngIf="FormControls['compensationPackage'].touched && FormControls['compensationPackage'].invalid">
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="FormControls['compensationPackage'].errors?.['required']">
+                                        Please Enter Compensation Package.</div>
+                                </span>
+                            </div>
+                        </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <label>Compensation Package:</label>
-                        <input type="text" pInputText formControlName="compensationPackage"
-                            placeholder="Enter Compensation Package" />
+                        <label class="required">To Be Filled:</label>
+                        <p-calendar appendTo="body" placeholder="Select To Be Filled" [readonlyInput]="true"
+                            [showIcon]="true" formControlName="toBeFilled"  [minDate]="minDate" id="ToBeFilled"
+                            [ngClass]="{'is-invalid ng-dirty': FormControls['toBeFilled'].touched && FormControls['toBeFilled'].errors}">
+                        </p-calendar>
+                        <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                                <span *ngIf="FormControls['toBeFilled'].touched && FormControls['toBeFilled'].invalid">
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="FormControls['toBeFilled'].errors?.['required']">
+                                        Please Select To Be Filled.</div>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label>Is Active: </label>
+                        <br> &nbsp; <p-inputSwitch formControlName="isActive">
+                        </p-inputSwitch>
                     </div>
                 </div>
             </div>
@@ -109,5 +166,5 @@
 
 <div class=" footer dialog-footer">
     <button pButton pRipple type="submit" label="Add Job Design" class="p-button-raised p-button-primary"
-        id="SubmitLeaveForm" [disabled]="fbJobDesign.invalid"></button>
+        id="SubmitJobForm" [disabled]="fbJobDesign.invalid" (click)="onSubmit()"></button>
 </div>

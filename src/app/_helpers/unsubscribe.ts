@@ -6,7 +6,6 @@ export abstract class Unsubscribe {
     unsubscribe$ = new Subject<void>();
 
     ngOnDestroy() {
-        debugger
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
     }

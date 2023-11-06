@@ -126,8 +126,8 @@ export class ViewemployeesComponent {
       this.selectedOption = resp['isAFresher'];
 
       /^male$/gi.test(this.employeePrsDtls.gender)
-        ? this.defaultPhoto = '/assets/layout/images/men-emp.jpg'
-        : this.defaultPhoto = '/assets/layout/images/women-emp.jpg'
+        ? this.defaultPhoto = './assets/layout/images/men-emp.jpg'
+        : this.defaultPhoto = './assets/layout/images/women-emp.jpg'
       if (!this.employeePrsDtls.signDate) this.enRollEmployee = true;
       else this.showOfcAndAssetDetails = true;
     });
@@ -166,7 +166,7 @@ export class ViewemployeesComponent {
   //Upload Documents
   initUploadedDocuments() {
     this.employeeService.GetUploadedDocuments(this.employeeId).subscribe((resp) => {
-      this.UploadedDocuments = resp as unknown as any[];
+      this.UploadedDocuments = resp as unknown as any[]; 
     });
   }
 
@@ -276,7 +276,7 @@ export class ViewemployeesComponent {
     }
     //uploadDocuments
     else if (action == Actions.add && content === this.uploadDocumentsDialogComponent) {
-      this.dialogRequest.dialogData = { module: 'employee' }
+      this.dialogRequest.dialogData = dialogData;
       this.dialogRequest.header = "Upload Documents";
       this.dialogRequest.width = "30%";
     }
