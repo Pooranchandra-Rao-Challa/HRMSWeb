@@ -3,7 +3,7 @@
     "version": 1,
     "newProjectRoot": "projects",
     "projects": {
-        "freya-ng": {
+        "hrms": {
             "projectType": "application",
             "schematics": {
                 "@schematics/angular:component": {
@@ -17,7 +17,7 @@
                 "build": {
                     "builder": "@angular-devkit/build-angular:browser",
                     "options": {
-                        "outputPath": "dist/freya-ng",
+                        "outputPath": "dist/hrms",
                         "index": "src/index.html",
                         "main": "src/main.ts",
                         "polyfills": [
@@ -33,7 +33,8 @@
                             "rgbcolor",
                             "jspdf-autotable",
                             "raf",
-                            "core-js"
+                            "core-js",
+                            "file-saver"
                         ],
                         "tsConfig": "tsconfig.app.json",
                         "inlineStyleLanguage": "scss",
@@ -116,13 +117,13 @@
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "configurations": {
                         "production": {
-                            "browserTarget": "freya-ng:build:production"
+                            "browserTarget": "hrms:build:production"
                         },
                         "development": {
-                            "browserTarget": "freya-ng:build:development"
+                            "browserTarget": "hrms:build:development"
                         },
                         "staging": {
-                            "browserTarget": "freya-ng:build:staging"
+                            "browserTarget": "hrms:build:staging"
                         }
                     },
                     "defaultConfiguration": "development"
@@ -130,7 +131,7 @@
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n",
                     "options": {
-                        "browserTarget": "freya-ng:build"
+                        "browserTarget": "hrms:build"
                     }
                 },
                 "test": {
