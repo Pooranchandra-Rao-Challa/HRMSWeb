@@ -185,6 +185,7 @@ export class BasicDetailsComponent implements OnInit {
             isActive: empbasicDetails.isActive,
             isAFresher: empbasicDetails.isAFresher,
             signDate: empbasicDetails.signDatel,
+            photo:empbasicDetails.photo
         });
         this.defaultPhoto = /^female$/gi.test(empbasicDetails.gender) ? './assets/layout/images/women-emp-2.jpg' : './assets/layout/images/men-emp.jpg'
     }

@@ -6,10 +6,8 @@
                 <h4>Job Design</h4>
             </ng-template>
             <ng-template pTemplate="right">
-                <button pButton pRipple label="Add Job Design" icon="pi pi-plus"
-                    class="p-button-primary p-mr-2"
-                    (click)="openComponentDialog(jobDesignDialogComponent, null, ActionTypes.save)"
-                    ></button>
+                <button pButton pRipple label="Add Job Design" icon="pi pi-plus" class="p-button-primary p-mr-2"
+                    (click)="openComponentDialog(jobDesignDialogComponent, null, ActionTypes.save)"></button>
             </ng-template>
         </p-toolbar>
         <!-- p-table -->
@@ -24,8 +22,8 @@
                         (click)="clear(dt)" id="clear-btn"></button>
                     <span class="p-input-icon-left mb-2">
                         <i class="pi pi-search"></i>
-                        <input pInputText type="text" id="search-input" #filter
-                            (input)="onGlobalFilter(dt, $event)" placeholder="Search Keyword" class="w-full" />
+                        <input pInputText type="text" id="search-input" #filter (input)="onGlobalFilter(dt, $event)"
+                            placeholder="Search Keyword" class="w-full" />
                     </span>
                 </div>
             </ng-template>
@@ -41,12 +39,18 @@
             </ng-template>
             <ng-template pTemplate="body" let-job>
                 <tr class="text-center">
-                    <td *ngFor="let col of headers">
-                        <span *ngIf="col?.field != 'createdAt' && col?.field != 'updatedAt'">
+                    <td *ngFor="let col of headers" [ngClass]="'isActive' ? 'text-center' : ''">
+                        <span
+                            *ngIf="col?.field != 'createdAt' && col?.field != 'updatedAt' && col?.field !='toBeFilled' && col?.field!='isActive'">
                             {{ job[col.field]}}
                         </span>
-                        <span *ngIf="col?.field == 'createdAt' || col?.field == 'updatedAt'">
+                        <span
+                            *ngIf="col?.field == 'createdAt' || col?.field == 'updatedAt' ||col?.field == 'toBeFilled' ">
                             {{ job[col.field] |date:mediumDate}}
+                        </span>
+                        <span  *ngIf="col?.field == 'isActive'">
+                            <p-checkbox name="isActive" value="isActive" [(ngModel)]="job['isActive']" [binary]="true"
+                                [disabled]="true"></p-checkbox>
                         </span>
                     </td>
                 </tr>

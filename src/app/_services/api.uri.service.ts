@@ -111,3 +111,4 @@ export const GET_COMPANY_HIERARCHY="Employee/GetCompanyHierarchy";
 //Job Details
 
 export const GET_JOB_DETAILS="JobDesign/GetJobDesign";
+export const CREATE_JOB_DESIGN_DETAILS="JobDesign/CreateJobDesign";
