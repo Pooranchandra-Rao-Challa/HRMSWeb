@@ -15,8 +15,8 @@
     <!-- dialog -->
     <p-dialog header="Project" [(visible)]="dialog" [modal]="true" showEffect="fade"
       [breakpoints]="{'960px': '70%', '640px': '60%'}" [style]="{width: '80%'}">
-      <div class="flex flex-column align-items-center justify-content-center">
-        <form [formGroup]="fbproject" (ngSubmit)="onSubmit()" id="Role_roleForm">
+      <div class="">
+        <form [formGroup]="fbproject" (ngSubmit)="onSubmit()" id="Role_roleForm" class="w-100">
           <div class="grid">
             <div class="col-12 ">
               <h5>Project Details</h5>
@@ -136,6 +136,7 @@
                     [readonly]="projectFormControls['projectId'].value== null"></p-inputSwitch>
                 </div>
               </div>
+
               <h5>Client Details</h5>
               <div class="p-fluid p-formgrid grid" formGroupName="clients">
                 <div class="field col-12 md:col-4">
@@ -196,7 +197,6 @@
                     </div>
                   </div>
                 </div>
-
                 <div class="field col-12 md:col-4">
                   <label class="required">Email Id:
                   </label>&nbsp;
@@ -351,7 +351,7 @@
                   <label>Employees:</label>&nbsp;
                   <p-multiSelect placeholder="Select Employees" [options]="Employees" optionLabel="employeeName"
                     formControlName="projectAllotments" [filter]="true" filterBy="employeeId,employeeName"
-                    appendTo="body">
+                    appendTo="body" class="employee_mul_sel">
                     <ng-template let-employee pTemplate="selectedItem">
                       <div class="block align-items-center gap-3">
                         <div>{{employee.employeeName}}</div>
@@ -391,7 +391,7 @@
       <p-tabView>
         <p-tabPanel header="Card View ">
           <div class="grid mb-5">
-            <div class="col-12 md:col-4 lg:col-3 sm:col-6" *ngFor="let project of visibleProjects; let i = index ">
+            <div class="col-12 lg:col-4  md:col-4 sm:col-6" *ngFor="let project of visibleProjects; let i = index ">
               <div class="card border-1 surface-border card-height">
                 <div class="list-none m-0 p-0 text-center">
                   <img [src]="project.logo" alt="img" [style]="{width: '300px'}"
@@ -503,7 +503,7 @@
               </div>
             </div>
             <div class="grid">
-              <div class="col-12 md:col-3" *ngFor="let employee of this.projectDetails.expandEmployees">
+              <div class="col-12 md:col-4" *ngFor="let employee of this.projectDetails.expandEmployees">
                 <div class="m-2 card border-1 surface-border" *ngIf="employee.isActive==true">
                   <div class="text-xl font-bold">{{employee.employeeName}}</div>
                   <span class="text-600 font-medium text-sm">
@@ -521,10 +521,10 @@
     </p-dialog>
     <p-dialog header="Project" [(visible)]="dialog1" [modal]="true" showEffect="fade"
       [breakpoints]="{'960px': '70%', '640px': '60%'}" [style]="{width: '40%'}">
-      <div class="flex flex-column align-items-center justify-content-center">
-        <form [formGroup]="fbproject" (ngSubmit)="onSubmit()" id="Role_roleForm">
-          <div class="col-12">
-            <div class="p-fluid p-formgrid grid">
+      <div class="">
+        <form [formGroup]="fbproject" (ngSubmit)="onSubmit()" id="Role_roleForm" class="w-100">
+         
+            <div class="p-fluid p-formgrid ">
               <div class="field col-12">
                 <label>Employees:</label>&nbsp;
                 <p-multiSelect placeholder="Select Employees" [options]="Employees" optionLabel="employeeName"
@@ -538,7 +538,7 @@
                   </ng-template>
                 </p-multiSelect>
                 <div class="grid">
-                  <div class="col-12 md:col-3" *ngFor="let employee of this.fbproject.get('projectAllotments').value">
+                  <div class="col-12 md:col-6" *ngFor="let employee of this.fbproject.get('projectAllotments').value">
                     <div class="m-2 card border-1 surface-border">
                       <div class="text-xl font-bold">{{employee.employeeName}}</div>
                       <span class="text-600 font-medium text-sm">
@@ -550,7 +550,7 @@
 
               </div>
             </div>
-          </div>
+         
         </form>
       </div>
       <ng-template pTemplate="footer">
