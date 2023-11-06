@@ -41,13 +41,6 @@ export class LeaveDialogComponent {
     public alertMessage: AlertmessageService,
     private platformaLocation: PlatformLocation) {
     this.emailURL = `${platformaLocation.protocol}//${platformaLocation.hostname}:${platformaLocation.port}/`
-  }
-
-  ngOnInit(): void {
-    this.leaveForm();
-    this.getEmployees();
-    this.getLeaveTypes();
-    this.setMinMaxDates();
 
     const today = new Date();
     const currentYear = today.getFullYear();
@@ -62,6 +55,13 @@ export class LeaveDialogComponent {
       }
     );
 
+  }
+
+  ngOnInit(): void {
+    this.leaveForm();
+    this.getEmployees();
+    this.getLeaveTypes();
+    this.setMinMaxDates();
   }
 
   setMinMaxDates() {
