@@ -3,7 +3,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Table } from 'primeng/table';
 import { JobdesignDialogComponent } from 'src/app/_dialogs/jobdesign.dialog/jobdesign.dialog.component';
 import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
-import { JobDesignDto } from 'src/app/_models/admin';
+import { JobDesignDetailsViewDto } from 'src/app/_models/admin';
 import { Actions, DialogRequest, ITableHeader } from 'src/app/_models/common';
 import { AdminService } from 'src/app/_services/admin.service';
 import { GlobalFilterService } from 'src/app/_services/global.filter.service';
@@ -21,7 +21,7 @@ export class JobdesignComponent {
   ActionTypes = Actions;
   dialogRequest: DialogRequest = new DialogRequest();
   jobDesignDialogComponent = JobdesignDialogComponent;
-  jobDesign: JobDesignDto[] = [];
+  jobDesign: JobDesignDetailsViewDto[] = [];
   mediumDate: string = MEDIUM_DATE;
   permissions: any;
 
@@ -57,7 +57,7 @@ export class JobdesignComponent {
 
   getJobDetails() {
     this.adminService.GetJobDetails().subscribe((resp) => {
-      this.jobDesign = resp as unknown as JobDesignDto[];
+      this.jobDesign = resp as unknown as JobDesignDetailsViewDto[];
     })
   }
 
