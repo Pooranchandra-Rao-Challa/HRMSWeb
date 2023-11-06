@@ -38,9 +38,11 @@ export class FinalSubmitComponent {
     this.getRoles();
     const isEnrolled = false;
     this.employeeService.GetEmployees(isEnrolled).subscribe(resp => {
+      console.log(resp);
+      
       this.employees = resp;
       this.employeeObj = this.employees.find(x => x.employeeId == this.employeeId);
-      if (this.employeeObj?.pendingDetails == "BankDetails, FamilyInformation" || this.employeeObj?.pendingDetails == "BankDetails" || this.employeeObj?.pendingDetails == "FamilyInformation") {
+      if (this.employeeObj?.pendingDetails=="No Pending Changes" || this.employeeObj?.pendingDetails == "BankDetails, FamilyInformation" || this.employeeObj?.pendingDetails == "BankDetails" || this.employeeObj?.pendingDetails == "FamilyInformation") {
         this.displayDialog = true;
       }
     });
