@@ -61,14 +61,16 @@ export class LeavesComponent {
     public ref: DynamicDialogRef,
     private formbuilder: FormBuilder,
     private jwtService: JwtService,
-    public alertMessage: AlertmessageService) {
+    public alertMessage: AlertmessageService) { 
 
-  }
+    }
 
   ngOnInit(): void {
     this.permissions = this.jwtService.Permissions;
     this.getLeaves();
+    this.getLeaveTypes();
     this.leaveForm();
+
   }
 
   getLeaves() {
@@ -77,6 +79,14 @@ export class LeavesComponent {
     })
   }
 
+  getLeaveTypes() {
+    this.lookupService.DayWorkStatus().subscribe((resp) => {
+      this.leaveTypes = resp as unknown as LookupViewDto[];
+      this.leaveTypes.forEach((type) => {
+        this.leaveTypeMap[type.name] = type.name;
+      });
+    });
+  }
 
   onGlobalFilter(table: Table, event: Event) {
     const searchTerm = (event.target as HTMLInputElement).value;
@@ -117,24 +127,24 @@ export class LeavesComponent {
   processLeave() {
     const acceptedBy = this.selectedAction === 'approve' ? this.jwtService.UserId : null;
     const approvedBy = this.selectedAction === 'approve' ? this.jwtService.UserId : null;
-    this.fbLeave.patchValue({
-      employeeLeaveId: this.leaveData.employeeLeaveId,
-      employeeId: this.leaveData.employeeId,
-      employeeName: this.leaveData.employeeName,
-      code: this.leaveData.code,
-      fromDate: this.leaveData.fromDate ? FORMAT_DATE(new Date(this.leaveData.fromDate)) : null,
-      toDate: this.leaveData.toDate ? FORMAT_DATE(new Date(this.leaveData.toDate)) : null,
-      leaveTypeId: this.leaveData.leaveTypeId,
-      note: this.leaveData.note,
-      acceptedBy: acceptedBy,
-      acceptedAt: this.leaveData.acceptedAt ? FORMAT_DATE(new Date(this.leaveData.acceptedAt)) : null,
-      approvedBy: approvedBy,
-      approvedAt: this.leaveData.approvedAt ? FORMAT_DATE(new Date(this.leaveData.approvedAt)) : null,
-      rejected: this.selectedAction === 'approve' ? false : true,
-      status: this.leaveData.status,
-      isapprovalEscalated: true,
-      createdBy: this.leaveData.createdBy
-    });
+      this.fbLeave.patchValue({
+        employeeLeaveId: this.leaveData.employeeLeaveId,
+        employeeId: this.leaveData.employeeId,
+        employeeName: this.leaveData.employeeName,
+        code: this.leaveData.code,
+        fromDate: this.leaveData.fromDate ? FORMAT_DATE(new Date(this.leaveData.fromDate)) : null,
+        toDate: this.leaveData.toDate ? FORMAT_DATE(new Date(this.leaveData.toDate)) : null,
+        leaveTypeId: this.leaveData.leaveTypeId,
+        note: this.leaveData.note,
+        acceptedBy: acceptedBy,
+        acceptedAt: this.leaveData.acceptedAt ? FORMAT_DATE(new Date(this.leaveData.acceptedAt)) : null,
+        approvedBy: approvedBy,
+        approvedAt: this.leaveData.approvedAt ? FORMAT_DATE(new Date(this.leaveData.approvedAt)) : null,
+        rejected: this.selectedAction === 'approve' ? false : true,
+        status: this.leaveData.status,
+        isapprovalEscalated: true,
+        createdBy: this.leaveData.createdBy
+      });
     this.save().subscribe(resp => {
       if (resp) {
         this.dialog = false;
@@ -171,7 +181,7 @@ export class LeavesComponent {
       width: this.dialogRequest.width
     });
     this.ref.onClose.subscribe((res: any) => {
-      if (res) { this.getLeaves() };
+      if (res) this.getLeaves();
       event.preventDefault(); // Prevent the default form submission
     });
   }
