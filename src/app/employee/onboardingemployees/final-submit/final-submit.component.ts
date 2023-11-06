@@ -37,10 +37,10 @@ export class FinalSubmitComponent {
     })
     this.getRoles();
     const isEnrolled = false;
-    this.employeeService.GetEmployees(isEnrolled).subscribe(resp => {
+    this.employeeService.GetEmployees(isEnrolled).subscribe(resp => {      
       this.employees = resp;
       this.employeeObj = this.employees.find(x => x.employeeId == this.employeeId);
-      if (this.employeeObj?.pendingDetails == "BankDetails, FamilyInformation" || this.employeeObj?.pendingDetails == "BankDetails" || this.employeeObj?.pendingDetails == "FamilyInformation") {
+      if (this.employeeObj?.pendingDetails=="No Pending Changes" || this.employeeObj?.pendingDetails == "BankDetails, FamilyInformation" || this.employeeObj?.pendingDetails == "BankDetails" || this.employeeObj?.pendingDetails == "FamilyInformation") {
         this.displayDialog = true;
       }
     });
@@ -91,7 +91,7 @@ export class FinalSubmitComponent {
       this.dialog = false;
     }
     else {
-      if (this.employeeObj.pendingDetails == "BankDetails, FamilyInformation" || this.employeeObj.pendingDetails == "BankDetails" || this.employeeObj.pendingDetails == "FamilyInformation") {
+      if (this.employeeObj?.pendingDetails=="No Pending Changes"||this.employeeObj.pendingDetails == "BankDetails, FamilyInformation" || this.employeeObj.pendingDetails == "BankDetails" || this.employeeObj.pendingDetails == "FamilyInformation") {
         if (this.message !== null) {
           this.router.navigate(['employee/all-employees']);
           this.alertMessage.displayAlertMessage(ALERT_CODES["SEE001"]);

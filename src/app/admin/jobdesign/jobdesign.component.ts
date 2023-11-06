@@ -1,13 +1,13 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Table } from 'primeng/table';
 import { JobdesignDialogComponent } from 'src/app/_dialogs/jobdesign.dialog/jobdesign.dialog.component';
 import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
-import { JobDesignDto } from 'src/app/_models/admin';
+import { JobDesignDetailsViewDto } from 'src/app/_models/admin';
 import { Actions, DialogRequest, ITableHeader } from 'src/app/_models/common';
 import { AdminService } from 'src/app/_services/admin.service';
 import { GlobalFilterService } from 'src/app/_services/global.filter.service';
-import { JobDesign } from 'src/app/demo/api/security';
+import { JwtService } from 'src/app/_services/jwt.service';
 
 @Component({
   selector: 'app-jobdesign',
@@ -16,13 +16,17 @@ import { JobDesign } from 'src/app/demo/api/security';
   ]
 })
 export class JobdesignComponent {
-  globalFilterFields: string[] = ['designation', 'projeectName', 'technicalSkills', 'softSkills', 'description', 'natureOfJobs', 'compensationPackage'];
+  globalFilterFields: string[] = ['designation', 'projectName', 'technicalSkills', 'softSkills', 'description', 'natureOfJobs', 'compensationPackage', 'toBeFilled', 'isActive'];
   @ViewChild('filter') filter!: ElementRef;
   ActionTypes = Actions;
   dialogRequest: DialogRequest = new DialogRequest();
   jobDesignDialogComponent = JobdesignDialogComponent;
-  jobDesign: JobDesignDto[] = [];
-  mediumDate: string = MEDIUM_DATE
+  jobDesign: JobDesignDetailsViewDto[] = [];
+  mediumDate: string = MEDIUM_DATE;
+  permissions: any;
+  selectedColumnHeader!: ITableHeader[];
+  _selectedColumns!: ITableHeader[];
+
 
   headers: ITableHeader[] = [
     { field: 'projectName', header: 'projectName', label: 'Project Name' },
@@ -32,30 +36,47 @@ export class JobdesignComponent {
     { field: 'description', header: 'description', label: 'Description' },
     { field: 'natureOfJob', header: 'natureOfJob', label: 'Nature of Job' },
     { field: 'compensationPackage', header: 'compensationPackage', label: 'Compensation Package' },
-    {field:'toBeFilled',header:'toBeFilled',label:'To Be Filled'},
-    {field:'isActive',header:'isActive',label:'Is Active'},
-    { field: 'createdAt', header: 'createdAt', label: 'Created Date' },
-    { field: 'createdBy', header: 'createdBy', label: 'Created By' },
-    { field: 'updatedAt', header: 'updatedAt', label: 'Updated Date' },
-    { field: 'updatedBy', header: 'updatedBy', label: 'Updated By' },
+    { field: 'toBeFilled', header: 'toBeFilled', label: 'To Be Filled' },
+    { field: 'isActive', header: 'isActive', label: 'Is Active' }
   ];
 
   constructor(
     private globalFilterService: GlobalFilterService,
     private adminService: AdminService,
     public ref: DynamicDialogRef,
-    private dialogService: DialogService) { }
+    private dialogService: DialogService,
+    private jwtService: JwtService,
+  ) { }
+
+
+  // getter and setter for selecting particular columns to display
+  @Input() get selectedColumns(): any[] {
+    return this._selectedColumns;
+  }
+
+  set selectedColumns(val: any[]) {
+    this._selectedColumns = this.selectedColumnHeader.filter((col) => val.includes(col));
+  }
+
 
   ngOnInit() {
+    this.permissions = this.jwtService.Permissions;
     this.getJobDetails();
+
+    //Column Header for selecting particular columns to display
+    this._selectedColumns = this.selectedColumnHeader;
+    this.selectedColumnHeader = [
+      { field: 'createdAt', header: 'createdAt', label: 'Created Date' },
+      { field: 'createdBy', header: 'createdBy', label: 'Created By' },
+      { field: 'updatedAt', header: 'updatedAt', label: 'Updated Date' },
+      { field: 'updatedBy', header: 'updatedBy', label: 'Updated By' },
+    ];
   }
 
 
   getJobDetails() {
     this.adminService.GetJobDetails().subscribe((resp) => {
-      console.log(resp);
-      
-      this.jobDesign = resp as unknown as JobDesignDto[];
+      this.jobDesign = resp as unknown as JobDesignDetailsViewDto[];
     })
   }
 

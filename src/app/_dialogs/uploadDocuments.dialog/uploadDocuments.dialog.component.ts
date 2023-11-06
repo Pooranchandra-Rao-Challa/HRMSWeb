@@ -48,7 +48,6 @@ export class UploadDocumentsDialogComponent {
         this.ImageValidator.subscribe((p: PhotoFileProperties) => {
             const filelength =   this.config.data.length + this.files.length;  
             if ( filelength < 5) {
-                console.log(this.files.length);
                 if (this.fileTypes.indexOf(p.FileExtension) > 0 && p.Size/1024/1024 < 10
                     && (p.isPdf || (!p.isPdf && p.Width <= 595 && p.Height <= 842))) {
                     this.files.push({ fileBlob: p.File, title: this.fbUpload.get('title').value, fileName: p.FileName });

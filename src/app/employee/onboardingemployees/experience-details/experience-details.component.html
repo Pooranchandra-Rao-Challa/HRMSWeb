@@ -175,7 +175,7 @@
 
                                 <div class="field col-12 md:col-4">
                                     <label class="required">Date of Joining:</label>&nbsp;
-                                    <p-calendar [showIcon]="true" formControlName="dateOfJoining"
+                                    <p-calendar [showIcon]="true" formControlName="dateOfJoining" [readonlyInput]="true"
                                         id="Experience_dateOfJoining" appendTo="body" (keydown)="restrictSpaces($event)"
                                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['dateOfJoining'].touched && FormControls['dateOfJoining'].errors }"
                                         placeholder="Select Date Of Joining">
@@ -195,7 +195,7 @@
                                     <label class="required">Date of Reliving:</label>&nbsp;
                                     <p-calendar [showIcon]="true" formControlName="dateOfReliving"
                                         (keydown)="restrictSpaces($event)" id="Experience_dateOfReliving"
-                                        appendTo="body" [maxDate]="currentDate"
+                                        appendTo="body" [maxDate]="currentDate" [readonlyInput]="true"
                                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['dateOfReliving'].touched && FormControls['dateOfReliving'].errors }"
                                         placeholder="Select Date of Reliving">
                                     </p-calendar>

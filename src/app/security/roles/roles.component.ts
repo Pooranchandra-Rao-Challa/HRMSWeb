@@ -20,7 +20,7 @@ import { MAX_LENGTH_50, MIN_LENGTH_2, RG_ALPHA_ONLY } from 'src/app/_shared/rege
     templateUrl: './roles.component.html'
 })
 export class RolesComponent implements OnInit {
-    globalFilterFields: string[] = ['name', 'isActive','eRole', 'createdAt', "createdBy", "updatedAt", "updatedBy"];
+    globalFilterFields: string[] = ['name', 'isActive', 'eRole', 'createdAt', "createdBy", "updatedAt", "updatedBy"];
     dialog: boolean = false;
     @ViewChild('filter') filter!: ElementRef;
     fbrole!: FormGroup;
@@ -34,21 +34,21 @@ export class RolesComponent implements OnInit {
     maxLength: MaxLength = new MaxLength();
     mediumDate: string = MEDIUM_DATE;
     user: any;
-    eRolesInfo:EmployeeRolesDto[]=[];
+    eRolesInfo: EmployeeRolesDto[] = [];
 
     constructor(private formbuilder: FormBuilder,
         private jwtService: JwtService,
         private alertMessage: AlertmessageService,
         private securityService: SecurityService,
         private globalFilterService: GlobalFilterService,
-        private adminService:AdminService) { }
+        private adminService: AdminService) { }
 
     ngOnInit(): void {
         this.permission = this.jwtService.Permissions;
         this.fbrole = this.formbuilder.group({
             roleId: [''],
             name: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
-            eroleId:new FormControl(null),
+            eroleId: new FormControl(null),
             isActive: [true],
             permissions: []
         });
@@ -56,10 +56,9 @@ export class RolesComponent implements OnInit {
         this.getERolesInfo();
     }
 
-    getERolesInfo(){
-        this.adminService.GetERoles().subscribe(resp =>{
-            this.eRolesInfo= resp as unknown as EmployeeRolesDto[];
-            console.log(this.eRolesInfo);
+    getERolesInfo() {
+        this.adminService.GetERoles().subscribe(resp => {
+            this.eRolesInfo = resp as unknown as EmployeeRolesDto[];
         })
     }
     get roleFormControls() {
@@ -80,13 +79,12 @@ export class RolesComponent implements OnInit {
     intiRoles() {
         this.securityService.GetRoles().subscribe(resp => {
             this.roles = resp as unknown as RoleViewDto[];
-            console.log(this.roles);
         });
     }
 
     headers: ITableHeader[] = [
         { field: 'name', header: 'name', label: 'Name' },
-        {field:'eRole',header:'eRole',label:'Role Title'},
+        { field: 'eRole', header: 'eRole', label: 'Role Title' },
         { field: 'isActive', header: 'isActive', label: 'Is Active' },
         { field: 'createdAt', header: 'createdAt', label: 'Created Date' },
         { field: 'createdBy', header: 'createdBy', label: 'Created By' },
@@ -103,13 +101,13 @@ export class RolesComponent implements OnInit {
             this.securityService.GetRoleWithPermissions(role.roleId).subscribe(resp => {
                 this.role.roleId = role.roleId
                 this.role.name = role.name;
-                this.role.eroleId =role.eroleId;
+                this.role.eroleId = role.eroleId;
                 this.role.isActive = role.isActive;
                 this.role.permissions = (resp as unknown as RoleDto).permissions;
-                this.fbrole.setValue(this.role);                
+                this.fbrole.setValue(this.role);
                 this.screensInPermissions()
             })
-            
+
         } else {
             this.submitLabel = "Add Role";
             this.addFlag = true;
@@ -117,7 +115,7 @@ export class RolesComponent implements OnInit {
             this.role.roleId = "";
             this.role.name = "";
             this.role.isActive = true;
-            this.role.eroleId=null;
+            this.role.eroleId = null;
             this.initPermissoins();
         }
     }

@@ -29,7 +29,7 @@
                 </div>
                 <div style="margin-bottom: 15px;">
                     <label class="required">From Date:</label>&nbsp;
-                    <p-calendar formControlName="fromDate" [readonlyInput]="FormControls['employeeId'].value!== null"
+                    <p-calendar formControlName="fromDate" 
                         id="Attendance_fromDate" appendTo="body" placeholder="Enter From Date" [showIcon]="true">
                     </p-calendar>
                 </div>
@@ -78,7 +78,7 @@
         </div>
         <div>
             <p-calendar styleClass="only-icon" [(ngModel)]="selectedMonth" [showIcon]="true" view="month"
-                dateFormat="mm/yy" id="Attendance_selectMonth" [yearNavigator]="true" yearRange="2000:2030"
+                id="Attendance_selectMonth" [yearNavigator]="true" yearRange="2000:2030" 
                 [readonlyInput]="true" inputId="monthpicker" (onSelect)="onMonthSelect($event)">
             </p-calendar>
         </div>
@@ -95,12 +95,12 @@
                 id="Attendance_globalSearch" (input)="onGlobalFilter(dt1, $event)" />
         </div>
         <div *ngIf="permissions?.CanManageAttendance">
-            <button pButton pRipple label="Add Attendance" id="AddressDetails-Btn" icon="pi pi-plus"
+            <button pButton pRipple label="Add Attendance"  icon="pi pi-plus"
                 id="Attendance_addAttendance" class="p-button-primary p-mr-2"
                 (click)="showConfirmationDialog()"></button>
         </div>
         <div *ngIf="permissions?.CanManageAttendance">
-            <button pButton pRipple label="" id="AddressDetails-Btn" icon="pi pi-info-circle" id="Attendance_addAttendance"
+            <button pButton pRipple label="" id="AddressDetails-AboutColors" icon="pi pi-info-circle"
                 class="p-button-primary ml-2 p-mr-2" (click)="toggleTab()" tooltipPosition="top"  pTooltip="Info Regarding Representation of Colors" ></button>
         </div>
     </ng-template>
@@ -141,7 +141,7 @@
     <ng-template pTemplate="header">
         <tr>
             <th>Employees</th>
-            <th *ngFor="let i of days">{{i}}</th>
+            <th *ngFor="let i of days" [style]="{'text-align':'center'}">{{i}}</th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-employee>
@@ -157,31 +157,31 @@
                         'pl': employee[getFormattedDate(i)] === 'PL',
                         'el': employee[getFormattedDate(i)] === 'EL',
                         'sl': employee[getFormattedDate(i)] === 'SL'                        
-                       }">
+                       }" >
                 <ng-container *ngIf="getAttendance(employee, i)">
                     <span [ngClass]="{'pt': employee[getFormattedDate(i)] === 'PT',}"
                         (click)="openDialog(employee,getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendance(employee, i) === 'PT'">
+                        *ngIf="getAttendance(employee, i) === 'PT'" id="Attendance_addPresent">
                         {{ employee[getFormattedDate(i)] }}
                     </span>
                     <span (click)="openDialog(employee, getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendance(employee, i) === 'AT'">
+                        *ngIf="getAttendance(employee, i) === 'AT'" id="Attendance_addAbesnt">
                         {{ employee[getFormattedDate(i)] }}
                     </span>
                     <span (click)="openDialog(employee, getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendance(employee, i) === 'CL'">
+                        *ngIf="getAttendance(employee, i) === 'CL'" id="Attendance_addCL">
                         {{ employee[getFormattedDate(i)] }}
                     </span>
                     <span (click)="openDialog(employee, getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendance(employee, i) === 'PL'">
+                        *ngIf="getAttendance(employee, i) === 'PL'" id="Attendance_addPL">
                         {{ employee[getFormattedDate(i)] }}
                     </span>
                     <span (click)="openDialog(employee, getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendance(employee, i) === 'EL'">
+                        *ngIf="getAttendance(employee, i) === 'EL'" id="Attendance_addEL">
                         {{ employee[getFormattedDate(i)] }}
                     </span>
                     <span (click)="openDialog(employee, getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendance(employee, i) === 'SL'">
+                        *ngIf="getAttendance(employee, i) === 'SL'" id="Attendance_addSL">
                         {{ employee[getFormattedDate(i)] }}
                     </span>
                     <span *ngIf="getAttendance(employee, i) === 'WOff'">
@@ -191,7 +191,7 @@
                         {{ employee[getFormattedDate(i)] }}
                     </span>
                     <span (click)="openDialog(employee, getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendance(employee, i) === 'NU'">
+                        *ngIf="getAttendance(employee, i) === 'NU'" id="Attendance_addNU">
                         {{ employee[getFormattedDate(i)] }}
                     </span>
                 </ng-container>
@@ -204,7 +204,7 @@
     <p>Do you want to modify the status of {{this.NotUpdatedEmployees.length}} records to Present on
         {{this.notUpdatedDates| date:'MMM dd YYYY'}}? </p>
     <button pButton type="button" class="btn btn-primary" label="Yes" (click)="addPresent()"
-        id="Attendance_addPresent"></button>
+        id="Attendance_addPresentForAll"></button>
     <button pButton type="button" class="btn btn-danger" label="Cancel" (click)="onReject()"
         id="Attendance_onReject"></button>
 </p-dialog>

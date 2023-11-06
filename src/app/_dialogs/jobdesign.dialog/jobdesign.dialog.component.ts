@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable } from 'rxjs';
 import { ALERT_CODES, AlertmessageService } from 'src/app/_alerts/alertmessage.service';
-import { JobDesignDto, LookupDetailsDto, LookupViewDto, ProjectViewDto } from 'src/app/_models/admin';
+import { JobDesignDetailsViewDto, LookupDetailsDto, LookupViewDto, ProjectViewDto } from 'src/app/_models/admin';
 import { MaxLength } from 'src/app/_models/common';
 import { AdminService } from 'src/app/_services/admin.service';
 import { LookupService } from 'src/app/_services/lookup.service';
@@ -25,6 +25,7 @@ export class JobdesignDialogComponent {
   jobDesignId: number;
   viewSelectedSkills = [];
   designation:LookupViewDto[]=[];
+  minDate: Date = new Date(new Date());
 
   constructor(private formbuilder: FormBuilder, 
               private lookupService: LookupService,
@@ -76,7 +77,7 @@ export class JobdesignDialogComponent {
     this.fbJobDesign = this.formbuilder.group({
       jobDesignId: [null],
       projectId:  new FormControl('', [Validators.required]),
-      designationId:  new FormControl(''),
+      designationId:  new FormControl('',[Validators.required]),
       description:  new FormControl('', [Validators.required]),
       natureOfJobId:  new FormControl('', [Validators.required]),
       compensationPackage:  new FormControl('', [Validators.required]),
@@ -151,20 +152,14 @@ export class JobdesignDialogComponent {
   }
 
 
-  save(): Observable<HttpEvent<JobDesignDto[]>> {
-    console.log(this.fbJobDesign.value);
+  save(): Observable<HttpEvent<JobDesignDetailsViewDto[]>> {
     return this.adminService.CreateJobDesignDetails([this.fbJobDesign.value])
   }
   
   onSubmit() {
     if (this.fbJobDesign.valid) {
-      console.log(this.fbJobDesign.value);
-
-      this.save().subscribe(resp => {
-        console.log(resp);
-        
+      this.save().subscribe(resp => {        
         if (resp) {
-          console.log(this.fbJobDesign.value);
           this.ref.close(true);
           this.alertMessage.displayAlertMessage(ALERT_CODES["JDD001"]);
         }

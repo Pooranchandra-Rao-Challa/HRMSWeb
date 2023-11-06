@@ -7,7 +7,8 @@
                     <div class="p-fluid p-formgrid ">
                         <div class="field col-12  ">
                             <label class="required">Title:</label>
-                            <input type="text" id="Upload_title" pInputText formControlName="title" class="w-100"
+                            <input type="text" id="Upload_title" pInputText formControlName="title" class="w-100" alphaOnly
+                                [ngClass]="{ 'is-invalid ng-dirty': this.fbUpload.get('title').touched && this.fbUpload.get('title').errors }"
                                 (keydown)="restrictSpaces($event)" placeholder="Enter Title" #title
                                 [maxlength]="maxLength.code">
                             <div class="flex">
@@ -42,7 +43,7 @@
                     class="p-element p-ripple p-button-raised p-button-primary p-button p-component">
                     <i class="pi pi-paperclip"></i> Attach File
                 </label>
-                <input id="singleFile" #fileUpload name="myFile" accept=".pdf, .jpg, .jpeg, .png, .gif" type="file"
+                <input id="singleFile" #fileUpload name="myFile" [accept]="fileTypes" type="file"
                     [disabled]="!this.fbUpload.valid" hidden="true" (click)="onClick()" />
             </div>
         </div>

@@ -30,7 +30,7 @@
                                 <span *ngIf="FormControls['designationId'].touched && FormControls['designationId'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="FormControls['designationId'].errors?.['required']">
-                                        Please Select Project.</div>
+                                        Please Select Designation.</div>
                                 </span>
                             </div>
                         </div>
@@ -84,7 +84,7 @@
                     </div>
                     <div class="field col-12 md:col-4">
                         <label class="required">Nature of Job:</label>
-                        <p-dropdown id="technicalSkills" appendTo="body" [options]="natureOfJobs" optionLabel="name"
+                        <p-dropdown id="NatureOfJob" appendTo="body" [options]="natureOfJobs" optionLabel="name"
                             optionValue="lookupDetailId" placeholder="Select Nature of Job"
                             formControlName="natureOfJobId"
                             [ngClass]="{'is-invalid ng-dirty': FormControls['natureOfJobId'].touched && FormControls['natureOfJobId'].errors}">
@@ -122,7 +122,7 @@
                     </div>
                     <div class="field col-12 md:col-4">
                         <label class="required">Compensation Package:</label>
-                        <textarea class="form-control freeze_text-area" pInputTextarea
+                        <textarea class="form-control freeze_text-area" pInputTextarea id="CompensationPackage"
                             formControlName="compensationPackage" placeholder="Enter Compensation Package"
                             [ngClass]="{'is-invalid ng-dirty': FormControls['compensationPackage'].touched && FormControls['compensationPackage'].errors}">
                         </textarea>
@@ -140,7 +140,7 @@
                     <div class="field col-12 md:col-4">
                         <label class="required">To Be Filled:</label>
                         <p-calendar appendTo="body" placeholder="Select To Be Filled" [readonlyInput]="true"
-                            [showIcon]="true" formControlName="toBeFilled"
+                            [showIcon]="true" formControlName="toBeFilled"  [minDate]="minDate" id="ToBeFilled"
                             [ngClass]="{'is-invalid ng-dirty': FormControls['toBeFilled'].touched && FormControls['toBeFilled'].errors}">
                         </p-calendar>
                         <div class="flex">

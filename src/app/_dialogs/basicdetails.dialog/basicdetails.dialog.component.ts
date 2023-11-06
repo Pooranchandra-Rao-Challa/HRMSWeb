@@ -61,8 +61,6 @@ export class BasicdetailsDialogComponent {
         this.initBloodGroups();
         if (this.config.data) this.showEmpPersDtlsDialog(this.config.data);
         this.ImageValidator.subscribe((p: PhotoFileProperties) => {
-            console.log(p);
-
             if (this.fileTypes.indexOf(p.FileExtension) > 0 && p.Resize || (p.Size / 1024 / 1024 < 1
                 && (p.isPdf || (!p.isPdf && p.Width <= 300 && p.Height <= 300)))) {
                 this.fbEmpBasDtls.get('photo').setValue(p.File);
