@@ -29,7 +29,7 @@
                 </div>
                 <div style="margin-bottom: 15px;">
                     <label class="required">From Date:</label>&nbsp;
-                    <p-calendar formControlName="fromDate" [readonlyInput]="FormControls['employeeId'].value!== null"
+                    <p-calendar formControlName="fromDate" 
                         id="Attendance_fromDate" appendTo="body" placeholder="Enter From Date" [showIcon]="true">
                     </p-calendar>
                 </div>
@@ -78,7 +78,7 @@
         </div>
         <div>
             <p-calendar styleClass="only-icon" [(ngModel)]="selectedMonth" [showIcon]="true" view="month"
-                dateFormat="mm/yy" id="Attendance_selectMonth" [yearNavigator]="true" yearRange="2000:2030"
+                id="Attendance_selectMonth" [yearNavigator]="true" yearRange="2000:2030" 
                 [readonlyInput]="true" inputId="monthpicker" (onSelect)="onMonthSelect($event)">
             </p-calendar>
         </div>

@@ -396,8 +396,8 @@
                 <div class="list-none m-0 p-0 text-center">
                   <img [src]="project.logo" alt="img" [style]="{width: '300px'}"
                     class="inline-flex align-items-center justify-content-center border-circle w-5rem h-5rem bg-primary-100 mb-5">
-                  <div class="text-2xl mb-3 font-medium">
-                    <a class="cursor-pointer" (click)="showProjectDetails(project.projectId)"
+                  <div class="text-2xl mb-3 font-medium flex" >
+                    <a class="cursor-pointer zoomable-title" (click)="showProjectDetails(project.projectId)"             
                       id="Project_viewDetails">{{project.name}} </a>
                     <button pButton pRipple icon="pi pi-pencil" *ngIf="permission?.CanManageProjects"
                       class="p-element p-ripple p-button-text p-button-primary p-component m-0 p-0 justify-content-end"

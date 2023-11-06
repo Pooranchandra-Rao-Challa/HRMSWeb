@@ -34,7 +34,6 @@ export class ExperienceDetailsComponent {
   viewSelectedSkills = [];
   addFlag: boolean = true;
   fbexperience!: FormGroup;
-  faexperienceDetails!: FormArray;
   permissions: any;
   employeeId: any;
   empExperienceDetails: any = [];
@@ -52,8 +51,6 @@ export class ExperienceDetailsComponent {
     this.initCountries();
     this.initSkills();
     this.experienceForm();
-    
-
     if (this.employeeId)
       this.getEmpExperienceDetails();
   }
@@ -100,7 +97,7 @@ export class ExperienceDetailsComponent {
       this.designation = resp as unknown as LookupViewDto[];
     })
   }
- 
+
   generaterow(experienceDetails: ExperienceDetailsDto = new ExperienceDetailsDto()): FormGroup {
     const formGroup = this.formbuilder.group({
       employeeId: new FormControl({ value: experienceDetails.employeeId, disabled: true }),
