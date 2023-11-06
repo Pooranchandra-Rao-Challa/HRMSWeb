@@ -141,7 +141,7 @@
                     </div>
                   </td>
                   <td class="vertical-align-top">
-                    <p-calendar [showIcon]="true" formControlName="passedOutyear" id="passed_Out_year" appendTo="body"
+                    <p-calendar [showIcon]="true" formControlName="passedOutyear" id="passed_Out_year" appendTo="body"  [readonlyInput]="true"
                       [maxDate]="currentDate" placeholder="Select Year of passed Out" [ngClass]="{'is-invalid ng-dirty': formArrayControls(educationDetailsIndex,'passedOutyear')?.touched &&
                   formArrayControls(educationDetailsIndex,'passedOutyear')?.errors }"></p-calendar>
                     <div class="flex">
@@ -158,7 +158,7 @@
                   </td>
                   <td class="vertical-align-top">
                     <p-dropdown id="gradingStystem_dropdown" [autoDisplayFirst]="false" appendTo="body"
-                      placeholder="Select Grading Method" [options]="gradingMethods" optionLabel="name"
+                      placeholder="Select Grading System" [options]="gradingMethods" optionLabel="name"
                       optionValue="lookupDetailId" formControlName="gradingMethodId" [ngClass]="{'is-invalid ng-dirty': formArrayControls(educationDetailsIndex,'gradingMethodId')?.touched &&
                     formArrayControls(educationDetailsIndex,'gradingMethodId')?.errors }"></p-dropdown>
                     <div class="flex">
@@ -174,7 +174,7 @@
                     </div>
                   </td>
                   <td class="vertical-align-top">
-                    <input pInputText class="form-control" formControlName="gradingValue" appNumericInput maxlength="3"
+                    <input pInputText class="form-control" formControlName="gradingValue" appNumericInput maxlength="5"
                       #gradingValue placeholder="Enter CGPA/Percentage System" id="grading_Value" [ngClass]="{'is-invalid ng-dirty': formArrayControls(educationDetailsIndex,'gradingValue')?.touched &&
                     formArrayControls(educationDetailsIndex,'gradingValue')?.errors }">
                     <div class="flex">

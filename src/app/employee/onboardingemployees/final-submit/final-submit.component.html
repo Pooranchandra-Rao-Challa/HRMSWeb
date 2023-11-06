@@ -3,7 +3,7 @@
     <div class="grid content_scroll roles-container">
       <div class=" col-12 md:col-4 lg:col-2"></div>
       <div class=" col-12 md:col-4 lg:col-4">
-        <label>Role:</label><br/>
+        <label class="required">Role:</label><br/>
         <p-dropdown id="roles_dropdown" [autoDisplayFirst]="false" optionLabel="name" [options]="roles"
           optionValue="roleId" formControlName="roleId" appendTo="body" placeholder="Select Role"  
           [ngClass]="{ 'is-invalid ng-dirty': FormControls['roleId'].touched && FormControls['roleId'].errors }" [style]="{'width':'100%'}">
