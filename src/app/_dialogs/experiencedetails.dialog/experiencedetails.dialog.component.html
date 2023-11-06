@@ -126,7 +126,7 @@
                     </div>
                   </td>
                   <td class="vertical-align-top">
-                    <p-calendar [showIcon]="true" formControlName="dateOfJoining" id="date_Of_Joining" appendTo="body"  [maxDate]="maxDate"
+                    <p-calendar [showIcon]="true" formControlName="dateOfJoining" id="date_Of_Joining" appendTo="body"  [maxDate]="maxDate" [readonlyInput]="true"
                     placeholder="Select Date Of Joining" [ngClass]="{'is-invalid ng-dirty': expDtlsformArrayControls(experienceDetailsIndex,'dateOfJoining')?.touched &&
                       expDtlsformArrayControls(experienceDetailsIndex,'dateOfJoining')?.errors }"></p-calendar>
                     <div class="flex">
@@ -142,7 +142,7 @@
                     </div>
                   </td>
                   <td class="vertical-align-top">
-                    <p-calendar [showIcon]="true" formControlName="dateOfReliving" appendTo="body" id="date_Of_Reliving"
+                    <p-calendar [showIcon]="true" [readonlyInput]="true" formControlName="dateOfReliving" appendTo="body" id="date_Of_Reliving"
                       placeholder="Select From Date"></p-calendar>
                   </td>
                   <td class="vertical-align-top">

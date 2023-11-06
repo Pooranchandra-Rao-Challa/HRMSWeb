@@ -68,7 +68,7 @@
           <div class="field col-12 md:col-4">
             <label class="required">Joining Date:</label>
             <p-calendar [showIcon]="true" placeholder="Select Joining Date" formControlName="dateofJoin"
-              id="date_of_joining" appendTo="body"
+              id="date_of_joining" appendTo="body" [readonlyInput]="true"
               [ngClass]="{ 'is-invalid ng-dirty': EmpOfficeFormControls['dateofJoin'].touched && EmpOfficeFormControls['dateofJoin'].errors }">
             </p-calendar>
             <div class="flex">
