@@ -193,8 +193,8 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
                 item.isLoggedUser = false;
                 item.area = org.roleName;
                 item.profileUrl = "assets/layout/images/default_icon_employee.jpg"
-                item.positionName = `Position-${org.roleId}`
-                item.positionName = `Size-${org.selfId}`
+                // item.positionName = `Position-${org.roleId}`
+                // item.positionName = `Size-${org.selfId}`
                 item._upToTheRootHighlighted = true;
 
 
@@ -333,12 +333,22 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
                     <div style="color:black;position:absolute;right:15px;top:-20px;">
                             <div style="font-size:15px;color:black;margin-top:32px">${d.data.name}</div>
                             <div style="font-size:10px;">${d.data.designation || ""}</div>
-                             <div style="font-size:10px;">${d.data.clientName || ""}</div>
+                            <div style="font-size:15px;">${d.data.clientName || ""}</div>
                             <div style="font-size:10px;">${d.data.clientCompanyName || ""}</div>
-                            <div style="font-size:10px;">${d.data.noOfWorkingDays || ""}</div>
-                            <div style="font-size:10px;">${d.data.noOfAbsents || ""}</div>
-                            <div style="font-size:10px;">${d.data.noOfLeaves || ""}</div>
-                            <div style="font-size:10px;">${d.data.assetCount || ""}</div>
+                            <div style="font-size:10px;">
+                            ${d.data.noOfWorkingDays ? `<span style="color:orange;font-size:10px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Number Of Working Days">NOW: ${d.data.noOfWorkingDays}</span>` : ''}
+                          </div>
+                          <div style="font-size:10px;">
+                            ${d.data.noOfAbsents ? `<span style="color:orange;font-size:10px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Number Of Absents">NOA: ${d.data.noOfAbsents}</span>` : ''}
+                          </div>
+                          <div style="font-size:10px;">
+                            ${d.data.noOfLeaves ? `<span style="color:orange;font-size:10px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Number Of Leaves">NOL: ${d.data.noOfLeaves}</span>` : ''}
+                          </div>
+                          <div style="font-size:10px;">
+                            ${d.data.assetCount ? `<span style="color:orange;font-size:10px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Asset Count">AC: ${d.data.assetCount}</span>` : ''}
+                          </div>
+                          
+                          
 
 
                             ${d.depth == 0
