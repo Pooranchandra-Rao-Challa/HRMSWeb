@@ -339,16 +339,16 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
                             <div style="font-size:10px;">${d.data.clientName || ""}</div>
                             <div style="font-size:10px;">${d.data.clientCompanyName || ""}</div>
                             <div style="font-size:10px;">
-                            ${d.data.noOfWorkingDays ? `<span style="color:orange;font-size:10px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Number Of Working Days">NOW: ${d.data.noOfWorkingDays}</span>` : ''}
+                            ${d.data.noOfWorkingDays ? `<span style="color:orange;font-size:10px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Working Day">WD: ${d.data.noOfWorkingDays}</span>` : ''}
                           </div>
                           <div style="font-size:10px;">
-                            ${d.data.noOfAbsents ? `<span style="color:orange;font-size:10px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Number Of Absents">NOA: ${d.data.noOfAbsents}</span>` : ''}
+                            ${d.data.noOfAbsents ? `<span style="color:orange;font-size:10px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Absents">Abs: ${d.data.noOfAbsents}</span>` : ''}
                           </div>
                           <div style="font-size:10px;">
-                            ${d.data.noOfLeaves ? `<span style="color:orange;font-size:10px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Number Of Leaves">NOL: ${d.data.noOfLeaves}</span>` : ''}
+                            ${d.data.noOfLeaves ? `<span style="color:orange;font-size:10px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Leaves">Leaves: ${d.data.noOfLeaves}</span>` : ''}
                           </div>
                           <div style="font-size:10px;">
-                            ${d.data.assetCount ? `<span style="color:orange;font-size:10px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Asset Count">AC: ${d.data.assetCount}</span>` : ''}
+                            ${d.data.assetCount ? `<span style="color:orange;font-size:10px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Allotted Assets">Assets: ${d.data.assetCount}</span>` : ''}
                           </div>
                           
                           
