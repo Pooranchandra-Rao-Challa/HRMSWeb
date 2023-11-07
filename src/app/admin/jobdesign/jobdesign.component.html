@@ -15,12 +15,16 @@
         <p-table id="table" #dt [value]="jobDesign" dataKey="id" [rows]="10" [rowHover]="true"
             [alwaysShowPaginator]="false" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
             [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-            [showCurrentPageReport]="true" [globalFilterFields]="globalFilterFields" paginatorDropdownAppendTo="body"
-            scrollDirection="horizontal" [rowsPerPageOptions]="[10,25,50]" [tableStyle]="{ width: 'max-width'}">
+            [columns]="selectedColumns" [showCurrentPageReport]="true" [globalFilterFields]="globalFilterFields"
+            paginatorDropdownAppendTo="body" scrollDirection="horizontal" [rowsPerPageOptions]="[10,25,50]"
+            [tableStyle]="{ width: 'max-width'}">
             <ng-template pTemplate="caption">
                 <div class="flex justify-content-between flex-column sm:flex-row">
                     <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
                         (click)="clear(dt)" id="clear-btn"></button>
+                    <p-multiSelect [options]="selectedColumnHeader" [(ngModel)]="selectedColumns" optionLabel="label"
+                        id="lookup_ColumnSelection" selectedItemsLabel="{0} columns selected"
+                        [style]="{'min-width': '200px'}" placeholder="Choose Columns"></p-multiSelect>
                     <span class="p-input-icon-left mb-2">
                         <i class="pi pi-search"></i>
                         <input pInputText type="text" id="search-input" #filter (input)="onGlobalFilter(dt, $event)"
@@ -28,7 +32,7 @@
                     </span>
                 </div>
             </ng-template>
-            <ng-template pTemplate="header">
+            <ng-template pTemplate="header" let-columns>
                 <tr class="text-center">
                     <th *ngFor="let col of headers" [pSortableColumn]="col.header">
                         {{col?.label}}
@@ -36,22 +40,33 @@
                         </p-columnFilter>
                         <p-sortIcon [field]="col.header"></p-sortIcon>
                     </th>
+                    <th *ngFor="let col of columns" [pSortableColumn]="col.header">
+                        {{col?.label}}
+                        <p-columnFilter id="Job_jobColumnFilter" type="text" [field]="col.header" display="menu">
+                        </p-columnFilter>
+                        <p-sortIcon [field]="col.header"></p-sortIcon>
+                    </th>
                 </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-job>
+            <ng-template pTemplate="body" let-job let-columns="columns">
                 <tr class="text-center">
-                    <td *ngFor="let col of headers" [ngClass]="'isActive' ? 'text-center' : ''">
+                    <td>{{job.projectName}}</td>
+                    <td>{{job.designation}}</td>
+                    <td>{{job.technicalSkills}}</td>
+                    <td>{{job.softSkills}}</td>
+                    <td>{{job.description}}</td>
+                    <td>{{job.natureOfJob}}</td>
+                    <td>{{job.compensationPackage}}</td>
+                    <td>{{job.toBeFilled | date:mediumDate}}</td>
+                    <td [ngClass]="'isActive' ? 'text-center' : ''">
+                        <p-checkbox name="isActive" value="isActive" [(ngModel)]="job['isActive']" [binary]="true"
+                            [disabled]="true"></p-checkbox>
+                    </td>
+                    <td *ngFor="let col of columns" [ngClass]="col?.field == 'isActive' ? 'text-center' : ''">
                         <span
-                            *ngIf="col?.field != 'createdAt' && col?.field != 'updatedAt' && col?.field !='toBeFilled' && col?.field!='isActive'">
-                            {{ job[col.field]}}
-                        </span>
-                        <span
-                            *ngIf="col?.field == 'createdAt' || col?.field == 'updatedAt' ||col?.field == 'toBeFilled' ">
-                            {{ job[col.field] |date:mediumDate}}
-                        </span>
-                        <span *ngIf="col?.field == 'isActive'">
-                            <p-checkbox name="isActive" value="isActive" [(ngModel)]="job['isActive']" [binary]="true"
-                                [disabled]="true"></p-checkbox>
+                            *ngIf="col?.field != 'createdAt' && col?.field != 'updatedAt' && col?.field != 'isActive'">{{job[col.field]}}</span>
+                        <span *ngIf="col?.field == 'createdAt' || col?.field == 'updatedAt'">
+                            {{job[col.field] | date: mediumDate }}
                         </span>
                     </td>
                 </tr>

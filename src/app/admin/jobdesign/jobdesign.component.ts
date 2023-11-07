@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Table } from 'primeng/table';
 import { JobdesignDialogComponent } from 'src/app/_dialogs/jobdesign.dialog/jobdesign.dialog.component';
@@ -24,6 +24,9 @@ export class JobdesignComponent {
   jobDesign: JobDesignDetailsViewDto[] = [];
   mediumDate: string = MEDIUM_DATE;
   permissions: any;
+  selectedColumnHeader!: ITableHeader[];
+  _selectedColumns!: ITableHeader[];
+
 
   headers: ITableHeader[] = [
     { field: 'projectName', header: 'projectName', label: 'Project Name' },
@@ -34,11 +37,7 @@ export class JobdesignComponent {
     { field: 'natureOfJob', header: 'natureOfJob', label: 'Nature of Job' },
     { field: 'compensationPackage', header: 'compensationPackage', label: 'Compensation Package' },
     { field: 'toBeFilled', header: 'toBeFilled', label: 'To Be Filled' },
-    { field: 'isActive', header: 'isActive', label: 'Is Active' },
-    { field: 'createdAt', header: 'createdAt', label: 'Created Date' },
-    { field: 'createdBy', header: 'createdBy', label: 'Created By' },
-    { field: 'updatedAt', header: 'updatedAt', label: 'Updated Date' },
-    { field: 'updatedBy', header: 'updatedBy', label: 'Updated By' },
+    { field: 'isActive', header: 'isActive', label: 'Is Active' }
   ];
 
   constructor(
@@ -47,11 +46,31 @@ export class JobdesignComponent {
     public ref: DynamicDialogRef,
     private dialogService: DialogService,
     private jwtService: JwtService,
-    ) { }
+  ) { }
+
+
+  // getter and setter for selecting particular columns to display
+  @Input() get selectedColumns(): any[] {
+    return this._selectedColumns;
+  }
+
+  set selectedColumns(val: any[]) {
+    this._selectedColumns = this.selectedColumnHeader.filter((col) => val.includes(col));
+  }
+
 
   ngOnInit() {
     this.permissions = this.jwtService.Permissions;
     this.getJobDetails();
+
+    //Column Header for selecting particular columns to display
+    this._selectedColumns = this.selectedColumnHeader;
+    this.selectedColumnHeader = [
+      { field: 'createdAt', header: 'createdAt', label: 'Created Date' },
+      { field: 'createdBy', header: 'createdBy', label: 'Created By' },
+      { field: 'updatedAt', header: 'updatedAt', label: 'Updated Date' },
+      { field: 'updatedBy', header: 'updatedBy', label: 'Updated By' },
+    ];
   }
 
 
