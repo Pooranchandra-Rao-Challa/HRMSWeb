@@ -48,7 +48,7 @@ export class RolesComponent implements OnInit {
         this.fbrole = this.formbuilder.group({
             roleId: [''],
             name: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
-            eroleId: new FormControl(null),
+            eroleId: new FormControl(null, [Validators.required]),
             isActive: [true],
             permissions: []
         });

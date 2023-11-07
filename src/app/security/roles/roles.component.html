@@ -73,7 +73,7 @@
             <div class="col-12 roles-container">
               <div class="p-fluid p-formgrid grid">
                 <div class="field col-12 md:col-6">
-                  <label class="required">Name:</label>&nbsp;
+                  <label class="required">Role Name:</label>&nbsp;
                   <input pInputText id="Role_roleName" type="text" formControlName="name" placeholder="Enter Role Name"
                     #name alphaOnly [maxlength]="maxLength.name" (keydown)="restrictSpaces($event)"
                     [maxlength]="maxLength.name"
@@ -89,7 +89,7 @@
                       <span *ngIf="roleFormControls['name'].touched && roleFormControls['name'].invalid">
                         <div class="ng-invalid ng-touched p-error"
                           *ngIf="roleFormControls['name'].errors?.['required']">
-                          Please Enter Name.</div>
+                          Please Enter Role Name.</div>
                         <div class="ng-invalid ng-touched p-error" *ngIf="roleFormControls['name'].errors?.['pattern']">
                           Name Should Contains Alphabets.</div>
                         <div class="ng-invalid ng-touched p-error"
