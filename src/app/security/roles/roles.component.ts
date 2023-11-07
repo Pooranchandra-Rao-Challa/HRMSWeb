@@ -84,7 +84,7 @@ export class RolesComponent implements OnInit {
 
     headers: ITableHeader[] = [
         { field: 'name', header: 'name', label: 'Name' },
-        { field: 'eRole', header: 'eRole', label: 'Role Title' },
+        { field: 'eRole', header: 'eRole', label: 'Employee Role' },
         { field: 'isActive', header: 'isActive', label: 'Is Active' },
         { field: 'createdAt', header: 'createdAt', label: 'Created Date' },
         { field: 'createdBy', header: 'createdBy', label: 'Created By' },

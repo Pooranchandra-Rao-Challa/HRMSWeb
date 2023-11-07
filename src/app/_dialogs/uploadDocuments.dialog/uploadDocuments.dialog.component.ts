@@ -30,7 +30,7 @@ export class UploadDocumentsDialogComponent {
     title: string;
     fileTypes: string = ".pdf, .jpg, .jpeg, .png, .gif"
     @Output() ImageValidator = new EventEmitter<PhotoFileProperties>();
-    currentModule: DocumentModule = DocumentModule.None;
+    //currentModule: DocumentModule = DocumentModule.None;
     messageDisplayed :boolean = false;
     UploadedDocuments: any[] = [];
 
@@ -46,7 +46,7 @@ export class UploadDocumentsDialogComponent {
     ngOnInit() {
         this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
         this.ImageValidator.subscribe((p: PhotoFileProperties) => {
-            const filelength =   this.config.data.length + this.files.length;  
+            const filelength =   this.config.data.length + this.files.length;
             if ( filelength < 5) {
                 if (this.fileTypes.indexOf(p.FileExtension) > 0 && p.Size/1024/1024 < 10
                     && (p.isPdf || (!p.isPdf && p.Width <= 595 && p.Height <= 842))) {
@@ -54,7 +54,7 @@ export class UploadDocumentsDialogComponent {
                 } else {
                     this.alertMessage.displayErrorMessage(p.Message);
                 }
-          }  
+          }
             else {
                 this.alertMessage.displayErrorMessage(ALERT_CODES["EAD001"]);
             }
@@ -73,7 +73,7 @@ export class UploadDocumentsDialogComponent {
             }
 
         }
-       
+
     }
 
     initUpload() {
@@ -112,11 +112,11 @@ export class UploadDocumentsDialogComponent {
     }
 
     uploadFile(file) {
-        this.currentModule = file.fileBlob.type === 'application/pdf' ? DocumentModule.Document : DocumentModule.Employee;
+        let currentModule = DocumentModule.Employee;
         let Params = new HttpParams();
-        Params = Params.set("employeeId", this.employeeId).set('title', file.title).set('module', this.currentModule).set('fileName', file.fileName);
+        Params = Params.set("employeeId", this.employeeId).set('title', file.title).set('module', currentModule).set('fileName', file.fileName);
         let formData = new FormData();
-        formData.set('uploadedFiles', file.fileBlob, file.fileName);     
+        formData.set('uploadedFiles', file.fileBlob, file.fileName);
         this.employeeService.UploadDocuments(formData, Params).subscribe(resp => {
             if (resp && !this.messageDisplayed) {
                 this.alertMessage.displayAlertMessage(ALERT_CODES["EAD002"]);

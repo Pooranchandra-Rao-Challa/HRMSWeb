@@ -197,6 +197,13 @@ export class EmployeeHierarchyDto {
     eRoleName?: string;
     projectId?: number;
     projectName?: string;
+    assetCount?:number;
+    noOfWorkingDays?:number;
+    noOfAbsents?:number;
+    noOfLeaves?:number;
+    projectDescription?:string;
+    clientName?:string;
+    clientCompanyName?:string;
     chartId?: number;
     hierarchyLevel?: string;
     selfId?: number;
