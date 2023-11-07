@@ -181,18 +181,6 @@ label.required::after {
     transform: scale(1.4);
     /* Adjust the scale factor as needed */
 }
-.zoomable-title {
-    display: block;
-    width: 100%;
-    max-width: 100%;
-    /* Ensures the image doesn't exceed its container */
-    height: auto;
-    transition: transform 0.3s ease-in-out;
-}
-.zoomable-title:hover{
-    transform: scale(1.4);
-    color: rgb(61, 75, 227);
-}
 .p-confirm-dialog-reject.p-button {
     float: right;
 }

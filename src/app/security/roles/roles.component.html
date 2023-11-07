@@ -103,10 +103,10 @@
                   </div>
                 </div>
                 <div class="field col-12 md:col-6">
-                  <label class="required">Role Title:</label>
+                  <label class="required">Employee Role:</label>
                   <p-dropdown  appendTo="body" id="eRoleTitle_dropdown" [autoDisplayFirst]="false" optionLabel="name"
                    [options]="eRolesInfo" optionValue="eroleId" formControlName="eroleId"
-                    placeholder="Select Role Title"
+                    placeholder="Select Employee Role"
                     [ngClass]="{ 'is-invalid ng-dirty': roleFormControls['eroleId'].touched && roleFormControls['eroleId'].errors}">
                   </p-dropdown>
 
@@ -115,7 +115,7 @@
                       <span *ngIf="roleFormControls['eroleId'].touched && roleFormControls['eroleId'].invalid">
                         <div class="ng-invalid ng-touched p-error"
                           *ngIf="roleFormControls['eroleId'].errors?.['required']">
-                          Please Select Role Title.
+                          Please Select Employee Role.
                         </div>
                       </span>
                     </div>
