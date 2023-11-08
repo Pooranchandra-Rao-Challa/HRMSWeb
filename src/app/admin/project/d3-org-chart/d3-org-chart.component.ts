@@ -106,7 +106,7 @@ export class NodeProps {
     positionName: string;
     id: string;
     parentId: string;
-    projectName:string;
+    projectName: string;
     projectDescription: string;
     assetCount?: number;
     noOfWorkingDays?: number;
@@ -236,7 +236,7 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
                 item.area = empchart.employeeName;
                 item.profileUrl = "assets/layout/images/default_icon_employee.jpg";
                 item.projectDescription = empchart.projectDescription
-                item.projectName=empchart.projectName
+                item.projectName = empchart.projectName
                 item.clientName = empchart.clientName
                 item.clientCompanyName = empchart.clientCompanyName
                 item.noOfWorkingDays = empchart.noOfWorkingDays
@@ -335,9 +335,15 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
                     <div style="color:black;position:absolute;right:15px;top:-20px;">
                             <div style="font-size:15px;color:black;margin-top:32px">${d.data.name}</div>
                             <div style="font-size:10px;">${d.data.designation || ""}</div>
-                            <div style="font-size:15px;">${d.data.projectName || ""}</div>
-                            <div style="font-size:10px;">${d.data.clientName || ""}</div>
-                            <div style="font-size:10px;">${d.data.clientCompanyName || ""}</div>
+                            <div style="font-size:15px;">
+                            ${d.data.projectName ? `<span style="font-size:10px;">Project Name: ${d.data.projectName}</span>` : ''}
+                            </div>
+                            <div style="font-size:10px;">
+                            ${d.data.clientName ? `<span style="font-size:10px;">Client Name: ${d.data.clientName}</span>` : ''}
+                            </div>
+                            <div style="font-size:10px;">
+                            ${d.data.clientCompanyName ? `<span style="font-size:10px;">Client Company Name: ${d.data.clientCompanyName}</span>` : ''}
+                            </div>
                             <div style="font-size:10px;">
                             ${d.data.noOfWorkingDays ? `<span style="color:orange;font-size:10px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Working Day">WD: ${d.data.noOfWorkingDays}</span>` : ''}
                           </div>
