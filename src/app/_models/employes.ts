@@ -382,3 +382,11 @@ export class CompanyHierarchyViewDto{
 	roleName?:string;
 	hierarchyLevel?:number;
 }
+
+export class EmployeeLeaveDetailsViewDto {
+	employeeName: string;
+	leaveType: string;
+	fromDate: Date;
+	toDate: Date;
+	note: string;
+  }

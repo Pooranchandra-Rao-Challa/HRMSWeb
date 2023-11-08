@@ -7,7 +7,7 @@ import { Observable, Subscription } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { ConfirmationDialogService } from 'src/app/_alerts/confirmationdialog.service';
 import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
-import { AssetsDetailsViewDto, AssetsDto, AssetsViewDto, LookupViewDto } from 'src/app/_models/admin';
+import { AssetsDetailsViewDto, AssetsDto, AssetsViewDto, LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
 import { ConfirmationRequest, ITableHeader } from 'src/app/_models/common';
 import { AdminService } from 'src/app/_services/admin.service';
 import { JwtService } from 'src/app/_services/jwt.service';
@@ -40,6 +40,7 @@ export class AssetsComponent {
   permissions: any;
   isSubmitting: boolean = false;
   minDateValue: Date = new Date();
+  
 
   constructor(private adminService: AdminService, private formbuilder: FormBuilder,
     private alertMessage: AlertmessageService, private lookupService: LookupService,
@@ -74,16 +75,18 @@ export class AssetsComponent {
     this.permissions = this.jwtService.Permissions;
     this.assetsForm();
     this.initAssets();
-    this.initAssetTypes();
     this.initAssetCategories();
     this.initStatus();
   }
 
-  initAssetTypes() {
-    this.lookupService.AssetTypes().subscribe((resp) => {
-      this.assetTypes = resp as unknown as LookupViewDto[];
-    });
+  initAssetTypesbyCategories(selectedCategoryId) {
+      this.lookupService.AssetTypes(selectedCategoryId).subscribe((resp) => {
+        if (resp) {
+          this.assetTypes = resp as unknown as LookupDetailsDto[];
+        }
+      });
   }
+
   initAssetCategories() {
     this.lookupService.AssetCategories().subscribe((resp) => {
       this.assetCategories = resp as unknown as LookupViewDto[];
@@ -95,6 +98,7 @@ export class AssetsComponent {
       this.assetstatus = resp as unknown as LookupViewDto[];
     });
   }
+
 
   initAssets() {
     this.adminService.GetAssets().subscribe((resp) => {

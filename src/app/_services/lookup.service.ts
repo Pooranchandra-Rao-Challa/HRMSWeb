@@ -16,13 +16,12 @@ export class LookupService extends ApiHttpService {
     public LookupNamesConfigured(){
         return this.get<string[]>(LOOKUP_NAMES_CONFIGURE_URI);
     }
-    public AssetTypes() {
+    public AssetTypes(assetCategoriesId:number) {
         console.log('AssetTypes');
-
-        return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.AssetTypes]);
+        return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.AssetTypes, assetCategoriesId]);
     }
 
-    public AssetCategories() {
+    public  AssetCategories() {
         console.log('AssetCategories');
         return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.AssetCategories]);
     }
@@ -84,11 +83,16 @@ export class LookupService extends ApiHttpService {
         return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI,[this.LookupKeys.NatureOfJob])
     }
     public isCountries(lookupId: number): boolean{
-        return this.LookupKeys.Countries == lookupId;
+      return this.LookupKeys.Countries == lookupId;
     }
 
     public isCurriculums(lookupId: number): boolean{
         return this.LookupKeys.Curriculums == lookupId;
     }
+
+    public isAssetCategories(lookupId: number): boolean{        
+        return this.LookupKeys.AssetCategories == lookupId;
+    }
+    
 
 }

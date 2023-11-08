@@ -138,28 +138,28 @@
                 <table border="1" cellpadding="0" cellspacing="0" width="100%" class="mb-3 text-left" style="border-radius: 5px;">
                     <tr>
                         <th width="35% " class="p-2" >Employee Name</th>
-                        <td class="p-2" style="line-height:2; padding:5px;"> Name </td>
+                        <td class="p-2" style="line-height:2; padding:5px;">{{employeeleavedetails?.employeeName}}</td>
                     </tr>
                     <tr>
                       <th width="35% "class="p-2" >Leave Type</th>
-                      <td class="p-2" >CL</td>
+                      <td class="p-2" >{{employeeleavedetails?.leaveType}}</td>
                     </tr>
                     <tr>
                       <th class="p-2">From Date</th>
-                      <td class="p-2">14-02-2024</td>
+                      <td class="p-2">{{employeeleavedetails?.fromDate | date: mediumDate}}</td>
                     </tr>
                     <tr>
                       <th class="p-2">To Date</th>
-                      <td class="p-2">25-02-2023</td>
+                      <td class="p-2">{{employeeleavedetails?.toDate | date: mediumDate}}</td>
                     </tr>
                     <tr>
                       <th class="p-2">Leave Narration</th>
-                      <td class="p-2">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's</td>
+                      <td class="p-2">{{employeeleavedetails?.note}}</td>
                     </tr>
                   </table>
                 <div class="flex flex-wrap gap-2 justify-content-between">
                     <button pButton pRipple label="Accept"  (click)="openSweetAlert('Reason For Accept')" class="flex-auto p-button-outlined" ></button>
-                    <button pButton pRipple label="Reject"  (click)="openSweetAlert('Reason For Rejection')" class="flex-auto"></button>
+                    <button pButton pRipple label="Reject"  (click)="openSweetAlert('Reason For Reject')" class="flex-auto"></button>
                 </div>
             </div>
         </div>

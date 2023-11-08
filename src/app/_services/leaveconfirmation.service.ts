@@ -36,11 +36,8 @@ export class LeaveConfirmationService extends ApiHttpService{
     return this.result.asObservable().pipe(take(1));
   }
 
-  public getEmployeeLeaveDetails() {
-    // const params = new HttpParams()
-    // .set('encryptedData')
-    // .set('key2');
-    return this.getWithParams<any[]>(GET_MAIL_EMPLOYEE_DETAILS,null)
-  }
+  public getEmployeeLeaveDetails(encrypteddata: string) {
+  return this.getWithParams<any[]>(GET_MAIL_EMPLOYEE_DETAILS, [encrypteddata]);
+}
 
 }

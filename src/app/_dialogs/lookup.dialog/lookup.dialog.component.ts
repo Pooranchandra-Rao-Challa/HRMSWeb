@@ -159,11 +159,10 @@ export class LookupDialogComponent {
         this.lookupName = "Curriculums";
         this.getCurriculums();
     }
-    // else if(this.lookupService.isAssetCategories(value))
-    // {
-    //   this.lookupName ="Asset Category";
-    //   this.getAssetCategories();
-    // }
+    else if (this.lookupService.isAssetCategories(value)){
+      this.lookupName = "AssetCategories";
+      this.getAssetCategories();
+  }
   }
 
   addLookupDetails() {
