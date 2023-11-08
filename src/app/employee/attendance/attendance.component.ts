@@ -71,13 +71,13 @@ export class AttendanceComponent {
       notReported: new FormControl(false),
       employeeId: new FormControl('', [Validators.required]),
       dayWorkStatusId: new FormControl('', [Validators.required]),
-      date: new FormControl({ value: '', disabled: true })
+      date: new FormControl()
     });
     this.fbleave = this.formbuilder.group({
       employeeLeaveId: [null],
       employeeId: new FormControl('', [Validators.required]),
       employeeName: new FormControl(''),
-      fromDate: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      fromDate: new FormControl("", [Validators.required]),
       toDate: new FormControl(null),
       leaveTypeId: new FormControl('', [Validators.required]),
       note: new FormControl('', [Validators.maxLength(MAX_LENGTH_256)]),

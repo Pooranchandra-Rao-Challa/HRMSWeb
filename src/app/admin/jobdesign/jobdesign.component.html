@@ -3,10 +3,10 @@
         <!-- Toolbar -->
         <p-toolbar styleClass="p-mb-4">
             <ng-template pTemplate="left">
-                <h4>Job Design</h4>
+                <h4>Vacancies</h4>
             </ng-template>
             <ng-template pTemplate="right">
-                <button pButton pRipple label="Add Job Design" icon="pi pi-plus" class="p-button-primary p-mr-2"
+                <button pButton pRipple label="Add Vacancy" icon="pi pi-plus" class="p-button-primary p-mr-2"
                     id="addJobDesign" (click)="openComponentDialog(jobDesignDialogComponent, null, ActionTypes.save)"
                     *ngIf="permissions?.CanManageJobDesign"></button>
             </ng-template>
@@ -73,7 +73,7 @@
             </ng-template>
             <ng-template pTemplate="emptymessage">
                 <tr>
-                    <td class="md:text-center m-5" colspan="50%">No Jobs Found.</td>
+                    <td class="md:text-center m-5" colspan="50%">No vacancies Found.</td>
                 </tr>
             </ng-template>
         </p-table>

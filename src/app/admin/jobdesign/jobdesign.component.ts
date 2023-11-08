@@ -95,7 +95,7 @@ export class JobdesignComponent {
     dialogData, action: Actions = this.ActionTypes.add) {
     if (action == Actions.save && content === this.jobDesignDialogComponent) {
       this.dialogRequest.dialogData = dialogData;
-      this.dialogRequest.header = "Job Design";
+      this.dialogRequest.header = "Vacancies";
       this.dialogRequest.width = "60%";
     }
     this.ref = this.dialogService.open(content, {
