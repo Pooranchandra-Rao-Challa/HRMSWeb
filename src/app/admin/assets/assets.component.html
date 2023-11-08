@@ -45,9 +45,11 @@
               <div class="field col-12 md:col-4">
                 <label>Asset Category: <sup class="p-error">*</sup>
                 </label>
-                <p-dropdown [options]="assetCategories" optionLabel="name" id="assetCategories" [filter]="true"
-                  filterBy="name" [showClear]="true" placeholder="Select Asset Category"
+
+                <p-dropdown [options]="assetCategories" optionLabel="name" id="assetCategories"
+                  placeholder="Select Asset Category" appendTo="body" [autoDisplayFirst]="false"
                   formControlName="assetCategoryId" optionValue="lookupDetailId"
+                  (onChange)="initAssetTypesbyCategories($event)"
                   [ngClass]="{ 'is-invalid ng-dirty': FormControls['assetCategoryId'].touched && FormControls['assetCategoryId'].errors}">
                 </p-dropdown>
                 <span *ngIf="FormControls['assetCategoryId'].touched && FormControls['assetCategoryId'].invalid">
@@ -60,7 +62,7 @@
                 </label>
                 <p-dropdown [options]="assetTypes" optionLabel="name" id="assetTypes" [filter]="true" filterBy="name"
                   [showClear]="true" placeholder="Select Asset Type" formControlName="assetTypeId"
-                  optionValue="lookupDetailId"
+                  [autoDisplayFirst]="false" optionValue="lookupDetailId" appendTo="body"
                   [ngClass]="{ 'is-invalid ng-dirty': FormControls['assetTypeId'].touched && FormControls['assetTypeId'].errors}">
                 </p-dropdown>
                 <span *ngIf="FormControls['assetTypeId'].touched && FormControls['assetTypeId'].invalid">
@@ -276,11 +278,11 @@
       <ng-template pTemplate="rowexpansion" let-assest>
         <tr>
           <td colspan="13">
-            <div class="p-3" >
+            <div class="p-3">
               <div class="overflow-container">
                 <p-table [value]="assest.expandassets" [columns]="AssetsTypeTable" dataKey="assetId"
-                  [tableStyle]="{ width: 'max-content' }"  paginatorDropdownAppendTo="body" [scrollable]="true" scrollDirection="both"
-                  styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm">
+                  [tableStyle]="{ width: 'max-content' }" paginatorDropdownAppendTo="body" [scrollable]="true"
+                  scrollDirection="both" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm">
                   <ng-template pTemplate="header">
         <tr>
           <th *ngIf="permissions?.CanManageAssets" style="width:5px;">Actions</th>

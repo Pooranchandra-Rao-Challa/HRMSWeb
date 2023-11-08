@@ -114,4 +114,4 @@ export const GET_JOB_DETAILS="JobDesign/GetJobDesign";
 export const CREATE_JOB_DESIGN_DETAILS="JobDesign/CreateJobDesign";
 
 // leave confirmation
-export const GET_MAIL_EMPLOYEE_DETAILS ="Attendance";
+export const GET_MAIL_EMPLOYEE_DETAILS ="Attendance/approve";

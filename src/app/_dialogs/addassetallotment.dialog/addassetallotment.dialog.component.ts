@@ -39,7 +39,7 @@ export class AddassetallotmentDialogComponent {
         this.initEmployees();
         this.assetAllotmentForm();
         this.initAssetCategories();
-        this.initAssetTypes();
+        // this.initAssetTypes();
     }
 
     initEmployees() {
@@ -54,11 +54,11 @@ export class AddassetallotmentDialogComponent {
         });
     }
 
-    initAssetTypes() {
-        this.lookupService.AssetTypes().subscribe((resp) => {
-            this.assetTypes = resp as unknown as LookupDetailsDto[];
-        });
-    }
+    // initAssetTypes() {
+    //     this.lookupService.AssetTypes().subscribe((resp) => {
+    //         this.assetTypes = resp as unknown as LookupDetailsDto[];
+    //     });
+    // }
 
     getAssetsByAssetType(assetTypeId: number) {
         this.adminService.GetAssetsByAssetType(assetTypeId).subscribe((resp) => {

@@ -145,6 +145,12 @@ export class LookupDialogComponent {
     })
   }
 
+  getAssetCategories() {
+    this.lookupService.AssetCategories().subscribe((resp) => {
+      this.dependentLookupData = resp as unknown as LookupViewDto[];
+    })
+  } 
+
   getDependentLookupData(value) {
     if (this.lookupService.isCountries(value)){
         this.lookupName = "Countries";
@@ -154,6 +160,10 @@ export class LookupDialogComponent {
         this.lookupName = "Curriculums";
         this.getCurriculums();
     }
+    else if (this.lookupService.isAssetCategories(value)){
+      this.lookupName = "AssetCategories";
+      this.getAssetCategories();
+  }
   }
 
   addLookupDetails() {
