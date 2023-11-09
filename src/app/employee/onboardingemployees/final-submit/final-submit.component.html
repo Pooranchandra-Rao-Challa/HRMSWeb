@@ -26,23 +26,32 @@
   </div>
 </form>
 
-<div class="content_scroll text-center vertical-align-middle" *ngIf="displayDialog === false">
+<div class=" text-center vertical-align-middle" *ngIf="displayDialog === false">
   <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">
     Need to Fill all the Bellow Sections for Enrolling an Employee.
+    <span class="icon-bank_details"></span>
+    <span class="icon-family_restroom"></span>
+    <span class="icon-upload_file"></span>
+    <span class="icon-graduation-cap"></span>
+    <span class="icon-adderss"></span>
   </div>
-  <div class="grid flex flex-wrap" *ngIf="employeeObj?.pendingDetails && employeeObj?.completedDetails">
-    <div class="col-4 md-4 lg-3 sm-6" *ngFor="let detail of employeeObj.pendingDetails.split(', ')">
-      <div class="card border-1 surface-border"
-        [ngClass]="{'text-2xl text-yellow-500': shouldHighlight(detail), 'text-xl text-red-500': !shouldHighlight(detail)}"
-        (click)="openAppropriateDialog(detail)">
-        {{ detail }}
+  <div class="">
+    <div class="grid flex flex-wrap" *ngIf="employeeObj?.pendingDetails && employeeObj?.completedDetails">
+      <div class="col-4 md-4 lg-3 sm-6" *ngFor="let detail of employeeObj.pendingDetails.split(', ')">
+        <div class="card border-1 surface-border"
+          [ngClass]="{'text-yellow-500': shouldHighlight(detail), 'text-red-500': !shouldHighlight(detail)}"
+          (click)="openAppropriateDialog(detail)">
+          <span class="icon-office_details " style="font-size:60px;"></span><br />
+          {{ detail }}
+        </div>
       </div>
-    </div>
-    <div class="col-4 md-4 lg-3 sm-6 text-xl text-green-500"
-      *ngIf="employeeObj.completedDetails && employeeObj.completedDetails !== 'No Details are Completed'">
-      <div class="card border-1 surface-border" *ngFor="let detail of employeeObj.completedDetails.split(', ')"
-        (click)="openAppropriateDialog(detail)">
-        {{ detail }}
+      <div class="col-4 md-4 lg-3 sm-6 text-xl text-green-500"
+        *ngIf="employeeObj.completedDetails && employeeObj.completedDetails !== 'No Details are Completed'">
+        <div class="card border-1 surface-border" *ngFor="let detail of employeeObj.completedDetails.split(', ')"
+          (click)="openAppropriateDialog(detail)">
+          <span class="icon-office_details " style="font-size:60px;"></span><br />
+          {{ detail }}
+        </div>
       </div>
     </div>
   </div>
