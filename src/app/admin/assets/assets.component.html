@@ -19,8 +19,7 @@
           <div class="col-12 roles-container">
             <div class="p-fluid p-formgrid grid">
               <div class="field col-12 md:col-4">
-                <label>Code: <sup class="p-error">*</sup>
-                </label>
+                <label class="required">Code:</label>
                 <input pInputText id="code" type="text" formControlName="code" class="form-control"
                   placeholder="Enter Code" alphaNumeric maxlength="20" #code
                   [ngClass]="{ 'is-invalid ng-dirty': FormControls['code'].touched && FormControls['code'].errors}" />
@@ -43,9 +42,7 @@
                 </div>
               </div>
               <div class="field col-12 md:col-4">
-                <label>Asset Category: <sup class="p-error">*</sup>
-                </label>
-
+                <label class="required">Asset Category:</label>
                 <p-dropdown [options]="assetCategories" optionLabel="name" id="assetCategories"
                   placeholder="Select Asset Category" appendTo="body" [autoDisplayFirst]="false"
                   formControlName="assetCategoryId" optionValue="lookupDetailId"
@@ -58,8 +55,7 @@
                 </span>
               </div>
               <div class="field col-12 md:col-4">
-                <label>Asset Type: <sup class="p-error">*</sup>
-                </label>
+                <label class="required">Asset Type: </label>
                 <p-dropdown [options]="assetTypes" optionLabel="name" id="assetTypes" [filter]="true" filterBy="name"
                   [showClear]="true" placeholder="Select Asset Type" formControlName="assetTypeId"
                   [autoDisplayFirst]="false" optionValue="lookupDetailId" appendTo="body"
@@ -71,8 +67,7 @@
                 </span>
               </div>
               <div class="field col-12 md:col-4">
-                <label>Asset Name: <sup class="p-error">*</sup>
-                </label>
+                <label class="required">Asset Name:  </label>
                 <input pInputText id="assetname" type="text" formControlName="name" placeholder="Enter Asset Name"
                   alphaNumeric class="form-control" maxlength="50" #name
                   [ngClass]="{ 'is-invalid ng-dirty': FormControls['name'].touched && FormControls['name'].errors}" />
@@ -93,8 +88,7 @@
                 </div>
               </div>
               <div class="field col-12 md:col-4">
-                <label>Purchased Date: <sup class="p-error">*</sup>
-                </label>
+                <label class="required">Purchased Date:  </label>
                 <p-calendar inputId="purchasedDate" id="purchasedDate" placeholder="Select Purchased Date"
                   appendTo="body" [readonlyInput]="true" formControlName="purchasedDate" [minDate]="minDateValue"
                   [showIcon]="true"
@@ -196,8 +190,7 @@
                 </div>
               </div>
               <div class="field col-12 md:col-4">
-                <label>Status: <sup class="p-error">*</sup>
-                </label>
+                <label class="required">Status:</label>
                 <p-dropdown [options]="assetstatus" optionLabel="name" appendTo="body" [filter]="true" filterBy="name"
                   id="assetstatus" [showClear]="true" placeholder="Select Status" formControlName="statusId"
                   optionValue="lookupDetailId"
