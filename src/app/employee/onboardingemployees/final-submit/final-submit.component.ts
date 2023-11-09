@@ -216,28 +216,28 @@ export class FinalSubmitComponent {
       this.dialogRequest.width = "50%";
     }
     //uploadDocuments
-    else if (action == Actions.add && content === this.uploadDocumentsDialogComponent) {
+    else if (action == Actions.save && content === this.uploadDocumentsDialogComponent) {
       this.dialogRequest.dialogData = null;
       this.dialogRequest.header = "Upload Documents";
       this.dialogRequest.width = "40%";
     }
-    else if (action == Actions.add && content === this.FamilydetailsDialogComponent) {
+    else if (action == Actions.save && content === this.FamilydetailsDialogComponent) {
       this.dialogRequest.dialogData = null
-      this.dialogRequest.header = "Add Family Details";
+      this.dialogRequest.header = "Family Details";
       this.dialogRequest.width = "40%";
     }
-    else if (action == Actions.add && content === this.BankdetailsDialogComponent) {
+    else if (action == Actions.save && content === this.BankdetailsDialogComponent) {
       this.dialogRequest.dialogData = null
-      this.dialogRequest.header = "Add Bank Details";
+      this.dialogRequest.header = "Bank Details";
       this.dialogRequest.width = "40%";
     }
-    else if (action == Actions.add && content === this.AddressDialogComponent) {
+    else if (action == Actions.save && content === this.AddressDialogComponent) {
       if (this.hasPermanentAddress && this.hasCurrentAddress && this.hasTemporaryAddres) {
         return this.alertMessage.displayErrorMessage(ALERT_CODES["EMAD001"]);
       }
       else {
         this.dialogRequest.dialogData = null
-        this.dialogRequest.header = "Add Address Details";
+        this.dialogRequest.header = "Address Details";
         this.dialogRequest.width = "40%";
       }
     }
