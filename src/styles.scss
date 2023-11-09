@@ -434,7 +434,9 @@ p-calendar input {
 }
 .project_card .Project_editButton{
     position:absolute;
-    right:10px;
+    right:3px;
+    top:3px;
+    // border-radius: 50px;
 }
 .project_card:hover .cursor-pointer{
     color: #f17517;
