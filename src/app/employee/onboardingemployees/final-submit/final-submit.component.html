@@ -43,12 +43,12 @@
           <span *ngSwitchCase="'Addresses'" class="icon-adderss" style="font-size:60px;"></span>
           <span *ngSwitchCase="'WorkExperience'" class="icon-office_details" style="font-size:60px;"></span>
         </ng-container><br />
-        {{ detail }}
+        {{ formatDetailLabel(detail) }}
       </div>
     </div>
     <div class="col-4 md-4 lg-3 sm-6 " *ngFor="let detail of employeeObj.completedDetails.split(', ')"
       (click)="openAppropriateDialog(detail)">
-      <div class="card border-1 surface-border text-xl text-green-500">
+      <div class="card border-1 surface-border text-green-500">
         <ng-container [ngSwitch]="detail">
           <span *ngSwitchCase="'BankDetails'" class="icon-bank_details" style="font-size:60px;"></span>
           <span *ngSwitchCase="'FamilyInformation'" class="icon-family_restroom" style="font-size:60px;"></span>
@@ -57,11 +57,9 @@
           <span *ngSwitchCase="'WorkExperience'" class="icon-office_details" style="font-size:60px;"></span>
           <span *ngSwitchCase="'Addresses'" class="icon-adderss" style="font-size:60px;"></span>
         </ng-container><br />
-        {{ detail }}
+        {{ formatDetailLabel(detail) }}
       </div>
     </div>
-
-
   </div>
 </div>
 

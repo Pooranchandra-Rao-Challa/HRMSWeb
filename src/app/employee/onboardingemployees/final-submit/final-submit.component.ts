@@ -69,6 +69,10 @@ export class FinalSubmitComponent {
     }
   }
 
+  formatDetailLabel(detail: string): string {
+    return detail.replace(/([a-z])([A-Z])/g, '$1 $2');
+  }
+
   shouldHighlight(detail: string): boolean {
     return detail === 'BankDetails' || detail === 'FamilyInformation';
   }

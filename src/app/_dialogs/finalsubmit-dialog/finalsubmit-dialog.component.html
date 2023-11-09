@@ -43,7 +43,7 @@
           <span *ngSwitchCase="'Addresses'" class="icon-adderss" style="font-size:60px;"></span>
           <span *ngSwitchCase="'WorkExperience'" class="icon-office_details" style="font-size:60px;"></span>
         </ng-container><br />
-        {{ detail }}
+        {{ formatDetailLabel(detail) }}
       </div>
     </div>
     <div class="col-4 md-4 lg-3 sm-6 " *ngFor="let detail of employeeObj.completedDetails.split(', ')"
@@ -57,7 +57,7 @@
           <span *ngSwitchCase="'WorkExperience'" class="icon-office_details" style="font-size:60px;"></span>
           <span *ngSwitchCase="'Addresses'" class="icon-adderss" style="font-size:60px;"></span>
         </ng-container><br />
-        {{ detail }}
+        {{ formatDetailLabel(detail) }}
       </div>
     </div>
   </div>
