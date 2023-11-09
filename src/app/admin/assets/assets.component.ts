@@ -2,6 +2,7 @@
 import { HttpEvent } from '@angular/common/http';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import jsPDF from 'jspdf';
 import { Table } from 'primeng/table';
 import { Observable, Subscription } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
@@ -13,7 +14,7 @@ import { AdminService } from 'src/app/_services/admin.service';
 import { JwtService } from 'src/app/_services/jwt.service';
 import { LookupService } from 'src/app/_services/lookup.service';
 import { MAX_LENGTH_20, MAX_LENGTH_256, MAX_LENGTH_3, MAX_LENGTH_50, MAX_LENGTH_7, MIN_LENGTH_2, RG_ALPHA_NUMERIC } from 'src/app/_shared/regex';
-
+import autoTable from 'jspdf-autotable';
 
 @Component({
   selector: 'app-assets',
@@ -40,7 +41,8 @@ export class AssetsComponent {
   permissions: any;
   isSubmitting: boolean = false;
   minDateValue: Date = new Date();
-  
+  selectedAssetTypeId: number = 0;
+
 
   constructor(private adminService: AdminService, private formbuilder: FormBuilder,
     private alertMessage: AlertmessageService, private lookupService: LookupService,
@@ -54,6 +56,7 @@ export class AssetsComponent {
     { field: 'count', header: 'count', label: 'Count' },
   ];
   AssetsTypeTable: ITableHeader[] = [
+    { field: 'employeeName', header: 'employeeName', label: 'employee Name' },
     { field: 'code', header: 'code', label: 'Code' },
     { field: 'name', header: 'name', label: 'Asset Name' },
     { field: 'purchasedDate', header: 'purchasedDate', label: 'Purchased Date' },
@@ -74,15 +77,15 @@ export class AssetsComponent {
   ngOnInit() {
     this.permissions = this.jwtService.Permissions;
     this.assetsForm();
-    this.initAssets();
+    this.initAssets(this.selectedAssetTypeId);
     this.initAssetCategories();
     this.initStatus();
   }
 
-  initAssetTypesbyCategories(selectedCategoryId) {
-      this.lookupService.AssetTypes(selectedCategoryId).subscribe((resp) => {
+  initAssetTypesbyCategories(id: number) {
+      this.lookupService.AssetTypes(id).subscribe((resp) => {
         if (resp) {
-          this.assetTypes = resp as unknown as LookupDetailsDto[];
+          this.assetTypes = resp as unknown as LookupDetailsDto[]; 
         }
       });
   }
@@ -100,8 +103,8 @@ export class AssetsComponent {
   }
 
 
-  initAssets() {
-    this.adminService.GetAssets().subscribe((resp) => {
+  initAssets(assetId:number) {
+    this.adminService.GetAssets(assetId).subscribe((resp) => {
       this.assets = resp as unknown as AssetsViewDto[];
       this.assets.forEach(element => {
         element.expandassets = JSON.parse(element.assets) as unknown as AssetsDetailsViewDto[];
@@ -183,15 +186,17 @@ export class AssetsComponent {
   }
 
   saveAssets(): Observable<HttpEvent<AssetsDto>> {
+    debugger
     if (this.addFlag) return this.adminService.CreateAssets(this.fbassets.value)
     else return this.adminService.UpdateAssets(this.fbassets.value)
   }
 
   save() {
+    debugger
     this.fbassets.value.purchasedDate = FORMAT_DATE(this.fbassets.value.purchasedDate);
     this.saveAssets().subscribe(resp => {
       if (resp) {
-        this.initAssets();
+        this.initAssets(this.selectedAssetTypeId);
         this.onClose();
         this.dialog = false;
         if (this.addFlag) {
@@ -239,4 +244,58 @@ export class AssetsComponent {
     return existingAssetsCode.length > 0;
   }
 
+  exportPdf() {
+    const doc = new jsPDF('l', 'mm', 'a4');
+
+    const head = [['assetType', 'assetCategory', 'count','employeeName', 'code', 'name', 'purchasedDate', 'modelNumber', 'manufacturer',
+    'serialNumber', 'warranty', 'addValue', 'description', 'status']];
+
+    autoTable(doc, {
+      head: head,
+      body: this.toPdfFormat(),
+      // didDrawCell: (data) => { },
+    });
+    doc.save('assets.pdf');
+  }
+
+  toPdfFormat() {
+    let data = [];
+   // Push data from main asset
+    for (let i = 0; i < this.assets.length; i++) {
+      const asset = this.assets[i];
+      const expandAssets = asset.expandassets;
+      const numberOfEmptyStrings = 11; // Adjust as needed
+      // Generate an array with empty strings
+      const emptyStrings = Array(numberOfEmptyStrings).fill('');
+      const mainAssetData = [
+        asset.assetType,
+        asset.assetCategory,
+        asset.count,
+      ];
+      data.push([...mainAssetData, ...emptyStrings]);
+  
+      // Push data from expandassets
+      for (let j = 0; j < expandAssets.length; j++) {
+        const expandAsset = expandAssets[j];
+        data.push([
+          '',
+          '',
+          '',
+          expandAsset.employeeName,
+          expandAsset.code,
+          expandAsset.name,
+          expandAsset.purchasedDate,
+          expandAsset.modelNumber,
+          expandAsset.manufacturer,
+          expandAsset.serialNumber,
+          expandAsset.warranty,
+          expandAsset.addValue,
+          expandAsset.description,
+          expandAsset.status,
+        ]);
+      }
+    }
+    return data;
+  }
+  
 }

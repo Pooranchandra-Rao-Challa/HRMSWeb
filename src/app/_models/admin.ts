@@ -31,10 +31,12 @@ export class AssetsViewDto {
     assetCategoryId?: number;
     assetCategory?: string;
     assets?: string;
+    count?:number;
     expandassets?: AssetsDetailsViewDto[]
 }
 
 export class AssetsDetailsViewDto {
+    employeeName: string;
     assetId?: number;
     code?: string;
     name?: string;
