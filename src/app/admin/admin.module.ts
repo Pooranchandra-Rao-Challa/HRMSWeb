@@ -1,7 +1,6 @@
 import { LookupsComponent } from './lookups/lookups.component';
 import { HolidayconfigurationComponent } from './holidayconfiguration/holidayconfiguration.component';
 import { AssetsComponent } from './assets/assets.component';
-import { JobdesignComponent } from './jobdesign/jobdesign.component';
 import { RecruitmentComponent } from './recruitment/recruitment.component';
 import { AdminRoutingModule } from './admin-routing.module';
 import { ProjectComponent } from './project/project.component';
@@ -10,13 +9,14 @@ import { SharedModule } from '../_shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonDialogModule } from '../_dialogs/common.dialog.module';
 import { D3OrgChartComponent } from './project/d3-org-chart/d3-org-chart.component';
+import { JobOpeningsComponent } from './jobopenings/jobopenings.component';
 
 @NgModule({
   declarations: [
     LookupsComponent,
     HolidayconfigurationComponent,
     AssetsComponent,
-    JobdesignComponent,
+    JobOpeningsComponent,
     RecruitmentComponent,
     ProjectComponent,
     AssetsallotmentComponent,
