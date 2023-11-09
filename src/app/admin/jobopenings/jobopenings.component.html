@@ -1,18 +1,47 @@
+<p-dataView #dv [value]="jobOpening" [paginator]="dv.layout === 'grid' && dv.rows > 10" [rows]="10"
+    filterBy="employeeName,code,employeeRoleName,dateofJoin,officeEmailId,mobileNumber,certificateDOB,gender"
+    layout="grid">
+    <ng-template pTemplate="header">
+        <div class="flex flex-column md:flex-row md:justify-content-between gap-2">
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input type="text" pInputText placeholder="Search by Name" />
+            </span>
+            <button pButton pRipple label="Add Job Opening" icon="pi pi-plus" class="p-button-primary p-mr-2"
+                id="addJobOpening" (click)="openComponentDialog(jobOpeningDialogComponent, null, ActionTypes.save)"
+                *ngIf="permissions?.CanManageJobOpening"></button>
+        </div>
+    </ng-template>
+    <ng-template let-jobOpeningDetails pTemplate="gridItem">
+        <div class="col-12 md:col-4 lg:col-3 sm:col-6">
+            <div class="card m-2 border-1 surface-border card-height">
+                <div class=" mb-3 grid">
+                    <div class="col-12">
+                        <span class="text-xl text-primary  font-boldtext-md">
+                            <i class="pi pi-star text-primary" ></i>
+                            {{jobOpeningDetails.designation}}
+                        </span>
+                        <div class="text-600 font-medium">{{ jobOpeningDetails.description }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-dataView>
+<!-- 
 <div class="col-12">
     <div class="card">
-        <!-- Toolbar -->
         <p-toolbar styleClass="p-mb-4">
             <ng-template pTemplate="left">
                 <h4>Job Openings</h4>
             </ng-template>
             <ng-template pTemplate="right">
                 <button pButton pRipple label="Add Job Opening" icon="pi pi-plus" class="p-button-primary p-mr-2"
-                    id="addJobDesign" (click)="openComponentDialog(jobDesignDialogComponent, null, ActionTypes.save)"
-                    *ngIf="permissions?.CanManageJobDesign"></button>
+                    id="addJobOpening" (click)="openComponentDialog(jobOpeningDialogComponent, null, ActionTypes.save)"
+                    *ngIf="permissions?.CanManageJobOpening"></button>
             </ng-template>
         </p-toolbar>
-        <!-- p-table -->
-        <p-table id="table" #dt [value]="jobDesign" dataKey="id" [rows]="10" [rowHover]="true"
+        <p-table id="table" #dt [value]="jobOpening" dataKey="id" [rows]="10" [rowHover]="true"
             [alwaysShowPaginator]="false" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
             [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
             [columns]="selectedColumns" [showCurrentPageReport]="true" [globalFilterFields]="globalFilterFields"
@@ -22,8 +51,8 @@
                 <div class="flex justify-content-between flex-column sm:flex-row">
                     <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
                         (click)="clear(dt)" id="clear-btn"></button>
-                    <p-multiSelect appendTo="body" [options]="selectedColumnHeader" [(ngModel)]="selectedColumns" optionLabel="label"
-                        id="lookup_ColumnSelection" selectedItemsLabel="{0} columns selected"
+                    <p-multiSelect appendTo="body" [options]="selectedColumnHeader" [(ngModel)]="selectedColumns"
+                        optionLabel="label" id="lookup_ColumnSelection" selectedItemsLabel="{0} columns selected"
                         [style]="{'min-width': '200px'}" placeholder="Choose Columns"></p-multiSelect>
                     <span class="p-input-icon-left mb-2">
                         <i class="pi pi-search"></i>
@@ -78,4 +107,4 @@
             </ng-template>
         </p-table>
     </div>
-</div>
+</div> -->

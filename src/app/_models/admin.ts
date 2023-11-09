@@ -1,3 +1,5 @@
+import { dateSelectionJoinTransformer } from "@fullcalendar/core/internal";
+
 export class LookupViewDto {
     lookupId?: number;
     code?: string;
@@ -99,6 +101,10 @@ export class HolidayDto {
     toDate?: any
     isActive?: boolean
 }
+export class projectStatus {
+    eProjectStatusesId:number;
+    name:string;
+}
 export class ProjectViewDto {
     projectId: number;
     code: string;
@@ -113,6 +119,9 @@ export class ProjectViewDto {
     cinno: string;
     pocName: string;
     pocMobileNumber: string;
+    Initial:Date;
+    working:Date;
+    completed:Date;
     address: string;
     logo: string;
     teamMembers: string
@@ -123,6 +132,10 @@ export class ProjectViewDto {
     updatedBy?: string
     updatedAt?: string
 }
+export class projectStatuses{
+    eProjectStatusesId?:number;
+    statusDate?:Date;
+}
 export class EmployeesList {
     employeeId: number
     employeeName: string
@@ -130,8 +143,8 @@ export class EmployeesList {
     date: string;
 }
 export class ProjectAllotments {
-    employeeId: number
-    projectAllotmentId: number
+    employeeId?: number
+    projectAllotmentId?: number
     projectId: number
     isActive: boolean
 }
@@ -145,6 +158,7 @@ export class ProjectDetailsDto {
     description: string;
     isActive?: boolean;
     projectAllotments?: []
+    projectStatuses:projectStatuses[]
     clients?: ClientDetailsDto[];
     createdBy?: string
     createdAt?: string
@@ -199,13 +213,13 @@ export class EmployeeHierarchyDto {
     eRoleName?: string;
     projectId?: number;
     projectName?: string;
-    assetCount?:number;
-    noOfWorkingDays?:number;
-    noOfAbsents?:number;
-    noOfLeaves?:number;
-    projectDescription?:string;
-    clientName?:string;
-    clientCompanyName?:string;
+    assetCount?: number;
+    noOfWorkingDays?: number;
+    noOfAbsents?: number;
+    noOfLeaves?: number;
+    projectDescription?: string;
+    clientName?: string;
+    clientCompanyName?: string;
     chartId?: number;
     hierarchyLevel?: string;
     selfId?: number;
@@ -215,7 +229,7 @@ export class EmployeeHierarchyDto {
 
 export class JobOpeningsDetailsViewDto {
     id?: number;
-    jobDesignId?: number;
+    JobOpeningId?: number;
     projectId?: number;
     projectName?: string;
     designationId?: number;
@@ -230,8 +244,8 @@ export class JobOpeningsDetailsViewDto {
     technicalSkillIds?: string;
     technicalSkills?: string;
     isActive?: boolean;
-    JobDesignTechnicalSkillsXrefs: TechnicalSkills[];
-    JobDesignSoftSkillsXrefs: SoftSkills[];
+    JobOpeningTechnicalSkillsXrefs: TechnicalSkills[];
+    JobOpeningSoftSkillsXrefs: SoftSkills[];
     createdAt?: Date;
     createdBy?: string;
     updatedAt?: Date;
@@ -239,13 +253,13 @@ export class JobOpeningsDetailsViewDto {
 }
 
 export class TechnicalSkills {
-    JobDesignTechnicalSkillsXrefId?: number;
-    JobDesignId?: number;
+    JobOpeningsTechnicalSkillsXrefId?: number;
+    JobOpeningId?: number;
     TechnicalSkillId?: number;
 }
 
 export class SoftSkills {
-    JobDesignSoftSkillsXrefId?: number;
-    JobDesignId?: number;
+    JobOpeningsSoftSkillsXrefId?: number;
+    JobOpeningId?: number;
     SoftSkillId?: number;
 }

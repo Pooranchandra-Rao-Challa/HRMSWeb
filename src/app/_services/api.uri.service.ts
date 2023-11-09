@@ -61,6 +61,7 @@ export const GET_PROJECT_WITH_ID="Admin/GetProjectDetails"
 export const CREATE_PROJECT_URI = "Admin/CreateProjectWithDetails";
 export const UPDATE_PROJECT_URI = "Admin/UpdateProjectWithDetails";
 export const GET_CLIENTNAMES_URI = "Admin/GetClientNames";
+export const GET_PROJECT_STATUSES="Admin/GetEProjectStatuses"
 export const GET_CLIENT_DETAILS = "Admin/GetClientDetails";
 export const GET_EMPLOYEES = "Employee/GetEmployeeDropdown";
 export const GET_EMPLOYEESLIST="Employee/GetEmployeesForProject";
@@ -110,8 +111,8 @@ export const GET_COMPANY_HIERARCHY="Employee/GetCompanyHierarchy";
 
 //Job Details
 
-export const GET_JOB_DETAILS="JobDesign/GetJobDesign";
-export const CREATE_JOB_DESIGN_DETAILS="JobDesign/CreateJobDesign";
+export const GET_JOB_DETAILS="JobOpening/GetJobOpening";
+export const CREATE_JOB_OPENINGS_DETAILS="JobOpening/CreateJobOpening";
 
 // leave confirmation
 export const GET_MAIL_EMPLOYEE_DETAILS ="Attendance/approve";

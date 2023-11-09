@@ -1,5 +1,5 @@
 <div class="flex flex-column align-items-center justify-content-center">
-    <form [formGroup]="fbJobDesign">
+    <form [formGroup]="fbJobOpening">
         <div class="grid mt-3 p-5">
             <div class="col-12 roles-container">
                 <div class="p-fluid p-formgrid grid">
@@ -37,7 +37,7 @@
                     </div>
                     <div class="field col-12 md:col-4">
                         <label class="required">Technical Skills:</label>
-                        <p-multiSelect appendTo="body" placeholder="Select Technical Skills" id="JobDesign_TechnicalSkills"
+                        <p-multiSelect appendTo="body" placeholder="Select Technical Skills" id="JobOpening_TechnicalSkills"
                             [options]="technicalskills" optionLabel="name" [filter]="true" filterBy="name" #multiSelect
                             formControlName="technicalSkills" optionValue="lookupDetailId"
                             (keydown)="restrictSpaces($event)" (onChange)="onSelectTechnicalSkill($event)"
@@ -61,7 +61,7 @@
                     </div>
                     <div class="field col-12 md:col-4">
                         <label class="required">Soft Skills:</label>
-                        <p-multiSelect appendTo="body" placeholder="Select Soft Skills" id="JobDesign_SoftSkills"
+                        <p-multiSelect appendTo="body" placeholder="Select Soft Skills" id="JobOpening_SoftSkills"
                             [options]="softskills" optionLabel="name" [filter]="true" filterBy="name" #multiSelect
                             formControlName="softSkills" optionValue="lookupDetailId" (keydown)="restrictSpaces($event)"
                             (onChange)="onSelectSoftSkill($event)"
@@ -166,5 +166,5 @@
 
 <div class=" footer dialog-footer">
     <button pButton pRipple type="submit" label="Add Job Opening" class="p-button-raised p-button-primary"
-        id="SubmitJobForm" [disabled]="fbJobDesign.invalid" (click)="onSubmit()"></button>
+        id="SubmitJobForm" [disabled]="fbJobOpening.invalid" (click)="onSubmit()"></button>
 </div>
