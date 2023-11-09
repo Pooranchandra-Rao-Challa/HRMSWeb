@@ -30,7 +30,7 @@
   <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2">
     Need to Fill all the Bellow Sections for Enrolling an Employee.
   </div>
-  <div class="grid flex flex-wrap" *ngIf="employeeObj?.pendingDetails && employeeObj?.completedDetails">
+  <div class="grid " *ngIf="employeeObj?.pendingDetails && employeeObj?.completedDetails">
     <div class="col-4 md-4 lg-3 sm-6" *ngFor="let detail of employeeObj.pendingDetails.split(', ')">
       <div class="card border-1 surface-border"
         [ngClass]="{'text-yellow-500': shouldHighlight(detail), 'text-red-500': !shouldHighlight(detail)}"
@@ -46,10 +46,11 @@
         {{ detail }}
       </div>
     </div>
-    <div class="col-4 md-4 lg-3 sm-6 text-xl text-green-500"
-      *ngIf="employeeObj.completedDetails && employeeObj.completedDetails !== 'No Details are Completed'">
-      <div class="card border-1 surface-border" *ngFor="let detail of employeeObj.completedDetails.split(', ')"
-        (click)="openAppropriateDialog(detail)">
+  </div>
+  <div class="grid" *ngIf="employeeObj.completedDetails && employeeObj.completedDetails !== 'No Details are Completed'">
+    <div class="col-4 md-4 lg-3 sm-6 " *ngFor="let detail of employeeObj.completedDetails.split(', ')"
+    (click)="openAppropriateDialog(detail)" >
+      <div class="card border-1 surface-border text-green-500">
         <ng-container [ngSwitch]="detail">
           <span *ngSwitchCase="'BankDetails'" class="icon-bank_details" style="font-size:60px;"></span>
           <span *ngSwitchCase="'FamilyInformation'" class="icon-family_restroom" style="font-size:60px;"></span>
