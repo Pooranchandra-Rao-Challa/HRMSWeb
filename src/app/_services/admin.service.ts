@@ -34,8 +34,8 @@ export class AdminService extends ApiHttpService {
         return this.get<HolidaysViewDto[]>(GET_YEARS_FROM_HOLIDAYS_URI);
     }
 
-    public GetAssets() {
-        return this.get<AssetsViewDto[]>(GET_ASSETS_URI);
+    public GetAssets(assetId: number) {
+        return this.getWithId<AssetsViewDto[]>(GET_ASSETS_URI,assetId);
     }
 
     public CreateAssets(assets: AssetsDto) {

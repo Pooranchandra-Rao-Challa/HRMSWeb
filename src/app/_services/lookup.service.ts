@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { LookupDetailsDto, LookupViewDto } from '../_models/admin';
+import { LookupViewDto } from '../_models/admin';
 import { ApiHttpService } from './api.http.service';
-import { LOOKUP_DAYWORKSTATUS_URI, LOOKUP_DETAILS_URI, LOOKUP_NAMES_CONFIGURE_URI, LOOKUP_NAMES_NOT_CONFIGURE_URI, LOOKUP_NAMES_URI } from './api.uri.service';
+import { LOOKUP_DETAILS_URI, LOOKUP_NAMES_CONFIGURE_URI, LOOKUP_NAMES_NOT_CONFIGURE_URI, LOOKUP_NAMES_URI } from './api.uri.service';
 
 @Injectable({
     providedIn: 'root'
