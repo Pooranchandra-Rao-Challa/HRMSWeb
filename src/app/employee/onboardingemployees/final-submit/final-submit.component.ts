@@ -18,7 +18,6 @@ export class FinalSubmitComponent {
   displayDialog: boolean = false;
   employees: any;
   employeeObj: any = {};
-  userData: any;
   errorMessage: string;
   roles: RoleViewDto[] = [];
 
