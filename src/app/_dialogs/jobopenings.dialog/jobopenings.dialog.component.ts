@@ -4,25 +4,25 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable } from 'rxjs';
 import { ALERT_CODES, AlertmessageService } from 'src/app/_alerts/alertmessage.service';
-import { JobDesignDetailsViewDto, LookupDetailsDto, LookupViewDto, ProjectViewDto } from 'src/app/_models/admin';
+import {  JobOpeningsDetailsViewDto, LookupDetailsDto, LookupViewDto, ProjectViewDto } from 'src/app/_models/admin';
 import { MaxLength } from 'src/app/_models/common';
 import { AdminService } from 'src/app/_services/admin.service';
 import { LookupService } from 'src/app/_services/lookup.service';
 
 @Component({
-  selector: 'app-jobdesign.dialog',
-  templateUrl: './jobdesign.dialog.component.html',
+  selector: 'app-jobopenings.dialog',
+  templateUrl: './jobopenings.dialog.component.html',
   styles: [
   ]
 })
-export class JobdesignDialogComponent {
-  fbJobDesign!: FormGroup;
+export class JobOpeningsDialogComponent {
+  fbJobOpening!: FormGroup;
   technicalskills: LookupDetailsDto[] = [];
   softskills: LookupDetailsDto[] =[];
   natureOfJobs: LookupViewDto[] =[];
   projects:ProjectViewDto[]=[];
   maxLength: MaxLength = new MaxLength();
-  jobDesignId: number;
+  JobOpeningId: number;
   viewSelectedSkills = [];
   designation:LookupViewDto[]=[];
   minDate: Date = new Date(new Date());
@@ -34,7 +34,7 @@ export class JobdesignDialogComponent {
               private alertMessage:AlertmessageService) { }
 
   ngOnInit() {
-    this.jobDesignForm();
+    this.jobOpeningForm();
     this.getTechnicalSkills();
     this.getProjectNames();
     this.getSoftSkills();
@@ -73,9 +73,9 @@ export class JobdesignDialogComponent {
   }
 
 
-  jobDesignForm() {
-    this.fbJobDesign = this.formbuilder.group({
-      jobDesignId: [null],
+  jobOpeningForm() {
+    this.fbJobOpening = this.formbuilder.group({
+      JobOpeningId: [null],
       projectId:  new FormControl('', [Validators.required]),
       designationId:  new FormControl('',[Validators.required]),
       description:  new FormControl('', [Validators.required]),
@@ -85,13 +85,13 @@ export class JobdesignDialogComponent {
       isActive:  new FormControl(true),
       technicalSkills:new FormControl('',[Validators.required]),
       softSkills:new FormControl('',[Validators.required]),
-      JobDesignTechnicalSkillsXrefs:new FormControl([{JobDesignTechnicalSkillsXrefId:null,JobDesignId:null,TechnicalSkillId:null}]),
-      JobDesignSoftSkillsXrefs:new FormControl([{JobDesignSoftSkillsXrefId:null,JobDesignId:null,SoftSkillId:null}]),
+      JobOpeningTechnicalSkillsXrefs:new FormControl([{JobOpeningsTechnicalSkillsXrefId:null,JobOpeningId:null,TechnicalSkillId:null}]),
+      JobOpeningSoftSkillsXrefs:new FormControl([{JobOpeningsSoftSkillsXrefId:null,JobOpeningId:null,SoftSkillId:null}]),
     });
   }
 
   get FormControls() {
-    return this.fbJobDesign.controls;
+    return this.fbJobOpening.controls;
   }
 
 
@@ -102,18 +102,18 @@ export class JobdesignDialogComponent {
   }
 
   onSelectSoftSkill(e){
-    this.fbJobDesign.get('JobDesignSoftSkillsXrefs')?.setValue('');
+    this.fbJobOpening.get('JobOpeningSoftSkillsXrefs')?.setValue('');
     this.viewSelectedSkills = [];
     let CurrentArray = e.value;
     let updatedArray = [];
-    if (this.jobDesignId) {
+    if (this.JobOpeningId) {
       for (let i = 0; i < CurrentArray.length; i++) {
-        updatedArray.push({ JobDesignSoftSkillsXrefId: 0, JobDesignId: this.jobDesignId, SoftSkillId: CurrentArray[i] })
+        updatedArray.push({ JobOpeningsSoftSkillsXrefId: 0, JobOpeningId: this.JobOpeningId, SoftSkillId: CurrentArray[i] })
       }
     }
     else {
       for (let i = 0; i < CurrentArray.length; i++) {
-        updatedArray.push({ JobDesignSoftSkillsXrefId: 0, JobDesignId: 0, SoftSkillId: CurrentArray[i] })
+        updatedArray.push({ JobOpeningsSoftSkillsXrefId: 0, JobOpeningId: 0, SoftSkillId: CurrentArray[i] })
       }
     }
 
@@ -123,22 +123,22 @@ export class JobdesignDialogComponent {
           this.viewSelectedSkills.push(each.name);
         }
       });
-    this.fbJobDesign.get('JobDesignSoftSkillsXrefs')?.setValue(updatedArray);
+    this.fbJobOpening.get('JobOpeningSoftSkillsXrefs')?.setValue(updatedArray);
   }
 
   onSelectTechnicalSkill(e) {
-    this.fbJobDesign.get('JobDesignTechnicalSkillsXrefs')?.setValue('');
+    this.fbJobOpening.get('JobOpeningTechnicalSkillsXrefs')?.setValue('');
     this.viewSelectedSkills = [];
     let CurrentArray = e.value;
     let updatedArray = [];
-    if (this.jobDesignId) {
+    if (this.JobOpeningId) {
       for (let i = 0; i < CurrentArray.length; i++) {
-        updatedArray.push({ JobDesignTechnicalSkillsXrefId: 0, JobDesignId: this.jobDesignId, TechnicalSkillId: CurrentArray[i] })
+        updatedArray.push({ JobOpeningsTechnicalSkillsXrefId: 0, JobOpeningId: this.JobOpeningId, TechnicalSkillId: CurrentArray[i] })
       }
     }
     else {
       for (let i = 0; i < CurrentArray.length; i++) {
-        updatedArray.push({ JobDesignTechnicalSkillsXrefId: 0, JobDesignId: 0, TechnicalSkillId: CurrentArray[i] })
+        updatedArray.push({ JobOpeningsTechnicalSkillsXrefId: 0, JobOpeningId: 0, TechnicalSkillId: CurrentArray[i] })
       }
     }
 
@@ -148,16 +148,16 @@ export class JobdesignDialogComponent {
           this.viewSelectedSkills.push(each.name);
         }
       });
-    this.fbJobDesign.get('JobDesignTechnicalSkillsXrefs')?.setValue(updatedArray);
+    this.fbJobOpening.get('JobOpeningTechnicalSkillsXrefs')?.setValue(updatedArray);
   }
 
 
-  save(): Observable<HttpEvent<JobDesignDetailsViewDto[]>> {
-    return this.adminService.CreateJobDesignDetails([this.fbJobDesign.value])
+  save(): Observable<HttpEvent<JobOpeningsDetailsViewDto[]>> {
+    return this.adminService.CreateJobOpeningDetails([this.fbJobOpening.value])
   }
   
   onSubmit() {
-    if (this.fbJobDesign.valid) {
+    if (this.fbJobOpening.valid) {
       this.save().subscribe(resp => {        
         if (resp) {
           this.ref.close(true);
@@ -166,7 +166,7 @@ export class JobdesignDialogComponent {
       });
     }
     else {
-      this.fbJobDesign.markAllAsTouched();
+      this.fbJobOpening.markAllAsTouched();
     }
   }
 }

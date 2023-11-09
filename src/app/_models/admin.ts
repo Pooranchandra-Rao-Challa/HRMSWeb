@@ -33,10 +33,12 @@ export class AssetsViewDto {
     assetCategoryId?: number;
     assetCategory?: string;
     assets?: string;
+    count?:number;
     expandassets?: AssetsDetailsViewDto[]
 }
 
 export class AssetsDetailsViewDto {
+    employeeName: string;
     assetId?: number;
     code?: string;
     name?: string;
@@ -225,9 +227,9 @@ export class EmployeeHierarchyDto {
     photo?: string;
 }
 
-export class JobDesignDetailsViewDto {
+export class JobOpeningsDetailsViewDto {
     id?: number;
-    jobDesignId?: number;
+    JobOpeningId?: number;
     projectId?: number;
     projectName?: string;
     designationId?: number;
@@ -242,8 +244,8 @@ export class JobDesignDetailsViewDto {
     technicalSkillIds?: string;
     technicalSkills?: string;
     isActive?: boolean;
-    JobDesignTechnicalSkillsXrefs: TechnicalSkills[];
-    JobDesignSoftSkillsXrefs: SoftSkills[];
+    JobOpeningTechnicalSkillsXrefs: TechnicalSkills[];
+    JobOpeningSoftSkillsXrefs: SoftSkills[];
     createdAt?: Date;
     createdBy?: string;
     updatedAt?: Date;
@@ -251,13 +253,13 @@ export class JobDesignDetailsViewDto {
 }
 
 export class TechnicalSkills {
-    JobDesignTechnicalSkillsXrefId?: number;
-    JobDesignId?: number;
+    JobOpeningsTechnicalSkillsXrefId?: number;
+    JobOpeningId?: number;
     TechnicalSkillId?: number;
 }
 
 export class SoftSkills {
-    JobDesignSoftSkillsXrefId?: number;
-    JobDesignId?: number;
+    JobOpeningsSoftSkillsXrefId?: number;
+    JobOpeningId?: number;
     SoftSkillId?: number;
 }

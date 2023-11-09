@@ -399,9 +399,12 @@
     <div class="card">
       <p-tabView>
         <p-tabPanel header="Card View ">
-          <div class="grid mb-5">
+          <div class="grid mb-5 p-0">
             <div class="col-12 md:col-4 lg:col-3 sm:col-6" *ngFor="let project of visibleProjects; let i = index ">
-              <div class="card border-1 surface-border card-height">
+              <div class="card border-1 surface-border card-height project_card">
+                <button pButton pRipple icon="pi pi-pencil" *ngIf="permission?.CanManageProjects"
+                class="p-element p-ripple p-button-text p-button-primary p-component Project_editButton"
+                (click)="initProject(project)" id="Project_editButton"></button>
                 <div class="list-none m-0 p-0 text-center">
                   <img [src]="project.logo" alt="img" [style]="{width: '300px'}"
                     class="inline-flex align-items-center justify-content-center border-circle w-5rem h-5rem bg-primary-100 mb-5">
@@ -411,8 +414,17 @@
                     <button pButton pRipple icon="pi pi-pencil" *ngIf="permission?.CanManageProjects"
                       class="p-element p-ripple p-button-text p-button-primary p-component m-0 p-0 justify-content-end"
                       (click)="initProject(project)" id="Project_editButton"></button>
+                  <div class="text-2xl mb-3 font-medium" >
+                    <a class="cursor-pointer" (click)="showProjectDetails(project.projectId)" 
+                      id="Project_viewDetails">{{project.name}} </a>                   
                   </div>
-                  <p class="line-height-3 mb-3">{{project.description}}</p>
+                  <!-- <p class="line-height-3 mb-3">{{project.description}}</p> -->
+                  <div class="project_details p-2">
+                    <p><span class="text-primary">Status</span>: AMC</p>
+                    <p><span class="text-primary">Start Date</span>: 11/12/2023</p>
+                    <p><span class="text-primary">POC Number </span>: +91 8794561328</p>
+                    <p><span class="text-primary">POC Name</span>: Rajash</p>
+                  </div>
                 </div>
               </div>
             </div>

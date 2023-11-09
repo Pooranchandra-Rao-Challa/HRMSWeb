@@ -19,6 +19,7 @@ import { AddressComponent } from './onboardingemployees/address/address.componen
 import { BankDetailsComponent } from './onboardingemployees/bank-details/bank-details.component';
 import { CommonDialogModule } from '../_dialogs/common.dialog.module';
 import { OnboardEmployeeService } from 'src/app/_helpers/view.notificaton.services'
+import { FinalsubmitDialogComponent } from '../_dialogs/finalsubmit-dialog/finalsubmit-dialog.component';
 
 
 
@@ -37,7 +38,8 @@ import { OnboardEmployeeService } from 'src/app/_helpers/view.notificaton.servic
         FinalSubmitComponent,
         FamilyDeatilsComponent,
         AddressComponent,
-        BankDetailsComponent
+        BankDetailsComponent,
+        FinalsubmitDialogComponent
     ],
 
     imports: [
