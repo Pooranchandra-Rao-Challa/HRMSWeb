@@ -7,7 +7,6 @@
                 <i class="pi pi-search"></i>
                 <input type="text" pInputText placeholder="Search by Name" />
             </span>
-            <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
             <button pButton pRipple label="Add Job Opening" icon="pi pi-plus" class="p-button-primary p-mr-2"
                 id="addJobOpening" (click)="openComponentDialog(jobOpeningDialogComponent, null, ActionTypes.save)"
                 *ngIf="permissions?.CanManageJobOpening"></button>
