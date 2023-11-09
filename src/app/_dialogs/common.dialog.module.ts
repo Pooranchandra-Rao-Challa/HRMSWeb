@@ -31,7 +31,7 @@ import { JobdesignDialogComponent } from './jobdesign.dialog/jobdesign.dialog.co
     ExperiencedetailsDialogComponent,
     LookupDialogComponent,
     LeaveDialogComponent,
-    JobdesignDialogComponent
+    JobdesignDialogComponent,
   ],
   imports: [SharedModule],
   providers: [DialogService, DynamicDialogRef]
