@@ -22,7 +22,7 @@
                 <div class="flex justify-content-between flex-column sm:flex-row">
                     <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
                         (click)="clear(dt)" id="clear-btn"></button>
-                    <p-multiSelect [options]="selectedColumnHeader" [(ngModel)]="selectedColumns" optionLabel="label"
+                    <p-multiSelect appendTo="body" [options]="selectedColumnHeader" [(ngModel)]="selectedColumns" optionLabel="label"
                         id="lookup_ColumnSelection" selectedItemsLabel="{0} columns selected"
                         [style]="{'min-width': '200px'}" placeholder="Choose Columns"></p-multiSelect>
                     <span class="p-input-icon-left mb-2">
