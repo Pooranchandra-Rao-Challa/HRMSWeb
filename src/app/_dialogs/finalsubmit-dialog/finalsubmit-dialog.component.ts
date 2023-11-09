@@ -184,17 +184,17 @@ export class FinalsubmitDialogComponent {
     }
     //uploadDocuments
     else if (action == Actions.add && content === this.uploadDocumentsDialogComponent) {
-      this.dialogRequest.dialogData = null;
+      this.dialogRequest.dialogData = dialogData;
       this.dialogRequest.header = "Upload Documents";
       this.dialogRequest.width = "40%";
     }
     else if (action == Actions.save && content === this.FamilydetailsDialogComponent) {
-      this.dialogRequest.dialogData = null
+      this.dialogRequest.dialogData = dialogData
       this.dialogRequest.header = "Family Details";
       this.dialogRequest.width = "40%";
     }
     else if (action == Actions.save && content === this.BankdetailsDialogComponent) {
-      this.dialogRequest.dialogData = null
+      this.dialogRequest.dialogData = dialogData
       this.dialogRequest.header = "Bank Details";
       this.dialogRequest.width = "40%";
     }
