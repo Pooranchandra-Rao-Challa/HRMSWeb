@@ -373,9 +373,9 @@ p-calendar input {
     padding: 5px;
 }
 
-.card-height {
-    height: 90%;
-}
+// .card-height {
+//     height: 90%;
+// }
 
 .pair {
     display: flex;
@@ -429,4 +429,20 @@ p-calendar input {
     max-height: 250px;
     overflow-y: auto;
   }
+.project_card{
+    position: relative;
+}
+.project_card .Project_editButton{
+    position:absolute;
+    right:3px;
+    top:3px;
+    // border-radius: 50px;
+}
+.project_card:hover .cursor-pointer{
+    color: #f17517;
 
+}
+.project_details p{
+    line-height: 1;
+    text-align: left;
+}

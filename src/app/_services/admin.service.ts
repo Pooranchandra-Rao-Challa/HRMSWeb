@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AssetsDto, AssetsViewDto, ClientDetailsDto, ClientNamesDto, EmployeeHierarchyDto, EmployeeRolesDto, EmployeesForAllottedAssetsViewDto, EmployeesList, HolidayDto, HolidaysViewDto, JobDesignDetailsViewDto, LookupViewDto, ProjectAllotments, ProjectDetailsDto, ProjectViewDto } from '../_models/admin';
+import { AssetsDto, AssetsViewDto, ClientDetailsDto, ClientNamesDto, EmployeeHierarchyDto, EmployeeRolesDto, EmployeesForAllottedAssetsViewDto, EmployeesList, HolidayDto, HolidaysViewDto, JobOpeningsDetailsViewDto, LookupViewDto, ProjectAllotments, ProjectDetailsDto, ProjectViewDto } from '../_models/admin';
 import { AssetAllotmentDto, AssetAllotmentViewDto, AssetsByAssetTypeIdViewDto, RevokeAssetRequest } from '../_models/admin/assetsallotment';
 import { ApiHttpService } from './api.http.service';
 import {
@@ -104,10 +104,10 @@ export class AdminService extends ApiHttpService {
 
     //Job Details
     public GetJobDetails() {
-        return this.get<JobDesignDetailsViewDto[]>(GET_JOB_DETAILS);
+        return this.get<JobOpeningsDetailsViewDto[]>(GET_JOB_DETAILS);
     }
 
-    public CreateJobDesignDetails(jobDesignDto:JobDesignDetailsViewDto[]){
-        return this.post<JobDesignDetailsViewDto[]>(CREATE_JOB_DESIGN_DETAILS,jobDesignDto);
+    public CreateJobDesignDetails(jobDesignDto:JobOpeningsDetailsViewDto[]){
+        return this.post<JobOpeningsDetailsViewDto[]>(CREATE_JOB_DESIGN_DETAILS,jobDesignDto);
     }
 }

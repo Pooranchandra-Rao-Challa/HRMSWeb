@@ -25,8 +25,8 @@ import { ExperiencedetailsDialogComponent } from 'src/app/_dialogs/experiencedet
 import { ALERT_CODES, AlertmessageService } from 'src/app/_alerts/alertmessage.service';
 import { JwtService } from 'src/app/_services/jwt.service';
 import { ConfirmationDialogService } from 'src/app/_alerts/confirmationdialog.service';
-import { FinalSubmitComponent } from '../onboardingemployees/final-submit/final-submit.component';
 import jsPDF from 'jspdf';
+import { FinalsubmitDialogComponent } from 'src/app/_dialogs/finalsubmit-dialog/finalsubmit-dialog.component';
 
 @Component({
   selector: 'app-viewemployees',
@@ -34,8 +34,8 @@ import jsPDF from 'jspdf';
   styles: [],
 })
 export class ViewemployeesComponent {
-  @ViewChild(FinalSubmitComponent, { static: false })
-  finalSubmitComponent: FinalSubmitComponent;
+  @ViewChild(FinalsubmitDialogComponent, { static: false })
+  finalSubmitdialogComponent: FinalsubmitDialogComponent;
   // employee basic details
   employeePrsDtls = new EmployeeBasicDetailViewDto();
   mediumDate: string = MEDIUM_DATE;
@@ -114,7 +114,7 @@ export class ViewemployeesComponent {
   }
   
   onEmployeeEnroll() {
-    this.finalSubmitComponent.ngOnInit();
+    this.finalSubmitdialogComponent.ngOnInit();
     this.dialog = true;
   }
 
