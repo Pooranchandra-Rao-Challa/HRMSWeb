@@ -20,8 +20,8 @@ export class JobOpeningsComponent {
   @ViewChild('filter') filter!: ElementRef;
   ActionTypes = Actions;
   dialogRequest: DialogRequest = new DialogRequest();
-  jobDesignDialogComponent = JobOpeningsDialogComponent;
-  jobDesign: JobOpeningsDetailsViewDto[] = [];
+  jobOpeningDialogComponent = JobOpeningsDialogComponent;
+  jobOpening: JobOpeningsDetailsViewDto[] = [];
   mediumDate: string = MEDIUM_DATE;
   permissions: any;
   selectedColumnHeader!: ITableHeader[];
@@ -76,7 +76,7 @@ export class JobOpeningsComponent {
 
   getJobDetails() {
     this.adminService.GetJobDetails().subscribe((resp) => {
-      this.jobDesign = resp as unknown as JobOpeningsDetailsViewDto[];
+      this.jobOpening = resp as unknown as JobOpeningsDetailsViewDto[];
     })
   }
 
@@ -93,7 +93,7 @@ export class JobOpeningsComponent {
 
   openComponentDialog(content: any,
     dialogData, action: Actions = this.ActionTypes.add) {
-    if (action == Actions.save && content === this.jobDesignDialogComponent) {
+    if (action == Actions.save && content === this.jobOpeningDialogComponent) {
       this.dialogRequest.dialogData = dialogData;
       this.dialogRequest.header = "Job Openings";
       this.dialogRequest.width = "60%";

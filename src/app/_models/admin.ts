@@ -213,7 +213,7 @@ export class EmployeeHierarchyDto {
 
 export class JobOpeningsDetailsViewDto {
     id?: number;
-    jobDesignId?: number;
+    JobOpeningId?: number;
     projectId?: number;
     projectName?: string;
     designationId?: number;
@@ -228,8 +228,8 @@ export class JobOpeningsDetailsViewDto {
     technicalSkillIds?: string;
     technicalSkills?: string;
     isActive?: boolean;
-    JobDesignTechnicalSkillsXrefs: TechnicalSkills[];
-    JobDesignSoftSkillsXrefs: SoftSkills[];
+    JobOpeningTechnicalSkillsXrefs: TechnicalSkills[];
+    JobOpeningSoftSkillsXrefs: SoftSkills[];
     createdAt?: Date;
     createdBy?: string;
     updatedAt?: Date;
@@ -237,13 +237,13 @@ export class JobOpeningsDetailsViewDto {
 }
 
 export class TechnicalSkills {
-    JobDesignTechnicalSkillsXrefId?: number;
-    JobDesignId?: number;
+    JobOpeningsTechnicalSkillsXrefId?: number;
+    JobOpeningId?: number;
     TechnicalSkillId?: number;
 }
 
 export class SoftSkills {
-    JobDesignSoftSkillsXrefId?: number;
-    JobDesignId?: number;
+    JobOpeningsSoftSkillsXrefId?: number;
+    JobOpeningId?: number;
     SoftSkillId?: number;
 }

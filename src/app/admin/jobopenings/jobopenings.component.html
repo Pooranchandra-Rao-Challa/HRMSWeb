@@ -7,12 +7,12 @@
             </ng-template>
             <ng-template pTemplate="right">
                 <button pButton pRipple label="Add Job Opening" icon="pi pi-plus" class="p-button-primary p-mr-2"
-                    id="addJobDesign" (click)="openComponentDialog(jobDesignDialogComponent, null, ActionTypes.save)"
-                    *ngIf="permissions?.CanManageJobDesign"></button>
+                    id="addJobOpening" (click)="openComponentDialog(jobOpeningDialogComponent, null, ActionTypes.save)"
+                    *ngIf="permissions?.CanManageJobOpening"></button>
             </ng-template>
         </p-toolbar>
         <!-- p-table -->
-        <p-table id="table" #dt [value]="jobDesign" dataKey="id" [rows]="10" [rowHover]="true"
+        <p-table id="table" #dt [value]="jobOpening" dataKey="id" [rows]="10" [rowHover]="true"
             [alwaysShowPaginator]="false" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
             [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
             [columns]="selectedColumns" [showCurrentPageReport]="true" [globalFilterFields]="globalFilterFields"
