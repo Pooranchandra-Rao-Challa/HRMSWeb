@@ -211,7 +211,7 @@ export class EmployeeHierarchyDto {
     photo?: string;
 }
 
-export class JobDesignDetailsViewDto {
+export class JobOpeningsDetailsViewDto {
     id?: number;
     jobDesignId?: number;
     projectId?: number;

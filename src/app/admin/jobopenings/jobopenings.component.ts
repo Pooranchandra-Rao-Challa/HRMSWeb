@@ -1,27 +1,27 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Table } from 'primeng/table';
-import { JobdesignDialogComponent } from 'src/app/_dialogs/jobdesign.dialog/jobdesign.dialog.component';
+import { JobOpeningsDialogComponent } from 'src/app/_dialogs/jobopenings.dialog/jobopenings.dialog.component';
 import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
-import { JobDesignDetailsViewDto } from 'src/app/_models/admin';
+import { JobOpeningsDetailsViewDto } from 'src/app/_models/admin';
 import { Actions, DialogRequest, ITableHeader } from 'src/app/_models/common';
 import { AdminService } from 'src/app/_services/admin.service';
 import { GlobalFilterService } from 'src/app/_services/global.filter.service';
 import { JwtService } from 'src/app/_services/jwt.service';
 
 @Component({
-  selector: 'app-jobdesign',
-  templateUrl: './jobdesign.component.html',
+  selector: 'app-jobopenings',
+  templateUrl: './jobopenings.component.html',
   styles: [
   ]
 })
-export class JobdesignComponent {
+export class JobOpeningsComponent {
   globalFilterFields: string[] = ['designation', 'projectName', 'technicalSkills', 'softSkills', 'description', 'natureOfJobs', 'compensationPackage', 'toBeFilled', 'isActive'];
   @ViewChild('filter') filter!: ElementRef;
   ActionTypes = Actions;
   dialogRequest: DialogRequest = new DialogRequest();
-  jobDesignDialogComponent = JobdesignDialogComponent;
-  jobDesign: JobDesignDetailsViewDto[] = [];
+  jobDesignDialogComponent = JobOpeningsDialogComponent;
+  jobDesign: JobOpeningsDetailsViewDto[] = [];
   mediumDate: string = MEDIUM_DATE;
   permissions: any;
   selectedColumnHeader!: ITableHeader[];
@@ -76,7 +76,7 @@ export class JobdesignComponent {
 
   getJobDetails() {
     this.adminService.GetJobDetails().subscribe((resp) => {
-      this.jobDesign = resp as unknown as JobDesignDetailsViewDto[];
+      this.jobDesign = resp as unknown as JobOpeningsDetailsViewDto[];
     })
   }
 

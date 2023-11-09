@@ -4,18 +4,18 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable } from 'rxjs';
 import { ALERT_CODES, AlertmessageService } from 'src/app/_alerts/alertmessage.service';
-import { JobDesignDetailsViewDto, LookupDetailsDto, LookupViewDto, ProjectViewDto } from 'src/app/_models/admin';
+import {  JobOpeningsDetailsViewDto, LookupDetailsDto, LookupViewDto, ProjectViewDto } from 'src/app/_models/admin';
 import { MaxLength } from 'src/app/_models/common';
 import { AdminService } from 'src/app/_services/admin.service';
 import { LookupService } from 'src/app/_services/lookup.service';
 
 @Component({
-  selector: 'app-jobdesign.dialog',
-  templateUrl: './jobdesign.dialog.component.html',
+  selector: 'app-jobopenings.dialog',
+  templateUrl: './jobopenings.dialog.component.html',
   styles: [
   ]
 })
-export class JobdesignDialogComponent {
+export class JobOpeningsDialogComponent {
   fbJobDesign!: FormGroup;
   technicalskills: LookupDetailsDto[] = [];
   softskills: LookupDetailsDto[] =[];
@@ -152,7 +152,7 @@ export class JobdesignDialogComponent {
   }
 
 
-  save(): Observable<HttpEvent<JobDesignDetailsViewDto[]>> {
+  save(): Observable<HttpEvent<JobOpeningsDetailsViewDto[]>> {
     return this.adminService.CreateJobDesignDetails([this.fbJobDesign.value])
   }
   
