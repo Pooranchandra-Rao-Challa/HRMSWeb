@@ -125,8 +125,13 @@ export class ProjectViewDto {
 }
 export class EmployeesList {
     employeeId: number
-    employeeName: string
-    employeeCode: string;
+    fullName: string
+    code: string;
+    designation: string;
+    dateofJoin: Date;
+    reportingTo: string;
+    eRoleName:string;
+    eRoleId:number;
     date: string;
 }
 export class ProjectAllotments {

@@ -419,7 +419,7 @@ p-calendar input {
     width: 100%;
     height: 300px;
   }
-  
+
  .no-show-iframe {
     display: none;
   }
@@ -432,17 +432,55 @@ p-calendar input {
 .project_card{
     position: relative;
 }
-.project_card .Project_editButton{
+.project_card .project_edit_button{
     position:absolute;
     right:3px;
     top:3px;
     // border-radius: 50px;
 }
-.project_card:hover .cursor-pointer{
-    color: #f17517;
+.project_card:hover .cursor-pointer,
+.project_card:hover .text-color{
+    color: #f17517 !important;
+}
+.project_card:hover {
+    border: 1px solid #f17517 !important;
 
 }
 .project_details p{
     line-height: 1;
     text-align: left;
+}
+
+.project-employee-detail{
+    display: grid;
+}
+.hrms-tag-allotted-projects,
+.hrms-tag-employees{
+    white-space: nowrap;
+    color:#f17517;
+    background-color: white !important;
+   // border: 1px solid  #f17517 !important;
+}
+.hrms-tag-allotted-projects:hover,
+.hrms-tag-employees:hover{
+    background-color:#f17517 !important;
+    color:white;
+    cursor: pointer;
+}
+.hrms-project-list-detail {
+    padding-top: 5px;
+    span.title{
+        padding: 2px 0 2px 5px;
+        font-weight: 600;
+    }
+
+}
+.project-employee-detail div{
+    padding-left:5px;
+}
+.project_employee_card{
+    cursor: crosshair;
+}
+.project_employee_card:hover{
+    border: 1px solid #f17517 !important;
 }

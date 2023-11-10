@@ -37,14 +37,15 @@ import { PickListModule } from 'primeng/picklist';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { StepsModule } from 'primeng/steps';
 import { PasswordModule } from 'primeng/password';
-import {ProgressSpinnerModule} from 'primeng/progressspinner';
-import {TooltipModule} from 'primeng/tooltip';
+import { ProgressSpinnerModule} from 'primeng/progressspinner';
+import { TooltipModule} from 'primeng/tooltip';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { FileUploadModule } from 'primeng/fileupload';
-import {OrganizationChartModule} from 'primeng/organizationchart';
+import { OrganizationChartModule} from 'primeng/organizationchart';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
-import {OverlayPanelModule} from 'primeng/overlaypanel';
+import { OverlayPanelModule} from 'primeng/overlaypanel';
 import { PaginatorModule } from 'primeng/paginator';
+import { DragDropModule } from 'primeng/dragdrop';
 
 @NgModule({
     exports: [
@@ -92,7 +93,8 @@ import { PaginatorModule } from 'primeng/paginator';
         ConfirmDialogModule,FileUploadModule,
         OrganizationChartModule,
         DynamicDialogModule,
-        OverlayPanelModule
+        OverlayPanelModule,
+        DragDropModule
     ]
 
 })
