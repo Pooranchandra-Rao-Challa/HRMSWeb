@@ -115,4 +115,5 @@ export const GET_JOB_DETAILS="JobOpening/GetJobOpening";
 export const CREATE_JOB_OPENINGS_DETAILS="JobOpening/CreateJobOpening";
 
 // leave confirmation
-export const GET_MAIL_EMPLOYEE_DETAILS ="Attendance/approve";
+export const GET_EMPLOYEE_MAIL_DETAILS ="Attendance/UpdateLeaveStatus";
+export const UPDATE_EMPLOYEE_MAIL_DETAILS ="Attendance/UpdateLeaveStatus";
