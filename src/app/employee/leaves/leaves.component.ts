@@ -15,6 +15,7 @@ import { LookupService } from 'src/app/_services/lookup.service';
 import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { NgPluralCase } from '@angular/common';
+import { LeaveConfirmationService } from 'src/app/_services/leaveconfirmation.service';
 
 @Component({
   selector: 'app-leaves',
@@ -38,6 +39,7 @@ export class LeavesComponent {
   selectedAction: string | null = null;
   leaveData: EmployeeLeaveDto;
   permissions: any;
+  buttonLabel:string;
 
   headers: ITableHeader[] = [
     { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
@@ -56,12 +58,12 @@ export class LeavesComponent {
   constructor(
     private globalFilterService: GlobalFilterService,
     private employeeService: EmployeeService,
-    private lookupService: LookupService,
     private dialogService: DialogService,
     public ref: DynamicDialogRef,
     private formbuilder: FormBuilder,
     private jwtService: JwtService,
-    public alertMessage: AlertmessageService) { 
+    public alertMessage: AlertmessageService,
+    private leaveConfirmationService:LeaveConfirmationService) { 
 
     }
 
@@ -102,18 +104,34 @@ export class LeavesComponent {
       approvedBy: new FormControl(''),
       approvedAt: new FormControl(null),
       rejected: new FormControl(null),
+      comments:new FormControl(null),
       status: new FormControl(null),
       isapprovalEscalated: new FormControl(NgPluralCase)
     });
+  }
+
+  openSweetAlert(title: string) {
+    this.leaveConfirmationService.openDialogWithInput(title).subscribe((result) => {
+      if (result) {
+        console.log('Leave reason:', result);
+      }
+    });
+    this.processLeave();
   }
 
   confirmationDialog(action: string, leaves: EmployeeLeaveDto) {
     this.dialog = true;
     this.selectedAction = action;
     this.leaveData = leaves;
+    if (this.selectedAction === 'approve') {
+      this.buttonLabel = 'Approve';
+    } else if (this.selectedAction === 'reject') {
+      this.buttonLabel = 'Reject';
+    }
   }
 
   processLeave() {
+    debugger
     const acceptedBy = this.selectedAction === 'approve' ? this.jwtService.UserId : null;
     const approvedBy = this.selectedAction === 'approve' ? this.jwtService.UserId : null;
       this.fbLeave.patchValue({
@@ -130,6 +148,7 @@ export class LeavesComponent {
         approvedBy: approvedBy,
         approvedAt: this.leaveData.approvedAt ? FORMAT_DATE(new Date(this.leaveData.approvedAt)) : null,
         rejected: this.selectedAction === 'approve' ? false : true,
+        comments:this.leaveData.comments,
         status: this.leaveData.status,
         isapprovalEscalated: true,
         createdBy: this.leaveData.createdBy
