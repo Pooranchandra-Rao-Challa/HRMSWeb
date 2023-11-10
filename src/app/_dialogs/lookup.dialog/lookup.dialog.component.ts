@@ -90,6 +90,26 @@ export class LookupDialogComponent {
     });
   }
 
+  setDependentLookup() {
+    let value = this.FormControls['fkeySelfId'].value;
+    this.lookupName = ' ';
+    this.dependentLookupData = [];
+    this.dependentDropdown = value > 0;
+    this.getDependentLookupData(value);
+  }
+
+  getDependents(dependentId: number) {
+    this.lookupService.LookupDetailsForSelectedDependent(dependentId).subscribe((resp) => {
+      this.dependentLookupData = resp as unknown as LookupViewDto[];
+    })
+  }
+
+  getDependentLookupData(value) {
+    this.getDependents(value);
+    let dependentLookups = this.lookupNamesConfigured.filter(selectedLookup => selectedLookup.lookupId == value)
+    if (dependentLookups.length == 1) this.lookupName = dependentLookups[0].name;
+  }
+
   get FormControls() {
     return this.fblookup.controls;
   }
@@ -119,25 +139,9 @@ export class LookupDialogComponent {
       event.preventDefault();
     }
   }
-  
-  setDependentLookup() {
-    let value = this.FormControls['fkeySelfId'].value;
-    this.lookupName = ' ';
-    this.dependentLookupData = [];
-    this.dependentDropdown = value > 0;
-    this.getDependentLookupData(value);
-  }
 
-  getDependents(dependentId: number) {
-    this.lookupService.LookupDetailsForSelectedDependent(dependentId).subscribe((resp) => {
-      this.dependentLookupData = resp as unknown as LookupViewDto[];
-    })
-  }
-
-  getDependentLookupData(value) {
-    this.getDependents(value);
-    let dependentLookups = this.lookupNamesConfigured.filter(selectedLookup => selectedLookup.lookupId == value)
-    if (dependentLookups.length == 1) this.lookupName = dependentLookups[0].name;
+  onLookupChange(event) {
+    this.setDependentLookup();
   }
 
   addLookupDetails() {
@@ -227,8 +231,5 @@ export class LookupDialogComponent {
     else {
       this.fblookup.markAllAsTouched();
     }
-
-
   }
-
 }
