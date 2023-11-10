@@ -82,6 +82,12 @@ export class LookupService extends ApiHttpService {
         console.log('NatureOfJobs');
         return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI,[this.LookupKeys.NatureOfJob])
     }
+
+    public LookupDetailsForSelectedDependent(dependentId:number){
+        console.log('Dependentts');
+        return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI,[dependentId])
+    }
+
     public isCountries(lookupId: number): boolean{
       return this.LookupKeys.Countries == lookupId;
     }
@@ -90,9 +96,9 @@ export class LookupService extends ApiHttpService {
         return this.LookupKeys.Curriculums == lookupId;
     }
 
-    public isAssetCategories(lookupId: number): boolean{        
+    public isAssetCategories(lookupId: number): boolean{
         return this.LookupKeys.AssetCategories == lookupId;
     }
-    
+
 
 }

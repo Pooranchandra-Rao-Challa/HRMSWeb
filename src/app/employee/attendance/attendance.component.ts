@@ -47,9 +47,9 @@ export class AttendanceComponent {
   messageDisplayed: boolean;
 
 
-  constructor(private adminService: AdminService, private datePipe: DatePipe, private jwtService: JwtService, public ref: DynamicDialogRef, private dialogService: DialogService,
+  constructor(private adminService: AdminService, private datePipe: DatePipe, private jwtService: JwtService, public ref: DynamicDialogRef, 
     private formbuilder: FormBuilder, private alertMessage: AlertmessageService, private employeeService: EmployeeService, private lookupService: LookupService) {
-    this.selectedMonth = FORMAT_DATE(new Date(this.year, this.month - 1, 1, 0, 0, 0, 0));
+    this.selectedMonth = FORMAT_DATE(new Date(this.year, this.month - 1, 1));
     this.selectedMonth.setHours(0, 0, 0, 0);
   }
 
@@ -285,7 +285,7 @@ export class AttendanceComponent {
       this.month = 12;        // Reset to December
       this.year--;            // Decrement the year
     }
-    this.selectedMonth = FORMAT_DATE(new Date(this.year, this.month - 1, 1, 0, 0, 0, 0));
+    this.selectedMonth = FORMAT_DATE(new Date(this.year, this.month - 1, 1));
     this.selectedMonth.setHours(0, 0, 0, 0);
     this.getDaysInMonth(this.year, this.month);
     this.initAttendance();
@@ -298,7 +298,7 @@ export class AttendanceComponent {
       this.month = 1; // Reset to January
       this.year++;    // Increment the year
     }
-    this.selectedMonth = FORMAT_DATE(new Date(this.year, this.month - 1, 1, 0, 0, 0, 0));
+    this.selectedMonth = FORMAT_DATE(new Date(this.year, this.month - 1, 1));
     this.selectedMonth.setHours(0, 0, 0, 0);
     this.getDaysInMonth(this.year, this.month);
     this.initAttendance();

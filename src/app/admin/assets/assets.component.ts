@@ -42,7 +42,7 @@ export class AssetsComponent {
   isSubmitting: boolean = false;
   minDateValue: Date = new Date();
   selectedAssetTypeId: number = 0;
-
+  id:number
 
   constructor(private adminService: AdminService, private formbuilder: FormBuilder,
     private alertMessage: AlertmessageService, private lookupService: LookupService,
@@ -83,11 +83,11 @@ export class AssetsComponent {
   }
 
   initAssetTypesbyCategories(id: number) {
-      this.lookupService.AssetTypes(id).subscribe((resp) => {
-        if (resp) {
-          this.assetTypes = resp as unknown as LookupDetailsDto[]; 
-        }
-      });
+    this.lookupService.AssetTypes(id).subscribe((resp) => {
+      if (resp) {
+        this.assetTypes = resp as unknown as LookupDetailsDto[];
+      }
+    });
   }
 
   initAssetCategories() {
@@ -103,7 +103,7 @@ export class AssetsComponent {
   }
 
 
-  initAssets(assetId:number) {
+  initAssets(assetId: number) {
     this.adminService.GetAssets(assetId).subscribe((resp) => {
       this.assets = resp as unknown as AssetsViewDto[];
       this.assets.forEach(element => {
@@ -136,7 +136,7 @@ export class AssetsComponent {
   }
 
   onGlobalFilter(table: Table, event: Event) {
-     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+    table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
 
   clear(table: Table) {
@@ -179,6 +179,7 @@ export class AssetsComponent {
     this.asset = assets;
     this.asset.purchasedDate = new Date(assets.purchasedDate);
     this.fbassets.patchValue(this.asset);
+    this.initAssetTypesbyCategories(this.asset.assetCategoryId);
     this.addFlag = false;
     this.dialog = true;
     this.addFlag1 = false;
@@ -186,13 +187,11 @@ export class AssetsComponent {
   }
 
   saveAssets(): Observable<HttpEvent<AssetsDto>> {
-    debugger
     if (this.addFlag) return this.adminService.CreateAssets(this.fbassets.value)
     else return this.adminService.UpdateAssets(this.fbassets.value)
   }
 
   save() {
-    debugger
     this.fbassets.value.purchasedDate = FORMAT_DATE(this.fbassets.value.purchasedDate);
     this.saveAssets().subscribe(resp => {
       if (resp) {
@@ -246,41 +245,37 @@ export class AssetsComponent {
 
   exportPdf() {
     const doc = new jsPDF('l', 'mm', 'a4');
-
-    const head = [['assetType', 'assetCategory', 'count','employeeName', 'code', 'name', 'purchasedDate', 'modelNumber', 'manufacturer',
-    'serialNumber', 'warranty', 'addValue', 'description', 'status']];
+    const head = [['Asset Type', 'Asset Category', 'Count', 'Employee Name', 'Asset Code', 'Asset Name', 'Purchased Date', 'Model Number', 'Manufacturer',
+      'Serial Number', 'Warranty', 'AddValue', 'Description', 'Status']];
 
     autoTable(doc, {
       head: head,
       body: this.toPdfFormat(),
-      // didDrawCell: (data) => { },
     });
     doc.save('assets.pdf');
   }
 
   toPdfFormat() {
     let data = [];
-   // Push data from main asset
     for (let i = 0; i < this.assets.length; i++) {
       const asset = this.assets[i];
       const expandAssets = asset.expandassets;
-      const numberOfEmptyStrings = 11; // Adjust as needed
-      // Generate an array with empty strings
-      const emptyStrings = Array(numberOfEmptyStrings).fill('');
-      const mainAssetData = [
+      // Generate an array with empty strings as needed
+      const numberOfEmptyStrings = 11;
+      const mainGridEmptyStrings = Array(numberOfEmptyStrings).fill('');
+      data.push([
         asset.assetType,
         asset.assetCategory,
         asset.count,
-      ];
-      data.push([...mainAssetData, ...emptyStrings]);
-  
+        ...mainGridEmptyStrings]);
+
       // Push data from expandassets
       for (let j = 0; j < expandAssets.length; j++) {
         const expandAsset = expandAssets[j];
+        const numberOfEmptyStrings = 3;
+        const innerGridEmptyStrings = Array(numberOfEmptyStrings).fill('');
         data.push([
-          '',
-          '',
-          '',
+          ...innerGridEmptyStrings,
           expandAsset.employeeName,
           expandAsset.code,
           expandAsset.name,
@@ -297,5 +292,5 @@ export class AssetsComponent {
     }
     return data;
   }
-  
+
 }

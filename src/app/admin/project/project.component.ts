@@ -2,7 +2,7 @@ import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { FORMAT_DATE } from 'src/app/_helpers/date.formate.pipe';
-import { ClientDetailsDto, ClientNamesDto, EmployeesList, ProjectAllotments, ProjectViewDto } from 'src/app/_models/admin';
+import { ClientDetailsDto, ClientNamesDto, EmployeesList, ProjectAllotments, projectStatus, projectStatuses, ProjectViewDto } from 'src/app/_models/admin';
 import { MaxLength, PhotoFileProperties } from 'src/app/_models/common';
 import { AdminService } from 'src/app/_services/admin.service';
 import { JwtService } from 'src/app/_services/jwt.service';
@@ -42,7 +42,6 @@ export class ProjectComponent implements OnInit {
     fbUnAssignEmployee!: FormGroup;
     fbproject!: FormGroup;
     maxLength: MaxLength = new MaxLength();
-    imageSize: any;
     dialog1: boolean;
     editProject: boolean;
     permission: any;
@@ -54,6 +53,8 @@ export class ProjectComponent implements OnInit {
     selectedProjectId: number = -1;
     first: number = 0;
     rows: number = 10;
+    projectStatues: projectStatus[];
+
 
     fileTypes: string = ".jpg, .jpeg, .gif,.png"
     @Output() ImageValidator = new EventEmitter<PhotoFileProperties>();
@@ -64,6 +65,7 @@ export class ProjectComponent implements OnInit {
         this.first = event.first;
         this.rows = event.rows;
     }
+
     get visibleProjects(): any[] {
         return this.projects.slice(this.first, this.first + this.rows);
     }
@@ -79,12 +81,11 @@ export class ProjectComponent implements OnInit {
         },
     };
 
-    //eventsSubject: Subject<void> = new Subject<void>();
-
     emitEventToChild() {
         //this.eventsSubject.next();
         this.downloadNotifier.sendData(true);
     }
+
     preparOrgHierarchy() {
     }
     onProjectChange(event) {
@@ -102,6 +103,7 @@ export class ProjectComponent implements OnInit {
         this.initProjects();
         this.initClientNames();
         this.unAssignEmployeeForm();
+        this.projectStatuses();
         this.ImageValidator.subscribe((p: PhotoFileProperties) => {
             if (this.fileTypes.indexOf(p.FileExtension) > 0 && p.Resize || (p.Size / 1024 / 1024 < 1
                 && (p.isPdf || (!p.isPdf && p.Width <= 400 && p.Height <= 500)))) {
@@ -122,7 +124,6 @@ export class ProjectComponent implements OnInit {
         this.fbproject = this.formbuilder.group({
             clientId: [0],
             projectId: [null],
-            isActive: [true, [Validators.required]],
             code: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_4), Validators.maxLength(MAX_LENGTH_20)]),
             name: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
             startDate: new FormControl('', [Validators.required]),
@@ -140,6 +141,10 @@ export class ProjectComponent implements OnInit {
                 pocMobileNumber: new FormControl('', [Validators.required, Validators.pattern(RG_PHONE_NO)]),
                 address: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
             }),
+            projectStatuses: this.formbuilder.group({
+                eProjectStatusesId: ['', [Validators.required]],
+                statusDate: new FormControl('', [Validators.required]),
+            }),
             projectAllotments: new FormControl([])
         });
     }
@@ -152,7 +157,11 @@ export class ProjectComponent implements OnInit {
             isActive: new FormControl('', [Validators.required]),
         });
     }
-
+    projectStatuses() {
+        this.adminService.projectStatuses().subscribe((resp) => {
+            this.projectStatues = resp as unknown as projectStatus[];
+        })
+    }
     restrictSpaces(event: KeyboardEvent) {
         if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {
             event.preventDefault();
@@ -189,18 +198,6 @@ export class ProjectComponent implements OnInit {
         });
     }
 
-    // initProjects() {
-    //   this.adminService.GetProjects().subscribe(resp => {
-    //     this.projects = resp as unknown as ProjectViewDto[];
-    //     console.log(this.projects);
-
-    //     // this.projects.forEach(element => {
-    //     //   element.expandEmployees = JSON.parse(element.teamMembers);
-    //     // });
-    //     // this.rootProject.children = this.convertToTreeNode(resp as unknown as ProjectViewDto[]);
-    //     // this.projectTreeData = [this.rootProject];
-    //   });
-    // }
     initProjects() {
         this.adminService.GetProjects().subscribe(resp => {
             this.projects = resp as unknown as ProjectViewDto[];
@@ -224,24 +221,38 @@ export class ProjectComponent implements OnInit {
             }
         })
     }
-
+    getProjectStatus(id?: number) {
+        const date = this.projectStatues.filter(each => each?.eProjectStatusesId === id);
+        return date[0]?.name;
+    }
+    getFormattedDate(date: Date) {
+        return FORMAT_DATE(new Date(this.datePipe.transform(date, 'yyyy-MM-dd')))
+    }
     onEditProject(project: ProjectViewDto) {
+        console.log(project);
+
         this.projectForm();
+        this.projectDetails = '';
         this.editProject = true;
         this.fileUpload.nativeElement.value = '';
         if (project != null) {
+            this.projectDetails = project;
             this.editEmployee(project);
             this.getEmployeesListBasedOnProject(project.projectId);
         } else {
             this.addFlag = true;
             this.submitLabel = "Add Project";
             this.getEmployeesListBasedOnProject(0);
+            this.fcProjectStatus.get('eProjectStatusesId').setValue(1);
         }
     }
 
     editEmployee(project) {
+        console.log(project);
+
         this.addFlag = false;
         this.submitLabel = "Update Project Details";
+        this.projectDetails = project
         this.fbproject.patchValue({
             clientId: project.clientId,
             projectId: project.projectId,
@@ -251,7 +262,12 @@ export class ProjectComponent implements OnInit {
             startDate: FORMAT_DATE(new Date(project.startDate)),
             logo: project.logo,
             description: project.description
-        })
+        });
+        const date = this.projectStatues.filter(each => each.eProjectStatusesId === project.activeStatusId)
+        this.fbproject.get('projectStatuses').patchValue({
+            eProjectStatusesId: project.activeStatusId,
+            statusDate: project[date[0].name.toLowerCase()],
+        });
         this.fbproject.get('clients').patchValue({
             clientId: project.clientId,
             isActive: project.clientIsActive,
@@ -267,6 +283,8 @@ export class ProjectComponent implements OnInit {
             pocMobileNumber: project.pocMobileNumber,
             address: project.address,
         });
+        console.log(this.fbproject.value);
+
     }
 
     addEmployees(projectDetails: ProjectViewDto) {
@@ -304,31 +322,33 @@ export class ProjectComponent implements OnInit {
     }
 
     isUniqueProjectCode() {
-        const existingLookupCodes = this.projects.filter(project =>
+        const existingProjectCodes = this.projects.filter(project =>
             project.code === this.fbproject.get('code').value &&
             project.projectId !== this.fbproject.get('projectId').value
         )
-        return existingLookupCodes.length > 0;
+        return existingProjectCodes.length > 0;
     }
 
-    isUniqueLookupName() {
-        const existingLookupNames = this.projects.filter(project =>
+    isUniqueProjectName() {
+        const existingProjectNames = this.projects.filter(project =>
             project.name === this.fbproject.get('name').value &&
             project.projectId !== this.fbproject.get('projectId').value
         )
-        return existingLookupNames.length > 0;
+        return existingProjectNames.length > 0;
     }
 
     onSubmit() {
+        console.log(this.fbproject.value);
+
         if (this.fbproject.valid) {
             if (this.addFlag) {
                 if (this.isUniqueProjectCode()) {
                     this.alertMessage.displayErrorMessage(
-                        `Lookup Code :"${this.fbproject.value.code}" Already Exists.`
+                        `Project Code :"${this.fbproject.value.code}" Already Exists.`
                     );
-                } else if (this.isUniqueLookupName()) {
+                } else if (this.isUniqueProjectName()) {
                     this.alertMessage.displayErrorMessage(
-                        `Lookup Name :"${this.fbproject.value.name}" Already Exists.`
+                        `Project Name :"${this.fbproject.value.name}" Already Exists.`
                     );
                 } else {
                     this.save();
@@ -366,6 +386,9 @@ export class ProjectComponent implements OnInit {
     }
     get fcClientDetails() {
         return this.fbproject.get('clients') as FormGroup;
+    }
+    get fcProjectStatus() {
+        return this.fbproject.get('projectStatuses') as FormGroup;
     }
 
     convertToTreeNode(projects: any[]): TreeNode[] {

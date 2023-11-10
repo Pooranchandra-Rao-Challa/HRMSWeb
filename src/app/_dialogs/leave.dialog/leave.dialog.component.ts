@@ -1,5 +1,5 @@
 import { PlatformLocation } from '@angular/common';
-import { HttpEvent } from '@angular/common/http';
+import { HttpErrorResponse, HttpEvent } from '@angular/common/http';
 import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -31,6 +31,7 @@ export class LeaveDialogComponent {
   minDate: Date = new Date(new Date());
   maxDate: Date = new Date(new Date()); // Set the maxDate to a future date
   emailURL: string;
+  errorMessage: string;
 
   constructor(
     private formbuilder: FormBuilder,
@@ -196,7 +197,15 @@ export class LeaveDialogComponent {
           this.ref.close(true);
           this.alertMessage.displayAlertMessage(ALERT_CODES["ELD001"]);
         }
+      },
+      (error: HttpErrorResponse) => {
+        if (error.status === 403) {
+          this.alertMessage.displayErrorMessage(ALERT_CODES["ELD002"]);
+        } else {
+          this.alertMessage.displayErrorMessage(ALERT_CODES["ELD002"]);
+        }
       });
+      this.ref.close(true);
     }
     else {
       this.fbLeave.markAllAsTouched();

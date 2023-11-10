@@ -7,7 +7,7 @@ import { AssetAllotmentDto, AssetAllotmentViewDto, AssetsByAssetTypeIdViewDto } 
 import { AdminService } from 'src/app/_services/admin.service';
 import { LookupService } from 'src/app/_services/lookup.service';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { EmployeesList, LookupDetailsDto } from 'src/app/_models/admin';
+import { EmployeesList, LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
 import { ViewEmployeeScreen } from 'src/app/_models/common';
 import { FORMAT_DATE } from 'src/app/_helpers/date.formate.pipe';
 
@@ -39,28 +39,28 @@ export class AddassetallotmentDialogComponent {
         this.initEmployees();
         this.assetAllotmentForm();
         this.initAssetCategories();
-        // this.initAssetTypes();
     }
 
     initEmployees() {
         this.adminService.getEmployeesList().subscribe((resp) => {
-            this.employeesDropdown = resp as unknown as EmployeesList[];            
+            this.employeesDropdown = resp as unknown as EmployeesList[];
+        });
+    }
+
+    initAssetTypesbyCategories(id: number) {
+        this.lookupService.AssetTypes(id).subscribe((resp) => {
+            if (resp) {
+                this.assetTypes = resp as unknown as LookupDetailsDto[];
+            }
         });
     }
 
     initAssetCategories() {
         this.lookupService.AssetCategories().subscribe((resp) => {
-            this.assetCategories = resp as unknown as LookupDetailsDto[];
+            this.assetCategories = resp as unknown as LookupViewDto[];
         });
     }
-
-    // initAssetTypes() {
-    //     this.lookupService.AssetTypes().subscribe((resp) => {
-    //         this.assetTypes = resp as unknown as LookupDetailsDto[];
-    //     });
-    // }
-
-    getAssetsByAssetType(assetTypeId: number) {
+    getAssetsNamesByAssetType(assetTypeId: number) {
         this.adminService.GetAssetsByAssetType(assetTypeId).subscribe((resp) => {
             this.assets = resp as unknown as AssetsByAssetTypeIdViewDto[];
         });
