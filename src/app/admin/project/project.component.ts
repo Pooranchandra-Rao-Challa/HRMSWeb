@@ -67,6 +67,7 @@ export class ProjectComponent implements OnInit {
         this.first = event.first;
         this.rows = event.rows;
     }
+
     get visibleProjects(): any[] {
         return this.projects.slice(this.first, this.first + this.rows);
     }
@@ -142,9 +143,9 @@ export class ProjectComponent implements OnInit {
                 pocMobileNumber: new FormControl('', [Validators.required, Validators.pattern(RG_PHONE_NO)]),
                 address: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
             }),
-            projectStatuses:this.formbuilder.group({
-                eProjectStatusesId:['', [Validators.required]],
-                statusDate:new FormControl('', [Validators.required]),
+            projectStatuses: this.formbuilder.group({
+                eProjectStatusesId: ['', [Validators.required]],
+                statusDate: new FormControl('', [Validators.required]),
             }),
             projectAllotments: new FormControl([])
         });
@@ -201,7 +202,7 @@ export class ProjectComponent implements OnInit {
 
     initProjects() {
         this.adminService.GetProjects().subscribe(resp => {
-            this.projects = resp as unknown as ProjectViewDto[]; 
+            this.projects = resp as unknown as ProjectViewDto[];
             let projectDTO: ProjectViewDto = new ProjectViewDto
             projectDTO.projectId = -1;
             projectDTO.name = "Org Chart"
@@ -222,18 +223,22 @@ export class ProjectComponent implements OnInit {
             }
         })
     }
-    getFormattedDate(date:Date){ 
-        console.log(FORMAT_DATE(new Date(this.datePipe.transform(date, 'yyyy-MM-dd'))));
-        
-        return   FORMAT_DATE(new Date(this.datePipe.transform(date, 'yyyy-MM-dd')))
+    getProjectStatus(id?: number) {
+        const date = this.projectStatues.filter(each => each?.eProjectStatusesId === id);
+        return date[0]?.name;
     }
-    initProject(project: ProjectViewDto) { 
+    getFormattedDate(date: Date) {
+        return FORMAT_DATE(new Date(this.datePipe.transform(date, 'yyyy-MM-dd')))
+    }
+    initProject(project: ProjectViewDto) {
+        console.log(project);
+
         this.projectForm();
-        this.projectDetails='';
+        this.projectDetails = '';
         this.dialog = true;
         this.fileUpload.nativeElement.value = '';
         if (project != null) {
-            this.projectDetails=project;
+            this.projectDetails = project;
             this.editEmployee(project);
             this.getEmployeesListBasedOnProject(project.projectId);
         } else {
@@ -246,10 +251,10 @@ export class ProjectComponent implements OnInit {
 
     editEmployee(project) {
         console.log(project);
-        
+
         this.addFlag = false;
         this.submitLabel = "Update Project Details";
-        this.projectDetails=project
+        this.projectDetails = project
         this.fbproject.patchValue({
             clientId: project.clientId,
             projectId: project.projectId,
@@ -260,10 +265,10 @@ export class ProjectComponent implements OnInit {
             logo: project.logo,
             description: project.description
         });
-        const date=this.projectStatues.filter(each =>each.eProjectStatusesId === project.activeStatusId)
+        const date = this.projectStatues.filter(each => each.eProjectStatusesId === project.activeStatusId)
         this.fbproject.get('projectStatuses').patchValue({
-            eProjectStatusesId:project.activeStatusId,
-            statusDate:project[date[0].name.toLowerCase()],
+            eProjectStatusesId: project.activeStatusId,
+            statusDate: project[date[0].name.toLowerCase()],
         });
         this.fbproject.get('clients').patchValue({
             clientId: project.clientId,
@@ -279,9 +284,9 @@ export class ProjectComponent implements OnInit {
             pocName: project.pocName,
             pocMobileNumber: project.pocMobileNumber,
             address: project.address,
-        }); 
+        });
         console.log(this.fbproject.value);
-        
+
     }
 
     addEmployees(projectDetails: ProjectViewDto) {
@@ -336,7 +341,7 @@ export class ProjectComponent implements OnInit {
 
     onSubmit() {
         console.log(this.fbproject.value);
-        
+
         if (this.fbproject.valid) {
             if (this.addFlag) {
                 if (this.isUniqueProjectCode()) {
@@ -384,7 +389,7 @@ export class ProjectComponent implements OnInit {
     get fcClientDetails() {
         return this.fbproject.get('clients') as FormGroup;
     }
-    get fcProjectStatus(){
+    get fcProjectStatus() {
         return this.fbproject.get('projectStatuses') as FormGroup;
     }
 
