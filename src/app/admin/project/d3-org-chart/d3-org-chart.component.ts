@@ -1,15 +1,5 @@
-import {
-    OnChanges,
-    Component,
-    Input,
-    ViewChild,
-    ElementRef,
-    OnInit,
-} from "@angular/core";
-//import TreeChart from "d3-org-chart";
-//declare var OrgChart: any;
+import { OnChanges, Component, ViewChild, ElementRef, OnInit,} from "@angular/core";
 import * as d3 from 'd3';
-
 import { OrgChart } from "./orgChart";
 import { PieChart } from "./pieChart";
 import { EmployeeService } from "src/app/_services/employee.service";
@@ -18,7 +8,6 @@ import { jsPDF } from "jspdf";
 import { DownloadNotification } from "src/app/_services/notifier.services";
 import { AdminService } from "src/app/_services/admin.service";
 import { EmployeeHierarchyDto } from "src/app/_models/admin";
-import { devOnlyGuardedExpression } from "@angular/compiler";
 import { ProjectNotification } from "src/app/_services/projectnotification.service";
 /*
   "d3": "7.6.1",
@@ -28,70 +17,6 @@ import { ProjectNotification } from "src/app/_services/projectnotification.servi
 /**        "d3": "^5.15.1",
         "d3-org-chart": "^1.0.12",
  */
-// export class nodeBorderColor {
-//     red: number = 255;
-//     green: number = 130;
-//     blue: number = 14;
-//     alpha: number = 1;
-// };
-// export class nodeBackgroundColor {
-//     red: number = 51;
-//     green: number = 182;
-//     blue: number = 208;
-//     alpha: number = 1;
-// };
-// export class nodeImageBorderColor {
-//     red: number = 19;
-//     green: number = 123;
-//     blue: number = 128;
-//     alpha: number = 1
-// };
-
-// export class nodeImage {
-//     url: string = "https://raw.githubusercontent.com/bumbeishvili/Assets/master/Projects/D3/Organization%20Chart/female.jpg";
-//     width: number = 100;
-//     height: number = 100;
-//     centerTopDistance: number = 0;
-//     centerLeftDistance: number = 0;
-//     cornerShape: string = "ROUNDED";
-//     shadow: boolean = false;
-//     borderWidth: number = 0;
-//     borderColor: nodeImageBorderColor;
-// }
-
-// export class connectorLine {
-//     red: number = 220;
-//     green: number = 189;
-//     blue: number = 207;
-//     alpha: number = 1
-// }
-
-// export class nodeIcon {
-//     icon: string = null;
-//     size: number = 20;
-// }
-// //"https://to.ly/1yZnX";
-//30
-// export class NodeItem {
-//     nodeId?: string;
-//     parentNodeId?: string;
-//     width: number = 511;
-//     height: number = 284;
-//     left: number = 300;
-//     borderWidth: number = 1;
-//     borderRadius: number = 5;
-//     // borderColor: nodeBorderColor = new nodeBorderColor();
-//     // backgroundColor: nodeBorderColor = new nodeBorderColor();
-//     // nodeImage: nodeImage = new nodeImage();
-//     // nodeIcon: nodeIcon = new nodeIcon();
-//     // template: string;
-//     // connectorLineColor: connectorLine = new connectorLine();
-//     connectorLineWidth: number = 8;
-//     dashArray: string = "";
-//     expanded: boolean = true;
-//     directSubordinates: number;
-//     totalSubordinates: number;
-// }
 
 export class NodeProps {
     name: string;
@@ -130,12 +55,13 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
 
     // @Input() events: Observable<void>;
     chart: OrgChart;
-    templateEmployee: string = '<div><div style="margin-left:70px; margin-top:10px; font-size:20pt; font-weight:bold;">NAME</div><div style="margin-left:70px; margin-top:3px;font-size:16pt;">DESIGNATION </div> <div style="margin-left:70px;margin-top:3px;font-size:14pt;">PROJECT</div></div>';
-    templateOrg: string = '<div><div style="margin-left:70px; margin-top:10px; font-size:20pt; font-weight:bold;"> NAME </div> </div>';
     reName = /NAME/g;
     reDesignation = /DESIGNATION/g;
     reProject = /PROJECT/g;
-    constructor(private employeeService: EmployeeService, private downloadNotifier: DownloadNotification, private projectNotifier: ProjectNotification, private adminService: AdminService) { }
+    constructor(private employeeService: EmployeeService,
+        private downloadNotifier: DownloadNotification,
+        private projectNotifier: ProjectNotification,
+        private adminService: AdminService) { }
 
 
     ngOnDestroy() {
@@ -165,11 +91,11 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
         if (!this.chart) {
             this.chart = new OrgChart();
         }
-        this.updateChart();
+        this.updateChart(this.chart,this.data);
     }
 
     ngOnChanges() {
-        this.updateChart();
+        this.updateChart(this.chart,this.data);
     }
 
     organizationData() {
@@ -208,7 +134,7 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
 
                 this.data.push(item)
             });
-            this.updateChart();
+            this.updateChart(this.chart,this.data);
         });
     }
 
@@ -258,16 +184,16 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
             });
 
             console.log(this.data);
-            this.updateChart();
+            this.updateChart(this.chart,this.chart);
         });
     }
 
 
-    updateChart() {
-        if (!this.data || this.data.length == 0) {
+    updateChart(chart,data) {
+        if (!data || data.length == 0) {
             return;
         }
-        if (!this.chart) {
+        if (!chart) {
             return;
         }
 
@@ -276,7 +202,7 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
         this.chart.container(this.chartContainer.nativeElement)
             .svgHeight(window.innerHeight)
             .svgWidth(window.innerWidth - 300)
-            .data(this.data)
+            .data(data)
             .nodeHeight((d) => 180)
             .nodeWidth((d) => {
                 if (d.depth == 0) return 500;
@@ -330,7 +256,7 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
                     <div class="right-bottom" style="position:absolute;right:-10px;bottom:-13px">${svgStr}</div>
                     <div class="left-bottom" style="position:absolute;left:-10px;bottom:-13px">${svgStr}</div>
 
-                    <div style="font-family: inherit; background-color:#ffffff; position:absolute;margin-top:-8px; margin-left:-8px;width:${d.width + 16}px;height:${d.height + 16}px;border-radius:0px;border: 2px solid #ff820e;border-radius: 10px;">
+                    <div pDroppable (onDrop)="drop(d.data)" style="font-family: inherit; background-color:#ffffff; position:absolute;margin-top:-8px; margin-left:-8px;width:${d.width + 16}px;height:${d.height + 16}px;border-radius:0px;border: 2px solid #ff820e;border-radius: 10px;">
                     ${desc}
                     <div style="color:black;position:absolute;right:15px;top:-20px;">
                             <div style="font-size:15px;color:black;margin-top:32px">${d.data.name}</div>
@@ -356,8 +282,8 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
                           <div style="font-size:10px;">
                             ${d.data.assetCount ? `<span style="color:orange;font-size:10px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Allotted Assets">Assets: ${d.data.assetCount}</span>` : ''}
                           </div>
-                          
-                          
+
+
 
 
                             ${d.depth == 0

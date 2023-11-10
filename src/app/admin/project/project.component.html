@@ -366,20 +366,9 @@
                                     </div>
                                   </p-fieldset>
 
-                            <h5>Employee Details</h5>
                             <div class="p-fluid p-formgrid grid">
-                                <div class="field col-12 md:col-4">
+                                <div class="field col-4 md:col-4">
                                     <label>Allott Empolyees:</label>&nbsp;
-                                    <!-- <p-multiSelect placeholder="Select Employees" [options]="Employees"
-                                        optionLabel="employeeName" formControlName="projectAllotments" [filter]="true"
-                                        filterBy="employeeId,employeeName" appendTo="body">
-                                        <ng-template let-employee pTemplate="selectedItem">
-                                            <div class="block align-items-center gap-3">
-                                                <div>{{employee.employeeName}}</div>
-                                                <div>{{employee.employeeCode}}</div>
-                                            </div>
-                                        </ng-template>
-                                    </p-multiSelect> -->
                                     <p-tabView id="rolesTabView">
                                         <p-tabPanel [header]="role" *ngFor="let role of Roles">
                                             <div class="col-12 md:col-8 drag-column">
@@ -409,9 +398,11 @@
                                             </div>
                                         </p-tabPanel>
                                     </p-tabView>
-
-
-                                    <div class="col-12 md:col-6 drop-column" pDroppable="allottedEmployee" (onDrop)="onEmployeeDrop()"></div>
+                                </div>
+                                <div class="field col-8 md:col-8" style="height: 300px; border:1px solid gray; margin-top:100px">
+                                    <div class="col-12 md:col-8 drop-column"
+                                    style="height: 50px; width: 50px; border:1px solid gray;"
+                                    pDroppable="allottedEmployee" (onDrop)="onEmployeeDrop()"></div>
                                 </div>
                             </div>
                             <div class="grid">

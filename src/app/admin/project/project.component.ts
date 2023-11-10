@@ -454,7 +454,10 @@ export class ProjectComponent implements OnInit {
     }
     onEmployeeDragStart(empoloyee){}
 
-    onEmployeeDrop(){}
+    onEmployeeDrop(parentNode = null){
+        console.log('Allotted Employee');
+
+    }
 }
 
 
