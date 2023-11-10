@@ -28,7 +28,7 @@ export class EmployeeBasicDetailDto {
 	photo?: string;
 	signDate?: Date;
 	isActive?: boolean;
-	isAFresher?:boolean;
+	isAFresher?: boolean;
 }
 
 export class EducationDetailsDto {
@@ -38,7 +38,7 @@ export class EducationDetailsDto {
 	curriculumId?: number;
 	curriculum?: string;
 	countryId?: number;
-	country?:string;
+	country?: string;
 	stateId?: number;
 	state?: string;
 	institutionName?: string;
@@ -139,7 +139,7 @@ export class EmployeeBasicDetailViewDto {
 	photo?: string;
 	signDate?: Date;
 	isActive?: boolean;
-	isAFresher?:boolean;
+	isAFresher?: boolean;
 	createdAt?: Date;
 	createdBy?: string;
 	updatedAt?: Date;
@@ -352,16 +352,17 @@ export class EmployeeLeaveDto {
 	fromDate?: Date;
 	toDate?: Date;
 	leaveTypeId?: number;
-	leaveType?:string;
+	leaveType?: string;
 	note?: string;
 	acceptedBy?: string;
 	acceptedAt?: Date;
 	approvedBy?: string;
 	approvedAt?: Date;
 	rejected?: boolean;
+	comments?:String;
 	status?: string;
 	isApprovalEscalated?: boolean;
-	url?:String;
+	url?: String;
 	createdAt?: Date;
 	createdBy?: string;
 }
@@ -374,19 +375,30 @@ export class EmployeeAttendanceList {
 	NotReported: boolean
 }
 
-export class CompanyHierarchyViewDto{
-	chartId?:number;
-	chartTitle?:string;
-	selfId?:number;
-	roleId?:number;
-	roleName?:string;
-	hierarchyLevel?:number;
+export class CompanyHierarchyViewDto {
+	chartId?: number;
+	chartTitle?: string;
+	selfId?: number;
+	roleId?: number;
+	roleName?: string;
+	hierarchyLevel?: number;
 }
 
 export class EmployeeLeaveDetailsViewDto {
-	employeeName: string;
-	leaveType: string;
-	fromDate: Date;
-	toDate: Date;
-	note: string;
-  }
+	employeeId?: number;
+	employeeName?: string;
+	leaveId?: number;
+	leaveType?: string;
+	fromDate?: Date;
+	toDate?: Date;
+	note?: string;
+}
+
+export class EmployeeLeaveDetailsDto {
+	employeeId?: number;
+	leaveId?: number;
+	note?: string;
+	protectedData?: string;
+	protectedWith?: string;
+	status?: string;
+}

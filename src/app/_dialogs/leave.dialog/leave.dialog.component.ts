@@ -175,6 +175,7 @@ export class LeaveDialogComponent {
       approvedBy: new FormControl(null),
       approvedAt: new FormControl(null),
       rejected: new FormControl(null),
+      comments:new FormControl(null),
       url: new FormControl(null)
     });
   }

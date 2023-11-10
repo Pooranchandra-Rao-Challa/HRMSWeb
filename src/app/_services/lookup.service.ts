@@ -10,18 +10,18 @@ export class LookupService extends ApiHttpService {
     public LookupNames() {
         return this.get<string[]>(LOOKUP_NAMES_URI);
     }
-    public LookupNamesNotConfigured(lookupId?: number){
-        return this.getWithParams<string[]>(LOOKUP_NAMES_NOT_CONFIGURE_URI,[lookupId]);
+    public LookupNamesNotConfigured(lookupId?: number) {
+        return this.getWithParams<string[]>(LOOKUP_NAMES_NOT_CONFIGURE_URI, [lookupId]);
     }
-    public LookupNamesConfigured(){
+    public LookupNamesConfigured() {
         return this.get<string[]>(LOOKUP_NAMES_CONFIGURE_URI);
     }
-    public AssetTypes(assetCategoriesId:number) {
+    public AssetTypes(assetCategoriesId: number) {
         console.log('AssetTypes');
         return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.AssetTypes, assetCategoriesId]);
     }
 
-    public  AssetCategories() {
+    public AssetCategories() {
         console.log('AssetCategories');
         return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.AssetCategories]);
     }
@@ -35,9 +35,9 @@ export class LookupService extends ApiHttpService {
         console.log('States');
         return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.States, countryId]);
     }
-    public DayWorkStatus(){
+    public DayWorkStatus() {
         console.log('DayWorkStatus');
-        return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI,[this.LookupKeys.DayWorkStatus]);
+        return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.DayWorkStatus]);
     }
 
     public Countries() {
@@ -59,7 +59,7 @@ export class LookupService extends ApiHttpService {
 
     public Streams(lookupDetailId: number) {
         console.log('Streams');
-        return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.Streams,lookupDetailId]);
+        return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.Streams, lookupDetailId]);
     }
     public GradingMethods() {
         console.log('GradingMethods');
@@ -74,25 +74,17 @@ export class LookupService extends ApiHttpService {
         console.log('SkillAreas');
         return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.SkillAreas]);
     }
-    public SoftSkills(){
+    public SoftSkills() {
         console.log('SoftSkills');
-        return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI,[this.LookupKeys.SoftSkills]);
+        return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.SoftSkills]);
     }
-    public NatureOfJobs(){
+    public NatureOfJobs() {
         console.log('NatureOfJobs');
-        return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI,[this.LookupKeys.NatureOfJob])
-    }
-    public isCountries(lookupId: number): boolean{
-      return this.LookupKeys.Countries == lookupId;
+        return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.NatureOfJob])
     }
 
-    public isCurriculums(lookupId: number): boolean{
-        return this.LookupKeys.Curriculums == lookupId;
+    public LookupDetailsForSelectedDependent(dependentId: number) {
+        console.log('Dependents');
+        return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [dependentId])
     }
-
-    public isAssetCategories(lookupId: number): boolean{        
-        return this.LookupKeys.AssetCategories == lookupId;
-    }
-    
-
 }

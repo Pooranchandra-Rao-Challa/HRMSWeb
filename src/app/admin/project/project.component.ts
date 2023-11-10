@@ -11,9 +11,6 @@ import { TreeNode } from 'primeng/api';
 import * as go from 'gojs';
 import { CompanyHierarchyViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
-import { D3OrgChartComponent } from './d3-org-chart/d3-org-chart.component';
-import { LOGIN_URI } from 'src/app/_services/api.uri.service';
-import { FileUpload } from 'primeng/fileupload';
 import { DownloadNotification } from 'src/app/_services/notifier.services';
 import { ProjectNotification } from 'src/app/_services/projectnotification.service';
 import { DatePipe } from '@angular/common';
@@ -38,6 +35,7 @@ export class ProjectComponent implements OnInit {
     clientsNames: ClientNamesDto[] = [];
     Employees: EmployeesList[] = [];
     projectStatues: projectStatus[];
+    Roles: string[] = []
     clientDetails: ClientDetailsDto;
     projectDetailsDialog: boolean = false;
     filteredClients: any;
@@ -46,6 +44,8 @@ export class ProjectComponent implements OnInit {
     maxLength: MaxLength = new MaxLength();
     editDialog: boolean;
     addDialog: boolean;
+    dialog1: boolean;
+    editProject: boolean;
     permission: any;
     addFlag: boolean = true;
     submitLabel!: string;
@@ -58,7 +58,7 @@ export class ProjectComponent implements OnInit {
     first: number = 0;
     rows: number = 12;
 
-    //For paginator 
+    //For paginator
     onPageChange(event) {
         this.first = event.first;
         this.rows = event.rows;
@@ -238,10 +238,12 @@ export class ProjectComponent implements OnInit {
     getFormattedDate(date: Date) {
         return this.datePipe.transform(date, 'dd/MM/yyyy')
     }
-    initProject(project: ProjectViewDto) {
+    onEditProject(project: ProjectViewDto) {
+        console.log(project);
+
         this.projectForm();
         this.projectDetails = '';
-        this.addDialog = true;
+        this.editProject = true;
         this.fileUpload.nativeElement.value = '';
         if (project != null) {
             this.projectDetails = project;
@@ -376,6 +378,7 @@ export class ProjectComponent implements OnInit {
             this.saveProject().subscribe(resp => {
                 if (resp) {
                     this.addDialog = false;
+                    this.editProject = false;
                     this.initProjects();
                     this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "PAS001" : "PAS002"]);
                     this.editDialog = false;
@@ -428,7 +431,18 @@ export class ProjectComponent implements OnInit {
     getEmployeesListBasedOnProject(projectId: number) {
         this.adminService.getEmployees(projectId).subscribe(resp => {
             this.Employees = resp as unknown as EmployeesList[];
+            console.log(this.Employees);
+
+            this.Roles = this.Employees.map(fn => fn.eRoleName).filter((role,i,roles) => roles.indexOf(role) === i);
+            console.log(this.Employees.map(fn => fn.eRoleName));
+
+            console.log(this.Roles);
+
         });
+    }
+
+    getRoleEmployees(roleName:string):EmployeesList[]{
+        return this.Employees.filter(value => value.eRoleName === roleName)
     }
     filterClients(event: AutoCompleteCompleteEvent) {
         this.filteredClients = this.clientsNames;
@@ -443,7 +457,12 @@ export class ProjectComponent implements OnInit {
         this.filteredClients = filtered;
     }
 
+    onEmployeeDragEnd(){
 
+    }
+    onEmployeeDragStart(empoloyee){}
+
+    onEmployeeDrop(){}
 }
 
 
