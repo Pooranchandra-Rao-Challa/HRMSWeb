@@ -111,7 +111,8 @@ export class LeavesComponent {
   }
 
   openSweetAlert(title: string) {
-    this.leaveConfirmationService.openDialogWithInput(title).subscribe((result) => {
+    const buttonLabel = title === 'Reason For Accept' ? 'Accept' : 'Reject';
+    this.leaveConfirmationService.openDialogWithInput(title,buttonLabel).subscribe((result) => {
       if (result) {
         console.log('Leave reason:', result);
       }
