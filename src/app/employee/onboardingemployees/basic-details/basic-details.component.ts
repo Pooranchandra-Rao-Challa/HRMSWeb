@@ -28,6 +28,8 @@ interface General {
 export class BasicDetailsComponent implements OnInit {
     @ViewChild("fileUpload", { static: true }) fileUpload: ElementRef;
     genders: General[] | undefined;
+    profileImage = '';
+    imageToCrop: File;
     MaritalStatus: General[] | undefined;
     fbbasicDetails: FormGroup;
     imageSize: any;
@@ -139,6 +141,32 @@ export class BasicDetailsComponent implements OnInit {
     }
 
 
+    handleFileClick(file: HTMLInputElement): void {
+        file.click(); // trigger input file
+    }
+
+    fileChangeEvent(event: any): void {
+        if (event.target.files.length) {
+            this.imageToCrop = event;
+        } else {
+            this.profileImage = '';
+        }
+    }
+
+    onCrop(image: File) {
+        if (image) {
+            const reader = new FileReader();
+            reader.onload = (e: any) => {
+                this.profileImage = e.target.result;
+                // Update the form control value with the cropped image data URL
+                this.fbbasicDetails.get('photo').setValue(this.profileImage);
+            };
+            reader.readAsDataURL(image);
+        } else {
+            this.profileImage = '';
+            this.fbbasicDetails.get('photo').setValue('');
+        }
+    }
 
     getEmployeeBasedonId() {
         this.employeeService.GetViewEmpPersDtls(this.employeeId).subscribe((resp) => {

@@ -26,30 +26,29 @@
                 </div>
                 <div class="field col-12 md:col-4">
                     <label class="required">Asset Category:</label>
-                    <p-dropdown id="asset-category" [options]="assetCategories" optionLabel="name" [filter]="true"
-                        filterBy="name" placeholder="Select Asset Category" formControlName="assetCategoryId"
-                        optionValue="lookupDetailId" appendTo="body"
-                        [ngClass]="{ 'is-invalid ng-dirty': FormControls['assetCategoryId'].touched && FormControls['assetCategoryId'].errors }">
+                    <p-dropdown [options]="assetCategories" optionLabel="name" id="assetCategories"
+                      placeholder="Select Asset Category" appendTo="body" [autoDisplayFirst]="false"
+                      formControlName="assetCategoryId" optionValue="lookupDetailId"
+                      (onChange)="initAssetTypesbyCategories($event.value)"
+                      [ngClass]="{ 'is-invalid ng-dirty': FormControls['assetCategoryId'].touched && FormControls['assetCategoryId'].errors}">
                     </p-dropdown>
                     <span *ngIf="FormControls['assetCategoryId'].touched && FormControls['assetCategoryId'].invalid">
-                        <div class="ng-invalid ng-touched p-error"
-                            *ngIf="FormControls['assetCategoryId'].errors?.['required']">
-                            Please Select Asset Category.</div>
+                      <div class="ng-invalid ng-touched p-error"
+                        *ngIf="FormControls['assetCategoryId'].errors?.['required']"> Please Select Asset Category. </div>
                     </span>
-                </div>
-                <div class="field col-12 md:col-4">
-                    <label class="required">Asset Type:</label>
-                    <p-dropdown id="asset-type" [options]="assetTypes" optionLabel="name" [filter]="true"
-                        filterBy="name" placeholder="Select Asset Type" formControlName="assetTypeId"
-                        optionValue="lookupDetailId" appendTo="body" (onChange)="getAssetsByAssetType($event.value)"
-                        [ngClass]="{ 'is-invalid ng-dirty': FormControls['assetTypeId'].touched && FormControls['assetTypeId'].errors }">
+                  </div>
+                  <div class="field col-12 md:col-4">
+                    <label class="required">Asset Type: </label>
+                    <p-dropdown [options]="assetTypes" optionLabel="name" id="assetTypes" [filter]="true" filterBy="name"
+                      [showClear]="true" placeholder="Select Asset Type" formControlName="assetTypeId"
+                      [autoDisplayFirst]="false" optionValue="lookupDetailId" appendTo="body" (onChange)="getAssetsNamesByAssetType($event.value)"
+                      [ngClass]="{ 'is-invalid ng-dirty': FormControls['assetTypeId'].touched && FormControls['assetTypeId'].errors}">
                     </p-dropdown>
                     <span *ngIf="FormControls['assetTypeId'].touched && FormControls['assetTypeId'].invalid">
-                        <div class="ng-invalid ng-touched p-error"
-                            *ngIf="FormControls['assetTypeId'].errors?.['required']">
-                            Please Select Asset Type.</div>
+                      <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['assetTypeId'].errors?.['required']">
+                        Please Select Asset Type. </div>
                     </span>
-                </div>
+                  </div>
                 <div class="field col-12 md:col-4">
                     <label class="required">Asset Name:</label>
                     <p-dropdown id="asset-name" [options]="assets" optionLabel="name" [filter]="true" filterBy="name"
