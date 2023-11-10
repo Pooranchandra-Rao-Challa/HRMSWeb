@@ -32,7 +32,7 @@ import { FormArrayValidationForDuplication } from 'src/app/_validators/unique-br
 export class LookupDialogComponent {
   fblookup!: FormGroup;
   addfields: any;
-  dependentDropdown: boolean = true;
+  dependentDropdown: boolean = false;
   dependentLookupData: LookupViewDto[] = [];
   ShowlookupDetails: boolean = false;
   falookUpDetails!: FormArray;
@@ -43,7 +43,7 @@ export class LookupDialogComponent {
   lookupNames: string[] = [];
   lookupNamesNotConfigured: string[] = [];
   lookupNamesConfigured: LookupViewDto[] = [];
-  lookupName:string;
+  lookupName: string;
 
   constructor(private formbuilder: FormBuilder,
     private adminService: AdminService,
@@ -58,7 +58,6 @@ export class LookupDialogComponent {
     this.initNotConfiguredLookups();
     if (this.config.data) this.editLookUp(this.config.data);
     else this.addLookupDetails();
-    this.setDependentLookup();
   }
 
   initNotConfiguredLookups() {
@@ -75,24 +74,16 @@ export class LookupDialogComponent {
     })
   }
 
-  setDependentLookup(){
-    let value = this.FormControls['fkeySelfId'].value;
-    this.lookupName=' ';
-    this.dependentLookupData = [];
-    this.dependentDropdown = value > 0;
-    this.getDependentLookupData(value);
-  }
-
   lookupForm() {
     let fkeyselfid = -1;
     if (this.config.data) {
-        fkeyselfid = this.config.data.fKeySelfId;
+      fkeyselfid = this.config.data.fKeySelfId;
     }
     this.addfields = [];
     this.fblookup = this.formbuilder.group({
       lookupId: [null],
       code: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_NUMERIC), Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_20)]),
-      fkeySelfId:  new FormControl(fkeyselfid),
+      fkeySelfId: new FormControl(fkeyselfid),
       name: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
       isActive: new FormControl(true, [Validators.required]),
       lookUpDetails: this.formbuilder.array([], FormArrayValidationForDuplication())
@@ -128,41 +119,25 @@ export class LookupDialogComponent {
       event.preventDefault();
     }
   }
-
-  onLookupChange(event) {
-    this.setDependentLookup();
+  
+  setDependentLookup() {
+    let value = this.FormControls['fkeySelfId'].value;
+    this.lookupName = ' ';
+    this.dependentLookupData = [];
+    this.dependentDropdown = value > 0;
+    this.getDependentLookupData(value);
   }
 
-  getCountries() {
-    this.lookupService.Countries().subscribe((resp) => {
-      this.dependentLookupData = resp as unknown as LookupViewDto[];
-    })
-  }
-
-  getCurriculums() {
-    this.lookupService.Curriculums().subscribe((resp) => {
-      this.dependentLookupData = resp as unknown as LookupViewDto[];
-    })
-  }
-  getAssetCategories(){
-    this.lookupService.AssetCategories().subscribe((resp)=>{
+  getDependents(dependentId: number) {
+    this.lookupService.LookupDetailsForSelectedDependent(dependentId).subscribe((resp) => {
       this.dependentLookupData = resp as unknown as LookupViewDto[];
     })
   }
 
   getDependentLookupData(value) {
-    if (this.lookupService.isCountries(value)){
-        this.lookupName = "Countries";
-        this.getCountries();
-    }
-    else if (this.lookupService.isCurriculums(value)){
-        this.lookupName = "Curriculums";
-        this.getCurriculums();
-    }
-    else if (this.lookupService.isAssetCategories(value)){
-      this.lookupName = "AssetCategories";
-      this.getAssetCategories();
-  }
+    this.getDependents(value);
+    let dependentLookups = this.lookupNamesConfigured.filter(selectedLookup => selectedLookup.lookupId == value)
+    if (dependentLookups.length == 1) this.lookupName = dependentLookups[0].name;
   }
 
   addLookupDetails() {
@@ -231,7 +206,7 @@ export class LookupDialogComponent {
     }
 
   }
-  
+
   savelookup(): Observable<HttpEvent<LookupViewDto>> {
     if (this.addFlag) {
       return this.adminService.CreateLookUp(this.fblookup.value)
