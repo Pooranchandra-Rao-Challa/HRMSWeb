@@ -14,7 +14,7 @@ export class LeaveConfirmationService extends ApiHttpService {
 
   private result: Subject<{ confirmed: boolean; description?: string }> = new Subject<{ confirmed: boolean; description?: string }>();
 
-  openDialogWithInput(title: string,buttonLabel:string): Observable<{ confirmed: boolean; description?: string }> {
+  openDialogWithInput(title: string, buttonLabel: string): Observable<{ confirmed: boolean; description?: string }> {
     Swal.fire({
       title: title,
       html: `

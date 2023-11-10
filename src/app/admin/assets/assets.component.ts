@@ -42,7 +42,7 @@ export class AssetsComponent {
   isSubmitting: boolean = false;
   minDateValue: Date = new Date();
   selectedAssetTypeId: number = 0;
-  id:number
+  id: number
 
   constructor(private adminService: AdminService, private formbuilder: FormBuilder,
     private alertMessage: AlertmessageService, private lookupService: LookupService,
@@ -245,14 +245,36 @@ export class AssetsComponent {
 
   exportPdf() {
     const doc = new jsPDF('l', 'mm', 'a4');
+    this.addLetterhead(doc);
+    this.addBodyContent(doc);
+    this.addFooter(doc);
+    doc.save('assets.pdf');
+  }
+
+  addLetterhead(doc: jsPDF) {
+    // Customize the letterhead as needed
+    const letterheadText = 'Company Information';
+    doc.setFontSize(18);
+    doc.text(letterheadText, 20, 20);
+  }
+
+  addBodyContent(doc: jsPDF) {
     const head = [['Asset Type', 'Asset Category', 'Count', 'Employee Name', 'Asset Code', 'Asset Name', 'Purchased Date', 'Model Number', 'Manufacturer',
       'Serial Number', 'Warranty', 'AddValue', 'Description', 'Status']];
 
     autoTable(doc, {
       head: head,
       body: this.toPdfFormat(),
+      startY: 25, // Adjust the starting Y position for the body content
     });
-    doc.save('assets.pdf');
+  }
+
+  addFooter(doc: jsPDF) {
+    // Customize the footer as needed
+    const footerText = 'Authorized Signature';
+    doc.setFontSize(12);
+    doc.text(footerText, 243, doc.internal.pageSize.height -25);
+
   }
 
   toPdfFormat() {
