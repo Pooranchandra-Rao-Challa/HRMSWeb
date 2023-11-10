@@ -1,5 +1,4 @@
 import { HttpEvent } from '@angular/common/http';
-import { ThisReceiver } from '@angular/compiler';
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -138,10 +137,6 @@ export class LookupDialogComponent {
     if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {
       event.preventDefault();
     }
-  }
-
-  onLookupChange(event) {
-    this.setDependentLookup();
   }
 
   addLookupDetails() {

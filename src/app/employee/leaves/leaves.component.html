@@ -37,9 +37,8 @@
                         </p-columnFilter>
                         <p-sortIcon [field]="col.header"></p-sortIcon>
                     </th>
-                    <th *ngIf="permissions?.CanManageLeave" pFrozenColumn
-                    alignFrozen="right"
-                    [frozen]="true"> Actions </th>
+                    <th *ngIf="permissions?.CanManageLeave" pFrozenColumn alignFrozen="right" [frozen]="true"> Actions
+                    </th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-leave>
@@ -71,9 +70,7 @@
                             </ng-template>
                         </span>
                     </td>
-                    <td *ngIf="permissions?.CanManageLeave" pFrozenColumn
-                    alignFrozen="right"
-                    [frozen]="true">
+                    <td *ngIf="permissions?.CanManageLeave" pFrozenColumn alignFrozen="right" [frozen]="true">
                         <div class="flex" *ngIf="leave.rejected === null">
                             <button pButton pRipple icon="pi pi-check" id="Leave_Approved_Button"
                                 class="p-element p-ripple  p-button  p-button-outlined p-button-success mr-3 p-0"
@@ -97,26 +94,30 @@
 <!-- Confirmation Dialog -->
 <p-dialog header="Confirmation" [(visible)]="dialog" [modal]="true" showEffect="fade"
     [breakpoints]="{'960px': '70%', '640px': '80%'}" class="hide-close-icon" [style]="{width:'30%'}">
-    <div class="grid p-5">
-        <div class="flex flex-column justify-content-center">
-            <div class="p-fluid p-formgrid grid mt-3 mb-4" *ngIf="this.selectedAction === 'approve'">
-                Do you want to Update the Attendance Status Absent to Leave.
-            </div>
-            <div class="p-fluid p-formgrid grid mt-3 mb-4" *ngIf="this.selectedAction === 'reject'">
-                Are you sure you want to Reject this Leave.
+    <form [formGroup]="fbLeave">
+        <div class="grid p-5">
+            <div class="flex flex-column justify-content-center">
+                <div class="p-fluid p-formgrid grid mt-3 mb-4" *ngIf="this.selectedAction === 'approve'">
+                    Are you sure you want to Approve this Leave?.
+                </div>
+                <div class="p-fluid p-formgrid grid mt-3 mb-4" *ngIf="this.selectedAction === 'reject'">
+                    Are you sure you want to Reject this Leave?.
+                </div>
+                <textarea class="form-control freeze_text-area" pInputTextarea formControlName="comments"
+                    placeholder="Enter Leave Narration" #description [maxlength]="256" id="Description"></textarea>
             </div>
         </div>
-    </div>
+    </form>
     <ng-template pTemplate="footer">
-        <div class="grid" >
+        <div class="grid">
             <div class="col-2"></div>
             <div class="col-4">
-                <button pButton pRipple label="Yes" id="Leave_Approve_Rejected_Button" icon="pi pi-check" class="p-button-success w-100"
-                    (click)="processLeave()"></button>
+                <button pButton pRipple [label]="buttonLabel" id="Leave_Approve_Rejected_Button" icon="pi pi-check"
+                    class="p-button-success w-100" (click)="processLeave()"></button>
             </div>
             <div class="col-4">
-                <button pButton pRipple label="No" id="Leave_Approve_Rejected_Button" icon="pi pi-times" class="p-button-primary w-100"
-                    (click)="onClose()"></button>
+                <button pButton pRipple label="Close" id="Leave_Approve_Rejected_Button" icon="pi pi-times"
+                    class="p-button-primary w-100" (click)="onClose()"></button>
             </div>
         </div>
     </ng-template>
