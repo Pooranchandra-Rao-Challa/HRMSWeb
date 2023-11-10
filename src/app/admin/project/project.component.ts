@@ -33,34 +33,30 @@ interface AutoCompleteCompleteEvent {
 })
 export class ProjectComponent implements OnInit {
     @ViewChild("fileUpload", { static: true }) fileUpload: ElementRef;
-    data: null;
     private diagram: go.Diagram;
     projects: ProjectViewDto[] = [];
     clientsNames: ClientNamesDto[] = [];
     Employees: EmployeesList[] = [];
+    projectStatues: projectStatus[];
     clientDetails: ClientDetailsDto;
-    visible: boolean = false;
+    projectDetailsDialog: boolean = false;
     filteredClients: any;
     fbUnAssignEmployee!: FormGroup;
     fbproject!: FormGroup;
     maxLength: MaxLength = new MaxLength();
-    dialog1: boolean;
-    dialog: boolean;
+    editDialog: boolean;
+    addDialog: boolean;
     permission: any;
     addFlag: boolean = true;
     submitLabel!: string;
-    minDateVal = new Date();
     projectDetails: any = {};
     companyHierarchy: CompanyHierarchyViewDto[] = [];
     selectedProjectId: number = -1;
-    first: number = 0;
-    rows: number = 10;
-    projectStatues: projectStatus[];
-
-
     fileTypes: string = ".jpg, .jpeg, .gif,.png"
     @Output() ImageValidator = new EventEmitter<PhotoFileProperties>();
     defaultPhoto: string;
+    first: number = 0;
+    rows: number = 12;
 
     //For paginator 
     onPageChange(event) {
@@ -143,9 +139,11 @@ export class ProjectComponent implements OnInit {
                 pocMobileNumber: new FormControl('', [Validators.required, Validators.pattern(RG_PHONE_NO)]),
                 address: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
             }),
-            projectStatuses: this.formbuilder.group({
+
+            projectStatuses: new FormControl([]),
+            initialStatus: this.formbuilder.group({
                 eProjectStatusesId: ['', [Validators.required]],
-                statusDate: new FormControl('', [Validators.required]),
+                Date: new FormControl('', [Validators.required]),
             }),
             projectAllotments: new FormControl([])
         });
@@ -162,6 +160,8 @@ export class ProjectComponent implements OnInit {
     projectStatuses() {
         this.adminService.projectStatuses().subscribe((resp) => {
             this.projectStatues = resp as unknown as projectStatus[];
+            console.log(resp);
+
         })
     }
     restrictSpaces(event: KeyboardEvent) {
@@ -176,7 +176,7 @@ export class ProjectComponent implements OnInit {
         this.fcUnAssignAsset['employeeId']?.setValue(employee.employeeId);
         this.fcUnAssignAsset['isActive']?.setValue(false);
         this.adminService.UnassignEmployee(this.fbUnAssignEmployee.value).subscribe((resp) => {
-            if (this.visible) {
+            if (this.projectDetailsDialog) {
                 this.alertMessage.displayAlertMessage(ALERT_CODES["SMEUA001"]);
                 this.showProjectDetails(employee.projectId)
                 this.fbUnAssignEmployee.reset();
@@ -189,7 +189,7 @@ export class ProjectComponent implements OnInit {
     }
 
     showProjectDetails(projectId: number) {
-        this.visible = true;
+        this.projectDetailsDialog = true;
         this.getProjectWithId(projectId);
     }
 
@@ -212,7 +212,7 @@ export class ProjectComponent implements OnInit {
     }
 
     showProjectDetailsDialog(projectDetails: ProjectViewDto) {
-        this.visible = true;
+        this.projectDetailsDialog = true;
         this.projectDetails = projectDetails;
     }
 
@@ -223,19 +223,25 @@ export class ProjectComponent implements OnInit {
             }
         })
     }
-    getProjectStatus(id?: number) {
-        const date = this.projectStatues.filter(each => each?.eProjectStatusesId === id);
-        return date[0]?.name;
+    onRadioButtonChange(item: any) {
+        if (this.projectDetails[item.name.toLowerCase()] !== null)
+            this.fcProjectStatus.get('Date').setValue(FORMAT_DATE(new Date(this.projectDetails[item.name.toLowerCase()])));
+        else
+            this.fcProjectStatus.get('Date').setValue('');
+    }
+    getProjectStatus(id?: number):any {
+        if (id !== undefined && id >= 1) {
+            const status=this.projectStatues.find(each=>each.eProjectStatusesId===id);
+            return status.name
+        }
     }
     getFormattedDate(date: Date) {
-        return FORMAT_DATE(new Date(this.datePipe.transform(date, 'yyyy-MM-dd')))
+        return this.datePipe.transform(date, 'dd/MM/yyyy')
     }
     initProject(project: ProjectViewDto) {
-        console.log(project);
-
         this.projectForm();
         this.projectDetails = '';
-        this.dialog = true;
+        this.addDialog = true;
         this.fileUpload.nativeElement.value = '';
         if (project != null) {
             this.projectDetails = project;
@@ -250,8 +256,6 @@ export class ProjectComponent implements OnInit {
     }
 
     editEmployee(project) {
-        console.log(project);
-
         this.addFlag = false;
         this.submitLabel = "Update Project Details";
         this.projectDetails = project
@@ -266,9 +270,9 @@ export class ProjectComponent implements OnInit {
             description: project.description
         });
         const date = this.projectStatues.filter(each => each.eProjectStatusesId === project.activeStatusId)
-        this.fbproject.get('projectStatuses').patchValue({
+        this.fbproject.get('initialStatus').patchValue({
             eProjectStatusesId: project.activeStatusId,
-            statusDate: project[date[0].name.toLowerCase()],
+            Date: FORMAT_DATE(new Date(project[date[0].name.toLowerCase()])),
         });
         this.fbproject.get('clients').patchValue({
             clientId: project.clientId,
@@ -285,12 +289,11 @@ export class ProjectComponent implements OnInit {
             pocMobileNumber: project.pocMobileNumber,
             address: project.address,
         });
-        console.log(this.fbproject.value);
-
+       
     }
 
     addEmployees(projectDetails: ProjectViewDto) {
-        this.dialog1 = true;
+        this.editDialog = true;
         this.projectForm();
         this.getEmployeesListBasedOnProject(projectDetails.projectId);
         this.editEmployee(projectDetails);
@@ -311,7 +314,8 @@ export class ProjectComponent implements OnInit {
     }
 
     saveProject() {
-        this.fbproject.get('startDate').setValue(FORMAT_DATE(new Date(this.fbproject.get('startDate').value)))
+        this.fbproject.get('startDate').setValue(FORMAT_DATE(new Date(this.fbproject.get('startDate').value)));
+        // this.fcProjectStatus.get('Date').setValue(FORMAT_DATE(new Date(this.fcProjectStatus.get('Date').value)))
         if (this.addFlag) {
             if (this.clientDetails)
                 this.fcClientDetails.get('companyName')?.setValue(this.clientDetails.companyName);
@@ -340,8 +344,7 @@ export class ProjectComponent implements OnInit {
     }
 
     onSubmit() {
-        console.log(this.fbproject.value);
-
+        this.fbproject.get('projectStatuses').setValue([this.fbproject.get('initialStatus').value]);
         if (this.fbproject.valid) {
             if (this.addFlag) {
                 if (this.isUniqueProjectCode()) {
@@ -372,11 +375,11 @@ export class ProjectComponent implements OnInit {
         if (this.fbproject.valid) {
             this.saveProject().subscribe(resp => {
                 if (resp) {
-                    this.dialog = false;
+                    this.addDialog = false;
                     this.initProjects();
                     this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "PAS001" : "PAS002"]);
-                    this.dialog1 = false;
-                    if (this.visible)
+                    this.editDialog = false;
+                    if (this.projectDetailsDialog)
                         this.showProjectDetails(this.projectDetails.projectId);
                 }
             })
@@ -390,7 +393,7 @@ export class ProjectComponent implements OnInit {
         return this.fbproject.get('clients') as FormGroup;
     }
     get fcProjectStatus() {
-        return this.fbproject.get('projectStatuses') as FormGroup;
+        return this.fbproject.get('initialStatus') as FormGroup;
     }
 
     convertToTreeNode(projects: any[]): TreeNode[] {

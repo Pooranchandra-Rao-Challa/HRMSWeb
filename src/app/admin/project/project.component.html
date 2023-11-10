@@ -13,148 +13,153 @@
     </p-toolbar>
 
     <!-- dialog -->
-    <p-dialog header="Project" [(visible)]="dialog" [modal]="true" showEffect="fade"
+    <p-dialog header="Project" [(visible)]="addDialog" [modal]="true" showEffect="fade"
       [breakpoints]="{'960px': '70%', '640px': '60%'}" [style]="{width: '70%'}">
       <div class="flex flex-column align-items-center justify-content-center">
         <form [formGroup]="fbproject" (ngSubmit)="onSubmit()" id="Role_roleForm">
           <div class="grid">
             <div class="col-12 ">
               <p-fieldset legend="Project Details" [toggleable]="true">
-              <!-- <h5>Project Details</h5> -->
-              <div class=" grid">
-                <div class=" col-12 md:col-7">
-                  <div class="p-fluid p-formgrid grid">
-                    <div class="field col-12 md:col-6 p-2 mb-1">
-                      <label class="required">Code:
-                      </label>&nbsp; <input pInputText id="Project_code" type="text" formControlName="code"
-                        [ngClass]="{ 'is-invalid ng-dirty': projectFormControls['code'].touched &&projectFormControls['code'].errors }"
-                        (keydown)="restrictSpaces($event)" [readonly]="projectFormControls['projectId'].value!== null"
-                        [maxlength]="maxLength.code" placeholder="Enter Code" #code alphaNumeric />
-                      <div class="flex">
-                        <div class="align-left w-60" style="width:70%">
-                          <span *ngIf="projectFormControls['code'].touched && projectFormControls['code'].invalid">
-                            <div class="ng-invalid ng-touched p-error"
-                              *ngIf="projectFormControls['code'].errors?.['required']">
-                              Please Enter Code.</div>
-                            <div class="ng-invalid ng-touched p-error"
-                              *ngIf="projectFormControls['code'].errors?.['minlength']">
-                              Code Min Characters Is 4.</div>
-                            <div class="ng-invalid ng-touched p-error"
-                              *ngIf="projectFormControls['code'].errors?.['maxlength']">
-                              Code Min Characters Is 20.</div>
-                          </span>
-                        </div>
-                        <div class="align-right w-40" style="width:30%; text-align:right;">
-                          <small>{{code.value.length}}/20</small>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="field col-12 md:col-6 p-2 mb-1">
-                      <label class="required">Name:
-                      </label>&nbsp; <input pInputText id="Project_name" type="text" formControlName="name"
-                        [ngClass]="{ 'is-invalid ng-dirty': projectFormControls['name'].touched &&projectFormControls['name'].errors }"
-                        (keydown)="restrictSpaces($event)" [readonly]="projectFormControls['projectId'].value!== null"
-                        [maxlength]="maxLength.name" placeholder="Enter Name" #name alphaNumeric />
-                      <div class="flex">
-                        <div class="align-left w-60" style="width:70%">
-                          <span *ngIf="projectFormControls['name'].touched && projectFormControls['name'].invalid">
-                            <div class="ng-invalid ng-touched p-error"
-                              *ngIf="projectFormControls['name'].errors?.['required']">
-                              Please Enter Name.</div>
-                            <div class="ng-invalid ng-touched p-error"
-                              *ngIf="projectFormControls['name'].errors?.['minlength']">
-                              Name Min Characters Is 2.</div>
-                            <div class="ng-invalid ng-touched p-error"
-                              *ngIf="projectFormControls['name'].errors?.['maxlength']">
-                              Name Max Characters Is 50.</div>
-                          </span>
-                        </div>
-                        <div class="align-right w-40" style="width:30%; text-align:right;">
-                          <small>{{name.value.length}}/50</small>
-                        </div>
-                      </div>
-                    </div>
-                    <div class=" col-12 md:col-6 p-2">
-                      <div class="field mb-1 col-12 md:col-12 p-0">
-                        <label class="required">Start Date:
-                        </label>&nbsp; <p-calendar inputId="calendar" [readonlyInput]="true" [showIcon]="true"
-                          [ngClass]="{ 'is-invalid ng-dirty': projectFormControls['startDate'].touched &&projectFormControls['startDate'].errors }"
-                          yearRange="2000:2030" id="startDate" placeholder="Select Start Date" mask="99/99/9999"
-                          formControlName="startDate">
-                        </p-calendar>
+                <!-- <h5>Project Details</h5> -->
+                <div class=" grid">
+                  <div class=" col-12 md:col-7">
+                    <div class="p-fluid p-formgrid grid">
+                      <div class="field col-12 md:col-6 p-2 mb-1">
+                        <label class="required">Code:
+                        </label>&nbsp; <input pInputText id="Project_code" type="text" formControlName="code"
+                          [ngClass]="{ 'is-invalid ng-dirty': projectFormControls['code'].touched &&projectFormControls['code'].errors }"
+                          (keydown)="restrictSpaces($event)" [readonly]="projectFormControls['projectId'].value!== null"
+                          [maxlength]="maxLength.code" placeholder="Enter Code" #code alphaNumeric />
                         <div class="flex">
                           <div class="align-left w-60" style="width:70%">
-                            <span
-                              *ngIf="projectFormControls['startDate'].touched && projectFormControls['startDate'].invalid">
+                            <span *ngIf="projectFormControls['code'].touched && projectFormControls['code'].invalid">
                               <div class="ng-invalid ng-touched p-error"
-                                *ngIf="projectFormControls['startDate'].errors?.['required']">
-                                Please Select Start Date.</div>
+                                *ngIf="projectFormControls['code'].errors?.['required']">
+                                Please Enter Code.</div>
+                              <div class="ng-invalid ng-touched p-error"
+                                *ngIf="projectFormControls['code'].errors?.['minlength']">
+                                Code Min Characters Is 4.</div>
+                              <div class="ng-invalid ng-touched p-error"
+                                *ngIf="projectFormControls['code'].errors?.['maxlength']">
+                                Code Min Characters Is 20.</div>
                             </span>
+                          </div>
+                          <div class="align-right w-40" style="width:30%; text-align:right;">
+                            <small>{{code.value.length}}/20</small>
                           </div>
                         </div>
                       </div>
-                      <label for="textarea">Description: <sup class="p-error">*</sup>
-                      </label>&nbsp; <textarea inputId="textarea" pInputTextarea rows="4" cols="30"
-                        [ngClass]="{ 'is-invalid ng-dirty': projectFormControls['description'].touched &&projectFormControls['description'].errors }"
-                        (keydown)="restrictSpaces($event)" [maxlength]="maxLength.description" id="Project_description"
-                        #description placeholder="Enter Description" formControlName="description"></textarea>
-                      <div class="flex">
-                        <div class="align-left w-60" style="width:70%">
-                          <span
-                            *ngIf="projectFormControls['description'].touched && projectFormControls['description'].invalid">
-                            <div class="ng-invalid ng-touched p-error"
-                              *ngIf="projectFormControls['description'].errors?.['required']">
-                              Please Enter Description.</div>
-                            <div class="ng-invalid ng-touched p-error"
-                              *ngIf="projectFormControls['description'].errors?.['minlength']">
-                              Description Min Characters Is 2.</div>
-                            <div class="ng-invalid ng-touched p-error"
-                              *ngIf="projectFormControls['description'].errors?.['maxlength']">
-                              Description Max Characters Is 256.</div>
-                          </span>
-                        </div>
-                        <div class="align-right w-40" style="width:30%; text-align:right;">
-                          <small>{{description.value.length}}/256</small>
+                      <div class="field col-12 md:col-6 p-2 mb-1">
+                        <label class="required">Name:
+                        </label>&nbsp; <input pInputText id="Project_name" type="text" formControlName="name"
+                          [ngClass]="{ 'is-invalid ng-dirty': projectFormControls['name'].touched &&projectFormControls['name'].errors }"
+                          (keydown)="restrictSpaces($event)" [readonly]="projectFormControls['projectId'].value!== null"
+                          [maxlength]="maxLength.name" placeholder="Enter Name" #name alphaNumeric />
+                        <div class="flex">
+                          <div class="align-left w-60" style="width:70%">
+                            <span *ngIf="projectFormControls['name'].touched && projectFormControls['name'].invalid">
+                              <div class="ng-invalid ng-touched p-error"
+                                *ngIf="projectFormControls['name'].errors?.['required']">
+                                Please Enter Name.</div>
+                              <div class="ng-invalid ng-touched p-error"
+                                *ngIf="projectFormControls['name'].errors?.['minlength']">
+                                Name Min Characters Is 2.</div>
+                              <div class="ng-invalid ng-touched p-error"
+                                *ngIf="projectFormControls['name'].errors?.['maxlength']">
+                                Name Max Characters Is 50.</div>
+                            </span>
+                          </div>
+                          <div class="align-right w-40" style="width:30%; text-align:right;">
+                            <small>{{name.value.length}}/50</small>
+                          </div>
                         </div>
                       </div>
+                      <div class=" col-12 md:col-6 p-2">
+                        <div class="field mb-1 col-12 md:col-12 p-0">
+                          <label class="required">Start Date:
+                          </label>&nbsp; <p-calendar inputId="calendar" [readonlyInput]="true" [showIcon]="true"
+                            [ngClass]="{ 'is-invalid ng-dirty': projectFormControls['startDate'].touched &&projectFormControls['startDate'].errors }"
+                            yearRange="2000:2030" id="startDate" placeholder="Select Start Date" mask="99/99/9999"
+                            formControlName="startDate">
+                          </p-calendar>
+                          <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                              <span
+                                *ngIf="projectFormControls['startDate'].touched && projectFormControls['startDate'].invalid">
+                                <div class="ng-invalid ng-touched p-error"
+                                  *ngIf="projectFormControls['startDate'].errors?.['required']">
+                                  Please Select Start Date.</div>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <label for="textarea" class="required">Description:
+                        </label>&nbsp; <textarea inputId="textarea" pInputTextarea rows="4" cols="30"
+                          [ngClass]="{ 'is-invalid ng-dirty': projectFormControls['description'].touched &&projectFormControls['description'].errors }"
+                          (keydown)="restrictSpaces($event)" [maxlength]="maxLength.description"
+                          id="Project_description" #description placeholder="Enter Description"
+                          formControlName="description"></textarea>
+                        <div class="flex">
+                          <div class="align-left w-60" style="width:70%">
+                            <span
+                              *ngIf="projectFormControls['description'].touched && projectFormControls['description'].invalid">
+                              <div class="ng-invalid ng-touched p-error"
+                                *ngIf="projectFormControls['description'].errors?.['required']">
+                                Please Enter Description.</div>
+                              <div class="ng-invalid ng-touched p-error"
+                                *ngIf="projectFormControls['description'].errors?.['minlength']">
+                                Description Min Characters Is 2.</div>
+                              <div class="ng-invalid ng-touched p-error"
+                                *ngIf="projectFormControls['description'].errors?.['maxlength']">
+                                Description Max Characters Is 256.</div>
+                            </span>
+                          </div>
+                          <div class="align-right w-40" style="width:30%; text-align:right;">
+                            <small>{{description.value.length}}/256</small>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="field col-12 md:col-6 p-2 mb-1">
+                        <label>Upload Project Logo: </label><br />
+                        <img
+                          [src]="this.fbproject.get('logo').value  ? this.fbproject.get('logo').value : 'https://t3.ftcdn.net/jpg/02/18/21/86/360_F_218218632_jF6XAkcrlBjv1mAg9Ow0UBMLBaJrhygH.jpg'"
+                          onerror="this.onerror=null" alt="photo" width="100px" class="up_logo "><br /><br />
+                        <label for="singleFile"
+                          class="p-element p-ripple p-button-raised p-button-primary p-button p-component"
+                          style="width:auto !important; white-space: nowrap;">
+                          <i class="pi pi-paperclip"></i>Choose Logo:
+                        </label>
+                        <input id="singleFile" #fileUpload name="myFile" type="file" [accept]="fileTypes" hidden />
+
+                      </div>
                     </div>
-                    <div class="field col-12 md:col-6 p-2 mb-1">
-                      <label>Upload Project Logo: </label><br/>
-                      <img
-                        [src]="this.fbproject.get('logo').value  ? this.fbproject.get('logo').value : 'https://t3.ftcdn.net/jpg/02/18/21/86/360_F_218218632_jF6XAkcrlBjv1mAg9Ow0UBMLBaJrhygH.jpg'"
-                        onerror="this.onerror=null" alt="photo" width="100px" class="up_logo "><br/><br/>
-                      <label for="singleFile"
-                        class="p-element p-ripple p-button-raised p-button-primary p-button p-component"
-                        style="width:auto !important; white-space: nowrap;">
-                        <i class="pi pi-paperclip"></i>Choose Logo:
+                  </div>
+                  <div class=" col-12 md:col-5 pt-2 pl-0">
+
+                    <div class="field col-12 md:col-12 pt-0 mb-1" formGroupName="initialStatus">
+                      <label class="required">Project Status:
                       </label>
-                      <input id="singleFile" #fileUpload name="myFile" type="file" [accept]="fileTypes" hidden />
-    
-                    </div>
-                  </div>
-                </div>
-                <div class=" col-12 md:col-5 pt-2 pl-0">
-                  
-                  <div class="field col-12 md:col-12 pt-0 mb-1" formGroupName="projectStatuses">
-                    <label class="required">Project Status:
-                    </label>
-                    <div *ngFor="let item of this.projectStatues;let i=index;" class="field-checkbox flex project_status_checkbox">
-                      <div>
-                        <p-radioButton [value]="item.eProjectStatusesId" formControlName="eProjectStatusesId">
-                        </p-radioButton>
-                        <label class="ml-2 mr-3">{{ item.name }}</label>
+                      <div *ngFor="let item of this.projectStatues;let i=index;"
+                        class="field-checkbox flex project_status_checkbox">
+                        <div>
+                          <p-radioButton [value]="item.eProjectStatusesId" formControlName="eProjectStatusesId"
+                            (onClick)="onRadioButtonChange(item)">
+                          </p-radioButton>
+                          <label class="ml-2 mr-3">{{ item.name }}</label>
+                        </div>
+                        <input type="text" disabled
+                          *ngIf="projectDetails[item.name.toLowerCase()] && item.eProjectStatusesId !== fcProjectStatus.get('eProjectStatusesId').value"
+                          pInputText [value]="getFormattedDate(projectDetails[item.name.toLowerCase()])" />
+                        <p-calendar inputId="calendar" [readonlyInput]="true" [showIcon]="true"
+                          formControlName="Date" appendTo="body"
+                          *ngIf="item.eProjectStatusesId===this.fcProjectStatus.get('eProjectStatusesId').value"
+                          yearRange="2000:2030" placeholder="Select Date" mask="99/99/9999"></p-calendar>
                       </div>
-                     
-                      <p-calendar inputId="calendar" [readonlyInput]="true" [showIcon]="true"
-                        [defaultDate]="getFormattedDate(this.projectDetails[item.name.toLowerCase()])"
-                        *ngIf="this.projectDetails[item.name.toLowerCase()] || item.eProjectStatusesId===this.fcProjectStatus.get('eProjectStatusesId').value"
-                        yearRange="2000:2030" id="startDate" placeholder="Select Date" mask="99/99/9999"></p-calendar>
                     </div>
                   </div>
                 </div>
-              </div>
-             
-              </p-fieldset><br/>
+
+              </p-fieldset><br />
               <p-fieldset legend="Client Details" class="mt-2" [toggleable]="true">
                 <div class="p-fluid p-formgrid grid" formGroupName="clients">
                   <div class="field  col-12 md:col-4 p-2 mb-1">
@@ -167,7 +172,7 @@
                       #CompanyName (completeMethod)="filterClients($event)" (onSelect)="onAutocompleteSelect($event)"
                       [field]="'companyName'" [dataKey]="null" id="Project_fullName">
                     </p-autoComplete>
-  
+
                     <div class="flex">
                       <div class="align-left w-60" style="width:70%">
                         <span
@@ -260,7 +265,8 @@
                   </div>
                   <div class="field  col-12 md:col-4 p-2 mb-1">
                     <label class="required">CIN/GST No:
-                    </label>&nbsp; <input pInputText id="Project_cinNo" type="text" placeholder="Enter CIN/GST No" #cinno
+                    </label>&nbsp; <input pInputText id="Project_cinNo" type="text" placeholder="Enter CIN/GST No"
+                      #cinno
                       [ngClass]="{ 'is-invalid ng-dirty': fcClientDetails.controls['cinno'].touched && fcClientDetails.controls['cinno'].errors }"
                       (keydown)="restrictSpaces($event)" alphaNumeric [maxlength]="maxLength.cinNo"
                       formControlName="cinno" />
@@ -364,8 +370,8 @@
                   </div>
                 </div>
               </p-fieldset>
-             
-             
+
+
               <h5>Employee Details</h5>
               <div class="p-fluid p-formgrid grid">
                 <div class="field col-12 md:col-4">
@@ -408,7 +414,7 @@
     <!-- Projects View -->
 
 
-    
+
     <div class="card">
       <p-tabView>
         <p-tabPanel header="Card View ">
@@ -416,18 +422,20 @@
             <div class="col-12 md:col-4 lg:col-3 sm:col-6" *ngFor="let project of visibleProjects; let i = index ">
               <div class="card border-1 surface-border card-height project_card">
                 <button pButton pRipple icon="pi pi-pencil" *ngIf="permission?.CanManageProjects"
-                class="p-element p-ripple p-button-text p-button-primary p-component Project_editButton"
-                (click)="initProject(project)" id="Project_editButton"></button>
+                  class="p-element p-ripple p-button-text p-button-primary p-component Project_editButton"
+                  (click)="initProject(project)" id="Project_editButton"></button>
                 <div class="list-none m-0 p-0 text-center">
                   <img [src]="project.logo" alt="img" [style]="{width: '300px'}"
                     class="inline-flex align-items-center justify-content-center border-circle w-5rem h-5rem bg-primary-100 mb-5">
-                  <div class="text-2xl mb-3 font-medium" >
-                    <a class="cursor-pointer" (click)="showProjectDetails(project.projectId)" 
-                      id="Project_viewDetails">{{project.name}} </a>                   
+                  <div class="text-2xl mb-3 font-medium">
+                    <a class="cursor-pointer" (click)="showProjectDetails(project.projectId)"
+                      id="Project_viewDetails">{{project.name}} </a>
                   </div>
                   <!-- <p class="line-height-3 mb-3">{{project.description}}</p> -->
                   <div class="project_details p-2">
-                    <p><span class="text-primary">Status </span>: {{this.getProjectStatus(project?.activeStatusId)}}</p>
+                    <p><span class="text-primary">Status </span>:
+                      <!-- {{this.projectStatues[project.activeStatusId-1].name }} -->
+                     </p>
                     <p><span class="text-primary">Start Date </span>: {{project?.startDate| date: 'dd-MMM-yyyy'}}</p>
                     <p><span class="text-primary">POC Number </span>: {{project?.pocMobileNumber}}</p>
                     <p><span class="text-primary">POC Name</span>: {{project?.pocName}}</p>
@@ -436,8 +444,8 @@
               </div>
             </div>
           </div>
-          <p-paginator (onPageChange)="onPageChange($event)" *ngIf="projects.length>10" [first]="first" [rows]="rows"
-            [totalRecords]="projects.length" [rowsPerPageOptions]="[10, 20, 30]"></p-paginator>
+          <p-paginator (onPageChange)="onPageChange($event)" *ngIf="projects.length>12" [first]="first" [rows]="rows"
+            [totalRecords]="projects.length" [rowsPerPageOptions]="[12, 24, 36]"></p-paginator>
         </p-tabPanel>
         <p-tabPanel header="Org/Project Chart View">
           <div style="float:right;padding-bottom: 20px;">
@@ -458,8 +466,8 @@
 
 
     <!-- Project Details Dialog -->
-    <p-dialog header="Project Details" [(visible)]="visible" [breakpoints]="{'960px': '70%', '640px': '60%'}"
-      [style]="{width: '70%'}">
+    <p-dialog header="Project Details" [(visible)]="projectDetailsDialog"
+      [breakpoints]="{'960px': '70%', '640px': '60%'}" [style]="{width: '70%'}">
       <div class="card">
         <div class="grid">
           <div class="col-12 lg:col-3">
@@ -549,7 +557,7 @@
       </div>
     </p-dialog>
 
-    <p-dialog header="Project" [(visible)]="dialog1" [modal]="true" showEffect="fade"
+    <p-dialog header="Project" [(visible)]="editDialog" [modal]="true" showEffect="fade"
       [breakpoints]="{'960px': '70%', '640px': '60%'}" [style]="{width: '40%'}">
       <div class="flex flex-column align-items-center justify-content-center">
         <form [formGroup]="fbproject" (ngSubmit)="onSubmit()" id="Role_roleForm">

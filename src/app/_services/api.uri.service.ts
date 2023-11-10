@@ -57,7 +57,7 @@ export const LOOKUP_NAMES_CONFIGURE_URI="Lookup/LookupNamesConfigured";
 // END LOOKUPS
 
 export const GET_PROJECTS_URI = "Admin/GetProjectDetails";
-export const GET_PROJECT_WITH_ID="Admin/GetProjectDetails"
+export const GET_PROJECT_WITH_ID="Admin/GetProjectDetails";
 export const CREATE_PROJECT_URI = "Admin/CreateProjectWithDetails";
 export const UPDATE_PROJECT_URI = "Admin/UpdateProjectWithDetails";
 export const GET_CLIENTNAMES_URI = "Admin/GetClientNames";
@@ -105,7 +105,7 @@ export const GET_ATTENDENCE="Attendance/GetMonthlyAttendanceReport";
 export const POST_LISTOF_ATTENDANCES="Attendance/CreateAttendanceForEmployees";
 export const GET_EMPLOYEE_LEAVE_DETAILS ="Attendance/GetEmployeeLeaves";
 export const CREATE_EMPLOYEE_LEAVE_DETAILS ="Attendance/AddEmployeeLeave";
-export const POST_ATTENDANCE="Attendance/CreateEmployeeLeave";
+export const POST_ATTENDANCE="Attendance/UpdateEmployeeLeave";
 export const GET_NOTUPDATED_EMPLOYEES="Attendance/GetNotUpdatedEmployeesInAttendance";
 export const GET_COMPANY_HIERARCHY="Employee/GetCompanyHierarchy";
 
