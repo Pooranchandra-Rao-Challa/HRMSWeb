@@ -42,9 +42,7 @@ export class ProjectComponent implements OnInit {
     fbUnAssignEmployee!: FormGroup;
     fbproject!: FormGroup;
     maxLength: MaxLength = new MaxLength();
-    editDialog: boolean;
-    addDialog: boolean;
-    dialog1: boolean;
+    addEmployeeDialog: boolean;
     editProject: boolean;
     permission: any;
     addFlag: boolean = true;
@@ -236,7 +234,7 @@ export class ProjectComponent implements OnInit {
         }
     }
     getFormattedDate(date: Date) {
-        return this.datePipe.transform(date, 'dd/MM/yyyy')
+        return this.datePipe.transform(date, 'MM/dd/yyyy')
     }
     onEditProject(project: ProjectViewDto) {
         console.log(project);
@@ -295,7 +293,7 @@ export class ProjectComponent implements OnInit {
     }
 
     addEmployees(projectDetails: ProjectViewDto) {
-        this.editDialog = true;
+        this.editProject = true;
         this.projectForm();
         this.getEmployeesListBasedOnProject(projectDetails.projectId);
         this.editEmployee(projectDetails);
@@ -377,11 +375,10 @@ export class ProjectComponent implements OnInit {
         if (this.fbproject.valid) {
             this.saveProject().subscribe(resp => {
                 if (resp) {
-                    this.addDialog = false;
+                    this.addEmployeeDialog = false;
                     this.editProject = false;
                     this.initProjects();
                     this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "PAS001" : "PAS002"]);
-                    this.editDialog = false;
                     if (this.projectDetailsDialog)
                         this.showProjectDetails(this.projectDetails.projectId);
                 }
