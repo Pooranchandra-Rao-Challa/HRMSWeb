@@ -104,7 +104,7 @@ export const GET_PATH="UploadDocument/DownloadFile";
 export const GET_ATTENDENCE="Attendance/GetMonthlyAttendanceReport";
 export const POST_LISTOF_ATTENDANCES="Attendance/CreateAttendanceForEmployees";
 export const GET_EMPLOYEE_LEAVE_DETAILS ="Attendance/GetEmployeeLeaves";
-export const CREATE_EMPLOYEE_LEAVE_DETAILS ="Attendance/AddEmployeeLeave";
+export const CREATE_EMPLOYEE_LEAVE_DETAILS ="Attendance/UpdateEmployeeLeave";
 export const POST_ATTENDANCE="Attendance/CreateEmployeeLeave";
 export const GET_NOTUPDATED_EMPLOYEES="Attendance/GetNotUpdatedEmployeesInAttendance";
 export const GET_COMPANY_HIERARCHY="Employee/GetCompanyHierarchy";
@@ -115,4 +115,5 @@ export const GET_JOB_DETAILS="JobOpening/GetJobOpening";
 export const CREATE_JOB_OPENINGS_DETAILS="JobOpening/CreateJobOpening";
 
 // leave confirmation
-export const GET_MAIL_EMPLOYEE_DETAILS ="Attendance/approve";
+export const GET_EMPLOYEE_MAIL_DETAILS ="Attendance/UpdateLeaveStatus";
+export const UPDATE_EMPLOYEE_MAIL_DETAILS ="Attendance/UpdateLeaveStatus";

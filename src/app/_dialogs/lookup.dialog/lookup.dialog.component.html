@@ -46,7 +46,7 @@
                         <label>Dependent Lookup: </label>&nbsp;
                         <p-dropdown appendTo="body" id="lookupName_Dropdown" [autoDisplayFirst]="false"
                             optionLabel="name" optionValue="lookupId" [options]="lookupNamesConfigured"
-                            formControlName="fkeySelfId" (onChange)="onLookupChange($event)" autoWidth="false"
+                            formControlName="fkeySelfId" (onChange)="setDependentLookup()" autoWidth="false"
                             placeholder="Select Dependent Lookup" [showClear]="FormControls['lookupId'].value == null ? true : false"
                             [readonly]="FormControls['lookupId'].value!== null">
                         </p-dropdown>

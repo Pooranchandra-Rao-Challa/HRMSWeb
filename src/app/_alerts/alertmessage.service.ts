@@ -16,7 +16,7 @@ export class AlertmessageService {
         this.service.add({ key: 'tst', severity: 'error', summary: 'Error Message', detail: message, life: 5000 });
     }
     displayInfo(message: string) {
-        this.service.add({ key: 'tst',severity: 'info', summary: 'Info', detail: message , life: 5000 });
+        this.service.add({ key: 'tst', severity: 'info', summary: 'Info', detail: message, life: 5000 });
     }
 
 }
@@ -108,7 +108,6 @@ export const ALERT_CODES: { [key: string]: string } = {
     //LookUps
     'SML001': 'Lookup Added Successfully',
     'SML002': 'Lookup Updated Successfully',
-
     // Assets
     'AAS001': 'Asset Added Successfully',
     'AAS002': 'Asset Updated Successfully',
@@ -158,8 +157,8 @@ export const ALERT_CODES: { [key: string]: string } = {
     'EAD003': 'Upload Documents Not Added',
     'EAD004': 'Please Enter Title',
     'EAD005': 'File size is too large. Please select a smaller file.',
-    'EAD006':'Document Deleted Successfully.',
-    'EAD007':'Document Not Deleted.',
+    'EAD006': 'Document Deleted Successfully.',
+    'EAD007': 'Document Not Deleted.',
     //Enroll Employee
 
     'SEE001': 'Employee Enrolled Successfully',
@@ -201,12 +200,16 @@ export const ALERT_CODES: { [key: string]: string } = {
 
 
     //Leave Details
-    'ELD001': 'Leave Details Added Successfully',
-    'ELD002':'Leave Details Not Added',
+    'ELD001': 'Leave Added Successfully',
+    'ELD002': 'Leave Not Added',
     'ELA001': 'Leave Approved Successfully',
     'ELR002': 'Leave Rejected',
 
     //Job Opening Details
-    'JOD001':'Job Opening Added Successfully'
+    'JOD001': 'Job Opening Added Successfully',
+
+    //    Leave Confirmation
+    'ALC001': 'Leave Confirmation Updated Successfully',
+    'ALC002': 'Leave Confirmation Updated Failed'
 }
 
