@@ -229,9 +229,10 @@ export class ProjectComponent implements OnInit {
     getProjectStatus(id?: number): any {
         if (id !== undefined && id >= 1) {
             const status = this.projectStatues.find(each => each.eProjectStatusesId === id);
-            return status.name
+            return status ? status.name : "";
         }
     }
+    
     getFormattedDate(date: Date) {
         return this.datePipe.transform(date, 'MM/dd/yyyy')
     }
