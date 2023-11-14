@@ -19,12 +19,14 @@ export class AppMenuComponent implements OnInit {
                 return this.jwtService.Permissions.CanViewUsers || this.jwtService.Permissions.CanViewRoles
             case 'Admin':
                 return this.jwtService.Permissions.CanViewLookups || this.jwtService.Permissions.CanViewHolidays ||
-                 this.jwtService.Permissions.CanViewProjects ||this.GroupPermission('Assets')
-            
+                    this.jwtService.Permissions.CanViewProjects || this.GroupPermission('Assets') || this.GroupPermission('Recruitment')
+
+            case 'Recruitment':
+                return this.jwtService.Permissions.CanViewAssets || this.jwtService.Permissions.CanViewAssets || this.jwtService.Permissions.CanViewAssets
             case 'Assets':
                 return this.jwtService.Permissions.CanViewAssets || this.jwtService.Permissions.CanViewAssetsAllotments;
             case 'Employee':
-                    return this.jwtService.Permissions.CanViewLookups || this.jwtService.Permissions.CanViewHolidays||this.jwtService.Permissions.CanViewAttendances  
+                return this.jwtService.Permissions.CanViewLookups || this.jwtService.Permissions.CanViewHolidays || this.jwtService.Permissions.CanViewAttendances
             default:
                 return false;
         }
@@ -112,22 +114,36 @@ export class AppMenuComponent implements OnInit {
                         label: 'Projects',
                         icon: 'pi pi-fw pi-search-plus',
                         routerLink: ['admin/project'],
-                        permission: this.jwtService.Permissions.CanViewProjects                       
+                        permission: this.jwtService.Permissions.CanViewProjects
 
                     },
                     {
                         label: 'Recruitment',
                         icon: 'pi pi-fw pi-search-plus',
-                        routerLink: ['admin/recruitment'],
-                        permission: this.jwtService.Permissions.CanViewAssetsAllotments
-                       
+                        permission: this.GroupPermission('Recruitment'),
+                        items: [
+                            {
+                                label: 'Applicants',
+                                icon: 'pi pi-fw pi-align-left',
+                                routerLink: ['admin/applicant'],
+                                permission: this.jwtService.Permissions.CanViewAssets
+
+                            },
+                            {
+                                label: 'Applicant Status',
+                                icon: 'pi pi-fw pi-align-left',
+                                routerLink: ['admin/applicantstatus'],
+                                permission: this.jwtService.Permissions.CanViewAssets
+
+                            }
+                        ]
                     },
                     {
                         label: 'Job Openings',
                         icon: 'pi pi-fw pi-calendar-plus',
                         routerLink: ['admin/jobopenings'],
                         permission: this.jwtService.Permissions.CanViewJobOpenings
-                     
+
                     },
                 ]
             },
@@ -154,7 +170,7 @@ export class AppMenuComponent implements OnInit {
                         label: 'Attendance',
                         icon: 'pi pi-fw pi-calendar-times',
                         routerLink: ['employee/attendance'],
-                        permission: this.jwtService.Permissions.CanViewAttendances 
+                        permission: this.jwtService.Permissions.CanViewAttendances
                     },
                     {
                         label: 'Leave Configuration',
