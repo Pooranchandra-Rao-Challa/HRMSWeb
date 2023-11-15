@@ -158,8 +158,6 @@ export class ProjectComponent implements OnInit {
     projectStatuses() {
         this.adminService.projectStatuses().subscribe((resp) => {
             this.projectStatues = resp as unknown as projectStatus[];
-            console.log(resp);
-
         })
     }
     restrictSpaces(event: KeyboardEvent) {
@@ -222,23 +220,23 @@ export class ProjectComponent implements OnInit {
         })
     }
     onRadioButtonChange(item: any) {
-        if (this.projectDetails[item.name.toLowerCase()] !== null)
+        console.log(this.projectDetails[item.name.toLowerCase()]);
+        if (this.projectDetails[item.name.toLowerCase()] !== null && this.projectDetails[item.name.toLowerCase()] !== undefined)
             this.fcProjectStatus.get('Date').setValue(FORMAT_DATE(new Date(this.projectDetails[item.name.toLowerCase()])));
         else
             this.fcProjectStatus.get('Date').setValue('');
     }
-    getProjectStatus(id?: number):any {
+    getProjectStatus(id?: number): any {
         if (id !== undefined && id >= 1) {
-            const status=this.projectStatues.find(each=>each.eProjectStatusesId===id);
-            return status.name
+            const status = this.projectStatues.find(each => each.eProjectStatusesId === id);
+            return status ? status.name : "";
         }
     }
+    
     getFormattedDate(date: Date) {
         return this.datePipe.transform(date, 'MM/dd/yyyy')
     }
     onEditProject(project: ProjectViewDto) {
-        console.log(project);
-
         this.projectForm();
         this.projectDetails = '';
         this.editProject = true;
@@ -289,7 +287,7 @@ export class ProjectComponent implements OnInit {
             pocMobileNumber: project.pocMobileNumber,
             address: project.address,
         });
-       
+
     }
 
     addEmployees(projectDetails: ProjectViewDto) {
@@ -430,7 +428,7 @@ export class ProjectComponent implements OnInit {
             this.Employees = resp as unknown as EmployeesList[];
             console.log(this.Employees);
 
-            this.Roles = this.Employees.map(fn => fn.eRoleName).filter((role,i,roles) => roles.indexOf(role) === i);
+            this.Roles = this.Employees.map(fn => fn.eRoleName).filter((role, i, roles) => roles.indexOf(role) === i);
             console.log(this.Employees.map(fn => fn.eRoleName));
 
             console.log(this.Roles);
@@ -438,7 +436,7 @@ export class ProjectComponent implements OnInit {
         });
     }
 
-    getRoleEmployees(roleName:string):EmployeesList[]{
+    getRoleEmployees(roleName: string): EmployeesList[] {
         return this.Employees.filter(value => value.eRoleName === roleName)
     }
     filterClients(event: AutoCompleteCompleteEvent) {
@@ -454,12 +452,12 @@ export class ProjectComponent implements OnInit {
         this.filteredClients = filtered;
     }
 
-    onEmployeeDragEnd(){
+    onEmployeeDragEnd() {
 
     }
-    onEmployeeDragStart(empoloyee){}
+    onEmployeeDragStart(empoloyee) { }
 
-    onEmployeeDrop(){}
+    onEmployeeDrop() { }
 }
 
 

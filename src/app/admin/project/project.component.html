@@ -466,10 +466,10 @@
                   </div>
                   <!-- <p class="line-height-3 mb-3">{{project.description}}</p> -->
                   <div class="project_details p-2">
-                    <p><span class="text-primary">Status</span>: <span class="text-color">AMC</span></p>
-                    <p><span class="text-primary">Start Date</span>: <span class="text-color">11/12/2023</span></p>
-                    <p><span class="text-primary">POC Number </span>: <span class="text-color">+91 8794561328</span></p>
-                    <p><span class="text-primary">POC Name</span>: <span class="text-color">Rajash</span></p>
+                    <p><span class="text-primary">Status </span>: {{this.getProjectStatus(project?.activeStatusId)}}</p>
+                    <p><span class="text-primary">Start Date </span>: {{project?.startDate| date: 'dd-MMM-yyyy'}}</p>
+                    <p><span class="text-primary">POC Number </span>: {{project?.pocMobileNumber}}</p>
+                    <p><span class="text-primary">POC Name</span>: {{project?.pocName}}</p>
                   </div>
                 </div>
               </div>

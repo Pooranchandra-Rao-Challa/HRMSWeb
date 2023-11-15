@@ -1,4 +1,50 @@
 {
+    "applicant":[
+        {
+            "id":1,
+            "name":"Rani",
+            "mobileNumber":8893095893,
+            "email":"rani@gmail.com",
+            "status":"close",
+            "resume": "Resume",
+            "actions":"ksdfkjkla"
+        },
+        {
+            "id":2,
+            "name":"Kusuma",
+            "mobileNumber":9089983989,
+            "email":"kusuma@gmail.com",
+            "status":"open",
+            "resume": "Resume",
+            "actions":"ksdfkjkla"
+        },
+        {
+            "id":3,
+            "name":"Pavani",
+            "mobileNumber":8833095893,
+            "email":"pavani@gmail.com",
+            "status":"close",
+            "resume": "Resume",
+            "actions":"ksdfkjkla"
+        },
+        {
+            "id":4,
+            "name":"Rajesh",
+            "mobileNumber":88930462893,
+            "email":"rajesh@gmail.com",
+            "status":"open",
+            "resume": "Resume",
+            "actions":"ksdfkjkla"
+        },{
+            "id":5,
+            "name":"Kalyani",
+            "mobileNumber":9808092302,
+            "email":"kalyani@gmail.com",
+            "status":"close",
+            "resume": "Resume",
+            "actions":"ksdfkjkla"
+        }
+    ],
     "jobDesign":[
         {
             "id":1,

@@ -491,3 +491,17 @@ label{
 .project_employee_card:hover{
     border: 1px solid #f17517 !important;
 }
+
+.card-header{
+    background-color: var(--primary-lighter-color);
+    // opacity:0.5;
+    padding-left: 5px;
+    color:black;
+}
+.job-description{
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* number of lines to show */
+            line-clamp: 3; 
+    -webkit-box-orient: vertical;
+}

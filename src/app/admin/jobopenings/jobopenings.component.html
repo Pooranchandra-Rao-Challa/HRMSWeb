@@ -14,14 +14,24 @@
     </ng-template>
     <ng-template let-jobOpeningDetails pTemplate="gridItem">
         <div class="col-12 md:col-4 lg:col-3 sm:col-6">
-            <div class="card m-2 border-1 surface-border card-height">
+            <div  class="card card-header surface-border orange-200 card-height border-1 m-2 p-2 mb-0">
+                <i class="pi pi-star text-primary" ></i> &nbsp; {{jobOpeningDetails.designation}}
+            </div>
+            <div class="card m-2 border-1 mt-0 surface-border card-height">
                 <div class=" mb-3 grid">
-                    <div class="col-12">
-                        <span class="text-xl text-primary  font-boldtext-md">
-                            <i class="pi pi-star text-primary" ></i>
+                    <div class="col-6">
+                        <div class="text-600 font-medium text-sm job-description"> {{ jobOpeningDetails.description }} quwe oeuir o oiweur u fu i ouer fu  hfhhou rufuih iowfd </div>
+                    </div>
+                    <div class="col-6">
+                        <!-- <span class="text-xl text-primary  font-boldtext-md">
+                            <i class="pi pi-star text-primary" ></i> 
                             {{jobOpeningDetails.designation}}
-                        </span>
-                        <div class="text-600 font-medium">{{ jobOpeningDetails.description }}</div>
+                        </span> -->
+                        <span><b class="text-primary">3</b> New Applicants</span>
+                        <br/>
+                        <span><b class="text-primary">2</b> Applicants</span>
+                        <br/>
+                        <span><b class="text-primary">6</b> to Recruit</span>
                     </div>
                 </div>
             </div>

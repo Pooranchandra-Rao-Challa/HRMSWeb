@@ -9,6 +9,15 @@ export interface JobDesign{
   natureOfJobs?:string;
   compensationPackage?:string;
 }
+export interface Applicant{
+  id?:number;
+  name?: string;
+  mobileNumber?:number;
+  email?:string;
+  status?:string;
+  resume?:string;
+  actions?:string;
+}
 export interface Employee {
   id?: number;
   empname?: string;
