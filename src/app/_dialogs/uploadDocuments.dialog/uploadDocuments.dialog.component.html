@@ -6,11 +6,11 @@
                     <div class="p-fluid p-formgrid ">
                         <div class="field col-12  ">
                             <label class="required">Title:</label>
-                            <input type="text" id="Upload_title" pInputText formControlName="title" alphaOnly
-                                class="w-100" placeholder="Enter Title" (keydown)="restrictSpaces($event)"
+                            <input type="text" id="Upload_title" pInputText formControlName="title" alphaOnly #title
+                                class="w-100" placeholder="Enter Title" (keydown)="restrictSpaces($event)" maxlength="20"
                                 [ngClass]="{ 'is-invalid ng-dirty': FormControls['title'].touched && FormControls['title'].errors }">
                             <div class="flex">
-                                <div class="align-left w-60">
+                                <div class="align-left w-60" style="width:70%">
                                     <span *ngIf="FormControls['title'].touched && FormControls['title'].invalid">
                                         <div class="ng-invalid ng-touched p-error"
                                             *ngIf="FormControls['title'].errors?.['required']">
@@ -23,6 +23,9 @@
                                             Title Max Characters Is 20.</div>
                                     </span>
                                 </div>
+                                <div class="align-right w-40" style="width:30%; text-align:right;">
+                                    <small>{{title.value.length}}/20</small>
+                                  </div>
                             </div>
                         </div>
                     </div>
@@ -39,7 +42,6 @@
             </div>
         </div>
     </div>
-
     <div class="grid p-0 m-0">
         <div class="col-12 ">
             <p-table #dt2 [value]="files" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"

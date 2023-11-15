@@ -40,8 +40,8 @@ export class LeaveDialogComponent {
     private employeeService: EmployeeService,
     public ref: DynamicDialogRef,
     public alertMessage: AlertmessageService,
-    private platformaLocation: PlatformLocation) {
-    this.emailURL = `${platformaLocation.protocol}//${platformaLocation.hostname}:${platformaLocation.port}/`
+    private platformLocation: PlatformLocation) {
+    this.emailURL = `${platformLocation.protocol}//${platformLocation.hostname}:${platformLocation.port}/`
 
     const today = new Date();
     const currentYear = today.getFullYear();
@@ -55,14 +55,13 @@ export class LeaveDialogComponent {
         console.error('Failed to fetch holiday dates:', error);
       }
     );
-
+    this.setMinMaxDates();
   }
 
   ngOnInit(): void {
-    this.leaveForm();
     this.getEmployees();
     this.getLeaveTypes();
-    this.setMinMaxDates();
+    this.leaveForm();
   }
 
   setMinMaxDates() {
@@ -175,7 +174,7 @@ export class LeaveDialogComponent {
       approvedBy: new FormControl(null),
       approvedAt: new FormControl(null),
       rejected: new FormControl(null),
-      comments:new FormControl(null),
+      comments: new FormControl(null),
       url: new FormControl(null)
     });
   }
@@ -199,13 +198,13 @@ export class LeaveDialogComponent {
           this.alertMessage.displayAlertMessage(ALERT_CODES["ELD001"]);
         }
       },
-      (error: HttpErrorResponse) => {
-        if (error.status === 403) {
-          this.alertMessage.displayErrorMessage(ALERT_CODES["ELD002"]);
-        } else {
-          this.alertMessage.displayErrorMessage(ALERT_CODES["ELD002"]);
-        }
-      });
+        (error: HttpErrorResponse) => {
+          if (error.status === 403) {
+            this.alertMessage.displayErrorMessage(ALERT_CODES["ELD002"]);
+          } else {
+            this.alertMessage.displayErrorMessage(ALERT_CODES["ELD002"]);
+          }
+        });
       this.ref.close(true);
     }
     else {

@@ -67,7 +67,7 @@
                 </span>
               </div>
               <div class="field col-12 md:col-4">
-                <label class="required">Asset Name:  </label>
+                <label class="required">Asset Name: </label>
                 <input pInputText id="assetname" type="text" formControlName="name" placeholder="Enter Asset Name"
                   alphaNumeric class="form-control" maxlength="50" #name
                   [ngClass]="{ 'is-invalid ng-dirty': FormControls['name'].touched && FormControls['name'].errors}" />
@@ -88,7 +88,7 @@
                 </div>
               </div>
               <div class="field col-12 md:col-4">
-                <label class="required">Purchased Date:  </label>
+                <label class="required">Purchased Date: </label>
                 <p-calendar inputId="purchasedDate" id="purchasedDate" placeholder="Select Purchased Date"
                   appendTo="body" [readonlyInput]="true" formControlName="purchasedDate" [minDate]="minDateValue"
                   [showIcon]="true"
@@ -239,8 +239,7 @@
         <div class="flex justify-content-between flex-column sm:flex-row">
           <button pButton label="Clear" id="clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
             (click)="clear(dtAssets)"></button>
-            <button (click)="exportPdf()" pButton class="p-button m-2"
-            icon="pi pi-file-pdf"></button>
+          <button (click)="exportPdf()" pButton class="p-button m-2" icon="pi pi-file-pdf"></button>
           <div class="p-input-left mb-2">
             <span class="p-input-icon-left mb-2">
               <i class="pi pi-search"></i>

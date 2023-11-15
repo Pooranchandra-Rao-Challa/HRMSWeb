@@ -43,6 +43,7 @@ export class AssetsComponent {
   minDateValue: Date = new Date();
   selectedAssetTypeId: number = 0;
   id: number
+  employeeName: string;
 
   constructor(private adminService: AdminService, private formbuilder: FormBuilder,
     private alertMessage: AlertmessageService, private lookupService: LookupService,
@@ -266,6 +267,7 @@ export class AssetsComponent {
       head: head,
       body: this.toPdfFormat(),
       startY: 25, // Adjust the starting Y position for the body content
+      headStyles: { fillColor: [255, 129, 14]}
     });
   }
 

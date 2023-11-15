@@ -4,52 +4,52 @@
 			<div class="col-12 roles-container">
 				<div class="p-fluid p-formgrid grid content_scroll">
 					<div class="field col-12 md:col-4">
-						<label class="required">AddressLine1:</label>
+						<label class="required">Address Line1:</label>
 						<input type="text" id="Address_address1" pInputText formControlName="addressLine1" #address1
-							placeholder="Please Enter AddressLine1"
+							placeholder="Please Enter Address Line1" 
 							[ngClass]="{ 'is-invalid ng-dirty': FormControls['addressLine1'].touched && FormControls['addressLine1'].errors }"
-							[maxlength]="maxLength.description">
+							[maxlength]="50">
 						<div class="flex">
 							<div class="align-left w-60" style="width:70%">
 								<span
 									*ngIf="FormControls['addressLine1'].touched && FormControls['addressLine1'].invalid">
 									<div class="ng-invalid ng-touched p-error"
 										*ngIf="FormControls['addressLine1'].errors?.['required']">
-										Please Enter AddressLine1.</div>
+										Please Enter Address Line1.</div>
 									<div class="ng-invalid ng-touched p-error"
 										*ngIf="FormControls['addressLine1'].errors?.['minlength']">
-										AddressLine1 Min Characters Is 2.</div>
+										Address Line1 Min Characters Is 2.</div>
 									<div class="ng-invalid ng-touched p-error"
 										*ngIf="FormControls['addressLine1'].errors?.['maxlength']">
-										AddressLine1 Max Characters Is 256.</div>
+										Address Line1 Max Characters Is 50.</div>
 								</span>
 							</div>
 							<div class="align-right w-40" style="width:30%; text-align:right;">
-								<small>{{address1.value.length}}/256</small>
+								<small>{{address1.value.length}}/50</small>
 							</div>
 						</div>
 					</div>
 					<div class="field col-12 md:col-4">
-						<label for="inputtext">AddressLine2:</label>
+						<label for="inputtext">Address Line2:</label>
 						<input type="text" id="Address_address2" pInputText formControlName="addressLine2" #address2
-							placeholder="Please Enter AddressLine2" [maxlength]="maxLength.description">
+							placeholder="Please Enter Address Line2" [maxlength]="50">
 						<div class="flex">
 							<div class="align-left w-60" style="width:70%">
 							</div>
 							<div class="align-right w-40" style="width:30%; text-align:right;">
-								<small>{{address2.value.length}}/256</small>
+								<small>{{address2.value.length}}/50</small>
 							</div>
 						</div>
 					</div>
 					<div class="field col-12 md:col-4">
 						<label for="inputtext">Landmark:</label>
 						<input type="text" id="Address_landmark" pInputText formControlName="landmark" #Landmark
-							[maxlength]="maxLength.description" placeholder="Please Enter Landmark">
+							[maxlength]="50" placeholder="Please Enter Landmark">
 						<div class="flex">
 							<div class="align-left w-60" style="width:70%">
 							</div>
 							<div class="align-right w-40" style="width:30%; text-align:right;">
-								<small>{{Landmark.value.length}}/256</small>
+								<small>{{Landmark.value.length}}/50</small>
 							</div>
 						</div>
 					</div>
