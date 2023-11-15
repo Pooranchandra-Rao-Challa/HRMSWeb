@@ -461,14 +461,16 @@
                   class="p-element p-ripple p-button-text p-button-primary p-component project_edit_button"
                   (click)="onEditProject(project)" id="project_edit_button"></button>
                 <div class="list-none m-0 p-0 text-center" (click)="showProjectDetails(project.projectId)">
-                  <img [src]="project.logo" alt="img" [alt]="project.name" onerror="this.onerror=null;"
+                  <img [src]="project.logo ? project.logo : defaultPhoto" alt="img" [alt]="project.name"
+                    onerror="this.onerror=null;"
                     class="inline-flex align-items-center justify-content-center border-circle w-8rem h-8rem bg-primary-100 mb-5">
                   <div class="text-2xl mb-3 font-medium">
                     <a class="cursor-pointer" id="Project_viewDetails">{{project.name}} </a>
                   </div>
                   <!-- <p class="line-height-3 mb-3">{{project.description}}</p> -->
                   <div class="project_details p-2">
-                    <p><span class="text-primary">Status </span>: {{this.getProjectStatusBasedOnId(project?.activeStatusId)}}</p>
+                    <p><span class="text-primary">Status </span>:
+                      {{this.getProjectStatusBasedOnId(project?.activeStatusId)}}</p>
                     <p><span class="text-primary">Start Date </span>: {{project?.startDate| date: 'dd-MMM-yyyy'}}</p>
                     <p><span class="text-primary">POC Number </span>: {{project?.pocMobileNumber}}</p>
                     <p><span class="text-primary">POC Name</span>: {{project?.pocName}}</p>
