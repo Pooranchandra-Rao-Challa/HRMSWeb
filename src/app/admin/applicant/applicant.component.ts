@@ -1,6 +1,9 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Table } from 'primeng/table';
-import { ITableHeader } from 'src/app/_models/common';
+import { ApplicantDialogComponent } from 'src/app/_dialogs/applicant.dialog/applicant.dialog.component';
+import { Actions, DialogRequest, ITableHeader } from 'src/app/_models/common';
 import { GlobalFilterService } from 'src/app/_services/global.filter.service';
 import { Applicant } from 'src/app/demo/api/security';
 import { SecurityService } from 'src/app/demo/service/security.service';
@@ -21,9 +24,15 @@ export class ApplicantComponent {
   @ViewChild('filter') filter!: ElementRef;
   applicant: Applicant[] = [];
   status: Status[] | undefined;
+  addDialog: boolean = false;
+  ActionTypes = Actions;
+  dialogRequest: DialogRequest = new DialogRequest();
+  applicantdialogComponent = ApplicantDialogComponent;
 
   constructor(private securityService: SecurityService,
     private globalFilterService: GlobalFilterService,
+    public ref: DynamicDialogRef,
+    private dialogService: DialogService,
   ) {
 
   }
@@ -55,4 +64,20 @@ export class ApplicantComponent {
     this.filter.nativeElement.value = '';
   }
 
+  openComponentDialog(content: any,
+    dialogData, action: Actions = this.ActionTypes.add) {
+    if (action == Actions.add && content === this.applicantdialogComponent) {
+      this.dialogRequest.dialogData = dialogData;
+      this.dialogRequest.header = "Applicants";
+      this.dialogRequest.width = "60%";
+    }
+    this.ref = this.dialogService.open(content, {
+      data: this.dialogRequest.dialogData,
+      header: this.dialogRequest.header,
+      width: this.dialogRequest.width
+    });
+    this.ref.onClose.subscribe((res: any) => {
+      event.preventDefault(); // Prevent the default form submission
+    });
+  }
 }
