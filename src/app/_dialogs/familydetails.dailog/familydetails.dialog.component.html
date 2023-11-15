@@ -6,7 +6,7 @@
                     <div class="field col-12 md:col-4">
                         <label class="required">Family Member Name:</label>
                         <input type="text" id="inputtext" pInputText formControlName="name" #name [maxlength]="50"
-                            alphaNumeric (keydown)="restrictSpaces($event)" placeholder="Enter Family Member Name"
+                            alphaOnly (keydown)="restrictSpaces($event)" placeholder="Enter Family Member Name"
                             [ngClass]="{ 'is-invalid ng-dirty': familyFormControls['name'].touched && familyFormControls['name'].errors }" />
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
@@ -46,18 +46,19 @@
                     <div class="field col-12 md:col-4">
                         <label>Address:</label>
                         <p-dropdown id="address_dropdown" formControlName="addressId" [autoDisplayFirst]="false"
-                            placeholder="Select Address" optionLabel="addressLine1" [options]="address" appendTo="body" 
+                            placeholder="Select Address" optionLabel="addressLine1" [options]="address" appendTo="body"
                             optionValue="addressId">
                             <ng-template let-address pTemplate="item">
                                 {{ address.addressLine1 }},{{ address.addressLine2 }},<br>
                                 {{ address.landmark }},{{address.city }},<br>
                                 {{address.state}},{{address.zipCode}},{{address.country}}
-                            </ng-template></p-dropdown>
+                            </ng-template>
+                        </p-dropdown>
                     </div>
                     <div class="field col-12 md:col-4">
                         <label class="required">DOB:</label>
-                        <p-calendar [readonlyInput]="false" [showIcon]="true" id="dob" #DOB placeholder="Select DOB"
-                            mask="99/99/9999" formControlName="dob" [maxDate]="currentDate"
+                        <p-calendar [readonlyInput]="true" [showIcon]="true" id="dob" #DOB placeholder="Select DOB"
+                            mask="99/99/9999" formControlName="dob" [maxDate]="currentDate" appendTo="body"
                             [ngClass]="{ 'is-invalid ng-dirty': familyFormControls['dob'].touched && familyFormControls['dob'].errors }">
                         </p-calendar>
                         <!-- <p-calendar [readonlyInput]="true" [showIcon]="true" mask="99/99/9999" 
@@ -101,8 +102,10 @@
                     </div>
                     <div class="field col-12 md:col-4">
                         <label>Pan No:</label>
-                            <input type="text" id="pan_No" pInputText formControlName="panno" #panNo [maxLength]="10" placeholder="Enter Pan No"
-                                [ngClass]="{ 'is-invalid ng-dirty': familyFormControls['panno'].touched && familyFormControls['panno'].errors }" />
+                        <input type="text" id="pan_No" pInputText formControlName="panno" #panNo [maxLength]="10"
+                            placeholder="Enter Pan No" alphaNumeric
+                            (ngModelChange)="familyFormControls['panno'].setValue($event.toUpperCase())"
+                            [ngClass]="{ 'is-invalid ng-dirty': familyFormControls['panno'].touched && familyFormControls['panno'].errors }" />
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                                 <span
@@ -122,9 +125,9 @@
                     </div>
                     <div class="field col-12 md:col-4">
                         <label class="required">Mobile No:</label>
-                            <input type="text" id="mobile_Number" pInputText formControlName="mobileNumber" #phoneNo
-                                numericOnly [maxLength]="10" placeholder="Enter Mobile No"
-                                [ngClass]="{ 'is-invalid ng-dirty': familyFormControls['mobileNumber'].touched && familyFormControls['mobileNumber'].errors }" />
+                        <input type="text" id="mobile_Number" pInputText formControlName="mobileNumber" #phoneNo
+                            numericOnly [maxLength]="10" placeholder="Enter Mobile No"
+                            [ngClass]="{ 'is-invalid ng-dirty': familyFormControls['mobileNumber'].touched && familyFormControls['mobileNumber'].errors }" />
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                                 <span
@@ -144,10 +147,12 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4 mt-4">
-                        <p-checkbox [binary]="true" id="binary" class="mr-2" formControlName="isNominee">
+                        <p-checkbox
+                            [pTooltip]="fbfamilyDetails.get('isNominee').value == true ? 'Employee Can Have Only One Nominee' : null"
+                            [binary]="true" id="is_Nominee" class="mr-2" formControlName="isNominee">
                         </p-checkbox>
-                            <label for="binary" class="ml-3 required">Make him/her as Nominee
-                            </label>
+                        <label for="binary" class="ml-2" [class.required]="!isNomineeTrue">Make him/her as Nominee:
+                        </label>
                     </div>
                 </div>
             </div>
@@ -156,6 +161,7 @@
 </div>
 
 <div class=" footer dialog-footer">
-    <p-button type="button" label="Save Family Details" (click)="saveFamilyDetails()" [disabled]="!fbfamilyDetails.valid"
-        class="p-element p-ripple p-button-primary  p-component m-2 p-2"></p-button>
+    <p-button type="button" label="Save Family Details" (click)="saveFamilyDetails()"
+    [disabled]="!fbfamilyDetails.valid || (!isNomineeTrue && !fbfamilyDetails.get('isNominee').value)"
+     class="p-element p-ripple p-button-primary  p-component m-2 p-2"></p-button>
 </div>
