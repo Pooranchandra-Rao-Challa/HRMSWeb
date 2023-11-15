@@ -99,7 +99,7 @@ export class ProjectComponent implements OnInit {
         this.initProjects();
         this.initClientNames();
         this.unAssignEmployeeForm();
-        this.projectStatuses();
+        this.initProjectStatuses();
         this.ImageValidator.subscribe((p: PhotoFileProperties) => {
             if (this.fileTypes.indexOf(p.FileExtension) > 0 && p.Resize || (p.Size / 1024 / 1024 < 1
                 && (p.isPdf || (!p.isPdf && p.Width <= 400 && p.Height <= 500)))) {
@@ -155,7 +155,7 @@ export class ProjectComponent implements OnInit {
             isActive: new FormControl('', [Validators.required]),
         });
     }
-    projectStatuses() {
+    initProjectStatuses() {
         this.adminService.projectStatuses().subscribe((resp) => {
             this.projectStatues = resp as unknown as projectStatus[];
         })
@@ -219,20 +219,59 @@ export class ProjectComponent implements OnInit {
             }
         })
     }
+    shouldDisableRadioButton(item: any): boolean {
+
+        const initialNotDefined = this.projectDetails['initial'] === undefined;
+        const workingNotNull = this.projectDetails['working'] !== null;
+        const completedNotNull = this.projectDetails['completed'] !== null;
+
+
+        // If 'Initial' is not defined, enable 'Initial' and disable other options
+        if (initialNotDefined) {
+            return item.name !== 'Initial';
+        }
+
+        // If the radio button has a value in projectDetails, disable it
+        if (this.projectDetails[item.name.toLowerCase()] !== null && this.projectDetails[item.name.toLowerCase()] !== undefined) {
+            return true;
+        }
+
+        // If the radio button is in 'Completed' state, enable 'AMC'
+        if (item.name === 'AMC' && completedNotNull) {
+            return false;
+        }
+
+        // If the radio button is in 'Completed' state and the option is 'Suspended', disable it
+        if (item.name === 'Suspended' && completedNotNull) {
+            return true;
+        }
+
+        // If 'Initial' is defined and the radio button is 'Completed' disable if 'Working' is not defined
+        if (this.projectDetails['initial'] !== null && item.name === 'Completed' && !workingNotNull) {
+            return true;
+        }
+
+        // If 'Working' is defined, 'Completed' is not defined, and the radio button is 'AMC' or 'Initial', disable
+        if (workingNotNull && !completedNotNull && (item.name === 'AMC' || item.name === 'Initial')) {
+            return true;
+        }
+        // If none of the above conditions are met, enable the radio button
+        return false;
+    }
+
+
     onRadioButtonChange(item: any) {
-        console.log(this.projectDetails[item.name.toLowerCase()]);
-        if (this.projectDetails[item.name.toLowerCase()] !== null && this.projectDetails[item.name.toLowerCase()] !== undefined)
-            this.fcProjectStatus.get('Date').setValue(FORMAT_DATE(new Date(this.projectDetails[item.name.toLowerCase()])));
-        else
+        if (this.projectDetails[item.name.toLowerCase()] === null)
             this.fcProjectStatus.get('Date').setValue('');
     }
-    getProjectStatus(id?: number): any {
-        if (id !== undefined && id >= 1) {
+
+    getProjectStatusBasedOnId(id?: number): any {
+        if (id !== undefined && id >= 1 && this.projectStatues != undefined) {
             const status = this.projectStatues.find(each => each.eProjectStatusesId === id);
             return status ? status.name : "";
         }
     }
-    
+
     getFormattedDate(date: Date) {
         return this.datePipe.transform(date, 'MM/dd/yyyy')
     }
@@ -249,7 +288,6 @@ export class ProjectComponent implements OnInit {
             this.addFlag = true;
             this.submitLabel = "Add Project";
             this.getEmployeesListBasedOnProject(0);
-            this.fcProjectStatus.get('eProjectStatusesId').setValue(1);
         }
     }
 
@@ -313,7 +351,7 @@ export class ProjectComponent implements OnInit {
 
     saveProject() {
         this.fbproject.get('startDate').setValue(FORMAT_DATE(new Date(this.fbproject.get('startDate').value)));
-        // this.fcProjectStatus.get('Date').setValue(FORMAT_DATE(new Date(this.fcProjectStatus.get('Date').value)))
+        // this.fcProjectStatus.get('Date').setValue(FORMAT_DATE(new Date(this.fcProjectStatus.get('Date').value)));
         if (this.addFlag) {
             if (this.clientDetails)
                 this.fcClientDetails.get('companyName')?.setValue(this.clientDetails.companyName);
@@ -426,13 +464,7 @@ export class ProjectComponent implements OnInit {
     getEmployeesListBasedOnProject(projectId: number) {
         this.adminService.getEmployees(projectId).subscribe(resp => {
             this.Employees = resp as unknown as EmployeesList[];
-            console.log(this.Employees);
-
             this.Roles = this.Employees.map(fn => fn.eRoleName).filter((role, i, roles) => roles.indexOf(role) === i);
-            console.log(this.Employees.map(fn => fn.eRoleName));
-
-            console.log(this.Roles);
-
         });
     }
 
