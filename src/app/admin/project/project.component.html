@@ -143,13 +143,15 @@
                         class="field-checkbox flex project_status_checkbox">
                         <div>
                           <p-radioButton [value]="item.eProjectStatusesId" formControlName="eProjectStatusesId"
-                            (onClick)="onRadioButtonChange(item)">
+                            (onClick)="onRadioButtonChange(item)"
+                            [ngClass]="{'disabled-radio': shouldDisableRadioButton(item)}">
                           </p-radioButton>
+
                           <label class="ml-2 mr-3">{{ item.name }}</label>
                         </div>
-                        <input type="text" disabled
-                          *ngIf="projectDetails[item.name.toLowerCase()] && item.eProjectStatusesId !== fcProjectStatus.get('eProjectStatusesId').value"
-                          pInputText [value]="getFormattedDate(projectDetails[item.name.toLowerCase()])" />
+                        <input type="text" disabled *ngIf="projectDetails[item.name.toLowerCase()]!==null&&projectDetails[item.name.toLowerCase()]!==undefined
+                          &&item.eProjectStatusesId!==this.fcProjectStatus.get('eProjectStatusesId').value" pInputText
+                          [value]="getFormattedDate(projectDetails[item.name.toLowerCase()])" />
                         <p-calendar inputId="calendar" [readonlyInput]="true" [showIcon]="true" formControlName="Date"
                           appendTo="body"
                           *ngIf="item.eProjectStatusesId===this.fcProjectStatus.get('eProjectStatusesId').value"
@@ -459,14 +461,16 @@
                   class="p-element p-ripple p-button-text p-button-primary p-component project_edit_button"
                   (click)="onEditProject(project)" id="project_edit_button"></button>
                 <div class="list-none m-0 p-0 text-center" (click)="showProjectDetails(project.projectId)">
-                  <img [src]="project.logo" alt="img" [alt]="project.name" onerror="this.onerror=null;"
+                  <img [src]="project.logo ? project.logo : defaultPhoto" alt="img" [alt]="project.name"
+                    onerror="this.onerror=null;"
                     class="inline-flex align-items-center justify-content-center border-circle w-8rem h-8rem bg-primary-100 mb-5">
                   <div class="text-2xl mb-3 font-medium">
                     <a class="cursor-pointer" id="Project_viewDetails">{{project.name}} </a>
                   </div>
                   <!-- <p class="line-height-3 mb-3">{{project.description}}</p> -->
                   <div class="project_details p-2">
-                    <p><span class="text-primary">Status </span>: {{this.getProjectStatus(project?.activeStatusId)}}</p>
+                    <p><span class="text-primary">Status </span>:
+                      {{this.getProjectStatusBasedOnId(project?.activeStatusId)}}</p>
                     <p><span class="text-primary">Start Date </span>: {{project?.startDate| date: 'dd-MMM-yyyy'}}</p>
                     <p><span class="text-primary">POC Number </span>: {{project?.pocMobileNumber}}</p>
                     <p><span class="text-primary">POC Name</span>: {{project?.pocName}}</p>

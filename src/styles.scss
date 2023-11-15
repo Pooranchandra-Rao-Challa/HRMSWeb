@@ -492,6 +492,10 @@ label{
     border: 1px solid #f17517 !important;
 }
 
+.disabled-radio {
+    opacity: 0.5; /* or any other style to indicate disabled state */
+    pointer-events: none; /* prevent interactions with the disabled radio button */
+}
 .card-header{
     background-color: var(--primary-lighter-color);
     // opacity:0.5;
