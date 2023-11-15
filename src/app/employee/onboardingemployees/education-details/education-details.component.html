@@ -120,19 +120,19 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <label class="required">Passed Out Year:</label>
+                        <label class="required">Year Of Completion:</label>
                         <p-calendar [yearRange]="'1996:2025'" [readonlyInput]="true" [showIcon]="true"
-                            placeholder="Select Passed Out Year" formControlName="passedOutyear" appendTo="body"
-                            id="passedOutYear_Calendar" [maxDate]="maxDate"
-                            [ngClass]="{'is-invalid ng-dirty': FormControls['passedOutyear'].touched && FormControls['passedOutyear'].errors }">
+                            placeholder="Select Year Of Completion" formControlName="yearOfCompletion" appendTo="body"
+                            id="yearOfCompletion_Calendar" [maxDate]="maxDate"
+                            [ngClass]="{'is-invalid ng-dirty': FormControls['yearOfCompletion'].touched && FormControls['yearOfCompletion'].errors }">
                         </p-calendar>
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                                 <span
-                                    *ngIf="FormControls['passedOutyear'].touched && FormControls['passedOutyear'].invalid">
+                                    *ngIf="FormControls['yearOfCompletion'].touched && FormControls['yearOfCompletion'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
-                                        *ngIf="FormControls['passedOutyear'].errors?.['required']">
-                                        Please Select Passed Out Year.</div>
+                                        *ngIf="FormControls['yearOfCompletion'].errors?.['required']">
+                                        Please Select Year Of Completion.</div>
                                 </span>
                             </div>
                         </div>
@@ -196,7 +196,7 @@
                 <tr>
                     <th class="col text-center">Actions</th>
                     <th *ngFor="let col of headers"
-                        [ngClass]="col?.field == 'institutionName' || col?.field == 'authorityName' || col?.field == 'passedOutyear'  ||col?.field == 'circulumId'  ||  col?.field == 'streamId' ||col?.field == 'stateId'|| col?.field == 'gradingMethodId' ||col?.field == 'gradingValue' ? 'text-center' : ''">
+                        [ngClass]="col?.field == 'institutionName' || col?.field == 'authorityName' || col?.field == 'yearOfCompletion'  ||col?.field == 'circulumId'  ||  col?.field == 'streamId' ||col?.field == 'stateId'|| col?.field == 'gradingMethodId' ||col?.field == 'gradingValue' ? 'text-center' : ''">
                         {{col?.label}}
                     </th>
                 </tr>
@@ -216,7 +216,7 @@
                         </div>
                     </td>
                     <td *ngFor="let col of headers"
-                        [ngClass]="col?.field == 'institutionName' || col?.field == 'authorityName'  ||col?.field == 'passedOutyear'  || col?.field == 'streamId'||col?.field == 'stateId'|| col?.field == 'gradingMethodId' ||col?.field == 'gradingValue' ? 'text-center' : ''">
+                        [ngClass]="col?.field == 'institutionName' || col?.field == 'authorityName'  ||col?.field == 'yearOfCompletion'  || col?.field == 'streamId'||col?.field == 'stateId'|| col?.field == 'gradingMethodId' ||col?.field == 'gradingValue' ? 'text-center' : ''">
                         <span
                             *ngIf="col?.field == 'institutionName'  ||col?.field == 'authorityName'  ||  col?.field == 'gradingValue'  ">
                             {{educationData[col.field]}}
@@ -233,7 +233,7 @@
                         <span *ngIf="col?.field == 'streamId'">
                             {{educationData.stream?educationData.stream:educationData[col.field]}}
                         </span>
-                        <span *ngIf="col?.field == 'passedOutyear'">
+                        <span *ngIf="col?.field == 'yearOfCompletion'">
                             {{educationData[col.field] | date:mediumDate}}
                         </span>
                         <span *ngIf="col?.field == 'gradingMethodId'">

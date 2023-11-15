@@ -43,7 +43,7 @@ export class EducationDetailsDto {
 	state?: string;
 	institutionName?: string;
 	authorityName?: string;
-	passedOutyear?: Date;
+	yearOfCompletion?: Date;
 	gradingMethodId?: number;
 	gradingValue?: number;
 }
