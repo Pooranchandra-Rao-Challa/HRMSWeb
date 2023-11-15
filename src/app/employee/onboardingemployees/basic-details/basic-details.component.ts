@@ -32,16 +32,13 @@ export class BasicDetailsComponent implements OnInit {
     imageToCrop: File;
     MaritalStatus: General[] | undefined;
     fbbasicDetails: FormGroup;
-    imageSize: any;
-    selectedFileBase64: string | null = null; // To store the selected file as base64
     maxLength: MaxLength = new MaxLength();
     addFlag: boolean = true;
     empbasicDetails = new EmployeeBasicDetailDto();
     bloodgroups: LookupViewDto[] = [];
     employeeId: any;
-    isReadOnly: boolean = false;
     maxDate: Date = new Date();
-
+    countries :LookupViewDto[] =[];
     fileTypes: string = ".jpg, .jpeg, .gif"
     @Output() ImageValidator = new EventEmitter<PhotoFileProperties>();
     defaultPhoto: string;
@@ -49,8 +46,7 @@ export class BasicDetailsComponent implements OnInit {
     constructor(private router: Router, private route: ActivatedRoute,
         private employeeService: EmployeeService, private formbuilder: FormBuilder,
         private lookupService: LookupService, private alertMessage: AlertmessageService,
-        private onboardEmployeeService: OnboardEmployeeService,
-        private plaformLocation: PlatformLocation,) {
+        private onboardEmployeeService: OnboardEmployeeService) {
     }
 
     ngOnInit() {
@@ -70,7 +66,7 @@ export class BasicDetailsComponent implements OnInit {
         })
 
         this.basicDetailsForm();
-        this.initBloodGroups();
+        this.getBloodGroups();
         this.genders = [
             { name: 'Male', code: 'male' },
             { name: 'Female', code: 'female' }
@@ -119,6 +115,7 @@ export class BasicDetailsComponent implements OnInit {
             emailId: new FormControl('', [Validators.required, Validators.pattern(RG_EMAIL)]),
             isActive: new FormControl(true, [Validators.required]),
             isAFresher: new FormControl(true, [Validators.required]),
+            nationality:new FormControl('',[Validators.required]),
             photo: [],
             signDate: [null]
         });
@@ -128,12 +125,12 @@ export class BasicDetailsComponent implements OnInit {
         return this.fbbasicDetails.controls;
     }
 
-    initBloodGroups() {
+    getBloodGroups() {
         this.lookupService.BloodGroups().subscribe((resp) => {
             this.bloodgroups = resp as unknown as LookupViewDto[];
         });
     }
-
+    
     restrictSpaces(event: KeyboardEvent) {
         if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {
             event.preventDefault();
@@ -212,6 +209,7 @@ export class BasicDetailsComponent implements OnInit {
             emailId: empbasicDetails.emailId,
             isActive: empbasicDetails.isActive,
             isAFresher: empbasicDetails.isAFresher,
+            nationality:empbasicDetails.nationality,
             signDate: empbasicDetails.signDate,
             photo:empbasicDetails.photo
         });

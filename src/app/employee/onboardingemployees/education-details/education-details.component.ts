@@ -18,7 +18,6 @@ import { LookupService } from 'src/app/_services/lookup.service';
   // styleUrls: ['./education-details.component.scss']
 })
 export class EducationDetailsComponent implements OnInit {
-  isReadOnly: boolean = false;
   addeducationdetailsshowForm: boolean = false;
   fbEducationDetails!: FormGroup;
   ShoweducationDetails: boolean = true;

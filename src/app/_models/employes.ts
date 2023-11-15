@@ -29,6 +29,7 @@ export class EmployeeBasicDetailDto {
 	signDate?: Date;
 	isActive?: boolean;
 	isAFresher?: boolean;
+	nationality?:string;
 }
 
 export class EducationDetailsDto {
@@ -140,6 +141,7 @@ export class EmployeeBasicDetailViewDto {
 	signDate?: Date;
 	isActive?: boolean;
 	isAFresher?: boolean;
+	nationality?:string;
 	createdAt?: Date;
 	createdBy?: string;
 	updatedAt?: Date;
