@@ -27,9 +27,10 @@ export class LeaveconfirmationComponent {
       this.protectedData = this.activatedRoute.snapshot.queryParams['key'];
       // const decodedKey = decodeURIComponent(this.protectedData);
       const keyParts = this.protectedData.split('_');
-      const lastPart = keyParts[0];
+      const encripteddata = keyParts[1];
+     
       try {
-        const decryptedBytes = CryptoJS.AES.decrypt(lastPart, this.decryptionKey);
+        const decryptedBytes = CryptoJS.AES.decrypt(encripteddata, this.decryptionKey);
         const decryptedData = decryptedBytes.toString(CryptoJS.enc.Utf8);
         console.log('Decrypted Data:', decryptedData);
       } catch (error) {
