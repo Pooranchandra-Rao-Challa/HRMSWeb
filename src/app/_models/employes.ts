@@ -394,7 +394,6 @@ export class EmployeeLeaveDetailsViewDto {
 	fromDate?: Date;
 	toDate?: Date;
 	note?: string;
-	status?: string;
 }
 
 export class EmployeeLeaveDetailsDto {
