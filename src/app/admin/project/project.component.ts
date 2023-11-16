@@ -41,6 +41,7 @@ export class ProjectComponent implements OnInit {
     filteredClients: any;
     fbUnAssignEmployee!: FormGroup;
     fbproject!: FormGroup;
+    minDate1: Date;
     maxLength: MaxLength = new MaxLength();
     addEmployeeDialog: boolean;
     editProject: boolean;
@@ -53,15 +54,15 @@ export class ProjectComponent implements OnInit {
     fileTypes: string = ".jpg, .jpeg, .gif,.png"
     @Output() ImageValidator = new EventEmitter<PhotoFileProperties>();
     defaultPhoto: string;
-    first: number = 0;
-    rows: number = 12;
+
 
     //For paginator
+    first: number = 0;
+    rows: number = 12;
     onPageChange(event) {
         this.first = event.first;
         this.rows = event.rows;
     }
-
     get visibleProjects(): any[] {
         return this.projects.slice(this.first, this.first + this.rows);
     }
@@ -162,7 +163,13 @@ export class ProjectComponent implements OnInit {
         })
     }
     restrictSpaces(event: KeyboardEvent) {
-        if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {
+        const target = event.target as HTMLInputElement;
+        // Prevent the first key from being a space
+        if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0)
+            event.preventDefault();
+
+        // Restrict multiple spaces
+        if (event.key === ' ' && target.selectionStart > 0 && target.value.charAt(target.selectionStart - 1) === ' ') {
             event.preventDefault();
         }
     }
@@ -225,42 +232,41 @@ export class ProjectComponent implements OnInit {
         const workingNotNull = this.projectDetails['working'] !== null;
         const completedNotNull = this.projectDetails['completed'] !== null;
 
-
         // If 'Initial' is not defined, enable 'Initial' and disable other options
-        if (initialNotDefined) {
+        if (initialNotDefined)
             return item.name !== 'Initial';
-        }
+
 
         // If the radio button has a value in projectDetails, disable it
-        if (this.projectDetails[item.name.toLowerCase()] !== null && this.projectDetails[item.name.toLowerCase()] !== undefined) {
+        if (this.projectDetails[item.name.toLowerCase()] !== null && this.projectDetails[item.name.toLowerCase()] !== undefined)
             return true;
-        }
+
 
         // If the radio button is in 'Completed' state, enable 'AMC'
-        if (item.name === 'AMC' && completedNotNull) {
+        if (item.name === 'AMC' && completedNotNull)
             return false;
-        }
+
 
         // If the radio button is in 'Completed' state and the option is 'Suspended', disable it
-        if (item.name === 'Suspended' && completedNotNull) {
+        if (item.name === 'Suspended' && completedNotNull)
             return true;
-        }
+
 
         // If 'Initial' is defined and the radio button is 'Completed' disable if 'Working' is not defined
-        if (this.projectDetails['initial'] !== null && item.name === 'Completed' && !workingNotNull) {
+        if (this.projectDetails['initial'] !== null && item.name === 'Completed' && !workingNotNull)
             return true;
-        }
+
 
         // If 'Working' is defined, 'Completed' is not defined, and the radio button is 'AMC' or 'Initial', disable
-        if (workingNotNull && !completedNotNull && (item.name === 'AMC' || item.name === 'Initial')) {
+        if (workingNotNull && !completedNotNull && (item.name === 'AMC' || item.name === 'Initial'))
             return true;
-        }
+
         // If none of the above conditions are met, enable the radio button
         return false;
     }
 
     onRadioButtonChange(item: any) {
-        if (this.projectDetails[item.name.toLowerCase()] === null)
+        if (this.projectDetails[item.name.toLowerCase()] === null || this.projectDetails[item.name.toLowerCase()] === undefined)
             this.fcProjectStatus.get('Date').setValue('');
     }
 
@@ -275,13 +281,14 @@ export class ProjectComponent implements OnInit {
         return this.datePipe.transform(date, 'MM/dd/yyyy')
     }
     onEditProject(project: ProjectViewDto) {
-       
         this.projectForm();
         this.projectDetails = '';
         this.editProject = true;
         this.fileUpload.nativeElement.value = '';
         if (project != null) {
             this.projectDetails = project;
+            const status = this.projectStatues.find(each => each.eProjectStatusesId === this.projectDetails.activeStatusId);
+            this.minDate1 = new Date(this.projectDetails[status.name.toLowerCase()]);
             this.editEmployee(project);
             this.getEmployeesListBasedOnProject(project.projectId);
         } else {
@@ -308,7 +315,7 @@ export class ProjectComponent implements OnInit {
         const date = this.projectStatues.filter(each => each.eProjectStatusesId === project.activeStatusId)
         this.fbproject.get('initialStatus').patchValue({
             eProjectStatusesId: project.activeStatusId,
-            Date: FORMAT_DATE(new Date(project[date[0].name.toLowerCase()])),
+            Date: FORMAT_DATE(new Date(project[date[0]?.name.toLowerCase()])),
         });
         this.fbproject.get('clients').patchValue({
             clientId: project.clientId,
@@ -440,7 +447,6 @@ export class ProjectComponent implements OnInit {
             data: {
                 image: project.logo,
                 name: project.name,
-
             },
             children: [
                 { label: 'Sadikh', styleClass: 'bg-green-300 text-white', },
@@ -477,9 +483,8 @@ export class ProjectComponent implements OnInit {
         let query = event.query;
         for (let i = 0; i < (this.clientsNames as any[]).length; i++) {
             let client = (this.clientsNames as any[])[i];
-            if (client.companyName.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+            if (client.companyName.toLowerCase().indexOf(query.toLowerCase()) == 0)
                 filtered.push(client);
-            }
         }
         this.filteredClients = filtered;
     }

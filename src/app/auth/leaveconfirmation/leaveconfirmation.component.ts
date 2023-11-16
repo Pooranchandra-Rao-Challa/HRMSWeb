@@ -4,6 +4,7 @@ import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.s
 import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { EmployeeLeaveDetailsDto, EmployeeLeaveDetailsViewDto } from 'src/app/_models/employes';
 import { LeaveConfirmationService } from 'src/app/_services/leaveconfirmation.service';
+import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-leaveconfirmation',
@@ -14,19 +15,35 @@ export class LeaveconfirmationComponent {
   mediumDate: string = MEDIUM_DATE;
   protectedData: string;
   protectedWith: string;
+  isApproved: any;
+  isRejected: any
   showConfirmationMessage: boolean = false;
+  tempKey: string;
+  decryptionKey = 'approveData';
 
   constructor(private leaveConfirmationService: LeaveConfirmationService,
     private activatedRoute: ActivatedRoute,
     public alertMessage: AlertmessageService,) {
-    this.protectedData = this.activatedRoute.snapshot.queryParams['protectedData'];
-    this.protectedWith = this.activatedRoute.snapshot.queryParams['protectedWith'];
+      this.protectedData = this.activatedRoute.snapshot.queryParams['key'];
+      // const decodedKey = decodeURIComponent(this.protectedData);
+      const keyParts = this.protectedData.split('_');
+      const encripteddata = keyParts[1];
+     
+      try {
+        const decryptedBytes = CryptoJS.AES.decrypt(encripteddata, this.decryptionKey);
+        const decryptedData = decryptedBytes.toString(CryptoJS.enc.Utf8);
+        console.log('Decrypted Data:', decryptedData);
+      } catch (error) {
+        console.error('Error decrypting data:', error);
+      }
+
+      this.protectedWith = this.activatedRoute.snapshot.queryParams['key2'];
   }
 
   ngOnInit(): void {
     this.inItEmployeeLeaveDetails();
   }
-
+  
   inItEmployeeLeaveDetails() {
     this.leaveConfirmationService.getEmployeeLeaveDetails(this.protectedData, this.protectedWith).subscribe((resp) => {
       this.employeeleavedetails = resp as unknown as EmployeeLeaveDetailsViewDto;
@@ -34,16 +51,17 @@ export class LeaveconfirmationComponent {
     })
   }
 
-  openSweetAlert(title: string) {
+  openConfirmationAlert(title: string) {
     const buttonLabel = title === 'Reason For Accept' ? 'Accept' : 'Reject';
     this.leaveConfirmationService.openDialogWithInput(title, buttonLabel).subscribe((result) => {
       if (result && result.description) {
         const employeeLeaveDetails: EmployeeLeaveDetailsDto = {
           employeeId: this.employeeleavedetails.employeeId,
           leaveId: this.employeeleavedetails.leaveId,
-          protectedData: this.protectedData,  
+          status: this.employeeleavedetails.status,
+          protectedData: this.protectedData,
           protectedWith: this.protectedWith,
-          note: result.description,
+          comment: result.description,
         };
         this.leaveConfirmationService.UpdateEmployeeLeaveDetails(employeeLeaveDetails).subscribe((resp) => {
           if (resp) {
