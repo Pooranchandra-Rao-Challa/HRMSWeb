@@ -12,6 +12,7 @@ import { D3OrgChartComponent } from './project/d3-org-chart/d3-org-chart.compone
 import { JobOpeningsComponent } from './jobopenings/jobopenings.component';
 import { ApplicantComponent } from './applicant/applicant.component';
 import { ApplicantstatusComponent } from './applicantstatus/applicantstatus.component';
+import { ViewapplicantComponent } from './viewapplicant/viewapplicant.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { ApplicantstatusComponent } from './applicantstatus/applicantstatus.comp
     D3OrgChartComponent,
     ApplicantComponent,
     ApplicantstatusComponent,
+    ViewapplicantComponent,
 
   ],
   imports: [

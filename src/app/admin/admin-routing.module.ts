@@ -10,6 +10,7 @@ import { D3OrgChartComponent } from './project/d3-org-chart/d3-org-chart.compone
 import { JobOpeningsComponent } from './jobopenings/jobopenings.component';
 import { ApplicantComponent } from './applicant/applicant.component';
 import { ApplicantstatusComponent } from './applicantstatus/applicantstatus.component';
+import { ViewapplicantComponent } from './viewapplicant/viewapplicant.component';
 
 @NgModule({
     imports: [RouterModule.forChild([
@@ -22,7 +23,9 @@ import { ApplicantstatusComponent } from './applicantstatus/applicantstatus.comp
         { path: 'lookups', data: { breadcrumb: 'lookups' }, component: LookupsComponent },
         { path: 'recruitment', data: { breadcrumb: 'Recruitment' }, component: RecruitmentComponent },
         { path: 'project', data: { breadcrumb: 'Project' }, component: ProjectComponent },
-        { path: 'd3-org-chart', component: D3OrgChartComponent }
+        { path: 'd3-org-chart', component: D3OrgChartComponent },
+        { path: 'viewapplicant', data: { breadcrumb: 'View Applicant' }, component: ViewapplicantComponent },
+
     ])],
     exports: [RouterModule]
 })

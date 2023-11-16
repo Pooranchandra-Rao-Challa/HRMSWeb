@@ -1,17 +1,328 @@
-<div class="col-12">
-    <div class="card" id="main-card">
-        <!-- Toolbar -->
-        <p-toolbar styleClass="p-mb-4">
-            <ng-template pTemplate="left">
-                <h4>Applicant Status</h4>
-            </ng-template>
-        </p-toolbar>
-        <div class="col-12 md:col-4 lg:col-3 sm:col-6">
-            <div class="card m-2 border-1 mt-0 surface-border card-height">
-                <div class=" mb-3 grid">
 
+
+    <!-- Toolbar -->
+<p-toolbar styleClass="p-mb-4">
+    <ng-template pTemplate="left">
+        <h4>Applicant Status</h4>
+    </ng-template>
+</p-toolbar>
+<div class="card " id="main-card">
+    <div class="grid">
+        <div class="col-12 md:col-4 lg:col-3 sm:col-6">
+            <h5>Initial Qualification</h5>
+            <p-progressBar [value]="50" class=""></p-progressBar>
+            <div>
+                <div class="card card-header surface-border orange-200 card-height border-1 m-0 mt-2 p-2  mb-0">
+                <b> Applicant Name</b>
                 </div>
-            </div>
+                <div class="card mt-0 mb-2  border-1 pb-2 surface-border ">              
+                    <div class=" mb-3 grid">
+                        <div class="col-12 lg:col-8 md:col-12 p-1 px-2 employee_info">                        
+                            <span class="text-600 font-medium text-md">
+                                <i class="pi pi-calendar text-300 text-primary text-1xl  pb-1"></i> : Applicant DOB
+                            </span>
+                            <br />
+                            <span class="text-600 font-medium text-md">
+                                <i class="pi pi-phone text-500 text-primary text-1xl pb-1"></i> : +91 8002345678
+                            </span>
+                            <br />
+                            <span class="text-600 font-medium text-md">
+                                <i class="pi pi-at text-500 text-primary text-1xl pb-1"></i> : applicant@gmail.com
+                            </span>
+                        </div>
+                        <div class="col-12 lg:col-4 md:col-12 p-1 px-2 employee_info text-center">
+                            <i class="pi  text-500 text-primary text-1xl pb-1">Ratting </i> 
+                            <p-rating [cancel]="false"></p-rating>
+                        </div>
+                    </div>
+                    <div class="grid">                
+                        <div class="grid m-0 ">
+                            <div class="relative col-9 p-0 mb-3  employee_info">
+                                <span class="text-600 font-medium text-md">
+                                <i class="pi  text-500 text-primary text-1xl pb-1">Skills </i> :
+                                HTML, CSS, Java Script, Angular</span>
+                            </div>
+                            <div class="mb-3 col-3 p-0">
+                                <button pbutton="" pripple="" type="button" label="Primary"                      
+                                class="p-element p-ripple p-button-text p-button p-component view_profile_button"
+                                ng-reflect-label="Primary">
+                                <span class="p-button-label pi pi-chevron-right"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+            </div> 
+        </div>
+
+
+        <div class="col-12 md:col-4 lg:col-3 sm:col-6">
+            <h5>First Round</h5>
+            <p-progressBar [value]="20" class=""></p-progressBar>
+            <div>
+                <div class="card card-header surface-border orange-200 card-height border-1 m-0 mt-2 p-2  mb-0">
+                <b> Applicant Name</b>
+                </div>
+                <div class="card mt-0 mb-2  border-1 pb-2 surface-border ">              
+                    <div class=" mb-3 grid">
+                        <div class="col-12 lg:col-8 md:col-12 p-1 px-2 employee_info">                        
+                            <span class="text-600 font-medium text-md">
+                                <i class="pi pi-calendar text-300 text-primary text-1xl  pb-1"></i> : Applicant DOB
+                            </span>
+                            <br />
+                            <span class="text-600 font-medium text-md">
+                                <i class="pi pi-phone text-500 text-primary text-1xl pb-1"></i> : +91 8002345678
+                            </span>
+                            <br />
+                            <span class="text-600 font-medium text-md">
+                                <i class="pi pi-at text-500 text-primary text-1xl pb-1"></i> : applicant@gmail.com
+                            </span>
+                        </div>
+                        <div class="col-12 lg:col-4 md:col-12 p-1 px-2 employee_info text-center">
+                            <i class="pi  text-500 text-primary text-1xl pb-1">Ratting </i> 
+                            <p-rating [cancel]="false"></p-rating>
+                        </div>
+                    </div>
+                    <div class="grid">                
+                        <div class="grid m-0 ">
+                            <div class="relative col-9 p-0 mb-3  employee_info">
+                                <span class="text-600 font-medium text-md">
+                                <i class="pi  text-500 text-primary text-1xl pb-1">Skills </i> :
+                                HTML, CSS, Java Script, Angular</span>
+                            </div>
+                            <div class="mb-3 col-3 p-0">
+                                <button pbutton="" pripple="" type="button" label="Primary"                      
+                                class="p-element p-ripple p-button-text p-button p-component view_profile_button"
+                                ng-reflect-label="Primary">
+                                <span class="p-button-label pi pi-chevron-right"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+            </div> 
+            <div>
+                <div class="card card-header surface-border orange-200 card-height border-1 m-0 mt-2 p-2  mb-0">
+                <b> Applicant Name</b>
+                </div>
+                <div class="card mt-0 mb-2  border-1 pb-2 surface-border ">              
+                    <div class=" mb-3 grid">
+                        <div class="col-12 lg:col-8 md:col-12 p-1 px-2 employee_info">                        
+                            <span class="text-600 font-medium text-md">
+                                <i class="pi pi-calendar text-300 text-primary text-1xl  pb-1"></i> : Applicant DOB
+                            </span>
+                            <br />
+                            <span class="text-600 font-medium text-md">
+                                <i class="pi pi-phone text-500 text-primary text-1xl pb-1"></i> : +91 8002345678
+                            </span>
+                            <br />
+                            <span class="text-600 font-medium text-md">
+                                <i class="pi pi-at text-500 text-primary text-1xl pb-1"></i> : applicant@gmail.com
+                            </span>
+                        </div>
+                        <div class="col-12 lg:col-4 md:col-12 p-1 px-2 employee_info text-center">
+                            <i class="pi  text-500 text-primary text-1xl pb-1">Ratting </i> 
+                            <p-rating [cancel]="false"></p-rating>
+                        </div>
+                    </div>
+                    <div class="grid">                
+                        <div class="grid m-0 ">
+                            <div class="relative col-9 p-0 mb-3  employee_info">
+                                <span class="text-600 font-medium text-md">
+                                <i class="pi  text-500 text-primary text-1xl pb-1">Skills </i> :
+                                HTML, CSS, Java Script, Angular</span>
+                            </div>
+                            <div class="mb-3 col-3 p-0">
+                                <button pbutton="" pripple="" type="button" label="Primary"                      
+                                class="p-element p-ripple p-button-text p-button p-component view_profile_button"
+                                ng-reflect-label="Primary">
+                                <span class="p-button-label pi pi-chevron-right"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+            </div>             
+        </div>
+
+
+        <div class="col-12 md:col-4 lg:col-3 sm:col-6">
+            <h5>Second Round </h5>
+            <p-progressBar [value]="70" class=""></p-progressBar>
+            <div>
+                <div class="card card-header surface-border orange-200 card-height border-1 m-0 mt-2 p-2  mb-0">
+                <b> Applicant Name</b>
+                </div>
+                <div class="card mt-0 mb-2  border-1 pb-2 surface-border ">              
+                    <div class=" mb-3 grid">
+                        <div class="col-12 lg:col-8 md:col-12 p-1 px-2 employee_info">                        
+                            <span class="text-600 font-medium text-md">
+                                <i class="pi pi-calendar text-300 text-primary text-1xl  pb-1"></i> : Applicant DOB
+                            </span>
+                            <br />
+                            <span class="text-600 font-medium text-md">
+                                <i class="pi pi-phone text-500 text-primary text-1xl pb-1"></i> : +91 8002345678
+                            </span>
+                            <br />
+                            <span class="text-600 font-medium text-md">
+                                <i class="pi pi-at text-500 text-primary text-1xl pb-1"></i> : applicant@gmail.com
+                            </span>
+                        </div>
+                        <div class="col-12 lg:col-4 md:col-12 p-1 px-2 employee_info text-center">
+                            <i class="pi  text-500 text-primary text-1xl pb-1">Ratting </i> 
+                            <p-rating [cancel]="false"></p-rating>
+                        </div>
+                    </div>
+                    <div class="grid">                
+                        <div class="grid m-0 ">
+                            <div class="relative col-9 p-0 mb-3  employee_info">
+                                <span class="text-600 font-medium text-md">
+                                <i class="pi  text-500 text-primary text-1xl pb-1">Skills </i> :
+                                HTML, CSS, Java Script, Angular</span>
+                            </div>
+                            <div class="mb-3 col-3 p-0">
+                                <button pbutton="" pripple="" type="button" label="Primary"                      
+                                class="p-element p-ripple p-button-text p-button p-component view_profile_button"
+                                ng-reflect-label="Primary">
+                                <span class="p-button-label pi pi-chevron-right"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+            </div> 
+            <div>
+                <div class="card card-header surface-border orange-200 card-height border-1 m-0 mt-2 p-2  mb-0">
+                <b> Applicant Name</b>
+                </div>
+                <div class="card mt-0 mb-2  border-1 pb-2 surface-border ">              
+                    <div class=" mb-3 grid">
+                        <div class="col-12 lg:col-8 md:col-12 p-1 px-2 employee_info">                        
+                            <span class="text-600 font-medium text-md">
+                                <i class="pi pi-calendar text-300 text-primary text-1xl  pb-1"></i> : Applicant DOB
+                            </span>
+                            <br />
+                            <span class="text-600 font-medium text-md">
+                                <i class="pi pi-phone text-500 text-primary text-1xl pb-1"></i> : +91 8002345678
+                            </span>
+                            <br />
+                            <span class="text-600 font-medium text-md">
+                                <i class="pi pi-at text-500 text-primary text-1xl pb-1"></i> : applicant@gmail.com
+                            </span>
+                        </div>
+                        <div class="col-12 lg:col-4 md:col-12 p-1 px-2 employee_info text-center">
+                            <i class="pi  text-500 text-primary text-1xl pb-1">Ratting </i> 
+                            <p-rating [cancel]="false"></p-rating>
+                        </div>
+                    </div>
+                    <div class="grid">                
+                        <div class="grid m-0 ">
+                            <div class="relative col-9 p-0 mb-3  employee_info">
+                                <span class="text-600 font-medium text-md">
+                                <i class="pi  text-500 text-primary text-1xl pb-1">Skills </i> :
+                                HTML, CSS, Java Script, Angular</span>
+                            </div>
+                            <div class="mb-3 col-3 p-0">
+                                <button pbutton="" pripple="" type="button" label="Primary"                      
+                                class="p-element p-ripple p-button-text p-button p-component view_profile_button"
+                                ng-reflect-label="Primary">
+                                <span class="p-button-label pi pi-chevron-right"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+            </div> 
+            <div>
+                <div class="card card-header surface-border orange-200 card-height border-1 m-0 mt-2 p-2  mb-0">
+                <b> Applicant Name</b>
+                </div>
+                <div class="card mt-0 mb-2  border-1 pb-2 surface-border ">              
+                    <div class=" mb-3 grid">
+                        <div class="col-12 lg:col-8 md:col-12 p-1 px-2 employee_info">                        
+                            <span class="text-600 font-medium text-md">
+                                <i class="pi pi-calendar text-300 text-primary text-1xl  pb-1"></i> : Applicant DOB
+                            </span>
+                            <br />
+                            <span class="text-600 font-medium text-md">
+                                <i class="pi pi-phone text-500 text-primary text-1xl pb-1"></i> : +91 8002345678
+                            </span>
+                            <br />
+                            <span class="text-600 font-medium text-md">
+                                <i class="pi pi-at text-500 text-primary text-1xl pb-1"></i> : applicant@gmail.com
+                            </span>
+                        </div>
+                        <div class="col-12 lg:col-4 md:col-12 p-1 px-2 employee_info text-center">
+                            <i class="pi  text-500 text-primary text-1xl pb-1">Ratting </i> 
+                            <p-rating [cancel]="false"></p-rating>
+                        </div>
+                    </div>
+                    <div class="grid">                
+                        <div class="grid m-0 ">
+                            <div class="relative col-9 p-0 mb-3  employee_info">
+                                <span class="text-600 font-medium text-md">
+                                <i class="pi  text-500 text-primary text-1xl pb-1">Skills </i> :
+                                HTML, CSS, Java Script, Angular</span>
+                            </div>
+                            <div class="mb-3 col-3 p-0">
+                                <button pbutton="" pripple="" type="button" label="Primary"                      
+                                class="p-element p-ripple p-button-text p-button p-component view_profile_button"
+                                ng-reflect-label="Primary">
+                                <span class="p-button-label pi pi-chevron-right"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+            </div> 
+            
+        </div>
+
+        <div class="col-12 md:col-4 lg:col-3 sm:col-6">
+            <h5>Contract Proposal  </h5>
+            <p-progressBar [value]="30" class=""></p-progressBar>
+            <div>
+                <div class="card card-header surface-border orange-200 card-height border-1 m-0 mt-2 p-2  mb-0">
+                <b> Applicant Name</b>
+                </div>
+                <div class="card mt-0 mb-2  border-1 pb-2 surface-border ">              
+                    <div class=" mb-3 grid">
+                        <div class="col-12 lg:col-8 md:col-12 p-1 px-2 employee_info">                        
+                            <span class="text-600 font-medium text-md">
+                                <i class="pi pi-calendar text-300 text-primary text-1xl  pb-1"></i> : Applicant DOB
+                            </span>
+                            <br />
+                            <span class="text-600 font-medium text-md">
+                                <i class="pi pi-phone text-500 text-primary text-1xl pb-1"></i> : +91 8002345678
+                            </span>
+                            <br />
+                            <span class="text-600 font-medium text-md">
+                                <i class="pi pi-at text-500 text-primary text-1xl pb-1"></i> : applicant@gmail.com
+                            </span>
+                        </div>
+                        <div class="col-12 lg:col-4 md:col-12 p-1 px-2 employee_info text-center">
+                            <i class="pi  text-500 text-primary text-1xl pb-1">Ratting </i> 
+                            <p-rating [cancel]="false"></p-rating>
+                        </div>
+                    </div>
+                    <div class="grid">                
+                        <div class="grid m-0 ">
+                            <div class="relative col-9 p-0 mb-3  employee_info">
+                                <span class="text-600 font-medium text-md">
+                                <i class="pi  text-500 text-primary text-1xl pb-1">Skills </i> :
+                                HTML, CSS, Java Script, Angular</span>
+                            </div>
+                            <div class="mb-3 col-3 p-0">
+                                <button pbutton="" pripple="" type="button" label="Primary"                      
+                                class="p-element p-ripple p-button-text p-button p-component view_profile_button"
+                                ng-reflect-label="Primary">
+                                <span class="p-button-label pi pi-chevron-right"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+            </div>            
         </div>
     </div>
 </div>
