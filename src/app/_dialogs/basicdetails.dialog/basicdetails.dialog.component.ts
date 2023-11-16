@@ -111,6 +111,7 @@ export class BasicdetailsDialogComponent {
             originalDob: new FormControl(null, [Validators.required]),
             certificateDob: new FormControl(null, [Validators.required]),
             emailId: new FormControl(null, [Validators.required, Validators.pattern(RG_EMAIL)]),
+            nationality:new FormControl(null,[Validators.required]),
             isActive: (''),
             isAFresher: (''),
             signDate: (''),
@@ -177,6 +178,7 @@ export class BasicdetailsDialogComponent {
             emailId: employeePrsDtls.emailId,
             isActive: employeePrsDtls.isActive,
             isAFresher: employeePrsDtl.isAFresher,
+            nationality:employeePrsDtls.nationality,
             signDate: employeePrsDtls.signDate,
             photo:employeePrsDtls.photo,
         });

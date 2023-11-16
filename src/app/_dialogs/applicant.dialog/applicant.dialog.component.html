@@ -1,0 +1,43 @@
+<div class="flex flex-column align-items-center justify-content-center">
+    <form [formGroup]="fbApplicant">
+        <div class="grid mt-3 p-5">
+            <div class="col-12 roles-container">
+                <div class="p-fluid p-formgrid grid">
+                    <div class="field col-12 md:col-4">
+                        <label class="required">Name:</label>
+                        <input type="text" id="inputtext" pInputText formControlName="name" #name [maxlength]="50"
+                            alphaOnly placeholder="Enter Name" />
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label class="required">Mobile Number:</label>
+                        <input type="text" id="inputtext" pInputText formControlName="mobileNumber" numericOnly
+                            placeholder="Enter Mobile Number" />
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label class="required">Email:</label>
+                        <input type="text" id="inputtext" pInputText formControlName="email"
+                            placeholder="Enter Email" />
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label class="required">Status:</label>
+                        <p-dropdown placeholder="Select Leave Type" formControlName="status">
+                        </p-dropdown>
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label for="singleFile"
+                            class="p-element p-ripple p-button-raised p-button-primary p-button p-component">
+                            <i class="pi pi-paperclip"></i> Attach File
+                        </label>
+                        <input id="singleFile" #fileUpload name="myFile" [accept]="fileTypes" type="file"
+                            [disabled]="!this.fbApplicant.valid" hidden="true" (click)="onClick()" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class=" footer dialog-footer">
+    <button pButton pRipple type="submit" label="Add Applicant" class="p-button-raised p-button-primary"
+        id="SubmitJobForm" [disabled]="fbApplicant.invalid"></button>
+</div>

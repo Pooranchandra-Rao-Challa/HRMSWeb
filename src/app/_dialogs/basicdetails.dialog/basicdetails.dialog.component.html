@@ -229,6 +229,25 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
+                        <label class="required">Nationality:</label>
+                        <input type="text" id="nationality" placeholder="Enter Nationality" pInputText
+                            formControlName="nationality" alphaOnly [maxlength]="50" (keydown)="restrictSpaces($event)" #nationality
+                            [ngClass]="{ 'is-invalid ng-dirty': empBasDtlsFormControls['nationality'].touched && empBasDtlsFormControls['nationality'].errors }" />
+                        <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                                <span *ngIf="empBasDtlsFormControls['nationality'].touched && empBasDtlsFormControls['nationality'].invalid">
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="empBasDtlsFormControls['nationality'].errors?.['required']">
+                                        Please Enter Nationality.
+                                    </div>
+                                </span>
+                            </div>
+                            <div class="align-right w-40" style="width:30%; text-align:right;">
+                                <small>{{nationality.value.length}}/{{maxLength.name}} </small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field col-12 md:col-4">
                         <label>Fresher:</label>
                         <br>
                         <p-inputSwitch formControlName="isAFresher" id="PersonalDetails_IsAFresher"></p-inputSwitch>

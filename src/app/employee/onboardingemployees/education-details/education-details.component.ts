@@ -18,7 +18,6 @@ import { LookupService } from 'src/app/_services/lookup.service';
   // styleUrls: ['./education-details.component.scss']
 })
 export class EducationDetailsComponent implements OnInit {
-  isReadOnly: boolean = false;
   addeducationdetailsshowForm: boolean = false;
   fbEducationDetails!: FormGroup;
   ShoweducationDetails: boolean = true;
@@ -68,7 +67,7 @@ export class EducationDetailsComponent implements OnInit {
     { field: 'institutionName', header: 'institutionName', label: 'College Name' },
     { field: 'curriculumId', header: 'curriculumId', label: 'Curriculum' },
     { field: 'streamId', header: 'streamId', label: 'Stream' },
-    { field: 'passedOutyear', header: 'passedOutyear', label: 'Passed Out Year' },
+    { field: 'yearOfCompletion', header: 'yearOfCompletion', label: 'Year Of Completion' },
     { field: 'gradingMethodId', header: 'gradingMethodId', label: 'Grading System' },
     { field: 'gradingValue', header: 'gradingValue', label: 'CGPA/Percentage System' }
   ];
@@ -83,7 +82,7 @@ export class EducationDetailsComponent implements OnInit {
       stateId: new FormControl(null, [Validators.required]),
       institutionName: new FormControl(''),
       authorityName: new FormControl('', [Validators.required]),
-      passedOutyear: new FormControl('', [Validators.required]),
+      yearOfCompletion: new FormControl('', [Validators.required]),
       gradingMethodId: new FormControl('', [Validators.required]),
       gradingValue: new FormControl('', [Validators.required]),
       educationDetails: this.formbuilder.array([])
@@ -166,6 +165,8 @@ export class EducationDetailsComponent implements OnInit {
   getEmpEducaitonDetails() {
     return this.employeeService.GetEducationDetails(this.employeeId).subscribe((data) => {
       this.empEduDetails = data as unknown as EducationDetailsDto[];
+      console.log(this.empEduDetails);
+      
     })
   }
 
@@ -183,7 +184,7 @@ export class EducationDetailsComponent implements OnInit {
       countryId: educationDetails.countryId,
       institutionName: educationDetails.institutionName,
       authorityName: educationDetails.authorityName,
-      passedOutyear: educationDetails.passedOutyear,
+      yearOfCompletion: educationDetails.yearOfCompletion,
       gradingMethodId: educationDetails.gradingMethodId,
       gradingValue: educationDetails.gradingValue,
     });
@@ -202,7 +203,7 @@ export class EducationDetailsComponent implements OnInit {
       stateId: educationDetails.stateId,
       institutionName: educationDetails.institutionName,
       authorityName: educationDetails.authorityName,
-      passedOutyear: FORMAT_DATE(new Date(educationDetails.passedOutyear)),
+      yearOfCompletion: FORMAT_DATE(new Date(educationDetails.yearOfCompletion)),
       gradingMethodId: educationDetails.gradingMethodId,
       gradingValue: educationDetails.gradingValue
     });

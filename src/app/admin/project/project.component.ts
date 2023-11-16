@@ -95,6 +95,7 @@ export class ProjectComponent implements OnInit {
 
     ngOnInit() {
         this.permission = this.jwtService.Permissions;
+        this.defaultPhoto = './assets/layout/images/projectsDefault.jpg';
         this.projectForm();
         this.initProjects();
         this.initClientNames();
@@ -214,9 +215,8 @@ export class ProjectComponent implements OnInit {
 
     hierarchialDialog(node) {
         this.projects.filter(element => {
-            if (element.name == node.data.name) {
+            if (element.name == node.data.name)
                 this.showProjectDetailsDialog(element);
-            }
         })
     }
     shouldDisableRadioButton(item: any): boolean {
@@ -259,7 +259,6 @@ export class ProjectComponent implements OnInit {
         return false;
     }
 
-
     onRadioButtonChange(item: any) {
         if (this.projectDetails[item.name.toLowerCase()] === null)
             this.fcProjectStatus.get('Date').setValue('');
@@ -276,6 +275,7 @@ export class ProjectComponent implements OnInit {
         return this.datePipe.transform(date, 'MM/dd/yyyy')
     }
     onEditProject(project: ProjectViewDto) {
+       
         this.projectForm();
         this.projectDetails = '';
         this.editProject = true;

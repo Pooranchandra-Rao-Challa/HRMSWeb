@@ -5,10 +5,10 @@
             <ng-template pTemplate="left">
                 <h4>Applicants</h4>
             </ng-template>
-            <!-- <ng-template pTemplate="right">
-                <button pButton pRipple label="Add Leave" id="addLeaveButton" icon="pi pi-plus"
-                    class="p-button-primary p-mr-2"></button>
-            </ng-template> -->
+            <ng-template pTemplate="right">
+                <button pButton pRipple label="Add Applicant" id="addButton" icon="pi pi-plus"
+                    class="p-button-primary p-mr-2" (click)="openComponentDialog(applicantdialogComponent, null, ActionTypes.add)"></button>
+            </ng-template>
         </p-toolbar>
         <!-- p-table -->
         <p-table id="table" #dtleave [value]="applicant" dataKey="id" [rows]="10" [rowHover]="true"
@@ -52,7 +52,8 @@
                     </td>
                     <td class="text-center">
                         <button pButton pRipple icon="pi pi-pencil"
-                            class="p-element p-ripple p-button-text p-button p-component mr-3 p-0 "></button>
+                            class="p-element p-ripple p-button-text p-button p-component mr-3 p-0 "
+                            (click)="openComponentDialog(applicantdialogComponent, null, ActionTypes.edit)"></button>
                         <button pButton pRipple icon="pi pi-trash" id="delete"
                             class="p-element p-ripple p-button-text p-button p-component col-2 p-0"></button>
                     </td>

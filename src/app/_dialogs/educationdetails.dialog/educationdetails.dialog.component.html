@@ -22,7 +22,7 @@
                   <th>State<sup class="p-error">*</sup></th>
                   <th>School/College Name</th>
                   <th>Board/University Name<sup class="p-error">*</sup></th>
-                  <th>Year Of Passed Out<sup class="p-error">*</sup></th>
+                  <th>Year of Completion<sup class="p-error">*</sup></th>
                   <th>Grading System<sup class="p-error">*</sup></th>
                   <th>CGPA/Percentage System<sup class="p-error">*</sup> </th>
                   <th *ngIf="fbEducationDetails.controls['educationDetails'].value.length > 1"></th>
@@ -141,16 +141,16 @@
                     </div>
                   </td>
                   <td class="vertical-align-top">
-                    <p-calendar [showIcon]="true" formControlName="passedOutyear" id="passed_Out_year" appendTo="body"  [readonlyInput]="true"
-                      [maxDate]="currentDate" placeholder="Select Year of passed Out" [ngClass]="{'is-invalid ng-dirty': formArrayControls(educationDetailsIndex,'passedOutyear')?.touched &&
-                  formArrayControls(educationDetailsIndex,'passedOutyear')?.errors }"></p-calendar>
+                    <p-calendar [showIcon]="true" formControlName="yearOfCompletion" id="passed_Out_year" appendTo="body"  [readonlyInput]="true"
+                      [maxDate]="currentDate" placeholder="Select Year of Completion" [ngClass]="{'is-invalid ng-dirty': formArrayControls(educationDetailsIndex,'yearOfCompletion')?.touched &&
+                  formArrayControls(educationDetailsIndex,'yearOfCompletion')?.errors }"></p-calendar>
                     <div class="flex">
                       <div class="align-left w-60" style="width:70%">
                         <span
-                          *ngIf="formArrayControls(educationDetailsIndex,'passedOutyear').touched && formArrayControls(educationDetailsIndex,'passedOutyear').invalid">
+                          *ngIf="formArrayControls(educationDetailsIndex,'yearOfCompletion').touched && formArrayControls(educationDetailsIndex,'yearOfCompletion').invalid">
                           <div class="ng-invalid ng-touched p-error"
-                            *ngIf="formArrayControls(educationDetailsIndex,'passedOutyear').hasError('required')">
-                            Please Select Year of passed Out.
+                            *ngIf="formArrayControls(educationDetailsIndex,'yearOfCompletion').hasError('required')">
+                            Please Select Year of Completion.
                           </div>
                         </span>
                       </div>
