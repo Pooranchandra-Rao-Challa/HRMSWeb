@@ -392,12 +392,13 @@ export class EmployeeLeaveDetailsViewDto {
 	fromDate?: Date;
 	toDate?: Date;
 	note?: string;
+	status?: string;
 }
 
 export class EmployeeLeaveDetailsDto {
 	employeeId?: number;
 	leaveId?: number;
-	note?: string;
+	comment?: string;
 	protectedData?: string;
 	protectedWith?: string;
 	status?: string;
