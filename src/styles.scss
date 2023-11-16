@@ -501,6 +501,10 @@ label{
     // opacity:0.5;
     padding-left: 5px;
     color:black;
+    cursor: pointer;
+}
+.card-header:hover{
+    color: var(--primary-color)
 }
 .job-description{
     overflow: hidden;
