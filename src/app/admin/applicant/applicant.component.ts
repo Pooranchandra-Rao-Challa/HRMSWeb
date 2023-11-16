@@ -1,5 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Table } from 'primeng/table';
 import { ApplicantDialogComponent } from 'src/app/_dialogs/applicant.dialog/applicant.dialog.component';
@@ -20,48 +21,24 @@ export interface Status {
   ]
 })
 export class ApplicantComponent {
-  globalFilterFields: string[] = ['name', 'mobileNumber', 'email']
-  @ViewChild('filter') filter!: ElementRef;
   applicant: Applicant[] = [];
-  status: Status[] | undefined;
-  addDialog: boolean = false;
   ActionTypes = Actions;
   dialogRequest: DialogRequest = new DialogRequest();
   applicantdialogComponent = ApplicantDialogComponent;
 
   constructor(private securityService: SecurityService,
-    private globalFilterService: GlobalFilterService,
     public ref: DynamicDialogRef,
-    private dialogService: DialogService,
-  ) {
-
-  }
-  headers: ITableHeader[] = [
-    { field: 'name', header: 'name', label: 'Name' },
-    { field: 'mobileNumber', header: 'mobileNumber', label: 'Mobile Number' },
-    { field: 'email', header: 'email', label: 'Email' },
-    { field: 'status', header: 'status', label: 'Status' },
-    { field: 'resume', header: 'resume', label: 'Resume' }
-  ];
+    private router: Router,
+    private dialogService: DialogService) {}
 
   ngOnInit() {
     this.securityService.getApplicantData().then((resp) => {
       this.applicant = resp as unknown as Applicant[];
     })
-    this.status = [
-      { name: 'Open', code: 'OP' },
-      { name: 'Close', code: 'CL' }
-    ]
   }
 
-  onGlobalFilter(table: Table, event: Event) {
-    const searchTerm = (event.target as HTMLInputElement).value;
-    this.globalFilterService.filterTableByDate(table, searchTerm);
-  }
-
-  clear(table: Table) {
-    table.clear();
-    this.filter.nativeElement.value = '';
+  viewApplicantDtls() {
+    this.router.navigate(['admin/viewapplicant']);
   }
 
   openComponentDialog(content: any,
