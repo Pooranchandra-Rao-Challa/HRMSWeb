@@ -24,7 +24,7 @@
 
                                 <div class="field col-12 md:col-4">
                                     <label class="required">Holiday Title:</label>
-                                    &nbsp; <input pInputText #title id="title" type="text" formControlName="title"
+                                    &nbsp; <input pInputText #title id="title" type="text" formControlName="title" (keydown)="restrictSpaces($event)"
                                         alphaOnly [maxlength]="maxLength.title" placeholder="Enter Holiday Title"
                                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['title'].touched && FormControls['title'].errors }" />
                                     <div class="flex">

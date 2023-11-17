@@ -1,1 +1,218 @@
-<p>viewapplicant works!</p>
+<div class="col-12">
+    <div class="card">
+
+        <!-- Toolbar -->
+        <p-toolbar styleClass="p-mb-4">
+            <ng-template pTemplate="left">
+                <h4>View Applicant</h4>
+            </ng-template>
+            <ng-template pTemplate="right">
+
+            </ng-template>
+        </p-toolbar>
+        <div>
+            
+        </div>
+        <div class="card">
+            <div class="grid">
+                <div class="col-12 md:col-6 card m-2">
+                    <div class="flex">
+                        <h3>Personal Details</h3>
+                        <button pButton pRipple icon="pi pi-pencil"
+                            class="p-element p-ripple p-button-text p-button-primary p-component"></button>
+                    </div>
+
+                    <div class="pair">
+                        <span class="label font-semibold">Name</span>
+                        <span class="value">: Rajesh</span>
+                    </div>
+                    <div class="pair">
+                        <span class="label font-semibold">Date of Birth</span>
+                        <span class="value">: 28-1-1997</span>
+                    </div>
+                    <div class="pair">
+                        <span class="label font-semibold">Gender</span>
+                        <span class="value">: Male</span>
+                    </div>
+                    <div class="pair">
+                        <span class="label font-semibold">Email</span>
+                        <span class="value">: rajesh@calibrage.in</span>
+                    </div>
+                    <div class="pair">
+                        <span class="label font-semibold">Phone</span>
+                        <span class="value">: 9876543210</span>
+                    </div>
+                    <div class="pair">
+                        <span class="label font-semibold">Nationality</span>
+                        <span class="value">: Indian</span>
+                    </div>
+                    <div class="pair">
+                        <span class="label font-semibold">Address</span>
+                        <span class="value">: D.no:28/1347,Madhapur,Hyderabad-524007</span>
+                    </div>
+                    <div class="pair">
+                        <span class="label font-semibold">Address Type</span>
+                        <span class="value">: Permanent</span>
+                    </div>
+                    <div class="pair">
+                        <span class="label font-semibold">IsFresher</span>
+                        <span class="value">: True</span>
+                    </div>
+                    <div class="pair">
+                        <span class="label font-semibold">Skills</span>
+                        <span class="value">: C,C++,Java</span>
+                    </div>
+                    <div class="pair">
+                        <span class="label font-semibold">ResumeURL</span>
+                        <span class="value">: https://resume.com</span>
+                    </div>
+                </div>
+                <div class="col-12 md:col-6 card m-2">
+                    <div class="flex">
+                        <h3>Education Details</h3>
+                        <button pButton pRipple icon="pi pi-pencil"
+                            class="p-element p-ripple p-button-text p-button-primary p-component"></button>
+                    </div>
+                    <p-table id="table" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
+                        styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                        [showCurrentPageReport]="true" [autoLayout]="true" responsiveLayout="scroll"
+                        [rowsPerPageOptions]="[10,25,50]">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th class="col text-center">Stream</th>
+                                <th class="col text-center">State</th>
+                                <th class="col text-center">Institution Name</th>
+                                <th class="col text-center">Year Of Completion</th>
+                                <th class="col text-center">Grading Type</th>
+                                <th class="col text-center">Grading Value</th>
+                            </tr>
+                            <tr>
+                                <td class="col text-center">MCA</td>
+                                <td class="col text-center">Andhra Pradesh</td>
+                                <td class="col text-center">JNTU</td>
+                                <td class="col text-center">2018</td>
+                                <td class="col text-center">Percentage</td>
+                                <td class="col text-center">71.6</td>
+                            </tr>
+                            <tr>
+                                <td class="col text-center">MCA</td>
+                                <td class="col text-center">Andhra Pradesh</td>
+                                <td class="col text-center">JNTU</td>
+                                <td class="col text-center">2018</td>
+                                <td class="col text-center">Percentage</td>
+                                <td class="col text-center">71.6</td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body">
+                            <tr>
+
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                    
+                </div>
+            
+                <div class="col-12 md:col-6 card m-2">
+                    <div class="flex">
+                        <h3>Experience Details</h3>
+                        <button pButton pRipple icon="pi pi-pencil"
+                            class="p-element p-ripple p-button-text p-button-primary p-component"></button>
+                    </div>
+                    <p-table id="table" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
+                        styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                        [showCurrentPageReport]="true" [autoLayout]="true" responsiveLayout="scroll"
+                        [rowsPerPageOptions]="[10,25,50]">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th class="col text-center">Company Name</th>
+                                <th class="col text-center">Location</th>
+                                <th class="col text-center">State</th>
+                                <th class="col text-center">EmployeeId</th>
+                                <th class="col text-center">Designation</th>
+                                <th class="col text-center">NatureOfWork</th>
+                                <th class="col text-center">DateOfJoining</th>
+                                <th class="col text-center">DateOfReliving</th>
+                            </tr>
+                            <tr>
+                                <td class="col text-center">Infosys</td>
+                                <td class="col text-center">Pune</td>
+                                <td class="col text-center">Maharashtra</td>
+                                <td class="col text-center">CIS001</td>
+                                <td class="col text-center">FullStackDeveloper</td>
+                                <td class="col text-center">POM</td>
+                                <td class="col text-center">28-12-2021</td>
+                                <td class="col text-center">22-01-2022</td>
+                            </tr>
+                            <tr>
+                                <td class="col text-center">Infosys</td>
+                                <td class="col text-center">Pune</td>
+                                <td class="col text-center">Maharashtra</td>
+                                <td class="col text-center">CIS001</td>
+                                <td class="col text-center">FullStackDeveloper</td>
+                                <td class="col text-center">POM</td>
+                                <td class="col text-center">28-12-2021</td>
+                                <td class="col text-center">22-01-2022</td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body">
+                            <tr>
+                                <td>MCA</td>
+
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+                <div class="col-12 md:col-6 card m-2">
+                    <div class="flex">
+                        <h3>Applicant Language Skills</h3>
+                        <button pButton pRipple icon="pi pi-pencil"
+                            class="p-element p-ripple p-button-text p-button-primary p-component"></button>
+                    </div>
+                    
+                </div>
+            
+                <div class="col-12 md:col-6 card m-2">
+                    <div class="flex">
+                        <h3>Cerification Details</h3>
+                        <button pButton pRipple icon="pi pi-pencil"
+                            class="p-element p-ripple p-button-text p-button-primary p-component"></button>
+                    </div>
+                    <p-table id="table" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
+                        styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                        [showCurrentPageReport]="true" [autoLayout]="true" responsiveLayout="scroll"
+                        [rowsPerPageOptions]="[10,25,50]">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th class="col text-center">CertificateId</th>
+                                <th class="col text-center">InstitutionName</th>
+                                <th class="col text-center">YearOfCompletion</th>
+                                <th class="col text-center">Result</th>
+                            </tr>
+                            <tr>
+                                <td class="col text-center">CASF12</td>
+                                <td class="col text-center">Vedikh Institiutions</td>
+                                <td class="col text-center">2018</td>
+                                <td class="col text-center">A+</td>
+                               
+                            </tr>
+                           
+                        </ng-template>
+                        <ng-template pTemplate="body">
+                            <tr>
+                                <td>MCA</td>
+
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+               
+           
+        </div>
+    </div>
+
+
+</div>
