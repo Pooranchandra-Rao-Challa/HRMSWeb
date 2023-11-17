@@ -186,6 +186,7 @@ export class ProjectComponent implements OnInit {
     }
     restrictSpaces(event: KeyboardEvent) {
         const target = event.target as HTMLInputElement;
+
         // Prevent the first key from being a space
         if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0)
             event.preventDefault();

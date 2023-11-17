@@ -104,8 +104,8 @@ export const GET_PATH="UploadDocument/DownloadFile";
 export const GET_ATTENDENCE="Attendance/GetMonthlyAttendanceReport";
 export const POST_LISTOF_ATTENDANCES="Attendance/CreateAttendanceForEmployees";
 export const GET_EMPLOYEE_LEAVE_DETAILS ="Attendance/GetEmployeeLeaves";
-export const POST_ATTENDANCE="Attendance/UpdateEmployeeLeave";
-export const CREATE_EMPLOYEE_LEAVE_DETAILS ="Attendance/UpdateEmployeeLeave";
+export const CREATE_EMPLOYEE_LEAVE_DETAILS ="Attendance/CreateEmployeeLeave";
+export const UPDATE_EMPLOYEE_LEAVE_DETAILS ="Attendance/UpdateEmployeeLeave";
 export const GET_NOTUPDATED_EMPLOYEES="Attendance/GetNotUpdatedEmployeesInAttendance";
 export const GET_COMPANY_HIERARCHY="Employee/GetCompanyHierarchy";
 

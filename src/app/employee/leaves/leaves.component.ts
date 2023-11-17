@@ -162,7 +162,7 @@ export class LeavesComponent {
   }
 
   save(): Observable<HttpEvent<EmployeeLeaveDto[]>> {
-    return this.employeeService.CreateEmployeeLeaveDetails(this.fbLeave.value);
+    return this.employeeService.UpdateEmployeeLeaveDetails(this.fbLeave.value);
   }
 
   openComponentDialog(content: any,

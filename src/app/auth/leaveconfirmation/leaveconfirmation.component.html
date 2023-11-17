@@ -141,29 +141,31 @@
                     style="border-radius: 5px;">
                     <tr>
                         <th width="35% " class="p-2">Employee Name</th>
-                        <td class="p-2" style="line-height:2; padding:5px;">{{employeeleavedetails?.employeeName}}</td>
+                        <td class="p-2" style="line-height:2; padding:5px;">{{employeeleavedetails?.leaveDto?.employeeName}}</td>
                     </tr>
                     <tr>
                         <th width="35% " class="p-2">Leave Type</th>
-                        <td class="p-2">{{employeeleavedetails?.leaveType}}</td>
+                        <td class="p-2">{{employeeleavedetails?.leaveDto?.getLeaveType}}</td>
                     </tr>
                     <tr>
                         <th class="p-2">From Date</th>
-                        <td class="p-2">{{employeeleavedetails?.fromDate | date: mediumDate}}</td>
+                        <td class="p-2">{{employeeleavedetails?.leaveDto?.fromDate | date: mediumDate}}</td>
                     </tr>
                     <tr>
                         <th class="p-2">To Date</th>
-                        <td class="p-2">{{employeeleavedetails?.toDate | date: mediumDate}}</td>
+                        <td class="p-2">{{employeeleavedetails?.leaveDto?.toDate | date: mediumDate}}</td>
                     </tr>
                     <tr>
                         <th class="p-2">Leave Narration</th>
-                        <td class="p-2">{{employeeleavedetails?.note}}</td>
+                        <td class="p-2">{{employeeleavedetails?.leaveDto?.note}}</td>
                     </tr>
                 </table>
                 <div class="flex flex-wrap gap-2 justify-content-between">
-                    <button pButton pRipple label="Accept" (click)="openConfirmationAlert('Reason For Accept')"
-                        class="flex-auto p-button-outlined"></button>
-                    <button pButton pRipple label="Reject" (click)="openConfirmationAlert('Reason For Reject')"
+                    <button pButton pRipple label="Accept" *ngIf="employeeleavedetails?.action === 'Approve'"
+                    (click)="openConfirmationAlert('Reason For Accept')"
+                        class="flex-auto"></button>
+                    <button pButton pRipple label="Reject" *ngIf="employeeleavedetails?.action === 'Reject'"
+                    (click)="openConfirmationAlert('Reason For Reject')"
                         class="flex-auto"></button>
                 </div>
             </div>
