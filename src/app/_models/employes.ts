@@ -375,7 +375,7 @@ export class EmployeeAttendanceList {
 	NotReported: boolean
 }
 
-export class CompanyHierarchyViewDto {
+export class CompanyHierarchyViewDto  {
 	chartId?: number;
 	chartTitle?: string;
 	selfId?: number;
@@ -402,3 +402,4 @@ export class EmployeeLeaveDetailsDto {
 	protectedWith?: string;
 	status?: string;
 }
+
