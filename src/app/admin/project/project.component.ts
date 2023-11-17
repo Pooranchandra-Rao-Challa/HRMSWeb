@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component,  ComponentRef,  ElementRef
 import { FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { FORMAT_DATE } from 'src/app/_helpers/date.formate.pipe';
-import { ClientDetailsDto, ClientNamesDto, EmployeeHierarchyDto, EmployeesList, ProjectAllotments, projectStatus, projectStatuses, ProjectViewDto } from 'src/app/_models/admin';
+import { ClientDetailsDto, ClientNamesDto, EmployeeHierarchyDto, EmployeesList, ProjectAllotments, ProjectStatus,  ProjectViewDto } from 'src/app/_models/admin';
 import { MaxLength, PhotoFileProperties } from 'src/app/_models/common';
 import { NodeProps,ChartParams } from 'src/app/_models/admin'
 import { AdminService } from 'src/app/_services/admin.service';
@@ -35,14 +35,14 @@ export class ProjectComponent implements OnInit {
     projects: ProjectViewDto[] = [];
     clientsNames: ClientNamesDto[] = [];
     Employees: EmployeesList[] = [];
-    projectStatues: projectStatus[];
+    projectStatues: ProjectStatus[];
     Roles: string[] = []
     clientDetails: ClientDetailsDto;
     projectDetailsDialog: boolean = false;
     filteredClients: any;
     fbUnAssignEmployee!: FormGroup;
     fbproject!: FormGroup;
-    minDate1: Date;
+    minDate: Date;
     maxLength: MaxLength = new MaxLength();
     addEmployeeDialog: boolean;
     editProject: boolean;
@@ -119,8 +119,7 @@ export class ProjectComponent implements OnInit {
         this.initClientNames();
         this.unAssignEmployeeForm();
         this.allottEmployeesToProject();
-        //this.allottEmployeesToProject();
-       //this.organizationData();
+        this.organizationData();
         this.initProjectStatuses();
         this.ImageValidator.subscribe((p: PhotoFileProperties) => {
             if (this.fileTypes.indexOf(p.FileExtension) > 0 && p.Resize || (p.Size / 1024 / 1024 < 1
@@ -163,7 +162,7 @@ export class ProjectComponent implements OnInit {
                 address: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
             }),
 
-            projectStatuses: new FormControl([]),
+            projectStatuses: this.formbuilder.array<ProjectStatus>([]),
             initialStatus: this.formbuilder.group({
                 eProjectStatusesId: ['', [Validators.required]],
                 Date: new FormControl('', [Validators.required]),
@@ -180,11 +179,9 @@ export class ProjectComponent implements OnInit {
             isActive: new FormControl('', [Validators.required]),
         });
     }
-
-
     initProjectStatuses() {
-        this.adminService.projectStatuses().subscribe((resp) => {
-            this.projectStatues = resp as unknown as projectStatus[];
+        this.adminService.ProjectStatuses().subscribe((resp) => {
+            this.projectStatues = resp as unknown as ProjectStatus[];
         })
     }
     restrictSpaces(event: KeyboardEvent) {
@@ -306,8 +303,6 @@ export class ProjectComponent implements OnInit {
         return this.datePipe.transform(date, 'MM/dd/yyyy')
     }
     onEditProject(project: ProjectViewDto) {
-
-
         this.projectForm();
         this.projectDetails = '';
         this.editProject = true;
@@ -315,7 +310,7 @@ export class ProjectComponent implements OnInit {
         if (project != null) {
             this.projectDetails = project;
             const status = this.projectStatues.find(each => each.eProjectStatusesId === this.projectDetails.activeStatusId);
-            this.minDate1 = new Date(this.projectDetails[status.name.toLowerCase()]);
+            this.minDate = new Date(this.projectDetails[status.name.toLowerCase()]);
             this.editEmployee(project);
             this.getEmployeesListBasedOnProject(project.projectId);
         } else {
@@ -326,8 +321,6 @@ export class ProjectComponent implements OnInit {
     }
 
     editEmployee(project) {
-
-
         this.addFlag = false;
         this.submitLabel = "Update Project Details";
         this.projectDetails = project
@@ -469,28 +462,6 @@ export class ProjectComponent implements OnInit {
         return this.fbproject.get('initialStatus') as FormGroup;
     }
 
-    convertToTreeNode(projects: any[]): TreeNode[] {
-        return projects.map((project) => ({
-            type: 'person',
-            styleClass: 'hirarchi_parent text-white',
-            expanded: false,
-            data: {
-                image: project.logo,
-                name: project.name,
-            },
-            children: [
-                { label: 'Sadikh', styleClass: 'bg-green-300 text-white', },
-                { label: 'Arun', styleClass: 'bg-green-300 text-white', },
-                { label: 'Arun', styleClass: 'bg-green-300 text-white', },
-                { label: 'Arun', styleClass: 'bg-green-300 text-white', },
-                { label: 'Arun', styleClass: 'bg-green-300 text-white', },
-                { label: 'Arun', styleClass: 'bg-green-300 text-white', },
-                { label: 'Arun', styleClass: 'bg-green-300 text-white', },
-                { label: 'Arun', styleClass: 'bg-green-300 text-white', },
-                { label: 'Arun', styleClass: 'bg-green-300 text-white', },
-            ], // Assuming 'name' is the project name property
-        }));
-    }
     initClientNames() {
         this.adminService.GetClientNames().subscribe(resp => {
             this.clientsNames = resp as unknown as ClientNamesDto[];
@@ -534,7 +505,7 @@ export class ProjectComponent implements OnInit {
 
     organizationData() {
         let nodes: NodeProps[] = [];
-        let chartParams: ChartParams = {};
+        //let chartParams: ChartParams = {};
         this.employeeService.getCompanyHierarchy().subscribe((resp) => {
             let data = resp as unknown as CompanyHierarchyViewDto[];
             data.forEach(org => {
@@ -560,8 +531,9 @@ export class ProjectComponent implements OnInit {
 
                 nodes.push(item)
             });
-            chartParams.nodes = nodes;
-            this.chartDataNotification.sendNodes(chartParams);
+            this.initOrgCharts(nodes)
+           // chartParams.nodes = nodes;
+            //this.chartDataNotification.sendNodes(chartParams);
             //this.updateChart(this.chart,this.data);
         });
     }
@@ -569,7 +541,7 @@ export class ProjectComponent implements OnInit {
 
     employeeProjectData(projectId: number) {
         let nodes: NodeProps[] = []
-        let chartParams: ChartParams = {};
+        //let chartParams: ChartParams = {};
         this.adminService.GetEmployeeHierarchy(projectId).subscribe((resp) => {
             let data = resp as unknown as EmployeeHierarchyDto[];
             data.forEach(empchart => {
@@ -611,10 +583,11 @@ export class ProjectComponent implements OnInit {
 
                 nodes.push(this.cloneEmployeeHierarchyNodeProps(empchart,data));
             });
-            chartParams.nodes = nodes;
-            this.chartDataNotification.sendNodes(chartParams);
-            console.log(nodes);
+            // chartParams.nodes = nodes;
+            // this.chartDataNotification.sendNodes(chartParams);
+            // console.log(nodes);
             //this.updateChart(this.chart,this.chart);
+            this.initOrgCharts(nodes)
         });
     }
 
@@ -694,14 +667,22 @@ export class ProjectComponent implements OnInit {
 
     copyToNode(){}
 
-    async initOrgCharts(){
+    async initOrgCharts(nodes: NodeProps[]){
+        this.orgProjectChartref.clear();
         const { D3OrgChartComponent } = await import('./d3-org-chart/d3-org-chart.component');
         const orgComponentRef = this.orgProjectChartref.createComponent(D3OrgChartComponent);
         orgComponentRef.instance.DisplayType = "1";
+        orgComponentRef.instance.Data = nodes;
+        this.cdr.detectChanges();
+        orgComponentRef.instance.UpdateChart();
+    }
+
+    updateOrgChart(){
+
     }
 
     async initAllotEmpCharts(nodes: NodeProps[]){
-
+        this.allottEmployeesref.clear();
         const { D3OrgChartComponent } = await import('./d3-org-chart/d3-org-chart.component');
         const allottEmpRef = this.allottEmployeesref.createComponent(D3OrgChartComponent);
         allottEmpRef.instance.DisplayType = "2";

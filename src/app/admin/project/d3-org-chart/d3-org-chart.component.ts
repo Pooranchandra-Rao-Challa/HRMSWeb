@@ -34,10 +34,11 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
     reName = /NAME/g;
     reDesignation = /DESIGNATION/g;
     reProject = /PROJECT/g;
-    constructor(private employeeService: EmployeeService,
+    constructor(
+        //private employeeService: EmployeeService,
         private downloadNotifier: DownloadNotification,
-        private chartDataNotification: OrgChartDataNotification,
-        private adminService: AdminService,
+      //  private chartDataNotification: OrgChartDataNotification,
+      //  private adminService: AdminService,
         private nodeDropNotifier: NodeDropNotifier) { }
 
 
@@ -84,10 +85,10 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
 
     ngAfterViewInit() {
 
-        if (!this.chart) {
-            this.chart = new OrgChart();
-        }
-        this.updateChart(this.chart, this.Data);
+        // if (!this.chart) {
+        //     this.chart = new OrgChart();
+        // }
+        // this.updateChart(this.chart, this.Data);
 
     }
 

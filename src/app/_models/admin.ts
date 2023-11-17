@@ -101,9 +101,10 @@ export class HolidayDto {
     toDate?: any
     isActive?: boolean
 }
-export class projectStatus {
-    eProjectStatusesId:number;
-    name:string;
+export class ProjectStatus {
+    eProjectStatusesId?:number;
+    name?:string;
+    date?:Date;
 }
 export class ProjectViewDto {
     projectId: number;

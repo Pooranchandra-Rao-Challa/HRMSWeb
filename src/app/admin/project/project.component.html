@@ -150,31 +150,30 @@
                                     </div>
                                     <div class=" col-12 md:col-5 pt-2 pl-0">
 
-                                        <div class="field col-12 md:col-12 pt-0 mb-1" formGroupName="projectStatuses">
-                                            <label class="required">Project Status:
-                                            </label>
-                                            <div *ngFor="let item of this.projectStatues;let i=index;"
-                                                class="field-checkbox flex project_status_checkbox">
-                                                <div>
-                                                    <p-radioButton [value]="item.eProjectStatusesId"
-                                                        formControlName="eProjectStatusesId">
-                                                    </p-radioButton>
-                                                    <label class="ml-2 mr-3">{{ item.name }}</label>
-                                                </div>
+                                        <div class="field col-12 md:col-12 pt-0 mb-1" formGroupName="initialStatus">
+                      <label class="required">Project Status:
+                      </label>
+                      <div *ngFor="let item of this.projectStatues;let i=index;"
+                        class="field-checkbox flex project_status_checkbox">
+                        <div>
+                          <p-radioButton [value]="item.eProjectStatusesId" formControlName="eProjectStatusesId"
+                            (onClick)="onRadioButtonChange(item)"
+                            [ngClass]="{'disabled-radio': shouldDisableRadioButton(item)}">
+                          </p-radioButton>
 
-                                                <input type="text" disabled
-                                                    *ngIf="projectDetails[item.name.toLowerCase()]!==null&&projectDetails[item.name.toLowerCase()]!==undefined
-                                        &&item.eProjectStatusesId!==this.fcProjectStatus.get('eProjectStatusesId').value" pInputText
-                                                    [value]="getFormattedDate(projectDetails[item.name.toLowerCase()])" />
-                                                <p-calendar inputId="calendar" [readonlyInput]="true" [showIcon]="true"
-                                                    formControlName="Date" appendTo="body" [minDate]="minDate1"
-                                                    [class.disabled-calendar]="projectDetails[item.name.toLowerCase()] !== null &&
-                                         projectDetails[item.name.toLowerCase()] !== undefined"
-                                                    *ngIf="item.eProjectStatusesId===this.fcProjectStatus.get('eProjectStatusesId').value"
-                                                    yearRange="2000:2030" placeholder="Select Date"
-                                                    mask="99/99/9999"></p-calendar>
-                                            </div>
-                                        </div>
+                          <label class="ml-2 mr-3">{{ item.name }}</label>
+                        </div>
+                        <input type="text" disabled *ngIf="projectDetails[item.name.toLowerCase()]!==null&&projectDetails[item.name.toLowerCase()]!==undefined
+                          &&item.eProjectStatusesId!==this.fcProjectStatus.get('eProjectStatusesId').value" pInputText
+                          [value]="getFormattedDate(projectDetails[item.name.toLowerCase()])" />
+                        <p-calendar inputId="calendar" [readonlyInput]="true" [showIcon]="true" formControlName="Date"
+                          appendTo="body" [minDate]="this.minDate"
+                          [class.disabled-calendar]="projectDetails[item.name.toLowerCase()] !== null &&
+                           projectDetails[item.name.toLowerCase()] !== undefined"
+                          *ngIf="item.eProjectStatusesId===this.fcProjectStatus.get('eProjectStatusesId').value"
+                          yearRange="2000:2030" placeholder="Select Date" mask="99/99/9999"></p-calendar>
+                      </div>
+                    </div>
                                     </div>
                                 </div>
 
