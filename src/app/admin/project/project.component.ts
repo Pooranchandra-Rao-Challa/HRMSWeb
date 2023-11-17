@@ -52,9 +52,6 @@ export class ProjectComponent implements OnInit {
     projectDetails: any = {};
     companyHierarchy: CompanyHierarchyViewDto[] = [];
     selectedProjectId: number = -1;
-    first: number = 0;
-    rows: number = 10;
-    projectStatues: projectStatus[];
 
     @ViewChild('orgProjectChart', { read: ViewContainerRef, static: true })
     private orgProjectChartref: ViewContainerRef;
