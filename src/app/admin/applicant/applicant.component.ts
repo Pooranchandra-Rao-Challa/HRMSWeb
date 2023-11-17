@@ -1,13 +1,11 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component  } from '@angular/core';
 import { Router } from '@angular/router';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { Table } from 'primeng/table';
 import { ApplicantDialogComponent } from 'src/app/_dialogs/applicant.dialog/applicant.dialog.component';
-import { Actions, DialogRequest, ITableHeader } from 'src/app/_models/common';
-import { GlobalFilterService } from 'src/app/_services/global.filter.service';
+import { Actions, DialogRequest } from 'src/app/_models/common';
 import { Applicant } from 'src/app/demo/api/security';
 import { SecurityService } from 'src/app/demo/service/security.service';
+import { DataView } from 'primeng/dataview';
 
 export interface Status {
   name: string;
@@ -25,7 +23,9 @@ export class ApplicantComponent {
   ActionTypes = Actions;
   dialogRequest: DialogRequest = new DialogRequest();
   applicantdialogComponent = ApplicantDialogComponent;
-
+  sortOrder: number = 0;
+  sortField: string = '';
+  
   constructor(private securityService: SecurityService,
     public ref: DynamicDialogRef,
     private router: Router,
@@ -35,6 +35,10 @@ export class ApplicantComponent {
     this.securityService.getApplicantData().then((resp) => {
       this.applicant = resp as unknown as Applicant[];
     })
+  }
+
+  onFilter(dv: DataView, event: Event) {
+    dv.filter((event.target as HTMLInputElement).value);
   }
 
   viewApplicantDtls() {

@@ -17,7 +17,6 @@ import {
   UPDATE_EXPERIENCE_DETAILS,
   GET_ATTENDENCE,
   GET_NOTUPDATED_EMPLOYEES,
-  POST_ATTENDANCE,
   POST_LISTOF_ATTENDANCES,
 
 
@@ -26,6 +25,7 @@ import {
   GET_COMPANY_HIERARCHY,
   DELETE_DOCUMENT,
   GET_PATH,
+  UPDATE_EMPLOYEE_LEAVE_DETAILS,
 
 } from './api.uri.service';
 import { ExperienceDetailsDto, SkillArea, AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments, employeeExperienceDtlsViewDto, FamilyDetailsViewDto, employeeAttendanceDto, EmployeeLeaveDto, EmployeeAttendanceList, CompanyHierarchyViewDto } from '../_models/employes';
@@ -91,7 +91,7 @@ export class EmployeeService extends ApiHttpService {
     return this.post<EmployeeAttendanceList[]>(POST_LISTOF_ATTENDANCES, data);
   }
   public CreateAttendance(data: EmployeeLeaveDto) {
-    return this.post<EmployeeAttendanceList>(POST_ATTENDANCE, data);
+    return this.post<EmployeeAttendanceList>(UPDATE_EMPLOYEE_LEAVE_DETAILS, data);
   }
   //Search Employee
   public GetEmployees(IsEnrolled: boolean) {
@@ -222,6 +222,10 @@ export class EmployeeService extends ApiHttpService {
 
   public CreateEmployeeLeaveDetails(leaveDetails: EmployeeLeaveDto[]) {
     return this.post<EmployeeLeaveDto[]>(CREATE_EMPLOYEE_LEAVE_DETAILS, leaveDetails)
+  }
+
+  public UpdateEmployeeLeaveDetails(leaveDetails: EmployeeLeaveDto[]) {
+    return this.post<EmployeeLeaveDto[]>(UPDATE_EMPLOYEE_LEAVE_DETAILS, leaveDetails)
   }
 
   public getCompanyHierarchy() {
