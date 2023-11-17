@@ -387,20 +387,28 @@ export class CompanyHierarchyViewDto {
 }
 
 export class EmployeeLeaveDetailsViewDto {
-	employeeId?: number;
+	comment?: string;
+	action?: string;
+	leaveDto?: leaveDto;
+}
+
+export class leaveDto{
+	employeeId?:number;
 	employeeName?: string;
-	leaveId?: number;
-	leaveType?: string;
+	leaveTypeId?:number;
+	getLeaveType?: string;
 	fromDate?: Date;
 	toDate?: Date;
-	note?: string;
+	note?:string;
 }
 
 export class EmployeeLeaveDetailsDto {
-	employeeId?: number;
-	leaveId?: number;
-	comment?: string;
+	employeeId?:number;
+	employeeName?: string;
+	getLeaveType?: string;
+	leaveId?:number;
+	comments?: string;
 	protectedData?: string;
 	protectedWith?: string;
-	status?: string;
+	action?: string;
 }
