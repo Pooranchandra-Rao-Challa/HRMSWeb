@@ -41,7 +41,7 @@ export class ProjectComponent implements OnInit {
     filteredClients: any;
     fbUnAssignEmployee!: FormGroup;
     fbproject!: FormGroup;
-    minDate1: Date;
+    minDate: Date;
     maxLength: MaxLength = new MaxLength();
     addEmployeeDialog: boolean;
     editProject: boolean;
@@ -164,6 +164,7 @@ export class ProjectComponent implements OnInit {
     }
     restrictSpaces(event: KeyboardEvent) {
         const target = event.target as HTMLInputElement;
+
         // Prevent the first key from being a space
         if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0)
             event.preventDefault();
@@ -288,7 +289,7 @@ export class ProjectComponent implements OnInit {
         if (project != null) {
             this.projectDetails = project;
             const status = this.projectStatues.find(each => each.eProjectStatusesId === this.projectDetails.activeStatusId);
-            this.minDate1 = new Date(this.projectDetails[status.name.toLowerCase()]);
+            this.minDate = new Date(this.projectDetails[status.name.toLowerCase()]);
             this.editEmployee(project);
             this.getEmployeesListBasedOnProject(project.projectId);
         } else {
