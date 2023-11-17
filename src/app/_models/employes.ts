@@ -29,6 +29,7 @@ export class EmployeeBasicDetailDto {
 	signDate?: Date;
 	isActive?: boolean;
 	isAFresher?: boolean;
+	nationality?:string;
 }
 
 export class EducationDetailsDto {
@@ -43,7 +44,7 @@ export class EducationDetailsDto {
 	state?: string;
 	institutionName?: string;
 	authorityName?: string;
-	passedOutyear?: Date;
+	yearOfCompletion?: Date;
 	gradingMethodId?: number;
 	gradingValue?: number;
 }
@@ -140,6 +141,7 @@ export class EmployeeBasicDetailViewDto {
 	signDate?: Date;
 	isActive?: boolean;
 	isAFresher?: boolean;
+	nationality?:string;
 	createdAt?: Date;
 	createdBy?: string;
 	updatedAt?: Date;
@@ -397,7 +399,7 @@ export class EmployeeLeaveDetailsViewDto {
 export class EmployeeLeaveDetailsDto {
 	employeeId?: number;
 	leaveId?: number;
-	note?: string;
+	comment?: string;
 	protectedData?: string;
 	protectedWith?: string;
 	status?: string;

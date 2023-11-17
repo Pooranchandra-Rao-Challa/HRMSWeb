@@ -43,6 +43,7 @@ export class AssetsComponent {
   minDateValue: Date = new Date();
   selectedAssetTypeId: number = 0;
   id: number
+  employeeName: string;
 
   constructor(private adminService: AdminService, private formbuilder: FormBuilder,
     private alertMessage: AlertmessageService, private lookupService: LookupService,
@@ -161,6 +162,18 @@ export class AssetsComponent {
     this.ShowassetsDetails = false;
   }
 
+  restrictSpaces(event: KeyboardEvent) {
+    const target = event.target as HTMLInputElement;
+    // Prevent the first key from being a space
+    if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0)
+        event.preventDefault();
+
+    // Restrict multiple spaces
+    if (event.key === ' ' && target.selectionStart > 0 && target.value.charAt(target.selectionStart - 1) === ' ') {
+        event.preventDefault();
+    }
+}
+
   deleteDialog(assetstypes: AssetsDetailsViewDto) {
     this.deleteAsset = assetstypes;
     this.confirmationDialogService.comfirmationDialog(this.confirmationRequest).subscribe(userChoice => {
@@ -266,6 +279,7 @@ export class AssetsComponent {
       head: head,
       body: this.toPdfFormat(),
       startY: 25, // Adjust the starting Y position for the body content
+      headStyles: { fillColor: [255, 129, 14]}
     });
   }
 

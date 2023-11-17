@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { LookupService } from 'src/app/_services/lookup.service';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { EmployeAdressViewDto} from 'src/app/_models/employes';
+import { EmployeAdressViewDto, FamilyDetailsViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { MIN_AADHAAR, MIN_LENGTH_2, RG_AADHAAR, RG_PANNO, RG_PHONE_NO } from 'src/app/_shared/regex';
 import { ActivatedRoute } from '@angular/router';
@@ -18,13 +18,14 @@ import { FORMAT_DATE } from 'src/app/_helpers/date.formate.pipe';
 })
 
 export class FamilydetailsDialogComponent {
-
     fbfamilyDetails: FormGroup;
     employeeId: number;
     relationships: LookupDetailsDto[] = [];
     address: EmployeAdressViewDto[];
     maxLength: MaxLength = new MaxLength();
     currentDate = new Date();
+    isNomineeTrue: boolean;
+    familyDetails: FamilyDetailsViewDto[];
 
     constructor(private formbuilder: FormBuilder,
         private alertMessage: AlertmessageService,
@@ -37,11 +38,15 @@ export class FamilydetailsDialogComponent {
 
 
     ngOnInit() {
-        this.initFamily();
+        this.initFamily()
         this.initGetAddress(true);
         this.initRelationship();
-        if (this.config.data) this.editFamilyDetails(this.config.data);
+        this.initGetFamilyDetails();
+        if (this.config.data) {
+            this.editFamilyDetails(this.config.data);
+        }
     }
+
 
     initFamily() {
         this.fbfamilyDetails = this.formbuilder.group({
@@ -54,7 +59,18 @@ export class FamilydetailsDialogComponent {
             adhaarNo: new FormControl('', [Validators.required, Validators.pattern(RG_AADHAAR), Validators.minLength(MIN_AADHAAR)]),
             panno: new FormControl('', [Validators.pattern(RG_PANNO)]),
             mobileNumber: new FormControl('', [Validators.required, Validators.pattern(RG_PHONE_NO)]),
-            isNominee: [true, Validators.requiredTrue],
+            isNominee: new FormControl(false, [Validators.required]),
+        });
+
+    }
+
+    initGetFamilyDetails() {
+        this.employeeService.getFamilyDetails(this.employeeId).subscribe((resp) => {
+            this.familyDetails = resp as unknown as FamilyDetailsViewDto[];
+            this.isNomineeTrue = this.familyDetails.some(item => item.isNominee === true);
+            if (this.isNomineeTrue) {
+                this.fbfamilyDetails.get('isNominee').disable();
+            }
         });
     }
 
@@ -67,7 +83,7 @@ export class FamilydetailsDialogComponent {
     initGetAddress(isbool: boolean) {
         this.employeeService.GetAddresses(this.employeeId, isbool).subscribe((resp) => {
             this.address = resp as unknown as EmployeAdressViewDto[];
-            
+
         });
     }
 
@@ -104,7 +120,13 @@ export class FamilydetailsDialogComponent {
     }
 
     restrictSpaces(event: KeyboardEvent) {
-        if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {
+        const target = event.target as HTMLInputElement;
+        // Prevent the first key from being a space
+        if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0)
+            event.preventDefault();
+
+        // Restrict multiple spaces
+        if (event.key === ' ' && target.selectionStart > 0 && target.value.charAt(target.selectionStart - 1) === ' ') {
             event.preventDefault();
         }
     }

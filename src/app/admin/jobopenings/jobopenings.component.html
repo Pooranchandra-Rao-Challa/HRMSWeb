@@ -14,20 +14,81 @@
     </ng-template>
     <ng-template let-jobOpeningDetails pTemplate="gridItem">
         <div class="col-12 md:col-4 lg:col-3 sm:col-6">
-            <div class="card m-2 border-1 surface-border card-height">
+            <div class="card card-header surface-border orange-200 card-height border-1 m-2 p-2 mb-0"
+                (click)="openJobDialog(jobOpeningDetails)">
+                <i class="pi pi-star text-primary"></i> &nbsp; {{jobOpeningDetails.designation}}
+            </div>
+            <div class="card m-2 border-1 mt-0 surface-border card-height">
                 <div class=" mb-3 grid">
-                    <div class="col-12">
-                        <span class="text-xl text-primary  font-boldtext-md">
-                            <i class="pi pi-star text-primary" ></i>
+                    <div class="col-6">
+                        <div class="text-600 font-medium text-sm job-description"> {{ jobOpeningDetails.description }}
+                            quwe oeuir o oiweur u fu i ouer fu hfhhou rufuih iowfd </div>
+                    </div>
+                    <div class="col-6">
+                        <!-- <span class="text-xl text-primary  font-boldtext-md">
+                            <i class="pi pi-star text-primary" ></i> 
                             {{jobOpeningDetails.designation}}
-                        </span>
-                        <div class="text-600 font-medium">{{ jobOpeningDetails.description }}</div>
+                        </span> -->
+                        <span><b class="text-primary">3</b> New Applicants</span>
+                        <br />
+                        <span><b class="text-primary">2</b> Applicants</span>
+                        <br />
+                        <span><b class="text-primary">6</b> to Recruit</span>
                     </div>
                 </div>
             </div>
         </div>
     </ng-template>
 </p-dataView>
+
+<!-- P-dialog -->
+<p-dialog [header]="selectedJob ? selectedJob.designation.toString() : 'Job Opening'" [(visible)]="viewJobDesign"
+    [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '60%'}" [style]="{width: 'auto'}">
+    <div class="flex flex-column align-items-center justify-content-center">
+        <div *ngIf="selectedJob">
+            <div class="card">
+                <div class="card-body">
+                    <p>{{ selectedJob.description }}quwe oeuir o oiweur u fu i ouer fu hfhhou rufuih iowfd</p>
+                    <div class="pair">
+                        <span class="label text-primary font-bold text-900">Project Name</span>
+                        <span class="value">: {{ selectedJob.projectName }}</span>
+                    </div>
+                    <div class="pair">
+                        <span class="label text-primary font-bold text-900">Nature Of Job</span>
+                        <span class="value">: {{ selectedJob.natureOfJob }}</span>
+                    </div>
+                    <div class="pair">
+                        <span class="label text-primary font-bold text-900">To Be Filled</span>
+                        <span class="value">: {{ selectedJob.toBeFilled |date:mediumDate}}</span>
+                    </div>
+                    <div class="pair">
+                        <span class="label text-primary font-bold text-900">Compensation Package</span>
+                        <br>
+                        <span class="value">: {{ selectedJob.compensationPackage }}</span>
+                    </div>
+                    <div class="pair">
+                        <span class="label text-primary font-bold text-900">Technical Skills</span>
+                        <br>
+                        <span class="value">: {{ selectedJob.technicalSkills }}</span>
+                    </div>
+                    <div class="pair">
+                        <span class="label text-primary font-bold text-900">Soft Skills</span>
+                        <br>
+                        <span class="value">: {{ selectedJob.softSkills }}</span>
+                    </div>
+                    <div class="col-6">
+                        <span><b class="text-primary">3</b> New Applicants</span>
+                        <br />
+                        <span><b class="text-primary">2</b> Applicants</span>
+                        <br />
+                        <span><b class="text-primary">6</b> to Recruit</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</p-dialog>
+
 <!-- 
 <div class="col-12">
     <div class="card">

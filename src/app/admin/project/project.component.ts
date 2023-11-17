@@ -31,24 +31,24 @@ interface AutoCompleteCompleteEvent {
 })
 export class ProjectComponent implements OnInit {
     @ViewChild("fileUpload", { static: true }) fileUpload: ElementRef;
-    data: null;
     private diagram: go.Diagram;
     projects: ProjectViewDto[] = [];
     clientsNames: ClientNamesDto[] = [];
     Employees: EmployeesList[] = [];
+    projectStatues: projectStatus[];
     Roles: string[] = []
     clientDetails: ClientDetailsDto;
-    visible: boolean = false;
+    projectDetailsDialog: boolean = false;
     filteredClients: any;
     fbUnAssignEmployee!: FormGroup;
     fbproject!: FormGroup;
+    minDate1: Date;
     maxLength: MaxLength = new MaxLength();
-    dialog1: boolean;
+    addEmployeeDialog: boolean;
     editProject: boolean;
     permission: any;
     addFlag: boolean = true;
     submitLabel!: string;
-    minDateVal = new Date();
     projectDetails: any = {};
     companyHierarchy: CompanyHierarchyViewDto[] = [];
     selectedProjectId: number = -1;
@@ -67,12 +67,14 @@ export class ProjectComponent implements OnInit {
     @Output() ImageValidator = new EventEmitter<PhotoFileProperties>();
     defaultPhoto: string;
 
+
     //For paginator
+    first: number = 0;
+    rows: number = 12;
     onPageChange(event) {
         this.first = event.first;
         this.rows = event.rows;
     }
-
     get visibleProjects(): any[] {
         return this.projects.slice(this.first, this.first + this.rows);
     }
@@ -114,14 +116,15 @@ export class ProjectComponent implements OnInit {
 
     ngOnInit() {
         this.permission = this.jwtService.Permissions;
+        this.defaultPhoto = './assets/layout/images/projectsDefault.jpg';
         this.projectForm();
         this.initProjects();
         this.initClientNames();
         this.unAssignEmployeeForm();
-        this.projectStatuses();
         this.allottEmployeesToProject();
         //this.allottEmployeesToProject();
        //this.organizationData();
+        this.initProjectStatuses();
         this.ImageValidator.subscribe((p: PhotoFileProperties) => {
             if (this.fileTypes.indexOf(p.FileExtension) > 0 && p.Resize || (p.Size / 1024 / 1024 < 1
                 && (p.isPdf || (!p.isPdf && p.Width <= 400 && p.Height <= 500)))) {
@@ -162,9 +165,11 @@ export class ProjectComponent implements OnInit {
                 pocMobileNumber: new FormControl('', [Validators.required, Validators.pattern(RG_PHONE_NO)]),
                 address: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
             }),
-            projectStatuses: this.formbuilder.group({
+
+            projectStatuses: new FormControl([]),
+            initialStatus: this.formbuilder.group({
                 eProjectStatusesId: ['', [Validators.required]],
-                statusDate: new FormControl('', [Validators.required]),
+                Date: new FormControl('', [Validators.required]),
             }),
             projectAllotments: new FormControl([])
         });
@@ -178,13 +183,21 @@ export class ProjectComponent implements OnInit {
             isActive: new FormControl('', [Validators.required]),
         });
     }
-    projectStatuses() {
+
+
+    initProjectStatuses() {
         this.adminService.projectStatuses().subscribe((resp) => {
             this.projectStatues = resp as unknown as projectStatus[];
         })
     }
     restrictSpaces(event: KeyboardEvent) {
-        if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {
+        const target = event.target as HTMLInputElement;
+        // Prevent the first key from being a space
+        if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0)
+            event.preventDefault();
+
+        // Restrict multiple spaces
+        if (event.key === ' ' && target.selectionStart > 0 && target.value.charAt(target.selectionStart - 1) === ' ') {
             event.preventDefault();
         }
     }
@@ -195,7 +208,7 @@ export class ProjectComponent implements OnInit {
         this.fcUnAssignAsset['employeeId']?.setValue(employee.employeeId);
         this.fcUnAssignAsset['isActive']?.setValue(false);
         this.adminService.UnassignEmployee(this.fbUnAssignEmployee.value).subscribe((resp) => {
-            if (this.visible) {
+            if (this.projectDetailsDialog) {
                 this.alertMessage.displayAlertMessage(ALERT_CODES["SMEUA001"]);
                 this.showProjectDetails(employee.projectId)
                 this.fbUnAssignEmployee.reset();
@@ -208,7 +221,7 @@ export class ProjectComponent implements OnInit {
     }
 
     showProjectDetails(projectId: number) {
-        this.visible = true;
+        this.projectDetailsDialog = true;
         this.getProjectWithId(projectId);
     }
 
@@ -231,23 +244,69 @@ export class ProjectComponent implements OnInit {
     }
 
     showProjectDetailsDialog(projectDetails: ProjectViewDto) {
-        this.visible = true;
+        this.projectDetailsDialog = true;
         this.projectDetails = projectDetails;
     }
 
     hierarchialDialog(node) {
         this.projects.filter(element => {
-            if (element.name == node.data.name) {
+            if (element.name == node.data.name)
                 this.showProjectDetailsDialog(element);
-            }
         })
     }
-    getProjectStatus(id?: number) {
-        const date = this.projectStatues.filter(each => each?.eProjectStatusesId === id);
-        return date[0]?.name;
+    shouldDisableRadioButton(item: any): boolean {
+
+        const initialNotDefined = this.projectDetails['initial'] === undefined;
+        const workingNotNull = this.projectDetails['working'] !== null;
+        const completedNotNull = this.projectDetails['completed'] !== null;
+
+        // If 'Initial' is not defined, enable 'Initial' and disable other options
+        if (initialNotDefined)
+            return item.name !== 'Initial';
+
+
+        // If the radio button has a value in projectDetails, disable it
+        if (this.projectDetails[item.name.toLowerCase()] !== null && this.projectDetails[item.name.toLowerCase()] !== undefined)
+            return true;
+
+
+        // If the radio button is in 'Completed' state, enable 'AMC'
+        if (item.name === 'AMC' && completedNotNull)
+            return false;
+
+
+        // If the radio button is in 'Completed' state and the option is 'Suspended', disable it
+        if (item.name === 'Suspended' && completedNotNull)
+            return true;
+
+
+        // If 'Initial' is defined and the radio button is 'Completed' disable if 'Working' is not defined
+        if (this.projectDetails['initial'] !== null && item.name === 'Completed' && !workingNotNull)
+            return true;
+
+
+        // If 'Working' is defined, 'Completed' is not defined, and the radio button is 'AMC' or 'Initial', disable
+        if (workingNotNull && !completedNotNull && (item.name === 'AMC' || item.name === 'Initial'))
+            return true;
+
+        // If none of the above conditions are met, enable the radio button
+        return false;
     }
+
+    onRadioButtonChange(item: any) {
+        if (this.projectDetails[item.name.toLowerCase()] === null || this.projectDetails[item.name.toLowerCase()] === undefined)
+            this.fcProjectStatus.get('Date').setValue('');
+    }
+
+    getProjectStatusBasedOnId(id?: number): any {
+        if (id !== undefined && id >= 1 && this.projectStatues != undefined) {
+            const status = this.projectStatues.find(each => each.eProjectStatusesId === id);
+            return status ? status.name : "";
+        }
+    }
+
     getFormattedDate(date: Date) {
-        return FORMAT_DATE(new Date(this.datePipe.transform(date, 'yyyy-MM-dd')))
+        return this.datePipe.transform(date, 'MM/dd/yyyy')
     }
     onEditProject(project: ProjectViewDto) {
 
@@ -258,13 +317,14 @@ export class ProjectComponent implements OnInit {
         this.fileUpload.nativeElement.value = '';
         if (project != null) {
             this.projectDetails = project;
+            const status = this.projectStatues.find(each => each.eProjectStatusesId === this.projectDetails.activeStatusId);
+            this.minDate1 = new Date(this.projectDetails[status.name.toLowerCase()]);
             this.editEmployee(project);
             this.getEmployeesListBasedOnProject(project.projectId);
         } else {
             this.addFlag = true;
             this.submitLabel = "Add Project";
             this.getEmployeesListBasedOnProject(0);
-            this.fcProjectStatus.get('eProjectStatusesId').setValue(1);
         }
     }
 
@@ -285,9 +345,9 @@ export class ProjectComponent implements OnInit {
             description: project.description
         });
         const date = this.projectStatues.filter(each => each.eProjectStatusesId === project.activeStatusId)
-        this.fbproject.get('projectStatuses').patchValue({
+        this.fbproject.get('initialStatus').patchValue({
             eProjectStatusesId: project.activeStatusId,
-            statusDate: project[date[0].name.toLowerCase()],
+            Date: FORMAT_DATE(new Date(project[date[0]?.name.toLowerCase()])),
         });
         this.fbproject.get('clients').patchValue({
             clientId: project.clientId,
@@ -309,7 +369,7 @@ export class ProjectComponent implements OnInit {
     }
 
     addEmployees(projectDetails: ProjectViewDto) {
-        this.dialog1 = true;
+        this.editProject = true;
         this.projectForm();
         this.getEmployeesListBasedOnProject(projectDetails.projectId);
         this.editEmployee(projectDetails);
@@ -330,7 +390,8 @@ export class ProjectComponent implements OnInit {
     }
 
     saveProject() {
-        this.fbproject.get('startDate').setValue(FORMAT_DATE(new Date(this.fbproject.get('startDate').value)))
+        this.fbproject.get('startDate').setValue(FORMAT_DATE(new Date(this.fbproject.get('startDate').value)));
+        // this.fcProjectStatus.get('Date').setValue(FORMAT_DATE(new Date(this.fcProjectStatus.get('Date').value)));
         if (this.addFlag) {
             if (this.clientDetails)
                 this.fcClientDetails.get('companyName')?.setValue(this.clientDetails.companyName);
@@ -359,8 +420,7 @@ export class ProjectComponent implements OnInit {
     }
 
     onSubmit() {
-        console.log(this.fbproject.value);
-
+        this.fbproject.get('projectStatuses').setValue([this.fbproject.get('initialStatus').value]);
         if (this.fbproject.valid) {
             if (this.addFlag) {
                 if (this.isUniqueProjectCode()) {
@@ -391,11 +451,11 @@ export class ProjectComponent implements OnInit {
         if (this.fbproject.valid) {
             this.saveProject().subscribe(resp => {
                 if (resp) {
+                    this.addEmployeeDialog = false;
                     this.editProject = false;
                     this.initProjects();
                     this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "PAS001" : "PAS002"]);
-                    this.dialog1 = false;
-                    if (this.visible)
+                    if (this.projectDetailsDialog)
                         this.showProjectDetails(this.projectDetails.projectId);
                 }
             })
@@ -409,7 +469,7 @@ export class ProjectComponent implements OnInit {
         return this.fbproject.get('clients') as FormGroup;
     }
     get fcProjectStatus() {
-        return this.fbproject.get('projectStatuses') as FormGroup;
+        return this.fbproject.get('initialStatus') as FormGroup;
     }
 
     convertToTreeNode(projects: any[]): TreeNode[] {
@@ -420,7 +480,6 @@ export class ProjectComponent implements OnInit {
             data: {
                 image: project.logo,
                 name: project.name,
-
             },
             children: [
                 { label: 'Sadikh', styleClass: 'bg-green-300 text-white', },
@@ -448,7 +507,7 @@ export class ProjectComponent implements OnInit {
         });
     }
 
-    getRoleEmployees(roleName:string):EmployeesList[]{
+    getRoleEmployees(roleName: string): EmployeesList[] {
         return this.Employees.filter(value => value.eRoleName === roleName)
     }
     filterClients(event: AutoCompleteCompleteEvent) {
@@ -457,9 +516,8 @@ export class ProjectComponent implements OnInit {
         let query = event.query;
         for (let i = 0; i < (this.clientsNames as any[]).length; i++) {
             let client = (this.clientsNames as any[])[i];
-            if (client.companyName.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+            if (client.companyName.toLowerCase().indexOf(query.toLowerCase()) == 0)
                 filtered.push(client);
-            }
         }
         this.filteredClients = filtered;
     }

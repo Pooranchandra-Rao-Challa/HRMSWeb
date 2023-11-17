@@ -111,6 +111,7 @@ export class BasicdetailsDialogComponent {
             originalDob: new FormControl(null, [Validators.required]),
             certificateDob: new FormControl(null, [Validators.required]),
             emailId: new FormControl(null, [Validators.required, Validators.pattern(RG_EMAIL)]),
+            nationality:new FormControl(null,[Validators.required]),
             isActive: (''),
             isAFresher: (''),
             signDate: (''),
@@ -123,7 +124,13 @@ export class BasicdetailsDialogComponent {
     }
 
     restrictSpaces(event: KeyboardEvent) {
-        if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {
+        const target = event.target as HTMLInputElement;
+        // Prevent the first key from being a space
+        if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0)
+            event.preventDefault();
+
+        // Restrict multiple spaces
+        if (event.key === ' ' && target.selectionStart > 0 && target.value.charAt(target.selectionStart - 1) === ' ') {
             event.preventDefault();
         }
     }
@@ -177,6 +184,7 @@ export class BasicdetailsDialogComponent {
             emailId: employeePrsDtls.emailId,
             isActive: employeePrsDtls.isActive,
             isAFresher: employeePrsDtl.isAFresher,
+            nationality:employeePrsDtls.nationality,
             signDate: employeePrsDtls.signDate,
             photo:employeePrsDtls.photo,
         });

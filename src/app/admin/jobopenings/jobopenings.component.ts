@@ -23,6 +23,8 @@ export class JobOpeningsComponent {
   jobOpening: JobOpeningsDetailsViewDto[] = [];
   mediumDate: string = MEDIUM_DATE;
   permissions: any;
+  viewJobDesign:boolean= false;
+  selectedJob: JobOpeningsDetailsViewDto;
 
   constructor(
     private adminService: AdminService,
@@ -40,11 +42,14 @@ export class JobOpeningsComponent {
   getJobDetails() {
     this.adminService.GetJobDetails().subscribe((resp) => {
       this.jobOpening = resp as unknown as JobOpeningsDetailsViewDto[];
-      console.log(this.jobOpening);
-      
     })
   }
 
+  openJobDialog(job: JobOpeningsDetailsViewDto) {
+    this.selectedJob = job;
+    this.viewJobDesign = true;
+  }
+  
   openComponentDialog(content: any,
     dialogData, action: Actions = this.ActionTypes.add) {
     if (action == Actions.save && content === this.jobOpeningDialogComponent) {

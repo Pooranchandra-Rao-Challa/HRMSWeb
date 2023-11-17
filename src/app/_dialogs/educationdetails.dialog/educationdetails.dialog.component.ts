@@ -66,7 +66,7 @@ export class EducationdetailsDialogComponent {
       stateId: new FormControl(empEduDetails.stateId, [Validators.required,]),
       institutionName: new FormControl(empEduDetails.institutionName),
       authorityName: new FormControl(empEduDetails.authorityName, [Validators.required,]),
-      passedOutyear: new FormControl(empEduDetails.passedOutyear ? FORMAT_DATE(new Date(empEduDetails.passedOutyear)) : null, [Validators.required,]),
+      yearOfCompletion: new FormControl(empEduDetails.yearOfCompletion ? FORMAT_DATE(new Date(empEduDetails.yearOfCompletion)) : null, [Validators.required,]),
       gradingMethodId: new FormControl(empEduDetails.gradingMethodId, [Validators.required,]),
       gradingValue: new FormControl(empEduDetails.gradingValue, [Validators.required,]),
     });
@@ -140,7 +140,7 @@ export class EducationdetailsDialogComponent {
 
   saveEducationDetails() {
     for (const control of this.faeducationDetail().controls) {
-      control.get('passedOutyear').setValue(FORMAT_DATE(control.get('passedOutyear').value));
+      control.get('yearOfCompletion').setValue(FORMAT_DATE(control.get('yearOfCompletion').value));
     }
     this.employeeService.updateViewEmpEduDtls(this.fbEducationDetails.value.educationDetails).subscribe((resp) => {
       if (resp) {

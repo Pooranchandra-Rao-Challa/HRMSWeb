@@ -66,7 +66,13 @@ export class RolesComponent implements OnInit {
     }
 
     restrictSpaces(event: KeyboardEvent) {
-        if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0) {
+        const target = event.target as HTMLInputElement;
+        // Prevent the first key from being a space
+        if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0)
+            event.preventDefault();
+
+        // Restrict multiple spaces
+        if (event.key === ' ' && target.selectionStart > 0 && target.value.charAt(target.selectionStart - 1) === ' ') {
             event.preventDefault();
         }
     }

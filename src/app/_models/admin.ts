@@ -134,7 +134,7 @@ export class ProjectViewDto {
 }
 export class projectStatuses{
     eProjectStatusesId?:number;
-    statusDate?:Date;
+    date?:Date;
 }
 export class EmployeesList {
     employeeId: number
@@ -163,7 +163,7 @@ export class ProjectDetailsDto {
     description: string;
     isActive?: boolean;
     projectAllotments?: []
-    projectStatuses:projectStatuses[]
+    projectStatuses?:[]
     clients?: ClientDetailsDto[];
     createdBy?: string
     createdAt?: string

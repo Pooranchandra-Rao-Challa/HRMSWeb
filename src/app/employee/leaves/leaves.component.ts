@@ -113,7 +113,7 @@ export class LeavesComponent {
   openSweetAlert(title: string,leaves: EmployeeLeaveDto) {
     const buttonLabel = title === 'Reason For Approve' ? 'Approve' : 'Reject';
     this.leaveConfirmationService.openDialogWithInput(title, buttonLabel).subscribe((result) => {
-      if (result) {
+      if (result && result.description) {
           this.leaveData = leaves;
           this.selectedAction =title
           this.processLeave();

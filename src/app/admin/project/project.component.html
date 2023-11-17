@@ -162,10 +162,16 @@
                                                     <label class="ml-2 mr-3">{{ item.name }}</label>
                                                 </div>
 
+                                                <input type="text" disabled
+                                                    *ngIf="projectDetails[item.name.toLowerCase()]!==null&&projectDetails[item.name.toLowerCase()]!==undefined
+                                        &&item.eProjectStatusesId!==this.fcProjectStatus.get('eProjectStatusesId').value" pInputText
+                                                    [value]="getFormattedDate(projectDetails[item.name.toLowerCase()])" />
                                                 <p-calendar inputId="calendar" [readonlyInput]="true" [showIcon]="true"
-                                                    [defaultDate]="getFormattedDate(this.projectDetails[item.name.toLowerCase()])"
-                                                    *ngIf="this.projectDetails[item.name.toLowerCase()] || item.eProjectStatusesId===this.fcProjectStatus.get('eProjectStatusesId').value"
-                                                    yearRange="2000:2030" id="startDate" placeholder="Select Date"
+                                                    formControlName="Date" appendTo="body" [minDate]="minDate1"
+                                                    [class.disabled-calendar]="projectDetails[item.name.toLowerCase()] !== null &&
+                                         projectDetails[item.name.toLowerCase()] !== undefined"
+                                                    *ngIf="item.eProjectStatusesId===this.fcProjectStatus.get('eProjectStatusesId').value"
+                                                    yearRange="2000:2030" placeholder="Select Date"
                                                     mask="99/99/9999"></p-calendar>
                                             </div>
                                         </div>
@@ -398,9 +404,20 @@
                                 </div>
                             </p-fieldset>
 
+                            <h5>Employee Details</h5>
                             <div class="p-fluid p-formgrid grid">
-                                <div class="field col-4 md:col-4">
+                                <div class="field col-12 md:col-4">
                                     <label>Allott Empolyees:</label>&nbsp;
+                                    <!-- <p-multiSelect placeholder="Select Employees" [options]="Employees"
+                                        optionLabel="employeeName" formControlName="projectAllotments" [filter]="true"
+                                        filterBy="employeeId,employeeName" appendTo="body">
+                                        <ng-template let-employee pTemplate="selectedItem">
+                                            <div class="block align-items-center gap-3">
+                                                <div>{{employee.employeeName}}</div>
+                                                <div>{{employee.employeeCode}}</div>
+                                            </div>
+                                        </ng-template>
+                                    </p-multiSelect> -->
                                     <p-tabView id="rolesTabView">
                                         <p-tabPanel [header]="role" *ngFor="let role of Roles">
                                             <div class="col-12 md:col-8 drag-column">
@@ -437,13 +454,12 @@
                                         </p-tabPanel>
                                     </p-tabView>
                                 </div>
-                                <div class="field col-8 md:col-8"
-                                    style="border:1px solid gray; margin-top:100px">
+                                <div class="field col-8 md:col-8" style="border:1px solid gray; margin-top:100px">
                                     <!-- <div class="col-12 md:col-8 drop-column"
                                         style="height: 50px; width: 50px; border:1px solid gray;"
                                         pDroppable="allottedemployee" (onDrop)="onEmployeeDrop()"></div> -->
-                                        <!-- <app-d3-org-chart DisplayType="2"></app-d3-org-chart> -->
-                                        <ng-template  #allottEmployees></ng-template>
+                                    <!-- <app-d3-org-chart DisplayType="2"></app-d3-org-chart> -->
+                                    <ng-template #allottEmployees></ng-template>
                                 </div>
                             </div>
                             <div class="grid">
@@ -529,8 +545,8 @@
             </p-tabView>
         </div>
         <!-- Project Details Dialog -->
-        <p-dialog header="Project Details" [(visible)]="visible" [breakpoints]="{'960px': '70%', '640px': '60%'}"
-            [style]="{width: '70%'}">
+        <p-dialog header="Project Details" [(visible)]="projectDetailsDialog"
+            [breakpoints]="{'960px': '70%', '640px': '60%'}" [style]="{width: '70%'}">
             <div class="card">
                 <div class="grid">
                     <div class="col-12 lg:col-3">
@@ -564,8 +580,8 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
+
                 <p-tabView>
                     <p-tabPanel header="Client Details ">
                         <div class="card">
@@ -620,7 +636,7 @@
                 </p-tabView>
             </div>
         </p-dialog>
-        <p-dialog header="Project" [(visible)]="dialog1" [modal]="true" showEffect="fade"
+        <p-dialog header="Project" [(visible)]="addEmployeeDialog" [modal]="true" showEffect="fade"
             [breakpoints]="{'960px': '70%', '640px': '60%'}" [style]="{width: '40%'}">
             <div class="flex flex-column align-items-center justify-content-center">
                 <form [formGroup]="fbproject" (ngSubmit)="onSubmit()" id="Role_roleForm">
