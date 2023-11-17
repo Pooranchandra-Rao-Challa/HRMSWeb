@@ -21,7 +21,7 @@
               <div class="field col-12 md:col-4">
                 <label class="required">Code:</label>
                 <input pInputText id="code" type="text" formControlName="code" class="form-control"
-                  placeholder="Enter Code" alphaNumeric maxlength="20" #code
+                  placeholder="Enter Code" alphaNumeric maxlength="20" #code  (keydown)="restrictSpaces($event)" 
                   [ngClass]="{ 'is-invalid ng-dirty': FormControls['code'].touched && FormControls['code'].errors}" />
                 <div class="flex">
                   <div class="align-left w-60" style="width:70%">
@@ -69,7 +69,7 @@
               <div class="field col-12 md:col-4">
                 <label class="required">Asset Name: </label>
                 <input pInputText id="assetname" type="text" formControlName="name" placeholder="Enter Asset Name"
-                  alphaNumeric class="form-control" maxlength="50" #name
+                  alphaNumeric class="form-control" maxlength="50" #name   (keydown)="restrictSpaces($event)" 
                   [ngClass]="{ 'is-invalid ng-dirty': FormControls['name'].touched && FormControls['name'].errors}" />
                 <div class="flex">
                   <div class="align-left w-60" style="width:70%">
@@ -102,7 +102,7 @@
               <div class="field col-12 md:col-4">
                 <label>Model Number:</label>
                 <input pInputText id="modelnumber" formControlName="modelNumber" maxlength="50" #modelNumber
-                  placeholder="Enter Model Number" />
+                  placeholder="Enter Model Number"  (keydown)="restrictSpaces($event)"  />
                 <div class="flex">
                   <div class="align-left w-60" style="width:70%">
                     <span *ngIf="FormControls['modelNumber'].touched && FormControls['modelNumber'].invalid">
@@ -119,7 +119,7 @@
               <div class="field col-12 md:col-4">
                 <label>Manufacturer: </label>
                 <input pInputText id="manufacturer" type="text" formControlName="manufacturer"
-                  placeholder="Enter Manufacturer" alphaOnly maxlength="50" #manufacturer
+                  placeholder="Enter Manufacturer" alphaOnly maxlength="50" #manufacturer  (keydown)="restrictSpaces($event)" 
                   [ngClass]="{ 'is-invalid ng-dirty': FormControls['manufacturer'].touched && FormControls['manufacturer'].errors}" />
                 <div class="flex">
                   <div class="align-left w-60" style="width:70%">
@@ -141,7 +141,7 @@
               </div>
               <div class="field col-12 md:col-4">
                 <label>Serial Number:</label>
-                <input pInputText id="serialnumber" type="text" formControlName="serialNumber"
+                <input pInputText id="serialnumber" type="text" formControlName="serialNumber"  (keydown)="restrictSpaces($event)" 
                   placeholder="Enter Serial Number " maxlength="20" alphaNumeric #serialNumber />
                 <div class="flex">
                   <div class="align-left w-60" style="width:70%">
@@ -159,7 +159,7 @@
               <div class="field col-12 md:col-4">
                 <label>Warranty(Months):</label>
                 <input pInputText id="warranty" type="text" maxlength="3" numericOnly formControlName="warranty"
-                  placeholder="Enter Warranty " #warranty />
+                  placeholder="Enter Warranty "  (keydown)="restrictSpaces($event)"  #warranty />
                 <div class="flex">
                   <div class="align-left w-60" style="width:70%">
                     <span *ngIf="FormControls['warranty'].touched && FormControls['warranty'].invalid">
@@ -175,7 +175,7 @@
               <div class="field col-12 md:col-4">
                 <label>Add Value:</label>
                 <input pInputText id="addValue" type="text" maxlength="7" #addValue numericOnly
-                  formControlName="addValue" placeholder="Enter Add Value"
+                  formControlName="addValue" placeholder="Enter Add Value"  (keydown)="restrictSpaces($event)" 
                   [ngClass]="{ 'is-invalid ng-dirty': FormControls['addValue'].touched && FormControls['addValue'].errors}" />
                 <div class="flex">
                   <div class="align-left w-60" style="width:70%">
@@ -203,7 +203,7 @@
               </div>
               <div class="field col-12 md:col-4">
                 <label htmlFor="description">Description:</label>
-                <textarea id="description" rows="5" maxlength="250" #description pInputTextarea
+                <textarea id="description" rows="5" maxlength="250" #description pInputTextarea  (keydown)="restrictSpaces($event)" 
                   formControlName="description" class="freeze_text-area" placeholder="Enter Description"></textarea>
                 <div class="flex">
                   <div class="align-left w-60" style="width:70%"></div>
