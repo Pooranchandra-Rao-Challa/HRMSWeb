@@ -11,8 +11,8 @@ import { CommonDialogModule } from '../_dialogs/common.dialog.module';
 import { D3OrgChartComponent } from './project/d3-org-chart/d3-org-chart.component';
 import { JobOpeningsComponent } from './jobopenings/jobopenings.component';
 import { ApplicantComponent } from './applicant/applicant.component';
-import { ApplicantstatusComponent } from './applicantstatus/applicantstatus.component';
 import { ViewapplicantComponent } from './viewapplicant/viewapplicant.component';
+import { RecruitmentProcessComponent } from './recruitmentprocess/recruitmentprocess.component';
 
 @NgModule({
   declarations: [
@@ -25,9 +25,8 @@ import { ViewapplicantComponent } from './viewapplicant/viewapplicant.component'
     AssetsallotmentComponent,
     D3OrgChartComponent,
     ApplicantComponent,
-    ApplicantstatusComponent,
     ViewapplicantComponent,
-
+    RecruitmentProcessComponent
   ],
   imports: [
     AdminRoutingModule,

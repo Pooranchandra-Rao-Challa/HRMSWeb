@@ -130,9 +130,9 @@ export class AppMenuComponent implements OnInit {
 
                             },
                             {
-                                label: 'Applicant Status',
+                                label: 'Recruitment Process',
                                 icon: 'pi pi-fw pi-align-left',
-                                routerLink: ['admin/applicantstatus'],
+                                routerLink: ['admin/recruitmentprocess'],
                                 permission: this.jwtService.Permissions.CanViewAssets
 
                             }
