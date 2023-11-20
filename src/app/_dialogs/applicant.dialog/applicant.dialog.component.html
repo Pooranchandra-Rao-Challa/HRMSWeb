@@ -298,16 +298,9 @@
                                         </p-calendar>
                                     </td>
                                     <td class="vertical-align-top">
-                                        <label>:</label>
                                         <p-calendar [readonlyInput]="true" appendTo="body" [showIcon]="true"
                                             mask="99/99/9999" placeholder="Select Date Of Reliving"
                                             formControlName="dateOfReliving">
-                                        </p-calendar>
-                                    </td>
-                                    <td class="vertical-align-top">
-                                        <p-calendar [readonlyInput]="true" appendTo="body" [showIcon]="true"
-                                            mask="99/99/9999" placeholder="Select Date Of Joining"
-                                            formControlName="dateOfJoining">
                                         </p-calendar>
                                     </td>
                                     <td class="vertical-align-top">
@@ -410,10 +403,10 @@
                                         <p-checkbox [binary]="true" formControlName="canRead"></p-checkbox>
                                     </td>
                                     <td class="vertical-align-top" [ngClass]="'canWrite' ? 'text-center' : ''">
-                                    <p-checkbox [binary]="true" formControlName="canWrite"></p-checkbox>
+                                        <p-checkbox [binary]="true" formControlName="canWrite"></p-checkbox>
                                     </td>
                                     <td class="vertical-align-top" [ngClass]="'canSpeak' ? 'text-center' : ''">
-                                    <p-checkbox [binary]="true" formControlName="canSpeak"></p-checkbox>
+                                        <p-checkbox [binary]="true" formControlName="canSpeak"></p-checkbox>
                                     </td>
                                     <td *ngIf="fbApplicant.controls['applicantLanguageSkillsDetails'].value.length > 1">
                                         <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer"
