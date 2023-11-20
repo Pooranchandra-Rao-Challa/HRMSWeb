@@ -33,6 +33,7 @@ export class EmployeeBasicDetailDto {
 }
 
 export class EducationDetailsDto {
+	educaitonId?:number;
 	educationDetailId?: number;
 	employeeId?: number;
 	streamId?: number;
