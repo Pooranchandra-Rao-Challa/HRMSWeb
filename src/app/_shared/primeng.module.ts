@@ -46,6 +46,7 @@ import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { OverlayPanelModule} from 'primeng/overlaypanel';
 import { PaginatorModule } from 'primeng/paginator';
 import { DragDropModule } from 'primeng/dragdrop';
+import { TimelineModule } from 'primeng/timeline';
 
 @NgModule({
     exports: [
@@ -94,7 +95,8 @@ import { DragDropModule } from 'primeng/dragdrop';
         OrganizationChartModule,
         DynamicDialogModule,
         OverlayPanelModule,
-        DragDropModule
+        DragDropModule,
+        TimelineModule
     ]
 
 })
