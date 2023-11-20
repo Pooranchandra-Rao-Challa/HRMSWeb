@@ -58,7 +58,11 @@ export class LoginComponent implements OnInit {
                         }
                     },
                     error: (error) => {
-                        this.messageService.add({ severity: 'error', key: 'myToast', detail: error.message });
+                        if (error.statusCode === '400') {
+                            this.messageService.add({ severity: 'error', key: 'myToast', detail: 'Enter UserName & Password' });
+                        } else {
+                            this.messageService.add({ severity: 'error', key: 'myToast', detail: error.message });
+                        }
                         this.submitted = false;
                     },
                     complete: () => {
