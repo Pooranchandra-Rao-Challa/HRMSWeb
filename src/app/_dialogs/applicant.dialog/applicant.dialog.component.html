@@ -2,271 +2,288 @@
     <form [formGroup]="fbApplicant">
         <div class="grid mt-3 p-5 content_scroll">
             <div class="col-12 roles-container ">
-                <div class="p-fluid p-formgrid grid ">
-                    <!-- Applicant Details -->
-                    <div class="field col-12 md:col-4">
-                        <label class="required">Name:</label>
-                        <input type="text" id="inputtext" pInputText formControlName="name" #name [maxlength]="50"
-                            alphaOnly placeholder="Enter Name" />
-                    </div>
-                    <div class="field col-12 md:col-4">
-                        <label class="required">Dob:</label>
-                        <p-calendar [readonlyInput]="true" placeholder="Select DOB" appendTo="body" [showIcon]="true"
-                            mask="99/99/9999" formControlName="dob">
-                        </p-calendar>
-                    </div>
-                    <div class="field col-12 md:col-4">
-                        <label class="required">Email:</label>
-                        <input type="text" id="inputtext" pInputText formControlName="email"
-                            placeholder="Enter Email" />
-                    </div>
-                    <div class="field col-12 md:col-4">
-                        <label class="required">Mobile Number:</label>
-                        <input type="text" id="inputtext" pInputText formControlName="mobileNo" numericOnly
-                            placeholder="Enter Mobile Number" />
-                    </div>
-                    <div class="field col-12 md:col-4">
-                        <label class="required">Nationality:</label>
-                        <input type="text" id="inputtext" pInputText placeholder="Enter Nationality"
-                            formControlName="nationality" />
-                    </div>
-                    <div class="field col-12 md:col-4">
-                        <label class="required">Address Line1:</label>
-                        <input type="text" id="inputtext" pInputText placeholder="Enter Address Line1"
-                            formControlName="addressLine1" />
-                    </div>
-                    <div class="field col-12 md:col-4">
-                        <label>Address Line2:</label>
-                        <input type="text" id="inputtext" pInputText placeholder="Enter Address Line2"
-                            formControlName="addressLine2" />
-                    </div>
-                    <div class="field col-12 md:col-4">
-                        <label>Landmark:</label>
-                        <input type="text" id="inputtext" pInputText placeholder="Enter Landmark"
-                            formControlName="landmark" />
-                    </div>
-                    <div class="field col-12 md:col-4">
-                        <label class="required">Zip Code:</label>
-                        <input type="text" id="inputtext" pInputText placeholder="Enter Zip Code"
-                            formControlName="zipCode" />
-                    </div>
-                    <div class="field col-12 md:col-4">
-                        <label class="required">City:</label>
-                        <input type="text" id="inputtext" pInputText placeholder="Enter City" formControlName="city" />
-                    </div>
-                    <div class="field col-12 md:col-4">
-                        <label class="required">Country:</label>
-                        <p-dropdown id="projectName" appendTo="body" placeholder="Enter Country">
-                        </p-dropdown>
-                    </div>
-                    <div class="field col-12 md:col-4">
-                        <label class="required">State:</label>
-                        <p-dropdown id="projectName" appendTo="body" placeholder="Enter State"
-                            formControlName="stateId">
-                        </p-dropdown>
-                    </div>
-                    <div class="field col-12 md:col-6">
-                        <label>Address Type:</label>
-                        <div class="flex flex-wrap gap-3">
-                            <div class="flex align-items-center">
-                                <p-radioButton value="Permanent Address" id="Address_addressType1"
-                                    formControlName="addressType" tooltipPosition="left">
-                                </p-radioButton>
-                                <label class="ml-2">Permanent Address</label>
-                            </div>
-                            <div class="flex align-items-center">
-                                <p-radioButton value="Temporary Address" id="Address_addressType2"
-                                    tooltipPosition="right" formControlName="addressType"></p-radioButton>
-                                <label class="ml-2">Temporary Address</label>
-                            </div>
+                <p-fieldset legend="Applicant" [toggleable]="true">
+                    <div class="p-fluid p-formgrid grid ">
+                        <div class="field col-12 md:col-4">
+                            <label class="required">Name:</label>
+                            <input type="text" id="inputtext" pInputText formControlName="name" #name [maxlength]="50"
+                                alphaOnly placeholder="Enter Name" />
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label class="required">Dob:</label>
+                            <p-calendar [readonlyInput]="true" placeholder="Select DOB" appendTo="body"
+                                [showIcon]="true" mask="99/99/9999" formControlName="dob">
+                            </p-calendar>
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label class="required">Email:</label>
+                            <input type="text" id="inputtext" pInputText formControlName="email"
+                                placeholder="Enter Email" />
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label class="required">Mobile Number:</label>
+                            <input type="text" id="inputtext" pInputText formControlName="mobileNo" numericOnly
+                                placeholder="Enter Mobile Number" />
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label class="required">Nationality:</label>
+                            <input type="text" id="inputtext" pInputText placeholder="Enter Nationality"
+                                formControlName="nationality" />
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label class="required">Address Line1:</label>
+                            <input type="text" id="inputtext" pInputText placeholder="Enter Address Line1"
+                                formControlName="addressLine1" />
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label>Address Line2:</label>
+                            <input type="text" id="inputtext" pInputText placeholder="Enter Address Line2"
+                                formControlName="addressLine2" />
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label>Landmark:</label>
+                            <input type="text" id="inputtext" pInputText placeholder="Enter Landmark"
+                                formControlName="landmark" />
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label class="required">Zip Code:</label>
+                            <input type="text" id="inputtext" pInputText placeholder="Enter Zip Code"
+                                formControlName="zipCode" />
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label class="required">City:</label>
+                            <input type="text" id="inputtext" pInputText placeholder="Enter City"
+                                formControlName="city" />
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label class="required">Country:</label>
+                            <p-dropdown id="projectName" appendTo="body" placeholder="Enter Country">
+                            </p-dropdown>
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label class="required">State:</label>
+                            <p-dropdown id="projectName" appendTo="body" placeholder="Enter State"
+                                formControlName="stateId">
+                            </p-dropdown>
+                        </div>
+                        <div class="field col-12 md:col-6">
+                            <label>Address Type:</label>
+                            <div class="flex flex-wrap gap-3">
+                                <div class="flex align-items-center">
+                                    <p-radioButton value="Permanent Address" id="Address_addressType1"
+                                        formControlName="addressType" tooltipPosition="left">
+                                    </p-radioButton>
+                                    <label class="ml-2">Permanent Address</label>
+                                </div>
+                                <div class="flex align-items-center">
+                                    <p-radioButton value="Temporary Address" id="Address_addressType2"
+                                        tooltipPosition="right" formControlName="addressType"></p-radioButton>
+                                    <label class="ml-2">Temporary Address</label>
+                                </div>
 
-                            <div class="flex align-items-center">
-                                <p-radioButton tooltipPosition="right" value="Current Address" id="Address_addressType3"
-                                    formControlName="addressType"></p-radioButton>
-                                <label class="ml-2">Current Address</label>
+                                <div class="flex align-items-center">
+                                    <p-radioButton tooltipPosition="right" value="Current Address"
+                                        id="Address_addressType3" formControlName="addressType"></p-radioButton>
+                                    <label class="ml-2">Current Address</label>
+                                </div>
                             </div>
                         </div>
+                        <div class="field col-12 md:col-4">
+                            <label for="singleFile"
+                                class="p-element p-ripple p-button-raised p-button-primary p-button p-component">
+                                <i class="pi pi-paperclip"></i> Attach File
+                            </label>
+                            <input id="singleFile" #fileUpload name="myFile" [accept]="fileTypes" type="file"
+                                [disabled]="!this.fbApplicant.valid" hidden="true" (click)="onClick()"
+                                formControlName="resumeUrl" />
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label class="required">Is Fresher:</label>
+                            <p-inputSwitch formControlName="isFresher"></p-inputSwitch>
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label class="required">Is Active:</label>
+                            <p-inputSwitch formControlName="isActive"></p-inputSwitch>
+                        </div>
                     </div>
-                    <div class="field col-12 md:col-4">
-                        <label for="singleFile"
-                            class="p-element p-ripple p-button-raised p-button-primary p-button p-component">
-                            <i class="pi pi-paperclip"></i> Attach File
-                        </label>
-                        <input id="singleFile" #fileUpload name="myFile" [accept]="fileTypes" type="file"
-                            [disabled]="!this.fbApplicant.valid" hidden="true" (click)="onClick()"
-                            formControlName="resumeUrl" />
-                    </div>
-                    <div class="field col-12 md:col-4">
-                        <label class="required">Is Fresher:</label>
-                        <p-inputSwitch formControlName="isFresher"></p-inputSwitch>
-                    </div>
-                    <div class="field col-12 md:col-4">
-                        <label class="required">Is Active:</label>
-                        <p-inputSwitch formControlName="isActive"></p-inputSwitch>
-                    </div>
-                </div>
+                </p-fieldset>
+                <br>
                 <!-- Applicant Education Details -->
-                <div class="p-fluid p-formgrid grid " formGroupName="education">
-                    <div class="field col-12 md:col-4">
-                        <label>Institute Name:</label>
-                        <input type="text" id="inputtext" pInputText formControlName="institutionName"
-                            placeholder="Enter Institute Name" />
+                <p-fieldset legend="Education" [toggleable]="true">
+                    <div class="p-fluid p-formgrid grid " formGroupName="education">
+                        <div class="field col-12 md:col-4">
+                            <label>Institute Name:</label>
+                            <input type="text" id="inputtext" pInputText formControlName="institutionName"
+                                placeholder="Enter Institute Name" />
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label class="required">Authority Name:</label>
+                            <input type="text" id="inputtext" pInputText placeholder="Enter Authority Name"
+                                formControlName="authorityName" />
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label class="required">Stream:</label>
+                            <p-dropdown id="projectName" appendTo="body" formControlName="streamId"
+                                placeholder="Enter Stream">
+                            </p-dropdown>
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label class="required">Country:</label>
+                            <p-dropdown id="projectName" appendTo="body" placeholder="Enter Country">
+                            </p-dropdown>
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label class="required">State:</label>
+                            <p-dropdown id="projectName" appendTo="body" formControlName="stateId"
+                                placeholder="Enter State">
+                            </p-dropdown>
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label class="required">Year Of Completion:</label>
+                            <input type="text" id="inputtext" pInputText placeholder="Enter Year Of Completion"
+                                formControlName="yearOfCompletion" />
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label class="required">Grading Method:</label>
+                            <p-dropdown id="projectName" appendTo="body" placeholder="Enter Grading Method"
+                                formControlName="gradingMethodId">
+                            </p-dropdown>
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label class="required">Grading Value:</label>
+                            <input type="text" id="inputtext" pInputText placeholder="Enter Grading Value"
+                                formControlName="gradingValue" />
+                        </div>
                     </div>
-                    <div class="field col-12 md:col-4">
-                        <label class="required">Authority Name:</label>
-                        <input type="text" id="inputtext" pInputText placeholder="Enter Authority Name"
-                            formControlName="authorityName" />
-                    </div>
-                    <div class="field col-12 md:col-4">
-                        <label class="required">Stream:</label>
-                        <p-dropdown id="projectName" appendTo="body" formControlName="streamId"
-                            placeholder="Enter Stream">
-                        </p-dropdown>
-                    </div>
-                    <div class="field col-12 md:col-4">
-                        <label class="required">Country:</label>
-                        <p-dropdown id="projectName" appendTo="body" placeholder="Enter Country">
-                        </p-dropdown>
-                    </div>
-                    <div class="field col-12 md:col-4">
-                        <label class="required">State:</label>
-                        <p-dropdown id="projectName" appendTo="body" formControlName="stateId"
-                            placeholder="Enter State">
-                        </p-dropdown>
-                    </div>
-                    <div class="field col-12 md:col-4">
-                        <label class="required">Year Of Completion:</label>
-                        <input type="text" id="inputtext" pInputText placeholder="Enter Year Of Completion"
-                            formControlName="yearOfCompletion" />
-                    </div>
-                    <div class="field col-12 md:col-4">
-                        <label class="required">Grading Method:</label>
-                        <p-dropdown id="projectName" appendTo="body" placeholder="Enter Grading Method"
-                            formControlName="gradingMethodId">
-                        </p-dropdown>
-                    </div>
-                    <div class="field col-12 md:col-4">
-                        <label class="required">Grading Value:</label>
-                        <input type="text" id="inputtext" pInputText placeholder="Enter Grading Value"
-                            formControlName="gradingValue" />
-                    </div>
-                </div>
+                </p-fieldset>
+                <br>
                 <!-- Applicant Certification Details -->
-                <div class="p-fluid p-formgrid grid " formGroupName="certification">
-                    <div class="field col-12 md:col-4">
-                        <label class="required">Institute Name:</label>
-                        <input type="text" id="inputtext" pInputText placeholder="Enter Institute Name"
-                            formControlName="institutionName" />
+                <p-fieldset legend="Certification" [toggleable]="true">
+                    <div class="p-fluid p-formgrid grid " formGroupName="certification">
+                        <div class="field col-12 md:col-4">
+                            <label class="required">Institute Name:</label>
+                            <input type="text" id="inputtext" pInputText placeholder="Enter Institute Name"
+                                formControlName="institutionName" />
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label class="required">Grading Method:</label>
+                            <p-dropdown id="projectName" appendTo="body" placeholder="Enter Year Of Completion"
+                                formControlName="yearOfCompletion">
+                            </p-dropdown>
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label>Year Of Completion:</label>
+                            <input type="text" id="inputtext" pInputText placeholder="Enter Year Of Completion"
+                                formControlName="yearOfCompletion" />
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label class="required">Results:</label>
+                            <input type="text" id="inputtext" pInputText placeholder="Enter Results"
+                                formControlName="results" />
+                        </div>
                     </div>
-                    <div class="field col-12 md:col-4">
-                        <label class="required">Grading Method:</label>
-                        <p-dropdown id="projectName" appendTo="body" placeholder="Enter Year Of Completion"
-                            formControlName="yearOfCompletion">
-                        </p-dropdown>
-                    </div>
-                    <div class="field col-12 md:col-4">
-                        <label>Year Of Completion:</label>
-                        <input type="text" id="inputtext" pInputText placeholder="Enter Year Of Completion"
-                            formControlName="yearOfCompletion" />
-                    </div>
-                    <div class="field col-12 md:col-4">
-                        <label class="required">Results:</label>
-                        <input type="text" id="inputtext" pInputText placeholder="Enter Results"
-                            formControlName="results" />
-                    </div>
-                </div>
+                </p-fieldset>
+                <br>
                 <!-- Applicant Experience Details -->
-                <div class="p-fluid p-formgrid grid " formGroupName="experience">
-                    <div class="field col-12 md:col-4">
-                        <label class="required">Company Name:</label>
-                        <input type="text" id="inputtext" pInputText placeholder="Enter Company Name"
-                            formControlName="companyName" />
+                <p-fieldset legend="Experience" [toggleable]="true">
+                    <div class="p-fluid p-formgrid grid " formGroupName="experience">
+                        <div class="field col-12 md:col-4">
+                            <label class="required">Company Name:</label>
+                            <input type="text" id="inputtext" pInputText placeholder="Enter Company Name"
+                                formControlName="companyName" />
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label>Company Location:</label>
+                            <input type="text" id="inputtext" pInputText placeholder="Enter Company Location"
+                                formControlName="companyLocation" />
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label>Company Employee Id:</label>
+                            <input type="text" id="inputtext" pInputText placeholder="Enter Company Employee Id"
+                                formControlName="companyEmployeeId" />
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label class="required">Designation:</label>
+                            <p-dropdown id="projectName" appendTo="body" placeholder="Enter Designation"
+                                formControlName="designationId">
+                            </p-dropdown>
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label>Nature Of Work:</label>
+                            <input type="text" id="inputtext" pInputText placeholder="Enter Nature of Work"
+                                formControlName="natureOfWork" />
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label>Worked On Projects:</label>
+                            <input type="text" id="inputtext" pInputText placeholder="Enter Worked On Projects"
+                                formControlName="workedOnProjects" />
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label>Date Of Joining:</label>
+                            <p-calendar [readonlyInput]="true" appendTo="body" [showIcon]="true" mask="99/99/9999"
+                                placeholder="Select Date Of Joining" formControlName="dateOfJoining">
+                            </p-calendar>
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label>Date Of Reliving:</label>
+                            <p-calendar [readonlyInput]="true" appendTo="body" [showIcon]="true" mask="99/99/9999"
+                                placeholder="Select Date Of Reliving" formControlName="dateOfReliving">
+                            </p-calendar>
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label class="required">Country:</label>
+                            <p-dropdown id="projectName" appendTo="body" placeholder="Enter Country">
+                            </p-dropdown>
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label class="required">State:</label>
+                            <p-dropdown id="projectName" appendTo="body" placeholder="Enter State"
+                                formControlName="stateId">
+                            </p-dropdown>
+                        </div>
                     </div>
-                    <div class="field col-12 md:col-4">
-                        <label>Company Location:</label>
-                        <input type="text" id="inputtext" pInputText placeholder="Enter Company Location"
-                            formControlName="companyLocation" />
-                    </div>
-                    <div class="field col-12 md:col-4">
-                        <label>Company Employee Id:</label>
-                        <input type="text" id="inputtext" pInputText placeholder="Enter Company Employee Id"
-                            formControlName="companyEmployeeId" />
-                    </div>
-                    <div class="field col-12 md:col-4">
-                        <label class="required">Designation:</label>
-                        <p-dropdown id="projectName" appendTo="body" placeholder="Enter Designation"
-                            formControlName="designationId">
-                        </p-dropdown>
-                    </div>
-                    <div class="field col-12 md:col-4">
-                        <label>Nature Of Work:</label>
-                        <input type="text" id="inputtext" pInputText placeholder="Enter Nature of Work"
-                            formControlName="natureOfWork" />
-                    </div>
-                    <div class="field col-12 md:col-4">
-                        <label>Worked On Projects:</label>
-                        <input type="text" id="inputtext" pInputText placeholder="Enter Worked On Projects"
-                            formControlName="workedOnProjects" />
-                    </div>
-                    <div class="field col-12 md:col-4">
-                        <label>Date Of Joining:</label>
-                        <p-calendar [readonlyInput]="true" appendTo="body" [showIcon]="true" mask="99/99/9999"
-                            placeholder="Select Date Of Joining" formControlName="dateOfJoining">
-                        </p-calendar>
-                    </div>
-                    <div class="field col-12 md:col-4">
-                        <label>Date Of Reliving:</label>
-                        <p-calendar [readonlyInput]="true" appendTo="body" [showIcon]="true" mask="99/99/9999"
-                            placeholder="Select Date Of Reliving" formControlName="dateOfReliving">
-                        </p-calendar>
-                    </div>
-                    <div class="field col-12 md:col-4">
-                        <label class="required">Country:</label>
-                        <p-dropdown id="projectName" appendTo="body" placeholder="Enter Country">
-                        </p-dropdown>
-                    </div>
-                    <div class="field col-12 md:col-4">
-                        <label class="required">State:</label>
-                        <p-dropdown id="projectName" appendTo="body" placeholder="Enter State"
-                            formControlName="stateId">
-                        </p-dropdown>
-                    </div>
-                </div>
+                </p-fieldset>
+                <br>
                 <!-- Applicant applicationSkills Details -->
-                <div class="p-fluid p-formgrid grid " formGroupName="applicationSkills">
-                    <div class="field col-12 md:col-4">
-                        <label class="required">Skill:</label>
-                        <p-dropdown id="projectName" appendTo="body" placeholder="Enter Skill"
-                            formControlName="skillId">
-                        </p-dropdown>
+                <p-fieldset legend="Application Skills" [toggleable]="true">
+                    <div class="p-fluid p-formgrid grid " formGroupName="applicationSkills">
+                        <div class="field col-12 md:col-4">
+                            <label class="required">Skill:</label>
+                            <p-dropdown id="projectName" appendTo="body" placeholder="Enter Skill"
+                                formControlName="skillId">
+                            </p-dropdown>
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label>Expertise:</label>
+                            <input type="text" id="inputtext" pInputText placeholder="Enter Expertise"
+                                formControlName="expertise" />
+                        </div>
                     </div>
-                    <div class="field col-12 md:col-4">
-                        <label>Expertise:</label>
-                        <input type="text" id="inputtext" pInputText placeholder="Enter Expertise"
-                            formControlName="expertise" />
-                    </div>
-                </div>
+                </p-fieldset>
+                <br>
                 <!-- Applicant applicationSkills Details -->
-                <div class="p-fluid p-formgrid grid " formGroupName="applicantLanguageSkills">
-                    <div class="field col-12 md:col-4">
-                        <label class="required">Language:</label>
-                        <p-dropdown id="projectName" appendTo="body" placeholder="Enter Language"
-                            formControlName="languageId">
-                        </p-dropdown>
+                <p-fieldset legend="Applicant Language Skills" [toggleable]="true">
+                    <div class="p-fluid p-formgrid grid " formGroupName="applicantLanguageSkills">
+                        <div class="field col-12 md:col-4">
+                            <label class="required">Language:</label>
+                            <p-dropdown id="projectName" appendTo="body" placeholder="Enter Language"
+                                formControlName="languageId">
+                            </p-dropdown>
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label class="required">Can Read:</label>
+                            <p-inputSwitch formControlName="canRead"></p-inputSwitch>
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label class="required">Can Write:</label>
+                            <p-inputSwitch formControlName="canWrite"></p-inputSwitch>
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label class="required">Can Speak:</label>
+                            <p-inputSwitch formControlName="canSpeak"></p-inputSwitch>
+                        </div>
                     </div>
-                    <div class="field col-12 md:col-4">
-                        <label class="required">Can Read:</label>
-                        <p-inputSwitch formControlName="canRead"></p-inputSwitch>
-                    </div>
-                    <div class="field col-12 md:col-4">
-                        <label class="required">Can Write:</label>
-                        <p-inputSwitch formControlName="canWrite"></p-inputSwitch>
-                    </div>
-                    <div class="field col-12 md:col-4">
-                        <label class="required">Can Speak:</label>
-                        <p-inputSwitch formControlName="canSpeak"></p-inputSwitch>
-                    </div>
-                </div>
+                </p-fieldset>
             </div>
         </div>
     </form>
