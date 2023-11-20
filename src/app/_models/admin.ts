@@ -268,3 +268,42 @@ export class SoftSkills {
     JobOpeningId?: number;
     SoftSkillId?: number;
 }
+
+export class ApplicantCertificationDto{
+    certificationId?:number;
+    applicantId?:number;
+    certificateId?:number;
+    institutionName?:string;
+    yearOfCompletion?:Date;
+    results?:string;
+}
+
+export class ApplicantExperienceDto{
+    experienceId?:number;
+    applicantId?:number;
+    companyName?:string;
+    companyLocation?:string;
+    stateId?:number;
+    companyEmployeeId?:number;
+    designationId?:number;
+    natureOfWork?:string;
+    workedOnProjects?:string;
+    dateOfJoining?:Date;
+    dateOfReliving?:Date;
+}
+
+export class ApplicantSkillsDto{
+    applicationskillId?:number;
+    applicantId?:number;
+    skillId?:number;
+    expertise?:string;
+}
+
+export class ApplicantLanguageSkills{
+    applicaitonLanguageSkillId?:number;
+    applicantId?:number;
+    languageId?:number;
+    canRead?:boolean;
+    canWrite?:boolean;
+    canSpeak?:boolean;
+}

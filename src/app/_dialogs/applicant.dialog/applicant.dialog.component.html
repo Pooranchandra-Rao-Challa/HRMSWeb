@@ -110,178 +110,314 @@
                 <br>
                 <!-- Applicant Education Details -->
                 <p-fieldset legend="Education" [toggleable]="true">
-                    <div class="p-fluid p-formgrid grid " formGroupName="education">
-                        <div class="field col-12 md:col-4">
-                            <label>Institute Name:</label>
-                            <input type="text" id="inputtext" pInputText formControlName="institutionName"
-                                placeholder="Enter Institute Name" />
-                        </div>
-                        <div class="field col-12 md:col-4">
-                            <label class="required">Authority Name:</label>
-                            <input type="text" id="inputtext" pInputText placeholder="Enter Authority Name"
-                                formControlName="authorityName" />
-                        </div>
-                        <div class="field col-12 md:col-4">
-                            <label class="required">Stream:</label>
-                            <p-dropdown id="projectName" appendTo="body" formControlName="streamId"
-                                placeholder="Enter Stream">
-                            </p-dropdown>
-                        </div>
-                        <div class="field col-12 md:col-4">
-                            <label class="required">Country:</label>
-                            <p-dropdown id="projectName" appendTo="body" placeholder="Enter Country">
-                            </p-dropdown>
-                        </div>
-                        <div class="field col-12 md:col-4">
-                            <label class="required">State:</label>
-                            <p-dropdown id="projectName" appendTo="body" formControlName="stateId"
-                                placeholder="Enter State">
-                            </p-dropdown>
-                        </div>
-                        <div class="field col-12 md:col-4">
-                            <label class="required">Year Of Completion:</label>
-                            <input type="text" id="inputtext" pInputText placeholder="Enter Year Of Completion"
-                                formControlName="yearOfCompletion" />
-                        </div>
-                        <div class="field col-12 md:col-4">
-                            <label class="required">Grading Method:</label>
-                            <p-dropdown id="projectName" appendTo="body" placeholder="Enter Grading Method"
-                                formControlName="gradingMethodId">
-                            </p-dropdown>
-                        </div>
-                        <div class="field col-12 md:col-4">
-                            <label class="required">Grading Value:</label>
-                            <input type="text" id="inputtext" pInputText placeholder="Enter Grading Value"
-                                formControlName="gradingValue" />
-                        </div>
+                    <div class="text-right">
+                        <button pButton pRipple class="mb-3 pi pi-plus"
+                            (click)="addApplicantEducationDetails()"></button>
+                    </div>
+                    <div class="scrolling_content" formArrayName="applicantEducationDetails" formGroupName="education">
+                        <p-table #dt2 [value]="faApplicantEducationDetails().controls" dataKey="id" [rows]="10"
+                            [rowHover]="true" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
+                            [paginator]="false" [autoLayout]="true" responsiveLayout="scroll"
+                            [rowsPerPageOptions]="[10,25,50]" [scrollable]="true" scrollDirection="vertical"
+                            scrollHeight="300px">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>Stream </th>
+                                    <th>Institution Name </th>
+                                    <th>Authority Name </th>
+                                    <th>Year Of Completion</th>
+                                    <th>Grading Method</th>
+                                    <th>Grading Value </th>
+                                    <th>State</th>
+                                    <th>Country</th>
+                                    <th *ngIf="fbApplicant.controls['applicantEducationDetails'].value.length > 1"></th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-educaitonDetailsIndex="rowIndex">
+                                <tr [formGroupName]="educaitonDetailsIndex">
+                                    <td class="vertical-align-top">
+                                        <p-dropdown id="projectName" appendTo="body" formControlName="streamId"
+                                            placeholder="Enter Stream">
+                                        </p-dropdown>
+                                    </td>
+                                    <td class="vertical-align-top">
+                                        <input type="text" id="inputtext" pInputText formControlName="institutionName"
+                                            placeholder="Enter Institute Name" />
+                                    </td>
+                                    <td class="vertical-align-top">
+                                        <input type="text" id="inputtext" pInputText placeholder="Enter Authority Name"
+                                            formControlName="authorityName" />
+                                    </td>
+                                    <td class="vertical-align-top">
+                                        <input type="text" id="inputtext" pInputText
+                                            placeholder="Enter Year Of Completion" formControlName="yearOfCompletion" />
+                                    </td>
+                                    <td class="vertical-align-top">
+                                        <p-dropdown id="projectName" appendTo="body" placeholder="Enter Grading Method"
+                                            formControlName="gradingMethodId">
+                                        </p-dropdown>
+                                    </td>
+                                    <td class="vertical-align-top">
+                                        <input type="text" id="inputtext" pInputText placeholder="Enter Grading Value"
+                                            formControlName="gradingValue" />
+                                    </td>
+                                    <td class="vertical-align-top">
+                                        <p-dropdown id="projectName" appendTo="body" placeholder="Enter Country">
+                                        </p-dropdown>
+                                    </td>
+                                    <td class="vertical-align-top">
+                                        <p-dropdown id="projectName" appendTo="body" formControlName="stateId"
+                                            placeholder="Enter State">
+                                        </p-dropdown>
+                                    </td>
+                                    <td *ngIf="fbApplicant.controls['applicantEducationDetails'].value.length > 1">
+                                        <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer"
+                                            *ngIf="!this.faApplicantEducationDetails().controls[educaitonDetailsIndex].get('educationId')?.value"
+                                            (click)="  faApplicantEducationDetails().removeAt(educaitonDetailsIndex)"></i>
+                                        <i class="pi pi-fw pi-verified text-3xl"
+                                            *ngIf="this.faApplicantEducationDetails().controls[educaitonDetailsIndex].get('educationId')?.value"></i>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
                     </div>
                 </p-fieldset>
                 <br>
                 <!-- Applicant Certification Details -->
                 <p-fieldset legend="Certification" [toggleable]="true">
-                    <div class="p-fluid p-formgrid grid " formGroupName="certification">
-                        <div class="field col-12 md:col-4">
-                            <label class="required">Institute Name:</label>
-                            <input type="text" id="inputtext" pInputText placeholder="Enter Institute Name"
-                                formControlName="institutionName" />
-                        </div>
-                        <div class="field col-12 md:col-4">
-                            <label class="required">Grading Method:</label>
-                            <p-dropdown id="projectName" appendTo="body" placeholder="Enter Year Of Completion"
-                                formControlName="yearOfCompletion">
-                            </p-dropdown>
-                        </div>
-                        <div class="field col-12 md:col-4">
-                            <label>Year Of Completion:</label>
-                            <input type="text" id="inputtext" pInputText placeholder="Enter Year Of Completion"
-                                formControlName="yearOfCompletion" />
-                        </div>
-                        <div class="field col-12 md:col-4">
-                            <label class="required">Results:</label>
-                            <input type="text" id="inputtext" pInputText placeholder="Enter Results"
-                                formControlName="results" />
-                        </div>
+                    <div class="text-right">
+                        <button pButton pRipple class="mb-3 pi pi-plus"
+                            (click)="addApplicantCertificationDetails()"></button>
+                    </div>
+                    <div class=" scrolling_content" formArrayName="applicantCertificationDetails"
+                        formGroupName="certification">
+                        <p-table #dt2 [value]="faApplicantCertificationDetails().controls" dataKey="id" [rows]="10"
+                            [rowHover]="true" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
+                            [paginator]="false" [autoLayout]="true" responsiveLayout="scroll"
+                            [rowsPerPageOptions]="[10,25,50]" [scrollable]="true" scrollDirection="vertical"
+                            scrollHeight="300px">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>Institution Name </th>
+                                    <th>Year Of Completion</th>
+                                    <th>Results</th>
+                                    <th *ngIf="fbApplicant.controls['applicantCertificationDetails'].value.length > 1">
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-certificationDetailsIndex="rowIndex">
+                                <tr [formGroupName]="certificationDetailsIndex">
+                                    <td class="vertical-align-top">
+                                        <input type="text" id="inputtext" pInputText placeholder="Enter Institute Name"
+                                            formControlName="institutionName" />
+                                    </td>
+                                    <td class="vertical-align-top">
+                                        <p-calendar [readonlyInput]="true" placeholder="Select Year Of Completion"
+                                            appendTo="body" [showIcon]="true" mask="99/99/9999"
+                                            formControlName="yearOfCompletion">
+                                        </p-calendar>
+                                    </td>
+                                    <td class="vertical-align-top">
+                                        <input type="text" id="inputtext" pInputText placeholder="Enter Results"
+                                            formControlName="results" />
+                                    </td>
+                                    <td *ngIf="fbApplicant.controls['applicantCertificationDetails'].value.length > 1">
+                                        <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer"
+                                            *ngIf="!this.faApplicantCertificationDetails().controls[certificationDetailsIndex].get('certificationId')?.value"
+                                            (click)="  faApplicantCertificationDetails().removeAt(certificationDetailsIndex)"></i>
+                                        <i class="pi pi-fw pi-verified text-3xl"
+                                            *ngIf="this.faApplicantCertificationDetails().controls[certificationDetailsIndex].get('certificationId')?.value"></i>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
                     </div>
                 </p-fieldset>
                 <br>
                 <!-- Applicant Experience Details -->
                 <p-fieldset legend="Experience" [toggleable]="true">
-                    <div class="p-fluid p-formgrid grid " formGroupName="experience">
-                        <div class="field col-12 md:col-4">
-                            <label class="required">Company Name:</label>
-                            <input type="text" id="inputtext" pInputText placeholder="Enter Company Name"
-                                formControlName="companyName" />
-                        </div>
-                        <div class="field col-12 md:col-4">
-                            <label>Company Location:</label>
-                            <input type="text" id="inputtext" pInputText placeholder="Enter Company Location"
-                                formControlName="companyLocation" />
-                        </div>
-                        <div class="field col-12 md:col-4">
-                            <label>Company Employee Id:</label>
-                            <input type="text" id="inputtext" pInputText placeholder="Enter Company Employee Id"
-                                formControlName="companyEmployeeId" />
-                        </div>
-                        <div class="field col-12 md:col-4">
-                            <label class="required">Designation:</label>
-                            <p-dropdown id="projectName" appendTo="body" placeholder="Enter Designation"
-                                formControlName="designationId">
-                            </p-dropdown>
-                        </div>
-                        <div class="field col-12 md:col-4">
-                            <label>Nature Of Work:</label>
-                            <input type="text" id="inputtext" pInputText placeholder="Enter Nature of Work"
-                                formControlName="natureOfWork" />
-                        </div>
-                        <div class="field col-12 md:col-4">
-                            <label>Worked On Projects:</label>
-                            <input type="text" id="inputtext" pInputText placeholder="Enter Worked On Projects"
-                                formControlName="workedOnProjects" />
-                        </div>
-                        <div class="field col-12 md:col-4">
-                            <label>Date Of Joining:</label>
-                            <p-calendar [readonlyInput]="true" appendTo="body" [showIcon]="true" mask="99/99/9999"
-                                placeholder="Select Date Of Joining" formControlName="dateOfJoining">
-                            </p-calendar>
-                        </div>
-                        <div class="field col-12 md:col-4">
-                            <label>Date Of Reliving:</label>
-                            <p-calendar [readonlyInput]="true" appendTo="body" [showIcon]="true" mask="99/99/9999"
-                                placeholder="Select Date Of Reliving" formControlName="dateOfReliving">
-                            </p-calendar>
-                        </div>
-                        <div class="field col-12 md:col-4">
-                            <label class="required">Country:</label>
-                            <p-dropdown id="projectName" appendTo="body" placeholder="Enter Country">
-                            </p-dropdown>
-                        </div>
-                        <div class="field col-12 md:col-4">
-                            <label class="required">State:</label>
-                            <p-dropdown id="projectName" appendTo="body" placeholder="Enter State"
-                                formControlName="stateId">
-                            </p-dropdown>
-                        </div>
+                    <div class="text-right">
+                        <button pButton pRipple class="mb-3 pi pi-plus"
+                            (click)="addApplicantExperienceDetails()"></button>
+                    </div>
+                    <div class=" scrolling_content" formArrayName="applicantExperienceDetails"
+                        formGroupName="experience">
+                        <p-table #dt2 [value]="faApplicantExperienceDetails().controls" dataKey="id" [rows]="10"
+                            [rowHover]="true" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
+                            [paginator]="false" [autoLayout]="true" responsiveLayout="scroll"
+                            [rowsPerPageOptions]="[10,25,50]" [scrollable]="true" scrollDirection="vertical"
+                            scrollHeight="300px">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>Company Name</th>
+                                    <th>Company Location</th>
+                                    <th>Company Employee Id</th>
+                                    <th>Designation</th>
+                                    <th>Nature Of Work</th>
+                                    <th>Worked On Projects</th>
+                                    <th>Date Of Joining</th>
+                                    <th>Date Of Reliving</th>
+                                    <th>Country</th>
+                                    <th>State</th>
+                                    <th *ngIf="fbApplicant.controls['applicantExperienceDetails'].value.length > 1">
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-experienceDetailsIndex="rowIndex">
+                                <tr [formGroupName]="experienceDetailsIndex">
+                                    <td class="vertical-align-top">
+                                        <input type="text" id="inputtext" pInputText placeholder="Enter Company Name"
+                                            formControlName="companyName" />
+                                    </td>
+                                    <td class="vertical-align-top">
+                                        <input type="text" id="inputtext" pInputText
+                                            placeholder="Enter Company Location" formControlName="companyLocation" />
+                                    </td>
+                                    <td class="vertical-align-top">
+                                        <input type="text" id="inputtext" pInputText
+                                            placeholder="Enter Company Employee Id"
+                                            formControlName="companyEmployeeId" />
+                                    </td>
+                                    <td class="vertical-align-top">
+                                        <p-dropdown id="projectName" appendTo="body" placeholder="Enter Designation"
+                                            formControlName="designationId">
+                                        </p-dropdown>
+                                    </td>
+                                    <td class="vertical-align-top">
+                                        <input type="text" id="inputtext" pInputText placeholder="Enter Nature of Work"
+                                            formControlName="natureOfWork" />
+                                    </td>
+                                    <td class="vertical-align-top">
+                                        <input type="text" id="inputtext" pInputText
+                                            placeholder="Enter Worked On Projects" formControlName="workedOnProjects" />
+                                    </td>
+                                    <td class="vertical-align-top">
+                                        <p-calendar [readonlyInput]="true" appendTo="body" [showIcon]="true"
+                                            mask="99/99/9999" placeholder="Select Date Of Joining"
+                                            formControlName="dateOfJoining">
+                                        </p-calendar>
+                                    </td>
+                                    <td class="vertical-align-top">
+                                        <p-calendar [readonlyInput]="true" appendTo="body" [showIcon]="true"
+                                            mask="99/99/9999" placeholder="Select Date Of Reliving"
+                                            formControlName="dateOfReliving">
+                                        </p-calendar>
+                                    </td>
+                                    <td class="vertical-align-top">
+                                        <p-dropdown id="projectName" appendTo="body" placeholder="Enter Country">
+                                        </p-dropdown>
+                                    </td>
+                                    <td class="vertical-align-top">
+                                        <p-dropdown id="projectName" appendTo="body" placeholder="Enter State"
+                                            formControlName="stateId">
+                                        </p-dropdown>
+                                    </td>
+                                    <td *ngIf="fbApplicant.controls['applicantExperienceDetails'].value.length > 1">
+                                        <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer"
+                                            *ngIf="!this.faApplicantExperienceDetails().controls[experienceDetailsIndex].get('experienceId')?.value"
+                                            (click)="  faApplicantExperienceDetails().removeAt(experienceDetailsIndex)"></i>
+                                        <i class="pi pi-fw pi-verified text-3xl"
+                                            *ngIf="this.faApplicantExperienceDetails().controls[experienceDetailsIndex].get('experienceId')?.value"></i>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
                     </div>
                 </p-fieldset>
                 <br>
                 <!-- Applicant applicationSkills Details -->
                 <p-fieldset legend="Application Skills" [toggleable]="true">
-                    <div class="p-fluid p-formgrid grid " formGroupName="applicationSkills">
-                        <div class="field col-12 md:col-4">
-                            <label class="required">Skill:</label>
-                            <p-dropdown id="projectName" appendTo="body" placeholder="Enter Skill"
-                                formControlName="skillId">
-                            </p-dropdown>
-                        </div>
-                        <div class="field col-12 md:col-4">
-                            <label>Expertise:</label>
-                            <input type="text" id="inputtext" pInputText placeholder="Enter Expertise"
-                                formControlName="expertise" />
-                        </div>
+                    <div class="text-right">
+                        <button pButton pRipple class="mb-3 pi pi-plus" (click)="addApplicantSkillsDetails()"></button>
+                    </div>
+                    <div class=" scrolling_content" formArrayName="applicantSkillsDetails"
+                        formGroupName="applicationSkills">
+                        <p-table #dt2 [value]="faApplicantSkillsDetails().controls" dataKey="id" [rows]="10"
+                            [rowHover]="true" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
+                            [paginator]="false" [autoLayout]="true" responsiveLayout="scroll"
+                            [rowsPerPageOptions]="[10,25,50]" [scrollable]="true" scrollDirection="vertical"
+                            scrollHeight="300px">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>Skills</th>
+                                    <th>Expertise</th>
+                                    <th *ngIf="fbApplicant.controls['applicantSkillsDetails'].value.length > 1">
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-applicantSkillsDetailsIndex="rowIndex">
+                                <tr [formGroupName]="applicantSkillsDetailsIndex">
+                                    <td class="vertical-align-top">
+                                        <p-dropdown id="projectName" appendTo="body" placeholder="Enter Skill"
+                                            formControlName="skillId">
+                                        </p-dropdown>
+                                    </td>
+                                    <td class="vertical-align-top">
+                                        <input type="text" id="inputtext" pInputText placeholder="Enter Expertise"
+                                            formControlName="expertise" />
+                                    </td>
+                                    <td *ngIf="fbApplicant.controls['applicantSkillsDetails'].value.length > 1">
+                                        <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer"
+                                            *ngIf="!this.faApplicantSkillsDetails().controls[applicantSkillsDetailsIndex].get('applicationskillId')?.value"
+                                            (click)="  faApplicantSkillsDetails().removeAt(applicantSkillsDetailsIndex)"></i>
+                                        <i class="pi pi-fw pi-verified text-3xl"
+                                            *ngIf="this.faApplicantSkillsDetails().controls[applicantSkillsDetailsIndex].get('applicationskillId')?.value"></i>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
                     </div>
                 </p-fieldset>
                 <br>
                 <!-- Applicant applicationSkills Details -->
                 <p-fieldset legend="Applicant Language Skills" [toggleable]="true">
-                    <div class="p-fluid p-formgrid grid " formGroupName="applicantLanguageSkills">
-                        <div class="field col-12 md:col-4">
-                            <label class="required">Language:</label>
-                            <p-dropdown id="projectName" appendTo="body" placeholder="Enter Language"
-                                formControlName="languageId">
-                            </p-dropdown>
-                        </div>
-                        <div class="field col-12 md:col-4">
-                            <label class="required">Can Read:</label>
-                            <p-inputSwitch formControlName="canRead"></p-inputSwitch>
-                        </div>
-                        <div class="field col-12 md:col-4">
-                            <label class="required">Can Write:</label>
-                            <p-inputSwitch formControlName="canWrite"></p-inputSwitch>
-                        </div>
-                        <div class="field col-12 md:col-4">
-                            <label class="required">Can Speak:</label>
-                            <p-inputSwitch formControlName="canSpeak"></p-inputSwitch>
-                        </div>
+                    <div class="text-right">
+                        <button pButton pRipple class="mb-3 pi pi-plus"
+                            (click)="addApplicantLanguageSkillsDetails()"></button>
+                    </div>
+                    <div class=" scrolling_content" formArrayName="applicantLanguageSkillsDetails"
+                        formGroupName="applicantLanguageSkills">
+                        <p-table #dt2 [value]="faApplicantLanguageSkillsDetails().controls" dataKey="id" [rows]="10"
+                            [rowHover]="true" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
+                            [paginator]="false" [autoLayout]="true" responsiveLayout="scroll"
+                            [rowsPerPageOptions]="[10,25,50]" [scrollable]="true" scrollDirection="vertical"
+                            scrollHeight="300px">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>Language</th>
+                                    <th>Can Read</th>
+                                    <th>Can Write</th>
+                                    <th>Can Speak</th>
+                                    <th *ngIf="fbApplicant.controls['applicantLanguageSkillsDetails'].value.length > 1">
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-applicantLanguageSkillsDetailsIndex="rowIndex">
+                                <tr [formGroupName]="applicantLanguageSkillsDetailsIndex">
+                                    <td class="vertical-align-top">
+                                        <p-dropdown id="projectName" appendTo="body" placeholder="Enter Language"
+                                            formControlName="languageId">
+                                        </p-dropdown>
+                                    </td>
+                                    <td class="vertical-align-top" [ngClass]="'canRead' ? 'text-center' : ''">
+                                        <p-checkbox [binary]="true" formControlName="canRead"></p-checkbox>
+                                    </td>
+                                    <td class="vertical-align-top" [ngClass]="'canWrite' ? 'text-center' : ''">
+                                        <p-checkbox [binary]="true" formControlName="canWrite"></p-checkbox>
+                                    </td>
+                                    <td class="vertical-align-top" [ngClass]="'canSpeak' ? 'text-center' : ''">
+                                        <p-checkbox [binary]="true" formControlName="canSpeak"></p-checkbox>
+                                    </td>
+                                    <td *ngIf="fbApplicant.controls['applicantLanguageSkillsDetails'].value.length > 1">
+                                        <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer"
+                                            *ngIf="!this.faApplicantLanguageSkillsDetails().controls[applicantLanguageSkillsDetailsIndex].get('applicationskillId')?.value"
+                                            (click)="  faApplicantLanguageSkillsDetails().removeAt(applicantLanguageSkillsDetailsIndex)"></i>
+                                        <i class="pi pi-fw pi-verified text-3xl"
+                                            *ngIf="this.faApplicantLanguageSkillsDetails().controls[applicantLanguageSkillsDetailsIndex].get('applicationskillId')?.value"></i>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
                     </div>
                 </p-fieldset>
             </div>
