@@ -15,6 +15,7 @@ import { DownloadNotification } from 'src/app/_services/notifier.services';
 import { ProjectNotification } from 'src/app/_services/projectnotification.service';
 import { DatePipe } from '@angular/common';
 import { ValidateFileThenUpload } from 'src/app/_validators/upload.validators';
+import { ThisReceiver } from '@angular/compiler';
 interface AutoCompleteCompleteEvent {
     originalEvent: Event;
     query: string;
@@ -238,17 +239,28 @@ export class ProjectComponent implements OnInit {
         if (this.projectDetails[item.name.toLowerCase()] !== null && this.projectDetails[item.name.toLowerCase()] !== undefined)
             return true;
 
+        // Check if 'AMC' is defined and the current item is 'Suspended'
+        if (this.projectDetails['amc'] !== null && item.name === 'Suspended') 
+            return false; // Do not disable the radio button
+        
         // If the radio button is in 'Completed' state, enable 'AMC'
         if (item.name === 'AMC' && completedNotNull)
             return false;
+
 
         // If the radio button is in 'Completed' state and the option is 'Suspended', disable it
         if (item.name === 'Suspended' && completedNotNull)
             return true;
 
+        // Check if 'Suspended' is defined and the radio button is 'Completed'
+        if (this.projectDetails['Suspended'] !== null && item.name === 'Completed') {
+            return true;
+        }
+
         // If 'Initial' is defined and the radio button is 'Completed' disable if 'Working' is not defined
         if (this.projectDetails['initial'] !== null && item.name === 'Completed' && !workingNotNull)
             return true;
+
 
         // If 'Working' is defined, 'Completed' is not defined, and the radio button is 'AMC' or 'Initial', disable
         if (workingNotNull && !completedNotNull && (item.name === 'AMC' || item.name === 'Initial'))
@@ -311,10 +323,7 @@ export class ProjectComponent implements OnInit {
         this.fbproject.get('clients').patchValue({
             clientId: project.clientId,
             isActive: project.clientIsActive,
-            companyName: {
-                companyName: project.companyName,
-                clientId: project.clientId
-            },
+            companyName: {companyName: project.companyName},
             Name: project.clientName,
             email: project.email,
             mobileNumber: project.mobileNumber,
@@ -381,6 +390,7 @@ export class ProjectComponent implements OnInit {
             Date: FORMAT_DATE(new Date(this.fbproject.get('Date').value)),
         };
         this.fbproject.get('projectStatuses').setValue([newProjectStatus]);
+
         if (this.fbproject.valid) {
             if (this.addFlag) {
                 if (this.isUniqueProjectCode()) {
@@ -403,7 +413,7 @@ export class ProjectComponent implements OnInit {
         }
     }
 
-    getSelectedItemName(item: { clientId: number; companyName: string }) {
+    getSelectedItemName(item: {companyName: string }) {
         this.fcClientDetails.get('companyName')?.setValue(item.companyName);
     }
 
