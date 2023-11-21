@@ -90,13 +90,15 @@
                         </div>
                         <div class="field col-12 md:col-4">
                             <label for="singleFile"
-                                class="p-element p-ripple p-button-raised p-button-primary p-button p-component">
-                                <i class="pi pi-paperclip"></i> Attach File
+                                   class="p-element p-ripple p-button-raised p-button-primary p-button p-component">
+                              <i class="pi pi-paperclip"></i> Attach File
+                              <span *ngIf="selectedFileName"> - {{ selectedFileName }}</span>
                             </label>
                             <input id="singleFile" #fileUpload name="myFile" [accept]="fileTypes" type="file"
-                                [disabled]="!this.fbApplicant.valid" hidden="true" (click)="onClick()"
-                                formControlName="resumeUrl" />
-                        </div>
+                                   [disabled]="!this.fbApplicant.valid" hidden="true" (change)="onFileChange($event)"
+                                   formControlName="resumeUrl" />
+                          </div>
+                          
                         <div class="field col-12 md:col-4">
                             <label class="required">Is Fresher:</label>
                             <p-inputSwitch formControlName="isFresher"></p-inputSwitch>
