@@ -1,7 +1,23 @@
 <div class=" align-items-center justify-content-center">
     <form [formGroup]="fbApplicant">
         <div class="grid  p-5 content_scroll">
-            <div class="col-12 roles-container ">
+            <div class="field col-12 md:col-8">
+                <label for="singleFile"
+                        class="p-element p-ripple p-button-raised p-button-primary p-button p-component upload-doc">
+                    <i class="pi pi-paperclip"></i> Upload Resume &nbsp; <span *ngIf="selectedFileName"> - {{ selectedFileName }}</span> <br/>
+                    *Doc, Docx, PDF (Max file size- 6MB)
+                  
+                    
+                </label>
+                <input id="singleFile" #fileUpload name="myFile" [accept]="fileTypes" type="file"
+                        [disabled]="!this.fbApplicant.valid" hidden="true" (change)="onFileChange($event)"
+                    formControlName="resumeUrl" />
+            </div>
+            <div class="field col-12 md:col-4">
+                <button pButton pRipple type="submit" label="Pre-Fill Application " class=" p-button-outlined p-button-primary mt-3 w-100" ></button>
+
+            </div>
+            <div class="col-12 roles-container "> 
                 <p-fieldset legend="Applicant" [toggleable]="true">
                     <div class="p-fluid p-formgrid grid ">
                         <div class="field col-12 md:col-4">
