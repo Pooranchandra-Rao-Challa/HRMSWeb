@@ -132,14 +132,14 @@
                             scrollHeight="300px">
                             <ng-template pTemplate="header">
                                 <tr>
-                                    <th>Stream </th>
-                                    <th>Institution Name </th>
-                                    <th>Authority Name </th>
-                                    <th>Year Of Completion</th>
-                                    <th>Grading Method</th>
-                                    <th>Grading Value </th>
-                                    <th>State</th>
-                                    <th>Country</th>
+                                    <th class="text-center">Stream </th>
+                                    <th class="text-center">Institution Name </th>
+                                    <th class="text-center">Authority Name </th>
+                                    <th class="text-center">Year Of Completion</th>
+                                    <th class="text-center">Grading Method</th>
+                                    <th class="text-center">Grading Value </th>
+                                    <th class="text-center">State</th>
+                                    <th class="text-center">Country</th>
                                     <th *ngIf="fbApplicant.controls['applicantEducationDetails'].value.length > 1"></th>
                                 </tr>
                             </ng-template>
@@ -208,9 +208,9 @@
                             scrollHeight="300px">
                             <ng-template pTemplate="header">
                                 <tr>
-                                    <th>Institution Name </th>
-                                    <th>Year Of Completion</th>
-                                    <th>Results</th>
+                                    <th class="text-center">Institution Name </th>
+                                    <th class="text-center">Year Of Completion</th>
+                                    <th class="text-center">Results</th>
                                     <th *ngIf="fbApplicant.controls['applicantCertificationDetails'].value.length > 1">
                                     </th>
                                 </tr>
@@ -259,16 +259,16 @@
                             scrollHeight="300px">
                             <ng-template pTemplate="header">
                                 <tr>
-                                    <th>Company Name</th>
-                                    <th>Company Location</th>
-                                    <th>Company Employee Id</th>
-                                    <th>Designation</th>
-                                    <th>Nature Of Work</th>
-                                    <th>Worked On Projects</th>
-                                    <th>Date Of Joining</th>
-                                    <th>Date Of Reliving</th>
-                                    <th>Country</th>
-                                    <th>State</th>
+                                    <th class="text-center">Company Name</th>
+                                    <th class="text-center">Company Location</th>
+                                    <th class="text-center">Company Employee Id</th>
+                                    <th class="text-center">Designation</th>
+                                    <th class="text-center">Nature Of Work</th>
+                                    <th class="text-center">Worked On Projects</th>
+                                    <th class="text-center">Date Of Joining</th>
+                                    <th class="text-center">Date Of Reliving</th>
+                                    <th class="text-center">Country</th>
+                                    <th class="text-center">State</th>
                                     <th *ngIf="fbApplicant.controls['applicantExperienceDetails'].value.length > 1">
                                     </th>
                                 </tr>
@@ -349,8 +349,8 @@
                             scrollHeight="300px">
                             <ng-template pTemplate="header">
                                 <tr>
-                                    <th>Skills</th>
-                                    <th>Expertise</th>
+                                    <th  class="text-center">Skills</th>
+                                    <th class="text-center">Expertise</th>
                                     <th *ngIf="fbApplicant.controls['applicantSkillsDetails'].value.length > 1">
                                     </th>
                                 </tr>
@@ -362,7 +362,7 @@
                                             formControlName="skillId" [style]="{'width':'100%'}">
                                         </p-dropdown>
                                     </td>
-                                    <td class="vertical-align-top pt-3">
+                                    <td class="vertical-align-top pt-3 text-center" >
                                         <p-rating number="3" [cancel]="false" class=""> </p-rating>
                                     </td>
                                     <td *ngIf="fbApplicant.controls['applicantSkillsDetails'].value.length > 1">
@@ -393,10 +393,10 @@
                             scrollHeight="300px">
                             <ng-template pTemplate="header">
                                 <tr>
-                                    <th>Language</th>
-                                    <th>Can Read</th>
-                                    <th>Can Write</th>
-                                    <th>Can Speak</th>
+                                    <th class="text-center">Language</th>
+                                    <th class="text-center">Can Read</th>
+                                    <th class="text-center">Can Write</th>
+                                    <th class="text-center">Can Speak</th>
                                     <th *ngIf="fbApplicant.controls['applicantLanguageSkillsDetails'].value.length > 1">
                                     </th>
                                 </tr>
