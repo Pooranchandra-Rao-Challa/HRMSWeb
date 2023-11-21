@@ -16,6 +16,7 @@ import { DownloadNotification, OrgChartDataNotification,NodeDropNotifier } from 
 import { DatePipe } from '@angular/common';
 import { ValidateFileThenUpload } from 'src/app/_validators/upload.validators';
 import { D3OrgChartComponent } from './d3-org-chart/d3-org-chart.component';
+import { ThisReceiver } from '@angular/compiler';
 interface AutoCompleteCompleteEvent {
     originalEvent: Event;
     query: string;
@@ -151,6 +152,8 @@ export class ProjectComponent implements OnInit {
             startDate: new FormControl('', [Validators.required]),
             description: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
             logo: [],
+            eProjectStatusesId: ['', [Validators.required]],
+            Date: new FormControl('', [Validators.required]),
             clients: this.formbuilder.group({
                 clientId: [],
                 isActive: [true, [Validators.required]],
@@ -163,12 +166,7 @@ export class ProjectComponent implements OnInit {
                 pocMobileNumber: new FormControl('', [Validators.required, Validators.pattern(RG_PHONE_NO)]),
                 address: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
             }),
-
-            projectStatuses: this.formbuilder.array<ProjectStatus>([]),
-            initialStatus: this.formbuilder.group({
-                eProjectStatusesId: ['', [Validators.required]],
-                Date: new FormControl('', [Validators.required]),
-            }),
+            projectStatuses: new FormControl([]),
             projectAllotments: new FormControl([])
         });
     }
@@ -261,11 +259,13 @@ export class ProjectComponent implements OnInit {
         if (initialNotDefined)
             return item.name !== 'Initial';
 
-
         // If the radio button has a value in projectDetails, disable it
         if (this.projectDetails[item.name.toLowerCase()] !== null && this.projectDetails[item.name.toLowerCase()] !== undefined)
             return true;
 
+        // Check if 'AMC' is defined and the current item is 'Suspended'
+        if (this.projectDetails['amc'] !== null && item.name === 'Suspended')
+            return false; // Do not disable the radio button
 
         // If the radio button is in 'Completed' state, enable 'AMC'
         if (item.name === 'AMC' && completedNotNull)
@@ -276,6 +276,10 @@ export class ProjectComponent implements OnInit {
         if (item.name === 'Suspended' && completedNotNull)
             return true;
 
+        // Check if 'Suspended' is defined and the radio button is 'Completed'
+        if (this.projectDetails['Suspended'] !== null && item.name === 'Completed') {
+            return true;
+        }
 
         // If 'Initial' is defined and the radio button is 'Completed' disable if 'Working' is not defined
         if (this.projectDetails['initial'] !== null && item.name === 'Completed' && !workingNotNull)
@@ -292,7 +296,7 @@ export class ProjectComponent implements OnInit {
 
     onRadioButtonChange(item: any) {
         if (this.projectDetails[item.name.toLowerCase()] === null || this.projectDetails[item.name.toLowerCase()] === undefined)
-            this.fcProjectStatus.get('Date').setValue('');
+            this.fbproject.get('Date').setValue('');
     }
 
     getProjectStatusBasedOnId(id?: number): any {
@@ -326,7 +330,8 @@ export class ProjectComponent implements OnInit {
     editEmployee(project) {
         this.addFlag = false;
         this.submitLabel = "Update Project Details";
-        this.projectDetails = project
+        this.projectDetails = project;
+        const date = this.projectStatues.filter(each => each.eProjectStatusesId === project.activeStatusId)
         this.fbproject.patchValue({
             clientId: project.clientId,
             projectId: project.projectId,
@@ -335,20 +340,14 @@ export class ProjectComponent implements OnInit {
             isActive: project.isActive,
             startDate: FORMAT_DATE(new Date(project.startDate)),
             logo: project.logo,
-            description: project.description
-        });
-        const date = this.projectStatues.filter(each => each.eProjectStatusesId === project.activeStatusId)
-        this.fbproject.get('initialStatus').patchValue({
+            description: project.description,
             eProjectStatusesId: project.activeStatusId,
             Date: FORMAT_DATE(new Date(project[date[0]?.name.toLowerCase()])),
         });
         this.fbproject.get('clients').patchValue({
             clientId: project.clientId,
             isActive: project.clientIsActive,
-            companyName: {
-                companyName: project.companyName,
-                clientId: project.clientId
-            },
+            companyName: {companyName: project.companyName},
             Name: project.clientName,
             email: project.email,
             mobileNumber: project.mobileNumber,
@@ -357,8 +356,6 @@ export class ProjectComponent implements OnInit {
             pocMobileNumber: project.pocMobileNumber,
             address: project.address,
         });
-
-        this.organizationData();
     }
 
     addEmployees(projectDetails: ProjectViewDto) {
@@ -384,7 +381,6 @@ export class ProjectComponent implements OnInit {
 
     saveProject() {
         this.fbproject.get('startDate').setValue(FORMAT_DATE(new Date(this.fbproject.get('startDate').value)));
-        // this.fcProjectStatus.get('Date').setValue(FORMAT_DATE(new Date(this.fcProjectStatus.get('Date').value)));
         if (this.addFlag) {
             if (this.clientDetails)
                 this.fcClientDetails.get('companyName')?.setValue(this.clientDetails.companyName);
@@ -413,7 +409,12 @@ export class ProjectComponent implements OnInit {
     }
 
     onSubmit() {
-        this.fbproject.get('projectStatuses').setValue([this.fbproject.get('initialStatus').value]);
+        const newProjectStatus = {
+            eProjectStatusesId: this.fbproject.get('eProjectStatusesId').value,
+            Date: FORMAT_DATE(new Date(this.fbproject.get('Date').value)),
+        };
+        this.fbproject.get('projectStatuses').setValue([newProjectStatus]);
+
         if (this.fbproject.valid) {
             if (this.addFlag) {
                 if (this.isUniqueProjectCode()) {
@@ -436,7 +437,7 @@ export class ProjectComponent implements OnInit {
         }
     }
 
-    getSelectedItemName(item: { clientId: number; companyName: string }) {
+    getSelectedItemName(item: {companyName: string }) {
         this.fcClientDetails.get('companyName')?.setValue(item.companyName);
     }
 
@@ -460,9 +461,6 @@ export class ProjectComponent implements OnInit {
     }
     get fcClientDetails() {
         return this.fbproject.get('clients') as FormGroup;
-    }
-    get fcProjectStatus() {
-        return this.fbproject.get('initialStatus') as FormGroup;
     }
 
     initClientNames() {

@@ -161,8 +161,8 @@
                     </tr>
                 </table>
                 <div class="flex flex-wrap gap-2 justify-content-between">
-                    <button pButton pRipple label="Accept" *ngIf="employeeleavedetails?.action === 'Approve'"
-                    (click)="openConfirmationAlert('Reason For Accept')"
+                    <button pButton pRipple label="Approve" *ngIf="employeeleavedetails?.action === 'Approve'"
+                    (click)="openConfirmationAlert('Reason For Approve')"
                         class="flex-auto"></button>
                     <button pButton pRipple label="Reject" *ngIf="employeeleavedetails?.action === 'Reject'"
                     (click)="openConfirmationAlert('Reason For Reject')"
