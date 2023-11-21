@@ -139,6 +139,8 @@ export class projectStatuses{
 }
 export class EmployeesList {
     employeeId: number
+    reportingToId: number;
+    photo: string;
     fullName: string
     code: string;
     designation: string;
