@@ -104,22 +104,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="field col-12 md:col-4">
-                            <label for="singleFile"
-                                   class="p-element p-ripple p-button-raised p-button-primary p-button p-component">
-                              <i class="pi pi-paperclip"></i> Attach File
-                              <span *ngIf="selectedFileName"> - {{ selectedFileName }}</span>
-                            </label>
-                            <input id="singleFile" #fileUpload name="myFile" [accept]="fileTypes" type="file"
-                                   [disabled]="!this.fbApplicant.valid" hidden="true" (change)="onFileChange($event)"
-                                   formControlName="resumeUrl" />
-                          </div>
+                      
                           
-                        <div class="field col-12 md:col-4">
-                            <label class="required">Is Fresher:</label>
+                        <div class="field col-12 md:col-2">
+                            <label class="required">Is Fresher:</label><br/>
                             <p-inputSwitch formControlName="isFresher"></p-inputSwitch>
                         </div>
-                        <div class="field col-12 md:col-4">
+                        <div class="field col-12 md:col-2">
                             <label class="required">Is Active:</label>
                             <p-inputSwitch formControlName="isActive"></p-inputSwitch>
                         </div>
@@ -132,7 +123,8 @@
                         <button pButton pRipple class="mb-3 pi pi-plus"
                             (click)="addApplicantEducationDetails()"></button>
                     </div>
-                    <div class="scrolling_content " formArrayName="applicantEducationDetails" formGroupName="education">
+
+                    <div class="scrolling_content col-12 " formArrayName="applicantEducationDetails" formGroupName="education">
                         <p-table #dt2 [value]="faApplicantEducationDetails().controls" dataKey="id" [rows]="10"
                             [rowHover]="true" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
                             [paginator]="false" [autoLayout]="true" responsiveLayout="scroll"
@@ -227,17 +219,17 @@
                                 <tr [formGroupName]="certificationDetailsIndex">
                                     <td class="vertical-align-top">
                                         <input type="text" id="inputtext" pInputText placeholder="Enter Institute Name"
-                                            formControlName="institutionName" />
+                                            formControlName="institutionName" [style]="{'width':'100%'}" />
                                     </td>
                                     <td class="vertical-align-top">
                                         <p-calendar [readonlyInput]="true" placeholder="Select Year Of Completion"
                                             appendTo="body" [showIcon]="true" mask="99/99/9999"
-                                            formControlName="yearOfCompletion">
+                                            formControlName="yearOfCompletion" [style]="{'width':'100%'}">
                                         </p-calendar>
                                     </td>
                                     <td class="vertical-align-top">
                                         <input type="text" id="inputtext" pInputText placeholder="Enter Results"
-                                            formControlName="results" />
+                                            formControlName="results" [style]="{'width':'100%'}" />
                                     </td>
                                     <td *ngIf="fbApplicant.controls['applicantCertificationDetails'].value.length > 1">
                                         <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer"
@@ -366,13 +358,12 @@
                             <ng-template pTemplate="body" let-applicantSkillsDetailsIndex="rowIndex">
                                 <tr [formGroupName]="applicantSkillsDetailsIndex">
                                     <td class="vertical-align-top">
-                                        <p-dropdown id="projectName" appendTo="body" placeholder="Enter Skill"
-                                            formControlName="skillId">
+                                        <p-dropdown id="projectName" appendTo="body" class="w-100" placeholder="Enter Skill"
+                                            formControlName="skillId" [style]="{'width':'100%'}">
                                         </p-dropdown>
                                     </td>
-                                    <td class="vertical-align-top">
-                                        <input type="text" id="inputtext" pInputText placeholder="Enter Expertise"
-                                            formControlName="expertise" />
+                                    <td class="vertical-align-top pt-3">
+                                        <p-rating number="3" [cancel]="false" class=""> </p-rating>
                                     </td>
                                     <td *ngIf="fbApplicant.controls['applicantSkillsDetails'].value.length > 1">
                                         <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer"
@@ -414,7 +405,7 @@
                                 <tr [formGroupName]="applicantLanguageSkillsDetailsIndex">
                                     <td class="vertical-align-top">
                                         <p-dropdown id="projectName" appendTo="body" placeholder="Enter Language"
-                                            formControlName="languageId">
+                                            formControlName="languageId" [style]="{'width':'100%'}">
                                         </p-dropdown>
                                     </td>
                                     <td class="vertical-align-top" [ngClass]="'canRead' ? 'text-center' : ''">
