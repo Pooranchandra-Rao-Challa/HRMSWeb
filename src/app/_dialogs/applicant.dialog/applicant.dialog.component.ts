@@ -24,6 +24,7 @@ export class ApplicantDialogComponent {
   empUploadDetails: { fileBlob: Blob, title: string, fileName: string }[] = [];
   @Output() ImageValidator = new EventEmitter<PhotoFileProperties>();
   fileTypes: string = ".pdf, .jpg, .jpeg, .png, .gif"
+  selectedFileName: string;
 
   constructor(private formbuilder: FormBuilder,) { }
 
@@ -218,21 +219,36 @@ export class ApplicantDialogComponent {
   (this.fbApplicant.get('applicantLanguageSkillsDetails') as FormArray).push(languageSkillsDetail);
   }
 
-  onClick() {
-    this.messageDisplayed = false;
-    const fileUpload = this.fileUpload.nativeElement;
-    fileUpload.onchange = () => {
-      if (this.empUploadDetails.length <= 4) {
-        if (this.fbApplicant.valid) {
-          for (let index = 0; index < fileUpload.files.length; index++) {
-            const file = fileUpload.files[index];
-            ValidateFileThenUpload(file, this.ImageValidator);
-          }
-        }
-        else
-          this.fbApplicant.markAllAsTouched();
+  onFileChange(event: Event) {
+    const fileUpload = event.target as HTMLInputElement;
+
+    if (fileUpload.files && fileUpload.files.length > 0) {
+      const file = fileUpload.files[0];
+      this.selectedFileName = file.name;
+
+      if (this.empUploadDetails.length <= 4 && this.fbApplicant.valid) {
+        ValidateFileThenUpload(file, this.ImageValidator);
+      } else {
+        this.fbApplicant.markAllAsTouched();
       }
     }
-    this.fileUpload.nativeElement.value = '';
   }
+  
+  // onClick() {
+  //   this.messageDisplayed = false;
+  //   const fileUpload = this.fileUpload.nativeElement;
+  //   fileUpload.onchange = () => {
+  //     if (this.empUploadDetails.length <= 4) {
+  //       if (this.fbApplicant.valid) {
+  //         for (let index = 0; index < fileUpload.files.length; index++) {
+  //           const file = fileUpload.files[index];
+  //           ValidateFileThenUpload(file, this.ImageValidator);
+  //         }
+  //       }
+  //       else
+  //         this.fbApplicant.markAllAsTouched();
+  //     }
+  //   }
+  //   this.fileUpload.nativeElement.value = '';
+  // }
 }
