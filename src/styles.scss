@@ -547,3 +547,14 @@ label{
     width: 50% !important;
     display: inline;
 }
+.applicant_certificate{
+    margin:3px;
+    border: 2px solid green;
+    text-align: center;
+    padding:40px 0px;
+    border-radius: 0 30px 0 0px;
+}
+.applicant_certificate h5{
+    font-style: italic;
+    font-size:15px;
+}
