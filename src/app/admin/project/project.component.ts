@@ -240,9 +240,9 @@ export class ProjectComponent implements OnInit {
             return true;
 
         // Check if 'AMC' is defined and the current item is 'Suspended'
-        if (this.projectDetails['amc'] !== null && item.name === 'Suspended') 
+        if (this.projectDetails['amc'] !== null && item.name === 'Suspended')
             return false; // Do not disable the radio button
-        
+
         // If the radio button is in 'Completed' state, enable 'AMC'
         if (item.name === 'AMC' && completedNotNull)
             return false;
@@ -252,8 +252,8 @@ export class ProjectComponent implements OnInit {
         if (item.name === 'Suspended' && completedNotNull)
             return true;
 
-        // Check if 'Suspended' is defined and the radio button is 'Completed'
-        if (this.projectDetails['Suspended'] !== null && item.name === 'Completed') {
+        if (this.projectDetails['suspended'] !== null) {
+            // Disable all radio buttons when 'Suspended' is defined
             return true;
         }
 
@@ -323,7 +323,7 @@ export class ProjectComponent implements OnInit {
         this.fbproject.get('clients').patchValue({
             clientId: project.clientId,
             isActive: project.clientIsActive,
-            companyName: {companyName: project.companyName},
+            companyName: { companyName: project.companyName },
             Name: project.clientName,
             email: project.email,
             mobileNumber: project.mobileNumber,
@@ -413,7 +413,7 @@ export class ProjectComponent implements OnInit {
         }
     }
 
-    getSelectedItemName(item: {companyName: string }) {
+    getSelectedItemName(item: { companyName: string }) {
         this.fcClientDetails.get('companyName')?.setValue(item.companyName);
     }
 
