@@ -40,6 +40,7 @@ export class OrgChart {
             nodeDefaultBackground: "none",
             connections: [],
             lastTransform: { x: 0, y: 0, k: 1 },
+            displayType: "2",
             nodeId: (d) => d.nodeId || d.id,
             parentNodeId: (d) => d.parentNodeId || d.parentId,
             backgroundColor: "none",
@@ -122,6 +123,8 @@ export class OrgChart {
             compactMarginPair: (d) => 100,
             compactMarginBetween: (d3Node) => 20,
             onNodeClick: (d) => d,
+            // onNodeDrop: (d) => d,
+            // onNodeDragEnd: (d) => d,
             linkGroupArc: d3
                 .linkHorizontal()
                 .x((d) => d.x)
@@ -397,6 +400,14 @@ export class OrgChart {
                 }
             }
         };
+        if(attrs.displayType == "2"){
+            attrs.onNodeDragEnd = (d) => d;
+            attrs.onNodeDrop = (d) => d;
+        }else{
+            attrs.onNodeDragEnd = undefined;
+            attrs.onNodeDrop = undefined;
+        }
+        //this.attrs.onNodeDrop = (d) => d
 
         this.getChartState = () => attrs;
 
@@ -470,8 +481,10 @@ export class OrgChart {
     }
 
     render() {
+
         //InnerFunctions which will update visuals
         const attrs = this.getChartState();
+        console.log(attrs.displayType);
         if (!attrs.data || attrs.data.length == 0) {
             console.log("ORG CHART - Data is empty");
             return this;
@@ -1057,6 +1070,12 @@ export class OrgChart {
                 return `translate(${xj},${yj})`;
             })
             .attr("cursor", "pointer")
+            .on("dragstart",(event,{data}) => {
+
+                //event.stopPropagation();
+                console.log(event);
+                console.log(data);
+            })
             .on("click", (event, { data }) => {
                 if (
                     [...event.srcElement.classList].includes("node-button-foreign-object")
@@ -1064,6 +1083,17 @@ export class OrgChart {
                     return;
                 }
                 attrs.onNodeClick(attrs.nodeId(data));
+            })
+            // .on("mouseenter",(event,{data})=>{
+            //     console.log(event);
+            // })
+            .on('dragover',(event,{data})=>{
+                attrs.onNodeDragEnd(data);
+                event.preventDefault();
+                //console.log(data)
+            })
+            .on("drop",(event,{data}) =>{
+               attrs.onNodeDrop(data);
             });
 
         // Add background rectangle for the nodes
@@ -1354,6 +1384,8 @@ export class OrgChart {
             .attr("y", ({ height }) => 0);
         attrs.svg
             .selectAll(".node-foreign-object-div")
+            //.attr("pDroppable","allottedemployee")
+            //.attr("onDrop","drop("+d+")")
             .style("width", ({ width }) => `${width}px`)
             .style("height", ({ height }) => `${height}px`)
             .html(function (d, i, arr) {

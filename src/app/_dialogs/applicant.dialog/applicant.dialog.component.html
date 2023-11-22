@@ -3,27 +3,36 @@
         <div class="grid  p-5 content_scroll">
             <div class="field col-12 md:col-8">
                 <label for="singleFile"
-                        class="p-element p-ripple p-button-raised p-button-primary p-button p-component upload-doc">
-                    <i class="pi pi-paperclip"></i> Upload Resume &nbsp; <span *ngIf="selectedFileName"> - {{ selectedFileName }}</span> <br/>
+                    class="p-element p-ripple p-button-raised p-button-primary p-button p-component upload-doc">
+                    <i class="pi pi-paperclip"></i> Upload Resume &nbsp; <span *ngIf="selectedFileName"> - {{
+                        selectedFileName }}</span> <br />
                     *Doc, Docx, PDF (Max file size- 6MB)
-                  
-                    
+
+
                 </label>
                 <input id="singleFile" #fileUpload name="myFile" [accept]="fileTypes" type="file"
-                        [disabled]="!this.fbApplicant.valid" hidden="true" (change)="onFileChange($event)"
+                    [disabled]="!this.fbApplicant.valid" hidden="true" (change)="onFileChange($event)"
                     formControlName="resumeUrl" />
             </div>
             <div class="field col-12 md:col-4">
-                <button pButton pRipple type="submit" label="Pre-Fill Application " class=" p-button-outlined p-button-primary mt-3 w-100" ></button>
+                <button pButton pRipple type="submit" label="Pre-Fill Application "
+                    class=" p-button-outlined p-button-primary mt-3 w-100"></button>
 
             </div>
-            <div class="col-12 roles-container "> 
+            <div class="col-12 roles-container ">
                 <p-fieldset legend="Applicant" [toggleable]="true">
                     <div class="p-fluid p-formgrid grid ">
                         <div class="field col-12 md:col-4">
                             <label class="required">Name:</label>
                             <input type="text" id="inputtext" pInputText formControlName="name" #name [maxlength]="50"
                                 alphaOnly placeholder="Enter Name" />
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label class="required">Gender:</label>
+                            <p-dropdown appendTo="body" id="gender_dropdown" placeholder="Select Gender"
+                            [autoDisplayFirst]="false" [options]="genders" optionLabel="name" formControlName="gender"
+                            optionValue="name" (ngModelChange)="onGenderChange()">
+                        </p-dropdown>
                         </div>
                         <div class="field col-12 md:col-4">
                             <label class="required">Dob:</label>
@@ -82,49 +91,36 @@
                                 formControlName="stateId">
                             </p-dropdown>
                         </div>
-                        <div class="field col-12 md:col-8">
-                            <label>Address Type:</label>
-                            <div class="flex flex-wrap gap-3">
-                                <div class="flex align-items-center">
-                                    <p-radioButton value="Permanent Address" id="Address_addressType1"
-                                        formControlName="addressType" tooltipPosition="left">
-                                    </p-radioButton>
-                                    <label class="ml-2">Permanent Address</label>
-                                </div>
-                                <div class="flex align-items-center">
-                                    <p-radioButton value="Temporary Address" id="Address_addressType2"
-                                        tooltipPosition="right" formControlName="addressType"></p-radioButton>
-                                    <label class="ml-2">Temporary Address</label>
-                                </div>
-
-                                <div class="flex align-items-center">
-                                    <p-radioButton tooltipPosition="right" value="Current Address"
-                                        id="Address_addressType3" formControlName="addressType"></p-radioButton>
-                                    <label class="ml-2">Current Address</label>
-                                </div>
-                            </div>
-                        </div>
-                      
-                          
                         <div class="field col-12 md:col-2">
-                            <label class="required">Is Fresher:</label><br/>
+                            <label class="required">Is Fresher:</label><br />
                             <p-inputSwitch formControlName="isFresher"></p-inputSwitch>
                         </div>
                         <div class="field col-12 md:col-2">
                             <label class="required">Is Active:</label>
                             <p-inputSwitch formControlName="isActive"></p-inputSwitch>
                         </div>
+                        <div class="field col-12 md:col-4" style="display: grid;">
+                            <img [src]="this.fbApplicant.get('photo').value  ? this.fbApplicant.get('photo').value : this.defaultPhoto"
+                                onerror="this.onerror=null;" alt="photo" width="100px" class="up_logo">
+                            <label for="singleFile"
+                                class="p-element p-ripple p-button-raised p-button-primary p-button p-component"
+                                style="width:40% !important; white-space: nowrap;">
+                                <i class="pi pi-paperclip"></i>Choose Photo
+                            </label>
+                            <input id="singleFile" #fileUpload name="myFile" type="file" [accept]="fileTypes" hidden />
+                        </div>
                     </div>
                 </p-fieldset>
                 <br>
                 <!-- Applicant Education Details -->
-                <p-fieldset  legend="Education" [toggleable]="true">
+                <p-fieldset legend="Education" [toggleable]="true">
                     <div class="text-right">
                         <button pButton pRipple class="mb-3 pi pi-plus"
                             (click)="addApplicantEducationDetails()"></button>
                     </div>
 
-                    <div class="scrolling_content col-12 " formArrayName="applicantEducationDetails" formGroupName="education">
+                    <div class="scrolling_content col-12 " formArrayName="applicantEducationDetails"
+                        formGroupName="education">
                         <p-table #dt2 [value]="faApplicantEducationDetails().controls" dataKey="id" [rows]="10"
                             [rowHover]="true" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
                             [paginator]="false" [autoLayout]="true" responsiveLayout="scroll"
@@ -349,7 +345,7 @@
                             scrollHeight="300px">
                             <ng-template pTemplate="header">
                                 <tr>
-                                    <th  class="text-center">Skills</th>
+                                    <th class="text-center">Skills</th>
                                     <th class="text-center">Expertise</th>
                                     <th *ngIf="fbApplicant.controls['applicantSkillsDetails'].value.length > 1">
                                     </th>
@@ -358,11 +354,12 @@
                             <ng-template pTemplate="body" let-applicantSkillsDetailsIndex="rowIndex">
                                 <tr [formGroupName]="applicantSkillsDetailsIndex">
                                     <td class="vertical-align-top">
-                                        <p-dropdown id="projectName" appendTo="body" class="w-100" placeholder="Enter Skill"
-                                            formControlName="skillId" [style]="{'width':'100%'}">
+                                        <p-dropdown id="projectName" appendTo="body" class="w-100"
+                                            placeholder="Enter Skill" formControlName="skillId"
+                                            [style]="{'width':'100%'}">
                                         </p-dropdown>
                                     </td>
-                                    <td class="vertical-align-top pt-3 text-center" >
+                                    <td class="vertical-align-top pt-3 text-center">
                                         <p-rating number="3" [cancel]="false" class=""> </p-rating>
                                     </td>
                                     <td *ngIf="fbApplicant.controls['applicantSkillsDetails'].value.length > 1">

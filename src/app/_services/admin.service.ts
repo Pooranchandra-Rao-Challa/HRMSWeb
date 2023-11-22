@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AssetsDto, AssetsViewDto, ClientDetailsDto, ClientNamesDto, EmployeeHierarchyDto, EmployeeRolesDto, EmployeesForAllottedAssetsViewDto, EmployeesList, HolidayDto, HolidaysViewDto, JobOpeningsDetailsViewDto, LookupViewDto, ProjectAllotments, ProjectDetailsDto, projectStatus, ProjectViewDto } from '../_models/admin';
+import { AssetsDto, AssetsViewDto, ClientDetailsDto, ClientNamesDto, EmployeeHierarchyDto, EmployeeRolesDto, EmployeesForAllottedAssetsViewDto, EmployeesList, HolidayDto, HolidaysViewDto, JobOpeningsDetailsViewDto, LookupViewDto, ProjectAllotments, ProjectDetailsDto, ProjectStatus, ProjectViewDto } from '../_models/admin';
 import { AssetAllotmentDto, AssetAllotmentViewDto, AssetsByAssetTypeIdViewDto, RevokeAssetRequest } from '../_models/admin/assetsallotment';
 import { ApiHttpService } from './api.http.service';
 import {
@@ -21,7 +21,7 @@ export class AdminService extends ApiHttpService {
     public UpdateLookUp(lookup: LookupViewDto) {
         return this.post<LookupViewDto>(UPDATE_LOOKUP_URI, lookup);
     }
-      
+
     public GetHolidays(year: string) {
         const url = `${GET_HOLIDAY_URI}${year}`;
         return this.get<HolidaysViewDto[]>(url);
@@ -73,8 +73,8 @@ export class AdminService extends ApiHttpService {
     public UpdateProject(project: ProjectDetailsDto) {
         return this.post<ProjectDetailsDto>(UPDATE_PROJECT_URI, project);
     }
-    public projectStatuses(){
-        return this.get<projectStatus[]>(GET_PROJECT_STATUSES);
+    public ProjectStatuses(){
+        return this.get<ProjectStatus[]>(GET_PROJECT_STATUSES);
     }
     public getEmployeesList() {
         return this.get<EmployeesList>(GET_EMPLOYEES);

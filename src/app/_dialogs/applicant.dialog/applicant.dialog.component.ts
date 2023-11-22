@@ -5,6 +5,12 @@ import { PhotoFileProperties } from 'src/app/_models/common';
 import { EducationDetailsDto } from 'src/app/_models/employes';
 import { ValidateFileThenUpload } from 'src/app/_validators/upload.validators';
 
+
+interface General {
+  name: string;
+  code: string;
+}
+
 @Component({
   selector: 'app-applicant.dialog',
   templateUrl: './applicant.dialog.component.html',
@@ -19,12 +25,14 @@ export class ApplicantDialogComponent {
   faapplicantSkillsDetails!: FormArray;
   faapplicantLanguageSkillsDetails!: FormArray;
 
+  genders: General[] | undefined;
   @ViewChild("fileUpload", { static: true }) fileUpload: ElementRef;
   messageDisplayed: boolean = false;
   empUploadDetails: { fileBlob: Blob, title: string, fileName: string }[] = [];
   @Output() ImageValidator = new EventEmitter<PhotoFileProperties>();
   fileTypes: string = ".pdf, .jpg, .jpeg, .png, .gif"
   selectedFileName: string;
+  defaultPhoto: string;
 
   constructor(private formbuilder: FormBuilder,) { }
 
@@ -35,12 +43,19 @@ export class ApplicantDialogComponent {
     this.addApplicantExperienceDetails();
     this.addApplicantSkillsDetails();
     this.addApplicantLanguageSkillsDetails();
+    this.genders = [
+      { name: 'Male', code: 'male' },
+      { name: 'Female', code: 'female' }
+  ];
+    this.defaultPhoto = /^female$/gi.test(this.fbApplicant.get('gender').value) ? './assets/layout/images/women-emp-2.jpg' : './assets/layout/images/men-emp.jpg'
+
   }
 
   applicantForm() {
     this.fbApplicant = this.formbuilder.group({
       applicantId: [null],
       name: new FormControl('', [Validators.required]),
+      gender: new FormControl('', [Validators.required]),
       dob: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required]),
       mobileNo: new FormControl('', [Validators.required]),
@@ -55,6 +70,7 @@ export class ApplicantDialogComponent {
       resumeUrl: new FormControl(''),
       isFresher: [true],
       isActive: [true],
+      photo:[],
       education: this.formbuilder.group({
         educaitonId: [null],
         streamId: [null],
@@ -218,6 +234,13 @@ export class ApplicantDialogComponent {
 
   (this.fbApplicant.get('applicantLanguageSkillsDetails') as FormArray).push(languageSkillsDetail);
   }
+
+  onGenderChange() {
+    const selectedGender = this.fbApplicant.get('gender').value;
+    if (selectedGender) {
+        this.defaultPhoto = /^female$/gi.test(this.fbApplicant.get('gender').value) ? './assets/layout/images/women-emp-2.jpg' : './assets/layout/images/men-emp.jpg'
+    }
+}
 
   onFileChange(event: Event) {
     const fileUpload = event.target as HTMLInputElement;
