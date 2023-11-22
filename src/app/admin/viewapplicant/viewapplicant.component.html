@@ -1,7 +1,11 @@
 <div class="grid">
     <div class="col-12 lg:col-3 md:col-4 sm:col-5">
       <div class="card p-5 orange-200 text-left applicant-p-block">
-        <h4 class="m-5 mt-0 text-primary">Applicant Name</h4>
+        <div class="text-center">
+            <img  src="./assets/layout/images/men-emp.jpg"
+            class="shadow-2 my-1 mx-0 applicant_profile_pic " /><br/>
+            <h4 class="m-5 mt-0 text-primary">Applicant Name</h4>
+        </div>       
         <span class="inline-flex align-items-left mb-2">
             <i class="pi pi-user text-primary text-700 mr-2"></i>
             <span class="text-700 mr-2">Male</span>
@@ -113,8 +117,8 @@
                 <span class="icon-office_details m-2" style="font-size:20px;"></span>
                 <h3 class="m-0 text-primary">Experience Details</h3>
             </div>
-            <h3>Experience Details</h3>
-            <button pButton pRipple icon="pi pi-pencil" class="p-element p-ripple p-button-text p-button-primary p-component"></button>
+            <!-- <h3>Experience Details</h3> -->
+            <!-- <button pButton pRipple icon="pi pi-pencil" class="p-element p-ripple p-button-text p-button-primary p-component"></button> -->
           </div>
           <p-timeline [value]="events" align="alternate">
             <ng-template pTemplate="content" let-event>
@@ -126,35 +130,49 @@
         </div>
         <hr />
         <div class="col-12 md:col-12  m-2">
-            <div class="flex justify-content-between ">
+            <div class="flex justify-content-between mb-2">
                 <div class="flex text-primary">
                     <span class="icon-document-certificate m-2" style="font-size:20px;"></span>
                     <h3 class="m-0 text-primary">Certification Details</h3>
                 </div>
              
-              <button pButton pRipple icon="pi pi-pencil" class="p-element p-ripple p-button-text p-button-primary p-component"></button>
+              <!-- <button pButton pRipple icon="pi pi-pencil" class="p-element p-ripple p-button-text p-button-primary p-component"></button> -->
             </div>
-            <p-table id="table" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true" [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]">
-              <ng-template pTemplate="header">
-                <tr>
-                  <th class="col text-center">CertificateId</th>
-                  <th class="col text-center">InstitutionName</th>
-                  <th class="col text-center">YearOfCompletion</th>
-                  <th class="col text-center">Result</th>
-                </tr>
-                <tr>
-                  <td class="col text-center">CASF12</td>
-                  <td class="col text-center">Vedikh Institiutions</td>
-                  <td class="col text-center">2018</td>
-                  <td class="col text-center">A+</td>
-                </tr>
-              </ng-template>
-              <ng-template pTemplate="body">
-                <tr>
-                  <td>MCA</td>
-                </tr>
-              </ng-template>
-            </p-table>
+            
+            <div class="grid">
+            <div class="col-12 lg:col-3 md:col-4 sm:col-6">
+                <div class="applicant_certificate">
+                    <h5 class="text-primary mb-0">Certification On</h5>
+                    <p>Institute Name</p>
+                    <p><span class="text-primary" pTooltip="Year of Completion">YOC</span>: 2018</p>
+                    <p><i class="pi pi-star text-primary text-700 mr-2"></i>: A+</p>
+                </div>
+            </div>
+            <div class="col-12 lg:col-3 md:col-4 sm:col-6">
+                <div class="applicant_certificate">
+                    <h5 class="text-primary mb-0">Certification On</h5>
+                    <p>Institute Name</p>
+                    <p><span class="text-primary" pTooltip="Year of Completion">YOC</span>: 2018</p>
+                    <p><i class="pi pi-star text-primary text-700 mr-2"></i>: A+</p>
+                </div>
+            </div>
+            <div class="col-12 lg:col-3 md:col-4 sm:col-6">
+                <div class="applicant_certificate">
+                    <h5 class="text-primary mb-0">Certification On</h5>
+                    <p>Institute Name</p>
+                    <p><span class="text-primary" pTooltip="Year of Completion">YOC</span>: 2018</p>
+                    <p><i class="pi pi-star text-primary text-700 mr-2"></i>: A+</p>
+                </div>
+            </div>
+            <div class="col-12 lg:col-3 md:col-4 sm:col-6">
+                <div class="applicant_certificate">
+                    <h5 class="text-primary mb-0">Certification On</h5>
+                    <p>Institute Name</p>
+                    <p><span class="text-primary" pTooltip="Year of Completion">YOC</span>: 2018</p>
+                    <p><i class="pi pi-star text-primary text-700 mr-2"></i>: A+</p>
+                </div>
+            </div>
+            </div>
         </div>
       </div>
     </div>
