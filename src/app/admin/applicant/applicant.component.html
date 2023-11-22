@@ -18,38 +18,53 @@
                     </div>
                 </ng-template>
                 <ng-template let-applicant pTemplate="gridItem">
-                    <div class="col-12 md:col-4 lg:col-3 sm:col-6">
-                        <div class="card m-2 border-1 surface-border card-height">
-                            <div class=" mb-3 grid">
-                                <div class="col-12 lg:col-8 md:col-12 p-1 px-2 employee_info">
+                    <div class="col-12 md:col-4 lg:col-3 sm:col-6 p-0 m-0">
+                        <div class="card m-2 border-1 surface-border card-height ">
+                            <div class=" mb-0 grid">
+                                <div class="col-12 md:col-6 text-center">
+                                    <img  src="./assets/layout/images/men-emp.jpg"
+                                    class="shadow-2 my-1 mx-0 applicant_profile_pic zoomable-img" /><br/>
                                     <span class="text-xl font-bold">
                                         <i class="pi pi-users text-600 text-primary text-1xl  pb-2"></i> :
                                         {{applicant.name}}
-                                    </span>
-                                </div>
-                                <div class="col-12 lg:col-8 md:col-12 p-1 px-2 employee_info">
+                                    </span><br/>
+                                    
                                     <span class="text-600 font-medium text-md">
-                                        <i class="pi pi-calendar text-300 text-primary text-1xl  pb-1"></i> :
+                                        <i class="pi pi-phone text-500 text-primary text-1xl pb-1"></i> :
+                                        {{applicant.mobileNumber}}
+                                    </span>
+
+                                </div>
+                                <div class="col-12 md:col-6">
+                                    <p-knob [(ngModel)]="value" [strokeWidth]="5" width="50%"></p-knob>
+                                    
+                                </div>
+                                <div class="col-12 lg:col-9 md:col-12 p-1 px-2 employee_info">
+                                 
+                                    <span class="text-600 font-medium text-md">
+                                        <i class="pi pi-envelope text-300 text-primary text-1xl  pb-1"></i> :
                                         {{applicant.email}}
                                     </span>
 
                                     <br />
                                     <span class="text-600 font-medium text-md">
-                                        <i class="pi pi-phone text-500 text-primary text-1xl pb-1"></i> :
-                                        {{applicant.mobileNumber}}
+                                        <i class="pi pi-star text-300 text-primary text-1xl  pb-1"  pTooltip="Skills"></i> :
+                                        C, C++, Java, Angular
                                     </span>
-                                    <br />
+                                </div>
+                                <div class="col-12 lg:col-3 md:col-12 p-1 px-2 employee_info">                                    
+                                    <button pbutton="" pripple="" type="button" label="Primary"
+                                    (click)="viewApplicantDtls()"
+                                    class="p-element p-ripple p-button-text p-button p-component view_profile_button"
+                                    ng-reflect-label="Primary">
+                                    <span class="p-button-label pi pi-chevron-right"></span>
+                                    </button>
                                 </div>
                                 <div class="grid">
                                     <div class="relative col-12 p-0 mb-3"></div>
                                     <div class="grid m-0 ">
-                                        <div class="mb-3 col-3 p-0">
-                                            <button pbutton="" pripple="" type="button" label="Primary"
-                                                (click)="viewApplicantDtls()"
-                                                class="p-element p-ripple p-button-text p-button p-component view_profile_button"
-                                                ng-reflect-label="Primary">
-                                                <span class="p-button-label pi pi-chevron-right"></span>
-                                            </button>
+                                        <div class="mb-3 col-12 p-0">
+                                           
                                         </div>
                                     </div>
                                 </div>

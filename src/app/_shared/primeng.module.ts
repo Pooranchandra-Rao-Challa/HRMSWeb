@@ -47,6 +47,7 @@ import { OverlayPanelModule} from 'primeng/overlaypanel';
 import { PaginatorModule } from 'primeng/paginator';
 import { DragDropModule } from 'primeng/dragdrop';
 import { TimelineModule } from 'primeng/timeline';
+import { KnobModule } from 'primeng/knob';
 
 @NgModule({
     exports: [
@@ -96,7 +97,8 @@ import { TimelineModule } from 'primeng/timeline';
         DynamicDialogModule,
         OverlayPanelModule,
         DragDropModule,
-        TimelineModule
+        TimelineModule,
+        KnobModule
     ]
 
 })

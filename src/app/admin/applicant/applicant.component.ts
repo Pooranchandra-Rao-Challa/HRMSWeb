@@ -19,6 +19,7 @@ export interface Status {
   ]
 })
 export class ApplicantComponent {
+  value: number = 40;
   applicant: Applicant[] = [];
   ActionTypes = Actions;
   dialogRequest: DialogRequest = new DialogRequest();
