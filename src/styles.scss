@@ -511,18 +511,18 @@ label{
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 3; /* number of lines to show */
-            line-clamp: 3; 
+            line-clamp: 3;
     -webkit-box-orient: vertical;
 }
 .applicant-p-block{
     background-color: #f7dbc1;
     border-radius: 0% 50px;
-    
+
 }
 .applicant-p-block2{
     background-color: #f7dbc1;
     border-radius: 50px 0px;
-    
+
 }
 .applicant-e-block{
     border-radius: 50px 0px;
@@ -540,7 +540,12 @@ label{
     display: grid;
     grid-gap: 10px;
     grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-}
+  }
+
+  #rolesTabView .p-tabview-title{
+    text-wrap: wrap !important;
+  }
+
 .applicant_profile_pic {
     border-radius: 5px;
     border: 2px solid rgb(79, 223, 94);

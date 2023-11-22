@@ -101,9 +101,10 @@ export class HolidayDto {
     toDate?: any
     isActive?: boolean
 }
-export class projectStatus {
-    eProjectStatusesId:number;
-    name:string;
+export class ProjectStatus {
+    eProjectStatusesId?:number;
+    name?:string;
+    date?:Date;
 }
 export class ProjectViewDto {
     projectId: number;
@@ -138,6 +139,8 @@ export class projectStatuses{
 }
 export class EmployeesList {
     employeeId: number
+    reportingToId: number;
+    photo: string;
     fullName: string
     code: string;
     designation: string;
@@ -268,6 +271,42 @@ export class SoftSkills {
     JobOpeningId?: number;
     SoftSkillId?: number;
 }
+
+export class NodeProps {
+    name: string;
+    roleName: string;
+    designation: string;
+    imageUrl: string;
+    area: string;
+    profileUrl: string;
+    office: string;
+    tags: string;
+    isLoggedUser: boolean;
+    positionName: string;
+    id: string;
+    parentId: string;
+    projectName: string;
+    projectDescription: string;
+    assetCount?: number;
+    noOfWorkingDays?: number;
+    noOfAbsents?: number;
+    noOfLeaves?: number;
+    clientName?: string;
+    clientCompanyName?: string;
+    progress: number[];
+    _directSubordinates: number;
+    _totalSubordinates: number;
+    _upToTheRootHighlighted: boolean;
+}
+
+export class ChartParams{
+    nodes?:NodeProps[];
+}
+
+export class NodeDropParams{
+    DropNode:NodeProps
+}
+
 
 export class ApplicantCertificationDto{
     certificationId?:number;
