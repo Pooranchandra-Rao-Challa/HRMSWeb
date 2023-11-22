@@ -182,6 +182,8 @@ export class ProjectComponent implements OnInit {
     initProjectStatuses() {
         this.adminService.ProjectStatuses().subscribe((resp) => {
             this.projectStatues = resp as unknown as ProjectStatus[];
+            console.log(this.projectStatues);
+
         })
     }
     restrictSpaces(event: KeyboardEvent) {

@@ -226,12 +226,12 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
         const replaced = url.replace(/(\r\n|\n|\r)/gm, '');
         this.chart.container(this.chartContainer.nativeElement)
             .svgHeight(window.innerHeight)
-            .svgWidth(window.innerWidth - 300)
+            .svgWidth(window.innerWidth - (this.DisplayType == "1" ? 300 : 500))
             .displayType(this.DisplayType)
             .data(data)
             .nodeHeight((d) => 180)
             .nodeWidth((d) => {
-                if (d.depth == 0) return 500;
+                if (d.depth == 0 && this.DisplayType == "1") return 500;
                 return 330;
             })
             .childrenMargin((d) => 90)
