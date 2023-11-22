@@ -16,7 +16,7 @@ export class ViewapplicantComponent {
   ngOnInit(){
     // this.initviewapplicantdetails();
   }
-  
+  events =[{},{},{}]
   initviewapplicantdetails(){
        this.RecruitmentService.GetviewapplicantDtls(this.applicantId).subscribe((resp) => {
         this.viewApplicantDetails = resp as unknown as any[];

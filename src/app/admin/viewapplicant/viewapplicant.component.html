@@ -1,27 +1,24 @@
 <div class="grid">
-    <div class="col-12 lg:col-3 md:col-4 sm:col-5">
-      <div class="card p-5 orange-200 text-left applicant-p-block">
-        <div class="text-center">
-          <img src="./assets/layout/images/men-emp.jpg" class="shadow-2 my-1 mx-0 applicant_profile_pic " />
-          <br />
+  <div class="col-12 lg:col-3 md:col-4 sm:col-5">
+    <div class="card p-5 orange-200 text-left applicant-p-block">
+      <div class="text-center">
+          <img  src="./assets/layout/images/men-emp.jpg"
+          class="shadow-2 my-1 mx-0 applicant_profile_pic " /><br/>
           <h4 class="m-5 mt-0 text-primary">Applicant Name</h4>
-        </div>
-        <span class="inline-flex align-items-left mb-2">
+      </div>       
+      <span class="inline-flex align-items-left mb-2">
           <i class="pi pi-user text-primary text-700 mr-2"></i>
           <span class="text-700 mr-2">Male</span>
-        </span>
-        <br />
-        <span class="inline-flex align-items-left mb-2">
+      </span><br/>
+      <span class="inline-flex align-items-left mb-2">
           <i class="pi pi-envelope text-primary text-700 mr-2"></i>
           <span class="text-700 mr-2">applicant@gmail.com</span>
-        </span>
-        <br />
-        <span class="inline-flex align-items-left mb-2">
+      </span><br/>
+      <span class="inline-flex align-items-left mb-2">
           <i class="pi pi-mobile text-primary text-700 mr-2"></i>
           <span class="text-700 mr-2"> +91 980123456</span>
-        </span>
-        <br />
-        <span class="inline-flex align-items-left mb-2">
+      </span><br/>
+      <span class="inline-flex align-items-left mb-2">
           <i class="pi pi-calendar text-primary text-700 mr-2"></i>
           <span class="text-700 mr-2">28-1-1997</span>
         </span>
@@ -37,146 +34,146 @@
             <span>India</span>
           </span>
         </span>
-      </div>
-      <div class="card p-5 orange-200 text-center applicant-p-block2">
-        <h4 class="m-5 mt-0 text-primary">Technical Skills</h4>
-        <div class="flex flex-column">
+    </div>
+    <div class="card p-5 orange-200 text-center applicant-p-block2">
+      <h4 class="m-5 mt-0 text-primary">Technical Skills</h4>
+      <div class="flex flex-column">
           <span class="inline-flex justify-content-between mb-3">
-            <span class="text-700 mr-2 font-bold">Skill</span>
-            <span class="text-700 mr-2 font-bold">Expertise</span>
+              <span class="text-700 mr-2 font-bold">Skill</span>
+              <span class="text-700 mr-2 font-bold">Expertise</span>
           </span>
           <span class="inline-flex justify-content-between mb-3">
-            <span class="text-700 mr-2 ">C++</span>
-            <span class="text-700 mr-2 font-bold">
-              <p-rating number="3" [cancel]="false"></p-rating>
-            </span>
+              <span class="text-700 mr-2 ">C++</span>
+              <span class="text-700 mr-2 font-bold">
+                  <p-rating number="3" [cancel]="false"></p-rating>
+              </span>
           </span>
           <span class="inline-flex justify-content-between mb-3">
-            <span class="text-700 mr-2 ">Java</span>
-            <span class="text-700 mr-2 font-bold">
-              <p-rating number="3" [cancel]="false"></p-rating>
-            </span>
+              <span class="text-700 mr-2 ">Java</span>
+              <span class="text-700 mr-2 font-bold">
+                  <p-rating number="3" [cancel]="false"></p-rating>
+              </span>
           </span>
           <span class="inline-flex justify-content-between mb-3">
-            <span class="text-700 mr-2 ">Angular</span>
-            <span class="text-700 mr-2 font-bold">
-              <p-rating number="3" [cancel]="false"></p-rating>
-            </span>
+              <span class="text-700 mr-2 ">Angular</span>
+              <span class="text-700 mr-2 font-bold">
+                  <p-rating number="3" [cancel]="false"></p-rating>
+              </span>
           </span>
-        </div>
-      </div>
-      <div class="card p-5 orange-200 text-center applicant-p-block">
-        <h4 class="m-5 mt-0 text-primary">Language Skills</h4>
-        <div class="flex flex-column">
-          <div *ngFor="let language of viewApplicantDetails?.languageSkills">
-            <span class="inline-flex justify-content-between mb-3">
-              <span class="text-700 mr-2">{{ language.name }}</span>
-              <!-- Use ngIf to conditionally display check or times icons based on language proficiency -->
-              <i class="pi" [ngClass]="{'pi-check-circle': language.read, 'pi-times-circle': !language.read}"></i>
-              <i class="pi" [ngClass]="{'pi-check-circle': language.write, 'pi-times-circle': !language.write}"></i>
-              <i class="pi" [ngClass]="{'pi-check-circle': language.speak, 'pi-times-circle': !language.speak}"></i>
-            </span>
-          </div>
-        </div>
-      </div>
-      <div class="px-2">
-        <button pButton pRipple class="p-element p-ripple  p-button-primary p-component w-100 text-center"> Download Resume <span class="pi pi-download px-5"></span>
-        </button>
       </div>
     </div>
-    <div class="col-12 lg:col-9 md:col-8 sm:col-7">
-      <div class="card applicant-e-block">
-        <div class="col-12 md:col-12 m-2">
-          <div class="flex justify-content-between">
-            <div class="flex text-primary">
+    <div class="card p-5 orange-200 text-center applicant-p-block">
+      <h4 class="m-5 mt-0 text-primary">Language Skills</h4>
+      <div class="flex flex-column">
+        <span class="inline-flex justify-content-between mb-3">
+          <span class="text-700 mr-2 font-bold">Language</span>
+          <span class="text-700 mr-2 font-bold">Read</span>
+          <span class="text-700 mr-2 font-bold">Write</span>
+          <span class="text-700 mr-2 font-bold">Speak</span>
+        </span>
+        <span class="inline-flex justify-content-between mb-3">
+          <span class="text-700 mr-2">English</span>
+          <i class="pi pi-check-circle text-primary text-700 mr-2"></i>
+          <i class="pi pi-check-circle text-danger text-700 mr-2"></i>
+          <i class="pi pi-check-circle text-primary text-700 mr-2"></i>
+        </span>
+        <span class="inline-flex justify-content-between mb-3">
+          <span class="text-700 mr-2">Telugu</span>
+          <i class="pi pi-times-circle text-primary text-700 mr-2"></i>
+          <i class="pi pi-times-circle text-danger text-700 mr-2"></i>
+          <i class="pi pi-check-circle text-primary text-700 mr-2"></i>
+        </span>
+      </div>
+    </div>
+    <div class="px-2">
+      <button pButton pRipple class="p-element p-ripple  p-button-primary p-component w-100 text-center"> Download Resume <span class="pi pi-download px-5"></span>
+      </button>
+    </div>
+    
+  </div>
+  <div class="col-12 lg:col-9 md:col-8 sm:col-7">
+    <div class="card applicant-e-block">
+      <div class="col-12 md:col-12 m-2">
+        <div class="flex justify-content-between">
+          <div class="flex text-primary">
               <span class="icon-study m-2" style="font-size:20px;"></span>
               <h3 class="m-0 text-primary">Education Details</h3>
-            </div>
-            <button pButton pRipple icon="pi pi-pencil" class="p-element p-ripple p-button-text p-button-primary p-component"></button>
           </div>
-          <p-timeline *ngFor="let education of viewApplicantDetails?.educationDetails" class="col-12 md:col-12 m-2">
-            <!-- Display education details -->
-            <h3>{{ education.institution }}</h3>
-            <p>{{ education.degree }}</p>
-            <p>{{ education.duration }}</p>
-          </p-timeline>
-          <hr />
+         
+          <button pButton pRipple icon="pi pi-pencil" class="p-element p-ripple p-button-text p-button-primary p-component"></button>
         </div>
-        <hr />
-        <div class="col-12 md:col-12  m-2">
-          <div class="flex justify-content-between">
-            <div class="flex text-primary">
+        <p-timeline [value]="events" align="alternate">
+          <ng-template pTemplate="content" let-event>
+            <h6>International Arts & Science College(UG)</h6>
+            <p>B.Sc Computer Science</p>
+            <p>2012-2015</p>
+          </ng-template>
+        </p-timeline>
+      </div>
+      <hr />
+      <div class="col-12 md:col-12  m-2">
+        <div class="flex justify-content-between">
+          <div class="flex text-primary">
               <span class="icon-office_details m-2" style="font-size:20px;"></span>
               <h3 class="m-0 text-primary">Experience Details</h3>
-            </div>
           </div>
-          <div *ngFor="let experience of viewApplicantDetails?.experienceDetails" class="col-12 md:col-12 m-2">
-            <!-- Display experience details -->
-            <h3>{{ experience.company }}</h3>
-            <p>{{ experience.position }}</p>
-            <p>{{ experience.duration }}</p>
-          </div>
+          <!-- <h3>Experience Details</h3> -->
+          <!-- <button pButton pRipple icon="pi pi-pencil" class="p-element p-ripple p-button-text p-button-primary p-component"></button> -->
         </div>
-        <hr />
-        <div class="col-12 md:col-12  m-2">
+        <p-timeline [value]="events" align="alternate">
+          <ng-template pTemplate="content" let-event>
+            <h6>International Arts & Science College(UG)</h6>
+            <p>B.Sc Computer Science</p>
+            <p>2012-2015</p>
+          </ng-template>
+        </p-timeline>
+      </div>
+      <hr />
+      <div class="col-12 md:col-12  m-2">
           <div class="flex justify-content-between mb-2">
-            <div class="flex text-primary">
-              <span class="icon-document-certificate m-2" style="font-size:20px;"></span>
-              <h3 class="m-0 text-primary">Certification Details</h3>
-            </div>
+              <div class="flex text-primary">
+                  <span class="icon-document-certificate m-2" style="font-size:20px;"></span>
+                  <h3 class="m-0 text-primary">Certification Details</h3>
+              </div>
+           
             <!-- <button pButton pRipple icon="pi pi-pencil" class="p-element p-ripple p-button-text p-button-primary p-component"></button> -->
           </div>
+          
           <div class="grid">
-            <div class="col-12 lg:col-3 md:col-4 sm:col-6">
+          <div class="col-12 lg:col-3 md:col-4 sm:col-6">
               <div class="applicant_certificate">
-                <h5 class="text-primary mb-0">Certification On</h5>
-                <p>Institute Name</p>
-                <p>
-                  <span class="text-primary" pTooltip="Year of Completion">YOC</span>: 2018
-                </p>
-                <p>
-                  <i class="pi pi-star text-primary text-700 mr-2"></i>: A+
-                </p>
+                  <h5 class="text-primary mb-0">Certification On</h5>
+                  <p>Institute Name</p>
+                  <p><span class="text-primary" pTooltip="Year of Completion">YOC</span>: 2018</p>
+                  <p><i class="pi pi-star text-primary text-700 mr-2"></i>: A+</p>
               </div>
-            </div>
-            <div class="col-12 lg:col-3 md:col-4 sm:col-6">
-              <div class="applicant_certificate">
-                <h5 class="text-primary mb-0">Certification On</h5>
-                <p>Institute Name</p>
-                <p>
-                  <span class="text-primary" pTooltip="Year of Completion">YOC</span>: 2018
-                </p>
-                <p>
-                  <i class="pi pi-star text-primary text-700 mr-2"></i>: A+
-                </p>
-              </div>
-            </div>
-            <div class="col-12 lg:col-3 md:col-4 sm:col-6">
-              <div class="applicant_certificate">
-                <h5 class="text-primary mb-0">Certification On</h5>
-                <p>Institute Name</p>
-                <p>
-                  <span class="text-primary" pTooltip="Year of Completion">YOC</span>: 2018
-                </p>
-                <p>
-                  <i class="pi pi-star text-primary text-700 mr-2"></i>: A+
-                </p>
-              </div>
-            </div>
-            <div class="col-12 lg:col-3 md:col-4 sm:col-6">
-              <div class="applicant_certificate">
-                <h5 class="text-primary mb-0">Certification On</h5>
-                <p>Institute Name</p>
-                <p>
-                  <span class="text-primary" pTooltip="Year of Completion">YOC</span>: 2018
-                </p>
-                <p>
-                  <i class="pi pi-star text-primary text-700 mr-2"></i>: A+
-                </p>
-              </div>
-            </div>
           </div>
-        </div>
+          <div class="col-12 lg:col-3 md:col-4 sm:col-6">
+              <div class="applicant_certificate">
+                  <h5 class="text-primary mb-0">Certification On</h5>
+                  <p>Institute Name</p>
+                  <p><span class="text-primary" pTooltip="Year of Completion">YOC</span>: 2018</p>
+                  <p><i class="pi pi-star text-primary text-700 mr-2"></i>: A+</p>
+              </div>
+          </div>
+          <div class="col-12 lg:col-3 md:col-4 sm:col-6">
+              <div class="applicant_certificate">
+                  <h5 class="text-primary mb-0">Certification On</h5>
+                  <p>Institute Name</p>
+                  <p><span class="text-primary" pTooltip="Year of Completion">YOC</span>: 2018</p>
+                  <p><i class="pi pi-star text-primary text-700 mr-2"></i>: A+</p>
+              </div>
+          </div>
+          <div class="col-12 lg:col-3 md:col-4 sm:col-6">
+              <div class="applicant_certificate">
+                  <h5 class="text-primary mb-0">Certification On</h5>
+                  <p>Institute Name</p>
+                  <p><span class="text-primary" pTooltip="Year of Completion">YOC</span>: 2018</p>
+                  <p><i class="pi pi-star text-primary text-700 mr-2"></i>: A+</p>
+              </div>
+          </div>
+          </div>
       </div>
     </div>
   </div>
+</div>
