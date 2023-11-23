@@ -181,6 +181,7 @@ label.required::after {
     transform: scale(1.4);
     /* Adjust the scale factor as needed */
 }
+
 .p-confirm-dialog-reject.p-button {
     float: right;
 }
@@ -413,122 +414,148 @@ p-calendar input {
 .layout-topbar .topbar-menu li.topbar-item img {
     width: 1.8rem !important;
     height: unset !important;
-  }
- .show-iframe {
+}
+
+.show-iframe {
     display: block;
     width: 100%;
     height: 300px;
-  }
+}
 
- .no-show-iframe {
+.no-show-iframe {
     display: none;
-  }
-  .overflow-container {
+}
+
+.overflow-container {
     max-width: 1650px;
     overflow-x: auto;
     max-height: 250px;
     overflow-y: auto;
-  }
-.project_card{
+}
+
+.project_card {
     position: relative;
 }
-.project_card .project_edit_button{
-    position:absolute;
-    right:3px;
-    top:3px;
+
+.project_card .project_edit_button {
+    position: absolute;
+    right: 3px;
+    top: 3px;
     // border-radius: 50px;
 }
+
 .project_card:hover .cursor-pointer,
-.project_card:hover .text-color{
+.project_card:hover .text-color {
     color: #f17517 !important;
 }
+
 .project_card:hover {
     border: 1px solid #f17517 !important;
 
 }
-.project_details p{
+
+.project_details p {
     line-height: 1;
     text-align: left;
 }
-.project_status_checkbox{
+
+.project_status_checkbox {
     justify-content: space-between;
 }
-label{
+
+label {
     font-size: 1.2rem;
     color: #555555;
 }
 
-.project-employee-detail{
+.project-employee-detail {
     display: grid;
 }
+
 .hrms-tag-allotted-projects,
-.hrms-tag-employees{
+.hrms-tag-employees {
     white-space: nowrap;
-    color:#f17517;
+    color: #f17517;
     background-color: white !important;
-   // border: 1px solid  #f17517 !important;
+    // border: 1px solid  #f17517 !important;
 }
+
 .hrms-tag-allotted-projects:hover,
-.hrms-tag-employees:hover{
-    background-color:#f17517 !important;
-    color:white;
+.hrms-tag-employees:hover {
+    background-color: #f17517 !important;
+    color: white;
     cursor: pointer;
 }
+
 .hrms-project-list-detail {
     padding-top: 5px;
-    span.title{
+
+    span.title {
         padding: 2px 0 2px 5px;
         font-weight: 600;
     }
 
 }
-.project-employee-detail div{
-    padding-left:5px;
+
+.project-employee-detail div {
+    padding-left: 5px;
 }
-.project_employee_card{
+
+.project_employee_card {
     cursor: crosshair;
 }
-.project_employee_card:hover{
+
+.project_employee_card:hover {
     border: 1px solid #f17517 !important;
 }
 
-.disabled-radio,.disabled-calendar {
-    opacity: 0.5; /* or any other style to indicate disabled state */
-    pointer-events: none; /* prevent interactions with the disabled radio button */
+.disabled-radio,
+.disabled-calendar {
+    opacity: 0.5;
+    /* or any other style to indicate disabled state */
+    pointer-events: none;
+    /* prevent interactions with the disabled radio button */
 }
 
-.card-header{
+.card-header {
     background-color: var(--primary-lighter-color);
     // opacity:0.5;
     padding-left: 5px;
-    color:black;
+    color: black;
     cursor: pointer;
 }
-.card-header:hover{
+
+.card-header:hover {
     color: var(--primary-color)
 }
-.job-description{
+
+.job-description {
     overflow: hidden;
     display: -webkit-box;
-    -webkit-line-clamp: 3; /* number of lines to show */
-            line-clamp: 3;
+    -webkit-line-clamp: 3;
+    /* number of lines to show */
+    line-clamp: 3;
     -webkit-box-orient: vertical;
 }
-.applicant-p-block{
+
+.applicant-p-block {
     background-color: #f7dbc1;
     border-radius: 0% 50px;
 
 }
-.applicant-p-block2{
+
+.applicant-p-block2 {
     background-color: #f7dbc1;
     border-radius: 50px 0px;
 
 }
-.applicant-e-block{
+
+.applicant-e-block {
     border-radius: 50px 0px;
-    border:2px solid #f7dbc1;
+    border: 2px solid #f7dbc1;
 }
-.upload-doc{
+
+.upload-doc {
     width: 100%;
     padding: 30px 0px;
     background-color: white;
@@ -536,15 +563,16 @@ label{
     border-style: dashed;
     box-shadow: none !important;
 }
-.scrolling_content{
+
+.scrolling_content {
     display: grid;
     grid-gap: 10px;
     grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  }
+}
 
-  #rolesTabView .p-tabview-title{
+#rolesTabView .p-tabview-title {
     text-wrap: wrap !important;
-  }
+}
 
 .applicant_profile_pic {
     border-radius: 5px;
@@ -552,14 +580,36 @@ label{
     width: 50% !important;
     display: inline;
 }
-.applicant_certificate{
-    margin:3px;
+
+.applicant_certificate {
+    margin: 3px;
     border: 2px solid green;
     text-align: center;
-    padding:40px 0px;
+    padding: 40px 0px;
     border-radius: 0 30px 0 0px;
 }
-.applicant_certificate h5{
+
+.applicant_certificate h5 {
     font-style: italic;
-    font-size:15px;
+    font-size: 15px;
 }
+
+  .star {
+    cursor: pointer;
+    font-size: 24px;
+    color: #ddd;
+    transition: color 0.3s;
+    position: relative;
+  }
+
+  .star.full {
+    color: gold;
+  }
+
+  .star.half::after {
+    content: '\2605'; /* Unicode character for a solid star */
+    position: absolute;
+    color: gold;
+    overflow:visible;
+    width: 50%;
+  }

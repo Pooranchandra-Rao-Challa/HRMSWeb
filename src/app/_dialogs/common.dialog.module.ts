@@ -16,6 +16,7 @@ import { LookupDialogComponent } from './lookup.dialog/lookup.dialog.component';
 import { LeaveDialogComponent } from './leave.dialog/leave.dialog.component';
 import { JobOpeningsDialogComponent } from './jobopenings.dialog/jobopenings.dialog.component';
 import { ApplicantDialogComponent } from './applicant.dialog/applicant.dialog.component';
+import { StarRatingComponent } from './star-rating/star-rating.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { ApplicantDialogComponent } from './applicant.dialog/applicant.dialog.co
     LookupDialogComponent,
     LeaveDialogComponent,
     JobOpeningsDialogComponent,
-    ApplicantDialogComponent
+    ApplicantDialogComponent,
+    StarRatingComponent
   ],
   imports: [SharedModule],
   providers: [DialogService, DynamicDialogRef]
