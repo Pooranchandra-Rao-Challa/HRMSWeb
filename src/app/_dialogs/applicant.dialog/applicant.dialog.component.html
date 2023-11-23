@@ -91,13 +91,9 @@
                                 formControlName="stateId">
                             </p-dropdown>
                         </div>
-                        <div class="field col-12 md:col-2">
+                        <div class="field col-12 md:col-4">
                             <label class="required">Is Fresher:</label><br />
                             <p-inputSwitch formControlName="isFresher"></p-inputSwitch>
-                        </div>
-                        <div class="field col-12 md:col-2">
-                            <label class="required">Is Active:</label>
-                            <p-inputSwitch formControlName="isActive"></p-inputSwitch>
                         </div>
                         <div class="field col-12 md:col-4" style="display: grid;">
                             <img [src]="this.fbApplicant.get('photo').value  ? this.fbApplicant.get('photo').value : this.defaultPhoto"
@@ -136,7 +132,7 @@
                                     <th class="text-center">Grading Value </th>
                                     <th class="text-center">State</th>
                                     <th class="text-center">Country</th>
-                                    <th *ngIf="fbApplicant.controls['applicantEducationDetails'].value.length > 1"></th>
+                                    <th *ngIf="fbApplicant.controls['applicantEducationDetails'].value.length > 0"></th>
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-educaitonDetailsIndex="rowIndex">
@@ -176,7 +172,7 @@
                                             placeholder="Enter State">
                                         </p-dropdown>
                                     </td>
-                                    <td *ngIf="fbApplicant.controls['applicantEducationDetails'].value.length > 1">
+                                    <td *ngIf="fbApplicant.controls['applicantEducationDetails'].value.length > 0">
                                         <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer"
                                             *ngIf="!this.faApplicantEducationDetails().controls[educaitonDetailsIndex].get('educationId')?.value"
                                             (click)="  faApplicantEducationDetails().removeAt(educaitonDetailsIndex)"></i>
@@ -204,7 +200,8 @@
                             scrollHeight="300px">
                             <ng-template pTemplate="header">
                                 <tr>
-                                    <th class="text-center">Institution Name </th>
+                                    <th class="text-center">Certification Name </th>
+                                    <th class="text-center">Franchise Name </th>
                                     <th class="text-center">Year Of Completion</th>
                                     <th class="text-center">Results</th>
                                     <th *ngIf="fbApplicant.controls['applicantCertificationDetails'].value.length > 1">
@@ -214,8 +211,13 @@
                             <ng-template pTemplate="body" let-certificationDetailsIndex="rowIndex">
                                 <tr [formGroupName]="certificationDetailsIndex">
                                     <td class="vertical-align-top">
-                                        <input type="text" id="inputtext" pInputText placeholder="Enter Institute Name"
-                                            formControlName="institutionName" [style]="{'width':'100%'}" />
+                                        <p-dropdown appendTo="body" formControlName="certificationName"
+                                            placeholder="Enter Certificate Name" [style]="{'width':'100%'}" >
+                                        </p-dropdown>
+                                    </td>
+                                    <td class="vertical-align-top">
+                                        <input type="text" id="inputtext" pInputText placeholder="Enter Franchise Name"
+                                            formControlName="franchiseName" [style]="{'width':'100%'}" />
                                     </td>
                                     <td class="vertical-align-top">
                                         <p-calendar [readonlyInput]="true" placeholder="Select Year Of Completion"
@@ -346,7 +348,7 @@
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th class="text-center">Skills</th>
-                                    <th class="text-center">Expertise</th>
+                                    <th class="text-center">Expertise(Give Your Assesment)</th>
                                     <th *ngIf="fbApplicant.controls['applicantSkillsDetails'].value.length > 1">
                                     </th>
                                 </tr>
@@ -360,7 +362,10 @@
                                         </p-dropdown>
                                     </td>
                                     <td class="vertical-align-top pt-3 text-center">
-                                        <p-rating number="3" [cancel]="false" class=""> </p-rating>
+                                        <!-- //<app-star-rating [(rating)]="value"></app-star-rating> -->
+                                        <app-star-rating [control]="getExpertiseControl()"></app-star-rating>
+
+                                        <!-- <p-rating number="3" [cancel]="false" class=""> </p-rating> -->
                                     </td>
                                     <td *ngIf="fbApplicant.controls['applicantSkillsDetails'].value.length > 1">
                                         <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer"
