@@ -1,9 +1,15 @@
-
-
-    <!-- Toolbar -->
+<!-- Toolbar -->
 <p-toolbar styleClass="p-mb-4">
     <ng-template pTemplate="left">
         <h4>Recruitment Process</h4>
+    </ng-template>
+    <ng-template pTemplate="center">
+        <p-dropdown [options]="cities" placeholder="Select a City" 
+            optionLabel="name"></p-dropdown>
+    </ng-template>
+    <ng-template pTemplate="right">
+        <p-checkbox name="isActive" value="isActive"></p-checkbox>
+        <label for="ny" class="ml-1">Hide UnderProcess</label>
     </ng-template>
 </p-toolbar>
 <div class="card " id="main-card">
@@ -13,11 +19,11 @@
             <p-progressBar [value]="50" class=""></p-progressBar>
             <div>
                 <div class="card card-header surface-border orange-200 card-height border-1 m-0 mt-2 p-2  mb-0">
-                <b> Applicant Name</b>
+                    <b> Applicant Name</b>
                 </div>
-                <div class="card mt-0 mb-2  border-1 pb-2 surface-border ">              
+                <div class="card mt-0 mb-2  border-1 pb-2 surface-border ">
                     <div class=" mb-3 grid">
-                        <div class="col-12 lg:col-8 md:col-12 p-1 px-2 employee_info">                        
+                        <div class="col-12 lg:col-8 md:col-12 p-1 px-2 employee_info">
                             <span class="text-600 font-medium text-md">
                                 <i class="pi pi-calendar text-300 text-primary text-1xl  pb-1"></i> : Applicant DOB
                             </span>
@@ -31,41 +37,40 @@
                             </span>
                         </div>
                         <div class="col-12 lg:col-4 md:col-12 p-1 px-2 employee_info text-center">
-                            <i class="pi  text-500 text-primary text-1xl pb-1">Ratting </i> 
+                            <i class="pi  text-500 text-primary text-1xl pb-1">Ratting </i>
                             <p-rating [cancel]="false"></p-rating>
                         </div>
                     </div>
-                    <div class="grid">                
+                    <div class="grid">
                         <div class="grid m-0 ">
                             <div class="relative col-9 p-0 mb-3  employee_info">
                                 <span class="text-600 font-medium text-md">
-                                <i class="pi  text-500 text-primary text-1xl pb-1">Skills </i> :
-                                HTML, CSS, Java Script, Angular</span>
+                                    <i class="pi  text-500 text-primary text-1xl pb-1">Skills </i> :
+                                    HTML, CSS, Java Script, Angular</span>
                             </div>
                             <div class="mb-3 col-3 p-0">
-                                <button pbutton="" pripple="" type="button" label="Primary"                      
-                                class="p-element p-ripple p-button-text p-button p-component view_profile_button"
-                                ng-reflect-label="Primary">
-                                <span class="p-button-label pi pi-chevron-right"></span>
+                                <button pbutton="" pripple="" type="button" label="Primary"
+                                    class="p-element p-ripple p-button-text p-button p-component view_profile_button"
+                                    ng-reflect-label="Primary">
+                                    <span class="p-button-label pi pi-chevron-right"></span>
                                 </button>
                             </div>
                         </div>
                     </div>
-                </div>  
-            </div> 
+                </div>
+            </div>
         </div>
-
 
         <div class="col-12 md:col-4 lg:col-3 sm:col-6">
             <h5>First Round</h5>
             <p-progressBar [value]="20" class=""></p-progressBar>
             <div>
                 <div class="card card-header surface-border orange-200 card-height border-1 m-0 mt-2 p-2  mb-0">
-                <b> Applicant Name</b>
+                    <b> Applicant Name</b>
                 </div>
-                <div class="card mt-0 mb-2  border-1 pb-2 surface-border ">              
+                <div class="card mt-0 mb-2  border-1 pb-2 surface-border ">
                     <div class=" mb-3 grid">
-                        <div class="col-12 lg:col-8 md:col-12 p-1 px-2 employee_info">                        
+                        <div class="col-12 lg:col-8 md:col-12 p-1 px-2 employee_info">
                             <span class="text-600 font-medium text-md">
                                 <i class="pi pi-calendar text-300 text-primary text-1xl  pb-1"></i> : Applicant DOB
                             </span>
@@ -79,35 +84,35 @@
                             </span>
                         </div>
                         <div class="col-12 lg:col-4 md:col-12 p-1 px-2 employee_info text-center">
-                            <i class="pi  text-500 text-primary text-1xl pb-1">Ratting </i> 
+                            <i class="pi  text-500 text-primary text-1xl pb-1">Ratting </i>
                             <p-rating [cancel]="false"></p-rating>
                         </div>
                     </div>
-                    <div class="grid">                
+                    <div class="grid">
                         <div class="grid m-0 ">
                             <div class="relative col-9 p-0 mb-3  employee_info">
                                 <span class="text-600 font-medium text-md">
-                                <i class="pi  text-500 text-primary text-1xl pb-1">Skills </i> :
-                                HTML, CSS, Java Script, Angular</span>
+                                    <i class="pi  text-500 text-primary text-1xl pb-1">Skills </i> :
+                                    HTML, CSS, Java Script, Angular</span>
                             </div>
                             <div class="mb-3 col-3 p-0">
-                                <button pbutton="" pripple="" type="button" label="Primary"                      
-                                class="p-element p-ripple p-button-text p-button p-component view_profile_button"
-                                ng-reflect-label="Primary">
-                                <span class="p-button-label pi pi-chevron-right"></span>
+                                <button pbutton="" pripple="" type="button" label="Primary"
+                                    class="p-element p-ripple p-button-text p-button p-component view_profile_button"
+                                    ng-reflect-label="Primary">
+                                    <span class="p-button-label pi pi-chevron-right"></span>
                                 </button>
                             </div>
                         </div>
                     </div>
-                </div>  
-            </div> 
+                </div>
+            </div>
             <div>
                 <div class="card card-header surface-border orange-200 card-height border-1 m-0 mt-2 p-2  mb-0">
-                <b> Applicant Name</b>
+                    <b> Applicant Name</b>
                 </div>
-                <div class="card mt-0 mb-2  border-1 pb-2 surface-border ">              
+                <div class="card mt-0 mb-2  border-1 pb-2 surface-border ">
                     <div class=" mb-3 grid">
-                        <div class="col-12 lg:col-8 md:col-12 p-1 px-2 employee_info">                        
+                        <div class="col-12 lg:col-8 md:col-12 p-1 px-2 employee_info">
                             <span class="text-600 font-medium text-md">
                                 <i class="pi pi-calendar text-300 text-primary text-1xl  pb-1"></i> : Applicant DOB
                             </span>
@@ -121,28 +126,28 @@
                             </span>
                         </div>
                         <div class="col-12 lg:col-4 md:col-12 p-1 px-2 employee_info text-center">
-                            <i class="pi  text-500 text-primary text-1xl pb-1">Ratting </i> 
+                            <i class="pi  text-500 text-primary text-1xl pb-1">Ratting </i>
                             <p-rating [cancel]="false"></p-rating>
                         </div>
                     </div>
-                    <div class="grid">                
+                    <div class="grid">
                         <div class="grid m-0 ">
                             <div class="relative col-9 p-0 mb-3  employee_info">
                                 <span class="text-600 font-medium text-md">
-                                <i class="pi  text-500 text-primary text-1xl pb-1">Skills </i> :
-                                HTML, CSS, Java Script, Angular</span>
+                                    <i class="pi  text-500 text-primary text-1xl pb-1">Skills </i> :
+                                    HTML, CSS, Java Script, Angular</span>
                             </div>
                             <div class="mb-3 col-3 p-0">
-                                <button pbutton="" pripple="" type="button" label="Primary"                      
-                                class="p-element p-ripple p-button-text p-button p-component view_profile_button"
-                                ng-reflect-label="Primary">
-                                <span class="p-button-label pi pi-chevron-right"></span>
+                                <button pbutton="" pripple="" type="button" label="Primary"
+                                    class="p-element p-ripple p-button-text p-button p-component view_profile_button"
+                                    ng-reflect-label="Primary">
+                                    <span class="p-button-label pi pi-chevron-right"></span>
                                 </button>
                             </div>
                         </div>
                     </div>
-                </div>  
-            </div>             
+                </div>
+            </div>
         </div>
 
 
@@ -151,11 +156,11 @@
             <p-progressBar [value]="70" class=""></p-progressBar>
             <div>
                 <div class="card card-header surface-border orange-200 card-height border-1 m-0 mt-2 p-2  mb-0">
-                <b> Applicant Name</b>
+                    <b> Applicant Name</b>
                 </div>
-                <div class="card mt-0 mb-2  border-1 pb-2 surface-border ">              
+                <div class="card mt-0 mb-2  border-1 pb-2 surface-border ">
                     <div class=" mb-3 grid">
-                        <div class="col-12 lg:col-8 md:col-12 p-1 px-2 employee_info">                        
+                        <div class="col-12 lg:col-8 md:col-12 p-1 px-2 employee_info">
                             <span class="text-600 font-medium text-md">
                                 <i class="pi pi-calendar text-300 text-primary text-1xl  pb-1"></i> : Applicant DOB
                             </span>
@@ -169,35 +174,35 @@
                             </span>
                         </div>
                         <div class="col-12 lg:col-4 md:col-12 p-1 px-2 employee_info text-center">
-                            <i class="pi  text-500 text-primary text-1xl pb-1">Ratting </i> 
+                            <i class="pi  text-500 text-primary text-1xl pb-1">Ratting </i>
                             <p-rating [cancel]="false"></p-rating>
                         </div>
                     </div>
-                    <div class="grid">                
+                    <div class="grid">
                         <div class="grid m-0 ">
                             <div class="relative col-9 p-0 mb-3  employee_info">
                                 <span class="text-600 font-medium text-md">
-                                <i class="pi  text-500 text-primary text-1xl pb-1">Skills </i> :
-                                HTML, CSS, Java Script, Angular</span>
+                                    <i class="pi  text-500 text-primary text-1xl pb-1">Skills </i> :
+                                    HTML, CSS, Java Script, Angular</span>
                             </div>
                             <div class="mb-3 col-3 p-0">
-                                <button pbutton="" pripple="" type="button" label="Primary"                      
-                                class="p-element p-ripple p-button-text p-button p-component view_profile_button"
-                                ng-reflect-label="Primary">
-                                <span class="p-button-label pi pi-chevron-right"></span>
+                                <button pbutton="" pripple="" type="button" label="Primary"
+                                    class="p-element p-ripple p-button-text p-button p-component view_profile_button"
+                                    ng-reflect-label="Primary">
+                                    <span class="p-button-label pi pi-chevron-right"></span>
                                 </button>
                             </div>
                         </div>
                     </div>
-                </div>  
-            </div> 
+                </div>
+            </div>
             <div>
                 <div class="card card-header surface-border orange-200 card-height border-1 m-0 mt-2 p-2  mb-0">
-                <b> Applicant Name</b>
+                    <b> Applicant Name</b>
                 </div>
-                <div class="card mt-0 mb-2  border-1 pb-2 surface-border ">              
+                <div class="card mt-0 mb-2  border-1 pb-2 surface-border ">
                     <div class=" mb-3 grid">
-                        <div class="col-12 lg:col-8 md:col-12 p-1 px-2 employee_info">                        
+                        <div class="col-12 lg:col-8 md:col-12 p-1 px-2 employee_info">
                             <span class="text-600 font-medium text-md">
                                 <i class="pi pi-calendar text-300 text-primary text-1xl  pb-1"></i> : Applicant DOB
                             </span>
@@ -211,35 +216,35 @@
                             </span>
                         </div>
                         <div class="col-12 lg:col-4 md:col-12 p-1 px-2 employee_info text-center">
-                            <i class="pi  text-500 text-primary text-1xl pb-1">Ratting </i> 
+                            <i class="pi  text-500 text-primary text-1xl pb-1">Ratting </i>
                             <p-rating [cancel]="false"></p-rating>
                         </div>
                     </div>
-                    <div class="grid">                
+                    <div class="grid">
                         <div class="grid m-0 ">
                             <div class="relative col-9 p-0 mb-3  employee_info">
                                 <span class="text-600 font-medium text-md">
-                                <i class="pi  text-500 text-primary text-1xl pb-1">Skills </i> :
-                                HTML, CSS, Java Script, Angular</span>
+                                    <i class="pi  text-500 text-primary text-1xl pb-1">Skills </i> :
+                                    HTML, CSS, Java Script, Angular</span>
                             </div>
                             <div class="mb-3 col-3 p-0">
-                                <button pbutton="" pripple="" type="button" label="Primary"                      
-                                class="p-element p-ripple p-button-text p-button p-component view_profile_button"
-                                ng-reflect-label="Primary">
-                                <span class="p-button-label pi pi-chevron-right"></span>
+                                <button pbutton="" pripple="" type="button" label="Primary"
+                                    class="p-element p-ripple p-button-text p-button p-component view_profile_button"
+                                    ng-reflect-label="Primary">
+                                    <span class="p-button-label pi pi-chevron-right"></span>
                                 </button>
                             </div>
                         </div>
                     </div>
-                </div>  
-            </div> 
+                </div>
+            </div>
             <div>
                 <div class="card card-header surface-border orange-200 card-height border-1 m-0 mt-2 p-2  mb-0">
-                <b> Applicant Name</b>
+                    <b> Applicant Name</b>
                 </div>
-                <div class="card mt-0 mb-2  border-1 pb-2 surface-border ">              
+                <div class="card mt-0 mb-2  border-1 pb-2 surface-border ">
                     <div class=" mb-3 grid">
-                        <div class="col-12 lg:col-8 md:col-12 p-1 px-2 employee_info">                        
+                        <div class="col-12 lg:col-8 md:col-12 p-1 px-2 employee_info">
                             <span class="text-600 font-medium text-md">
                                 <i class="pi pi-calendar text-300 text-primary text-1xl  pb-1"></i> : Applicant DOB
                             </span>
@@ -253,41 +258,41 @@
                             </span>
                         </div>
                         <div class="col-12 lg:col-4 md:col-12 p-1 px-2 employee_info text-center">
-                            <i class="pi  text-500 text-primary text-1xl pb-1">Ratting </i> 
+                            <i class="pi  text-500 text-primary text-1xl pb-1">Ratting </i>
                             <p-rating [cancel]="false"></p-rating>
                         </div>
                     </div>
-                    <div class="grid">                
+                    <div class="grid">
                         <div class="grid m-0 ">
                             <div class="relative col-9 p-0 mb-3  employee_info">
                                 <span class="text-600 font-medium text-md">
-                                <i class="pi  text-500 text-primary text-1xl pb-1">Skills </i> :
-                                HTML, CSS, Java Script, Angular</span>
+                                    <i class="pi  text-500 text-primary text-1xl pb-1">Skills </i> :
+                                    HTML, CSS, Java Script, Angular</span>
                             </div>
                             <div class="mb-3 col-3 p-0">
-                                <button pbutton="" pripple="" type="button" label="Primary"                      
-                                class="p-element p-ripple p-button-text p-button p-component view_profile_button"
-                                ng-reflect-label="Primary">
-                                <span class="p-button-label pi pi-chevron-right"></span>
+                                <button pbutton="" pripple="" type="button" label="Primary"
+                                    class="p-element p-ripple p-button-text p-button p-component view_profile_button"
+                                    ng-reflect-label="Primary">
+                                    <span class="p-button-label pi pi-chevron-right"></span>
                                 </button>
                             </div>
                         </div>
                     </div>
-                </div>  
-            </div> 
-            
+                </div>
+            </div>
+
         </div>
 
         <div class="col-12 md:col-4 lg:col-3 sm:col-6">
-            <h5>Contract Proposal  </h5>
+            <h5>Contract Proposal </h5>
             <p-progressBar [value]="30" class=""></p-progressBar>
             <div>
                 <div class="card card-header surface-border orange-200 card-height border-1 m-0 mt-2 p-2  mb-0">
-                <b> Applicant Name</b>
+                    <b> Applicant Name</b>
                 </div>
-                <div class="card mt-0 mb-2  border-1 pb-2 surface-border ">              
+                <div class="card mt-0 mb-2  border-1 pb-2 surface-border ">
                     <div class=" mb-3 grid">
-                        <div class="col-12 lg:col-8 md:col-12 p-1 px-2 employee_info">                        
+                        <div class="col-12 lg:col-8 md:col-12 p-1 px-2 employee_info">
                             <span class="text-600 font-medium text-md">
                                 <i class="pi pi-calendar text-300 text-primary text-1xl  pb-1"></i> : Applicant DOB
                             </span>
@@ -301,28 +306,28 @@
                             </span>
                         </div>
                         <div class="col-12 lg:col-4 md:col-12 p-1 px-2 employee_info text-center">
-                            <i class="pi  text-500 text-primary text-1xl pb-1">Ratting </i> 
+                            <i class="pi  text-500 text-primary text-1xl pb-1">Ratting </i>
                             <p-rating [cancel]="false"></p-rating>
                         </div>
                     </div>
-                    <div class="grid">                
+                    <div class="grid">
                         <div class="grid m-0 ">
                             <div class="relative col-9 p-0 mb-3  employee_info">
                                 <span class="text-600 font-medium text-md">
-                                <i class="pi  text-500 text-primary text-1xl pb-1">Skills </i> :
-                                HTML, CSS, Java Script, Angular</span>
+                                    <i class="pi  text-500 text-primary text-1xl pb-1">Skills </i> :
+                                    HTML, CSS, Java Script, Angular</span>
                             </div>
                             <div class="mb-3 col-3 p-0">
-                                <button pbutton="" pripple="" type="button" label="Primary"                      
-                                class="p-element p-ripple p-button-text p-button p-component view_profile_button"
-                                ng-reflect-label="Primary">
-                                <span class="p-button-label pi pi-chevron-right"></span>
+                                <button pbutton="" pripple="" type="button" label="Primary"
+                                    class="p-element p-ripple p-button-text p-button p-component view_profile_button"
+                                    ng-reflect-label="Primary">
+                                    <span class="p-button-label pi pi-chevron-right"></span>
                                 </button>
                             </div>
                         </div>
                     </div>
-                </div>  
-            </div>            
+                </div>
+            </div>
         </div>
     </div>
 </div>
