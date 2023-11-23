@@ -2,9 +2,7 @@
     <div class="col-12">
         <div class="card">
             <p-dataView #dv [value]="applicant" [paginator]="dv.layout === 'grid' && dv.rows > 10" [rows]="10"
-                filterBy="name,email,mobileNumber" 
-                [sortField]="sortField" [sortOrder]="sortOrder" 
-                layout="grid">
+                filterBy="name,email,mobileNumber" [sortField]="sortField" [sortOrder]="sortOrder" layout="grid">
                 <ng-template pTemplate="header">
                     <div class="flex flex-column md:flex-row md:justify-content-between ">
                         <h4>Applicants</h4>
@@ -22,60 +20,62 @@
                         <div class="card m-2 border-1 surface-border card-height ">
                             <div class=" mb-0 grid">
                                 <div class="col-12 md:col-6 text-center">
-                                    <img  src="./assets/layout/images/men-emp.jpg"
-                                    class="shadow-2 my-1 mx-0 applicant_profile_pic zoomable-img" /><br/>
+                                    <img src="./assets/layout/images/men-emp.jpg"
+                                        class="shadow-2 my-1 mx-0 applicant_profile_pic zoomable-img" /><br />
                                     <span class="text-xl font-bold">
                                         <i class="pi pi-users text-600 text-primary text-1xl  pb-2"></i> :
                                         {{applicant.name}}
-                                    </span><br/>
-                                    
+                                    </span><br />
                                     <span class="text-600 font-medium text-md">
                                         <i class="pi pi-phone text-500 text-primary text-1xl pb-1"></i> :
-                                        {{applicant.mobileNumber}}
+                                        {{applicant.experienceStatus}}
                                     </span>
                                 </div>
                                 <div class="col-12 md:col-6 text-center">
-                                    <p-knob [(ngModel)]="value" [strokeWidth]="10" [size]="60"></p-knob><br/>
-                                    <span class="text-xl font-bold ">
-                                        Pending
-                                    </span>
-                                    <br/>
-                                    <div class="mt-2"> 
-                                        <span class="text-600 font-medium text-md mt-2">
-                                            <i class="icon-graduation-cap text-500 text-primary text-1xl p-2 pb-1 "></i> 
-                                            <i class="icon-office_details text-500 text-primary text-1xl p-2 pb-1"></i> 
-                                            <i class="icon-document-certificate text-500 text-primary text-1xl p-2  pb-1"></i>  
+                                    <p-knob [(ngModel)]="value" [strokeWidth]="10" [size]="60"></p-knob><br />
+                                    <br />
+                                    <div class="mt-2">
+                                        <span class="text-600 font-medium text-md mt-2"
+                                            *ngFor="let detail of applicant.pendingDetails.split(', ')">
+                                            <ng-container [ngSwitch]="detail">
+                                                <i *ngSwitchCase="'ApplicantEducationDetails'"
+                                                    class="icon-graduation-cap text-500 text-primary text-1xl p-2 pb-1 "></i>
+                                                <i *ngSwitchCase="'ApplicantCertifications'"
+                                                    class="icon-document-certificate text-500 text-primary text-1xl p-2  pb-1"></i>
+                                                <i *ngSwitchCase="'ApplicantWorkExperience'"
+                                                    class="icon-office_details text-500 text-primary text-1xl p-2 pb-1"></i>
+                                                <i *ngSwitchCase="'ApplicantLanguageSkills'"
+                                                    class="icon-adderss text-primary text-1xl p-2 pb-1"></i>
+                                                <i *ngSwitchCase="'ApplicantSkills'"
+                                                    class="icon-adderss text-primary text-1xl p-2 pb-1"></i>
+                                            </ng-container><br />
                                         </span>
                                     </div>
                                 </div>
                                 <div class="col-12 lg:col-9 md:col-12 p-1 px-2 employee_info">
-                                 
                                     <span class="text-600 font-medium text-md">
                                         <i class="pi pi-envelope text-300 text-primary text-1xl  pb-1"></i> :
-                                        {{applicant.email}}
+                                        {{applicant.emailId}}
                                     </span>
-
                                     <br />
                                     <span class="text-600 font-medium text-md">
-                                        <i class="pi pi-star text-300 text-primary text-1xl  pb-1"  pTooltip="Skills"></i> :
-                                        C, C++, Java, Angular
+                                        <i class="pi pi-phone text-500 text-primary text-1xl pb-1"></i> :
+                                        {{applicant.mobileNo}}
+                                    </span>
+                                    <br />
+                                    <span class="text-600 font-medium text-md">
+                                        <i class="pi pi-star text-300 text-primary text-1xl  pb-1"
+                                            pTooltip="Skills"></i> :
+                                        {{applicant.skills}}
                                     </span>
                                 </div>
-                                <div class="col-12 lg:col-3 md:col-12 p-1 px-2 employee_info">                                    
+                                <div class="col-12 lg:col-3 md:col-12 p-1 px-2 employee_info">
                                     <button pbutton="" pripple="" type="button" label="Primary"
-                                    (click)="viewApplicantDtls()"
-                                    class="p-element p-ripple p-button-text p-button p-component view_profile_button"
-                                    ng-reflect-label="Primary">
-                                    <span class="p-button-label pi pi-chevron-right"></span>
+                                        (click)="viewApplicantDtls()"
+                                        class="p-element p-ripple p-button-text p-button p-component view_profile_button"
+                                        ng-reflect-label="Primary">
+                                        <span class="p-button-label pi pi-chevron-right"></span>
                                     </button>
-                                </div>
-                                <div class="grid">
-                                    <div class="relative col-12 p-0 mb-3"></div>
-                                    <div class="grid m-0 ">
-                                        <div class="mb-3 col-12 p-0">
-                                           
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>

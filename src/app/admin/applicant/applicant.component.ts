@@ -3,9 +3,9 @@ import { Router } from '@angular/router';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ApplicantDialogComponent } from 'src/app/_dialogs/applicant.dialog/applicant.dialog.component';
 import { Actions, DialogRequest } from 'src/app/_models/common';
-import { Applicant } from 'src/app/demo/api/security';
-import { SecurityService } from 'src/app/demo/service/security.service';
 import { DataView } from 'primeng/dataview';
+import { ApplicantDto } from 'src/app/_models/recruitment';
+import { RecruitmentService } from 'src/app/_services/recruitment.service';
 
 export interface Status {
   name: string;
@@ -20,21 +20,26 @@ export interface Status {
 })
 export class ApplicantComponent {
   value: number = 40;
-  applicant: Applicant[] = [];
+  applicant: ApplicantDto[] = [];
   ActionTypes = Actions;
   dialogRequest: DialogRequest = new DialogRequest();
   applicantdialogComponent = ApplicantDialogComponent;
   sortOrder: number = 0;
   sortField: string = '';
   
-  constructor(private securityService: SecurityService,
+  constructor(private recruitmentService: RecruitmentService,
     public ref: DynamicDialogRef,
     private router: Router,
     private dialogService: DialogService) {}
 
   ngOnInit() {
-    this.securityService.getApplicantData().then((resp) => {
-      this.applicant = resp as unknown as Applicant[];
+    this.getApplicant();
+  }
+
+  getApplicant(){
+    this.recruitmentService.GetApplicantDetail().subscribe((resp) => {
+      this.applicant = resp as unknown as ApplicantDto[];
+      console.log(this.applicant);
     })
   }
 
