@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiHttpService } from './api.http.service';
 import { GET_APPLICANT_DETAILS, GET_VIEW_APPLICANT_DETAILS } from './api.uri.service';
-import { ApplicantDto, ApplicantViewDto } from '../_models/recruitment';
+import { ApplicantDto, ApplicantViewDto, ViewApplicantDto } from '../_models/recruitment';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +9,7 @@ import { ApplicantDto, ApplicantViewDto } from '../_models/recruitment';
 export class RecruitmentService extends ApiHttpService {
 
   public GetviewapplicantDtls(applicantId: number) {
-    return this.getWithId<any[]>(GET_VIEW_APPLICANT_DETAILS, [applicantId])
+    return this.getWithId<ViewApplicantDto[]>(GET_VIEW_APPLICANT_DETAILS, [applicantId])
   }
   public GetApplicantDetail(){
     return this.get<ApplicantViewDto[]>(GET_APPLICANT_DETAILS);
