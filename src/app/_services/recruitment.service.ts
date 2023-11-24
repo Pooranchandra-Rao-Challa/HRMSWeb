@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiHttpService } from './api.http.service';
-import { GET_APPLICANT_DETAILS, GET_VIEW_APPLICANT_DETAILS } from './api.uri.service';
+import { CREATE_APPLICANT_DETAILS, GET_APPLICANT_DETAILS, GET_VIEW_APPLICANT_DETAILS } from './api.uri.service';
 import { ApplicantDto, ApplicantViewDto } from '../_models/recruitment';
 
 @Injectable({
@@ -13,5 +13,8 @@ export class RecruitmentService extends ApiHttpService {
   }
   public GetApplicantDetail(){
     return this.get<ApplicantViewDto[]>(GET_APPLICANT_DETAILS);
+  }
+  public CreateApplicant(applicantDetails: ApplicantDto[]){
+    return this.post<ApplicantDto[]>(CREATE_APPLICANT_DETAILS,applicantDetails)
   }
 }

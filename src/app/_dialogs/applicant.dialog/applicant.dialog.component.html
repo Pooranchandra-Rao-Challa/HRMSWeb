@@ -25,71 +25,205 @@
                         <div class="field col-12 md:col-4">
                             <label class="required">Name:</label>
                             <input type="text" id="inputtext" pInputText formControlName="name" #name [maxlength]="50"
-                                alphaOnly placeholder="Enter Name" />
+                                alphaOnly placeholder="Enter Name"  (keydown)="restrictSpaces($event)"
+                                [ngClass]="{ 'is-invalid ng-dirty': FormControls['name'].touched && FormControls['name'].errors }" />
+                            <div class="flex">
+                                <div class="align-left w-60" style="width:70%">
+                                    <span *ngIf="FormControls['name'].touched && FormControls['name'].invalid">
+                                        <div class="ng-invalid ng-touched p-error"
+                                            *ngIf="FormControls['name'].errors?.['required']">
+                                            Please Enter Name.</div>
+                                    </span>
+                                </div>
+                                <div class="align-right w-40" style="width:30%; text-align:right;">
+                                    <small>{{name.value.length}}/{{maxLength.name}} </small>
+                                </div>
+                            </div>
                         </div>
                         <div class="field col-12 md:col-4">
                             <label class="required">Gender:</label>
                             <p-dropdown appendTo="body" id="gender_dropdown" placeholder="Select Gender"
-                            [autoDisplayFirst]="false" [options]="genders" optionLabel="name" formControlName="gender"
-                            optionValue="name" (ngModelChange)="onGenderChange()">
-                        </p-dropdown>
+                                [autoDisplayFirst]="false" [options]="genders" optionLabel="name"
+                                formControlName="gender" optionValue="name" (ngModelChange)="onGenderChange()"
+                                [ngClass]="{ 'is-invalid ng-dirty': FormControls['gender'].touched && FormControls['gender'].errors }">
+                            </p-dropdown>
+                            <div class="flex">
+                                <div class="align-left w-60" style="width:70%">
+                                    <span *ngIf="FormControls['gender'].touched && FormControls['gender'].invalid">
+                                        <div class="ng-invalid ng-touched p-error"
+                                            *ngIf="FormControls['gender'].errors?.['required']">
+                                            Please Select Gender.</div>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                         <div class="field col-12 md:col-4">
                             <label class="required">Dob:</label>
-                            <p-calendar [readonlyInput]="true" placeholder="Select DOB" appendTo="body"
-                                [showIcon]="true" mask="99/99/9999" formControlName="dob">
+                            <p-calendar [readonlyInput]="true" placeholder="Select Dob" appendTo="body"
+                                [showIcon]="true" mask="99/99/9999" formControlName="dob"
+                                [ngClass]="{ 'is-invalid ng-dirty': FormControls['dob'].touched && FormControls['dob'].errors }">
                             </p-calendar>
+                            <div class="flex">
+                                <div class="align-left w-60" style="width:70%">
+                                    <span *ngIf="FormControls['dob'].touched && FormControls['dob'].invalid">
+                                        <div class="ng-invalid ng-touched p-error"
+                                            *ngIf="FormControls['dob'].errors?.['required']">
+                                            Please Select Dob.</div>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                         <div class="field col-12 md:col-4">
                             <label class="required">Email:</label>
-                            <input type="text" id="inputtext" pInputText formControlName="emailId"
-                                placeholder="Enter Email" />
+                            <input type="text" id="inputtext" pInputText formControlName="emailId"  [maxlength]="50"
+                                placeholder="Enter Email" alphanumeric #email   (keydown)="restrictSpaces($event)"
+                                [ngClass]="{ 'is-invalid ng-dirty': FormControls['emailId'].touched && FormControls['emailId'].errors }" />
+                            <div class="flex">
+                                <div class="align-left w-60" style="width:70%">
+                                    <span *ngIf="FormControls['emailId'].touched && FormControls['emailId'].invalid">
+                                        <div class="ng-invalid ng-touched p-error"
+                                            *ngIf="FormControls['emailId'].errors?.['required']">
+                                            Please Enter Email.</div>
+                                    </span>
+                                </div>
+                                <div class="align-right w-40" style="width:30%; text-align:right;">
+                                    <small>{{email.value.length}}/{{maxLength.name}} </small>
+                                </div>
+                            </div>
                         </div>
                         <div class="field col-12 md:col-4">
                             <label class="required">Mobile Number:</label>
                             <input type="text" id="inputtext" pInputText formControlName="mobileNo" numericOnly
-                                placeholder="Enter Mobile Number" />
+                                placeholder="Enter Mobile Number" #mobileNo   (keydown)="restrictSpaces($event)"  [maxlength]="10"
+                                [ngClass]="{ 'is-invalid ng-dirty': FormControls['mobileNo'].touched && FormControls['mobileNo'].errors }" />
+                            <div class="flex">
+                                <div class="align-left w-60" style="width:70%">
+                                    <span *ngIf="FormControls['mobileNo'].touched && FormControls['mobileNo'].invalid">
+                                        <div class="ng-invalid ng-touched p-error"
+                                            *ngIf="FormControls['mobileNo'].errors?.['required']">
+                                            Please Enter Mobile Number.</div>
+                                    </span>
+                                </div>
+                                <div class="align-right w-40" style="width:30%; text-align:right;">
+                                    <small>{{mobileNo.value.length}}/{{maxLength.phoneNo}} </small>
+                                </div>
+                            </div>
                         </div>
                         <div class="field col-12 md:col-4">
                             <label class="required">Nationality:</label>
-                            <input type="text" id="inputtext" pInputText placeholder="Enter Nationality"
-                                formControlName="nationalityId" />
+                            <p-dropdown appendTo="body" id="gender_dropdown" [autoDisplayFirst]="false"
+                                placeholder="Select Nationality" formControlName="nationalityId"
+                                [ngClass]="{ 'is-invalid ng-dirty': FormControls['nationalityId'].touched && FormControls['nationalityId'].errors }">
+                            </p-dropdown>
+                            <div class="flex">
+                                <div class="align-left w-60" style="width:70%">
+                                    <span
+                                        *ngIf="FormControls['nationalityId'].touched && FormControls['nationalityId'].invalid">
+                                        <div class="ng-invalid ng-touched p-error"
+                                            *ngIf="FormControls['nationalityId'].errors?.['required']">
+                                            Please Select Nationality.</div>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                         <div class="field col-12 md:col-4">
                             <label class="required">Address Line1:</label>
-                            <input type="text" id="inputtext" pInputText placeholder="Enter Address Line1"
-                                formControlName="addressLine1" />
+                            <input type="text" id="inputtext" pInputText placeholder="Enter Address Line1" #addressLine1
+                                formControlName="addressLine1"   (keydown)="restrictSpaces($event)" alphaOnly   [maxlength]="50"
+                                [ngClass]="{ 'is-invalid ng-dirty': FormControls['addressLine1'].touched && FormControls['addressLine1'].errors }" />
+                            <div class="flex">
+                                <div class="align-left w-60" style="width:70%">
+                                    <span
+                                        *ngIf="FormControls['addressLine1'].touched && FormControls['addressLine1'].invalid">
+                                        <div class="ng-invalid ng-touched p-error"
+                                            *ngIf="FormControls['addressLine1'].errors?.['required']">
+                                            Please Enter Address Line1.</div>
+                                    </span>
+                                </div>
+                                <div class="align-right w-40" style="width:30%; text-align:right;">
+                                    <small>{{addressLine1.value.length}}/{{maxLength.name}} </small>
+                                </div>
+                            </div>
                         </div>
                         <div class="field col-12 md:col-4">
                             <label>Address Line2:</label>
-                            <input type="text" id="inputtext" pInputText placeholder="Enter Address Line2"
-                                formControlName="addressLine2" />
+                            <input type="text" id="inputtext" pInputText placeholder="Enter Address Line2"  [maxlength]="50"
+                                formControlName="addressLine2"   (keydown)="restrictSpaces($event)" alphaOnly />
                         </div>
                         <div class="field col-12 md:col-4">
                             <label>Landmark:</label>
-                            <input type="text" id="inputtext" pInputText placeholder="Enter Landmark"
-                                formControlName="landmark" />
+                            <input type="text" id="inputtext" pInputText placeholder="Enter Landmark"  [maxlength]="50"
+                                formControlName="landmark"   (keydown)="restrictSpaces($event)" alphaOnly />
                         </div>
                         <div class="field col-12 md:col-4">
                             <label class="required">Zip Code:</label>
-                            <input type="text" id="inputtext" pInputText placeholder="Enter Zip Code"
-                                formControlName="zipCode" />
+                            <input type="text" id="inputtext" pInputText placeholder="Enter Zip Code"  [maxlength]="6"
+                                formControlName="zipCode" numericOnly #zipCode   (keydown)="restrictSpaces($event)"
+                                [ngClass]="{ 'is-invalid ng-dirty': FormControls['zipCode'].touched && FormControls['zipCode'].errors }" />
+                            <div class="flex">
+                                <div class="align-left w-60" style="width:70%">
+                                    <span *ngIf="FormControls['zipCode'].touched && FormControls['zipCode'].invalid">
+                                        <div class="ng-invalid ng-touched p-error"
+                                            *ngIf="FormControls['zipCode'].errors?.['required']">
+                                            Please Enter Zip Code.</div>
+                                    </span>
+                                </div>
+                                <div class="align-right w-40" style="width:30%; text-align:right;">
+                                    <small>{{zipCode.value.length}}/{{maxLength.pinCode}} </small>
+                                </div>
+                            </div>
                         </div>
                         <div class="field col-12 md:col-4">
                             <label class="required">City:</label>
-                            <input type="text" id="inputtext" pInputText placeholder="Enter City"
-                                formControlName="city" />
+                            <input type="text" id="inputtext" pInputText placeholder="Enter City" formControlName="city"
+                                #city   (keydown)="restrictSpaces($event)" alphaOnly  [maxlength]="50"
+                                [ngClass]="{ 'is-invalid ng-dirty': FormControls['city'].touched && FormControls['city'].errors }" />
+                            <div class="flex">
+                                <div class="align-left w-60" style="width:70%">
+                                    <span *ngIf="FormControls['city'].touched && FormControls['city'].invalid">
+                                        <div class="ng-invalid ng-touched p-error"
+                                            *ngIf="FormControls['city'].errors?.['required']">
+                                            Please Enter City.</div>
+                                    </span>
+                                </div>
+                                <div class="align-right w-40" style="width:30%; text-align:right;">
+                                    <small>{{city.value.length}}/{{maxLength.name}} </small>
+                                </div>
+                            </div>
                         </div>
                         <div class="field col-12 md:col-4">
                             <label class="required">Country:</label>
-                            <p-dropdown id="projectName" appendTo="body" placeholder="Enter Country">
+                            <p-dropdown id="projectName" appendTo="body" placeholder="Select Country" formControlName="countryId"
+                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['countryId'].touched && FormControls['countryId'].errors }">
                             </p-dropdown>
+                            <div class="flex">
+                                <div class="align-left w-60" style="width:70%">
+                                    <span *ngIf="FormControls['countryId'].touched && FormControls['countryId'].invalid">
+                                        <div class="ng-invalid ng-touched p-error"
+                                            *ngIf="FormControls['countryId'].errors?.['required']">
+                                            Please Select Country.</div>
+                                    </span>
+                                </div>
+                                <div class="align-right w-40" style="width:30%; text-align:right;">
+                                    <small>{{city.value.length}}/{{maxLength.name}} </small>
+                                </div>
+                            </div>
                         </div>
                         <div class="field col-12 md:col-4">
                             <label class="required">State:</label>
-                            <p-dropdown id="projectName" appendTo="body" placeholder="Enter State"
-                                formControlName="stateId">
+                            <p-dropdown id="projectName" appendTo="body" placeholder="Select State"
+                                formControlName="stateId" 
+                                [ngClass]="{ 'is-invalid ng-dirty': FormControls['stateId'].touched && FormControls['stateId'].errors }">
                             </p-dropdown>
+                            <div class="flex">
+                                <div class="align-left w-60" style="width:70%">
+                                    <span *ngIf="FormControls['stateId'].touched && FormControls['stateId'].invalid">
+                                        <div class="ng-invalid ng-touched p-error"
+                                            *ngIf="FormControls['stateId'].errors?.['required']">
+                                            Please Select State.</div>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                         <div class="field col-12 md:col-4">
                             <label class="required">Is Fresher:</label><br />
@@ -139,7 +273,7 @@
                                 <tr [formGroupName]="educaitonDetailsIndex">
                                     <td class="vertical-align-top">
                                         <p-dropdown id="projectName" appendTo="body" formControlName="streamId"
-                                            placeholder="Enter Stream">
+                                            placeholder="Enter Stream" >
                                         </p-dropdown>
                                     </td>
                                     <td class="vertical-align-top">
@@ -212,7 +346,7 @@
                                 <tr [formGroupName]="certificationDetailsIndex">
                                     <td class="vertical-align-top">
                                         <p-dropdown appendTo="body" formControlName="certificateId"
-                                            placeholder="Enter Certificate Name" [style]="{'width':'100%'}" >
+                                            placeholder="Enter Certificate Name" [style]="{'width':'100%'}">
                                         </p-dropdown>
                                     </td>
                                     <td class="vertical-align-top">
@@ -438,5 +572,5 @@
 
 <div class=" footer dialog-footer">
     <button pButton pRipple type="submit" label="Add Applicant" class="p-button-raised p-button-primary"
-        id="SubmitJobForm" [disabled]="fbApplicant.invalid"></button>
+        id="SubmitApplicantForm" [disabled]="fbApplicant.invalid" (click)="onSubmit()"></button>
 </div>

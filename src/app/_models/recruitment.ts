@@ -24,6 +24,7 @@ export class ApplicantDto{
     landmark?:string;
     zipcode ?:string;
     city?:string;
+    countryId?:string;
     stateId ?: number;
     resumeUrl?:string;
     isFresher?:boolean;

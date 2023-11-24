@@ -1,7 +1,12 @@
+import { HttpEvent } from '@angular/common/http';
 import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { Form, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { PhotoFileProperties } from 'src/app/_models/common';
-import { ApplicantCertificationDto, ApplicantEducationDetailDto, ApplicantLanguageSkillDto, ApplicantSkillDto, ApplicantWorkExperienceDto } from 'src/app/_models/recruitment';
+import { DynamicDialogRef } from 'primeng/dynamicdialog';
+import { Observable } from 'rxjs';
+import { LookupViewDto } from 'src/app/_models/admin';
+import { MaxLength, PhotoFileProperties } from 'src/app/_models/common';
+import { ApplicantCertificationDto, ApplicantDto, ApplicantEducationDetailDto, ApplicantLanguageSkillDto, ApplicantSkillDto, ApplicantWorkExperienceDto } from 'src/app/_models/recruitment';
+import { RecruitmentService } from 'src/app/_services/recruitment.service';
 import { ValidateFileThenUpload } from 'src/app/_validators/upload.validators';
 
 
@@ -33,8 +38,11 @@ export class ApplicantDialogComponent {
   selectedFileName: string;
   defaultPhoto: string;
   yourRating: number = 0;
+  maxLength: MaxLength = new MaxLength();
 
-  constructor(private formbuilder: FormBuilder,) { }
+  constructor(private formbuilder: FormBuilder,
+    public ref: DynamicDialogRef,
+    public recruitmentService:RecruitmentService) { }
 
   ngOnInit() {
     this.applicantForm();
@@ -61,14 +69,16 @@ export class ApplicantDialogComponent {
       landmark: new FormControl(''),
       zipCode: new FormControl('', [Validators.required]),
       city: new FormControl('', [Validators.required]),
+      countryId:new FormControl('',[Validators.required]),
       stateId: new FormControl('', [Validators.required]),
       resumeUrl: new FormControl(''),
       isFresher: [true],
       applicantEducationDetails: this.formbuilder.group({
         applicantEducationId: [null],
         applicantId: [null],
-        streamId: [null],
-        stateId: [null],
+        streamId:  new FormControl('', [Validators.required]),
+        countryId: new FormControl('', [Validators.required]),
+        stateId: new FormControl('', [Validators.required]),
         institutionName: new FormControl(''),
         authorityName: new FormControl('', [Validators.required]),
         yearOfCompletion: new FormControl('', [Validators.required]),
@@ -77,10 +87,10 @@ export class ApplicantDialogComponent {
       }),
       applicantCertifications: this.formbuilder.group({
         applicantCertificateId: [null],
-        applicantId: new FormControl('', [Validators.required]),
+        applicantId: [null],
         certificateId: new FormControl('', [Validators.required]),
-        franchiseName: new FormControl('', [Validators.required]),
-        yearOfCompletion: new FormControl(''),
+        franchiseName: new FormControl(''),
+        yearOfCompletion: new FormControl('', [Validators.required]),
         results: new FormControl('', [Validators.required]),
       }),
       applicantWorkExperiences: this.formbuilder.group({
@@ -91,21 +101,21 @@ export class ApplicantDialogComponent {
         stateId: [null],
         companyEmployeeId: new FormControl(''),
         designationId: new FormControl('', [Validators.required]),
-        natureOfWork: new FormControl(''),
+        natureOfWork: new FormControl('', [Validators.required]),
         workedOnProjects: new FormControl(''),
-        dateOfJoining: new FormControl(''),
-        dateOfReliving: new FormControl(''),
+        dateOfJoining: new FormControl('', [Validators.required]),
+        dateOfReliving: new FormControl('', [Validators.required]),
       }),
       applicantSkills: this.formbuilder.group({
         applicantSkillId: [null],
         applicantId: new FormControl('', [Validators.required]),
         skillId: new FormControl('', [Validators.required]),
-        expertise: new FormControl('')
+        expertise: new FormControl('', [Validators.required])
       }),
       applicantLanguageSkills: this.formbuilder.group({
         applicantLanguageSkillId: [null],
-        applicantId: [null],
-        languageId: [null],
+        applicantId: new FormControl('', [Validators.required]),
+        languageId: new FormControl('', [Validators.required]),
         canRead: [null],
         canWrite: [null],
         canSpeak: [null],
@@ -236,6 +246,22 @@ export class ApplicantDialogComponent {
     }
   }
 
+  get FormControls() {
+    return this.fbApplicant.controls;
+  }
+
+  restrictSpaces(event: KeyboardEvent) {
+    const target = event.target as HTMLInputElement;
+    // Prevent the first key from being a space
+    if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0)
+        event.preventDefault();
+
+    // Restrict multiple spaces
+    if (event.key === ' ' && target.selectionStart > 0 && target.value.charAt(target.selectionStart - 1) === ' ') {
+        event.preventDefault();
+    }
+  }
+
   onFileChange(event: Event) {
     const fileUpload = event.target as HTMLInputElement;
 
@@ -251,6 +277,22 @@ export class ApplicantDialogComponent {
     }
   }
 
+  saveApplicant(): Observable<HttpEvent<ApplicantDto[]>> {
+      return this.recruitmentService.CreateApplicant(this.fbApplicant.value);
+  }
+
+  onSubmit() {
+    if (this.fbApplicant.valid) {
+      this.saveApplicant().subscribe(resp => {
+        if (resp) {
+          this.ref.close(true);
+        }
+      })
+    }
+    else {
+      this.fbApplicant.markAllAsTouched();
+    }
+  }
   // onClick() {
   //   this.messageDisplayed = false;
   //   const fileUpload = this.fileUpload.nativeElement;
