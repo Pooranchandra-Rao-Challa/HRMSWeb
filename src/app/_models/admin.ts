@@ -264,6 +264,7 @@ export class TechnicalSkills {
     JobOpeningsTechnicalSkillsXrefId?: number;
     JobOpeningId?: number;
     TechnicalSkillId?: number;
+    Expertise?: number;
 }
 
 export class SoftSkills {

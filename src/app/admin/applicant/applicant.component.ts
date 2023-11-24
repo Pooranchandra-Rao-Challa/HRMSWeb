@@ -7,10 +7,6 @@ import { DataView } from 'primeng/dataview';
 import { ApplicantDto } from 'src/app/_models/recruitment';
 import { RecruitmentService } from 'src/app/_services/recruitment.service';
 
-export interface Status {
-  name: string;
-  code: string;
-}
 
 @Component({
   selector: 'app-applicant',
@@ -40,6 +36,7 @@ export class ApplicantComponent {
     this.recruitmentService.GetApplicantDetail().subscribe((resp) => {
       this.applicant = resp as unknown as ApplicantDto[];
       console.log(this.applicant);
+      
     })
   }
 

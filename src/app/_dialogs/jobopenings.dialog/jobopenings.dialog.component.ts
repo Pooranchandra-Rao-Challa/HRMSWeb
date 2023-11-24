@@ -23,6 +23,7 @@ export class JobOpeningsDialogComponent {
   projects:ProjectViewDto[]=[];
   maxLength: MaxLength = new MaxLength();
   JobOpeningId: number;
+  expertise:number;
   viewSelectedSkills = [];
   designation:LookupViewDto[]=[];
   minDate: Date = new Date(new Date());
@@ -84,8 +85,9 @@ export class JobOpeningsDialogComponent {
       toBeFilled:  new FormControl('', [Validators.required]),
       isActive:  new FormControl(true),
       technicalSkills:new FormControl('',[Validators.required]),
+      expertise:new FormControl('',[Validators.required]),
       softSkills:new FormControl('',[Validators.required]),
-      JobOpeningTechnicalSkillsXrefs:new FormControl([{JobOpeningsTechnicalSkillsXrefId:null,JobOpeningId:null,TechnicalSkillId:null}]),
+      JobOpeningTechnicalSkillsXrefs:new FormControl([{JobOpeningsTechnicalSkillsXrefId:null,JobOpeningId:null,TechnicalSkillId:null,Expertise:null}]),
       JobOpeningSoftSkillsXrefs:new FormControl([{JobOpeningsSoftSkillsXrefId:null,JobOpeningId:null,SoftSkillId:null}]),
     });
   }
@@ -139,12 +141,12 @@ export class JobOpeningsDialogComponent {
     let updatedArray = [];
     if (this.JobOpeningId) {
       for (let i = 0; i < CurrentArray.length; i++) {
-        updatedArray.push({ JobOpeningsTechnicalSkillsXrefId: 0, JobOpeningId: this.JobOpeningId, TechnicalSkillId: CurrentArray[i] })
+        updatedArray.push({ JobOpeningsTechnicalSkillsXrefId: 0, JobOpeningId: this.JobOpeningId, TechnicalSkillId: CurrentArray[i],Expertise:this.expertise })
       }
     }
     else {
       for (let i = 0; i < CurrentArray.length; i++) {
-        updatedArray.push({ JobOpeningsTechnicalSkillsXrefId: 0, JobOpeningId: 0, TechnicalSkillId: CurrentArray[i] })
+        updatedArray.push({ JobOpeningsTechnicalSkillsXrefId: 0, JobOpeningId: 0, TechnicalSkillId: CurrentArray[i],Expertise:this.expertise })
       }
     }
 
