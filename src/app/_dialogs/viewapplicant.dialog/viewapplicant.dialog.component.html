@@ -1,0 +1,42 @@
+<div>
+  <!-- <form> -->
+    <!-- <div *ngIf="rowData?.type === 'education'"> -->
+    <label>Institution: </label>
+    <input [(ngModel)]="rowData.institution" />
+    <br>
+    <label>Degree: </label>
+    <input [(ngModel)]="rowData.degree" />
+    <br>
+    <label>Duration: </label>
+    <input [(ngModel)]="rowData.duration" />
+    <!-- </div> -->
+
+    <ng-container *ngIf="rowData?.type === 'experience'">
+      <label>Company: </label>
+      <input [(ngModel)]="rowData.company" />
+      <!-- Add more fields specific to experience -->
+    </ng-container>
+
+    <ng-container *ngIf="rowData?.type === 'certification'">
+      <label>Certification Name: </label>
+      <input [(ngModel)]="rowData.name" />
+      <!-- Add more fields specific to certification -->
+    </ng-container>
+
+    <ng-container *ngIf="rowData?.type === 'language'">
+      <label>Language: </label>
+      <input [(ngModel)]="rowData.name" />
+      <!-- Add more fields specific to language -->
+    </ng-container>
+
+    <ng-container *ngIf="rowData?.type === 'technical'">
+      <label>Skill Name: </label>
+      <input [(ngModel)]="rowData.name" />
+      <!-- Add more fields specific to technical skills -->
+    </ng-container>
+    <div class=" footer dialog-footer">
+      <button pButton pRipple class="p-button-raised p-button-primary" type="submit" (click)="onSave()">Save</button>
+      <!-- <button pButton pRipple  class="p-button-raised p-button-primary" type="submit" (click)="onCancel()">Cancel</button> -->
+    </div>
+  <!-- </form> -->
+</div>

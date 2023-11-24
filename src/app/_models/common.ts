@@ -69,4 +69,8 @@ export class PhotoFileProperties {
     isPdf?: boolean = false;
     Resize?: boolean = false;
   }
+  export enum ViewApplicationScreen{
+    educationdetails,
+  }
+
 

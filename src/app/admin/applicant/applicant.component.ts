@@ -44,10 +44,10 @@ export class ApplicantComponent {
     dv.filter((event.target as HTMLInputElement).value);
   }
 
-  viewApplicantDtls() {
-    this.router.navigate(['admin/viewapplicant']);
+  viewApplicantDtls(applicantId:number) {
+    this.router.navigate(['admin/viewapplicant'], { queryParams: { applicantId: applicantId }});
   }
-
+  
   openComponentDialog(content: any,
     dialogData, action: Actions = this.ActionTypes.add) {
     if (action == Actions.add && content === this.applicantdialogComponent) {
