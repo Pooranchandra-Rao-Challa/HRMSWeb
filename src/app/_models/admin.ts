@@ -258,6 +258,7 @@ export class JobOpeningsDetailsViewDto {
     createdBy?: string;
     updatedAt?: Date;
     updatedBy?: string;
+    InitiatedAt ?:Date
 }
 
 export class TechnicalSkills {

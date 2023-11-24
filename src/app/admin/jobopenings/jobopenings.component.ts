@@ -1,4 +1,5 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { JobOpeningsDialogComponent } from 'src/app/_dialogs/jobopenings.dialog/jobopenings.dialog.component';
 import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
@@ -23,7 +24,7 @@ export class JobOpeningsComponent {
   jobOpening: JobOpeningsDetailsViewDto[] = [];
   mediumDate: string = MEDIUM_DATE;
   permissions: any;
-  viewJobDesign:boolean= false;
+  viewJobDesign: boolean = false;
   selectedJob: JobOpeningsDetailsViewDto;
 
   constructor(
@@ -31,6 +32,7 @@ export class JobOpeningsComponent {
     public ref: DynamicDialogRef,
     private dialogService: DialogService,
     private jwtService: JwtService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -49,7 +51,17 @@ export class JobOpeningsComponent {
     this.selectedJob = job;
     this.viewJobDesign = true;
   }
-  
+  processJobOpening(jobOpeningDetails) { 
+    const jobDetails = { ...jobOpeningDetails, InitiatedAt: new Date(), jobOpeningId: jobOpeningDetails.id }
+     
+    this.adminService.processJobOpening(jobDetails).subscribe(resp => {
+      if (resp) {
+        this.router.navigate(['admin/recruitmentprocess']);
+        // this.router.navigate(['employee/onboardingemployee/uploadfiles', this.employeeId])
+      }
+    })
+  }
+
   openComponentDialog(content: any,
     dialogData, action: Actions = this.ActionTypes.add) {
     if (action == Actions.save && content === this.jobOpeningDialogComponent) {

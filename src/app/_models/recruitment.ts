@@ -18,20 +18,21 @@ export class ApplicantDto {
     emailId?: string;
     mobileNo?: number;
     nationalityId?: number;
-    photo?: string;
-    addressLine1?: string;
-    addressLine2?: string;
-    landmark?: string;
-    zipcode?: string;
-    city?: string;
-    stateId?: number;
-    resumeUrl?: string;
-    isFresher?: boolean;
-    applicantCertifications?: ApplicantCertificationDto[];
-    applicantEducationDetails?: ApplicantEducationDetailDto[];
-    applicantLanguageSkills?: ApplicantLanguageSkillDto[];
-    applicantSkills?: ApplicantSkillDto[];
-    applicantWorkExperiences?: ApplicantWorkExperienceDto[];
+    photo?:string;
+    addressLine1 ?:string;
+    addressLine2?:string;
+    landmark?:string;
+    zipcode ?:string;
+    city?:string;
+    countryId?:string;
+    stateId ?: number;
+    resumeUrl?:string;
+    isFresher?:boolean;
+    applicantCertifications?:ApplicantCertificationDto[];
+    applicantEducationDetails?:ApplicantEducationDetailDto[];
+    applicantLanguageSkills?:ApplicantLanguageSkillDto[];
+    applicantSkills ?:ApplicantSkillDto[];
+    applicantWorkExperiences?:ApplicantWorkExperienceDto[];
 }
 
 export class ApplicantCertificationDto {

@@ -113,6 +113,7 @@ export const GET_COMPANY_HIERARCHY="Employee/GetCompanyHierarchy";
 
 export const GET_JOB_DETAILS="JobOpening/GetJobOpening";
 export const CREATE_JOB_OPENINGS_DETAILS="JobOpening/CreateJobOpening";
+export const UPDATE_JOB="JobOpening/UpdateJobOpening";
 
 // leave confirmation
 export const GET_EMPLOYEE_MAIL_DETAILS ="Attendance/UpdateLeaveStatus";
@@ -122,4 +123,5 @@ export const UPDATE_EMPLOYEE_MAIL_DETAILS ="Attendance/UpdateLeaveStatus";
 export const GET_VIEW_APPLICANT_DETAILS ="Recruitment/GetApplicantBasedOnId";
 
 //Applicant
-export const GET_APPLICANT_DETAILS="Recruitment/GetApplicants"
+export const GET_APPLICANT_DETAILS="Recruitment/GetApplicants";
+export const CREATE_APPLICANT_DETAILS ="Recruitment/CreateApplicant";

@@ -19,7 +19,7 @@
                 <i class="pi pi-star text-primary"></i> &nbsp; {{jobOpeningDetails.designation}}
             </div>
             <div class="card m-2 border-1 mt-0 surface-border card-height">
-                <div class=" mb-3 grid">
+                <div class=" grid">
                     <div class="col-6">
                         <div class="text-600 font-medium text-sm job-description"> {{ jobOpeningDetails.description }}
                             quwe oeuir o oiweur u fu i ouer fu hfhhou rufuih iowfd </div>
@@ -34,6 +34,13 @@
                         <span><b class="text-primary">2</b> Applicants</span>
                         <br />
                         <span><b class="text-primary">6</b> to Recruit</span>
+                    </div>
+                    <div class="col-7">
+
+                    </div>
+                    <div class="col-5">
+                        <button pButton pRipple label="DoProcess"
+                            class="p-button-primary p-mr-2" id="ProcessJobOpening" (click)="processJobOpening(jobOpeningDetails)"></button>
                     </div>
                 </div>
             </div>
@@ -83,6 +90,7 @@
                         <br />
                         <span><b class="text-primary">6</b> to Recruit</span>
                     </div>
+                   
                 </div>
             </div>
         </div>

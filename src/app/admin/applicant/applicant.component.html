@@ -27,7 +27,7 @@
                                         {{applicant.name}}
                                     </span><br />
                                     <span class="text-600 font-medium text-md">
-                                        <i class="icon-expertise text-500 text-primary text-1xl pb-1"></i> :
+                                        <i class="icon-expertise text-800 text-primary text-2xl pb-1"></i> :
                                         {{applicant.experienceStatus}}
                                     </span>
                                 </div>
@@ -35,19 +35,36 @@
                                     <p-knob [(ngModel)]="value" [strokeWidth]="10" [size]="60"></p-knob>
                                     <br />
                                     <div class=" grid mt-2 ">
-                                        <span class="text-600 font-medium text-md mt-2 "
-                                            *ngFor="let detail of applicant.pendingDetails">
-                                            <ng-container [ngSwitch]="detail">
-                                                <i *ngSwitchCase="'ApplicantEducationDetails'"
-                                                    class="icon-study text-primary text-1xl p-2 pb-1 "></i>
-                                                <i *ngSwitchCase="'ApplicantCertifications'"
-                                                    class="icon-document-certificate text-primary text-1xl p-2 pb-1"></i>
-                                                <i *ngSwitchCase="'ApplicantWorkExperience'"
-                                                    class="icon-office_details text-primary text-1xl p-2 pb-1"></i>
-                                                <i *ngSwitchCase="'ApplicantLanguageSkills'"
-                                                    class="icon-language text-primary text-1xl p-2 pb-1"></i>
-                                                    
-                                              
+                                        <span class="text-600 font-medium text-md" *ngIf="applicant.pendingDetails">
+                                            Pending: </span>
+                                        <span class="text-600 font-medium text-md">
+                                            <ng-container *ngIf="applicant && applicant.pendingDetails">
+                                                <ng-container
+                                                    *ngIf="applicant.pendingDetails.includes('ApplicantEducationDetails')">
+                                                    <i class="icon-study text-primary text-1xl p-2 pb-1"></i>
+                                                    <!-- Education icon -->
+                                                </ng-container>
+                                                <ng-container
+                                                    *ngIf="applicant.pendingDetails.includes('ApplicantCertifications')">
+                                                    <i
+                                                        class="icon-document-certificate text-primary text-1xl p-2 pb-1"></i>
+                                                    <!-- Certifications icon -->
+                                                </ng-container>
+                                                <ng-container
+                                                    *ngIf="applicant.pendingDetails.includes('ApplicantWorkExperience')">
+                                                    <i class="icon-office_details text-primary text-1xl p-2 pb-1"></i>
+                                                    <!-- Work Experience icon -->
+                                                </ng-container>
+                                                <ng-container
+                                                    *ngIf="applicant.pendingDetails.includes('ApplicantLanguageSkills')">
+                                                    <i class="icon-language text-primary text-1xl p-2 pb-1"></i>
+                                                    <!-- Language icon -->
+                                                </ng-container>
+                                                <ng-container
+                                                    *ngIf="applicant.pendingDetails.includes('ApplicantSkills')">
+                                                    <i class="icon-user_skills text-primary text-1xl p-2 pb-1"></i>
+                                                    <!-- Skill icon -->
+                                                </ng-container>
                                             </ng-container>
                                         </span>
                                     </div>
