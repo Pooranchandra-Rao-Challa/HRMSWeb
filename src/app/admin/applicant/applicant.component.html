@@ -27,28 +27,28 @@
                                         {{applicant.name}}
                                     </span><br />
                                     <span class="text-600 font-medium text-md">
-                                        <i class="pi pi-phone text-500 text-primary text-1xl pb-1"></i> :
+                                        <i class="icon-expertise text-500 text-primary text-1xl pb-1"></i> :
                                         {{applicant.experienceStatus}}
                                     </span>
                                 </div>
                                 <div class="col-12 md:col-6 text-center">
-                                    <p-knob [(ngModel)]="value" [strokeWidth]="10" [size]="60"></p-knob><br />
+                                    <p-knob [(ngModel)]="value" [strokeWidth]="10" [size]="60"></p-knob>
                                     <br />
-                                    <div class="mt-2">
-                                        <span class="text-600 font-medium text-md mt-2"
+                                    <div class=" grid mt-2 ">
+                                        <span class="text-600 font-medium text-md mt-2 "
                                             *ngFor="let detail of applicant.pendingDetails.split(', ')">
                                             <ng-container [ngSwitch]="detail">
                                                 <i *ngSwitchCase="'ApplicantEducationDetails'"
-                                                    class="icon-graduation-cap text-500 text-primary text-1xl p-2 pb-1 "></i>
+                                                    class="icon-study text-primary text-1xl p-2 pb-1 "></i>
                                                 <i *ngSwitchCase="'ApplicantCertifications'"
-                                                    class="icon-document-certificate text-500 text-primary text-1xl p-2  pb-1"></i>
+                                                    class="icon-document-certificate text-primary text-1xl p-2 pb-1"></i>
                                                 <i *ngSwitchCase="'ApplicantWorkExperience'"
-                                                    class="icon-office_details text-500 text-primary text-1xl p-2 pb-1"></i>
+                                                    class="icon-office_details text-primary text-1xl p-2 pb-1"></i>
                                                 <i *ngSwitchCase="'ApplicantLanguageSkills'"
-                                                    class="icon-adderss text-primary text-1xl p-2 pb-1"></i>
-                                                <i *ngSwitchCase="'ApplicantSkills'"
-                                                    class="icon-adderss text-primary text-1xl p-2 pb-1"></i>
-                                            </ng-container><br />
+                                                    class="icon-language text-primary text-1xl p-2 pb-1"></i>
+                                                    
+                                              
+                                            </ng-container>
                                         </span>
                                     </div>
                                 </div>
