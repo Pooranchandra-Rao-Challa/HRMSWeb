@@ -106,7 +106,7 @@ export class AttendanceComponent {
   }
 
   showConfirmationDialog() {
-    if (typeof this.notUpdatedDates === 'undefined')
+    if (this.NotUpdatedEmployees.length=== 0)
       this.alertMessage.displayInfo(ALERT_CODES["EAAS006"]);
     else
       this.display = true;

@@ -33,20 +33,16 @@ export class ApplicantDialogComponent {
   fileTypes: string = ".pdf, .jpg, .jpeg, .png, .gif"
   selectedFileName: string;
   defaultPhoto: string;
+  yourRating: number = 0;
 
   constructor(private formbuilder: FormBuilder,) { }
 
   ngOnInit() {
     this.applicantForm();
-    this.addApplicantEducationDetails();
-    this.addApplicantCertificationDetails();
-    this.addApplicantExperienceDetails();
-    this.addApplicantSkillsDetails();
-    this.addApplicantLanguageSkillsDetails();
     this.genders = [
       { name: 'Male', code: 'male' },
       { name: 'Female', code: 'female' }
-  ];
+    ];
     this.defaultPhoto = /^female$/gi.test(this.fbApplicant.get('gender').value) ? './assets/layout/images/women-emp-2.jpg' : './assets/layout/images/men-emp.jpg'
 
   }
@@ -69,8 +65,7 @@ export class ApplicantDialogComponent {
       addressType: new FormControl(''),
       resumeUrl: new FormControl(''),
       isFresher: [true],
-      isActive: [true],
-      photo:[],
+      photo: [],
       education: this.formbuilder.group({
         educaitonId: [null],
         streamId: [null],
@@ -85,7 +80,8 @@ export class ApplicantDialogComponent {
         certificationId: [null],
         applicantId: new FormControl('', [Validators.required]),
         certificateId: new FormControl('', [Validators.required]),
-        institutionName: new FormControl('', [Validators.required]),
+        franchiseName: new FormControl('', [Validators.required]),
+        certificationName: new FormControl('', [Validators.required]),
         yearOfCompletion: new FormControl(''),
         results: new FormControl('', [Validators.required]),
       }),
@@ -112,9 +108,9 @@ export class ApplicantDialogComponent {
         applicaitonLanguageSkillId: [null],
         applicantId: [null],
         languageId: [null],
-        canRead: new FormControl(true, [Validators.required]),
-        canWrite: new FormControl(true, [Validators.required]),
-        canSpeak: new FormControl(true, [Validators.required]),
+        canRead: new FormControl('', [Validators.required]),
+        canWrite: new FormControl('', [Validators.required]),
+        canSpeak: new FormControl('', [Validators.required]),
       }),
       applicantEducationDetails: this.formbuilder.array([]),
       applicantCertificationDetails: this.formbuilder.array([]),
@@ -123,6 +119,11 @@ export class ApplicantDialogComponent {
       applicantLanguageSkillsDetails: this.formbuilder.array([])
     });
   }
+
+  
+getExpertiseControl(): FormControl {
+  return this.fbApplicant.get('applicationSkills.expertise') as FormControl;
+}
 
   faApplicantEducationDetails(): FormArray {
     return this.fbApplicant.get("applicantEducationDetails") as FormArray
@@ -224,23 +225,17 @@ export class ApplicantDialogComponent {
     this.faapplicantSkillsDetails.push(this.generateRowForApplicationSkillsDetails())
   }
 
-  addApplicantLanguageSkillsDetails() {    
-  const languageSkillsDetail = this.formbuilder.group({
-    languageId: [null],
-    canRead: [true, Validators.required],
-    canWrite: [true, Validators.required],
-    canSpeak: [true, Validators.required],
-  });
-
-  (this.fbApplicant.get('applicantLanguageSkillsDetails') as FormArray).push(languageSkillsDetail);
+  addApplicantLanguageSkillsDetails() {
+    this.faapplicantLanguageSkillsDetails = this.fbApplicant.get("applicantLanguageSkillsDetails") as FormArray
+    this.faapplicantLanguageSkillsDetails.push(this.generateRowForApplicationSkillsDetails())
   }
 
   onGenderChange() {
     const selectedGender = this.fbApplicant.get('gender').value;
     if (selectedGender) {
-        this.defaultPhoto = /^female$/gi.test(this.fbApplicant.get('gender').value) ? './assets/layout/images/women-emp-2.jpg' : './assets/layout/images/men-emp.jpg'
+      this.defaultPhoto = /^female$/gi.test(this.fbApplicant.get('gender').value) ? './assets/layout/images/women-emp-2.jpg' : './assets/layout/images/men-emp.jpg'
     }
-}
+  }
 
   onFileChange(event: Event) {
     const fileUpload = event.target as HTMLInputElement;
@@ -256,7 +251,7 @@ export class ApplicantDialogComponent {
       }
     }
   }
-  
+
   // onClick() {
   //   this.messageDisplayed = false;
   //   const fileUpload = this.fileUpload.nativeElement;

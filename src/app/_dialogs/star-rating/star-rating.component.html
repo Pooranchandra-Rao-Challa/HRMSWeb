@@ -1,0 +1,10 @@
+
+<div class="card flex justify-content-center">
+    <span *ngFor="let star of [1, 2, 3, 4, 5]; let i = index"
+          (click)="handleClick(i)"
+          class="star"
+          [class.full]="rating > i"
+          [class.half]="rating === i + 0.5">
+      ★
+    </span>
+  </div>
