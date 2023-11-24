@@ -3,38 +3,36 @@
     <div class="card p-5 orange-200 text-left applicant-p-block">
       <div class="text-center">
         <img src="./assets/layout/images/men-emp.jpg" class="shadow-2 my-1 mx-0 applicant_profile_pic " /><br />
-        <h4 class="m-5 mt-0 text-primary">{{ viewApplicantDetails?.name }}</h4>
+        <h4 class="m-5 mt-0 text-primary">{{ viewApplicantDetails?.name}}</h4>
       </div>
       <span class="inline-flex align-items-left mb-2">
         <i class="pi pi-user text-primary text-700 mr-2"></i>
-        <span class="text-700 mr-2">{{ viewApplicantDetails?.Male }}</span>
+        <span class="text-700 mr-2">{{ viewApplicantDetails?.gender}}</span>
       </span><br />
       <span class="inline-flex align-items-left mb-2">
         <i class="pi pi-envelope text-primary text-700 mr-2"></i>
-        <span class="text-700 mr-2">{{ viewApplicantDetails?.gmail }}</span>
+        <span class="text-700 mr-2">{{ viewApplicantDetails?.emailId}}</span>
       </span><br />
       <span class="inline-flex align-items-left mb-2">
         <i class="pi pi-mobile text-primary text-700 mr-2"></i>
-        <span class="text-700 mr-2">{{ viewApplicantDetails?.phonenumber }}</span>
+        <span class="text-700 mr-2">{{ viewApplicantDetails?.mobileNo }}</span>
       </span><br />
       <span class="inline-flex align-items-left mb-2">
         <i class="pi pi-calendar text-primary text-700 mr-2"></i>
-        <span class="text-700 mr-2">{{ viewApplicantDetails?.dob }}</span>
+        <span class="text-700 mr-2">{{ viewApplicantDetails?.dob | date:mediumDate}}</span>
       </span>
       <span class="inline-flex align-items-left mb-2">
         <i class="pi pi-send text-700 text-primary mr-2"></i>
         <span class="text-700 text-left mr-2">
-          <span>{{ viewApplicantDetails?.Address }}</span>
+          <span>{{ viewApplicantDetails?.addressLine1 }}</span>
         </span>
       </span>
       <span class="flex align-items-center mb-2">
         <i class="pi pi-flag text-primary text-700 mr-2"></i>
         <span class="text-700 mr-2">
-          <span>{{ viewApplicantDetails?.Country }}</span>
+          <span>{{ viewApplicantDetails?.country}}</span>
         </span>
       </span>
-
-
     </div>
     <div class="card p-5 orange-200 text-center applicant-p-block2">
       <h4 class="m-5 mt-0 text-primary">Technical Skills</h4>
@@ -44,10 +42,10 @@
           <span class="text-700 mr-2 font-bold">Expertise</span>
         </span>
         <span class="inline-flex justify-content-between mb-3"
-          *ngFor="let skill of viewApplicantDetails?.technicalSkills">
-          <span class="text-700 mr-2 ">{{ skill.name }}</span>
+          *ngFor="let skill of viewApplicantDetails?.expandedSkills">
+          <span class="text-700 mr-2 ">{{ skill.skill }}</span>
           <span class="text-700 mr-2 font-bold">
-            <p-rating number="skill.expertise" [cancel]="false"></p-rating>
+            <p-rating [(ngModel)]="skill.expertise" [readonly]="true" [cancel]="false"></p-rating>
           </span>
         </span>
       </div>
@@ -62,14 +60,14 @@
           <span class="text-700 mr-2 font-bold">Speak</span>
         </span>
         <span class="inline-flex justify-content-between mb-3"
-          *ngFor="let language of viewApplicantDetails?.languageSkills">
-          <span class="text-700 mr-2">{{ language.name }}</span>
+          *ngFor="let language of viewApplicantDetails?.expandedLanguageSkills">
+          <span class="text-700 mr-2">{{ language.language }}</span>
           <i class="pi pi-times-circle text-primary text-700 mr-2"
-            [ngClass]="{'pi-check-circle': language.read, 'pi-times-circle': !language.read}"></i>
+            [ngClass]="{'pi-check-circle': language.canRead, 'pi-times-circle': !language.canRead}"></i>
           <i class="pi pi-times-circle text-danger  text-700 mr-2"
-            [ngClass]="{'pi-check-circle': language.write, 'pi-times-circle': !language.write}"></i>
+            [ngClass]="{'pi-check-circle': language.canWrite, 'pi-times-circle': !language.canWrite}"></i>
           <i class="pi pi-times-circle text-primary text-700 mr-2"
-            [ngClass]="{'pi-check-circle': language.speak, 'pi-times-circle': !language.speak}"></i>
+            [ngClass]="{'pi-check-circle': language.canSpeak, 'pi-times-circle': !language.canSpeak}"></i>
         </span>
       </div>
     </div>
@@ -90,32 +88,35 @@
           <button pButton pRipple icon="pi pi-pencil"
             class="p-element p-ripple p-button-text p-button-primary p-component"></button>
         </div>
-        <p-timeline [value]="viewApplicantDetails?.educationDetails" align="alternate">
+        <p-timeline [value]="viewApplicantDetails?.expandedEducationDetails" align="alternate">
           <ng-template pTemplate="content" let-education>
             <!-- <div [ngClass]="{'text-primary': education.isHovered}"
-              (click)="openEditDialog(viewApplicantDialogDetails, education, ActionTypes.edit)"
+              (click)="openRowEditDialog(viewApplicantDialogDetails, education, ActionTypes.edit)"
               (mouseenter)="education.isHovered = true" (mouseleave)="education.isHovered = false"
               style="cursor: pointer;"> -->
-              <h6 [ngClass]="{'text-primary': education.isHovered}">{{ education.institution }}</h6>
-              <p>{{ education.degree }}</p>
-              <p>{{ education.duration }}</p>
+            <h6 [ngClass]="{'text-primary': education.isHovered}">{{ education.institutionName }}</h6>
+            <p>{{ education.stream }}</p>
+            <p>{{ education.yearOfCompletion | date:mediumDate}}</p>
+            <p>{{ education.gradingValue}}</p>
             <!-- </div> -->
           </ng-template>
         </p-timeline>
       </div>
-      <hr />
-      <div class="col-12 md:col-12  m-2">
+      <div class="col-12 md:col-12  m-2" *ngIf="!viewApplicantDetails?.isFresher === true">
+        <hr />
         <div class="flex justify-content-between">
           <div class="flex text-primary">
             <span class="icon-office_details m-2" style="font-size:20px;"></span>
             <h3 class="m-0 text-primary">Experience Details</h3>
           </div>
         </div>
-        <p-timeline [value]="viewApplicantDetails?.experienceDetails" align="alternate">
+        <p-timeline [value]="viewApplicantDetails?.expandedWorkExperience" align="alternate">
           <ng-template pTemplate="content" let-experience>
-            <h6>{{ experience.company }}</h6>
-            <p>{{ experience.position }}</p>
-            <p>{{ experience.duration }}</p>
+            <h6>{{ experience.companyName }}</h6>
+            <p>{{ experience.designation }}</p>
+            <p>{{ experience.companyLocation }}</p>
+            <p>{{ experience.dateOfJoining | date:mediumDate}}</p>
+            <p>{{ experience.dateOfReliving | date:mediumDate}}</p>
           </ng-template>
         </p-timeline>
       </div>
@@ -127,15 +128,16 @@
             <h3 class="m-0 text-primary">Certification Details</h3>
           </div>
         </div>
+
         <div class="grid">
           <div class="col-12 lg:col-3 md:col-4 sm:col-6"
-            *ngFor="let certification of viewApplicantDetails?.certificationDetails">
+            *ngFor="let certification of viewApplicantDetails?.expandedCertifications">
             <div class="applicant_certificate">
-              <h5 class="text-primary mb-0">{{ certification.name }}</h5>
-              <p class="mt-2">{{ certification.institute }}</p>
-              <p><span class="text-primary" pTooltip="Year of Completion">YOC</span> : {{ certification.yearOfCompletion
-                }}</p>
-              <p><i class="pi pi-star text-primary text-700 mr-2"></i>: {{ certification.result }}</p>
+              <h5 class="text-primary mb-0">{{ certification.certificateName }}</h5>
+              <p class="mt-2">{{ certification.franchiseName }}</p>
+              <p><span class="text-primary" pTooltip="Year of Completion">YOC</span> : {{
+                certification.yearOfCompletion}}</p>
+              <p><i class="pi pi-star text-primary text-700 mr-2"></i>: {{ certification.results }}</p>
             </div>
           </div>
         </div>
