@@ -119,7 +119,7 @@ export const GET_EMPLOYEE_MAIL_DETAILS ="Attendance/UpdateLeaveStatus";
 export const UPDATE_EMPLOYEE_MAIL_DETAILS ="Attendance/UpdateLeaveStatus";
 
 // viewapplicant
-export const GET_VIEW_APPLICANT_DETAILS ="";
+export const GET_VIEW_APPLICANT_DETAILS ="Recruitment/GetApplicantBasedOnId";
 
 //Applicant
 export const GET_APPLICANT_DETAILS="Recruitment/GetApplicants"
