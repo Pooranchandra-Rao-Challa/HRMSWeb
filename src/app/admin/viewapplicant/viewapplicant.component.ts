@@ -21,8 +21,7 @@ export class ViewapplicantComponent {
   ActionTypes = Actions;
   isCursorPointer: boolean = false;
   dialogRequest: DialogRequest = new DialogRequest();
-  applicantdialogComponent = ApplicantDialogComponent;
-
+ 
   viewApplicantDialogDetails = ViewapplicantDialogComponent
   constructor(private RecruitmentService: RecruitmentService,
     private activatedRoute: ActivatedRoute,
@@ -38,7 +37,6 @@ export class ViewapplicantComponent {
   initViewApplicantDetails() {
     this.RecruitmentService.GetviewapplicantDtls(this.applicantId).subscribe((resp) => {
       this.viewApplicantDetails = resp[0] as unknown as ViewApplicantDto;
-      console.log(this.viewApplicantDetails);
       this.viewApplicantDetails.expandedWorkExperience = JSON.parse(this.viewApplicantDetails.applicantWorkExperience);
       this.viewApplicantDetails.expandedCertifications = JSON.parse(this.viewApplicantDetails.applicantCertifications);
       this.viewApplicantDetails.expandedEducationDetails = JSON.parse(this.viewApplicantDetails.applicantEducationDetails);
@@ -47,11 +45,12 @@ export class ViewapplicantComponent {
     })
   }
 
+
   openRowEditDialog(content: any,
     dialogData, action: Actions = this.ActionTypes.edit) {
     if (action == Actions.edit && content === this.viewApplicantDialogDetails) {
       this.dialogRequest.dialogData = dialogData;
-      this.dialogRequest.header = "education details";
+      this.dialogRequest.header = "Education details";
       this.dialogRequest.width = "40%";
     }
     this.ref = this.dialogService.open(content, {
@@ -59,6 +58,8 @@ export class ViewapplicantComponent {
       header: this.dialogRequest.header,
       width: this.dialogRequest.width
     });
+    console.log(this.dialogRequest.dialogData,);
+    
     this.ref.onClose.subscribe((res: any) => {
       if (res) {
         if (res.UpdatedModal == ViewApplicationScreen.educationdetails) {

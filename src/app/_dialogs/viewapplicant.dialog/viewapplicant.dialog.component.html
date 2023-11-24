@@ -1,42 +1,94 @@
 <div>
-  <!-- <form> -->
+  <form [formGroup]="fbeducationdetails">
     <!-- <div *ngIf="rowData?.type === 'education'"> -->
-    <label>Institution: </label>
-    <input [(ngModel)]="rowData.institution" />
-    <br>
-    <label>Degree: </label>
-    <input [(ngModel)]="rowData.degree" />
-    <br>
-    <label>Duration: </label>
-    <input [(ngModel)]="rowData.duration" />
-    <!-- </div> -->
-
-    <ng-container *ngIf="rowData?.type === 'experience'">
-      <label>Company: </label>
-      <input [(ngModel)]="rowData.company" />
-      <!-- Add more fields specific to experience -->
-    </ng-container>
-
-    <ng-container *ngIf="rowData?.type === 'certification'">
-      <label>Certification Name: </label>
-      <input [(ngModel)]="rowData.name" />
-      <!-- Add more fields specific to certification -->
-    </ng-container>
-
-    <ng-container *ngIf="rowData?.type === 'language'">
-      <label>Language: </label>
-      <input [(ngModel)]="rowData.name" />
-      <!-- Add more fields specific to language -->
-    </ng-container>
-
-    <ng-container *ngIf="rowData?.type === 'technical'">
-      <label>Skill Name: </label>
-      <input [(ngModel)]="rowData.name" />
-      <!-- Add more fields specific to technical skills -->
-    </ng-container>
-    <div class=" footer dialog-footer">
-      <button pButton pRipple class="p-button-raised p-button-primary" type="submit" (click)="onSave()">Save</button>
-      <!-- <button pButton pRipple  class="p-button-raised p-button-primary" type="submit" (click)="onCancel()">Cancel</button> -->
+    <div class="col-12 roles-container">
+      <div class="p-fluid p-formgrid grid">
+        <div class="field col-12 md:col-4">
+          <label>Curriculum: </label>
+          <p-dropdown  optionLabel="name" id="CurriculumId"
+            placeholder="Select Curriculum" appendTo="body" [autoDisplayFirst]="false"
+            formControlName="CurriculumId" >
+          </p-dropdown>
+        </div>
+        <div class="field col-12 md:col-4">
+          <label>Stream: </label>
+          <p-dropdown  optionLabel="name" id="StreamId"
+            placeholder="Select Stream" appendTo="body" [autoDisplayFirst]="false"
+            formControlName="StreamId" >
+          </p-dropdown>
+        </div>
+        <div class="field col-12 md:col-4">
+          <label>Country: </label>
+          <p-dropdown  optionLabel="name" id="StreamId"
+            placeholder="Select Country" appendTo="body" [autoDisplayFirst]="false"
+            formControlName="countryId" >
+          </p-dropdown>
+        </div>
+        <div class="field col-12 md:col-4">
+          <label>State: </label>
+          <p-dropdown  optionLabel="name" id="StreamId"
+            placeholder="Select  State" appendTo="body" [autoDisplayFirst]="false"
+            formControlName="stateId" >
+          </p-dropdown>
+        </div>
+        <div class="field col-12 md:col-4">
+          <label>School/College Name: </label> <br>
+          <input pInputText id="institution" type="text" formControlName="collegeName" class="form-control"
+            placeholder="Enter Institution Name" />
+        </div>
+        <div class="field col-12 md:col-4">
+          <label>Board/University Name: </label>
+          <input pInputText id="Degree" type="text" formControlName="institution" class="form-control"
+            placeholder="Enter Institution Name" />
+        </div>
+        <div class="field col-12 md:col-4">
+          <label>year Of Completion: </label>
+          <p-calendar [showIcon]="true" formControlName="yearOfCompletion" id="passed_Out_year" appendTo="body"  [readonlyInput]="true"
+        placeholder="Select Year of Completion"></p-calendar>
+        </div>
+        <div class="field col-12 md:col-4">
+          <label>Grading System: </label>
+          <p-dropdown  optionLabel="name" id="gradingSystem"
+            placeholder="Select Grading System" appendTo="body" [autoDisplayFirst]="false"
+            formControlName="gradingSystem" >
+          </p-dropdown>
+        </div>
+        <div class="field col-12 md:col-4">
+          <label>CGPA/Percentage System: </label> <br>
+          <input pInputText id="CGPA/PercentageSystem" type="text" formControlName="percentageSystem" class="form-control"
+            placeholder="EnterCGPA/Percentage System" />
+        </div>
+        <!-- </div> -->
+      </div>
     </div>
+  </form>
+
+  <ng-container *ngIf="rowData?.type === 'experience'">
+    <label>Company: </label>
+    <input [(ngModel)]="rowData.company" />
+    <!-- Add more fields specific to experience -->
+  </ng-container>
+
+  <ng-container *ngIf="rowData?.type === 'certification'">
+    <label>Certification Name: </label>
+    <input [(ngModel)]="rowData.name" />
+    <!-- Add more fields specific to certification -->
+  </ng-container>
+
+  <ng-container *ngIf="rowData?.type === 'language'">
+    <label>Language: </label>
+    <input [(ngModel)]="rowData.name" />
+    <!-- Add more fields specific to language -->
+  </ng-container>
+
+  <ng-container *ngIf="rowData?.type === 'technical'">
+    <label>Skill Name: </label>
+    <input [(ngModel)]="rowData.name" />
+    <!-- Add more fields specific to technical skills -->
+  </ng-container>
+  <div class=" footer dialog-footer">
+    <button pButton pRipple class="p-button-raised p-button-primary" type="submit" (click)="onSave()">Save</button>
+    <!-- <button pButton pRipple  class="p-button-raised p-button-primary" type="submit" (click)="onCancel()">Cancel</button> -->
+  </div>
   <!-- </form> -->
 </div>
