@@ -1,8 +1,7 @@
 import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { Form, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ApplicantCertificationDto, ApplicantExperienceDto, ApplicantLanguageSkills, ApplicantSkillsDto } from 'src/app/_models/admin';
 import { PhotoFileProperties } from 'src/app/_models/common';
-import { EducationDetailsDto } from 'src/app/_models/employes';
+import { ApplicantCertificationDto, ApplicantEducationDetailDto, ApplicantLanguageSkillDto, ApplicantSkillDto, ApplicantWorkExperienceDto } from 'src/app/_models/recruitment';
 import { ValidateFileThenUpload } from 'src/app/_validators/upload.validators';
 
 
@@ -67,7 +66,7 @@ export class ApplicantDialogComponent {
       isFresher: [true],
       applicantEducationDetails: this.formbuilder.group({
         applicantEducationId: [null],
-        applicantId:[null],
+        applicantId: [null],
         streamId: [null],
         stateId: [null],
         institutionName: new FormControl(''),
@@ -119,10 +118,10 @@ export class ApplicantDialogComponent {
     });
   }
 
-  
-getExpertiseControl(): FormControl {
-  return this.fbApplicant.get('applicationSkills.expertise') as FormControl;
-}
+
+  getExpertiseControl(): FormControl {
+    return this.fbApplicant.get('applicationSkills.expertise') as FormControl;
+  }
 
   faApplicantEducationDetails(): FormArray {
     return this.fbApplicant.get("applicantEducationdetails") as FormArray
@@ -144,9 +143,10 @@ getExpertiseControl(): FormControl {
     return this.fbApplicant.get("applicantLanguageSkillsDetails") as FormArray
   }
 
-  generateRowForEducationDetails(educationDetails: EducationDetailsDto = new EducationDetailsDto()): FormGroup {
+  generateRowForEducationDetails(educationDetails: ApplicantEducationDetailDto = new ApplicantEducationDetailDto()): FormGroup {
     return this.formbuilder.group({
-      educaitonId: [educationDetails.educaitonId],
+      applicantEducationId: [educationDetails.applicantEducationId],
+      applicantId: [educationDetails.applicantId],
       streamId: [educationDetails.streamId],
       stateId: [educationDetails.stateId],
       institutionName: new FormControl(educationDetails.institutionName),
@@ -159,18 +159,18 @@ getExpertiseControl(): FormControl {
 
   generateRowForCertificationDetails(certificationDetails: ApplicantCertificationDto = new ApplicantCertificationDto()): FormGroup {
     return this.formbuilder.group({
-      certificationId: [certificationDetails.certificateId],
+      applicantCertificateId: [certificationDetails.applicantCertificateId],
       applicantId: new FormControl(certificationDetails.applicantId, [Validators.required]),
       certificateId: new FormControl(certificationDetails.certificateId, [Validators.required]),
-      institutionName: new FormControl(certificationDetails.institutionName, [Validators.required]),
+      franchiseName: new FormControl(certificationDetails.franchiseName, [Validators.required]),
       yearOfCompletion: new FormControl(certificationDetails.yearOfCompletion),
       results: new FormControl(certificationDetails.results, [Validators.required]),
     })
   }
 
-  generateRowForExperienceDetails(experienceDetails: ApplicantExperienceDto = new ApplicantExperienceDto()): FormGroup {
+  generateRowForExperienceDetails(experienceDetails: ApplicantWorkExperienceDto = new ApplicantWorkExperienceDto()): FormGroup {
     return this.formbuilder.group({
-      experienceId: [experienceDetails.experienceId],
+      applicantWorkExperienceId: [experienceDetails.applicantWorkExperienceId],
       applicantId: [experienceDetails.applicantId],
       companyName: new FormControl(experienceDetails.companyName, [Validators.required]),
       companyLocation: new FormControl(experienceDetails.companyLocation),
@@ -184,18 +184,18 @@ getExpertiseControl(): FormControl {
     })
   }
 
-  generateRowForApplicationSkillsDetails(applicationSkills: ApplicantSkillsDto = new ApplicantSkillsDto()): FormGroup {
+  generateRowForApplicantSkillsDetails(applicantSkills: ApplicantSkillDto = new ApplicantSkillDto()): FormGroup {
     return this.formbuilder.group({
-      applicationskillId: [applicationSkills.applicationskillId],
-      applicantId: new FormControl(applicationSkills.applicantId, [Validators.required]),
-      skillId: new FormControl(applicationSkills.skillId, [Validators.required]),
-      expertise: new FormControl(applicationSkills.expertise)
+      applicantSkillId: [applicantSkills.applicantSkillId],
+      applicantId: new FormControl(applicantSkills.applicantId, [Validators.required]),
+      skillId: new FormControl(applicantSkills.skillId, [Validators.required]),
+      expertise: new FormControl(applicantSkills.expertise)
     })
   }
 
-  generateRowForApplicationLanguageSkillsDetails(applicationLanguageSkills: ApplicantLanguageSkills = new ApplicantLanguageSkills()): FormGroup {
+  generateRowForApplicantLanguageSkillsDetails(applicationLanguageSkills: ApplicantLanguageSkillDto = new ApplicantLanguageSkillDto()): FormGroup {
     return this.formbuilder.group({
-      applicaitonLanguageSkillId: [applicationLanguageSkills.applicaitonLanguageSkillId],
+      applicantLanguageSkillId: [applicationLanguageSkills.applicantLanguageSkillId],
       applicantId: [applicationLanguageSkills.applicantId],
       languageId: [applicationLanguageSkills.languageId],
       canRead: [applicationLanguageSkills.canRead],
@@ -205,7 +205,7 @@ getExpertiseControl(): FormControl {
   }
 
   addApplicantEducationDetails() {
-    this.faapplicantEducationDetails = this.fbApplicant.get("applicantEducationDetails") as FormArray
+    this.faapplicantEducationDetails = this.fbApplicant.get("applicantEducationdetails") as FormArray
     this.faapplicantEducationDetails.push(this.generateRowForEducationDetails())
   }
 
@@ -221,12 +221,12 @@ getExpertiseControl(): FormControl {
 
   addApplicantSkillsDetails() {
     this.faapplicantSkillsDetails = this.fbApplicant.get("applicantSkillsDetails") as FormArray
-    this.faapplicantSkillsDetails.push(this.generateRowForApplicationSkillsDetails())
+    this.faapplicantSkillsDetails.push(this.generateRowForApplicantSkillsDetails())
   }
 
   addApplicantLanguageSkillsDetails() {
     this.faapplicantLanguageSkillsDetails = this.fbApplicant.get("applicantLanguageSkillsDetails") as FormArray
-    this.faapplicantLanguageSkillsDetails.push(this.generateRowForApplicationSkillsDetails())
+    this.faapplicantLanguageSkillsDetails.push(this.generateRowForApplicantLanguageSkillsDetails())
   }
 
   onGenderChange() {

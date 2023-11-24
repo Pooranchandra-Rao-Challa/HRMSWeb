@@ -137,7 +137,7 @@
                             </ng-template>
                             <ng-template pTemplate="body" let-educaitonDetailsIndex="rowIndex">
                                 <tr [formGroupName]="educaitonDetailsIndex">
-                                    <td class="vertical-align-top">streamId
+                                    <td class="vertical-align-top">
                                         <p-dropdown id="projectName" appendTo="body" formControlName="streamId"
                                             placeholder="Enter Stream">
                                         </p-dropdown>
@@ -334,7 +334,7 @@
                 </p-fieldset>
                 <br>
                 <!-- Applicant applicationSkills Details -->
-                <p-fieldset legend="Application Skills" [toggleable]="true">
+                <p-fieldset legend="Skills" [toggleable]="true">
                     <div class="text-right">
                         <button pButton pRipple class="mb-3 pi pi-plus" (click)="addApplicantSkillsDetails()"></button>
                     </div>
@@ -381,7 +381,7 @@
                 </p-fieldset>
                 <br>
                 <!-- Applicant applicationSkills Details -->
-                <p-fieldset legend="Applicant Language Skills" [toggleable]="true">
+                <p-fieldset legend="Language Skills" [toggleable]="true">
                     <div class="text-right">
                         <button pButton pRipple class="mb-3 pi pi-plus"
                             (click)="addApplicantLanguageSkillsDetails()"></button>
