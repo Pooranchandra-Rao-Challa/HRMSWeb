@@ -1,79 +1,318 @@
 <div>
-  <form [formGroup]="fbeducationdetails">
-    <!-- <div *ngIf="rowData?.type === 'education'"> -->
-    <div class="col-12 roles-container">
-      <div class="p-fluid p-formgrid grid">
-        <div class="field col-12 md:col-4">
-          <label>Curriculum: </label>
-          <p-dropdown  optionLabel="name" id="CurriculumId"
-            placeholder="Select Curriculum" appendTo="body" [autoDisplayFirst]="false"
-            formControlName="CurriculumId" >
-          </p-dropdown>
+  <!-- Education Details -->
+  <div *ngIf="this.header==='Education Details'">
+    <form [formGroup]="fbeducationdetails">
+      <div p-overlayPanel class="fadeinup animation-duration-1000 grid  m-0 mt-3 p-0">
+        <div class="col-12 roles-container">
+          <div class="p-fluid p-formgrid grid">
+            <div class="field col-12 md:col-4">
+              <label>Curriculum: </label>
+              <p-dropdown optionLabel="name" id="CurriculumId" placeholder="Select Curriculum" appendTo="body"
+                [autoDisplayFirst]="false" formControlName="CurriculumId">
+              </p-dropdown>
+            </div>
+            <div class="field col-12 md:col-4">
+              <label>Stream: </label>
+              <p-dropdown optionLabel="name" id="StreamId" placeholder="Select Stream" appendTo="body"
+                [autoDisplayFirst]="false" formControlName="StreamId">
+              </p-dropdown>
+            </div>
+            <div class="field col-12 md:col-4">
+              <label>Country: </label>
+              <p-dropdown optionLabel="name" id="StreamId" placeholder="Select Country" appendTo="body"
+                [autoDisplayFirst]="false" formControlName="countryId">
+              </p-dropdown>
+            </div>
+            <div class="field col-12 md:col-4">
+              <label>State: </label>
+              <p-dropdown optionLabel="name" id="StreamId" placeholder="Select  State" appendTo="body"
+                [autoDisplayFirst]="false" formControlName="stateId">
+              </p-dropdown>
+            </div>
+            <div class="field col-12 md:col-4">
+              <label>School/College Name: </label> <br>
+              <input pInputText id="institution" type="text" formControlName="collegeName" class="form-control"
+                placeholder="Enter Institution Name" />
+            </div>
+            <div class="field col-12 md:col-4">
+              <label>Board/University Name: </label>
+              <input pInputText id="Degree" type="text" formControlName="institution" class="form-control"
+                placeholder="Enter Institution Name" />
+            </div>
+            <div class="field col-12 md:col-4">
+              <label>year Of Completion: </label>
+              <p-calendar [showIcon]="true" formControlName="yearOfCompletion" id="passed_Out_year" appendTo="body"
+                [readonlyInput]="true" placeholder="Select Year of Completion"></p-calendar>
+            </div>
+            <div class="field col-12 md:col-4">
+              <label>Grading System: </label>
+              <p-dropdown optionLabel="name" id="gradingSystem" placeholder="Select Grading System" appendTo="body"
+                [autoDisplayFirst]="false" formControlName="gradingSystem">
+              </p-dropdown>
+            </div>
+            <div class="field col-12 md:col-4">
+              <label>CGPA/Percentage System: </label> <br>
+              <input pInputText id="CGPA/PercentageSystem" type="text" formControlName="percentageSystem"
+                class="form-control" placeholder="EnterCGPA/Percentage System" />
+            </div>
+          </div>
         </div>
-        <div class="field col-12 md:col-4">
-          <label>Stream: </label>
-          <p-dropdown  optionLabel="name" id="StreamId"
-            placeholder="Select Stream" appendTo="body" [autoDisplayFirst]="false"
-            formControlName="StreamId" >
-          </p-dropdown>
-        </div>
-        <div class="field col-12 md:col-4">
-          <label>Country: </label>
-          <p-dropdown  optionLabel="name" id="StreamId"
-            placeholder="Select Country" appendTo="body" [autoDisplayFirst]="false"
-            formControlName="countryId" >
-          </p-dropdown>
-        </div>
-        <div class="field col-12 md:col-4">
-          <label>State: </label>
-          <p-dropdown  optionLabel="name" id="StreamId"
-            placeholder="Select  State" appendTo="body" [autoDisplayFirst]="false"
-            formControlName="stateId" >
-          </p-dropdown>
-        </div>
-        <div class="field col-12 md:col-4">
-          <label>School/College Name: </label> <br>
-          <input pInputText id="institution" type="text" formControlName="collegeName" class="form-control"
-            placeholder="Enter Institution Name" />
-        </div>
-        <div class="field col-12 md:col-4">
-          <label>Board/University Name: </label>
-          <input pInputText id="Degree" type="text" formControlName="institution" class="form-control"
-            placeholder="Enter Institution Name" />
-        </div>
-        <div class="field col-12 md:col-4">
-          <label>year Of Completion: </label>
-          <p-calendar [showIcon]="true" formControlName="yearOfCompletion" id="passed_Out_year" appendTo="body"  [readonlyInput]="true"
-        placeholder="Select Year of Completion"></p-calendar>
-        </div>
-        <div class="field col-12 md:col-4">
-          <label>Grading System: </label>
-          <p-dropdown  optionLabel="name" id="gradingSystem"
-            placeholder="Select Grading System" appendTo="body" [autoDisplayFirst]="false"
-            formControlName="gradingSystem" >
-          </p-dropdown>
-        </div>
-        <div class="field col-12 md:col-4">
-          <label>CGPA/Percentage System: </label> <br>
-          <input pInputText id="CGPA/PercentageSystem" type="text" formControlName="percentageSystem" class="form-control"
-            placeholder="EnterCGPA/Percentage System" />
-        </div>
-        <!-- </div> -->
       </div>
-    </div>
-  </form>
+    </form>
+  </div>
 
-  <ng-container *ngIf="rowData?.type === 'experience'">
-    <label>Company: </label>
-    <input [(ngModel)]="rowData.company" />
-    <!-- Add more fields specific to experience -->
-  </ng-container>
+  <!--Experience Details -->
+  <div *ngIf="this.header==='Experience Details'">
+    <form [formGroup]="fbexperience">
+      <div p-overlayPanel class="fadeinup animation-duration-1000 grid  m-0 mt-3 p-0">
+        <div class="col-12 roles-container">
+          <div class="p-fluid p-formgrid grid">
+            <div class="field col-12  m-0 md:col-4">
+              <label class="required">Company Name:</label>&nbsp;
+              <input pInputText id="Experience_companyname" type="text" #company alphaNumeric
+                formControlName="companyName" (keydown)="restrictSpaces($event)"
+                [ngClass]="{ 'is-invalid ng-dirty': FormControls['companyName'].touched && FormControls['companyName'].errors }"
+                placeholder="Enter Company Name" [maxlength]="maxLength.name" />
+              <div class="flex">
+                <div class="align-left w-60" style="width:70%">
+                  <span *ngIf="FormControls['companyName'].touched && FormControls['companyName'].invalid">
+                    <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['companyName'].errors?.['required']">
+                      Please Enter Company Name.</div>
+                    <div class="ng-invalid ng-touched p-error"
+                      *ngIf="FormControls['companyName'].errors?.['minlength']">
+                      companyName Min Characters Is 2.</div>
+                    <div class="ng-invalid ng-touched p-error"
+                      *ngIf="FormControls['companyName'].errors?.['maxlength']">
+                      companyName Max Characters Is 50.</div>
+                  </span>
+                </div>
+                <div class="align-right w-40" style="width:30%; text-align:right;">
+                  <small>{{company.value.length}}/50</small>
+                </div>
+              </div>
+            </div>
+            <div class="field col-12 md:col-4">
+              <label class="required">Location:</label>&nbsp;
+              <input pInputText id="Experience_Location" type="text" #location formControlName="companyLocation"
+                alphaOnly (keydown)="restrictSpaces($event)"
+                [ngClass]="{ 'is-invalid ng-dirty': FormControls['companyLocation'].touched && FormControls['companyLocation'].errors }"
+                placeholder="Enter Location" [maxlength]="maxLength.name" />
+              <div class="flex">
+                <div class="align-left w-60" style="width:70%">
+                  <span *ngIf="FormControls['companyLocation'].touched && FormControls['companyLocation'].invalid">
+                    <div class="ng-invalid ng-touched p-error"
+                      *ngIf="FormControls['companyLocation'].errors?.['required']">
+                      Please Enter Location.</div>
+                    <div class="ng-invalid ng-touched p-error"
+                      *ngIf="FormControls['companyLocation'].errors?.['minlength']">
+                      CompanyLocation Min Characters Is 2.</div>
+                    <div class="ng-invalid ng-touched p-error"
+                      *ngIf="FormControls['companyLocation'].errors?.['maxlength']">
+                      CompanyLocation Max Characters Is 50.</div>
+                  </span>
+                </div>
+                <div class="align-right w-40" style="width:30%; text-align:right;">
+                  <small>{{location.value.length}}/50</small>
+                </div>
+              </div>
+            </div>
+            <div class="field col-12 md:col-4">
+              <label>Company Employee Id:</label>&nbsp;
+              <input pInputText id="Experience_EmpId" type="text" #empId alphaNumeric (keydown)="restrictSpaces($event)"
+                formControlName="companyEmployeeId" placeholder="Enter Company Employee Id"
+                [maxlength]="maxLength.code" />
+              <div class="flex">
+                <div class="align-left w-60" style="width:70%">
+                  <span *ngIf="FormControls['companyEmployeeId'].touched && FormControls['companyEmployeeId'].invalid">
+                    <div class="ng-invalid ng-touched p-error"
+                      *ngIf="FormControls['companyEmployeeId'].errors?.['minlength']">
+                      CompanyEmpId Min Characters Is 2.</div>
+                    <div class="ng-invalid ng-touched p-error"
+                      *ngIf="FormControls['companyEmployeeId'].errors?.['maxlength']">
+                      CompanyEmpId Max Characters Is 20.</div>
+                  </span>
+                </div>
+                <div class="align-right w-40" style="width:30%; text-align:right;">
+                  <small>{{empId.value.length}}/20</small>
+                </div>
+              </div>
+            </div>
+            <div class="field col-12 md:col-4">
+              <label class="required">Country:</label>&nbsp;
+              <p-dropdown inputId="dropdown" id="Experience_stateId" [autoDisplayFirst]="false"
+                placeholder="Select Country" appendTo="body"
+                [ngClass]="{ 'is-invalid ng-dirty': FormControls['countryId'].touched && FormControls['countryId'].errors }"
+                formControlName="countryId" optionValue="lookupDetailId" optionLabel="name">
+              </p-dropdown>
+              <div class="flex">
+                <div class="align-left w-60" style="width:70%">
+                  <span *ngIf="FormControls['countryId'].touched && FormControls['countryId'].invalid">
+                    <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['countryId'].errors?.['required']">
+                      Please Select Country.</div>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="field col-12 md:col-4">
+              <label class="required">State:</label>&nbsp;
+              <p-dropdown inputId="dropdown" id="Experience_stateId" [autoDisplayFirst]="false"
+                placeholder="Select State" appendTo="body"
+                [ngClass]="{ 'is-invalid ng-dirty': FormControls['stateId'].touched && FormControls['stateId'].errors }"
+                formControlName="stateId" optionLabel="name">
+              </p-dropdown>
+              <div class="flex">
+                <div class="align-left w-60" style="width:70%">
+                  <span *ngIf="FormControls['stateId'].touched && FormControls['stateId'].invalid">
+                    <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['countryId'].untouched && FormControls['stateId'].touched ||
+                                       FormControls['countryId'].invalid&& FormControls['stateId'].touched">
+                      Please Select Country First.</div>
+                    <div class="ng-invalid ng-touched p-error"
+                      *ngIf="FormControls['countryId'].touched &&FormControls['stateId'].errors?.['required']&&FormControls['countryId'].valid">
+                      Please Select State.</div>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="field col-12 md:col-4">
+              <label class="required">Designation:</label>&nbsp;
+              <p-dropdown inputId="dropdown" id="Experience_designationId" [autoDisplayFirst]="false"
+                formControlName="designationId" appendTo="body"
+                [ngClass]="{ 'is-invalid ng-dirty': FormControls['designationId'].touched && FormControls['designationId'].errors }"
+                optionLabel="name" placeholder="Select Designation">
+              </p-dropdown>
+              <div class="flex">
+                <div class="align-left w-60" style="width:70%">
+                  <span *ngIf="FormControls['designationId'].touched && FormControls['designationId'].invalid">
+                    <div class="ng-invalid ng-touched p-error"
+                      *ngIf="FormControls['designationId'].errors?.['required']">
+                      Please Select Designation.</div>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="field col-12  m-0 md:col-4">
+              <label class="required">Nature Of Work:</label>&nbsp;
+              <input pInputText id="Experience_companyname" type="text" #company alphaNumeric
+                formControlName="natureOfWork" (keydown)="restrictSpaces($event)"
+                [ngClass]="{ 'is-invalid ng-dirty': FormControls['natureOfWork'].touched && FormControls['natureOfWork'].errors }"
+                placeholder="Enter Nature Of Work" [maxlength]="maxLength.name" />
+              <div class="flex">
+                <div class="align-left w-60" style="width:70%">
+                  <span *ngIf="FormControls['natureOfWork'].touched && FormControls['natureOfWork'].invalid">
+                    <div class="ng-invalid ng-touched p-error"
+                      *ngIf="FormControls['natureOfWork'].errors?.['required']">
+                      Please Enter Company Name.</div>
+                    <div class="ng-invalid ng-touched p-error"
+                      *ngIf="FormControls['natureOfWork'].errors?.['minlength']">
+                      companyName Min Characters Is 2.</div>
+                    <div class="ng-invalid ng-touched p-error"
+                      *ngIf="FormControls['natureOfWork'].errors?.['maxlength']">
+                      companyName Max Characters Is 50.</div>
+                  </span>
+                </div>
+                <div class="align-right w-40" style="width:30%; text-align:right;">
+                  <small>{{company.value.length}}/50</small>
+                </div>
+              </div>
+            </div>
+            <div class="field col-12 md:col-4">
+              <label class="required">Worked On Projects:</label>&nbsp;
+              <input pInputText id="Experience_Location" type="text" #location formControlName="workedOnProjects"
+                alphaOnly (keydown)="restrictSpaces($event)"
+                [ngClass]="{ 'is-invalid ng-dirty': FormControls['workedOnProjects'].touched && FormControls['workedOnProjects'].errors }"
+                placeholder="Enter Worked On Projects" [maxlength]="maxLength.name" />
+              <div class="flex">
+                <div class="align-left w-60" style="width:70%">
+                  <span *ngIf="FormControls['workedOnProjects'].touched && FormControls['workedOnProjects'].invalid">
+                    <div class="ng-invalid ng-touched p-error"
+                      *ngIf="FormControls['workedOnProjects'].errors?.['required']">
+                      Please Enter Location.</div>
+                    <div class="ng-invalid ng-touched p-error"
+                      *ngIf="FormControls['workedOnProjects'].errors?.['minlength']">
+                      CompanyLocation Min Characters Is 2.</div>
+                    <div class="ng-invalid ng-touched p-error"
+                      *ngIf="FormControls['workedOnProjects'].errors?.['maxlength']">
+                      CompanyLocation Max Characters Is 50.</div>
+                  </span>
+                </div>
+                <div class="align-right w-40" style="width:30%; text-align:right;">
+                  <small>{{location.value.length}}/50</small>
+                </div>
+              </div>
+            </div>
+            <div class="field col-12 md:col-4">
+              <label class="required">Date of Joining:</label>&nbsp;
+              <p-calendar [showIcon]="true" formControlName="dateOfJoining" [readonlyInput]="true"
+                id="Experience_dateOfJoining" appendTo="body" (keydown)="restrictSpaces($event)"
+                [ngClass]="{ 'is-invalid ng-dirty': FormControls['dateOfJoining'].touched && FormControls['dateOfJoining'].errors }"
+                placeholder="Select Date Of Joining">
+              </p-calendar>
+              <div class="flex">
+                <div class="align-left w-60" style="width:70%">
+                  <span *ngIf="FormControls['dateOfJoining'].touched && FormControls['dateOfJoining'].invalid">
+                    <div class="ng-invalid ng-touched p-error"
+                      *ngIf="FormControls['dateOfJoining'].errors?.['required']">
+                      Please Select Date Of Joining.</div>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="field col-12 md:col-4">
+              <label class="required">Date of Reliving:</label>&nbsp;
+              <p-calendar [showIcon]="true" formControlName="dateOfReliving" id="Experience_dateOfReliving"
+                appendTo="body" [readonlyInput]="true"
+                [ngClass]="{ 'is-invalid ng-dirty': FormControls['dateOfReliving'].touched && FormControls['dateOfReliving'].errors }"
+                placeholder="Select Date of Reliving">
+              </p-calendar>
+              <div class="flex">
+                <div class="align-left w-60" style="width:70%">
+                  <span *ngIf="FormControls['dateOfReliving'].touched && FormControls['dateOfReliving'].invalid">
+                    <div class="ng-invalid ng-touched p-error"
+                      *ngIf="FormControls['dateOfReliving'].errors?.['required']">
+                      Please Select Date Of Reliving.</div>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
 
-  <ng-container *ngIf="rowData?.type === 'certification'">
-    <label>Certification Name: </label>
-    <input [(ngModel)]="rowData.name" />
-    <!-- Add more fields specific to certification -->
-  </ng-container>
+  <!-- Certificate Details -->
+  <div *ngIf="this.header==='Certificate Details'">
+    <form [formGroup]="fbcertificatedetails">
+      <div p-overlayPanel class="fadeinup animation-duration-1000 grid  m-0 mt-3 p-0">
+        <div class="col-12 roles-container">
+          <div class="p-fluid p-formgrid grid">
+            <div class="field col-12 md:col-4">
+              <label>Certification Name: </label>
+              <p-dropdown inputId="dropdown" id="CertificationName" [autoDisplayFirst]="false"
+                formControlName="CertificationName" appendTo="body" optionLabel="name"
+                placeholder="Select CertificationName">
+              </p-dropdown>
+            </div>
+            <div class="field col-12 md:col-4">
+              <label>Franchise Name: </label>
+              <input pInputText id="franchiseName" type="text" formControlName="franchiseName" class="form-control"
+                placeholder="Enter Franchise Name" />
+            </div>
+            <div class="field col-12 md:col-4">
+              <label>Year Of Completion: </label>
+              <p-calendar [showIcon]="true" formControlName="yearOfCompletion" id="passed_Out_year" appendTo="body"
+                [readonlyInput]="true" placeholder="Select Year of Completion"></p-calendar>
+            </div>
+            <div class="field col-12 md:col-4">
+              <label>Result: </label>
+              <input pInputText id="result" type="text" formControlName="result" class="form-control"
+                placeholder="Enter Result" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
 
   <ng-container *ngIf="rowData?.type === 'language'">
     <label>Language: </label>
