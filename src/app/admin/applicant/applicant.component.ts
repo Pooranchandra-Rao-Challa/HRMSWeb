@@ -4,7 +4,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ApplicantDialogComponent } from 'src/app/_dialogs/applicant.dialog/applicant.dialog.component';
 import { Actions, DialogRequest } from 'src/app/_models/common';
 import { DataView } from 'primeng/dataview';
-import { ApplicantDto, ApplicantViewDto } from 'src/app/_models/recruitment';
+import { ApplicantViewDto } from 'src/app/_models/recruitment';
 import { RecruitmentService } from 'src/app/_services/recruitment.service';
 
 
