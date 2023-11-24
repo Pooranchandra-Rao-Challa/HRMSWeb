@@ -1,4 +1,4 @@
-export class ApplicantDto{
+export class ApplicantViewDto{
     applicantId?:number;
     name?:string;
     gender?:string;
@@ -10,7 +10,7 @@ export class ApplicantDto{
     skills?:string;
 }
 
-export class ApplicantAddDto{
+export class ApplicantDto{
     applicantId?: number;
     name?:string;
     dob?:Date;
