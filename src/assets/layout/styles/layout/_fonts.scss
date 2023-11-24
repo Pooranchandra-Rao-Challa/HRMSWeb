@@ -37,7 +37,7 @@
     font-style: normal;
     font-display: block;
   }
-
+  
   [class^="icon-"], [class*=" icon-"] {
     /* use !important to prevent issues with browser extensions that change fonts */
     font-family: 'icomoon' !important;
@@ -53,36 +53,46 @@
     -moz-osx-font-smoothing: grayscale;
   }
   
-.icon-study:before {
-  content: "\e908";
-}
-.icon-document-certificate:before {
-  content: "\e907";
-}
-.icon-adderss:before {
-  content: "\e900";
-}
-.icon-office_details:before {
-  content: "\e901";
-}
-.icon-basic_details:before {
-  content: "\e902";
-}
-.icon-bank_details:before {
-  content: "\e903";
-}
-.icon-family_restroom:before {
-  content: "\e904";
-}
-.icon-upload_file:before {
-  content: "\e905";
-}
-.icon-graduation-cap:before {
-  content: "\e906";
-}
-.icon-mortar-board:before {
-  content: "\e906";
-}
-.icon-bookmarks:before {
-  content: "\e9d3";
-}
+  .icon-expertise:before {
+    content: "\e909";
+  }
+  .icon-user_skills:before {
+    content: "\e90a";
+  }
+  .icon-adderss:before {
+    content: "\e900";
+  }
+  .icon-office_details:before {
+    content: "\e901";
+  }
+  .icon-basic_details:before {
+    content: "\e902";
+  }
+  .icon-bank_details:before {
+    content: "\e903";
+  }
+  .icon-study:before {
+    content: "\e908";
+  }
+  .icon-document-certificate:before {
+    content: "\e907";
+  }
+  .icon-family_restroom:before {
+    content: "\e904";
+  }
+  .icon-upload_file:before {
+    content: "\e905";
+  }
+  .icon-language:before {
+    content: "\e90b";
+  }
+  .icon-graduation-cap:before {
+    content: "\e906";
+  }
+  .icon-mortar-board:before {
+    content: "\e906";
+  }
+  .icon-bookmarks:before {
+    content: "\e9d3";
+  }
+  
