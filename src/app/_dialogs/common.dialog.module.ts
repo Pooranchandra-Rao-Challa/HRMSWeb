@@ -16,6 +16,7 @@ import { LookupDialogComponent } from './lookup.dialog/lookup.dialog.component';
 import { LeaveDialogComponent } from './leave.dialog/leave.dialog.component';
 import { JobOpeningsDialogComponent } from './jobopenings.dialog/jobopenings.dialog.component';
 import { ApplicantDialogComponent } from './applicant.dialog/applicant.dialog.component';
+import { ViewapplicantDialogComponent } from './viewapplicant.dialog/viewapplicant.dialog.component';
 import { StarRatingComponent } from './star-rating/star-rating.component';
 
 @NgModule({
@@ -35,6 +36,7 @@ import { StarRatingComponent } from './star-rating/star-rating.component';
     LeaveDialogComponent,
     JobOpeningsDialogComponent,
     ApplicantDialogComponent,
+    ViewapplicantDialogComponent,
     StarRatingComponent
   ],
   imports: [SharedModule],
