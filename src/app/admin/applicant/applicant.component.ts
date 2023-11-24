@@ -4,7 +4,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ApplicantDialogComponent } from 'src/app/_dialogs/applicant.dialog/applicant.dialog.component';
 import { Actions, DialogRequest } from 'src/app/_models/common';
 import { DataView } from 'primeng/dataview';
-import { ApplicantDto } from 'src/app/_models/recruitment';
+import { ApplicantDto, ApplicantViewDto } from 'src/app/_models/recruitment';
 import { RecruitmentService } from 'src/app/_services/recruitment.service';
 
 
@@ -16,7 +16,7 @@ import { RecruitmentService } from 'src/app/_services/recruitment.service';
 })
 export class ApplicantComponent {
   value: number = 40;
-  applicant: ApplicantDto[] = [];
+  applicant: ApplicantViewDto[] = [];
   ActionTypes = Actions;
   dialogRequest: DialogRequest = new DialogRequest();
   applicantdialogComponent = ApplicantDialogComponent;
@@ -34,7 +34,7 @@ export class ApplicantComponent {
 
   getApplicant(){
     this.recruitmentService.GetApplicantDetail().subscribe((resp) => {
-      this.applicant = resp as unknown as ApplicantDto[];
+      this.applicant = resp as unknown as ApplicantViewDto[];
       console.log(this.applicant);
       
     })
