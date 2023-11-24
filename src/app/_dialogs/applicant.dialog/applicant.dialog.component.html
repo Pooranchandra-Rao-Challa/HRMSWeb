@@ -42,7 +42,7 @@
                         </div>
                         <div class="field col-12 md:col-4">
                             <label class="required">Email:</label>
-                            <input type="text" id="inputtext" pInputText formControlName="email"
+                            <input type="text" id="inputtext" pInputText formControlName="emailId"
                                 placeholder="Enter Email" />
                         </div>
                         <div class="field col-12 md:col-4">
@@ -53,7 +53,7 @@
                         <div class="field col-12 md:col-4">
                             <label class="required">Nationality:</label>
                             <input type="text" id="inputtext" pInputText placeholder="Enter Nationality"
-                                formControlName="nationality" />
+                                formControlName="nationalityId" />
                         </div>
                         <div class="field col-12 md:col-4">
                             <label class="required">Address Line1:</label>
@@ -115,8 +115,8 @@
                             (click)="addApplicantEducationDetails()"></button>
                     </div>
 
-                    <div class="scrolling_content col-12 " formArrayName="applicantEducationDetails"
-                        formGroupName="education">
+                    <div class="scrolling_content col-12 " formArrayName="applicantEducationdetails"
+                        formGroupName="applicantEducationDetails">
                         <p-table #dt2 [value]="faApplicantEducationDetails().controls" dataKey="id" [rows]="10"
                             [rowHover]="true" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
                             [paginator]="false" [autoLayout]="true" responsiveLayout="scroll"
@@ -137,7 +137,7 @@
                             </ng-template>
                             <ng-template pTemplate="body" let-educaitonDetailsIndex="rowIndex">
                                 <tr [formGroupName]="educaitonDetailsIndex">
-                                    <td class="vertical-align-top">
+                                    <td class="vertical-align-top">streamId
                                         <p-dropdown id="projectName" appendTo="body" formControlName="streamId"
                                             placeholder="Enter Stream">
                                         </p-dropdown>
@@ -191,8 +191,8 @@
                         <button pButton pRipple class="mb-3 pi pi-plus"
                             (click)="addApplicantCertificationDetails()"></button>
                     </div>
-                    <div class="scrolling_content" formArrayName="applicantCertifications"
-                        formGroupName="certification">
+                    <div class="scrolling_content" formArrayName="applicantCertificationDetails"
+                        formGroupName="applicantCertifications">
                         <p-table #dt2 [value]="faApplicantCertificationDetails().controls" dataKey="id" [rows]="10"
                             [rowHover]="true" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
                             [paginator]="false" [autoLayout]="true" responsiveLayout="scroll"
@@ -211,7 +211,7 @@
                             <ng-template pTemplate="body" let-certificationDetailsIndex="rowIndex">
                                 <tr [formGroupName]="certificationDetailsIndex">
                                     <td class="vertical-align-top">
-                                        <p-dropdown appendTo="body" formControlName="certificationName"
+                                        <p-dropdown appendTo="body" formControlName="certificateId"
                                             placeholder="Enter Certificate Name" [style]="{'width':'100%'}" >
                                         </p-dropdown>
                                     </td>
@@ -248,8 +248,8 @@
                         <button pButton pRipple class="mb-3 pi pi-plus"
                             (click)="addApplicantExperienceDetails()"></button>
                     </div>
-                    <div class=" scrolling_content" formArrayName="applicantWorkExperiences"
-                        formGroupName="experience">
+                    <div class=" scrolling_content" formArrayName="applicantExperienceDetails"
+                        formGroupName="applicantWorkExperiences">
                         <p-table #dt2 [value]="faApplicantExperienceDetails().controls" dataKey="id" [rows]="10"
                             [rowHover]="true" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
                             [paginator]="false" [autoLayout]="true" responsiveLayout="scroll"
@@ -338,8 +338,8 @@
                     <div class="text-right">
                         <button pButton pRipple class="mb-3 pi pi-plus" (click)="addApplicantSkillsDetails()"></button>
                     </div>
-                    <div class=" scrolling_content" formArrayName="applicantSkills"
-                        formGroupName="applicationSkills">
+                    <div class=" scrolling_content" formArrayName="applicantSkillsDetails"
+                        formGroupName="applicantSkills">
                         <p-table #dt2 [value]="faApplicantSkillsDetails().controls" dataKey="id" [rows]="10"
                             [rowHover]="true" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
                             [paginator]="false" [autoLayout]="true" responsiveLayout="scroll"
@@ -386,7 +386,7 @@
                         <button pButton pRipple class="mb-3 pi pi-plus"
                             (click)="addApplicantLanguageSkillsDetails()"></button>
                     </div>
-                    <div class=" scrolling_content" formArrayName="applicantLanguageSkills"
+                    <div class=" scrolling_content" formArrayName="applicantLanguageSkillsDetails"
                         formGroupName="applicantLanguageSkills">
                         <p-table #dt2 [value]="faApplicantLanguageSkillsDetails().controls" dataKey="id" [rows]="10"
                             [rowHover]="true" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
