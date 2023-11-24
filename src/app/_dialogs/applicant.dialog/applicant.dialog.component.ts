@@ -3,9 +3,10 @@ import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular
 import { Form, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable } from 'rxjs';
-import { LookupViewDto } from 'src/app/_models/admin';
+import { LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
 import { MaxLength, PhotoFileProperties } from 'src/app/_models/common';
 import { ApplicantCertificationDto, ApplicantDto, ApplicantEducationDetailDto, ApplicantLanguageSkillDto, ApplicantSkillDto, ApplicantWorkExperienceDto } from 'src/app/_models/recruitment';
+import { LookupService } from 'src/app/_services/lookup.service';
 import { RecruitmentService } from 'src/app/_services/recruitment.service';
 import { ValidateFileThenUpload } from 'src/app/_validators/upload.validators';
 
@@ -39,13 +40,25 @@ export class ApplicantDialogComponent {
   defaultPhoto: string;
   yourRating: number = 0;
   maxLength: MaxLength = new MaxLength();
+  countries: LookupViewDto[] = [];
+  states: LookupDetailsDto[] = [];
+  stream: LookupDetailsDto[] = [];
+  nationality: LookupViewDto[] = [];
+  curriculum: LookupViewDto[] = [];
+  gradingMethod: LookupViewDto[] = [];
 
   constructor(private formbuilder: FormBuilder,
     public ref: DynamicDialogRef,
-    public recruitmentService:RecruitmentService) { }
+    public recruitmentService:RecruitmentService,
+    private lookupService: LookupService,
+    ) { }
 
   ngOnInit() {
     this.applicantForm();
+    this.getCountries();
+    this.getNationality();
+    this.getCurriculum();
+    this.getGradingMethod();
     this.genders = [
       { name: 'Male', code: 'male' },
       { name: 'Female', code: 'female' }
@@ -54,6 +67,45 @@ export class ApplicantDialogComponent {
 
   }
 
+  getCurriculum() {
+    this.lookupService.Curriculums().subscribe((resp) => {
+      this.curriculum = resp as unknown as LookupViewDto[];
+    });
+  }
+
+  getCountries() {
+    this.lookupService.Countries().subscribe((resp) => {
+      this.countries = resp as unknown as LookupViewDto[];
+    })
+  }
+
+  getStatesByCountryId(id: number) {
+    this.lookupService.States(id).subscribe((resp) => {
+      if (resp) {
+        this.states = resp as unknown as LookupDetailsDto[];
+      }
+    })
+  }
+
+  getStreamByCurriculumId(Id: number) {
+    this.lookupService.Streams(Id).subscribe((resp) => {
+      if (resp) {
+        this.stream = resp as unknown as LookupDetailsDto[];
+      }
+    });
+  }
+
+  getNationality() {
+    this.lookupService.Nationality().subscribe((resp) => {
+      this.nationality = resp as unknown as LookupViewDto[];
+    })
+  }
+  
+  getGradingMethod() {
+    this.lookupService.GradingMethods().subscribe((resp) => {
+      this.gradingMethod = resp as unknown as LookupViewDto[];
+    })
+  }
   applicantForm() {
     this.fbApplicant = this.formbuilder.group({
       applicantId: [null],
@@ -76,6 +128,7 @@ export class ApplicantDialogComponent {
       applicantEducationDetails: this.formbuilder.group({
         applicantEducationId: [null],
         applicantId: [null],
+        curriculumId:new FormControl('',[Validators.required]),
         streamId:  new FormControl('', [Validators.required]),
         countryId: new FormControl('', [Validators.required]),
         stateId: new FormControl('', [Validators.required]),
@@ -157,7 +210,9 @@ export class ApplicantDialogComponent {
     return this.formbuilder.group({
       applicantEducationId: [educationDetails.applicantEducationId],
       applicantId: [educationDetails.applicantId],
+      curriculumId:new FormControl(educationDetails.curriculumId,[Validators.required]),
       streamId: [educationDetails.streamId],
+      countryId: [educationDetails.countryId],
       stateId: [educationDetails.stateId],
       institutionName: new FormControl(educationDetails.institutionName),
       authorityName: new FormControl(educationDetails.authorityName, [Validators.required]),

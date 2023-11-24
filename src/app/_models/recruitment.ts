@@ -48,6 +48,8 @@ export class ApplicantEducationDetailDto{
     applicantEducationId ?:number;
     applicantId?:number;
     streamId?:number;
+    curriculumId?:number;
+    countryId?:number;
     stateId ?:number;
     institutionName?:string;
     authorityName ?:string;

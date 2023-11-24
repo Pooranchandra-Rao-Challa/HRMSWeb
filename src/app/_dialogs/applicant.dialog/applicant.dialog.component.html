@@ -25,7 +25,7 @@
                         <div class="field col-12 md:col-4">
                             <label class="required">Name:</label>
                             <input type="text" id="inputtext" pInputText formControlName="name" #name [maxlength]="50"
-                                alphaOnly placeholder="Enter Name"  (keydown)="restrictSpaces($event)"
+                                alphaOnly placeholder="Enter Name" (keydown)="restrictSpaces($event)"
                                 [ngClass]="{ 'is-invalid ng-dirty': FormControls['name'].touched && FormControls['name'].errors }" />
                             <div class="flex">
                                 <div class="align-left w-60" style="width:70%">
@@ -75,8 +75,8 @@
                         </div>
                         <div class="field col-12 md:col-4">
                             <label class="required">Email:</label>
-                            <input type="text" id="inputtext" pInputText formControlName="emailId"  [maxlength]="50"
-                                placeholder="Enter Email" alphanumeric #email   (keydown)="restrictSpaces($event)"
+                            <input type="text" id="inputtext" pInputText formControlName="emailId" [maxlength]="50"
+                                placeholder="Enter Email" alphanumeric #email (keydown)="restrictSpaces($event)"
                                 [ngClass]="{ 'is-invalid ng-dirty': FormControls['emailId'].touched && FormControls['emailId'].errors }" />
                             <div class="flex">
                                 <div class="align-left w-60" style="width:70%">
@@ -94,7 +94,8 @@
                         <div class="field col-12 md:col-4">
                             <label class="required">Mobile Number:</label>
                             <input type="text" id="inputtext" pInputText formControlName="mobileNo" numericOnly
-                                placeholder="Enter Mobile Number" #mobileNo   (keydown)="restrictSpaces($event)"  [maxlength]="10"
+                                placeholder="Enter Mobile Number" #mobileNo (keydown)="restrictSpaces($event)"
+                                [maxlength]="10"
                                 [ngClass]="{ 'is-invalid ng-dirty': FormControls['mobileNo'].touched && FormControls['mobileNo'].errors }" />
                             <div class="flex">
                                 <div class="align-left w-60" style="width:70%">
@@ -112,7 +113,8 @@
                         <div class="field col-12 md:col-4">
                             <label class="required">Nationality:</label>
                             <p-dropdown appendTo="body" id="gender_dropdown" [autoDisplayFirst]="false"
-                                placeholder="Select Nationality" formControlName="nationalityId"
+                                placeholder="Select Nationality" formControlName="nationalityId" [options]="nationality"
+                                optionLabel="name" optionValue="lookupDetailId"
                                 [ngClass]="{ 'is-invalid ng-dirty': FormControls['nationalityId'].touched && FormControls['nationalityId'].errors }">
                             </p-dropdown>
                             <div class="flex">
@@ -129,7 +131,8 @@
                         <div class="field col-12 md:col-4">
                             <label class="required">Address Line1:</label>
                             <input type="text" id="inputtext" pInputText placeholder="Enter Address Line1" #addressLine1
-                                formControlName="addressLine1"   (keydown)="restrictSpaces($event)" alphaOnly   [maxlength]="50"
+                                formControlName="addressLine1" (keydown)="restrictSpaces($event)" alphaOnly
+                                [maxlength]="50"
                                 [ngClass]="{ 'is-invalid ng-dirty': FormControls['addressLine1'].touched && FormControls['addressLine1'].errors }" />
                             <div class="flex">
                                 <div class="align-left w-60" style="width:70%">
@@ -147,18 +150,19 @@
                         </div>
                         <div class="field col-12 md:col-4">
                             <label>Address Line2:</label>
-                            <input type="text" id="inputtext" pInputText placeholder="Enter Address Line2"  [maxlength]="50"
-                                formControlName="addressLine2"   (keydown)="restrictSpaces($event)" alphaOnly />
+                            <input type="text" id="inputtext" pInputText placeholder="Enter Address Line2"
+                                [maxlength]="50" formControlName="addressLine2" (keydown)="restrictSpaces($event)"
+                                alphaOnly />
                         </div>
                         <div class="field col-12 md:col-4">
                             <label>Landmark:</label>
-                            <input type="text" id="inputtext" pInputText placeholder="Enter Landmark"  [maxlength]="50"
-                                formControlName="landmark"   (keydown)="restrictSpaces($event)" alphaOnly />
+                            <input type="text" id="inputtext" pInputText placeholder="Enter Landmark" [maxlength]="50"
+                                formControlName="landmark" (keydown)="restrictSpaces($event)" alphaOnly />
                         </div>
                         <div class="field col-12 md:col-4">
                             <label class="required">Zip Code:</label>
-                            <input type="text" id="inputtext" pInputText placeholder="Enter Zip Code"  [maxlength]="6"
-                                formControlName="zipCode" numericOnly #zipCode   (keydown)="restrictSpaces($event)"
+                            <input type="text" id="inputtext" pInputText placeholder="Enter Zip Code" [maxlength]="6"
+                                formControlName="zipCode" numericOnly #zipCode (keydown)="restrictSpaces($event)"
                                 [ngClass]="{ 'is-invalid ng-dirty': FormControls['zipCode'].touched && FormControls['zipCode'].errors }" />
                             <div class="flex">
                                 <div class="align-left w-60" style="width:70%">
@@ -176,7 +180,7 @@
                         <div class="field col-12 md:col-4">
                             <label class="required">City:</label>
                             <input type="text" id="inputtext" pInputText placeholder="Enter City" formControlName="city"
-                                #city   (keydown)="restrictSpaces($event)" alphaOnly  [maxlength]="50"
+                                #city (keydown)="restrictSpaces($event)" alphaOnly [maxlength]="50"
                                 [ngClass]="{ 'is-invalid ng-dirty': FormControls['city'].touched && FormControls['city'].errors }" />
                             <div class="flex">
                                 <div class="align-left w-60" style="width:70%">
@@ -193,12 +197,15 @@
                         </div>
                         <div class="field col-12 md:col-4">
                             <label class="required">Country:</label>
-                            <p-dropdown id="projectName" appendTo="body" placeholder="Select Country" formControlName="countryId"
-                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['countryId'].touched && FormControls['countryId'].errors }">
+                            <p-dropdown id="projectName" appendTo="body" placeholder="Select Country"
+                                formControlName="countryId" [options]="countries" optionLabel="name"
+                                optionValue="lookupDetailId" (onChange)="getStatesByCountryId($event.value)"
+                                [ngClass]="{ 'is-invalid ng-dirty': FormControls['countryId'].touched && FormControls['countryId'].errors }">
                             </p-dropdown>
                             <div class="flex">
                                 <div class="align-left w-60" style="width:70%">
-                                    <span *ngIf="FormControls['countryId'].touched && FormControls['countryId'].invalid">
+                                    <span
+                                        *ngIf="FormControls['countryId'].touched && FormControls['countryId'].invalid">
                                         <div class="ng-invalid ng-touched p-error"
                                             *ngIf="FormControls['countryId'].errors?.['required']">
                                             Please Select Country.</div>
@@ -212,7 +219,8 @@
                         <div class="field col-12 md:col-4">
                             <label class="required">State:</label>
                             <p-dropdown id="projectName" appendTo="body" placeholder="Select State"
-                                formControlName="stateId" 
+                                formControlName="stateId" [options]="states" optionLabel="name"
+                                optionValue="lookupDetailId"
                                 [ngClass]="{ 'is-invalid ng-dirty': FormControls['stateId'].touched && FormControls['stateId'].errors }">
                             </p-dropdown>
                             <div class="flex">
@@ -258,23 +266,40 @@
                             scrollHeight="300px">
                             <ng-template pTemplate="header">
                                 <tr>
+                                    <th class="text-center">Curriculum </th>
                                     <th class="text-center">Stream </th>
                                     <th class="text-center">Institution Name </th>
                                     <th class="text-center">Authority Name </th>
                                     <th class="text-center">Year Of Completion</th>
                                     <th class="text-center">Grading Method</th>
                                     <th class="text-center">Grading Value </th>
-                                    <th class="text-center">State</th>
                                     <th class="text-center">Country</th>
+                                    <th class="text-center">State</th>
                                     <th *ngIf="fbApplicant.controls['applicantEducationDetails'].value.length > 0"></th>
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-educaitonDetailsIndex="rowIndex">
                                 <tr [formGroupName]="educaitonDetailsIndex">
                                     <td class="vertical-align-top">
-                                        <p-dropdown id="projectName" appendTo="body" formControlName="streamId"
-                                            placeholder="Enter Stream" >
+                                        <p-dropdown id="circulum_dropdown" [autoDisplayFirst]="false"
+                                            placeholder="Select Curriculum" [options]="curriculum" optionLabel="name"
+                                            optionValue="lookupDetailId" formControlName="curriculumId" appendTo="body"
+                                            (onChange)="getStreamByCurriculumId($event.value)">
                                         </p-dropdown>
+                                        <!-- <div class="flex">
+                                            <div class="align-left w-60" style="width:70%">
+                                                <span>
+                                                    <div class="ng-invalid ng-touched p-error"
+                                                        *ngIf="FormControls['curriculumId'].errors?.['required']">
+                                                        Please Select Curriculum.</div>
+                                                </span>
+                                            </div>
+                                        </div> -->
+                                    </td>
+                                    <td class="vertical-align-top">
+                                        <p-dropdown id="projectName" appendTo="body" placeholder="Select Stream"
+                                            formControlName="streamId" [options]="stream" optionLabel="name"
+                                            optionValue="lookupDetailId"></p-dropdown>
                                     </td>
                                     <td class="vertical-align-top">
                                         <input type="text" id="inputtext" pInputText formControlName="institutionName"
@@ -289,8 +314,9 @@
                                             placeholder="Enter Year Of Completion" formControlName="yearOfCompletion" />
                                     </td>
                                     <td class="vertical-align-top">
-                                        <p-dropdown id="projectName" appendTo="body" placeholder="Enter Grading Method"
-                                            formControlName="gradingMethodId">
+                                        <p-dropdown id="projectName" appendTo="body" placeholder="Select Grading Method"
+                                            formControlName="gradingMethodId" [options]="gradingMethod"
+                                            optionLabel="name" optionValue="lookupDetailId">
                                         </p-dropdown>
                                     </td>
                                     <td class="vertical-align-top">
@@ -298,12 +324,15 @@
                                             formControlName="gradingValue" />
                                     </td>
                                     <td class="vertical-align-top">
-                                        <p-dropdown id="projectName" appendTo="body" placeholder="Enter Country">
+                                        <p-dropdown id="projectName" appendTo="body" placeholder="Select Country"
+                                            formControlName="countryId" [options]="countries" optionLabel="name"
+                                            optionValue="lookupDetailId" (onChange)="getStatesByCountryId($event.value)">
                                         </p-dropdown>
                                     </td>
                                     <td class="vertical-align-top">
                                         <p-dropdown id="projectName" appendTo="body" formControlName="stateId"
-                                            placeholder="Enter State">
+                                            placeholder="Select State" [options]="states" optionLabel="name"
+                                            optionValue="lookupDetailId">
                                         </p-dropdown>
                                     </td>
                                     <td *ngIf="fbApplicant.controls['applicantEducationDetails'].value.length > 0">
