@@ -36,7 +36,7 @@
                                     <br />
                                     <div class=" grid mt-2 ">
                                         <span class="text-600 font-medium text-md mt-2 "
-                                            *ngFor="let detail of applicant.pendingDetails.split(', ')">
+                                            *ngFor="let detail of applicant.pendingDetails">
                                             <ng-container [ngSwitch]="detail">
                                                 <i *ngSwitchCase="'ApplicantEducationDetails'"
                                                     class="icon-study text-primary text-1xl p-2 pb-1 "></i>
