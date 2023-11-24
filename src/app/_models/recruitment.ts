@@ -44,16 +44,18 @@ export class ApplicantCertificationDto {
     results?: string;
 }
 
-export class ApplicantEducationDetailDto {
-    applicantEducationId?: number;
-    applicantId?: number;
-    streamId?: number;
-    stateId?: number;
-    institutionName?: string;
-    authorityName?: string;
-    yearOfCompletion?: Date;
-    gradingMethodId?: number;
-    gradingValue?: string;
+export class ApplicantEducationDetailDto{
+    applicantEducationId ?:number;
+    applicantId?:number;
+    streamId?:number;
+    curriculumId?:number;
+    countryId?:number;
+    stateId ?:number;
+    institutionName?:string;
+    authorityName ?:string;
+    yearOfCompletion?:Date;
+    gradingMethodId?:number;
+    gradingValue?:string;
 }
 
 export class ApplicantLanguageSkillDto {
