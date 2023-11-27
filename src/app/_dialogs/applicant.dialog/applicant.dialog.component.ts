@@ -53,6 +53,7 @@ export class ApplicantDialogComponent {
 
   viewSelectedSkills = [];
   skillId: number;
+  skillName:string;
 
   constructor(private formbuilder: FormBuilder,
     public ref: DynamicDialogRef,
@@ -141,6 +142,7 @@ export class ApplicantDialogComponent {
       this.languages = resp as unknown as LookupViewDto[];
     })
   }
+  
   applicantForm() {
     this.fbApplicant = this.formbuilder.group({
       applicantId: [null],
@@ -186,7 +188,8 @@ export class ApplicantDialogComponent {
         applicantId: [null],
         companyName: new FormControl('', [Validators.required]),
         companyLocation: new FormControl(''),
-        stateId: [null],
+        countryId: new FormControl('', [Validators.required]),
+        stateId: new FormControl('', [Validators.required]),
         companyEmployeeId: new FormControl(''),
         designationId: new FormControl('', [Validators.required]),
         natureOfWork: new FormControl('', [Validators.required]),
@@ -196,7 +199,7 @@ export class ApplicantDialogComponent {
       }),
       applicantSkills: this.formbuilder.group({
         applicantSkillId: [null],
-        applicantId: new FormControl('', [Validators.required]),
+        applicantId:  [null],
         skillId: new FormControl('', [Validators.required]),
         ApplicantTechnicalSkill: new FormControl([{ ApplicantSkillId: null, ApplicantId: null, SkillId: null, SkillName: null }]),
         expertise: new FormControl('', [Validators.required])
@@ -219,6 +222,26 @@ export class ApplicantDialogComponent {
 
   get FormControls() {
     return this.fbApplicant.controls;
+  }
+
+  get fcEducation() {
+    return this.fbApplicant.get('applicantEducationDetails') as FormGroup;
+  }
+
+  get fcCertificaiton() {
+    return this.fbApplicant.get('applicantCertifications') as FormGroup;
+  }
+
+  get fcWorkExperience() {
+    return this.fbApplicant.get('applicantWorkExperiences') as FormGroup;
+  }
+
+  get fcApplicantSkills() {
+    return this.fbApplicant.get('applicantSkills') as FormGroup;
+  }
+
+  get fcLanguageSkills() {
+    return this.fbApplicant.get('applicantLanguageSkills') as FormGroup;
   }
 
   getExpertiseControl(): FormControl {
@@ -250,9 +273,9 @@ export class ApplicantDialogComponent {
       applicantEducationId: [educationDetails.applicantEducationId],
       applicantId: [educationDetails.applicantId],
       curriculumId: new FormControl(educationDetails.curriculumId, [Validators.required]),
-      streamId: [educationDetails.streamId],
-      countryId: [educationDetails.countryId],
-      stateId: [educationDetails.stateId],
+      streamId: [educationDetails.streamId, [Validators.required]],
+      countryId: [educationDetails.countryId, [Validators.required]],
+      stateId: [educationDetails.stateId, [Validators.required]],
       institutionName: new FormControl(educationDetails.institutionName),
       authorityName: new FormControl(educationDetails.authorityName, [Validators.required]),
       yearOfCompletion: new FormControl(educationDetails.yearOfCompletion, [Validators.required]),
@@ -264,10 +287,10 @@ export class ApplicantDialogComponent {
   generateRowForCertificationDetails(certificationDetails: ApplicantCertificationDto = new ApplicantCertificationDto()): FormGroup {
     return this.formbuilder.group({
       applicantCertificateId: [certificationDetails.applicantCertificateId],
-      applicantId: new FormControl(certificationDetails.applicantId, [Validators.required]),
+      applicantId: new FormControl(certificationDetails.applicantId),
       certificateId: new FormControl(certificationDetails.certificateId, [Validators.required]),
-      franchiseName: new FormControl(certificationDetails.franchiseName, [Validators.required]),
-      yearOfCompletion: new FormControl(certificationDetails.yearOfCompletion),
+      franchiseName: new FormControl(certificationDetails.franchiseName),
+      yearOfCompletion: new FormControl(certificationDetails.yearOfCompletion, [Validators.required]),
       results: new FormControl(certificationDetails.results, [Validators.required]),
     })
   }
@@ -278,30 +301,31 @@ export class ApplicantDialogComponent {
       applicantId: [experienceDetails.applicantId],
       companyName: new FormControl(experienceDetails.companyName, [Validators.required]),
       companyLocation: new FormControl(experienceDetails.companyLocation),
-      stateId: [experienceDetails.stateId],
+      countryId: new FormControl(experienceDetails.countryId, [Validators.required]),
+      stateId: new FormControl(experienceDetails.stateId, [Validators.required]),
       companyEmployeeId: new FormControl(experienceDetails.companyEmployeeId),
       designationId: new FormControl(experienceDetails.designationId, [Validators.required]),
-      natureOfWork: new FormControl(experienceDetails.natureOfWork),
+      natureOfWork: new FormControl(experienceDetails.natureOfWork, [Validators.required]),
       workedOnProjects: new FormControl(experienceDetails.workedOnProjects),
-      dateOfJoining: new FormControl(experienceDetails.dateOfJoining),
-      dateOfReliving: new FormControl(experienceDetails.dateOfReliving),
+      dateOfJoining: new FormControl(experienceDetails.dateOfJoining, [Validators.required]),
+      dateOfReliving: new FormControl(experienceDetails.dateOfReliving, [Validators.required]),
     })
   }
 
   generateRowForApplicantSkillsDetails(applicantSkills: ApplicantSkillDto = new ApplicantSkillDto()): FormGroup {
     return this.formbuilder.group({
       applicantSkillId: [applicantSkills.applicantSkillId],
-      applicantId: new FormControl(applicantSkills.applicantId, [Validators.required]),
+      applicantId: new FormControl(applicantSkills.applicantId),
       skillId: new FormControl(applicantSkills.skillId, [Validators.required]),
-      expertise: new FormControl(applicantSkills.expertise)
+      expertise: new FormControl(applicantSkills.expertise, [Validators.required])
     })
   }
 
   generateRowForApplicantLanguageSkillsDetails(applicationLanguageSkills: ApplicantLanguageSkillDto = new ApplicantLanguageSkillDto()): FormGroup {
     return this.formbuilder.group({
       applicantLanguageSkillId: [applicationLanguageSkills.applicantLanguageSkillId],
-      applicantId: [applicationLanguageSkills.applicantId],
-      languageId: [applicationLanguageSkills.languageId],
+      applicantId: new FormControl(applicationLanguageSkills.applicantId),
+      languageId: new FormControl(applicationLanguageSkills.languageId, [Validators.required]),
       canRead: [applicationLanguageSkills.canRead],
       canWrite: [applicationLanguageSkills.canWrite],
       canSpeak: [applicationLanguageSkills.canSpeak],
@@ -347,12 +371,12 @@ export class ApplicantDialogComponent {
     let updatedArray = [];
     if (this.skillId) {
       for (let i = 0; i < CurrentArray.length; i++) {
-        updatedArray.push({ workExperienceXrefId: 0, workExperienceId: this.skillId, skillAreaId: CurrentArray[i] })
+        updatedArray.push({ ApplicantSkillId: 0, ApplicantId: this.skillId, SkillId:CurrentArray[i], SkillName: this.skillName })
       }
     }
     else {
       for (let i = 0; i < CurrentArray.length; i++) {
-        updatedArray.push({ workExperienceXrefId: 0, workExperienceId: 0, skillAreaId: CurrentArray[i] })
+        updatedArray.push({ ApplicantSkillId: 0, ApplicantId: 0, SkillId:CurrentArray[i], SkillName: this.skillName })
       }
     }
 

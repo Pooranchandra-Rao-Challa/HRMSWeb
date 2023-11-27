@@ -78,7 +78,8 @@ export class ApplicantWorkExperienceDto {
     applicantWorkExperienceId?: number;
     applicantId?: number;
     companyName?: string;
-    companyLocation?: string
+    companyLocation?: string;
+    countryId?:number;
     stateId?: number;
     companyEmployeeId?: string;
     designationId?: number;
