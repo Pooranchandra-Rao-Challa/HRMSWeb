@@ -123,6 +123,13 @@ export class AppMenuComponent implements OnInit {
                         permission: this.GroupPermission('Recruitment'),
                         items: [
                             {
+                                label: 'Recruitment Dashboard',
+                                icon: 'pi pi-fw pi-align-left',
+                                routerLink: ['admin/recruitmentDashboard'],
+                                permission: this.jwtService.Permissions.CanViewAssets
+
+                            },
+                            {
                                 label: 'Applicants',
                                 icon: 'pi pi-fw pi-align-left',
                                 routerLink: ['admin/applicant'],
