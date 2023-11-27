@@ -97,15 +97,11 @@ export class ViewapplicantComponent {
       this.dialogRequest.header = "Language Skills";
       this.dialogRequest.width = "40%";
     }
-    console.log(  this.dialogRequest);
-
     this.ref = this.dialogService.open(content, {
       data: this.dialogRequest.dialogData,
       header: this.dialogRequest.header,
       width: this.dialogRequest.width
     });
-     console.log(this.dialogRequest.dialogData,);
-
     this.ref.onClose.subscribe((res: any) => {
       if (res) {
         if (res.UpdatedModal == ViewApplicationScreen.educationdetails) {

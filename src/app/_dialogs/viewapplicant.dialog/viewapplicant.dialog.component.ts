@@ -32,7 +32,6 @@ export class ViewapplicantDialogComponent {
     private config: DynamicDialogConfig,) {
       this.rowData = this.config.data;
       this.header=this.config.header;
-      console.log( this.rowData,this.header );
   }
 
   ngOnInit(): void {
