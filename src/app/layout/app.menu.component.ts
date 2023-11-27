@@ -35,19 +35,19 @@ export class AppMenuComponent implements OnInit {
         console.log(this.jwtService.Permissions);
         this.model = [
             {
-                label: '',
+                label: 'Dashboards',
                 icon: 'pi pi-home',
                 items: [
                     {
-                        label: 'Dashboard',
+                        label: 'HR Dashboard',
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['dashboard/admin'], permission: true
                     },
-                    // {
-                    //     label: 'Student',
-                    //     icon: 'pi pi-fw pi-image',
-                    //     routerLink: ['/dashboard-employee']
-                    // }
+                    {
+                        label: 'Employee Dashboard',
+                        icon: 'pi pi-fw pi-image',
+                        routerLink: ['dashboard/employee'] , permission: true
+                    }
                 ]
             },
             {
