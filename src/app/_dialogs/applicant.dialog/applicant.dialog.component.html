@@ -326,7 +326,8 @@
                                     <td class="vertical-align-top">
                                         <p-dropdown id="projectName" appendTo="body" placeholder="Select Country"
                                             formControlName="countryId" [options]="countries" optionLabel="name"
-                                            optionValue="lookupDetailId" (onChange)="getStatesByCountryId($event.value)">
+                                            optionValue="lookupDetailId"
+                                            (onChange)="getStatesByCountryId($event.value)">
                                         </p-dropdown>
                                     </td>
                                     <td class="vertical-align-top">
@@ -374,8 +375,9 @@
                             <ng-template pTemplate="body" let-certificationDetailsIndex="rowIndex">
                                 <tr [formGroupName]="certificationDetailsIndex">
                                     <td class="vertical-align-top">
-                                        <p-dropdown appendTo="body" formControlName="certificateId"
-                                            placeholder="Enter Certificate Name" [style]="{'width':'100%'}">
+                                        <p-dropdown formControlName="certificateId" placeholder="Enter Certificate Name"
+                                            [options]="certificates" optionLabel="name" optionValue="lookupDetailId"
+                                            appendTo="body" [style]="{'width':'100%'}">
                                         </p-dropdown>
                                     </td>
                                     <td class="vertical-align-top">
@@ -451,7 +453,8 @@
                                     </td>
                                     <td class="vertical-align-top">
                                         <p-dropdown id="projectName" appendTo="body" placeholder="Enter Designation"
-                                            formControlName="designationId">
+                                            formControlName="designationId" [options]="designations" optionLabel="name"
+                                            optionValue="lookupDetailId">
                                         </p-dropdown>
                                     </td>
                                     <td class="vertical-align-top">
@@ -475,12 +478,16 @@
                                         </p-calendar>
                                     </td>
                                     <td class="vertical-align-top">
-                                        <p-dropdown id="projectName" appendTo="body" placeholder="Enter Country">
+                                        <p-dropdown id="projectName" appendTo="body" placeholder="Enter Country"
+                                            [options]="countries" optionLabel="name"
+                                            (onChange)="getStatesByCountryId($event.value)"
+                                            optionValue="lookupDetailId">
                                         </p-dropdown>
                                     </td>
                                     <td class="vertical-align-top">
                                         <p-dropdown id="projectName" appendTo="body" placeholder="Enter State"
-                                            formControlName="stateId">
+                                            formControlName="stateId" [options]="states" optionLabel="name"
+                                            optionValue="lookupDetailId">
                                         </p-dropdown>
                                     </td>
                                     <td *ngIf="fbApplicant.controls['applicantExperienceDetails'].value.length > 1">
@@ -519,10 +526,18 @@
                             <ng-template pTemplate="body" let-applicantSkillsDetailsIndex="rowIndex">
                                 <tr [formGroupName]="applicantSkillsDetailsIndex">
                                     <td class="vertical-align-top">
-                                        <p-dropdown id="projectName" appendTo="body" class="w-100"
-                                            placeholder="Enter Skill" formControlName="skillId"
-                                            [style]="{'width':'100%'}">
-                                        </p-dropdown>
+                                        <p-multiSelect placeholder="Select Skill Areas" id="Experience_skillArea"
+                                            [options]="skills" optionLabel="name" [filter]="true" filterBy="name"
+                                            #multiSelect appendTo="body" class="w-100" placeholder="Enter Skill"
+                                            formControlName="skillId" [style]="{'width':'100%'}"
+                                            optionValue="lookupDetailId" (keydown)="restrictSpaces($event)"
+                                            (onChange)="onSelectSkill($event)">
+                                            <ng-template let-skill pTemplate="selectedItem">
+                                                <div class="block align-items-center gap-3">
+                                                    <div>{{skill.name}}</div>
+                                                </div>
+                                            </ng-template>
+                                        </p-multiSelect>
                                     </td>
                                     <td class="vertical-align-top pt-3 text-center">
                                         <!-- //<app-star-rating [(rating)]="value"></app-star-rating> -->
@@ -570,7 +585,8 @@
                                 <tr [formGroupName]="applicantLanguageSkillsDetailsIndex">
                                     <td class="vertical-align-top">
                                         <p-dropdown id="projectName" appendTo="body" placeholder="Enter Language"
-                                            formControlName="languageId" [style]="{'width':'100%'}">
+                                            formControlName="languageId" [options]="languages" optionLabel="name"
+                                            optionValue="lookupDetailId" [style]="{'width':'100%'}">
                                         </p-dropdown>
                                     </td>
                                     <td class="vertical-align-top" [ngClass]="'canRead' ? 'text-center' : ''">

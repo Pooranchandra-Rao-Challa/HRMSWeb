@@ -1,4 +1,4 @@
-import { Component  } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ApplicantDialogComponent } from 'src/app/_dialogs/applicant.dialog/applicant.dialog.component';
@@ -22,21 +22,21 @@ export class ApplicantComponent {
   applicantdialogComponent = ApplicantDialogComponent;
   sortOrder: number = 0;
   sortField: string = '';
-  
+
   constructor(private recruitmentService: RecruitmentService,
     public ref: DynamicDialogRef,
     private router: Router,
-    private dialogService: DialogService) {}
+    private dialogService: DialogService) { }
 
   ngOnInit() {
     this.getApplicant();
   }
 
-  getApplicant(){
+  getApplicant() {
     this.recruitmentService.GetApplicantDetail().subscribe((resp) => {
       this.applicant = resp as unknown as ApplicantViewDto[];
       console.log(this.applicant);
-      
+
     })
   }
 
@@ -44,10 +44,10 @@ export class ApplicantComponent {
     dv.filter((event.target as HTMLInputElement).value);
   }
 
-  viewApplicantDtls(applicantId:number) {
-    this.router.navigate(['admin/viewapplicant'], { queryParams: { applicantId: applicantId }});
+  viewApplicantDtls(applicantId: number) {
+    this.router.navigate(['admin/viewapplicant'], { queryParams: { applicantId: applicantId } });
   }
-  
+
   openComponentDialog(content: any,
     dialogData, action: Actions = this.ActionTypes.add) {
     if (action == Actions.add && content === this.applicantdialogComponent) {

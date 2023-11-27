@@ -34,8 +34,16 @@
         </span>
       </span>
     </div>
+    <!-- Technical Skills -->
     <div class="card p-5 orange-200 text-center applicant-p-block2">
-      <h4 class="m-5 mt-0 text-primary">Technical Skills</h4>
+      <div class="flex justify-content-between">
+        <div class="flex text-primary">
+          <span class="icon-study m-2" style="font-size:20px;"></span>
+          <h4 class="m-5 mt-0 text-primary">Technical Skills</h4>
+        </div>
+        <button pButton pRipple id="addButton" icon="pi pi-plus"
+          (click)="openRowEditDialog(viewApplicantDialogDetails, null, ActionTypes.add,'technicalSkills')"></button>
+      </div>
       <div class="flex flex-column">
         <span class="inline-flex justify-content-between mb-3">
           <span class="text-700 mr-2 font-bold">Skill</span>
@@ -43,15 +51,27 @@
         </span>
         <span class="inline-flex justify-content-between mb-3"
           *ngFor="let skill of viewApplicantDetails?.expandedSkills">
-          <span class="text-700 mr-2 ">{{ skill.skill }}</span>
-          <span class="text-700 mr-2 font-bold">
-            <p-rating [(ngModel)]="skill.expertise" [readonly]="true" [cancel]="false"></p-rating>
-          </span>
+          <div style="cursor: pointer;" class="flex justify-content-between align-items-center"
+            (click)="openRowEditDialog(viewApplicantDialogDetails, skill, ActionTypes.edit,'technicalSkills')">
+            <span class="text-700 mr-2 ">{{ skill.skill }}</span>
+            <span class="text-700 mr-2 font-bold" >
+              <p-rating [(ngModel)]="skill.expertise" [readonly]="true" [cancel]="false"></p-rating>
+            </span>
+          </div>
         </span>
       </div>
     </div>
+    <!-- Language Skills -->
     <div class="card p-5 orange-200 text-center applicant-p-block">
-      <h4 class="m-5 mt-0 text-primary">Language Skills</h4>
+      <div class="flex justify-content-between">
+        <div class="flex text-primary">
+          <span class="icon-study m-2" style="font-size:20px;"></span>
+          <h4 class="m-5 mt-0 text-primary">Language Skills</h4>
+        </div>
+        <button pButton pRipple id="addButton" icon="pi pi-plus"
+          (click)="openRowEditDialog(viewApplicantDialogDetails, null, ActionTypes.add,'languageSkills')"></button>
+      </div>
+   
       <div class="flex flex-column">
         <span class="inline-flex justify-content-between mb-3">
           <span class="text-700 mr-2 font-bold">Language</span>
@@ -61,6 +81,8 @@
         </span>
         <span class="inline-flex justify-content-between mb-3"
           *ngFor="let language of viewApplicantDetails?.expandedLanguageSkills">
+          <div style="cursor: pointer;"
+          (click)="openRowEditDialog(viewApplicantDialogDetails, language, ActionTypes.edit,'languageSkills')">
           <span class="text-700 mr-2">{{ language.language }}</span>
           <i class="pi pi-times-circle text-primary text-700 mr-2"
             [ngClass]="{'pi-check-circle': language.canRead, 'pi-times-circle': !language.canRead}"></i>
@@ -68,6 +90,7 @@
             [ngClass]="{'pi-check-circle': language.canWrite, 'pi-times-circle': !language.canWrite}"></i>
           <i class="pi pi-times-circle text-primary text-700 mr-2"
             [ngClass]="{'pi-check-circle': language.canSpeak, 'pi-times-circle': !language.canSpeak}"></i>
+          </div>
         </span>
       </div>
     </div>

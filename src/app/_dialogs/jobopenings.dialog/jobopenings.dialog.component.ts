@@ -53,8 +53,7 @@ export class JobOpeningsDialogComponent {
   getTechnicalSkills() {
     this.lookupService.SkillAreas().subscribe((resp) => {
       this.technicalskills = resp as unknown as LookupViewDto[];
-      console.log(resp);
-      
+     
     })
   }
 
@@ -87,14 +86,8 @@ export class JobOpeningsDialogComponent {
       compensationPackage: new FormControl('', [Validators.required]),
       toBeFilled: new FormControl('', [Validators.required]),
       isActive: new FormControl(true),
-      applicantSkills: this.formbuilder.group({
-        jobOpeningsTechnicalSkillsXrefId: [null],
-        jobOpeningId: [null],
-        technicalSkillId: new FormControl('', [Validators.required]),
-        expertise: new FormControl('')
-      }),
       softSkills: new FormControl('', [Validators.required]),
-      applicantSkillsDetails: this.formbuilder.array([]),
+      jobOpeningTechnicalSkillsXrefs: this.formbuilder.array([]),
       JobOpeningSoftSkillsXrefs: new FormControl([{ JobOpeningsSoftSkillsXrefId: null, JobOpeningId: null, SoftSkillId: null }]),
     });
   }
@@ -115,26 +108,26 @@ export class JobOpeningsDialogComponent {
       event.preventDefault();
     }
   }
-  generateRowForApplicationSkillsDetails(applicationSkills: ApplicantSkillsDto = new ApplicantSkillsDto()): FormGroup {
+  generateRowForApplicationSkillsDetails(): FormGroup {
     return this.formbuilder.group({
-      applicationskillId: [applicationSkills.applicationskillId],
-      applicantId: new FormControl(applicationSkills.applicantId, [Validators.required]),
-      skillId: new FormControl(applicationSkills.skillId, [Validators.required]),
-      expertise: new FormControl(applicationSkills.expertise)
+      jobOpeningsTechnicalSkillsXrefId: [null],
+      jobOpeningId: [null],
+      technicalSkillId: new FormControl('', [Validators.required]),
+      expertise: new FormControl()
     })
   }
   addApplicantSkillsDetails() {
-    this.faapplicantSkillsDetails = this.fbJobOpening.get("applicantSkillsDetails") as FormArray
+    this.faapplicantSkillsDetails = this.fbJobOpening.get("jobOpeningTechnicalSkillsXrefs") as FormArray
     this.faapplicantSkillsDetails.push(this.generateRowForApplicationSkillsDetails())
   }
 
   faApplicantSkillsDetails(): FormArray {
-    return this.fbJobOpening.get("applicantSkillsDetails") as FormArray
+    return this.fbJobOpening.get("jobOpeningTechnicalSkillsXrefs") as FormArray
   }
 
-  getExpertiseControl(): FormControl {
-    return this.fbJobOpening.get('applicationSkills.expertise') as FormControl;
-  }
+  // getExpertiseControl(): FormControl {
+  //   return this.fbJobOpening.get('applicationSkills.expertise') as FormControl;
+  // }
   onSelectSoftSkill(e) {
     this.fbJobOpening.get('JobOpeningSoftSkillsXrefs')?.setValue('');
     this.viewSelectedSkills = [];
@@ -191,6 +184,8 @@ export class JobOpeningsDialogComponent {
   }
 
   onSubmit() {
+    console.log(this.fbJobOpening.value);
+  
     if (this.fbJobOpening.valid) {
       this.save().subscribe(resp => {
         if (resp) {

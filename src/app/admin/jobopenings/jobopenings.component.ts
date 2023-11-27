@@ -52,12 +52,9 @@ export class JobOpeningsComponent {
     this.viewJobDesign = true;
   }
   processJobOpening(jobOpeningDetails) { 
-    const jobDetails = { ...jobOpeningDetails, InitiatedAt: new Date(), jobOpeningId: jobOpeningDetails.id }
-     
-    this.adminService.processJobOpening(jobDetails).subscribe(resp => {
+    this.adminService.processJobOpeningID(jobOpeningDetails.id).subscribe(resp => {
       if (resp) {
         this.router.navigate(['admin/recruitmentprocess']);
-        // this.router.navigate(['employee/onboardingemployee/uploadfiles', this.employeeId])
       }
     })
   }

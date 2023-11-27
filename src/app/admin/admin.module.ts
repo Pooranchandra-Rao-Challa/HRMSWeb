@@ -13,6 +13,7 @@ import { JobOpeningsComponent } from './jobopenings/jobopenings.component';
 import { ApplicantComponent } from './applicant/applicant.component';
 import { ViewapplicantComponent } from './viewapplicant/viewapplicant.component';
 import { RecruitmentProcessComponent } from './recruitmentprocess/recruitmentprocess.component';
+import { RecruitmentdashboardComponent } from './recruitmentdashboard/recruitmentdashboard.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { RecruitmentProcessComponent } from './recruitmentprocess/recruitmentpro
     D3OrgChartComponent,
     ApplicantComponent,
     ViewapplicantComponent,
-    RecruitmentProcessComponent
+    RecruitmentProcessComponent,
+    RecruitmentdashboardComponent
   ],
   imports: [
     AdminRoutingModule,
