@@ -46,12 +46,19 @@ export class ApplicantDialogComponent {
   nationality: LookupViewDto[] = [];
   curriculum: LookupViewDto[] = [];
   gradingMethod: LookupViewDto[] = [];
+  certificates: LookupViewDto[] = [];
+  designations: LookupViewDto[] = [];
+  skills: LookupDetailsDto[] = [];
+  languages: LookupViewDto[] = [];
+
+  viewSelectedSkills = [];
+  skillId: number;
 
   constructor(private formbuilder: FormBuilder,
     public ref: DynamicDialogRef,
-    public recruitmentService:RecruitmentService,
+    public recruitmentService: RecruitmentService,
     private lookupService: LookupService,
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.applicantForm();
@@ -59,6 +66,10 @@ export class ApplicantDialogComponent {
     this.getNationality();
     this.getCurriculum();
     this.getGradingMethod();
+    this.getCertificates();
+    this.getDesignations();
+    this.getSkills();
+    this.getLanguages();
     this.genders = [
       { name: 'Male', code: 'male' },
       { name: 'Female', code: 'female' }
@@ -100,10 +111,34 @@ export class ApplicantDialogComponent {
       this.nationality = resp as unknown as LookupViewDto[];
     })
   }
-  
+
   getGradingMethod() {
     this.lookupService.GradingMethods().subscribe((resp) => {
       this.gradingMethod = resp as unknown as LookupViewDto[];
+    })
+  }
+
+  getCertificates() {
+    this.lookupService.Certificates().subscribe((resp) => {
+      this.certificates = resp as unknown as LookupViewDto[];
+    })
+  }
+
+  getDesignations() {
+    this.lookupService.Designations().subscribe((resp) => {
+      this.designations = resp as unknown as LookupViewDto[];
+    })
+  }
+
+  getSkills() {
+    this.lookupService.SkillAreas().subscribe((resp) => {
+      this.skills = resp as unknown as LookupViewDto[];
+    })
+  }
+
+  getLanguages() {
+    this.lookupService.Languages().subscribe((resp) => {
+      this.languages = resp as unknown as LookupViewDto[];
     })
   }
   applicantForm() {
@@ -121,15 +156,15 @@ export class ApplicantDialogComponent {
       landmark: new FormControl(''),
       zipCode: new FormControl('', [Validators.required]),
       city: new FormControl('', [Validators.required]),
-      countryId:new FormControl('',[Validators.required]),
+      countryId: new FormControl('', [Validators.required]),
       stateId: new FormControl('', [Validators.required]),
       resumeUrl: new FormControl(''),
       isFresher: [true],
       applicantEducationDetails: this.formbuilder.group({
         applicantEducationId: [null],
         applicantId: [null],
-        curriculumId:new FormControl('',[Validators.required]),
-        streamId:  new FormControl('', [Validators.required]),
+        curriculumId: new FormControl('', [Validators.required]),
+        streamId: new FormControl('', [Validators.required]),
         countryId: new FormControl('', [Validators.required]),
         stateId: new FormControl('', [Validators.required]),
         institutionName: new FormControl(''),
@@ -163,6 +198,7 @@ export class ApplicantDialogComponent {
         applicantSkillId: [null],
         applicantId: new FormControl('', [Validators.required]),
         skillId: new FormControl('', [Validators.required]),
+        ApplicantTechnicalSkill: new FormControl([{ ApplicantSkillId: null, ApplicantId: null, SkillId: null, SkillName: null }]),
         expertise: new FormControl('', [Validators.required])
       }),
       applicantLanguageSkills: this.formbuilder.group({
@@ -181,6 +217,9 @@ export class ApplicantDialogComponent {
     });
   }
 
+  get FormControls() {
+    return this.fbApplicant.controls;
+  }
 
   getExpertiseControl(): FormControl {
     return this.fbApplicant.get('applicationSkills.expertise') as FormControl;
@@ -210,7 +249,7 @@ export class ApplicantDialogComponent {
     return this.formbuilder.group({
       applicantEducationId: [educationDetails.applicantEducationId],
       applicantId: [educationDetails.applicantId],
-      curriculumId:new FormControl(educationDetails.curriculumId,[Validators.required]),
+      curriculumId: new FormControl(educationDetails.curriculumId, [Validators.required]),
       streamId: [educationDetails.streamId],
       countryId: [educationDetails.countryId],
       stateId: [educationDetails.stateId],
@@ -301,19 +340,39 @@ export class ApplicantDialogComponent {
     }
   }
 
-  get FormControls() {
-    return this.fbApplicant.controls;
-  }
+  onSelectSkill(e) {
+    this.fbApplicant.get('workExperienceXrefs')?.setValue('');
+    this.viewSelectedSkills = [];
+    let CurrentArray = e.value;
+    let updatedArray = [];
+    if (this.skillId) {
+      for (let i = 0; i < CurrentArray.length; i++) {
+        updatedArray.push({ workExperienceXrefId: 0, workExperienceId: this.skillId, skillAreaId: CurrentArray[i] })
+      }
+    }
+    else {
+      for (let i = 0; i < CurrentArray.length; i++) {
+        updatedArray.push({ workExperienceXrefId: 0, workExperienceId: 0, skillAreaId: CurrentArray[i] })
+      }
+    }
 
+    for (let item of e.value)
+      this.skills.forEach(each => {
+        if (each.lookupDetailId == item) {
+          this.viewSelectedSkills.push(each.name);
+        }
+      });
+    this.fbApplicant.get('workExperienceXrefs')?.setValue(updatedArray);
+  }
   restrictSpaces(event: KeyboardEvent) {
     const target = event.target as HTMLInputElement;
     // Prevent the first key from being a space
     if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0)
-        event.preventDefault();
+      event.preventDefault();
 
     // Restrict multiple spaces
     if (event.key === ' ' && target.selectionStart > 0 && target.value.charAt(target.selectionStart - 1) === ' ') {
-        event.preventDefault();
+      event.preventDefault();
     }
   }
 
@@ -333,7 +392,7 @@ export class ApplicantDialogComponent {
   }
 
   saveApplicant(): Observable<HttpEvent<ApplicantDto[]>> {
-      return this.recruitmentService.CreateApplicant(this.fbApplicant.value);
+    return this.recruitmentService.CreateApplicant(this.fbApplicant.value);
   }
 
   onSubmit() {

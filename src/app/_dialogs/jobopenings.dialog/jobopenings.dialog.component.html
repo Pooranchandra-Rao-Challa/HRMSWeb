@@ -1,5 +1,5 @@
-<div class="flex flex-column align-items-center justify-content-center">
-    <form [formGroup]="fbJobOpening">
+<div class="align-items-center justify-content-center" >
+    <form [formGroup]="fbJobOpening" >
         <div class="grid mt-3 p-5">
             <div class="col-12 roles-container">
                 <div class="p-fluid p-formgrid grid">
@@ -166,8 +166,8 @@
                         <div class="text-right">
                             <button pButton pRipple class="mb-3 pi pi-plus" (click)="addApplicantSkillsDetails()"></button>
                         </div>
-                        <div class=" scrolling_content" formArrayName="applicantSkillsDetails"
-                            formGroupName="applicantSkills">
+                        <div class=" scrolling_content" formArrayName="jobOpeningTechnicalSkillsXrefs"
+                            >
                             <p-table #dt2 [value]="faApplicantSkillsDetails().controls" dataKey="id" [rows]="10" 
                                 [rowHover]="true" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
                                 [paginator]="false" [autoLayout]="true" responsiveLayout="scroll"
@@ -177,7 +177,7 @@
                                     <tr>
                                         <th class="text-center">Skills</th>
                                         <th class="text-center">Expertise(Give Your Assesment)</th>
-                                        <th *ngIf="fbJobOpening.controls['applicantSkillsDetails'].value.length > 1">
+                                        <th *ngIf="fbJobOpening.controls['jobOpeningTechnicalSkillsXrefs'].value.length > 1">
                                         </th>
                                     </tr>
                                 </ng-template>
@@ -191,11 +191,11 @@
                                         </td>
                                         <td class="vertical-align-top pt-3 text-center">
                                             <!-- //<app-star-rating [(rating)]="value"></app-star-rating> -->
-                                            <app-star-rating [control]="getExpertiseControl()"></app-star-rating>
-    
+                                            <!-- <app-star-rating [control]="getExpertiseControl()"></app-star-rating> -->
+                                            <p-rating formControlName="expertise" ></p-rating>
                                             <!-- <p-rating number="3" [cancel]="false" class=""> </p-rating> -->
                                         </td>
-                                        <td *ngIf="fbJobOpening.controls['applicantSkillsDetails'].value.length > 1">
+                                        <td *ngIf="fbJobOpening.controls['jobOpeningTechnicalSkillsXrefs'].value.length > 1">
                                             <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer"
                                                 *ngIf="!this.faApplicantSkillsDetails().controls[applicantSkillsDetailsIndex].get('technicalSkillId')?.value"
                                                 (click)="  faApplicantSkillsDetails().removeAt(applicantSkillsDetailsIndex)"></i>

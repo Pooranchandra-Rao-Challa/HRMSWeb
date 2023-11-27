@@ -88,6 +88,16 @@ export class LookupService extends ApiHttpService {
         return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.Nationality])
     }
 
+    public Certificates(){
+        console.log('Certificates');
+        return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.Certificates])
+    }
+
+    public Languages(){
+        console.log('Languages');
+        return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.Languages])
+    }
+
     public LookupDetailsForSelectedDependent(dependentId: number) {
         console.log('Dependents');
         return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [dependentId])
