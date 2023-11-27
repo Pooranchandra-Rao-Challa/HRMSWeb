@@ -53,16 +53,16 @@ export class ApplicantDialogComponent {
 
   viewSelectedSkills = [];
   skillId: number;
-  skillName:string;
+  skillName: string;
 
   constructor(private formbuilder: FormBuilder,
     public ref: DynamicDialogRef,
     public recruitmentService: RecruitmentService,
     private lookupService: LookupService,
-  ) { }
+  ) { 
+  }
 
   ngOnInit() {
-    this.applicantForm();
     this.getCountries();
     this.getNationality();
     this.getCurriculum();
@@ -71,6 +71,8 @@ export class ApplicantDialogComponent {
     this.getDesignations();
     this.getSkills();
     this.getLanguages();
+    this.applicantForm();
+
     this.genders = [
       { name: 'Male', code: 'male' },
       { name: 'Female', code: 'female' }
@@ -142,7 +144,7 @@ export class ApplicantDialogComponent {
       this.languages = resp as unknown as LookupViewDto[];
     })
   }
-  
+
   applicantForm() {
     this.fbApplicant = this.formbuilder.group({
       applicantId: [null],
@@ -199,9 +201,8 @@ export class ApplicantDialogComponent {
       }),
       applicantSkills: this.formbuilder.group({
         applicantSkillId: [null],
-        applicantId:  [null],
+        applicantId: [null],
         skillId: new FormControl('', [Validators.required]),
-        ApplicantTechnicalSkill: new FormControl([{ ApplicantSkillId: null, ApplicantId: null, SkillId: null, SkillName: null }]),
         expertise: new FormControl('', [Validators.required])
       }),
       applicantLanguageSkills: this.formbuilder.group({
@@ -224,24 +225,24 @@ export class ApplicantDialogComponent {
     return this.fbApplicant.controls;
   }
 
-  get fcEducation() {
-    return this.fbApplicant.get('applicantEducationDetails') as FormGroup;
+  formArrayControlEducation(i: number, formControlName: string) {
+    return this.faApplicantEducationDetails().controls[i].get(formControlName);
   }
 
-  get fcCertificaiton() {
-    return this.fbApplicant.get('applicantCertifications') as FormGroup;
+ formArrayControlCertificaiton(i: number, formControlName: string) {
+    return this.faApplicantCertificationDetails().controls[i].get(formControlName);
   }
 
-  get fcWorkExperience() {
-    return this.fbApplicant.get('applicantWorkExperiences') as FormGroup;
+  formArrayControlWorkExperience(i: number, formControlName: string) {
+    return this.faApplicantExperienceDetails().controls[i].get(formControlName);
   }
 
-  get fcApplicantSkills() {
-    return this.fbApplicant.get('applicantSkills') as FormGroup;
+  formArrayControlSkills(i: number, formControlName: string) {
+    return this.faApplicantSkillsDetails().controls[i].get(formControlName);
   }
 
-  get fcLanguageSkills() {
-    return this.fbApplicant.get('applicantLanguageSkills') as FormGroup;
+  formArrayControlLanguage(i: number, formControlName: string) {
+    return this.faApplicantLanguageSkillsDetails().controls[i].get(formControlName);
   }
 
   getExpertiseControl(): FormControl {
@@ -364,30 +365,30 @@ export class ApplicantDialogComponent {
     }
   }
 
-  onSelectSkill(e) {
-    this.fbApplicant.get('workExperienceXrefs')?.setValue('');
-    this.viewSelectedSkills = [];
-    let CurrentArray = e.value;
-    let updatedArray = [];
-    if (this.skillId) {
-      for (let i = 0; i < CurrentArray.length; i++) {
-        updatedArray.push({ ApplicantSkillId: 0, ApplicantId: this.skillId, SkillId:CurrentArray[i], SkillName: this.skillName })
-      }
-    }
-    else {
-      for (let i = 0; i < CurrentArray.length; i++) {
-        updatedArray.push({ ApplicantSkillId: 0, ApplicantId: 0, SkillId:CurrentArray[i], SkillName: this.skillName })
-      }
-    }
+  // onSelectSkill(e) {
+  //   this.fbApplicant.get('workExperienceXrefs')?.setValue('');
+  //   this.viewSelectedSkills = [];
+  //   let CurrentArray = e.value;
+  //   let updatedArray = [];
+  //   if (this.skillId) {
+  //     for (let i = 0; i < CurrentArray.length; i++) {
+  //       updatedArray.push({ ApplicantSkillId: 0, ApplicantId: this.skillId, SkillId: CurrentArray[i], SkillName: this.skillName })
+  //     }
+  //   }
+  //   else {
+  //     for (let i = 0; i < CurrentArray.length; i++) {
+  //       updatedArray.push({ ApplicantSkillId: 0, ApplicantId: 0, SkillId: CurrentArray[i], SkillName: this.skillName })
+  //     }
+  //   }
 
-    for (let item of e.value)
-      this.skills.forEach(each => {
-        if (each.lookupDetailId == item) {
-          this.viewSelectedSkills.push(each.name);
-        }
-      });
-    this.fbApplicant.get('workExperienceXrefs')?.setValue(updatedArray);
-  }
+  //   for (let item of e.value)
+  //     this.skills.forEach(each => {
+  //       if (each.lookupDetailId == item) {
+  //         this.viewSelectedSkills.push(each.name);
+  //       }
+  //     });
+  //   this.fbApplicant.get('workExperienceXrefs')?.setValue(updatedArray);
+  // }
   restrictSpaces(event: KeyboardEvent) {
     const target = event.target as HTMLInputElement;
     // Prevent the first key from being a space
@@ -416,10 +417,40 @@ export class ApplicantDialogComponent {
   }
 
   saveApplicant(): Observable<HttpEvent<ApplicantDto[]>> {
-    return this.recruitmentService.CreateApplicant(this.fbApplicant.value);
+    const formData = this.flattenFormData(this.fbApplicant.value);
+
+    return this.recruitmentService.CreateApplicant(formData);
+  }
+
+  private flattenFormData(formData: any): any {
+    // Extract and flatten nested form arrays
+    const educationDetails = formData.applicantEducationdetails.map((item: any) => item.value);
+    const certificationDetails = formData.applicantCertificationDetails.map((item: any) => item.value);
+    const experienceDetails = formData.applicantExperienceDetails.map((item: any) => item.value);
+    const skillsDetails = formData.applicantSkillsDetails.map((item: any) => item.value);
+    const languageSkillsDetails = formData.applicantLanguageSkillsDetails.map((item: any) => item.value);
+  
+    // Remove the nested form arrays from the main form data
+    delete formData.applicantEducationdetails;
+    delete formData.applicantCertificationDetails;
+    delete formData.applicantExperienceDetails;
+    delete formData.applicantSkillsDetails;
+    delete formData.applicantLanguageSkillsDetails;
+  
+    // Return the flattened data
+    return {
+      ...formData,
+      applicantEducationDetails: educationDetails,
+      applicantCertifications: certificationDetails,
+      applicantWorkExperiences: experienceDetails,
+      applicantSkills: skillsDetails,
+      applicantLanguageSkills: languageSkillsDetails,
+    };
   }
 
   onSubmit() {
+    console.log(this.fbApplicant.value);
+
     if (this.fbApplicant.valid) {
       this.saveApplicant().subscribe(resp => {
         if (resp) {
