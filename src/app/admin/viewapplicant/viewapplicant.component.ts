@@ -21,7 +21,7 @@ export class ViewapplicantComponent {
   ActionTypes = Actions;
   isCursorPointer: boolean = false;
   dialogRequest: DialogRequest = new DialogRequest();
- 
+
   viewApplicantDialogDetails = ViewapplicantDialogComponent
   constructor(private RecruitmentService: RecruitmentService,
     private activatedRoute: ActivatedRoute,
@@ -47,19 +47,45 @@ export class ViewapplicantComponent {
 
 
   openRowEditDialog(content: any,
-    dialogData, action: Actions = this.ActionTypes.edit) {
-    if (action == Actions.edit && content === this.viewApplicantDialogDetails) {
+    dialogData, action: Actions = this.ActionTypes.edit, formtype: any) {
+    if (action == Actions.edit && content === this.viewApplicantDialogDetails && formtype === "education") {
       this.dialogRequest.dialogData = dialogData;
-      this.dialogRequest.header = "Education details";
+      this.dialogRequest.header = "Education Details";
+      this.dialogRequest.width = "40%";
+    } else if (action == Actions.add && content === this.viewApplicantDialogDetails && formtype === "education") {
+      this.dialogRequest.dialogData = null;
+      this.dialogRequest.header = "Education Details";
       this.dialogRequest.width = "40%";
     }
+    else if (action == Actions.edit && content === this.viewApplicantDialogDetails && formtype === "certificates") {
+      this.dialogRequest.dialogData = dialogData;
+      this.dialogRequest.header = "Certificate Details";
+      this.dialogRequest.width = "40%";
+    }
+    else if (action == Actions.add && content === this.viewApplicantDialogDetails && formtype === "certificates") {
+      this.dialogRequest.dialogData = null;
+      this.dialogRequest.header = "Certificate Details";
+      this.dialogRequest.width = "40%";
+    }
+    else if (action == Actions.edit && content === this.viewApplicantDialogDetails && formtype === "experience") {
+      this.dialogRequest.dialogData = dialogData;
+      this.dialogRequest.header = "Experience Details";
+      this.dialogRequest.width = "40%";
+    }
+    else if (action == Actions.add && content === this.viewApplicantDialogDetails && formtype === "experience") {
+      this.dialogRequest.dialogData = null;
+      this.dialogRequest.header = "Experience Details";
+      this.dialogRequest.width = "40%";
+    }
+    // console.log(  this.dialogRequest);
+
     this.ref = this.dialogService.open(content, {
       data: this.dialogRequest.dialogData,
       header: this.dialogRequest.header,
       width: this.dialogRequest.width
     });
-    console.log(this.dialogRequest.dialogData,);
-    
+    // console.log(this.dialogRequest.dialogData,);
+
     this.ref.onClose.subscribe((res: any) => {
       if (res) {
         if (res.UpdatedModal == ViewApplicationScreen.educationdetails) {

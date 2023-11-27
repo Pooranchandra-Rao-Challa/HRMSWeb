@@ -10,7 +10,7 @@ import { JobOpeningsComponent } from './jobopenings/jobopenings.component';
 import { ApplicantComponent } from './applicant/applicant.component';
 import { ViewapplicantComponent } from './viewapplicant/viewapplicant.component';
 import { RecruitmentProcessComponent } from './recruitmentprocess/recruitmentprocess.component';
-import { RecruitmentComponent } from './recruitment/recruitment.component';
+import { RecruitmentdashboardComponent } from './recruitmentdashboard/recruitmentdashboard.component';
 
 @NgModule({
     imports: [RouterModule.forChild([
@@ -21,7 +21,7 @@ import { RecruitmentComponent } from './recruitment/recruitment.component';
         { path: 'holidayconfiguration', data: { breadcrumb: 'Holiday Configuration' }, component: HolidayconfigurationComponent },
         { path: 'jobopenings', data: { breadcrumb: 'Job Openings' }, component: JobOpeningsComponent },
         { path: 'lookups', data: { breadcrumb: 'lookups' }, component: LookupsComponent },
-        { path: 'recruitment', data: { breadcrumb: 'Recruitment' }, component: RecruitmentComponent },
+        { path: 'recruitmentDashboard', data: { breadcrumb: 'Recruitment' }, component: RecruitmentdashboardComponent },
         { path: 'project', data: { breadcrumb: 'Project' }, component: ProjectComponent },
         { path: 'd3-org-chart', component: D3OrgChartComponent },
         { path: 'viewapplicant', data: { breadcrumb: 'View Applicant' }, component: ViewapplicantComponent },
