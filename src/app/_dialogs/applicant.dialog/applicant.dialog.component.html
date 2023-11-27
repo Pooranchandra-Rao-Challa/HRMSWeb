@@ -838,9 +838,9 @@
                                     </td>
                                     <td class="vertical-align-top pt-3 text-center">
                                         <!-- //<app-star-rating [(rating)]="value"></app-star-rating> -->
-                                        <app-star-rating [control]="getExpertiseControl()"></app-star-rating>
+                                        <!-- <app-star-rating [control]="getExpertiseControl()"></app-star-rating> -->
 
-                                        <!-- <p-rating number="3" [cancel]="false" class=""> </p-rating> -->
+                                        <p-rating number="3" [cancel]="false"   formControlName="expertise" > </p-rating>
                                     </td>
                                     <td *ngIf="fbApplicant.controls['applicantSkillsDetails'].value.length > 1">
                                         <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer"
