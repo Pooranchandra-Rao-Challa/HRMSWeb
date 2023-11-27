@@ -104,7 +104,7 @@ export class ViewapplicantComponent {
     });
     this.ref.onClose.subscribe((res: any) => {
       if (res) {
-        if (res.UpdatedModal == ViewApplicationScreen.educationdetails) {
+        if (res.UpdatedModal == ViewApplicationScreen.viewApplicantDetails) {
           this.initViewApplicantDetails();
         }
       }
