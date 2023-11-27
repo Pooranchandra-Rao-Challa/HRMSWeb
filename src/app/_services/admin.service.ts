@@ -113,7 +113,7 @@ export class AdminService extends ApiHttpService {
     public CreateJobOpeningDetails(jobOpeningDto:JobOpeningsDetailsViewDto[]){
         return this.post<JobOpeningsDetailsViewDto[]>(CREATE_JOB_OPENINGS_DETAILS,jobOpeningDto);
     }
-    public processJobOpening(details:JobOpeningsDetailsViewDto){
-        return this.post<JobOpeningsDetailsViewDto>(UPDATE_JOB,details);
+    public processJobOpeningID(id:number){ 
+        return this.post(UPDATE_JOB+'/'+`${id}`,null);
     }
 }
