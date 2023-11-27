@@ -2,7 +2,7 @@
   <!-- Education Details -->
   <div *ngIf="this.header==='Education Details'">
     <form [formGroup]="fbeducationdetails">
-      <div p-overlayPanel class="fadeinup animation-duration-1000 grid  m-0 mt-3 p-0">
+      <!-- <div p-overlayPanel class="fadeinup animation-duration-1000 grid  m-0 mt-3 p-0"> -->
         <div class="col-12 roles-container">
           <div class="p-fluid p-formgrid grid">
             <div class="field col-12 md:col-4">
@@ -57,14 +57,14 @@
             </div>
           </div>
         </div>
-      </div>
+      <!-- </div> -->
     </form>
   </div>
 
   <!--Experience Details -->
   <div *ngIf="this.header==='Experience Details'">
     <form [formGroup]="fbexperience">
-      <div p-overlayPanel class="fadeinup animation-duration-1000 grid  m-0 mt-3 p-0">
+      <!-- <div p-overlayPanel class="fadeinup animation-duration-1000 grid  m-0 mt-3 p-0"> -->
         <div class="col-12 roles-container">
           <div class="p-fluid p-formgrid grid">
             <div class="field col-12  m-0 md:col-4">
@@ -276,14 +276,14 @@
             </div>
           </div>
         </div>
-      </div>
+      <!-- </div> -->
     </form>
   </div>
 
   <!-- Certificate Details -->
   <div *ngIf="this.header==='Certificate Details'">
     <form [formGroup]="fbcertificatedetails">
-      <div p-overlayPanel class="fadeinup animation-duration-1000 grid  m-0 mt-3 p-0">
+      <!-- <div p-overlayPanel class="fadeinup animation-duration-1000 grid  m-0 mt-3 p-0"> -->
         <div class="col-12 roles-container">
           <div class="p-fluid p-formgrid grid">
             <div class="field col-12 md:col-4">
@@ -310,21 +310,65 @@
             </div>
           </div>
         </div>
-      </div>
+      <!-- </div> -->
     </form>
   </div>
 
-  <ng-container *ngIf="rowData?.type === 'language'">
-    <label>Language: </label>
-    <input [(ngModel)]="rowData.name" />
-    <!-- Add more fields specific to language -->
-  </ng-container>
+  <!-- Technical Skills -->
+  <div *ngIf="this.header==='Technical Skills'">
+    <form [formGroup]="fbtechnicalSkills">
+      <!-- <div p-overlayPanel class="fadeinup animation-duration-1000 grid  m-0 mt-3 p-0"> -->
+        <div class="col-12 roles-container">
+          <div class="p-fluid p-formgrid grid">
+            <div class="field col-12 md:col-6">
+              <label>Technical Skills: </label>
+              <p-dropdown inputId="dropdown" id="technicalSkills" [autoDisplayFirst]="false"
+                formControlName="technicalSkills" appendTo="body" optionLabel="name"
+                placeholder="Select Technical Skills">
+              </p-dropdown>
+            </div>
+              <div class="field col-12 md:col-6">
+                <label>Expertise(Give Your Assesment): </label>
+                <app-star-rating ></app-star-rating>
+              </div>
+          </div>
+        </div>
+      <!-- </div> -->
+    </form>
+  </div>
 
-  <ng-container *ngIf="rowData?.type === 'technical'">
-    <label>Skill Name: </label>
-    <input [(ngModel)]="rowData.name" />
-    <!-- Add more fields specific to technical skills -->
-  </ng-container>
+  <!-- Language Skills -->
+  <div *ngIf="this.header==='Language Skills'">
+    <form [formGroup]="fblanguageSkills">
+      <!-- <div p-overlayPanel class="fadeinup animation-duration-1000 grid  m-0 mt-3 p-0"> -->
+        <div class="col-12 roles-container">
+          <div class="p-fluid p-formgrid grid">
+            <div class="field col-12 md:col-6">
+              <label>Language Skills: </label>
+              <p-dropdown inputId="dropdown" id="languageSkills" [autoDisplayFirst]="false"
+                formControlName="languageSkills" appendTo="body" optionLabel="name"
+                placeholder="Select Language Skills">
+              </p-dropdown>
+            </div>
+              <div class="field col-12 md:col-2">
+                <label>CanRead: </label><br>
+                <p-checkbox [binary]="true" class="mt-2" formControlName="canRead"></p-checkbox>
+              </div>
+              <div class="field col-12 md:col-2">
+                <label>CanWrite: </label><br>
+                <p-checkbox [binary]="true" class="mt-2" formControlName="canWrite"></p-checkbox>
+              </div>
+              <div class="field col-12 md:col-2">
+                <label>CanSpeak: </label><br>
+                <p-checkbox [binary]="true" class="mt-2" formControlName="canSpeak"></p-checkbox>
+              </div>
+          </div>
+        </div>
+      <!-- </div> -->
+    </form>
+  </div>
+
+
   <div class=" footer dialog-footer">
     <button pButton pRipple class="p-button-raised p-button-primary" type="submit" (click)="onSave()">Save</button>
     <!-- <button pButton pRipple  class="p-button-raised p-button-primary" type="submit" (click)="onCancel()">Cancel</button> -->

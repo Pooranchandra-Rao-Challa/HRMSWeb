@@ -15,6 +15,8 @@ export class ViewapplicantDialogComponent {
   fbeducationdetails!: FormGroup;
   fbcertificatedetails!: FormGroup;
   fbexperience!: FormGroup;
+  fbtechnicalSkills!: FormGroup;
+  fblanguageSkills!: FormGroup;
   maxLength: MaxLength = new MaxLength();
   onSave() {
     this.saveClicked.emit(this.rowData);
@@ -30,13 +32,15 @@ export class ViewapplicantDialogComponent {
     private config: DynamicDialogConfig,) {
       this.rowData = this.config.data;
       this.header=this.config.header;
-      // console.log( this.rowData,this.header );
+      console.log( this.rowData,this.header );
   }
 
   ngOnInit(): void {
     this.educationDetailsForm();
     this.certificateDetailsForm();
     this.experienceForm();
+    this.technicalSkillsForm();
+    this. languageSkillsForm();
   }
 
   educationDetailsForm(){
@@ -79,6 +83,21 @@ export class ViewapplicantDialogComponent {
   }
  
 
+  technicalSkillsForm(){
+    this.fbtechnicalSkills = this.formbuilder.group({
+      technicalSkills:new FormControl(''),
+      // expertise: new FormControl(''),
+    })
+  }
+
+  languageSkillsForm(){
+    this.fblanguageSkills = this.formbuilder.group({
+      languageSkills:new FormControl(''),
+      canRead:new FormControl(''),
+      canWrite:new FormControl(''),
+      canSpeak:new FormControl(''),
+    })
+  }
   get FormControls() {
     return this.fbexperience.controls;
   }
