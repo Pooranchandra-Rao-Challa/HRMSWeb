@@ -3,6 +3,7 @@ import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular
 import { Form, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable } from 'rxjs';
+import { ALERT_CODES, AlertmessageService } from 'src/app/_alerts/alertmessage.service';
 import { LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
 import { MaxLength, PhotoFileProperties } from 'src/app/_models/common';
 import { ApplicantCertificationDto, ApplicantDto, ApplicantEducationDetailDto, ApplicantLanguageSkillDto, ApplicantSkillDto, ApplicantWorkExperienceDto } from 'src/app/_models/recruitment';
@@ -59,7 +60,8 @@ export class ApplicantDialogComponent {
     public ref: DynamicDialogRef,
     public recruitmentService: RecruitmentService,
     private lookupService: LookupService,
-  ) { 
+    public alertMessage: AlertmessageService,
+  ) {
   }
 
   ngOnInit() {
@@ -164,60 +166,11 @@ export class ApplicantDialogComponent {
       stateId: new FormControl('', [Validators.required]),
       resumeUrl: new FormControl(''),
       isFresher: [true],
-      applicantEducationDetails: this.formbuilder.group({
-        applicantEducationId: [null],
-        applicantId: [null],
-        curriculumId: new FormControl('', [Validators.required]),
-        streamId: new FormControl('', [Validators.required]),
-        countryId: new FormControl('', [Validators.required]),
-        stateId: new FormControl('', [Validators.required]),
-        institutionName: new FormControl(''),
-        authorityName: new FormControl('', [Validators.required]),
-        yearOfCompletion: new FormControl('', [Validators.required]),
-        gradingMethodId: new FormControl('', [Validators.required]),
-        gradingValue: new FormControl('', [Validators.required]),
-      }),
-      applicantCertifications: this.formbuilder.group({
-        applicantCertificateId: [null],
-        applicantId: [null],
-        certificateId: new FormControl('', [Validators.required]),
-        franchiseName: new FormControl(''),
-        yearOfCompletion: new FormControl('', [Validators.required]),
-        results: new FormControl('', [Validators.required]),
-      }),
-      applicantWorkExperiences: this.formbuilder.group({
-        applicantWorkExperienceId: [null],
-        applicantId: [null],
-        companyName: new FormControl('', [Validators.required]),
-        companyLocation: new FormControl(''),
-        countryId: new FormControl('', [Validators.required]),
-        stateId: new FormControl('', [Validators.required]),
-        companyEmployeeId: new FormControl(''),
-        designationId: new FormControl('', [Validators.required]),
-        natureOfWork: new FormControl('', [Validators.required]),
-        workedOnProjects: new FormControl(''),
-        dateOfJoining: new FormControl('', [Validators.required]),
-        dateOfReliving: new FormControl('', [Validators.required]),
-      }),
-      applicantSkills: this.formbuilder.group({
-        applicantSkillId: [null],
-        applicantId: [null],
-        skillId: new FormControl('', [Validators.required]),
-        expertise: new FormControl('', [Validators.required])
-      }),
-      applicantLanguageSkills: this.formbuilder.group({
-        applicantLanguageSkillId: [null],
-        applicantId: new FormControl('', [Validators.required]),
-        languageId: new FormControl('', [Validators.required]),
-        canRead: [null],
-        canWrite: [null],
-        canSpeak: [null],
-      }),
-      applicantEducationdetails: this.formbuilder.array([]),
-      applicantCertificationDetails: this.formbuilder.array([]),
-      applicantExperienceDetails: this.formbuilder.array([]),
-      applicantSkillsDetails: this.formbuilder.array([]),
-      applicantLanguageSkillsDetails: this.formbuilder.array([])
+      applicantEducationDetails: this.formbuilder.array([]),
+      applicantCertifications: this.formbuilder.array([]),
+      applicantWorkExperiences: this.formbuilder.array([]),
+      applicantSkills: this.formbuilder.array([]),
+      applicantLanguageSkills: this.formbuilder.array([])
     });
   }
 
@@ -229,7 +182,7 @@ export class ApplicantDialogComponent {
     return this.faApplicantEducationDetails().controls[i].get(formControlName);
   }
 
- formArrayControlCertificaiton(i: number, formControlName: string) {
+  formArrayControlCertificaiton(i: number, formControlName: string) {
     return this.faApplicantCertificationDetails().controls[i].get(formControlName);
   }
 
@@ -250,23 +203,23 @@ export class ApplicantDialogComponent {
   }
 
   faApplicantEducationDetails(): FormArray {
-    return this.fbApplicant.get("applicantEducationdetails") as FormArray
+    return this.fbApplicant.get("applicantEducationDetails") as FormArray
   }
 
   faApplicantCertificationDetails(): FormArray {
-    return this.fbApplicant.get("applicantCertificationDetails") as FormArray
+    return this.fbApplicant.get("applicantCertifications") as FormArray
   }
 
   faApplicantExperienceDetails(): FormArray {
-    return this.fbApplicant.get("applicantExperienceDetails") as FormArray
+    return this.fbApplicant.get("applicantWorkExperiences") as FormArray
   }
 
   faApplicantSkillsDetails(): FormArray {
-    return this.fbApplicant.get("applicantSkillsDetails") as FormArray
+    return this.fbApplicant.get("applicantSkills") as FormArray
   }
 
   faApplicantLanguageSkillsDetails(): FormArray {
-    return this.fbApplicant.get("applicantLanguageSkillsDetails") as FormArray
+    return this.fbApplicant.get("applicantLanguageSkills") as FormArray
   }
 
   generateRowForEducationDetails(educationDetails: ApplicantEducationDetailDto = new ApplicantEducationDetailDto()): FormGroup {
@@ -334,27 +287,27 @@ export class ApplicantDialogComponent {
   }
 
   addApplicantEducationDetails() {
-    this.faapplicantEducationDetails = this.fbApplicant.get("applicantEducationdetails") as FormArray
+    this.faapplicantEducationDetails = this.fbApplicant.get("applicantEducationDetails") as FormArray
     this.faapplicantEducationDetails.push(this.generateRowForEducationDetails())
   }
 
   addApplicantCertificationDetails() {
-    this.faapplicantCertificationDetails = this.fbApplicant.get("applicantCertificationDetails") as FormArray
+    this.faapplicantCertificationDetails = this.fbApplicant.get("applicantCertifications") as FormArray
     this.faapplicantCertificationDetails.push(this.generateRowForCertificationDetails())
   }
 
   addApplicantExperienceDetails() {
-    this.faapplicantExperienceDetails = this.fbApplicant.get("applicantExperienceDetails") as FormArray
+    this.faapplicantExperienceDetails = this.fbApplicant.get("applicantWorkExperiences") as FormArray
     this.faapplicantExperienceDetails.push(this.generateRowForExperienceDetails())
   }
 
   addApplicantSkillsDetails() {
-    this.faapplicantSkillsDetails = this.fbApplicant.get("applicantSkillsDetails") as FormArray
+    this.faapplicantSkillsDetails = this.fbApplicant.get("applicantSkills") as FormArray
     this.faapplicantSkillsDetails.push(this.generateRowForApplicantSkillsDetails())
   }
 
   addApplicantLanguageSkillsDetails() {
-    this.faapplicantLanguageSkillsDetails = this.fbApplicant.get("applicantLanguageSkillsDetails") as FormArray
+    this.faapplicantLanguageSkillsDetails = this.fbApplicant.get("applicantLanguageSkills") as FormArray
     this.faapplicantLanguageSkillsDetails.push(this.generateRowForApplicantLanguageSkillsDetails())
   }
 
@@ -365,30 +318,6 @@ export class ApplicantDialogComponent {
     }
   }
 
-  // onSelectSkill(e) {
-  //   this.fbApplicant.get('workExperienceXrefs')?.setValue('');
-  //   this.viewSelectedSkills = [];
-  //   let CurrentArray = e.value;
-  //   let updatedArray = [];
-  //   if (this.skillId) {
-  //     for (let i = 0; i < CurrentArray.length; i++) {
-  //       updatedArray.push({ ApplicantSkillId: 0, ApplicantId: this.skillId, SkillId: CurrentArray[i], SkillName: this.skillName })
-  //     }
-  //   }
-  //   else {
-  //     for (let i = 0; i < CurrentArray.length; i++) {
-  //       updatedArray.push({ ApplicantSkillId: 0, ApplicantId: 0, SkillId: CurrentArray[i], SkillName: this.skillName })
-  //     }
-  //   }
-
-  //   for (let item of e.value)
-  //     this.skills.forEach(each => {
-  //       if (each.lookupDetailId == item) {
-  //         this.viewSelectedSkills.push(each.name);
-  //       }
-  //     });
-  //   this.fbApplicant.get('workExperienceXrefs')?.setValue(updatedArray);
-  // }
   restrictSpaces(event: KeyboardEvent) {
     const target = event.target as HTMLInputElement;
     // Prevent the first key from being a space
@@ -403,7 +332,6 @@ export class ApplicantDialogComponent {
 
   onFileChange(event: Event) {
     const fileUpload = event.target as HTMLInputElement;
-
     if (fileUpload.files && fileUpload.files.length > 0) {
       const file = fileUpload.files[0];
       this.selectedFileName = file.name;
@@ -417,44 +345,15 @@ export class ApplicantDialogComponent {
   }
 
   saveApplicant(): Observable<HttpEvent<ApplicantDto[]>> {
-    const formData = this.flattenFormData(this.fbApplicant.value);
-
-    return this.recruitmentService.CreateApplicant(formData);
-  }
-
-  private flattenFormData(formData: any): any {
-    // Extract and flatten nested form arrays
-    const educationDetails = formData.applicantEducationdetails.map((item: any) => item.value);
-    const certificationDetails = formData.applicantCertificationDetails.map((item: any) => item.value);
-    const experienceDetails = formData.applicantExperienceDetails.map((item: any) => item.value);
-    const skillsDetails = formData.applicantSkillsDetails.map((item: any) => item.value);
-    const languageSkillsDetails = formData.applicantLanguageSkillsDetails.map((item: any) => item.value);
-  
-    // Remove the nested form arrays from the main form data
-    delete formData.applicantEducationdetails;
-    delete formData.applicantCertificationDetails;
-    delete formData.applicantExperienceDetails;
-    delete formData.applicantSkillsDetails;
-    delete formData.applicantLanguageSkillsDetails;
-  
-    // Return the flattened data
-    return {
-      ...formData,
-      applicantEducationDetails: educationDetails,
-      applicantCertifications: certificationDetails,
-      applicantWorkExperiences: experienceDetails,
-      applicantSkills: skillsDetails,
-      applicantLanguageSkills: languageSkillsDetails,
-    };
+    return this.recruitmentService.CreateApplicant(this.fbApplicant.value);
   }
 
   onSubmit() {
-    console.log(this.fbApplicant.value);
-
-    if (this.fbApplicant.valid) {
+    if (this.fbApplicant.value) {
       this.saveApplicant().subscribe(resp => {
         if (resp) {
           this.ref.close(true);
+          this.alertMessage.displayAlertMessage(ALERT_CODES["AP001"]);
         }
       })
     }
@@ -462,21 +361,4 @@ export class ApplicantDialogComponent {
       this.fbApplicant.markAllAsTouched();
     }
   }
-  // onClick() {
-  //   this.messageDisplayed = false;
-  //   const fileUpload = this.fileUpload.nativeElement;
-  //   fileUpload.onchange = () => {
-  //     if (this.empUploadDetails.length <= 4) {
-  //       if (this.fbApplicant.valid) {
-  //         for (let index = 0; index < fileUpload.files.length; index++) {
-  //           const file = fileUpload.files[index];
-  //           ValidateFileThenUpload(file, this.ImageValidator);
-  //         }
-  //       }
-  //       else
-  //         this.fbApplicant.markAllAsTouched();
-  //     }
-  //   }
-  //   this.fileUpload.nativeElement.value = '';
-  // }
 }

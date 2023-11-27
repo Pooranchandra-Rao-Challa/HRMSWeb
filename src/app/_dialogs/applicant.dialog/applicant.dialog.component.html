@@ -257,7 +257,7 @@
                             (click)="addApplicantEducationDetails()"></button>
                     </div>
 
-                    <div class="scrolling_content col-12 " formArrayName="applicantEducationdetails">
+                    <div class="scrolling_content col-12 " formArrayName="applicantEducationDetails">
                         <p-table #dt2 [value]="faApplicantEducationDetails().controls" dataKey="id" [rows]="10"
                             [rowHover]="true" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
                             [paginator]="false" [autoLayout]="true" responsiveLayout="scroll"
@@ -318,19 +318,7 @@
                                     <td class="vertical-align-top">
                                         <input type="text" id="inputtext" pInputText formControlName="institutionName"
                                             placeholder="Enter Institute Name" #institutename [maxLength]="50"
-                                            (keydown)="restrictSpaces($event)"
-                                            [ngClass]="{'is-invalid ng-dirty': formArrayControlEducation(educaitonDetailsIndex, 'institutionName')?.touched &&
-                                            formArrayControlEducation(educaitonDetailsIndex, 'institutionName')?.errors }" />
-                                        <div class="flex">
-                                            <div class="align-left w-60" style="width:70%">
-                                                <span
-                                                    *ngIf="formArrayControlEducation(educaitonDetailsIndex, 'institutionName').touched &&formArrayControlEducation(educaitonDetailsIndex, 'institutionName').invalid">
-                                                    <div class="ng-invalid ng-touched p-error"
-                                                        *ngIf="formArrayControlEducation(educaitonDetailsIndex, 'institutionName').errors?.['required']">
-                                                        Please Enter Institute Name.</div>
-                                                </span>
-                                            </div>
-                                        </div>
+                                            (keydown)="restrictSpaces($event)"/>
                                     </td>
                                     <td class="vertical-align-top">
                                         <input type="text" id="inputtext" pInputText placeholder="Enter Authority Name"
@@ -463,7 +451,7 @@
                         <button pButton pRipple class="mb-3 pi pi-plus"
                             (click)="addApplicantCertificationDetails()"></button>
                     </div>
-                    <div class="scrolling_content" formArrayName="applicantCertificationDetails">
+                    <div class="scrolling_content" formArrayName="applicantCertifications">
                         <p-table #dt2 [value]="faApplicantCertificationDetails().controls" dataKey="id" [rows]="10"
                             [rowHover]="true" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
                             [paginator]="false" [autoLayout]="true" responsiveLayout="scroll"
@@ -475,7 +463,7 @@
                                     <th class="text-center">Franchise Name </th>
                                     <th class="text-center">Year Of Completion</th>
                                     <th class="text-center">Results</th>
-                                    <th *ngIf="fbApplicant.controls['applicantCertificationDetails'].value.length > 1">
+                                    <th *ngIf="fbApplicant.controls['applicantCertifications'].value.length > 1">
                                     </th>
                                 </tr>
                             </ng-template>
@@ -503,19 +491,7 @@
                                     <td class="vertical-align-top">
                                         <input type="text" id="inputtext" pInputText placeholder="Enter Franchise Name"
                                             [maxLength]="50" alphaOnly formControlName="franchiseName"
-                                            [style]="{'width':'100%'}" #franchisename (keydown)="restrictSpaces($event)"
-                                            [ngClass]="{'is-invalid ng-dirty': formArrayControlCertificaiton(certificationDetailsIndex, 'franchiseName')?.touched &&
-                                            formArrayControlCertificaiton(certificationDetailsIndex, 'franchiseName')?.errors }" />
-                                        <div class="flex">
-                                            <div class="align-left w-60" style="width:70%">
-                                                <span
-                                                    *ngIf="formArrayControlCertificaiton(certificationDetailsIndex, 'franchiseName').touched && formArrayControlCertificaiton(certificationDetailsIndex, 'franchiseName').invalid">
-                                                    <div class="ng-invalid ng-touched p-error"
-                                                        *ngIf="formArrayControlCertificaiton(certificationDetailsIndex, 'franchiseName').errors?.['required']">
-                                                        Please Select Franchise Name.</div>
-                                                </span>
-                                            </div>
-                                        </div>
+                                            [style]="{'width':'100%'}" #franchisename (keydown)="restrictSpaces($event)" />
                                     </td>
                                     <td class="vertical-align-top">
                                         <p-calendar [readonlyInput]="true" placeholder="Select Year Of Completion"
@@ -555,7 +531,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td *ngIf="fbApplicant.controls['applicantCertificationDetails'].value.length > 1">
+                                    <td *ngIf="fbApplicant.controls['applicantCertifications'].value.length > 1">
                                         <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer"
                                             *ngIf="!this.faApplicantCertificationDetails().controls[certificationDetailsIndex].get('certificationId')?.value"
                                             (click)="  faApplicantCertificationDetails().removeAt(certificationDetailsIndex)"></i>
@@ -574,7 +550,7 @@
                         <button pButton pRipple class="mb-3 pi pi-plus"
                             (click)="addApplicantExperienceDetails()"></button>
                     </div>
-                    <div class=" scrolling_content" formArrayName="applicantExperienceDetails">
+                    <div class=" scrolling_content" formArrayName="applicantWorkExperiences">
                         <p-table #dt2 [value]="faApplicantExperienceDetails().controls" dataKey="id" [rows]="10"
                             [rowHover]="true" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
                             [paginator]="false" [autoLayout]="true" responsiveLayout="scroll"
@@ -592,7 +568,7 @@
                                     <th class="text-center">Date Of Reliving</th>
                                     <th class="text-center">Country</th>
                                     <th class="text-center">State</th>
-                                    <th *ngIf="fbApplicant.controls['applicantExperienceDetails'].value.length > 1">
+                                    <th *ngIf="fbApplicant.controls['applicantWorkExperiences'].value.length > 1">
                                     </th>
                                 </tr>
                             </ng-template>
@@ -621,36 +597,12 @@
                                     <td class="vertical-align-top">
                                         <input type="text" id="comapnyLocation" pInputText [maxLength]="50"
                                             placeholder="Enter Company Location" formControlName="companyLocation"
-                                            #companylocation alphaOnly (keydown)="restrictSpaces($event)"
-                                            [ngClass]="{'is-invalid ng-dirty': formArrayControlWorkExperience(experienceDetailsIndex, 'companyLocation')?.touched &&
-                                            formArrayControlWorkExperience(experienceDetailsIndex, 'companyLocation')?.errors }">
-                                        <div class="flex">
-                                            <div class="align-left w-60" style="width:70%">
-                                                <span
-                                                    *ngIf="formArrayControlWorkExperience(experienceDetailsIndex, 'companyLocation').touched && formArrayControlWorkExperience(experienceDetailsIndex, 'companyLocation').invalid">
-                                                    <div class="ng-invalid ng-touched p-error"
-                                                        *ngIf="formArrayControlWorkExperience(experienceDetailsIndex, 'companyLocation').errors?.['required']">
-                                                        Please Enter Company Location.</div>
-                                                </span>
-                                            </div>
-                                        </div>
+                                            #companylocation alphaOnly (keydown)="restrictSpaces($event)">
                                     </td>
                                     <td class="vertical-align-top">
                                         <input type="text" id="inputtext" pInputText [maxLength]="10" alphaNumeric
                                             (keydown)="restrictSpaces($event)" placeholder="Enter Company Employee Id"
-                                            formControlName="companyEmployeeId" #companyemployeeId
-                                            [ngClass]="{'is-invalid ng-dirty': formArrayControlWorkExperience(experienceDetailsIndex, 'companyEmployeeId')?.touched &&
-                                            formArrayControlWorkExperience(experienceDetailsIndex, 'companyEmployeeId')?.errors }" />
-                                        <div class="flex">
-                                            <div class="align-left w-60" style="width:70%">
-                                                <span
-                                                    *ngIf="formArrayControlWorkExperience(experienceDetailsIndex, 'companyEmployeeId').touched && formArrayControlWorkExperience(experienceDetailsIndex, 'companyEmployeeId').invalid">
-                                                    <div class="ng-invalid ng-touched p-error"
-                                                        *ngIf="formArrayControlWorkExperience(experienceDetailsIndex, 'companyEmployeeId').errors?.['required']">
-                                                        Please Enter Company Id.</div>
-                                                </span>
-                                            </div>
-                                        </div>
+                                            formControlName="companyEmployeeId" #companyemployeeId />
                                     </td>
                                     <td class="vertical-align-top">
                                         <p-dropdown id="projectName" appendTo="body" placeholder="Enter Designation"
@@ -693,19 +645,7 @@
                                     <td class="vertical-align-top">
                                         <input type="text" id="inputtext" pInputText (keydown)="restrictSpaces($event)"
                                             alphaOnly placeholder="Enter Worked On Projects" alphaOnly #workedOnProjects
-                                            formControlName="workedOnProjects"
-                                            [ngClass]="{'is-invalid ng-dirty': formArrayControlWorkExperience(experienceDetailsIndex, 'workedOnProjects')?.touched &&
-                                            formArrayControlWorkExperience(experienceDetailsIndex, 'workedOnProjects')?.errors }" />
-                                        <div class="flex">
-                                            <div class="align-left w-60" style="width:70%">
-                                                <span
-                                                    *ngIf="formArrayControlWorkExperience(experienceDetailsIndex, 'workedOnProjects').touched && formArrayControlWorkExperience(experienceDetailsIndex, 'workedOnProjects').invalid">
-                                                    <div class="ng-invalid ng-touched p-error"
-                                                        *ngIf="formArrayControlWorkExperience(experienceDetailsIndex, 'workedOnProjects').errors?.['required']">
-                                                        Please Enter Worked On Projects.</div>
-                                                </span>
-                                            </div>
-                                        </div>
+                                            formControlName="workedOnProjects" />
                                     </td>
                                     <td class="vertical-align-top">
                                         <p-calendar [readonlyInput]="true" appendTo="body" [showIcon]="true"
@@ -780,7 +720,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td *ngIf="fbApplicant.controls['applicantExperienceDetails'].value.length > 1">
+                                    <td *ngIf="fbApplicant.controls['applicantWorkExperiences'].value.length > 1">
                                         <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer"
                                             *ngIf="!this.faApplicantExperienceDetails().controls[experienceDetailsIndex].get('experienceId')?.value"
                                             (click)="  faApplicantExperienceDetails().removeAt(experienceDetailsIndex)"></i>
@@ -798,7 +738,7 @@
                     <div class="text-right">
                         <button pButton pRipple class="mb-3 pi pi-plus" (click)="addApplicantSkillsDetails()"></button>
                     </div>
-                    <div class=" scrolling_content" formArrayName="applicantSkillsDetails">
+                    <div class=" scrolling_content" formArrayName="applicantSkills">
                         <p-table #dt2 [value]="faApplicantSkillsDetails().controls" dataKey="id" [rows]="10"
                             [rowHover]="true" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
                             [paginator]="false" [autoLayout]="true" responsiveLayout="scroll"
@@ -808,7 +748,7 @@
                                 <tr>
                                     <th class="text-center">Skills</th>
                                     <th class="text-center">Expertise(Give Your Assesment)</th>
-                                    <th *ngIf="fbApplicant.controls['applicantSkillsDetails'].value.length > 1">
+                                    <th *ngIf="fbApplicant.controls['applicantSkills'].value.length > 1">
                                     </th>
                                 </tr>
                             </ng-template>
@@ -838,7 +778,7 @@
 
                                         <p-rating number="3" [cancel]="false" formControlName="expertise"> </p-rating>
                                     </td>
-                                    <td *ngIf="fbApplicant.controls['applicantSkillsDetails'].value.length > 1">
+                                    <td *ngIf="fbApplicant.controls['applicantSkills'].value.length > 1">
                                         <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer"
                                             *ngIf="!this.faApplicantSkillsDetails().controls[applicantSkillsDetailsIndex].get('applicationskillId')?.value"
                                             (click)="  faApplicantSkillsDetails().removeAt(applicantSkillsDetailsIndex)"></i>
@@ -857,7 +797,7 @@
                         <button pButton pRipple class="mb-3 pi pi-plus"
                             (click)="addApplicantLanguageSkillsDetails()"></button>
                     </div>
-                    <div class=" scrolling_content" formArrayName="applicantLanguageSkillsDetails">
+                    <div class=" scrolling_content" formArrayName="applicantLanguageSkills">
                         <p-table #dt2 [value]="faApplicantLanguageSkillsDetails().controls" dataKey="id" [rows]="10"
                             [rowHover]="true" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
                             [paginator]="false" [autoLayout]="true" responsiveLayout="scroll"
@@ -869,7 +809,7 @@
                                     <th class="text-center">Can Read</th>
                                     <th class="text-center">Can Write</th>
                                     <th class="text-center">Can Speak</th>
-                                    <th *ngIf="fbApplicant.controls['applicantLanguageSkillsDetails'].value.length > 1">
+                                    <th *ngIf="fbApplicant.controls['applicantLanguageSkills'].value.length > 1">
                                     </th>
                                 </tr>
                             </ng-template>
@@ -902,7 +842,7 @@
                                     <td class="vertical-align-top" [ngClass]="'canSpeak' ? 'text-center' : ''">
                                         <p-checkbox [binary]="true" formControlName="canSpeak"></p-checkbox>
                                     </td>
-                                    <td *ngIf="fbApplicant.controls['applicantLanguageSkillsDetails'].value.length > 1">
+                                    <td *ngIf="fbApplicant.controls['applicantLanguageSkills'].value.length > 1">
                                         <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer"
                                             *ngIf="!this.faApplicantLanguageSkillsDetails().controls[applicantLanguageSkillsDetailsIndex].get('applicationskillId')?.value"
                                             (click)="  faApplicantLanguageSkillsDetails().removeAt(applicantLanguageSkillsDetailsIndex)"></i>
@@ -921,5 +861,5 @@
 
 <div class=" footer dialog-footer">
     <button pButton pRipple type="submit" label="Add Applicant" class="p-button-raised p-button-primary"
-        id="SubmitApplicantForm"   (click)="onSubmit()"></button>
+        id="SubmitApplicantForm"  [disabled]="fbApplicant.invalid" (click)="onSubmit()"></button>
 </div>
