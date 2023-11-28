@@ -47,13 +47,20 @@
 </p-dataView>
 
 <!-- P-dialog -->
-<p-dialog [header]="selectedJob ? selectedJob.designation.toString() : 'Job Opening'" [(visible)]="viewJobDesign"
+<p-dialog [header]="selectedJob ? selectedJob.title.toString() : 'Job Opening'" [(visible)]="viewJobDesign"
     [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '60%'}" [style]="{width: 'auto'}">
     <div class="flex flex-column align-items-center justify-content-center">
         <div *ngIf="selectedJob">
             <div class="card">
                 <div class="card-body">
-                    <p>{{ selectedJob.description }}quwe oeuir o oiweur u fu i ouer fu hfhhou rufuih iowfd</p>
+                    <div class="pair">
+                        <span class="label text-primary font-bold text-900">Designation</span>
+                        <span class="value">: {{ selectedJob.designation }}</span>
+                    </div>
+                    <div class="pair">
+                        <span class="label text-primary font-bold text-900">Description</span>
+                        <span class="value">:{{ selectedJob.description }}quwe oeuir o oiweur u fu i ouer fu hfhhou rufuih iowfd</span>
+                    </div>
                     <div class="pair">
                         <span class="label text-primary font-bold text-900">Project Name</span>
                         <span class="value">: {{ selectedJob.projectName }}</span>
