@@ -4,11 +4,10 @@
         <h4>Recruitment Process</h4>
     </ng-template>
     <ng-template pTemplate="center">
-        <p-dropdown [options]="cities" placeholder="Select a City" 
-            optionLabel="name"></p-dropdown>
+        <p-dropdown [options]="this.processedJobOpening" placeholder="Select Processed JobOpening" optionLabel="designationName"></p-dropdown>
     </ng-template>
     <ng-template pTemplate="right">
-        <p-checkbox name="isActive" value="isActive"></p-checkbox>
+        <p-checkbox name="isActive" [(ngModel)]="checked"></p-checkbox>
         <label for="ny" class="ml-1">Hide UnderProcess</label>
     </ng-template>
 </p-toolbar>

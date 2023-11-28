@@ -125,3 +125,4 @@ export const GET_VIEW_APPLICANT_DETAILS ="Recruitment/GetApplicantBasedOnId";
 //Applicant
 export const GET_APPLICANT_DETAILS="Recruitment/GetApplicants";
 export const CREATE_APPLICANT_DETAILS ="Recruitment/CreateApplicant";
+export const GET_JOB_OPENINGS_DROPDOWN="JobOpening/GetDesignationsWithInitiatedAt";
