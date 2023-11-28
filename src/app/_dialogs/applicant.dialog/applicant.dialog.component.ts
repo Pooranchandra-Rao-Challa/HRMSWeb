@@ -1,6 +1,6 @@
 import { HttpEvent } from '@angular/common/http';
 import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
-import { Form, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable } from 'rxjs';
 import { ALERT_CODES, AlertmessageService } from 'src/app/_alerts/alertmessage.service';
@@ -10,7 +10,6 @@ import { ApplicantCertificationDto, ApplicantDto, ApplicantEducationDetailDto, A
 import { LookupService } from 'src/app/_services/lookup.service';
 import { RecruitmentService } from 'src/app/_services/recruitment.service';
 import { ValidateFileThenUpload } from 'src/app/_validators/upload.validators';
-
 
 interface General {
   name: string;
@@ -30,7 +29,6 @@ export class ApplicantDialogComponent {
   faapplicantExperienceDetails!: FormArray;
   faapplicantSkillsDetails!: FormArray;
   faapplicantLanguageSkillsDetails!: FormArray;
-
   genders: General[] | undefined;
   @ViewChild("fileUpload", { static: true }) fileUpload: ElementRef;
   messageDisplayed: boolean = false;
@@ -39,7 +37,6 @@ export class ApplicantDialogComponent {
   fileTypes: string = ".pdf, .jpg, .jpeg, .png, .gif"
   selectedFileName: string;
   defaultPhoto: string;
-  yourRating: number = 0;
   maxLength: MaxLength = new MaxLength();
   countries: LookupViewDto[] = [];
   states: LookupDetailsDto[] = [];
@@ -51,8 +48,6 @@ export class ApplicantDialogComponent {
   designations: LookupViewDto[] = [];
   skills: LookupDetailsDto[] = [];
   languages: LookupViewDto[] = [];
-
-  viewSelectedSkills = [];
   skillId: number;
   skillName: string;
 
@@ -199,7 +194,7 @@ export class ApplicantDialogComponent {
   }
 
   getExpertiseControl(): FormControl {
-    return this.fbApplicant.get('applicationSkills.expertise') as FormControl;
+    return this.fbApplicant.get('applicantSkills.expertise') as FormControl;
   }
 
   faApplicantEducationDetails(): FormArray {
@@ -266,12 +261,12 @@ export class ApplicantDialogComponent {
     })
   }
 
-  generateRowForApplicantSkillsDetails(applicantSkills: ApplicantSkillDto = new ApplicantSkillDto()): FormGroup {
+  generateRowForApplicantSkillsDetails(applicantskills: ApplicantSkillDto = new ApplicantSkillDto()): FormGroup {
     return this.formbuilder.group({
-      applicantSkillId: [applicantSkills.applicantSkillId],
-      applicantId: new FormControl(applicantSkills.applicantId),
-      skillId: new FormControl(applicantSkills.skillId, [Validators.required]),
-      expertise: new FormControl(applicantSkills.expertise, [Validators.required])
+      applicantSkillId: [applicantskills.applicantSkillId],
+      applicantId: new FormControl(applicantskills.applicantId),
+      skillId: new FormControl(applicantskills.skillId, [Validators.required]),
+      expertise: new FormControl(applicantskills.expertise, [Validators.required])
     })
   }
 
@@ -287,27 +282,27 @@ export class ApplicantDialogComponent {
   }
 
   addApplicantEducationDetails() {
-    this.faapplicantEducationDetails = this.fbApplicant.get("applicantEducationDetails") as FormArray
+    this.faapplicantEducationDetails = this.faApplicantEducationDetails();
     this.faapplicantEducationDetails.push(this.generateRowForEducationDetails())
   }
 
   addApplicantCertificationDetails() {
-    this.faapplicantCertificationDetails = this.fbApplicant.get("applicantCertifications") as FormArray
+    this.faapplicantCertificationDetails = this.faApplicantCertificationDetails();
     this.faapplicantCertificationDetails.push(this.generateRowForCertificationDetails())
   }
 
   addApplicantExperienceDetails() {
-    this.faapplicantExperienceDetails = this.fbApplicant.get("applicantWorkExperiences") as FormArray
+    this.faapplicantExperienceDetails = this.faApplicantExperienceDetails();
     this.faapplicantExperienceDetails.push(this.generateRowForExperienceDetails())
   }
 
   addApplicantSkillsDetails() {
-    this.faapplicantSkillsDetails = this.fbApplicant.get("applicantSkills") as FormArray
+    this.faapplicantSkillsDetails = this.faApplicantSkillsDetails();
     this.faapplicantSkillsDetails.push(this.generateRowForApplicantSkillsDetails())
   }
 
   addApplicantLanguageSkillsDetails() {
-    this.faapplicantLanguageSkillsDetails = this.fbApplicant.get("applicantLanguageSkills") as FormArray
+    this.faapplicantLanguageSkillsDetails = this.faApplicantLanguageSkillsDetails();
     this.faapplicantLanguageSkillsDetails.push(this.generateRowForApplicantLanguageSkillsDetails())
   }
 
@@ -343,6 +338,124 @@ export class ApplicantDialogComponent {
       }
     }
   }
+
+  validateRowforEducationDetails(educaitonDetailsIndex: number) {
+    const educationDetailsArray = this.faApplicantEducationDetails();
+    const educationDetail = educationDetailsArray.controls[educaitonDetailsIndex] as FormGroup;
+  
+    // List of mandatory controls in your row
+    const mandatoryControls = ['curriculumId', 'streamId', 'authorityName', 'yearOfCompletion', 'gradingMethodId', 'gradingValue', 'countryId', 'stateId'];
+  
+    // Mark controls as touched
+    mandatoryControls.forEach((controlName: string) => {
+      const control = educationDetail.get(controlName);
+      control.markAsTouched(); // Mark the control as touched
+    });
+  
+    // Iterate over mandatory controls and check their validity
+    mandatoryControls.forEach((controlName: string) => {
+      const control = educationDetail.get(controlName);  
+      if (control.invalid) {
+        // Display validation messages for the entire row
+        return;
+      }
+    });
+  }
+
+  validateRowforCertificationDetails(certificationDetailsIndex: number) {
+    const certificationDetailsArray = this.faApplicantCertificationDetails();
+    const certificationDetail = certificationDetailsArray.controls[certificationDetailsIndex] as FormGroup;
+  
+    // List of mandatory controls in your row
+    const mandatoryControls = ['certificateId', 'yearOfCompletion', 'results'];
+  
+    // Mark controls as touched
+    mandatoryControls.forEach((controlName: string) => {
+      const control = certificationDetail.get(controlName);
+      control.markAsTouched(); // Mark the control as touched
+    });
+  
+    // Iterate over mandatory controls and check their validity
+    mandatoryControls.forEach((controlName: string) => {
+      const control = certificationDetail.get(controlName);  
+      if (control.invalid) {
+        // Display validation messages for the entire row
+        return;
+      }
+    });
+  }
+
+  validateRowforExperienceDetails(experienceDetailsIndex: number) {
+    const experienceDetailsArray =this.faApplicantExperienceDetails();
+    const experienceDetail = experienceDetailsArray.controls[experienceDetailsIndex] as FormGroup;
+  
+    // List of mandatory controls in your row
+    const mandatoryControls = ['companyName', 'designationId', 'natureOfWork','dateOfJoining','dateOfReliving','countryId','stateId'];
+  
+    // Mark controls as touched
+    mandatoryControls.forEach((controlName: string) => {
+      const control = experienceDetail.get(controlName);
+      control.markAsTouched(); // Mark the control as touched
+    });
+  
+    // Iterate over mandatory controls and check their validity
+    mandatoryControls.forEach((controlName: string) => {
+      const control = experienceDetail.get(controlName);  
+      if (control.invalid) {
+        // Display validation messages for the entire row
+        return;
+      }
+    });
+  }
+
+  validateRowforApplicantSkillDetails(applicantSkillsDetailsIndex: number) {
+    const skillDetailsArray = this.faApplicantSkillsDetails();
+    const skillDetail = skillDetailsArray.controls[applicantSkillsDetailsIndex] as FormGroup;
+  
+    // List of mandatory controls in your row
+    const mandatoryControls = ['skillId', 'expertise'];
+  
+    // Mark controls as touched
+    mandatoryControls.forEach((controlName: string) => {
+      const control = skillDetail.get(controlName);
+      control.markAsTouched(); // Mark the control as touched
+    });
+  
+    // Iterate over mandatory controls and check their validity
+    mandatoryControls.forEach((controlName: string) => {
+      const control = skillDetail.get(controlName);  
+      if (control.invalid) {
+        // Display validation messages for the entire row
+        return;
+      }
+    });
+  }
+
+  validateRowforApplicantLanguageSkillDetails(applicantLanguageSkillsDetailsIndex: number) {
+    const languageSkillDetailsArray = this.faApplicantLanguageSkillsDetails()
+    const languageSkillDetail = languageSkillDetailsArray.controls[applicantLanguageSkillsDetailsIndex] as FormGroup;
+  
+    // List of mandatory controls in your row
+    const mandatoryControls = ['skillId', 'expertise'];
+  
+    // Mark controls as touched
+    mandatoryControls.forEach((controlName: string) => {
+      const control = languageSkillDetail.get(controlName);
+      if (control) {
+        control.markAsTouched(); // Mark the control as touched
+      }
+    });
+  
+    // Iterate over mandatory controls and check their validity
+    mandatoryControls.forEach((controlName: string) => {
+      const control = languageSkillDetail.get(controlName);
+      if (control && control.invalid) {
+        // Display validation messages for the entire row
+        return;
+      }
+    });
+  }
+  
 
   saveApplicant(): Observable<HttpEvent<ApplicantDto[]>> {
     return this.recruitmentService.CreateApplicant(this.fbApplicant.value);
