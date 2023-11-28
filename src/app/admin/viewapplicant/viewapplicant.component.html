@@ -20,7 +20,7 @@
       <span class="inline-flex align-items-left mb-2">
         <i class="pi pi-calendar text-primary text-700 mr-2"></i>
         <span class="text-700 mr-2">{{ viewApplicantDetails?.dob | date:mediumDate}}</span>
-      </span>
+      </span><br />
       <span class="inline-flex align-items-left mb-2">
         <i class="pi pi-send text-700 text-primary mr-2"></i>
         <span class="text-700 text-left mr-2">
@@ -34,8 +34,16 @@
         </span>
       </span>
     </div>
+    <!-- Technical Skills -->
     <div class="card p-5 orange-200 text-center applicant-p-block2">
-      <h4 class="m-5 mt-0 text-primary">Technical Skills</h4>
+      <div class="flex justify-content-between mb-2">
+        <div class="flex text-primary">
+          <span class="icon-user_skills m-2" style="font-size:20px;"></span>
+          <h4 class="m-2 mt-0 text-primary">Technical Skills</h4>
+        </div>
+        <button pButton pRipple id="addButton" icon="pi pi-plus" class="p-button p-button-text p-1 m-1 " size="small"
+          (click)="openRowEditDialog(viewApplicantDialogDetails, null, ActionTypes.add,'technicalSkills')"></button>
+      </div>
       <div class="flex flex-column">
         <span class="inline-flex justify-content-between mb-3">
           <span class="text-700 mr-2 font-bold">Skill</span>
@@ -43,15 +51,27 @@
         </span>
         <span class="inline-flex justify-content-between mb-3"
           *ngFor="let skill of viewApplicantDetails?.expandedSkills">
-          <span class="text-700 mr-2 ">{{ skill.skill }}</span>
-          <span class="text-700 mr-2 font-bold">
-            <p-rating [(ngModel)]="skill.expertise" [readonly]="true" [cancel]="false"></p-rating>
-          </span>
+          <div style="cursor: pointer;" class="flex justify-content-between align-items-center w-100"
+            (click)="openRowEditDialog(viewApplicantDialogDetails, skill, ActionTypes.edit,'technicalSkills')">
+            <span class="text-700 mr-2 ">{{ skill.skill }}</span>
+            <span class="text-700 mr-2 font-bold" >
+              <p-rating [(ngModel)]="skill.expertise" [readonly]="true" [cancel]="false"></p-rating>
+            </span>
+          </div>
         </span>
       </div>
     </div>
+    <!-- Language Skills -->
     <div class="card p-5 orange-200 text-center applicant-p-block">
-      <h4 class="m-5 mt-0 text-primary">Language Skills</h4>
+      <div class="flex justify-content-between mb-2">
+        <div class="flex text-primary">
+          <span class="icon-language m-2" style="font-size:20px;"></span>
+          <h4 class="m-2 mt-0 text-primary">Language Skills</h4>
+        </div>
+        <button pButton pRipple id="addButton" icon="pi pi-plus" class="p-button p-button-text p-1 m-1"
+          (click)="openRowEditDialog(viewApplicantDialogDetails, null, ActionTypes.add,'languageSkills')"></button>
+      </div>
+   
       <div class="flex flex-column">
         <span class="inline-flex justify-content-between mb-3">
           <span class="text-700 mr-2 font-bold">Language</span>
@@ -61,13 +81,16 @@
         </span>
         <span class="inline-flex justify-content-between mb-3"
           *ngFor="let language of viewApplicantDetails?.expandedLanguageSkills">
-          <span class="text-700 mr-2">{{ language.language }}</span>
+          <div style="cursor: pointer;" class="flex justify-content-between align-items-center w-100"
+          (click)="openRowEditDialog(viewApplicantDialogDetails, language, ActionTypes.edit,'languageSkills')">
+          <span class="text-700 mr-2 ">{{ language.language }}</span>
           <i class="pi pi-times-circle text-primary text-700 mr-2"
             [ngClass]="{'pi-check-circle': language.canRead, 'pi-times-circle': !language.canRead}"></i>
           <i class="pi pi-times-circle text-danger  text-700 mr-2"
             [ngClass]="{'pi-check-circle': language.canWrite, 'pi-times-circle': !language.canWrite}"></i>
           <i class="pi pi-times-circle text-primary text-700 mr-2"
             [ngClass]="{'pi-check-circle': language.canSpeak, 'pi-times-circle': !language.canSpeak}"></i>
+          </div>
         </span>
       </div>
     </div>

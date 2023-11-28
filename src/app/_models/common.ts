@@ -70,7 +70,7 @@ export class PhotoFileProperties {
     Resize?: boolean = false;
   }
   export enum ViewApplicationScreen{
-    educationdetails,
+    viewApplicantDetails,
   }
 
 

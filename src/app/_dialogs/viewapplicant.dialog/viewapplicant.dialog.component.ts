@@ -1,96 +1,249 @@
+import { HttpEvent } from '@angular/common/http';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { MaxLength } from 'src/app/_models/common';
+import { Observable, of } from 'rxjs';
+import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
+import { LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
+import { MaxLength, ViewApplicationScreen } from 'src/app/_models/common';
+import { ApplicantEducationDetailsDto, ApplicantWorkExperienceDto } from 'src/app/_models/recruitment';
+import { LookupService } from 'src/app/_services/lookup.service';
+import { RecruitmentService } from 'src/app/_services/recruitment.service';
 
 @Component({
   selector: 'app-viewapplicant.dialog',
   templateUrl: './viewapplicant.dialog.component.html',
 })
 export class ViewapplicantDialogComponent {
+  applicantId: number;
   rowData: any;
-  header:any
-  @Output() saveClicked: EventEmitter<any> = new EventEmitter<any>();
-  @Output() cancelClicked: EventEmitter<void> = new EventEmitter<void>();
+  header: any
+  addFlag: boolean = true;
+  country: LookupDetailsDto[] = [];
+  states: LookupDetailsDto[] = [];
+  curriculum: LookupDetailsDto[] = [];
+  stream: LookupDetailsDto[] = [];
+  gradingMethod: LookupDetailsDto[] = [];
+  designation: LookupViewDto[] = [];
   fbeducationdetails!: FormGroup;
   fbcertificatedetails!: FormGroup;
   fbexperience!: FormGroup;
+  fbtechnicalSkills!: FormGroup;
+  fblanguageSkills!: FormGroup;
   maxLength: MaxLength = new MaxLength();
-  onSave() {
-    this.saveClicked.emit(this.rowData);
-    this.ref.close();
-  }
 
-  onCancel() {
-    this.cancelClicked.emit();
-    this.ref.close();
-  }
-
-  constructor(private formbuilder: FormBuilder,public ref: DynamicDialogRef,
-    private config: DynamicDialogConfig,) {
-      this.rowData = this.config.data;
-      this.header=this.config.header;
-      // console.log( this.rowData,this.header );
+  constructor(private formbuilder: FormBuilder, public ref: DynamicDialogRef,
+    private config: DynamicDialogConfig,
+    private recruitmentService: RecruitmentService,
+    private lookupService: LookupService,
+    private activatedRoute: ActivatedRoute,
+    private alertMessage: AlertmessageService,) {
+    this.rowData = this.config.data;
+    this.header = this.config.header;
+    this.applicantId = this.activatedRoute.snapshot.queryParams['applicantId'];
   }
 
   ngOnInit(): void {
+    this.initCurriculum();
+    this.initCountry();
+    this.initGrading();
+    this.initDesignation();
     this.educationDetailsForm();
-    this.certificateDetailsForm();
     this.experienceForm();
+    if (this.rowData) {
+      if (this.header === 'Education Details') {
+        this.editeducationDetails(this.rowData);
+      }
+      if (this.header === 'Experience Details') {
+        this.editexperienceDetails(this.rowData)
+      }
+
+    }
+    this.certificateDetailsForm();
+    this.technicalSkillsForm();
+    this.languageSkillsForm();
+
   }
 
-  educationDetailsForm(){
-    this.fbeducationdetails = this.formbuilder.group({
-      CurriculumId:new FormControl(''),
-      StreamId:new FormControl(''),
-      countryId:new FormControl(''),
-      stateId:new FormControl(''),
-      collegeName: new FormControl(''),
-      institution:new FormControl(''),
-      yearOfCompletion:new FormControl(''),
-      gradingSystem:new FormControl(''),
-      percentageSystem:new FormControl(''),
-    })
+  initCurriculum() {
+    this.lookupService.Curriculums().subscribe((resp) => {
+      this.curriculum = resp as unknown as LookupViewDto[];
+    });
   }
-  
-  experienceForm(){
-    this.fbexperience = this.formbuilder.group({
-      ApplicantId: [],
-      companyName: new FormControl(''),
-      companyLocation: new FormControl(''),
-      countryId: new FormControl(null),
-      stateId: new FormControl(null),
-      natureOfWork: new FormControl(null),
-      workedOnProjects: new FormControl(null),
-      companyEmployeeId: new FormControl(null),
-      designationId: new FormControl(null),
-      dateOfJoining: new FormControl(null),
-      dateOfReliving: new FormControl(null),
+  getStreamByCurriculumId(Id: number) {
+    this.lookupService.Streams(Id).subscribe((resp) => {
+      this.stream = resp as unknown as LookupDetailsDto[];
     });
   }
 
-  certificateDetailsForm(){
-    this.fbcertificatedetails = this.formbuilder.group({
-      CertificationName:new FormControl(''),
-      franchiseName:new FormControl(''),
-      yearOfCompletion:new FormControl(''),
-      result:new FormControl(''),
+  initGrading() {
+    this.lookupService.GradingMethods().subscribe((resp) => {
+      this.gradingMethod = resp as unknown as LookupDetailsDto[];
+    });
+  }
+
+  initCountry() {
+    this.lookupService.Countries().subscribe((resp) => {
+      this.country = resp as unknown as LookupDetailsDto[];
     })
   }
- 
 
+  getStatesByCountryId(id: number) {
+    this.lookupService.States(id).subscribe((resp) => {
+      if (resp) {
+        this.states = resp as unknown as LookupDetailsDto[];
+      }
+    })
+  }
+
+  initDesignation() {
+    this.lookupService.Designations().subscribe((resp) => {
+      this.designation = resp as unknown as LookupViewDto[];
+    })
+  }
+  educationDetailsForm() {
+    this.fbeducationdetails = this.formbuilder.group({
+      applicantId: new FormControl(this.applicantId),
+      applicantEducationDetailId: (null),
+      curriculumId: new FormControl('', [Validators.required]),
+      StreamId: new FormControl('', [Validators.required]),
+      countryId: new FormControl('', [Validators.required]),
+      stateId: new FormControl('', [Validators.required]),
+      authorityName: new FormControl(''),
+      institutionName: new FormControl('', [Validators.required]),
+      yearOfCompletion: new FormControl('', [Validators.required]),
+      gradingMethodId: new FormControl('', [Validators.required]),
+      gradingValue: new FormControl('', [Validators.required]),
+    })
+    this.addFlag = true;
+  }
+  editeducationDetails(educationDetails: ApplicantEducationDetailsDto) {
+    this.rowData.applicantId = educationDetails.applicantId;
+    this.rowData.applicantEducationDetailId = educationDetails.applicantEducationDetailId;
+    this.rowData.curriculumId = educationDetails.curriculumId;
+    this.rowData.StreamId = educationDetails.StreamId;
+    this.rowData.countryId = educationDetails.countryId;
+    this.rowData.stateId = educationDetails.stateId;
+    this.rowData.authorityName = educationDetails.authorityName;
+    this.rowData.institutionName = educationDetails.institutionName;
+    this.rowData.gradingMethodId = educationDetails.gradingMethodId;
+    this.rowData.gradingValue = educationDetails.gradingValue;
+    this.rowData.yearOfCompletion = new Date(educationDetails.yearOfCompletion);
+    this.fbeducationdetails.patchValue(this.rowData);
+    this.getStatesByCountryId(this.rowData.countryId);
+    this.getStreamByCurriculumId(this.rowData.curriculumId);
+    this.addFlag = false;
+  }
+
+  experienceForm() {
+    this.fbexperience = this.formbuilder.group({
+      applicantId: new FormControl(this.applicantId),
+      applicantWorkExperienceId: new FormControl(null),
+      companyName: new FormControl('', [Validators.required,]),
+      companyLocation: new FormControl('', [Validators.required]),
+      countryId: new FormControl('', [Validators.required]),
+      stateId: new FormControl('', [Validators.required]),
+      natureOfWork: new FormControl('', [Validators.required]),
+      workedOnProjects: new FormControl('', [Validators.required]),
+      companyEmployeeId: new FormControl(''),
+      designationId: new FormControl('', [Validators.required]),
+      dateOfJoining: new FormControl('', [Validators.required]),
+      dateOfReliving: new FormControl('', [Validators.required]),
+    });
+    this.addFlag = true;
+  }
   get FormControls() {
     return this.fbexperience.controls;
   }
+
+  editexperienceDetails(experienceDetails: ApplicantWorkExperienceDto) {
+    this.rowData = experienceDetails;
+    this.rowData.dateOfJoining = new Date(experienceDetails.dateOfJoining);
+    this.rowData.dateOfReliving = new Date(experienceDetails.dateOfReliving);
+    this.fbexperience.patchValue(this.rowData);
+    this.getStatesByCountryId(this.rowData.countryId);
+    this.addFlag = false;
+  }
+
+  certificateDetailsForm() {
+    this.fbcertificatedetails = this.formbuilder.group({
+      CertificationName: new FormControl(''),
+      franchiseName: new FormControl(''),
+      yearOfCompletion: new FormControl(''),
+      result: new FormControl(''),
+    })
+  }
+
+
+  technicalSkillsForm() {
+    this.fbtechnicalSkills = this.formbuilder.group({
+      technicalSkills: new FormControl(''),
+      // expertise: new FormControl(''),
+    })
+  }
+
+  languageSkillsForm() {
+    this.fblanguageSkills = this.formbuilder.group({
+      languageSkills: new FormControl(''),
+      canRead: new FormControl(''),
+      canWrite: new FormControl(''),
+      canSpeak: new FormControl(''),
+    })
+  }
+
 
   restrictSpaces(event: KeyboardEvent) {
     const target = event.target as HTMLInputElement;
     // Prevent the first key from being a space
     if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0)
-        event.preventDefault();
+      event.preventDefault();
     // Restrict multiple spaces
     if (event.key === ' ' && target.selectionStart > 0 && target.value.charAt(target.selectionStart - 1) === ' ') {
-        event.preventDefault();
+      event.preventDefault();
     }
-}
+  }
+  isSaveButtonDisabled(): boolean {
+    if (this.header === 'Education Details') {
+      return this.fbeducationdetails.invalid;
+    } else if (this.header === 'Experience Details') {
+      return this.fbexperience.invalid;
+    } else if (this.header === 'Certificate Details') {
+      return this.fbcertificatedetails.invalid;
+    } else if (this.header === 'Technical Skills') {
+      return this.fbtechnicalSkills.invalid;
+    } else if (this.header === 'Language Skills') {
+      return this.fblanguageSkills.invalid;
+    } else {
+      return true;
+    }
+  }
+
+  saveApplicant(): Observable<HttpEvent<any[]>> {
+    if (this.addFlag) {
+      if (this.header === 'Education Details') {
+        return this.recruitmentService.CreateApplicantEducationDetails(this.fbeducationdetails.value);
+      } else if (this.header === 'Experience Details') {
+        return this.recruitmentService.CreateApplicantexperienceDetails(this.fbexperience.value);
+      }
+
+    } else {
+      if (this.header === 'Education Details') {
+        return this.recruitmentService.UpdateApplicantEducationDetails(this.fbeducationdetails.value);
+      } else if (this.header === 'Experience Details') {
+        return this.recruitmentService.UpdateApplicantexperienceDetails(this.fbexperience.value);
+      }
+    }
+    return of();
+  }
+
+  onSubmit() {
+    this.saveApplicant().subscribe(resp => {
+      if (resp) {
+        this.alertMessage.displayAlertMessage(ALERT_CODES['ARVAP001']);
+        this.ref.close({ "UpdatedModal": ViewApplicationScreen.viewApplicantDetails });
+      }
+    })
+  }
+
 }

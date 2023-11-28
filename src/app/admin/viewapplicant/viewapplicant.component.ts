@@ -77,18 +77,34 @@ export class ViewapplicantComponent {
       this.dialogRequest.header = "Experience Details";
       this.dialogRequest.width = "40%";
     }
-    // console.log(  this.dialogRequest);
-
+    else if (action == Actions.edit && content === this.viewApplicantDialogDetails && formtype === "technicalSkills") {
+      this.dialogRequest.dialogData = dialogData;
+      this.dialogRequest.header = "Technical Skills";
+      this.dialogRequest.width = "40%";
+    }
+    else if (action == Actions.add && content === this.viewApplicantDialogDetails && formtype === "technicalSkills") {
+      this.dialogRequest.dialogData = null;
+      this.dialogRequest.header = "Technical Skills";
+      this.dialogRequest.width = "40%";
+    }
+    else if (action == Actions.edit && content === this.viewApplicantDialogDetails && formtype === "languageSkills") {
+      this.dialogRequest.dialogData = dialogData;
+      this.dialogRequest.header = "Language Skills";
+      this.dialogRequest.width = "40%";
+    }
+    else if (action == Actions.add && content === this.viewApplicantDialogDetails && formtype === "languageSkills") {
+      this.dialogRequest.dialogData = null;
+      this.dialogRequest.header = "Language Skills";
+      this.dialogRequest.width = "40%";
+    }
     this.ref = this.dialogService.open(content, {
       data: this.dialogRequest.dialogData,
       header: this.dialogRequest.header,
       width: this.dialogRequest.width
     });
-    // console.log(this.dialogRequest.dialogData,);
-
     this.ref.onClose.subscribe((res: any) => {
       if (res) {
-        if (res.UpdatedModal == ViewApplicationScreen.educationdetails) {
+        if (res.UpdatedModal == ViewApplicationScreen.viewApplicantDetails) {
           this.initViewApplicantDetails();
         }
       }

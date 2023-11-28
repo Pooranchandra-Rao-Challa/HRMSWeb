@@ -35,8 +35,6 @@ export class ApplicantComponent {
   getApplicant() {
     this.recruitmentService.GetApplicantDetail().subscribe((resp) => {
       this.applicant = resp as unknown as ApplicantViewDto[];
-      console.log(this.applicant);
-
     })
   }
 
@@ -61,6 +59,7 @@ export class ApplicantComponent {
       width: this.dialogRequest.width
     });
     this.ref.onClose.subscribe((res: any) => {
+      if (res){this.getApplicant()};
       event.preventDefault(); // Prevent the default form submission
     });
   }
