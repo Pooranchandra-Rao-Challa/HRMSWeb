@@ -44,7 +44,9 @@ export class JobOpeningsComponent {
 
   getJobDetails() {
     this.adminService.GetJobDetails().subscribe((resp) => {
-      this.jobOpening = resp as unknown as JobOpeningsDetailsViewDto[];      
+      this.jobOpening = resp as unknown as JobOpeningsDetailsViewDto[];   
+      console.log(this.jobOpening);
+         
     })
   }
 

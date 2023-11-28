@@ -238,6 +238,7 @@ export class EmployeeHierarchyDto {
 export class JobOpeningsDetailsViewDto {
     id?: number;
     JobOpeningId?: number;
+    title?:string;
     projectId?: number;
     projectName?: string;
     designationId?: number;
@@ -245,7 +246,7 @@ export class JobOpeningsDetailsViewDto {
     natureOfJobId?: number;
     natureOfJob?: number;
     description?: string;
-    toBeFilled?: Date;
+    requiredBy?: Date;
     compensationPackage?: string;
     softSkillIds?: string;
     softSkills?: string;

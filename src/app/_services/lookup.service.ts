@@ -97,7 +97,10 @@ export class LookupService extends ApiHttpService {
         console.log('Languages');
         return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.Languages])
     }
-
+    public AttributeTypes(){
+        console.log('RecruitmentAttributeTypes');
+        return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.RecruitmentAttributeTypes])
+    }
     public LookupDetailsForSelectedDependent(dependentId: number) {
         console.log('Dependents');
         return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [dependentId])

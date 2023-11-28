@@ -16,11 +16,13 @@
         <div class="col-12 md:col-4 lg:col-3 sm:col-6">
             <div class="card card-header surface-border orange-200 card-height border-1 m-2 p-2 mb-0"
                 (click)="openJobDialog(jobOpeningDetails)">
-                <i class="pi pi-star text-primary"></i> &nbsp; {{jobOpeningDetails.designation}}
+                <i class="pi pi-star text-primary"></i> &nbsp; {{jobOpeningDetails.title}}
             </div>
             <div class="card m-2 border-1 mt-0 surface-border card-height">
                 <div class=" grid">
                     <div class="col-6">
+                        <span><b class="text-primary">Designation</b>: {{ jobOpeningDetails.designation }}</span>
+                        <br>
                         <div class="text-600 font-medium text-sm job-description"> {{ jobOpeningDetails.description }}
                             quwe oeuir o oiweur u fu i ouer fu hfhhou rufuih iowfd </div>
                     </div>
@@ -61,8 +63,8 @@
                         <span class="value">: {{ selectedJob.natureOfJob }}</span>
                     </div>
                     <div class="pair">
-                        <span class="label text-primary font-bold text-900">To Be Filled</span>
-                        <span class="value">: {{ selectedJob.toBeFilled |date:mediumDate}}</span>
+                        <span class="label text-primary font-bold text-900">Required By</span>
+                        <span class="value">: {{ selectedJob.requiredBy |date:mediumDate}}</span>
                     </div>
                     <div class="pair">
                         <span class="label text-primary font-bold text-900">Compensation Package</span>

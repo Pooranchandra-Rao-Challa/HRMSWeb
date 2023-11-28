@@ -804,9 +804,10 @@
                                         </div>
                                     </td>
                                     <td class="vertical-align-top pt-3 text-center">
-                                        <app-star-rating [control]="getExpertiseControl()"
-                                        (click)="validateRowforApplicantSkillDetails(applicantSkillsDetailsIndex)"></app-star-rating>
-                                        <!-- <p-rating number="3" [cancel]="false" formControlName="expertise"> </p-rating> -->
+                                        <!-- <app-star-rating [control]="getExpertiseControl()"
+                                        (click)="validateRowforApplicantSkillDetails(applicantSkillsDetailsIndex)"></app-star-rating> -->
+                                        <p-rating number="3" [cancel]="false" formControlName="expertise"
+                                        (click)="validateRowforApplicantSkillDetails(applicantSkillsDetailsIndex)"> </p-rating>
                                     </td>
                                     <td class="text-center" *ngIf="fbApplicant.controls['applicantSkills'].value.length > 0">
                                         <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer"
