@@ -133,5 +133,6 @@ export const CREATE_VIEW_APPLICANT_TECHNICAL_SKILL = "Recruitment/CreateApplican
 export const UPDATE_VIEW_APPLICANT_TECHNICAL_SKILL = "Recruitment/UpdateApplicantSkill";
 export const GET_APPLICANT_TECHNICAL_SKILL = "Recruitment/GetNotSelectedSkillsForApplicant";
 //Applicant
-export const GET_APPLICANT_DETAILS = "Recruitment/GetApplicants";
-export const CREATE_APPLICANT_DETAILS = "Recruitment/CreateApplicant";
+export const GET_APPLICANT_DETAILS="Recruitment/GetApplicants";
+export const CREATE_APPLICANT_DETAILS ="Recruitment/CreateApplicant";
+export const GET_JOB_OPENINGS_DROPDOWN="JobOpening/GetDesignationsWithInitiatedAt";

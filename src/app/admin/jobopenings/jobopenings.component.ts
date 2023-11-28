@@ -7,6 +7,7 @@ import { JobOpeningsDetailsViewDto } from 'src/app/_models/admin';
 import { Actions, DialogRequest } from 'src/app/_models/common';
 import { AdminService } from 'src/app/_services/admin.service';
 import { JwtService } from 'src/app/_services/jwt.service';
+import { DataView } from 'primeng/dataview';
 
 @Component({
   selector: 'app-jobopenings',
@@ -43,8 +44,14 @@ export class JobOpeningsComponent {
 
   getJobDetails() {
     this.adminService.GetJobDetails().subscribe((resp) => {
-      this.jobOpening = resp as unknown as JobOpeningsDetailsViewDto[];
+      this.jobOpening = resp as unknown as JobOpeningsDetailsViewDto[];   
+      console.log(this.jobOpening);
+         
     })
+  }
+
+  onFilter(dv: DataView, event: Event) {
+    dv.filter((event.target as HTMLInputElement).value);
   }
 
   openJobDialog(job: JobOpeningsDetailsViewDto) {

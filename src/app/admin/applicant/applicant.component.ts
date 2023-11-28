@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ApplicantDialogComponent } from 'src/app/_dialogs/applicant.dialog/applicant.dialog.component';
-import { Actions, DialogRequest } from 'src/app/_models/common';
+import { Actions, DialogRequest, ITableHeader } from 'src/app/_models/common';
 import { DataView } from 'primeng/dataview';
 import { ApplicantViewDto } from 'src/app/_models/recruitment';
 import { RecruitmentService } from 'src/app/_services/recruitment.service';
+import { Table } from 'primeng/table';
 
 
 @Component({
@@ -15,13 +16,23 @@ import { RecruitmentService } from 'src/app/_services/recruitment.service';
   ]
 })
 export class ApplicantComponent {
+  @ViewChild('filter') filter!: ElementRef;
+  globalFilterFields: string[] = ['name', 'gender', 'experienceStatus', 'emailId', 'mobileNo',];
   value: number = 40;
-  applicant: ApplicantViewDto[] = [];
+  applicants: ApplicantViewDto[] = [];
   ActionTypes = Actions;
   dialogRequest: DialogRequest = new DialogRequest();
   applicantdialogComponent = ApplicantDialogComponent;
   sortOrder: number = 0;
   sortField: string = '';
+  
+  headers: ITableHeader[] = [
+    { field: 'name', header: 'name', label: 'Applicant Name' },
+    { field: 'gender', header: 'gender', label: 'Gender' },
+    { field: 'experienceStatus', header: 'experienceStatus', label: 'Work Experience' },
+    { field: 'emailId', header: 'emailId', label: 'Email' },
+    { field: 'mobileNo', header: 'mobileNo', label: 'Phone No' },
+  ] 
 
   constructor(private recruitmentService: RecruitmentService,
     public ref: DynamicDialogRef,
@@ -34,10 +45,18 @@ export class ApplicantComponent {
 
   getApplicant() {
     this.recruitmentService.GetApplicantDetail().subscribe((resp) => {
-      this.applicant = resp as unknown as ApplicantViewDto[];
+      this.applicants = resp as unknown as ApplicantViewDto[];      
     })
   }
+  onGlobalFilter(table: Table, event: Event) {
+    table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+  }
 
+  clear(table: Table) {
+    table.clear();
+    this.filter.nativeElement.value = '';
+  }
+  
   onFilter(dv: DataView, event: Event) {
     dv.filter((event.target as HTMLInputElement).value);
   }

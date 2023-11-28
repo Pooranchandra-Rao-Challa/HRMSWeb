@@ -39,18 +39,18 @@ export class AppMenuComponent implements OnInit {
                 icon: 'pi pi-home',
                 items: [
                     {
-                        label: 'Admin Dashboard',
-                        icon: 'pi pi-fw pi-home',
+                        label: 'Admin',
+                        icon: 'icon-admin_icon font-semibold',
                         routerLink: ['dashboard/admin'], permission: true
                     },
                     {
-                        label: 'Hr Dashboard',
-                        icon: 'pi pi-fw pi-home',
+                        label: 'HR',
+                        icon: 'icon-hr font-semibold',
                         routerLink: ['dashboard/hr'], permission: true
                     },
                     {
-                        label: 'Employee Dashboard',
-                        icon: 'pi pi-fw pi-image',
+                        label: 'Employee',
+                        icon: 'icon-employe font-semibold',
                         routerLink: ['dashboard/employee'] , permission: true
                     }
                 ]
@@ -117,18 +117,18 @@ export class AppMenuComponent implements OnInit {
                     },
                     {
                         label: 'Projects',
-                        icon: 'pi pi-fw pi-search-plus',
+                        icon: 'font-semibold icon-projects',
                         routerLink: ['admin/project'],
                         permission: this.jwtService.Permissions.CanViewProjects
 
                     },
                     {
                         label: 'Recruitment',
-                        icon: 'pi pi-fw pi-search-plus',
+                        icon: 'font-bold icon-recru',
                         permission: this.GroupPermission('Recruitment'),
                         items: [
                             {
-                                label: 'Recruitment Dashboard',
+                                label: 'Dashboard',
                                 icon: 'pi pi-fw pi-align-left',
                                 routerLink: ['admin/recruitmentDashboard'],
                                 permission: this.jwtService.Permissions.CanViewAssets
@@ -152,7 +152,7 @@ export class AppMenuComponent implements OnInit {
                     },
                     {
                         label: 'Job Openings',
-                        icon: 'pi pi-fw pi-calendar-plus',
+                        icon: 'icon-job font-weight-800',
                         routerLink: ['admin/jobopenings'],
                         permission: this.jwtService.Permissions.CanViewJobOpenings
 
@@ -186,7 +186,7 @@ export class AppMenuComponent implements OnInit {
                     },
                     {
                         label: 'Leave Configuration',
-                        icon: 'pi pi-fw pi-circle',
+                        icon: 'icon-leave-request font-semibold',
                         routerLink: ['employee/leaves'],
                         permission: this.jwtService.Permissions.CanViewAssetsAllotments
                     },
