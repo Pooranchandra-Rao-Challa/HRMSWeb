@@ -212,6 +212,8 @@ export const ALERT_CODES: { [key: string]: string } = {
     'ALC001': 'Leave Confirmation Updated Successfully',
     'ALC002': 'Leave Confirmation Updated Failed',
 
+    // view applicant
+    'ARVAP001':'Applicant Details Updated Successfully',
     //Applicant 
     'AP001':'Applicant Added Successfully'
 }

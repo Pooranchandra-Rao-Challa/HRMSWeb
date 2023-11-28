@@ -108,18 +108,16 @@ export class ViewApplicantDto {
     resumeUrl?: string;
     addressLine1?: string;
     applicantCertifications?: string;
-    expandedCertifications?: applicantCertifications[];
+    expandedCertifications?: applicantCertifications [];
     applicantEducationDetails?: string;
-    expandedEducationDetails?: applicantEducationDetails[];
+    expandedEducationDetails?: applicantEducationDetails [];
     applicantLanguageSkills?: string;
-    expandedLanguageSkills?: applicantLanguageSkills[];
+    expandedLanguageSkills?: applicantLanguageSkills [];
     applicantSkills?: string;
-    expandedSkills?: applicantSkills[];
+    expandedSkills?: applicantSkills [];
     applicantWorkExperience?: string;
-    expandedWorkExperience?: applicantWorkExperience[]
-
+    expandedWorkExperience?: applicantWorkExperience [];
 }
-
 export class applicantCertifications {
     applicantId?: number;
     applicantCertificateId?: number;
@@ -129,11 +127,10 @@ export class applicantCertifications {
     yearOfCompletion?: string;
     results?: string;
 }
-
 export class applicantEducationDetails {
     applicantId?: number;
     applicantEducationDetailId?: number;
-    StreamId?: number;
+    streamId?: number;
     stateId?: number;
     state?: string;
     countryId?: number;
@@ -154,16 +151,14 @@ export class applicantLanguageSkills {
     canSpeak?: boolean;
     canWrite?: boolean;
 }
-
-export class applicantSkills {
+export class applicantSkills{
     applicantId?: number;
     applicantSkillId?: number;
     skillId?: number;
     skill?: string;
     expertise?: number;
 }
-
-export class applicantWorkExperience {
+export class applicantWorkExperience  {
     applicantWorkExperienceId?: number;
     applicantId?: number;
     companyName?: string;
@@ -177,3 +172,20 @@ export class applicantWorkExperience {
     dateOfJoining?: Date;
     dateOfReliving?: Date;
 }
+export class ApplicantEducationDetailsDto {
+    applicantId?: number;
+    applicantEducationDetailId?: number;
+    curriculumId?:number;
+    StreamId?: number;
+    stateId?: number;
+    state?: string;
+    countryId?: number;
+    country?: string;
+    institutionName?: string;
+    authorityName?: string;
+    yearOfCompletion?: Date;
+    gradingMethodId?: number;
+    gradingMethod?: string;
+    gradingValue?: number
+}
+

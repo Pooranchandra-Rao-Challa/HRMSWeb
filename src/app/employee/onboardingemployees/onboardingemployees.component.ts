@@ -9,7 +9,6 @@ import { ITableHeader } from 'src/app/_models/common';
 import { Employee, EmployeeBasicDetailDto, EmployeesViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { JwtService } from 'src/app/_services/jwt.service';
-import { SecurityService } from 'src/app/_services/security.service';
 
 
 @Component({
@@ -48,7 +47,7 @@ export class OnboardingemployeesComponent {
     this.visible = true;
   }
 
-  constructor(private securityService: SecurityService,
+  constructor(
     private router: Router,
     private route: ActivatedRoute,
     private jwtService: JwtService,

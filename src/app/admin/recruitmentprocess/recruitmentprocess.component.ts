@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { RecruitmentService } from 'src/app/_services/recruitment.service';
 
 @Component({
   selector: 'app-recruitmentprocess',
@@ -7,11 +8,25 @@ import { Component } from '@angular/core';
   ]
 })
 export class RecruitmentProcessComponent {
-  cities = [
-    { name: 'New York', code: 'NY' },
-    { name: 'Rome', code: 'RM' },
-    { name: 'London', code: 'LDN' },
-    { name: 'Istanbul', code: 'IST' },
-    { name: 'Paris', code: 'PRS' }
-];
+  processedJobOpening:any;
+  applicantsList:any;
+  checked: boolean = false;
+  constructor(private RecruitmentService: RecruitmentService) { }
+
+  ngOnInit() {
+    this.initProcessedJobOpening();
+    // this.initApplicants();
+  }
+
+  initProcessedJobOpening() {
+     this.RecruitmentService.getJobOpening().subscribe(resp=>{
+       this.processedJobOpening=resp;
+     });
+  }
+  // initApplicants(){
+  //    this.RecruitmentService.getApplicants().subscribe(resp=>{
+  //      this.applicantsList=resp;
+  //    })
+  // }
+
 }

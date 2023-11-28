@@ -16,8 +16,8 @@
           </div>
         </ng-template>
 
-        <ng-template let-employee pTemplate="listItem" let-item>
-          <ng-container *ngIf="item === employees[0]">
+        <ng-template let-employee pTemplate="listItem">
+          <ng-container *ngIf="employee === employees[0]">
             <!-- table -->
             <div class="col-12">
               <p-table #dtEmployees [value]="employees" dataKey="id" [rows]="10" [rowHover]="true"
