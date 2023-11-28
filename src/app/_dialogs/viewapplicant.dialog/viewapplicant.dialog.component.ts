@@ -3,11 +3,11 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
 import { MaxLength, ViewApplicationScreen } from 'src/app/_models/common';
-import { ApplicantEducationDetailsDto, ApplicantWorkExperienceDto } from 'src/app/_models/recruitment';
+import { ApplicantCertificationDto, ApplicantEducationDetailsDto, ApplicantLanguageSkillDto, ApplicantSkillDto, ApplicantSkillViewDto, ApplicantWorkExperienceDto } from 'src/app/_models/recruitment';
 import { LookupService } from 'src/app/_services/lookup.service';
 import { RecruitmentService } from 'src/app/_services/recruitment.service';
 
@@ -26,14 +26,19 @@ export class ViewapplicantDialogComponent {
   stream: LookupDetailsDto[] = [];
   gradingMethod: LookupDetailsDto[] = [];
   designation: LookupViewDto[] = [];
+  certificates: LookupViewDto[] = [];
+  languages: LookupViewDto[] = [];
+  skills: LookupDetailsDto[] = [];
   fbeducationdetails!: FormGroup;
   fbcertificatedetails!: FormGroup;
   fbexperience!: FormGroup;
   fbtechnicalSkills!: FormGroup;
   fblanguageSkills!: FormGroup;
   maxLength: MaxLength = new MaxLength();
+  currentDate = new Date();
 
-  constructor(private formbuilder: FormBuilder, public ref: DynamicDialogRef,
+  constructor(private formbuilder: FormBuilder,
+    public ref: DynamicDialogRef,
     private config: DynamicDialogConfig,
     private recruitmentService: RecruitmentService,
     private lookupService: LookupService,
@@ -49,21 +54,27 @@ export class ViewapplicantDialogComponent {
     this.initCountry();
     this.initGrading();
     this.initDesignation();
+    this.initCertificates();
+    this.initLanguages();
+    this.initSkills();
     this.educationDetailsForm();
     this.experienceForm();
+    this.certificateDetailsForm();
+    this.languageSkillsForm();
+    this.technicalSkillsForm();
     if (this.rowData) {
       if (this.header === 'Education Details') {
         this.editeducationDetails(this.rowData);
-      }
-      if (this.header === 'Experience Details') {
+      } else if (this.header === 'Experience Details') {
         this.editexperienceDetails(this.rowData)
+      } else if (this.header === 'Certificate Details') {
+        this.editcertificateDetails(this.rowData)
+      } else if (this.header === 'Language Skills') {
+        this.editlanguageSkills(this.rowData)
+      } else if (this.header === 'Technical Skills') {
+        this.edittechnicalSkills(this.rowData)
       }
-
     }
-    this.certificateDetailsForm();
-    this.technicalSkillsForm();
-    this.languageSkillsForm();
-
   }
 
   initCurriculum() {
@@ -102,6 +113,21 @@ export class ViewapplicantDialogComponent {
       this.designation = resp as unknown as LookupViewDto[];
     })
   }
+
+  initCertificates() {
+    this.lookupService.Certificates().subscribe((resp) => {
+      this.certificates = resp as unknown as LookupViewDto[];
+    })
+  }
+
+  initLanguages() {
+    this.lookupService.Languages().subscribe((resp) => {
+      this.languages = resp as unknown as LookupViewDto[];
+    })
+  }
+
+  // educationDetailsForm
+
   educationDetailsForm() {
     this.fbeducationdetails = this.formbuilder.group({
       applicantId: new FormControl(this.applicantId),
@@ -110,31 +136,27 @@ export class ViewapplicantDialogComponent {
       StreamId: new FormControl('', [Validators.required]),
       countryId: new FormControl('', [Validators.required]),
       stateId: new FormControl('', [Validators.required]),
-      authorityName: new FormControl(''),
-      institutionName: new FormControl('', [Validators.required]),
+      authorityName: new FormControl('', [Validators.required]),
+      institutionName: new FormControl(''),
       yearOfCompletion: new FormControl('', [Validators.required]),
       gradingMethodId: new FormControl('', [Validators.required]),
       gradingValue: new FormControl('', [Validators.required]),
     })
     this.addFlag = true;
   }
+  get FormControlsEduDtls() {
+    return this.fbeducationdetails.controls;
+  }
   editeducationDetails(educationDetails: ApplicantEducationDetailsDto) {
-    this.rowData.applicantId = educationDetails.applicantId;
-    this.rowData.applicantEducationDetailId = educationDetails.applicantEducationDetailId;
-    this.rowData.curriculumId = educationDetails.curriculumId;
-    this.rowData.StreamId = educationDetails.StreamId;
-    this.rowData.countryId = educationDetails.countryId;
-    this.rowData.stateId = educationDetails.stateId;
-    this.rowData.authorityName = educationDetails.authorityName;
-    this.rowData.institutionName = educationDetails.institutionName;
-    this.rowData.gradingMethodId = educationDetails.gradingMethodId;
-    this.rowData.gradingValue = educationDetails.gradingValue;
+    this.rowData = educationDetails
     this.rowData.yearOfCompletion = new Date(educationDetails.yearOfCompletion);
     this.fbeducationdetails.patchValue(this.rowData);
     this.getStatesByCountryId(this.rowData.countryId);
     this.getStreamByCurriculumId(this.rowData.curriculumId);
     this.addFlag = false;
   }
+
+  // experienceForm
 
   experienceForm() {
     this.fbexperience = this.formbuilder.group({
@@ -153,10 +175,9 @@ export class ViewapplicantDialogComponent {
     });
     this.addFlag = true;
   }
-  get FormControls() {
+  get FormControlsExpDtls() {
     return this.fbexperience.controls;
   }
-
   editexperienceDetails(experienceDetails: ApplicantWorkExperienceDto) {
     this.rowData = experienceDetails;
     this.rowData.dateOfJoining = new Date(experienceDetails.dateOfJoining);
@@ -166,43 +187,88 @@ export class ViewapplicantDialogComponent {
     this.addFlag = false;
   }
 
+  // certificateDetailsForm
+
   certificateDetailsForm() {
     this.fbcertificatedetails = this.formbuilder.group({
-      CertificationName: new FormControl(''),
-      franchiseName: new FormControl(''),
-      yearOfCompletion: new FormControl(''),
-      result: new FormControl(''),
+      applicantId: new FormControl(this.applicantId),
+      applicantCertificateId: new FormControl(null),
+      certificateId: new FormControl(null, [Validators.required]),
+      franchiseName: new FormControl(null),
+      yearOfCompletion: new FormControl(null, [Validators.required]),
+      results: new FormControl(null, [Validators.required]),
     })
+    this.addFlag = true;
+  }
+  get FormControlsCrtDtls() {
+    return this.fbcertificatedetails.controls;
+  }
+  editcertificateDetails(certificateDetails: ApplicantCertificationDto) {
+    this.rowData = certificateDetails;
+    this.rowData.yearOfCompletion = new Date(certificateDetails.yearOfCompletion);
+    this.fbcertificatedetails.patchValue(this.rowData);
+    this.addFlag = false;
   }
 
-
-  technicalSkillsForm() {
-    this.fbtechnicalSkills = this.formbuilder.group({
-      technicalSkills: new FormControl(''),
-      // expertise: new FormControl(''),
-    })
-  }
+  // languageSkillsForm
 
   languageSkillsForm() {
     this.fblanguageSkills = this.formbuilder.group({
-      languageSkills: new FormControl(''),
-      canRead: new FormControl(''),
-      canWrite: new FormControl(''),
-      canSpeak: new FormControl(''),
+      applicantId: new FormControl(this.applicantId),
+      applicantLanguageSkillId: new FormControl(null),
+      languageId: new FormControl(null, [Validators.required]),
+      canRead: new FormControl(true),
+      canWrite: new FormControl(null),
+      canSpeak: new FormControl(null),
+    })
+    this.addFlag = true;
+  }
+  get FormControlsLangSkills() {
+    return this.fblanguageSkills.controls;
+  }
+  editlanguageSkills(languageSkills: ApplicantLanguageSkillDto) {
+    this.rowData = languageSkills;
+    this.fblanguageSkills.patchValue(this.rowData);
+    this.addFlag = false;
+  }
+
+  // technicalSkillsForm
+
+  technicalSkillsForm() {
+    this.fbtechnicalSkills = this.formbuilder.group({
+      applicantId: new FormControl(this.applicantId),
+      applicantSkillId: new FormControl(null),
+      skillId: new FormControl(null, [Validators.required]),
+      expertise: new FormControl(null, [Validators.required]),
+    })
+    this.addFlag = true;
+  }
+  get FormControlsTechSkills() {
+    return this.fbtechnicalSkills.controls;
+  }
+  // initSkills() {
+  //   this.recruitmentService.GetTechnicalSkill(this.applicantId).subscribe((resp) => {
+  //     this.technicalSkills = resp as unknown as ApplicantSkillViewDto[];
+  //   })
+  // }
+  getExpertiseControl(): FormControl {
+    return this.fbtechnicalSkills.get('expertise') as FormControl;
+  }
+  initSkills() {
+    this.lookupService.SkillAreas().subscribe((resp) => {
+      this.skills = resp as unknown as LookupDetailsDto[];
     })
   }
-
-
-  restrictSpaces(event: KeyboardEvent) {
-    const target = event.target as HTMLInputElement;
-    // Prevent the first key from being a space
-    if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0)
-      event.preventDefault();
-    // Restrict multiple spaces
-    if (event.key === ' ' && target.selectionStart > 0 && target.value.charAt(target.selectionStart - 1) === ' ') {
-      event.preventDefault();
-    }
+ 
+  edittechnicalSkills(technicalSkills: ApplicantSkillDto) {
+    this.rowData = technicalSkills;
+    this.fbtechnicalSkills.patchValue(this.rowData);
+    this.addFlag = false;
   }
+
+
+  // SaveButtonDisabledBasedonforms
+
   isSaveButtonDisabled(): boolean {
     if (this.header === 'Education Details') {
       return this.fbeducationdetails.invalid;
@@ -225,6 +291,12 @@ export class ViewapplicantDialogComponent {
         return this.recruitmentService.CreateApplicantEducationDetails(this.fbeducationdetails.value);
       } else if (this.header === 'Experience Details') {
         return this.recruitmentService.CreateApplicantexperienceDetails(this.fbexperience.value);
+      } else if (this.header === 'Certificate Details') {
+        return this.recruitmentService.CreateApplicantCertificationDetails(this.fbcertificatedetails.value);
+      } else if (this.header === 'Language Skills') {
+        return this.recruitmentService.CreateApplicantLanguageSkill(this.fblanguageSkills.value);
+      } else if (this.header === 'Technical Skills') {
+        return this.recruitmentService.CreateApplicantTechnicalSkill(this.fbtechnicalSkills.value);
       }
 
     } else {
@@ -232,6 +304,12 @@ export class ViewapplicantDialogComponent {
         return this.recruitmentService.UpdateApplicantEducationDetails(this.fbeducationdetails.value);
       } else if (this.header === 'Experience Details') {
         return this.recruitmentService.UpdateApplicantexperienceDetails(this.fbexperience.value);
+      } else if (this.header === 'Certificate Details') {
+        return this.recruitmentService.UpdateApplicantCertificationDetails(this.fbcertificatedetails.value);
+      } else if (this.header === 'Language Skills') {
+        return this.recruitmentService.UpdateApplicantLanguageSkill(this.fblanguageSkills.value);
+      } else if (this.header === 'Technical Skills') {
+        return this.recruitmentService.UpdateApplicantTechnicalSkill(this.fbtechnicalSkills.value);
       }
     }
     return of();
@@ -246,4 +324,14 @@ export class ViewapplicantDialogComponent {
     })
   }
 
+  restrictSpaces(event: KeyboardEvent) {
+    const target = event.target as HTMLInputElement;
+    // Prevent the first key from being a space
+    if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0)
+      event.preventDefault();
+    // Restrict multiple spaces
+    if (event.key === ' ' && target.selectionStart > 0 && target.value.charAt(target.selectionStart - 1) === ' ') {
+      event.preventDefault();
+    }
+  }
 }

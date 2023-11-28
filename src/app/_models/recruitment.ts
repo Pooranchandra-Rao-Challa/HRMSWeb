@@ -18,21 +18,21 @@ export class ApplicantDto {
     emailId?: string;
     mobileNo?: number;
     nationalityId?: number;
-    photo?:string;
-    addressLine1 ?:string;
-    addressLine2?:string;
-    landmark?:string;
-    zipcode ?:string;
-    city?:string;
-    countryId?:string;
-    stateId ?: number;
-    resumeUrl?:string;
-    isFresher?:boolean;
-    applicantCertifications?:ApplicantCertificationDto[];
-    applicantEducationDetails?:ApplicantEducationDetailDto[];
-    applicantLanguageSkills?:ApplicantLanguageSkillDto[];
-    applicantSkills ?:ApplicantSkillDto[];
-    applicantWorkExperiences?:ApplicantWorkExperienceDto[];
+    photo?: string;
+    addressLine1?: string;
+    addressLine2?: string;
+    landmark?: string;
+    zipcode?: string;
+    city?: string;
+    countryId?: string;
+    stateId?: number;
+    resumeUrl?: string;
+    isFresher?: boolean;
+    applicantCertifications?: ApplicantCertificationDto[];
+    applicantEducationDetails?: ApplicantEducationDetailDto[];
+    applicantLanguageSkills?: ApplicantLanguageSkillDto[];
+    applicantSkills?: ApplicantSkillDto[];
+    applicantWorkExperiences?: ApplicantWorkExperienceDto[];
 }
 
 export class ApplicantCertificationDto {
@@ -44,18 +44,18 @@ export class ApplicantCertificationDto {
     results?: string;
 }
 
-export class ApplicantEducationDetailDto{
-    applicantEducationId ?:number;
-    applicantId?:number;
-    streamId?:number;
-    curriculumId?:number;
-    countryId?:number;
-    stateId ?:number;
-    institutionName?:string;
-    authorityName ?:string;
-    yearOfCompletion?:Date;
-    gradingMethodId?:number;
-    gradingValue?:string;
+export class ApplicantEducationDetailDto {
+    applicantEducationId?: number;
+    applicantId?: number;
+    streamId?: number;
+    curriculumId?: number;
+    countryId?: number;
+    stateId?: number;
+    institutionName?: string;
+    authorityName?: string;
+    yearOfCompletion?: Date;
+    gradingMethodId?: number;
+    gradingValue?: string;
 }
 
 export class ApplicantLanguageSkillDto {
@@ -79,7 +79,7 @@ export class ApplicantWorkExperienceDto {
     applicantId?: number;
     companyName?: string;
     companyLocation?: string;
-    countryId?:number;
+    countryId?: number;
     stateId?: number;
     companyEmployeeId?: string;
     designationId?: number;
@@ -108,15 +108,15 @@ export class ViewApplicantDto {
     resumeUrl?: string;
     addressLine1?: string;
     applicantCertifications?: string;
-    expandedCertifications?: applicantCertifications [];
+    expandedCertifications?: applicantCertifications[];
     applicantEducationDetails?: string;
-    expandedEducationDetails?: applicantEducationDetails [];
+    expandedEducationDetails?: applicantEducationDetails[];
     applicantLanguageSkills?: string;
-    expandedLanguageSkills?: applicantLanguageSkills [];
+    expandedLanguageSkills?: applicantLanguageSkills[];
     applicantSkills?: string;
-    expandedSkills?: applicantSkills [];
+    expandedSkills?: applicantSkills[];
     applicantWorkExperience?: string;
-    expandedWorkExperience?: applicantWorkExperience [];
+    expandedWorkExperience?: applicantWorkExperience[];
 }
 export class applicantCertifications {
     applicantId?: number;
@@ -151,14 +151,14 @@ export class applicantLanguageSkills {
     canSpeak?: boolean;
     canWrite?: boolean;
 }
-export class applicantSkills{
+export class applicantSkills {
     applicantId?: number;
     applicantSkillId?: number;
     skillId?: number;
     skill?: string;
     expertise?: number;
 }
-export class applicantWorkExperience  {
+export class applicantWorkExperience {
     applicantWorkExperienceId?: number;
     applicantId?: number;
     companyName?: string;
@@ -175,7 +175,7 @@ export class applicantWorkExperience  {
 export class ApplicantEducationDetailsDto {
     applicantId?: number;
     applicantEducationDetailId?: number;
-    curriculumId?:number;
+    curriculumId?: number;
     StreamId?: number;
     stateId?: number;
     state?: string;
@@ -189,3 +189,7 @@ export class ApplicantEducationDetailsDto {
     gradingValue?: number
 }
 
+export class ApplicantSkillViewDto {
+    skillId?: number
+    skillName?: string;
+}

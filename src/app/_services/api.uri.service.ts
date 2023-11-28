@@ -124,7 +124,14 @@ export const GET_VIEW_APPLICANT_DETAILS = "Recruitment/GetApplicantBasedOnId";
 export const CREATE_VIEW_APPLICANT_EDUCATION_DETAILS = "Recruitment/CreateApplicantEducationDetails";
 export const UPDATE_VIEW_APPLICANT_EDUCATION_DETAILS = "Recruitment/UpdateApplicantEducationDetails";
 export const CREATE_VIEW_APPLICANT_EXPERIENCE_DETAILS = "Recruitment/CreateApplicantWorkExperience";
-export const UPDATE_VIEW_APPLICANT_EXPERIENCE_DETAILS = "Recruitment/UpdateApplicantWorkExperience"
+export const UPDATE_VIEW_APPLICANT_EXPERIENCE_DETAILS = "Recruitment/UpdateApplicantWorkExperience";
+export const CREATE_VIEW_APPLICANT_CERTIFICATION_DETAILS = "Recruitment/CreateApplicantCertification";
+export const UPDATE_VIEW_APPLICANT_CERTIFICATION_DETAILS = "Recruitment/UpdateApplicantCertification";
+export const CREATE_VIEW_APPLICANT_LANGUAGE_SKILL = "Recruitment/CreateApplicantLanguageSkill";
+export const UPDATE_VIEW_APPLICANT_LANGUAGE_SKILL = "Recruitment/UpdateApplicantLanguageSkill";
+export const CREATE_VIEW_APPLICANT_TECHNICAL_SKILL = "Recruitment/CreateApplicantSkill";
+export const UPDATE_VIEW_APPLICANT_TECHNICAL_SKILL = "Recruitment/UpdateApplicantSkill";
+export const GET_APPLICANT_TECHNICAL_SKILL = "Recruitment/GetNotSelectedSkillsForApplicant";
 //Applicant
 export const GET_APPLICANT_DETAILS = "Recruitment/GetApplicants";
 export const CREATE_APPLICANT_DETAILS = "Recruitment/CreateApplicant";
