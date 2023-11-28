@@ -45,7 +45,7 @@ export class AppMenuComponent implements OnInit {
                     },
                     {
                         label: 'HR',
-                        icon: 'icon-hr',
+                        icon: 'icon-hr font-semibold',
                         routerLink: ['dashboard/hr'], permission: true
                     },
                     {
