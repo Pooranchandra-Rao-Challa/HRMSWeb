@@ -22,7 +22,7 @@ export class AppMenuComponent implements OnInit {
                     this.jwtService.Permissions.CanViewProjects || this.GroupPermission('Assets') || this.GroupPermission('Recruitment')
 
             case 'Recruitment':
-                return this.jwtService.Permissions.CanViewAssets || this.jwtService.Permissions.CanViewAssets || this.jwtService.Permissions.CanViewAssets
+                return this.jwtService.Permissions.CanViewAssets || this.jwtService.Permissions.CanViewApplicants || this.jwtService.Permissions.CanViewAssets
             case 'Assets':
                 return this.jwtService.Permissions.CanViewAssets || this.jwtService.Permissions.CanViewAssetsAllotments;
             case 'Employee':
@@ -51,7 +51,7 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'Employee',
                         icon: 'icon-employe font-semibold',
-                        routerLink: ['dashboard/employee'] , permission: true
+                        routerLink: ['dashboard/employee'], permission: true
                     }
                 ]
             },
@@ -138,6 +138,13 @@ export class AppMenuComponent implements OnInit {
                                 label: 'Applicants',
                                 icon: 'pi pi-fw pi-align-left',
                                 routerLink: ['admin/applicant'],
+                                permission: this.jwtService.Permissions.CanViewApplicants
+
+                            },
+                            {
+                                label: 'Attributes',
+                                icon: 'pi pi-fw pi-align-left',
+                                routerLink: ['admin/recruitmentAttributes'],
                                 permission: this.jwtService.Permissions.CanViewAssets
 
                             },

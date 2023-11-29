@@ -1,7 +1,6 @@
 import { LookupsComponent } from './lookups/lookups.component';
 import { HolidayconfigurationComponent } from './holidayconfiguration/holidayconfiguration.component';
 import { AssetsComponent } from './assets/assets.component';
-import { RecruitmentComponent } from './recruitment/recruitment.component';
 import { AdminRoutingModule } from './admin-routing.module';
 import { ProjectComponent } from './project/project.component';
 import { AssetsallotmentComponent } from './assetsallotment/assetsallotment.component';
@@ -14,6 +13,7 @@ import { ApplicantComponent } from './applicant/applicant.component';
 import { ViewapplicantComponent } from './viewapplicant/viewapplicant.component';
 import { RecruitmentProcessComponent } from './recruitmentprocess/recruitmentprocess.component';
 import { RecruitmentdashboardComponent } from './recruitmentdashboard/recruitmentdashboard.component';
+import { RecruitmentAttributesComponent } from './recruitment/recruitmentattributes.component';
 
 @NgModule({
   declarations: [
@@ -21,12 +21,12 @@ import { RecruitmentdashboardComponent } from './recruitmentdashboard/recruitmen
     HolidayconfigurationComponent,
     AssetsComponent,
     JobOpeningsComponent,
-    RecruitmentComponent,
     ProjectComponent,
     AssetsallotmentComponent,
     D3OrgChartComponent,
     ApplicantComponent,
     ViewapplicantComponent,
+    RecruitmentAttributesComponent,
     RecruitmentProcessComponent,
     RecruitmentdashboardComponent
   ],

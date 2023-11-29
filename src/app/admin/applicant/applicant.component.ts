@@ -7,6 +7,7 @@ import { DataView } from 'primeng/dataview';
 import { ApplicantViewDto } from 'src/app/_models/recruitment';
 import { RecruitmentService } from 'src/app/_services/recruitment.service';
 import { Table } from 'primeng/table';
+import { JwtService } from 'src/app/_services/jwt.service';
 
 
 @Component({
@@ -26,6 +27,8 @@ export class ApplicantComponent {
   sortOrder: number = 0;
   sortField: string = '';
   checked: boolean = false;
+  permissions: any;
+
 
   headers: ITableHeader[] = [
     { field: 'name', header: 'name', label: 'Applicant Name' },
@@ -39,19 +42,21 @@ export class ApplicantComponent {
   constructor(private recruitmentService: RecruitmentService,
     public ref: DynamicDialogRef,
     private router: Router,
+    private jwtService: JwtService,
     private dialogService: DialogService) { }
 
   ngOnInit() {
     this.getApplicant();
+    this.permissions = this.jwtService.Permissions;
+
   }
 
   getApplicant() {
     this.recruitmentService.GetApplicantDetail().subscribe((resp) => {
       this.applicants = resp as unknown as ApplicantViewDto[];
-      console.log(this.applicants);
-
     })
   }
+
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
