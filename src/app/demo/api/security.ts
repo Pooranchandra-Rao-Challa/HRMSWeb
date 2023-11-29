@@ -1,3 +1,12 @@
+export interface RecruitmentAttributesDTO{
+  id? :number;
+  assesmentTitle?:string;
+  minExpertise?:number;
+  maxExpertise?:number;
+  attributeTypes?:string;
+  recruitmentStages?:string;
+  isActive?:Boolean;
+}
 export interface JobDesign{
   id?:number;
   jobDescription?: string;

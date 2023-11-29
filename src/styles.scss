@@ -510,7 +510,7 @@ label {
 }
 
 .disabled-radio,
-.disabled-calendar {
+.disabled-calendar,.disabled-button {
     opacity: 0.5;
     /* or any other style to indicate disabled state */
     pointer-events: none;

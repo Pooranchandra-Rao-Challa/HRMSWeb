@@ -15,7 +15,7 @@
                             </span>
                             <p-inputSwitch *ngIf="dv._layout !== 'list'" [(ngModel)]="checked"
                                 (click)="searchBySkill()"></p-inputSwitch>
-                            <span>
+                            <span  *ngIf="dv._layout !== 'list'">
                                 Search By Skills
                             </span>
                         </div>
