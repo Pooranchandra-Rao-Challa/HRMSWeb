@@ -18,6 +18,7 @@ import { JobOpeningsDialogComponent } from './jobopenings.dialog/jobopenings.dia
 import { ApplicantDialogComponent } from './applicant.dialog/applicant.dialog.component';
 import { ViewapplicantDialogComponent } from './viewapplicant.dialog/viewapplicant.dialog.component';
 import { StarRatingComponent } from './star-rating/star-rating.component';
+import { RecruitmentattributeDialogComponent } from './recruitmentattribute.dialog/recruitmentattribute.dialog.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { StarRatingComponent } from './star-rating/star-rating.component';
     JobOpeningsDialogComponent,
     ApplicantDialogComponent,
     ViewapplicantDialogComponent,
-    StarRatingComponent
+    StarRatingComponent,
+    RecruitmentattributeDialogComponent
   ],
   imports: [SharedModule],
   providers: [DialogService, DynamicDialogRef]
