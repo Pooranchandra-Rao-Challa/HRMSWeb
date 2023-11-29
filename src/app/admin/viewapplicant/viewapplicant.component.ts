@@ -21,8 +21,8 @@ export class ViewapplicantComponent {
   ActionTypes = Actions;
   isCursorPointer: boolean = false;
   dialogRequest: DialogRequest = new DialogRequest();
-
-  viewApplicantDialogDetails = ViewapplicantDialogComponent
+  applicantdialogComponent = ApplicantDialogComponent;
+  viewApplicantDialogDetails = ViewapplicantDialogComponent;
   constructor(private RecruitmentService: RecruitmentService,
     private activatedRoute: ActivatedRoute,
     public ref: DynamicDialogRef,
@@ -110,4 +110,21 @@ export class ViewapplicantComponent {
       }
     });
   };
+
+  openComponentDialog(content: any,
+    dialogData, action: Actions = this.ActionTypes.edit) {
+    if (action == Actions.edit && content === this.applicantdialogComponent) {
+      this.dialogRequest.dialogData = dialogData;
+      this.dialogRequest.header = "Edit Applicants";
+      this.dialogRequest.width = "60%";
+    }
+    this.ref = this.dialogService.open(content, {
+      data: this.dialogRequest.dialogData,
+      header: this.dialogRequest.header,
+      width: this.dialogRequest.width
+    });
+    this.ref.onClose.subscribe((res: any) => {
+      event.preventDefault(); // Prevent the default form submission
+    });
+  }
 }

@@ -215,6 +215,7 @@ export const ALERT_CODES: { [key: string]: string } = {
     // view applicant
     'ARVAP001':'Applicant Details Updated Successfully',
     //Applicant 
-    'AP001':'Applicant Added Successfully'
+    'AP001':'Applicant Added Successfully',
+    'AP002':'Applicant Updated Successfully',
 }
 
