@@ -281,23 +281,23 @@
                                     <th *ngIf="fbApplicant.controls['applicantEducationDetails'].value.length > 0"></th>
                                 </tr>
                             </ng-template>
-                            <ng-template pTemplate="body" let-educaitonDetailsIndex="rowIndex">
-                                <tr [formGroupName]="educaitonDetailsIndex">
+                            <ng-template pTemplate="body" let-educationDetailsIndex="rowIndex">
+                                <tr [formGroupName]="educationDetailsIndex">
                                     <td class="vertical-align-top">
                                         <p-dropdown id="circulum_dropdown" [autoDisplayFirst]="false"
                                             placeholder="Select Curriculum*" [options]="curriculum" optionLabel="name"
                                             optionValue="lookupDetailId" formControlName="curriculumId" appendTo="body"
-                                            (onChange)="getStreamByCurriculumId($event.value)"
-                                            (click)="validateRowforEducationDetails(educaitonDetailsIndex)"
-                                            [ngClass]="{'is-invalid ng-dirty': formArrayControlEducation(educaitonDetailsIndex, 'curriculumId')?.touched &&
-                                            formArrayControlEducation(educaitonDetailsIndex, 'curriculumId')?.errors }">
+                                            (onChange)="getStreamByCurriculumId($event.value,educationDetailsIndex)"
+                                            (click)="validateRowforEducationDetails(educationDetailsIndex)"
+                                            [ngClass]="{'is-invalid ng-dirty': formArrayControlEducation(educationDetailsIndex, 'curriculumId')?.touched &&
+                                            formArrayControlEducation(educationDetailsIndex, 'curriculumId')?.errors }">
                                         </p-dropdown>
                                         <div class="flex">
                                             <div class="align-left w-60" style="width:70%">
                                                 <span
-                                                    *ngIf=" formArrayControlEducation(educaitonDetailsIndex, 'curriculumId').touched && formArrayControlEducation(educaitonDetailsIndex, 'curriculumId').invalid">
+                                                    *ngIf=" formArrayControlEducation(educationDetailsIndex, 'curriculumId').touched && formArrayControlEducation(educationDetailsIndex, 'curriculumId').invalid">
                                                     <div class="ng-invalid ng-touched p-error"
-                                                        *ngIf=" formArrayControlEducation(educaitonDetailsIndex, 'curriculumId').errors?.['required']">
+                                                        *ngIf=" formArrayControlEducation(educationDetailsIndex, 'curriculumId').errors?.['required']">
                                                         Please Select Curriculum.</div>
                                                 </span>
                                             </div>
@@ -305,17 +305,17 @@
                                     </td>
                                     <td class="vertical-align-top">
                                         <p-dropdown id="stream_dropdown" appendTo="body" placeholder="Select Stream*"
-                                            formControlName="streamId" [options]="stream" optionLabel="name"
-                                            optionValue="lookupDetailId"
-                                            (click)="validateRowforEducationDetails(educaitonDetailsIndex)" [ngClass]="{'is-invalid ng-dirty': formArrayControlEducation(educaitonDetailsIndex, 'streamId')?.touched &&
-                                            formArrayControlEducation(educaitonDetailsIndex, 'streamId')?.errors }">
+                                            formControlName="streamId" [options]="stream[educationDetailsIndex]"
+                                            optionLabel="name" optionValue="lookupDetailId"
+                                            (click)="validateRowforEducationDetails(educationDetailsIndex)" [ngClass]="{'is-invalid ng-dirty': formArrayControlEducation(educationDetailsIndex, 'streamId')?.touched &&
+                                            formArrayControlEducation(educationDetailsIndex, 'streamId')?.errors }">
                                         </p-dropdown>
                                         <div class="flex">
                                             <div class="align-left w-60" style="width:70%">
                                                 <span
-                                                    *ngIf=" formArrayControlEducation(educaitonDetailsIndex, 'streamId').touched && formArrayControlEducation(educaitonDetailsIndex, 'streamId').invalid">
+                                                    *ngIf=" formArrayControlEducation(educationDetailsIndex, 'streamId').touched && formArrayControlEducation(educationDetailsIndex, 'streamId').invalid">
                                                     <div class="ng-invalid ng-touched p-error"
-                                                        *ngIf=" formArrayControlEducation(educaitonDetailsIndex, 'streamId').errors?.['required']">
+                                                        *ngIf=" formArrayControlEducation(educationDetailsIndex, 'streamId').errors?.['required']">
                                                         Please Select Curriculum First.</div>
                                                 </span>
                                             </div>
@@ -325,21 +325,21 @@
                                         <input type="text" id="institution_Name" pInputText
                                             formControlName="institutionName" placeholder="Enter Institute Name"
                                             #institutename [maxLength]="50" (keydown)="restrictSpaces($event)"
-                                            (click)="validateRowforEducationDetails(educaitonDetailsIndex)" />
+                                            (click)="validateRowforEducationDetails(educationDetailsIndex)" />
                                     </td>
                                     <td class="vertical-align-top">
                                         <input type="text" id="authority_Name" pInputText
                                             placeholder="Enter Authority Name*" formControlName="authorityName"
                                             [maxLength]="50" #authorityname (keydown)="restrictSpaces($event)"
-                                            (click)="validateRowforEducationDetails(educaitonDetailsIndex)"
-                                            [ngClass]="{'is-invalid ng-dirty': formArrayControlEducation(educaitonDetailsIndex, 'authorityName')?.touched &&
-                                            formArrayControlEducation(educaitonDetailsIndex, 'authorityName')?.errors }" />
+                                            (click)="validateRowforEducationDetails(educationDetailsIndex)"
+                                            [ngClass]="{'is-invalid ng-dirty': formArrayControlEducation(educationDetailsIndex, 'authorityName')?.touched &&
+                                            formArrayControlEducation(educationDetailsIndex, 'authorityName')?.errors }" />
                                         <div class="flex">
                                             <div class="align-left w-60" style="width:70%">
                                                 <span
-                                                    *ngIf=" formArrayControlEducation(educaitonDetailsIndex, 'authorityName').touched && formArrayControlEducation(educaitonDetailsIndex, 'authorityName').invalid">
+                                                    *ngIf=" formArrayControlEducation(educationDetailsIndex, 'authorityName').touched && formArrayControlEducation(educationDetailsIndex, 'authorityName').invalid">
                                                     <div class="ng-invalid ng-touched p-error"
-                                                        *ngIf=" formArrayControlEducation(educaitonDetailsIndex, 'authorityName').errors?.['required']">
+                                                        *ngIf=" formArrayControlEducation(educationDetailsIndex, 'authorityName').errors?.['required']">
                                                         Please Enter Authority Name.</div>
                                                 </span>
                                             </div>
@@ -353,16 +353,16 @@
                                             [showIcon]="true" mask="99/99/9999" placeholder="Select Year Of Completion*"
                                             formControlName="yearOfCompletion" [style]="{'width':'100%'}"
                                             [inputStyle]="{'width':'100%'}"
-                                            (click)="validateRowforEducationDetails(educaitonDetailsIndex)"
-                                            [ngClass]="{'is-invalid ng-dirty': formArrayControlEducation(educaitonDetailsIndex, 'yearOfCompletion')?.touched &&
-                                            formArrayControlEducation(educaitonDetailsIndex, 'yearOfCompletion')?.errors }">
+                                            (click)="validateRowforEducationDetails(educationDetailsIndex)"
+                                            [ngClass]="{'is-invalid ng-dirty': formArrayControlEducation(educationDetailsIndex, 'yearOfCompletion')?.touched &&
+                                            formArrayControlEducation(educationDetailsIndex, 'yearOfCompletion')?.errors }">
                                         </p-calendar>
                                         <div class="flex">
                                             <div class="align-left w-60" style="width:70%">
                                                 <span
-                                                    *ngIf="formArrayControlEducation(educaitonDetailsIndex, 'yearOfCompletion').touched &&formArrayControlEducation(educaitonDetailsIndex, 'yearOfCompletion').invalid">
+                                                    *ngIf="formArrayControlEducation(educationDetailsIndex, 'yearOfCompletion').touched &&formArrayControlEducation(educationDetailsIndex, 'yearOfCompletion').invalid">
                                                     <div class="ng-invalid ng-touched p-error"
-                                                        *ngIf="formArrayControlEducation(educaitonDetailsIndex, 'yearOfCompletion').errors?.['required']">
+                                                        *ngIf="formArrayControlEducation(educationDetailsIndex, 'yearOfCompletion').errors?.['required']">
                                                         Please Select Year Of Completion.</div>
                                                 </span>
                                             </div>
@@ -372,16 +372,16 @@
                                         <p-dropdown id="grading_Method" appendTo="body"
                                             placeholder="Select Grading Method*" formControlName="gradingMethodId"
                                             [options]="gradingMethod" optionLabel="name" optionValue="lookupDetailId"
-                                            (click)="validateRowforEducationDetails(educaitonDetailsIndex)"
-                                            [ngClass]="{'is-invalid ng-dirty': formArrayControlEducation(educaitonDetailsIndex, 'gradingMethodId')?.touched &&
-                                            formArrayControlEducation(educaitonDetailsIndex, 'gradingMethodId')?.errors }">
+                                            (click)="validateRowforEducationDetails(educationDetailsIndex)"
+                                            [ngClass]="{'is-invalid ng-dirty': formArrayControlEducation(educationDetailsIndex, 'gradingMethodId')?.touched &&
+                                            formArrayControlEducation(educationDetailsIndex, 'gradingMethodId')?.errors }">
                                         </p-dropdown>
                                         <div class="flex">
                                             <div class="align-left w-60" style="width:70%">
                                                 <span
-                                                    *ngIf="formArrayControlEducation(educaitonDetailsIndex, 'gradingMethodId').touched &&formArrayControlEducation(educaitonDetailsIndex, 'gradingMethodId').invalid">
+                                                    *ngIf="formArrayControlEducation(educationDetailsIndex, 'gradingMethodId').touched &&formArrayControlEducation(educationDetailsIndex, 'gradingMethodId').invalid">
                                                     <div class="ng-invalid ng-touched p-error"
-                                                        *ngIf="formArrayControlEducation(educaitonDetailsIndex, 'gradingMethodId').errors?.['required']">
+                                                        *ngIf="formArrayControlEducation(educationDetailsIndex, 'gradingMethodId').errors?.['required']">
                                                         Please Select Grading Method.</div>
                                                 </span>
                                             </div>
@@ -391,15 +391,15 @@
                                         <input type="text" id="grading_Value" pInputText
                                             placeholder="Enter Grading Value*" formControlName="gradingValue"
                                             [maxLength]="5" #gradingValue (keydown)="restrictSpaces($event)" numericOnly
-                                            (click)="validateRowforEducationDetails(educaitonDetailsIndex)"
-                                            [ngClass]="{'is-invalid ng-dirty': formArrayControlEducation(educaitonDetailsIndex, 'gradingValue')?.touched &&
-                                            formArrayControlEducation(educaitonDetailsIndex, 'gradingValue')?.errors }">
+                                            (click)="validateRowforEducationDetails(educationDetailsIndex)"
+                                            [ngClass]="{'is-invalid ng-dirty': formArrayControlEducation(educationDetailsIndex, 'gradingValue')?.touched &&
+                                            formArrayControlEducation(educationDetailsIndex, 'gradingValue')?.errors }">
                                         <div class="flex">
                                             <div class="align-left w-60" style="width:70%">
                                                 <span
-                                                    *ngIf=" formArrayControlEducation(educaitonDetailsIndex, 'gradingValue').touched && formArrayControlEducation(educaitonDetailsIndex, 'gradingValue').invalid">
+                                                    *ngIf=" formArrayControlEducation(educationDetailsIndex, 'gradingValue').touched && formArrayControlEducation(educationDetailsIndex, 'gradingValue').invalid">
                                                     <div class="ng-invalid ng-touched p-error"
-                                                        *ngIf=" formArrayControlEducation(educaitonDetailsIndex, 'gradingValue').errors?.['required']">
+                                                        *ngIf=" formArrayControlEducation(educationDetailsIndex, 'gradingValue').errors?.['required']">
                                                         Please Select Grading Value.</div>
                                                 </span>
                                             </div>
@@ -412,16 +412,17 @@
                                     <td class="vertical-align-top">
                                         <p-dropdown id="edu_Country" appendTo="body" placeholder="Select Country*"
                                             formControlName="countryId" [options]="countries" optionLabel="name"
-                                            optionValue="lookupDetailId" (onChange)="getStatesByCountryId($event.value)"
-                                            (click)="validateRowforEducationDetails(educaitonDetailsIndex)" [ngClass]="{'is-invalid ng-dirty': formArrayControlEducation(educaitonDetailsIndex, 'countryId')?.touched &&
-                                            formArrayControlEducation(educaitonDetailsIndex, 'countryId')?.errors }">
+                                            optionValue="lookupDetailId"
+                                            (onChange)="onchangeStateBasedOnCountry($event.value,educationDetailsIndex)"
+                                            (click)="validateRowforEducationDetails(educationDetailsIndex)" [ngClass]="{'is-invalid ng-dirty': formArrayControlEducation(educationDetailsIndex, 'countryId')?.touched &&
+                                            formArrayControlEducation(educationDetailsIndex, 'countryId')?.errors }">
                                         </p-dropdown>
                                         <div class="flex">
                                             <div class="align-left w-60" style="width:70%">
                                                 <span
-                                                    *ngIf="formArrayControlEducation(educaitonDetailsIndex, 'countryId').touched &&formArrayControlEducation(educaitonDetailsIndex, 'countryId').invalid">
+                                                    *ngIf="formArrayControlEducation(educationDetailsIndex, 'countryId').touched &&formArrayControlEducation(educationDetailsIndex, 'countryId').invalid">
                                                     <div class="ng-invalid ng-touched p-error"
-                                                        *ngIf="formArrayControlEducation(educaitonDetailsIndex, 'countryId').errors?.['required']">
+                                                        *ngIf="formArrayControlEducation(educationDetailsIndex, 'countryId').errors?.['required']">
                                                         Please Select Country.</div>
                                                 </span>
                                             </div>
@@ -429,17 +430,18 @@
                                     </td>
                                     <td class="vertical-align-top">
                                         <p-dropdown id="edu_State" appendTo="body" formControlName="stateId"
-                                            placeholder="Select State*" [options]="states" optionLabel="name"
+                                            placeholder="Select State*"
+                                            [options]="statesbasedOnCountryId[educationDetailsIndex]" optionLabel="name"
                                             optionValue="lookupDetailId"
-                                            (click)="validateRowforEducationDetails(educaitonDetailsIndex)" [ngClass]="{'is-invalid ng-dirty': formArrayControlEducation(educaitonDetailsIndex, 'stateId')?.touched &&
-                                            formArrayControlEducation(educaitonDetailsIndex, 'stateId')?.errors }">
+                                            (click)="validateRowforEducationDetails(educationDetailsIndex)" [ngClass]="{'is-invalid ng-dirty': formArrayControlEducation(educationDetailsIndex, 'stateId')?.touched &&
+                                            formArrayControlEducation(educationDetailsIndex, 'stateId')?.errors }">
                                         </p-dropdown>
                                         <div class="flex">
                                             <div class="align-left w-60" style="width:70%">
                                                 <span
-                                                    *ngIf=" formArrayControlEducation(educaitonDetailsIndex, 'stateId').touched && formArrayControlEducation(educaitonDetailsIndex, 'stateId').invalid">
+                                                    *ngIf=" formArrayControlEducation(educationDetailsIndex, 'stateId').touched && formArrayControlEducation(educationDetailsIndex, 'stateId').invalid">
                                                     <div class="ng-invalid ng-touched p-error"
-                                                        *ngIf=" formArrayControlEducation(educaitonDetailsIndex, 'stateId').errors?.['required']">
+                                                        *ngIf=" formArrayControlEducation(educationDetailsIndex, 'stateId').errors?.['required']">
                                                         Please Select Country Frist.</div>
                                                 </span>
                                             </div>
@@ -448,10 +450,10 @@
                                     <td class="text-center"
                                         *ngIf="fbApplicant.controls['applicantEducationDetails'].value.length > 0">
                                         <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer"
-                                            *ngIf="!this.faApplicantEducationDetails().controls[educaitonDetailsIndex].get('educationId')?.value"
-                                            (click)="  faApplicantEducationDetails().removeAt(educaitonDetailsIndex)"></i>
+                                            *ngIf="!this.faApplicantEducationDetails().controls[educationDetailsIndex].get('educationId')?.value"
+                                            (click)="  faApplicantEducationDetails().removeAt(educationDetailsIndex)"></i>
                                         <i class="pi pi-fw pi-verified text-3xl"
-                                            *ngIf="this.faApplicantEducationDetails().controls[educaitonDetailsIndex].get('educationId')?.value"></i>
+                                            *ngIf="this.faApplicantEducationDetails().controls[educationDetailsIndex].get('educationId')?.value"></i>
                                     </td>
                                 </tr>
                             </ng-template>
@@ -721,7 +723,7 @@
                                         <td class="vertical-align-top">
                                             <p-dropdown id="exp_Country" appendTo="body" placeholder="Select Country*"
                                                 [options]="countries" optionLabel="name"
-                                                (onChange)="getStatesByCountryId($event.value)"
+                                                (onChange)="onchangeStateBasedOnCountry($event.value,experienceDetailsIndex)"
                                                 optionValue="lookupDetailId" formControlName="countryId"
                                                 (click)="validateRowforExperienceDetails(experienceDetailsIndex)"
                                                 [ngClass]="{'is-invalid ng-dirty': formArrayControlWorkExperience(experienceDetailsIndex, 'countryId')?.touched &&
@@ -740,8 +742,9 @@
                                         </td>
                                         <td class="vertical-align-top">
                                             <p-dropdown id="exp_State" appendTo="body" placeholder="Select State*"
-                                                formControlName="stateId" [options]="states" optionLabel="name"
-                                                optionValue="lookupDetailId"
+                                                formControlName="stateId"
+                                                [options]="statesbasedOnCountryId[experienceDetailsIndex]"
+                                                optionLabel="name" optionValue="lookupDetailId"
                                                 (click)="validateRowforExperienceDetails(experienceDetailsIndex)"
                                                 [ngClass]="{'is-invalid ng-dirty': formArrayControlWorkExperience(experienceDetailsIndex, 'stateId')?.touched &&
                                             formArrayControlWorkExperience(experienceDetailsIndex, 'stateId')?.errors }">
