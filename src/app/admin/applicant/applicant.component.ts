@@ -7,6 +7,7 @@ import { DataView } from 'primeng/dataview';
 import { ApplicantViewDto } from 'src/app/_models/recruitment';
 import { RecruitmentService } from 'src/app/_services/recruitment.service';
 import { Table } from 'primeng/table';
+import { JwtService } from 'src/app/_services/jwt.service';
 
 
 @Component({
@@ -25,29 +26,37 @@ export class ApplicantComponent {
   applicantdialogComponent = ApplicantDialogComponent;
   sortOrder: number = 0;
   sortField: string = '';
-  
+  checked: boolean = false;
+  permissions: any;
+
+
   headers: ITableHeader[] = [
     { field: 'name', header: 'name', label: 'Applicant Name' },
     { field: 'gender', header: 'gender', label: 'Gender' },
     { field: 'experienceStatus', header: 'experienceStatus', label: 'Work Experience' },
+    { field: 'skills', header: 'skills', label: 'Skills' },
     { field: 'emailId', header: 'emailId', label: 'Email' },
     { field: 'mobileNo', header: 'mobileNo', label: 'Phone No' },
-  ] 
+  ]
 
   constructor(private recruitmentService: RecruitmentService,
     public ref: DynamicDialogRef,
     private router: Router,
+    private jwtService: JwtService,
     private dialogService: DialogService) { }
 
   ngOnInit() {
     this.getApplicant();
+    this.permissions = this.jwtService.Permissions;
+
   }
 
   getApplicant() {
     this.recruitmentService.GetApplicantDetail().subscribe((resp) => {
-      this.applicants = resp as unknown as ApplicantViewDto[];      
+      this.applicants = resp as unknown as ApplicantViewDto[];
     })
   }
+
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
@@ -56,9 +65,15 @@ export class ApplicantComponent {
     table.clear();
     this.filter.nativeElement.value = '';
   }
-  
+
   onFilter(dv: DataView, event: Event) {
     dv.filter((event.target as HTMLInputElement).value);
+  }
+
+  searchBySkill() {
+    if (this.checked === true) {
+      this.globalFilterFields = ['skills'];
+    }
   }
 
   viewApplicantDtls(applicantId: number) {
@@ -78,7 +93,7 @@ export class ApplicantComponent {
       width: this.dialogRequest.width
     });
     this.ref.onClose.subscribe((res: any) => {
-      if (res){this.getApplicant()};
+      if (res) { this.getApplicant() };
       event.preventDefault(); // Prevent the default form submission
     });
   }

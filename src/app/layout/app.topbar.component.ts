@@ -11,6 +11,7 @@ import { LookupDialogComponent } from '../_dialogs/lookup.dialog/lookup.dialog.c
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EmployeeService } from '../_services/employee.service';
 import { EmployeeBasicDetailViewDto } from '../_models/employes';
+import { RecruitmentAttributesComponent } from '../admin/recruitment/recruitmentattributes.component';
 
 @Component({
     selector: 'app-topbar',
@@ -24,6 +25,7 @@ export class AppTopbarComponent {
     isUpdating: boolean;
     ActionTypes = Actions;
     lookupDialogComponent = LookupDialogComponent;
+    recruitmentAttributesComponent = RecruitmentAttributesComponent;
     dialogRequest: DialogRequest = new DialogRequest();
     employeeDtls = new EmployeeBasicDetailViewDto();
     EmployeeId: number;
@@ -86,6 +88,24 @@ export class AppTopbarComponent {
         else {
             this.loginService.revokeToken(ALERT_CODES["HRMS002"]);
         }
+    }
+
+    openComponentDialogforRecruitmentAttributes(content: any,
+        dialogData, action: Actions = this.ActionTypes.add) {
+        if (action == Actions.save && content === this.recruitmentAttributesComponent) {
+            this.dialogRequest.dialogData = dialogData;
+            this.dialogRequest.header = "Recruitment Attributes";
+            this.dialogRequest.width = "70%";
+        }
+        this.ref = this.dialogService.open(content, {
+            data: this.dialogRequest.dialogData,
+            header: this.dialogRequest.header,
+            width: this.dialogRequest.width
+        });
+        // this.ref.onClose.subscribe((res: any) => {
+        //   if (res) this.getLookUp(true);
+        //   event.preventDefault(); // Prevent the default form submission
+        // });
     }
 
     openComponentDialog(content: any,
