@@ -237,7 +237,7 @@ export class ApplicantDialogComponent {
 
   generateRowForEducationDetails(educationDetails: ApplicantEducationDetailDto = new ApplicantEducationDetailDto()): FormGroup {
     return this.formbuilder.group({
-      applicantEducationId: [educationDetails.applicantEducationDetailId],
+      applicantEducationDetailId: [educationDetails.applicantEducationDetailId],
       applicantId: [educationDetails.applicantId],
       curriculumId: new FormControl(educationDetails.curriculumId, [Validators.required]),
       streamId: [educationDetails.streamId, [Validators.required]],
