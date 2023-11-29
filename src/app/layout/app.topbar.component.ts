@@ -12,6 +12,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EmployeeService } from '../_services/employee.service';
 import { EmployeeBasicDetailViewDto } from '../_models/employes';
 import { RecruitmentAttributesComponent } from '../admin/recruitment/recruitmentattributes.component';
+import { RecruitmentattributeDialogComponent } from '../_dialogs/recruitmentattribute.dialog/recruitmentattribute.dialog.component';
 
 @Component({
     selector: 'app-topbar',
@@ -25,7 +26,7 @@ export class AppTopbarComponent {
     isUpdating: boolean;
     ActionTypes = Actions;
     lookupDialogComponent = LookupDialogComponent;
-    recruitmentAttributesComponent = RecruitmentAttributesComponent;
+    recruitmentattributesDialogComponent = RecruitmentattributeDialogComponent;
     dialogRequest: DialogRequest = new DialogRequest();
     employeeDtls = new EmployeeBasicDetailViewDto();
     EmployeeId: number;
@@ -92,7 +93,7 @@ export class AppTopbarComponent {
 
     openComponentDialogforRecruitmentAttributes(content: any,
         dialogData, action: Actions = this.ActionTypes.add) {
-        if (action == Actions.save && content === this.recruitmentAttributesComponent) {
+        if (action == Actions.save && content === this.recruitmentattributesDialogComponent) {
             this.dialogRequest.dialogData = dialogData;
             this.dialogRequest.header = "Recruitment Attributes";
             this.dialogRequest.width = "70%";

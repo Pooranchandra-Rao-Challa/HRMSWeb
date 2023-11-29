@@ -1,0 +1,29 @@
+<div class="p-fluid p-formgrid grid ">
+    <div class="field col-12 md:col-4">
+        <label>Assesment Title:</label>
+        <input type="text" pInputText formControlName="name" placeholder="Enter Assesment Title" />
+    </div>
+    <div class="field col-12 md:col-4">
+        <label>Min Expertise:</label>
+        <p-rating [cancel]="false"></p-rating>
+    </div>
+    <div class="field col-12 md:col-4">
+        <label>Max Expertise:</label>
+        <p-rating [cancel]="false"> </p-rating>
+    </div>
+    <div class="field col-12 md:col-4">
+        <label>Attribute Types:</label>
+        <p-dropdown appendTo="body" [autoDisplayFirst]="false" placeholder="Select Attribute Types">
+        </p-dropdown>
+    </div>
+    <div class="field col-12 md:col-4">
+        <label>Recruitment Stages:</label>
+        <p-multiSelect placeholder="Select Recruitment Stages" inputId="multiselect" [filter]="false" filterBy="name"
+            appendTo="body">
+        </p-multiSelect>
+    </div>
+    <div class="field col-12 md:col-4">
+        <label>Is Fresher:</label><br />
+        <p-inputSwitch></p-inputSwitch>
+    </div>
+</div>

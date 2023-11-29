@@ -1,6 +1,9 @@
 <div class="grid">
   <div class="col-12 lg:col-3 md:col-4 sm:col-5">
     <div class="card p-5 orange-200 text-left applicant-p-block">
+      <button pButton pRipple icon="pi pi-pencil"
+        (click)="openComponentDialog(applicantdialogComponent, viewApplicantDetails, ActionTypes.edit)"
+        class="p-element p-ripple p-button-text p-button-primary p-component"></button>
       <div class="text-center">
         <img src="./assets/layout/images/men-emp.jpg" class="shadow-2 my-1 mx-0 applicant_profile_pic " /><br />
         <h4 class="m-5 mt-0 text-primary">{{ viewApplicantDetails?.name}}</h4>
@@ -54,7 +57,7 @@
           <div style="cursor: pointer;" class="flex justify-content-between align-items-center w-100"
             (click)="openRowEditDialog(viewApplicantDialogDetails, skill, ActionTypes.edit,'technicalSkills')">
             <span class="text-700 mr-2 ">{{ skill.skill }}</span>
-            <span class="text-700 mr-2 font-bold" >
+            <span class="text-700 mr-2 font-bold">
               <p-rating [(ngModel)]="skill.expertise" [readonly]="true" [cancel]="false"></p-rating>
             </span>
           </div>
@@ -71,7 +74,7 @@
         <button pButton pRipple id="addButton" icon="pi pi-plus" class="p-button p-button-text p-1 m-1"
           (click)="openRowEditDialog(viewApplicantDialogDetails, null, ActionTypes.add,'languageSkills')"></button>
       </div>
-   
+
       <div class="flex flex-column">
         <span class="inline-flex justify-content-between mb-3">
           <span class="text-700 mr-2 font-bold">Language</span>
@@ -82,14 +85,14 @@
         <span class="inline-flex justify-content-between mb-3"
           *ngFor="let language of viewApplicantDetails?.expandedLanguageSkills">
           <div style="cursor: pointer;" class="flex justify-content-between align-items-center w-100"
-          (click)="openRowEditDialog(viewApplicantDialogDetails, language, ActionTypes.edit,'languageSkills')">
-          <span class="text-700 mr-2 ">{{ language.language }}</span>
-          <i class="pi pi-times-circle text-primary text-700 mr-2"
-            [ngClass]="{'pi-check-circle': language.canRead, 'pi-times-circle': !language.canRead}"></i>
-          <i class="pi pi-times-circle text-danger  text-700 mr-2"
-            [ngClass]="{'pi-check-circle': language.canWrite, 'pi-times-circle': !language.canWrite}"></i>
-          <i class="pi pi-times-circle text-primary text-700 mr-2"
-            [ngClass]="{'pi-check-circle': language.canSpeak, 'pi-times-circle': !language.canSpeak}"></i>
+            (click)="openRowEditDialog(viewApplicantDialogDetails, language, ActionTypes.edit,'languageSkills')">
+            <span class="text-700 mr-2 ">{{ language.language }}</span>
+            <i class="pi pi-times-circle text-primary text-700 mr-2"
+              [ngClass]="{'pi-check-circle': language.canRead, 'pi-times-circle': !language.canRead}"></i>
+            <i class="pi pi-times-circle text-danger  text-700 mr-2"
+              [ngClass]="{'pi-check-circle': language.canWrite, 'pi-times-circle': !language.canWrite}"></i>
+            <i class="pi pi-times-circle text-primary text-700 mr-2"
+              [ngClass]="{'pi-check-circle': language.canSpeak, 'pi-times-circle': !language.canSpeak}"></i>
           </div>
         </span>
       </div>
