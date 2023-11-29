@@ -22,6 +22,7 @@ import { RecruitmentdashboardComponent } from './recruitmentdashboard/recruitmen
         { path: 'jobopenings', data: { breadcrumb: 'Job Openings' }, component: JobOpeningsComponent },
         { path: 'lookups', data: { breadcrumb: 'lookups' }, component: LookupsComponent },
         { path: 'recruitmentDashboard', data: { breadcrumb: 'Recruitment' }, component: RecruitmentdashboardComponent },
+        { path: 'recruitmentDashboard/:jobId', data: { breadcrumb: 'Recruitment' }, component: RecruitmentdashboardComponent },
         { path: 'project', data: { breadcrumb: 'Project' }, component: ProjectComponent },
         { path: 'd3-org-chart', component: D3OrgChartComponent },
         { path: 'viewapplicant', data: { breadcrumb: 'View Applicant' }, component: ViewapplicantComponent },

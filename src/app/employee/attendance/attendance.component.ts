@@ -39,7 +39,7 @@ export class AttendanceComponent {
   fbleave!: FormGroup;
   checkPreviousAttendance = true;
   notUpdatedDates: any;
-  display: boolean = false;
+  confirmationDialog: boolean = false;
   LeaveTypes: LookupDetailsDto[] = [];
   leaves: EmployeeLeaveDto[] = [];
   NotUpdatedEmployees: EmployeesList[] = [];
@@ -109,7 +109,7 @@ export class AttendanceComponent {
     if (this.NotUpdatedEmployees.length=== 0)
       this.alertMessage.displayInfo(ALERT_CODES["EAAS006"]);
     else
-      this.display = true;
+      this.confirmationDialog = true;
   }
 
   getLeaves() {
@@ -123,7 +123,7 @@ export class AttendanceComponent {
       (response) => {
         if (response) {
           this.alertMessage.displayAlertMessage(ALERT_CODES["EAAS001"]);
-          this.display = false;
+          this.confirmationDialog = false;
           this.initAttendance();
           this.CheckPreviousDayAttendance();
         }
@@ -159,7 +159,7 @@ export class AttendanceComponent {
   }
 
   onReject() {
-    this.display = false;
+    this.confirmationDialog = false;
   }
 
   getNotUpdatedEmployeesList(date, checkPreviousDate) {

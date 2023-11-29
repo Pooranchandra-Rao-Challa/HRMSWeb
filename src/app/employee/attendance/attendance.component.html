@@ -200,7 +200,7 @@
         </tr>
     </ng-template>
 </p-table>
-<p-dialog header="Confirmation" [(visible)]="display">
+<p-dialog header="Confirmation" [(visible)]="confirmationDialog">
     <p>Do you want to modify the status of {{this.NotUpdatedEmployees.length}} records to Present on
         {{this.notUpdatedDates| date:'MMM dd YYYY'}}? </p>
     <button pButton type="button" class="btn btn-primary" label="Yes" (click)="addPresent()"
