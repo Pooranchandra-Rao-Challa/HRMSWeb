@@ -342,19 +342,19 @@ export class ApplicantDialogComponent {
   validateRowforEducationDetails(educaitonDetailsIndex: number) {
     const educationDetailsArray = this.faApplicantEducationDetails();
     const educationDetail = educationDetailsArray.controls[educaitonDetailsIndex] as FormGroup;
-  
+
     // List of mandatory controls in your row
     const mandatoryControls = ['curriculumId', 'streamId', 'authorityName', 'yearOfCompletion', 'gradingMethodId', 'gradingValue', 'countryId', 'stateId'];
-  
+
     // Mark controls as touched
     mandatoryControls.forEach((controlName: string) => {
       const control = educationDetail.get(controlName);
       control.markAsTouched(); // Mark the control as touched
     });
-  
+
     // Iterate over mandatory controls and check their validity
     mandatoryControls.forEach((controlName: string) => {
-      const control = educationDetail.get(controlName);  
+      const control = educationDetail.get(controlName);
       if (control.invalid) {
         // Display validation messages for the entire row
         return;
@@ -365,19 +365,19 @@ export class ApplicantDialogComponent {
   validateRowforCertificationDetails(certificationDetailsIndex: number) {
     const certificationDetailsArray = this.faApplicantCertificationDetails();
     const certificationDetail = certificationDetailsArray.controls[certificationDetailsIndex] as FormGroup;
-  
+
     // List of mandatory controls in your row
     const mandatoryControls = ['certificateId', 'yearOfCompletion', 'results'];
-  
+
     // Mark controls as touched
     mandatoryControls.forEach((controlName: string) => {
       const control = certificationDetail.get(controlName);
       control.markAsTouched(); // Mark the control as touched
     });
-  
+
     // Iterate over mandatory controls and check their validity
     mandatoryControls.forEach((controlName: string) => {
-      const control = certificationDetail.get(controlName);  
+      const control = certificationDetail.get(controlName);
       if (control.invalid) {
         // Display validation messages for the entire row
         return;
@@ -386,21 +386,21 @@ export class ApplicantDialogComponent {
   }
 
   validateRowforExperienceDetails(experienceDetailsIndex: number) {
-    const experienceDetailsArray =this.faApplicantExperienceDetails();
+    const experienceDetailsArray = this.faApplicantExperienceDetails();
     const experienceDetail = experienceDetailsArray.controls[experienceDetailsIndex] as FormGroup;
-  
+
     // List of mandatory controls in your row
-    const mandatoryControls = ['companyName', 'designationId', 'natureOfWork','dateOfJoining','dateOfReliving','countryId','stateId'];
-  
+    const mandatoryControls = ['companyName', 'designationId', 'natureOfWork', 'dateOfJoining', 'dateOfReliving', 'countryId', 'stateId'];
+
     // Mark controls as touched
     mandatoryControls.forEach((controlName: string) => {
       const control = experienceDetail.get(controlName);
       control.markAsTouched(); // Mark the control as touched
     });
-  
+
     // Iterate over mandatory controls and check their validity
     mandatoryControls.forEach((controlName: string) => {
-      const control = experienceDetail.get(controlName);  
+      const control = experienceDetail.get(controlName);
       if (control.invalid) {
         // Display validation messages for the entire row
         return;
@@ -411,19 +411,19 @@ export class ApplicantDialogComponent {
   validateRowforApplicantSkillDetails(applicantSkillsDetailsIndex: number) {
     const skillDetailsArray = this.faApplicantSkillsDetails();
     const skillDetail = skillDetailsArray.controls[applicantSkillsDetailsIndex] as FormGroup;
-  
+
     // List of mandatory controls in your row
     const mandatoryControls = ['skillId', 'expertise'];
-  
+
     // Mark controls as touched
     mandatoryControls.forEach((controlName: string) => {
       const control = skillDetail.get(controlName);
       control.markAsTouched(); // Mark the control as touched
     });
-  
+
     // Iterate over mandatory controls and check their validity
     mandatoryControls.forEach((controlName: string) => {
-      const control = skillDetail.get(controlName);  
+      const control = skillDetail.get(controlName);
       if (control.invalid) {
         // Display validation messages for the entire row
         return;
@@ -434,10 +434,10 @@ export class ApplicantDialogComponent {
   validateRowforApplicantLanguageSkillDetails(applicantLanguageSkillsDetailsIndex: number) {
     const languageSkillDetailsArray = this.faApplicantLanguageSkillsDetails()
     const languageSkillDetail = languageSkillDetailsArray.controls[applicantLanguageSkillsDetailsIndex] as FormGroup;
-  
+
     // List of mandatory controls in your row
     const mandatoryControls = ['skillId', 'expertise'];
-  
+
     // Mark controls as touched
     mandatoryControls.forEach((controlName: string) => {
       const control = languageSkillDetail.get(controlName);
@@ -445,7 +445,7 @@ export class ApplicantDialogComponent {
         control.markAsTouched(); // Mark the control as touched
       }
     });
-  
+
     // Iterate over mandatory controls and check their validity
     mandatoryControls.forEach((controlName: string) => {
       const control = languageSkillDetail.get(controlName);
@@ -455,7 +455,7 @@ export class ApplicantDialogComponent {
       }
     });
   }
-  
+
 
   saveApplicant(): Observable<HttpEvent<ApplicantDto[]>> {
     return this.recruitmentService.CreateApplicant(this.fbApplicant.value);

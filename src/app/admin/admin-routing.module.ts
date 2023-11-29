@@ -11,12 +11,15 @@ import { ApplicantComponent } from './applicant/applicant.component';
 import { ViewapplicantComponent } from './viewapplicant/viewapplicant.component';
 import { RecruitmentProcessComponent } from './recruitmentprocess/recruitmentprocess.component';
 import { RecruitmentdashboardComponent } from './recruitmentdashboard/recruitmentdashboard.component';
+import { RecruitmentAttributesComponent } from './recruitment/recruitmentattributes.component';
 
 @NgModule({
     imports: [RouterModule.forChild([
         { path: 'assets', data: { breadcrumb: 'Assets' }, component: AssetsComponent },
         { path: 'assetsallotment', data: { breadcrumb: 'Asset Allotments' }, component: AssetsallotmentComponent },
+        { path: 'recruitmentDashboard', data: { breadcrumb: 'Recruitment' }, component: RecruitmentdashboardComponent },
         { path: 'applicant', data: { breadcrumb: 'Applicants' }, component: ApplicantComponent },
+        { path: 'recruitmentAttributes', data: { breadcrumb: 'Recruitment Attributes' }, component: RecruitmentAttributesComponent },
         { path: 'recruitmentprocess', data: { breadcrumb: 'Recruitment Process' }, component: RecruitmentProcessComponent },
         { path: 'holidayconfiguration', data: { breadcrumb: 'Holiday Configuration' }, component: HolidayconfigurationComponent },
         { path: 'jobopenings', data: { breadcrumb: 'Job Openings' }, component: JobOpeningsComponent },

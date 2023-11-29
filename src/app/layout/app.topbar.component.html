@@ -48,6 +48,15 @@
                             <span>Lookup</span>
                         </a>
                     </li>
+                    <li role="menuitem" class="m-0 mb-3">
+                        <a class="flex align-items-center hover:text-primary-500 transition-duration-200"
+                            pStyleClass="@grandparent" enterClass="ng-hidden" enterActiveClass="px-scalein"
+                            leaveToClass="ng-hidden" leaveActiveClass="px-fadeout"
+                            (click)="openComponentDialogforRecruitmentAttributes(recruitmentAttributesComponent, null, ActionTypes.save)">
+                            <i class="pi pi-external-link mr-2"></i>
+                            <span>Recruitment Attributes</span>
+                        </a>
+                    </li>
                     <li role="menuitem" class="m-0">
                         <a (click)="logOut()"
                             class="flex align-items-center hover:text-primary-500 transition-duration-200"
