@@ -1,6 +1,11 @@
 export class ApplicantViewDto {
     applicantId?: number;
     name?: string;
+    dob?: Date
+    technicalRound1At?: Date
+    technicalRound2At?: Date
+    technicalRound3At?: Date
+    hrRoundAt:Date
     gender?: string;
     emailId?: string;
     mobileNo?: number;
@@ -9,7 +14,11 @@ export class ApplicantViewDto {
     pendingDetails?: string;
     skills?: string;
 }
-
+export class JobOpeningsListDto {
+    initiatedAt?: Date
+    jobId?: number
+    jobTitle?: string
+}
 export class ApplicantDto {
     applicantId?: number;
     name?: string;

@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ConfirmationDialogService } from 'src/app/_alerts/confirmationdialog.service';
-import { LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
+import {  LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
 import { ConfirmationRequestForRecruitmentProcess } from 'src/app/_models/common';
+import { ApplicantViewDto, JobOpeningsListDto } from 'src/app/_models/recruitment';
 import { LookupService } from 'src/app/_services/lookup.service';
 import { RecruitmentService } from 'src/app/_services/recruitment.service';
 
@@ -15,11 +16,10 @@ import { RecruitmentService } from 'src/app/_services/recruitment.service';
 })
 export class RecruitmentProcessComponent {
   attributeTypes: LookupDetailsDto[] = [];
+  JobOpeningsList: JobOpeningsListDto[]=[];
+  applicantsList: ApplicantViewDto[]=[];
   fbRecruitment!: FormGroup;
-  processedJobOpeningsList: any;
   jobOpeningId: number;
-  applicantsList: any;
-  checked: boolean = false;
   HRdialog: boolean = false;
   confirmationRequest: ConfirmationRequestForRecruitmentProcess = new ConfirmationRequestForRecruitmentProcess();
 
@@ -31,7 +31,6 @@ export class RecruitmentProcessComponent {
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.jobOpeningId = params['jobId'];
-      console.log(this.jobOpeningId);
     });
     this.initProcessedJobOpening();
     this.initApplicants(this.jobOpeningId);
@@ -52,17 +51,20 @@ export class RecruitmentProcessComponent {
       userId: new FormControl()
     })
   }
+
   get FormControls() {
     return this.fbRecruitment.controls;
   }
+
   initProcessedJobOpening() {
     this.RecruitmentService.getJobOpeningDropdown().subscribe(resp => {
-      this.processedJobOpeningsList = resp;
+      this.JobOpeningsList = resp as unknown as JobOpeningsListDto[];
     });
   }
+
   initApplicants(jobOpeningId:number) {
     this.RecruitmentService.getApplicantsForInitialRound(jobOpeningId).subscribe(resp => {
-      this.applicantsList = resp;
+      this.applicantsList = resp as unknown as ApplicantViewDto[];
     })
   }
 
@@ -73,9 +75,11 @@ export class RecruitmentProcessComponent {
       }
     });
   }
+
   showDialogToMoveHR() {
     this.HRdialog = true;
   }
+  
   getAttributeTypes() {
     this.lookupService.AttributeTypes().subscribe((resp) => {
       this.attributeTypes = resp as unknown as LookupViewDto[];
