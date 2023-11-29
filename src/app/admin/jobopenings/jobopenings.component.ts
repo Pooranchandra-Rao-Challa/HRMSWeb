@@ -8,6 +8,7 @@ import { Actions, DialogRequest } from 'src/app/_models/common';
 import { AdminService } from 'src/app/_services/admin.service';
 import { JwtService } from 'src/app/_services/jwt.service';
 import { DataView } from 'primeng/dataview';
+import { RecruitmentService } from 'src/app/_services/recruitment.service';
 
 @Component({
   selector: 'app-jobopenings',
@@ -34,6 +35,7 @@ export class JobOpeningsComponent {
     private dialogService: DialogService,
     private jwtService: JwtService,
     private router: Router,
+    private RecruitmentService: RecruitmentService
   ) { }
 
   ngOnInit() {
@@ -44,9 +46,9 @@ export class JobOpeningsComponent {
 
   getJobDetails() {
     this.adminService.GetJobDetails().subscribe((resp) => {
-      this.jobOpening = resp as unknown as JobOpeningsDetailsViewDto[];   
+      this.jobOpening = resp as unknown as JobOpeningsDetailsViewDto[];
       console.log(this.jobOpening);
-         
+
     })
   }
 
@@ -58,10 +60,11 @@ export class JobOpeningsComponent {
     this.selectedJob = job;
     this.viewJobDesign = true;
   }
-  processJobOpening(jobOpeningDetails) { 
-    this.adminService.processJobOpeningID(jobOpeningDetails.id).subscribe(resp => {
+  processJobOpening(jobOpeningDetails) {
+    this.RecruitmentService.getApplicantsForInitialRound(jobOpeningDetails.id).subscribe(resp => {
       if (resp) {
-        this.router.navigate(['admin/recruitmentprocess']);
+        debugger
+        this.router.navigate(['admin/recruitmentprocess',jobOpeningDetails.id]);
       }
     })
   }

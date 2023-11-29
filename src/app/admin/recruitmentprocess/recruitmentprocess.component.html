@@ -1,10 +1,12 @@
 <!-- Toolbar -->
+<p-confirmDialog [style]="{width: '30%'}"></p-confirmDialog>
 <p-toolbar styleClass="p-mb-4">
     <ng-template pTemplate="left">
         <h4>Recruitment Process</h4>
     </ng-template>
     <ng-template pTemplate="center">
-        <p-dropdown [options]="this.processedJobOpening" placeholder="Select Processed JobOpening" optionLabel="designationName"></p-dropdown>
+        <p-dropdown [options]="this.processedJobOpeningsList" placeholder="Select Processed Jobs" optionValue="jobId" [(ngModel)]="this.jobOpeningId" (onChange)="getNewApplicantsList()"
+            optionLabel="jobTitle"></p-dropdown>
     </ng-template>
     <ng-template pTemplate="right">
         <p-checkbox name="isActive" [(ngModel)]="checked"></p-checkbox>
@@ -13,10 +15,10 @@
 </p-toolbar>
 <div class="card " id="main-card">
     <div class="grid">
-        <div class="col-12 md:col-4 lg:col-3 sm:col-6">
+        <div class="col-12 md:col-4 lg:col-3 sm:col-6" >
             <h5>Initial Qualification</h5>
             <p-progressBar [value]="50" class=""></p-progressBar>
-            <div>
+            <div *ngFor="let applicant of applicantsList">
                 <div class="card card-header surface-border orange-200 card-height border-1 m-0 mt-2 p-2  mb-0">
                     <b> Applicant Name</b>
                 </div>
@@ -41,19 +43,20 @@
                         </div>
                     </div>
                     <div class="grid">
+                        <div class="relative col-7 p-0 mb-3  employee_info">
+                            <span class="text-600 font-medium text-md">
+                                <i class="pi  text-500 text-primary text-1xl pb-1">Skills </i> :
+                                HTML, CSS, Java Script, Angular</span>
+                        </div>
                         <div class="grid m-0 ">
-                            <div class="relative col-9 p-0 mb-3  employee_info">
-                                <span class="text-600 font-medium text-md">
-                                    <i class="pi  text-500 text-primary text-1xl pb-1">Skills </i> :
-                                    HTML, CSS, Java Script, Angular</span>
-                            </div>
-                            <div class="mb-3 col-3 p-0">
-                                <button pbutton="" pripple="" type="button" label="Primary"
-                                    class="p-element p-ripple p-button-text p-button p-component view_profile_button"
-                                    ng-reflect-label="Primary">
-                                    <span class="p-button-label pi pi-chevron-right"></span>
-                                </button>
-                            </div>
+                            <button pbutton pripple type="button" label="Primary"
+                                class="p-element p-ripple p-button-text p-button p-component view_profile_button"
+                                ng-reflect-label="Primary">
+                                <span class="p-button-label pi pi-chevron-right"></span>
+                            </button>
+                            <button pButton pRipple type="submit" label="Move to Technical"
+                                (click)="showConfirmationDialog()" class="p-button-raised p-button-primary"></button>
+
                         </div>
                     </div>
                 </div>
@@ -61,7 +64,7 @@
         </div>
 
         <div class="col-12 md:col-4 lg:col-3 sm:col-6">
-            <h5>First Round</h5>
+            <h5>Technical Round</h5>
             <p-progressBar [value]="20" class=""></p-progressBar>
             <div>
                 <div class="card card-header surface-border orange-200 card-height border-1 m-0 mt-2 p-2  mb-0">
@@ -88,19 +91,20 @@
                         </div>
                     </div>
                     <div class="grid">
+                        <div class="relative col-7 p-0 mb-3  employee_info">
+                            <span class="text-600 font-medium text-md">
+                                <i class="pi  text-500 text-primary text-1xl pb-1">Skills </i> :
+                                HTML, CSS, Java Script, Angular</span>
+                        </div>
                         <div class="grid m-0 ">
-                            <div class="relative col-9 p-0 mb-3  employee_info">
-                                <span class="text-600 font-medium text-md">
-                                    <i class="pi  text-500 text-primary text-1xl pb-1">Skills </i> :
-                                    HTML, CSS, Java Script, Angular</span>
-                            </div>
-                            <div class="mb-3 col-3 p-0">
-                                <button pbutton="" pripple="" type="button" label="Primary"
-                                    class="p-element p-ripple p-button-text p-button p-component view_profile_button"
-                                    ng-reflect-label="Primary">
-                                    <span class="p-button-label pi pi-chevron-right"></span>
-                                </button>
-                            </div>
+                            <button pbutton pripple type="button" label="Primary"
+                                class="p-element p-ripple p-button-text p-button p-component view_profile_button"
+                                ng-reflect-label="Primary">
+                                <span class="p-button-label pi pi-chevron-right"></span>
+                            </button>
+                            <button pButton pRipple type="submit" label="Move to HR" (click)="showDialogToMoveHR()"
+                                class="p-button-raised p-button-primary"></button>
+
                         </div>
                     </div>
                 </div>
@@ -151,7 +155,7 @@
 
 
         <div class="col-12 md:col-4 lg:col-3 sm:col-6">
-            <h5>Second Round </h5>
+            <h5>HR Round </h5>
             <p-progressBar [value]="70" class=""></p-progressBar>
             <div>
                 <div class="card card-header surface-border orange-200 card-height border-1 m-0 mt-2 p-2  mb-0">
@@ -330,3 +334,47 @@
         </div>
     </div>
 </div>
+
+<p-dialog header="Technical Interview Result " [(visible)]="HRdialog" [modal]="true" showEffect="fade"
+    [breakpoints]="{'960px': '70%', '640px': '80%'}">
+    <div class="flex flex-column align-items-center justify-content-center">
+        <form [formGroup]="fbRecruitment">
+            <div class="p-fluid p-formgrid">
+                <div style="margin-bottom: 15px;">
+                    <label class="required">Recruitment Attributes:</label>&nbsp;
+                    &nbsp;
+                    <p-dropdown id="projectName" appendTo="body" class="w-100" [options]="attributeTypes"
+                        optionLabel="name" placeholder="Select Attribute" formControlName="recruitmentAttributeID"
+                        optionValue="lookupDetailId" [style]="{'width':'100%'}"
+                        [ngClass]="{ 'is-invalid ng-dirty': FormControls['recruitmentAttributeID'].touched && FormControls['recruitmentAttributeID'].errors}">
+                    </p-dropdown>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label class="required">Expertise:</label>&nbsp;
+                    <p-rating formControlName="expertise" [cancel]="false"></p-rating>
+
+                    <div class="flex">
+                        <div class="align-left w-60" style="width:70%">
+                            <span *ngIf="FormControls['expertise'].touched && FormControls['expertise'].invalid">
+                                <div class="ng-invalid ng-touched p-error"
+                                    *ngIf="FormControls['expertise'].errors?.['required']">
+                                    Please Select Expertise.</div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+        </form>
+    </div>
+    <ng-template pTemplate="footer">
+        <div class="flex justify-content-center">
+            <button pButton pRipple type="submit" class="p-button-raised p-button-primary" id="Attendance_saveLeave"
+                [disabled]="!this.fbRecruitment.valid" label="Submit"></button>
+        </div>
+    </ng-template>
+</p-dialog>
