@@ -89,21 +89,23 @@
                     <div class="col-12 md:col-4 lg:col-3 sm:col-6 p-0 m-0">
                         <div class="card m-2 border-1 surface-border card-height ">
                             <div class=" mb-0 grid">
-                                <div class="col-12 md:col-6 text-center">
+                                <div class="col-12 md:col-6 m-0 p-0 text-center">
                                     <img src="./assets/layout/images/men-emp.jpg"
                                         class="shadow-2 my-1 mx-0 applicant_profile_pic zoomable-img" /><br />
-                                    <span class="text-xl font-bold">
-                                        <i class="pi pi-users text-600 text-primary text-1xl  pb-2"></i> :
-                                        {{applicant.name}}
-                                    </span><br />
-                                    <span class="text-600 font-medium text-md">
-                                        <i class="icon-id text-800 text-primary text-2xl pb-1"></i> :
-                                        {{applicant.experienceStatus}}
-                                    </span><br />
-                                    <span class="text-600 font-medium text-md">
-                                        <i class="pi pi-users text-600 text-primary text-1xl  pb-2"></i> :
-                                        {{applicant.gender}}
-                                    </span>
+                                    <div class="text-left ml-2">
+                                        <span class="text-xl font-bold">
+                                            <i class="pi pi-users text-600 text-primary text-1xl  pb-2"></i> :
+                                            {{applicant.name}}
+                                        </span><br />
+                                        <span class="text-600 font-medium text-md">
+                                            <i class="icon-id text-800 text-primary text-2xl pb-1"></i> :
+                                            {{applicant.experienceStatus}}
+                                        </span><br/>
+                                        <span class="text-600 font-medium text-md">
+                                            <i class="pi pi-users text-600 text-primary text-1xl  pb-2"></i> :
+                                            {{applicant.gender}}
+                                        </span>
+                                    </div>                                   
                                 </div>
                                 <div class="col-12 md:col-6 text-center">
                                     <p-knob [(ngModel)]="value" [strokeWidth]="10" [size]="60"></p-knob>
