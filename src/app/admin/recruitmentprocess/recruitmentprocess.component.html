@@ -59,15 +59,12 @@
                                     <span class="p-button-label pi pi-chevron-right"></span>
                                 </button>
                                 <button pButton pRipple type="submit" label="Move to Technical"
-                                    (click)="showConfirmationDialog()"
+                                    (click)="showConfirmationDialog(applicant)"
                                     class="p-button-raised p-button-primary"></button>
-
                             </div>
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
 
@@ -174,16 +171,11 @@
                     </div>
                 </div>
             </div>
-           
-          
-
         </div>
-
         <div class="col-12 md:col-4 lg:col-3 sm:col-6">
             <h5>Contract Proposal </h5>
             <p-progressBar [value]="30" class=""></p-progressBar>
-            <div>
-                
+            <div> 
                 <!-- <div class="card mt-0 mb-2  border-1 pb-2 surface-border ">
                     <div class=" mb-3 grid">
                         <div class="col-12 lg:col-8 md:col-12 p-1 px-2 employee_info">
@@ -244,7 +236,6 @@
                 <div style="margin-bottom: 15px;">
                     <label class="required">Expertise:</label>&nbsp;
                     <p-rating formControlName="expertise" [cancel]="false"></p-rating>
-
                     <div class="flex">
                         <div class="align-left w-60" style="width:70%">
                             <span *ngIf="FormControls['expertise'].touched && FormControls['expertise'].invalid">

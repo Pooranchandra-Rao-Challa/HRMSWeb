@@ -9,6 +9,7 @@ import { AdminService } from 'src/app/_services/admin.service';
 import { JwtService } from 'src/app/_services/jwt.service';
 import { DataView } from 'primeng/dataview';
 import { RecruitmentService } from 'src/app/_services/recruitment.service';
+import { JobOpeningsListDto } from 'src/app/_models/recruitment';
 
 @Component({
   selector: 'app-jobopenings',
@@ -19,7 +20,7 @@ import { RecruitmentService } from 'src/app/_services/recruitment.service';
 export class JobOpeningsComponent {
   @ViewChild('filter') filter!: ElementRef;
   @Input() isReadOnly: boolean = false
-
+  JobOpeningsList: JobOpeningsListDto[] = [];
   ActionTypes = Actions;
   dialogRequest: DialogRequest = new DialogRequest();
   jobOpeningDialogComponent = JobOpeningsDialogComponent;
@@ -27,6 +28,7 @@ export class JobOpeningsComponent {
   mediumDate: string = MEDIUM_DATE;
   permissions: any;
   viewJobDesign: boolean = false;
+  processButtonDisabled = false;
   selectedJob: JobOpeningsDetailsViewDto;
 
   constructor(
@@ -41,6 +43,7 @@ export class JobOpeningsComponent {
   ngOnInit() {
     this.permissions = this.jwtService.Permissions;
     this.getJobDetails();
+    this.initProcessedJobOpening();
   }
 
 
@@ -63,11 +66,28 @@ export class JobOpeningsComponent {
   processJobOpening(jobOpeningDetails) {
     this.RecruitmentService.getApplicantsForInitialRound(jobOpeningDetails.id).subscribe(resp => {
       if (resp) {
-        this.router.navigate(['admin/recruitmentprocess',jobOpeningDetails.id]);
+        this.router.navigate(['admin/recruitmentprocess', jobOpeningDetails.id]);
+        this.processButtonDisabled = true;
       }
     })
   }
-
+  initProcessedJobOpening() {
+    this.RecruitmentService.getJobOpeningDropdown().subscribe(resp => {
+      this.JobOpeningsList = resp as unknown as JobOpeningsListDto[];
+      console.log(resp);
+      
+    });
+  }
+  isButtonDisabled(jobId: number): boolean {
+    if (!this.JobOpeningsList) {
+      return false; // or handle this case accordingly
+    }
+  
+    const foundJob = this.JobOpeningsList.find(job => job.jobId === jobId);
+    return foundJob ? true : false;
+  }
+  
+  
   openComponentDialog(content: any,
     dialogData, action: Actions = this.ActionTypes.add) {
     if (action == Actions.save && content === this.jobOpeningDialogComponent) {

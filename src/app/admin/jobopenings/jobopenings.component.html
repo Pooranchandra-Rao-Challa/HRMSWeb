@@ -36,6 +36,7 @@
                    
                     <div class="col-12 text-right">
                         <button pButton pRipple 
+                        [ngClass]="{'disabled-button': isButtonDisabled(jobOpeningDetails.id)}"
                             class="p-button-primary p-button-outlined p-mr-2" id="ProcessJobOpening" (click)="processJobOpening(jobOpeningDetails)">
                             <i class="icon-process text-primary text-900  font-2xl mr-2"></i> Do Process
                         </button>

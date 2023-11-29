@@ -137,3 +137,4 @@ export const GET_APPLICANT_DETAILS="Recruitment/GetApplicants";
 export const CREATE_APPLICANT_DETAILS ="Recruitment/CreateApplicant";
 export const GET_JOB_OPENINGS_DROPDOWN="JobOpening/GetJobTitleWithInitiatedAt";
 export const Get_Applicants_with_Id="Recruitment/GetApplicantsForInitialQualification"
+export const UPDATE_APPLICANT="Recruitment/updateinitialqualification";
