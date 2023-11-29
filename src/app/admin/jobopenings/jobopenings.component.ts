@@ -63,7 +63,6 @@ export class JobOpeningsComponent {
   processJobOpening(jobOpeningDetails) {
     this.RecruitmentService.getApplicantsForInitialRound(jobOpeningDetails.id).subscribe(resp => {
       if (resp) {
-        debugger
         this.router.navigate(['admin/recruitmentprocess',jobOpeningDetails.id]);
       }
     })

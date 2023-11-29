@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ApiHttpService } from './api.http.service';
-import {CREATE_VIEW_APPLICANT_CERTIFICATION_DETAILS, CREATE_VIEW_APPLICANT_LANGUAGE_SKILL, CREATE_VIEW_APPLICANT_TECHNICAL_SKILL, Get_Applicants_with_Id, GET_APPLICANT_TECHNICAL_SKILL, GET_JOB_OPENINGS_DROPDOWN, UPDATE_VIEW_APPLICANT_CERTIFICATION_DETAILS, UPDATE_VIEW_APPLICANT_LANGUAGE_SKILL, UPDATE_VIEW_APPLICANT_TECHNICAL_SKILL } from './api.uri.service';
+import {CREATE_VIEW_APPLICANT_CERTIFICATION_DETAILS, CREATE_VIEW_APPLICANT_LANGUAGE_SKILL, CREATE_VIEW_APPLICANT_TECHNICAL_SKILL, Get_Applicants_with_Id, GET_APPLICANT_TECHNICAL_SKILL, GET_JOB_OPENINGS_DROPDOWN, UPDATE_APPLICANT_DETAILS, UPDATE_VIEW_APPLICANT_CERTIFICATION_DETAILS, UPDATE_VIEW_APPLICANT_LANGUAGE_SKILL, UPDATE_VIEW_APPLICANT_TECHNICAL_SKILL } from './api.uri.service';
 import { CREATE_APPLICANT_DETAILS, CREATE_VIEW_APPLICANT_EDUCATION_DETAILS, CREATE_VIEW_APPLICANT_EXPERIENCE_DETAILS, GET_APPLICANT_DETAILS, GET_VIEW_APPLICANT_DETAILS, UPDATE_VIEW_APPLICANT_EDUCATION_DETAILS, UPDATE_VIEW_APPLICANT_EXPERIENCE_DETAILS } from './api.uri.service';
-import { ApplicantCertificationDto, ApplicantDto, ApplicantEducationDetailsDto, ApplicantLanguageSkillDto, ApplicantSkillDto, ApplicantSkillViewDto, ApplicantViewDto, ApplicantWorkExperienceDto, ViewApplicantDto } from '../_models/recruitment';
+import { ApplicantCertificationDto, ApplicantDto, ApplicantEducationDetailsDto, ApplicantLanguageSkillDto, ApplicantSkillDto, ApplicantSkillViewDto, ApplicantViewDto, ApplicantWorkExperienceDto, JobOpeningsListDto, ViewApplicantDto } from '../_models/recruitment';
+
 
 @Injectable({
   providedIn: 'root'
@@ -13,13 +14,13 @@ export class RecruitmentService extends ApiHttpService {
     return this.getWithId<ViewApplicantDto[]>(GET_VIEW_APPLICANT_DETAILS, [applicantId])
   }
   public getApplicantsForInitialRound(id:number){
-    return this.getWithId(Get_Applicants_with_Id,id);
+    return this.getWithId<ApplicantViewDto[]>(Get_Applicants_with_Id,id);
   }
   public GetApplicantDetail() {
     return this.get<ApplicantViewDto[]>(GET_APPLICANT_DETAILS);
   }
   public getJobOpeningDropdown(){
-    return this.get(GET_JOB_OPENINGS_DROPDOWN);
+    return this.get<JobOpeningsListDto[]>(GET_JOB_OPENINGS_DROPDOWN);
   }
   public CreateApplicant(applicantDetails: ApplicantDto[]) {
     return this.post<ApplicantDto[]>(CREATE_APPLICANT_DETAILS, applicantDetails)
@@ -61,5 +62,8 @@ export class RecruitmentService extends ApiHttpService {
   }
   public UpdateApplicantTechnicalSkill(TechnicalSkill: ApplicantSkillDto[]) {
     return this.post<ApplicantSkillDto[]>(UPDATE_VIEW_APPLICANT_TECHNICAL_SKILL, TechnicalSkill)
+  }
+  public UpdateApplicant(applicantDetails: ViewApplicantDto[]) {
+    return this.post<ViewApplicantDto[]>( UPDATE_APPLICANT_DETAILS, applicantDetails)
   }
 }
