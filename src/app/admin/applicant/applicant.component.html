@@ -7,12 +7,15 @@
                 <ng-template pTemplate="header">
                     <div class="flex flex-column md:flex-row md:justify-content-between ">
                         <h4>Applicants</h4>
-
-                        <span class="p-input-icon-left" *ngIf="dv._layout !== 'list'">
-                            <i class="pi pi-search"></i>
-                            <input type="text" pInputText placeholder="Search by Name or Id"
-                                (input)="onFilter(dv, $event)" />
-                        </span>
+                        <div class="flex gap-2">
+                            <span class="p-input-icon-left" *ngIf="dv._layout !== 'list'">
+                                <i class="pi pi-search"></i>
+                                <input type="text" pInputText placeholder="Search by Name or Id"
+                                    (input)="onFilter(dv, $event)" />
+                            </span>
+                            <p-inputSwitch *ngIf="dv._layout !== 'list'" [(ngModel)]="checked"
+                                (click)="searchBySkill()"></p-inputSwitch>
+                        </div>
                         <div class="flex gap-2">
                             <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
                             <button pButton pRipple label="Add Applicant" id="addButton" icon="pi pi-plus"
@@ -60,8 +63,9 @@
                                 <ng-template pTemplate="body" let-applicant>
                                     <tr>
                                         <td class="text-center">
-                                            <img src="./assets/layout/images/men-emp.jpg"
-                                                class="shadow-2 my-1 mx-0 applicant_profile_pic zoomable-img" /><br />
+                                            <img [src]="applicant.photo ? applicant.photo : applicant?.gender == 'Male' ?  './assets/layout/images/men-emp.jpg' : './assets/layout/images/women-emp.jpg'"
+                                                [alt]="applicant.name"
+                                                class="my-4 md:my-0 w-10 md:w-10rem shadow-2 mr-2" /><br />
                                         </td>
                                         <td class="text-center" *ngFor="let col of headers">
                                             <span>{{applicant[col.field]}}</span>
@@ -89,9 +93,11 @@
                     <div class="col-12 md:col-4 lg:col-3 sm:col-6 p-0 m-0">
                         <div class="card m-2 border-1 surface-border card-height ">
                             <div class=" mb-0 grid">
-                                <div class="col-12 md:col-6 m-0 p-0 text-center">
-                                    <img src="./assets/layout/images/men-emp.jpg"
-                                        class="shadow-2 my-1 mx-0 applicant_profile_pic zoomable-img" /><br />
+                                <div class="col-12 md:col-6 p-0 m-0 text-center">
+                                    <img [src]="applicant.photo ? applicant.photo : applicant?.gender == 'Male' ?  './assets/layout/images/men-emp.jpg' : './assets/layout/images/women-emp.jpg'"
+                                        [alt]="applicant.name"
+                                        class="shadow-2 my-1 mx-0 applicant_profile_pic zoomable-img"/><br />
+                                        
                                     <div class="text-left ml-2">
                                         <span class="text-xl font-bold">
                                             <i class="pi pi-users text-600 text-primary text-1xl  pb-2"></i> :
@@ -101,20 +107,17 @@
                                             <i class="icon-id text-800 text-primary text-2xl pb-1"></i> :
                                             {{applicant.experienceStatus}}
                                         </span><br/>
-                                        <span class="text-600 font-medium text-md">
-                                            <i class="pi pi-users text-600 text-primary text-1xl  pb-2"></i> :
-                                            {{applicant.gender}}
-                                        </span>
-                                    </div>                                   
+                                       
+                                    </div>  
                                 </div>
                                 <div class="col-12 md:col-6 text-center">
                                     <p-knob [(ngModel)]="value" [strokeWidth]="10" [size]="60"></p-knob>
                                     <br />
-                                    <div class=" grid mt-2 text-center">
-                                        <span class="text-600 font-medium text-md text-center"
+                                    <div class=" grid mt-0 text-center">
+                                        <span class="text-600 font-medium text-md text-center w-100"
                                             *ngIf="applicant.pendingDetails">
                                             Pending: </span>
-                                        <div class="col-12">
+                                        <div class="col-12 p-1 m-0">
                                             <span class="text-600 font-medium text-md">
                                                 <ng-container *ngIf="applicant && applicant.pendingDetails">
                                                     <ng-container

@@ -25,14 +25,16 @@ export class ApplicantComponent {
   applicantdialogComponent = ApplicantDialogComponent;
   sortOrder: number = 0;
   sortField: string = '';
-  
+  checked: boolean = false;
+
   headers: ITableHeader[] = [
     { field: 'name', header: 'name', label: 'Applicant Name' },
     { field: 'gender', header: 'gender', label: 'Gender' },
     { field: 'experienceStatus', header: 'experienceStatus', label: 'Work Experience' },
+    { field: 'skills', header: 'skills', label: 'Skills' },
     { field: 'emailId', header: 'emailId', label: 'Email' },
     { field: 'mobileNo', header: 'mobileNo', label: 'Phone No' },
-  ] 
+  ]
 
   constructor(private recruitmentService: RecruitmentService,
     public ref: DynamicDialogRef,
@@ -45,7 +47,9 @@ export class ApplicantComponent {
 
   getApplicant() {
     this.recruitmentService.GetApplicantDetail().subscribe((resp) => {
-      this.applicants = resp as unknown as ApplicantViewDto[];      
+      this.applicants = resp as unknown as ApplicantViewDto[];
+      console.log(this.applicants);
+
     })
   }
   onGlobalFilter(table: Table, event: Event) {
@@ -56,9 +60,15 @@ export class ApplicantComponent {
     table.clear();
     this.filter.nativeElement.value = '';
   }
-  
+
   onFilter(dv: DataView, event: Event) {
     dv.filter((event.target as HTMLInputElement).value);
+  }
+
+  searchBySkill() {
+    if (this.checked === true) {
+      this.globalFilterFields = ['skills'];
+    }
   }
 
   viewApplicantDtls(applicantId: number) {
@@ -78,7 +88,7 @@ export class ApplicantComponent {
       width: this.dialogRequest.width
     });
     this.ref.onClose.subscribe((res: any) => {
-      if (res){this.getApplicant()};
+      if (res) { this.getApplicant() };
       event.preventDefault(); // Prevent the default form submission
     });
   }
