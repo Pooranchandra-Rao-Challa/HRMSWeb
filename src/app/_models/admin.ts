@@ -33,7 +33,7 @@ export class AssetsViewDto {
     assetCategoryId?: number;
     assetCategory?: string;
     assets?: string;
-    count?:number;
+    count?: number;
     expandassets?: AssetsDetailsViewDto[]
 }
 
@@ -102,9 +102,9 @@ export class HolidayDto {
     isActive?: boolean
 }
 export class ProjectStatus {
-    eProjectStatusesId?:number;
-    name?:string;
-    date?:Date;
+    eProjectStatusesId?: number;
+    name?: string;
+    date?: Date;
 }
 export class ProjectViewDto {
     projectId: number;
@@ -120,9 +120,9 @@ export class ProjectViewDto {
     cinno: string;
     pocName: string;
     pocMobileNumber: string;
-    Initial:Date;
-    working:Date;
-    completed:Date;
+    Initial: Date;
+    working: Date;
+    completed: Date;
     address: string;
     logo: string;
     teamMembers: string
@@ -133,9 +133,9 @@ export class ProjectViewDto {
     updatedBy?: string
     updatedAt?: string
 }
-export class projectStatuses{
-    eProjectStatusesId?:number;
-    date?:Date;
+export class projectStatuses {
+    eProjectStatusesId?: number;
+    date?: Date;
 }
 export class EmployeesList {
     employeeId: number
@@ -146,8 +146,8 @@ export class EmployeesList {
     designation: string;
     dateofJoin: Date;
     reportingTo: string;
-    eRoleName:string;
-    eRoleId:number;
+    eRoleName: string;
+    eRoleId: number;
     date: string;
 }
 export class ProjectAllotments {
@@ -166,7 +166,7 @@ export class ProjectDetailsDto {
     description: string;
     isActive?: boolean;
     projectAllotments?: []
-    projectStatuses?:[]
+    projectStatuses?: []
     clients?: ClientDetailsDto[];
     createdBy?: string
     createdAt?: string
@@ -238,7 +238,7 @@ export class EmployeeHierarchyDto {
 export class JobOpeningsDetailsViewDto {
     id?: number;
     JobOpeningId?: number;
-    title?:string;
+    title?: string;
     projectId?: number;
     projectName?: string;
     designationId?: number;
@@ -259,7 +259,7 @@ export class JobOpeningsDetailsViewDto {
     createdBy?: string;
     updatedAt?: Date;
     updatedBy?: string;
-    InitiatedAt ?:Date
+    InitiatedAt?: Date
 }
 
 export class TechnicalSkills {
@@ -302,50 +302,50 @@ export class NodeProps {
     _upToTheRootHighlighted: boolean;
 }
 
-export class ChartParams{
-    nodes?:NodeProps[];
+export class ChartParams {
+    nodes?: NodeProps[];
 }
 
-export class NodeDropParams{
-    DropNode:NodeProps
+export class NodeDropParams {
+    DropNode: NodeProps
 }
 
 
-export class ApplicantCertificationDto{
-    certificationId?:number;
-    applicantId?:number;
-    certificateId?:number;
-    institutionName?:string;
-    yearOfCompletion?:Date;
-    results?:string;
+export class ApplicantCertificationDto {
+    certificationId?: number;
+    applicantId?: number;
+    certificateId?: number;
+    institutionName?: string;
+    yearOfCompletion?: Date;
+    results?: string;
 }
 
-export class ApplicantExperienceDto{
-    experienceId?:number;
-    applicantId?:number;
-    companyName?:string;
-    companyLocation?:string;
-    stateId?:number;
-    companyEmployeeId?:number;
-    designationId?:number;
-    natureOfWork?:string;
-    workedOnProjects?:string;
-    dateOfJoining?:Date;
-    dateOfReliving?:Date;
+export class ApplicantExperienceDto {
+    experienceId?: number;
+    applicantId?: number;
+    companyName?: string;
+    companyLocation?: string;
+    stateId?: number;
+    companyEmployeeId?: number;
+    designationId?: number;
+    natureOfWork?: string;
+    workedOnProjects?: string;
+    dateOfJoining?: Date;
+    dateOfReliving?: Date;
 }
 
-export class ApplicantSkillsDto{
-    applicationskillId?:number;
-    applicantId?:number;
-    skillId?:number;
-    expertise?:string;
+export class ApplicantSkillsDto {
+    applicationskillId?: number;
+    applicantId?: number;
+    skillId?: number;
+    expertise?: string;
 }
 
-export class ApplicantLanguageSkills{
-    applicaitonLanguageSkillId?:number;
-    applicantId?:number;
-    languageId?:number;
-    canRead?:boolean;
-    canWrite?:boolean;
-    canSpeak?:boolean;
+export class ApplicantLanguageSkills {
+    applicaitonLanguageSkillId?: number;
+    applicantId?: number;
+    languageId?: number;
+    canRead?: boolean;
+    canWrite?: boolean;
+    canSpeak?: boolean;
 }
