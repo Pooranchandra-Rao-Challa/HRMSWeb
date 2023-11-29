@@ -2,7 +2,7 @@
     <div class="col-12">
         <div class="card">
             <p-dataView #dv [value]="applicants" [paginator]="dv.layout === 'grid' && dv.rows > 10" [rows]="10"
-                filterBy="name,emailId,mobileNo,gender,experienceStatus,pendingDetails,skills" [sortField]="sortField"
+                filterBy="name,emailId,mobileNo,gender,experienceStatus,pendingDetails" [sortField]="sortField"
                 [sortOrder]="sortOrder" layout="grid">
                 <ng-template pTemplate="header">
                     <div class="flex flex-column md:flex-row md:justify-content-between ">
@@ -10,12 +10,12 @@
                         <div class="flex gap-2">
                             <span class="p-input-icon-left" *ngIf="dv._layout !== 'list'">
                                 <i class="pi pi-search"></i>
-                                <input type="text" pInputText placeholder="Search by Name or Id"
+                                <input type="text" pInputText placeholder="Search by Name"
                                     (input)="onFilter(dv, $event)" />
                             </span>
                             <p-inputSwitch *ngIf="dv._layout !== 'list'" [(ngModel)]="checked"
-                                (click)="searchBySkill()"></p-inputSwitch>
-                            <span  *ngIf="dv._layout !== 'list'">
+                                (onChange)="filterData()"></p-inputSwitch>
+                            <span *ngIf="dv._layout !== 'list'">
                                 Search By Skills
                             </span>
                         </div>

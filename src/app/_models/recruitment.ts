@@ -54,7 +54,7 @@ export class ApplicantCertificationDto {
 }
 
 export class ApplicantEducationDetailDto {
-    applicantEducationId?: number;
+    applicantEducationDetailId?: number;
     applicantId?: number;
     streamId?: number;
     curriculumId?: number;

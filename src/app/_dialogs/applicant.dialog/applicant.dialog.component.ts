@@ -237,7 +237,7 @@ export class ApplicantDialogComponent {
 
   generateRowForEducationDetails(educationDetails: ApplicantEducationDetailDto = new ApplicantEducationDetailDto()): FormGroup {
     return this.formbuilder.group({
-      applicantEducationId: [educationDetails.applicantEducationId],
+      applicantEducationId: [educationDetails.applicantEducationDetailId],
       applicantId: [educationDetails.applicantId],
       curriculumId: new FormControl(educationDetails.curriculumId, [Validators.required]),
       streamId: [educationDetails.streamId, [Validators.required]],
@@ -473,7 +473,7 @@ export class ApplicantDialogComponent {
       }
     });
   }
-  editApplicantDetails(ApplicantDetails: ViewApplicantDto) {
+  editApplicantDetails(ApplicantDetails: ApplicantDto) {
     this.addFlag = false;
     this.applicantdata = ApplicantDetails;
     this.getStatesByCountryId(this.applicantdata.countryId);

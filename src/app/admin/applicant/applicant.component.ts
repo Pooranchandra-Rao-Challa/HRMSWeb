@@ -28,6 +28,7 @@ export class ApplicantComponent {
   sortField: string = '';
   checked: boolean = false;
   permissions: any;
+  globalFilterValue: string = ''; // Track the value of the global search field
 
 
   headers: ITableHeader[] = [
@@ -67,12 +68,38 @@ export class ApplicantComponent {
   }
 
   onFilter(dv: DataView, event: Event) {
-    dv.filter((event.target as HTMLInputElement).value);
+    if(this.checked === false){
+      dv.filter((event.target as HTMLInputElement).value)
+    }
+    else{
+      this.globalFilterValue = (event.target as HTMLInputElement).value; // Update the global search value
+      this.filterData();
+    }
   }
 
-  searchBySkill() {
-    if (this.checked === true) {
-      this.globalFilterFields = ['skills'];
+  filterData() {
+    if (this.checked) {
+      if (this.globalFilterValue.trim() === '') {
+        // If the global filter value is empty, restore the original data
+        this.applicants = [...this.applicants];
+      } else {
+        // Filter based on skills when the switch is true
+        this.applicants = this.applicants.filter(applicant =>
+          applicant.skills && applicant.skills.toLowerCase().includes(this.globalFilterValue.toLowerCase())
+        );
+      }
+    }
+    else {
+       // If the switch is off, filter using the original data without skill condition
+    const filterValue = this.globalFilterValue.toLowerCase();
+    this.applicants = this.applicants.filter(applicant =>
+      applicant.name.toLowerCase().includes(filterValue) ||
+      applicant.emailId.toLowerCase().includes(filterValue) ||
+      applicant.mobileNo.toString().includes(filterValue) ||
+      applicant.gender.toLowerCase().includes(filterValue) ||
+      applicant.experienceStatus.toLowerCase().includes(filterValue) ||
+      applicant.pendingDetails.toLowerCase().includes(filterValue)
+    );
     }
   }
 
