@@ -40,7 +40,8 @@ export class ApplicantDialogComponent {
   maxLength: MaxLength = new MaxLength();
   countries: LookupViewDto[] = [];
   states: LookupDetailsDto[] = [];
-  stream: LookupDetailsDto[] = [];
+  statesbasedOnCountryId: LookupViewDto[][] = [];
+  stream: LookupDetailsDto[][] = [];
   nationality: LookupViewDto[] = [];
   curriculum: LookupViewDto[] = [];
   gradingMethod: LookupViewDto[] = [];
@@ -98,13 +99,22 @@ export class ApplicantDialogComponent {
     })
   }
 
-  getStreamByCurriculumId(Id: number) {
+  onchangeStateBasedOnCountry(id: number, index: number) {
+    this.lookupService.States(id).subscribe((resp) => {
+      if (resp) {
+        this.statesbasedOnCountryId[index] = resp as unknown as LookupDetailsDto[];
+      }
+    })
+  }
+
+  getStreamByCurriculumId(Id: number, index: number) {
     this.lookupService.Streams(Id).subscribe((resp) => {
       if (resp) {
-        this.stream = resp as unknown as LookupDetailsDto[];
+        this.stream[index] = resp as unknown as LookupDetailsDto[];
       }
     });
   }
+
 
   getNationality() {
     this.lookupService.Nationality().subscribe((resp) => {
