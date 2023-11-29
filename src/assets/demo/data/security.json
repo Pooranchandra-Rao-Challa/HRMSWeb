@@ -1,98 +1,147 @@
 {
-    "applicant":[
+    "recruitmentAttributes": [
         {
-            "id":1,
-            "name":"Rani",
-            "mobileNumber":8893095893,
-            "email":"rani@gmail.com",
-            "status":"close",
-            "resume": "Resume",
-            "actions":"ksdfkjkla"
+            "id": 1,
+            "assesmentTitle": "What is meant By C#?",
+            "minExpertise": 3,
+            "maxExpertise": 4,
+            "attributeTypes": "Techincal Skills",
+            "recruitmentStages": "Techincal Round",
+            "isActive": true
         },
         {
-            "id":2,
-            "name":"Kusuma",
-            "mobileNumber":9089983989,
-            "email":"kusuma@gmail.com",
-            "status":"open",
-            "resume": "Resume",
-            "actions":"ksdfkjkla"
+            "id": 2,
+            "assesmentTitle": "What is meant By C#?",
+            "minExpertise": 3,
+            "maxExpertise": 4,
+            "attributeTypes": "Techincal Skills",
+            "recruitmentStages": "Techincal Round",
+            "isActive": true
         },
         {
-            "id":3,
-            "name":"Pavani",
-            "mobileNumber":8833095893,
-            "email":"pavani@gmail.com",
-            "status":"close",
-            "resume": "Resume",
-            "actions":"ksdfkjkla"
+            "id": 3,
+            "assesmentTitle": "What is meant By C#?",
+            "minExpertise": 3,
+            "maxExpertise": 4,
+            "attributeTypes": "Techincal Skills",
+            "recruitmentStages": "Techincal Round",
+            "isActive": true
         },
         {
-            "id":4,
-            "name":"Rajesh",
-            "mobileNumber":88930462893,
-            "email":"rajesh@gmail.com",
-            "status":"open",
-            "resume": "Resume",
-            "actions":"ksdfkjkla"
-        },{
-            "id":5,
-            "name":"Kalyani",
-            "mobileNumber":9808092302,
-            "email":"kalyani@gmail.com",
-            "status":"close",
-            "resume": "Resume",
-            "actions":"ksdfkjkla"
+            "id": 4,
+            "assesmentTitle": "What is meant By C#?",
+            "minExpertise": 3,
+            "maxExpertise": 4,
+            "attributeTypes": "Techincal Skills",
+            "recruitmentStages": "Techincal Round",
+            "isActive": true
+        },
+        {
+            "id": 5,
+            "assesmentTitle": "What is meant By C#?",
+            "minExpertise": 3,
+            "maxExpertise": 4,
+            "attributeTypes": "Techincal Skills",
+            "recruitmentStages": "Techincal Round",
+            "isActive": true
         }
     ],
-    "jobDesign":[
+    "applicant": [
         {
-            "id":1,
-            "jobDescription": "Backend Developer",
-            "projectName":"Jiva",
-            "position":"Team Member",
-            "technicalSkills":"SQL Server",
-            "softSkills":"Communication Skills",
-            "description":"This job is for Back Developer",
-            "natureOfJobs":"Full Time",
-            "compensationPackage":"10k per anum"
+            "id": 1,
+            "name": "Rani",
+            "mobileNumber": 8893095893,
+            "email": "rani@gmail.com",
+            "status": "close",
+            "resume": "Resume",
+            "actions": "ksdfkjkla"
         },
         {
-            "id":2,
-            "jobDescription": "UI Developer",
-            "projectName":"3F",
-            "position":"Team Member",
-            "technicalSkills":"HTML,CSS,Angular",
-            "softSkills":"Communication Skills",
-            "description":"This job is for UI Developer",
-            "natureOfJobs":"Full Time",
-            "compensationPackage":"10k per anum"
+            "id": 2,
+            "name": "Kusuma",
+            "mobileNumber": 9089983989,
+            "email": "kusuma@gmail.com",
+            "status": "open",
+            "resume": "Resume",
+            "actions": "ksdfkjkla"
         },
         {
-            "id":3,
-            "jobDescription": "Frontend Developer",
-            "projectName":"HRMS",
-            "position":"Team Member",
-            "technicalSkills":"C#, Angular",
-            "softSkills":"Communication Skills",
-            "description":"This job is for Frontend Developer",
-            "natureOfJobs":"Full Time",
-            "compensationPackage":"10k per anum"
-        },{
-            "id":4,
-            "jobDescription": "API Developer",
-            "projectName":"3F",
-            "position":"Team Member",
-            "technicalSkills":"C#",
-            "softSkills":"Communication Skills",
-            "description":"This job is for API Developer",
-            "natureOfJobs":"Full Time",
-            "compensationPackage":"10k per anum"
+            "id": 3,
+            "name": "Pavani",
+            "mobileNumber": 8833095893,
+            "email": "pavani@gmail.com",
+            "status": "close",
+            "resume": "Resume",
+            "actions": "ksdfkjkla"
+        },
+        {
+            "id": 4,
+            "name": "Rajesh",
+            "mobileNumber": 88930462893,
+            "email": "rajesh@gmail.com",
+            "status": "open",
+            "resume": "Resume",
+            "actions": "ksdfkjkla"
+        },
+        {
+            "id": 5,
+            "name": "Kalyani",
+            "mobileNumber": 9808092302,
+            "email": "kalyani@gmail.com",
+            "status": "close",
+            "resume": "Resume",
+            "actions": "ksdfkjkla"
         }
-    ] ,
-    "leave":[
+    ],
+    "jobDesign": [
         {
-            "id":1,
+            "id": 1,
+            "jobDescription": "Backend Developer",
+            "projectName": "Jiva",
+            "position": "Team Member",
+            "technicalSkills": "SQL Server",
+            "softSkills": "Communication Skills",
+            "description": "This job is for Back Developer",
+            "natureOfJobs": "Full Time",
+            "compensationPackage": "10k per anum"
+        },
+        {
+            "id": 2,
+            "jobDescription": "UI Developer",
+            "projectName": "3F",
+            "position": "Team Member",
+            "technicalSkills": "HTML,CSS,Angular",
+            "softSkills": "Communication Skills",
+            "description": "This job is for UI Developer",
+            "natureOfJobs": "Full Time",
+            "compensationPackage": "10k per anum"
+        },
+        {
+            "id": 3,
+            "jobDescription": "Frontend Developer",
+            "projectName": "HRMS",
+            "position": "Team Member",
+            "technicalSkills": "C#, Angular",
+            "softSkills": "Communication Skills",
+            "description": "This job is for Frontend Developer",
+            "natureOfJobs": "Full Time",
+            "compensationPackage": "10k per anum"
+        },
+        {
+            "id": 4,
+            "jobDescription": "API Developer",
+            "projectName": "3F",
+            "position": "Team Member",
+            "technicalSkills": "C#",
+            "softSkills": "Communication Skills",
+            "description": "This job is for API Developer",
+            "natureOfJobs": "Full Time",
+            "compensationPackage": "10k per anum"
+        }
+    ],
+    "leave": [
+        {
+            "id": 1,
             "employeeId": "Divya",
             "fromDate": "09-10-2020",
             "toDate": "19-11-2020",
@@ -101,13 +150,13 @@
             "acceptedBy": "Nikhitha",
             "acceptedAt": "05-10-2020",
             "approvedBy": "Nikhitha",
-            "approvedAt":"05-10-2020",
-            "rejected":true,
+            "approvedAt": "05-10-2020",
+            "rejected": true,
             "createdAt": "12-02-2020",
-            "createdBy": "12-09-2020"   
-          },
-          {
-            "id":2,
+            "createdBy": "12-09-2020"
+        },
+        {
+            "id": 2,
             "employeeId": "Divya",
             "fromDate": "09-10-2020",
             "toDate": "19-11-2020",
@@ -116,13 +165,13 @@
             "acceptedBy": "Nikhitha",
             "acceptedAt": "05-10-2020",
             "approvedBy": "Nikhitha",
-            "approvedAt":"05-10-2020",
-            "rejected":false,
+            "approvedAt": "05-10-2020",
+            "rejected": false,
             "createdAt": "12-02-2020",
-            "createdBy": "12-09-2020"   
-          },
-          {
-            "id":3,
+            "createdBy": "12-09-2020"
+        },
+        {
+            "id": 3,
             "employeeId": "Divya",
             "fromDate": "09-10-2020",
             "toDate": "19-11-2020",
@@ -131,13 +180,13 @@
             "acceptedBy": "Nikhitha",
             "acceptedAt": "05-10-2020",
             "approvedBy": "Nikhitha",
-            "approvedAt":"05-10-2020",
-            "rejected":null,
+            "approvedAt": "05-10-2020",
+            "rejected": null,
             "createdAt": "12-02-2020",
-            "createdBy": "12-09-2020"   
-          },
-          {
-            "id":4,
+            "createdBy": "12-09-2020"
+        },
+        {
+            "id": 4,
             "employeeId": "Divya",
             "fromDate": "09-10-2020",
             "toDate": "19-11-2020",
@@ -146,13 +195,13 @@
             "acceptedBy": "Nikhitha",
             "acceptedAt": "05-10-2020",
             "approvedBy": "Nikhitha",
-            "approvedAt":"05-10-2020",
-            "rejected":false,
+            "approvedAt": "05-10-2020",
+            "rejected": false,
             "createdAt": "12-02-2020",
-            "createdBy": "12-09-2020"   
-          },
-          {
-            "id":5,
+            "createdBy": "12-09-2020"
+        },
+        {
+            "id": 5,
             "employeeId": "Divya",
             "fromDate": "09-10-2020",
             "toDate": "19-11-2020",
@@ -161,13 +210,13 @@
             "acceptedBy": "Nikhitha",
             "acceptedAt": "05-10-2020",
             "approvedBy": "Nikhitha",
-            "approvedAt":"05-10-2020",
-            "rejected":null,
+            "approvedAt": "05-10-2020",
+            "rejected": null,
             "createdAt": "12-02-2020",
-            "createdBy": "12-09-2020"   
-          },
-          {
-            "id":6,
+            "createdBy": "12-09-2020"
+        },
+        {
+            "id": 6,
             "employeeId": "Divya",
             "fromDate": "09-10-2020",
             "toDate": "19-11-2020",
@@ -176,13 +225,13 @@
             "acceptedBy": "Nikhitha",
             "acceptedAt": "05-10-2020",
             "approvedBy": "Nikhitha",
-            "approvedAt":"05-10-2020",
-            "rejected":false,
+            "approvedAt": "05-10-2020",
+            "rejected": false,
             "createdAt": "12-02-2020",
-            "createdBy": "12-09-2020"   
-          },
-          {
-            "id":7,
+            "createdBy": "12-09-2020"
+        },
+        {
+            "id": 7,
             "employeeId": "Divya",
             "fromDate": "09-10-2020",
             "toDate": "19-11-2020",
@@ -191,11 +240,11 @@
             "acceptedBy": "Nikhitha",
             "acceptedAt": "05-10-2020",
             "approvedBy": "Nikhitha",
-            "approvedAt":"05-10-2020",
-            "rejected":true,
+            "approvedAt": "05-10-2020",
+            "rejected": true,
             "createdAt": "12-02-2020",
-            "createdBy": "12-09-2020"   
-          }
+            "createdBy": "12-09-2020"
+        }
     ],
     "employee": [
         {
@@ -714,43 +763,40 @@
             "updatedAt": "2023-05-18T14:28:30.753",
             "updatedBy": "MSPIL",
             "list": [
-                    {
-                        "id": 1,
-                        "code":"DEP",
-                        "name": "Accounts",
-                        "isActive": true,
-                        "createdAt": "2023-03-17T14:05:26.997",
-                        "createdBy": "MSPIL",
-                        "updatedAt": "2023-05-18T14:28:30.753",
-                        "updatedBy": "MSPIL",
-                        "updated": ""
-
-                    },
-                    {
-                        "id": 2,
-                        "code":"DEP",
-                        "name": "Finance",
-                        "isActive": true,
-                        "createdAt": "2023-03-17T14:05:26.997",
-                        "createdBy": "MSPIL",
-                        "updatedAt": "2023-05-18T14:28:30.753",
-                        "updatedBy": "MSPIL",
-                        "updated": ""
-
-                    },
-                    {
-                        "id": 3,
-                        "code":"DEP",
-                        "name": "Management",
-                        "isActive": true,
-                        "createdAt": "2023-03-17T14:05:26.997",
-                        "createdBy": "MSPIL",
-                        "updatedAt": "2023-05-18T14:28:30.753",
-                        "updatedBy": "MSPIL",
-                        "updated": ""
-
-                    }
-                ]
+                {
+                    "id": 1,
+                    "code": "DEP",
+                    "name": "Accounts",
+                    "isActive": true,
+                    "createdAt": "2023-03-17T14:05:26.997",
+                    "createdBy": "MSPIL",
+                    "updatedAt": "2023-05-18T14:28:30.753",
+                    "updatedBy": "MSPIL",
+                    "updated": ""
+                },
+                {
+                    "id": 2,
+                    "code": "DEP",
+                    "name": "Finance",
+                    "isActive": true,
+                    "createdAt": "2023-03-17T14:05:26.997",
+                    "createdBy": "MSPIL",
+                    "updatedAt": "2023-05-18T14:28:30.753",
+                    "updatedBy": "MSPIL",
+                    "updated": ""
+                },
+                {
+                    "id": 3,
+                    "code": "DEP",
+                    "name": "Management",
+                    "isActive": true,
+                    "createdAt": "2023-03-17T14:05:26.997",
+                    "createdBy": "MSPIL",
+                    "updatedAt": "2023-05-18T14:28:30.753",
+                    "updatedBy": "MSPIL",
+                    "updated": ""
+                }
+            ]
         },
         {
             "id": 35,
@@ -764,7 +810,7 @@
             "list": [
                 {
                     "id": 1,
-                    "code":"DIS",
+                    "code": "DIS",
                     "name": "B.TECH",
                     "isActive": true,
                     "createdAt": "2023-03-17T14:05:26.997",
@@ -772,11 +818,10 @@
                     "updatedAt": "2023-05-18T14:28:30.753",
                     "updatedBy": "MSPIL",
                     "updated": ""
-
                 },
                 {
                     "id": 2,
-                    "code":"DIS",
+                    "code": "DIS",
                     "name": "M.TECH",
                     "isActive": true,
                     "createdAt": "2023-03-17T14:05:26.997",
@@ -784,11 +829,10 @@
                     "updatedAt": "2023-05-18T14:28:30.753",
                     "updatedBy": "MSPIL",
                     "updated": ""
-
                 },
                 {
                     "id": 3,
-                    "code":"DIS",
+                    "code": "DIS",
                     "name": "B.Sc",
                     "isActive": true,
                     "createdAt": "2023-03-17T14:05:26.997",
@@ -796,11 +840,10 @@
                     "updatedAt": "2023-05-18T14:28:30.753",
                     "updatedBy": "MSPIL",
                     "updated": ""
-
                 },
                 {
                     "id": 4,
-                    "code":"DIS",
+                    "code": "DIS",
                     "name": "B.Com",
                     "isActive": true,
                     "createdAt": "2023-03-17T14:05:26.997",
@@ -808,11 +851,10 @@
                     "updatedAt": "2023-05-18T14:28:30.753",
                     "updatedBy": "MSPIL",
                     "updated": ""
-
                 },
                 {
                     "id": 5,
-                    "code":"DIS",
+                    "code": "DIS",
                     "name": "MCA",
                     "isActive": true,
                     "createdAt": "2023-03-17T14:05:26.997",
@@ -820,9 +862,7 @@
                     "updatedAt": "2023-05-18T14:28:30.753",
                     "updatedBy": "MSPIL",
                     "updated": ""
-
                 }
-
             ]
         },
         {
@@ -845,7 +885,6 @@
                     "updatedAt": "2023-05-18T14:28:30.753",
                     "updatedBy": "MSPIL",
                     "updated": ""
-
                 },
                 {
                     "id": 2,
@@ -857,7 +896,6 @@
                     "updatedAt": "2023-05-18T14:28:30.753",
                     "updatedBy": "MSPIL",
                     "updated": ""
-
                 },
                 {
                     "id": 3,
@@ -869,7 +907,6 @@
                     "updatedAt": "2023-05-18T14:28:30.753",
                     "updatedBy": "MSPIL",
                     "updated": ""
-
                 },
                 {
                     "id": 3,
@@ -881,7 +918,6 @@
                     "updatedAt": "2023-05-18T14:28:30.753",
                     "updatedBy": "MSPIL",
                     "updated": ""
-
                 },
                 {
                     "id": 4,
@@ -893,7 +929,6 @@
                     "updatedAt": "2023-05-18T14:28:30.753",
                     "updatedBy": "MSPIL",
                     "updated": ""
-
                 }
             ]
         },
@@ -917,7 +952,6 @@
                     "updatedAt": "2023-05-18T14:28:30.753",
                     "updatedBy": "MSPIL",
                     "updated": ""
-
                 },
                 {
                     "id": 2,
@@ -929,7 +963,6 @@
                     "updatedAt": "2023-05-18T14:28:30.753",
                     "updatedBy": "MSPIL",
                     "updated": ""
-
                 }
             ]
         }
