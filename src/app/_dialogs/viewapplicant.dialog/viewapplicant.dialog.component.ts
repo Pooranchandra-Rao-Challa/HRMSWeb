@@ -133,7 +133,7 @@ export class ViewapplicantDialogComponent {
       applicantId: new FormControl(this.applicantId),
       applicantEducationDetailId: (null),
       curriculumId: new FormControl('', [Validators.required]),
-      StreamId: new FormControl('', [Validators.required]),
+      streamId: new FormControl('', [Validators.required]),
       countryId: new FormControl('', [Validators.required]),
       stateId: new FormControl('', [Validators.required]),
       authorityName: new FormControl('', [Validators.required]),
@@ -148,6 +148,8 @@ export class ViewapplicantDialogComponent {
     return this.fbeducationdetails.controls;
   }
   editeducationDetails(educationDetails: ApplicantEducationDetailsDto) {
+    console.log(educationDetails);
+    
     this.rowData = educationDetails
     this.rowData.yearOfCompletion = new Date(educationDetails.yearOfCompletion);
     this.fbeducationdetails.patchValue(this.rowData);

@@ -25,17 +25,17 @@
           <div class="field col-12 md:col-4">
             <label class="required">Stream: </label>
             <p-dropdown id="stream_Dropdown" [autoDisplayFirst]="false" placeholder="Select Stream" optionLabel="name"
-              [options]="stream" optionValue="lookupDetailId" formControlName="StreamId" appendTo="body"
-              [ngClass]="{ 'is-invalid ng-dirty': FormControlsEduDtls['StreamId'].touched && FormControlsEduDtls['StreamId'].errors }">
+              [options]="stream" optionValue="lookupDetailId" formControlName="streamId" appendTo="body"
+              [ngClass]="{ 'is-invalid ng-dirty': FormControlsEduDtls['streamId'].touched && FormControlsEduDtls['streamId'].errors }">
             </p-dropdown>
             <div class="flex">
               <div class="align-left w-60" style="width:70%">
-                <span *ngIf="FormControlsEduDtls['StreamId'].touched && FormControlsEduDtls['StreamId'].invalid">
-                  <div class="ng-invalid ng-touched p-error" *ngIf="FormControlsEduDtls['StreamId'].untouched && FormControlsEduDtls['StreamId'].touched ||
-                  FormControlsEduDtls['StreamId'].invalid&& FormControlsEduDtls['StreamId'].touched">
+                <span *ngIf="FormControlsEduDtls['streamId'].touched && FormControlsEduDtls['streamId'].invalid">
+                  <div class="ng-invalid ng-touched p-error" *ngIf="FormControlsEduDtls['streamId'].untouched && FormControlsEduDtls['streamId'].touched ||
+                  FormControlsEduDtls['streamId'].invalid&& FormControlsEduDtls['streamId'].touched">
                     Please Select Curriculum First.</div>
                   <div class="ng-invalid ng-touched p-error"
-                    *ngIf="FormControlsEduDtls['StreamId'].touched &&FormControlsEduDtls['StreamId'].errors?.['required']&&FormControlsEduDtls['StreamId'].valid">
+                    *ngIf="FormControlsEduDtls['streamId'].touched &&FormControlsEduDtls['streamId'].errors?.['required']&&FormControlsEduDtls['streamId'].valid">
                     Please Select Stream.</div>
                 </span>
               </div>

@@ -352,7 +352,7 @@
                                         <p-calendar id="edu_YearOfCompletion" [readonlyInput]="true" appendTo="body"
                                             [showIcon]="true" mask="99/99/9999" placeholder="Select Year Of Completion*"
                                             formControlName="yearOfCompletion" [style]="{'width':'100%'}"
-                                            [inputStyle]="{'width':'100%'}"
+                                            [inputStyle]="{'width':'100%'}" [maxDate]="currentDate"
                                             (click)="validateRowforEducationDetails(educationDetailsIndex)"
                                             [ngClass]="{'is-invalid ng-dirty': formArrayControlEducation(educationDetailsIndex, 'yearOfCompletion')?.touched &&
                                             formArrayControlEducation(educationDetailsIndex, 'yearOfCompletion')?.errors }">
@@ -684,7 +684,7 @@
                                             <p-calendar id="exp_DateOfJoining" [readonlyInput]="true" appendTo="body"
                                                 [showIcon]="true" mask="99/99/9999"
                                                 placeholder="Select Date Of Joining*" formControlName="dateOfJoining"
-                                                [style]="{'width':'100%'}"
+                                                [style]="{'width':'100%'}" [maxDate]="currentDate"
                                                 (click)="validateRowforExperienceDetails(experienceDetailsIndex)"
                                                 [ngClass]="{'is-invalid ng-dirty': formArrayControlWorkExperience(experienceDetailsIndex, 'dateOfJoining')?.touched &&
                                             formArrayControlWorkExperience(experienceDetailsIndex, 'dateOfJoining')?.errors }">
@@ -704,7 +704,7 @@
                                             <p-calendar id="exp_DateOfReliving" [readonlyInput]="true" appendTo="body"
                                                 [showIcon]="true" mask="99/99/9999"
                                                 placeholder="Select Date Of Reliving*" formControlName="dateOfReliving"
-                                                [style]="{'width':'100%'}"
+                                                [style]="{'width':'100%'}" [maxDate]="currentDate"
                                                 (click)="validateRowforExperienceDetails(experienceDetailsIndex)"
                                                 [ngClass]="{'is-invalid ng-dirty': formArrayControlWorkExperience(experienceDetailsIndex, 'dateOfReliving')?.touched &&
                                             formArrayControlWorkExperience(experienceDetailsIndex, 'dateOfReliving')?.errors }">
@@ -881,15 +881,18 @@
                                     </td>
                                     <td class="vertical-align-top" [ngClass]="'canRead' ? 'text-center' : ''">
                                         <p-checkbox [binary]="true" formControlName="canRead"
-                                            (click)="validateRowforApplicantLanguageSkillDetails(applicantLanguageSkillsDetailsIndex)"></p-checkbox>
+                                            (click)="validateRowforApplicantLanguageSkillDetails(applicantLanguageSkillsDetailsIndex)">
+                                        </p-checkbox>
                                     </td>
                                     <td class="vertical-align-top" [ngClass]="'canWrite' ? 'text-center' : ''">
                                         <p-checkbox [binary]="true" formControlName="canWrite"
-                                            (click)="validateRowforApplicantLanguageSkillDetails(applicantLanguageSkillsDetailsIndex)"></p-checkbox>
+                                            (click)="validateRowforApplicantLanguageSkillDetails(applicantLanguageSkillsDetailsIndex)">
+                                        </p-checkbox>
                                     </td>
                                     <td class="vertical-align-top" [ngClass]="'canSpeak' ? 'text-center' : ''">
                                         <p-checkbox [binary]="true" formControlName="canSpeak"
-                                            (click)="validateRowforApplicantLanguageSkillDetails(applicantLanguageSkillsDetailsIndex)"></p-checkbox>
+                                            (click)="validateRowforApplicantLanguageSkillDetails(applicantLanguageSkillsDetailsIndex)">
+                                        </p-checkbox>
                                     </td>
                                     <td class="text-center"
                                         *ngIf="fbApplicant.controls['applicantLanguageSkills'].value.length > 0">
@@ -910,6 +913,6 @@
 </div>
 
 <div class=" footer dialog-footer">
-    <button pButton pRipple type="submit" label="Add Applicant" class="p-button-raised p-button-primary"
+    <button pButton pRipple type="submit" label="Save Applicant" class="p-button-raised p-button-primary"
         id="SubmitApplicantForm" [disabled]="fbApplicant.invalid" (click)="onSubmit()"></button>
 </div>

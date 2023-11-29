@@ -1,12 +1,12 @@
 import { HttpEvent } from '@angular/common/http';
 import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable } from 'rxjs';
 import { ALERT_CODES, AlertmessageService } from 'src/app/_alerts/alertmessage.service';
 import { LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
-import { MaxLength, PhotoFileProperties } from 'src/app/_models/common';
-import { ApplicantCertificationDto, ApplicantDto, ApplicantEducationDetailDto, ApplicantLanguageSkillDto, ApplicantSkillDto, ApplicantWorkExperienceDto } from 'src/app/_models/recruitment';
+import { MaxLength, PhotoFileProperties, ViewApplicationScreen } from 'src/app/_models/common';
+import { ApplicantCertificationDto, ApplicantDto, ApplicantEducationDetailDto, ApplicantLanguageSkillDto, ApplicantSkillDto, ApplicantWorkExperienceDto, ViewApplicantDto } from 'src/app/_models/recruitment';
 import { LookupService } from 'src/app/_services/lookup.service';
 import { RecruitmentService } from 'src/app/_services/recruitment.service';
 import { ValidateFileThenUpload } from 'src/app/_validators/upload.validators';
@@ -51,13 +51,17 @@ export class ApplicantDialogComponent {
   languages: LookupViewDto[] = [];
   skillId: number;
   skillName: string;
+  addFlag: boolean;
+  applicantdata: any;
+  currentDate = new Date();
 
   constructor(private formbuilder: FormBuilder,
     public ref: DynamicDialogRef,
     public recruitmentService: RecruitmentService,
     private lookupService: LookupService,
     public alertMessage: AlertmessageService,
-  ) {
+    private config: DynamicDialogConfig,) {
+    this.applicantdata = this.config.data;
   }
 
   ngOnInit() {
@@ -77,6 +81,10 @@ export class ApplicantDialogComponent {
     ];
     this.defaultPhoto = /^female$/gi.test(this.fbApplicant.get('gender').value) ? './assets/layout/images/women-emp-2.jpg' : './assets/layout/images/men-emp.jpg'
 
+
+    if (this.applicantdata) {
+      this.editApplicantDetails(this.applicantdata)
+    }
   }
 
   getCurriculum() {
@@ -465,18 +473,82 @@ export class ApplicantDialogComponent {
       }
     });
   }
+  editApplicantDetails(ApplicantDetails: ViewApplicantDto) {
+    this.addFlag = false;
+    this.applicantdata = ApplicantDetails;
+    this.getStatesByCountryId(this.applicantdata.countryId);
+    this.fbApplicant.patchValue({
+      applicantId: this.applicantdata.applicantId,
+      name: this.applicantdata.name,
+      gender: this.applicantdata.gender,
+      dob: new Date(this.applicantdata.dob),
+      emailId: this.applicantdata.emailId,
+      mobileNo: this.applicantdata.mobileNo,
+      nationalityId: this.applicantdata.nationalityId,
+      photo: this.applicantdata.photo,
+      addressLine1: this.applicantdata.addressLine1,
+      addressLine2: this.applicantdata.addressLine2,
+      landmark: this.applicantdata.landmark,
+      zipCode: this.applicantdata.zipCode,
+      city: this.applicantdata.city,
+      countryId: this.applicantdata.countryId,
+      stateId: this.applicantdata.stateId,
+      resumeUrl: this.applicantdata.resumeUrl,
+      isFresher: this.applicantdata.isFresher,
+    });
+    if (Array.isArray(this.applicantdata.expandedEducationDetails)) {
+      this.applicantdata.expandedEducationDetails.forEach((eduDetails, index) => {
+        this.faApplicantEducationDetails().insert(index, this.generateRowForEducationDetails(eduDetails));
+        this.getStreamByCurriculumId(eduDetails.curriculumId, index)
+        this.onchangeStateBasedOnCountry(this.applicantdata.countryId, index)
+        this.formArrayControlEducation(index, 'yearOfCompletion').patchValue(new Date(eduDetails.yearOfCompletion));
+      });
+    }
+    if (Array.isArray(this.applicantdata.expandedWorkExperience)) {
+      this.applicantdata.expandedWorkExperience.forEach((expDetails, index) => {
+        this.faApplicantExperienceDetails().insert(index, this.generateRowForExperienceDetails(expDetails));
+        this.formArrayControlWorkExperience(index, 'dateOfJoining').patchValue(new Date(expDetails.dateOfJoining));
+        this.formArrayControlWorkExperience(index, 'dateOfReliving').patchValue(new Date(expDetails.dateOfReliving));
+      });
+    }
+    if (Array.isArray(this.applicantdata.expandedCertifications)) {
+      this.applicantdata.expandedCertifications.forEach((certDetails, index) => {
+        this.faApplicantCertificationDetails().insert(index, this.generateRowForCertificationDetails(certDetails));
+        this.formArrayControlCertificaiton(index, 'yearOfCompletion').patchValue(new Date(certDetails.yearOfCompletion));
+      });
+    }
+    if (Array.isArray(this.applicantdata.expandedLanguageSkills)) {
+      this.applicantdata.expandedLanguageSkills.forEach((langSkills, index) => {
+        this.faApplicantLanguageSkillsDetails().insert(index, this.generateRowForApplicantLanguageSkillsDetails(langSkills));
+      });
+    }
+    if (Array.isArray(this.applicantdata.expandedSkills)) {
+      this.applicantdata.expandedSkills.forEach((techSkills, index) => {
+        this.faApplicantSkillsDetails().insert(index, this.generateRowForApplicantSkillsDetails(techSkills));
+      });
+    }
+  }
 
 
-  saveApplicant(): Observable<HttpEvent<ApplicantDto[]>> {
-    return this.recruitmentService.CreateApplicant(this.fbApplicant.value);
+  saveApplicant(): Observable<HttpEvent<any[]>> {
+   if (this.addFlag) {
+      return this.recruitmentService.CreateApplicant(this.fbApplicant.value);
+    } else {
+      return this.recruitmentService.UpdateApplicant(this.fbApplicant.value);
+    }
+
   }
 
   onSubmit() {
     if (this.fbApplicant.value) {
       this.saveApplicant().subscribe(resp => {
         if (resp) {
-          this.ref.close(true);
-          this.alertMessage.displayAlertMessage(ALERT_CODES["AP001"]);
+          if (this.addFlag) {
+            this.ref.close(true);
+            this.alertMessage.displayAlertMessage(ALERT_CODES["AP001"]);
+          }
+          this.alertMessage.displayAlertMessage(ALERT_CODES["AP002"]);
+          this.ref.close({ "UpdatedModal": ViewApplicationScreen.viewApplicantDetails });
         }
       })
     }
