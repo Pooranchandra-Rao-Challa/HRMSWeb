@@ -83,7 +83,7 @@ export class ViewapplicantComponent {
       this.dialogRequest.width = "40%";
     }
     else if (action == Actions.add && content === this.viewApplicantDialogDetails && formtype === "technicalSkills") {
-      this.dialogRequest.dialogData = null;
+      this.dialogRequest.dialogData = dialogData;
       this.dialogRequest.header = "Technical Skills";
       this.dialogRequest.width = "40%";
     }
@@ -124,7 +124,11 @@ export class ViewapplicantComponent {
       width: this.dialogRequest.width
     });
     this.ref.onClose.subscribe((res: any) => {
-      event.preventDefault(); // Prevent the default form submission
+      if (res) {
+        if (res.UpdatedModal == ViewApplicationScreen.viewApplicantDetails) {
+          this.initViewApplicantDetails();
+        }
+      }
     });
   }
 }

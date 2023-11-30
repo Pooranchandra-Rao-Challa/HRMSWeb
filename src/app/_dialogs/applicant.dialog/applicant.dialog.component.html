@@ -534,7 +534,7 @@
                                     </td>
                                     <td class="vertical-align-top">
                                         <input type="text" id="cer_Results" pInputText placeholder="Enter Results*"
-                                            [maxLength]="5" numericOnly #results formControlName="results"
+                                            [maxLength]="50" alphaOnly #results formControlName="results"
                                             [style]="{'width':'100%'}" (keydown)="restrictSpaces($event)"
                                             (click)="validateRowforCertificationDetails(certificationDetailsIndex)"
                                             [ngClass]="{'is-invalid ng-dirty': formArrayControlCertificaiton(certificationDetailsIndex, 'results')?.touched &&
@@ -549,7 +549,7 @@
                                                 </span>
                                             </div>
                                             <div class="align-right w-40" style="width:30%; text-align:right;">
-                                                <small>{{results.value.length}}/{{maxLength.gradingvalues}} </small>
+                                                <small>{{results.value.length}}/{{maxLength.name}} </small>
                                             </div>
                                         </div>
                                     </td>

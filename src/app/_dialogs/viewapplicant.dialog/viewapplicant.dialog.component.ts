@@ -29,6 +29,7 @@ export class ViewapplicantDialogComponent {
   certificates: LookupViewDto[] = [];
   languages: LookupViewDto[] = [];
   skills: LookupDetailsDto[] = [];
+  filteredSkills: LookupDetailsDto[] = [];
   fbeducationdetails!: FormGroup;
   fbcertificatedetails!: FormGroup;
   fbexperience!: FormGroup;
@@ -72,7 +73,11 @@ export class ViewapplicantDialogComponent {
       } else if (this.header === 'Language Skills') {
         this.editlanguageSkills(this.rowData)
       } else if (this.header === 'Technical Skills') {
-        this.edittechnicalSkills(this.rowData)
+        if (this.rowData && this.rowData.expandedSkills && this.rowData.expandedSkills.length > 0) {
+          this.technicalSkillsForm();
+        } else if (this.rowData) {
+          this.edittechnicalSkills(this.rowData);
+        }
       }
     }
   }
@@ -148,8 +153,6 @@ export class ViewapplicantDialogComponent {
     return this.fbeducationdetails.controls;
   }
   editeducationDetails(educationDetails: ApplicantEducationDetailsDto) {
-    console.log(educationDetails);
-    
     this.rowData = educationDetails
     this.rowData.yearOfCompletion = new Date(educationDetails.yearOfCompletion);
     this.fbeducationdetails.patchValue(this.rowData);
@@ -237,13 +240,17 @@ export class ViewapplicantDialogComponent {
   // technicalSkillsForm
 
   technicalSkillsForm() {
+    this.addFlag = true;
     this.fbtechnicalSkills = this.formbuilder.group({
       applicantId: new FormControl(this.applicantId),
       applicantSkillId: new FormControl(null),
       skillId: new FormControl(null, [Validators.required]),
       expertise: new FormControl(null, [Validators.required]),
-    })
-    this.addFlag = true;
+    });
+    // Extract existing skills from expandedSkills
+    const existingSkills = this.rowData?.expandedSkills?.map(skillObject => skillObject.skill) || [];
+    // Initialize skills, excluding existing skills
+    this.initSkills(existingSkills);
   }
   get FormControlsTechSkills() {
     return this.fbtechnicalSkills.controls;
@@ -256,18 +263,20 @@ export class ViewapplicantDialogComponent {
   getExpertiseControl(): FormControl {
     return this.fbtechnicalSkills.get('expertise') as FormControl;
   }
-  initSkills() {
+
+  initSkills(excludeSkills: string[] = []) {
     this.lookupService.SkillAreas().subscribe((resp) => {
       this.skills = resp as unknown as LookupDetailsDto[];
-    })
-  }
- 
-  edittechnicalSkills(technicalSkills: ApplicantSkillDto) {
-    this.rowData = technicalSkills;
-    this.fbtechnicalSkills.patchValue(this.rowData);
-    this.addFlag = false;
+      // Filter out skills that exist in the expandedSkills array
+      this.skills = this.skills.filter(skill => !excludeSkills.includes(skill.name));
+    });
   }
 
+  edittechnicalSkills(technicalSkills: ApplicantSkillDto) {
+    this.addFlag = false
+    this.rowData = technicalSkills;
+    this.fbtechnicalSkills.patchValue(this.rowData);
+  }
 
   // SaveButtonDisabledBasedonforms
 
