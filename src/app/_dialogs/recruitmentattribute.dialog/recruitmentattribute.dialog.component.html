@@ -1,18 +1,22 @@
-<div class="p-fluid p-formgrid grid  p-8">
+<div class="p-fluid p-formgrid grid  p-3 content_scroll" style="height:400px;">
     <div class="field col-12 md:col-4">
         <div class="col-12">
             <label>Assesment Title:</label>
             <input type="text" pInputText formControlName="name" placeholder="Enter Assesment Title" />
         </div>
-        <div class="field grid ">
+        <div class="col-12 ">
+            <div class="grid">
+                <!-- <label>Expertise:</label> -->
             <div class="col-6">
-                <label>Min Expertise:</label>
+                <label>Min </label>
                 <p-rating [cancel]="false"></p-rating>
             </div>
             <div class="col-6">
-                <label>Max Expertise:</label>
+                <label>Max </label>
                 <p-rating [cancel]="false"> </p-rating>
             </div>
+            </div>
+            
         </div>
         <div class="field col-12">
             <label>Attribute Types:</label>
@@ -22,34 +26,48 @@
         </div>
     </div>
 
-    <div class="field col-12 md:col-4">
-        <label>Recruitment Stages:</label>
-        <p-multiSelect placeholder="Select Recruitment Stages" inputId="multiselect" [filter]="false" filterBy="name"
-            appendTo="body">
-        </p-multiSelect>
-    </div>
-    <div class="field col-12 md:col-4">
-        <label>Is Active:</label><br />
-        <p-inputSwitch></p-inputSwitch>
-    </div>
-    <div class="col-12">
+    <div class="field col-12 md:col-8">
         <div class="grid">
-            <p-accordion class="col-12 xl:col-4 md:col-6 sm:col-6 accordion_roles">
-                <p-accordionTab  header="Soft Skills">
-                    <div class="col-6 role-accordian-view" *ngFor="let permission of softskills">
-                        <p-inputSwitch></p-inputSwitch><br />
-                        <label for="ny">{{ permission.name }}</label>
-                    </div>
-                </p-accordionTab>
-                <p-accordionTab  header="Technical Skills">
-                    <div class="col-6 role-accordian-view" *ngFor="let permission of technicalskills">
-                        <p-inputSwitch></p-inputSwitch><br />
-                        <label for="ny">{{ permission.name}}</label>
-                    </div>
-                </p-accordionTab>
-            </p-accordion>
-        </div>
+            <div class="field col-6">
+                <label>Recruitment Stages:</label>
+                <p-multiSelect placeholder="Select Recruitment Stages" inputId="multiselect" [filter]="false" filterBy="name"
+                    appendTo="body">
+                </p-multiSelect>
+            </div>
+            <div class="field col-6">
+                <label>Is Active:</label><br />
+                <p-inputSwitch></p-inputSwitch>
+            </div>
+            <div class="col-12 ">
+                <div class="grid">
+                    <p-accordion class="col-12 xl:col-12 md:col-12 sm:col-12 accordion_roles">
+                        <p-accordionTab  header="Soft Skills">
+                            <div class="grid">
+                                <div class="col-6 role-accordian-view flex" *ngFor="let permission of softskills">
+                                    <p-inputSwitch></p-inputSwitch>&nbsp;
+                                    <label for="ny">{{ permission.name }}</label>
+                                </div>
+                            </div>
+                            
+                        </p-accordionTab>
+                        <p-accordionTab  header="Technical Skills">
+                            <div class="grid">
+                                <div class="col-6 role-accordian-view flex" *ngFor="let permission of technicalskills">
+                                    <p-inputSwitch></p-inputSwitch> &nbsp;
+                                    <label for="ny">{{ permission.name}}</label>
+                                </div>
+                            </div>
+                            
+                        </p-accordionTab>
+                    </p-accordion>
+                </div>
+            </div>
+        </div>        
+       
+       
     </div>
+   
+    
 </div>
 
 <div class=" footer dialog-footer">
