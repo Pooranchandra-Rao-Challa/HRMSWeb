@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationDialogService } from 'src/app/_alerts/confirmationdialog.service';
 import { LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
 import { ConfirmationRequestForRecruitmentProcess } from 'src/app/_models/common';
@@ -24,7 +24,8 @@ export class RecruitmentProcessComponent {
   confirmationRequest: ConfirmationRequestForRecruitmentProcess = new ConfirmationRequestForRecruitmentProcess();
 
   constructor(private RecruitmentService: RecruitmentService, private confirmationDialogService: ConfirmationDialogService,
-    private formbuilder: FormBuilder, private lookupService: LookupService, private route: ActivatedRoute,) {
+    private formbuilder: FormBuilder, private lookupService: LookupService, private route: ActivatedRoute,
+    private router: Router,) {
     this.route.params.subscribe(params => {
       this.jobOpeningId = params['jobId'];
     });
@@ -74,11 +75,16 @@ export class RecruitmentProcessComponent {
     this.jobOpeningId = mostRecentObject.jobId;
     this.initApplicants(this.jobOpeningId);
   }
+  viewApplicantDtls(applicantId: number) {
+    this.router.navigate(['admin/viewapplicant'], { queryParams: { applicantId: applicantId } });
+  }
 
   initApplicants(jobOpeningId: number) {
     this.RecruitmentService.getApplicantsForInitialRound(jobOpeningId).subscribe(resp => {
       this.applicantsList = resp as unknown as ApplicantViewDto[];
     });
+
+
   }
 
   showConfirmationDialog(applicant: ApplicantViewDto) {
