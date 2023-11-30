@@ -25,9 +25,11 @@ export class JobOpeningsComponent {
   dialogRequest: DialogRequest = new DialogRequest();
   jobOpeningDialogComponent = JobOpeningsDialogComponent;
   jobOpening: JobOpeningsDetailsViewDto[] = [];
+  jobOpeningDetails:JobOpeningsDetailsViewDto;
   mediumDate: string = MEDIUM_DATE;
   permissions: any;
   viewJobDesign: boolean = false;
+  attributeDialog: boolean = false;
   processButtonDisabled = false;
   selectedJob: JobOpeningsDetailsViewDto;
 
@@ -50,8 +52,6 @@ export class JobOpeningsComponent {
   getJobDetails() {
     this.adminService.GetJobDetails().subscribe((resp) => {
       this.jobOpening = resp as unknown as JobOpeningsDetailsViewDto[];
-      console.log(this.jobOpening);
-
     })
   }
 
@@ -62,6 +62,10 @@ export class JobOpeningsComponent {
   openJobDialog(job: JobOpeningsDetailsViewDto) {
     this.selectedJob = job;
     this.viewJobDesign = true;
+  }
+  showAttributeDialog(jobOpeningDetails) {
+    this.attributeDialog = true;
+    this.jobOpeningDetails=jobOpeningDetails;
   }
   processJobOpening(jobOpeningDetails) {
     this.RecruitmentService.getApplicantsForInitialRound(jobOpeningDetails.id).subscribe(resp => {
@@ -74,20 +78,17 @@ export class JobOpeningsComponent {
   initProcessedJobOpening() {
     this.RecruitmentService.getJobOpeningDropdown().subscribe(resp => {
       this.JobOpeningsList = resp as unknown as JobOpeningsListDto[];
-      console.log(resp);
-      
     });
   }
   isButtonDisabled(jobId: number): boolean {
     if (!this.JobOpeningsList) {
       return false; // or handle this case accordingly
     }
-  
     const foundJob = this.JobOpeningsList.find(job => job.jobId === jobId);
     return foundJob ? true : false;
   }
-  
-  
+
+
   openComponentDialog(content: any,
     dialogData, action: Actions = this.ActionTypes.add) {
     if (action == Actions.save && content === this.jobOpeningDialogComponent) {

@@ -37,7 +37,7 @@
                     <div class="col-12 text-right">
                         <button pButton pRipple 
                         [ngClass]="{'disabled-button': isButtonDisabled(jobOpeningDetails.id)}"
-                            class="p-button-primary p-button-outlined p-mr-2" id="ProcessJobOpening" (click)="processJobOpening(jobOpeningDetails)">
+                            class="p-button-primary p-button-outlined p-mr-2" id="ProcessJobOpening" (click)="showAttributeDialog(jobOpeningDetails)">
                             <i class="icon-process text-primary text-900  font-2xl mr-2"></i> Do Process
                         </button>
                     </div>
@@ -101,4 +101,16 @@
             </div>
         </div>
     </div>
+</p-dialog>
+<p-dialog header="All Recruitment Attributes" [(visible)]="attributeDialog"
+    [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '60%'}" [style]="{width: '70%'}">
+    <div class="flex flex-column align-items-center justify-content-center">
+        
+
+    </div>
+    <ng-template pTemplate="footer">
+        <div class="col-6" style="float:right">
+          <button pButton pRipple type="submit" label="submit" class="p-button-raised p-button-primary" ></button>
+        </div>
+      </ng-template>
 </p-dialog>
