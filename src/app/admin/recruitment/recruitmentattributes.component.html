@@ -35,6 +35,7 @@
                         </p-columnFilter>
                         <p-sortIcon [field]="col.header"></p-sortIcon>
                     </th>
+                    <th></th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-attribute>
@@ -56,6 +57,11 @@
                             <p-checkbox name="isActive" value="isActive" [(ngModel)]="attribute['isActive']"
                                 [binary]="true" [disabled]="true"></p-checkbox>
                         </span>
+                    </td>
+                    <td class="text-center">
+                            <button pButton pRipple icon="pi pi-pencil" style="padding: 0px;"
+                                class="p-element p-ripple p-button-text p-button p-component"
+                                (click)="openComponentDialog(recruitmentattributeDialogComponent,null,ActionTypes.save)"></button>
                     </td>
                 </tr>
             </ng-template>
