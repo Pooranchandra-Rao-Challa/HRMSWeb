@@ -25,9 +25,11 @@ export class JobOpeningsComponent {
   dialogRequest: DialogRequest = new DialogRequest();
   jobOpeningDialogComponent = JobOpeningsDialogComponent;
   jobOpening: JobOpeningsDetailsViewDto[] = [];
+  jobOpeningDetails:JobOpeningsDetailsViewDto;
   mediumDate: string = MEDIUM_DATE;
   permissions: any;
   viewJobDesign: boolean = false;
+  attributeDialog: boolean = false;
   processButtonDisabled = false;
   selectedJob: JobOpeningsDetailsViewDto;
 
@@ -61,6 +63,10 @@ export class JobOpeningsComponent {
     this.selectedJob = job;
     this.viewJobDesign = true;
   }
+  showAttributeDialog(jobOpeningDetails) {
+    this.attributeDialog = true;
+    this.jobOpeningDetails=jobOpeningDetails;
+  }
   processJobOpening(jobOpeningDetails) {
     this.RecruitmentService.getApplicantsForInitialRound(jobOpeningDetails.id).subscribe(resp => {
       if (resp) {
@@ -81,8 +87,8 @@ export class JobOpeningsComponent {
     const foundJob = this.JobOpeningsList.find(job => job.jobId === jobId);
     return foundJob ? true : false;
   }
-  
-  
+
+
   openComponentDialog(content: any,
     dialogData, action: Actions = this.ActionTypes.add) {
     if (action == Actions.save && content === this.jobOpeningDialogComponent) {
