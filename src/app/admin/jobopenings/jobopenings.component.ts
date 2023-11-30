@@ -50,8 +50,6 @@ export class JobOpeningsComponent {
   getJobDetails() {
     this.adminService.GetJobDetails().subscribe((resp) => {
       this.jobOpening = resp as unknown as JobOpeningsDetailsViewDto[];
-      console.log(this.jobOpening);
-
     })
   }
 
@@ -74,15 +72,12 @@ export class JobOpeningsComponent {
   initProcessedJobOpening() {
     this.RecruitmentService.getJobOpeningDropdown().subscribe(resp => {
       this.JobOpeningsList = resp as unknown as JobOpeningsListDto[];
-      console.log(resp);
-      
     });
   }
   isButtonDisabled(jobId: number): boolean {
     if (!this.JobOpeningsList) {
       return false; // or handle this case accordingly
     }
-  
     const foundJob = this.JobOpeningsList.find(job => job.jobId === jobId);
     return foundJob ? true : false;
   }
