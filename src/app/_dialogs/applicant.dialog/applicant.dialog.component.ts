@@ -548,8 +548,10 @@ export class ApplicantDialogComponent {
             this.ref.close(true);
             this.alertMessage.displayAlertMessage(ALERT_CODES["AP001"]);
           }
+         else{
           this.alertMessage.displayAlertMessage(ALERT_CODES["AP002"]);
           this.ref.close({ "UpdatedModal": ViewApplicationScreen.viewApplicantDetails });
+         } 
         }
       })
     }
