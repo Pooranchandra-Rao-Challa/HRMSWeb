@@ -71,16 +71,20 @@ export class ViewapplicantDialogComponent {
         this.editcertificateDetails(this.rowData)
       } else if (this.header === 'Language Skills') {
         this.initLanguages();
-        if (this.rowData && this.rowData.expandedLanguageSkills && this.rowData.expandedLanguageSkills === null || this.rowData.expandedLanguageSkills >= 0) {
-          this.languageSkillsForm();
+        if (this.rowData && this.rowData.expandedLanguageSkills === null) {
+          this.languageSkillsForm(); 
+        }  else if (this.rowData && this.rowData.expandedLanguageSkills ) {
+          this.languageSkillsForm(); 
         } else if (this.rowData) {
-          this.editlanguageSkills(this.rowData)
+          this.editlanguageSkills(this.rowData);
         }
       } else if (this.header === 'Technical Skills') {
         this.initSkills();
-        if (this.rowData && this.rowData.expandedSkills && this.rowData.expandedSkills === null || this.rowData.expandedSkills >= 0) {
+        if (this.rowData && this.rowData.expandedSkills === null) {
           this.technicalSkillsForm();
-        } else if (this.rowData) {
+        }  else if(this.rowData && this.rowData.expandedSkills){
+          this.technicalSkillsForm();
+        }else if( this.rowData) {
           this.edittechnicalSkills(this.rowData);
         }
       }
@@ -234,7 +238,7 @@ export class ViewapplicantDialogComponent {
   initLanguages() {
     this.lookupService.Languages().subscribe((resp) => {
       this.languages = resp as unknown as LookupViewDto[];
-      if (this.rowData && this.rowData.expandedLanguageSkills === null || this.rowData.expandedLanguageSkills.length >= 0) {
+      if (this.rowData && this.rowData.expandedLanguageSkills === null ) {
         const existingLanguages = this.rowData.expandedLanguageSkills?.map(languagesObject => languagesObject.language) || [];
         this.languages = this.languages.filter(languages => !existingLanguages.includes(languages.name));
       } else {
@@ -277,8 +281,7 @@ export class ViewapplicantDialogComponent {
   initSkills() {
     this.lookupService.SkillAreas().subscribe((resp) => {
       this.skills = resp as unknown as LookupDetailsDto[];
-      debugger
-      if (this.rowData && this.rowData.expandedSkills === null || this.rowData.expandedSkills.length >= 0) {
+      if (this.rowData && this.rowData.expandedSkills === null) {
         const existingSkills = this.rowData.expandedSkills?.map(skillObject => skillObject.skill) || [];
         this.skills = this.skills.filter(skill => !existingSkills.includes(skill.name));
       } else {
@@ -318,7 +321,6 @@ export class ViewapplicantDialogComponent {
   }
 
   saveApplicant(): Observable<HttpEvent<any[]>> {
-    debugger;
     if (this.addFlag) {
       if (this.header === 'Education Details') {
         return this.recruitmentService.CreateApplicantEducationDetails(this.fbeducationdetails.value);
@@ -348,7 +350,6 @@ export class ViewapplicantDialogComponent {
   }
 
   onSubmit() {
-    debugger
     this.saveApplicant().subscribe(resp => {
       if (resp) {
         this.alertMessage.displayAlertMessage(ALERT_CODES['ARVAP001']);
