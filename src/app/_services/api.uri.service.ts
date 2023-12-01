@@ -131,7 +131,6 @@ export const CREATE_VIEW_APPLICANT_LANGUAGE_SKILL = "Recruitment/CreateApplicant
 export const UPDATE_VIEW_APPLICANT_LANGUAGE_SKILL = "Recruitment/UpdateApplicantLanguageSkill";
 export const CREATE_VIEW_APPLICANT_TECHNICAL_SKILL = "Recruitment/CreateApplicantSkill";
 export const UPDATE_VIEW_APPLICANT_TECHNICAL_SKILL = "Recruitment/UpdateApplicantSkill";
-export const GET_APPLICANT_TECHNICAL_SKILL = "Recruitment/GetNotSelectedSkillsForApplicant";
 //Applicant
 export const GET_APPLICANT_DETAILS="Recruitment/GetApplicants";
 export const CREATE_APPLICANT_DETAILS ="Recruitment/CreateApplicant";
