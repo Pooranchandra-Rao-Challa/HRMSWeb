@@ -57,8 +57,6 @@ export class ViewapplicantDialogComponent {
     this.initGrading();
     this.initDesignation();
     this.initCertificates();
-    this.initLanguages();
-    this.initSkills();
     this.educationDetailsForm();
     this.experienceForm();
     this.certificateDetailsForm();
@@ -72,9 +70,15 @@ export class ViewapplicantDialogComponent {
       } else if (this.header === 'Certificate Details') {
         this.editcertificateDetails(this.rowData)
       } else if (this.header === 'Language Skills') {
-        this.editlanguageSkills(this.rowData)
+        this.initLanguages();
+        if (this.rowData && this.rowData.expandedLanguageSkills && this.rowData.expandedLanguageSkills === null || this.rowData.expandedLanguageSkills >= 0) {
+          this.languageSkillsForm();
+        } else if (this.rowData) {
+          this.editlanguageSkills(this.rowData)
+        }
       } else if (this.header === 'Technical Skills') {
-        if (this.rowData && this.rowData.expandedSkills && this.rowData.expandedSkills.length > 0) {
+        this.initSkills();
+        if (this.rowData && this.rowData.expandedSkills && this.rowData.expandedSkills === null || this.rowData.expandedSkills >= 0) {
           this.technicalSkillsForm();
         } else if (this.rowData) {
           this.edittechnicalSkills(this.rowData);
@@ -126,15 +130,10 @@ export class ViewapplicantDialogComponent {
     })
   }
 
-  initLanguages() {
-    this.lookupService.Languages().subscribe((resp) => {
-      this.languages = resp as unknown as LookupViewDto[];
-    })
-  }
-
   // educationDetailsForm
 
   educationDetailsForm() {
+    this.addFlag = true;
     this.fbeducationdetails = this.formbuilder.group({
       applicantId: new FormControl(this.applicantId),
       applicantEducationDetailId: (null),
@@ -148,7 +147,6 @@ export class ViewapplicantDialogComponent {
       gradingMethodId: new FormControl('', [Validators.required]),
       gradingValue: new FormControl('', [Validators.required]),
     })
-    this.addFlag = true;
   }
   get FormControlsEduDtls() {
     return this.fbeducationdetails.controls;
@@ -165,6 +163,7 @@ export class ViewapplicantDialogComponent {
   // experienceForm
 
   experienceForm() {
+    this.addFlag = true;
     this.fbexperience = this.formbuilder.group({
       applicantId: new FormControl(this.applicantId),
       applicantWorkExperienceId: new FormControl(null),
@@ -179,7 +178,6 @@ export class ViewapplicantDialogComponent {
       dateOfJoining: new FormControl('', [Validators.required]),
       dateOfReliving: new FormControl('', [Validators.required]),
     });
-    this.addFlag = true;
   }
   get FormControlsExpDtls() {
     return this.fbexperience.controls;
@@ -196,6 +194,7 @@ export class ViewapplicantDialogComponent {
   // certificateDetailsForm
 
   certificateDetailsForm() {
+    this.addFlag = true;
     this.fbcertificatedetails = this.formbuilder.group({
       applicantId: new FormControl(this.applicantId),
       applicantCertificateId: new FormControl(null),
@@ -204,7 +203,6 @@ export class ViewapplicantDialogComponent {
       yearOfCompletion: new FormControl(null, [Validators.required]),
       results: new FormControl(null, [Validators.required]),
     })
-    this.addFlag = true;
   }
   get FormControlsCrtDtls() {
     return this.fbcertificatedetails.controls;
@@ -219,6 +217,7 @@ export class ViewapplicantDialogComponent {
   // languageSkillsForm
 
   languageSkillsForm() {
+    this.addFlag = true;
     this.fblanguageSkills = this.formbuilder.group({
       applicantId: new FormControl(this.applicantId),
       applicantLanguageSkillId: new FormControl(null),
@@ -227,11 +226,29 @@ export class ViewapplicantDialogComponent {
       canWrite: new FormControl(null),
       canSpeak: new FormControl(null),
     })
-    this.addFlag = true;
   }
   get FormControlsLangSkills() {
     return this.fblanguageSkills.controls;
   }
+
+  initLanguages() {
+    this.lookupService.Languages().subscribe((resp) => {
+      this.languages = resp as unknown as LookupViewDto[];
+      if (this.rowData && this.rowData.expandedLanguageSkills === null || this.rowData.expandedLanguageSkills.length >= 0) {
+        const existingLanguages = this.rowData.expandedLanguageSkills?.map(languagesObject => languagesObject.language) || [];
+        this.languages = this.languages.filter(languages => !existingLanguages.includes(languages.name));
+      } else {
+        this.recruitmentService.GetviewapplicantDtls(this.applicantId).subscribe((resp) => {
+          this.viewApplicantDetails = resp[0] as unknown as ViewApplicantDto;
+          this.viewApplicantDetails.expandedLanguageSkills = JSON.parse(this.viewApplicantDetails.applicantLanguageSkills);
+          const filterlanguages = this.viewApplicantDetails.expandedLanguageSkills.filter(obj => obj.applicantLanguageSkillId !== this.rowData.applicantLanguageSkillId)
+          const excludedlanguages = filterlanguages.map(languagesObject => languagesObject.language);
+          this.languages = this.languages.filter(languages => !excludedlanguages.includes(languages.name));
+        });
+      }
+    })
+  }
+
   editlanguageSkills(languageSkills: ApplicantLanguageSkillDto) {
     this.rowData = languageSkills;
     this.fblanguageSkills.patchValue(this.rowData);
@@ -260,10 +277,10 @@ export class ViewapplicantDialogComponent {
   initSkills() {
     this.lookupService.SkillAreas().subscribe((resp) => {
       this.skills = resp as unknown as LookupDetailsDto[];
-      if (this.rowData.id > 1) {
+      debugger
+      if (this.rowData && this.rowData.expandedSkills === null || this.rowData.expandedSkills.length >= 0) {
         const existingSkills = this.rowData.expandedSkills?.map(skillObject => skillObject.skill) || [];
         this.skills = this.skills.filter(skill => !existingSkills.includes(skill.name));
-        console.log(existingSkills);
       } else {
         this.recruitmentService.GetviewapplicantDtls(this.applicantId).subscribe((resp) => {
           this.viewApplicantDetails = resp[0] as unknown as ViewApplicantDto;
@@ -301,6 +318,7 @@ export class ViewapplicantDialogComponent {
   }
 
   saveApplicant(): Observable<HttpEvent<any[]>> {
+    debugger;
     if (this.addFlag) {
       if (this.header === 'Education Details') {
         return this.recruitmentService.CreateApplicantEducationDetails(this.fbeducationdetails.value);
@@ -313,7 +331,6 @@ export class ViewapplicantDialogComponent {
       } else if (this.header === 'Technical Skills') {
         return this.recruitmentService.CreateApplicantTechnicalSkill(this.fbtechnicalSkills.value);
       }
-
     } else {
       if (this.header === 'Education Details') {
         return this.recruitmentService.UpdateApplicantEducationDetails(this.fbeducationdetails.value);
@@ -331,6 +348,7 @@ export class ViewapplicantDialogComponent {
   }
 
   onSubmit() {
+    debugger
     this.saveApplicant().subscribe(resp => {
       if (resp) {
         this.alertMessage.displayAlertMessage(ALERT_CODES['ARVAP001']);

@@ -92,7 +92,7 @@ export class ViewapplicantComponent {
       this.dialogRequest.width = "40%";
     }
     else if (action == Actions.add && content === this.viewApplicantDialogDetails && formtype === "languageSkills") {
-      this.dialogRequest.dialogData = null;
+      this.dialogRequest.dialogData = dialogData;
       this.dialogRequest.header = "Language Skills";
       this.dialogRequest.width = "40%";
     }
