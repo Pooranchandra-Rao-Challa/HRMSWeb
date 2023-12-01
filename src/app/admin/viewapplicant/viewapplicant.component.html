@@ -56,7 +56,7 @@
           *ngFor="let skill of viewApplicantDetails?.expandedSkills">
           <div style="cursor: pointer;" class="flex justify-content-between align-items-center w-100"
             (click)="openRowEditDialog(viewApplicantDialogDetails, skill, ActionTypes.edit,'technicalSkills')">
-            <span class="text-700 mr-2 ">{{ skill.skill }}</span>
+            <span class="text-700 mr-2 " >{{ skill.skill }}</span>
             <span class="text-700 mr-2 font-bold">
               <p-rating [(ngModel)]="skill.expertise" [readonly]="true" [cancel]="false"></p-rating>
             </span>

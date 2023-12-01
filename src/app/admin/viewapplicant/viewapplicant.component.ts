@@ -45,7 +45,6 @@ export class ViewapplicantComponent {
     })
   }
 
-
   openRowEditDialog(content: any,
     dialogData, action: Actions = this.ActionTypes.edit, formtype: any) {
     if (action == Actions.edit && content === this.viewApplicantDialogDetails && formtype === "education") {

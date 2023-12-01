@@ -161,6 +161,7 @@ export class ApplicantDialogComponent {
   }
 
   applicantForm() {
+    this.addFlag = true;
     this.fbApplicant = this.formbuilder.group({
       applicantId: [null],
       name: new FormControl('', [Validators.required]),

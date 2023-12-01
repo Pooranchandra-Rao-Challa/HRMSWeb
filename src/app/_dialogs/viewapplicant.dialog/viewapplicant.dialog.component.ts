@@ -7,7 +7,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
 import { MaxLength, ViewApplicationScreen } from 'src/app/_models/common';
-import { ApplicantCertificationDto, ApplicantEducationDetailsDto, ApplicantLanguageSkillDto, ApplicantSkillDto, ApplicantSkillViewDto, ApplicantWorkExperienceDto } from 'src/app/_models/recruitment';
+import { ApplicantCertificationDto, ApplicantEducationDetailsDto, ApplicantLanguageSkillDto, ApplicantSkillDto, ApplicantSkillViewDto, ApplicantWorkExperienceDto, ViewApplicantDto, applicantSkills } from 'src/app/_models/recruitment';
 import { LookupService } from 'src/app/_services/lookup.service';
 import { RecruitmentService } from 'src/app/_services/recruitment.service';
 
@@ -37,6 +37,7 @@ export class ViewapplicantDialogComponent {
   fblanguageSkills!: FormGroup;
   maxLength: MaxLength = new MaxLength();
   currentDate = new Date();
+  viewApplicantDetails: ViewApplicantDto;
 
   constructor(private formbuilder: FormBuilder,
     public ref: DynamicDialogRef,
@@ -247,28 +248,31 @@ export class ViewapplicantDialogComponent {
       skillId: new FormControl(null, [Validators.required]),
       expertise: new FormControl(null, [Validators.required]),
     });
-    // Extract existing skills from expandedSkills
-    const existingSkills = this.rowData?.expandedSkills?.map(skillObject => skillObject.skill) || [];
-    // Initialize skills, excluding existing skills
-    this.initSkills(existingSkills);
   }
   get FormControlsTechSkills() {
     return this.fbtechnicalSkills.controls;
   }
-  // initSkills() {
-  //   this.recruitmentService.GetTechnicalSkill(this.applicantId).subscribe((resp) => {
-  //     this.technicalSkills = resp as unknown as ApplicantSkillViewDto[];
-  //   })
-  // }
+
   getExpertiseControl(): FormControl {
     return this.fbtechnicalSkills.get('expertise') as FormControl;
   }
 
-  initSkills(excludeSkills: string[] = []) {
+  initSkills() {
     this.lookupService.SkillAreas().subscribe((resp) => {
       this.skills = resp as unknown as LookupDetailsDto[];
-      // Filter out skills that exist in the expandedSkills array
-      this.skills = this.skills.filter(skill => !excludeSkills.includes(skill.name));
+      if (this.rowData.id > 1) {
+        const existingSkills = this.rowData.expandedSkills?.map(skillObject => skillObject.skill) || [];
+        this.skills = this.skills.filter(skill => !existingSkills.includes(skill.name));
+        console.log(existingSkills);
+      } else {
+        this.recruitmentService.GetviewapplicantDtls(this.applicantId).subscribe((resp) => {
+          this.viewApplicantDetails = resp[0] as unknown as ViewApplicantDto;
+          this.viewApplicantDetails.expandedSkills = JSON.parse(this.viewApplicantDetails.applicantSkills);
+          const filterskills = this.viewApplicantDetails.expandedSkills.filter(obj => obj.applicantSkillId !== this.rowData.applicantSkillId)
+          const excludedSkills = filterskills.map(skillObject => skillObject.skill);
+          this.skills = this.skills.filter(skill => !excludedSkills.includes(skill.name));
+        });
+      }
     });
   }
 
