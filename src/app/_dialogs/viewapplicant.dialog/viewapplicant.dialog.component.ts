@@ -1,13 +1,13 @@
 import { HttpEvent } from '@angular/common/http';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
 import { MaxLength, ViewApplicationScreen } from 'src/app/_models/common';
-import { ApplicantCertificationDto, ApplicantEducationDetailsDto, ApplicantLanguageSkillDto, ApplicantSkillDto, ApplicantSkillViewDto, ApplicantWorkExperienceDto, ViewApplicantDto, applicantSkills } from 'src/app/_models/recruitment';
+import { ApplicantCertificationDto, ApplicantEducationDetailsDto, ApplicantLanguageSkillDto, ApplicantSkillDto, ApplicantWorkExperienceDto, ViewApplicantDto, } from 'src/app/_models/recruitment';
 import { LookupService } from 'src/app/_services/lookup.service';
 import { RecruitmentService } from 'src/app/_services/recruitment.service';
 
@@ -71,20 +71,16 @@ export class ViewapplicantDialogComponent {
         this.editcertificateDetails(this.rowData)
       } else if (this.header === 'Language Skills') {
         this.initLanguages();
-        if (this.rowData && this.rowData.expandedLanguageSkills === null) {
-          this.languageSkillsForm(); 
-        }  else if (this.rowData && this.rowData.expandedLanguageSkills ) {
-          this.languageSkillsForm(); 
+        if (this.rowData && this.rowData.savedapplicantLanguageSkills === null || this.rowData.savedapplicantLanguageSkills) {
+          this.languageSkillsForm();
         } else if (this.rowData) {
           this.editlanguageSkills(this.rowData);
         }
       } else if (this.header === 'Technical Skills') {
         this.initSkills();
-        if (this.rowData && this.rowData.expandedSkills === null) {
+        if (this.rowData && this.rowData.savedapplicantSkills === null || this.rowData.savedapplicantSkills) {
           this.technicalSkillsForm();
-        }  else if(this.rowData && this.rowData.expandedSkills){
-          this.technicalSkillsForm();
-        }else if( this.rowData) {
+        } else if (this.rowData) {
           this.edittechnicalSkills(this.rowData);
         }
       }
@@ -238,14 +234,14 @@ export class ViewapplicantDialogComponent {
   initLanguages() {
     this.lookupService.Languages().subscribe((resp) => {
       this.languages = resp as unknown as LookupViewDto[];
-      if (this.rowData && this.rowData.expandedLanguageSkills === null ) {
-        const existingLanguages = this.rowData.expandedLanguageSkills?.map(languagesObject => languagesObject.language) || [];
+      if (this.rowData && this.rowData.savedapplicantLanguageSkills === null) {
+        const existingLanguages = this.rowData.savedapplicantLanguageSkills?.map(languagesObject => languagesObject.language) || [];
         this.languages = this.languages.filter(languages => !existingLanguages.includes(languages.name));
       } else {
         this.recruitmentService.GetviewapplicantDtls(this.applicantId).subscribe((resp) => {
           this.viewApplicantDetails = resp[0] as unknown as ViewApplicantDto;
-          this.viewApplicantDetails.expandedLanguageSkills = JSON.parse(this.viewApplicantDetails.applicantLanguageSkills);
-          const filterlanguages = this.viewApplicantDetails.expandedLanguageSkills.filter(obj => obj.applicantLanguageSkillId !== this.rowData.applicantLanguageSkillId)
+          this.viewApplicantDetails.savedapplicantLanguageSkills = JSON.parse(this.viewApplicantDetails.applicantLanguageSkills);
+          const filterlanguages = this.viewApplicantDetails.savedapplicantLanguageSkills.filter(obj => obj.applicantLanguageSkillId !== this.rowData.applicantLanguageSkillId)
           const excludedlanguages = filterlanguages.map(languagesObject => languagesObject.language);
           this.languages = this.languages.filter(languages => !excludedlanguages.includes(languages.name));
         });
@@ -281,14 +277,14 @@ export class ViewapplicantDialogComponent {
   initSkills() {
     this.lookupService.SkillAreas().subscribe((resp) => {
       this.skills = resp as unknown as LookupDetailsDto[];
-      if (this.rowData && this.rowData.expandedSkills === null) {
-        const existingSkills = this.rowData.expandedSkills?.map(skillObject => skillObject.skill) || [];
+      if (this.rowData && this.rowData.savedapplicantSkills === null) {
+        const existingSkills = this.rowData.savedapplicantSkills?.map(skillObject => skillObject.skill) || [];
         this.skills = this.skills.filter(skill => !existingSkills.includes(skill.name));
       } else {
         this.recruitmentService.GetviewapplicantDtls(this.applicantId).subscribe((resp) => {
           this.viewApplicantDetails = resp[0] as unknown as ViewApplicantDto;
-          this.viewApplicantDetails.expandedSkills = JSON.parse(this.viewApplicantDetails.applicantSkills);
-          const filterskills = this.viewApplicantDetails.expandedSkills.filter(obj => obj.applicantSkillId !== this.rowData.applicantSkillId)
+          this.viewApplicantDetails.savedapplicantSkills = JSON.parse(this.viewApplicantDetails.applicantSkills);
+          const filterskills = this.viewApplicantDetails.savedapplicantSkills.filter(obj => obj.applicantSkillId !== this.rowData.applicantSkillId)
           const excludedSkills = filterskills.map(skillObject => skillObject.skill);
           this.skills = this.skills.filter(skill => !excludedSkills.includes(skill.name));
         });
@@ -354,6 +350,9 @@ export class ViewapplicantDialogComponent {
       if (resp) {
         this.alertMessage.displayAlertMessage(ALERT_CODES['ARVAP001']);
         this.ref.close({ "UpdatedModal": ViewApplicationScreen.viewApplicantDetails });
+      }
+      else {
+        this.alertMessage.displayErrorMessage(ALERT_CODES['ARVAP002']);
       }
     })
   }

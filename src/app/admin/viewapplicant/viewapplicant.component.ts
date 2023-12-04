@@ -11,8 +11,6 @@ import { RecruitmentService } from 'src/app/_services/recruitment.service';
 @Component({
   selector: 'app-viewapplicant',
   templateUrl: './viewapplicant.component.html',
-  styles: [
-  ]
 })
 export class ViewapplicantComponent {
   applicantId: number;
@@ -37,13 +35,11 @@ export class ViewapplicantComponent {
   initViewApplicantDetails() {
     this.RecruitmentService.GetviewapplicantDtls(this.applicantId).subscribe((resp) => {
       this.viewApplicantDetails = resp[0] as unknown as ViewApplicantDto;
-      console.log( this.viewApplicantDetails);
-      
-      this.viewApplicantDetails.expandedWorkExperience = JSON.parse(this.viewApplicantDetails.applicantWorkExperience);
-      this.viewApplicantDetails.expandedCertifications = JSON.parse(this.viewApplicantDetails.applicantCertifications);
-      this.viewApplicantDetails.expandedEducationDetails = JSON.parse(this.viewApplicantDetails.applicantEducationDetails);
-      this.viewApplicantDetails.expandedLanguageSkills = JSON.parse(this.viewApplicantDetails.applicantLanguageSkills);
-      this.viewApplicantDetails.expandedSkills = JSON.parse(this.viewApplicantDetails.applicantSkills);
+      this.viewApplicantDetails.savedapplicantWorkExperience = JSON.parse(this.viewApplicantDetails.applicantWorkExperience);
+      this.viewApplicantDetails.savedapplicantCertifications = JSON.parse(this.viewApplicantDetails.applicantCertifications);
+      this.viewApplicantDetails.savedapplicantEducationDetails = JSON.parse(this.viewApplicantDetails.applicantEducationDetails);
+      this.viewApplicantDetails.savedapplicantLanguageSkills = JSON.parse(this.viewApplicantDetails.applicantLanguageSkills);
+      this.viewApplicantDetails.savedapplicantSkills = JSON.parse(this.viewApplicantDetails.applicantSkills);
     })
   }
 
@@ -52,11 +48,11 @@ export class ViewapplicantComponent {
     if (action == Actions.edit && content === this.viewApplicantDialogDetails && formtype === "education") {
       this.dialogRequest.dialogData = dialogData;
       this.dialogRequest.header = "Education Details";
-      this.dialogRequest.width = "40%";
+      this.dialogRequest.width = "50%";
     } else if (action == Actions.add && content === this.viewApplicantDialogDetails && formtype === "education") {
       this.dialogRequest.dialogData = null;
       this.dialogRequest.header = "Education Details";
-      this.dialogRequest.width = "40%";
+      this.dialogRequest.width = "50%";
     }
     else if (action == Actions.edit && content === this.viewApplicantDialogDetails && formtype === "certificates") {
       this.dialogRequest.dialogData = dialogData;
@@ -71,12 +67,12 @@ export class ViewapplicantComponent {
     else if (action == Actions.edit && content === this.viewApplicantDialogDetails && formtype === "experience") {
       this.dialogRequest.dialogData = dialogData;
       this.dialogRequest.header = "Experience Details";
-      this.dialogRequest.width = "40%";
+      this.dialogRequest.width = "50%";
     }
     else if (action == Actions.add && content === this.viewApplicantDialogDetails && formtype === "experience") {
       this.dialogRequest.dialogData = null;
       this.dialogRequest.header = "Experience Details";
-      this.dialogRequest.width = "40%";
+      this.dialogRequest.width = "50%";
     }
     else if (action == Actions.edit && content === this.viewApplicantDialogDetails && formtype === "technicalSkills") {
       this.dialogRequest.dialogData = dialogData;
