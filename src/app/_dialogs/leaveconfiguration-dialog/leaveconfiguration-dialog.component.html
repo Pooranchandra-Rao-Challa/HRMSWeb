@@ -1,0 +1,132 @@
+<div class=" align-items-center justify-content-center">
+    <form [formGroup]="fbLeaveConfiguration">
+        <div class="grid  p-5 content_scroll" style="height:500px;">
+            <div class="col-12 roles-container">
+                <div class="p-fluid p-formgrid grid">
+                    <div class="field col-12 md:col-4">
+                        <label class="required">Job Title:</label>
+                        <input pinput id="jobTitle"  pInputText placeholder="Select Job Title">
+                        <!-- <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                                <span *ngIf="FormControls['title'].touched && FormControls['title'].invalid">
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="FormControls['title'].errors?.['required']">
+                                        Please Select Job Title.</div>
+                                </span>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label class="required">Project:</label>
+                        <input pinput id="jobTitle"  pInputText placeholder="Select Job Title">
+
+                        <!-- <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                                <span *ngIf="FormControls['projectId'].touched && FormControls['projectId'].invalid">
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="FormControls['projectId'].errors?.['required']">
+                                        Please Select Project.</div>
+                                </span>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label class="required">Designation:</label>
+                        <input pinput id="jobTitle"  pInputText placeholder="Select Job Title">
+
+                        <!-- <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                                <span *ngIf="FormControls['designationId'].touched && FormControls['designationId'].invalid">
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="FormControls['designationId'].errors?.['required']">
+                                        Please Select Designation.</div>
+                                </span>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label class="required">Soft Skills:</label>
+                        <input pinput id="jobTitle"  pInputText placeholder="Select Job Title">
+
+                        <!-- <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                                <span *ngIf="FormControls['softSkills'].touched && FormControls['softSkills'].invalid">
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="FormControls['softSkills'].errors?.['required']">
+                                        Please Select Soft Skills.</div>
+                                </span>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label class="required">Nature of Job:</label>
+                        <input pinput id="jobTitle"  pInputText placeholder="Select Job Title">
+
+                        <!-- <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                                <span
+                                    *ngIf="FormControls['natureOfJobId'].touched && FormControls['natureOfJobId'].invalid">
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="FormControls['natureOfJobId'].errors?.['required']">
+                                        Please Select Nature Of Job.</div>
+                                </span>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label class=" required">Description:</label>
+                        <input pinput id="jobTitle"  pInputText placeholder="Select Job Title">
+
+                        <!-- <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                                <span
+                                    *ngIf="FormControls['description'].touched && FormControls['description'].invalid">
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="FormControls['description'].errors?.['required']">
+                                        Please Enter Description.</div>
+                                </span>
+                            </div>
+                            <div class="align-right w-40" style="width:30%; text-align:right;">
+                                <small>{{description.value.length}}/{{maxLength.description}}</small>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label class="required">Compensation Package:</label>
+                        <input pinput id="jobTitle"  pInputText placeholder="Select Job Title">
+
+                        <!-- <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                                <span
+                                    *ngIf="FormControls['compensationPackage'].touched && FormControls['compensationPackage'].invalid">
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="FormControls['compensationPackage'].errors?.['required']">
+                                        Please Enter Compensation Package.</div>
+                                </span>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label class="required">Required By:</label>
+                        <input pinput id="jobTitle"  pInputText placeholder="Select Job Title">
+
+                        <!-- <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                                <span *ngIf="FormControls['requiredBy'].touched && FormControls['requiredBy'].invalid">
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="FormControls['requiredBy'].errors?.['required']">
+                                        Please Select Required By.</div>
+                                </span>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class=" footer dialog-footer">
+    <button pButton pRipple type="submit" label="Add Job Opening" class="p-button-raised p-button-primary"
+        id="SubmitJobForm" [disabled]="fbLeaveConfiguration.invalid" ></button>
+</div>
