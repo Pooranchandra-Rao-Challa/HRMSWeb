@@ -151,7 +151,7 @@ export class LeavesComponent {
           this.alertMessage.displayAlertMessage(ALERT_CODES["ELA001"]);
         }
         else {
-          this.alertMessage.displayErrorMessage(ALERT_CODES["ELR002"]);
+          this.alertMessage.displayMessageforLeave(ALERT_CODES["ELR002"]);
         }
       }
     })
