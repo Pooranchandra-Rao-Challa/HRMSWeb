@@ -6,7 +6,7 @@ export class UserViewDto {
   email?: string
   mobileNumber?: any
   roleName?: string
-  roleId?:any
+  roleId?: any
   isActive?: boolean
   createdAt?: string
   updatedAt?: string
@@ -25,8 +25,8 @@ export class UserQuestionDto {
 export class RoleViewDto {
   roleId?: string;
   name?: string;
-  eroleId?:number;
-  eRole?:string;
+  eroleId?: number;
+  eRole?: string;
   isActive?: boolean;
   createdBy?: string
   createdAt?: string
@@ -43,7 +43,7 @@ export class RolePermissionDto {
 export class RoleDto {
   roleId?: string
   name?: string
-  eroleId?:number;
+  eroleId?: number;
   isActive?: boolean
   permissions?: RolePermissionDto[]
   createdBy?: string
@@ -73,10 +73,10 @@ export class CreateUserQuestionDto {
 }
 
 export class ChangePasswordDto {
-    // UserName?: string
-    CurrentPassword?: string
-    NewPassword?: string
-    ConfirmPassword?: string;
+  // UserName?: string
+  CurrentPassword?: string
+  NewPassword?: string
+  ConfirmPassword?: string;
 }
 export class UserUpdateDto {
   userId?: string
@@ -89,4 +89,15 @@ export class UserUpdateDto {
   mobileNumber?: string
   isActive?: boolean
   createdAt: string
-  }
+}
+
+export class ConfigDto{
+  minJOProcessTime?: number;
+  maxTimesJOToBeProcessed ?: number;
+  casualLeaves ?: number;
+  sickLeaves ?: number;
+  earnedLeaves ?: number;
+  casualLeavesForTrainee?: number;
+  sickLeavesForTrainee?: number;
+}
+

@@ -30,6 +30,7 @@ export class SettingsComponent {
     confirmationRequest: ConfirmationRequest = new ConfirmationRequest();
     addFlag: boolean;
     deletedUserQuestionId: number;
+    fbCofig!:FormGroup;
 
     constructor(
         private formbuilder: FormBuilder,
@@ -80,6 +81,18 @@ export class SettingsComponent {
             confirmPassword: new FormControl('', Validators.required)
         }, {
             validator: ConfirmedValidator('newPassword', 'confirmPassword')
+        });
+    }
+
+    configForm() {
+        this.fbCofig = this.formbuilder.group({
+            minJOProcessTime: new FormControl('', Validators.required),
+            maxTimesJOToBeProcessed : new FormControl('', Validators.required),
+            casualLeaves : new FormControl('', Validators.required),
+            sickLeaves : new FormControl('', Validators.required),
+            earnedLeaves : new FormControl('', Validators.required),
+            casualLeavesForTrainee: new FormControl('', Validators.required),
+            sickLeavesForTrainee : new FormControl('', Validators.required)
         });
     }
 
