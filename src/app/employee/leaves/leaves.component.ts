@@ -3,7 +3,6 @@ import { Table } from 'primeng/table';
 import { Actions, DialogRequest, ITableHeader } from 'src/app/_models/common';
 import { GlobalFilterService } from 'src/app/_services/global.filter.service';
 import { EmployeeLeaveDto } from 'src/app/_models/employes';
-import { LeaveDialogComponent } from 'src/app/_dialogs/leave.dialog/leave.dialog.component';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { JwtService } from 'src/app/_services/jwt.service';
@@ -16,6 +15,7 @@ import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { NgPluralCase } from '@angular/common';
 import { LeaveConfirmationService } from 'src/app/_services/leaveconfirmation.service';
+import { EmployeeLeaveDialogComponent } from 'src/app/_dialogs/employeeleave.dialog/employeeleave.dialog.component';
 
 @Component({
   selector: 'app-leaves',
@@ -27,7 +27,7 @@ export class LeavesComponent {
   globalFilterFields: string[] = ['employeeName', 'leaveType', 'fromDate', 'toDate', 'note', 'acceptedBy', 'acceptedAt', 'approvedBy']
   @ViewChild('filter') filter!: ElementRef;
   ActionTypes = Actions;
-  leaveDialogComponent = LeaveDialogComponent;
+  employeeleaveDialogComponent = EmployeeLeaveDialogComponent;
   dialogRequest: DialogRequest = new DialogRequest();
   fbLeave: FormGroup;
   leaves: EmployeeLeaveDto[] = [];
@@ -151,7 +151,7 @@ export class LeavesComponent {
           this.alertMessage.displayAlertMessage(ALERT_CODES["ELA001"]);
         }
         else {
-          this.alertMessage.displayErrorMessage(ALERT_CODES["ELR002"]);
+          this.alertMessage.displayMessageforLeave(ALERT_CODES["ELR002"]);
         }
       }
     })
@@ -167,7 +167,7 @@ export class LeavesComponent {
 
   openComponentDialog(content: any,
     dialogData, action: Actions = this.ActionTypes.add) {
-    if (action == Actions.save && content === this.leaveDialogComponent) {
+    if (action == Actions.save && content === this.employeeleaveDialogComponent) {
       this.dialogRequest.dialogData = dialogData;
       this.dialogRequest.header = "Leave";
       this.dialogRequest.width = "60%";

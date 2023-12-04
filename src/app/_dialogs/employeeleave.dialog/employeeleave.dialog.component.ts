@@ -14,10 +14,10 @@ import { EmployeeService } from 'src/app/_services/employee.service';
 import { LookupService } from 'src/app/_services/lookup.service';
 
 @Component({
-  selector: 'app-leave.dialog',
-  templateUrl: './leave.dialog.component.html'
+  selector: 'app-employeeleave.dialog',
+  templateUrl: './employeeleave.dialog.component.html'
 })
-export class LeaveDialogComponent {
+export class EmployeeLeaveDialogComponent {
   fbLeave!: FormGroup;
   employees: EmployeesList[] = [];
   leaveType: LookupViewDto[] = [];

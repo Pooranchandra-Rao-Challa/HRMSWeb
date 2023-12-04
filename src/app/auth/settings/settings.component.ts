@@ -84,18 +84,6 @@ export class SettingsComponent {
         });
     }
 
-    configForm() {
-        this.fbCofig = this.formbuilder.group({
-            minJOProcessTime: new FormControl('', Validators.required),
-            maxTimesJOToBeProcessed : new FormControl('', Validators.required),
-            casualLeaves : new FormControl('', Validators.required),
-            sickLeaves : new FormControl('', Validators.required),
-            earnedLeaves : new FormControl('', Validators.required),
-            casualLeavesForTrainee: new FormControl('', Validators.required),
-            sickLeavesForTrainee : new FormControl('', Validators.required)
-        });
-    }
-
     get FormControls() {
         return this.fbChangePassword.controls;
     }
