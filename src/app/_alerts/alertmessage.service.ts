@@ -223,5 +223,9 @@ export const ALERT_CODES: { [key: string]: string } = {
     //Applicant 
     'AP001':'Applicant Added Successfully',
     'AP002':'Applicant Updated Successfully',
+
+    //Leave Configuration
+    'LC001':'Leave Configuration Added Successfully',
+    'LC002':'Leave Configuration Updated Successfully'
 }
 
