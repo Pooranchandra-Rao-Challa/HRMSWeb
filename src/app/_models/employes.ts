@@ -29,11 +29,11 @@ export class EmployeeBasicDetailDto {
 	signDate?: Date;
 	isActive?: boolean;
 	isAFresher?: boolean;
-	nationality?:string;
+	nationality?: string;
 }
 
 export class EducationDetailsDto {
-	educaitonId?:number;
+	educaitonId?: number;
 	educationDetailId?: number;
 	employeeId?: number;
 	streamId?: number;
@@ -142,7 +142,7 @@ export class EmployeeBasicDetailViewDto {
 	signDate?: Date;
 	isActive?: boolean;
 	isAFresher?: boolean;
-	nationality?:string;
+	nationality?: string;
 	createdAt?: Date;
 	createdBy?: string;
 	updatedAt?: Date;
@@ -362,7 +362,7 @@ export class EmployeeLeaveDto {
 	approvedBy?: string;
 	approvedAt?: Date;
 	rejected?: boolean;
-	comments?:String;
+	comments?: String;
 	status?: string;
 	isApprovalEscalated?: boolean;
 	url?: String;
@@ -378,7 +378,7 @@ export class EmployeeAttendanceList {
 	NotReported: boolean
 }
 
-export class CompanyHierarchyViewDto  {
+export class CompanyHierarchyViewDto {
 	chartId?: number;
 	chartTitle?: string;
 	selfId?: number;
@@ -393,21 +393,21 @@ export class EmployeeLeaveDetailsViewDto {
 	leaveDto?: leaveDto;
 }
 
-export class leaveDto{
-	employeeId?:number;
+export class leaveDto {
+	employeeId?: number;
 	employeeName?: string;
-	leaveTypeId?:number;
+	leaveTypeId?: number;
 	getLeaveType?: string;
 	fromDate?: Date;
 	toDate?: Date;
-	note?:string;
+	note?: string;
 }
 
 export class EmployeeLeaveDetailsDto {
-	employeeId?:number;
+	employeeId?: number;
 	employeeName?: string;
 	getLeaveType?: string;
-	leaveId?:number;
+	leaveId?: number;
 	comments?: string;
 	protectedData?: string;
 	protectedWith?: string;
