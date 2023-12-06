@@ -2,11 +2,11 @@ import { Injectable } from "@angular/core";
 // import { ForgotUserPasswordDto, UserQuestionDto, UserViewDto } from "../_models/security";
 import { ApiHttpService } from "./api.http.service";
 import {
-    CHANGE_PASSWORD_URI, CREATE_ROLE_URI, CREATE_SECURITY_QUESTIONS_URI, DELETE_USER_QUESTIONS_URI, Delete_USER_URI, FORGOT_PASSWORD_URI, GET_ALL_USER_QUESTIONS_URI, GET_PERMISSIONS_URI, GET_ROLES_URI, GET_ROLE_PERMISSIONS_URI,
+    CHANGE_PASSWORD_URI, CREATE_LEAVE_CONFIGURATION, CREATE_ROLE_URI, CREATE_SECURITY_QUESTIONS_URI, DELETE_USER_QUESTIONS_URI, Delete_USER_URI, FORGOT_PASSWORD_URI, GET_ALL_USER_QUESTIONS_URI, GET_LEAVE_CONFIGURATION, GET_PERMISSIONS_URI, GET_ROLES_URI, GET_ROLE_PERMISSIONS_URI,
     GET_SECURITY_QUESTIONS_URI, GET_USERS_URI, UPDATE_ROLE_URI, UPDATE_USER_QUESTIONS_URI, UPDATE_USER_URI, VALIDATE_USER_QUESTIONS_URI,
 } from "./api.uri.service";
 import {
-    ChangePasswordDto, CreateUserQuestionDto, ForgotUserPasswordDto, RoleDto, RolePermissionDto, RoleViewDto, SecureQuestionDto, UserQuestionDto, UserUpdateDto,
+    ChangePasswordDto, CreateUserQuestionDto, ForgotUserPasswordDto, LeaveConfigurationDto, RoleDto, RolePermissionDto, RoleViewDto, SecureQuestionDto, UserQuestionDto, UserUpdateDto,
     UserViewDto
 } from "../_models/security";
 import { HttpHeaders } from "@angular/common/http";
@@ -73,6 +73,13 @@ export class SecurityService extends ApiHttpService {
     }
 
     public DeleteSecurityQuestions(userQuestions: UserQuestionDto[]) {
-        return this.post<UserQuestionDto[]>(DELETE_USER_QUESTIONS_URI,userQuestions,{responseType: 'text'});
+        return this.post<UserQuestionDto[]>(DELETE_USER_QUESTIONS_URI, userQuestions, { responseType: 'text' });
     }
+    public GetLeaveConfiguration() {
+        return this.get<LeaveConfigurationDto[]>(GET_LEAVE_CONFIGURATION)
+    }
+    public CreateLeaveConfiguration(leaveconfiguration: LeaveConfigurationDto[]) {
+        return this.post<LeaveConfigurationDto[]>(CREATE_LEAVE_CONFIGURATION, leaveconfiguration)
+    }
+
 }

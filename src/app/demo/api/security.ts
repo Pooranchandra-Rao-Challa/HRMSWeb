@@ -1,11 +1,37 @@
 export interface RecruitmentAttributesDTO{
+  length: number;
   id? :number;
+  recruitmentAttributeId?:number
   assesmentTitle?:string;
   minExpertise?:number;
   maxExpertise?:number;
   attributeTypes?:string;
   recruitmentStages?:string;
   isActive?:Boolean;
+  strSoftSkills?:string
+  strTechnicalSkills?:string
+  strRecruitmentStages?:string
+  SkillDetails?: SkillDetailsDto[];
+  TechnicalDetails?: TechnicalDetailsDto[];
+  RecruitmentStageDetails?: RecruitmentStageDetailsDto[];
+}
+export interface SkillDetailsDto{
+  rASSXrefId?:number
+  softSkillId?:number
+  softSkill?:string
+  assigned?:boolean
+}
+export interface TechnicalDetailsDto{
+  rATSXrefId?:number
+  technicalSkillId?:number
+  technicalSkill?:string
+  assigned?:boolean
+}
+export interface RecruitmentStageDetailsDto{
+  rAWSXrefId?:number
+  recruitmentStageId?:number
+  recruitmentStage?:string
+  assigned?:boolean
 }
 export interface JobDesign{
   id?:number;

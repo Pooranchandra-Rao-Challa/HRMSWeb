@@ -43,7 +43,8 @@
                         <a class="flex align-items-center hover:text-primary-500 transition-duration-200"
                             pStyleClass="@grandparent" enterClass="ng-hidden" enterActiveClass="px-scalein"
                             leaveToClass="ng-hidden" leaveActiveClass="px-fadeout"
-                            (click)="openComponentDialog(lookupDialogComponent, null, ActionTypes.save)">
+                            (click)="openComponentDialog(lookupDialogComponent, null, ActionTypes.save)"
+                            *ngIf="permissions?.CanManageLookups">
                             <i class="pi pi-external-link mr-2"></i>
                             <span>Lookup</span>
                         </a>
@@ -52,7 +53,8 @@
                         <a class="flex align-items-center hover:text-primary-500 transition-duration-200"
                             pStyleClass="@grandparent" enterClass="ng-hidden" enterActiveClass="px-scalein"
                             leaveToClass="ng-hidden" leaveActiveClass="px-fadeout"
-                            (click)="openComponentDialogforRecruitmentAttributes(recruitmentattributesDialogComponent, null, ActionTypes.save)">
+                            (click)="openComponentDialogforRecruitmentAttributes(recruitmentattributesDialogComponent, null, ActionTypes.save)"
+                            *ngIf="permissions?.CanManageRecruitmentAttribute">
                             <i class="pi pi-external-link mr-2"></i>
                             <span>Recruitment Attributes</span>
                         </a>
@@ -61,7 +63,8 @@
                         <a class="flex align-items-center hover:text-primary-500 transition-duration-200"
                             pStyleClass="@grandparent" enterClass="ng-hidden" enterActiveClass="px-scalein"
                             leaveToClass="ng-hidden" leaveActiveClass="px-fadeout"
-                            (click)="openComponentDialogforLeaveConfiguration(leaveConfigurationDialogComponent, null, ActionTypes.save)">
+                            (click)="openComponentDialogforLeaveConfiguration(leaveConfigurationDialogComponent, null, ActionTypes.save)"
+                            *ngIf="permissions?.CanManageLeaveConfiguration">
                             <i class="pi pi-external-link mr-2"></i>
                             <span>Leave Configuration</span>
                         </a>

@@ -32,6 +32,7 @@ export class AppTopbarComponent {
     dialogRequest: DialogRequest = new DialogRequest();
     employeeDtls = new EmployeeBasicDetailViewDto();
     EmployeeId: number;
+    permissions: any;
 
     constructor(public layoutService: LayoutService,
         private jwtService: JwtService,
@@ -47,6 +48,7 @@ export class AppTopbarComponent {
     }
 
     ngOnInit(): void {
+        this.permissions = this.jwtService.Permissions;
         if (this.EmployeeId) {
             this.initViewEmpDtls();
         }
@@ -133,8 +135,8 @@ export class AppTopbarComponent {
         dialogData, action: Actions = this.ActionTypes.add) {
         if (action == Actions.save && content === this.leaveConfigurationDialogComponent) {
             this.dialogRequest.dialogData = dialogData;
-            this.dialogRequest.header = "Leave Confirmation";
-            this.dialogRequest.width = "70%";
+            this.dialogRequest.header = "Leave Configuration";
+            this.dialogRequest.width = "60%";
         }
         this.ref = this.dialogService.open(content, {
             data: this.dialogRequest.dialogData,

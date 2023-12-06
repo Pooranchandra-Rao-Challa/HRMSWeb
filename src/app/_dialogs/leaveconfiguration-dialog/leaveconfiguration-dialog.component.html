@@ -1,70 +1,123 @@
 <div class=" align-items-center justify-content-center">
     <form [formGroup]="fbLeaveConfiguration">
-        <div class="grid  p-5 content_scroll" style="height:500px;">
+        <div class="grid content_scroll" style="height:500px;">
             <div class="col-12 roles-container">
                 <div class="p-fluid p-formgrid grid">
                     <div class="field col-12 md:col-4">
-                        <label class="required">Maximum Experience Eligibility For Leaves(In Months):</label>
-                        <input pinput pInputText placeholder="Enter Maximum Experience Eligibility">
-                        <!-- <div class="flex">
+                        <label class="required">Maximum Experience Eligibility(In Months):</label>
+                        <input pinput pInputText placeholder="Enter Maximum Experience Eligibility" [maxLength]="2"
+                            formControlName="maxExpInMonths" numericOnly (keydown)="restrictSpaces($event)" #maxExp
+                            [ngClass]="{'is-invalid ng-dirty': FormControls['maxExpInMonths'].touched && FormControls['maxExpInMonths'].errors}">
+                        <div class="flex">
                             <div class="align-left w-60" style="width:70%">
-                                <span *ngIf="FormControls['title'].touched && FormControls['title'].invalid">
+                                <span
+                                    *ngIf="FormControls['maxExpInMonths'].touched && FormControls['maxExpInMonths'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
-                                        *ngIf="FormControls['title'].errors?.['required']">
-                                        Please Select Job Title.</div>
+                                        *ngIf="FormControls['maxExpInMonths'].errors?.['required']">
+                                        Please Enter Maximum Experience Eligibility.</div>
                                 </span>
                             </div>
-                        </div> -->
+                            <div class="align-right w-40" style="width:30%; text-align:right;">
+                                <small>{{maxExp.value.length}}/{{maxLength.listingorder}}</small>
+                            </div>
+                        </div>
                     </div>
                     <div class="field col-12 md:col-4">
                         <label class="required">Casual Leave:</label>
-                        <input pinput pInputText placeholder="Enter Casual Leave">
-
-                        <!-- <div class="flex">
+                        <input pinput pInputText placeholder="Enter Casual Leave" [maxLength]="2" formControlName="cl"
+                            numericOnly (keydown)="restrictSpaces($event)" #casualleave
+                            [ngClass]="{'is-invalid ng-dirty': FormControls['cl'].touched && FormControls['cl'].errors}">
+                        <div class="flex">
                             <div class="align-left w-60" style="width:70%">
-                                <span *ngIf="FormControls['projectId'].touched && FormControls['projectId'].invalid">
+                                <span *ngIf="FormControls['cl'].touched && FormControls['cl'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
-                                        *ngIf="FormControls['projectId'].errors?.['required']">
-                                        Please Select Project.</div>
+                                        *ngIf="FormControls['cl'].errors?.['required']">
+                                        Please Enter Casual Leave.</div>
                                 </span>
                             </div>
-                        </div> -->
+                            <div class="align-right w-40" style="width:30%; text-align:right;">
+                                <small>{{casualleave.value.length}}/{{maxLength.listingorder}}</small>
+                            </div>
+                        </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <label class="required">Previliged Leave:</label>
-                        <input pinput  pInputText placeholder="Enter Previliged Leave">
-
-                        <!-- <div class="flex">
+                        <label class="required">Privileged Leave:</label>
+                        <input pinput pInputText placeholder="Enter Privileged Leave" [maxLength]="2"
+                            formControlName="pl" numericOnly (keydown)="restrictSpaces($event)" #privilegedleave
+                            [ngClass]="{'is-invalid ng-dirty': FormControls['pl'].touched && FormControls['pl'].errors}">
+                        <div class="flex">
                             <div class="align-left w-60" style="width:70%">
-                                <span *ngIf="FormControls['designationId'].touched && FormControls['designationId'].invalid">
+                                <span *ngIf="FormControls['pl'].touched && FormControls['pl'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
-                                        *ngIf="FormControls['designationId'].errors?.['required']">
-                                        Please Select Designation.</div>
+                                        *ngIf="FormControls['pl'].errors?.['required']">
+                                        Please Enter Privileged Leave.</div>
                                 </span>
                             </div>
-                        </div> -->
+                            <div class="align-right w-40" style="width:30%; text-align:right;">
+                                <small>{{privilegedleave.value.length}}/{{maxLength.listingorder}}</small>
+                            </div>
+                        </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <label class="required">Leave Accumilation Period(In Months):</label>
-                        <input pinput pInputText placeholder="Enter Leave Accumilation Period">
+                        <label>Leave Accumulation Period(In Months):</label>
+                        <input pinput pInputText placeholder="Enter Leave Accumulation Period" #accumulationperiod
+                            [maxLength]="2" formControlName="accumulationPeriod" numericOnly
+                            (keydown)="restrictSpaces($event)">
 
-                        <!-- <div class="flex">
-                            <div class="align-left w-60" style="width:70%">
-                                <span *ngIf="FormControls['softSkills'].touched && FormControls['softSkills'].invalid">
-                                    <div class="ng-invalid ng-touched p-error"
-                                        *ngIf="FormControls['softSkills'].errors?.['required']">
-                                        Please Select Soft Skills.</div>
-                                </span>
-                            </div>
-                        </div> -->
+                        <div class="align-right w-60" style="width:100%; text-align:right;">
+                            <small>{{accumulationperiod.value.length}}/{{maxLength.listingorder}}</small>
+                        </div>
+                    </div>
+                    <div class="  col-12 md:col-4 mt-2">
+                        <div class=" button-container mt-5">
+                            <p-button type="button" [label]="this.addLeaveLabel"
+                                [disabled]="fbLeaveConfiguration.invalid" (click)="addLeaveDetails()"></p-button>
+                        </div>
                     </div>
                 </div>
+                <!-- FormArray -->
+                <p-table #dt2 [value]="leaveConfiguration" dataKey="id" [rows]="10" [rowHover]="true"
+                    styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="false"
+                    [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]" [scrollable]="true"
+                    scrollDirection="vertical" scrollHeight="300px" [style]="{width: 'max'}">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th class="text-center">Maximum Experience Eligibility(In Months):</th>
+                            <th class="text-center">Casual Leave</th>
+                            <th class="text-center">Privileged Leave</th>
+                            <th class="text-center">Leave Accumulation Period(In Months)</th>
+                            <th>Actions</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-leaveConfigurationDetails let-leaveDetailsIndex="rowIndex">
+                        <tr>
+                            <td class="text-center">{{ leaveConfigurationDetails.maxExpInMonths}}</td>
+                            <td class="text-center">{{ leaveConfigurationDetails.cl}}</td>
+                            <td class="text-center">{{ leaveConfigurationDetails.pl}}</td>
+                            <td class="text-center">{{ leaveConfigurationDetails.accumulationPeriod}}</td>
+                            <td>
+                                <div class="flex">
+                                    <button pButton pRipple icon="pi pi-pencil" id="educationDetailsAdd-Btn"
+                                        (click)="editLeaveDetails(leaveConfigurationDetails)"
+                                        *ngIf="leaveConfigurationDetails.leaveConfigurationId"
+                                        class="p-element p-ripple p-button-text p-button p-component mr-3 p-0 ">
+                                    </button>
+                                    <button pButton pRipple icon="pi pi-trash" id="educationDetailsRemove-Btn"
+                                        class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
+                                        *ngIf="!leaveConfigurationDetails.leaveConfigurationId"
+                                        (click)="removeRow(leaveDetailsIndex)"></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
             </div>
         </div>
     </form>
 </div>
 
 <div class=" footer dialog-footer">
-    <button pButton pRipple type="submit" label="Add Job Opening" class="p-button-raised p-button-primary"
-        id="SubmitJobForm" [disabled]="fbLeaveConfiguration.invalid" ></button>
+    <button pButton pRipple type="submit" [label]="this.submitlabel" class="p-button-raised p-button-primary"
+        id="SubmitLeaveConfigurationForm" [disabled]="this.leaveConfiguration.length == 0"
+        (click)="onSubmit()"></button>
 </div>

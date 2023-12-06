@@ -91,13 +91,12 @@ export class UserUpdateDto {
   createdAt: string
 }
 
-export class ConfigDto{
-  minJOProcessTime?: number;
-  maxTimesJOToBeProcessed ?: number;
-  casualLeaves ?: number;
-  sickLeaves ?: number;
-  earnedLeaves ?: number;
-  casualLeavesForTrainee?: number;
-  sickLeavesForTrainee?: number;
+export class LeaveConfigurationDto {
+  leaveConfigurationId?: number;
+  maxExpInMonths?: number;
+  cl?: number;
+  pl?: number;
+  sl?: number;
+  accumulationPeriod?: number;
 }
 

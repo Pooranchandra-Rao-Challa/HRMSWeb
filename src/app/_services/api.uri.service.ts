@@ -33,6 +33,10 @@ export const GET_ASSET_ALLOTMENTS_URI = "Admin/GetAssetAllotmentDetails";
 export const UNASSIGNED_ASSET_ALLOTMENT_URI = "Admin/InactiveAssetAllotment";
 export const DELETE_USER_QUESTIONS_URI = "Security/DeleteUserQuestions";
 
+//Leave Configuration
+export const GET_LEAVE_CONFIGURATION = "Security/GetLeaveConfigurationData";
+export const CREATE_LEAVE_CONFIGURATION = "Security/UpdateLeaveConfiguration";
+
 // BEGIN LOOKUPS
 
 export const LOOKUP_ASSET_TYPE_URI = "Lookup/AssetTypes";
@@ -114,7 +118,10 @@ export const GET_COMPANY_HIERARCHY = "Employee/GetCompanyHierarchy";
 export const GET_JOB_DETAILS = "JobOpening/GetJobOpening";
 export const CREATE_JOB_OPENINGS_DETAILS = "JobOpening/CreateJobOpening";
 export const UPDATE_JOB = "JobOpening/UpdateJobOpeningById";
-
+//RecruitmentAttributes
+export const CREATE_RECRUITMENT_ATTRIBUTE="Recruitment/CreateRecruitmentAttribute";
+export const UPDATE_RECRUITMENT_ATTRIBUTE="Recruitment/UpdateRecruitmentAttribute";
+export const GET_RECRUITMENT_DETAILS="Recruitment/GetRecruitmentAttributes"
 // leave confirmation
 export const GET_EMPLOYEE_MAIL_DETAILS = "Attendance/UpdateLeaveStatus";
 export const UPDATE_EMPLOYEE_MAIL_DETAILS = "Attendance/UpdateLeaveStatus";
@@ -132,9 +139,9 @@ export const UPDATE_VIEW_APPLICANT_LANGUAGE_SKILL = "Recruitment/UpdateApplicant
 export const CREATE_VIEW_APPLICANT_TECHNICAL_SKILL = "Recruitment/CreateApplicantSkill";
 export const UPDATE_VIEW_APPLICANT_TECHNICAL_SKILL = "Recruitment/UpdateApplicantSkill";
 //Applicant
-export const GET_APPLICANT_DETAILS="Recruitment/GetApplicants";
-export const CREATE_APPLICANT_DETAILS ="Recruitment/CreateApplicant";
-export const UPDATE_APPLICANT_DETAILS ="Recruitment/UpdateApplicant";
-export const GET_JOB_OPENINGS_DROPDOWN="JobOpening/GetJobTitleWithInitiatedAt";
-export const Get_Applicants_with_Id="Recruitment/GetApplicantsForInitialQualification"
-export const UPDATE_APPLICANT="Recruitment/updateinitialqualification";
+export const GET_APPLICANT_DETAILS = "Recruitment/GetApplicants";
+export const CREATE_APPLICANT_DETAILS = "Recruitment/CreateApplicant";
+export const UPDATE_APPLICANT_DETAILS = "Recruitment/UpdateApplicant";
+export const GET_JOB_OPENINGS_DROPDOWN = "JobOpening/GetJobTitleWithInitiatedAt";
+export const Get_Applicants_with_Id = "Recruitment/GetApplicantsForInitialQualification"
+export const UPDATE_APPLICANT = "Recruitment/updateinitialqualification";

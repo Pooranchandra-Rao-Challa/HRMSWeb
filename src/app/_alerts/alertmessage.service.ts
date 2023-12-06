@@ -223,5 +223,14 @@ export const ALERT_CODES: { [key: string]: string } = {
     //Applicant 
     'AP001':'Applicant Added Successfully',
     'AP002':'Applicant Updated Successfully',
+    //Recruitment Attributes
+    'RAS001':'Recruitment Attribute Added Successfully',
+    'RAS003':'Recruitment Attribute Not Added',
+    'RAS002':'Recruitment Attribute Updated Successfully',
+    'RAS004':'Recruitment Attribute Not Updated',
+
+    //Leave Configuration
+    'LC001':'Leave Configuration Added Successfully',
+    'LC002':'Leave Configuration Updated Successfully'
 }
 

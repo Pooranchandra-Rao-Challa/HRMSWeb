@@ -510,7 +510,8 @@ label {
 }
 
 .disabled-radio,
-.disabled-calendar,.disabled-button {
+.disabled-calendar,
+.disabled-button {
     opacity: 0.5;
     /* or any other style to indicate disabled state */
     pointer-events: none;
@@ -594,22 +595,54 @@ label {
     font-size: 15px;
 }
 
-  .star {
+.star {
     cursor: pointer;
     font-size: 24px;
     color: #ddd;
     transition: color 0.3s;
     position: relative;
-  }
+}
 
-  .star.full {
+.star.full {
     color: gold;
-  }
+}
 
-  .star.half::after {
-    content: '\2605'; /* Unicode character for a solid star */
+.star.half::after {
+    content: '\2605';
+    /* Unicode character for a solid star */
     position: absolute;
     color: gold;
-    overflow:visible;
+    overflow: visible;
     width: 50%;
-  }
+}
+
+.swal_title {
+    width: '400px';
+    background-color: #FFF2E5;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 60px;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.swal-button {
+    background-color: #FF810E;
+    padding: 10.5px 17.5px;
+    border: 2px solid #FF810E;
+    color: #fff;
+    border-radius: 5px;
+}
+
+.swal-footer {
+    background-color: #FFF2E5;
+    text-align: right;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 60px;
+    padding: 10px;
+    margin-top: 30px;
+}
