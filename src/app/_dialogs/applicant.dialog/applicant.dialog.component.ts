@@ -54,6 +54,7 @@ export class ApplicantDialogComponent {
   addFlag: boolean;
   applicantdata: any;
   currentDate = new Date();
+  hoveredStarIndex: number | null = null;
 
   constructor(private formbuilder: FormBuilder,
     public ref: DynamicDialogRef,
@@ -212,8 +213,15 @@ export class ApplicantDialogComponent {
     return this.faApplicantLanguageSkillsDetails().controls[i].get(formControlName);
   }
 
-  getExpertiseControl(): FormControl {
-    return this.fbApplicant.get('applicantSkills.expertise') as FormControl;
+  getExpertiseControl(index: number): FormControl {
+    const formArray = this.fbApplicant.get('applicantSkills') as FormArray;
+    return formArray.at(index).get('expertise') as FormControl;
+  }
+
+  onStarHover(index: number): void {
+    console.log('Parent Hovered Index:', index);
+    
+    this.hoveredStarIndex = index;
   }
 
   faApplicantEducationDetails(): FormArray {
