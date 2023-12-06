@@ -79,6 +79,29 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
+                        <label class="required">Technical Skills:</label>
+                        <p-multiSelect appendTo="body" class="w-100" [options]="technicalskills" optionLabel="name"
+                            placeholder="Select Skill" formControlName="technicalSkills" optionValue="lookupDetailId"
+                            [style]="{'width':'100%'}" (onChange)="onSelectTechnicalSkill($event)"
+                            [ngClass]="{'is-invalid ng-dirty': FormControls['technicalSkills'].touched && FormControls['technicalSkills'].errors}">
+                            <ng-template let-skill pTemplate="selectedItem">
+                                <div class="block align-items-center gap-3">
+                                    <div>{{skill.name}}</div>
+                                </div>
+                            </ng-template>
+                        </p-multiSelect>
+                        <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                                <span
+                                    *ngIf="FormControls['technicalSkills'].touched && FormControls['technicalSkills'].invalid">
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="FormControls['technicalSkills'].errors?.['required']">
+                                        Please Select Technical Skills.</div>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field col-12 md:col-4">
                         <label class="required">Nature of Job:</label>
                         <p-dropdown id="NatureOfJob" appendTo="body" [options]="natureOfJobs" optionLabel="name"
                             optionValue="lookupDetailId" placeholder="Select Nature of Job"
@@ -154,7 +177,7 @@
                         <br> &nbsp; <p-inputSwitch formControlName="isActive">
                         </p-inputSwitch>
                     </div>
-                    <div class="col-6">
+                    <!-- <div class="col-6">
                         <p-fieldset legend="Technical Skills" [toggleable]="true" class="col-12">
                             <div class="text-right">
                                 <button pButton pRipple class="mb-3 pi pi-plus"
@@ -198,7 +221,6 @@
                                                 </div>
                                             </td>
                                             <td class="vertical-align-top pt-3 text-center">
-                                                <!-- <app-star-rating [control]="getExpertiseControl()"></app-star-rating> -->
                                                 <p-rating number="3" [cancel]="false" formControlName="expertise">
                                                 </p-rating>
                                             </td>
@@ -215,8 +237,8 @@
                                 </p-table>
                             </div>
                         </p-fieldset>
-                    </div>
-                    <div class="col-6">
+                    </div> -->
+                    <div class="col-12">
                         <p-fieldset legend="Attribute Type" [toggleable]="true" class="col-12">
                             <div class="text-right">
                                 <button pButton pRipple class="mb-3 pi pi-plus" (click)="addAttributeTypes()"></button>
