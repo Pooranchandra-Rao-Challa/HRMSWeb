@@ -624,7 +624,8 @@ label {
     align-items: center;
     justify-content: flex-start;
     height: 60px;
-    padding: 10px;
+    padding: 20px 10px;
+    font-size: 1.25rem !important;
     margin-bottom: 20px;
 }
 
@@ -651,9 +652,13 @@ div:where(.swal2-container) div:where(.swal2-popup){
     padding:0px !important;
 }
 div:where(.swal2-container) div:where(.swal2-validation-message){
-    padding:4px 20px !important;
+    padding:4px 30px !important;
     margin:0px !important;
     background-color: transparent !important;
     align-items: start !important;
     justify-content: left !important;
+    color:red !important;
+}
+div:where(.swal2-container) div:where(.swal2-validation-message)::before{
+    content: none !important;
 }
