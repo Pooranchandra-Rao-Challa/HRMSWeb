@@ -161,6 +161,7 @@ export class ApplicantDialogComponent {
   }
 
   applicantForm() {
+    this.addFlag = true;
     this.fbApplicant = this.formbuilder.group({
       applicantId: [null],
       name: new FormControl('', [Validators.required]),
@@ -547,8 +548,10 @@ export class ApplicantDialogComponent {
             this.ref.close(true);
             this.alertMessage.displayAlertMessage(ALERT_CODES["AP001"]);
           }
+         else{
           this.alertMessage.displayAlertMessage(ALERT_CODES["AP002"]);
           this.ref.close({ "UpdatedModal": ViewApplicationScreen.viewApplicantDetails });
+         } 
         }
       })
     }

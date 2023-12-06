@@ -13,12 +13,13 @@ import { OfficedetailsDialogComponent } from './officedetails.dialog/officedetai
 import { EducationdetailsDialogComponent } from './educationdetails.dialog/educationdetails.dialog.component';
 import { ExperiencedetailsDialogComponent } from './experiencedetails.dialog/experiencedetails.dialog.component';
 import { LookupDialogComponent } from './lookup.dialog/lookup.dialog.component';
-import { LeaveDialogComponent } from './leave.dialog/leave.dialog.component';
 import { JobOpeningsDialogComponent } from './jobopenings.dialog/jobopenings.dialog.component';
 import { ApplicantDialogComponent } from './applicant.dialog/applicant.dialog.component';
 import { ViewapplicantDialogComponent } from './viewapplicant.dialog/viewapplicant.dialog.component';
 import { StarRatingComponent } from './star-rating/star-rating.component';
 import { RecruitmentattributeDialogComponent } from './recruitmentattribute.dialog/recruitmentattribute.dialog.component';
+import { LeaveconfigurationDialogComponent } from './leaveconfiguration-dialog/leaveconfiguration-dialog.component';
+import { EmployeeLeaveDialogComponent } from './employeeleave.dialog/employeeleave.dialog.component';
 
 @NgModule({
   declarations: [
@@ -34,12 +35,13 @@ import { RecruitmentattributeDialogComponent } from './recruitmentattribute.dial
     EducationdetailsDialogComponent,
     ExperiencedetailsDialogComponent,
     LookupDialogComponent,
-    LeaveDialogComponent,
+    EmployeeLeaveDialogComponent,
     JobOpeningsDialogComponent,
     ApplicantDialogComponent,
     ViewapplicantDialogComponent,
     StarRatingComponent,
-    RecruitmentattributeDialogComponent
+    RecruitmentattributeDialogComponent,
+    LeaveconfigurationDialogComponent
   ],
   imports: [SharedModule],
   providers: [DialogService, DynamicDialogRef]

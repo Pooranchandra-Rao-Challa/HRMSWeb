@@ -117,15 +117,15 @@ export class ViewApplicantDto {
     resumeUrl?: string;
     addressLine1?: string;
     applicantCertifications?: string;
-    expandedCertifications?: applicantCertifications[];
+    savedapplicantCertifications?: applicantCertifications[];
     applicantEducationDetails?: string;
-    expandedEducationDetails?: applicantEducationDetails[];
+    savedapplicantEducationDetails?: applicantEducationDetails[];
     applicantLanguageSkills?: string;
-    expandedLanguageSkills?: applicantLanguageSkills[];
+    savedapplicantLanguageSkills?: applicantLanguageSkills[];
     applicantSkills?: string;
-    expandedSkills?: applicantSkills[];
+    savedapplicantSkills?: applicantSkills[];
     applicantWorkExperience?: string;
-    expandedWorkExperience?: applicantWorkExperience[];
+    savedapplicantWorkExperience?: applicantWorkExperience[];
 }
 export class applicantCertifications {
     applicantId?: number;

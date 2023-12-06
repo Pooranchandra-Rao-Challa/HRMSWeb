@@ -15,6 +15,11 @@ export class AlertmessageService {
     displayErrorMessage(message: string) {
         this.service.add({ key: 'tst', severity: 'error', summary: 'Error Message', detail: message, life: 5000 });
     }
+
+    displayMessageforLeave(message: string) {
+        this.service.add({ key: 'tst', severity: 'error', summary: 'Status',detail: message, life: 5000 });
+    }
+
     displayInfo(message: string) {
         this.service.add({ key: 'tst', severity: 'info', summary: 'Info', detail: message, life: 5000 });
     }
@@ -214,6 +219,7 @@ export const ALERT_CODES: { [key: string]: string } = {
 
     // view applicant
     'ARVAP001':'Applicant Details Updated Successfully',
+    'ARVAP002':'Applicant Details Updated Failed',
     //Applicant 
     'AP001':'Applicant Added Successfully',
     'AP002':'Applicant Updated Successfully',
@@ -222,5 +228,9 @@ export const ALERT_CODES: { [key: string]: string } = {
     'RAS003':'Recruitment Attribute Not Added',
     'RAS002':'Recruitment Attribute Updated Successfully',
     'RAS004':'Recruitment Attribute Not Updated',
+
+    //Leave Configuration
+    'LC001':'Leave Configuration Added Successfully',
+    'LC002':'Leave Configuration Updated Successfully'
 }
 

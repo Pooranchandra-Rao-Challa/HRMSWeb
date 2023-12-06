@@ -13,6 +13,7 @@ import { EmployeeService } from '../_services/employee.service';
 import { EmployeeBasicDetailViewDto } from '../_models/employes';
 import { RecruitmentAttributesComponent } from '../admin/recruitment/recruitmentattributes.component';
 import { RecruitmentattributeDialogComponent } from '../_dialogs/recruitmentattribute.dialog/recruitmentattribute.dialog.component';
+import { LeaveconfigurationDialogComponent } from '../_dialogs/leaveconfiguration-dialog/leaveconfiguration-dialog.component';
 
 @Component({
     selector: 'app-topbar',
@@ -27,9 +28,11 @@ export class AppTopbarComponent {
     ActionTypes = Actions;
     lookupDialogComponent = LookupDialogComponent;
     recruitmentattributesDialogComponent = RecruitmentattributeDialogComponent;
+    leaveConfigurationDialogComponent = LeaveconfigurationDialogComponent;
     dialogRequest: DialogRequest = new DialogRequest();
     employeeDtls = new EmployeeBasicDetailViewDto();
     EmployeeId: number;
+    permissions: any;
 
     constructor(public layoutService: LayoutService,
         private jwtService: JwtService,
@@ -45,6 +48,7 @@ export class AppTopbarComponent {
     }
 
     ngOnInit(): void {
+        this.permissions = this.jwtService.Permissions;
         if (this.EmployeeId) {
             this.initViewEmpDtls();
         }
@@ -115,6 +119,24 @@ export class AppTopbarComponent {
             this.dialogRequest.dialogData = dialogData;
             this.dialogRequest.header = "Lookup";
             this.dialogRequest.width = "70%";
+        }
+        this.ref = this.dialogService.open(content, {
+            data: this.dialogRequest.dialogData,
+            header: this.dialogRequest.header,
+            width: this.dialogRequest.width
+        });
+        // this.ref.onClose.subscribe((res: any) => {
+        //   if (res) this.getLookUp(true);
+        //   event.preventDefault(); // Prevent the default form submission
+        // });
+    }
+
+    openComponentDialogforLeaveConfiguration(content: any,
+        dialogData, action: Actions = this.ActionTypes.add) {
+        if (action == Actions.save && content === this.leaveConfigurationDialogComponent) {
+            this.dialogRequest.dialogData = dialogData;
+            this.dialogRequest.header = "Leave Configuration";
+            this.dialogRequest.width = "60%";
         }
         this.ref = this.dialogService.open(content, {
             data: this.dialogRequest.dialogData,

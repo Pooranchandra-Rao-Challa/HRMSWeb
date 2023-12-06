@@ -8,7 +8,7 @@
             <ng-template pTemplate="right">
                 <button pButton pRipple label="Add Leave" id="addLeaveButton" icon="pi pi-plus"
                     class="p-button-primary p-mr-2"
-                    (click)="openComponentDialog(leaveDialogComponent, null, ActionTypes.save)"
+                    (click)="openComponentDialog(employeeleaveDialogComponent, null, ActionTypes.save)"
                     *ngIf="permissions?.CanManageLeave"></button>
             </ng-template>
         </p-toolbar>

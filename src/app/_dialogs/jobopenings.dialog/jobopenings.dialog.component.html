@@ -5,7 +5,8 @@
                 <div class="p-fluid p-formgrid grid">
                     <div class="field col-12 md:col-4">
                         <label class="required">Job Title:</label>
-                        <input pinput id="jobTitle"  pInputText placeholder="Select Job Title" formControlName="title"
+                        <input pinput id="jobTitle" #jobtitle pInputText placeholder="Select Job Title"
+                            formControlName="title" (keydown)="restrictSpaces($event)" alphaOnly [maxLength]="50"
                             [ngClass]="{'is-invalid ng-dirty': FormControls['title'].touched && FormControls['title'].errors}">
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
@@ -14,6 +15,9 @@
                                         *ngIf="FormControls['title'].errors?.['required']">
                                         Please Select Job Title.</div>
                                 </span>
+                            </div>
+                            <div class="align-right w-40" style="width:30%; text-align:right;">
+                                <small>{{jobtitle.value.length}}/{{maxLength.name}}</small>
                             </div>
                         </div>
                     </div>
@@ -36,12 +40,14 @@
                     <div class="field col-12 md:col-4">
                         <label class="required">Designation:</label>
                         <p-dropdown id="designationName" appendTo="body" [options]="designation" optionLabel="name"
-                            optionValue="lookupDetailId" placeholder="Select Designation" formControlName="designationId"
-                            [ngClass]="{'is-invalid ng-dirty': FormControls['designationId'].touched && FormControls['designationId'].errors}" >
+                            optionValue="lookupDetailId" placeholder="Select Designation"
+                            formControlName="designationId"
+                            [ngClass]="{'is-invalid ng-dirty': FormControls['designationId'].touched && FormControls['designationId'].errors}">
                         </p-dropdown>
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
-                                <span *ngIf="FormControls['designationId'].touched && FormControls['designationId'].invalid">
+                                <span
+                                    *ngIf="FormControls['designationId'].touched && FormControls['designationId'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="FormControls['designationId'].errors?.['required']">
                                         Please Select Designation.</div>
@@ -130,7 +136,7 @@
                     <div class="field col-12 md:col-4">
                         <label class="required">Required By:</label>
                         <p-calendar appendTo="body" placeholder="Select Required By" [readonlyInput]="true"
-                            [showIcon]="true" formControlName="requiredBy"  [minDate]="minDate" id="ToBeFilled"
+                            [showIcon]="true" formControlName="requiredBy" [minDate]="minDate" id="ToBeFilled"
                             [ngClass]="{'is-invalid ng-dirty': FormControls['requiredBy'].touched && FormControls['requiredBy'].errors}">
                         </p-calendar>
                         <div class="flex">
@@ -144,19 +150,20 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <label>Is Active: </label>
+                        <label class="required">Is Active: </label>
                         <br> &nbsp; <p-inputSwitch formControlName="isActive">
                         </p-inputSwitch>
                     </div>
                     <div class="col-6">
-                        <p-fieldset legend="Technical Skills" [toggleable]="true" class="col-12" >
+                        <p-fieldset legend="Technical Skills" [toggleable]="true" class="col-12">
                             <div class="text-right">
-                                <button pButton pRipple class="mb-3 pi pi-plus" (click)="addTechnicalSkillsDetails()"></button>
+                                <button pButton pRipple class="mb-3 pi pi-plus"
+                                    (click)="addTechnicalSkillsDetails()"></button>
                             </div>
-                            <div class=" scrolling_content" formArrayName="jobOpeningTechnicalSkillsXrefs"
-                                >
-                                <p-table #dt2 [value]="faTechnicalSkillsDetails().controls" dataKey="id" [rows]="10" 
-                                    [rowHover]="true" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
+                            <div class=" scrolling_content" formArrayName="jobOpeningTechnicalSkillsXrefs">
+                                <p-table #dt2 [value]="faTechnicalSkillsDetails().controls" dataKey="id" [rows]="10"
+                                    [rowHover]="true"
+                                    styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
                                     [paginator]="false" [autoLayout]="true" responsiveLayout="scroll"
                                     [rowsPerPageOptions]="[10,25,50]" [scrollable]="true" scrollDirection="vertical"
                                     scrollHeight="300px">
@@ -164,16 +171,18 @@
                                         <tr>
                                             <th class="text-center">Skills</th>
                                             <th class="text-center">Expertise(Give Your Assesment)</th>
-                                            <th *ngIf="fbJobOpening.controls['jobOpeningTechnicalSkillsXrefs'].value.length > 1">
+                                            <th
+                                                *ngIf="fbJobOpening.controls['jobOpeningTechnicalSkillsXrefs'].value.length > 1">
                                             </th>
                                         </tr>
                                     </ng-template>
                                     <ng-template pTemplate="body" let-technicalSkillsDetailsIndex="rowIndex">
                                         <tr [formGroupName]="technicalSkillsDetailsIndex">
                                             <td class="vertical-align-top">
-                                                <p-dropdown id="projectName" appendTo="body" class="w-100" [options]="technicalskills" optionLabel="name"
-                                                    placeholder="Select Skill" formControlName="technicalSkillId" optionValue="lookupDetailId"
-                                                    [style]="{'width':'100%'}"
+                                                <p-dropdown id="projectName" appendTo="body" class="w-100"
+                                                    [options]="technicalskills" optionLabel="name"
+                                                    placeholder="Select Skill" formControlName="technicalSkillId"
+                                                    optionValue="lookupDetailId" [style]="{'width':'100%'}"
                                                     [ngClass]="{'is-invalid ng-dirty': formArrayControl(technicalSkillsDetailsIndex, 'technicalSkillId')?.touched &&
                                                     formArrayControl(technicalSkillsDetailsIndex, 'technicalSkillId')?.errors }">
                                                 </p-dropdown>
@@ -190,9 +199,11 @@
                                             </td>
                                             <td class="vertical-align-top pt-3 text-center">
                                                 <!-- <app-star-rating [control]="getExpertiseControl()"></app-star-rating> -->
-                                                <p-rating number="3" [cancel]="false" formControlName="expertise"> </p-rating>
+                                                <p-rating number="3" [cancel]="false" formControlName="expertise">
+                                                </p-rating>
                                             </td>
-                                            <td *ngIf="fbJobOpening.controls['jobOpeningTechnicalSkillsXrefs'].value.length > 1">
+                                            <td
+                                                *ngIf="fbJobOpening.controls['jobOpeningTechnicalSkillsXrefs'].value.length > 1">
                                                 <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer"
                                                     *ngIf="!this.faTechnicalSkillsDetails().controls[technicalSkillsDetailsIndex].get('technicalSkillId')?.value"
                                                     (click)="  faTechnicalSkillsDetails().removeAt(technicalSkillsDetailsIndex)"></i>
@@ -206,14 +217,14 @@
                         </p-fieldset>
                     </div>
                     <div class="col-6">
-                        <p-fieldset legend="Attribute Type" [toggleable]="true" class="col-12" >
+                        <p-fieldset legend="Attribute Type" [toggleable]="true" class="col-12">
                             <div class="text-right">
-                                <button  pButton pRipple class="mb-3 pi pi-plus" (click)="addAttributeTypes()"></button>
+                                <button pButton pRipple class="mb-3 pi pi-plus" (click)="addAttributeTypes()"></button>
                             </div>
-                            <div class=" scrolling_content" formArrayName="JobOpeningsAttributeXrefs"
-                                >
-                                <p-table #dt2 [value]="faAttributeTypes().controls" dataKey="id" [rows]="10" 
-                                    [rowHover]="true" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
+                            <div class=" scrolling_content" formArrayName="JobOpeningsAttributeXrefs">
+                                <p-table #dt2 [value]="faAttributeTypes().controls" dataKey="id" [rows]="10"
+                                    [rowHover]="true"
+                                    styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
                                     [paginator]="false" [autoLayout]="true" responsiveLayout="scroll"
                                     [rowsPerPageOptions]="[10,25,50]" [scrollable]="true" scrollDirection="vertical"
                                     scrollHeight="300px">
@@ -221,16 +232,18 @@
                                         <tr>
                                             <th class="text-center">Attribute</th>
                                             <th class="text-center">Expertise(Give Your Assesment)</th>
-                                            <th *ngIf="fbJobOpening.controls['JobOpeningsAttributeXrefs'].value.length > 1">
+                                            <th
+                                                *ngIf="fbJobOpening.controls['JobOpeningsAttributeXrefs'].value.length > 1">
                                             </th>
                                         </tr>
                                     </ng-template>
                                     <ng-template pTemplate="body" let-attributeDetailsIndex="rowIndex">
                                         <tr [formGroupName]="attributeDetailsIndex">
                                             <td class="vertical-align-top">
-                                                <p-dropdown id="projectName" appendTo="body" class="w-100" [options]="attributeTypes" optionLabel="name"
-                                                    placeholder="Select Attribute" formControlName="attributeTypeId" optionValue="lookupDetailId"
-                                                    [style]="{'width':'100%'}"
+                                                <p-dropdown id="projectName" appendTo="body" class="w-100"
+                                                    [options]="attributeTypes" optionLabel="name"
+                                                    placeholder="Select Attribute" formControlName="attributeTypeId"
+                                                    optionValue="lookupDetailId" [style]="{'width':'100%'}"
                                                     [ngClass]="{'is-invalid ng-dirty': formArrayControlAttribute(attributeDetailsIndex, 'attributeTypeId')?.touched &&
                                                     formArrayControlAttribute(attributeDetailsIndex, 'attributeTypeId')?.errors }">
                                                 </p-dropdown>
@@ -247,9 +260,11 @@
                                             </td>
                                             <td class="vertical-align-top pt-3 text-center">
                                                 <!-- <app-star-rating [control]="getExpertiseControl()"></app-star-rating> -->
-                                                <p-rating number="3" [cancel]="false" formControlName="expertise"> </p-rating>
+                                                <p-rating number="3" [cancel]="false" formControlName="expertise">
+                                                </p-rating>
                                             </td>
-                                            <td *ngIf="fbJobOpening.controls['JobOpeningsAttributeXrefs'].value.length > 1">
+                                            <td
+                                                *ngIf="fbJobOpening.controls['JobOpeningsAttributeXrefs'].value.length > 1">
                                                 <i class="pi pi-fw pi-times-circle text-3xl cursor-pointer"
                                                     *ngIf="!this.faAttributeTypes().controls[attributeDetailsIndex].get('attributeTypeId')?.value"
                                                     (click)="  faAttributeTypes().removeAt(attributeDetailsIndex)"></i>

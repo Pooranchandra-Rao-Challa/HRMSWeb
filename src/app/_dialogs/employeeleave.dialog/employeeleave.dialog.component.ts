@@ -14,10 +14,10 @@ import { EmployeeService } from 'src/app/_services/employee.service';
 import { LookupService } from 'src/app/_services/lookup.service';
 
 @Component({
-  selector: 'app-leave.dialog',
-  templateUrl: './leave.dialog.component.html'
+  selector: 'app-employeeleave.dialog',
+  templateUrl: './employeeleave.dialog.component.html'
 })
-export class LeaveDialogComponent {
+export class EmployeeLeaveDialogComponent {
   fbLeave!: FormGroup;
   employees: EmployeesList[] = [];
   leaveType: LookupViewDto[] = [];
@@ -42,7 +42,6 @@ export class LeaveDialogComponent {
     public alertMessage: AlertmessageService,
     private platformLocation: PlatformLocation) {
     this.emailURL = `${platformLocation.protocol}//${platformLocation.hostname}:${platformLocation.port}/`
-
     const today = new Date();
     const currentYear = today.getFullYear();
     this.year = new Date().getFullYear().toString(); // Set year dynamically

@@ -534,7 +534,7 @@
                                     </td>
                                     <td class="vertical-align-top">
                                         <input type="text" id="cer_Results" pInputText placeholder="Enter Results*"
-                                            [maxLength]="5" numericOnly #results formControlName="results"
+                                            [maxLength]="50" alphaOnly #results formControlName="results"
                                             [style]="{'width':'100%'}" (keydown)="restrictSpaces($event)"
                                             (click)="validateRowforCertificationDetails(certificationDetailsIndex)"
                                             [ngClass]="{'is-invalid ng-dirty': formArrayControlCertificaiton(certificationDetailsIndex, 'results')?.touched &&
@@ -549,7 +549,7 @@
                                                 </span>
                                             </div>
                                             <div class="align-right w-40" style="width:30%; text-align:right;">
-                                                <small>{{results.value.length}}/{{maxLength.gradingvalues}} </small>
+                                                <small>{{results.value.length}}/{{maxLength.name}} </small>
                                             </div>
                                         </div>
                                     </td>
@@ -817,10 +817,24 @@
                                     </td>
                                     <td class="vertical-align-top pt-3 text-center">
                                         <!-- <app-star-rating [control]="getExpertiseControl()"
-                                        (click)="validateRowforApplicantSkillDetails(applicantSkillsDetailsIndex)"></app-star-rating> -->
+                                            (click)="validateRowforApplicantSkillDetails(applicantSkillsDetailsIndex)"
+                                            [ngClass]="{'is-invalid ng-dirty': formArrayControlSkills(applicantSkillsDetailsIndex, 'expertise')?.touched &&
+                                        formArrayControlSkills(applicantSkillsDetailsIndex, 'expertise')?.errors }"></app-star-rating> -->
                                         <p-rating number="3" [cancel]="false" formControlName="expertise"
-                                            (click)="validateRowforApplicantSkillDetails(applicantSkillsDetailsIndex)">
+                                            (click)="validateRowforApplicantSkillDetails(applicantSkillsDetailsIndex)"
+                                            [ngClass]="{'is-invalid ng-dirty': formArrayControlSkills(applicantSkillsDetailsIndex, 'expertise')?.touched &&
+                                            formArrayControlSkills(applicantSkillsDetailsIndex, 'expertise')?.errors }">
                                         </p-rating>
+                                        <div class="flex">
+                                            <div class="align-left w-60" style="width:100%">
+                                                <span
+                                                    *ngIf="formArrayControlSkills(applicantSkillsDetailsIndex, 'expertise').touched && formArrayControlSkills(applicantSkillsDetailsIndex, 'expertise').invalid">
+                                                    <div class="ng-invalid ng-touched p-error"
+                                                        *ngIf="formArrayControlSkills(applicantSkillsDetailsIndex, 'expertise').errors?.['required']">
+                                                        Please Select Expertise.</div>
+                                                </span>
+                                            </div>
+                                        </div>
                                     </td>
                                     <td class="text-center"
                                         *ngIf="fbApplicant.controls['applicantSkills'].value.length > 0">

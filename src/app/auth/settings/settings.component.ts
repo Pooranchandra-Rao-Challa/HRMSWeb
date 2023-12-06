@@ -30,6 +30,7 @@ export class SettingsComponent {
     confirmationRequest: ConfirmationRequest = new ConfirmationRequest();
     addFlag: boolean;
     deletedUserQuestionId: number;
+    fbCofig!:FormGroup;
 
     constructor(
         private formbuilder: FormBuilder,

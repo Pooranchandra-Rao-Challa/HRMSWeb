@@ -165,8 +165,6 @@ export class EducationDetailsComponent implements OnInit {
   getEmpEducaitonDetails() {
     return this.employeeService.GetEducationDetails(this.employeeId).subscribe((data) => {
       this.empEduDetails = data as unknown as EducationDetailsDto[];
-      console.log(this.empEduDetails);
-      
     })
   }
 
@@ -215,13 +213,13 @@ export class EducationDetailsComponent implements OnInit {
     const target = event.target as HTMLInputElement;
     // Prevent the first key from being a space
     if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0)
-        event.preventDefault();
+      event.preventDefault();
 
     // Restrict multiple spaces
     if (event.key === ' ' && target.selectionStart > 0 && target.value.charAt(target.selectionStart - 1) === ' ') {
-        event.preventDefault();
+      event.preventDefault();
     }
-}
+  }
 
   removeRow(index: number): void {
     if (index >= 0 && index < this.empEduDetails.length) {
