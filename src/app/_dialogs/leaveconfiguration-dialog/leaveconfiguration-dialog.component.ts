@@ -8,6 +8,12 @@ import { MaxLength } from 'src/app/_models/common';
 import { LeaveConfigurationDto } from 'src/app/_models/security';
 import { SecurityService } from 'src/app/_services/security.service';
 
+interface Experience {
+  name: number;
+  code: string;
+}
+
+
 @Component({
   selector: 'app-leaveconfiguration-dialog',
   templateUrl: './leaveconfiguration-dialog.component.html',
@@ -22,6 +28,9 @@ export class LeaveconfigurationDialogComponent {
   addLeaveLabel: string;
   addFlag: any = false
   leaveConfiguration: LeaveConfigurationDto[] = [];
+  isEditClicked: boolean = false;
+  maxExperience: Experience[] | undefined;
+  getExperience: Experience[] | undefined;
 
   constructor(
     private formbuilder: FormBuilder,
@@ -33,12 +42,37 @@ export class LeaveconfigurationDialogComponent {
   ngOnInit() {
     this.leaveConfigForm()
     this.getLeaveConfiguration()
+    this.getMaxExperience()
+  }
+
+  getMaxExperience() {
+    this.maxExperience = [
+      { name: 0, code: 'zero' },
+      { name: 3, code: 'three' },
+      { name: 6, code: 'six' },
+      { name: 12, code: 'twelve' },
+      { name: 24, code: 'twentyFour' },
+      { name: 48, code: 'fourthyEigth' }
+    ]
   }
 
   getLeaveConfiguration() {
     this.securityService.GetLeaveConfiguration().subscribe((data) => {
       this.leaveConfiguration = data as unknown as LeaveConfigurationDto[];
-    })
+      this.filterMaxExperience(null)
+    });
+  }
+
+  filterMaxExperience(value: number) {
+    if (value === null) {
+        const usedMaxExperience = this.leaveConfiguration.map(config => config.maxExpInMonths);
+        this.getExperience = this.maxExperience.filter(item => !usedMaxExperience.includes(item.name));
+    }   
+    else {
+      const usedMaxExperience = this.leaveConfiguration.map(config => config.maxExpInMonths);
+      const filteredUsedMaxExperience = usedMaxExperience.filter(item => item !== value);
+      this.getExperience = this.maxExperience.filter(item => !filteredUsedMaxExperience.includes(item.name));
+    }
   }
 
   leaveConfigForm() {
@@ -70,6 +104,15 @@ export class LeaveconfigurationDialogComponent {
     });
   }
 
+  onChangeAccumulationPeriod() {
+    if (this.fbLeaveConfiguration.get('maxExpInMonths').value > 12) {
+      this.fbLeaveConfiguration.get('accumulationPeriod').setValue(6)
+    }
+    else {
+      this.fbLeaveConfiguration.get('accumulationPeriod').setValue(0)
+    }
+  }
+
   restrictSpaces(event: KeyboardEvent) {
     const target = event.target as HTMLInputElement;
     // Prevent the first key from being a space
@@ -97,9 +140,10 @@ export class LeaveconfigurationDialogComponent {
   }
 
   editLeaveDetails(leaveConfigurationDetails) {
+    this.filterMaxExperience(leaveConfigurationDetails.maxExpInMonths)
     this.addFlag = false;
     this.submitlabel = 'Update Leave'
-    this.addLeaveLabel = 'Update Leave Details'
+    this.isEditClicked = true;
     this.fbLeaveConfiguration.patchValue({
       leaveConfigurationId: leaveConfigurationDetails.leaveConfigurationId,
       maxExpInMonths: leaveConfigurationDetails.maxExpInMonths,
@@ -111,7 +155,6 @@ export class LeaveconfigurationDialogComponent {
   }
 
   save(): Observable<HttpEvent<LeaveConfigurationDto[]>> {
-    debugger
     if (this.addFlag) {
       return this.securityService.CreateLeaveConfiguration(this.leaveConfiguration)
     } else

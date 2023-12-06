@@ -5,20 +5,28 @@
                 <div class="p-fluid p-formgrid grid">
                     <div class="field col-12 md:col-4">
                         <label class="required">Maximum Experience Eligibility(In Months):</label>
-                        <input pinput pInputText placeholder="Enter Maximum Experience Eligibility" [maxLength]="2"
-                            formControlName="maxExpInMonths" numericOnly (keydown)="restrictSpaces($event)" #maxExp
+                        <p-dropdown appendTo="body" id="gender_dropdown"
+                            placeholder="Select Maximum Experience Eligibility" [autoDisplayFirst]="false"
+                            [options]="getExperience" optionLabel="name" formControlName="maxExpInMonths"
+                            optionValue="name" (ngModelChange)="onChangeAccumulationPeriod()"
+                            [readonly]="FormControls['leaveConfigurationId'].value!== null" placeholder="Select Lookup Name"
                             [ngClass]="{'is-invalid ng-dirty': FormControls['maxExpInMonths'].touched && FormControls['maxExpInMonths'].errors}">
+                        </p-dropdown>
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                                 <span
-                                    *ngIf="FormControls['maxExpInMonths'].touched && FormControls['maxExpInMonths'].invalid">
+                                    *ngIf="maxExperience.length !== 0 && FormControls['maxExpInMonths'].touched && FormControls['maxExpInMonths'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="FormControls['maxExpInMonths'].errors?.['required']">
-                                        Please Enter Maximum Experience Eligibility.</div>
+                                        Please Select Maximum Experience Eligibility.</div>
                                 </span>
-                            </div>
-                            <div class="align-right w-40" style="width:30%; text-align:right;">
-                                <small>{{maxExp.value.length}}/{{maxLength.listingorder}}</small>
+                                <span
+                                    *ngIf="maxExperience.length === 0 && FormControls['maxExpInMonths'].touched && FormControls['maxExpInMonths'].invalid">
+                                    <div class="ng-invalid ng-touched p-error">
+                                        Please note that there are no available options for Maximum Experience
+                                        Eligibility.
+                                    </div>
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -59,16 +67,17 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <label>Leave Accumulation Period(In Months):</label>
-                        <input pinput pInputText placeholder="Enter Leave Accumulation Period" #accumulationperiod
+                        <label>Accumulation Period(In Months):</label>
+                        <input pinput pInputText placeholder="Enter Accumulation Period" #accumulationperiod
                             [maxLength]="2" formControlName="accumulationPeriod" numericOnly
-                            (keydown)="restrictSpaces($event)">
-
+                            (keydown)="restrictSpaces($event)"
+                            [readonly]="FormControls['leaveConfigurationId'].value!== null"
+                            placeholder="Select Lookup Name">
                         <div class="align-right w-60" style="width:100%; text-align:right;">
                             <small>{{accumulationperiod.value.length}}/{{maxLength.listingorder}}</small>
                         </div>
                     </div>
-                    <div class="  col-12 md:col-4 mt-2">
+                    <div class="col-12 md:col-4 mt-2" *ngIf="!isEditClicked">
                         <div class=" button-container mt-5">
                             <p-button type="button" [label]="this.addLeaveLabel"
                                 [disabled]="fbLeaveConfiguration.invalid" (click)="addLeaveDetails()"></p-button>
@@ -118,6 +127,5 @@
 
 <div class=" footer dialog-footer">
     <button pButton pRipple type="submit" [label]="this.submitlabel" class="p-button-raised p-button-primary"
-        id="SubmitLeaveConfigurationForm" [disabled]="this.leaveConfiguration.length == 0"
-        (click)="onSubmit()"></button>
+        id="SubmitLeaveConfigurationForm" [disabled]="!leaveConfiguration.length" (click)="onSubmit()"></button>
 </div>

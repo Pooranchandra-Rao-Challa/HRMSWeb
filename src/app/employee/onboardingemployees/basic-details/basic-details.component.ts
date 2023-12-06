@@ -16,7 +16,7 @@ import { ValidateFileThenUpload } from 'src/app/_validators/upload.validators'
 import { PlatformLocation } from '@angular/common';
 
 
-interface General {
+interface Gender {
     name: string;
     code: string;
 }
@@ -27,10 +27,10 @@ interface General {
 })
 export class BasicDetailsComponent implements OnInit {
     @ViewChild("fileUpload", { static: true }) fileUpload: ElementRef;
-    genders: General[] | undefined;
+    genders: Gender[] | undefined;
     profileImage = '';
     imageToCrop: File;
-    MaritalStatus: General[] | undefined;
+    MaritalStatus: Gender[] | undefined;
     fbbasicDetails: FormGroup;
     maxLength: MaxLength = new MaxLength();
     addFlag: boolean = true;

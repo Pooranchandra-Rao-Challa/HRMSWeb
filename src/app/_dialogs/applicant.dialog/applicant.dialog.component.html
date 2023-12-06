@@ -816,15 +816,15 @@
                                         </div>
                                     </td>
                                     <td class="vertical-align-top pt-3 text-center">
-                                        <!-- <app-star-rating [control]="getExpertiseControl()"
+                                        <app-star-rating [control]="getExpertiseControl(applicantSkillsDetailsIndex)" (hover)="onStarHover($event)"
                                             (click)="validateRowforApplicantSkillDetails(applicantSkillsDetailsIndex)"
                                             [ngClass]="{'is-invalid ng-dirty': formArrayControlSkills(applicantSkillsDetailsIndex, 'expertise')?.touched &&
-                                        formArrayControlSkills(applicantSkillsDetailsIndex, 'expertise')?.errors }"></app-star-rating> -->
-                                        <p-rating number="3" [cancel]="false" formControlName="expertise"
+                                        formArrayControlSkills(applicantSkillsDetailsIndex, 'expertise')?.errors }"></app-star-rating>
+                                        <!-- <p-rating number="3" [cancel]="false" formControlName="expertise"
                                             (click)="validateRowforApplicantSkillDetails(applicantSkillsDetailsIndex)"
                                             [ngClass]="{'is-invalid ng-dirty': formArrayControlSkills(applicantSkillsDetailsIndex, 'expertise')?.touched &&
                                             formArrayControlSkills(applicantSkillsDetailsIndex, 'expertise')?.errors }">
-                                        </p-rating>
+                                        </p-rating> -->
                                         <div class="flex">
                                             <div class="align-left w-60" style="width:100%">
                                                 <span
