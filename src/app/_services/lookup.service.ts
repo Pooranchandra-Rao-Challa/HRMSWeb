@@ -101,6 +101,9 @@ export class LookupService extends ApiHttpService {
         console.log('RecruitmentAttributeTypes');
         return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.RecruitmentAttributeTypes])
     }
+    public attributestages(){
+        return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.RecruitmentStages])
+    }
     public LookupDetailsForSelectedDependent(dependentId: number) {
         console.log('Dependents');
         return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [dependentId])
