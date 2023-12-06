@@ -1,10 +1,10 @@
 <div class="p-fluid p-formgrid grid  p-3 content_scroll" style="height:400px;">
     <div class="field col-12 md:col-4">
-        <div class="col-12">
+        <div class="col-12  py-1">
             <label>Assesment Title:</label>
             <input type="text" pInputText formControlName="name" placeholder="Enter Assesment Title" />
         </div>
-        <div class="col-12 ">
+        <div class="col-12  py-1">
             <div class="grid">
                 <!-- <label>Expertise:</label> -->
             <div class="col-6">
@@ -18,28 +18,29 @@
             </div>
             
         </div>
-        <div class="field col-12">
+        <div class="field col-12 py-1">
             <label>Attribute Types:</label>
             <p-dropdown id="projectName" appendTo="body" class="w-100" [options]="attributeTypes" optionLabel="name"
                 placeholder="Select Attribute" [style]="{'width':'100%'}">
             </p-dropdown>
         </div>
+        <div class="field col-12 py-1">
+            <label>Recruitment Stages:</label>
+            <p-multiSelect placeholder="Select Recruitment Stages" inputId="multiselect" [filter]="false" filterBy="name"
+                appendTo="body">
+            </p-multiSelect>
+        </div>
+        <div class="field col-12 py-1">
+            <label>Is Active:</label><br />
+            <p-inputSwitch></p-inputSwitch>
+        </div>
     </div>
 
     <div class="field col-12 md:col-8">
         <div class="grid">
-            <div class="field col-6">
-                <label>Recruitment Stages:</label>
-                <p-multiSelect placeholder="Select Recruitment Stages" inputId="multiselect" [filter]="false" filterBy="name"
-                    appendTo="body">
-                </p-multiSelect>
-            </div>
-            <div class="field col-6">
-                <label>Is Active:</label><br />
-                <p-inputSwitch></p-inputSwitch>
-            </div>
+            
             <div class="col-12 ">
-                <div class="grid">
+                <div class="grid py-5">
                     <p-accordion class="col-12 xl:col-12 md:col-12 sm:col-12 accordion_roles">
                         <p-accordionTab  header="Soft Skills">
                             <div class="grid">
