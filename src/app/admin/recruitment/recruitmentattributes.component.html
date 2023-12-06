@@ -6,8 +6,8 @@
                 <h4>Attributes</h4>
             </ng-template>
             <ng-template pTemplate="right">
-                <button pButton pRipple label="Add Attributes" icon="pi pi-plus"
-                    class="p-button-primary p-mr-2" (click)="openComponentDialog(recruitmentattributeDialogComponent,null,ActionTypes.save)"></button>
+                <button pButton pRipple label="Add Attributes" icon="pi pi-plus" class="p-button-primary p-mr-2"
+                    (click)="openComponentDialog(recruitmentattributeDialogComponent,null,ActionTypes.save)"></button>
             </ng-template>
         </p-toolbar>
         <!-- p-table -->
@@ -29,24 +29,30 @@
             </ng-template>
             <ng-template pTemplate="header">
                 <tr>
+                    <th></th>
                     <th class="text-center" *ngFor="let col of headers" [pSortableColumn]="col.header">
                         {{col?.label}}
-                        <p-columnFilter type="text" [field]="col.header" id="Leaves_ColumnFilter" display="menu">
+                        <p-columnFilter type="text" [field]="col.field" id="Leaves_ColumnFilter" display="menu">
                         </p-columnFilter>
                         <p-sortIcon [field]="col.header"></p-sortIcon>
                     </th>
-                    <th></th>
+
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-attribute>
                 <tr>
+                    <td class="text-center">
+                        <button pButton pRipple icon="pi pi-pencil" style="padding: 0px;"
+                            class="p-element p-ripple p-button-text p-button p-component"
+                            (click)="openComponentDialog(recruitmentattributeDialogComponent, attribute, ActionTypes.save)"></button>
+                    </td>
                     <td class="text-center" *ngFor="let col of headers">
                         <span
-                            *ngIf=" col?.field == 'assesmentTitle' || col?.field == 'attributeTypes'||col?.field == 'recruitmentStages'">
+                            *ngIf=" col?.field == 'assessmentTitle' || col?.field == 'attributeType'||col?.field == 'recruitmentStages'">
                             {{attribute[col.field]}}
                         </span>
                         <span *ngIf=" col?.field == 'minExpertise'">
-                            <p-rating  [cancel]="false" [(ngModel)]="attribute['minExpertise']" [disabled]="true">
+                            <p-rating [cancel]="false" [(ngModel)]="attribute['minExpertise']" [disabled]="true">
                             </p-rating>
                         </span>
                         <span *ngIf=" col?.field == 'maxExpertise'">
@@ -58,11 +64,7 @@
                                 [binary]="true" [disabled]="true"></p-checkbox>
                         </span>
                     </td>
-                    <td class="text-center">
-                            <button pButton pRipple icon="pi pi-pencil" style="padding: 0px;"
-                                class="p-element p-ripple p-button-text p-button p-component"
-                                (click)="openComponentDialog(recruitmentattributeDialogComponent,null,ActionTypes.save)"></button>
-                    </td>
+
                 </tr>
             </ng-template>
             <ng-template pTemplate="emptymessage">
