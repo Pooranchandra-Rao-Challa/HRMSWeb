@@ -113,7 +113,7 @@ export class LeavesComponent {
   openSweetAlert(title: string, leaves: EmployeeLeaveDto) {
     const buttonLabel = title === 'Reason For Approve' ? 'Approve' : 'Reject';
     this.leaveConfirmationService.openDialogWithInput(title, buttonLabel).subscribe((result) => {
-      if (result && result.description) {
+       if (result && result.description || result.description !== undefined) {
         this.leaveData = leaves;
         this.selectedAction = title
         const acceptedBy = this.selectedAction === 'Reason For Approve' ? this.jwtService.UserId : null;
@@ -149,7 +149,7 @@ export class LeavesComponent {
             }
           }
         })
-      }
+       }
     });
   }
 
