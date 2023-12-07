@@ -10,6 +10,7 @@ import { JwtService } from 'src/app/_services/jwt.service';
 import { DataView } from 'primeng/dataview';
 import { RecruitmentService } from 'src/app/_services/recruitment.service';
 import { JobOpeningsListDto } from 'src/app/_models/recruitment';
+import { RecruitmentAttributesDTO } from 'src/app/demo/api/security';
 
 @Component({
   selector: 'app-jobopenings',
@@ -25,13 +26,14 @@ export class JobOpeningsComponent {
   dialogRequest: DialogRequest = new DialogRequest();
   jobOpeningDialogComponent = JobOpeningsDialogComponent;
   jobOpening: JobOpeningsDetailsViewDto[] = [];
-  jobOpeningDetails:JobOpeningsDetailsViewDto;
+  jobOpeningDetails: JobOpeningsDetailsViewDto;
   mediumDate: string = MEDIUM_DATE;
   permissions: any;
   viewJobDesign: boolean = false;
   attributeDialog: boolean = false;
   processButtonDisabled = false;
   selectedJob: JobOpeningsDetailsViewDto;
+  recruitmentAttributes: RecruitmentAttributesDTO[] = [];
 
   constructor(
     private adminService: AdminService,
@@ -46,6 +48,7 @@ export class JobOpeningsComponent {
     this.permissions = this.jwtService.Permissions;
     this.getJobDetails();
     this.initProcessedJobOpening();
+    this.getAttributes()
   }
 
 
@@ -65,7 +68,16 @@ export class JobOpeningsComponent {
   }
   showAttributeDialog(jobOpeningDetails) {
     this.attributeDialog = true;
-    this.jobOpeningDetails=jobOpeningDetails;
+    this.jobOpeningDetails = jobOpeningDetails;
+  }
+  restrictSpaces(event: KeyboardEvent) {
+    const target = event.target as HTMLInputElement;
+    // Prevent the first key from being a space
+    if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0)
+      event.preventDefault();
+    // Restrict multiple spaces
+    if (event.key === ' ' && target.selectionStart > 0 && target.value.charAt(target.selectionStart - 1) === ' ')
+      event.preventDefault();
   }
   processJobOpening(jobOpeningDetails) {
     this.RecruitmentService.getApplicantsForInitialRound(jobOpeningDetails.id).subscribe(resp => {
@@ -87,7 +99,14 @@ export class JobOpeningsComponent {
     const foundJob = this.JobOpeningsList.find(job => job.jobId === jobId);
     return foundJob ? true : false;
   }
-
+  getAttributes() {
+    this.adminService.GetRecruitmentDetails(false).subscribe((resp) => {
+      this.recruitmentAttributes = resp as unknown as RecruitmentAttributesDTO[];
+      this.recruitmentAttributes.forEach(element => {
+        element.RecruitmentStageDetails = JSON.parse(element.strRecruitmentStages);
+      });
+    })
+  }
 
   openComponentDialog(content: any,
     dialogData, action: Actions = this.ActionTypes.add) {

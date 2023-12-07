@@ -33,11 +33,11 @@
                         <br />
                         <span><b class="text-primary">6</b> to Recruit</span>
                     </div>
-                   
+
                     <div class="col-12 text-right">
-                        <button pButton pRipple 
-                        [ngClass]="{'disabled-button': isButtonDisabled(jobOpeningDetails.id)}"
-                            class="p-button-primary p-button-outlined p-mr-2" id="ProcessJobOpening" (click)="showAttributeDialog(jobOpeningDetails)">
+                        <button pButton pRipple [ngClass]="{'disabled-button': isButtonDisabled(jobOpeningDetails.id)}"
+                            class="p-button-primary p-button-outlined p-mr-2" id="ProcessJobOpening"
+                            (click)="showAttributeDialog(jobOpeningDetails)">
                             <i class="icon-process text-primary text-900  font-2xl mr-2"></i> Do Process
                         </button>
                     </div>
@@ -60,7 +60,8 @@
                     </div>
                     <div class="pair">
                         <span class="label text-primary font-bold text-900">Description</span>
-                        <span class="value">:{{ selectedJob.description }}quwe oeuir o oiweur u fu i ouer fu hfhhou rufuih iowfd</span>
+                        <span class="value">:{{ selectedJob.description }}quwe oeuir o oiweur u fu i ouer fu hfhhou
+                            rufuih iowfd</span>
                     </div>
                     <div class="pair">
                         <span class="label text-primary font-bold text-900">Project Name</span>
@@ -96,21 +97,78 @@
                         <br />
                         <span><b class="text-primary">6</b> to Recruit</span>
                     </div>
-                   
+
                 </div>
             </div>
         </div>
     </div>
 </p-dialog>
-<p-dialog header="All Recruitment Attributes" [(visible)]="attributeDialog"
-    [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '60%'}" [style]="{width: '70%'}">
-    <div class="flex flex-column align-items-center justify-content-center">
-        
+<p-dialog header="All Recruitment Attributes" [(visible)]="attributeDialog" [modal]="true" showEffect="fade"
+    [breakpoints]="{'960px': '70%', '640px': '60%'}" [style]="{width: '50%'}">
+        <form>
+            <div class="grid content_scroll" style="height:auto;">
+                <div class="col-12 roles-container">
+                    <div class="p-fluid p-formgrid grid">
+                        <div class="field col-12 md:col-6">
+                            <label class="required">Assesment Title:</label>
+                            <p-dropdown appendTo="body" [options]="recruitmentAttributes" optionLabel="assessmentTitle" optionValue=""
+                                [filter]="true" filterBy="name" [showClear]="true" placeholder="Select a Recruitment Attribute">
+                            </p-dropdown>
+                            <div class="flex">
+                                <div class="align-left w-60" style="width:70%">
+                                    <!-- <span
+                                        *ngIf="FormControls['assessmentTitle'].touched && FormControls['assessmentTitle'].invalid">
+                                        <div class="ng-invalid ng-touched p-error"
+                                            *ngIf="FormControls['assessmentTitle'].errors?.['required']">
+                                            Please Enter Assesment Title.</div>
+                                    </span> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field col-12 md:col-6">
+                            <div class="grid">
+                                <!-- <label>Expertise:</label> -->
+                                <div class="col-6">
+                                    <label class="required mb-5">Min Expertise:</label>
+                                    <p-rating [cancel]="false" id="RA_MinExpertise" formControlName="minExpertise">
+                                    </p-rating>
+                                    <div class="flex">
+                                        <div class="align-left w-60" style="width:70%">
+                                            <!-- <span
+                                                *ngIf="FormControls['minExpertise'].touched && FormControls['minExpertise'].invalid">
+                                                <div class="ng-invalid ng-touched p-error"
+                                                    *ngIf="FormControls['minExpertise'].errors?.['required']">
+                                                    Please Select Min Expertise.</div>
+                                            </span> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class="required mb-5">Max Expertise:</label>
+                                    <p-rating [cancel]="false" id="RA_MaxExpertise">
+                                    </p-rating>
+                                    <div class="flex">
+                                        <div class="align-left w-60" style="width:70%">
+                                            <!-- <span
+                                                *ngIf="FormControls['maxExpertise'].touched && FormControls['maxExpertise'].invalid">
+                                                <div class="ng-invalid ng-touched p-error"
+                                                    *ngIf="FormControls['maxExpertise'].errors?.['required']">
+                                                    Please Select Max Expertise.</div>
+                                            </span> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
 
-    </div>
+  
     <ng-template pTemplate="footer">
         <div class="col-6" style="float:right">
-          <button pButton pRipple type="submit" label="submit" class="p-button-raised p-button-primary" ></button>
+            <button pButton pRipple type="submit" label="submit" class="p-button-raised p-button-primary"></button>
         </div>
-      </ng-template>
+    </ng-template>
 </p-dialog>

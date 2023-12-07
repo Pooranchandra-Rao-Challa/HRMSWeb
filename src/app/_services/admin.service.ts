@@ -121,7 +121,7 @@ export class AdminService extends ApiHttpService {
     }
     
     public GetRecruitmentDetails(isbool:boolean){
-        return this.get(GET_RECRUITMENT_DETAILS+' /'+isbool+'/132/102/137');
+        return this.get(GET_RECRUITMENT_DETAILS+' /'+isbool+'/137');
     }
     
 }
