@@ -598,22 +598,19 @@ label {
 .star {
     cursor: pointer;
     font-size: 24px;
-    color: #ddd;
+    color: #676060;
     transition: color 0.3s;
     position: relative;
 }
 
 .star.full {
-    color: gold;
+    color: #f17517;
 }
 
-.star.half::after {
-    content: '\2605';
-    /* Unicode character for a solid star */
-    position: absolute;
-    color: gold;
-    overflow: visible;
-    width: 50%;
+.star.half {
+    background: linear-gradient(90deg, #f17517 30%, transparent 50%);
+    -webkit-background-clip: text;
+    color: transparent;
 }
 
 .swal_title {
@@ -648,17 +645,19 @@ label {
     margin-top: 30px;
 }
 
-div:where(.swal2-container) div:where(.swal2-popup){
-    padding:0px !important;
+div:where(.swal2-container) div:where(.swal2-popup) {
+    padding: 0px !important;
 }
-div:where(.swal2-container) div:where(.swal2-validation-message){
-    padding:4px 30px !important;
-    margin:0px !important;
+
+div:where(.swal2-container) div:where(.swal2-validation-message) {
+    padding: 4px 30px !important;
+    margin: 0px !important;
     background-color: transparent !important;
     align-items: start !important;
     justify-content: left !important;
-    color:red !important;
+    color: red !important;
 }
-div:where(.swal2-container) div:where(.swal2-validation-message)::before{
+
+div:where(.swal2-container) div:where(.swal2-validation-message)::before {
     content: none !important;
 }
