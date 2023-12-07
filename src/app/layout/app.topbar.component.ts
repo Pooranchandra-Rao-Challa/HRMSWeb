@@ -14,6 +14,9 @@ import { EmployeeBasicDetailViewDto } from '../_models/employes';
 import { RecruitmentAttributesComponent } from '../admin/recruitment/recruitmentattributes.component';
 import { RecruitmentattributeDialogComponent } from '../_dialogs/recruitmentattribute.dialog/recruitmentattribute.dialog.component';
 import { LeaveconfigurationDialogComponent } from '../_dialogs/leaveconfiguration-dialog/leaveconfiguration-dialog.component';
+import { RecruitmentStageDetailsDto } from '../demo/api/security';
+import { LookupService } from '../_services/lookup.service';
+import { LookupDetailsDto } from '../_models/admin';
 
 @Component({
     selector: 'app-topbar',
@@ -27,12 +30,13 @@ export class AppTopbarComponent {
     isUpdating: boolean;
     ActionTypes = Actions;
     lookupDialogComponent = LookupDialogComponent;
-    recruitmentattributesDialogComponent = RecruitmentattributeDialogComponent;
     leaveConfigurationDialogComponent = LeaveconfigurationDialogComponent;
+    recruitmentattributeDialogComponent = RecruitmentattributeDialogComponent;
     dialogRequest: DialogRequest = new DialogRequest();
     employeeDtls = new EmployeeBasicDetailViewDto();
     EmployeeId: number;
     permissions: any;
+    attributeStages: RecruitmentStageDetailsDto[];
 
     constructor(public layoutService: LayoutService,
         private jwtService: JwtService,
@@ -41,7 +45,7 @@ export class AppTopbarComponent {
         private loginService: LoginService,
         private updateStatusService: UpdateStatusService,
         private dialogService: DialogService,
-        public ref: DynamicDialogRef,
+        public ref: DynamicDialogRef, private lookupService: LookupService,
         private employeeService: EmployeeService,) {
         this.loggedInUser = this.jwtService.GivenName;
         this.EmployeeId = this.jwtService.EmployeeId;
@@ -94,24 +98,44 @@ export class AppTopbarComponent {
             this.loginService.revokeToken(ALERT_CODES["HRMS002"]);
         }
     }
-
-    openComponentDialogforRecruitmentAttributes(content: any,
-        dialogData, action: Actions = this.ActionTypes.add) {
-        if (action == Actions.save && content === this.recruitmentattributesDialogComponent) {
-            this.dialogRequest.dialogData = dialogData;
-            this.dialogRequest.header = "Recruitment Attributes";
-            this.dialogRequest.width = "70%";
+    getAttributeStages(): RecruitmentStageDetailsDto[] {
+        this.lookupService.attributestages().subscribe((resp) => {
+          let attributeStages = resp as unknown as LookupDetailsDto[];
+          this.attributeStages = [];
+          if (attributeStages)
+            attributeStages.forEach(item => {
+              this.attributeStages.push({
+                rAWSXrefId: null,
+                recruitmentStageId: item.lookupDetailId,
+                recruitmentStage: item.name,
+                assigned: false
+              });
+            })
+        })
+        return this.attributeStages
+      }
+      openComponentDialogforRecruitmentAttributes(content: any, dialogData, 
+        action: Actions = this.ActionTypes.add) {
+        if (action === Actions.save && content === this.recruitmentattributeDialogComponent) {
+          this.dialogRequest.dialogData = dialogData || {
+            RecruitmentStageDetails: this.getAttributeStages()
+          };
+          this.dialogRequest.header = "Attributes";
+          this.dialogRequest.width = "60%";
         }
         this.ref = this.dialogService.open(content, {
-            data: this.dialogRequest.dialogData,
-            header: this.dialogRequest.header,
-            width: this.dialogRequest.width
+          data: this.dialogRequest.dialogData,
+          header: this.dialogRequest.header,
+          width: this.dialogRequest.width
         });
         // this.ref.onClose.subscribe((res: any) => {
-        //   if (res) this.getLookUp(true);
+        //   if (res) {
+        //     this.getAttributeStages();
+        //   }
         //   event.preventDefault(); // Prevent the default form submission
         // });
-    }
+      }
+   
 
     openComponentDialog(content: any,
         dialogData, action: Actions = this.ActionTypes.add) {

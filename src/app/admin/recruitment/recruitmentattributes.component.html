@@ -48,16 +48,12 @@
                     </td>
                     <td class="text-center" *ngFor="let col of headers">
                         <span
-                            *ngIf=" col?.field == 'assessmentTitle' || col?.field == 'attributeType'||col?.field == 'recruitmentStages'">
+                            *ngIf=" col?.field == 'assessmentTitle'" >
                             {{attribute[col.field]}}
                         </span>
-                        <span *ngIf=" col?.field == 'minExpertise'">
-                            <p-rating [cancel]="false" [(ngModel)]="attribute['minExpertise']" [disabled]="true">
-                            </p-rating>
-                        </span>
-                        <span *ngIf=" col?.field == 'maxExpertise'">
-                            <p-rating [cancel]="false" [(ngModel)]="attribute['maxExpertise']" [disabled]="true">
-                            </p-rating>
+                        <span
+                            *ngIf="col?.field == 'recruitmentStages'">
+                            {{this.getStages(attribute.RecruitmentStageDetails)}}
                         </span>
                         <span *ngIf=" col?.field == 'isActive'" [ngClass]="'isActive' ? 'text-center' : ''">
                             <p-checkbox name="isActive" value="isActive" [(ngModel)]="attribute['isActive']"
