@@ -95,7 +95,8 @@ export class JobOpeningsDialogComponent {
       requiredBy: new FormControl('', [Validators.required]),
       isActive: new FormControl(true),
       softSkills: new FormControl('', [Validators.required]),
-      jobOpeningTechnicalSkillsXrefs: this.formbuilder.array([]),
+      technicalSkills: new FormControl('', [Validators.required]),
+      jobOpeningTechnicalSkillsXrefs:new FormControl([{ JobOpeningsSoftSkillsXrefId: null, JobOpeningId: null, SoftSkillId: null }]),
       JobOpeningsAttributeXrefs:this.formbuilder.array([]),
       JobOpeningSoftSkillsXrefs: new FormControl([{ JobOpeningsSoftSkillsXrefId: null, JobOpeningId: null, SoftSkillId: null }]),
     });
@@ -117,39 +118,18 @@ export class JobOpeningsDialogComponent {
     }
   }
   
-  formArrayControl(i: number, formControlName: string) {
-    return this.faTechnicalSkillsDetails().controls[i].get(formControlName);
-  }
 
   formArrayControlAttribute(i: number, formControlName: string) {
     return this.faAttributeTypes().controls[i].get(formControlName);
   }
 
-  faTechnicalSkillsDetails(): FormArray {
-    return this.fbJobOpening.get("jobOpeningTechnicalSkillsXrefs") as FormArray
-  }
-
   faAttributeTypes(): FormArray {
     return this.fbJobOpening.get("JobOpeningsAttributeXrefs") as FormArray
-  }
-  
-  addTechnicalSkillsDetails() {
-    this.fatechnicalSkillsDetails = this.faTechnicalSkillsDetails();
-    this.fatechnicalSkillsDetails.push(this.generateRowForTechnicalSkillsDetails())
   }
 
   addAttributeTypes() {
     this.faattributetypes = this.faAttributeTypes();
     this.faattributetypes.push(this.generateRowForAttributeTypes())
-  }
-
-  generateRowForTechnicalSkillsDetails(): FormGroup {
-    return this.formbuilder.group({
-      jobOpeningsTechnicalSkillsXrefId: [null],
-      jobOpeningId: [null],
-      technicalSkillId: new FormControl('', [Validators.required]),
-      expertise: new FormControl()
-    })
   }
 
   generateRowForAttributeTypes(): FormGroup {
@@ -190,6 +170,32 @@ export class JobOpeningsDialogComponent {
     this.fbJobOpening.get('JobOpeningSoftSkillsXrefs')?.setValue(updatedArray);
   }
 
+  onSelectTechnicalSkill(e) {
+    this.fbJobOpening.get('jobOpeningTechnicalSkillsXrefs')?.setValue('');
+    this.viewSelectedSkills = [];
+    let CurrentArray = e.value;
+    let updatedArray = [];
+    if (this.JobOpeningId) {
+      for (let i = 0; i < CurrentArray.length; i++) {
+        updatedArray.push({ JobOpeningsTechnicalSkillsXrefId: 0, JobOpeningId: this.JobOpeningId, TechnicalSkillId: CurrentArray[i] })
+      }
+    }
+    else {
+      for (let i = 0; i < CurrentArray.length; i++) {
+        updatedArray.push({ JobOpeningsTechnicalSkillsXrefId: 0, JobOpeningId: 0, TechnicalSkillId: CurrentArray[i] })
+      }
+    }
+
+    for (let item of e.value)
+      this.softskills.forEach(each => {
+        if (each.lookupDetailId == item) {
+          this.viewSelectedSkills.push(each.name);
+        }
+      });
+    this.fbJobOpening.get('jobOpeningTechnicalSkillsXrefs')?.setValue(updatedArray);
+  }
+
+
   save(): Observable<HttpEvent<JobOpeningsDetailsViewDto[]>> {
     return this.adminService.CreateJobOpeningDetails(this.fbJobOpening.value)
   }
@@ -199,7 +205,7 @@ export class JobOpeningsDialogComponent {
       this.save().subscribe(resp => {
         if (resp) {
           this.ref.close(true);
-          this.alertMessage.displayAlertMessage(ALERT_CODES["JDD001"]);
+          this.alertMessage.displayAlertMessage(ALERT_CODES["JOD001"]);
         }
       });
     }

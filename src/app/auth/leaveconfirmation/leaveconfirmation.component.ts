@@ -37,7 +37,7 @@ export class LeaveconfirmationComponent {
   openConfirmationAlert(title: string) {
     const buttonLabel = title === 'Reason For Approve' ? 'Approve' : 'Reject';
     this.leaveConfirmationService.openDialogWithInput(title, buttonLabel).subscribe((result) => {
-      if (result && result.description) {
+      if (result && result.description || result.description !== undefined) {
         const employeeLeaveDetails: EmployeeLeaveDetailsDto = {
           employeeId: this.employeeleavedetails.leaveDto.employeeId,
           leaveId: this.employeeleavedetails.leaveDto.leaveTypeId,
