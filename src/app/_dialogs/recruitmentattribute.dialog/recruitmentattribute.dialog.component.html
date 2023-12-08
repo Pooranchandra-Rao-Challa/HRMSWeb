@@ -1,149 +1,59 @@
 <div class=" align-items-center justify-content-center">
     <form [formGroup]="fbrecurimentAttribute">
-        <div class="grid  p-5 content_scroll" style="height:500px;">
+        <div class="grid  p-5 pb-0 content_scroll" style="height:auto;">
             <div class="col-12 roles-container">
                 <div class="p-fluid p-formgrid grid">
                     <div class="field col-12 md:col-4">
-                        <div class="col-12">
-                            <label class="required">Assesment Title:</label>
-                            <input type="text" id="RA_Title" pInputText formControlName="assessmentTitle"
-                                (keydown)="restrictSpaces($event)" placeholder="Enter Assesment Title" />
-                                <div class="flex">
-                                    <div class="align-left w-60" style="width:70%">
-                                        <span *ngIf="FormControls['assessmentTitle'].touched && FormControls['assessmentTitle'].invalid">
-                                            <div class="ng-invalid ng-touched p-error"
-                                                *ngIf="FormControls['assessmentTitle'].errors?.['required']">
-                                                Please Enter Assesment Title.</div>
-                                        </span>
-                                    </div>
-                                </div>
-                        </div>
-                        <div class="col-12 ">
-                            <div class="grid">
-                                <!-- <label>Expertise:</label> -->
-                                <div class="col-6">
-                                    <label class="required">Min Expertise:</label>
-                                    <p-rating [cancel]="false" id="RA_MinExpertise" formControlName="minExpertise"></p-rating>
-                                    <div class="flex">
-                                        <div class="align-left w-60" style="width:70%">
-                                            <span *ngIf="FormControls['minExpertise'].touched && FormControls['minExpertise'].invalid">
-                                                <div class="ng-invalid ng-touched p-error"
-                                                    *ngIf="FormControls['minExpertise'].errors?.['required']">
-                                                    Please Select Min Expertise.</div>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <label class="required">Max Expertise:</label>
-                                    <p-rating [cancel]="false" id="RA_MaxExpertise" formControlName="maxExpertise"> </p-rating>
-                                    <div class="flex">
-                                        <div class="align-left w-60" style="width:70%">
-                                            <span *ngIf="FormControls['maxExpertise'].touched && FormControls['maxExpertise'].invalid">
-                                                <div class="ng-invalid ng-touched p-error"
-                                                    *ngIf="FormControls['maxExpertise'].errors?.['required']">
-                                                    Please Select Max Expertise.</div>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="field col-12">
-                            <label class="required">Attribute Type:</label>
-                            <p-dropdown id="RA_Type" appendTo="body" class="w-100" [options]="attributeTypes"
-                                optionValue="lookupDetailId" optionLabel="name" formControlName="attributeTypeId"
-                                placeholder="Select Attribute Type" (keydown)="restrictSpaces($event)"
-                                [style]="{'width':'100%'}">
-                            </p-dropdown>
-                            <div class="flex">
-                                <div class="align-left w-60" style="width:70%">
-                                    <span
-                                        *ngIf="FormControls['attributeTypeId'].touched && FormControls['attributeTypeId'].invalid">
-                                        <div class="ng-invalid ng-touched p-error"
-                                        *ngIf="FormControls['attributeTypeId'].errors?.['required']">
-                                            Please Select Attribute Type.</div>
-                                    </span>
-                                </div>
+                        <label class="required">Assesment Title:</label>
+                        <input type="text" id="RA_Title" pInputText formControlName="assessmentTitle"
+                            (keydown)="restrictSpaces($event)" placeholder="Enter Assesment Title" />
+                        <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                                <span
+                                    *ngIf="FormControls['assessmentTitle'].touched && FormControls['assessmentTitle'].invalid">
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="FormControls['assessmentTitle'].errors?.['required']">
+                                        Please Enter Assesment Title.</div>
+                                </span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="field col-12 md:col-8">
-                        <div class="grid">
-                            <div class="field col-6">
-                                <label class="required">Recruitment Stages:</label>
-                                <!-- {{stages|json}}
-                                <div *ngFor="let stage of stages; let i = index" class="field-checkbox">
-                                    {{stage.assigned}}
-                                    <p-checkbox [(ngModel)]="stage.assigned" [ngModelOptions]="{ standalone: true }" [id]="'RA_recruitmentStages_' + i"></p-checkbox>
-                                    <label [for]="'RA_recruitmentStages_' + i">{{ stage.recruitmentStage }}</label>
-                                  </div> -->
-                                  <!-- <p-multiSelect [options]="stages" [(ngModel)]="selectedStages" optionLabel="recruitmentStage"
-                                  id="RA_ColumnSelection" selectedItemsLabel="{0} columns selected"
-                                  [style]="{'min-width': '200px'}" placeholder="Select Recruitment Stages"></p-multiSelect>   -->
-                               <p-multiSelect appendTo="body" placeholder="Select Recruitment Stages"
-                                     id="RA_recruitmentStages"  formControlName="recruitmentAttributeWithStageXrefs"
-                                    [options]="stages" optionLabel="recruitmentStage" [filter]="true" filterBy="name"
-                                    #multiSelect (keydown)="restrictSpaces($event)" (onChange)="onSelectionChange($event)">
-                                    <ng-template let-stage pTemplate="selectedItem" >
-                                        <div class="block align-items-center gap-3">
-                                            <div>{{stage.recruitmentStage}}</div>
-                                        </div>
-                                    </ng-template>
-                                </p-multiSelect> 
-                                <div class="flex">
-                                    <div class="align-left w-60" style="width:70%">
-                                        <span *ngIf="FormControls['recruitmentAttributeWithStageXrefs'].touched && FormControls['recruitmentAttributeWithStageXrefs'].invalid">
-                                            <div class="ng-invalid ng-touched p-error"
-                                                *ngIf="FormControls['recruitmentAttributeWithStageXrefs'].errors?.['required']">
-                                                Please Select Recruitment Stages.</div>
-                                        </span>
-                                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label class="required">Recruitment Stages:</label>
+                        <p-multiSelect appendTo="body" placeholder="Select Recruitment Stages" id="RA_recruitmentStages"
+                            formControlName="recruitmentAttributeWithStageXrefs" [options]="stages"
+                            optionLabel="recruitmentStage" [filter]="true" filterBy="name" #multiSelect
+                            (keydown)="restrictSpaces($event)" (onChange)="onSelectionChange($event)">
+                            <ng-template let-stage pTemplate="selectedItem">
+                                <div class="block align-items-center gap-3">
+                                    <div>{{stage.recruitmentStage}}</div>
                                 </div>
-                            </div>
-                            <div class="field col-6">
-                                <label class="required">Is Active: </label>
-                                <br> &nbsp; <p-inputSwitch formControlName="isActive" id="RA_isActive">
-                                </p-inputSwitch>
-                            </div>
-                            <div class="col-12 ">
-                                <div class="grid">
-                                    <p-accordion class="col-12 xl:col-12 md:col-12 sm:col-12 accordion_roles">
-                                        <p-accordionTab header="Soft Skills" id="RA_softKills">
-                                            <div class="grid">
-                                                <div class="col-6 role-accordian-view flex"
-                                                    *ngFor="let item of softSkills">
-                                                    <p-inputSwitch [(ngModel)]="item.assigned" id="RA_{{item.softSkill}}"
-                                                        [ngModelOptions]="{ standalone: true }">
-                                                    </p-inputSwitch> &nbsp;
-                                                    <label for="ny">{{ item.softSkill}}</label>
-                                                </div>
-                                            </div>
-                                        </p-accordionTab>
-                                        <p-accordionTab header="Technical Skills" id="RA_technicalKills">
-                                            <div class="grid" >
-                                                <div class="col-6 role-accordian-view flex"
-                                                    *ngFor="let item of technicalSkills">
-                                                    <p-inputSwitch [(ngModel)]="item.assigned" id="RA_{{item.technicalSkill}}"
-                                                        [ngModelOptions]="{ standalone: true }">
-                                                    </p-inputSwitch> &nbsp;
-                                                    <label for="ny">{{ item.technicalSkill}}</label>
-                                                </div>
-                                            </div>
-                                        </p-accordionTab>
-                                    </p-accordion>
-                                </div>
+                            </ng-template>
+                        </p-multiSelect>
+                        <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                                <span
+                                    *ngIf="FormControls['recruitmentAttributeWithStageXrefs'].touched && FormControls['recruitmentAttributeWithStageXrefs'].invalid">
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="FormControls['recruitmentAttributeWithStageXrefs'].errors?.['required']">
+                                        Please Select Recruitment Stages.</div>
+                                </span>
                             </div>
                         </div>
                     </div>
+                    <div class="field col-12 md:col-4">
+                        <label class="required">Is Active: </label>
+                        <br> &nbsp; <p-inputSwitch formControlName="isActive" id="RA_isActive">
+                        </p-inputSwitch>
+                    </div>
+
                 </div>
             </div>
         </div>
     </form>
 </div>
 <div class=" footer dialog-footer">
-    <button pButton pRipple type="submit" label="Add Attribute" (click)="onSubmit()" [disabled]="fbrecurimentAttribute.invalid"
-    id="RA_SubmitForm"  class="p-button-raised p-button-primary"></button>
+    <button pButton pRipple type="submit" [label]="this.submitlabel" (click)="onSubmit()"
+        [disabled]="fbrecurimentAttribute.invalid" id="RA_SubmitForm" class="p-button-raised p-button-primary"></button>
 </div>

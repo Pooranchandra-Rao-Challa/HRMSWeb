@@ -5,7 +5,7 @@ import { RecruitmentattributeDialogComponent } from 'src/app/_dialogs/recruitmen
 import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { Actions, DialogRequest, ITableHeader } from 'src/app/_models/common';
 import { GlobalFilterService } from 'src/app/_services/global.filter.service';
-import { RecruitmentAttributesDTO, RecruitmentStageDetailsDto, SkillDetailsDto, TechnicalDetailsDto } from 'src/app/demo/api/security';
+import { RecruitmentAttributesDTO, RecruitmentStageDetailsDto, } from 'src/app/demo/api/security';
 import { SecurityService } from 'src/app/demo/service/security.service';
 import { AdminService } from 'src/app/_services/admin.service';
 import { LookupDetailsDto } from 'src/app/_models/admin';
@@ -18,22 +18,16 @@ import { LookupService } from 'src/app/_services/lookup.service';
   ]
 })
 export class RecruitmentAttributesComponent {
-  globalFilterFields: string[] = ['assessmentTitle', 'attributeType', 'recruitmentStages']
+  globalFilterFields: string[] = ['assessmentTitle', 'recruitmentStages']
   @ViewChild('filter') filter!: ElementRef;
-  mediumDate: string = MEDIUM_DATE
   recruitmentAttributes: RecruitmentAttributesDTO[] = [];
   ActionTypes = Actions;
   recruitmentattributeDialogComponent = RecruitmentattributeDialogComponent;
-  dialogRequest: DialogRequest = new DialogRequest();
-  technicalskills: TechnicalDetailsDto[] = [];
-  softskills: SkillDetailsDto[] = [];
+  dialogRequest: DialogRequest = new DialogRequest();;
   attributeStages: RecruitmentStageDetailsDto[];
 
   headers: ITableHeader[] = [
     { field: 'assessmentTitle', header: 'assesmentTitle', label: 'Assesment Title' },
-    { field: 'minExpertise', header: 'minExpertise', label: 'Min Expertise' },
-    { field: 'maxExpertise', header: 'maxExpertise', label: 'Max Expertise' },
-    { field: 'attributeType', header: 'attributeTypes', label: 'Attribute Types' },
     { field: 'recruitmentStages', header: 'recruitmentStages', label: 'Recruitment Stages' },
     { field: 'isActive', header: 'isActive', label: 'Is Active' }
   ];
@@ -46,8 +40,6 @@ export class RecruitmentAttributesComponent {
 
   ngOnInit() {
     this.getAttributes();
-    this.getSoftSkills();
-    this.getTechnicalSkills();
     this.getAttributeStages();
   }
 
@@ -55,11 +47,17 @@ export class RecruitmentAttributesComponent {
     this.adminService.GetRecruitmentDetails(false).subscribe((resp) => {
       this.recruitmentAttributes = resp as unknown as RecruitmentAttributesDTO[];
       this.recruitmentAttributes.forEach(element => {
-        element.SkillDetails = JSON.parse(element.strSoftSkills);
-        element.TechnicalDetails = JSON.parse(element.strTechnicalSkills);
         element.RecruitmentStageDetails = JSON.parse(element.strRecruitmentStages);
       });
     })
+  }
+  getStages(value) {
+    console.log();
+    
+    return value.map(obj => {
+      if (obj.assigned)
+       return obj.recruitmentStage
+    });
   }
 
   onGlobalFilter(table: Table, event: Event) {
@@ -72,44 +70,13 @@ export class RecruitmentAttributesComponent {
     table.clear();
     this.filter.nativeElement.value = '';
   }
-  getSoftSkills(): SkillDetailsDto[] {
-    this.lookupService.SoftSkills().subscribe((resp) => {
-      let softskills = resp as unknown as LookupDetailsDto[];
-      this.softskills = [];
-      if (softskills)
-        softskills.forEach(item => {
-          this.softskills.push({
-            rASSXrefId: null,
-            softSkillId: item.lookupDetailId,
-            softSkill: item.name,
-            assigned: false
-          })
-        });
-    })
-    return this.softskills
-  }
-  getTechnicalSkills(): TechnicalDetailsDto[] {
-    this.lookupService.SkillAreas().subscribe((resp) => {
-      let technicalskills = resp as unknown as LookupDetailsDto[];
-      this.technicalskills = [];
-      if (technicalskills)
-        technicalskills.forEach(item => {
-          this.technicalskills.push({
-            rATSXrefId: null,
-            technicalSkillId: item.lookupDetailId,
-            technicalSkill: item.name,
-            assigned: false
-          });
-        })
-    })
-    return this.technicalskills
-  }
-  getAttributeStages():RecruitmentStageDetailsDto[] {
+
+  getAttributeStages(): RecruitmentStageDetailsDto[] {
     this.lookupService.attributestages().subscribe((resp) => {
       let attributeStages = resp as unknown as LookupDetailsDto[];
       this.attributeStages = [];
       if (attributeStages)
-      attributeStages.forEach(item => {
+        attributeStages.forEach(item => {
           this.attributeStages.push({
             rAWSXrefId: null,
             recruitmentStageId: item.lookupDetailId,
@@ -119,15 +86,13 @@ export class RecruitmentAttributesComponent {
         })
     })
     return this.attributeStages
- 
+
   }
 
   openComponentDialog(content: any, dialogData, action: Actions = this.ActionTypes.add) {
     if (action === Actions.save && content === this.recruitmentattributeDialogComponent) {
       this.dialogRequest.dialogData = dialogData || {
-        SkillDetails: this.getSoftSkills(),
-        TechnicalDetails: this.getTechnicalSkills(),
-        RecruitmentStageDetails:this.getAttributeStages()
+        RecruitmentStageDetails: this.getAttributeStages()
       };
       this.dialogRequest.header = "Attributes";
       this.dialogRequest.width = "60%";
@@ -140,8 +105,6 @@ export class RecruitmentAttributesComponent {
     this.ref.onClose.subscribe((res: any) => {
       if (res) {
         this.getAttributes();
-        this.getSoftSkills();
-        this.getTechnicalSkills();
         this.getAttributeStages();
       }
       event.preventDefault(); // Prevent the default form submission
