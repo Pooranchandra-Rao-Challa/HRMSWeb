@@ -661,3 +661,8 @@ div:where(.swal2-container) div:where(.swal2-validation-message) {
 div:where(.swal2-container) div:where(.swal2-validation-message)::before {
     content: none !important;
 }
+
+.Scroll-bar-for-container {
+    max-height: 300px;
+    overflow-y: auto;
+}
