@@ -648,17 +648,24 @@ label {
     margin-top: 30px;
 }
 
-div:where(.swal2-container) div:where(.swal2-popup){
-    padding:0px !important;
+div:where(.swal2-container) div:where(.swal2-popup) {
+    padding: 0px !important;
 }
-div:where(.swal2-container) div:where(.swal2-validation-message){
-    padding:4px 30px !important;
-    margin:0px !important;
+
+div:where(.swal2-container) div:where(.swal2-validation-message) {
+    padding: 4px 30px !important;
+    margin: 0px !important;
     background-color: transparent !important;
     align-items: start !important;
     justify-content: left !important;
-    color:red !important;
+    color: red !important;
 }
-div:where(.swal2-container) div:where(.swal2-validation-message)::before{
+
+div:where(.swal2-container) div:where(.swal2-validation-message)::before {
     content: none !important;
+}
+
+.Scroll-bar-for-container {
+    max-height: 300px;
+    overflow-y: auto;
 }
