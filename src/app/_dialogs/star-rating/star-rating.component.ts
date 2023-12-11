@@ -9,73 +9,70 @@ import { FormControl } from '@angular/forms';
 })
 export class StarRatingComponent {
   @Input() control: FormControl;
-  @Output() ratingChange = new EventEmitter<number>();
-  @Output() hover = new EventEmitter<number>();
 
-  stars: any[] = [5];
-  rating: number = 0; // or any default value that makes sense for your use case
-  hoveredStarIndex: number | null = null;
-  starStates: number[] = [];
+  stars: any[] = [1, 2, 3, 4, 5];
+  ratings: number;
+  clickCount: number = 0;
+  highlightedStar: number | null = null;
 
   ngOnInit(): void {
-    this.stars.forEach(() => {
-      this.starStates.push(0);
-    });
-
     if (this.control) {
-      this.rating = this.control.value;
       this.control.valueChanges.subscribe((value) => {
-        this.rating = value;
+        this.ratings = value;
       });
     }
+    if (this.control !== null) {
+      const index = this.highlightedStar;
+      this.handleValueofExpertise(index)
+    }
   }
-  onStarHover(index: number): void {
-    console.log('Hovered Index:', index);
-    this.hover.emit(index);
-  }
-  
-  handleClick(): void {
-    console.log('Clicked. Rating:', this.rating, 'Hovered Index:', this.hoveredStarIndex);
-  
-    if (this.hoveredStarIndex !== null) {
-      console.log('Star Clicked:', this.hoveredStarIndex);
-      
-      // Increment the click count for the specific star
-      this.starStates[this.hoveredStarIndex]++;
-  
-      // Determine the fill level based on the click count for the specific star
-      let fillLevel: number;
-  
-      if (this.starStates[this.hoveredStarIndex] === 1) {
-        fillLevel = 0.5; // 1st click: half-filled
-      } else if (this.starStates[this.hoveredStarIndex] === 2) {
-        fillLevel = 1;   // 2nd click: fully-filled
-      } else {
-        this.starStates[this.hoveredStarIndex] = 0; // Reset the click count on the 3rd click
-        fillLevel = 0;       // 3rd click: empty
-      }
-  
+
+  handleValueofExpertise(index: number): void {
+    if (this.ratings !== null && this.control) {
+      // Get the existing value from this.control
+      const existingValue = this.control.value;
+
+      // Set the fill level based on the existing value or the clicked index
+      let fillLevel = existingValue !== undefined ? existingValue : index + 1;
+
       // Update the rating based on the fill level and ensure it stays within the range of 0 to 5
-      this.rating = Math.min(Math.max(fillLevel, 0), 5);
-    } else {
-      // No star is clicked: empty all stars
-      this.rating = 0;
+      this.ratings = Math.min(Math.max(fillLevel, 0), 5);
+
+      // Update the form control value
+      this.control.setValue(this.ratings);
+
+      // Update the highlighted star index
+      this.highlightedStar = index;
     }
-  
-    // Emit the updated rating
-    this.ratingChange.emit(this.rating);
-  
-    // Update the form control value
-    if (this.control) {
-      this.control.setValue(this.rating);
-    }
-  
-    console.log('Updated Rating:', this.rating);
-    console.log('Star States:', this.starStates);
-  
-    console.log('Clicked. Rating:', this.rating, 'Hovered Index:', this.hoveredStarIndex);
   }
-  
-  
-  
+
+  handleClick(index: number): void {
+    if (this.ratings !== null) {
+      let fillLevel: number;
+
+      // Increment the click count only if a different star is clicked
+      if (this.highlightedStar !== index) {
+        this.clickCount = 1;
+      } else {
+        this.clickCount = (this.clickCount % 3) + 1;
+      }
+
+      if (this.clickCount === 1) {
+        fillLevel = index + 0.5;
+      } else if (this.clickCount === 2) {
+        fillLevel = index + 1; // Set to 1 on the second click
+      } else {
+        fillLevel = index + 0; // Reset to 0 on the third click
+        this.clickCount = 0;
+      }
+      // Update the rating based on the fill level and ensure it stays within the range of 0 to 5
+      this.ratings = Math.min(Math.max(fillLevel, 0), 5);
+      // Update the form control value
+      if (this.control) {
+        this.control.setValue(this.ratings);
+      }
+      // Update the highlighted star index
+      this.highlightedStar = index;
+    }
+  }
 }

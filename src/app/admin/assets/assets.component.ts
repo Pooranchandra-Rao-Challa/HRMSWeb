@@ -150,10 +150,12 @@ export class AssetsComponent {
     this.dialog = true;
   }
 
-  addAssetsDialog() {
+  async addAssetsDialog() {
+    this.fbassets.reset();
     this.fbassets.controls['isActive'].setValue(true);
     this.submitLabel = "Add Assets";
     this.addFlag = true;
+    await this.initAssetTypesbyCategories(this.selectedAssetTypeId);
     this.dialog = true;
   }
 
@@ -166,13 +168,13 @@ export class AssetsComponent {
     const target = event.target as HTMLInputElement;
     // Prevent the first key from being a space
     if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0)
-        event.preventDefault();
+      event.preventDefault();
 
     // Restrict multiple spaces
     if (event.key === ' ' && target.selectionStart > 0 && target.value.charAt(target.selectionStart - 1) === ' ') {
-        event.preventDefault();
+      event.preventDefault();
     }
-}
+  }
 
   deleteDialog(assetstypes: AssetsDetailsViewDto) {
     this.deleteAsset = assetstypes;
@@ -263,14 +265,47 @@ export class AssetsComponent {
     this.addFooter(doc);
     doc.save('assets.pdf');
   }
-
   addLetterhead(doc: jsPDF) {
-    // Customize the letterhead as needed
-    const letterheadText = 'Company Information';
-    doc.setFontSize(18);
-    doc.text(letterheadText, 20, 20);
-  }
+    const headerBackgroundColor = [255, 242, 229]; 
+    doc.setFillColor.apply(doc, headerBackgroundColor);
+    const rectangleWidth = doc.internal.pageSize.width; 
+    const rectangleHeight = 40; 
+    doc.rect(0, 0, rectangleWidth, rectangleHeight, 'F'); 
 
+    const logoWidth = 35;
+    const logoHeight = 30;
+    const logoX = 15;
+    const logoY = 4;
+    doc.addImage('assets/layout/images/calibrage-logo.png', 'PNG', logoX, logoY, logoWidth, logoHeight);
+  
+    const additionalTextX = 60; 
+    const additionalTextY = 35; 
+    const additionalText = 'Tel:+91-40-48525410  Web:WWW.calibrage.in  Email:info@calibrage.in';
+    doc.setFontSize(12); 
+    doc.setTextColor(0, 0, 0); // Set text color (black in RGB)
+    doc.text(additionalText, additionalTextX, additionalTextY);
+  
+    // Set the position for the address text on the left side
+    const addressX = 220; // Adjust the space between logo and address
+    const addressY = 10; // Adjust the vertical position as needed
+    const addressText =
+      'Calibrage Info System Pvt.Ltd _ Inrhythm Solutions building, _ 4th Floor-4A, PL NO:1023,_Gurukul Society,_Madhapur, Hyderabad-500081.';
+    const fontSize = 12; 
+    doc.setFontSize(fontSize);
+    const addressParts = addressText.split('_');
+  
+    // Adjust the line height
+    const lineHeight = fontSize * 0.5; 
+    doc.setLineHeightFactor(lineHeight);
+  
+    // Add each part of the address text on a new line without adding space
+    addressParts.forEach((part, index) => {
+      const yPos = addressY + index * lineHeight;
+      doc.text(part.trim(), addressX, yPos);
+    });
+    doc.setLineHeightFactor(1.2); 
+  }
+  
   addBodyContent(doc: jsPDF) {
     const head = [['Asset Type', 'Asset Category', 'Count', 'Employee Name', 'Asset Code', 'Asset Name', 'Purchased Date', 'Model Number', 'Manufacturer',
       'Serial Number', 'Warranty', 'AddValue', 'Description', 'Status']];
@@ -278,8 +313,8 @@ export class AssetsComponent {
     autoTable(doc, {
       head: head,
       body: this.toPdfFormat(),
-      startY: 25, // Adjust the starting Y position for the body content
-      headStyles: { fillColor: [255, 129, 14]}
+      startY: 45, // Adjust the starting Y position for the body content
+      headStyles: { fillColor: [255, 129, 14] }
     });
   }
 
@@ -287,7 +322,7 @@ export class AssetsComponent {
     // Customize the footer as needed
     const footerText = 'Authorized Signature';
     doc.setFontSize(12);
-    doc.text(footerText, 243, doc.internal.pageSize.height -25);
+    doc.text(footerText, 243, doc.internal.pageSize.height - 25);
 
   }
 

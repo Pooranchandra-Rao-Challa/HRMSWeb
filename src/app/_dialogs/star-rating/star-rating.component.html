@@ -1,15 +1,11 @@
-<!-- <div class="flex justify-content-center">
-  <p-rating [(ngModel)]="rating" [stars]="5" [cancel]="false"  (mouseover)="onStarHover(i)" (click)="handleClick()">
-  </p-rating>
-</div> -->
-<div *ngFor="let star of stars; let i = index">
-  <p-rating [(ngModel)]="rating" [stars]="5" [cancel]="false" (mouseover)="onStarHover(i)" (click)="handleClick()" 
-  [ngClass]="{'hovered': i <= hoveredStarIndex}">
-  </p-rating>
-</div>
+<!-- <p-rating [(ngModel)]="ratings" [stars]="5" [cancel]="false" (click)="handleClick()"
+  [class.half-orange-fill]="fillLevel === 0.5">
+</p-rating> -->
 
-
-<!-- <span *ngFor="let star of [1, 2, 3, 4, 5]; let i = index" (click)="handleClick(i)" class="star"
-    [class.full]="rating > i" [class.half]="rating === i + 0.5">
-    ★
-  </span> -->
+<span *ngFor="let star of stars; let i = index" (click)="handleClick(i)" class="star" [class.full]="ratings >= star"
+  [class.half]="ratings === i + 0.5">
+  <!-- ★ -->
+  <!-- <i class="pi pi-star" style="font-size: 1.5rem"></i> -->
+  <!-- &#9734; -->
+  &starf;
+</span>
