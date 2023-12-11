@@ -1,12 +1,11 @@
-
 <!-- <p-rating [(ngModel)]="ratings" [stars]="5" [cancel]="false" (click)="handleClick()"
   [class.half-orange-fill]="fillLevel === 0.5">
 </p-rating> -->
 
-<span *ngFor="let star of stars; let i = index" (click)="handleClick(i)" class="star"
-  [class.full]="ratings >= star" [class.half]="ratings === i + 0.5">
+<span *ngFor="let star of stars; let i = index" (click)="handleClick(i)" class="star" [class.full]="ratings >= star"
+  [class.half]="ratings === i + 0.5">
   <!-- ★ -->
   <!-- <i class="pi pi-star" style="font-size: 1.5rem"></i> -->
   <!-- &#9734; -->
- &starf;
+  &starf;
 </span>

@@ -38,6 +38,7 @@ export class ViewapplicantDialogComponent {
   maxLength: MaxLength = new MaxLength();
   currentDate = new Date();
   viewApplicantDetails: ViewApplicantDto;
+  ratings: number;
 
   constructor(private formbuilder: FormBuilder,
     public ref: DynamicDialogRef,
@@ -293,9 +294,15 @@ export class ViewapplicantDialogComponent {
   }
 
   edittechnicalSkills(technicalSkills: ApplicantSkillDto) {
-    this.addFlag = false
+    this.addFlag = false;
     this.rowData = technicalSkills;
     this.fbtechnicalSkills.patchValue(this.rowData);
+    const expertiseControl = this.getExpertiseControl();
+    if (expertiseControl) {
+      const initialRating = technicalSkills.expertise;
+      expertiseControl.setValue(initialRating);
+      this.ratings = initialRating;
+    }
   }
 
   // SaveButtonDisabledBasedonforms
