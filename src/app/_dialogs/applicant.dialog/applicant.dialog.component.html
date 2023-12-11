@@ -33,6 +33,9 @@
                                         <div class="ng-invalid ng-touched p-error"
                                             *ngIf="FormControls['name'].errors?.['required']">
                                             Please Enter Name.</div>
+                                        <div class="ng-invalid ng-touched p-error"
+                                            *ngIf="FormControls['name'].errors?.['minlength']">
+                                            Name Min Length Is 2.</div>
                                     </span>
                                 </div>
                                 <div class="align-right w-40" style="width:30%; text-align:right;">
@@ -58,9 +61,10 @@
                             </div>
                         </div>
                         <div class="field col-12 md:col-4">
-                            <label class="required">Dob:</label>
-                            <p-calendar id="applicant_DateOfBirth" [readonlyInput]="true" placeholder="Select Dob"
+                            <label class="required">DOB:</label>
+                            <p-calendar id="applicant_DateOfBirth" [readonlyInput]="true" placeholder="Select DOB"
                                 appendTo="body" [showIcon]="true" mask="99/99/9999" formControlName="dob"
+                                [maxDate]="currentDate"
                                 [ngClass]="{ 'is-invalid ng-dirty': FormControls['dob'].touched && FormControls['dob'].errors }">
                             </p-calendar>
                             <div class="flex">
@@ -68,15 +72,15 @@
                                     <span *ngIf="FormControls['dob'].touched && FormControls['dob'].invalid">
                                         <div class="ng-invalid ng-touched p-error"
                                             *ngIf="FormControls['dob'].errors?.['required']">
-                                            Please Select Dob.</div>
+                                            Please Select DOB.</div>
                                     </span>
                                 </div>
                             </div>
                         </div>
                         <div class="field col-12 md:col-4">
-                            <label class="required">Email:</label>
+                            <label class="required">Email ID:</label>
                             <input type="text" id="applicant_Email" pInputText formControlName="emailId"
-                                [maxlength]="50" placeholder="Enter Email" alphanumeric #email
+                                [maxlength]="50" placeholder="Enter Email ID" alphanumeric #email
                                 (keydown)="restrictSpaces($event)"
                                 [ngClass]="{ 'is-invalid ng-dirty': FormControls['emailId'].touched && FormControls['emailId'].errors }" />
                             <div class="flex">
@@ -84,7 +88,10 @@
                                     <span *ngIf="FormControls['emailId'].touched && FormControls['emailId'].invalid">
                                         <div class="ng-invalid ng-touched p-error"
                                             *ngIf="FormControls['emailId'].errors?.['required']">
-                                            Please Enter Email.</div>
+                                            Please Enter Email ID.</div>
+                                        <div class="ng-invalid ng-touched p-error"
+                                            *ngIf="FormControls['emailId'].errors?.['pattern']">
+                                            Must in Email ID Format.</div>
                                     </span>
                                 </div>
                                 <div class="align-right w-40" style="width:30%; text-align:right;">
@@ -104,6 +111,9 @@
                                         <div class="ng-invalid ng-touched p-error"
                                             *ngIf="FormControls['mobileNo'].errors?.['required']">
                                             Please Enter Mobile Number.</div>
+                                        <div class="ng-invalid ng-touched p-error"
+                                            *ngIf="FormControls['mobileNo'].errors?.['pattern']">
+                                            First Digit Should Be Greater Than 4 And Must Contains 10 Digits.</div>
                                     </span>
                                 </div>
                                 <div class="align-right w-40" style="width:30%; text-align:right;">
@@ -133,7 +143,7 @@
                             <label class="required">Address Line1:</label>
                             <input type="text" id="applicant_AddressLine1" pInputText placeholder="Enter Address Line1"
                                 #addressLine1 formControlName="addressLine1" (keydown)="restrictSpaces($event)"
-                                alphaOnly [maxlength]="50"
+                                [maxlength]="50"
                                 [ngClass]="{ 'is-invalid ng-dirty': FormControls['addressLine1'].touched && FormControls['addressLine1'].errors }" />
                             <div class="flex">
                                 <div class="align-left w-60" style="width:70%">
@@ -142,6 +152,9 @@
                                         <div class="ng-invalid ng-touched p-error"
                                             *ngIf="FormControls['addressLine1'].errors?.['required']">
                                             Please Enter Address Line1.</div>
+                                        <div class="ng-invalid ng-touched p-error"
+                                            *ngIf="FormControls['addressLine1'].errors?.['minlength']">
+                                            Address Line1 Min Length Is 2.</div>
                                     </span>
                                 </div>
                                 <div class="align-right w-40" style="width:30%; text-align:right;">
@@ -152,14 +165,31 @@
                         <div class="field col-12 md:col-4">
                             <label>Address Line2:</label>
                             <input type="text" id="applicant_AddressLine2" pInputText placeholder="Enter Address Line2"
-                                [maxlength]="50" formControlName="addressLine2" (keydown)="restrictSpaces($event)"
-                                alphaOnly />
+                                [maxlength]="50" formControlName="addressLine2" (keydown)="restrictSpaces($event)" />
+                            <div class="flex">
+                                <div class="align-left w-60" style="width:70%">
+                                    <span
+                                        *ngIf="FormControls['addressLine2'].touched && FormControls['addressLine2'].invalid">
+                                        <div class="ng-invalid ng-touched p-error"
+                                            *ngIf="FormControls['addressLine2'].errors?.['minlength']">
+                                            Address Line2 Min Length Is 2.</div>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                         <div class="field col-12 md:col-4">
                             <label>Landmark:</label>
                             <input type="text" id="applicant_Landmark" pInputText placeholder="Enter Landmark"
-                                [maxlength]="50" formControlName="landmark" (keydown)="restrictSpaces($event)"
-                                alphaOnly />
+                                [maxlength]="50" formControlName="landmark" (keydown)="restrictSpaces($event)" />
+                            <div class="flex">
+                                <div class="align-left w-60" style="width:70%">
+                                    <span *ngIf="FormControls['landmark'].touched && FormControls['landmark'].invalid">
+                                        <div class="ng-invalid ng-touched p-error"
+                                            *ngIf="FormControls['landmark'].errors?.['minlength']">
+                                            Landmark Min Length Is 2.</div>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                         <div class="field col-12 md:col-4">
                             <label class="required">Zip Code:</label>
@@ -173,6 +203,9 @@
                                         <div class="ng-invalid ng-touched p-error"
                                             *ngIf="FormControls['zipCode'].errors?.['required']">
                                             Please Enter Zip Code.</div>
+                                            <div class="ng-invalid ng-touched p-error"
+                                            *ngIf="FormControls['zipCode'].errors?.['pattern']">
+                                            First Digit Should Be Greater Than 0 And Must Contains 6 Digits.</div>
                                     </span>
                                 </div>
                                 <div class="align-right w-40" style="width:30%; text-align:right;">
@@ -192,6 +225,9 @@
                                         <div class="ng-invalid ng-touched p-error"
                                             *ngIf="FormControls['city'].errors?.['required']">
                                             Please Enter City.</div>
+                                        <div class="ng-invalid ng-touched p-error"
+                                            *ngIf="FormControls['city'].errors?.['minlength']">
+                                            City Min Length Is 2.</div>
                                     </span>
                                 </div>
                                 <div class="align-right w-40" style="width:30%; text-align:right;">
@@ -326,6 +362,16 @@
                                             formControlName="institutionName" placeholder="Enter Institute Name"
                                             #institutename [maxLength]="50" (keydown)="restrictSpaces($event)"
                                             (click)="validateRowforEducationDetails(educationDetailsIndex)" />
+                                        <div class="flex">
+                                            <div class="align-left w-60" style="width:70%">
+                                                <span
+                                                    *ngIf=" formArrayControlEducation(educationDetailsIndex, 'institutionName').touched && formArrayControlEducation(educationDetailsIndex, 'institutionName').invalid">
+                                                    <div class="ng-invalid ng-touched p-error"
+                                                        *ngIf=" formArrayControlEducation(educationDetailsIndex, 'institutionName').errors?.['minlength']">
+                                                        Institute Name Min Length Is 2.</div>
+                                                </span>
+                                            </div>
+                                        </div>
                                     </td>
                                     <td class="vertical-align-top">
                                         <input type="text" id="authority_Name" pInputText
@@ -341,6 +387,9 @@
                                                     <div class="ng-invalid ng-touched p-error"
                                                         *ngIf=" formArrayControlEducation(educationDetailsIndex, 'authorityName').errors?.['required']">
                                                         Please Enter Authority Name.</div>
+                                                    <div class="ng-invalid ng-touched p-error"
+                                                        *ngIf=" formArrayControlEducation(educationDetailsIndex, 'authorityName').errors?.['minlength']">
+                                                        Authority Name Min Length Is 2.</div>
                                                 </span>
                                             </div>
                                             <div class="align-right w-40" style="width:30%; text-align:right;">
@@ -401,6 +450,9 @@
                                                     <div class="ng-invalid ng-touched p-error"
                                                         *ngIf=" formArrayControlEducation(educationDetailsIndex, 'gradingValue').errors?.['required']">
                                                         Please Select Grading Value.</div>
+                                                    <div class="ng-invalid ng-touched p-error"
+                                                        *ngIf=" formArrayControlEducation(educationDetailsIndex, 'gradingValue').errors?.['minlength']">
+                                                        Grading Value Min Length Is 2.</div>
                                                 </span>
                                             </div>
                                             <div class="align-right w-40" style="width:30%; text-align:right;">
@@ -511,12 +563,22 @@
                                             formControlName="franchiseName" [style]="{'width':'100%'}" #franchisename
                                             (keydown)="restrictSpaces($event)"
                                             (click)="validateRowforCertificationDetails(certificationDetailsIndex)" />
+                                        <div class="flex">
+                                            <div class="align-left w-60" style="width:70%">
+                                                <span
+                                                    *ngIf=" formArrayControlCertificaiton(certificationDetailsIndex, 'franchiseName').touched && formArrayControlCertificaiton(certificationDetailsIndex, 'franchiseName').invalid">
+                                                    <div class="ng-invalid ng-touched p-error"
+                                                        *ngIf=" formArrayControlCertificaiton(certificationDetailsIndex, 'franchiseName').errors?.['minlength']">
+                                                        Franchise Name Min Length Is 2.</div>
+                                                </span>
+                                            </div>
+                                        </div>
                                     </td>
                                     <td class="vertical-align-top">
                                         <p-calendar id="cer_YearOfCompletion" [readonlyInput]="true"
                                             placeholder="Select Year Of Completion*" appendTo="body" [showIcon]="true"
                                             mask="99/99/9999" formControlName="yearOfCompletion"
-                                            [style]="{'width':'100%'}"
+                                            [style]="{'width':'100%'}" [maxDate]="currentDate"
                                             (click)="validateRowforCertificationDetails(certificationDetailsIndex)"
                                             [ngClass]="{'is-invalid ng-dirty': formArrayControlCertificaiton(certificationDetailsIndex, 'yearOfCompletion')?.touched &&
                                             formArrayControlCertificaiton(certificationDetailsIndex, 'yearOfCompletion')?.errors }">
@@ -546,6 +608,9 @@
                                                     <div class="ng-invalid ng-touched p-error"
                                                         *ngIf="formArrayControlCertificaiton(certificationDetailsIndex, 'results').errors?.['required']">
                                                         Please Enter Results.</div>
+                                                    <div class="ng-invalid ng-touched p-error"
+                                                        *ngIf=" formArrayControlCertificaiton(certificationDetailsIndex, 'results').errors?.['minlength']">
+                                                        Results Min Length Is 2.</div>
                                                 </span>
                                             </div>
                                             <div class="align-right w-40" style="width:30%; text-align:right;">
@@ -613,6 +678,9 @@
                                                         <div class="ng-invalid ng-touched p-error"
                                                             *ngIf="formArrayControlWorkExperience(experienceDetailsIndex, 'companyName').errors?.['required']">
                                                             Please Enter Company Name.</div>
+                                                        <div class="ng-invalid ng-touched p-error"
+                                                            *ngIf=" formArrayControlWorkExperience(experienceDetailsIndex, 'companyName').errors?.['minlength']">
+                                                            Company Name Min Length Is 2.</div>
                                                     </span>
                                                 </div>
                                                 <div class="align-right w-40" style="width:30%; text-align:right;">
@@ -625,6 +693,16 @@
                                                 placeholder="Enter Company Location*" formControlName="companyLocation"
                                                 #companylocation alphaOnly (keydown)="restrictSpaces($event)"
                                                 (click)="validateRowforExperienceDetails(experienceDetailsIndex)">
+                                            <div class="flex">
+                                                <div class="align-left w-60" style="width:70%">
+                                                    <span
+                                                        *ngIf="formArrayControlWorkExperience(experienceDetailsIndex, 'companyLocation').touched &&formArrayControlWorkExperience(experienceDetailsIndex, 'companyLocation').invalid">
+                                                        <div class="ng-invalid ng-touched p-error"
+                                                            *ngIf=" formArrayControlWorkExperience(experienceDetailsIndex, 'companyLocation').errors?.['minlength']">
+                                                            Company Location Min Length Is 2.</div>
+                                                    </span>
+                                                </div>
+                                            </div>
                                         </td>
                                         <td class="vertical-align-top">
                                             <input type="text" id="company_EmployeeId" pInputText [maxLength]="10"
@@ -632,6 +710,16 @@
                                                 placeholder="Enter Company Employee Id"
                                                 formControlName="companyEmployeeId" #companyemployeeId
                                                 (click)="validateRowforExperienceDetails(experienceDetailsIndex)" />
+                                            <div class="flex">
+                                                <div class="align-left w-60" style="width:70%">
+                                                    <span
+                                                        *ngIf="formArrayControlWorkExperience(experienceDetailsIndex, 'companyEmployeeId').touched &&formArrayControlWorkExperience(experienceDetailsIndex, 'companyEmployeeId').invalid">
+                                                        <div class="ng-invalid ng-touched p-error"
+                                                            *ngIf=" formArrayControlWorkExperience(experienceDetailsIndex, 'companyEmployeeId').errors?.['minlength']">
+                                                            Company Location Min Length Is 2.</div>
+                                                    </span>
+                                                </div>
+                                            </div>
                                         </td>
                                         <td class="vertical-align-top">
                                             <p-dropdown id="exp_Designation" appendTo="body"
@@ -666,6 +754,9 @@
                                                         <div class="ng-invalid ng-touched p-error"
                                                             *ngIf="formArrayControlWorkExperience(experienceDetailsIndex, 'natureOfWork').errors?.['required']">
                                                             Please Enter Nature Of Work.</div>
+                                                        <div class="ng-invalid ng-touched p-error"
+                                                            *ngIf=" formArrayControlWorkExperience(experienceDetailsIndex, 'natureOfWork').errors?.['minlength']">
+                                                            Nature Of Work Min Length Is 2.</div>
                                                     </span>
                                                 </div>
                                                 <div class="align-right w-40" style="width:30%; text-align:right;">
@@ -679,6 +770,16 @@
                                                 placeholder="Enter Worked On Projects" alphaOnly #workedOnProjects
                                                 formControlName="workedOnProjects"
                                                 (click)="validateRowforExperienceDetails(experienceDetailsIndex)" />
+                                            <div class="flex">
+                                                <div class="align-left w-60" style="width:70%">
+                                                    <span
+                                                        *ngIf="formArrayControlWorkExperience(experienceDetailsIndex, 'workedOnProjects').touched && formArrayControlWorkExperience(experienceDetailsIndex, 'workedOnProjects').invalid">
+                                                        <div class="ng-invalid ng-touched p-error"
+                                                            *ngIf=" formArrayControlWorkExperience(experienceDetailsIndex, 'workedOnProjects').errors?.['minlength']">
+                                                            Worked On Projects Min Length Is 2.</div>
+                                                    </span>
+                                                </div>
+                                            </div>
                                         </td>
                                         <td class="vertical-align-top">
                                             <p-calendar id="exp_DateOfJoining" [readonlyInput]="true" appendTo="body"
