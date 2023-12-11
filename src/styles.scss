@@ -666,3 +666,9 @@ div:where(.swal2-container) div:where(.swal2-validation-message)::before {
     max-height: 300px;
     overflow-y: auto;
 }
+
+.swal-background {
+    background-color: #FFF2E5;
+    width: 400px;
+    height: 200px;
+}
