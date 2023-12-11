@@ -2,10 +2,12 @@ export class ApplicantViewDto {
     applicantId?: number;
     name?: string;
     dob?: Date
+    filteredApplicantId?: number
     technicalRound1At?: Date
     technicalRound2At?: Date
     technicalRound3At?: Date
-    hrRoundAt:Date
+    hrRoundAt: Date
+    jobOpeningInProcessId?: number
     gender?: string;
     emailId?: string;
     mobileNo?: number;
@@ -14,10 +16,16 @@ export class ApplicantViewDto {
     pendingDetails?: string;
     skills?: string;
 }
+export class RASBasedOnProcessId {
+    assessmentTitle?: string
+    jobOpeningInProcessId?: number
+    recruitmentAttributeId?: number
+}
 export class JobOpeningsListDto {
     initiatedAt?: Date
     jobId?: number
     jobTitle?: string
+    jobOpeninginprocessId?: number
 }
 export class ApplicantDto {
     applicantId?: number;

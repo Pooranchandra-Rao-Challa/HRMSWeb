@@ -19,30 +19,7 @@
                         </div>
                     </div>
 
-                    <div class="field col-12 md:col-4">
-                        <label class="required">Recruitment Stages:</label>
-                        <p-multiSelect appendTo="body" placeholder="Select Recruitment Stages" id="RA_recruitmentStages"
-                            formControlName="recruitmentAttributeWithStageXrefs" [options]="stages"
-                            optionLabel="recruitmentStage" [filter]="true" filterBy="name" #multiSelect
-                            (keydown)="restrictSpaces($event)" (onChange)="onSelectionChange($event)">
-                            <ng-template let-stage pTemplate="selectedItem">
-                                <div class="block align-items-center gap-3">
-                                    <div>{{stage.recruitmentStage}}</div>
-                                </div>
-                            </ng-template>
-                        </p-multiSelect>
-                        <div class="flex">
-                            <div class="align-left w-60" style="width:70%">
-                                <span
-                                    *ngIf="FormControls['recruitmentAttributeWithStageXrefs'].touched && FormControls['recruitmentAttributeWithStageXrefs'].invalid">
-                                    <div class="ng-invalid ng-touched p-error"
-                                        *ngIf="FormControls['recruitmentAttributeWithStageXrefs'].errors?.['required']">
-                                        Please Select Recruitment Stages.</div>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="field col-12 md:col-4">
+                                        <div class="field col-12 md:col-4">
                         <label class="required">Is Active: </label>
                         <br> &nbsp; <p-inputSwitch formControlName="isActive" id="RA_isActive">
                         </p-inputSwitch>

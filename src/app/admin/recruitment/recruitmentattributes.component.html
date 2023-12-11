@@ -6,12 +6,13 @@
                 <h4>Attributes</h4>
             </ng-template>
             <ng-template pTemplate="right">
-                <button pButton pRipple label="Add Attributes" icon="pi pi-plus" class="p-button-primary p-mr-2"
+                <button pButton pRipple label="Add Attributes" id="RA_addButton" icon="pi pi-plus"
+                    class="p-button-primary p-mr-2"
                     (click)="openComponentDialog(recruitmentattributeDialogComponent,null,ActionTypes.save)"></button>
             </ng-template>
         </p-toolbar>
         <!-- p-table -->
-        <p-table id="table" #dtleave [value]="recruitmentAttributes" dataKey="id" [rows]="10" [rowHover]="true"
+        <p-table id="RA_table" #dtleave [value]="recruitmentAttributes" dataKey="id" [rows]="10" [rowHover]="true"
             [alwaysShowPaginator]="false" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
             [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
             [showCurrentPageReport]="true" [globalFilterFields]="globalFilterFields" paginatorDropdownAppendTo="body"
@@ -19,22 +20,22 @@
             <ng-template pTemplate="caption">
                 <div class="flex justify-content-between flex-column sm:flex-row">
                     <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
-                        (click)="clear(dtleave)" id="clear-btn"></button>
+                        id="RA_clearButton" (click)="clear(dtleave)" id="clear-btn"></button>
                     <span class="p-input-icon-left mb-2">
                         <i class="pi pi-search"></i>
-                        <input pInputText type="text" id="search-input" #filter
+                        <input pInputText type="text" id="RA_search-input" #filter
                             (input)="onGlobalFilter(dtleave, $event)" placeholder="Search Keyword" class="w-full" />
                     </span>
                 </div>
             </ng-template>
             <ng-template pTemplate="header">
                 <tr>
-                    <th></th>
+                    <th class="text-center">Actions</th>
                     <th class="text-center" *ngFor="let col of headers" [pSortableColumn]="col.header">
                         {{col?.label}}
-                        <p-columnFilter type="text" [field]="col.field" id="Leaves_ColumnFilter" display="menu">
+                        <p-columnFilter type="text" [field]="col.field" id="RA_Leaves_ColumnFilter" display="menu">
                         </p-columnFilter>
-                        <p-sortIcon [field]="col.header"></p-sortIcon>
+                        <p-sortIcon id="RA_Leaves_sortFilter" [field]="col.header"></p-sortIcon>
                     </th>
 
                 </tr>
@@ -47,13 +48,8 @@
                             (click)="openComponentDialog(recruitmentattributeDialogComponent, attribute, ActionTypes.save)"></button>
                     </td>
                     <td class="text-center" *ngFor="let col of headers">
-                        <span
-                            *ngIf=" col?.field == 'assessmentTitle'" >
+                        <span *ngIf=" col?.field == 'assessmentTitle'">
                             {{attribute[col.field]}}
-                        </span>
-                        <span
-                            *ngIf="col?.field == 'recruitmentStages'">
-                            {{this.getStages(attribute.RecruitmentStageDetails)}}
                         </span>
                         <span *ngIf=" col?.field == 'isActive'" [ngClass]="'isActive' ? 'text-center' : ''">
                             <p-checkbox name="isActive" value="isActive" [(ngModel)]="attribute['isActive']"

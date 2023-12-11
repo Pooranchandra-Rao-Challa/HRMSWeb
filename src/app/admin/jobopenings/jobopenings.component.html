@@ -105,70 +105,77 @@
 </p-dialog>
 <p-dialog header="All Recruitment Attributes" [(visible)]="attributeDialog" [modal]="true" showEffect="fade"
     [breakpoints]="{'960px': '70%', '640px': '60%'}" [style]="{width: '50%'}">
-        <form>
-            <div class="grid content_scroll" style="height:auto;">
-                <div class="col-12 roles-container">
-                    <div class="p-fluid p-formgrid grid">
-                        <div class="field col-12 md:col-6">
-                            <label class="required">Assesment Title:</label>
-                            <p-dropdown appendTo="body" [options]="recruitmentAttributes" optionLabel="assessmentTitle" optionValue=""
-                                [filter]="true" filterBy="name" [showClear]="true" placeholder="Select a Recruitment Attribute">
-                            </p-dropdown>
-                            <div class="flex">
-                                <div class="align-left w-60" style="width:70%">
-                                    <!-- <span
-                                        *ngIf="FormControls['assessmentTitle'].touched && FormControls['assessmentTitle'].invalid">
-                                        <div class="ng-invalid ng-touched p-error"
-                                            *ngIf="FormControls['assessmentTitle'].errors?.['required']">
-                                            Please Enter Assesment Title.</div>
-                                    </span> -->
-                                </div>
-                            </div>
-                        </div>
-                        <div class="field col-12 md:col-6">
-                            <div class="grid">
-                                <!-- <label>Expertise:</label> -->
-                                <div class="col-6">
-                                    <label class="required mb-5">Min Expertise:</label>
-                                    <p-rating [cancel]="false" id="RA_MinExpertise" formControlName="minExpertise">
-                                    </p-rating>
-                                    <div class="flex">
-                                        <div class="align-left w-60" style="width:70%">
-                                            <!-- <span
-                                                *ngIf="FormControls['minExpertise'].touched && FormControls['minExpertise'].invalid">
-                                                <div class="ng-invalid ng-touched p-error"
-                                                    *ngIf="FormControls['minExpertise'].errors?.['required']">
-                                                    Please Select Min Expertise.</div>
-                                            </span> -->
-                                        </div>
+    <form [formGroup]="fbdoProcess">
+        <div class="grid content_scroll" style="height:auto;">
+            <div class="col-12 roles-container">
+                <div class="p-fluid p-formgrid grid">
+                    <div class="field col-12 md:col-6">
+                        <label>Applicant Range Filter:</label>
+                        <div class="grid">
+                            <div class="col-6">
+                                <label class="required mb-5">Min Expertise:</label>
+                                <p-rating [cancel]="false" id="JO_doProcess_MinExpertise"
+                                    formControlName="minExpertise">
+                                </p-rating>
+                                <div class="flex">
+                                    <div class="align-left w-60" style="width:70%">
+                                        <span
+                                            *ngIf="FormControls['minExpertise'].touched && FormControls['minExpertise'].invalid">
+                                            <div class="ng-invalid ng-touched p-error"
+                                                *ngIf="FormControls['minExpertise'].errors?.['required']">
+                                                Please Select Min Expertise.</div>
+                                        </span>
                                     </div>
                                 </div>
-                                <div class="col-6">
-                                    <label class="required mb-5">Max Expertise:</label>
-                                    <p-rating [cancel]="false" id="RA_MaxExpertise">
-                                    </p-rating>
-                                    <div class="flex">
-                                        <div class="align-left w-60" style="width:70%">
-                                            <!-- <span
-                                                *ngIf="FormControls['maxExpertise'].touched && FormControls['maxExpertise'].invalid">
-                                                <div class="ng-invalid ng-touched p-error"
-                                                    *ngIf="FormControls['maxExpertise'].errors?.['required']">
-                                                    Please Select Max Expertise.</div>
-                                            </span> -->
-                                        </div>
+                            </div>
+                            <div class="col-6">
+                                <label class="required mb-5">Max Expertise:</label>
+                                <p-rating [cancel]="false" id="JO_doProcess_MaxExpertise"
+                                    formControlName="maxExpertise">
+                                </p-rating>
+                                <div class="flex">
+                                    <div class="align-left w-60" style="width:70%">
+                                        <span
+                                            *ngIf="FormControls['maxExpertise'].touched && FormControls['maxExpertise'].invalid">
+                                            <div class="ng-invalid ng-touched p-error"
+                                                *ngIf="FormControls['maxExpertise'].errors?.['required']">
+                                                Please Select Max Expertise.</div>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="field col-12 md:col-6">
+                    </div>
+                    <div class="field col-12 ">
+                        <label class="required">Assesment Title:</label>
+                        <!-- <div *ngFor="let attribute of recruitmentAttributes" class="field-checkbox"> -->
+                        <div class="mr-2" *ngFor="let item of recruitmentAttributes">
+                            <input type="checkbox" (change)="onChange($event.target, item.recruitmentAttributeId)"
+                                />
+                                {{ item.assessmentTitle }}
+                        </div>
+                        <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                                <span
+                                    *ngIf="FormControls['jobOpeningRas'].touched && FormControls['jobOpeningRas'].invalid">
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="FormControls['jobOpeningRas'].errors?.['required']">
+                                        Please Select Assesment Title.</div>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
-        </form>
-
-  
+        </div>
+    </form>
     <ng-template pTemplate="footer">
         <div class="col-6" style="float:right">
-            <button pButton pRipple type="submit" label="submit" class="p-button-raised p-button-primary"></button>
+            <button pButton pRipple type="submit" [disabled]="fbdoProcess.invalid" (click)="processJobOpening()"
+                id="JO_doProcess_submit" label="submit" class="p-button-raised p-button-primary"></button>
         </div>
     </ng-template>
 </p-dialog>

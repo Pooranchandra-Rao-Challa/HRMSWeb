@@ -5,8 +5,9 @@
         <h4>Recruitment Process</h4>
     </ng-template>
     <ng-template pTemplate="center">
-        <p-dropdown [options]="this.JobOpeningsList" placeholder="Select Processed Jobs" optionValue="jobId"
-            [(ngModel)]="this.jobOpeningId" (onChange)="getNewApplicantsList()" optionLabel="jobTitle"></p-dropdown>
+        <p-dropdown [options]="this.JobOpeningsList" placeholder="Select Processed Jobs"
+            optionValue="jobOpeninginprocessId" [(ngModel)]="this.jobOpeninginprocessId"
+            (onChange)="initApplicants(this.jobOpeninginprocessId)" optionLabel="jobTitle"></p-dropdown>
     </ng-template>
     <ng-template pTemplate="right">
         <p-checkbox name="isActive"></p-checkbox>
@@ -54,9 +55,9 @@
                             </div>
                             <div class="grid m-0 ">
                                 <button pbutton pripple type="button" label="Primary"
-                                (click)="viewApplicantDtls(applicant.applicantId)"
-                                class="p-element p-ripple p-button-text p-button p-component view_profile_button"
-                                ng-reflect-label="Primary">
+                                    (click)="viewApplicantDtls(applicant.applicantId)"
+                                    class="p-element p-ripple p-button-text p-button p-component view_profile_button"
+                                    ng-reflect-label="Primary">
                                     <span class="p-button-label pi pi-chevron-right"></span>
                                 </button>
                                 <button pButton pRipple type="submit" label="Move to Technical"
@@ -108,12 +109,13 @@
                             </div>
                             <div class="grid m-0 ">
                                 <button pbutton pripple type="button" label="Primary"
-                                (click)="viewApplicantDtls(applicant.applicantId)"
-                                class="p-element p-ripple p-button-text p-button p-component view_profile_button"
-                                ng-reflect-label="Primary">
+                                    (click)="viewApplicantDtls(applicant.applicantId)"
+                                    class="p-element p-ripple p-button-text p-button p-component view_profile_button"
+                                    ng-reflect-label="Primary">
                                     <span class="p-button-label pi pi-chevron-right"></span>
                                 </button>
-                                <button pButton pRipple type="submit" label="Move to HR" (click)="showDialogToMoveHR()"
+                                <button pButton pRipple type="submit" label="Move to HR"
+                                    (click)="showDialogToMoveHR(applicant)"
                                     class="p-button-raised p-button-primary"></button>
                             </div>
                         </div>
@@ -162,12 +164,12 @@
                             </div>
                             <div class="grid m-0 ">
                                 <button pbutton pripple type="button" label="Primary"
-                                (click)="viewApplicantDtls(applicant.applicantId)"
-                                class="p-element p-ripple p-button-text p-button p-component view_profile_button"
-                                ng-reflect-label="Primary">
+                                    (click)="viewApplicantDtls(applicant.applicantId)"
+                                    class="p-element p-ripple p-button-text p-button p-component view_profile_button"
+                                    ng-reflect-label="Primary">
                                     <span class="p-button-label pi pi-chevron-right"></span>
                                 </button>
-                                <button pButton pRipple type="submit" label="Move to Final" 
+                                <button pButton pRipple type="submit" label="Move to Final"
                                     class="p-button-raised p-button-primary"></button>
                             </div>
                         </div>
@@ -178,7 +180,7 @@
         <div class="col-12 md:col-4 lg:col-3 sm:col-6">
             <h5>Contract Proposal </h5>
             <p-progressBar [value]="30" class=""></p-progressBar>
-            <div> 
+            <div>
                 <!-- <div class="card mt-0 mb-2  border-1 pb-2 surface-border ">
                     <div class=" mb-3 grid">
                         <div class="col-12 lg:col-8 md:col-12 p-1 px-2 employee_info">
@@ -222,36 +224,56 @@
 </div>
 
 <p-dialog header="Technical Interview Result " [(visible)]="HRdialog" [modal]="true" showEffect="fade"
-    [breakpoints]="{'960px': '70%', '640px': '80%'}">
-    <div class="flex flex-column align-items-center justify-content-center">
-        <form [formGroup]="fbRecruitment">
-            <div class="p-fluid p-formgrid">
-                <div style="margin-bottom: 15px;">
-                    <label class="required">Recruitment Attributes:</label>&nbsp;
+    [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '50%'}">
+    <form [formGroup]="fbRecruitment">
+        <div class="col-12 roles-container">
+            <div class="p-fluid p-formgrid grid">
+                <div class="field col-12 md:col-6">
+                    <label class="required">Recruitment Stage:</label>&nbsp;
+                    &nbsp;
+                    <p-dropdown id="projectName" appendTo="body" class="w-100" [options]="attributeStages"
+                        optionLabel="name" placeholder="Select Recruitment Stage"
+                        formControlName="recruitmentAttributeID" optionValue="lookupDetailId" [style]="{'width':'100%'}"
+                        [ngClass]="{ 'is-invalid ng-dirty': FormControls['recruitmentAttributeID'].touched && FormControls['recruitmentAttributeID'].errors}">
+                    </p-dropdown>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label class="required">Attribute Type:</label>&nbsp;
                     &nbsp;
                     <p-dropdown id="projectName" appendTo="body" class="w-100" [options]="attributeTypes"
-                        optionLabel="name" placeholder="Select Attribute" formControlName="recruitmentAttributeID"
-                        optionValue="lookupDetailId" [style]="{'width':'100%'}"
+                        optionLabel="name" placeholder="Select Attribute Type" formControlName="recruitmentAttributeID"
+                        optionValue="attributeTypeId" [style]="{'width':'100%'}"
                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['recruitmentAttributeID'].touched && FormControls['recruitmentAttributeID'].errors}">
                     </p-dropdown>
                 </div>
 
-                <div style="margin-bottom: 15px;">
-                    <label class="required">Expertise:</label>&nbsp;
-                    <p-rating formControlName="expertise" [cancel]="false"></p-rating>
-                    <div class="flex">
-                        <div class="align-left w-60" style="width:70%">
-                            <span *ngIf="FormControls['expertise'].touched && FormControls['expertise'].invalid">
-                                <div class="ng-invalid ng-touched p-error"
-                                    *ngIf="FormControls['expertise'].errors?.['required']">
-                                    Please Select Expertise.</div>
-                            </span>
-                        </div>
+                <div class="col-12 flex pb-0">
+                    <div class="col-7 p-0 ">
+                        <label class="required">Recruitment Attributes:</label>&nbsp;
+                    </div>
+                    <div class="col-5 p-0">
+                        <label class="required">Expertise:</label>&nbsp;
                     </div>
                 </div>
+                <div class="col-12 flex " *ngFor="let item of RASBasedOnProcessId">
+                    <div class="col-7 p-0">
+                        <p>{{item.assessmentTitle}}</p>
+                    </div>
+                    <div class="col-5 p-0">
+                        <p-rating [cancel]="false"></p-rating>
+                    </div>
+                </div>
+                <div class="field col-12 m-0 ">
+                    <label>Soft skills:</label>&nbsp;
+                    <span>{{this.jobDetails?.softSkills}}</span>
+                </div>
+                <div class="field col-12 m-0">
+                    <label>Technical skills:</label>&nbsp;
+                    <span>{{this.jobDetails?.technicalSkills}}</span>
+                </div>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
     <ng-template pTemplate="footer">
         <div class="flex justify-content-center">
             <button pButton pRipple type="submit" class="p-button-raised p-button-primary" id="Attendance_saveLeave"

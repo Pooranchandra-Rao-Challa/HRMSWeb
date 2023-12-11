@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ApiHttpService } from './api.http.service';
-import { CREATE_VIEW_APPLICANT_CERTIFICATION_DETAILS, CREATE_VIEW_APPLICANT_LANGUAGE_SKILL, CREATE_VIEW_APPLICANT_TECHNICAL_SKILL, Get_Applicants_with_Id, GET_JOB_OPENINGS_DROPDOWN, UPDATE_APPLICANT_DETAILS, UPDATE_VIEW_APPLICANT_CERTIFICATION_DETAILS, UPDATE_VIEW_APPLICANT_LANGUAGE_SKILL, UPDATE_VIEW_APPLICANT_TECHNICAL_SKILL, UPDATE_APPLICANT, } from './api.uri.service';
+import { CREATE_VIEW_APPLICANT_CERTIFICATION_DETAILS, CREATE_VIEW_APPLICANT_LANGUAGE_SKILL, CREATE_VIEW_APPLICANT_TECHNICAL_SKILL, Get_Applicants_with_Id, GET_JOB_OPENINGS_DROPDOWN, UPDATE_APPLICANT_DETAILS, UPDATE_VIEW_APPLICANT_CERTIFICATION_DETAILS, UPDATE_VIEW_APPLICANT_LANGUAGE_SKILL, UPDATE_VIEW_APPLICANT_TECHNICAL_SKILL, UPDATE_APPLICANT, GET_APPLICANTS_WITH_JobProcessId, GET_RAS, GET_ATTRIBUTES, } from './api.uri.service';
 import { CREATE_APPLICANT_DETAILS, CREATE_VIEW_APPLICANT_EDUCATION_DETAILS, CREATE_VIEW_APPLICANT_EXPERIENCE_DETAILS, GET_APPLICANT_DETAILS, GET_VIEW_APPLICANT_DETAILS, UPDATE_VIEW_APPLICANT_EDUCATION_DETAILS, UPDATE_VIEW_APPLICANT_EXPERIENCE_DETAILS } from './api.uri.service';
 import { ApplicantCertificationDto, ApplicantDto, ApplicantEducationDetailsDto, ApplicantLanguageSkillDto, ApplicantSkillDto, ApplicantSkillViewDto, ApplicantViewDto, ApplicantWorkExperienceDto, JobOpeningsListDto, ViewApplicantDto } from '../_models/recruitment';
+import { AnonymousSubject } from 'rxjs/internal/Subject';
 
 
 @Injectable({
@@ -13,17 +14,26 @@ export class RecruitmentService extends ApiHttpService {
   public GetviewapplicantDtls(applicantId: number) {
     return this.getWithId<ViewApplicantDto[]>(GET_VIEW_APPLICANT_DETAILS, [applicantId])
   }
-  public getApplicantsForInitialRound(id: number) {
-    return this.getWithId<ApplicantViewDto[]>(Get_Applicants_with_Id, id);
+  public getApplicantsForInitialRound(id:number) {
+    return this.get<ApplicantViewDto[]>(GET_APPLICANTS_WITH_JobProcessId+" /"+id);
+  }
+  public jobDoProcess(body:any){
+    return this.post<ApplicantViewDto[]>(Get_Applicants_with_Id,body);
   }
   public UpdateApplicantStatus(data: any) {
     return this.post(UPDATE_APPLICANT, data)
+  }
+  public getRAsBasedOnProcessId(id:number){
+    return this.get(GET_RAS+" /"+id)
   }
   public GetApplicantDetail() {
     return this.get<ApplicantViewDto[]>(GET_APPLICANT_DETAILS);
   }
   public getJobOpeningDropdown() {
     return this.get<JobOpeningsListDto[]>(GET_JOB_OPENINGS_DROPDOWN);
+  }
+  public getRecruitmentAttribute(id:number){
+    return this.get(GET_ATTRIBUTES+"/"+id)
   }
   public CreateApplicant(applicantDetails: ApplicantDto[]) {
     return this.post<ApplicantDto[]>(CREATE_APPLICANT_DETAILS, applicantDetails)

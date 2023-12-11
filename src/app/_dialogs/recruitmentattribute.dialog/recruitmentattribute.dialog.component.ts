@@ -22,18 +22,13 @@ export class RecruitmentattributeDialogComponent {
   fbrecurimentAttribute!: FormGroup;
   recruitmentAttributeId: number;
   attributeData: RecruitmentAttributesDTO;
-  changeStages: boolean = false;
-  stages: RecruitmentStageDetailsDto[];
-  submitlabel:string="Add Attribute";
+  submitlabel: string = "Add Attribute";
 
   constructor(
     private lookupService: LookupService, private adminService: AdminService, private config: DynamicDialogConfig,
-    private formbuilder: FormBuilder, private alertMessage: AlertmessageService,  public ref: DynamicDialogRef,
+    private formbuilder: FormBuilder, private alertMessage: AlertmessageService, public ref: DynamicDialogRef,
   ) {
-    console.log(this.config.data);
-    
     this.attributeData = this.config.data;
-    this.stages = this.attributeData.RecruitmentStageDetails;
   }
 
   ngOnInit() {
@@ -46,19 +41,16 @@ export class RecruitmentattributeDialogComponent {
     this.fbrecurimentAttribute = this.formbuilder.group({
       recruitmentAttributeId: [null],
       assessmentTitle: new FormControl('', [Validators.required]),
-      isActive: new FormControl('', [Validators.required]),
-      recruitmentAttributeWithStageXrefs: new FormControl([]),
+      isActive: new FormControl(true, [Validators.required])
     });
   }
 
   editAttributeDetails(attributeData) {
-    this.submitlabel="Update Attribute"
-    const filteredArray = this.stages.filter(item => item.assigned);
+    this.submitlabel = "Update Attribute"
     this.fbrecurimentAttribute.patchValue({
       recruitmentAttributeId: attributeData.recruitmentAttributeId,
       assessmentTitle: attributeData.assessmentTitle,
-      isActive: attributeData.isActive,
-      recruitmentAttributeWithStageXrefs: filteredArray
+      isActive: attributeData.isActive
     });
   }
 
@@ -76,21 +68,6 @@ export class RecruitmentattributeDialogComponent {
       event.preventDefault();
   }
 
-  onSelectionChange(event: any) {
-    this.changeStages = true;
-   
-     this.stages.forEach(stage => (stage.assigned = event.value.some(selectedStage => selectedStage.recruitmentStageId === stage.recruitmentStageId)));
-     
-      // this.stages.forEach(stage =>{ 
-      //   console.log(stage.rAWSXrefId!==-1);
-        
-      //   if(stage.rAWSXrefId==-1&&event.value.some(selectedStage => selectedStage.recruitmentStageId === stage.recruitmentStageId)){
-      //     stage.
-      //   }
-      // })
-        
-  }
-  
   save() {
     this.adminService.CreateRecruitmentDetails(this.fbrecurimentAttribute.value).subscribe(resp => {
       if (resp) {
@@ -110,9 +87,6 @@ export class RecruitmentattributeDialogComponent {
     });
   }
   onSubmit() {
-    this.fbrecurimentAttribute.patchValue({
-      recruitmentAttributeWithStageXrefs: this.changeStages ? this.stages : this.fbrecurimentAttribute.get('recruitmentAttributeWithStageXrefs').value
-    })
     if (this.fbrecurimentAttribute.valid) {
       if (this.attributeData.recruitmentAttributeId === undefined)
         this.save();

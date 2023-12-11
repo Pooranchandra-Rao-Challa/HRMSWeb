@@ -11,6 +11,8 @@ import { DataView } from 'primeng/dataview';
 import { RecruitmentService } from 'src/app/_services/recruitment.service';
 import { JobOpeningsListDto } from 'src/app/_models/recruitment';
 import { RecruitmentAttributesDTO } from 'src/app/demo/api/security';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+
 
 @Component({
   selector: 'app-jobopenings',
@@ -22,6 +24,7 @@ export class JobOpeningsComponent {
   @ViewChild('filter') filter!: ElementRef;
   @Input() isReadOnly: boolean = false
   JobOpeningsList: JobOpeningsListDto[] = [];
+  fbdoProcess: FormGroup;
   ActionTypes = Actions;
   dialogRequest: DialogRequest = new DialogRequest();
   jobOpeningDialogComponent = JobOpeningsDialogComponent;
@@ -34,6 +37,7 @@ export class JobOpeningsComponent {
   processButtonDisabled = false;
   selectedJob: JobOpeningsDetailsViewDto;
   recruitmentAttributes: RecruitmentAttributesDTO[] = [];
+  selectedAttributes: any[] = [];
 
   constructor(
     private adminService: AdminService,
@@ -41,6 +45,7 @@ export class JobOpeningsComponent {
     private dialogService: DialogService,
     private jwtService: JwtService,
     private router: Router,
+    private formbuilder: FormBuilder,
     private RecruitmentService: RecruitmentService
   ) { }
 
@@ -49,8 +54,23 @@ export class JobOpeningsComponent {
     this.getJobDetails();
     this.initProcessedJobOpening();
     this.getAttributes()
+    this.doProcessForm();
   }
 
+  doProcessForm() {
+    this.fbdoProcess = this.formbuilder.group({
+      jobOpeninginProcessId: new FormControl(null),
+      jobOpeningId: new FormControl(''),
+      maxExpertise: new FormControl('', [Validators.required]),
+      minExpertise: new FormControl('', [Validators.required]),
+      jobOpeningRas: new FormControl('', [Validators.required]),
+    });
+
+  }
+
+  get FormControls() {
+    return this.fbdoProcess.controls;
+  }
 
   getJobDetails() {
     this.adminService.GetJobDetails().subscribe((resp) => {
@@ -68,7 +88,7 @@ export class JobOpeningsComponent {
   }
   showAttributeDialog(jobOpeningDetails) {
     this.attributeDialog = true;
-    this.jobOpeningDetails = jobOpeningDetails;
+    this.jobOpeningDetails = (jobOpeningDetails);
   }
   restrictSpaces(event: KeyboardEvent) {
     const target = event.target as HTMLInputElement;
@@ -79,13 +99,31 @@ export class JobOpeningsComponent {
     if (event.key === ' ' && target.selectionStart > 0 && target.value.charAt(target.selectionStart - 1) === ' ')
       event.preventDefault();
   }
-  processJobOpening(jobOpeningDetails) {
-    this.RecruitmentService.getApplicantsForInitialRound(jobOpeningDetails.id).subscribe(resp => {
-      if (resp) {
-        this.router.navigate(['admin/recruitmentprocess', jobOpeningDetails.id]);
-        this.processButtonDisabled = true;
-      }
-    })
+
+  onChange(event, item) {
+    const { checked } = event;
+    if (checked)
+      this.selectedAttributes.push({
+        jobOpeningRaId: 0,
+        jobOpeningInProcessId: 0,
+        recruitmentAttributeId: item
+      });
+    else
+      this.selectedAttributes = this.selectedAttributes.filter(attr => attr.recruitmentAttributeId !== item);
+    this.fbdoProcess.get('jobOpeningRas')?.setValue(this.selectedAttributes);
+  }
+
+  processJobOpening() {
+    this.fbdoProcess.patchValue({
+      jobOpeningId: this.jobOpeningDetails.id,
+    });
+    if (this.fbdoProcess.valid)
+      this.RecruitmentService.jobDoProcess(this.fbdoProcess.value).subscribe(resp => {
+        if (resp) {
+          this.router.navigate(['admin/recruitmentprocess', resp[0]?.jobOpeningInProcessId]);
+          this.processButtonDisabled = true;
+        }
+      })
   }
   initProcessedJobOpening() {
     this.RecruitmentService.getJobOpeningDropdown().subscribe(resp => {
@@ -102,9 +140,6 @@ export class JobOpeningsComponent {
   getAttributes() {
     this.adminService.GetRecruitmentDetails(false).subscribe((resp) => {
       this.recruitmentAttributes = resp as unknown as RecruitmentAttributesDTO[];
-      this.recruitmentAttributes.forEach(element => {
-        element.RecruitmentStageDetails = JSON.parse(element.strRecruitmentStages);
-      });
     })
   }
 

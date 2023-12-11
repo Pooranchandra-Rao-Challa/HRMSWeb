@@ -2,11 +2,9 @@ export interface RecruitmentAttributesDTO{
   length: number;
   id? :number;
   recruitmentAttributeId?:number
+  assessmentTitle?:string
   assesmentTitle?:string;
-  recruitmentStages?:string;
   isActive?:Boolean;
-  strRecruitmentStages?:string
-  RecruitmentStageDetails?: RecruitmentStageDetailsDto[];
 }
 export interface RecruitmentStageDetailsDto{
   rAWSXrefId?:number

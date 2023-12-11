@@ -18,7 +18,7 @@ import { LookupService } from 'src/app/_services/lookup.service';
   ]
 })
 export class RecruitmentAttributesComponent {
-  globalFilterFields: string[] = ['assessmentTitle', 'recruitmentStages']
+  globalFilterFields: string[] = ['assessmentTitle']
   @ViewChild('filter') filter!: ElementRef;
   recruitmentAttributes: RecruitmentAttributesDTO[] = [];
   ActionTypes = Actions;
@@ -28,13 +28,13 @@ export class RecruitmentAttributesComponent {
 
   headers: ITableHeader[] = [
     { field: 'assessmentTitle', header: 'assesmentTitle', label: 'Assesment Title' },
-    { field: 'recruitmentStages', header: 'recruitmentStages', label: 'Recruitment Stages' },
     { field: 'isActive', header: 'isActive', label: 'Is Active' }
   ];
 
   constructor(
-    private globalFilterService: GlobalFilterService, private lookupService: LookupService,
-    private securityService: SecurityService, private adminService: AdminService,
+    private globalFilterService: GlobalFilterService,
+    private lookupService: LookupService,
+    private adminService: AdminService,
     private dialogService: DialogService,
     public ref: DynamicDialogRef) { }
 
@@ -46,18 +46,16 @@ export class RecruitmentAttributesComponent {
   getAttributes() {
     this.adminService.GetRecruitmentDetails(false).subscribe((resp) => {
       this.recruitmentAttributes = resp as unknown as RecruitmentAttributesDTO[];
-      this.recruitmentAttributes.forEach(element => {
-        element.RecruitmentStageDetails = JSON.parse(element.strRecruitmentStages);
-      });
+      console.log(resp);
+      
     })
   }
   getStages(value) {
-    console.log();
-    
-    return value.map(obj => {
+    const stages = value.map(obj => {
       if (obj.assigned)
-       return obj.recruitmentStage
+        return obj.recruitmentStage
     });
+    return stages.filter(Boolean);
   }
 
   onGlobalFilter(table: Table, event: Event) {
