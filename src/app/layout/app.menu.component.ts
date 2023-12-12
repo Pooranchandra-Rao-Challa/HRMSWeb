@@ -15,6 +15,8 @@ export class AppMenuComponent implements OnInit {
 
     GroupPermission(groupName: string): boolean {
         switch (groupName) {
+            case 'Dashboards':
+                return this.jwtService.Permissions.CanViewSelfEmployees
             case 'Security':
                 return this.jwtService.Permissions.CanViewUsers || this.jwtService.Permissions.CanViewRoles
             case 'Admin':
@@ -31,6 +33,7 @@ export class AppMenuComponent implements OnInit {
                 return false;
         }
     }
+
     ngOnInit() {
         console.log(this.jwtService.Permissions);
         this.model = [
@@ -51,7 +54,8 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'Employee',
                         icon: 'icon-employe font-semibold',
-                        routerLink: ['dashboard/employee'], permission: true
+                        routerLink: ['dashboard/employee'],
+                        permission: this.jwtService.Permissions.CanViewSelfEmployees
                     }
                 ]
             },
@@ -279,5 +283,8 @@ export class AppMenuComponent implements OnInit {
             // },
 
         ];
+    }
+    hasGroupPermission(item: any): boolean {
+        return item.group ? this.GroupPermission(item.group) : true;
     }
 }
