@@ -692,10 +692,8 @@ div:where(.swal2-container) div:where(.swal2-validation-message)::before {
     margin-top: 10px;
     margin-bottom: 10px;
 }
-.applicants span {
-    border: 1px solid  #FF810E; 
-    border-radius: 8px; 
-    padding: 2px;
-    margin-right: 8px; 
+.job-opening-card:hover .title {
+    color:#FF810E !important;
+    cursor: pointer;
 }
 
