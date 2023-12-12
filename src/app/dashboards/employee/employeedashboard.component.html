@@ -5,43 +5,38 @@
         <div class="flex flex-column sm:flex-row align-items-center gap-3 mb-5">
 
             <div class="flex flex-column align-items-center sm:align-items-start">
-                <h4 class="text-800 font-medium m-0 mb-1">Welcome Amy</h4>
-                <p class="text-600 m-0">Your last login was on 01/02/2023 at 10:24 am</p>
+                <h4 class="text-800 font-medium m-0 mb-1">Welcome {{ empDetails?.employeeName}}</h4>
+                <!-- <p class="text-600 m-0">Your last login was on 01/02/2023 at 10:24 am</p> -->
             </div>
         </div>
         <div class="grid">
             <div class="col-12 sm:col-3">
                 <div class="card p-5 orange-200 text-left applicant-p-block">
                     <div class="text-center">
-                        <img src="./assets/layout/images/men-emp.jpg" class="shadow-2 my-1 mx-0" width="30%" /><br />
-                        <h4 class="m-5 mt-0 text-primary">Employee Name </h4>
+                        <img [src]="empDetails?.photo ? empDetails?.photo : defaultPhoto" [alt]="empDetails?.photo"
+                            class="shadow-2 my-1 mx-0" width="30%" /><br />
+                        <h4 class="m-5 mt-0 text-primary">{{ empDetails?.employeeName}}</h4>
                     </div>
                     <span class="inline-flex align-items-left mb-2">
                         <i class="pi pi-user text-primary text-700 mr-2"></i>
-                        <span class="text-700 mr-2">Gender</span>
+                        <span class="text-700 mr-2">{{ empDetails?.gender}}</span>
                     </span><br />
                     <span class="inline-flex align-items-left mb-2">
                         <i class="pi pi-envelope text-primary text-700 mr-2"></i>
-                        <span class="text-700 mr-2"> Email Id</span>
+                        <span class="text-700 mr-2">{{ empDetails?.officeEmailId}}</span>
                     </span><br />
                     <span class="inline-flex align-items-left mb-2">
                         <i class="pi pi-mobile text-primary text-700 mr-2"></i>
-                        <span class="text-700 mr-2">Mobile No </span>
+                        <span class="text-700 mr-2">{{ empDetails?.mobileNumber}}</span>
                     </span><br />
                     <span class="inline-flex align-items-left mb-2">
                         <i class="pi pi-calendar text-primary text-700 mr-2"></i>
-                        <span class="text-700 mr-2">DOB</span>
+                        <span class="text-700 mr-2">{{ empDetails?.originalDOB | date:mediumDate}}</span>
                     </span><br />
                     <span class="inline-flex align-items-left mb-2">
                         <i class="pi pi-send text-700 text-primary mr-2"></i>
                         <span class="text-700 text-left mr-2">
-                            <span>Address Line1 </span>
-                        </span>
-                    </span>
-                    <span class="flex align-items-center mb-2">
-                        <i class="pi pi-flag text-primary text-700 mr-2"></i>
-                        <span class="text-700 mr-2">
-                            <span></span>
+                            <span>{{ empDetails?.reportingTo}}</span>
                         </span>
                     </span>
                 </div>
@@ -53,7 +48,8 @@
                             style="background-color: var(--primary-color); min-width: 17rem">
                             <div class="overview-info">
                                 <h6 class="m-0 mb-1 text-0">Academic PL's</h6>
-                                <h1 class="m-0 text-0">3/5</h1>
+                                <h1 class="m-0 text-0">{{ empDetails?.usedPrivilegeLeavesInYear}}/{{
+                                    empDetails?.allowablePrivilegeLeaves}}</h1>
                             </div>
                             <i class="icon-leave-request text-3xl"></i>
                         </div>
@@ -64,7 +60,7 @@
                             style="min-width: 17rem">
                             <div class="overview-info">
                                 <h6 class="m-0 mb-1 text-500">Monthly PL's </h6>
-                                <h1 class="m-0 text-500">2</h1>
+                                <h1 class="m-0 text-500">{{ empDetails?.usedPrivilegeLeavesInMonth}}</h1>
                             </div>
                             <i class="pi pi-fw pi-calendar text-3xl"></i>
                         </div>
@@ -75,9 +71,11 @@
                             style="min-width: 17rem">
                             <div class="overview-info">
                                 <h6 class="m-0 mb-1 text-500">Available PL's</h6>
-                                <h1 class="m-0 text-500">3</h1>
+                                <h1 class="m-0 text-500">{{
+                                    empDetails?.usedPrivilegeLeavesInYear-empDetails?.allowablePrivilegeLeaves}}</h1>
                             </div>
-                            <i class="pi pi-fw pi-calendar-plus text-3xl"></i>
+                            <i class="pi pi-fw pi-calendar-plus text-3xl"
+                                (click)="openComponentDialog(employeeleaveDialogComponent, null, ActionTypes.save)"></i>
                         </div>
                     </div>
 
@@ -86,7 +84,8 @@
                             style="background-color: var(--primary-color); min-width: 17rem">
                             <div class="overview-info">
                                 <h6 class="m-0 mb-1 text-0">Academic CL's</h6>
-                                <h1 class="m-0 text-0">3/5</h1>
+                                <h1 class="m-0 text-0">{{ empDetails?.usedCasualLeavesInYear}}/{{
+                                    empDetails?.allowableCasualLeaves}}</h1>
                             </div>
                             <i class="icon-leave-request text-3xl"></i>
                         </div>
@@ -97,7 +96,7 @@
                             style="min-width: 17rem">
                             <div class="overview-info">
                                 <h6 class="m-0 mb-1 text-500">Monthly CL's </h6>
-                                <h1 class="m-0 text-500">2</h1>
+                                <h1 class="m-0 text-500">{{ empDetails?.usedCasualLeavesInMonth}}</h1>
                             </div>
                             <i class="pi pi-fw pi-calendar text-3xl"></i>
                         </div>
@@ -108,9 +107,11 @@
                             style="min-width: 17rem">
                             <div class="overview-info">
                                 <h6 class="m-0 mb-1 text-500">Available CL's</h6>
-                                <h1 class="m-0 text-500">3</h1>
+                                <h1 class="m-0 text-500">{{
+                                    empDetails?.usedCasualLeavesInYear-empDetails?.allowableCasualLeaves}}</h1>
                             </div>
-                            <i class="pi pi-fw pi-calendar-plus text-3xl"></i>
+                            <i class="pi pi-fw pi-calendar-plus text-3xl"
+                            (click)="openComponentDialog(employeeleaveDialogComponent, null, ActionTypes.save)"></i>
                         </div>
                     </div>
 
@@ -120,13 +121,12 @@
                             style="background-color: #f03030; min-width: 17rem">
                             <div class="overview-info">
                                 <h6 class="m-0 mb-1 text-0">Academic LWP</h6>
-                                <h1 class="m-0 text-0">5</h1>
+                                <h1 class="m-0 text-0">3</h1>
                             </div>
                             <i class="icon-leave-request text-3xl"></i>
                         </div>
                     </div>
                     <div class="col-12 sm:col-4">
-
                         <div class="card surface-card text-500 flex justify-content-between pt-4 h-full"
                             style="min-width: 17rem">
                             <div class="overview-info">
@@ -137,14 +137,44 @@
                         </div>
                     </div>
                     <div class="col-12 sm:col-4">
-
                         <div class="card surface-card text-500 flex justify-content-between pt-4 h-full"
                             style="min-width: 17rem">
                             <div class="overview-info">
                                 <h6 class="m-0 mb-1 text-500">Available LWP</h6>
-                                <h1 class="m-0 text-500">3</h1>
+                                <h1 class="m-0 text-500">0</h1>
                             </div>
-                            <i class="pi pi-fw pi-calendar-plus text-3xl"></i>
+                            <i class="pi pi-fw pi-calendar-plus text-3xl"
+                            (click)="openComponentDialog(employeeleaveDialogComponent, null, ActionTypes.save)"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 sm:col-3 p-5">
+                <div class="grid card  orange-200 applicant-p-block2">
+                    <h4 class="m-5 mt-0 ">Assigned Projects</h4>
+                    <div class="col-6" *ngFor="let project of empDetails?.projects">
+                        <div class="card h-full">
+                            <img [src]="project.projectLogo" [alt]="project.projectLogo" class="shadow-2 my-1 mx-0"
+                                width="100%" height="50%" /><br />
+                            <br>
+                            <span>{{project.projectName}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 sm:col-9" *ngIf="empDetails?.allottedAssets">
+                <h4 class="m-5 mt-0 ">Alloted Assets</h4>
+                <div class="grid" style="margin: -1rem">
+                    <div class="col-12 sm:col-3" *ngFor="let asset of empDetails?.allottedAssets.split(',')">
+                        <div class="card text-0 flex justify-content-between pt-4 h-full"
+                            style="background-color: var(--primary-color); min-width: 17rem">
+                            <div class="overview-info">
+                                <h6 class="m-0 mb-1 text-0">
+                                    <ng-container>
+                                        {{asset}}
+                                    </ng-container>
+                                </h6>
+                            </div>
                         </div>
                     </div>
                 </div>

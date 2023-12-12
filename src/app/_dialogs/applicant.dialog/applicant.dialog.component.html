@@ -358,7 +358,7 @@
                                         </div>
                                     </td>
                                     <td class="vertical-align-top">
-                                        <input type="text" id="institution_Name" pInputText
+                                        <input type="text" id="institution_Name" pInputText alphaOnly
                                             formControlName="institutionName" placeholder="Enter Institute Name"
                                             #institutename [maxLength]="50" (keydown)="restrictSpaces($event)"
                                             (click)="validateRowforEducationDetails(educationDetailsIndex)" />
@@ -374,7 +374,7 @@
                                         </div>
                                     </td>
                                     <td class="vertical-align-top">
-                                        <input type="text" id="authority_Name" pInputText
+                                        <input type="text" id="authority_Name" pInputText alphaOnly
                                             placeholder="Enter Authority Name*" formControlName="authorityName"
                                             [maxLength]="50" #authorityname (keydown)="restrictSpaces($event)"
                                             (click)="validateRowforEducationDetails(educationDetailsIndex)"

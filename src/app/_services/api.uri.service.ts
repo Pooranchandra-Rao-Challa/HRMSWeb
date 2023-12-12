@@ -148,3 +148,7 @@ export const Get_Applicants_with_Id = "JobOpening/DoJobProcessforInitialQualific
 export const GET_APPLICANTS_WITH_JobProcessId="Recruitment/GetApplicantsBasedOnJOProcesses"
 export const UPDATE_APPLICANT = "Recruitment/UpdateInitialQualification";
 export const GET_RAS="Recruitment/GetRAsBasedOnJOInProcessId";
+
+//self Employee
+
+export const GET_SELF_EMPLOYEE="Employee/GetSelfEmployeeData";
