@@ -14,37 +14,34 @@
     </ng-template>
     <ng-template let-jobOpeningDetails pTemplate="gridItem">
         <div class="col-12 md:col-4 lg:col-3 sm:col-6">
-            <div class="card card-header surface-border orange-200 card-height border-1 m-2 p-2 mb-0"
-                (click)="openJobDialog(jobOpeningDetails)">
-                <i class="pi pi-star text-primary"></i> &nbsp; {{jobOpeningDetails.title}}
-            </div>
-            <div class="card m-2 border-1 mt-0 surface-border card-height">
-                <div class=" grid">
-                    <div class="col-6">
-                        <span><b class="text-primary">Designation</b>: {{ jobOpeningDetails.designation }}</span>
-                        <br>
-                        <div class="text-600 font-medium text-sm job-description"> {{ jobOpeningDetails.description }}
-                            quwe oeuir o oiweur u fu i ouer fu hfhhou rufuih iowfd </div>
+            <div class="project_card">
+                <div class="job-opening-card m-2 border-1 surface-border" (click)="openJobDialog(jobOpeningDetails)">
+                    <div class="title label text-primary font-bold text-900">
+                        {{ jobOpeningDetails.title }}
                     </div>
-                    <div class="col-6">
-                        <span><b class="text-primary">3</b> New Applicants</span>
-                        <br />
-                        <span><b class="text-primary">2</b> Applicants</span>
-                        <br />
-                        <span><b class="text-primary">6</b> to Recruit</span>
+                    <div class="applicants">
+                        <i class="pi pi-star text-primary"></i> {{ jobOpeningDetails.designation }}
                     </div>
-
-                    <div class="col-12 text-right">
+                    <div class="applicants text-600 font-medium text-sm">
+                        {{ jobOpeningDetails.description }} quwe oeuir o oiweur u fu i ouer fu hfhhou rufuih iowfd
+                    </div>
+                    <div class="applicants">
+                        <span>New Applicants :<b class="text-primary"> 3</b></span>&nbsp;
+                        <span>Applicants :<b class="text-primary"> 2</b></span>&nbsp;
+                        <span>To Recruit :<b class="text-primary"> 6</b> </span>
+                    </div>
+                    <div class="applicants">
                         <button pButton pRipple [ngClass]="{'disabled-button': isButtonDisabled(jobOpeningDetails.id)}"
                             class="p-button-primary p-button-outlined p-mr-2" id="ProcessJobOpening"
                             (click)="showAttributeDialog(jobOpeningDetails)">
-                            <i class="icon-process text-primary text-900  font-2xl mr-2"></i> Do Process
+                            <i class="icon-process text-primary font-bold text-900 font-2xl mr-2"></i> Do Process
                         </button>
                     </div>
                 </div>
             </div>
         </div>
     </ng-template>
+
 </p-dataView>
 <!-- P-dialog -->
 <p-dialog [header]="selectedJob ? selectedJob.title.toString() : 'Job Opening'" [(visible)]="viewJobDesign"
@@ -63,7 +60,7 @@
                                 <div class="pair">
                                     <div>
                                         <span class="label text-primary font-bold">New Applications</span>
-                                        <span >: 5</span>
+                                        <span>: 5</span>
                                     </div>
                                     <div>
                                         <span class="label text-primary font-bold">Applications</span>
@@ -71,7 +68,7 @@
                                     </div>
                                     <div>
                                         <span class="label text-primary font-bold">To Recruit</span>
-                                        <span >: 6</span>
+                                        <span>: 6</span>
                                     </div>
                                 </div>
                             </div>
@@ -79,7 +76,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <span class="label text-primary font-bold text-900">Description:</span><br>
-                                <div style="margin-left: 60px;" >
+                                <div style="margin-left: 60px;">
                                     <span class="value">{{ selectedJob.description }}quwe oeuir o oiweur u fu i ouer
                                     </span>
                                 </div>
@@ -125,8 +122,6 @@
         </div>
     </div>
 </p-dialog>
-
-
 
 <p-dialog header="All Recruitment Attributes" [(visible)]="attributeDialog" [modal]="true" showEffect="fade"
     [breakpoints]="{'960px': '70%', '640px': '60%'}" [style]="{width: '50%'}">
