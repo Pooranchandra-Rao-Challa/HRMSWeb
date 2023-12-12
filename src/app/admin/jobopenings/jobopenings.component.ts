@@ -85,6 +85,8 @@ export class JobOpeningsComponent {
   openJobDialog(job: JobOpeningsDetailsViewDto) {
     this.selectedJob = job;
     this.viewJobDesign = true;
+    console.log(   this.selectedJob);
+    
   }
   showAttributeDialog(jobOpeningDetails) {
     this.attributeDialog = true;
