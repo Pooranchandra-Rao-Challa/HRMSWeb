@@ -10,6 +10,7 @@ import { SecurityService } from 'src/app/demo/service/security.service';
 import { AdminService } from 'src/app/_services/admin.service';
 import { LookupDetailsDto } from 'src/app/_models/admin';
 import { LookupService } from 'src/app/_services/lookup.service';
+import { JwtService } from 'src/app/_services/jwt.service';
 
 @Component({
   selector: 'app-recruitmentattributes',
@@ -22,6 +23,7 @@ export class RecruitmentAttributesComponent {
   @ViewChild('filter') filter!: ElementRef;
   recruitmentAttributes: RecruitmentAttributesDTO[] = [];
   ActionTypes = Actions;
+  permissions: any;
   recruitmentattributeDialogComponent = RecruitmentattributeDialogComponent;
   dialogRequest: DialogRequest = new DialogRequest();;
   attributeStages: RecruitmentStageDetailsDto[];
@@ -34,11 +36,13 @@ export class RecruitmentAttributesComponent {
   constructor(
     private globalFilterService: GlobalFilterService,
     private lookupService: LookupService,
+    private jwtService: JwtService,
     private adminService: AdminService,
     private dialogService: DialogService,
     public ref: DynamicDialogRef) { }
 
   ngOnInit() {
+    this.permissions = this.jwtService.Permissions;
     this.getAttributes();
     this.getAttributeStages();
   }

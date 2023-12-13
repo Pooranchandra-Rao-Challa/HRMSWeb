@@ -7,7 +7,7 @@
             </ng-template>
             <ng-template pTemplate="right">
                 <button pButton pRipple label="Add Attributes" id="RA_addButton" icon="pi pi-plus"
-                    class="p-button-primary p-mr-2"
+                    class="p-button-primary p-mr-2" *ngIf="permissions?.CanManageRecruitmentAttribute"
                     (click)="openComponentDialog(recruitmentattributeDialogComponent,null,ActionTypes.save)"></button>
             </ng-template>
         </p-toolbar>
@@ -44,6 +44,7 @@
                 <tr>
                     <td class="text-center">
                         <button pButton pRipple icon="pi pi-pencil" style="padding: 0px;"
+                            *ngIf="permissions?.CanManageRecruitmentAttribute"
                             class="p-element p-ripple p-button-text p-button p-component"
                             (click)="openComponentDialog(recruitmentattributeDialogComponent, attribute, ActionTypes.save)"></button>
                     </td>
