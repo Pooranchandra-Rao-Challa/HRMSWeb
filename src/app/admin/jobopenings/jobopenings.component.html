@@ -14,95 +14,120 @@
     </ng-template>
     <ng-template let-jobOpeningDetails pTemplate="gridItem">
         <div class="col-12 md:col-4 lg:col-3 sm:col-6">
-            <div class="card card-header surface-border orange-200 card-height border-1 m-2 p-2 mb-0"
-                (click)="openJobDialog(jobOpeningDetails)">
-                <i class="pi pi-star text-primary"></i> &nbsp; {{jobOpeningDetails.title}}
-            </div>
-            <div class="card m-2 border-1 mt-0 surface-border card-height">
-                <div class=" grid">
-                    <div class="col-6">
-                        <span><b class="text-primary">Designation</b>: {{ jobOpeningDetails.designation }}</span>
-                        <br>
-                        <div class="text-600 font-medium text-sm job-description"> {{ jobOpeningDetails.description }}
-                            quwe oeuir o oiweur u fu i ouer fu hfhhou rufuih iowfd </div>
+            <div class="job-opening-card project_card m-2 border-1 surface-border">
+                <div class="title" (click)="openJobDialog(jobOpeningDetails)">
+                    {{ jobOpeningDetails.title }}
+                </div>
+                <div class="applicants">
+                    <i class="pi pi-star text-primary"></i> {{ jobOpeningDetails.designation }}
+                </div>
+                <!-- <div class="col-12"> -->
+                <div calss="row">
+                    <div class="grid">
+                        <div class="col-6 mt-2 text-600 font-medium text-sm">
+                            {{ jobOpeningDetails.description }} quwe oeuir o oiweur u fu i ouer fu hfhhou rufuih
+                            iowfd
+                        </div>
+                        <div class="col-6 mt-2">
+                            <span>New Applicants :<b class="text-primary"> 3</b></span> <br>
+                            <span>Applicants :<b class="text-primary"> 2</b></span><br>
+                            <span>To Recruit :<b class="text-primary"> 6</b> </span>
+                        </div>
                     </div>
-                    <div class="col-6">
-                        <span><b class="text-primary">3</b> New Applicants</span>
-                        <br />
-                        <span><b class="text-primary">2</b> Applicants</span>
-                        <br />
-                        <span><b class="text-primary">6</b> to Recruit</span>
-                    </div>
-
-                    <div class="col-12 text-right">
-                        <button pButton pRipple [ngClass]="{'disabled-button': isButtonDisabled(jobOpeningDetails.id)}"
-                            class="p-button-primary p-button-outlined p-mr-2" id="ProcessJobOpening"
-                            (click)="showAttributeDialog(jobOpeningDetails)">
-                            <i class="icon-process text-primary text-900  font-2xl mr-2"></i> Do Process
-                        </button>
-                    </div>
+                    <!-- </div> -->
+                </div>
+                <div class="applicants">
+                    <button pButton pRipple [ngClass]="{'disabled-button': isButtonDisabled(jobOpeningDetails.id)}"
+                        class="p-button-primary p-button-outlined p-mr-2 " id="ProcessJobOpening"
+                        (click)="showAttributeDialog(jobOpeningDetails)">
+                        <i class="icon-process text-primary font-bold text-900 font-2xl mr-2"></i> Do Process
+                    </button>
                 </div>
             </div>
         </div>
     </ng-template>
-</p-dataView>
 
+</p-dataView>
 <!-- P-dialog -->
 <p-dialog [header]="selectedJob ? selectedJob.title.toString() : 'Job Opening'" [(visible)]="viewJobDesign"
-    [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '60%'}" [style]="{width: 'auto'}">
+    [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '60%'}" [style]="{width: '60%'}">
     <div class="flex flex-column align-items-center justify-content-center">
         <div *ngIf="selectedJob">
-            <div class="card">
-                <div class="card-body">
-                    <div class="pair">
-                        <span class="label text-primary font-bold text-900">Designation</span>
-                        <span class="value">: {{ selectedJob.designation }}</span>
+            <div class="field col-12 col-sm-6">
+                <div class="grid">
+                    <div class="field col-6 col-sm-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="pair">
+                                    <span class="label text-primary font-bold text-900">Designation</span>
+                                    <span class="value">: {{ selectedJob.designation }}</span>
+                                </div>
+                                <div class="pair">
+                                    <div>
+                                        <span class="label text-primary font-bold">New Applications</span>
+                                        <span>: 5</span>
+                                    </div>
+                                    <div>
+                                        <span class="label text-primary font-bold">Applications</span>
+                                        <span>: 4</span>
+                                    </div>
+                                    <div>
+                                        <span class="label text-primary font-bold">To Recruit</span>
+                                        <span>: 6</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <span class="label text-primary font-bold text-900">Description:</span><br>
+                                <div style="margin-left: 60px;">
+                                    <span class="value">{{ selectedJob.description }}quwe oeuir o oiweur u fu i ouer
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="pair">
-                        <span class="label text-primary font-bold text-900">Description</span>
-                        <span class="value">:{{ selectedJob.description }}quwe oeuir o oiweur u fu i ouer fu hfhhou
-                            rufuih iowfd</span>
+                    <div class="field col-6  col-sm-3">
+                        <div class="card ">
+                            <div class="card-body">
+                                <span class="label text-primary font-bold text-900">About Opening:</span>
+                                <div class="pair">
+                                    <span class="label text-primary font-bold text-900">Project Name</span>
+                                    <span class="value">: {{ selectedJob.projectName }}</span>
+                                </div>
+                                <div class="pair">
+                                    <span class="label text-primary font-bold text-900">Nature Of Job</span>
+                                    <span class="value">: {{ selectedJob.natureOfJob }}</span>
+                                </div>
+                                <div class="pair">
+                                    <span class="label text-primary font-bold text-900">Required By</span>
+                                    <span class="value">: {{ selectedJob.requiredBy | date:mediumDate}}</span>
+                                </div>
+                                <div class="pair">
+                                    <span class="label text-primary font-bold text-900">Compensation Package</span>
+                                    <br>
+                                    <span class="value">: {{ selectedJob.compensationPackage }}</span>
+                                </div>
+                                <div class="pair">
+                                    <span class="label text-primary font-bold text-900">Technical Skills</span>
+                                    <br>
+                                    <span class="value">: {{ selectedJob.technicalSkills }}</span>
+                                </div>
+                                <div class="pair">
+                                    <span class="label text-primary font-bold text-900">Soft Skills</span>
+                                    <br>
+                                    <span class="value">: {{ selectedJob.softSkills }}</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="pair">
-                        <span class="label text-primary font-bold text-900">Project Name</span>
-                        <span class="value">: {{ selectedJob.projectName }}</span>
-                    </div>
-                    <div class="pair">
-                        <span class="label text-primary font-bold text-900">Nature Of Job</span>
-                        <span class="value">: {{ selectedJob.natureOfJob }}</span>
-                    </div>
-                    <div class="pair">
-                        <span class="label text-primary font-bold text-900">Required By</span>
-                        <span class="value">: {{ selectedJob.requiredBy |date:mediumDate}}</span>
-                    </div>
-                    <div class="pair">
-                        <span class="label text-primary font-bold text-900">Compensation Package</span>
-                        <br>
-                        <span class="value">: {{ selectedJob.compensationPackage }}</span>
-                    </div>
-                    <div class="pair">
-                        <span class="label text-primary font-bold text-900">Technical Skills</span>
-                        <br>
-                        <span class="value">: {{ selectedJob.technicalSkills }}</span>
-                    </div>
-                    <div class="pair">
-                        <span class="label text-primary font-bold text-900">Soft Skills</span>
-                        <br>
-                        <span class="value">: {{ selectedJob.softSkills }}</span>
-                    </div>
-                    <div class="col-6">
-                        <span><b class="text-primary">3</b> New Applicants</span>
-                        <br />
-                        <span><b class="text-primary">2</b> Applicants</span>
-                        <br />
-                        <span><b class="text-primary">6</b> to Recruit</span>
-                    </div>
-
                 </div>
             </div>
         </div>
     </div>
 </p-dialog>
+
 <p-dialog header="All Recruitment Attributes" [(visible)]="attributeDialog" [modal]="true" showEffect="fade"
     [breakpoints]="{'960px': '70%', '640px': '60%'}" [style]="{width: '50%'}">
     <form [formGroup]="fbdoProcess">
@@ -114,9 +139,8 @@
                         <div class="grid">
                             <div class="col-6">
                                 <label class="required mb-5">Min Expertise:</label>
-                                <p-rating [cancel]="false" id="JO_doProcess_MinExpertise"
-                                    formControlName="minExpertise">
-                                </p-rating>
+                                <br />
+                                <app-star-rating [control]="getMinExpertiseControl()"></app-star-rating>
                                 <div class="flex">
                                     <div class="align-left w-60" style="width:70%">
                                         <span
@@ -130,9 +154,8 @@
                             </div>
                             <div class="col-6">
                                 <label class="required mb-5">Max Expertise:</label>
-                                <p-rating [cancel]="false" id="JO_doProcess_MaxExpertise"
-                                    formControlName="maxExpertise">
-                                </p-rating>
+                                <br />
+                                <app-star-rating [control]="getMaxExpertiseControl()"></app-star-rating>
                                 <div class="flex">
                                     <div class="align-left w-60" style="width:70%">
                                         <span
@@ -152,9 +175,8 @@
                         <label class="required">Assesment Title:</label>
                         <!-- <div *ngFor="let attribute of recruitmentAttributes" class="field-checkbox"> -->
                         <div class="mr-2" *ngFor="let item of recruitmentAttributes">
-                            <input type="checkbox" (change)="onChange($event.target, item.recruitmentAttributeId)"
-                                />
-                                {{ item.assessmentTitle }}
+                            <input type="checkbox" (change)="onChange($event.target, item.recruitmentAttributeId)" />
+                            {{ item.assessmentTitle }}
                         </div>
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">

@@ -35,6 +35,8 @@ export class ViewapplicantComponent {
   initViewApplicantDetails() {
     this.RecruitmentService.GetviewapplicantDtls(this.applicantId).subscribe((resp) => {
       this.viewApplicantDetails = resp[0] as unknown as ViewApplicantDto;
+      console.log(this.viewApplicantDetails);
+      
       this.viewApplicantDetails.savedapplicantWorkExperience = JSON.parse(this.viewApplicantDetails.applicantWorkExperience);
       this.viewApplicantDetails.savedapplicantCertifications = JSON.parse(this.viewApplicantDetails.applicantCertifications);
       this.viewApplicantDetails.savedapplicantEducationDetails = JSON.parse(this.viewApplicantDetails.applicantEducationDetails);

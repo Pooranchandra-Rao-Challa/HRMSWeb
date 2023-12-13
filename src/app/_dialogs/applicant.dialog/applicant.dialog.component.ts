@@ -4,11 +4,13 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable } from 'rxjs';
 import { ALERT_CODES, AlertmessageService } from 'src/app/_alerts/alertmessage.service';
+import { FORMAT_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
 import { MaxLength, PhotoFileProperties, ViewApplicationScreen } from 'src/app/_models/common';
 import { ApplicantCertificationDto, ApplicantDto, ApplicantEducationDetailDto, ApplicantLanguageSkillDto, ApplicantSkillDto, ApplicantWorkExperienceDto, ViewApplicantDto } from 'src/app/_models/recruitment';
 import { LookupService } from 'src/app/_services/lookup.service';
 import { RecruitmentService } from 'src/app/_services/recruitment.service';
+import { MIN_LENGTH_2, MIN_LENGTH_6, RG_ALPHA_ONLY, RG_EMAIL, RG_PHONE_NO, RG_PINCODE } from 'src/app/_shared/regex';
 import { ValidateFileThenUpload } from 'src/app/_validators/upload.validators';
 
 interface General {
@@ -79,12 +81,27 @@ export class ApplicantDialogComponent {
       { name: 'Male', code: 'male' },
       { name: 'Female', code: 'female' }
     ];
-    this.defaultPhoto = /^female$/gi.test(this.fbApplicant.get('gender').value) ? './assets/layout/images/women-emp-2.jpg' : './assets/layout/images/men-emp.jpg'
-
 
     if (this.applicantdata) {
       this.editApplicantDetails(this.applicantdata)
     }
+
+    this.ImageValidator.subscribe((p: PhotoFileProperties) => {
+      if (this.fileTypes.indexOf(p.FileExtension) > 0 && p.Resize || (p.Size / 1024 / 1024 < 1
+        && (p.isPdf || (!p.isPdf && p.Width <= 300 && p.Height <= 300)))) {
+        this.fbApplicant.get('photo').setValue(p.File);
+      } else {
+        this.alertMessage.displayErrorMessage(p.Message);
+      }
+
+    })
+    this.fileUpload.nativeElement.onchange = (source) => {
+      for (let index = 0; index < this.fileUpload.nativeElement.files.length; index++) {
+        const file = this.fileUpload.nativeElement.files[index];
+        ValidateFileThenUpload(file, this.ImageValidator, 1, '300 x 300 pixels', true);
+      }
+    }
+    this.defaultPhoto = /^female$/gi.test(this.fbApplicant.get('gender').value) ? './assets/layout/images/women-emp-2.jpg' : './assets/layout/images/men-emp.jpg'
   }
 
   getCurriculum() {
@@ -164,18 +181,18 @@ export class ApplicantDialogComponent {
     this.addFlag = true;
     this.fbApplicant = this.formbuilder.group({
       applicantId: [null],
-      name: new FormControl('', [Validators.required]),
+      name: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2)]),
       gender: new FormControl('', [Validators.required]),
       dob: new FormControl('', [Validators.required]),
-      emailId: new FormControl('', [Validators.required]),
-      mobileNo: new FormControl('', [Validators.required]),
+      emailId: new FormControl('', [Validators.required, Validators.pattern(RG_EMAIL)]),
+      mobileNo: new FormControl('', [Validators.required, Validators.pattern(RG_PHONE_NO), Validators.minLength(MIN_LENGTH_2)]),
       nationalityId: new FormControl('', [Validators.required]),
       photo: [],
-      addressLine1: new FormControl('', [Validators.required]),
-      addressLine2: new FormControl(''),
-      landmark: new FormControl(''),
-      zipCode: new FormControl('', [Validators.required]),
-      city: new FormControl('', [Validators.required]),
+      addressLine1: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2)]),
+      addressLine2: new FormControl('', Validators.minLength(MIN_LENGTH_2)),
+      landmark: new FormControl('', Validators.minLength(MIN_LENGTH_2)),
+      zipCode: new FormControl('', [Validators.required,Validators.pattern(RG_PINCODE)]),
+      city: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2)]),
       countryId: new FormControl('', [Validators.required]),
       stateId: new FormControl('', [Validators.required]),
       resumeUrl: new FormControl(''),
@@ -190,6 +207,11 @@ export class ApplicantDialogComponent {
 
   get FormControls() {
     return this.fbApplicant.controls;
+  }
+
+  getExpertiseControl(index: number): FormControl {
+    const formArray = this.fbApplicant.get('applicantSkills') as FormArray;
+    return formArray.at(index).get('expertise') as FormControl;
   }
 
   formArrayControlEducation(i: number, formControlName: string) {
@@ -210,11 +232,6 @@ export class ApplicantDialogComponent {
 
   formArrayControlLanguage(i: number, formControlName: string) {
     return this.faApplicantLanguageSkillsDetails().controls[i].get(formControlName);
-  }
-
-  getExpertiseControl(index: number): FormControl {
-    const formArray = this.fbApplicant.get('applicantSkills') as FormArray;
-    return formArray.at(index).get('expertise') as FormControl;
   }
 
   faApplicantEducationDetails(): FormArray {
@@ -245,11 +262,11 @@ export class ApplicantDialogComponent {
       streamId: [educationDetails.streamId, [Validators.required]],
       countryId: [educationDetails.countryId, [Validators.required]],
       stateId: [educationDetails.stateId, [Validators.required]],
-      institutionName: new FormControl(educationDetails.institutionName),
-      authorityName: new FormControl(educationDetails.authorityName, [Validators.required]),
+      institutionName: new FormControl(educationDetails.institutionName,[Validators.minLength(MIN_LENGTH_2)]),
+      authorityName: new FormControl(educationDetails.authorityName, [Validators.required, Validators.minLength(MIN_LENGTH_2)]),
       yearOfCompletion: new FormControl(educationDetails.yearOfCompletion, [Validators.required]),
       gradingMethodId: new FormControl(educationDetails.gradingMethodId, [Validators.required]),
-      gradingValue: new FormControl(educationDetails.gradingValue, [Validators.required]),
+      gradingValue: new FormControl(educationDetails.gradingValue, [Validators.required, Validators.minLength(MIN_LENGTH_2)]),
     })
   }
 
@@ -258,9 +275,9 @@ export class ApplicantDialogComponent {
       applicantCertificateId: [certificationDetails.applicantCertificateId],
       applicantId: new FormControl(certificationDetails.applicantId),
       certificateId: new FormControl(certificationDetails.certificateId, [Validators.required]),
-      franchiseName: new FormControl(certificationDetails.franchiseName),
+      franchiseName: new FormControl(certificationDetails.franchiseName,[Validators.minLength(MIN_LENGTH_2)]),
       yearOfCompletion: new FormControl(certificationDetails.yearOfCompletion, [Validators.required]),
-      results: new FormControl(certificationDetails.results, [Validators.required]),
+      results: new FormControl(certificationDetails.results, [Validators.required,Validators.minLength(MIN_LENGTH_2)]),
     })
   }
 
@@ -268,14 +285,14 @@ export class ApplicantDialogComponent {
     return this.formbuilder.group({
       applicantWorkExperienceId: [experienceDetails.applicantWorkExperienceId],
       applicantId: [experienceDetails.applicantId],
-      companyName: new FormControl(experienceDetails.companyName, [Validators.required]),
-      companyLocation: new FormControl(experienceDetails.companyLocation),
+      companyName: new FormControl(experienceDetails.companyName, [Validators.required,Validators.minLength(MIN_LENGTH_2)]),
+      companyLocation: new FormControl(experienceDetails.companyLocation,[Validators.minLength(MIN_LENGTH_2)]),
       countryId: new FormControl(experienceDetails.countryId, [Validators.required]),
       stateId: new FormControl(experienceDetails.stateId, [Validators.required]),
-      companyEmployeeId: new FormControl(experienceDetails.companyEmployeeId),
+      companyEmployeeId: new FormControl(experienceDetails.companyEmployeeId,[Validators.minLength(MIN_LENGTH_2)]),
       designationId: new FormControl(experienceDetails.designationId, [Validators.required]),
-      natureOfWork: new FormControl(experienceDetails.natureOfWork, [Validators.required]),
-      workedOnProjects: new FormControl(experienceDetails.workedOnProjects),
+      natureOfWork: new FormControl(experienceDetails.natureOfWork, [Validators.required,Validators.minLength(MIN_LENGTH_2)]),
+      workedOnProjects: new FormControl(experienceDetails.workedOnProjects,[Validators.minLength(MIN_LENGTH_2)]),
       dateOfJoining: new FormControl(experienceDetails.dateOfJoining, [Validators.required]),
       dateOfReliving: new FormControl(experienceDetails.dateOfReliving, [Validators.required]),
     })
@@ -324,6 +341,10 @@ export class ApplicantDialogComponent {
   addApplicantLanguageSkillsDetails() {
     this.faapplicantLanguageSkillsDetails = this.faApplicantLanguageSkillsDetails();
     this.faapplicantLanguageSkillsDetails.push(this.generateRowForApplicantLanguageSkillsDetails())
+  }
+
+  handleFileClick(file: HTMLInputElement): void {
+    file.click(); // trigger input file
   }
 
   onGenderChange() {
@@ -533,7 +554,7 @@ export class ApplicantDialogComponent {
 
 
   saveApplicant(): Observable<HttpEvent<any[]>> {
-   if (this.addFlag) {
+    if (this.addFlag) {
       return this.recruitmentService.CreateApplicant(this.fbApplicant.value);
     } else {
       return this.recruitmentService.UpdateApplicant(this.fbApplicant.value);
@@ -542,6 +563,32 @@ export class ApplicantDialogComponent {
   }
 
   onSubmit() {
+    this.fbApplicant.get('dob').setValue(FORMAT_DATE(new Date(this.fbApplicant.get('dob').value)));
+    
+    const educationDetailsArray = this.fbApplicant.get('applicantEducationDetails') as FormArray;
+    educationDetailsArray.controls.forEach((educationDetail: FormGroup) => {
+      const formattedYearOfCompletion = FORMAT_DATE(new Date(educationDetail.get('yearOfCompletion').value));
+      educationDetail.get('yearOfCompletion').setValue(formattedYearOfCompletion);
+    }); 
+
+    const experienceDetailsArray = this.fbApplicant.get('applicantWorkExperiences') as FormArray;
+    experienceDetailsArray.controls.forEach((experienceDetails: FormGroup) => {
+      const formatteddateOfJoining = FORMAT_DATE(new Date(experienceDetails.get('dateOfJoining').value));
+      experienceDetails.get('dateOfJoining').setValue(formatteddateOfJoining);
+    }); 
+
+    const experienceDetailssArray = this.fbApplicant.get('applicantWorkExperiences') as FormArray;
+    experienceDetailssArray.controls.forEach((experienceDetails: FormGroup) => {
+      const formatteddateOfReliving = FORMAT_DATE(new Date(experienceDetails.get('dateOfReliving').value));
+      experienceDetails.get('dateOfReliving').setValue(formatteddateOfReliving);
+    }); 
+
+    const certificationDetailsArray = this.fbApplicant.get('applicantCertifications') as FormArray;
+    certificationDetailsArray.controls.forEach((certificateDetails: FormGroup) => {
+      const formattedyearOfCompletion = FORMAT_DATE(new Date(certificateDetails.get('yearOfCompletion').value));
+      certificateDetails.get('yearOfCompletion').setValue(formattedyearOfCompletion);
+    }); 
+
     if (this.fbApplicant.value) {
       this.saveApplicant().subscribe(resp => {
         if (resp) {
@@ -549,10 +596,10 @@ export class ApplicantDialogComponent {
             this.ref.close(true);
             this.alertMessage.displayAlertMessage(ALERT_CODES["AP001"]);
           }
-         else{
-          this.alertMessage.displayAlertMessage(ALERT_CODES["AP002"]);
-          this.ref.close({ "UpdatedModal": ViewApplicationScreen.viewApplicantDetails });
-         } 
+          else {
+            this.alertMessage.displayAlertMessage(ALERT_CODES["AP002"]);
+            this.ref.close({ "UpdatedModal": ViewApplicationScreen.viewApplicantDetails });
+          }
         }
       })
     }

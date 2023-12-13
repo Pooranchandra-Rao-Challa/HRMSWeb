@@ -150,3 +150,7 @@ export const UPDATE_APPLICANT = "Recruitment/UpdateInitialQualification";
 export const GET_RAS="Recruitment/GetRAsBasedOnJOInProcessId";
 export const UPDATE_INTERVIEW_RESULT="Recruitment/CreateApplicantInterviewResult";
 export const UPDATE_RESULT="Recruitment/UpdateFilteredApplicantForHRRound";
+
+//self Employee
+
+export const GET_SELF_EMPLOYEE="Employee/GetSelfEmployeeData";

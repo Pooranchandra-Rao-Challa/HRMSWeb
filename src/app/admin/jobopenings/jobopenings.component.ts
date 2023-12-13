@@ -72,6 +72,14 @@ export class JobOpeningsComponent {
     return this.fbdoProcess.controls;
   }
 
+  getMinExpertiseControl(): FormControl {
+    return this.fbdoProcess.get('minExpertise') as FormControl;
+  }
+
+  getMaxExpertiseControl(): FormControl {
+    return this.fbdoProcess.get('maxExpertise') as FormControl;
+  }
+
   getJobDetails() {
     this.adminService.GetJobDetails().subscribe((resp) => {
       this.jobOpening = resp as unknown as JobOpeningsDetailsViewDto[];
@@ -85,6 +93,8 @@ export class JobOpeningsComponent {
   openJobDialog(job: JobOpeningsDetailsViewDto) {
     this.selectedJob = job;
     this.viewJobDesign = true;
+    console.log(   this.selectedJob);
+    
   }
   showAttributeDialog(jobOpeningDetails) {
     this.attributeDialog = true;

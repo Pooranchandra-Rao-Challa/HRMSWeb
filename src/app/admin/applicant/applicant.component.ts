@@ -18,7 +18,7 @@ import { JwtService } from 'src/app/_services/jwt.service';
 })
 export class ApplicantComponent {
   @ViewChild('filter') filter!: ElementRef;
-  globalFilterFields: string[] = ['name', 'gender', 'experienceStatus', 'emailId', 'mobileNo',];
+  globalFilterFields: string[] = ['name', 'gender', 'experienceStatus', 'emailId', 'mobileNo','skills'];
   value: number = 40;
   applicants: ApplicantViewDto[] = [];
   ActionTypes = Actions;

@@ -77,12 +77,13 @@ export class LoginService extends ApiHttpService {
     // resetSessionMonitor;
     openRefeshDialog() {
         let timerInterval
-        this.UserIp().subscribe(resp => {
+         this.UserIp().subscribe(resp => {
             Swal.fire({
                 title: 'Do you want extend the session?',
                 html: 'Session will close in <b></b> seconds.',
-                showDenyButton: true,
+                // showDenyButton: true,
                 showCancelButton: false,
+                confirmButtonColor:'#FF810E',
                 confirmButtonText: 'Refresh Session',
                 denyButtonText: `Revoke Session`,
                 timer: 60000,
@@ -92,7 +93,7 @@ export class LoginService extends ApiHttpService {
                     Swal.showLoading(Swal.getDenyButton())
                     const b = Swal.getHtmlContainer().querySelector('b')
                     timerInterval = setInterval(() => {
-                        b.textContent = Math.floor(Swal.getTimerLeft() / 1000) + ''
+                        b.textContent = Math.floor(Swal.getTimerLeft() / 2000) + ''
                     }, 100)
                 },
                 willClose: () => {
@@ -101,6 +102,7 @@ export class LoginService extends ApiHttpService {
                 customClass: {
                     confirmButton: 'confirm-refresh-session',
                     container: 'swal2-container-high-zindex',
+                    popup:'swal-background',
                 }
             }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */

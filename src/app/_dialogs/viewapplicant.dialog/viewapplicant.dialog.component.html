@@ -567,9 +567,11 @@
           </div>
           <div class="field col-12 md:col-6">
             <label class="required">Expertise(Give Your Assesment): </label>
-            <app-star-rating [control]="getExpertiseControl()"
-              [ngClass]="{ 'is-invalid ng-dirty': FormControlsTechSkills['expertise'].touched && FormControlsTechSkills['expertise'].errors }">
-            </app-star-rating>
+            <div>
+              <app-star-rating [control]="getExpertiseControl()"
+                [ngClass]="{ 'is-invalid ng-dirty': FormControlsTechSkills['expertise'].touched && FormControlsTechSkills['expertise'].errors }">
+              </app-star-rating>
+            </div>
             <div class="flex">
               <div class="align-left w-60" style="width:70%">
                 <span
