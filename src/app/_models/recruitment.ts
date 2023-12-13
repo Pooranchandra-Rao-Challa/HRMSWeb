@@ -1,6 +1,7 @@
 export class ApplicantViewDto {
     isSelectedInTR1?:boolean
     isSelectedInHRRound?:boolean
+    isInProcess?:boolean
     applicantId?: number;
     name?: string;
     dob?: Date

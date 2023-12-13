@@ -20,11 +20,12 @@
             <h5>Initial Qualification</h5>
             <p-progressBar [value]="50" class=""></p-progressBar>
             <div *ngFor="let applicant of applicantsList">
-                <div *ngIf="applicant.technicalRound1At===null && applicant.hrRoundAt===null">
+                <div *ngIf="applicant.technicalRound1At===null && applicant.hrRoundAt===null"
+                >
                     <div class="card card-header surface-border orange-200 card-height border-1 m-0 mt-2 p-2  mb-0">
                         <b>{{applicant.name}}</b>
                     </div>
-                    <div class="card mt-0 mb-2  border-1 pb-2 surface-border ">
+                    <div class="card mt-0 mb-2  border-1 pb-2 surface-border " class="{{ applicant.isInProcess ? 'recruitment' : '' }}">
                         <div class=" mb-3 grid">
                             <div class="col-12 lg:col-8 md:col-12 p-1 px-2 employee_info">
                                 <span class="text-600 font-medium text-md">
@@ -71,12 +72,14 @@
         <div class="col-12 md:col-4 lg:col-3 sm:col-6">
             <h5>Technical Round</h5>
             <p-progressBar [value]="20" class=""></p-progressBar>
-            <div *ngFor="let applicant of applicantsList">
+            <div *ngFor="let applicant of applicantsList"
+                >
                 <div *ngIf="applicant.technicalRound1At!==null && applicant.hrRoundAt===null">
                     <div class="card card-header surface-border orange-200 card-height border-1 m-0 mt-2 p-2  mb-0">
                         <b>{{applicant.name}}</b>
                     </div>
-                    <div class="card mt-0 mb-2  border-1 pb-2 surface-border ">
+                    <div class="card mt-0 mb-2  border-1 pb-2 surface-border "
+                    class="{{ applicant.isInProcess ? 'recruitment' : '' }}">
                         <div class=" mb-3 grid">
                             <div class="col-12 lg:col-8 md:col-12 p-1 px-2 employee_info">
                                 <span class="text-600 font-medium text-md">
@@ -94,7 +97,8 @@
                                     applicant.emailId}}
                                 </span>
                             </div>
-                            <div *ngIf="applicant.isSelectedInTR1!==null" class="col-12 lg:col-4 md:col-12 p-1 px-2 employee_info text-center">
+                            <div *ngIf="applicant.isSelectedInTR1!==null"
+                                class="col-12 lg:col-4 md:col-12 p-1 px-2 employee_info text-center">
                                 <i class="pi  text-500 text-primary text-1xl pb-1">Ratting </i>
                                 <p-rating [cancel]="false"></p-rating>
                             </div>
@@ -131,12 +135,14 @@
         <div class="col-12 md:col-4 lg:col-3 sm:col-6">
             <h5>HR Round </h5>
             <p-progressBar [value]="70" class=""></p-progressBar>
-            <div *ngFor="let applicant of applicantsList">
+            <div *ngFor="let applicant of applicantsList"
+                >
                 <div *ngIf="applicant.technicalRound1At!==null && applicant.hrRoundAt!==null">
                     <div class="card card-header surface-border orange-200 card-height border-1 m-0 mt-2 p-2  mb-0">
                         <b>{{applicant.name}}</b>
                     </div>
-                    <div class="card mt-0 mb-2  border-1 pb-2 surface-border ">
+                    <div class="card mt-0 mb-2  border-1 pb-2 surface-border "
+                    class="{{ applicant.isInProcess ? 'recruitment' : '' }}">
                         <div class=" mb-3 grid">
                             <div class="col-12 lg:col-8 md:col-12 p-1 px-2 employee_info">
                                 <span class="text-600 font-medium text-md">
@@ -154,7 +160,8 @@
                                     applicant.emailId}}
                                 </span>
                             </div>
-                            <div *ngIf="applicant.isSelectedInHRRound!==null" class="col-12 lg:col-4 md:col-12 p-1 px-2 employee_info text-center">
+                            <div *ngIf="applicant.isSelectedInHRRound!==null"
+                                class="col-12 lg:col-4 md:col-12 p-1 px-2 employee_info text-center">
                                 <i class="pi  text-500 text-primary text-1xl pb-1">Ratting </i>
                                 <p-rating [cancel]="false"></p-rating>
                             </div>
