@@ -4,7 +4,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable } from 'rxjs';
 import { ALERT_CODES, AlertmessageService } from 'src/app/_alerts/alertmessage.service';
-import { ApplicantSkillsDto, JobOpeningsDetailsViewDto, LookupDetailsDto, LookupViewDto, ProjectViewDto } from 'src/app/_models/admin';
+import { ApplicantSkillsDto, AttributeType, JobOpeningsDetailsViewDto, LookupDetailsDto, LookupViewDto, ProjectViewDto } from 'src/app/_models/admin';
 import { MaxLength } from 'src/app/_models/common';
 import { AdminService } from 'src/app/_services/admin.service';
 import { LookupService } from 'src/app/_services/lookup.service';
@@ -18,7 +18,7 @@ import { LookupService } from 'src/app/_services/lookup.service';
 export class JobOpeningsDialogComponent {
   fbJobOpening!: FormGroup;
   technicalskills: LookupDetailsDto[] = [];
-  attributeTypes:LookupDetailsDto[]=[];
+  attributeTypes: LookupDetailsDto[] = [];
   softskills: LookupDetailsDto[] = [];
   natureOfJobs: LookupViewDto[] = [];
   projects: ProjectViewDto[] = [];
@@ -86,7 +86,7 @@ export class JobOpeningsDialogComponent {
   jobOpeningForm() {
     this.fbJobOpening = this.formbuilder.group({
       JobOpeningId: [null],
-      title:new FormControl('',[Validators.required]),
+      title: new FormControl('', [Validators.required]),
       projectId: new FormControl('', [Validators.required]),
       designationId: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required]),
@@ -96,8 +96,8 @@ export class JobOpeningsDialogComponent {
       isActive: new FormControl(true),
       softSkills: new FormControl('', [Validators.required]),
       technicalSkills: new FormControl('', [Validators.required]),
-      jobOpeningTechnicalSkillsXrefs:new FormControl([{ JobOpeningsSoftSkillsXrefId: null, JobOpeningId: null, SoftSkillId: null }]),
-      JobOpeningsAttributeXrefs:this.formbuilder.array([]),
+      jobOpeningTechnicalSkillsXrefs: new FormControl([{ JobOpeningsSoftSkillsXrefId: null, JobOpeningId: null, SoftSkillId: null }]),
+      JobOpeningsAttributeXrefs: this.formbuilder.array([]),
       JobOpeningSoftSkillsXrefs: new FormControl([{ JobOpeningsSoftSkillsXrefId: null, JobOpeningId: null, SoftSkillId: null }]),
     });
   }
@@ -117,7 +117,7 @@ export class JobOpeningsDialogComponent {
       event.preventDefault();
     }
   }
-  
+
 
   formArrayControlAttribute(i: number, formControlName: string) {
     return this.faAttributeTypes().controls[i].get(formControlName);
@@ -132,18 +132,20 @@ export class JobOpeningsDialogComponent {
     this.faattributetypes.push(this.generateRowForAttributeTypes())
   }
 
-  generateRowForAttributeTypes(): FormGroup {
+  generateRowForAttributeTypes(attributeType: AttributeType = new AttributeType()): FormGroup {
     return this.formbuilder.group({
-      JobOpeningsExpertiseXrefId: [null],
-      JobOpeningId: [null],
-      attributeTypeId: new FormControl('', [Validators.required]),
-      expertise: new FormControl()
+      JobOpeningsExpertiseXrefId: [attributeType.expertise],
+      JobOpeningId: [attributeType.expertise],
+      attributeTypeId: new FormControl(attributeType.expertise, [Validators.required]),
+      expertise: new FormControl(attributeType.expertise)
     })
   }
 
-  // getExpertiseControl(): FormControl {
-  //   return this.fbJobOpening.get('jobOpeningTechnicalSkillsXrefs.expertise') as FormControl;
-  // }
+  getExpertiseControl(index: number): FormControl {
+    const formArray = this.fbJobOpening.get('JobOpeningsAttributeXrefs') as FormArray;
+    return formArray.at(index).get('expertise') as FormControl;
+  }
+
 
   onSelectSoftSkill(e) {
     this.fbJobOpening.get('JobOpeningSoftSkillsXrefs')?.setValue('');
@@ -200,7 +202,7 @@ export class JobOpeningsDialogComponent {
     return this.adminService.CreateJobOpeningDetails(this.fbJobOpening.value)
   }
 
-  onSubmit() {  
+  onSubmit() {
     if (this.fbJobOpening.valid) {
       this.save().subscribe(resp => {
         if (resp) {

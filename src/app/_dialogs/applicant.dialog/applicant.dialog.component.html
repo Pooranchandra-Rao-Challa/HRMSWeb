@@ -690,7 +690,7 @@
                                         </td>
                                         <td class="vertical-align-top">
                                             <input type="text" id="comapny_Location" pInputText [maxLength]="50"
-                                                placeholder="Enter Company Location*" formControlName="companyLocation"
+                                                placeholder="Enter Company Location" formControlName="companyLocation"
                                                 #companylocation alphaOnly (keydown)="restrictSpaces($event)"
                                                 (click)="validateRowforExperienceDetails(experienceDetailsIndex)">
                                             <div class="flex">
@@ -723,7 +723,7 @@
                                         </td>
                                         <td class="vertical-align-top">
                                             <p-dropdown id="exp_Designation" appendTo="body"
-                                                placeholder="Enter Designation*" formControlName="designationId"
+                                                placeholder="Select Designation*" formControlName="designationId"
                                                 [options]="designations" optionLabel="name" optionValue="lookupDetailId"
                                                 (click)="validateRowforExperienceDetails(experienceDetailsIndex)"
                                                 [ngClass]="{'is-invalid ng-dirty': formArrayControlWorkExperience(experienceDetailsIndex, 'designationId')?.touched &&
