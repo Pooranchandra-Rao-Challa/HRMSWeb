@@ -139,9 +139,8 @@
                         <div class="grid">
                             <div class="col-6">
                                 <label class="required mb-5">Min Expertise:</label>
-                                <p-rating [cancel]="false" id="JO_doProcess_MinExpertise"
-                                    formControlName="minExpertise">
-                                </p-rating>
+                                <br />
+                                <app-star-rating [control]="getMinExpertiseControl()"></app-star-rating>
                                 <div class="flex">
                                     <div class="align-left w-60" style="width:70%">
                                         <span
@@ -155,9 +154,8 @@
                             </div>
                             <div class="col-6">
                                 <label class="required mb-5">Max Expertise:</label>
-                                <p-rating [cancel]="false" id="JO_doProcess_MaxExpertise"
-                                    formControlName="maxExpertise">
-                                </p-rating>
+                                <br />
+                                <app-star-rating [control]="getMaxExpertiseControl()"></app-star-rating>
                                 <div class="flex">
                                     <div class="align-left w-60" style="width:70%">
                                         <span

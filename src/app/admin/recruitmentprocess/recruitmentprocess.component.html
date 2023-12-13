@@ -20,11 +20,12 @@
             <h5>Initial Qualification</h5>
             <p-progressBar [value]="50" class=""></p-progressBar>
             <div *ngFor="let applicant of applicantsList">
-                <div *ngIf="applicant.technicalRound1At===null && applicant.hrRoundAt===null">
+                <div *ngIf="applicant.technicalRound1At===null && applicant.hrRoundAt===null"
+                >
                     <div class="card card-header surface-border orange-200 card-height border-1 m-0 mt-2 p-2  mb-0">
                         <b>{{applicant.name}}</b>
                     </div>
-                    <div class="card mt-0 mb-2  border-1 pb-2 surface-border ">
+                    <div class="card mt-0 mb-2  border-1 pb-2 surface-border " class="{{ applicant.isInProcess ? 'recruitment' : '' }}">
                         <div class=" mb-3 grid">
                             <div class="col-12 lg:col-8 md:col-12 p-1 px-2 employee_info">
                                 <span class="text-600 font-medium text-md">
@@ -42,10 +43,7 @@
                                     applicant.emailId}}
                                 </span>
                             </div>
-                            <div class="col-12 lg:col-4 md:col-12 p-1 px-2 employee_info text-center">
-                                <i class="pi  text-500 text-primary text-1xl pb-1">Ratting </i>
-                                <p-rating [cancel]="false"></p-rating>
-                            </div>
+
                         </div>
                         <div class="grid">
                             <div class="relative col-7 p-0 mb-3  employee_info">
@@ -61,7 +59,8 @@
                                     <span class="p-button-label pi pi-chevron-right"></span>
                                 </button>
                                 <button pButton pRipple type="submit" label="Move to Technical"
-                                    (click)="showConfirmationDialog(applicant)"
+                                    *ngIf="permissions?.CanManageRecruitmentProcess"
+                                    (click)="showConfirmationDialogToMoveTechnical(applicant)"
                                     class="p-button-raised p-button-primary"></button>
                             </div>
                         </div>
@@ -73,12 +72,14 @@
         <div class="col-12 md:col-4 lg:col-3 sm:col-6">
             <h5>Technical Round</h5>
             <p-progressBar [value]="20" class=""></p-progressBar>
-            <div *ngFor="let applicant of applicantsList">
+            <div *ngFor="let applicant of applicantsList"
+                >
                 <div *ngIf="applicant.technicalRound1At!==null && applicant.hrRoundAt===null">
                     <div class="card card-header surface-border orange-200 card-height border-1 m-0 mt-2 p-2  mb-0">
                         <b>{{applicant.name}}</b>
                     </div>
-                    <div class="card mt-0 mb-2  border-1 pb-2 surface-border ">
+                    <div class="card mt-0 mb-2  border-1 pb-2 surface-border "
+                    class="{{ applicant.isInProcess ? 'recruitment' : '' }}">
                         <div class=" mb-3 grid">
                             <div class="col-12 lg:col-8 md:col-12 p-1 px-2 employee_info">
                                 <span class="text-600 font-medium text-md">
@@ -96,7 +97,8 @@
                                     applicant.emailId}}
                                 </span>
                             </div>
-                            <div class="col-12 lg:col-4 md:col-12 p-1 px-2 employee_info text-center">
+                            <div *ngIf="applicant.isSelectedInTR1!==null"
+                                class="col-12 lg:col-4 md:col-12 p-1 px-2 employee_info text-center">
                                 <i class="pi  text-500 text-primary text-1xl pb-1">Ratting </i>
                                 <p-rating [cancel]="false"></p-rating>
                             </div>
@@ -114,8 +116,13 @@
                                     ng-reflect-label="Primary">
                                     <span class="p-button-label pi pi-chevron-right"></span>
                                 </button>
-                                <button pButton pRipple type="submit" label="Move to HR"
+                                <button pButton pRipple type="submit" label="Add Interview Result"
+                                    *ngIf="permissions?.CanManageRecruitmentProcess && applicant.isSelectedInTR1===null"
                                     (click)="showDialogToMoveHR(applicant)"
+                                    class="p-button-raised p-button-primary"></button>
+                                <button pButton pRipple type="submit" label="Move to HR"
+                                    *ngIf="permissions?.CanManageRecruitmentProcess && applicant.isSelectedInTR1===true"
+                                    (click)="showConfirmationDialog(applicant)"
                                     class="p-button-raised p-button-primary"></button>
                             </div>
                         </div>
@@ -128,12 +135,14 @@
         <div class="col-12 md:col-4 lg:col-3 sm:col-6">
             <h5>HR Round </h5>
             <p-progressBar [value]="70" class=""></p-progressBar>
-            <div *ngFor="let applicant of applicantsList">
+            <div *ngFor="let applicant of applicantsList"
+                >
                 <div *ngIf="applicant.technicalRound1At!==null && applicant.hrRoundAt!==null">
                     <div class="card card-header surface-border orange-200 card-height border-1 m-0 mt-2 p-2  mb-0">
                         <b>{{applicant.name}}</b>
                     </div>
-                    <div class="card mt-0 mb-2  border-1 pb-2 surface-border ">
+                    <div class="card mt-0 mb-2  border-1 pb-2 surface-border "
+                    class="{{ applicant.isInProcess ? 'recruitment' : '' }}">
                         <div class=" mb-3 grid">
                             <div class="col-12 lg:col-8 md:col-12 p-1 px-2 employee_info">
                                 <span class="text-600 font-medium text-md">
@@ -151,7 +160,8 @@
                                     applicant.emailId}}
                                 </span>
                             </div>
-                            <div class="col-12 lg:col-4 md:col-12 p-1 px-2 employee_info text-center">
+                            <div *ngIf="applicant.isSelectedInHRRound!==null"
+                                class="col-12 lg:col-4 md:col-12 p-1 px-2 employee_info text-center">
                                 <i class="pi  text-500 text-primary text-1xl pb-1">Ratting </i>
                                 <p-rating [cancel]="false"></p-rating>
                             </div>
@@ -169,7 +179,13 @@
                                     ng-reflect-label="Primary">
                                     <span class="p-button-label pi pi-chevron-right"></span>
                                 </button>
-                                <button pButton pRipple type="submit" label="Move to Final"
+                                <button pButton pRipple type="submit" label="Add Interview Result"
+                                    *ngIf="permissions?.CanManageRecruitmentProcess && applicant.isSelectedInHRRound===null"
+                                    (click)="showDialogToMoveHR(applicant)"
+                                    class="p-button-raised p-button-primary"></button>
+                                <button pButton pRipple type="submit" label="Move to FinalRound"
+                                    *ngIf="permissions?.CanManageRecruitmentProcess && applicant.isSelectedInHRRound===true"
+                                    (click)="showConfirmationDialog(applicant)"
                                     class="p-button-raised p-button-primary"></button>
                             </div>
                         </div>
@@ -232,18 +248,18 @@
                     <label class="required">Recruitment Stage:</label>&nbsp;
                     &nbsp;
                     <p-dropdown id="projectName" appendTo="body" class="w-100" [options]="attributeStages"
-                        optionLabel="name" placeholder="Select Recruitment Stage"
-                        formControlName="recruitmentAttributeID" optionValue="lookupDetailId" [style]="{'width':'100%'}"
-                        [ngClass]="{ 'is-invalid ng-dirty': FormControls['recruitmentAttributeID'].touched && FormControls['recruitmentAttributeID'].errors}">
+                        optionLabel="name" placeholder="Select Recruitment Stage" formControlName="recruitmentStageId"
+                        optionValue="lookupDetailId" [style]="{'width':'100%'}"
+                        [ngClass]="{ 'is-invalid ng-dirty': FormControls['recruitmentStageId'].touched && FormControls['recruitmentStageId'].errors}">
                     </p-dropdown>
                 </div>
                 <div class="field col-12 md:col-6">
                     <label class="required">Attribute Type:</label>&nbsp;
                     &nbsp;
                     <p-dropdown id="projectName" appendTo="body" class="w-100" [options]="attributeTypes"
-                        optionLabel="name" placeholder="Select Attribute Type" formControlName="recruitmentAttributeID"
-                        optionValue="attributeTypeId" [style]="{'width':'100%'}"
-                        [ngClass]="{ 'is-invalid ng-dirty': FormControls['recruitmentAttributeID'].touched && FormControls['recruitmentAttributeID'].errors}">
+                        optionLabel="attributeType" placeholder="Select Attribute Type"
+                        formControlName="attributeTypeId" optionValue="attributeTypeId" [style]="{'width':'100%'}"
+                        [ngClass]="{ 'is-invalid ng-dirty': FormControls['attributeTypeId'].touched && FormControls['attributeTypeId'].errors}">
                     </p-dropdown>
                 </div>
 
@@ -260,7 +276,8 @@
                         <p>{{item.assessmentTitle}}</p>
                     </div>
                     <div class="col-5 p-0">
-                        <p-rating [cancel]="false"></p-rating>
+                        <p-rating [(ngModel)]="item.expertise" [ngModelOptions]="{ standalone: true }" [cancel]="false">
+                        </p-rating>
                     </div>
                 </div>
                 <div class="field col-12 m-0 ">
@@ -276,8 +293,8 @@
     </form>
     <ng-template pTemplate="footer">
         <div class="flex justify-content-center">
-            <button pButton pRipple type="submit" class="p-button-raised p-button-primary" id="Attendance_saveLeave"
-                [disabled]="!this.fbRecruitment.valid" label="Submit"></button>
+            <button pButton pRipple type="submit" (click)="onSubmit()" class="p-button-raised p-button-primary"
+                id="Attendance_saveLeave" [disabled]="!this.fbRecruitment.valid" label="Submit"></button>
         </div>
     </ng-template>
 </p-dialog>

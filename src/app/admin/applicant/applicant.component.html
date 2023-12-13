@@ -1,7 +1,7 @@
 <div class="grid">
     <div class="col-12">
         <div class="card">
-            <p-dataView #dv [value]="applicants" [paginator]="dv.layout === 'grid' && dv.rows > 10" [rows]="10"
+            <p-dataView #dv [value]="applicants" [paginator]="dv.layout === 'grid' && dv.rows > 10" [rows]="12"
                 filterBy="name,emailId,mobileNo,gender,experienceStatus,pendingDetails" [sortField]="sortField"
                 [sortOrder]="sortOrder" layout="grid">
                 <ng-template pTemplate="header">
@@ -71,7 +71,8 @@
                                                 [alt]="applicant.name"
                                                 class="my-4 md:my-0 w-10 md:w-10rem shadow-2 mr-2" /><br />
                                         </td>
-                                        <td class="text-center" *ngFor="let col of headers">
+                                        <td class="text-center" *ngFor="let col of headers"
+                                            [ngClass]="{ 'text-wrap': col.field === 'skills'}">
                                             <span>{{applicant[col.field]}}</span>
                                         </td>
                                         <td class="text-center">

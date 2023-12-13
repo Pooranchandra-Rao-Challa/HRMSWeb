@@ -255,11 +255,19 @@ export class JobOpeningsDetailsViewDto {
     isActive?: boolean;
     JobOpeningTechnicalSkillsXrefs: TechnicalSkills[];
     JobOpeningSoftSkillsXrefs: SoftSkills[];
+    JobOpeningsAttributeXrefs: AttributeType[];
     createdAt?: Date;
     createdBy?: string;
     updatedAt?: Date;
     updatedBy?: string;
     InitiatedAt?: Date
+}
+
+export class AttributeType {
+    jobOpeningsExpertiseXrefId?: number;
+    jobOpeningId?: number;
+    attributeTypeId?: number;
+    expertise?: number;
 }
 
 export class TechnicalSkills {

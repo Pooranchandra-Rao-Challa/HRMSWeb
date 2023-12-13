@@ -1,4 +1,7 @@
 export class ApplicantViewDto {
+    isSelectedInTR1?:boolean
+    isSelectedInHRRound?:boolean
+    isInProcess?:boolean
     applicantId?: number;
     name?: string;
     dob?: Date
@@ -16,10 +19,16 @@ export class ApplicantViewDto {
     pendingDetails?: string;
     skills?: string;
 }
+export class attributeTypeDto {
+    attributeType?: string
+    attributeTypeId?: number
+    jobOpeningId?: number
+}
 export class RASBasedOnProcessId {
     assessmentTitle?: string
     jobOpeningInProcessId?: number
     recruitmentAttributeId?: number
+    expertise?:number
 }
 export class JobOpeningsListDto {
     initiatedAt?: Date

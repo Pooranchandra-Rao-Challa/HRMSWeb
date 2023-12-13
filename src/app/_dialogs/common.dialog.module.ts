@@ -44,6 +44,9 @@ import { EmployeeLeaveDialogComponent } from './employeeleave.dialog/employeelea
     LeaveconfigurationDialogComponent
   ],
   imports: [SharedModule],
+  exports: [
+    StarRatingComponent,
+  ],
   providers: [DialogService, DynamicDialogRef]
 })
 export class CommonDialogModule { }
