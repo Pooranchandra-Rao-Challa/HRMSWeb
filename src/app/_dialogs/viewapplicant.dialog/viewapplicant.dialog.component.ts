@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, of } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
+import { FORMAT_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
 import { MaxLength, ViewApplicationScreen } from 'src/app/_models/common';
 import { ApplicantCertificationDto, ApplicantEducationDetailsDto, ApplicantLanguageSkillDto, ApplicantSkillDto, ApplicantWorkExperienceDto, ViewApplicantDto, } from 'src/app/_models/recruitment';
@@ -326,10 +327,14 @@ export class ViewapplicantDialogComponent {
   saveApplicant(): Observable<HttpEvent<any[]>> {
     if (this.addFlag) {
       if (this.header === 'Education Details') {
+        this.fbeducationdetails.value.yearOfCompletion = FORMAT_DATE(this.fbeducationdetails.value.yearOfCompletion);
         return this.recruitmentService.CreateApplicantEducationDetails(this.fbeducationdetails.value);
       } else if (this.header === 'Experience Details') {
+        this.fbexperience.value.dateOfJoining = FORMAT_DATE(this.fbexperience.value.dateOfJoining);
+        this.fbexperience.value.dateOfReliving = FORMAT_DATE(this.fbexperience.value.dateOfReliving);
         return this.recruitmentService.CreateApplicantexperienceDetails(this.fbexperience.value);
       } else if (this.header === 'Certificate Details') {
+        this.fbcertificatedetails.value.yearOfCompletion = FORMAT_DATE(this.fbcertificatedetails.value.yearOfCompletion);
         return this.recruitmentService.CreateApplicantCertificationDetails(this.fbcertificatedetails.value);
       } else if (this.header === 'Language Skills') {
         return this.recruitmentService.CreateApplicantLanguageSkill(this.fblanguageSkills.value);
@@ -338,10 +343,14 @@ export class ViewapplicantDialogComponent {
       }
     } else {
       if (this.header === 'Education Details') {
+        this.fbeducationdetails.value.yearOfCompletion = FORMAT_DATE(this.fbeducationdetails.value.yearOfCompletion);
         return this.recruitmentService.UpdateApplicantEducationDetails(this.fbeducationdetails.value);
       } else if (this.header === 'Experience Details') {
+        this.fbexperience.value.dateOfJoining = FORMAT_DATE(this.fbexperience.value.dateOfJoining);
+        this.fbexperience.value.dateOfReliving = FORMAT_DATE(this.fbexperience.value.dateOfReliving);
         return this.recruitmentService.UpdateApplicantexperienceDetails(this.fbexperience.value);
       } else if (this.header === 'Certificate Details') {
+        this.fbcertificatedetails.value.yearOfCompletion = FORMAT_DATE(this.fbcertificatedetails.value.yearOfCompletion);
         return this.recruitmentService.UpdateApplicantCertificationDetails(this.fbcertificatedetails.value);
       } else if (this.header === 'Language Skills') {
         return this.recruitmentService.UpdateApplicantLanguageSkill(this.fblanguageSkills.value);
@@ -352,7 +361,7 @@ export class ViewapplicantDialogComponent {
     return of();
   }
 
-  onSubmit() {
+  onSubmit() {;
     this.saveApplicant().subscribe(resp => {
       if (resp) {
         this.alertMessage.displayAlertMessage(ALERT_CODES['ARVAP001']);

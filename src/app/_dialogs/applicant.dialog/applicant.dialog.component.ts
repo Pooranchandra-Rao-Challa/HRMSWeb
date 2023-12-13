@@ -498,7 +498,7 @@ export class ApplicantDialogComponent {
   }
   editApplicantDetails(ApplicantDetails: ApplicantDto) {
     this.addFlag = false;
-    this.applicantdata = ApplicantDetails;
+    // this.applicantdata = ApplicantDetails;
     this.getStatesByCountryId(this.applicantdata.countryId);
     this.fbApplicant.patchValue({
       applicantId: this.applicantdata.applicantId,
@@ -519,34 +519,34 @@ export class ApplicantDialogComponent {
       resumeUrl: this.applicantdata.resumeUrl,
       isFresher: this.applicantdata.isFresher,
     });
-    if (Array.isArray(this.applicantdata.expandedEducationDetails)) {
-      this.applicantdata.expandedEducationDetails.forEach((eduDetails, index) => {
+    if (Array.isArray(this.applicantdata.savedapplicantEducationDetails)) {
+      this.applicantdata.savedapplicantEducationDetails.forEach((eduDetails, index) => {
         this.faApplicantEducationDetails().insert(index, this.generateRowForEducationDetails(eduDetails));
         this.getStreamByCurriculumId(eduDetails.curriculumId, index)
         this.onchangeStateBasedOnCountry(this.applicantdata.countryId, index)
         this.formArrayControlEducation(index, 'yearOfCompletion').patchValue(new Date(eduDetails.yearOfCompletion));
       });
     }
-    if (Array.isArray(this.applicantdata.expandedWorkExperience)) {
-      this.applicantdata.expandedWorkExperience.forEach((expDetails, index) => {
+    if (Array.isArray(this.applicantdata.savedapplicantWorkExperience)) {
+      this.applicantdata.savedapplicantWorkExperience.forEach((expDetails, index) => {
         this.faApplicantExperienceDetails().insert(index, this.generateRowForExperienceDetails(expDetails));
         this.formArrayControlWorkExperience(index, 'dateOfJoining').patchValue(new Date(expDetails.dateOfJoining));
         this.formArrayControlWorkExperience(index, 'dateOfReliving').patchValue(new Date(expDetails.dateOfReliving));
       });
     }
-    if (Array.isArray(this.applicantdata.expandedCertifications)) {
-      this.applicantdata.expandedCertifications.forEach((certDetails, index) => {
+    if (Array.isArray(this.applicantdata.savedapplicantCertifications)) {
+      this.applicantdata.savedapplicantCertifications.forEach((certDetails, index) => {
         this.faApplicantCertificationDetails().insert(index, this.generateRowForCertificationDetails(certDetails));
         this.formArrayControlCertificaiton(index, 'yearOfCompletion').patchValue(new Date(certDetails.yearOfCompletion));
       });
     }
-    if (Array.isArray(this.applicantdata.expandedLanguageSkills)) {
-      this.applicantdata.expandedLanguageSkills.forEach((langSkills, index) => {
+    if (Array.isArray(this.applicantdata.savedapplicantLanguageSkills)) {
+      this.applicantdata.savedapplicantLanguageSkills.forEach((langSkills, index) => {
         this.faApplicantLanguageSkillsDetails().insert(index, this.generateRowForApplicantLanguageSkillsDetails(langSkills));
       });
     }
-    if (Array.isArray(this.applicantdata.expandedSkills)) {
-      this.applicantdata.expandedSkills.forEach((techSkills, index) => {
+    if (Array.isArray(this.applicantdata.savedapplicantSkills)) {
+      this.applicantdata.savedapplicantSkills.forEach((techSkills, index) => {
         this.faApplicantSkillsDetails().insert(index, this.generateRowForApplicantSkillsDetails(techSkills));
       });
     }

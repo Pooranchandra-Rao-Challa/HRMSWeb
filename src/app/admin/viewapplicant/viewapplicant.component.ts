@@ -18,6 +18,7 @@ export class ViewapplicantComponent {
   viewApplicantDetails: ViewApplicantDto;
   ActionTypes = Actions;
   isCursorPointer: boolean = false;
+  defaultPhoto: string;
   dialogRequest: DialogRequest = new DialogRequest();
   applicantdialogComponent = ApplicantDialogComponent;
   viewApplicantDialogDetails = ViewapplicantDialogComponent;
@@ -35,16 +36,41 @@ export class ViewapplicantComponent {
   initViewApplicantDetails() {
     this.RecruitmentService.GetviewapplicantDtls(this.applicantId).subscribe((resp) => {
       this.viewApplicantDetails = resp[0] as unknown as ViewApplicantDto;
-      console.log(this.viewApplicantDetails);
-      
+      console.log( this.viewApplicantDetails);
       this.viewApplicantDetails.savedapplicantWorkExperience = JSON.parse(this.viewApplicantDetails.applicantWorkExperience);
       this.viewApplicantDetails.savedapplicantCertifications = JSON.parse(this.viewApplicantDetails.applicantCertifications);
       this.viewApplicantDetails.savedapplicantEducationDetails = JSON.parse(this.viewApplicantDetails.applicantEducationDetails);
       this.viewApplicantDetails.savedapplicantLanguageSkills = JSON.parse(this.viewApplicantDetails.applicantLanguageSkills);
       this.viewApplicantDetails.savedapplicantSkills = JSON.parse(this.viewApplicantDetails.applicantSkills);
+
+      /^male$/gi.test(this.viewApplicantDetails.gender)
+        ? this.defaultPhoto = './assets/layout/images/men-emp.jpg'
+        : this.defaultPhoto = './assets/layout/images/women-emp.jpg'
     })
   }
 
+  downloadResume(){
+    const resumeUrl = this.viewApplicantDetails?.resumeUrl ;
+    if (resumeUrl) {
+      // Create a temporary anchor element
+      const link = document.createElement('a');
+      link.style.display = 'none';
+      link.href = resumeUrl;
+      link.setAttribute('download', 'resume'); // Set the desired file name
+      // Append the anchor to the body
+      document.body.appendChild(link);
+
+      // Trigger a click on the anchor to start the download
+      link.click();
+      // Remove the anchor from the body
+      document.body.removeChild(link);
+    }
+     else {
+      // Handle case where resume URL is not available
+      console.error('Resume URL is not available for download.');
+    }
+  }
+  
   openRowEditDialog(content: any,
     dialogData, action: Actions = this.ActionTypes.edit, formtype: any) {
     if (action == Actions.edit && content === this.viewApplicantDialogDetails && formtype === "education") {

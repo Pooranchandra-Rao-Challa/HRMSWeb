@@ -31,11 +31,12 @@
             <div class="flex">
               <div class="align-left w-60" style="width:70%">
                 <span *ngIf="FormControlsEduDtls['streamId'].touched && FormControlsEduDtls['streamId'].invalid">
-                  <div class="ng-invalid ng-touched p-error" *ngIf="FormControlsEduDtls['streamId'].untouched && FormControlsEduDtls['streamId'].touched ||
-                  FormControlsEduDtls['streamId'].invalid&& FormControlsEduDtls['streamId'].touched">
+                  <div class="ng-invalid ng-touched p-error"
+                    *ngIf="FormControlsEduDtls['curriculumId'].untouched && FormControlsEduDtls['streamId'].touched ||
+                    FormControlsEduDtls['curriculumId'].invalid&& FormControlsEduDtls['streamId'].touched">
                     Please Select Curriculum First.</div>
                   <div class="ng-invalid ng-touched p-error"
-                    *ngIf="FormControlsEduDtls['streamId'].touched &&FormControlsEduDtls['streamId'].errors?.['required']&&FormControlsEduDtls['streamId'].valid">
+                    *ngIf="FormControlsEduDtls['curriculumId'].touched &&FormControlsEduDtls['streamId'].errors?.['required']&&FormControlsEduDtls['curriculumId'].valid">
                     Please Select Stream.</div>
                 </span>
               </div>
@@ -67,11 +68,12 @@
             <div class="flex">
               <div class="align-left w-60" style="width:70%">
                 <span *ngIf="FormControlsEduDtls['stateId'].touched && FormControlsEduDtls['stateId'].invalid">
-                  <div class="ng-invalid ng-touched p-error" *ngIf="FormControlsEduDtls['stateId'].untouched && FormControlsEduDtls['stateId'].touched ||
-                  FormControlsEduDtls['stateId'].invalid&& FormControlsEduDtls['stateId'].touched">
+                  <div class="ng-invalid ng-touched p-error"
+                    *ngIf="FormControlsEduDtls['countryId'].untouched && FormControlsEduDtls['stateId'].touched ||
+                    FormControlsEduDtls['countryId'].invalid&& FormControlsEduDtls['stateId'].touched">
                     Please Select Country First.</div>
                   <div class="ng-invalid ng-touched p-error"
-                    *ngIf="FormControlsEduDtls['stateId'].touched &&FormControlsEduDtls['stateId'].errors?.['required']&&FormControlsEduDtls['stateId'].valid">
+                    *ngIf="FormControlsEduDtls['countryId'].touched &&FormControlsEduDtls['stateId'].errors?.['required']&&FormControlsEduDtls['countryId'].valid">
                     Please Select State.</div>
                 </span>
               </div>
@@ -335,13 +337,13 @@
                   *ngIf="FormControlsExpDtls['natureOfWork'].touched && FormControlsExpDtls['natureOfWork'].invalid">
                   <div class="ng-invalid ng-touched p-error"
                     *ngIf="FormControlsExpDtls['natureOfWork'].errors?.['required']">
-                    Please Enter Company Name.</div>
+                    Please Enter Nature Of Work.</div>
                   <div class="ng-invalid ng-touched p-error"
                     *ngIf="FormControlsExpDtls['natureOfWork'].errors?.['minlength']">
-                    companyName Min Characters Is 2.</div>
+                    Nature Of Work Min Characters Is 2.</div>
                   <div class="ng-invalid ng-touched p-error"
                     *ngIf="FormControlsExpDtls['natureOfWork'].errors?.['maxlength']">
-                    companyName Max Characters Is 50.</div>
+                    Nature Of Work Max Characters Is 50.</div>
                 </span>
               </div>
               <div class="align-right w-40" style="width:30%; text-align:right;">
@@ -361,13 +363,13 @@
                   *ngIf="FormControlsExpDtls['workedOnProjects'].touched && FormControlsExpDtls['workedOnProjects'].invalid">
                   <div class="ng-invalid ng-touched p-error"
                     *ngIf="FormControlsExpDtls['workedOnProjects'].errors?.['required']">
-                    Please Enter Location.</div>
+                    Please Enter Worked On Projects.</div>
                   <div class="ng-invalid ng-touched p-error"
                     *ngIf="FormControlsExpDtls['workedOnProjects'].errors?.['minlength']">
-                    CompanyLocation Min Characters Is 2.</div>
+                    Worked On Projects Min Characters Is 2.</div>
                   <div class="ng-invalid ng-touched p-error"
                     *ngIf="FormControlsExpDtls['workedOnProjects'].errors?.['maxlength']">
-                    CompanyLocation Max Characters Is 50.</div>
+                    Worked On Projects Max Characters Is 50.</div>
                 </span>
               </div>
               <div class="align-right w-40" style="width:30%; text-align:right;">
@@ -378,7 +380,7 @@
           <div class="field col-12 md:col-4">
             <label class="required">Date of Joining:</label>&nbsp;
             <p-calendar [showIcon]="true" formControlName="dateOfJoining" [readonlyInput]="true"
-              id="Experience_dateOfJoining" appendTo="body" (keydown)="restrictSpaces($event)"
+              id="Experience_dateOfJoining" appendTo="body" (keydown)="restrictSpaces($event)" [maxDate]="currentDate"
               [ngClass]="{ 'is-invalid ng-dirty': FormControlsExpDtls['dateOfJoining'].touched && FormControlsExpDtls['dateOfJoining'].errors }"
               placeholder="Select Date Of Joining">
             </p-calendar>
@@ -396,7 +398,7 @@
           <div class="field col-12 md:col-4">
             <label class="required">Date of Reliving:</label>&nbsp;
             <p-calendar [showIcon]="true" formControlName="dateOfReliving" id="Experience_dateOfReliving"
-              appendTo="body" [readonlyInput]="true"
+              appendTo="body" [readonlyInput]="true"  [maxDate]="currentDate"
               [ngClass]="{ 'is-invalid ng-dirty': FormControlsExpDtls['dateOfReliving'].touched && FormControlsExpDtls['dateOfReliving'].errors }"
               placeholder="Select Date of Reliving">
             </p-calendar>
@@ -461,7 +463,7 @@
           <div class="field col-12 md:col-4">
             <label class="required">Year Of Completion: </label>
             <p-calendar [showIcon]="true" formControlName="yearOfCompletion" id="passed_Out_year" appendTo="body"
-              [readonlyInput]="true" placeholder="Select Year of Completion"
+              [readonlyInput]="true" placeholder="Select Year of Completion"  [maxDate]="currentDate"
               [ngClass]="{ 'is-invalid ng-dirty': FormControlsCrtDtls['yearOfCompletion'].touched && FormControlsCrtDtls['yearOfCompletion'].errors }">
             </p-calendar>
             <div class="flex">

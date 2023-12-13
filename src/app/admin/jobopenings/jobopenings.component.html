@@ -14,36 +14,36 @@
     </ng-template>
     <ng-template let-jobOpeningDetails pTemplate="gridItem">
         <div class="col-12 md:col-4 lg:col-3 sm:col-6">
-                <div class="job-opening-card project_card m-2 border-1 surface-border">
-                    <div class="title" (click)="openJobDialog(jobOpeningDetails)">
-                        {{ jobOpeningDetails.title }}
-                    </div>
-                    <div class="applicants">
-                        <i class="pi pi-star text-primary"></i> {{ jobOpeningDetails.designation }}
-                    </div>
-                    <!-- <div class="col-12"> -->
-                    <div calss="row">
-                        <div class="grid">
-                            <div class="col-6 mt-2 text-600 font-medium text-sm">
-                                {{ jobOpeningDetails.description }} quwe oeuir o oiweur u fu i ouer fu hfhhou rufuih
-                                iowfd
-                            </div>
-                            <div class="col-6 mt-2">
-                                <span>New Applicants :<b class="text-primary"> 3</b></span> <br>
-                                <span>Applicants :<b class="text-primary"> 2</b></span><br>
-                                <span>To Recruit :<b class="text-primary"> 6</b> </span>
-                            </div>
-                        </div>
-                        <!-- </div> -->
-                    </div>
-                    <div class="applicants">
-                        <button pButton pRipple [ngClass]="{'disabled-button': isButtonDisabled(jobOpeningDetails.id)}"
-                            class="p-button-primary p-button-outlined p-mr-2 " id="ProcessJobOpening"
-                            (click)="showAttributeDialog(jobOpeningDetails)">
-                            <i class="icon-process text-primary font-bold text-900 font-2xl mr-2"></i> Do Process
-                        </button>
-                    </div>
+            <div class="job-opening-card project_card m-2 border-1 surface-border">
+                <div class="title" (click)="openJobDialog(jobOpeningDetails)">
+                    {{ jobOpeningDetails.title }}
                 </div>
+                <div class="applicants">
+                    <i class="pi pi-star text-primary"></i> {{ jobOpeningDetails.designation }}
+                </div>
+                <!-- <div class="col-12"> -->
+                <div calss="row">
+                    <div class="grid">
+                        <div class="col-6 mt-2 text-600 font-medium text-sm">
+                            {{ jobOpeningDetails.description }} quwe oeuir o oiweur u fu i ouer fu hfhhou rufuih
+                            iowfd
+                        </div>
+                        <div class="col-6 mt-2">
+                            <span>New Applicants :<b class="text-primary"> 3</b></span> <br>
+                            <span>Applicants :<b class="text-primary"> 2</b></span><br>
+                            <span>To Recruit :<b class="text-primary"> 6</b> </span>
+                        </div>
+                    </div>
+                    <!-- </div> -->
+                </div>
+                <div class="applicants">
+                    <button pButton pRipple [ngClass]="{'disabled-button': isButtonDisabled(jobOpeningDetails.id)}"
+                        class="p-button-primary p-button-outlined p-mr-2 " id="ProcessJobOpening"
+                        (click)="showAttributeDialog(jobOpeningDetails)">
+                        <i class="icon-process text-primary font-bold text-900 font-2xl mr-2"></i> Do Process
+                    </button>
+                </div>
+            </div>
         </div>
     </ng-template>
 
