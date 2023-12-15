@@ -93,8 +93,6 @@ export class JobOpeningsComponent {
   openJobDialog(job: JobOpeningsDetailsViewDto) {
     this.selectedJob = job;
     this.viewJobDesign = true;
-    console.log(   this.selectedJob);
-    
   }
   showAttributeDialog(jobOpeningDetails) {
     this.attributeDialog = true;
@@ -129,6 +127,7 @@ export class JobOpeningsComponent {
     });
     if (this.fbdoProcess.valid)
       this.RecruitmentService.jobDoProcess(this.fbdoProcess.value).subscribe(resp => {
+           
         if (resp) {
           this.router.navigate(['admin/recruitmentprocess', resp[0]?.jobOpeningInProcessId]);
           this.processButtonDisabled = true;
