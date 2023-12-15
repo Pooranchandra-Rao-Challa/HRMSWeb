@@ -36,13 +36,11 @@ export class ViewapplicantComponent {
   initViewApplicantDetails() {
     this.RecruitmentService.GetviewapplicantDtls(this.applicantId).subscribe((resp) => {
       this.viewApplicantDetails = resp[0] as unknown as ViewApplicantDto;
-      console.log( this.viewApplicantDetails);
       this.viewApplicantDetails.savedapplicantWorkExperience = JSON.parse(this.viewApplicantDetails.applicantWorkExperience);
       this.viewApplicantDetails.savedapplicantCertifications = JSON.parse(this.viewApplicantDetails.applicantCertifications);
       this.viewApplicantDetails.savedapplicantEducationDetails = JSON.parse(this.viewApplicantDetails.applicantEducationDetails);
       this.viewApplicantDetails.savedapplicantLanguageSkills = JSON.parse(this.viewApplicantDetails.applicantLanguageSkills);
       this.viewApplicantDetails.savedapplicantSkills = JSON.parse(this.viewApplicantDetails.applicantSkills);
-
       /^male$/gi.test(this.viewApplicantDetails.gender)
         ? this.defaultPhoto = './assets/layout/images/men-emp.jpg'
         : this.defaultPhoto = './assets/layout/images/women-emp.jpg'
@@ -140,7 +138,7 @@ export class ViewapplicantComponent {
     dialogData, action: Actions = this.ActionTypes.edit) {
     if (action == Actions.edit && content === this.applicantdialogComponent) {
       this.dialogRequest.dialogData = dialogData;
-      this.dialogRequest.header = "Edit Applicants";
+      this.dialogRequest.header = "Applicant";
       this.dialogRequest.width = "60%";
     }
     this.ref = this.dialogService.open(content, {
