@@ -137,7 +137,7 @@ export class JobOpeningsDialogComponent {
       JobOpeningsExpertiseXrefId: [attributeType.expertise],
       JobOpeningId: [attributeType.expertise],
       attributeTypeId: new FormControl(attributeType.expertise, [Validators.required]),
-      expertise: new FormControl(attributeType.expertise)
+      expertise: new FormControl(attributeType.expertise, [Validators.required])
     })
   }
 

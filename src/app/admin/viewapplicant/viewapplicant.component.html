@@ -5,7 +5,8 @@
         (click)="openComponentDialog(applicantdialogComponent, viewApplicantDetails, ActionTypes.edit)"
         class="p-element p-ripple p-button-text p-button-primary p-component"></button>
       <div class="text-center">
-        <img src="./assets/layout/images/men-emp.jpg" class="shadow-2 my-1 mx-0 applicant_profile_pic " /><br />
+        <img [src]="viewApplicantDetails?.photo ? viewApplicantDetails?.photo : defaultPhoto" [alt]="viewApplicantDetails?.name"
+        class="shadow-2 my-1 mx-0 employee_profile_pic employee_profile_pic_view" width="100px" />
         <h4 class="m-5 mt-0 text-primary">{{ viewApplicantDetails?.name}}</h4>
       </div>
       <span class="inline-flex align-items-left mb-2">
@@ -100,7 +101,7 @@
       </div>
     </div>
     <div class="px-2">
-      <button pButton pRipple class="p-element p-ripple  p-button-primary p-component w-100 text-center"> Download
+      <button pButton pRipple class="p-element p-ripple  p-button-primary p-component w-100 text-center"  (click)="downloadResume()"> Download
         Resume <span class="pi pi-download px-5"></span>
       </button>
     </div>
@@ -178,8 +179,7 @@
               <div class="applicant_certificate">
                 <h5 class="text-primary mb-0">{{ certification.certificateName }}</h5>
                 <p class="mt-2">{{ certification.franchiseName }}</p>
-                <p><span class="text-primary" pTooltip="Year of Completion">YOC</span> : {{
-                  certification.yearOfCompletion}}</p>
+                <p><span class="text-primary" pTooltip="Year of Completion">YOC</span> : {{ certification.yearOfCompletion | date:mediumDate}}</p>
                 <p><i class="pi pi-star text-primary text-700 mr-2"></i>: {{ certification.results }}</p>
               </div>
             </div>
