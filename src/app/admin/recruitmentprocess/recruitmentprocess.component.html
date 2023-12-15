@@ -99,6 +99,7 @@
                             <div *ngIf="applicant.isSelectedInTR1!==null"
                                 class="col-12 lg:col-4 md:col-12 p-1 px-2 employee_info text-center">
                                 <i class="pi  text-500 text-primary text-1xl pb-1">Ratting </i>
+                                <!-- <app-star-rating [(ngModel)]="applicant.tR1Rating"></app-star-rating> -->
                                 <p-rating [(ngModel)]="applicant.tR1Rating" [cancel]="false"></p-rating>
                             </div>
                         </div>
@@ -288,13 +289,12 @@
                         <label class="required">Expertise:</label>&nbsp;
                     </div>
                 </div>
-                <div class="col-12 flex " *ngFor="let item of RASBasedOnProcessId">
+                <div class="col-12 flex " *ngFor="let item of faInterviewResultsDetails().controls;let i=index">
                     <div class="col-7 p-0">
-                        <p>{{item.assessmentTitle}}</p>
+                        <p>{{item.get('assessmentTitle').value }}</p>
                     </div>
                     <div class="col-5 p-0">
-                        <p-rating [(ngModel)]="item.expertise" [ngModelOptions]="{ standalone: true }" [cancel]="false">
-                        </p-rating>
+                        <app-star-rating [control]="getExpertiseControl(i)"></app-star-rating>
                     </div>
                 </div>
                 <div class="field col-12 m-0 ">
