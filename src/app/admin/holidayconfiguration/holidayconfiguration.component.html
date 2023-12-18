@@ -158,7 +158,7 @@
 
             </div>
             <ng-template pTemplate="footer">
-                <div class="col-4" style="float:right">
+                <div class="col-12 lg:col-4 md:col-4 sm:col-6" style="float:right">
                     <button pButton pRipple type="submit" id="submit-btn" label="Add Holidays List"
                         [disabled]="this.fbHoliday.get('holidayDetails').value.length === 0 "
                         class="p-button-raised p-button-primary" (click)="onSubmit()"></button>
