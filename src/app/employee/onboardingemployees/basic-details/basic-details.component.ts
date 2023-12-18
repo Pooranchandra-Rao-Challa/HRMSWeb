@@ -38,11 +38,11 @@ export class BasicDetailsComponent implements OnInit {
     bloodgroups: LookupViewDto[] = [];
     employeeId: any;
     maxDate: Date = new Date();
-    countries :LookupViewDto[] =[];
+    countries: LookupViewDto[] = [];
     fileTypes: string = ".jpg, .jpeg, .gif"
     @Output() ImageValidator = new EventEmitter<PhotoFileProperties>();
     defaultPhoto: string;
-
+    nationality: LookupViewDto[] = [];
     constructor(private router: Router, private route: ActivatedRoute,
         private employeeService: EmployeeService, private formbuilder: FormBuilder,
         private lookupService: LookupService, private alertMessage: AlertmessageService,
@@ -67,6 +67,7 @@ export class BasicDetailsComponent implements OnInit {
 
         this.basicDetailsForm();
         this.getBloodGroups();
+        this.getNationality();
         this.genders = [
             { name: 'Male', code: 'male' },
             { name: 'Female', code: 'female' }
@@ -115,7 +116,7 @@ export class BasicDetailsComponent implements OnInit {
             emailId: new FormControl('', [Validators.required, Validators.pattern(RG_EMAIL)]),
             isActive: new FormControl(true, [Validators.required]),
             isAFresher: new FormControl(true, [Validators.required]),
-            nationality:new FormControl('',[Validators.required]),
+            nationality: new FormControl('', [Validators.required]),
             photo: [],
             signDate: [null]
         });
@@ -130,7 +131,13 @@ export class BasicDetailsComponent implements OnInit {
             this.bloodgroups = resp as unknown as LookupViewDto[];
         });
     }
-    
+
+    getNationality() {
+        this.lookupService.Nationality().subscribe((resp) => {
+            this.nationality = resp as unknown as LookupViewDto[];
+        })
+    }
+
     restrictSpaces(event: KeyboardEvent) {
         const target = event.target as HTMLInputElement;
         // Prevent the first key from being a space
@@ -215,9 +222,9 @@ export class BasicDetailsComponent implements OnInit {
             emailId: empbasicDetails.emailId,
             isActive: empbasicDetails.isActive,
             isAFresher: empbasicDetails.isAFresher,
-            nationality:empbasicDetails.nationality,
+            nationality: empbasicDetails.nationality,
             signDate: empbasicDetails.signDate,
-            photo:empbasicDetails.photo
+            photo: empbasicDetails.photo
         });
         this.defaultPhoto = /^female$/gi.test(empbasicDetails.gender) ? './assets/layout/images/women-emp-2.jpg' : './assets/layout/images/men-emp.jpg'
     }

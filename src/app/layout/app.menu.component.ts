@@ -195,7 +195,7 @@ export class AppMenuComponent implements OnInit {
                         permission: this.jwtService.Permissions.CanViewAttendances
                     },
                     {
-                        label: 'Leave Configuration',
+                        label: 'Employee Leaves',
                         icon: 'icon-leave-request font-semibold',
                         routerLink: ['employee/leaves'],
                         permission: this.jwtService.Permissions.CanViewAssetsAllotments

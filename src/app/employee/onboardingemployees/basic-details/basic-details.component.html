@@ -223,20 +223,19 @@
                 </div>
                 <div class="field col-12 md:col-4">
                     <label class="required">Nationality:</label>
-                    <input type="text" id="nationality" placeholder="Enter Nationality" pInputText
-                        formControlName="nationality" alphaOnly [maxlength]="50" (keydown)="restrictSpaces($event)" #nationality
-                        [ngClass]="{ 'is-invalid ng-dirty': FormControls['nationality'].touched && FormControls['nationality'].errors }" />
+                    <p-dropdown id="maritalStatus_dropdown" placeholder="Select Nationality" [autoDisplayFirst]="false"
+                        [options]="nationality" optionLabel="name" formControlName="nationality" optionValue="name"
+                        appendTo="body"
+                        [ngClass]="{ 'is-invalid ng-dirty': FormControls['nationality'].touched && FormControls['nationality'].errors }">
+                    </p-dropdown>
                     <div class="flex">
                         <div class="align-left w-60" style="width:70%">
                             <span *ngIf="FormControls['nationality'].touched && FormControls['nationality'].invalid">
                                 <div class="ng-invalid ng-touched p-error"
                                     *ngIf="FormControls['nationality'].errors?.['required']">
-                                    Please Enter Nationality.
+                                    Please Select Nationality.
                                 </div>
                             </span>
-                        </div>
-                        <div class="align-right w-40" style="width:30%; text-align:right;">
-                            <small>{{nationality.value.length}}/{{maxLength.name}} </small>
                         </div>
                     </div>
                 </div>
