@@ -155,8 +155,7 @@
                         'at': employee[getFormattedDate(i)] === 'AT',
                         'cl': employee[getFormattedDate(i)] === 'CL',
                         'pl': employee[getFormattedDate(i)] === 'PL',
-                        'el': employee[getFormattedDate(i)] === 'EL',
-                        'sl': employee[getFormattedDate(i)] === 'SL'                        
+                        'lop': employee[getFormattedDate(i)] === 'LOP',                      
                        }" >
                 <ng-container *ngIf="getAttendance(employee, i)">
                     <span [ngClass]="{'pt': employee[getFormattedDate(i)] === 'PT',}"
@@ -177,11 +176,7 @@
                         {{ employee[getFormattedDate(i)] }}
                     </span>
                     <span (click)="openDialog(employee, getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendance(employee, i) === 'EL'" id="Attendance_addEL">
-                        {{ employee[getFormattedDate(i)] }}
-                    </span>
-                    <span (click)="openDialog(employee, getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendance(employee, i) === 'SL'" id="Attendance_addSL">
+                        *ngIf="getAttendance(employee, i) === 'LOP'" id="Attendance_addEL">
                         {{ employee[getFormattedDate(i)] }}
                     </span>
                     <span *ngIf="getAttendance(employee, i) === 'WOff'">
