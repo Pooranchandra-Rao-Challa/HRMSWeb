@@ -364,11 +364,15 @@ export class ViewapplicantDialogComponent {
   onSubmit() {;
     this.saveApplicant().subscribe(resp => {
       if (resp) {
-        this.alertMessage.displayAlertMessage(ALERT_CODES['ARVAP001']);
+        if(this.addFlag){
+          this.alertMessage.displayAlertMessage(ALERT_CODES['ARVAP001']);
+        }else{
+          this.alertMessage.displayAlertMessage(ALERT_CODES['ARVAP002']);
+        }
         this.ref.close({ "UpdatedModal": ViewApplicationScreen.viewApplicantDetails });
       }
       else {
-        this.alertMessage.displayErrorMessage(ALERT_CODES['ARVAP002']);
+        this.alertMessage.displayErrorMessage(ALERT_CODES['ARVAP003']);
       }
     })
   }
