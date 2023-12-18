@@ -90,7 +90,7 @@
               <div class="field col-12 md:col-4">
                 <label class="required">Purchased Date: </label>
                 <p-calendar inputId="purchasedDate" id="purchasedDate" placeholder="Select Purchased Date"
-                  appendTo="body" [readonlyInput]="true" formControlName="purchasedDate" [minDate]="minDateValue"
+                  appendTo="body" [readonlyInput]="true" formControlName="purchasedDate" 
                   [showIcon]="true"
                   [ngClass]="{ 'is-invalid ng-dirty': FormControls['purchasedDate'].touched && FormControls['purchasedDate'].errors}">
                 </p-calendar>

@@ -16,14 +16,14 @@
               [rowsPerPageOptions]="[10,25,50]">
               <ng-template pTemplate="header" let-education let-educationDetailsIndex="rowIndex">
                 <tr>
-                  <th>Curriculum</th>
-                  <th>Stream</th>
-                  <th>Country</th>
-                  <th>State</th>
+                  <th>Curriculum<label class="required"></label></th>
+                  <th >Stream<label class="required"></label></th>
+                  <th>Country<label class="required"></label></th>
+                  <th>State<label class="required"></label></th>
                   <th>School/College Name</th>
-                  <th>Board/University Name</th>
-                  <th>Year of Completion</th>
-                  <th>Grading System</th>
+                  <th>Board/University Name<label class="required"></label></th>
+                  <th>Year of Completion<label class="required"></label></th>
+                  <th>Grading System<label class="required"></label></th>
                   <th>CGPA/Percentage System</th>
                   <th *ngIf="fbEducationDetails.controls['educationDetails'].value.length > 1"></th>
                 </tr>
@@ -32,7 +32,7 @@
                 <tr [formGroupName]="educationDetailsIndex">
                   <td class="vertical-align-top">
                     <p-dropdown id="curriculum_dropdown" [autoDisplayFirst]="false" [options]="curriculum"
-                      placeholder="Select Curriculum*" optionLabel="name" appendTo="body" optionValue="lookupDetailId"
+                      placeholder="Select Curriculum" optionLabel="name" appendTo="body" optionValue="lookupDetailId"
                       formControlName="curriculumId"
                       (onChange)="onCurriculumChange($event.value, educationDetailsIndex)" [ngClass]="{'is-invalid ng-dirty': formArrayControls(educationDetailsIndex,'curriculumId')?.touched &&
                     formArrayControls(educationDetailsIndex,'curriculumId')?.errors }"></p-dropdown>
@@ -51,7 +51,7 @@
                   <td class="vertical-align-top">
                     <p-dropdown id="stream_dropdown" [autoDisplayFirst]="false" optionLabel="name"
                       [options]="streamPerRow[educationDetailsIndex]" optionValue="lookupDetailId" appendTo="body"
-                      formControlName="streamId" placeholder="Select Stream*" [ngClass]="{'is-invalid ng-dirty': formArrayControls(educationDetailsIndex,'streamId')?.touched &&
+                      formControlName="streamId" placeholder="Select Stream" [ngClass]="{'is-invalid ng-dirty': formArrayControls(educationDetailsIndex,'streamId')?.touched &&
                     formArrayControls(educationDetailsIndex,'streamId')?.errors }">
                     </p-dropdown>
                     <div class="flex">
@@ -69,7 +69,7 @@
                     </div>
                   </td>
                   <td class="vertical-align-top">
-                    <p-dropdown id="country_dropdown" [autoDisplayFirst]="false" placeholder="Select Country*"
+                    <p-dropdown id="country_dropdown" [autoDisplayFirst]="false" placeholder="Select Country"
                       optionLabel="name" appendTo="body" [options]="countries" optionValue="lookupDetailId"
                       formControlName="countryId" (onChange)="onCountryChange($event.value, educationDetailsIndex)"
                       [ngClass]="{'is-invalid ng-dirty': formArrayControls(educationDetailsIndex,'countryId')?.touched &&
@@ -87,7 +87,7 @@
                     </div>
                   </td>
                   <td class="vertical-align-top">
-                    <p-dropdown id="states_dropdown" appendTo="body" optionLabel="name" placeholder="Select State*"
+                    <p-dropdown id="states_dropdown" appendTo="body" optionLabel="name" placeholder="Select State"
                       [options]="statesPerRow[educationDetailsIndex]" optionValue="lookupDetailId"
                       formControlName="stateId" [ngClass]="{'is-invalid ng-dirty': formArrayControls(educationDetailsIndex,'stateId')?.touched &&
                     formArrayControls(educationDetailsIndex,'stateId')?.errors }"></p-dropdown>
@@ -127,7 +127,7 @@
                   </td>
                   <td class="vertical-align-top">
                     <input pInputText class="form-control" formControlName="authorityName" #authorityName maxlength="50"
-                      alphaOnly placeholder="Enter Board/University Name*" id="authority_Name" alphaOnly [ngClass]="{'is-invalid ng-dirty': formArrayControls(educationDetailsIndex,'authorityName')?.touched &&
+                      alphaOnly placeholder="Enter Board/University Name" id="authority_Name" alphaOnly [ngClass]="{'is-invalid ng-dirty': formArrayControls(educationDetailsIndex,'authorityName')?.touched &&
                     formArrayControls(educationDetailsIndex,'authorityName')?.errors }">
                     <div class="flex">
                       <div class="align-left w-60" style="width:70%">
@@ -146,7 +146,7 @@
                   </td>
                   <td class="vertical-align-top">
                     <p-calendar [showIcon]="true" formControlName="yearOfCompletion" id="passed_Out_year" appendTo="body"  [readonlyInput]="true"
-                      [maxDate]="currentDate" placeholder="Select Year of Completion*" [ngClass]="{'is-invalid ng-dirty': formArrayControls(educationDetailsIndex,'yearOfCompletion')?.touched &&
+                      [maxDate]="currentDate" placeholder="Select Year of Completion" [ngClass]="{'is-invalid ng-dirty': formArrayControls(educationDetailsIndex,'yearOfCompletion')?.touched &&
                   formArrayControls(educationDetailsIndex,'yearOfCompletion')?.errors }"></p-calendar>
                     <div class="flex">
                       <div class="align-left w-60" style="width:70%">
@@ -162,7 +162,7 @@
                   </td>
                   <td class="vertical-align-top">
                     <p-dropdown id="gradingStystem_dropdown" [autoDisplayFirst]="false" appendTo="body"
-                      placeholder="Select Grading System*" [options]="gradingMethods" optionLabel="name"
+                      placeholder="Select Grading System" [options]="gradingMethods" optionLabel="name"
                       optionValue="lookupDetailId" formControlName="gradingMethodId" [ngClass]="{'is-invalid ng-dirty': formArrayControls(educationDetailsIndex,'gradingMethodId')?.touched &&
                     formArrayControls(educationDetailsIndex,'gradingMethodId')?.errors }"></p-dropdown>
                     <div class="flex">
@@ -179,7 +179,7 @@
                   </td>
                   <td class="vertical-align-top">
                     <input pInputText class="form-control" formControlName="gradingValue" appNumericInput maxlength="5"
-                      #gradingValue placeholder="Enter CGPA/Percentage System*" id="grading_Value" [ngClass]="{'is-invalid ng-dirty': formArrayControls(educationDetailsIndex,'gradingValue')?.touched &&
+                      #gradingValue placeholder="Enter CGPA/Percentage System" id="grading_Value" [ngClass]="{'is-invalid ng-dirty': formArrayControls(educationDetailsIndex,'gradingValue')?.touched &&
                     formArrayControls(educationDetailsIndex,'gradingValue')?.errors }">
                     <div class="flex">
                       <div class="align-left w-60" style="width:70%">
