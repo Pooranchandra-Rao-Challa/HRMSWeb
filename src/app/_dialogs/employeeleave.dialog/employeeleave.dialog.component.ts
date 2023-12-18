@@ -8,8 +8,10 @@ import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.s
 import { FORMAT_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { EmployeesList, HolidaysViewDto, LookupViewDto } from 'src/app/_models/admin';
 import { MaxLength } from 'src/app/_models/common';
+import { SelfEmployeeDto } from 'src/app/_models/dashboard';
 import { EmployeeLeaveDto } from 'src/app/_models/employes';
 import { AdminService } from 'src/app/_services/admin.service';
+import { DashboardService } from 'src/app/_services/dashboard.service';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { LookupService } from 'src/app/_services/lookup.service';
 
@@ -25,6 +27,7 @@ export class EmployeeLeaveDialogComponent {
   filteredLeaveTypes: LookupViewDto[] = [];
   maxLength: MaxLength = new MaxLength();
   filterCriteria: string[] = ['PT', 'AT'];
+  filteringClsPls: any;
   disabledDates: Date[] = [];
   holidays: HolidaysViewDto[] = [];
   year: string;
@@ -32,15 +35,17 @@ export class EmployeeLeaveDialogComponent {
   maxDate: Date = new Date(new Date()); // Set the maxDate to a future date
   emailURL: string;
   errorMessage: string;
+  empDetails: SelfEmployeeDto;
 
   constructor(
     private formbuilder: FormBuilder,
     private adminService: AdminService,
     private lookupService: LookupService,
     private employeeService: EmployeeService,
+    private dashBoardService: DashboardService,
     public ref: DynamicDialogRef,
     public alertMessage: AlertmessageService,
-    private platformLocation: PlatformLocation) {
+    private platformLocation: PlatformLocation,) {
     this.emailURL = `${platformLocation.protocol}//${platformLocation.hostname}:${platformLocation.port}/`
     const today = new Date();
     const currentYear = today.getFullYear();
@@ -61,6 +66,7 @@ export class EmployeeLeaveDialogComponent {
     this.getEmployees();
     this.getLeaveTypes();
     this.leaveForm();
+
   }
 
   setMinMaxDates() {
@@ -150,6 +156,11 @@ export class EmployeeLeaveDialogComponent {
   getEmployees() {
     this.adminService.getEmployeesList().subscribe(resp => {
       this.employees = resp as unknown as EmployeesList[];
+      this.fbLeave.get('employeeId')?.valueChanges.subscribe((selectedEmployeeId: number) => {
+        if (selectedEmployeeId) {
+          this.getEmployeeDataBasedOnId(selectedEmployeeId);
+        }
+      });
     });
   }
 
@@ -158,6 +169,24 @@ export class EmployeeLeaveDialogComponent {
       this.leaveType = resp as unknown as LookupViewDto[];
       this.filteredLeaveTypes = this.leaveType.filter(item => !this.filterCriteria.includes(item.name));
     })
+  }
+
+  getEmployeeDataBasedOnId(employeeId: number) {
+    this.dashBoardService.GetEmployeeDetails(employeeId).subscribe((resp) => {
+      this.empDetails = resp as unknown as SelfEmployeeDto;
+
+      this.filteringClsPls = (
+        (this.empDetails.allowablePrivilegeLeaves - this.empDetails.usedPrivilegeLeavesInYear) > 0 &&
+        (this.empDetails.allowableCasualLeaves - this.empDetails.usedCasualLeavesInYear) > 0
+      ) ? [] : ['PL', 'CL'];
+
+      this.filteredLeaveTypes = this.leaveType.filter(item => {
+        if (item.name === 'CL' && (this.empDetails.allowableCasualLeaves - this.empDetails.usedCasualLeavesInYear) > 0) {
+          return true;
+        }
+        return !this.filteringClsPls.includes(item.name) && !this.filterCriteria.includes(item.name);
+      });
+    });
   }
 
   leaveForm() {
