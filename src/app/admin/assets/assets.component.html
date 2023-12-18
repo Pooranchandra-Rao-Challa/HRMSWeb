@@ -90,7 +90,7 @@
               <div class="field col-12 md:col-4">
                 <label class="required">Purchased Date: </label>
                 <p-calendar inputId="purchasedDate" id="purchasedDate" placeholder="Select Purchased Date"
-                  appendTo="body" [readonlyInput]="true" formControlName="purchasedDate" [minDate]="minDateValue"
+                  appendTo="body" [readonlyInput]="true" formControlName="purchasedDate" 
                   [showIcon]="true"
                   [ngClass]="{ 'is-invalid ng-dirty': FormControls['purchasedDate'].touched && FormControls['purchasedDate'].errors}">
                 </p-calendar>
@@ -222,7 +222,7 @@
         </form>
       </div>
       <ng-template pTemplate="footer">
-        <div class="col-4" style="float:right">
+        <div class="col-12 lg:col-4 md:col-4 sm:col-6" style="float:right">
           <button pButton pRipple type="submit" id="submit" [label]="submitLabel"
             class="p-button-raised p-button-primary" (click)="onSubmit()" [disabled]="fbassets.invalid"></button>
         </div>

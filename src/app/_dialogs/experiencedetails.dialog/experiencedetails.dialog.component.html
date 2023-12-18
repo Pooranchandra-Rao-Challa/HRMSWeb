@@ -17,15 +17,15 @@
               [rowsPerPageOptions]="[10,25,50]">>
               <ng-template pTemplate="header">
                 <tr>
-                  <th>Company Name</th>
-                  <th>Location</th>
+                  <th>Company Name<label class="required"></label></th>
+                  <th>Location<label class="required"></label></th>
                   <th>Company Emp Id</th>
                   <th>Country</th>
                   <th>State</th>
-                  <th>Designation </th>
-                  <th>Date Of Joining </th>
+                  <th>Designation <label class="required"></label></th>
+                  <th>Date Of Joining <label class="required"></label></th>
                   <th>Date Of Relieving</th>
-                  <th>Skill Areas</th>
+                  <th>Skill Areas<label class="required"></label></th>
                   <th *ngIf="fbexperience.controls['experienceDetails'].value.length > 1"></th>
                 </tr>
               </ng-template>
@@ -33,7 +33,7 @@
                 <tr [formGroupName]="experienceDetailsIndex">
                   <td class="vertical-align-top">
                     <input pInputText class="form-control" formControlName="companyName"
-                      placeholder="Enter Company Name*" alphaOnly maxlength="50" #companyName id="company_Name"
+                      placeholder="Enter Company Name" alphaOnly maxlength="50" #companyName id="company_Name"
                       [ngClass]="{'is-invalid ng-dirty': expDtlsformArrayControls(experienceDetailsIndex,'companyName')?.touched &&
                     expDtlsformArrayControls(experienceDetailsIndex,'companyName')?.errors }">
                     <div class="flex">
@@ -57,7 +57,7 @@
                   </td>
                   <td class="vertical-align-top">
                     <input pInputText class="form-control" id="company_Location" formControlName="companyLocation"
-                      alphaOnly placeholder="Enter Location*" maxlength="50" #companyLocation [ngClass]="{'is-invalid ng-dirty': expDtlsformArrayControls(experienceDetailsIndex,'companyLocation')?.touched &&
+                      alphaOnly placeholder="Enter Location" maxlength="50" #companyLocation [ngClass]="{'is-invalid ng-dirty': expDtlsformArrayControls(experienceDetailsIndex,'companyLocation')?.touched &&
                     expDtlsformArrayControls(experienceDetailsIndex,'companyLocation')?.errors }">
                     <div class="flex">
                       <div class="align-left w-60" style="width:70%">
@@ -110,7 +110,7 @@
                       formControlName="stateId"></p-dropdown>
                   </td>
                   <td class="vertical-align-top">
-                    <p-dropdown id="designation" appendTo="body" optionLabel="name" placeholder="Select Designation*"
+                    <p-dropdown id="designation" appendTo="body" optionLabel="name" placeholder="Select Designation"
                       [options]="designation" optionValue="lookupDetailId" formControlName="designationId" [ngClass]="{'is-invalid ng-dirty': expDtlsformArrayControls(experienceDetailsIndex,'designationId')?.touched &&
                     expDtlsformArrayControls(experienceDetailsIndex,'designationId')?.errors }"></p-dropdown>
                     <div class="flex">
@@ -127,7 +127,7 @@
                   </td>
                   <td class="vertical-align-top">
                     <p-calendar [showIcon]="true" formControlName="dateOfJoining" id="date_Of_Joining" appendTo="body"  [maxDate]="maxDate" [readonlyInput]="true"
-                    placeholder="Select Date Of Joining*" [ngClass]="{'is-invalid ng-dirty': expDtlsformArrayControls(experienceDetailsIndex,'dateOfJoining')?.touched &&
+                    placeholder="Select Date Of Joining" [ngClass]="{'is-invalid ng-dirty': expDtlsformArrayControls(experienceDetailsIndex,'dateOfJoining')?.touched &&
                       expDtlsformArrayControls(experienceDetailsIndex,'dateOfJoining')?.errors }"></p-calendar>
                     <div class="flex">
                       <div class="align-left w-60" style="width:70%">
@@ -146,7 +146,7 @@
                       placeholder="Select From Date"></p-calendar>
                   </td>
                   <td class="vertical-align-top">
-                    <p-multiSelect placeholder="Select Skill Areas*" inputId="multiselect" id="Experience_skillArea"
+                    <p-multiSelect placeholder="Select Skill Areas" inputId="multiselect" id="Experience_skillArea"
                       optionValue="lookupDetailId" [filter]="false" filterBy="name"
                       (onChange)="onSelectSkill($event,experienceDetailsIndex)" formControlName="skillAreaIds"
                       [options]="skillarea" optionLabel="name" [filter]="false" filterBy="name" appendTo="body"
