@@ -296,7 +296,7 @@
           <p-tabPanel header="Project View">
             <div class="grid mb-5 p-0">
               <div class="col-12 md:col-4 lg:col-3 sm:col-6" *ngFor="let project of visibleProjects; let i = index ">
-                <div class="card border-1 surface-border card-height project_card">
+                <div class="card border-1 surface-border project_card">
                   <button pButton pRipple icon="pi pi-pencil" *ngIf="permission?.CanManageProjects" class="p-element p-ripple p-button-text p-button-primary p-component project_edit_button" (click)="onEditProject(project)" id="project_edit_button"></button>
                   <div class="list-none m-0 p-0 text-center" (click)="showProjectDetails(project.projectId)">
                     <img [src]="project.logo" alt="img" [alt]="project.name" onerror="this.onerror=null;" class="inline-flex align-items-center justify-content-center border-circle w-8rem h-8rem bg-primary-100 mb-5">

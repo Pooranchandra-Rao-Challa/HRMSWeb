@@ -303,7 +303,7 @@ export class ApplicantDialogComponent {
       applicantSkillId: [applicantskills.applicantSkillId],
       applicantId: new FormControl(applicantskills.applicantId),
       skillId: new FormControl(applicantskills.skillId, [Validators.required]),
-      expertise: new FormControl(applicantskills.expertise, [Validators.required])
+      expertise: new FormControl(applicantskills.expertise, [Validators.required,this.notEqualToZeroValidator.bind(this)])
     })
   }
 
@@ -496,6 +496,18 @@ export class ApplicantDialogComponent {
       }
     });
   }
+
+  notEqualToZeroValidator(control: FormControl): { [key: string]: any } | null {
+    const value = control.value;
+
+    // Check if the value is not equal to 0
+    if (value !== null && value !== undefined && value === 0) {
+      return { notEqualToZero: true };
+    }
+
+    return null; // Validation passed
+  }
+
   editApplicantDetails(ApplicantDetails: ApplicantDto) {
     this.addFlag = false;
     // this.applicantdata = ApplicantDetails;
