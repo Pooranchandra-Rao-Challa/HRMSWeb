@@ -61,8 +61,8 @@ export class JobOpeningsComponent {
     this.fbdoProcess = this.formbuilder.group({
       jobOpeninginProcessId: new FormControl(null),
       jobOpeningId: new FormControl(''),
-      maxExpertise: new FormControl('', [Validators.required]),
-      minExpertise: new FormControl('', [Validators.required]),
+      maxExpertise: new FormControl('', [Validators.required,this.notEqualToZeroValidator.bind(this)]),
+      minExpertise: new FormControl('', [Validators.required,this.notEqualToZeroValidator.bind(this)]),
       jobOpeningRas: new FormControl('', [Validators.required]),
     });
 
@@ -74,6 +74,7 @@ export class JobOpeningsComponent {
 
   getMinExpertiseControl(): FormControl {
     return this.fbdoProcess.get('minExpertise') as FormControl;
+     
   }
 
   getMaxExpertiseControl(): FormControl {
@@ -93,8 +94,6 @@ export class JobOpeningsComponent {
   openJobDialog(job: JobOpeningsDetailsViewDto) {
     this.selectedJob = job;
     this.viewJobDesign = true;
-    console.log(   this.selectedJob);
-    
   }
   showAttributeDialog(jobOpeningDetails) {
     this.attributeDialog = true;
@@ -129,6 +128,7 @@ export class JobOpeningsComponent {
     });
     if (this.fbdoProcess.valid)
       this.RecruitmentService.jobDoProcess(this.fbdoProcess.value).subscribe(resp => {
+
         if (resp) {
           this.router.navigate(['admin/recruitmentprocess', resp[0]?.jobOpeningInProcessId]);
           this.processButtonDisabled = true;
@@ -170,5 +170,14 @@ export class JobOpeningsComponent {
       event.preventDefault(); // Prevent the default form submission
     });
   }
+  notEqualToZeroValidator(control: FormControl): { [key: string]: any } | null {
+    const value = control.value;
 
+    // Check if the value is not equal to 0
+    if (value !== null && value !== undefined && value === 0) {
+      return { notEqualToZero: true };
+    }
+
+    return null; // Validation passed
+  }
 }

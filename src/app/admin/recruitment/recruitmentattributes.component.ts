@@ -50,8 +50,6 @@ export class RecruitmentAttributesComponent {
   getAttributes() {
     this.adminService.GetRecruitmentDetails(false).subscribe((resp) => {
       this.recruitmentAttributes = resp as unknown as RecruitmentAttributesDTO[];
-      console.log(resp);
-      
     })
   }
   getStages(value) {

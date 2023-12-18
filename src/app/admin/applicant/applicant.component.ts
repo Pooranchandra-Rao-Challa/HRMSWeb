@@ -96,7 +96,7 @@ export class ApplicantComponent {
     dialogData, action: Actions = this.ActionTypes.add) {
     if (action == Actions.add && content === this.applicantdialogComponent) {
       this.dialogRequest.dialogData = dialogData;
-      this.dialogRequest.header = "Applicants";
+      this.dialogRequest.header = "Applicant";
       this.dialogRequest.width = "60%";
     }
     this.ref = this.dialogService.open(content, {
