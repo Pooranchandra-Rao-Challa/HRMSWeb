@@ -10,9 +10,11 @@
             (onChange)="initApplicants(this.jobOpeninginprocessId)" optionLabel="jobTitle"></p-dropdown>
     </ng-template>
     <ng-template pTemplate="right">
-        <p-checkbox name="isActive"></p-checkbox>
+        <p-checkbox [(ngModel)]="isRPChecked" [binary]="true" 
+        (onChange)="this.initApplicants(this.jobOpeninginprocessId)" name="isActive"></p-checkbox>
         <label for="ny" class="ml-1">Hide UnderProcess</label>
     </ng-template>
+    
 </p-toolbar>
 <div class="card " id="main-card">
     <div class="grid">
@@ -252,7 +254,6 @@
                     </div>
                 </div>
             </div> -->
-
         </div>
     </div>
 </div>
@@ -267,7 +268,7 @@
                     &nbsp;
                     <p-dropdown id="projectName" appendTo="body" class="w-100" [options]="attributeStages"
                         optionLabel="name" placeholder="Select Recruitment Stage" formControlName="recruitmentStageId"
-                        optionValue="lookupDetailId" [style]="{'width':'100%'}"
+                        optionValue="lookupDetailId" [style]="{'width':'100%'}" [readonly]="true"
                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['recruitmentStageId'].touched && FormControls['recruitmentStageId'].errors}">
                     </p-dropdown>
                 </div>

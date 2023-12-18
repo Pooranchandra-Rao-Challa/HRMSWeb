@@ -28,6 +28,7 @@ export class RecruitmentProcessComponent {
   attributeStages: LookupDetailsDto[];
   permissions: any;
   HRdialog: boolean = false;
+  isRPChecked: boolean;
   confirmationRequest: ConfirmationRequestForRecruitmentProcess = new ConfirmationRequestForRecruitmentProcess();
   confirmationRequest1: ConfirmationRequestForRecruitmentProcess1 = new ConfirmationRequestForRecruitmentProcess1();
   constructor(private RecruitmentService: RecruitmentService,
@@ -73,7 +74,8 @@ export class RecruitmentProcessComponent {
     this.initRAS();
     this.fbRecruitment.patchValue({
       filteredApplicantId: applicant.filteredApplicantId,
-      interviewedBy: this.jwtService.UserId
+      interviewedBy: this.jwtService.UserId,
+      recruitmentStageId:applicant.technicalRound1At!==null&&applicant.hrRoundAt===null?357:358
     })
   }
   initRAS() {
@@ -164,11 +166,14 @@ export class RecruitmentProcessComponent {
   }
   initApplicants(jobOpeninginprocessId: number) {
     this.RecruitmentService.getApplicantsForInitialRound(jobOpeninginprocessId).subscribe(resp => {
-      this.applicantsList = resp as unknown as ApplicantViewDto[];
-      console.log(resp);
-
+      if (this.isRPChecked) {
+        this.applicantsList = (resp as unknown as ApplicantViewDto[])
+          .filter(element => !element.isInProcess);
+      } else 
+        this.applicantsList = resp as unknown as ApplicantViewDto[];
     });
   }
+  
   getAttributeStages() {
     this.lookupService.attributestages().subscribe((resp) => {
       this.attributeStages = resp as unknown as LookupDetailsDto[];
