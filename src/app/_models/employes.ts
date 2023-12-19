@@ -342,9 +342,9 @@ export class employeeExperienceDtlsViewDto {
 }
 
 export class employeeAttendanceDto {
-	employeeId: number;
-	employeeName: string;
-	dates: { [date: string]: string | {} };
+	employeeId?: number;
+	employeeName?: string;
+	dates?: { [date: string]: string | {} };
 }
 
 export class EmployeeLeaveDto {

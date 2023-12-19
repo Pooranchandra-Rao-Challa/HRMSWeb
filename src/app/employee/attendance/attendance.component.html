@@ -86,7 +86,7 @@
             <p-button icon="pi pi-angle-right ml-2" (click)="gotoNextMonth()" id="Attendance_nextMonth"></p-button>
         </div>
         <div class="pl-2">
-            
+
             {{this.month
             }}/{{this.year}}
         </div>
@@ -156,7 +156,7 @@
                         'cl': employee[getFormattedDate(i)] === 'CL',
                         'pl': employee[getFormattedDate(i)] === 'PL',
                         'el': employee[getFormattedDate(i)] === 'LWP',                      
-                       }" >
+                       }">
                 <ng-container *ngIf="getAttendance(employee, i)">
                     <span [ngClass]="{'pt': employee[getFormattedDate(i)] === 'PT',}"
                         (click)="openDialog(employee,getFormattedDate(i),employee[getFormattedDate(i)])"
@@ -199,7 +199,7 @@
     <div class="flex justify-content-center m-3">
         <i class="pi pi-exclamation-triangle" style="font-size: 24px;"></i>&nbsp;&nbsp;
         <p>
-            Do you want to modify the status of {{this.NotUpdatedEmployees.length}} records to Present on
+            Do you want to modify the status of {{this.filteredData?.length}} records to Present on
             {{this.notUpdatedDates| date:'MMM dd YYYY'}}?
         </p>
     </div>

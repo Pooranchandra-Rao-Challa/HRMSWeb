@@ -31,6 +31,7 @@ export class AttendanceComponent {
   maxLength: MaxLength = new MaxLength();
   year: number = 2023;
   employeesList!: EmployeesList[];
+  filteredData: employeeAttendanceDto[];
   employeeAttendanceList: employeeAttendanceDto[];
   globalFilterFields: string[] = ['EmployeeName',];
   selectedMonth: Date;
@@ -46,7 +47,7 @@ export class AttendanceComponent {
   leaves: EmployeeLeaveDto[] = [];
   NotUpdatedEmployees: EmployeesList[] = [];
   showingLeavesOfColors: boolean = false;
-  messageDisplayed: boolean;
+  infoMessage: boolean;
 
 
   constructor(private adminService: AdminService, private dashBoardService: DashboardService, private datePipe: DatePipe, private jwtService: JwtService, public ref: DynamicDialogRef,
@@ -56,14 +57,14 @@ export class AttendanceComponent {
   }
 
   ngOnInit() {
-    this.messageDisplayed = false;
+    this.infoMessage = false;
     this.permissions = this.jwtService.Permissions;
-    this.CheckPreviousDayAttendance();
-    this.initLeaveForm();
     this.initAttendance();
+    this.initLeaveForm();
     this.getDaysInMonth(this.year, this.month);
     this.initDayWorkStatus();
     this.getLeaves();
+
   }
 
   initLeaveForm() {
@@ -99,6 +100,7 @@ export class AttendanceComponent {
   initAttendance() {
     this.employeeService.GetAttendance(this.month, this.year).subscribe((resp) => {
       this.employeeAttendanceList = resp as unknown as employeeAttendanceDto[];
+      this.CheckPreviousDayAttendance();
     });
   }
 
@@ -161,21 +163,41 @@ export class AttendanceComponent {
   }
 
   getNotUpdatedEmployeesList(date, checkPreviousDate) {
-    this.employeeService.GetNotUpdatedEmployees(date, checkPreviousDate).subscribe(resp => {
+    this.employeeService.GetNotUpdatedEmployees(date, checkPreviousDate).subscribe((resp) => {
       this.NotUpdatedEmployees = resp as unknown as EmployeesList[];
-      if (this.NotUpdatedEmployees.length > 0) {
-        this.notUpdatedDates = this.NotUpdatedEmployees[0].date;
-        if (this.notUpdatedDates && this.permissions?.CanManageAttendance && !this.messageDisplayed) {
-          this.messageDisplayed = true;
-          return this.alertMessage.displayInfo(ALERT_CODES["EAAS003"] + "  " + `${this.datePipe.transform(this.notUpdatedDates, 'dd-MM-yyyy')}`);
-        }
+      this.filteredData = this.filterEmployeeAttendanceList(date, checkPreviousDate);
+  
+      if (this.handleNotUpdatedEmployees()) {
+        return;
       }
-      else if (this.checkPreviousAttendance) {
+  
+      if (this.checkPreviousAttendance) {
         this.checkPreviousAttendance = false;
         this.CheckPreviousDayAttendance();
       }
     });
   }
+  
+  filterEmployeeAttendanceList(date, checkPreviousDate) {
+    date=new Date(date);
+    const filteredData = this.employeeAttendanceList.filter((each) =>
+      each[this.datePipe.transform(checkPreviousDate ? date.setDate(date.getDate() - 1): date, 'dd-MM-yyyy')] === 'NU'
+    );
+    return filteredData;
+  }
+  
+  handleNotUpdatedEmployees() {
+    if (this.NotUpdatedEmployees.length > 0) {
+      this.notUpdatedDates = this.NotUpdatedEmployees[0].date;
+      if (this.notUpdatedDates && this.permissions?.CanManageAttendance && !this.infoMessage) {
+        this.infoMessage = true;
+        this.alertMessage.displayInfo(ALERT_CODES["EAAS003"] + "  " + `${this.datePipe.transform(this.notUpdatedDates, 'dd-MM-yyyy')}`);
+        return true;
+      }
+    }
+    return false;
+  }
+  
 
   CheckPreviousDayAttendance() {
     const formattedDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
@@ -184,18 +206,17 @@ export class AttendanceComponent {
   getEmployeeDataBasedOnId(emp: any, leaveType: string): void {
     this.dashBoardService.GetEmployeeDetails(emp.EmployeeId).subscribe((resp) => {
       const result = resp as SelfEmployeeDto;
-      this.filterLeaveType('CL', leaveType, result.allowableCasualLeaves - result.usedCasualLeavesInYear);
-      this.filterLeaveType('PL', leaveType, result.allowablePrivilegeLeaves - result.usedPrivilegeLeavesInYear);
+      this.filterLeaveType('CL', leaveType, result.allottedCasualLeaves - result.usedCasualLeavesInYear);
+      this.filterLeaveType('PL', leaveType, result.allottedPrivilegeLeaves - result.usedPrivilegeLeavesInYear);
     });
   }
 
   filterLeaveType(type: string, leaveType: string, leaveBalance: number): void {
-    if (leaveBalance <= 0 && leaveType !== type) {
+    if (leaveBalance > 0 && leaveType !== type)
       this.filteredLeaveTypes = this.filteredLeaveTypes.filter(each => each.name !== type);
-    }
   }
 
-  openDialog(emp: any, date: string, leaveType: string){
+  openDialog(emp: any, date: string, leaveType: string) {
     if (this.permissions?.CanManageAttendance) {
       const formattedDate = this.datePipe.transform(this.isFutureDate(date), 'dd-MM-yyyy');
       const currentDate = this.datePipe.transform(new Date(), 'dd-MM-yyyy');
@@ -209,7 +230,7 @@ export class AttendanceComponent {
       else if (formattedDate === currentDate && this.checkPreviousAttendance)
         return this.alertMessage.displayInfo(ALERT_CODES["EAAS007"]);
       else {
-        this.filteredLeaveTypes=this.LeaveTypes;
+        this.filteredLeaveTypes = this.LeaveTypes;
         const result = this.leaves.filter(each => each.employeeId === emp.EmployeeId && this.datePipe.transform(each.fromDate, 'yyyy-MM-dd') === this.datePipe.transform(this.isFutureDate(date), 'yyyy-MM-dd'));
         this.getEmployeeDataBasedOnId(emp, leaveType);
         this.dialog = true;
