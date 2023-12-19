@@ -72,7 +72,7 @@
                             [maxLength]="2" formControlName="accumulationPeriod" numericOnly
                             (keydown)="restrictSpaces($event)"
                             [readonly]="FormControls['leaveConfigurationId'].value!== null"
-                            placeholder="Select Lookup Name">
+                            placeholder="Enter Accumulation Period">
                         <div class="align-right w-60" style="width:100%; text-align:right;">
                             <small>{{accumulationperiod.value.length}}/{{maxLength.listingorder}}</small>
                         </div>
