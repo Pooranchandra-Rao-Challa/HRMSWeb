@@ -10,11 +10,11 @@
             (onChange)="initApplicants(this.jobOpeninginprocessId)" optionLabel="jobTitle"></p-dropdown>
     </ng-template>
     <ng-template pTemplate="right">
-        <p-checkbox [(ngModel)]="isRPChecked" [binary]="true" 
-        (onChange)="this.initApplicants(this.jobOpeninginprocessId)" name="isActive"></p-checkbox>
+        <p-checkbox [(ngModel)]="isRPChecked" [binary]="true"
+            (onChange)="this.initApplicants(this.jobOpeninginprocessId)" name="isActive"></p-checkbox>
         <label for="ny" class="ml-1">Hide UnderProcess</label>
     </ng-template>
-    
+
 </p-toolbar>
 <div class="card " id="main-card">
     <div class="grid">
@@ -53,7 +53,7 @@
                                     <i class="pi  text-500 text-primary text-1xl pb-1">Skills </i> :
                                     {{ applicant.skills}}</span>
                             </div>
-                            <div class="grid m-0 ">
+                            <div class="grid m-0 pb-3">
                                 <button pbutton pripple type="button" label="Primary"
                                     (click)="viewApplicantDtls(applicant.applicantId)"
                                     class="p-element p-ripple p-button-text p-button p-component view_profile_button"
@@ -111,7 +111,7 @@
                                     <i class="pi  text-500 text-primary text-1xl pb-1">Skills </i> :
                                     {{ applicant.skills}}</span>
                             </div>
-                            <div class="grid m-0 ">
+                            <div class="grid m-0 pb-3">
                                 <button pbutton pripple type="button" label="Primary"
                                     (click)="viewApplicantDtls(applicant.applicantId)"
                                     class="p-element p-ripple p-button-text p-button p-component view_profile_button"
@@ -173,7 +173,7 @@
                                     <i class="pi  text-500 text-primary text-1xl pb-1">Skills </i> :
                                     {{ applicant.skills}}</span>
                             </div>
-                            <div class="grid m-0 ">
+                            <div class="grid m-0 pb-3">
                                 <button pbutton pripple type="button" label="Primary"
                                     (click)="viewApplicantDtls(applicant.applicantId)"
                                     class="p-element p-ripple p-button-text p-button p-component view_profile_button"
@@ -281,36 +281,42 @@
                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['attributeTypeId'].touched && FormControls['attributeTypeId'].errors}">
                     </p-dropdown>
                 </div>
-
-                <div class="col-12 flex pb-0">
-                    <div class="col-7 p-0 ">
-                        <label class="required">Recruitment Attributes:</label>&nbsp;
-                    </div>
-                    <div class="col-5 p-0">
-                        <label class="required">Expertise:</label>&nbsp;
-                    </div>
-                </div>
-                <div class="col-12 flex " *ngFor="let item of faInterviewResultsDetails().controls;let i=index">
-                    <div class="col-7 p-0">
-                        <p>{{item.get('assessmentTitle').value }}</p>
-                    </div>
-                    <div class="col-5 p-0">
+                <div class="field col-12 md:col-6">
+                    <label class="required pb-1">Recruitment Attributes:</label>
+                    <div *ngFor="let item of faInterviewResultsDetails().controls;let i=index" class="pl-2">
+                        {{item.get('assessmentTitle').value }}<br />
                         <app-star-rating [control]="getExpertiseControl(i)"></app-star-rating>
                     </div>
                 </div>
-                <div class="field col-12 m-0 ">
-                    <label>Soft skills:</label>&nbsp;
-                    <span>{{this.jobDetails?.softSkills}}</span>
-                </div>
-                <div class="field col-12 m-0">
-                    <label>Technical skills:</label>&nbsp;
-                    <span>{{this.jobDetails?.technicalSkills}}</span>
+                <div class="field col-12 md:col-6">
+                    <div class="grid">
+                        <div class="col-6">
+                            <label>Soft skills:</label><br />
+                            <span *ngIf="jobDetails?.softSkills">
+                                <ul>
+                                  <li *ngFor="let skill of jobDetails.softSkills.split(','); let last = last">
+                                    {{ skill.trim() }}
+                                  </li>
+                                </ul>
+                              </span>
+                        </div>
+                        <div class="col-6">
+                            <label>Technical skills:</label><br />
+                            <span *ngIf="jobDetails?.softSkills">
+                                <ul>
+                                  <li *ngFor="let skill of jobDetails.technicalSkills.split(','); let last = last">
+                                    {{ skill.trim() }}
+                                  </li>
+                                </ul>
+                              </span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </form>
     <ng-template pTemplate="footer">
-        <div class="flex justify-content-center">
+        <div class="col-12 lg:col-4 md:col-4 sm:col-6" style="float:right">
             <button pButton pRipple type="submit" (click)="onSubmit()" class="p-button-raised p-button-primary"
                 id="Attendance_saveLeave" [disabled]="!this.fbRecruitment.valid" label="Submit"></button>
         </div>
