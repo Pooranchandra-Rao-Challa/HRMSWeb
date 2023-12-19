@@ -73,7 +73,7 @@
                             <li>Minimum two questions need to be answered out of 15 questions for recovering the
                                 password when you lost it.</li>
                             <li>When you selected more questions while recovering a password system randomly request 2
-                                questions only </li>
+                                questions only. </li>
                         </ol>
                     </div>
                     <p-toolbar>
@@ -149,7 +149,7 @@
                         </ng-template>
                         <ng-template pTemplate="footer">
                             <div class="col-4" style="float:right">
-                                <button pButton pRipple type="submit" class="p-button-raised p-button-success"
+                                <button pButton pRipple type="submit" class="p-button-raised p-button-primary"
                                     (click)="saveSecurityQuestions();onSubmit()" id="user-questions"
                                     [disabled]="!security.answer || !security.question">{{qstnSubmitLabel}}</button>
                             </div>
