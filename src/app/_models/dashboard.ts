@@ -19,8 +19,8 @@ export class SelfEmployeeDto {
     usedEarnedLeaves?: number;
     usedPrivilegeLeavesInMonth?: number;
     usedPrivilegeLeavesInYear?: number;
-    allowableCasualLeaves?: number;
-    allowablePrivilegeLeaves?: number;
+    allottedCasualLeaves?: number;
+    allottedPrivilegeLeaves?: number;
     allottedAssets?: string;
     workingProjects?: string;
     projects?: workingProjects[];
