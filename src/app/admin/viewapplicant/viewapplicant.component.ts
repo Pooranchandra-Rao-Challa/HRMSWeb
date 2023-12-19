@@ -57,14 +57,12 @@ export class ViewapplicantComponent {
       link.setAttribute('download', 'resume'); // Set the desired file name
       // Append the anchor to the body
       document.body.appendChild(link);
-
       // Trigger a click on the anchor to start the download
       link.click();
       // Remove the anchor from the body
       document.body.removeChild(link);
     }
      else {
-      // Handle case where resume URL is not available
       console.error('Resume URL is not available for download.');
     }
   }

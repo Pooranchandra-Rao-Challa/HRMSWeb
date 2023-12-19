@@ -9,14 +9,13 @@ import { UpdateStatusService } from '../_services/updatestatus.service';
 import { Actions, DialogRequest } from '../_models/common';
 import { LookupDialogComponent } from '../_dialogs/lookup.dialog/lookup.dialog.component';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { EmployeeService } from '../_services/employee.service';
 import { EmployeeBasicDetailViewDto } from '../_models/employes';
-import { RecruitmentAttributesComponent } from '../admin/recruitment/recruitmentattributes.component';
 import { RecruitmentattributeDialogComponent } from '../_dialogs/recruitmentattribute.dialog/recruitmentattribute.dialog.component';
 import { LeaveconfigurationDialogComponent } from '../_dialogs/leaveconfiguration-dialog/leaveconfiguration-dialog.component';
 import { RecruitmentStageDetailsDto } from '../demo/api/security';
 import { LookupService } from '../_services/lookup.service';
 import { LookupDetailsDto } from '../_models/admin';
+import { DashboardService } from '../_services/dashboard.service';
 
 @Component({
     selector: 'app-topbar',
@@ -46,7 +45,7 @@ export class AppTopbarComponent {
         private updateStatusService: UpdateStatusService,
         private dialogService: DialogService,
         public ref: DynamicDialogRef, private lookupService: LookupService,
-        private employeeService: EmployeeService,) {
+        private dashBoardService: DashboardService,) {
         this.loggedInUser = this.jwtService.GivenName;
         this.EmployeeId = this.jwtService.EmployeeId;
     }
@@ -59,7 +58,7 @@ export class AppTopbarComponent {
     }
 
     initViewEmpDtls() {
-        this.employeeService.GetViewEmpPersDtls(this.EmployeeId).subscribe((resp) => {
+        this.dashBoardService.GetEmployeeDetails(this.EmployeeId).subscribe((resp) => {
             this.employeeDtls = resp as unknown as EmployeeBasicDetailViewDto;
         });
     }

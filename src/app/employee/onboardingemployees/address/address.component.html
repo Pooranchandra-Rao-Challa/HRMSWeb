@@ -1,7 +1,17 @@
-<div class="col-12 text-right m-0 p-2 ">
-    <button pButton pRipple class="mb-3 pi pi-plus" *ngIf="permissions?.CanManageEmployee"
-        (click)="toggleTab()"></button>
-</div>
+
+    <div class="row ">
+        <div class="flex justify-content-between">
+            <div>
+                <label>Show All Addresses</label>
+                <br /> &nbsp;<p-inputSwitch [(ngModel)]="isAddressChecked" (onChange)="onChangeAddressChecked()"
+                    id="Employee_addressUnActive"></p-inputSwitch>
+            </div>
+            <div>
+                <button pButton pRipple class="mb-3 pi pi-plus" *ngIf="permissions?.CanManageEmployee"
+                    (click)="toggleTab()"></button>
+            </div>
+        </div>
+    </div>
 <div class="content_scroll" id="hrms">
     <form [formGroup]="fbAddressDetails">
         <div class="grid mt-3 fadeinup animation-duration-1000 p-0 m-0 pt-0" *ngIf="addaddressdetailsshowForm">
@@ -197,11 +207,7 @@
         </div>
     </form>
     <div class="col-12 scrolling_content fadeinup animation-duration-1000 p-1 pt-0" *ngIf="showAddressDetails">
-        <div class="field text-center m-1 mx-2">
-            <label>Show All Addresses</label>
-            <br /> &nbsp; <p-inputSwitch [(ngModel)]="isAddressChecked" (onChange)="onChangeAddressChecked()"
-                id="Employee_addressUnActive"></p-inputSwitch>
-        </div>
+
         <p-table #dt2 [value]="empAddrDetails" dataKey="id" [rows]="10" [rowHover]="true" [alwaysShowPaginator]="false"
             styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
@@ -221,8 +227,8 @@
                 <tr>
                     <td *ngIf="permissions?.CanManageEmployee">
                         <div class="flex">
-                            <button *ngIf="addressDetails.isActive && addressDetails.addressId" pButton pRipple icon="pi pi-pencil"
-                                (click)="editForm(addressDetails)"
+                            <button *ngIf="addressDetails.isActive && addressDetails.addressId" pButton pRipple
+                                icon="pi pi-pencil" (click)="editForm(addressDetails)"
                                 class="p-element p-ripple p-button-text p-button p-component col-2 p-0 "></button>
                             <button pButton pRipple icon="pi pi-trash" id="AddressDetailsRemove-Btn"
                                 *ngIf="!addressDetails.addressId"
@@ -271,7 +277,7 @@
             [disabled]="this.empAddrDetails.length == 0" (click)="onSubmit()">Save
             as Draft</button>
     </div>
-    <div class="col-4 m-0 p-1 px-3" >
+    <div class="col-4 m-0 p-1 px-3">
         <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100"
             (click)="navigateToNext()">Upload Documents</button>
     </div>

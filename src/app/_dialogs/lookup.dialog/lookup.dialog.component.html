@@ -28,8 +28,9 @@
                     <div class="field col-12 md:col-6">
                         <label class="required">Lookup Name: </label>&nbsp;
                         <p-dropdown id="lookupName_Not_Configured_Dropdown" appendTo="body" [autoDisplayFirst]="false"
-                            [options]="lookupNamesNotConfigured" formControlName="name" autoWidth="false" [style]="{'width':'100%'}"
-                            [readonly]="FormControls['lookupId'].value!== null" placeholder="Select Lookup Name"
+                            [options]="lookupNamesNotConfigured" formControlName="name" autoWidth="false"
+                            [style]="{'width':'100%'}" [readonly]="FormControls['lookupId'].value!== null"
+                            placeholder="Select Lookup Name"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['name'].touched && FormControls['name'].errors }">
                         </p-dropdown>
                         <div class="flex">
@@ -47,7 +48,8 @@
                         <p-dropdown appendTo="body" id="lookupName_Dropdown" [autoDisplayFirst]="false"
                             optionLabel="name" optionValue="lookupId" [options]="lookupNamesConfigured"
                             formControlName="fkeySelfId" (onChange)="setDependentLookup()" autoWidth="false"
-                            placeholder="Select Dependent Lookup" [showClear]="FormControls['lookupId'].value == null ? true : false"
+                            placeholder="Select Dependent Lookup"
+                            [showClear]="FormControls['lookupId'].value == null ? true : false"
                             [readonly]="FormControls['lookupId'].value!== null">
                         </p-dropdown>
                     </div>
@@ -67,14 +69,13 @@
                 height: calc(100vh - 600px);-->
                     <p-table #dt2 [value]="falookupDetails().controls" dataKey="id" [rows]="10" [rowHover]="true"
                         styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="false"
-                        [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]" [scrollable]="true"
-                        scrollDirection="vertical" scrollHeight="300px">
-                        <ng-template
-                            pTemplate="header" >
+                        [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]"
+                        [scrollable]="true" scrollDirection="vertical" scrollHeight="300px">
+                        <ng-template pTemplate="header">
                             <tr>
                                 <th *ngIf="dependentDropdown">{{lookupName}}</th>
-                                <th>Code </th>
-                                <th>Name </th>
+                                <th>Code<label class="required"></label></th>
+                                <th>Name<label class="required"></label></th>
                                 <th>Description </th>
                                 <th>Is Active </th>
                                 <th *ngIf="fblookup.controls['lookUpDetails'].value.length > 1"></th>
@@ -91,7 +92,7 @@
                                 </td>
                                 <td class="vertical-align-top">
                                     <input pInputText class="form-control w-100" formControlName="code" #Code
-                                        placeholder="Enter Code*" alphaNumeric (keydown)="restrictSpaces($event)"
+                                        placeholder="Enter Code" alphaNumeric (keydown)="restrictSpaces($event)"
                                         [maxlength]="20" [ngClass]="{'is-invalid ng-dirty': formArrayControls(lookUpDetailsIndex, 'code')?.touched &&
                             formArrayControls(lookUpDetailsIndex, 'code')?.errors }" id="Lookup_lookupDetaisCode">
                                     <div class="flex">
@@ -121,7 +122,7 @@
                                 </td>
                                 <td class="vertical-align-top">
                                     <input pInputText class="form-control w-100" formControlName="name"
-                                        placeholder="Enter Name*" #name alphaOnly (keydown)="restrictSpaces($event)"
+                                        placeholder="Enter Name" #name alphaOnly (keydown)="restrictSpaces($event)"
                                         [ngClass]="{'is-invalid ng-dirty': formArrayControls(lookUpDetailsIndex,'name')?.touched &&
                          formArrayControls(lookUpDetailsIndex,'name')?.errors }" [maxlength]="50"
                                         id="Lookup_lookupDetailsName">

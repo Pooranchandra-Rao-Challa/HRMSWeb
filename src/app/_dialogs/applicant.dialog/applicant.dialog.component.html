@@ -305,15 +305,15 @@
                             scrollDirection="vertical" scrollHeight="300px">
                             <ng-template pTemplate="header">
                                 <tr>
-                                    <th class="text-center">Curriculum </th>
-                                    <th class="text-center">Stream </th>
+                                    <th class="text-center">Curriculum<label class="required"></label> </th>
+                                    <th class="text-center">Stream<label class="required"></label>  </th>
                                     <th class="text-center">Institution Name </th>
-                                    <th class="text-center">Authority Name </th>
-                                    <th class="text-center">Year Of Completion</th>
-                                    <th class="text-center">Grading Method</th>
-                                    <th class="text-center">Grading Value </th>
-                                    <th class="text-center">Country</th>
-                                    <th class="text-center">State</th>
+                                    <th class="text-center">Authority Name <label class="required"></label></th>
+                                    <th class="text-center">Year Of Completion<label class="required"></label></th>
+                                    <th class="text-center">Grading Method<label class="required"></label></th>
+                                    <th class="text-center">Grading Value <label class="required"></label></th>
+                                    <th class="text-center">Country<label class="required"></label></th>
+                                    <th class="text-center">State<label class="required"></label></th>
                                     <th *ngIf="fbApplicant.controls['applicantEducationDetails'].value.length > 0"></th>
                                 </tr>
                             </ng-template>
@@ -321,7 +321,7 @@
                                 <tr [formGroupName]="educationDetailsIndex">
                                     <td class="vertical-align-top">
                                         <p-dropdown id="circulum_dropdown" [autoDisplayFirst]="false"
-                                            placeholder="Select Curriculum*" [options]="curriculum" optionLabel="name"
+                                            placeholder="Select Curriculum" [options]="curriculum" optionLabel="name"
                                             optionValue="lookupDetailId" formControlName="curriculumId" appendTo="body"
                                             (onChange)="getStreamByCurriculumId($event.value,educationDetailsIndex)"
                                             (click)="validateRowforEducationDetails(educationDetailsIndex)"
@@ -340,7 +340,7 @@
                                         </div>
                                     </td>
                                     <td class="vertical-align-top">
-                                        <p-dropdown id="stream_dropdown" appendTo="body" placeholder="Select Stream*"
+                                        <p-dropdown id="stream_dropdown" appendTo="body" placeholder="Select Stream"
                                             formControlName="streamId" [options]="stream[educationDetailsIndex]"
                                             optionLabel="name" optionValue="lookupDetailId"
                                             (click)="validateRowforEducationDetails(educationDetailsIndex)" [ngClass]="{'is-invalid ng-dirty': formArrayControlEducation(educationDetailsIndex, 'streamId')?.touched &&
@@ -375,7 +375,7 @@
                                     </td>
                                     <td class="vertical-align-top">
                                         <input type="text" id="authority_Name" pInputText alphaOnly
-                                            placeholder="Enter Authority Name*" formControlName="authorityName"
+                                            placeholder="Enter Authority Name" formControlName="authorityName"
                                             [maxLength]="50" #authorityname (keydown)="restrictSpaces($event)"
                                             (click)="validateRowforEducationDetails(educationDetailsIndex)"
                                             [ngClass]="{'is-invalid ng-dirty': formArrayControlEducation(educationDetailsIndex, 'authorityName')?.touched &&
@@ -399,7 +399,7 @@
                                     </td>
                                     <td class="vertical-align-top">
                                         <p-calendar id="edu_YearOfCompletion" [readonlyInput]="true" appendTo="body"
-                                            [showIcon]="true" mask="99/99/9999" placeholder="Select Year Of Completion*"
+                                            [showIcon]="true" mask="99/99/9999" placeholder="Select Year Of Completion"
                                             formControlName="yearOfCompletion" [style]="{'width':'100%'}"
                                             [inputStyle]="{'width':'100%'}" [maxDate]="currentDate"
                                             (click)="validateRowforEducationDetails(educationDetailsIndex)"
@@ -419,7 +419,7 @@
                                     </td>
                                     <td class="vertical-align-top">
                                         <p-dropdown id="grading_Method" appendTo="body"
-                                            placeholder="Select Grading Method*" formControlName="gradingMethodId"
+                                            placeholder="Select Grading Method" formControlName="gradingMethodId"
                                             [options]="gradingMethod" optionLabel="name" optionValue="lookupDetailId"
                                             (click)="validateRowforEducationDetails(educationDetailsIndex)"
                                             [ngClass]="{'is-invalid ng-dirty': formArrayControlEducation(educationDetailsIndex, 'gradingMethodId')?.touched &&
@@ -438,7 +438,7 @@
                                     </td>
                                     <td class="vertical-align-top">
                                         <input type="text" id="grading_Value" pInputText
-                                            placeholder="Enter Grading Value*" formControlName="gradingValue"
+                                            placeholder="Enter Grading Value" formControlName="gradingValue"
                                             [maxLength]="5" #gradingValue (keydown)="restrictSpaces($event)" numericOnly
                                             (click)="validateRowforEducationDetails(educationDetailsIndex)"
                                             [ngClass]="{'is-invalid ng-dirty': formArrayControlEducation(educationDetailsIndex, 'gradingValue')?.touched &&
@@ -462,7 +462,7 @@
                                         </div>
                                     </td>
                                     <td class="vertical-align-top">
-                                        <p-dropdown id="edu_Country" appendTo="body" placeholder="Select Country*"
+                                        <p-dropdown id="edu_Country" appendTo="body" placeholder="Select Country"
                                             formControlName="countryId" [options]="countries" optionLabel="name"
                                             optionValue="lookupDetailId"
                                             (onChange)="onchangeStateBasedOnCountry($event.value,educationDetailsIndex)"
@@ -482,7 +482,7 @@
                                     </td>
                                     <td class="vertical-align-top">
                                         <p-dropdown id="edu_State" appendTo="body" formControlName="stateId"
-                                            placeholder="Select State*"
+                                            placeholder="Select State"
                                             [options]="statesbasedOnCountryId[educationDetailsIndex]" optionLabel="name"
                                             optionValue="lookupDetailId"
                                             (click)="validateRowforEducationDetails(educationDetailsIndex)" [ngClass]="{'is-invalid ng-dirty': formArrayControlEducation(educationDetailsIndex, 'stateId')?.touched &&
@@ -527,10 +527,10 @@
                             scrollHeight="300px">
                             <ng-template pTemplate="header">
                                 <tr>
-                                    <th class="text-center">Certification Name </th>
+                                    <th class="text-center">Certification Name<label class="required"></label> </th>
                                     <th class="text-center">Franchise Name </th>
-                                    <th class="text-center">Year Of Completion</th>
-                                    <th class="text-center">Results</th>
+                                    <th class="text-center">Year Of Completion<label class="required"></label></th>
+                                    <th class="text-center">Results<label class="required"></label></th>
                                     <th *ngIf="fbApplicant.controls['applicantCertifications'].value.length > 0">
                                     </th>
                                 </tr>
@@ -539,7 +539,7 @@
                                 <tr [formGroupName]="certificationDetailsIndex">
                                     <td class="vertical-align-top">
                                         <p-dropdown id="certificat_Name" formControlName="certificateId"
-                                            placeholder="Select Certificate Name*" [options]="certificates"
+                                            placeholder="Select Certificate Name" [options]="certificates"
                                             optionLabel="name" optionValue="lookupDetailId" appendTo="body"
                                             [style]="{'width':'100%'}"
                                             (click)="validateRowforCertificationDetails(certificationDetailsIndex)"
@@ -576,7 +576,7 @@
                                     </td>
                                     <td class="vertical-align-top">
                                         <p-calendar id="cer_YearOfCompletion" [readonlyInput]="true"
-                                            placeholder="Select Year Of Completion*" appendTo="body" [showIcon]="true"
+                                            placeholder="Select Year Of Completion" appendTo="body" [showIcon]="true"
                                             mask="99/99/9999" formControlName="yearOfCompletion"
                                             [style]="{'width':'100%'}" [maxDate]="currentDate"
                                             (click)="validateRowforCertificationDetails(certificationDetailsIndex)"
@@ -595,7 +595,7 @@
                                         </div>
                                     </td>
                                     <td class="vertical-align-top">
-                                        <input type="text" id="cer_Results" pInputText placeholder="Enter Results*"
+                                        <input type="text" id="cer_Results" pInputText placeholder="Enter Results"
                                             [maxLength]="50" alphaOnly #results formControlName="results"
                                             [style]="{'width':'100%'}" (keydown)="restrictSpaces($event)"
                                             (click)="validateRowforCertificationDetails(certificationDetailsIndex)"
@@ -647,16 +647,16 @@
                                 [scrollable]="true" scrollDirection="vertical" scrollHeight="300px">
                                 <ng-template pTemplate="header">
                                     <tr>
-                                        <th class="text-center">Company Name</th>
+                                        <th class="text-center">Company Name<label class="required"></label></th>
                                         <th class="text-center">Company Location</th>
                                         <th class="text-center">Company Employee Id</th>
-                                        <th class="tex0t-center">Designation</th>
-                                        <th class="text-center">Nature Of Work</th>
+                                        <th class="tex0t-center">Designation<label class="required"></label></th>
+                                        <th class="text-center">Nature Of Work<label class="required"></label></th>
                                         <th class="text-center">Worked On Projects</th>
-                                        <th class="text-center">Date Of Joining</th>
-                                        <th class="text-center">Date Of Reliving</th>
-                                        <th class="text-center">Country</th>
-                                        <th class="text-center">State</th>
+                                        <th class="text-center">Date Of Joining<label class="required"></label></th>
+                                        <th class="text-center">Date Of Reliving<label class="required"></label></th>
+                                        <th class="text-center">Country<label class="required"></label></th>
+                                        <th class="text-center">State<label class="required"></label></th>
                                         <th *ngIf="fbApplicant.controls['applicantWorkExperiences'].value.length > 0">
                                         </th>
                                     </tr>
@@ -665,7 +665,7 @@
                                     <tr [formGroupName]="experienceDetailsIndex">
                                         <td class="vertical-align-top">
                                             <input type="text" id="company_Name" pInputText
-                                                placeholder="Enter Company Name*" formControlName="companyName"
+                                                placeholder="Enter Company Name" formControlName="companyName"
                                                 [maxLength]="50" #companyname alphaOnly
                                                 (keydown)="restrictSpaces($event)"
                                                 (click)="validateRowforExperienceDetails(experienceDetailsIndex)"
@@ -723,7 +723,7 @@
                                         </td>
                                         <td class="vertical-align-top">
                                             <p-dropdown id="exp_Designation" appendTo="body"
-                                                placeholder="Select Designation*" formControlName="designationId"
+                                                placeholder="Select Designation" formControlName="designationId"
                                                 [options]="designations" optionLabel="name" optionValue="lookupDetailId"
                                                 (click)="validateRowforExperienceDetails(experienceDetailsIndex)"
                                                 [ngClass]="{'is-invalid ng-dirty': formArrayControlWorkExperience(experienceDetailsIndex, 'designationId')?.touched &&
@@ -742,7 +742,7 @@
                                         </td>
                                         <td class="vertical-align-top">
                                             <input type="text" id="exp_NatureOfWork" pInputText
-                                                placeholder="Enter Nature Of Work*" formControlName="natureOfWork"
+                                                placeholder="Enter Nature Of Work" formControlName="natureOfWork"
                                                 #natureofwork alphaOnly (keydown)="restrictSpaces($event)"
                                                 (click)="validateRowforExperienceDetails(experienceDetailsIndex)"
                                                 [ngClass]="{'is-invalid ng-dirty': formArrayControlWorkExperience(experienceDetailsIndex, 'natureOfWork')?.touched &&
@@ -784,7 +784,7 @@
                                         <td class="vertical-align-top">
                                             <p-calendar id="exp_DateOfJoining" [readonlyInput]="true" appendTo="body"
                                                 [showIcon]="true" mask="99/99/9999"
-                                                placeholder="Select Date Of Joining*" formControlName="dateOfJoining"
+                                                placeholder="Select Date Of Joining" formControlName="dateOfJoining"
                                                 [style]="{'width':'100%'}" [maxDate]="currentDate"
                                                 (click)="validateRowforExperienceDetails(experienceDetailsIndex)"
                                                 [ngClass]="{'is-invalid ng-dirty': formArrayControlWorkExperience(experienceDetailsIndex, 'dateOfJoining')?.touched &&
@@ -804,7 +804,7 @@
                                         <td class="vertical-align-top">
                                             <p-calendar id="exp_DateOfReliving" [readonlyInput]="true" appendTo="body"
                                                 [showIcon]="true" mask="99/99/9999"
-                                                placeholder="Select Date Of Reliving*" formControlName="dateOfReliving"
+                                                placeholder="Select Date Of Reliving" formControlName="dateOfReliving"
                                                 [style]="{'width':'100%'}" [maxDate]="currentDate"
                                                 (click)="validateRowforExperienceDetails(experienceDetailsIndex)"
                                                 [ngClass]="{'is-invalid ng-dirty': formArrayControlWorkExperience(experienceDetailsIndex, 'dateOfReliving')?.touched &&
@@ -822,7 +822,7 @@
                                             </div>
                                         </td>
                                         <td class="vertical-align-top">
-                                            <p-dropdown id="exp_Country" appendTo="body" placeholder="Select Country*"
+                                            <p-dropdown id="exp_Country" appendTo="body" placeholder="Select Country"
                                                 [options]="countries" optionLabel="name"
                                                 (onChange)="onchangeStateBasedOnCountry($event.value,experienceDetailsIndex)"
                                                 optionValue="lookupDetailId" formControlName="countryId"
@@ -842,7 +842,7 @@
                                             </div>
                                         </td>
                                         <td class="vertical-align-top">
-                                            <p-dropdown id="exp_State" appendTo="body" placeholder="Select State*"
+                                            <p-dropdown id="exp_State" appendTo="body" placeholder="Select State"
                                                 formControlName="stateId"
                                                 [options]="statesbasedOnCountryId[experienceDetailsIndex]"
                                                 optionLabel="name" optionValue="lookupDetailId"
@@ -890,8 +890,8 @@
                             scrollHeight="300px">
                             <ng-template pTemplate="header">
                                 <tr>
-                                    <th class="text-center">Skills</th>
-                                    <th class="text-center">Expertise(Give Your Assesment)</th>
+                                    <th class="text-center">Skills<label class="required"></label></th>
+                                    <th class="text-center">Expertise(Give Your Assesment)<label class="required"></label></th>
                                     <th *ngIf="fbApplicant.controls['applicantSkills'].value.length > 0">
                                     </th>
                                 </tr>
@@ -899,7 +899,7 @@
                             <ng-template pTemplate="body" let-applicantSkillsDetailsIndex="rowIndex">
                                 <tr [formGroupName]="applicantSkillsDetailsIndex">
                                     <td class="vertical-align-top">
-                                        <p-dropdown id="app_Skills" appendTo="body" placeholder="Select Skills*"
+                                        <p-dropdown id="app_Skills" appendTo="body" placeholder="Select Skills"
                                             formControlName="skillId" [options]="skills" optionLabel="name"
                                             (click)="validateRowforApplicantSkillDetails(applicantSkillsDetailsIndex)"
                                             optionValue="lookupDetailId" [style]="{'width':'100%'}" [ngClass]="{'is-invalid ng-dirty': formArrayControlSkills(applicantSkillsDetailsIndex, 'skillId')?.touched &&
@@ -965,7 +965,7 @@
                             scrollHeight="300px">
                             <ng-template pTemplate="header">
                                 <tr>
-                                    <th class="text-center">Language</th>
+                                    <th class="text-center">Language<label class="required"></label></th>
                                     <th class="text-center">Can Read</th>
                                     <th class="text-center">Can Write</th>
                                     <th class="text-center">Can Speak</th>
@@ -976,7 +976,7 @@
                             <ng-template pTemplate="body" let-applicantLanguageSkillsDetailsIndex="rowIndex">
                                 <tr [formGroupName]="applicantLanguageSkillsDetailsIndex">
                                     <td class="vertical-align-top">
-                                        <p-dropdown id="language_Skills" appendTo="body" placeholder="Select Language*"
+                                        <p-dropdown id="language_Skills" appendTo="body" placeholder="Select Language"
                                             formControlName="languageId" [options]="languages" optionLabel="name"
                                             optionValue="lookupDetailId" [style]="{'width':'100%'}"
                                             (click)="validateRowforApplicantLanguageSkillDetails(applicantLanguageSkillsDetailsIndex)"

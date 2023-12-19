@@ -92,7 +92,7 @@
                 </ng-template>
                 <ng-template let-employee pTemplate="gridItem">
                     <div class="col-12 md:col-4 lg:col-3 sm:col-6">
-                        <div class="card m-2 border-1 surface-border">
+                        <div class="card m-2 border-1 surface-border card-height">
                             <div class=" mb-3 grid">
                                 <div class="col-4 p-1 employee_profile_pic_div">
                                     <img [src]="employee.photo ? employee.photo : employee?.gender == 'Male' ?  './assets/layout/images/men-emp.jpg' : './assets/layout/images/women-emp.jpg'"
