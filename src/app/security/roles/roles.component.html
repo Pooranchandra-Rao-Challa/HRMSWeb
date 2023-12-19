@@ -123,9 +123,9 @@
                 </div>
                 <div class="field col-12 md:col-6">
                   <label>Is Active:</label><br>
-                  &nbsp;<p-inputSwitch formControlName="isActive" [disabled]="role.name
-                  === 'SuperAdmin'" id="Role_roleIsActive">
+                  &nbsp;<p-inputSwitch formControlName="isActive" [readonly]="role.name === 'SuperAdmin'" id="Role_roleIsActive">
                   </p-inputSwitch>
+                  
                 </div>
                 <div class="field col-12">
                   <label>Permissions:<sup class="p-error">*</sup></label><br>
