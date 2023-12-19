@@ -13,7 +13,7 @@
 
                 <div style="margin-bottom: 15px;">
                     <label class="required">Leave Type:</label>&nbsp;
-                    <p-dropdown formControlName="leaveTypeId" [options]="LeaveTypes" optionLabel="name"
+                    <p-dropdown formControlName="leaveTypeId" [options]="filteredLeaveTypes" optionLabel="name"
                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['leaveTypeId'].touched && FormControls['leaveTypeId'].errors }"
                         (onChange)="checkLeaveType()" id="Attendance_leaveType" optionValue="lookupDetailId"
                         placeholder="Select Leave Type"></p-dropdown>
@@ -86,7 +86,9 @@
             <p-button icon="pi pi-angle-right ml-2" (click)="gotoNextMonth()" id="Attendance_nextMonth"></p-button>
         </div>
         <div class="pl-2">
-            {{this.month}}/{{this.year}}
+            
+            {{this.month
+            }}/{{this.year}}
         </div>
     </ng-template>
     <ng-template pTemplate="right">
@@ -124,10 +126,8 @@
             <td colspan="2">Casual Leave</td>
             <td class="pl">PL</td>
             <td colspan="2">Paid Leave</td>
-            <td class="el">EL</td>
-            <td colspan="2">Emergency Leave</td>
-            <td class="sl">SL</td>
-            <td colspan="2">Sick Leave </td>
+            <td class="el">LWP</td>
+            <td colspan="2">Leave WithOut Pay</td>
 
         </tr>
     </ng-template>
@@ -155,8 +155,8 @@
                         'at': employee[getFormattedDate(i)] === 'AT',
                         'cl': employee[getFormattedDate(i)] === 'CL',
                         'pl': employee[getFormattedDate(i)] === 'PL',
-                        'lop': employee[getFormattedDate(i)] === 'LOP',                      
-                       }">
+                        'el': employee[getFormattedDate(i)] === 'LWP',                      
+                       }" >
                 <ng-container *ngIf="getAttendance(employee, i)">
                     <span [ngClass]="{'pt': employee[getFormattedDate(i)] === 'PT',}"
                         (click)="openDialog(employee,getFormattedDate(i),employee[getFormattedDate(i)])"
@@ -176,7 +176,7 @@
                         {{ employee[getFormattedDate(i)] }}
                     </span>
                     <span (click)="openDialog(employee, getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendance(employee, i) === 'LOP'" id="Attendance_addEL">
+                        *ngIf="getAttendance(employee, i) === 'LWP'" id="Attendance_addEL">
                         {{ employee[getFormattedDate(i)] }}
                     </span>
                     <span *ngIf="getAttendance(employee, i) === 'WOff'">

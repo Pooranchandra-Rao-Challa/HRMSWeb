@@ -49,7 +49,7 @@ export class RolesComponent implements OnInit {
             roleId: [''],
             name: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
             eroleId: new FormControl(null, [Validators.required]),
-            isActive: [true],
+            isActive:new FormControl(true),
             permissions: []
         });
         this.intiRoles();
