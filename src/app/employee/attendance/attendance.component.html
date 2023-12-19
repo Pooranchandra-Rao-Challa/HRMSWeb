@@ -29,8 +29,8 @@
                 </div>
                 <div style="margin-bottom: 15px;">
                     <label class="required">From Date:</label>&nbsp;
-                    <p-calendar formControlName="fromDate" 
-                        id="Attendance_fromDate" appendTo="body" placeholder="Enter From Date" [showIcon]="true">
+                    <p-calendar formControlName="fromDate" id="Attendance_fromDate" appendTo="body"
+                        placeholder="Enter From Date" [showIcon]="true">
                     </p-calendar>
                 </div>
 
@@ -78,8 +78,8 @@
         </div>
         <div>
             <p-calendar styleClass="only-icon" [(ngModel)]="selectedMonth" [showIcon]="true" view="month"
-                id="Attendance_selectMonth" [yearNavigator]="true" yearRange="2000:2030" 
-                [readonlyInput]="true" inputId="monthpicker" (onSelect)="onMonthSelect($event)">
+                id="Attendance_selectMonth" [yearNavigator]="true" yearRange="2000:2030" [readonlyInput]="true"
+                inputId="monthpicker" (onSelect)="onMonthSelect($event)">
             </p-calendar>
         </div>
         <div class="pl-2">
@@ -95,19 +95,19 @@
                 id="Attendance_globalSearch" (input)="onGlobalFilter(dt1, $event)" />
         </div>
         <div *ngIf="permissions?.CanManageAttendance">
-            <button pButton pRipple label="Add Attendance"  icon="pi pi-plus"
-                id="Attendance_addAttendance" class="p-button-primary p-mr-2"
-                (click)="showConfirmationDialog()"></button>
+            <button pButton pRipple label="Add Attendance" icon="pi pi-plus" id="Attendance_addAttendance"
+                class="p-button-primary p-mr-2" (click)="showConfirmationDialog()"></button>
         </div>
         <div *ngIf="permissions?.CanManageAttendance">
             <button pButton pRipple label="" id="AddressDetails-AboutColors" icon="pi pi-info-circle"
-                class="p-button-primary ml-2 p-mr-2" (click)="toggleTab()" tooltipPosition="top"  pTooltip="Info Regarding Representation of Colors" ></button>
+                class="p-button-primary ml-2 p-mr-2" (click)="toggleTab()" tooltipPosition="top"
+                pTooltip="Info Regarding Representation of Colors"></button>
         </div>
     </ng-template>
 </p-toolbar>
 <!-- p-table -->
 <p-table [rowHover]="true" styleClass="p-datatable-striped p-datatable-gridlines top_note_bar" responsiveLayout="scroll"
-    [tableStyle]="{'min-width': '50rem'}" *ngIf="showingLeavesOfColors" >
+    [tableStyle]="{'min-width': '50rem'}" *ngIf="showingLeavesOfColors">
     <ng-template pTemplate="header">
         <tr class="fadeinup" p-overlayPanel>
             <td class="woff"> WO </td>
@@ -156,7 +156,7 @@
                         'cl': employee[getFormattedDate(i)] === 'CL',
                         'pl': employee[getFormattedDate(i)] === 'PL',
                         'lop': employee[getFormattedDate(i)] === 'LOP',                      
-                       }" >
+                       }">
                 <ng-container *ngIf="getAttendance(employee, i)">
                     <span [ngClass]="{'pt': employee[getFormattedDate(i)] === 'PT',}"
                         (click)="openDialog(employee,getFormattedDate(i),employee[getFormattedDate(i)])"
@@ -196,10 +196,19 @@
     </ng-template>
 </p-table>
 <p-dialog header="Confirmation" [(visible)]="confirmationDialog">
-    <p>Do you want to modify the status of {{this.NotUpdatedEmployees.length}} records to Present on
-        {{this.notUpdatedDates| date:'MMM dd YYYY'}}? </p>
-    <button pButton type="button" class="btn btn-primary" label="Yes" (click)="addPresent()"
-        id="Attendance_addPresentForAll"></button>
-    <button pButton type="button" class="btn btn-danger" label="Cancel" (click)="onReject()"
-        id="Attendance_onReject"></button>
+    <div class="flex justify-content-center m-3">
+        <i class="pi pi-exclamation-triangle" style="font-size: 24px;"></i>&nbsp;&nbsp;
+        <p>
+            Do you want to modify the status of {{this.NotUpdatedEmployees.length}} records to Present on
+            {{this.notUpdatedDates| date:'MMM dd YYYY'}}?
+        </p>
+    </div>
+    <ng-template pTemplate="footer">
+        <div style="float:right" class="p-2">
+            <button pButton type="button" class="btn btn-primary" label="Yes" (click)="addPresent()"
+                id="Attendance_addPresentForAll"></button>
+            <button pButton type="button" class="btn btn-danger" label="Cancel" (click)="onReject()"
+                id="Attendance_onReject"></button>
+        </div>
+    </ng-template>
 </p-dialog>
