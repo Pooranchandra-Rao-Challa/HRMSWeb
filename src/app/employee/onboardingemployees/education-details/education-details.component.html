@@ -57,9 +57,12 @@
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                                 <span *ngIf="FormControls['stateId'].touched && FormControls['stateId'].invalid">
-                                    <div class="ng-invalid ng-touched p-error"
-                                        *ngIf="FormControls['stateId'].errors?.['required']">
+                                    <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['countryId'].untouched && FormControls['stateId'].touched ||
+                                      FormControls['countryId'].invalid && FormControls['stateId'].touched">
                                         Please Select Country First.</div>
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="FormControls['countryId'].touched &&  FormControls['stateId'].errors?.['required'] &&  FormControls['countryId'].valid">
+                                        Please Select State.</div>
                                 </span>
                             </div>
                         </div>
@@ -112,9 +115,12 @@
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                                 <span *ngIf="FormControls['streamId'].touched && FormControls['streamId'].invalid">
-                                    <div class="ng-invalid ng-touched p-error"
-                                        *ngIf="FormControls['streamId'].errors?.['required']">
+                                    <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['curriculumId'].untouched && FormControls['streamId'].touched ||
+                                      FormControls['curriculumId'].invalid && FormControls['streamId'].touched">
                                         Please Select Curriculum First.</div>
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="FormControls['curriculumId'].touched &&  FormControls['streamId'].errors?.['required'] &&  FormControls['curriculumId'].valid">
+                                        Please Select Stream.</div>
                                 </span>
                             </div>
                         </div>

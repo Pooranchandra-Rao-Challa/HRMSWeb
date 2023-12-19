@@ -9,13 +9,13 @@ import { UpdateStatusService } from '../_services/updatestatus.service';
 import { Actions, DialogRequest } from '../_models/common';
 import { LookupDialogComponent } from '../_dialogs/lookup.dialog/lookup.dialog.component';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { EmployeeBasicDetailViewDto } from '../_models/employes';
+import { EmployeeProfilePicViewDto } from '../_models/employes';
 import { RecruitmentattributeDialogComponent } from '../_dialogs/recruitmentattribute.dialog/recruitmentattribute.dialog.component';
 import { LeaveconfigurationDialogComponent } from '../_dialogs/leaveconfiguration-dialog/leaveconfiguration-dialog.component';
 import { RecruitmentStageDetailsDto } from '../demo/api/security';
 import { LookupService } from '../_services/lookup.service';
 import { LookupDetailsDto } from '../_models/admin';
-import { DashboardService } from '../_services/dashboard.service';
+import { EmployeeService } from '../_services/employee.service';
 
 @Component({
     selector: 'app-topbar',
@@ -32,7 +32,7 @@ export class AppTopbarComponent {
     leaveConfigurationDialogComponent = LeaveconfigurationDialogComponent;
     recruitmentattributeDialogComponent = RecruitmentattributeDialogComponent;
     dialogRequest: DialogRequest = new DialogRequest();
-    employeeDtls = new EmployeeBasicDetailViewDto();
+    employeeDtls = new EmployeeProfilePicViewDto();
     EmployeeId: number;
     permissions: any;
     attributeStages: RecruitmentStageDetailsDto[];
@@ -45,21 +45,21 @@ export class AppTopbarComponent {
         private updateStatusService: UpdateStatusService,
         private dialogService: DialogService,
         public ref: DynamicDialogRef, private lookupService: LookupService,
-        private dashBoardService: DashboardService,) {
+        private employeeService: EmployeeService,) {
         this.loggedInUser = this.jwtService.GivenName;
         this.EmployeeId = this.jwtService.EmployeeId;
     }
 
     ngOnInit(): void {
         this.permissions = this.jwtService.Permissions;
-        if (this.EmployeeId) {
-            this.initViewEmpDtls();
-        }
+        // if (this.EmployeeId) {
+        //     this.initViewEmpDtls();
+        // }
     }
 
     initViewEmpDtls() {
-        this.dashBoardService.GetEmployeeDetails(this.EmployeeId).subscribe((resp) => {
-            this.employeeDtls = resp as unknown as EmployeeBasicDetailViewDto;
+        this.employeeService.getEmployeeProfileInfo(this.EmployeeId).subscribe((resp) => {
+            this.employeeDtls = resp as unknown as EmployeeProfilePicViewDto;
         });
     }
 

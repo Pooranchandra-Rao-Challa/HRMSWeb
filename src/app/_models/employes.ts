@@ -413,4 +413,9 @@ export class EmployeeLeaveDetailsDto {
 	protectedWith?: string;
 	action?: string;
 }
-
+export class EmployeeProfilePicViewDto {
+	employeeId?: number;
+	employeeName?: string;
+	employeePhoto?: string;
+	employeeGender?: string;
+}

@@ -71,9 +71,9 @@
                     <div class="field col-12 md:col-4">
                         <label class="required">Gender: </label>
                         <p-dropdown id="gender" placeholder="Select Gender" [options]="genders" optionLabel="name"
-                        formControlName="gender" optionValue="name"  (ngModelChange)="onGenderChange()"
-                        [ngClass]="{ 'is-invalid ng-dirty': empBasDtlsFormControls['gender'].touched && empBasDtlsFormControls['gender'].errors}">
-                    </p-dropdown>
+                            formControlName="gender" optionValue="name" (ngModelChange)="onGenderChange()"
+                            [ngClass]="{ 'is-invalid ng-dirty': empBasDtlsFormControls['gender'].touched && empBasDtlsFormControls['gender'].errors}">
+                        </p-dropdown>
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                                 <span
@@ -170,7 +170,7 @@
                     <div class="field col-12 md:col-4">
                         <label class="required">Certificate DOB:</label>
                         <p-calendar [readonlyInput]="true" [showIcon]="true" id="certificate_dob" mask="99/99/9999"
-                            formControlName="certificateDob" placeholder="Select Certificate DOB"  [maxDate]="maxDate"
+                            formControlName="certificateDob" placeholder="Select Certificate DOB" [maxDate]="maxDate"
                             [ngClass]="{ 'is-invalid ng-dirty': empBasDtlsFormControls['certificateDob'].touched && empBasDtlsFormControls['certificateDob'].errors}">
                         </p-calendar>
                         <div class="flex">
@@ -223,27 +223,24 @@
                                         Email Id Min Length Is 2.</div>
                                 </span>
                             </div>
-                            <!-- <div class="align-right w-40" style="width:30%; text-align:right;">
-                <small>{{email.value.length}}/{{maxLength.name}} </small>
-              </div> -->
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
                         <label class="required">Nationality:</label>
-                        <input type="text" id="nationality" placeholder="Enter Nationality" pInputText
-                            formControlName="nationality" alphaOnly [maxlength]="50" (keydown)="restrictSpaces($event)" #nationality
-                            [ngClass]="{ 'is-invalid ng-dirty': empBasDtlsFormControls['nationality'].touched && empBasDtlsFormControls['nationality'].errors }" />
+                        <p-dropdown id="maritalStatus_dropdown" placeholder="Select Nationality"
+                            [autoDisplayFirst]="false" [options]="nationality" optionLabel="name"
+                            formControlName="nationality" optionValue="name" appendTo="body"
+                            [ngClass]="{ 'is-invalid ng-dirty': empBasDtlsFormControls['nationality'].touched && empBasDtlsFormControls['nationality'].errors }">
+                        </p-dropdown>
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
-                                <span *ngIf="empBasDtlsFormControls['nationality'].touched && empBasDtlsFormControls['nationality'].invalid">
+                                <span
+                                    *ngIf="empBasDtlsFormControls['nationality'].touched && empBasDtlsFormControls['nationality'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="empBasDtlsFormControls['nationality'].errors?.['required']">
                                         Please Enter Nationality.
                                     </div>
                                 </span>
-                            </div>
-                            <div class="align-right w-40" style="width:30%; text-align:right;">
-                                <small>{{nationality.value.length}}/{{maxLength.name}} </small>
                             </div>
                         </div>
                     </div>
@@ -254,12 +251,11 @@
                     </div>
                     <div class="field col-12 md:col-4" style="display: grid;">
                         <img [src]="this.fbEmpBasDtls.get('photo').value  ? this.fbEmpBasDtls.get('photo').value : this.defaultPhoto"
-                            onerror="this.onerror=null;" alt="photo"
-                            width="100px" class="up_logo">
+                            onerror="this.onerror=null;" alt="photo" width="100px" class="up_logo">
                         <label for="singleFile"
                             class="p-element p-ripple p-button-raised p-button-primary p-button p-component"
                             style="width:40% !important; white-space: nowrap;">
-                            <i class="pi pi-paperclip"></i>Choose Photo
+                            <i class="pi pi-paperclip"></i> Choose Photo
                         </label>
                         <input id="singleFile" #fileUpload name="myFile" type="file" [accept]="fileTypes" hidden />
                     </div>

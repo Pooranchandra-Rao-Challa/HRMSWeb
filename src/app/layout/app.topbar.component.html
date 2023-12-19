@@ -16,10 +16,8 @@
             <li class="topbar-item">
                 <a pStyleClass="@next" enterClass="ng-hidden" enterActiveClass="px-scalein" leaveToClass="ng-hidden"
                     leaveActiveClass="px-fadeout" [hideOnOutsideClick]="true" pRipple class="cursor-pointer">
-                    <!-- <img class="border-round-xl" src="/assets/layout/images/default_icon_employee.jpg" alt="Profile" /> -->
-                    <img [src]="employeeDtls.photo ? employeeDtls.photo : employeeDtls?.gender == 'Male' ?  './assets/layout/images/men-emp.jpg' : './assets/layout/images/women-emp.jpg'"
+                    <img [src]="employeeDtls.employeePhoto ? employeeDtls.employeePhoto : employeeDtls?.employeeGender == 'Male' ?  './assets/layout/images/men-emp.jpg' : './assets/layout/images/women-emp.jpg'"
                         [alt]="employeeDtls.employeeName" class="border-round-xl" />
-                    <!-- [src]="userPhoto ? userPhoto : 'https://t3.ftcdn.net/jpg/02/18/21/86/360_F_218218632_jF6XAkcrlBjv1mAg9Ow0UBMLBaJrhygH.jpg'" -->
                 </a>
                 <ul [class]="'topbar-menu active-topbar-menu p-4 w-15rem   z-5 ng-hidden'">
                     <li role="menuitem" class="m-0 mb-3">
