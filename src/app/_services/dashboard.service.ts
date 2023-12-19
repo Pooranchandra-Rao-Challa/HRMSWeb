@@ -9,6 +9,8 @@ import { GET_SELF_EMPLOYEE } from './api.uri.service';
 export class DashboardService extends ApiHttpService { 
 
     public GetEmployeeDetails(employeeId: number) {
-        return this.getWithId<SelfEmployeeDto[]>(GET_SELF_EMPLOYEE, [employeeId])
+        console.log(employeeId);
+        
+        return this.get<SelfEmployeeDto>(GET_SELF_EMPLOYEE+"/"+employeeId)
       }
 }
