@@ -13,8 +13,6 @@ import { LookupService } from 'src/app/_services/lookup.service';
 import { MIN_LENGTH_2, RG_ALPHA_ONLY, RG_EMAIL, RG_PHONE_NO } from 'src/app/_shared/regex';
 import { OnboardEmployeeService } from 'src/app/_helpers/view.notificaton.services'
 import { ValidateFileThenUpload } from 'src/app/_validators/upload.validators'
-import { PlatformLocation } from '@angular/common';
-
 
 interface Gender {
     name: string;

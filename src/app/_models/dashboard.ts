@@ -13,22 +13,22 @@ export class SelfEmployeeDto {
     officeEmailId?: string;
     reportingToId?: number;
     reportingTo?: string;
-    usedCasualLeavesInMonth?:number;
+    usedCasualLeavesInMonth?: number;
     usedCasualLeavesInYear?: number;
     usedSickLeaves?: number;
     usedEarnedLeaves?: number;
-    usedPrivilegeLeavesInMonth?:number;
+    usedPrivilegeLeavesInMonth?: number;
     usedPrivilegeLeavesInYear?: number;
-    allowableCasualLeaves?: number;
-    allowablePrivilegeLeaves?: number;
+    allottedCasualLeaves?: number;
+    allottedPrivilegeLeaves?: number;
     allottedAssets?: string;
     workingProjects?: string;
-    projects?:workingProjects[];
+    projects?: workingProjects[];
 }
 
-export class workingProjects{
-    projectId?:number;
-    projectName?:string;
-    projectLogo?:string;
-    projectDescription?:string;
+export class workingProjects {
+    projectId?: number;
+    projectName?: string;
+    projectLogo?: string;
+    projectDescription?: string;
 }

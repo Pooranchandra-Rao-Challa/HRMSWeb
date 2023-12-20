@@ -26,9 +26,10 @@ import {
   DELETE_DOCUMENT,
   GET_PATH,
   UPDATE_EMPLOYEE_LEAVE_DETAILS,
+  GET_EMPLOYEE_PROFILE_PIC,
 
 } from './api.uri.service';
-import { ExperienceDetailsDto, SkillArea, AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments, employeeExperienceDtlsViewDto, FamilyDetailsViewDto, employeeAttendanceDto, EmployeeLeaveDto, EmployeeAttendanceList, CompanyHierarchyViewDto } from '../_models/employes';
+import { ExperienceDetailsDto, SkillArea, AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments, employeeExperienceDtlsViewDto, FamilyDetailsViewDto, employeeAttendanceDto, EmployeeLeaveDto, EmployeeAttendanceList, CompanyHierarchyViewDto, EmployeeProfilePicViewDto } from '../_models/employes';
 
 import { ApiHttpService } from './api.http.service';
 import { LookupViewDto } from '../_models/admin';
@@ -230,5 +231,8 @@ export class EmployeeService extends ApiHttpService {
 
   public getCompanyHierarchy() {
     return this.get<CompanyHierarchyViewDto[]>(GET_COMPANY_HIERARCHY)
+  }
+  public getEmployeeProfileInfo(employeeId: number) {
+    return this.getWithId<EmployeeProfilePicViewDto[]>(GET_EMPLOYEE_PROFILE_PIC, [employeeId])
   }
 }
