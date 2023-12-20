@@ -700,3 +700,17 @@ div:where(.swal2-container) div:where(.swal2-validation-message)::before {
     color: #FF810E !important;
     cursor: pointer;
 }
+
+div.d-leave{
+    .pl-3{
+        padding-left: .8rem !important;
+    }
+    .d-leave-font{
+        font-size: 1rem; font-weight: 900; color: var(--primary-color);cursor: pointer;
+    }
+    .p-calendar{
+        width: 2rem;
+        height: 2rem;
+    }
+
+}
