@@ -62,18 +62,18 @@
                                 <h6 class="m-0 mb-1 text-500">Monthly PL's </h6>
                                 <h1 class="m-0 text-500">{{ empDetails?.usedPrivilegeLeavesInMonth}}</h1>
                             </div>
-                            <div>
-                                <div class="pl-4">
+                            <div class="d-leave">
+                                <div class="pl-3">
                                     {{this.month}}/{{this.year}}
                                 </div>
-                                <i class="pi pi-angle-left" style="font-size: 2rem; color: var(--primary-color);"
+                                <i class="pi pi-angle-left d-leave-font"
                                     (click)="gotoPreviousMonth()">
                                 </i>
                                 <p-calendar styleClass="only-icon" [(ngModel)]="selectedMonth" [showIcon]="true"
                                     view="month" [yearNavigator]="true" yearRange="2000:2030" [readonlyInput]="true"
                                     inputId="monthpicker" (onSelect)="onMonthSelect($event)">
                                 </p-calendar>
-                                <i class="pi pi-angle-right " style="font-size: 2rem;color: var(--primary-color);"
+                                <i class="pi pi-angle-right d-leave-font"
                                     (click)="gotoNextMonth()"></i>
                             </div>
                         </div>
@@ -113,18 +113,18 @@
                                 <h6 class="m-0 mb-1 text-500">Monthly CL's </h6>
                                 <h1 class="m-0 text-500">{{ empDetails?.usedCasualLeavesInMonth}}</h1>
                             </div>
-                            <div>
-                                <div class="pl-4">
+                            <div class="d-leave">
+                                <div class="pl-3">
                                     {{this.month}}/{{this.year}}
                                 </div>
-                                <i class="pi pi-angle-left" style="font-size: 2rem; color: var(--primary-color);"
+                                <i class="pi pi-angle-left d-leave-font"
                                     (click)="gotoPreviousMonth()">
                                 </i>
                                 <p-calendar styleClass="only-icon" [(ngModel)]="selectedMonth" [showIcon]="true"
                                     view="month" [yearNavigator]="true" yearRange="2000:2030" [readonlyInput]="true"
                                     inputId="monthpicker" (onSelect)="onMonthSelect($event)">
                                 </p-calendar>
-                                <i class="pi pi-angle-right " style="font-size: 2rem;color: var(--primary-color);"
+                                <i class="pi pi-angle-right d-leave-font"
                                     (click)="gotoNextMonth()"></i>
                             </div>
                         </div>
@@ -163,18 +163,18 @@
                                 <h6 class="m-0 mb-1 text-500">Monthly LWP</h6>
                                 <h1 class="m-0 text-500">2</h1>
                             </div>
-                            <div>
-                                <div class="pl-4">
+                            <div class="d-leave">
+                                <div class="pl-3">
                                     {{this.month}}/{{this.year}}
                                 </div>
-                                <i class="pi pi-angle-left" style="font-size: 2rem; color: var(--primary-color);"
+                                <i class="pi pi-angle-left d-leave-font"
                                     (click)="gotoPreviousMonth()">
                                 </i>
                                 <p-calendar styleClass="only-icon" [(ngModel)]="selectedMonth" [showIcon]="true"
                                     view="month" [yearNavigator]="true" yearRange="2000:2030" [readonlyInput]="true"
                                     inputId="monthpicker" (onSelect)="onMonthSelect($event)">
                                 </p-calendar>
-                                <i class="pi pi-angle-right " style="font-size: 2rem;color: var(--primary-color);"
+                                <i class="pi pi-angle-right d-leave-font"
                                     (click)="gotoNextMonth()"></i>
                             </div>
                         </div>
