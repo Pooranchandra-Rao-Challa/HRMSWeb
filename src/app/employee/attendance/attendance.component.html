@@ -102,7 +102,7 @@
         </div>
         <div *ngIf="permissions?.CanManageAttendance">
             <button pButton pRipple label="" id="AddressDetails-AboutColors" icon="pi pi-info-circle"
-                class="p-button-primary ml-2 p-mr-2" (click)="toggleTab()" tooltipPosition="top"
+                class="p-button-primary ml-2 p-mr-2" [style]="{'backgroundColor':'white','color':'#f17517'}" (click)="toggleTab()" tooltipPosition="top"
                 pTooltip="Info Regarding Representation of Colors"></button>
         </div>
     </ng-template>
