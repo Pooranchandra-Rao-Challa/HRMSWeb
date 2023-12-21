@@ -318,7 +318,6 @@ export class AttendanceComponent {
     this.getDaysInMonth(this.year, this.month);
     this.initAttendance();
   }
-
   gotoNextMonth() {
     if (this.month < 12)
       this.month++;
