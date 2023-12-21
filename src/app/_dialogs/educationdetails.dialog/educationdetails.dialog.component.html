@@ -23,8 +23,8 @@
                   <th>School/College Name</th>
                   <th>Board/University Name<label class="required"></label></th>
                   <th>Year of Completion<label class="required"></label></th>
-                  <th>Grading System<label class="required"></label></th>
-                  <th>CGPA/Percentage System</th>
+                  <th>Grading Method <label class="required"></label></th>
+                  <th>Grading Value</th>
                   <th *ngIf="fbEducationDetails.controls['educationDetails'].value.length > 1"></th>
                 </tr>
               </ng-template>
@@ -162,7 +162,7 @@
                   </td>
                   <td class="vertical-align-top">
                     <p-dropdown id="gradingStystem_dropdown" [autoDisplayFirst]="false" appendTo="body"
-                      placeholder="Select Grading System" [options]="gradingMethods" optionLabel="name"
+                      placeholder="Select Grading Method" [options]="gradingMethods" optionLabel="name"
                       optionValue="lookupDetailId" formControlName="gradingMethodId" [ngClass]="{'is-invalid ng-dirty': formArrayControls(educationDetailsIndex,'gradingMethodId')?.touched &&
                     formArrayControls(educationDetailsIndex,'gradingMethodId')?.errors }"></p-dropdown>
                     <div class="flex">
@@ -171,7 +171,7 @@
                           *ngIf="formArrayControls(educationDetailsIndex,'gradingMethodId').touched && formArrayControls(educationDetailsIndex,'gradingMethodId').invalid">
                           <div class="ng-invalid ng-touched p-error"
                             *ngIf="formArrayControls(educationDetailsIndex,'gradingMethodId').hasError('required')">
-                            Please Select Grading System.
+                            Please Select Grading Method.
                           </div>
                         </span>
                       </div>
@@ -179,7 +179,7 @@
                   </td>
                   <td class="vertical-align-top">
                     <input pInputText class="form-control" formControlName="gradingValue" appNumericInput maxlength="5"
-                      #gradingValue placeholder="Enter CGPA/Percentage System" id="grading_Value" [ngClass]="{'is-invalid ng-dirty': formArrayControls(educationDetailsIndex,'gradingValue')?.touched &&
+                      #gradingValue placeholder="Enter Grading Value" id="grading_Value" [ngClass]="{'is-invalid ng-dirty': formArrayControls(educationDetailsIndex,'gradingValue')?.touched &&
                     formArrayControls(educationDetailsIndex,'gradingValue')?.errors }">
                     <div class="flex">
                       <div class="align-left w-60" style="width:70%">
@@ -187,7 +187,7 @@
                           *ngIf="formArrayControls(educationDetailsIndex,'gradingValue').touched && formArrayControls(educationDetailsIndex,'gradingValue').invalid">
                           <div class="ng-invalid ng-touched p-error"
                             *ngIf="formArrayControls(educationDetailsIndex,'gradingValue').hasError('required')">
-                            Please Enter CGPA/Percentage System.
+                            Please Enter Grading Value.
                           </div>
                         </span>
                       </div>

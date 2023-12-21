@@ -446,7 +446,7 @@
                                     <td class="vertical-align-top">
                                         <input type="text" id="grading_Value" pInputText
                                             placeholder="Enter Grading Value" formControlName="gradingValue"
-                                            [maxLength]="5" #gradingValue (keydown)="restrictSpaces($event)" numericOnly
+                                            [maxLength]="5" #gradingValue (keydown)="restrictSpaces($event)" appNumericInput
                                             (click)="validateRowforEducationDetails(educationDetailsIndex)"
                                             [ngClass]="{'is-invalid ng-dirty': formArrayControlEducation(educationDetailsIndex, 'gradingValue')?.touched &&
                                             formArrayControlEducation(educationDetailsIndex, 'gradingValue')?.errors }">
