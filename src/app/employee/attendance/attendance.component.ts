@@ -1,6 +1,6 @@
 import { DatePipe, formatDate } from '@angular/common';
 import { HttpEvent } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Table } from 'primeng/table';
@@ -27,6 +27,7 @@ import { MAX_LENGTH_256 } from 'src/app/_shared/regex';
   ]
 })
 export class AttendanceComponent {
+  @ViewChild('filter') filter!: ElementRef;
   month: number = new Date().getMonth() + 1;
   days: number[] = [];
   maxLength: MaxLength = new MaxLength();
@@ -341,7 +342,10 @@ export class AttendanceComponent {
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
-
+  clear(table: Table) {
+    table.clear();
+    this.filter.nativeElement.value = '';
+}
   getAttendance(employee: any, i: number): string {
     const formattedDate = this.getFormattedDate(i);
     return employee[formattedDate];

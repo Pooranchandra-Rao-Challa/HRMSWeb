@@ -203,7 +203,7 @@
                                         <div class="ng-invalid ng-touched p-error"
                                             *ngIf="FormControls['zipCode'].errors?.['required']">
                                             Please Enter Zip Code.</div>
-                                            <div class="ng-invalid ng-touched p-error"
+                                        <div class="ng-invalid ng-touched p-error"
                                             *ngIf="FormControls['zipCode'].errors?.['pattern']">
                                             First Digit Should Be Greater Than 0 And Must Contains 6 Digits.</div>
                                     </span>
@@ -266,9 +266,12 @@
                             <div class="flex">
                                 <div class="align-left w-60" style="width:70%">
                                     <span *ngIf="FormControls['stateId'].touched && FormControls['stateId'].invalid">
-                                        <div class="ng-invalid ng-touched p-error"
-                                            *ngIf="FormControls['stateId'].errors?.['required']">
+                                        <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['countryId'].untouched && FormControls['stateId'].touched ||
+                                          FormControls['countryId'].invalid && FormControls['stateId'].touched">
                                             Please Select Country First.</div>
+                                        <div class="ng-invalid ng-touched p-error"
+                                            *ngIf="FormControls['countryId'].touched &&  FormControls['stateId'].errors?.['required'] &&  FormControls['countryId'].valid">
+                                            Please Select State.</div>
                                     </span>
                                 </div>
                             </div>
@@ -281,7 +284,7 @@
                             <img [src]="this.fbApplicant.get('photo').value  ? this.fbApplicant.get('photo').value : this.defaultPhoto"
                                 onerror="this.onerror=null;" alt="photo" width="100px" class="up_logo">
                             <label for="singleFile"
-                                class="p-element p-ripple p-button-raised p-button-primary p-button p-component"
+                                class="p-element p-ripple p-button-raised p-button-primary p-button p-component mt-1"
                                 style="width:auto !important; white-space: nowrap;">
                                 <i class="pi pi-paperclip"></i> Choose Photo
                             </label>
@@ -306,7 +309,7 @@
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th class="text-center">Curriculum<label class="required"></label> </th>
-                                    <th class="text-center">Stream<label class="required"></label>  </th>
+                                    <th class="text-center">Stream<label class="required"></label> </th>
                                     <th class="text-center">Institution Name </th>
                                     <th class="text-center">Authority Name <label class="required"></label></th>
                                     <th class="text-center">Year Of Completion<label class="required"></label></th>
@@ -349,10 +352,14 @@
                                         <div class="flex">
                                             <div class="align-left w-60" style="width:70%">
                                                 <span
-                                                    *ngIf=" formArrayControlEducation(educationDetailsIndex, 'streamId').touched && formArrayControlEducation(educationDetailsIndex, 'streamId').invalid">
+                                                    *ngIf="formArrayControlEducation(educationDetailsIndex,'streamId').touched && formArrayControlEducation(educationDetailsIndex,'streamId').invalid">
                                                     <div class="ng-invalid ng-touched p-error"
-                                                        *ngIf=" formArrayControlEducation(educationDetailsIndex, 'streamId').errors?.['required']">
+                                                        *ngIf="formArrayControlEducation(educationDetailsIndex,'curriculumId').untouched && formArrayControlEducation(educationDetailsIndex,'streamId').touched ||
+                                                      formArrayControlEducation(educationDetailsIndex,'curriculumId').invalid && formArrayControlEducation(educationDetailsIndex,'streamId').touched">
                                                         Please Select Curriculum First.</div>
+                                                    <div class="ng-invalid ng-touched p-error"
+                                                        *ngIf=" formArrayControlEducation(educationDetailsIndex,'curriculumId').touched &&  formArrayControlEducation(educationDetailsIndex,'streamId').errors?.['required'] && formArrayControlEducation(educationDetailsIndex,'curriculumId').valid">
+                                                        Please Select Stream.</div>
                                                 </span>
                                             </div>
                                         </div>
@@ -491,10 +498,14 @@
                                         <div class="flex">
                                             <div class="align-left w-60" style="width:70%">
                                                 <span
-                                                    *ngIf=" formArrayControlEducation(educationDetailsIndex, 'stateId').touched && formArrayControlEducation(educationDetailsIndex, 'stateId').invalid">
+                                                    *ngIf="formArrayControlEducation(educationDetailsIndex,'stateId').touched && formArrayControlEducation(educationDetailsIndex,'stateId').invalid">
                                                     <div class="ng-invalid ng-touched p-error"
-                                                        *ngIf=" formArrayControlEducation(educationDetailsIndex, 'stateId').errors?.['required']">
-                                                        Please Select Country Frist.</div>
+                                                        *ngIf="formArrayControlEducation(educationDetailsIndex,'countryId').untouched && formArrayControlEducation(educationDetailsIndex,'stateId').touched ||
+                                                      formArrayControlEducation(educationDetailsIndex,'countryId').invalid && formArrayControlEducation(educationDetailsIndex,'stateId').touched">
+                                                        Please Select Country First.</div>
+                                                    <div class="ng-invalid ng-touched p-error"
+                                                        *ngIf=" formArrayControlEducation(educationDetailsIndex,'countryId').touched &&  formArrayControlEducation(educationDetailsIndex,'stateId').errors?.['required'] && formArrayControlEducation(educationDetailsIndex,'countryId').valid">
+                                                        Please Select State.</div>
                                                 </span>
                                             </div>
                                         </div>
@@ -783,9 +794,9 @@
                                         </td>
                                         <td class="vertical-align-top">
                                             <p-calendar id="exp_DateOfJoining" [readonlyInput]="true" appendTo="body"
-                                                [showIcon]="true" mask="99/99/9999"
-                                                placeholder="Select Date Of Joining" formControlName="dateOfJoining"
-                                                [style]="{'width':'100%'}" [maxDate]="currentDate"
+                                                [showIcon]="true" mask="99/99/9999" placeholder="Select Date Of Joining"
+                                                formControlName="dateOfJoining" [style]="{'width':'100%'}"
+                                                [maxDate]="currentDate"
                                                 (click)="validateRowforExperienceDetails(experienceDetailsIndex)"
                                                 [ngClass]="{'is-invalid ng-dirty': formArrayControlWorkExperience(experienceDetailsIndex, 'dateOfJoining')?.touched &&
                                             formArrayControlWorkExperience(experienceDetailsIndex, 'dateOfJoining')?.errors }">
@@ -852,12 +863,15 @@
                                             </p-dropdown>
                                             <div class="flex">
                                                 <div class="align-left w-60" style="width:70%">
-                                                    <span
-                                                        *ngIf="formArrayControlWorkExperience(experienceDetailsIndex, 'stateId').touched && formArrayControlWorkExperience(experienceDetailsIndex, 'stateId').invalid">
+                                                    <span *ngIf="formArrayControlWorkExperience(experienceDetailsIndex,'stateId').touched && formArrayControlWorkExperience(experienceDetailsIndex,'stateId').invalid">
                                                         <div class="ng-invalid ng-touched p-error"
-                                                            *ngIf="formArrayControlWorkExperience(experienceDetailsIndex, 'stateId').errors?.['required']">
-                                                            Please Select Country First.</div>
-                                                    </span>
+                                                          *ngIf="formArrayControlWorkExperience(experienceDetailsIndex,'countryId').untouched && formArrayControlWorkExperience(experienceDetailsIndex,'stateId').touched ||
+                                                          formArrayControlWorkExperience(experienceDetailsIndex,'countryId').invalid && formArrayControlWorkExperience(experienceDetailsIndex,'stateId').touched">
+                                                          Please Select Country First.</div>
+                                                        <div class="ng-invalid ng-touched p-error"
+                                                          *ngIf=" formArrayControlWorkExperience(experienceDetailsIndex,'countryId').touched &&  formArrayControlWorkExperience(experienceDetailsIndex,'stateId').errors?.['required'] && formArrayControlWorkExperience(experienceDetailsIndex,'countryId').valid">
+                                                          Please Select State.</div>
+                                                      </span>
                                                 </div>
                                             </div>
                                         </td>
@@ -891,7 +905,8 @@
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th class="text-center">Skills<label class="required"></label></th>
-                                    <th class="text-center">Expertise(Give Your Assesment)<label class="required"></label></th>
+                                    <th class="text-center">Expertise(Give Your Assesment)<label
+                                            class="required"></label></th>
                                     <th *ngIf="fbApplicant.controls['applicantSkills'].value.length > 0">
                                     </th>
                                 </tr>
@@ -920,7 +935,8 @@
                                         <app-star-rating [control]="getExpertiseControl(applicantSkillsDetailsIndex)"
                                             (click)="validateRowforApplicantSkillDetails(applicantSkillsDetailsIndex)"
                                             [ngClass]="{'is-invalid ng-dirty': formArrayControlSkills(applicantSkillsDetailsIndex, 'expertise')?.touched &&
-                                        formArrayControlSkills(applicantSkillsDetailsIndex, 'expertise')?.errors }"></app-star-rating>
+                                        formArrayControlSkills(applicantSkillsDetailsIndex, 'expertise')?.errors }">
+                                        </app-star-rating>
                                         <!-- <p-rating number="3" [cancel]="false" formControlName="expertise"
                                             (click)="validateRowforApplicantSkillDetails(applicantSkillsDetailsIndex)"
                                             [ngClass]="{'is-invalid ng-dirty': formArrayControlSkills(applicantSkillsDetailsIndex, 'expertise')?.touched &&
