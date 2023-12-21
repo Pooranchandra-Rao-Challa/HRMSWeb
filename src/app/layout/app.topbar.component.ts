@@ -52,9 +52,9 @@ export class AppTopbarComponent {
 
     ngOnInit(): void {
         this.permissions = this.jwtService.Permissions;
-        // if (this.EmployeeId) {
-        //     this.initViewEmpDtls();
-        // }
+        if (this.EmployeeId) {
+            this.initViewEmpDtls();
+        }
     }
 
     initViewEmpDtls() {
