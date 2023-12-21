@@ -299,13 +299,13 @@
                         <span class="text-primary">Status</span>: <span class="text-color">{{this.getActiveStatus(project)}}</span>
                       </p>
                       <p>
-                        <span class="text-primary">Start Date</span>: <span class="text-color">{{project.initial| date: 'dd-MMM-yyyy'}}</span>
+                        <span class="text-primary">Start Date</span>: <span class="text-color">{{project?.initial| date: 'dd-MMM-yyyy'}}</span>
                       </p>
                       <p>
-                        <span class="text-primary">POC Number </span>: <span class="text-color">{{project.pocMobileNumber}}</span>
+                        <span class="text-primary">POC Number </span>: <span class="text-color">{{project?.pocMobileNumber}}</span>
                       </p>
                       <p>
-                        <span class="text-primary">POC Name</span>: <span class="text-color">{{project.pocName}}</span>
+                        <span class="text-primary">POC Name</span>: <span class="text-color">{{project?.pocName}}</span>
                       </p>
                     </div>
                   </div>
@@ -420,7 +420,10 @@
               <div class="p-fluid p-formgrid grid">
                 <div class="field col-12">
                   <label>Assign Project Members:</label>
-                  <p-multiSelect placeholder="Select Employees" [options]="Employees" optionLabel="employeeName" formControlName="projectAllotments" [filter]="true" filterBy="employeeId,employeeName" appendTo="body">
+                  <p-multiSelect placeholder="Select Employees" [options]="Employees" optionLabel="employeeName" formControlName="projectAllotments" [filter]="true" 
+                  
+                  
+                  By="employeeId,employeeName" appendTo="body">
                     <ng-template let-employee pTemplate="selectedItem">
                       <div class="block align-items-center gap-3">
                         <div>{{employee.employeeName}}</div>
