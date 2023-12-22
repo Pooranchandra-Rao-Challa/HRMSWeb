@@ -80,6 +80,10 @@ export class AssetsallotmentComponent extends Unsubscribe {
     onFilter(dv: DataView, event: Event) {
         dv.filter((event.target as HTMLInputElement).value);
     }
+    clearcard(dv: DataView){
+        dv.filteredValue = null;
+        this.filter.nativeElement.value = '';
+    }
     
     openComponentDialog(content: any,
         dialogData, action: Actions = this.ActionTypes.add) {

@@ -37,6 +37,7 @@ export class BasicdetailsDialogComponent {
     status: Status[];
     maxLength: MaxLength = new MaxLength();
     bloodgroups: LookupViewDto[] = [];
+    nationality: LookupViewDto[] = [];
     employeeId: string;
     maxDate: Date = new Date();
     fileTypes: string = ".jpg, .jpeg, .gif"
@@ -50,8 +51,7 @@ export class BasicdetailsDialogComponent {
         private lookupService: LookupService,
         public ref: DynamicDialogRef,
         private config: DynamicDialogConfig,
-        private activatedRoute: ActivatedRoute,
-        private plaformLocation: PlatformLocation,) {
+        private activatedRoute: ActivatedRoute,) {
         this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
     }
 
@@ -59,6 +59,7 @@ export class BasicdetailsDialogComponent {
         this.empBasicDtlsForm();
         this.staticData();
         this.initBloodGroups();
+        this.getNationality();
         if (this.config.data) this.showEmpPersDtlsDialog(this.config.data);
         this.ImageValidator.subscribe((p: PhotoFileProperties) => {
             if (this.fileTypes.indexOf(p.FileExtension) > 0 && p.Resize || (p.Size / 1024 / 1024 < 1
@@ -95,7 +96,11 @@ export class BasicdetailsDialogComponent {
             this.bloodgroups = resp as unknown as LookupViewDto[];
         });
     }
-
+    getNationality() {
+        this.lookupService.Nationality().subscribe((resp) => {
+            this.nationality = resp as unknown as LookupViewDto[];
+        })
+    }
     empBasicDtlsForm() {
         this.fbEmpBasDtls = this.formbuilder.group({
             employeeId: (this.employeeId),

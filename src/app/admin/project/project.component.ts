@@ -149,7 +149,6 @@ export class ProjectComponent implements OnInit {
             projectId: [null],
             code: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_4), Validators.maxLength(MAX_LENGTH_20)]),
             name: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
-            startDate: new FormControl('', [Validators.required]),
             description: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
             logo: [],
             eProjectStatusesId: ['', [Validators.required]],
@@ -232,6 +231,8 @@ export class ProjectComponent implements OnInit {
     initProjects() {
         this.adminService.GetProjects().subscribe(resp => {
             this.projects = resp as unknown as ProjectViewDto[];
+            console.log(resp);
+            
             let projectDTO: ProjectViewDto = new ProjectViewDto
             projectDTO.projectId = -1;
             projectDTO.name = "Org Chart"
@@ -301,12 +302,12 @@ export class ProjectComponent implements OnInit {
             this.fbproject.get('Date').setValue('');
     }
 
-    getProjectStatusBasedOnId(id?: number): any {
-        if (id !== undefined && id >= 1 && this.projectStatues != undefined) {
-            const status = this.projectStatues.find(each => each.eProjectStatusesId === id);
-            return status ? status.name : "";
-        }
-    }
+    // getProjectStatusBasedOnId(id?: number): any {
+    //     if (id !== undefined && id >= 1 && this.projectStatues != undefined) {
+    //         const status = this.projectStatues.find(each => each.eProjectStatusesId === id);
+    //         return status ? status.name : "";
+    //     }
+    // }
 
     getFormattedDate(date: Date) {
         return this.datePipe.transform(date, 'MM/dd/yyyy')
@@ -328,7 +329,12 @@ export class ProjectComponent implements OnInit {
             this.getEmployeesListBasedOnProject(0);
         }
     }
-
+    getActiveStatus(project) {
+        const statusList = this.projectStatues ?? [];
+        const status = statusList.find(each => each?.eProjectStatusesId === project.activeStatusId);
+        return status?.name;
+      }
+      
     editEmployee(project) {
         this.addFlag = false;
         this.submitLabel = "Update Project Details";
@@ -340,7 +346,6 @@ export class ProjectComponent implements OnInit {
             code: project.code,
             name: project.name,
             isActive: project.isActive,
-            startDate: FORMAT_DATE(new Date(project.startDate)),
             logo: project.logo,
             description: project.description,
             eProjectStatusesId: project.activeStatusId,
@@ -382,7 +387,6 @@ export class ProjectComponent implements OnInit {
     }
 
     saveProject() {
-        this.fbproject.get('startDate').setValue(FORMAT_DATE(new Date(this.fbproject.get('startDate').value)));
         if (this.addFlag) {
             if (this.clientDetails)
                 this.fcClientDetails.get('companyName')?.setValue(this.clientDetails.companyName);

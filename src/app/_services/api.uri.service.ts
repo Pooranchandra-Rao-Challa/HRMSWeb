@@ -102,7 +102,7 @@ export const UPDATE_EDUCATION_DETAILS = "Employee/UpdateEducationDetails";
 export const UPDATE_EXPERIENCE_DETAILS = "Employee/UpdateWorkExperience";
 export const DELETE_DOCUMENT = "UploadDocument/DeleteUploadDocument";
 export const GET_PATH = "UploadDocument/DownloadFile";
-
+export const GET_EMPLOYEE_PROFILE_PIC = "Employee/GetEmployeeBasicInfo";
 //Attendence
 
 export const GET_ATTENDENCE = "Attendance/GetMonthlyAttendanceReport";
@@ -154,3 +154,4 @@ export const UPDATE_RESULT="Recruitment/UpdateFilteredApplicantForHRRound";
 //self Employee
 
 export const GET_SELF_EMPLOYEE="Employee/GetSelfEmployeeData";
+export const GET_SELF_EMPLOYEE_MONTH_LEAVES="Attendance/GetLeavesForSelfInMonth"

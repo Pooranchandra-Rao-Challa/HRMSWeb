@@ -58,7 +58,11 @@ export class OnboardingemployeesComponent {
   cancelModel() {
     this.router.navigate(['employee/onboardingemployee'])
   }
-
+  
+  clearcard(dv: DataView){
+    dv.filteredValue = null;
+    this.filter.nativeElement.value = '';
+}
   ngOnInit() {
     this.permissions = this.jwtService.Permissions;
     this.route.queryParams.forEach((params) => this.employeeId = params["employeeId"]);

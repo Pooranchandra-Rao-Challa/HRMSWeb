@@ -51,16 +51,6 @@
                           </div>
                         </div>
                         <div class=" col-12 md:col-6 p-2">
-                          <div class="field mb-1 col-12 md:col-12 p-0">
-                            <label class="required">Start Date: </label>&nbsp; <p-calendar inputId="calendar" [readonlyInput]="true" [showIcon]="true" [ngClass]="{ 'is-invalid ng-dirty': projectFormControls['startDate'].touched &&projectFormControls['startDate'].errors }" yearRange="2000:2030" id="startDate" placeholder="Select Start Date" mask="99/99/9999" formControlName="startDate"></p-calendar>
-                            <div class="flex">
-                              <div class="align-left w-60" style="width:70%">
-                                <span *ngIf="projectFormControls['startDate'].touched && projectFormControls['startDate'].invalid">
-                                  <div class="ng-invalid ng-touched p-error" *ngIf="projectFormControls['startDate'].errors?.['required']"> Please Select Start Date.</div>
-                                </span>
-                              </div>
-                            </div>
-                          </div>
                           <label for="textarea">Description: <sup class="p-error">*</sup>
                           </label>&nbsp; <textarea inputId="textarea" pInputTextarea rows="4" cols="30" [ngClass]="{ 'is-invalid ng-dirty': projectFormControls['description'].touched &&projectFormControls['description'].errors }" (keydown)="restrictSpaces($event)" [maxlength]="maxLength.description" id="Project_description" #description placeholder="Enter Description" formControlName="description"></textarea>
                           <div class="flex">
@@ -83,7 +73,7 @@
                           <br />
                           <br />
                           <label for="singleFile" class="p-element p-ripple p-button-raised p-button-primary p-button p-component" style="width:auto !important; white-space: nowrap;">
-                            <i class="pi pi-paperclip"></i>Choose Logo: </label>
+                            <i class="pi pi-paperclip"></i> Choose Logo: </label>
                           <input id="singleFile" #fileUpload name="myFile" type="file" [accept]="fileTypes" hidden />
                         </div>
                       </div>
@@ -306,16 +296,16 @@
                     <!-- <p class="line-height-3 mb-3">{{project.description}}</p> -->
                     <div class="project_details p-2">
                       <p>
-                        <span class="text-primary">Status</span>: <span class="text-color">AMC</span>
+                        <span class="text-primary">Status</span>: <span class="text-color">{{this.getActiveStatus(project)}}</span>
                       </p>
                       <p>
-                        <span class="text-primary">Start Date</span>: <span class="text-color">11/12/2023</span>
+                        <span class="text-primary">Start Date</span>: <span class="text-color">{{project?.initial| date: 'dd-MMM-yyyy'}}</span>
                       </p>
                       <p>
-                        <span class="text-primary">POC Number </span>: <span class="text-color">+91 8794561328</span>
+                        <span class="text-primary">POC Number </span>: <span class="text-color">{{project?.pocMobileNumber}}</span>
                       </p>
                       <p>
-                        <span class="text-primary">POC Name</span>: <span class="text-color">Rajash</span>
+                        <span class="text-primary">POC Name</span>: <span class="text-color">{{project?.pocName}}</span>
                       </p>
                     </div>
                   </div>
@@ -361,7 +351,7 @@
                   </div>
                   <div class="pair">
                     <span class="label text-primary font-bold text-900">Project Start Date</span>
-                    <span class="value">: {{this.projectDetails.startDate| date: 'dd-MMM-yyyy'}}</span>
+                    <span class="value">: {{this.projectDetails.initial| date: 'dd-MMM-yyyy'}}</span>
                   </div>
                   <div class="pair">
                     <span class="label text-primary font-bold text-900">Project Description</span>
@@ -430,7 +420,10 @@
               <div class="p-fluid p-formgrid grid">
                 <div class="field col-12">
                   <label>Assign Project Members:</label>
-                  <p-multiSelect placeholder="Select Employees" [options]="Employees" optionLabel="employeeName" formControlName="projectAllotments" [filter]="true" filterBy="employeeId,employeeName" appendTo="body">
+                  <p-multiSelect placeholder="Select Employees" [options]="Employees" optionLabel="employeeName" formControlName="projectAllotments" [filter]="true" 
+                  
+                  
+                  By="employeeId,employeeName" appendTo="body">
                     <ng-template let-employee pTemplate="selectedItem">
                       <div class="block align-items-center gap-3">
                         <div>{{employee.employeeName}}</div>
