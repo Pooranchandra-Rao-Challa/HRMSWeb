@@ -147,8 +147,8 @@
             </div>
           </div>
           <div class="field col-12 md:col-4">
-            <label class="required">Grading System: </label>
-            <p-dropdown id="gradingStystem_Dropdown" [autoDisplayFirst]="false" placeholder="Select Grading System"
+            <label class="required">Grading Method: </label>
+            <p-dropdown id="gradingStystem_Dropdown" [autoDisplayFirst]="false" placeholder="Select Grading Method"
               [options]="gradingMethod" optionLabel="name" optionValue="lookupDetailId"
               formControlName="gradingMethodId" appendTo="body"
               [ngClass]="{ 'is-invalid ng-dirty': FormControlsEduDtls['gradingMethodId'].touched && FormControlsEduDtls['gradingMethodId'].errors }">
@@ -159,16 +159,16 @@
                   *ngIf="FormControlsEduDtls['gradingMethodId'].touched && FormControlsEduDtls['gradingMethodId'].invalid">
                   <div class="ng-invalid ng-touched p-error"
                     *ngIf="FormControlsEduDtls['gradingMethodId'].errors?.['required']">
-                    Please Select Grading System.
+                    Please Select Grading Method.
                   </div>
                 </span>
               </div>
             </div>
           </div>
           <div class="field col-12 md:col-4">
-            <label class="required">CGPA/Percentage System: </label> <br>
+            <label class="required">Grading Value: </label> <br>
             <input pInputText id="CGPA/PercentageSystem" type="text" formControlName="gradingValue" class="form-control"
-              placeholder="EnterCGPA/Percentage System" #Percentage appNumericInput maxlength="5"
+              placeholder="Enter Grading Value" #Percentage appNumericInput maxlength="5"
               (keydown)="restrictSpaces($event)"
               [ngClass]="{ 'is-invalid ng-dirty': FormControlsEduDtls['gradingValue'].touched && FormControlsEduDtls['gradingValue'].errors }" />
             <div class="flex">
@@ -177,10 +177,10 @@
                   *ngIf="FormControlsEduDtls['gradingValue'].touched && FormControlsEduDtls['gradingValue'].invalid">
                   <div class="ng-invalid ng-touched p-error"
                     *ngIf="FormControlsEduDtls['gradingValue'].errors?.['required']">
-                    Please Enter CGPA/Percentage System.</div>
+                    Please Enter Grading Value.</div>
                   <div class="ng-invalid ng-touched p-error"
                     *ngIf="FormControlsEduDtls['gradingValue'].errors?.['maxlength']">
-                    CGPA/Percentage System Max Characters Is 5.</div>
+                    Grading Value Max Characters Is 5.</div>
                 </span>
               </div>
               <div class="align-right w-40" style="width:30%; text-align:right;">

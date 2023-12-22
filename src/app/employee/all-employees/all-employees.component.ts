@@ -59,6 +59,10 @@ export class AllEmployeesComponent {
         table.clear();
         this.filter.nativeElement.value = '';
     }
+    clearcard(dv: DataView){
+        dv.filteredValue = null;
+        this.filter.nativeElement.value = '';
+    }
     onFilter(dv: DataView, event: Event) {
         dv.filter((event.target as HTMLInputElement).value);
     }
