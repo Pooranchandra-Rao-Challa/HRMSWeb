@@ -1,10 +1,10 @@
-import { AfterViewInit, ChangeDetectorRef, Component,  ComponentRef,  ElementRef, EventEmitter, OnInit, Output, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ComponentRef, ElementRef, EventEmitter, OnInit, Output, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { FORMAT_DATE } from 'src/app/_helpers/date.formate.pipe';
-import { ClientDetailsDto, ClientNamesDto, EmployeeHierarchyDto, EmployeesList, ProjectAllotments, ProjectStatus,  ProjectViewDto } from 'src/app/_models/admin';
+import { ClientDetailsDto, ClientNamesDto, EmployeeHierarchyDto, EmployeesList, ProjectAllotments, ProjectStatus, ProjectViewDto } from 'src/app/_models/admin';
 import { MaxLength, PhotoFileProperties } from 'src/app/_models/common';
-import { NodeProps,ChartParams } from 'src/app/_models/admin'
+import { NodeProps, ChartParams } from 'src/app/_models/admin'
 import { AdminService } from 'src/app/_services/admin.service';
 import { JwtService } from 'src/app/_services/jwt.service';
 import { MAX_LENGTH_20, MAX_LENGTH_21, MAX_LENGTH_256, MAX_LENGTH_50, MIN_LENGTH_2, MIN_LENGTH_20, MIN_LENGTH_21, MIN_LENGTH_4, RG_ALPHA_NUMERIC, RG_EMAIL, RG_PHONE_NO } from 'src/app/_shared/regex';
@@ -12,18 +12,19 @@ import { TreeNode } from 'primeng/api';
 import * as go from 'gojs';
 import { CompanyHierarchyViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
-import { DownloadNotification, OrgChartDataNotification,NodeDropNotifier } from 'src/app/_services/notifier.services';
+import { DownloadNotification, OrgChartDataNotification, NodeDropNotifier } from 'src/app/_services/notifier.services';
 import { DatePipe } from '@angular/common';
 import { ValidateFileThenUpload } from 'src/app/_validators/upload.validators';
 import { D3OrgChartComponent } from './d3-org-chart/d3-org-chart.component';
-import { ThisReceiver } from '@angular/compiler';
+
 interface AutoCompleteCompleteEvent {
     originalEvent: Event;
     query: string;
 }
-
-
-
+export class ProjectRole {
+    Name: string;
+    EnableLink: boolean = false;
+}
 
 @Component({
     selector: 'app-project',
@@ -32,12 +33,12 @@ interface AutoCompleteCompleteEvent {
 })
 export class ProjectComponent implements OnInit {
     @ViewChild("fileUpload", { static: true }) fileUpload: ElementRef;
-    private diagram: go.Diagram;
+
     projects: ProjectViewDto[] = [];
     clientsNames: ClientNamesDto[] = [];
     Employees: EmployeesList[] = [];
     projectStatues: ProjectStatus[];
-    Roles: string[] = []
+    Roles: ProjectRole[] = []
     clientDetails: ClientDetailsDto;
     projectDetailsDialog: boolean = false;
     filteredClients: any;
@@ -121,8 +122,8 @@ export class ProjectComponent implements OnInit {
         this.initProjects();
         this.initClientNames();
         this.unAssignEmployeeForm();
-        this.allottEmployeesToProject();
-        this.organizationData();
+        //this.allottEmployeesToProject();
+        // this.organizationData();
         this.initProjectStatuses();
         this.ImageValidator.subscribe((p: PhotoFileProperties) => {
             if (this.fileTypes.indexOf(p.FileExtension) > 0 && p.Resize || (p.Size / 1024 / 1024 < 1
@@ -138,7 +139,7 @@ export class ProjectComponent implements OnInit {
                 ValidateFileThenUpload(file, this.ImageValidator, 1024 * 1024, '300 x 300 pixels', true);
             }
         }
-        this.nodeDropNotifier.getDropNodes().subscribe(value =>{
+        this.nodeDropNotifier.getDropNodes().subscribe(value => {
             this.onEmployeeDrop(value);
         })
     }
@@ -181,7 +182,7 @@ export class ProjectComponent implements OnInit {
     initProjectStatuses() {
         this.adminService.ProjectStatuses().subscribe((resp) => {
             this.projectStatues = resp as unknown as ProjectStatus[];
-            console.log(this.projectStatues);
+
 
         })
     }
@@ -231,8 +232,6 @@ export class ProjectComponent implements OnInit {
     initProjects() {
         this.adminService.GetProjects().subscribe(resp => {
             this.projects = resp as unknown as ProjectViewDto[];
-            console.log(resp);
-            
             let projectDTO: ProjectViewDto = new ProjectViewDto
             projectDTO.projectId = -1;
             projectDTO.name = "Org Chart"
@@ -322,19 +321,21 @@ export class ProjectComponent implements OnInit {
             const status = this.projectStatues.find(each => each.eProjectStatusesId === this.projectDetails.activeStatusId);
             this.minDate = new Date(this.projectDetails[status.name.toLowerCase()]);
             this.editEmployee(project);
-            this.getEmployeesListBasedOnProject(project.projectId);
+            this.bindChartNodes(project.projectId);
+            this.submitLabel = "Edit Project";
         } else {
             this.addFlag = true;
             this.submitLabel = "Add Project";
-            this.getEmployeesListBasedOnProject(0);
+            this.bindChartNodes(0);
         }
+        this.organizationData();
     }
     getActiveStatus(project) {
         const statusList = this.projectStatues ?? [];
         const status = statusList.find(each => each?.eProjectStatusesId === project.activeStatusId);
         return status?.name;
-      }
-      
+    }
+
     editEmployee(project) {
         this.addFlag = false;
         this.submitLabel = "Update Project Details";
@@ -368,7 +369,7 @@ export class ProjectComponent implements OnInit {
     addEmployees(projectDetails: ProjectViewDto) {
         this.editProject = true;
         this.projectForm();
-        this.getEmployeesListBasedOnProject(projectDetails.projectId);
+        this.bindChartNodes(projectDetails.projectId);
         this.editEmployee(projectDetails);
     }
 
@@ -457,6 +458,7 @@ export class ProjectComponent implements OnInit {
                     this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "PAS001" : "PAS002"]);
                     if (this.projectDetailsDialog)
                         this.showProjectDetails(this.projectDetails.projectId);
+                    this.addFlag = false;
                 }
             })
         }
@@ -475,15 +477,41 @@ export class ProjectComponent implements OnInit {
         });
     }
 
-    getEmployeesListBasedOnProject(projectId: number) {
+    bindChartNodes(projectId: number) {
         this.adminService.getEmployees(projectId).subscribe(resp => {
-            this.Employees = resp as unknown as EmployeesList[];
-            this.Roles = this.Employees.map(fn => fn.eRoleName).filter((role,i,roles) => roles.indexOf(role) === i);
+            console.log(resp);
+
+            this.Employees = resp as unknown as EmployeesList[]; console.log(this.Employees);
+            this.Roles = this.Employees.map(fn => {
+                return {
+                    RoleName: fn.eRoleName,
+                    HierarchyLevel: fn.hierarchyLevel
+                };
+            }).filter((role, i, roles) => roles.map(gn => gn.RoleName).indexOf(role.RoleName) === i).map(n => {
+                return {
+                    Name: n.RoleName,
+                    HierarchyLevel: n.HierarchyLevel,
+                    EnableLink: true
+                };
+            });
+
+            console.log(this.Roles);
+
+            // this.Roles = this.Employees.map(fn => fn.eRoleName).filter((role, i, roles) => roles.indexOf(role) === i).map(n =>{
+            //     console.log(this.rootNode);
+
+            //     return {
+            //         Name:n,
+            //         EnableLink: this.rootNode && this.rootNode.hierarchyLevel +1 ==  1
+            //     };
+            // });
+            // console.log(this.Roles);
+
         });
     }
 
     getRoleEmployees(roleName: string): EmployeesList[] {
-        return this.Employees.filter(value => value.eRoleName === roleName)
+        return this.Employees.filter(value => value.eRoleName === roleName && (value.usedInChart == false || value.usedInChart === undefined) )
     }
     filterClients(event: AutoCompleteCompleteEvent) {
         this.filteredClients = this.clientsNames;
@@ -497,28 +525,37 @@ export class ProjectComponent implements OnInit {
         this.filteredClients = filtered;
     }
     dragNode: EmployeesList
-    onEmployeeDragEnd(){
+    onEmployeeDragEnd() {
 
     }
-    onEmployeeDragStart(empoloyee){
+    onEmployeeDragStart(empoloyee) {
         this.dragNode = Object.assign({}, empoloyee)
     }
 
-    onEmployeeDrop(parentNode){
-        console.log(parentNode);
+    onEmployeeDrop(parentNode) {
+        console.log(parentNode.DropNode);
         console.log(this.dragNode);
+        let pNode = parentNode.DropNode;
+
 
         let project = this.fbproject.value as ProjectViewDto
 
         let item: NodeProps = new NodeProps()
         let emp = this.dragNode;
-        let currentHierarcy = this.companyHierarchies.filter( value => value.chartId == emp.eRoleId)[0]
+        this.Employees.forEach(fn => {
+            if(fn.employeeId == emp.employeeId){
+                fn.usedInChart = true;
+            }
+        })
+        let currentHierarcy = this.companyHierarchies.filter(value => value.chartId == emp.eRoleId)[0]
         console.log(currentHierarcy);
 
 
-        item.id = `0-${currentHierarcy.chartId}-${emp.employeeId}`; // Use a unique prefix like "1-" for this project
-        if (currentHierarcy.selfId && emp.reportingToId)
-            item.parentId = `1-${currentHierarcy.selfId}-${emp.reportingToId}`; // Make sure the parent ID is unique too
+        item.id = `1-${emp.chartId}-${emp.employeeId}`; // Use a unique prefix like "1-" for this project
+        console.log(pNode.id);
+
+        if (pNode.id)
+            item.parentId =  pNode.id //`1-${currentHierarcy.selfId}-${emp.reportingToId}`; // Make sure the parent ID is unique too
         else item.parentId = null
 
         item.name = emp.fullName;
@@ -545,7 +582,7 @@ export class ProjectComponent implements OnInit {
         item._upToTheRootHighlighted = true;
 
         const val = Math.round(emp.eRoleName.length / 2);
-        item.progress = [...new Array(val)].map((d) => Math.random() * 25 + 5);
+        item.progress = [...new Array(val)].map((d) => Math.random() * 25 + 5);//
         this.AllotedNodes.push(item)
         console.log(this.AllotedNodes);
 
@@ -556,41 +593,71 @@ export class ProjectComponent implements OnInit {
     }
 
     companyHierarchies: CompanyHierarchyViewDto[] = [];
-
+    rootNode: NodeProps = {};
+    //chartNodes: NodeProps[] = [];
     organizationData() {
-        let nodes: NodeProps[] = [];
-        //let chartParams: ChartParams = {};
+        //let nodes: NodeProps[] = [];
+        this.AllotedNodes.splice(0,this.AllotedNodes.length)
         this.employeeService.getCompanyHierarchy().subscribe((resp) => {
             let data = resp as unknown as CompanyHierarchyViewDto[];
-
+            let rd = data.filter(f => f.selfId == null)
             data.forEach(org => {
-                this.companyHierarchies.push(Object.assign({},org));
+                this.companyHierarchies.push(Object.assign({}, org));
+            });
+            if (rd.length === 1) {
+                let rNode: CompanyHierarchyViewDto = {};
+                Object.assign(rNode, rd[0]);
+                console.log(rNode);
+
                 let item: NodeProps = new NodeProps()
-                item.id = `0-${org.chartId}`
-                if (org.selfId)
-                    item.parentId = `0-${org.selfId}`
+                item.id = `0-${rNode.chartId}`
+                if (rNode.selfId)
+                    item.parentId = `0-${rNode.selfId}`
                 else item.parentId = null
-                item.name = org.roleName;
-                item.roleName = org.roleName;
+                item.name = rNode.roleName;
+                item.roleName = rNode.roleName;
                 item.imageUrl = "assets/layout/images/default_icon_employee.jpg"
-                item.office = `Office-${org.hierarchyLevel}`
+                item.office = `Office-${rNode.hierarchyLevel}`
                 item.isLoggedUser = false;
-                item.area = org.roleName;
+                item.area = rNode.roleName;
                 item.profileUrl = "assets/layout/images/default_icon_employee.jpg"
                 item._upToTheRootHighlighted = true;
-                const val = Math.round(org.roleName.length / 2);
+                const val = Math.round(rNode.roleName.length / 2);
                 item.progress = [...new Array(val)].map((d) => Math.random() * 25 + 5);
 
-                item._directSubordinates = data.filter(d => d.selfId == org.chartId).length
-                item._totalSubordinates = data.filter(d => d.hierarchyLevel > org.hierarchyLevel).length
+                item._directSubordinates = data.filter(d => d.selfId == rNode.chartId).length
+                item._totalSubordinates = data.filter(d => d.hierarchyLevel > rNode.hierarchyLevel).length
+                Object.assign(this.rootNode,item);
+                this.AllotedNodes.push(item)
+            }
+            this.initAllotEmpCharts(this.AllotedNodes);
 
 
-                nodes.push(item)
-            });
-            this.initOrgCharts(nodes)
-           // chartParams.nodes = nodes;
-            //this.chartDataNotification.sendNodes(chartParams);
-            //this.updateChart(this.chart,this.data);
+            // data.forEach(org => {
+            //     this.companyHierarchies.push(Object.assign({}, org));
+            //     let item: NodeProps = new NodeProps()
+            //     item.id = `0-${org.chartId}`
+            //     if (org.selfId)
+            //         item.parentId = `0-${org.selfId}`
+            //     else item.parentId = null
+            //     item.name = org.roleName;
+            //     item.roleName = org.roleName;
+            //     item.imageUrl = "assets/layout/images/default_icon_employee.jpg"
+            //     item.office = `Office-${org.hierarchyLevel}`
+            //     item.isLoggedUser = false;
+            //     item.area = org.roleName;
+            //     item.profileUrl = "assets/layout/images/default_icon_employee.jpg"
+            //     item._upToTheRootHighlighted = true;
+            //     const val = Math.round(org.roleName.length / 2);
+            //     item.progress = [...new Array(val)].map((d) => Math.random() * 25 + 5);
+
+            //     item._directSubordinates = data.filter(d => d.selfId == org.chartId).length
+            //     item._totalSubordinates = data.filter(d => d.hierarchyLevel > org.hierarchyLevel).length
+
+
+            //     nodes.push(item)
+            // });
+            // this.initOrgCharts(nodes);
         });
     }
 
@@ -637,7 +704,7 @@ export class ProjectComponent implements OnInit {
                 // item._directSubordinates = data.filter(d => d.selfId == empchart.chartId).length;
                 // item._totalSubordinates = data.filter(d => d.hierarchyLevel > empchart.hierarchyLevel).length;
 
-                nodes.push(this.cloneEmployeeHierarchyNodeProps(empchart,data));
+                nodes.push(this.cloneEmployeeHierarchyNodeProps(empchart, data));
             });
             // chartParams.nodes = nodes;
             // this.chartDataNotification.sendNodes(chartParams);
@@ -647,19 +714,15 @@ export class ProjectComponent implements OnInit {
         });
     }
 
-    allottEmployeesToProject(){
+    // allottEmployeesToProject() {
+    //     this.employeeService.getCompanyHierarchy().subscribe((resp) => {
+    //         let data = resp as unknown as CompanyHierarchyViewDto[];
+    //         this.AllotedNodes.push(this.cloneFromCompanyHierarchyNodeProps(data[0], data));
+    //         this.initAllotEmpCharts(this.AllotedNodes);
+    //     });
+    // }
 
-        //let chartParams: ChartParams = {};
-        this.employeeService.getCompanyHierarchy().subscribe((resp) => {
-            let data = resp as unknown as CompanyHierarchyViewDto[];
-            this.AllotedNodes.push(this.cloneFromCompanyHierarchyNodeProps(data[0],data));
-            this.initAllotEmpCharts(this.AllotedNodes)
-            //chartParams.nodes = nodes;
-            //this.chartDataNotification.sendNodes(chartParams);
-        });
-    }
-
-    cloneFromCompanyHierarchyNodeProps(org: CompanyHierarchyViewDto,data: CompanyHierarchyViewDto[]): NodeProps{
+    cloneFromCompanyHierarchyNodeProps(org: CompanyHierarchyViewDto, data: CompanyHierarchyViewDto[]): NodeProps {
         let item: NodeProps = new NodeProps()
         item.id = `0-${org.chartId}`
         if (org.selfId)
@@ -681,7 +744,7 @@ export class ProjectComponent implements OnInit {
         return item;
     }
 
-    cloneEmployeeHierarchyNodeProps(emp: EmployeeHierarchyDto,data: EmployeeHierarchyDto[]): NodeProps{
+    cloneEmployeeHierarchyNodeProps(emp: EmployeeHierarchyDto, data: EmployeeHierarchyDto[]): NodeProps {
         let item: NodeProps = new NodeProps()
 
         item.id = `1-${emp.chartId}-${emp.employeeId}`; // Use a unique prefix like "1-" for this project
@@ -721,9 +784,9 @@ export class ProjectComponent implements OnInit {
         return item;
     }
 
-    copyToNode(){}
+    copyToNode() { }
 
-    async initOrgCharts(nodes: NodeProps[]){
+    async initOrgCharts(nodes: NodeProps[]) {
         this.orgProjectChartref.clear();
         const { D3OrgChartComponent } = await import('./d3-org-chart/d3-org-chart.component');
         const orgComponentRef = this.orgProjectChartref.createComponent(D3OrgChartComponent);
@@ -733,15 +796,16 @@ export class ProjectComponent implements OnInit {
         orgComponentRef.instance.UpdateChart();
     }
 
-    updateOrgChart(){
+    updateOrgChart() {
 
     }
 
-    async initAllotEmpCharts(nodes: NodeProps[]){
+    async initAllotEmpCharts(nodes: NodeProps[]) {
         this.allottEmployeesref.clear();
         const { D3OrgChartComponent } = await import('./d3-org-chart/d3-org-chart.component');
         const allottEmpRef = this.allottEmployeesref.createComponent(D3OrgChartComponent);
         allottEmpRef.instance.DisplayType = "2";
+        allottEmpRef.instance.HeightOffset = 100
         allottEmpRef.instance.Data = nodes;
         this.cdr.detectChanges();
         allottEmpRef.instance.UpdateChart();

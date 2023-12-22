@@ -216,17 +216,17 @@
                     </div>
                   </div>
                 </p-fieldset>
-                <h5>Employee Details</h5>
+            <p-fieldset legend="Allott Empolyees:" class="mt-2" [toggleable]="true">
                 <div class="p-fluid p-formgrid grid">
                   <div class="field col-12 md:col-4">
-                    <label>Allott Empolyees:</label>&nbsp;
+
                     <!-- <p-multiSelect placeholder="Select Employees" [options]="Employees"
                                           optionLabel="employeeName" formControlName="projectAllotments" [filter]="true"
                                           filterBy="employeeId,employeeName" appendTo="body"><ng-template let-employee pTemplate="selectedItem"><div class="block align-items-center gap-3"><div>{{employee.employeeName}}</div><div>{{employee.employeeCode}}</div></div></ng-template></p-multiSelect> -->
                     <p-tabView id="rolesTabView">
-                      <p-tabPanel [header]="role" *ngFor="let role of Roles">
+                      <p-tabPanel [header]="role.Name" *ngFor="let role of Roles" [disabled]="!role.EnableLink">
                         <div class="col-12 md:col-8 drag-column">
-                          <div *ngFor="let employee of getRoleEmployees(role)">
+                          <div *ngFor="let employee of getRoleEmployees(role.Name)">
                             <div class="card border-1 surface-border card-height project_employee_card mb-5" pDraggable="allottedEmployee" draggable (onDragStart)="onEmployeeDragStart(employee)" (onDragEnd)="onEmployeeDragEnd()">
                               <div class="image-container">
                                 <!-- <img src="https://primefaces.org/cdn/primeng/images/demo/product/{{ product.image }}"[alt]="employee.employeeName" class="product-image" /> -->
@@ -252,7 +252,11 @@
                       </p-tabPanel>
                     </p-tabView>
                   </div>
-                  <div class="field col-8 md:col-8" style="border:1px solid gray; margin-top:100px">
+                  <div class="field col-8 md:col-8" style="border:1px solid #cccccc; margin-top:44px;padding:unset">
+                    <div style="text-align: center;
+                    font-size: 1.1rem;
+                    font-weight: 700;
+                    margin: 10px;">Allotted Employee In this Project <span class="project_name">{{ projectFormControls['name'].value }}</span></div>
                     <!-- <div class="col-12 md:col-8 drop-column"
                                           style="height: 50px; width: 50px; border:1px solid gray;"
                                           pDroppable="allottedemployee" (onDrop)="onEmployeeDrop()"></div> -->
@@ -260,6 +264,7 @@
                     <ng-template #allottEmployees></ng-template>
                   </div>
                 </div>
+            </p-fieldset>
                 <div class="grid">
                   <div class="col-12 md:col-3" *ngFor="let employee of this.fbproject.get('projectAllotments').value">
                     <div class="m-2 card border-1 surface-border">
@@ -289,7 +294,9 @@
                 <div class="card border-1 surface-border project_card">
                   <button pButton pRipple icon="pi pi-pencil" *ngIf="permission?.CanManageProjects" class="p-element p-ripple p-button-text p-button-primary p-component project_edit_button" (click)="onEditProject(project)" id="project_edit_button"></button>
                   <div class="list-none m-0 p-0 text-center" (click)="showProjectDetails(project.projectId)">
-                    <img [src]="project.logo" alt="img" [alt]="project.name" onerror="this.onerror=null;" class="inline-flex align-items-center justify-content-center border-circle w-8rem h-8rem bg-primary-100 mb-5">
+                    <!-- <div class="w-10rem h-10rem align-items-center"> -->
+                        <img [src]="project.logo" alt="img" [alt]="project.name" onerror="this.onerror=null;" class="inline-flex w-10rem h-10rem align-items-center w-10rem justify-content-center border-black-alpha-70 bg-primary-100 mb-5">
+                    <!-- </div> -->
                     <div class="text-2xl mb-3 font-medium">
                       <a class="cursor-pointer" id="Project_viewDetails">{{project.name}} </a>
                     </div>
@@ -394,7 +401,7 @@
             <p-tabPanel header="Team Members ">
               <div class="grid">
                 <div class="col-12 md:col-6">
-                  <button pButton pRipple icon="pi pi-plus" class="p-element p-ripple p-button-text p-button p-component mr-2" (click)="addEmployees(this.projectDetails)"></button>
+                  <button pButton  pRipple icon="pi pi-plus" class="p-element p-ripple p-button-text p-button p-component mr-2" (click)="addEmployees(this.projectDetails)">dfsfsdf</button>
                 </div>
               </div>
               <div class="grid">

@@ -714,3 +714,17 @@ div.d-leave{
     }
 
 }
+
+#rolesTabView {
+    div.p-tabview{
+        border: 1px solid #cccccc;
+
+    }
+    .p-tabview-panels{
+        overflow: auto;
+        height:  calc(100vh - 120px);
+    }
+}
+.project_name{
+    font-size: 1.4rem;
+}

@@ -1070,23 +1070,23 @@ export class OrgChart {
                 return `translate(${xj},${yj})`;
             })
             .attr("cursor", "pointer")
+
+            .on("click", (event, { data }) => {
+
+                if (
+                    [...event.srcElement.classList].includes("node-button-foreign-object")
+                ) {
+                    return;
+                }
+
+                attrs.onNodeClick(attrs.nodeId(data));
+            })
             .on("dragstart",(event,{data}) => {
 
                 //event.stopPropagation();
                 console.log(event);
                 console.log(data);
             })
-            .on("click", (event, { data }) => {
-                if (
-                    [...event.srcElement.classList].includes("node-button-foreign-object")
-                ) {
-                    return;
-                }
-                attrs.onNodeClick(attrs.nodeId(data));
-            })
-            // .on("mouseenter",(event,{data})=>{
-            //     console.log(event);
-            // })
             .on('dragover',(event,{data})=>{
                 attrs.onNodeDragEnd(data);
                 event.preventDefault();

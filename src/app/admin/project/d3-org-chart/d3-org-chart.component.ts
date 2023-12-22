@@ -28,6 +28,7 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
     @Input() Data: any[] = null;
     @Output() OnDropEvent = new EventEmitter<NodeProps>();
     @Input() DisplayType: string = '1';
+    @Input() HeightOffset: number = 0;
 
     // @Input() events: Observable<void>;
     chart: OrgChart;
@@ -225,8 +226,8 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
         const url: string = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAB4CAYAAAA5ZDbSAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4QMaAyMA1SdmlAAAAVRJREFUeNrt26FOw2AUhuFTElzrETNLMNPtJVRVVFbtlnYXKGQFqldANo3EoLDUITazzCxBTNBk53lv4M+XJ/ndKZ52L9uft9eP+Oeqbtgs8O7+cbWO36/PiIgmwd4ojsdIU9n2l7XzNBYZNj9Eos6oTRbcdMAZAwxYgAVYgAVYgAUYsAALsAALsAALMGABFmABFmABFmABBizAAqwFgZ/fv+slHl7q3aobNpn2proujIgo276ep/HgixZgARZgARZgAQYswAIswAIswAIswIAFWIAFWIAFWIABC7AAC7AAC7D+AHZdeN97XRf6ogVYgAVYgAVYgAELsAALsAALsAADFmABFmABFmABFmDAAizAAizAAqxrYNeF973XdaEvWoAFWIAFWIAFGLAAC7AAC7AACzBgARZgARZgARZgAQYswAIswAKsW0p1m1S2/WXtPI1Fhs0nxU1Jj2yxm2sAAAAASUVORK5CYII=`;
         const replaced = url.replace(/(\r\n|\n|\r)/gm, '');
         this.chart.container(this.chartContainer.nativeElement)
-            .svgHeight(window.innerHeight)
-            .svgWidth(window.innerWidth - (this.DisplayType == "1" ? 300 : 500))
+            .svgHeight(window.innerHeight - this.HeightOffset)
+            .svgWidth(window.innerWidth - (this.DisplayType == "1" ? 300 : 800))
             .displayType(this.DisplayType)
             .data(data)
             .nodeHeight((d) => 180)
@@ -386,9 +387,26 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
                 "background-image",
                 `url(${replaced}), radial-gradient(circle at center, #ffffff 0, #ffffff 100%)`
             );
+            // this.chart.call(d3.drag().on("start", this.dragstarted)
+            // .on("drag", this.dragged)
+            // .on("end", this.dragended))
     }
 
-
+// // What happens when a circle is dragged?
+// dragstarted(d) {
+//     //if (!d3.event.active) simulation.alphaTarget(.03).restart();
+//     d.fx = d.x;
+//     d.fy = d.y;
+//   }
+//   dragged(d) {
+//     d.fx = d3.event.x;
+//     d.fy = d3.event.y;
+//   }
+//   dragended(d) {
+//     //if (!d3.event.active) simulation.alphaTarget(.03);
+//     d.fx = null;
+//     d.fy = null;
+//   }
     downloadPdf() {
         if (this.chart) {
             this.chart.exportImg({
