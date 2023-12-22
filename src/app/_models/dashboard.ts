@@ -25,7 +25,10 @@ export class SelfEmployeeDto {
     workingProjects?: string;
     projects?: workingProjects[];
 }
-
+export class selfEmployeeMonthlyLeaves {
+    usedCLsInMonth?: number
+    usedPLsInMonth?: number
+}
 export class workingProjects {
     projectId?: number;
     projectName?: string;
