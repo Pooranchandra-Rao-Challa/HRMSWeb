@@ -3,7 +3,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EmployeeLeaveDialogComponent } from 'src/app/_dialogs/employeeleave.dialog/employeeleave.dialog.component';
 import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { Actions, DialogRequest } from 'src/app/_models/common';
-import { SelfEmployeeDto } from 'src/app/_models/dashboard';
+import { SelfEmployeeDto, selfEmployeeMonthlyLeaves } from 'src/app/_models/dashboard';
 import { DashboardService } from 'src/app/_services/dashboard.service';
 import { JwtService } from 'src/app/_services/jwt.service';
 
@@ -23,6 +23,7 @@ export class EmployeeDashboardComponent {
     year: number = 2023;
     selectedMonth: Date;
     days: number[] = [];
+    monthlyLeaves:selfEmployeeMonthlyLeaves;
 
     constructor(private dashBoardService: DashboardService,
         private jwtService: JwtService,
@@ -34,8 +35,13 @@ export class EmployeeDashboardComponent {
         this.permissions = this.jwtService.Permissions;
         this.getEmployeeDataBasedOnId()
         this.getDaysInMonth(this.year, this.month);
+        this.initGetLeavesForMonth();
     }
-
+    initGetLeavesForMonth(){
+        this.dashBoardService.GetEmployeeLeavesForMonth(this.month,this.jwtService.EmployeeId).subscribe(resp=>{
+            this.monthlyLeaves=resp[0] as unknown as selfEmployeeMonthlyLeaves; 
+        });
+    }
     getEmployeeDataBasedOnId() {
         this.dashBoardService.GetEmployeeDetails(this.jwtService.EmployeeId).subscribe((resp) => {
             this.empDetails = resp as unknown as SelfEmployeeDto;
@@ -57,6 +63,7 @@ export class EmployeeDashboardComponent {
         this.selectedMonth.setHours(0, 0, 0, 0);
         this.getDaysInMonth(this.year, this.month);
         this.getEmployeeDataBasedOnId();
+        this.initGetLeavesForMonth();
     }
 
     gotoNextMonth() {
@@ -70,6 +77,7 @@ export class EmployeeDashboardComponent {
         this.selectedMonth.setHours(0, 0, 0, 0);
         this.getDaysInMonth(this.year, this.month);
         this.getEmployeeDataBasedOnId();
+        this.initGetLeavesForMonth();
     }
 
     getDaysInMonth(year: number, month: number) {
@@ -78,9 +86,8 @@ export class EmployeeDashboardComponent {
         date.setDate(date.getDate() - 1);
         let day = date.getDate();
         this.days = [];
-        for (let i = 1; i <= day; i++) {
+        for (let i = 1; i <= day; i++) 
             this.days.push(i);
-        }
     }
 
     onMonthSelect(event) {

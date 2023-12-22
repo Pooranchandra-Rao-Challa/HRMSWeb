@@ -154,3 +154,4 @@ export const UPDATE_RESULT="Recruitment/UpdateFilteredApplicantForHRRound";
 //self Employee
 
 export const GET_SELF_EMPLOYEE="Employee/GetSelfEmployeeData";
+export const GET_SELF_EMPLOYEE_MONTH_LEAVES="Attendance/GetLeavesForSelfInMonth"
