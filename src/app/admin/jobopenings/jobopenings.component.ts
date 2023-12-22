@@ -91,6 +91,10 @@ export class JobOpeningsComponent {
     dv.filter((event.target as HTMLInputElement).value);
   }
 
+  clearcard(dv: DataView) {
+    dv.filteredValue = null;
+    this.filter.nativeElement.value = '';
+  }
   openJobDialog(job: JobOpeningsDetailsViewDto) {
     this.selectedJob = job;
     this.viewJobDesign = true;

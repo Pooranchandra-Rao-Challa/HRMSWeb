@@ -453,8 +453,9 @@ p-calendar input {
     border: 1px solid #f17517 !important;
 
 }
-.recruitment{
-    border:1px solid green !important;
+
+.recruitment {
+    border: 1px solid green !important;
 }
 
 .project_details p {
@@ -601,13 +602,14 @@ label {
 .star {
     cursor: pointer;
     font-size: 24px;
-    color: #676060;
     transition: color 0.3s;
     position: relative;
+    padding: 2px;
 }
 
 .star.full {
     color: #f17517;
+
 }
 
 .star.half {

@@ -93,8 +93,12 @@
     </ng-template>
     <ng-template pTemplate="right">
         <div class="pr-2">
-            <input pInputText type="text" class="w-full" placeholder="Employee Name" #filter
-                id="Attendance_globalSearch" (input)="onGlobalFilter(dt1, $event)" />
+                <div class="p-inputgroup">
+                    <!-- <span class="p-inputgroup-addon"><i class="pi pi-search"></i></span> -->
+                    <input pInputText type="text" class="w-full" placeholder="Employee Name" #filter
+                    id="Attendance_globalSearch" (input)="onGlobalFilter(dt1, $event)" />
+                    <span class="p-inputgroup-addon" (click)="clear(dt1)"><i class="pi pi-undo"></i></span>
+                </div>
         </div>
         <div *ngIf="permissions?.CanManageAttendance">
             <button pButton pRipple label="Add Attendance" icon="pi pi-plus" id="Attendance_addAttendance"

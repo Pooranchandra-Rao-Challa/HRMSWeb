@@ -144,9 +144,9 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <label class="required">Grading System:</label>
+                        <label class="required">Grading Method:</label>
                         <p-dropdown id="gradingStystem_Dropdown" [autoDisplayFirst]="false"
-                            placeholder="Select Grading System" [options]="gradingMethod" optionLabel="name"
+                            placeholder="Select Grading Method" [options]="gradingMethod" optionLabel="name"
                             optionValue="lookupDetailId" formControlName="gradingMethodId" appendTo="body"
                             [ngClass]="{'is-invalid ng-dirty': FormControls['gradingMethodId'].touched && FormControls['gradingMethodId'].errors }">
                         </p-dropdown>
@@ -162,8 +162,8 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <label class="required">CGPA/Percentage System:</label>
-                        <input pInputText class="form-control" placeholder="Enter CGPA/Percentage System"
+                        <label class="required">Grading Value:</label>
+                        <input pInputText class="form-control" placeholder="Enter Grading Value"
                             formControlName="gradingValue" appNumericInput maxlength="5" #gradingValue
                             id="grading_Value" (keydown)="restrictSpaces($event)"
                             [ngClass]="{'is-invalid ng-dirty': FormControls['gradingValue'].touched && FormControls['gradingValue'].errors }">
@@ -173,7 +173,7 @@
                                     *ngIf="FormControls['gradingValue'].touched && FormControls['gradingValue'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="FormControls['gradingValue'].errors?.['required']">
-                                        Please Enter CGPA/Percentage System.</div>
+                                        Please Enter Grading Value.</div>
                                 </span>
                             </div>
                             <div class="align-right w-40" style="width:30%; text-align:right;">

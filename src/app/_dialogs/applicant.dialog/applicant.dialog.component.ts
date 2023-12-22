@@ -191,7 +191,7 @@ export class ApplicantDialogComponent {
       addressLine1: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2)]),
       addressLine2: new FormControl('', Validators.minLength(MIN_LENGTH_2)),
       landmark: new FormControl('', Validators.minLength(MIN_LENGTH_2)),
-      zipCode: new FormControl('', [Validators.required,Validators.pattern(RG_PINCODE)]),
+      zipCode: new FormControl('', [Validators.required, Validators.pattern(RG_PINCODE)]),
       city: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2)]),
       countryId: new FormControl('', [Validators.required]),
       stateId: new FormControl('', [Validators.required]),
@@ -262,7 +262,7 @@ export class ApplicantDialogComponent {
       streamId: [educationDetails.streamId, [Validators.required]],
       countryId: [educationDetails.countryId, [Validators.required]],
       stateId: [educationDetails.stateId, [Validators.required]],
-      institutionName: new FormControl(educationDetails.institutionName,[Validators.minLength(MIN_LENGTH_2)]),
+      institutionName: new FormControl(educationDetails.institutionName, [Validators.minLength(MIN_LENGTH_2)]),
       authorityName: new FormControl(educationDetails.authorityName, [Validators.required, Validators.minLength(MIN_LENGTH_2)]),
       yearOfCompletion: new FormControl(educationDetails.yearOfCompletion, [Validators.required]),
       gradingMethodId: new FormControl(educationDetails.gradingMethodId, [Validators.required]),
@@ -275,9 +275,9 @@ export class ApplicantDialogComponent {
       applicantCertificateId: [certificationDetails.applicantCertificateId],
       applicantId: new FormControl(certificationDetails.applicantId),
       certificateId: new FormControl(certificationDetails.certificateId, [Validators.required]),
-      franchiseName: new FormControl(certificationDetails.franchiseName,[Validators.minLength(MIN_LENGTH_2)]),
+      franchiseName: new FormControl(certificationDetails.franchiseName, [Validators.minLength(MIN_LENGTH_2)]),
       yearOfCompletion: new FormControl(certificationDetails.yearOfCompletion, [Validators.required]),
-      results: new FormControl(certificationDetails.results, [Validators.required,Validators.minLength(MIN_LENGTH_2)]),
+      results: new FormControl(certificationDetails.results, [Validators.required, Validators.minLength(MIN_LENGTH_2)]),
     })
   }
 
@@ -285,14 +285,14 @@ export class ApplicantDialogComponent {
     return this.formbuilder.group({
       applicantWorkExperienceId: [experienceDetails.applicantWorkExperienceId],
       applicantId: [experienceDetails.applicantId],
-      companyName: new FormControl(experienceDetails.companyName, [Validators.required,Validators.minLength(MIN_LENGTH_2)]),
-      companyLocation: new FormControl(experienceDetails.companyLocation,[Validators.minLength(MIN_LENGTH_2)]),
+      companyName: new FormControl(experienceDetails.companyName, [Validators.required, Validators.minLength(MIN_LENGTH_2)]),
+      companyLocation: new FormControl(experienceDetails.companyLocation, [Validators.minLength(MIN_LENGTH_2)]),
       countryId: new FormControl(experienceDetails.countryId, [Validators.required]),
       stateId: new FormControl(experienceDetails.stateId, [Validators.required]),
-      companyEmployeeId: new FormControl(experienceDetails.companyEmployeeId,[Validators.minLength(MIN_LENGTH_2)]),
+      companyEmployeeId: new FormControl(experienceDetails.companyEmployeeId, [Validators.minLength(MIN_LENGTH_2)]),
       designationId: new FormControl(experienceDetails.designationId, [Validators.required]),
-      natureOfWork: new FormControl(experienceDetails.natureOfWork, [Validators.required,Validators.minLength(MIN_LENGTH_2)]),
-      workedOnProjects: new FormControl(experienceDetails.workedOnProjects,[Validators.minLength(MIN_LENGTH_2)]),
+      natureOfWork: new FormControl(experienceDetails.natureOfWork, [Validators.required, Validators.minLength(MIN_LENGTH_2)]),
+      workedOnProjects: new FormControl(experienceDetails.workedOnProjects, [Validators.minLength(MIN_LENGTH_2)]),
       dateOfJoining: new FormControl(experienceDetails.dateOfJoining, [Validators.required]),
       dateOfReliving: new FormControl(experienceDetails.dateOfReliving, [Validators.required]),
     })
@@ -303,7 +303,7 @@ export class ApplicantDialogComponent {
       applicantSkillId: [applicantskills.applicantSkillId],
       applicantId: new FormControl(applicantskills.applicantId),
       skillId: new FormControl(applicantskills.skillId, [Validators.required]),
-      expertise: new FormControl(applicantskills.expertise, [Validators.required,this.notEqualToZeroValidator.bind(this)])
+      expertise: new FormControl(applicantskills.expertise, [Validators.required, this.notEqualToZeroValidator.bind(this)])
     })
   }
 
@@ -319,30 +319,59 @@ export class ApplicantDialogComponent {
   }
 
   addApplicantEducationDetails() {
-    this.faapplicantEducationDetails = this.faApplicantEducationDetails();
-    this.faapplicantEducationDetails.push(this.generateRowForEducationDetails())
+    const educationDetailsArray = this.fbApplicant.get('applicantEducationDetails') as FormArray;
+    const eduarrayLength = educationDetailsArray.length;
+
+    // Check if there are no rows or if the current row is valid before adding a new row
+    if (eduarrayLength === 0 || this.validateRowforEducationDetails(eduarrayLength - 1)) {
+      this.faapplicantEducationDetails = this.faApplicantEducationDetails();
+      this.faapplicantEducationDetails.push(this.generateRowForEducationDetails());
+    }
   }
 
   addApplicantCertificationDetails() {
-    this.faapplicantCertificationDetails = this.faApplicantCertificationDetails();
-    this.faapplicantCertificationDetails.push(this.generateRowForCertificationDetails())
+    const certificateDetailsArray = this.fbApplicant.get('applicantCertifications') as FormArray;
+    const certificatearrayLength = certificateDetailsArray.length;
+
+    // Check if there are no rows or if the current row is valid before adding a new row
+    if (certificatearrayLength === 0 || this.validateRowforCertificationDetails(certificatearrayLength - 1)) {
+      this.faapplicantCertificationDetails = this.faApplicantCertificationDetails();
+      this.faapplicantCertificationDetails.push(this.generateRowForCertificationDetails())
+    }
   }
 
   addApplicantExperienceDetails() {
-    this.faapplicantExperienceDetails = this.faApplicantExperienceDetails();
-    this.faapplicantExperienceDetails.push(this.generateRowForExperienceDetails())
+    const workexpDetailsArray = this.fbApplicant.get('applicantWorkExperiences') as FormArray;
+    const workexparrayLength = workexpDetailsArray.length;
+
+    // Check if there are no rows or if the current row is valid before adding a new row
+    if (workexparrayLength === 0 || this.validateRowforExperienceDetails(workexparrayLength - 1)) {
+      this.faapplicantExperienceDetails = this.faApplicantExperienceDetails();
+      this.faapplicantExperienceDetails.push(this.generateRowForExperienceDetails())
+    }
   }
 
   addApplicantSkillsDetails() {
-    this.faapplicantSkillsDetails = this.faApplicantSkillsDetails();
-    this.faapplicantSkillsDetails.push(this.generateRowForApplicantSkillsDetails())
+    const skillsDetailsArray = this.fbApplicant.get('applicantSkills') as FormArray;
+    const skilsarrayLength = skillsDetailsArray.length;
+
+    // Check if there are no rows or if the current row is valid before adding a new row
+    if (skilsarrayLength === 0 || this.validateRowforApplicantSkillDetails(skilsarrayLength - 1)) {
+      this.faapplicantSkillsDetails = this.faApplicantSkillsDetails();
+      this.faapplicantSkillsDetails.push(this.generateRowForApplicantSkillsDetails())
+    }
   }
 
   addApplicantLanguageSkillsDetails() {
-    this.faapplicantLanguageSkillsDetails = this.faApplicantLanguageSkillsDetails();
-    this.faapplicantLanguageSkillsDetails.push(this.generateRowForApplicantLanguageSkillsDetails())
-  }
+    const languagesDetailsArray = this.fbApplicant.get('applicantLanguageSkills') as FormArray;
+    const languagesarrayLength = languagesDetailsArray.length;
 
+    // Check if there are no rows or if the current row is valid before adding a new row
+    if (languagesarrayLength === 0 || this.validateRowforApplicantLanguageSkillDetails(languagesarrayLength - 1)) {
+      this.faapplicantLanguageSkillsDetails = this.faApplicantLanguageSkillsDetails();
+      this.faapplicantLanguageSkillsDetails.push(this.generateRowForApplicantLanguageSkillsDetails())
+    }
+  }
   handleFileClick(file: HTMLInputElement): void {
     file.click(); // trigger input file
   }
@@ -380,7 +409,7 @@ export class ApplicantDialogComponent {
     }
   }
 
-  validateRowforEducationDetails(educaitonDetailsIndex: number) {
+  validateRowforEducationDetails(educaitonDetailsIndex: number): boolean {
     const educationDetailsArray = this.faApplicantEducationDetails();
     const educationDetail = educationDetailsArray.controls[educaitonDetailsIndex] as FormGroup;
 
@@ -393,14 +422,19 @@ export class ApplicantDialogComponent {
       control.markAsTouched(); // Mark the control as touched
     });
 
-    // Iterate over mandatory controls and check their validity
-    mandatoryControls.forEach((controlName: string) => {
+    // Check if all controls in the current row are valid
+    const areAllControlsValid = mandatoryControls.every((controlName: string) => {
       const control = educationDetail.get(controlName);
-      if (control.invalid) {
-        // Display validation messages for the entire row
-        return;
-      }
+      return control.valid;
     });
+
+    if (areAllControlsValid) {
+      // Row is valid
+      return true;
+    } else {
+      // Row is invalid, display validation messages for the entire row if needed
+      return false;
+    }
   }
 
   validateRowforCertificationDetails(certificationDetailsIndex: number) {
@@ -416,14 +450,19 @@ export class ApplicantDialogComponent {
       control.markAsTouched(); // Mark the control as touched
     });
 
-    // Iterate over mandatory controls and check their validity
-    mandatoryControls.forEach((controlName: string) => {
+    // Check if all controls in the current row are valid
+    const areAllControlsValid = mandatoryControls.every((controlName: string) => {
       const control = certificationDetail.get(controlName);
-      if (control.invalid) {
-        // Display validation messages for the entire row
-        return;
-      }
+      return control.valid;
     });
+
+    if (areAllControlsValid) {
+      // Row is valid
+      return true;
+    } else {
+      // Row is invalid, display validation messages for the entire row if needed
+      return false;
+    }
   }
 
   validateRowforExperienceDetails(experienceDetailsIndex: number) {
@@ -439,14 +478,19 @@ export class ApplicantDialogComponent {
       control.markAsTouched(); // Mark the control as touched
     });
 
-    // Iterate over mandatory controls and check their validity
-    mandatoryControls.forEach((controlName: string) => {
+    // Check if all controls in the current row are valid
+    const areAllControlsValid = mandatoryControls.every((controlName: string) => {
       const control = experienceDetail.get(controlName);
-      if (control.invalid) {
-        // Display validation messages for the entire row
-        return;
-      }
+      return control.valid;
     });
+
+    if (areAllControlsValid) {
+      // Row is valid
+      return true;
+    } else {
+      // Row is invalid, display validation messages for the entire row if needed
+      return false;
+    }
   }
 
   validateRowforApplicantSkillDetails(applicantSkillsDetailsIndex: number) {
@@ -462,14 +506,19 @@ export class ApplicantDialogComponent {
       control.markAsTouched(); // Mark the control as touched
     });
 
-    // Iterate over mandatory controls and check their validity
-    mandatoryControls.forEach((controlName: string) => {
+    // Check if all controls in the current row are valid
+    const areAllControlsValid = mandatoryControls.every((controlName: string) => {
       const control = skillDetail.get(controlName);
-      if (control.invalid) {
-        // Display validation messages for the entire row
-        return;
-      }
+      return control.valid;
     });
+
+    if (areAllControlsValid) {
+      // Row is valid
+      return true;
+    } else {
+      // Row is invalid, display validation messages for the entire row if needed
+      return false;
+    }
   }
 
   validateRowforApplicantLanguageSkillDetails(applicantLanguageSkillsDetailsIndex: number) {
@@ -487,14 +536,19 @@ export class ApplicantDialogComponent {
       }
     });
 
-    // Iterate over mandatory controls and check their validity
-    mandatoryControls.forEach((controlName: string) => {
+    // Check if all controls in the current row are valid
+    const areAllControlsValid = mandatoryControls.every((controlName: string) => {
       const control = languageSkillDetail.get(controlName);
-      if (control && control.invalid) {
-        // Display validation messages for the entire row
-        return;
-      }
+      return control.valid;
     });
+
+    if (areAllControlsValid) {
+      // Row is valid
+      return true;
+    } else {
+      // Row is invalid, display validation messages for the entire row if needed
+      return false;
+    }
   }
 
   notEqualToZeroValidator(control: FormControl): { [key: string]: any } | null {
@@ -576,30 +630,30 @@ export class ApplicantDialogComponent {
 
   onSubmit() {
     this.fbApplicant.get('dob').setValue(FORMAT_DATE(new Date(this.fbApplicant.get('dob').value)));
-    
+
     const educationDetailsArray = this.fbApplicant.get('applicantEducationDetails') as FormArray;
     educationDetailsArray.controls.forEach((educationDetail: FormGroup) => {
       const formattedYearOfCompletion = FORMAT_DATE(new Date(educationDetail.get('yearOfCompletion').value));
       educationDetail.get('yearOfCompletion').setValue(formattedYearOfCompletion);
-    }); 
+    });
 
     const experienceDetailsArray = this.fbApplicant.get('applicantWorkExperiences') as FormArray;
     experienceDetailsArray.controls.forEach((experienceDetails: FormGroup) => {
       const formatteddateOfJoining = FORMAT_DATE(new Date(experienceDetails.get('dateOfJoining').value));
       experienceDetails.get('dateOfJoining').setValue(formatteddateOfJoining);
-    }); 
+    });
 
     const experienceDetailssArray = this.fbApplicant.get('applicantWorkExperiences') as FormArray;
     experienceDetailssArray.controls.forEach((experienceDetails: FormGroup) => {
       const formatteddateOfReliving = FORMAT_DATE(new Date(experienceDetails.get('dateOfReliving').value));
       experienceDetails.get('dateOfReliving').setValue(formatteddateOfReliving);
-    }); 
+    });
 
     const certificationDetailsArray = this.fbApplicant.get('applicantCertifications') as FormArray;
     certificationDetailsArray.controls.forEach((certificateDetails: FormGroup) => {
       const formattedyearOfCompletion = FORMAT_DATE(new Date(certificateDetails.get('yearOfCompletion').value));
       certificateDetails.get('yearOfCompletion').setValue(formattedyearOfCompletion);
-    }); 
+    });
 
     if (this.fbApplicant.value) {
       this.saveApplicant().subscribe(resp => {

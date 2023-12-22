@@ -18,7 +18,7 @@ import { JwtService } from 'src/app/_services/jwt.service';
 })
 export class ApplicantComponent {
   @ViewChild('filter') filter!: ElementRef;
-  globalFilterFields: string[] = ['name', 'gender', 'experienceStatus', 'emailId', 'mobileNo','skills'];
+  globalFilterFields: string[] = ['name', 'gender', 'experienceStatus', 'emailId', 'mobileNo', 'skills'];
   value: number = 40;
   applicants: ApplicantViewDto[] = [];
   ActionTypes = Actions;
@@ -67,6 +67,11 @@ export class ApplicantComponent {
     this.filter.nativeElement.value = '';
   }
 
+  clearcard(dv: DataView) {
+    dv.filteredValue = null;
+    this.filter.nativeElement.value = '';
+  }
+  
   onFilter(dv: DataView, event: Event) {
     if (this.checked === false) {
       dv.filter((event.target as HTMLInputElement).value)
