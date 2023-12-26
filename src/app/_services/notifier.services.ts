@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Observable, Subject } from "rxjs";
-import { ChartParams, NodeDropParams } from 'src/app/_models/admin'
+import { NodeDropParams } from 'src/app/_models/admin'
 
 @Injectable()
 export class DownloadNotification {
@@ -39,30 +39,14 @@ export class ProjectNotification {
 @Injectable({
     providedIn: 'root'
 })
-export class OrgChartDataNotification {
-    private subject = new Subject<ChartParams>();
-
-    sendNodes(nodes: ChartParams) {
-        this.subject.next(nodes);
-    }
-
-    getNodes(): Observable<ChartParams> {
-        return this.subject.asObservable();
-    }
-}
-
-
-@Injectable({
-    providedIn: 'root'
-})
-export class NodeDropNotifier {
-    private subject = new Subject<NodeDropParams>();
+export class D3NodeChangeNotifier {
+    private dropsubject = new Subject<NodeDropParams>();
 
     sendDropNodes(nodes: NodeDropParams) {
-        this.subject.next(nodes);
+        this.dropsubject.next(nodes);
     }
 
     getDropNodes(): Observable<NodeDropParams> {
-        return this.subject.asObservable();
+        return this.dropsubject.asObservable();
     }
 }

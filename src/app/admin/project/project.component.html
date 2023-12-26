@@ -21,13 +21,12 @@
                     <div class=" col-12 md:col-7">
                       <div class="p-fluid p-formgrid grid">
                         <div class="field col-12 md:col-6 p-2 mb-1">
-                          <label class="required">Code: </label>&nbsp; <input pInputText id="Project_code" type="text" formControlName="code" [ngClass]="{ 'is-invalid ng-dirty': projectFormControls['code'].touched &&projectFormControls['code'].errors }" (keydown)="restrictSpaces($event)" [readonly]="projectFormControls['projectId'].value!== null" [maxlength]="maxLength.code" placeholder="Enter Code" #code alphaNumeric />
+                          <label class="required">Code: </label>&nbsp; <input pInputText id="Project_code" type="text" formControlName="code" [ngClass]="{ 'is-invalid ng-dirty': projectFormControls['code'].touched &&projectFormControls['code'].errors }" (keydown)="restrictSpaces($event)" [readonly]="projectFormControls['projectId'].value!== null && projectFormControls['projectId'].value!== 0" [maxlength]="maxLength.code" placeholder="Enter Code" #code alphaNumeric />
                           <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                               <span *ngIf="projectFormControls['code'].touched && projectFormControls['code'].invalid">
                                 <div class="ng-invalid ng-touched p-error" *ngIf="projectFormControls['code'].errors?.['required']"> Please Enter Code.</div>
-                                <div class="ng-invalid ng-touched p-error" *ngIf="projectFormControls['code'].errors?.['minlength']"> Code Min Characters Is 4.</div>
-                                <div class="ng-invalid ng-touched p-error" *ngIf="projectFormControls['code'].errors?.['maxlength']"> Code Min Characters Is 20.</div>
+                                <div class="ng-invalid ng-touched p-error" *ngIf="projectFormControls['code'].errors?.['minlength'] || projectFormControls['code'].errors?.['maxlength']"> Code should be minimun of 4 and maximum of 20 Characters.</div>
                               </span>
                             </div>
                             <div class="align-right w-40" style="width:30%; text-align:right;">
@@ -36,13 +35,12 @@
                           </div>
                         </div>
                         <div class="field col-12 md:col-6 p-2 mb-1">
-                          <label class="required">Name: </label>&nbsp; <input pInputText id="Project_name" type="text" formControlName="name" [ngClass]="{ 'is-invalid ng-dirty': projectFormControls['name'].touched &&projectFormControls['name'].errors }" (keydown)="restrictSpaces($event)" [readonly]="projectFormControls['projectId'].value!== null" [maxlength]="maxLength.name" placeholder="Enter Name" #name alphaNumeric />
+                          <label class="required">Name: </label>&nbsp; <input pInputText id="Project_name" type="text" formControlName="name" [ngClass]="{ 'is-invalid ng-dirty': projectFormControls['name'].touched &&projectFormControls['name'].errors }" (keydown)="restrictSpaces($event)" [readonly]="projectFormControls['projectId'].value!== null && projectFormControls['projectId'].value!== 0" [maxlength]="maxLength.name" placeholder="Enter Name" #name alphaNumeric />
                           <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                               <span *ngIf="projectFormControls['name'].touched && projectFormControls['name'].invalid">
                                 <div class="ng-invalid ng-touched p-error" *ngIf="projectFormControls['name'].errors?.['required']"> Please Enter Name.</div>
-                                <div class="ng-invalid ng-touched p-error" *ngIf="projectFormControls['name'].errors?.['minlength']"> Name Min Characters Is 2.</div>
-                                <div class="ng-invalid ng-touched p-error" *ngIf="projectFormControls['name'].errors?.['maxlength']"> Name Max Characters Is 50.</div>
+                                <div class="ng-invalid ng-touched p-error" *ngIf="projectFormControls['name'].errors?.['minlength'] || projectFormControls['name'].errors?.['maxlength']"> Name should be minimun of 2 and maximum of 50 Characters.</div>
                               </span>
                             </div>
                             <div class="align-right w-40" style="width:30%; text-align:right;">
@@ -57,8 +55,7 @@
                             <div class="align-left w-60" style="width:70%">
                               <span *ngIf="projectFormControls['description'].touched && projectFormControls['description'].invalid">
                                 <div class="ng-invalid ng-touched p-error" *ngIf="projectFormControls['description'].errors?.['required']"> Please Enter Description.</div>
-                                <div class="ng-invalid ng-touched p-error" *ngIf="projectFormControls['description'].errors?.['minlength']"> Description Min Characters Is 2.</div>
-                                <div class="ng-invalid ng-touched p-error" *ngIf="projectFormControls['description'].errors?.['maxlength']"> Description Max Characters Is 256.</div>
+                                <div class="ng-invalid ng-touched p-error" *ngIf="projectFormControls['description'].errors?.['minlength'] || projectFormControls['description'].errors?.['maxlength']"> Description should be minimun of 2 and maximum of 256 Characters.</div>
                               </span>
                             </div>
                             <div class="align-right w-40" style="width:30%; text-align:right;">
@@ -87,9 +84,9 @@
                              formControlName="eProjectStatusesId" (onClick)="onRadioButtonChange(item)" [ngClass]="{'disabled-radio': shouldDisableRadioButton(item)}"></p-radioButton>
                             <label class="ml-2 mr-3">{{ item.name }}</label>
                           </div>
-                          <input id="ProjectStatusInput" type="text" disabled *ngIf="projectDetails[item.name.toLowerCase()]!==null&&projectDetails[item.name.toLowerCase()]!==undefined
-                            &&item.eProjectStatusesId!==this.fbproject.get('eProjectStatusesId').value" pInputText [value]="getFormattedDate(projectDetails[item.name.toLowerCase()])" />
-                          <p-calendar id="ProjectStatusCalendar" [readonlyInput]="true" [showIcon]="true" formControlName="Date" appendTo="body" [minDate]="this.minDate" [class.disabled-calendar]="projectDetails[item.name.toLowerCase()] !== null &&
+                          <input id="ProjectStatusInput" type="text"  *ngIf="projectDetails[item.name.toLowerCase()]!==null&&projectDetails[item.name.toLowerCase()]!==undefined
+                            && item.eProjectStatusesId!==this.fbproject.get('eProjectStatusesId').value" pInputText [value]="getFormattedDate(projectDetails[item.name.toLowerCase()])" />
+                          <p-calendar id="ProjectStatusCalendar" [readonlyInput]="true" [showIcon]="true"  formControlName="Date" appendTo="body" [minDate]="this.minDate" [class.disabled-calendar]="projectDetails[item.name.toLowerCase()] !== null &&
                              projectDetails[item.name.toLowerCase()] !== undefined" *ngIf="item.eProjectStatusesId===this.fbproject.get('eProjectStatusesId').value" yearRange="2000:2030" placeholder="Select Date" mask="99/99/9999"></p-calendar>
                         </div>
                       </div>
@@ -100,26 +97,24 @@
                 <p-fieldset legend="Client Details" class="mt-2" [toggleable]="true">
                   <div class="p-fluid p-formgrid grid" formGroupName="clients">
                     <div class="field  col-12 md:col-4 p-2 mb-1">
-                      <label class="required">Company Full Name: </label>&nbsp; <p-autoComplete formControlName="companyName" [suggestions]="this.filteredClients" [ngClass]="{ 'is-invalid ng-dirty': fcClientDetails.controls['companyName'].touched && fcClientDetails.controls['companyName'].errors }" (keydown)="restrictSpaces($event)" [maxlength]="maxLength.name" [readonly]="projectFormControls['projectId'].value!== null" placeholder="Enter Company Full Name" #CompanyName (completeMethod)="filterClients($event)" (onSelect)="onAutocompleteSelect($event)" [field]="'companyName'" [dataKey]="null" id="Project_fullName"></p-autoComplete>
+                      <label class="required">Company Full Name: </label>&nbsp; <p-autoComplete formControlName="companyName" [suggestions]="this.filteredClients" [ngClass]="{ 'is-invalid ng-dirty': fcClientDetails.controls['companyName'].touched && fcClientDetails.controls['companyName'].errors }" (keydown)="restrictSpaces($event)" [maxlength]="maxLength.name" [readonly]="projectFormControls['projectId'].value!== null && projectFormControls['projectId'].value!== 0" placeholder="Enter Company Full Name" #CompanyName (completeMethod)="filterClients($event)" (onSelect)="onAutocompleteSelect($event)" [field]="'companyName'" [dataKey]="null" id="Project_fullName"></p-autoComplete>
                       <div class="flex">
                         <div class="align-left w-60" style="width:70%">
                           <span *ngIf="fcClientDetails.controls['companyName'].touched && fcClientDetails.controls['companyName'].invalid">
                             <div class="ng-invalid ng-touched p-error" *ngIf="fcClientDetails.controls['companyName'].errors?.['required']"> Please Enter Company Full Name.</div>
-                            <div class="ng-invalid ng-touched p-error" *ngIf="fcClientDetails.controls['companyName'].errors?.['minlength']"> CompanyName Min Characters Is 2.</div>
-                            <div class="ng-invalid ng-touched p-error" *ngIf="fcClientDetails.controls['companyName'].errors?.['maxlength']"> CompanyName Max Characters Is 50.</div>
+                            <div class="ng-invalid ng-touched p-error" *ngIf="fcClientDetails.controls['companyName'].errors?.['minlength'] || fcClientDetails.controls['companyName'].errors?.['maxlength']"> CompanyName should be minimun of 2 and maximum of 50 Characters.</div>
                             <div class="ng-invalid ng-touched p-error" *ngIf="fcClientDetails.controls['companyName'].errors?.['pattern']"> Company Name Should Contain AlphaNumerics Only.</div>
                           </span>
                         </div>
                       </div>
                     </div>
                     <div class="field  col-12 md:col-4 p-2 mb-1">
-                      <label class="required">Name: </label>&nbsp; <input pInputText id="Project_clientName" type="text" placeholder="Enter Name" alphaOnly [ngClass]="{ 'is-invalid ng-dirty': fcClientDetails.controls['Name'].touched && fcClientDetails.controls['Name'].errors }" (keydown)="restrictSpaces($event)" [maxlength]="maxLength.name" #clientName formControlName="Name" />
+                      <label class="required">Name: </label>&nbsp; <input pInputText id="Project_clientName" type="text" placeholder="Enter Name" alphaOnly [ngClass]="{ 'is-invalid ng-dirty': fcClientDetails.controls['name'].touched && fcClientDetails.controls['name'].errors }" (keydown)="restrictSpaces($event)" [maxlength]="maxLength.name" #clientName formControlName="name" />
                       <div class="flex">
                         <div class="align-left w-60" style="width:70%">
-                          <span *ngIf="fcClientDetails.controls['Name'].touched && fcClientDetails.controls['Name'].invalid">
-                            <div class="ng-invalid ng-touched p-error" *ngIf="fcClientDetails.controls['Name'].errors?.['required']"> Please Enter Name.</div>
-                            <div class="ng-invalid ng-touched p-error" *ngIf="fcClientDetails.controls['Name'].errors?.['minlength']"> Name Min Characters Is 2.</div>
-                            <div class="ng-invalid ng-touched p-error" *ngIf="fcClientDetails.controls['Name'].errors?.['maxlength']"> Name Max Characters Is 50.</div>
+                          <span *ngIf="fcClientDetails.controls['name'].touched && fcClientDetails.controls['name'].invalid">
+                            <div class="ng-invalid ng-touched p-error" *ngIf="fcClientDetails.controls['name'].errors?.['required']"> Please Enter Name.</div>
+                            <div class="ng-invalid ng-touched p-error" *ngIf="fcClientDetails.controls['name'].errors?.['minlength'] || fcClientDetails.controls['name'].errors?.['maxlength']"> Name should be minimun of 2 and maximum of 50 Characters.</div>
                           </span>
                         </div>
                         <div class="align-right w-40" style="width:30%; text-align:right;">
@@ -133,7 +128,7 @@
                         <div class="align-left w-60" style="width:70%">
                           <span *ngIf="fcClientDetails.controls['email'].touched && fcClientDetails.controls['email'].invalid">
                             <div class="ng-invalid ng-touched p-error" *ngIf="fcClientDetails.controls['email'].errors?.['required']"> Please Enter Email Id.</div>
-                            <div class="ng-invalid ng-touched p-error" *ngIf="fcClientDetails.controls['email'].errors?.['pattern']"> Please Enter Valid Client Email Id.</div>
+                            <div class="ng-invalid ng-touched p-error" *ngIf="fcClientDetails.controls['email'].errors?.['pattern']"> Please Enter Valid Email Id.</div>
                           </span>
                         </div>
                       </div>
@@ -158,7 +153,8 @@
                         <div class="align-left w-60" style="width:70%">
                           <span *ngIf="fcClientDetails.controls['cinno'].touched && fcClientDetails.controls['cinno'].invalid">
                             <div class="ng-invalid ng-touched p-error" *ngIf="fcClientDetails.controls['cinno'].errors?.['required']"> Please Enter CIN/GST No.</div>
-                            <div class="ng-invalid ng-touched p-error" *ngIf="fcClientDetails.controls['cinno'].errors?.['minlength']&&fcClientDetails.controls['cinno'].errors?.['maxlength']"> CIN/GST No Must Be In 21 Digits.</div>
+                            <div class="ng-invalid ng-touched p-error" *ngIf="fcClientDetails.controls['cinno'].errors?.['minlength'] || fcClientDetails.controls['cinno'].errors?.['maxlength']"> CIN/GST No Must Be In 21 Digits.</div>
+
                           </span>
                         </div>
                         <div class="align-right w-40" style="width:30%; text-align:right;">
@@ -176,8 +172,7 @@
                         <div class="align-left w-60" style="width:70%">
                           <span *ngIf="fcClientDetails.controls['pocName'].touched && fcClientDetails.controls['pocName'].invalid">
                             <div class="ng-invalid ng-touched p-error" *ngIf="fcClientDetails.controls['pocName'].errors?.['required']"> Please Enter POC Name.</div>
-                            <div class="ng-invalid ng-touched p-error" *ngIf="fcClientDetails.controls['pocName'].errors?.['minlength']"> POC Name Min Characters Is 2.</div>
-                            <div class="ng-invalid ng-touched p-error" *ngIf="fcClientDetails.controls['pocName'].errors?.['maxlength']"> POC Name Max Characters Is 50.</div>
+                            <div class="ng-invalid ng-touched p-error" *ngIf="fcClientDetails.controls['pocName'].errors?.['minlength'] || fcClientDetails.controls['pocName'].errors?.['maxlength']"> POC Name should be minimun of 2 and maximum of 50 Characters.</div>
                           </span>
                         </div>
                         <div class="align-right w-40" style="width:30%; text-align:right;">
@@ -216,9 +211,9 @@
                     </div>
                   </div>
                 </p-fieldset>
-            <p-fieldset legend="Allott Empolyees:" class="mt-2" [toggleable]="true">
+            <p-fieldset legend="Allott Empolyee(s):" class="mt-2 allott-employee" [toggleable]="true">
                 <div class="p-fluid p-formgrid grid">
-                  <div class="field col-12 md:col-4">
+                  <div class="field col-12 md:col-4" style=" padding: unset; border: 1px solid #cccccc;">
 
                     <!-- <p-multiSelect placeholder="Select Employees" [options]="Employees"
                                           optionLabel="employeeName" formControlName="projectAllotments" [filter]="true"
@@ -252,7 +247,7 @@
                       </p-tabPanel>
                     </p-tabView>
                   </div>
-                  <div class="field col-8 md:col-8" style="border:1px solid #cccccc; margin-top:44px;padding:unset">
+                  <div class="field col-8 md:col-8" style="border:1px solid #cccccc; padding:unset">
                     <div style="text-align: center;
                     font-size: 1.1rem;
                     font-weight: 700;
@@ -280,14 +275,15 @@
           </form>
         </div>
         <ng-template pTemplate="footer">
-          <div class="col-12 lg:col-4 md:col-4 sm:col-6" style="float:right">
-            <button pButton pRipple type="submit" [label]="submitLabel" [disabled]="!this.fbproject.valid" class="p-button-raised p-button-primary" (click)="onSubmit()"></button>
+          <div class="col-12 lg:col-4 md:col-4 sm:col-6" style="float:right"> <!-- [disabled]="!this.fbproject.valid"-->
+            <button pButton pRipple type="submit" [label]="submitLabel" class="p-button-raised p-button-primary" (click)="onSubmit()"></button>
           </div>
         </ng-template>
       </p-dialog>
       <!-- Projects View -->
       <div class="card">
-        <p-tabView>
+        <p-toast key="myToast"></p-toast>
+        <p-tabView [(activeIndex)]="activeIndex">
           <p-tabPanel header="Project View">
             <div class="grid mb-5 p-0">
               <div class="col-12 md:col-4 lg:col-3 sm:col-6" *ngFor="let project of visibleProjects; let i = index ">
@@ -401,7 +397,7 @@
             <p-tabPanel header="Team Members ">
               <div class="grid">
                 <div class="col-12 md:col-6">
-                  <button pButton  pRipple icon="pi pi-plus" class="p-element p-ripple p-button-text p-button p-component mr-2" (click)="addEmployees(this.projectDetails)">dfsfsdf</button>
+                  <!-- <button pButton  pRipple icon="pi pi-plus" class="p-element p-ripple p-button-text p-button p-component mr-2" (click)="addEmployees(this.projectDetails)">dfsfsdf</button> -->
                 </div>
               </div>
               <div class="grid">
@@ -420,44 +416,6 @@
           </p-tabView>
         </div>
       </p-dialog>
-      <p-dialog header="Project" [(visible)]="addEmployeeDialog" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '60%'}" [style]="{width: '40%'}">
-        <div class="flex flex-column align-items-center justify-content-center">
-          <form [formGroup]="fbproject" (ngSubmit)="onSubmit()" id="Role_roleForm">
-            <div class="col-12">
-              <div class="p-fluid p-formgrid grid">
-                <div class="field col-12">
-                  <label>Assign Project Members:</label>
-                  <p-multiSelect placeholder="Select Employees" [options]="Employees" optionLabel="employeeName" formControlName="projectAllotments" [filter]="true" 
-                  
-                  
-                  By="employeeId,employeeName" appendTo="body">
-                    <ng-template let-employee pTemplate="selectedItem">
-                      <div class="block align-items-center gap-3">
-                        <div>{{employee.employeeName}}</div>
-                        <div>{{employee.employeeId}}</div>
-                      </div>
-                    </ng-template>
-                  </p-multiSelect>
-                  <div class="grid">
-                    <div class="col-12 md:col-3" *ngFor="let employee of this.fbproject.get('projectAllotments').value">
-                      <div class="m-2 card border-1 surface-border">
-                        <div class="text-xl font-bold">{{employee.employeeName}}</div>
-                        <span class="text-600 font-medium text-sm"> EmpId : {{employee.employeeId}}
-                        </span>
-                        <br />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
-        <ng-template pTemplate="footer">
-          <div class="col-6" style="float:right">
-            <button pButton pRipple type="submit" [label]="submitLabel" [disabled]="!this.fbproject.valid" class="p-button-raised p-button-primary" (click)="onSubmit()"></button>
-          </div>
-        </ng-template>
-      </p-dialog>
+
     </div>
   </div>

@@ -115,7 +115,7 @@ export class ApiHttpService {
     }
     private getServerErrorMessage(error: HttpErrorResponse): any {
         console.log(error);
-
+        console.log(error.error)
         var errorMessage = {
             statusCode: `${error.status}`,
             statusDescription: '',

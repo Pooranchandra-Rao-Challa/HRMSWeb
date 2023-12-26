@@ -34,7 +34,7 @@ export class OrgChart {
             data: null,
             duration: 400,
             setActiveNodeCentered: true,
-            expandLevel: 1,
+            expandLevel: 4,
             compact: true,
             rootMargin: 40,
             nodeDefaultBackground: "none",
@@ -123,8 +123,6 @@ export class OrgChart {
             compactMarginPair: (d) => 100,
             compactMarginBetween: (d3Node) => 20,
             onNodeClick: (d) => d,
-            // onNodeDrop: (d) => d,
-            // onNodeDragEnd: (d) => d,
             linkGroupArc: d3
                 .linkHorizontal()
                 .x((d) => d.x)
@@ -403,9 +401,13 @@ export class OrgChart {
         if(attrs.displayType == "2"){
             attrs.onNodeDragEnd = (d) => d;
             attrs.onNodeDrop = (d) => d;
+            attrs.onNodeDrag = (d) => d;
+            attrs.onDeleteNodeChain = (d) => d;
         }else{
             attrs.onNodeDragEnd = undefined;
             attrs.onNodeDrop = undefined;
+            attrs.onNodeDrag = undefined;
+            attrs.onDeleteNodeChain = undefined;
         }
         //this.attrs.onNodeDrop = (d) => d
 
@@ -484,7 +486,7 @@ export class OrgChart {
 
         //InnerFunctions which will update visuals
         const attrs = this.getChartState();
-        console.log(attrs.displayType);
+
         if (!attrs.data || attrs.data.length == 0) {
             console.log("ORG CHART - Data is empty");
             return this;
@@ -1081,6 +1083,10 @@ export class OrgChart {
 
                 attrs.onNodeClick(attrs.nodeId(data));
             })
+            .on("dragEnable" ,(event,{data}) => {
+                console.log(event);
+                console.log(data);
+            })
             .on("dragstart",(event,{data}) => {
 
                 //event.stopPropagation();
@@ -1088,12 +1094,12 @@ export class OrgChart {
                 console.log(data);
             })
             .on('dragover',(event,{data})=>{
-                attrs.onNodeDragEnd(data);
+                //attrs.onNodeDragEnd(data);
                 event.preventDefault();
-                //console.log(data)
             })
             .on("drop",(event,{data}) =>{
                attrs.onNodeDrop(data);
+               event.preventDefault();
             });
 
         // Add background rectangle for the nodes
