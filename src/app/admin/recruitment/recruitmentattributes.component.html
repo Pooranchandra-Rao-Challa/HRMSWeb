@@ -43,7 +43,7 @@
             <ng-template pTemplate="body" let-attribute>
                 <tr>
                     <td class="text-center">
-                        <button pButton pRipple icon="pi pi-pencil" style="padding: 0px;"
+                        <button pButton pRipple icon="pi pi-pencil" style="padding: 0px;" id="RA_editButton"
                             *ngIf="permissions?.CanManageRecruitmentAttribute"
                             class="p-element p-ripple p-button-text p-button p-component"
                             (click)="openComponentDialog(recruitmentattributeDialogComponent, attribute, ActionTypes.save)"></button>

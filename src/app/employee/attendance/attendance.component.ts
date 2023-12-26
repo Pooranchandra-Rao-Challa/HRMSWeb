@@ -115,7 +115,7 @@ export class AttendanceComponent {
   }
 
   getLeaves() {
-    this.employeeService.getEmployeeLeaveDetails().subscribe((resp) => 
+    this.employeeService.getEmployeeLeaveDetails().subscribe((resp) =>
       this.leaves = resp as unknown as EmployeeLeaveDto[]
     );
   }
@@ -168,26 +168,25 @@ export class AttendanceComponent {
     this.employeeService.GetNotUpdatedEmployees(date, checkPreviousDate).subscribe((resp) => {
       this.NotUpdatedEmployees = resp as unknown as EmployeesList[];
       this.filteredData = [];
-      if (checkPreviousDate) {
-        date = new Date(date)
-        date.setDate(date.getDate() - 1);
-      }
-      this.filteredData = this.employeeAttendanceList.filter((each) =>
-        each[this.datePipe.transform(date, 'dd-MM-yyyy')] === 'NU'
-      );
       if (this.NotUpdatedEmployees.length > 0) {
         this.notUpdatedDates = this.NotUpdatedEmployees[0].date;
+        const formattedDate = this.datePipe.transform(this.notUpdatedDates, 'dd-MM-yyyy');
+        this.filteredData = this.employeeAttendanceList.filter((each) =>
+          each[formattedDate] === 'NU'
+        );
+  
         if (this.notUpdatedDates && this.permissions?.CanManageAttendance && !this.infoMessage) {
           this.infoMessage = true;
-          return this.alertMessage.displayInfo(ALERT_CODES["EAAS003"] + "  " + `${this.datePipe.transform(this.notUpdatedDates, 'dd-MM-yyyy')}`);
+          const message = ALERT_CODES["EAAS003"] + "  " + `${formattedDate}`;
+          return this.alertMessage.displayInfo(message);
         }
-      }
-      else if (this.checkPreviousAttendance) {
+      } else if (this.checkPreviousAttendance) {
         this.checkPreviousAttendance = false;
         this.CheckPreviousDayAttendance();
       }
     });
   }
+  
 
   CheckPreviousDayAttendance() {
     const formattedDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
@@ -225,7 +224,7 @@ export class AttendanceComponent {
         this.getEmployeeDataBasedOnId(emp, leaveType);
         this.dialog = true;
         this.fbleave.reset();
-        if (result&& !result?.rejected)
+        if (result && !result?.rejected)
           this.fbleave.patchValue({
             employeeId: result?.employeeId,
             employeeName: result?.employeeName,
@@ -344,7 +343,7 @@ export class AttendanceComponent {
   clear(table: Table) {
     table.clear();
     this.filter.nativeElement.value = '';
-}
+  }
   getAttendance(employee: any, i: number): string {
     const formattedDate = this.getFormattedDate(i);
     return employee[formattedDate];
