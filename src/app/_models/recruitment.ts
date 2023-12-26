@@ -17,6 +17,7 @@ export class ApplicantViewDto {
     emailId?: string;
     mobileNo?: number;
     photo?: string;
+    status?:number;
     experienceStatus?: string;
     pendingDetails?: string;
     skills?: string;

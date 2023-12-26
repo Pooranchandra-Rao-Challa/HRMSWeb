@@ -212,6 +212,7 @@ export const ALERT_CODES: { [key: string]: string } = {
 
     //Job Opening Details
     'JOD001': 'Job Opening Added Successfully',
+    'DPJ001':'There is no Suitable Applicants for this Job.',
 
     //    Leave Confirmation
     'ALC001': 'Leave Confirmation Updated Successfully',

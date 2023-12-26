@@ -12,6 +12,7 @@ import { RecruitmentService } from 'src/app/_services/recruitment.service';
 import { JobOpeningsListDto } from 'src/app/_models/recruitment';
 import { RecruitmentAttributesDTO } from 'src/app/demo/api/security';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 
 
 @Component({
@@ -41,6 +42,7 @@ export class JobOpeningsComponent {
 
   constructor(
     private adminService: AdminService,
+    public alertMessage: AlertmessageService,
     public ref: DynamicDialogRef,
     private dialogService: DialogService,
     private jwtService: JwtService,
@@ -132,10 +134,12 @@ export class JobOpeningsComponent {
     });
     if (this.fbdoProcess.valid)
       this.RecruitmentService.jobDoProcess(this.fbdoProcess.value).subscribe(resp => {
-
-        if (resp) {
+        if (resp[0].jobOpeningInProcessId) {
           this.router.navigate(['admin/recruitmentprocess', resp[0]?.jobOpeningInProcessId]);
           this.processButtonDisabled = true;
+        }
+        else{
+          this.alertMessage.displayAlertMessage(ALERT_CODES["DPJ001"]);
         }
       })
   }

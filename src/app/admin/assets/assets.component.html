@@ -212,11 +212,22 @@
                   </div>
                 </div>
               </div>
+              <div class="field col-12 md:col-4" style="display: grid;">
+                <img [src]="this.fbassets.get('thumbnail').value  ? this.fbassets.get('thumbnail').value : this.defaultPhoto"
+                    onerror="this.onerror=null;" alt="photo" width="100px" class="up_logo">
+                <label for="singleFile"
+                    class="p-element p-ripple p-button-raised p-button-primary p-button p-component mt-1"
+                    style="width:auto !important; white-space: nowrap;">
+                    <i class="pi pi-paperclip"></i> Choose Photo
+                </label>
+                <input id="singleFile" #fileUpload name="myFile" type="file" [accept]="fileTypes" hidden />
+            </div>
               <div class="field col-12 md:col-4">
                 <label>Is Active: </label>
                 <br>
                 <p-inputSwitch formControlName="isActive" id="isActive"></p-inputSwitch>
               </div>
+
             </div>
           </div>
         </form>

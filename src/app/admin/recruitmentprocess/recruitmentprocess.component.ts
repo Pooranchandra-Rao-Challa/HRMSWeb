@@ -18,6 +18,7 @@ import { RecruitmentService } from 'src/app/_services/recruitment.service';
   ]
 })
 export class RecruitmentProcessComponent {
+  applicants: ApplicantViewDto[] = [];
   attributeTypes: attributeTypeDto[] = [];
   JobOpeningsList: JobOpeningsListDto[] = [];
   applicantsList: ApplicantViewDto[] = [];
@@ -46,6 +47,7 @@ export class RecruitmentProcessComponent {
     this.initForm();
     this.getAttributeStages();
     this.getJobDetails();
+    this.getApplicant();
     if (this.jobOpeninginprocessId)
       this.initApplicants(this.jobOpeninginprocessId);
   }
@@ -64,7 +66,17 @@ export class RecruitmentProcessComponent {
   get FormControls() {
     return this.fbRecruitment.controls;
   }
-
+  patchStarValue(initialValue: number, readonly: boolean): FormControl {
+    const roundedValue = Math.floor(initialValue) + (initialValue % 1 >= 0.5 ? 0.5 : 0);
+    const control = new FormControl({ value: roundedValue, disabled: readonly });
+    return control;
+  }
+  getTechnicalRound1Count(): number {
+    return this.applicantsList.filter(applicant => applicant.technicalRound1At !== null).length;
+  }
+  getHRRound1Count():number{
+    return this.applicantsList.filter(applicant => applicant.technicalRound1At!==null && applicant.hrRoundAt!==null).length;
+  }
   showDialogToMoveHR(applicant) {
     this.initForm();
     this.getAttributeTypes();
@@ -75,8 +87,13 @@ export class RecruitmentProcessComponent {
     this.fbRecruitment.patchValue({
       filteredApplicantId: applicant.filteredApplicantId,
       interviewedBy: this.jwtService.UserId,
-      recruitmentStageId:applicant.technicalRound1At!==null&&applicant.hrRoundAt===null?357:358
+      recruitmentStageId: applicant.technicalRound1At !== null && applicant.hrRoundAt === null ? 357 : 358
     })
+  }
+  getApplicant() {
+    this.RecruitmentService.GetApplicantDetail().subscribe((resp) => 
+      this.applicants = resp as unknown as ApplicantViewDto[]
+    )
   }
   initRAS() {
     this.RecruitmentService.getRAsBasedOnProcessId(this.jobOpeninginprocessId).subscribe(
@@ -155,29 +172,26 @@ export class RecruitmentProcessComponent {
     });
   }
   getAttributeTypes() {
-    this.RecruitmentService.getRecruitmentAttribute(this.jobOpeninginprocessId).subscribe((resp) => {
-      this.attributeTypes = resp as unknown as attributeTypeDto[];
-    })
+    this.RecruitmentService.getRecruitmentAttribute(this.jobOpeninginprocessId).subscribe((resp) => 
+      this.attributeTypes = resp as unknown as attributeTypeDto[])
   }
   getJobDetails() {
-    this.adminService.GetJobDetails().subscribe((resp) => {
-      this.jobOpening = resp as unknown as JobOpeningsDetailsViewDto[];
-    })
+    this.adminService.GetJobDetails().subscribe((resp) => 
+      this.jobOpening = resp as unknown as JobOpeningsDetailsViewDto[])
   }
   initApplicants(jobOpeninginprocessId: number) {
     this.RecruitmentService.getApplicantsForInitialRound(jobOpeninginprocessId).subscribe(resp => {
-      if (this.isRPChecked) {
+      if (this.isRPChecked)
         this.applicantsList = (resp as unknown as ApplicantViewDto[])
           .filter(element => !element.isInProcess);
-      } else 
+      else
         this.applicantsList = resp as unknown as ApplicantViewDto[];
     });
   }
-  
+
   getAttributeStages() {
-    this.lookupService.attributestages().subscribe((resp) => {
-      this.attributeStages = resp as unknown as LookupDetailsDto[];
-    })
+    this.lookupService.attributestages().subscribe((resp) => 
+      this.attributeStages = resp as unknown as LookupDetailsDto[])
   }
   viewApplicantDtls(applicantId: number) {
     this.router.navigate(['admin/viewapplicant'], { queryParams: { applicantId: applicantId } });

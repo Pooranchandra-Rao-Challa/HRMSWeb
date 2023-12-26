@@ -19,7 +19,6 @@ import { JwtService } from 'src/app/_services/jwt.service';
 export class ApplicantComponent {
   @ViewChild('filter') filter!: ElementRef;
   globalFilterFields: string[] = ['name', 'gender', 'experienceStatus', 'emailId', 'mobileNo', 'skills'];
-  value: number = 40;
   applicants: ApplicantViewDto[] = [];
   ActionTypes = Actions;
   dialogRequest: DialogRequest = new DialogRequest();
@@ -49,13 +48,21 @@ export class ApplicantComponent {
   ngOnInit() {
     this.getApplicant();
     this.permissions = this.jwtService.Permissions;
-
   }
 
   getApplicant() {
     this.recruitmentService.GetApplicantDetail().subscribe((resp) => {
-      this.applicants = resp as unknown as ApplicantViewDto[];
-    })
+      const applicants = resp as unknown as ApplicantViewDto[];
+      this.applicants = [];
+      if (applicants) {
+        applicants.map(config => {
+          this.applicants.push({
+            ...config,
+            status: config.experienceStatus === 'Fresher' ? 100 : 0
+          });
+        });
+      }
+    });
   }
 
   onGlobalFilter(table: Table, event: Event) {
@@ -71,7 +78,7 @@ export class ApplicantComponent {
     dv.filteredValue = null;
     this.filter.nativeElement.value = '';
   }
-  
+
   onFilter(dv: DataView, event: Event) {
     if (this.checked === false) {
       dv.filter((event.target as HTMLInputElement).value)
