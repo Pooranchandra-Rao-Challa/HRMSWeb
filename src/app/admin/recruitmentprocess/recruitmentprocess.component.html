@@ -100,9 +100,8 @@
                             </div>
                             <div *ngIf="applicant.isSelectedInTR1!==null"
                                 class="col-12 lg:col-4 md:col-12 p-1 px-2 employee_info text-center">
-                                <i class="pi  text-500 text-primary text-1xl pb-1">Ratting </i>
-                                <!-- <app-star-rating [(ngModel)]="applicant.tR1Rating"></app-star-rating> -->
-                                <p-rating [(ngModel)]="applicant.tR1Rating" [cancel]="false"></p-rating>
+                                <i class="pi  text-500 text-primary text-1xl pb-1">Ratting </i><br/>
+                                <app-star-rating [control]="patchStarValue(applicant.tR1Rating, true)" ></app-star-rating>
                             </div>
                         </div>
                         <div class="grid">
@@ -163,8 +162,8 @@
                             </div>
                             <div *ngIf="applicant.isSelectedInHRRound!==null"
                                 class="col-12 lg:col-4 md:col-12 p-1 px-2 employee_info text-center">
-                                <i class="pi  text-500 text-primary text-1xl pb-1">Ratting </i>
-                                <p-rating [(ngModel)]="applicant.hrRoundRating" [cancel]="false"></p-rating>
+                                <i class="pi  text-500 text-primary text-1xl pb-1">Ratting </i><br/>
+                                <app-star-rating [control]="patchStarValue(applicant.tR1Rating, true)"></app-star-rating>
                             </div>
                         </div>
                         <div class="grid">

@@ -64,6 +64,11 @@ export class RecruitmentProcessComponent {
   get FormControls() {
     return this.fbRecruitment.controls;
   }
+  patchStarValue(initialValue: number, readonly: boolean): FormControl {
+    const roundedValue = Math.floor(initialValue) + (initialValue % 1 >= 0.5 ? 0.5 : 0);
+    const control = new FormControl({ value: roundedValue, disabled: readonly });
+    return control;
+  }
 
   showDialogToMoveHR(applicant) {
     this.initForm();
@@ -75,7 +80,7 @@ export class RecruitmentProcessComponent {
     this.fbRecruitment.patchValue({
       filteredApplicantId: applicant.filteredApplicantId,
       interviewedBy: this.jwtService.UserId,
-      recruitmentStageId:applicant.technicalRound1At!==null&&applicant.hrRoundAt===null?357:358
+      recruitmentStageId: applicant.technicalRound1At !== null && applicant.hrRoundAt === null ? 357 : 358
     })
   }
   initRAS() {
@@ -166,14 +171,16 @@ export class RecruitmentProcessComponent {
   }
   initApplicants(jobOpeninginprocessId: number) {
     this.RecruitmentService.getApplicantsForInitialRound(jobOpeninginprocessId).subscribe(resp => {
-      if (this.isRPChecked) {
+      if (this.isRPChecked)
         this.applicantsList = (resp as unknown as ApplicantViewDto[])
           .filter(element => !element.isInProcess);
-      } else 
+      else
         this.applicantsList = resp as unknown as ApplicantViewDto[];
     });
+
+
   }
-  
+
   getAttributeStages() {
     this.lookupService.attributestages().subscribe((resp) => {
       this.attributeStages = resp as unknown as LookupDetailsDto[];
