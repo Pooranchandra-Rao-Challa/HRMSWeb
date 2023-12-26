@@ -1,6 +1,6 @@
 
 import { HttpEvent } from '@angular/common/http';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import jsPDF from 'jspdf';
 import { Table } from 'primeng/table';
@@ -9,12 +9,13 @@ import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.s
 import { ConfirmationDialogService } from 'src/app/_alerts/confirmationdialog.service';
 import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { AssetsDetailsViewDto, AssetsDto, AssetsViewDto, LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
-import { ConfirmationRequest, ITableHeader } from 'src/app/_models/common';
+import { ConfirmationRequest, ITableHeader, PhotoFileProperties } from 'src/app/_models/common';
 import { AdminService } from 'src/app/_services/admin.service';
 import { JwtService } from 'src/app/_services/jwt.service';
 import { LookupService } from 'src/app/_services/lookup.service';
 import { MAX_LENGTH_20, MAX_LENGTH_256, MAX_LENGTH_3, MAX_LENGTH_50, MAX_LENGTH_7, MIN_LENGTH_2, RG_ALPHA_NUMERIC } from 'src/app/_shared/regex';
 import autoTable from 'jspdf-autotable';
+import { ValidateFileThenUpload } from 'src/app/_validators/upload.validators';
 
 @Component({
   selector: 'app-assets',
@@ -43,7 +44,11 @@ export class AssetsComponent {
   minDateValue: Date = new Date();
   selectedAssetTypeId: number = 0;
   id: number
+  @ViewChild("fileUpload", { static: true }) fileUpload: ElementRef;
+  fileTypes: string = ".pdf, .jpg, .jpeg, .png, .gif"
+  @Output() ImageValidator = new EventEmitter<PhotoFileProperties>();
   employeeName: string;
+  defaultPhoto: string;
 
   constructor(private adminService: AdminService, private formbuilder: FormBuilder,
     private alertMessage: AlertmessageService, private lookupService: LookupService,
@@ -77,10 +82,26 @@ export class AssetsComponent {
 
   ngOnInit() {
     this.permissions = this.jwtService.Permissions;
+    this.defaultPhoto = './assets/layout/images/projectsDefault.jpg';
     this.assetsForm();
     this.initAssets(this.selectedAssetTypeId);
     this.initAssetCategories();
     this.initStatus();
+    this.ImageValidator.subscribe((p: PhotoFileProperties) => {
+      if (this.fileTypes.indexOf(p.FileExtension) > 0 && p.Resize || (p.Size / 1024 / 1024 < 1
+        && (p.isPdf || (!p.isPdf && p.Width <= 300 && p.Height <= 300)))) {
+        this.fbassets.get('thumbnail').setValue(p.File);
+      } else {
+        this.alertMessage.displayErrorMessage(p.Message);
+      }
+
+    })
+    this.fileUpload.nativeElement.onchange = (source) => {
+      for (let index = 0; index < this.fileUpload.nativeElement.files.length; index++) {
+        const file = this.fileUpload.nativeElement.files[index];
+        ValidateFileThenUpload(file, this.ImageValidator, 1, '300 x 300 pixels', true);
+      }
+    }
   }
 
   initAssetTypesbyCategories(id: number) {
@@ -109,6 +130,8 @@ export class AssetsComponent {
       this.assets = resp as unknown as AssetsViewDto[];
       this.assets.forEach(element => {
         element.expandassets = JSON.parse(element.assets) as unknown as AssetsDetailsViewDto[];
+        console.log(element.expandassets );
+        
       });
     })
   }
@@ -127,6 +150,7 @@ export class AssetsComponent {
       warranty: new FormControl(null, Validators.maxLength(MAX_LENGTH_3)),
       addValue: new FormControl(null, Validators.maxLength(MAX_LENGTH_7)),
       description: new FormControl(null, Validators.maxLength(MAX_LENGTH_256)),
+      thumbnail:new FormControl(),
       statusId: new FormControl(null, [Validators.required]),
       isActive: (true),
     });

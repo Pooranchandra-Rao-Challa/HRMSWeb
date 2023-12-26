@@ -95,12 +95,12 @@
             <div class="multi-progress-bar">
                 <div class="progress-segment"
                     [style.width]="(getTechnicalRound1Count() / this.applicantsList.length) * 100 + '%'"
-                    style="text-align: center;background-color: rgb(246, 123, 16)">
+                    style="text-align: center;color: white;background-color: rgb(246, 123, 16)">
                     {{(getTechnicalRound1Count() / this.applicantsList.length) * 100|number:'1.0-1'}}%
                 </div>
                 <div class="progress-segment"
                     [style.width]="100-(getTechnicalRound1Count() / this.applicantsList.length) * 100 + '%'"
-                    style="text-align: center; background-color: rgb(230, 224, 224);">
+                    style="text-align: center;background-color: rgb(230, 224, 224);">
                     {{100-(getTechnicalRound1Count() / this.applicantsList.length) * 100 |number:'1.0-1'}}%
                 </div>
             </div>
@@ -169,7 +169,7 @@
             <div class="multi-progress-bar">
                 <div class="progress-segment"
                     [style.width]="(getHRRound1Count() / getTechnicalRound1Count()) * 100 + '%'"
-                    style="text-align: center;background-color: rgb(246, 123, 16)">
+                    style="text-align: center;color: white;background-color: rgb(246, 123, 16)">
                     {{(getHRRound1Count() / getTechnicalRound1Count()) * 100|number:'1.0-1'}}%
                 </div>
                 <div class="progress-segment"
@@ -308,7 +308,7 @@
                 <div class="field col-12 md:col-6">
                     <label class="required">Recruitment Stage:</label>&nbsp;
                     &nbsp;
-                    <p-dropdown id="projectName" appendTo="body" class="w-100" [options]="attributeStages"
+                    <p-dropdown id="RP_Stage" appendTo="body" class="w-100" [options]="attributeStages"
                         optionLabel="name" placeholder="Select Recruitment Stage" formControlName="recruitmentStageId"
                         optionValue="lookupDetailId" [style]="{'width':'100%'}" [readonly]="true"
                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['recruitmentStageId'].touched && FormControls['recruitmentStageId'].errors}">
@@ -317,7 +317,7 @@
                 <div class="field col-12 md:col-6">
                     <label class="required">Attribute Type:</label>&nbsp;
                     &nbsp;
-                    <p-dropdown id="projectName" appendTo="body" class="w-100" [options]="attributeTypes"
+                    <p-dropdown id="RP_attributeType" appendTo="body" class="w-100" [options]="attributeTypes"
                         optionLabel="attributeType" placeholder="Select Attribute Type"
                         formControlName="attributeTypeId" optionValue="attributeTypeId" [style]="{'width':'100%'}"
                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['attributeTypeId'].touched && FormControls['attributeTypeId'].errors}">
@@ -327,7 +327,7 @@
                     <label class="required pb-1">Recruitment Attributes:</label>
                     <div *ngFor="let item of faInterviewResultsDetails().controls;let i=index" class="pl-2">
                         {{item.get('assessmentTitle').value }}<br />
-                        <app-star-rating [control]="getExpertiseControl(i)"></app-star-rating>
+                        <app-star-rating [control]="getExpertiseControl(i)" id="RP_expertise{{i}}"></app-star-rating>
                     </div>
                 </div>
                 <div class="field col-12 md:col-6">
@@ -360,7 +360,7 @@
     <ng-template pTemplate="footer">
         <div class="col-12 lg:col-4 md:col-4 sm:col-6" style="float:right">
             <button pButton pRipple type="submit" (click)="onSubmit()" class="p-button-raised p-button-primary"
-                id="Attendance_saveLeave" [disabled]="!this.fbRecruitment.valid" label="Submit"></button>
+                id="RP_InterviewResult" [disabled]="!this.fbRecruitment.valid" label="Submit"></button>
         </div>
     </ng-template>
 </p-dialog>

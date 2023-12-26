@@ -5,7 +5,7 @@
                 <div class="p-fluid p-formgrid grid">
                     <div class="field col-12 md:col-4">
                         <label class="required">Assesment Title:</label>
-                        <input type="text" id="RA_Title" pInputText formControlName="assessmentTitle"
+                        <input type="text" id="RA_Title" alphaOnly pInputText formControlName="assessmentTitle"
                             (keydown)="restrictSpaces($event)" placeholder="Enter Assesment Title" />
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
@@ -19,7 +19,7 @@
                         </div>
                     </div>
 
-                                        <div class="field col-12 md:col-4">
+                    <div class="field col-12 md:col-4">
                         <label class="required">Is Active: </label>
                         <br> &nbsp; <p-inputSwitch formControlName="isActive" id="RA_isActive">
                         </p-inputSwitch>

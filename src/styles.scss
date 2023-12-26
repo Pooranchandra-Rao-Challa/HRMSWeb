@@ -609,7 +609,10 @@ label {
 
 .star:hover {
     transform: scale(1.2);
-    color: #f17517
+    color: #f17517;
+}
+.no-hover {
+    pointer-events: none;
 }
 
 .star.half {
