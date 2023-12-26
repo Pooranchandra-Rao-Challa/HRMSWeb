@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ApplicantDialogComponent } from 'src/app/_dialogs/applicant.dialog/applicant.dialog.component';
@@ -151,5 +152,10 @@ export class ViewapplicantComponent {
         }
       }
     });
+  }
+  patchStarValue(initialValue: number, readonly: boolean): FormControl {
+    const roundedValue = Math.floor(initialValue) + (initialValue % 1 >= 0.5 ? 0.5 : 0);
+    const control = new FormControl({ value: roundedValue, disabled: readonly });
+    return control;
   }
 }
