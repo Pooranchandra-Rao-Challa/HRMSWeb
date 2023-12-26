@@ -20,7 +20,24 @@
     <div class="grid">
         <div class="col-12 md:col-4 lg:col-3 sm:col-6">
             <h5>Initial Qualification</h5>
-            <p-progressBar [value]="50" class=""></p-progressBar>
+            <div class="multi-progress-bar">
+                <div class="progress-segment"
+                    [style.width]="(this.applicantsList.length / this.applicants.length) * 100 + '%'"
+                    style="background-color: rgb(246, 123, 16)">
+                    <div class="progress-segment"
+                        [style.width]="(getTechnicalRound1Count() / this.applicantsList.length) * 100 + '%'"
+                        style="background-color: rgb(48, 137, 220)">
+                        <div class="progress-segment"
+                            [style.width]="(getHRRound1Count() / getTechnicalRound1Count()) * 100 + '%'"
+                            style="background-color: rgb(48, 220, 91)">
+                        </div>
+                    </div>
+                </div>
+                <div class="progress-segment"
+                    [style.width]="100-(this.applicantsList.length / this.applicants.length) * 100 + '%'"
+                    style="width: 20%; background-color: rgb(230, 224, 224);"></div>
+            </div>
+
             <div *ngFor="let applicant of applicantsList">
                 <div *ngIf="applicant.technicalRound1At===null && applicant.hrRoundAt===null">
                     <div class="card card-header surface-border orange-200 card-height border-1 m-0 mt-2 p-2  mb-0">
@@ -73,7 +90,15 @@
 
         <div class="col-12 md:col-4 lg:col-3 sm:col-6">
             <h5>Technical Round</h5>
-            <p-progressBar [value]="20" class=""></p-progressBar>
+            <div class="multi-progress-bar">
+                <div class="progress-segment"
+                    [style.width]="(getTechnicalRound1Count() / this.applicantsList.length) * 100 + '%'"
+                    style="background-color: rgb(246, 123, 16)">
+                </div>
+                <div class="progress-segment"
+                    [style.width]="100-(getTechnicalRound1Count() / this.applicantsList.length) * 100 + '%'"
+                    style="width: 20%; background-color: rgb(230, 224, 224);"></div>
+            </div>
             <div *ngFor="let applicant of applicantsList">
                 <div *ngIf="applicant.technicalRound1At!==null && applicant.hrRoundAt===null">
                     <div class="card card-header surface-border orange-200 card-height border-1 m-0 mt-2 p-2  mb-0">
@@ -100,8 +125,9 @@
                             </div>
                             <div *ngIf="applicant.isSelectedInTR1!==null"
                                 class="col-12 lg:col-4 md:col-12 p-1 px-2 employee_info text-center">
-                                <i class="pi  text-500 text-primary text-1xl pb-1">Ratting </i><br/>
-                                <app-star-rating [control]="patchStarValue(applicant.tR1Rating, true)" ></app-star-rating>
+                                <i class="pi  text-500 text-primary text-1xl pb-1">Ratting </i><br />
+                                <app-star-rating [control]="patchStarValue(applicant.tR1Rating, true)">
+                                </app-star-rating>
                             </div>
                         </div>
                         <div class="grid">
@@ -135,7 +161,15 @@
 
         <div class="col-12 md:col-4 lg:col-3 sm:col-6">
             <h5>HR Round </h5>
-            <p-progressBar [value]="70" class=""></p-progressBar>
+            <div class="multi-progress-bar">
+                <div class="progress-segment"
+                    [style.width]="(getHRRound1Count() / getTechnicalRound1Count()) * 100 + '%'"
+                    style="background-color: rgb(246, 123, 16)">
+                </div>
+                <div class="progress-segment"
+                    [style.width]="100-(getHRRound1Count() / getTechnicalRound1Count()) * 100 + '%'"
+                    style="width: 20%; background-color: rgb(230, 224, 224);"></div>
+            </div>
             <div *ngFor="let applicant of applicantsList">
                 <div *ngIf="applicant.technicalRound1At!==null && applicant.hrRoundAt!==null">
                     <div class="card card-header surface-border orange-200 card-height border-1 m-0 mt-2 p-2  mb-0">
@@ -162,8 +196,9 @@
                             </div>
                             <div *ngIf="applicant.isSelectedInHRRound!==null"
                                 class="col-12 lg:col-4 md:col-12 p-1 px-2 employee_info text-center">
-                                <i class="pi  text-500 text-primary text-1xl pb-1">Ratting </i><br/>
-                                <app-star-rating [control]="patchStarValue(applicant.tR1Rating, true)"></app-star-rating>
+                                <i class="pi  text-500 text-primary text-1xl pb-1">Ratting </i><br />
+                                <app-star-rating [control]="patchStarValue(applicant.tR1Rating, true)">
+                                </app-star-rating>
                             </div>
                         </div>
                         <div class="grid">
@@ -293,21 +328,21 @@
                             <label>Soft skills:</label><br />
                             <span *ngIf="jobDetails?.softSkills">
                                 <ul>
-                                  <li *ngFor="let skill of jobDetails.softSkills.split(','); let last = last">
-                                    {{ skill.trim() }}
-                                  </li>
+                                    <li *ngFor="let skill of jobDetails.softSkills.split(','); let last = last">
+                                        {{ skill.trim() }}
+                                    </li>
                                 </ul>
-                              </span>
+                            </span>
                         </div>
                         <div class="col-6">
                             <label>Technical skills:</label><br />
                             <span *ngIf="jobDetails?.softSkills">
                                 <ul>
-                                  <li *ngFor="let skill of jobDetails.technicalSkills.split(','); let last = last">
-                                    {{ skill.trim() }}
-                                  </li>
+                                    <li *ngFor="let skill of jobDetails.technicalSkills.split(','); let last = last">
+                                        {{ skill.trim() }}
+                                    </li>
                                 </ul>
-                              </span>
+                            </span>
                         </div>
                     </div>
                 </div>
