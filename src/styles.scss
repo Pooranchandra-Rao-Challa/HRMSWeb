@@ -52,6 +52,19 @@ $gutter: 1rem; //for primeflex grid system
     padding: 1px;
 }
 
+.multi-progress-bar {
+    display: flex;
+    height: 20px;
+    /* Set the height of the progress bar */
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.progress-segment {
+    flex-grow: 1;
+    height: 100%;
+}
+
 .p-datepicker .p-datepicker-header {
     padding: 2px;
 }
