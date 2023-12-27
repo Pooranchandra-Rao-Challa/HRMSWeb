@@ -27,6 +27,7 @@ import {
   GET_PATH,
   UPDATE_EMPLOYEE_LEAVE_DETAILS,
   GET_EMPLOYEE_PROFILE_PIC,
+  GET_MY_LEAVE_DETAILS,
 
 } from './api.uri.service';
 import { ExperienceDetailsDto, SkillArea, AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments, employeeExperienceDtlsViewDto, FamilyDetailsViewDto, employeeAttendanceDto, EmployeeLeaveDto, EmployeeAttendanceList, CompanyHierarchyViewDto, EmployeeProfilePicViewDto } from '../_models/employes';
@@ -221,6 +222,9 @@ export class EmployeeService extends ApiHttpService {
     return this.get<EmployeeLeaveDto[]>(GET_EMPLOYEE_LEAVE_DETAILS)
   }
 
+  public getMyLeaves(employeeId: number) {
+    return this.getWithId<EmployeeLeaveDto[]>(GET_MY_LEAVE_DETAILS, [employeeId])
+  }
   public CreateEmployeeLeaveDetails(leaveDetails: EmployeeLeaveDto[]) {
     return this.post<EmployeeLeaveDto[]>(CREATE_EMPLOYEE_LEAVE_DETAILS, leaveDetails)
   }

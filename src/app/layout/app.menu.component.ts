@@ -28,7 +28,7 @@ export class AppMenuComponent implements OnInit {
                 return this.jwtService.Permissions.CanViewAssets || this.jwtService.Permissions.CanViewAssetsAllotments;
             case 'Employee':
                 return  this.jwtService.Permissions.CanViewEnrollEmployees ||  this.jwtService.Permissions.CanViewEmployees ||this.jwtService.Permissions.CanViewAttendances ||
-                this.jwtService.Permissions.CanViewLeaves
+                this.jwtService.Permissions.CanViewLeaves ||  this.jwtService.Permissions.CanViewMyLeaves
             default:
                 return false;
         }
@@ -120,7 +120,6 @@ export class AppMenuComponent implements OnInit {
 
                             }
                         ]
-
                     },
                     {
                         label: 'Projects',
@@ -201,8 +200,14 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'Employee Leaves',
                         icon: 'icon-leave-request font-semibold',
-                        routerLink: ['employee/leaves'],
+                        routerLink: ['employee/employeeleaves'],
                         permission: this.jwtService.Permissions.CanViewLeaves
+                    },
+                    {
+                        label: 'My Leaves',
+                        icon: 'icon-leave-request font-semibold',
+                        routerLink: ['employee/myleaves'],
+                        permission: this.jwtService.Permissions.CanViewMyLeaves
                     },
                     {
                         label: 'Notifications',

@@ -107,6 +107,7 @@ export const GET_EMPLOYEE_PROFILE_PIC = "Employee/GetEmployeeBasicInfo";
 
 export const GET_ATTENDENCE = "Attendance/GetMonthlyAttendanceReport";
 export const POST_LISTOF_ATTENDANCES = "Attendance/CreateAttendanceForEmployees";
+export const GET_MY_LEAVE_DETAILS="Attendance/GetLeavesForSelfEmployee";
 export const GET_EMPLOYEE_LEAVE_DETAILS = "Attendance/GetEmployeeLeaves";
 export const CREATE_EMPLOYEE_LEAVE_DETAILS = "Attendance/CreateEmployeeLeave";
 export const UPDATE_EMPLOYEE_LEAVE_DETAILS = "Attendance/UpdateEmployeeLeave";
