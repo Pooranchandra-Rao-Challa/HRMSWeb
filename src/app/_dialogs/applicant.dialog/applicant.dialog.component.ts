@@ -33,6 +33,7 @@ export class ApplicantDialogComponent {
   faapplicantLanguageSkillsDetails!: FormArray;
   genders: General[] | undefined;
   @ViewChild("fileUpload", { static: true }) fileUpload: ElementRef;
+  
   messageDisplayed: boolean = false;
   empUploadDetails: { fileBlob: Blob, title: string, fileName: string }[] = [];
   @Output() ImageValidator = new EventEmitter<PhotoFileProperties>();

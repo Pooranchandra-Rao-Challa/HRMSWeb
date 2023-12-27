@@ -15,7 +15,7 @@ export class HrdashboardComponent implements OnInit, OnDestroy {
   msgs1: any = [
       {
           severity: 'custom',
-          detail: `👋 Hello! Welcome to Freya! Before start please complete your profile to
+          detail: `👋 Hello! Welcome to HRMS! Before start please complete your profile to
   know you better.`
       }
   ];
