@@ -397,7 +397,7 @@ export class ProjectComponent implements OnInit {
             clientId: project.clientId,
             isActive: project.clientIsActive,
             companyName: { clientId: project.clientId, companyName : project.companyName },
-            name: project.name,
+            name: project.clientName,
             email: project.email,
             mobileNumber: project.mobileNumber,
             cinno: project.cinno,

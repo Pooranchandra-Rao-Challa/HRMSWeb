@@ -82,13 +82,17 @@ export class AssetsComponent {
 
   ngOnInit() {
     this.permissions = this.jwtService.Permissions;
+    this.defaultPhoto = './assets/layout/images/projectsDefault.jpg';
     this.assetsForm();
     this.initAssets(this.selectedAssetTypeId);
     this.initAssetCategories();
     this.initStatus();
     this.ImageValidator.subscribe((p: PhotoFileProperties) => {
+      console.log(p);
+      
       if (this.fileTypes.indexOf(p.FileExtension) > 0 && p.Resize || (p.Size / 1024 / 1024 < 1
         && (p.isPdf || (!p.isPdf && p.Width <= 300 && p.Height <= 300)))) {
+          debugger
         this.fbassets.get('thumbnail').setValue(p.File);
       } else {
         this.alertMessage.displayErrorMessage(p.Message);
@@ -101,9 +105,6 @@ export class AssetsComponent {
         ValidateFileThenUpload(file, this.ImageValidator, 1, '300 x 300 pixels', true);
       }
     }
-
-    this.defaultPhoto = './assets/layout/images/projectsDefault.jpg';
-
   }
 
   initAssetTypesbyCategories(id: number) {
@@ -132,8 +133,6 @@ export class AssetsComponent {
       this.assets = resp as unknown as AssetsViewDto[];
       this.assets.forEach(element => {
         element.expandassets = JSON.parse(element.assets) as unknown as AssetsDetailsViewDto[];
-        console.log(element.expandassets );
-        
       });
     })
   }
