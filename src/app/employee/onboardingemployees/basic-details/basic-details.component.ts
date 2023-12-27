@@ -115,6 +115,7 @@ export class BasicDetailsComponent implements OnInit {
             isActive: new FormControl(true, [Validators.required]),
             isAFresher: new FormControl(true, [Validators.required]),
             nationality: new FormControl('', [Validators.required]),
+            isFromRecruitment:new FormControl(false),
             photo: [],
             signDate: [null]
         });
