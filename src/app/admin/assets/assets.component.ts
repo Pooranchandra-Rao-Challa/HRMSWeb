@@ -82,7 +82,6 @@ export class AssetsComponent {
 
   ngOnInit() {
     this.permissions = this.jwtService.Permissions;
-    this.defaultPhoto = './assets/layout/images/projectsDefault.jpg';
     this.assetsForm();
     this.initAssets(this.selectedAssetTypeId);
     this.initAssetCategories();
@@ -102,6 +101,9 @@ export class AssetsComponent {
         ValidateFileThenUpload(file, this.ImageValidator, 1, '300 x 300 pixels', true);
       }
     }
+
+    this.defaultPhoto = './assets/layout/images/projectsDefault.jpg';
+
   }
 
   initAssetTypesbyCategories(id: number) {

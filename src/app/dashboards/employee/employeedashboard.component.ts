@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EmployeeLeaveDialogComponent } from 'src/app/_dialogs/employeeleave.dialog/employeeleave.dialog.component';
-import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
+import { DATE_OF_JOINING, FORMAT_DATE, ORIGINAL_DOB } from 'src/app/_helpers/date.formate.pipe';
 import { Actions, DialogRequest } from 'src/app/_models/common';
 import { SelfEmployeeDto, selfEmployeeMonthlyLeaves } from 'src/app/_models/dashboard';
 import { DashboardService } from 'src/app/_services/dashboard.service';
@@ -14,7 +14,8 @@ import { JwtService } from 'src/app/_services/jwt.service';
 export class EmployeeDashboardComponent {
     empDetails: SelfEmployeeDto;
     defaultPhoto: string;
-    mediumDate: string = MEDIUM_DATE
+    originalDOB: string = ORIGINAL_DOB;
+    dateOfJoining:string = DATE_OF_JOINING;
     ActionTypes = Actions;
     permissions:any
     employeeleaveDialogComponent = EmployeeLeaveDialogComponent;
@@ -45,6 +46,9 @@ export class EmployeeDashboardComponent {
     getEmployeeDataBasedOnId() {
         this.dashBoardService.GetEmployeeDetails(this.jwtService.EmployeeId).subscribe((resp) => {
             this.empDetails = resp as unknown as SelfEmployeeDto;
+            console.log(this.empDetails);
+            this.empDetails.assets = JSON.parse(this.empDetails.allottedAssets);
+            this.empDetails.empaddress = JSON.parse(this.empDetails.addresses);
             this.empDetails.projects = JSON.parse(this.empDetails.workingProjects);
             /^male$/gi.test(this.empDetails.gender)
                 ? this.defaultPhoto = './assets/layout/images/men-emp.jpg'
