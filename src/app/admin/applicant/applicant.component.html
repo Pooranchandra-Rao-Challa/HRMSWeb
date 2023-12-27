@@ -121,9 +121,9 @@
                                     </div>
                                 </div>
                                 <div class="col-12 md:col-6 text-center">
-                                    <p-knob [(ngModel)]="value" [strokeWidth]="10" [size]="60"></p-knob>
+                                        <p-knob [(ngModel)]="applicant.status" [strokeWidth]="10" [size]="60"></p-knob>
                                     <br />
-                                    <div class=" grid mt-0 text-center">
+                                    <div class=" grid mt-0 text-center" *ngIf="applicant.status == 0">
                                         <span class="text-600 font-medium text-md text-center w-100"
                                             *ngIf="applicant.pendingDetails">
                                             Pending: </span>

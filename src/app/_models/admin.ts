@@ -138,17 +138,22 @@ export class projectStatuses {
     date?: Date;
 }
 export class EmployeesList {
-    employeeId: number
-    reportingToId: number;
-    photo: string;
-    fullName: string
-    code: string;
-    designation: string;
-    dateofJoin: Date;
-    reportingTo: string;
-    eRoleName: string;
-    eRoleId: number;
-    date: string;
+    employeeId?: number
+    reportingToId?: number;
+    photo?: string;
+    fullName?: string
+    code?: string;
+    designation?: string;
+    dateofJoin?: Date;
+    reportingTo?: string;
+    eRoleName?: string;
+    eRoleId?: number;
+    date?: string;
+    chartId?: number;
+    hierarchyLevel?: number;
+    selfId?: number;
+    usedInChart?: boolean = false;
+    isActive?: boolean;
 }
 export class ProjectAllotments {
     employeeId?: number
@@ -167,7 +172,7 @@ export class ProjectDetailsDto {
     isActive?: boolean;
     projectAllotments?: []
     projectStatuses?: []
-    clients?: ClientDetailsDto[];
+    clients?: ClientDetailsDto = new ClientDetailsDto();
     createdBy?: string
     createdAt?: string
     updatedBy?: string
@@ -175,7 +180,7 @@ export class ProjectDetailsDto {
 }
 export class ClientDetailsDto {
     clientId: number
-    clientName: string
+    name: string
     companyName: string
     email: string
     mobileNumber: string
@@ -284,38 +289,44 @@ export class SoftSkills {
 }
 
 export class NodeProps {
-    name: string;
-    roleName: string;
-    designation: string;
-    imageUrl: string;
-    area: string;
-    profileUrl: string;
-    office: string;
-    tags: string;
-    isLoggedUser: boolean;
-    positionName: string;
-    id: string;
-    parentId: string;
-    projectName: string;
-    projectDescription: string;
+    name?: string;
+    roleName?: string;
+    designation?: string;
+    imageUrl?: string;
+    area?: string;
+    profileUrl?: string;
+    office?: string;
+    tags?: string;
+    isLoggedUser?: boolean;
+    positionName?: string;
+    id?: string;
+    parentId?: string;
+    employeeId?:number;
+    projectId?: number;
+    projectName?: string;
+    projectDescription?: string;
+    hierarchyLevel?:string;
     assetCount?: number;
     noOfWorkingDays?: number;
     noOfAbsents?: number;
     noOfLeaves?: number;
     clientName?: string;
     clientCompanyName?: string;
-    progress: number[];
-    _directSubordinates: number;
-    _totalSubordinates: number;
-    _upToTheRootHighlighted: boolean;
+    usedInChart: boolean = false;
+    isActive?: boolean;
+    progress?: number[] = [];
+    _directSubordinates?: number;
+    _totalSubordinates?: number;
+    _upToTheRootHighlighted?: boolean;
 }
 
-export class ChartParams {
-    nodes?: NodeProps[];
-}
+// export class ChartParams {
+//     nodes?: NodeProps[];
+// }
 
 export class NodeDropParams {
-    DropNode: NodeProps
+    DropNode?: NodeProps;
+    ChainNode?: NodeProps;
 }
 
 

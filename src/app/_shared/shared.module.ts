@@ -13,7 +13,7 @@ import { NumericInputDirective } from "../_directives/numeric-input.directive";
 import { NumericDirective } from "../_directives/numericOnly.directive";
 import { GlobalFilterService } from "../_services/global.filter.service";
 import { PrimengModule } from "./primeng.module";
-import { DownloadNotification, OrgChartDataNotification } from 'src/app/_services/notifier.services';
+import { DownloadNotification } from 'src/app/_services/notifier.services';
 @NgModule({
     declarations: [
         AlphaDirective,
@@ -40,7 +40,6 @@ import { DownloadNotification, OrgChartDataNotification } from 'src/app/_service
         ConfirmationDialogService,
         GlobalFilterService,
         DownloadNotification,
-        OrgChartDataNotification,
         DatePipe
     ]
 })

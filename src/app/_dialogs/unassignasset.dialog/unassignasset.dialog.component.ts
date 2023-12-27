@@ -18,7 +18,7 @@ export class UnassignassetDialogComponent {
         private alertMessage: AlertmessageService,
         public ref: DynamicDialogRef,
         private config: DynamicDialogConfig) {
-            console.log(this.config.data);
+
 
         }
 

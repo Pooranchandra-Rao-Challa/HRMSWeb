@@ -705,3 +705,47 @@ div:where(.swal2-container) div:where(.swal2-validation-message)::before {
     color: #FF810E !important;
     cursor: pointer;
 }
+
+div.d-leave{
+    .pl-3{
+        padding-left: .8rem !important;
+    }
+    .d-leave-font{
+        font-size: 1rem; font-weight: 900; color: var(--primary-color);cursor: pointer;
+    }
+    .p-calendar{
+        width: 2rem;
+        height: 2rem;
+    }
+
+}
+
+#rolesTabView {
+    // div.p-tabview{
+    //     border: 1px solid #cccccc;
+
+    // }
+    .p-tabview-panels{
+        overflow: auto;
+        height:  calc(100vh - 120px);
+    }
+}
+.project_name{
+    font-size: 1.4rem;color:#41b6a6;
+
+}
+i.fa-link-slash{
+    color: #41b6a6;
+    border: 1px solid white;
+    font-size: 16pt;
+    &:hover{
+        color: rgb(2, 146, 139);
+        border: 1px solid #41b6a6;
+    }
+}
+
+p-fieldset.allott-employee{
+    fieldset.p-fieldset{
+        margin: 10px 0;
+    }
+}
