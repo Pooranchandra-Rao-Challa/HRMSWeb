@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="446px" height="129px" viewBox="0 0 446 129" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>logo-freya</title>
+    <title>logo-hrms</title>
     <defs>
         <linearGradient x1="28.4476672%" y1="1.54220833e-07%" x2="49.999861%" y2="100%" id="linearGradient-1">
             <stop stop-color="#297FFF" offset="0%"></stop>
@@ -28,7 +28,7 @@
         </linearGradient>
     </defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="logo-freya" fill-rule="nonzero">
+        <g id="logo-hrms" fill-rule="nonzero">
             <polygon id="Path" fill="url(#linearGradient-1)" points="0 0 33.8832941 0 33.8832941 21.793665 96 9.5 96 38 33.8832941 50.293665 33.8832941 59.793665 96 47.5 96 76 33.8832941 88.293665 33.8832941 114 0 114"></polygon>
             <path d="M181,45.4350133 L166.604534,45.4350133 L166.604534,41.3289125 C166.604534,38.1352785 168.418136,36.3103448 171.59194,36.3103448 L180.88665,36.3103448 L180.88665,20 L166.151134,20 C153.229219,20 146.428212,27.1856764 146.428212,39.6180371 L146.428212,45.4350133 L136,45.4350133 L136.11335,62.0875332 L146.201511,62.0875332 L146.201511,106 L167.284635,106 L167.284635,62.0875332 L181,62.0875332 L181,45.4350133 Z" id="Path" fill="url(#linearGradient-2)"></path>
             <path d="M225.318182,44 C218.045455,44 212.818182,46.0590406 208.5,51.0922509 L205.204545,44.2287823 L191,44.2287823 L191,106 L212.136364,106 L212.136364,74.6568266 C212.136364,66.7638376 215.318182,63.4464945 222.704545,63.4464945 L231,63.4464945 L231,44 L225.318182,44 Z" id="Path" fill="url(#linearGradient-3)"></path>
