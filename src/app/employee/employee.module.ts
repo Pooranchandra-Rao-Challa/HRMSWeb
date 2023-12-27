@@ -20,8 +20,6 @@ import { BankDetailsComponent } from './onboardingemployees/bank-details/bank-de
 import { CommonDialogModule } from '../_dialogs/common.dialog.module';
 import { OnboardEmployeeService } from 'src/app/_helpers/view.notificaton.services'
 import { FinalsubmitDialogComponent } from '../_dialogs/finalsubmit-dialog/finalsubmit-dialog.component';
-import { ImageCropComponent } from './onboardingemployees/basic-details/crop.component';
-import { ImageCropperModule } from 'ngx-image-cropper';
 
 
 
@@ -42,7 +40,6 @@ import { ImageCropperModule } from 'ngx-image-cropper';
         AddressComponent,
         BankDetailsComponent,
         FinalsubmitDialogComponent,
-        ImageCropComponent
 
     ],
 
@@ -53,7 +50,6 @@ import { ImageCropperModule } from 'ngx-image-cropper';
         FileUploadModule,
         SharedModule,
         CommonDialogModule,
-        ImageCropperModule
     ],
     providers: [OnboardEmployeeService]
 })

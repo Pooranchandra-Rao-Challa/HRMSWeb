@@ -20,6 +20,8 @@ import { StarRatingComponent } from './star-rating/star-rating.component';
 import { RecruitmentattributeDialogComponent } from './recruitmentattribute.dialog/recruitmentattribute.dialog.component';
 import { LeaveconfigurationDialogComponent } from './leaveconfiguration-dialog/leaveconfiguration-dialog.component';
 import { EmployeeLeaveDialogComponent } from './employeeleave.dialog/employeeleave.dialog.component';
+import { ImageCropComponent } from './crop.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 @NgModule({
   declarations: [
@@ -41,11 +43,15 @@ import { EmployeeLeaveDialogComponent } from './employeeleave.dialog/employeelea
     ViewapplicantDialogComponent,
     StarRatingComponent,
     RecruitmentattributeDialogComponent,
-    LeaveconfigurationDialogComponent
+    LeaveconfigurationDialogComponent,
+    ImageCropComponent
+
   ],
-  imports: [SharedModule],
+  imports: [SharedModule,
+  ImageCropperModule],
   exports: [
     StarRatingComponent,
+    ImageCropComponent
   ],
   providers: [DialogService, DynamicDialogRef]
 })
