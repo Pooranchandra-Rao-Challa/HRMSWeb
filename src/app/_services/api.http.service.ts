@@ -22,7 +22,6 @@ export class ApiHttpService {
     }
 
     public UpdateLookups(forceLocal:boolean = false) {
-        console.log(this.jwtService.IsLoggedIn);
 
         if (this.jwtService.IsLoggedIn) {
             this.get<any>(LOOKUP_LOOKUP_KEYS_URI).subscribe({
@@ -35,7 +34,7 @@ export class ApiHttpService {
             )
         }
     }
-    public get<T>(uri: string, options?: any) { 
+    public get<T>(uri: string, options?: any) {
         return this.http.get<T>(URI_ENDPOINT(uri), options)
             .pipe(
                 catchError(error => {
@@ -116,7 +115,7 @@ export class ApiHttpService {
     }
     private getServerErrorMessage(error: HttpErrorResponse): any {
         console.log(error);
-
+        console.log(error.error)
         var errorMessage = {
             statusCode: `${error.status}`,
             statusDescription: '',

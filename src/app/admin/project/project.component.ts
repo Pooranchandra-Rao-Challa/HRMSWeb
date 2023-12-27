@@ -1,29 +1,31 @@
-import { AfterViewInit, ChangeDetectorRef, Component,  ComponentRef,  ElementRef, EventEmitter, OnInit, Output, ViewChild, ViewContainerRef } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+
+import { ChangeDetectorRef, Component, ComponentRef, ElementRef, EventEmitter, OnInit, Output, ViewChild, ViewContainerRef } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { FORMAT_DATE } from 'src/app/_helpers/date.formate.pipe';
-import { ClientDetailsDto, ClientNamesDto, EmployeeHierarchyDto, EmployeesList, ProjectAllotments, ProjectStatus,  ProjectViewDto } from 'src/app/_models/admin';
+import { ClientDetailsDto, ClientNamesDto, EmployeeHierarchyDto, EmployeesList, LookupViewDto, ProjectAllotments, ProjectDetailsDto, ProjectStatus, ProjectViewDto } from 'src/app/_models/admin';
 import { MaxLength, PhotoFileProperties } from 'src/app/_models/common';
-import { NodeProps,ChartParams } from 'src/app/_models/admin'
+import { NodeProps } from 'src/app/_models/admin'
 import { AdminService } from 'src/app/_services/admin.service';
 import { JwtService } from 'src/app/_services/jwt.service';
-import { MAX_LENGTH_20, MAX_LENGTH_21, MAX_LENGTH_256, MAX_LENGTH_50, MIN_LENGTH_2, MIN_LENGTH_20, MIN_LENGTH_21, MIN_LENGTH_4, RG_ALPHA_NUMERIC, RG_EMAIL, RG_PHONE_NO } from 'src/app/_shared/regex';
-import { TreeNode } from 'primeng/api';
+import { MAX_LENGTH_20, MAX_LENGTH_256, MAX_LENGTH_50, MIN_LENGTH_2, MIN_LENGTH_20, MIN_LENGTH_21, MIN_LENGTH_4, RG_PHONE_NO } from 'src/app/_shared/regex';
+import { MessageService, TreeNode } from 'primeng/api';
 import * as go from 'gojs';
 import { CompanyHierarchyViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
-import { DownloadNotification, OrgChartDataNotification,NodeDropNotifier } from 'src/app/_services/notifier.services';
+import { DownloadNotification, D3NodeChangeNotifier } from 'src/app/_services/notifier.services';
 import { DatePipe } from '@angular/common';
 import { ValidateFileThenUpload } from 'src/app/_validators/upload.validators';
 import { D3OrgChartComponent } from './d3-org-chart/d3-org-chart.component';
-import { ThisReceiver } from '@angular/compiler';
+
 interface AutoCompleteCompleteEvent {
     originalEvent: Event;
     query: string;
 }
-
-
-
+export class ProjectRole {
+    Name: string;
+    EnableLink: boolean = false;
+}
 
 @Component({
     selector: 'app-project',
@@ -32,12 +34,12 @@ interface AutoCompleteCompleteEvent {
 })
 export class ProjectComponent implements OnInit {
     @ViewChild("fileUpload", { static: true }) fileUpload: ElementRef;
-    private diagram: go.Diagram;
+
     projects: ProjectViewDto[] = [];
     clientsNames: ClientNamesDto[] = [];
     Employees: EmployeesList[] = [];
     projectStatues: ProjectStatus[];
-    Roles: string[] = []
+    Roles: ProjectRole[] = []
     clientDetails: ClientDetailsDto;
     projectDetailsDialog: boolean = false;
     filteredClients: any;
@@ -45,7 +47,6 @@ export class ProjectComponent implements OnInit {
     fbproject!: FormGroup;
     minDate: Date;
     maxLength: MaxLength = new MaxLength();
-    addEmployeeDialog: boolean;
     editProject: boolean;
     permission: any;
     addFlag: boolean = true;
@@ -54,6 +55,7 @@ export class ProjectComponent implements OnInit {
     companyHierarchy: CompanyHierarchyViewDto[] = [];
     selectedProjectId: number = -1;
     AllotedNodes: NodeProps[] = [];
+    activeIndex: number = 0;
 
 
     @ViewChild('orgProjectChart', { read: ViewContainerRef, static: true })
@@ -95,35 +97,34 @@ export class ProjectComponent implements OnInit {
         this.downloadNotifier.sendData(true);
     }
 
-    preparOrgHierarchy() {
-    }
+
     onProjectChange(event) {
         this.selectedProjectId = event;
-        //this.projectNotifier.sendSelectedProjectId(this.selectedProjectId);
         if (this.selectedProjectId === -1) {
-            this.organizationData();
+            this.initRootNodeOnAdd(true);
         }
         else {
-            this.employeeProjectData(this.selectedProjectId);
+            this.employeeProjectData(this.selectedProjectId, true);
         }
     }
     constructor(private formbuilder: FormBuilder, private adminService: AdminService,
         private employeeService: EmployeeService, private alertMessage: AlertmessageService,
         private jwtService: JwtService, private downloadNotifier: DownloadNotification,
-        private datePipe: DatePipe, private chartDataNotification: OrgChartDataNotification,
-        private nodeDropNotifier: NodeDropNotifier, private viewContainerRef: ViewContainerRef,
+        private datePipe: DatePipe,
+        private messageService: MessageService,
+        private d3NodeChanger: D3NodeChangeNotifier, private viewContainerRef: ViewContainerRef,
         private cdr: ChangeDetectorRef) { }
 
     ngOnInit() {
+
         this.permission = this.jwtService.Permissions;
         this.defaultPhoto = './assets/layout/images/projectsDefault.jpg';
         this.projectForm();
         this.initProjects();
         this.initClientNames();
         this.unAssignEmployeeForm();
-        this.allottEmployeesToProject();
-        this.organizationData();
         this.initProjectStatuses();
+        this.initRootNodeOnAdd(true);
         this.ImageValidator.subscribe((p: PhotoFileProperties) => {
             if (this.fileTypes.indexOf(p.FileExtension) > 0 && p.Resize || (p.Size / 1024 / 1024 < 1
                 && (p.isPdf || (!p.isPdf && p.Width <= 400 && p.Height <= 500)))) {
@@ -138,14 +139,48 @@ export class ProjectComponent implements OnInit {
                 ValidateFileThenUpload(file, this.ImageValidator, 1024 * 1024, '300 x 300 pixels', true);
             }
         }
-        this.nodeDropNotifier.getDropNodes().subscribe(value =>{
-            this.onEmployeeDrop(value);
+        this.d3NodeChanger.getDropNodes().subscribe(value => {
+            if (value.DropNode) {
+                let parentLevel: number = Number(value.DropNode.hierarchyLevel)
+                let childLevel: number = Number(this.dragNode.hierarchyLevel)
+                let parentRole = value.DropNode.roleName
+                let childRole = this.dragNode.eRoleName
+
+                if (childLevel > parentLevel) {
+                    this.onEmployeeDrop(value.DropNode);
+                }else{
+                    this.messageService.add({ severity: 'error', key: 'myToast', summary: 'Higher level role can not be added to lower level role!', detail: `Trying to add ${childRole} role to ${parentRole} role, which is incorrect` });
+                }
+            }
+            else if (value.ChainNode) {
+                let chainNodes: NodeProps[] = []
+                this.nodeChainForDelete(value.ChainNode, chainNodes);
+                chainNodes.push(Object.assign({}, (value.ChainNode as any).data));
+                chainNodes.forEach((value) => {
+
+                    var d = this.AllotedNodes.filter(val => val.employeeId == value.employeeId);
+                    value.usedInChart = false;
+                    this.Employees.forEach(fn => {
+                        if (fn.employeeId == value.employeeId) {
+                            fn.usedInChart = false;
+                        }
+                    })
+                    if (d.length) {
+                        let i = this.AllotedNodes.indexOf(d[0]);
+                        this.AllotedNodes.splice(i, 1);
+                    }
+
+                });
+                this.removeProjectAllottment(chainNodes);
+                this.initAllotEmpCharts(this.AllotedNodes);
+            }
+
         })
     }
 
     projectForm() {
         this.fbproject = this.formbuilder.group({
-            clientId: [0],
+            clientId: [null],
             projectId: [null],
             code: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_4), Validators.maxLength(MAX_LENGTH_20)]),
             name: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
@@ -154,13 +189,13 @@ export class ProjectComponent implements OnInit {
             eProjectStatusesId: ['', [Validators.required]],
             Date: new FormControl('', [Validators.required]),
             clients: this.formbuilder.group({
-                clientId: [],
+                clientId: [null],
                 isActive: [true, [Validators.required]],
-                companyName: new FormControl(null, [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
-                Name: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
-                email: new FormControl('', [Validators.required]),
+                companyName: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
+                name: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
+                email: new FormControl('', [Validators.required, Validators.pattern("^[A-Za-z0-9._-]+[@][A-Za-z0-9._-]+[\.][A-Za-z]{2,4}$")]),
                 mobileNumber: new FormControl('', [Validators.required, Validators.pattern(RG_PHONE_NO)]),
-                cinno: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_20), Validators.maxLength(MAX_LENGTH_50)]),
+                cinno: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_21), Validators.maxLength(MIN_LENGTH_21)]),
                 pocName: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
                 pocMobileNumber: new FormControl('', [Validators.required, Validators.pattern(RG_PHONE_NO)]),
                 address: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
@@ -168,6 +203,18 @@ export class ProjectComponent implements OnInit {
             projectStatuses: new FormControl(),
             projectAllotments: new FormControl([])
         });
+    }
+
+    nodeChainForDelete(d: any, chainNodes: NodeProps[]) {
+        if (d.children) {
+            d.children.forEach(element => {
+                chainNodes.push(Object.assign({}, element.data));
+                if (element.children) {
+                    this.nodeChainForDelete(element, chainNodes)
+                }
+            })
+        }
+
     }
 
     unAssignEmployeeForm() {
@@ -178,11 +225,10 @@ export class ProjectComponent implements OnInit {
             isActive: new FormControl('', [Validators.required]),
         });
     }
+
     initProjectStatuses() {
         this.adminService.ProjectStatuses().subscribe((resp) => {
             this.projectStatues = resp as unknown as ProjectStatus[];
-            console.log(this.projectStatues);
-
         })
     }
     restrictSpaces(event: KeyboardEvent) {
@@ -231,8 +277,6 @@ export class ProjectComponent implements OnInit {
     initProjects() {
         this.adminService.GetProjects().subscribe(resp => {
             this.projects = resp as unknown as ProjectViewDto[];
-            console.log(resp);
-            
             let projectDTO: ProjectViewDto = new ProjectViewDto
             projectDTO.projectId = -1;
             projectDTO.name = "Org Chart"
@@ -302,12 +346,6 @@ export class ProjectComponent implements OnInit {
             this.fbproject.get('Date').setValue('');
     }
 
-    // getProjectStatusBasedOnId(id?: number): any {
-    //     if (id !== undefined && id >= 1 && this.projectStatues != undefined) {
-    //         const status = this.projectStatues.find(each => each.eProjectStatusesId === id);
-    //         return status ? status.name : "";
-    //     }
-    // }
 
     getFormattedDate(date: Date) {
         return this.datePipe.transform(date, 'MM/dd/yyyy')
@@ -322,23 +360,27 @@ export class ProjectComponent implements OnInit {
             const status = this.projectStatues.find(each => each.eProjectStatusesId === this.projectDetails.activeStatusId);
             this.minDate = new Date(this.projectDetails[status.name.toLowerCase()]);
             this.editEmployee(project);
-            this.getEmployeesListBasedOnProject(project.projectId);
+            this.bindChartNodes(0);
+            this.submitLabel = "Edit Project";
+            this.employeeProjectData(project.projectId);
         } else {
             this.addFlag = true;
             this.submitLabel = "Add Project";
-            this.getEmployeesListBasedOnProject(0);
+            this.bindChartNodes(0);
+            this.initRootNodeOnAdd(false);
         }
+
     }
     getActiveStatus(project) {
         const statusList = this.projectStatues ?? [];
         const status = statusList.find(each => each?.eProjectStatusesId === project.activeStatusId);
         return status?.name;
-      }
-      
+    }
+
     editEmployee(project) {
+        this.allottEmployeesref.clear();
         this.addFlag = false;
         this.submitLabel = "Update Project Details";
-        this.projectDetails = project;
         const date = this.projectStatues.filter(each => each.eProjectStatusesId === project.activeStatusId)
         this.fbproject.patchValue({
             clientId: project.clientId,
@@ -354,8 +396,8 @@ export class ProjectComponent implements OnInit {
         this.fbproject.get('clients').patchValue({
             clientId: project.clientId,
             isActive: project.clientIsActive,
-            companyName: { companyName: project.companyName },
-            Name: project.clientName,
+            companyName: { clientId: project.clientId, companyName : project.companyName },
+            name: project.name,
             email: project.email,
             mobileNumber: project.mobileNumber,
             cinno: project.cinno,
@@ -365,18 +407,12 @@ export class ProjectComponent implements OnInit {
         });
     }
 
-    addEmployees(projectDetails: ProjectViewDto) {
-        this.editProject = true;
-        this.projectForm();
-        this.getEmployeesListBasedOnProject(projectDetails.projectId);
-        this.editEmployee(projectDetails);
-    }
 
     onAutocompleteSelect(selectedOption: ClientNamesDto) {
         this.adminService.GetClientDetails(selectedOption.clientId).subscribe(resp => {
             this.clientDetails = resp[0];
             this.fcClientDetails.get('clientId')?.setValue(this.clientDetails.clientId);
-            this.fcClientDetails.get('Name')?.setValue(this.clientDetails.clientName);
+            this.fcClientDetails.get('name')?.setValue(this.clientDetails.name);
             this.fcClientDetails.get('email')?.setValue(this.clientDetails.email);
             this.fcClientDetails.get('mobileNumber')?.setValue(this.clientDetails.mobileNumber);
             this.fcClientDetails.get('cinno')?.setValue(this.clientDetails.cinno);
@@ -387,14 +423,18 @@ export class ProjectComponent implements OnInit {
     }
 
     saveProject() {
+
+        let values = Object.assign({}, this.fbproject.value);
+        if(values.clients.companyName instanceof Object){
+            let companyName = values.clients.companyName.companyName;
+            values.clients.companyName = companyName;
+        }
+
         if (this.addFlag) {
-            if (this.clientDetails)
-                this.fcClientDetails.get('companyName')?.setValue(this.clientDetails.companyName);
-            return this.adminService.CreateProject(this.fbproject.value);
+            return this.adminService.CreateProject(values);
         }
         else {
-            this.getSelectedItemName(this.fcClientDetails.controls['companyName'].value);
-            return this.adminService.UpdateProject(this.fbproject.value)
+            return this.adminService.UpdateProject(values)
         }
     }
 
@@ -415,6 +455,7 @@ export class ProjectComponent implements OnInit {
     }
 
     onSubmit() {
+
         const newProjectStatus = {
             eProjectStatusesId: this.fbproject.get('eProjectStatusesId').value,
             Date: FORMAT_DATE(new Date(this.fbproject.get('Date').value)),
@@ -443,20 +484,21 @@ export class ProjectComponent implements OnInit {
         }
     }
 
-    getSelectedItemName(item: { companyName: string }) {
-        this.fcClientDetails.get('companyName')?.setValue(item.companyName);
+    getSelectedItemName(item) {
+        this.fcClientDetails.get('companyName')?.setValue({ companyName: item });
     }
 
     save() {
         if (this.fbproject.valid) {
-            this.saveProject().subscribe(resp => {
+            let abc = this.saveProject();
+            abc.subscribe(resp => {
                 if (resp) {
-                    this.addEmployeeDialog = false;
                     this.editProject = false;
                     this.initProjects();
                     this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "PAS001" : "PAS002"]);
                     if (this.projectDetailsDialog)
                         this.showProjectDetails(this.projectDetails.projectId);
+                    this.addFlag = false;
                 }
             })
         }
@@ -475,16 +517,29 @@ export class ProjectComponent implements OnInit {
         });
     }
 
-    getEmployeesListBasedOnProject(projectId: number) {
+    bindChartNodes(projectId: number) {
         this.adminService.getEmployees(projectId).subscribe(resp => {
             this.Employees = resp as unknown as EmployeesList[];
-            this.Roles = this.Employees.map(fn => fn.eRoleName).filter((role,i,roles) => roles.indexOf(role) === i);
+            this.Roles = this.Employees.map(fn => {
+                return {
+                    RoleName: fn.eRoleName,
+                    HierarchyLevel: fn.hierarchyLevel
+                };
+            }).filter((role, i, roles) => roles.map(gn => gn.RoleName).indexOf(role.RoleName) === i).map(n => {
+                return {
+                    Name: n.RoleName,
+                    HierarchyLevel: n.HierarchyLevel,
+                    EnableLink: true
+                };
+            });
+            this.Roles = this.Roles.reverse();
         });
     }
 
     getRoleEmployees(roleName: string): EmployeesList[] {
-        return this.Employees.filter(value => value.eRoleName === roleName)
+        return this.Employees.filter(value => value.eRoleName === roleName && (value.usedInChart == false || value.usedInChart === undefined))
     }
+
     filterClients(event: AutoCompleteCompleteEvent) {
         this.filteredClients = this.clientsNames;
         let filtered: any[] = [];
@@ -496,45 +551,75 @@ export class ProjectComponent implements OnInit {
         }
         this.filteredClients = filtered;
     }
+
     dragNode: EmployeesList
-    onEmployeeDragEnd(){
+    onEmployeeDragEnd() {
 
     }
-    onEmployeeDragStart(empoloyee){
+    onEmployeeDragStart(empoloyee) {
         this.dragNode = Object.assign({}, empoloyee)
     }
+    updateProjectAllottment(){
+        var values = this.fbproject.value;
+        let projectAllotments: any[] = this.fbproject.get('projectAllotments').value;
+        projectAllotments.push({
+            employeeId: this.dragNode.employeeId,
+            projectId: values.projectId,
 
-    onEmployeeDrop(parentNode){
-        console.log(parentNode);
-        console.log(this.dragNode);
+        });
+        this.fbproject.get('projectAllotments').patchValue(projectAllotments);
+    }
 
-        let project = this.fbproject.value as ProjectViewDto
+    removeProjectAllottment(deleteNodes: NodeProps[]){
+        let projectAllotments: any[] = this.fbproject.get('projectAllotments').value;
+        deleteNodes.forEach(fn => {
+            var allottedEmployee = projectAllotments.filter(fn => fn.employeeId == this.dragNode.employeeId);
+            if(allottedEmployee.length > 0){
+                projectAllotments.splice(projectAllotments.indexOf(allottedEmployee),1);
+            }
+        });
+        this.fbproject.get('projectAllotments').patchValue(projectAllotments);
+    }
+    onEmployeeDrop(parentNode) {
+
+        let pNode = parentNode;
+        let project = this.fbproject.value as ProjectDetailsDto;
+        if(!project.clients) project.clients = new ClientDetailsDto();
+        this.updateProjectAllottment();
 
         let item: NodeProps = new NodeProps()
         let emp = this.dragNode;
-        let currentHierarcy = this.companyHierarchies.filter( value => value.chartId == emp.eRoleId)[0]
-        console.log(currentHierarcy);
+        this.Employees.forEach(fn => {
+            if (fn.employeeId == emp.employeeId) {
+                fn.usedInChart = true;
+                item.isActive = fn.isActive == undefined ? false : fn.isActive;
+            }
+        });
 
+        item.id = `1-${emp.chartId}-${emp.employeeId}`; // Use a unique prefix like "1-" for this project
 
-        item.id = `0-${currentHierarcy.chartId}-${emp.employeeId}`; // Use a unique prefix like "1-" for this project
-        if (currentHierarcy.selfId && emp.reportingToId)
-            item.parentId = `1-${currentHierarcy.selfId}-${emp.reportingToId}`; // Make sure the parent ID is unique too
+        if (pNode.id)
+            item.parentId = pNode.id //`1-${currentHierarcy.selfId}-${emp.reportingToId}`; // Make sure the parent ID is unique too
         else item.parentId = null
 
         item.name = emp.fullName;
         item.roleName = emp.eRoleName;
+        item.employeeId = emp.employeeId;
         item.designation = emp.designation;
-        item.imageUrl = "assets/layout/images/default_icon_employee.jpg"
-        if (emp.photo) item.imageUrl = emp.photo
+        item.imageUrl = "assets/layout/images/default_icon_employee.jpg";
+        if (emp.photo) item.imageUrl = emp.photo;
         else item.imageUrl = 'data:image/jpeg;base64,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';
-        item.office = `Office-${currentHierarcy.hierarchyLevel}`
+
         item.isLoggedUser = false;
         item.area = emp.fullName;
+        item.hierarchyLevel = emp.hierarchyLevel + '';
         item.profileUrl = "assets/layout/images/default_icon_employee.jpg";
-        item.projectDescription = project.description
-        item.projectName = project.name
-        item.clientName = project.clientName
-        item.clientCompanyName = project.companyName
+        item.projectDescription = project.description;
+        item.projectName = project.name;
+        item.projectId = project.projectId;
+        item.clientName = project.clients.name;
+        item.clientCompanyName = project.clients.companyName;
+        item.usedInChart = true;
         // item.noOfWorkingDays = emp.noOfWorkingDays
         // item.noOfAbsents = emp.noOfAbsents
         // item.noOfLeaves = emp.noOfLeaves
@@ -545,185 +630,172 @@ export class ProjectComponent implements OnInit {
         item._upToTheRootHighlighted = true;
 
         const val = Math.round(emp.eRoleName.length / 2);
-        item.progress = [...new Array(val)].map((d) => Math.random() * 25 + 5);
-        this.AllotedNodes.push(item)
-        console.log(this.AllotedNodes);
+        item.progress = [...new Array(val)].map((d) => Math.random() * 25 + 5);//
+        this.AllotedNodes.push(item);
 
         this.initAllotEmpCharts(this.AllotedNodes)
 
         //item._directSubordinates = data.filter(d => d.selfId == currentHierarcy.chartId).length;
         //item._totalSubordinates = data.filter(d => d.hierarchyLevel > currentHierarcy.hierarchyLevel).length;
+
     }
 
+    loadCompanyHierarchies(isAdd: boolean = false, showOrgChart: boolean = false) {
+
+        this.companyHierarchies.splice(0, this.companyHierarchies.length);
+        this.employeeService.getCompanyHierarchy().subscribe((resp) => {
+            let data = resp as unknown as CompanyHierarchyViewDto[];
+            data.forEach(org => {
+                this.companyHierarchies.push(Object.assign({}, org));
+            });
+
+            if (isAdd && !showOrgChart) this.loadRootNodeOnAdd();
+            else if (isAdd && showOrgChart) this.loadOrgChart();
+        });
+
+    }
+
+    loadOrgChart() {
+        let nodes: NodeProps[] = [];
+        this.companyHierarchies.forEach(rNode => {
+            let item: NodeProps = new NodeProps()
+            item.id = `1-${rNode.chartId}`
+            if (rNode.selfId)
+                item.parentId = `1-${rNode.selfId}`;
+            else item.parentId = null;
+
+            item.name = rNode.roleName;
+            item.roleName = rNode.roleName;
+            item.imageUrl = "assets/layout/images/default_icon_employee.jpg"
+            item.isLoggedUser = false;
+            item.hierarchyLevel = rNode.hierarchyLevel+'';
+            item.profileUrl = "assets/layout/images/default_icon_employee.jpg"
+            item._upToTheRootHighlighted = true;
+            const val = Math.round(rNode.roleName.length / 2);
+            item.progress = [...new Array(val)].map((d) => Math.random() * 25 + 5);
+
+            item.usedInChart = true;
+            item._directSubordinates = this.companyHierarchies.filter(d => d.selfId == rNode.chartId).length
+            item._totalSubordinates = this.companyHierarchies.filter(d => d.hierarchyLevel > rNode.hierarchyLevel).length
+            nodes.push(item);
+        });
+
+        this.initOrgCharts(nodes);
+    }
     companyHierarchies: CompanyHierarchyViewDto[] = [];
 
-    organizationData() {
-        let nodes: NodeProps[] = [];
-        //let chartParams: ChartParams = {};
-        this.employeeService.getCompanyHierarchy().subscribe((resp) => {
-            let data = resp as unknown as CompanyHierarchyViewDto[];
+    loadRootNodeOnAdd() {
+        let rd = this.companyHierarchies.filter(f => f.selfId == null)
+        if (rd.length === 1) {
+            let rNode: CompanyHierarchyViewDto = Object.assign({}, rd[0]);
+            let item: NodeProps = new NodeProps()
+            item.id = `1-${rNode.chartId}`
+            if (rNode.selfId)
+                item.parentId = `1-${rNode.selfId}`;
+            else item.parentId = null;
 
-            data.forEach(org => {
-                this.companyHierarchies.push(Object.assign({},org));
-                let item: NodeProps = new NodeProps()
-                item.id = `0-${org.chartId}`
-                if (org.selfId)
-                    item.parentId = `0-${org.selfId}`
-                else item.parentId = null
-                item.name = org.roleName;
-                item.roleName = org.roleName;
-                item.imageUrl = "assets/layout/images/default_icon_employee.jpg"
-                item.office = `Office-${org.hierarchyLevel}`
-                item.isLoggedUser = false;
-                item.area = org.roleName;
-                item.profileUrl = "assets/layout/images/default_icon_employee.jpg"
-                item._upToTheRootHighlighted = true;
-                const val = Math.round(org.roleName.length / 2);
-                item.progress = [...new Array(val)].map((d) => Math.random() * 25 + 5);
+            item.name = rNode.roleName;
+            item.roleName = rNode.roleName;
+            item.imageUrl = "assets/layout/images/default_icon_employee.jpg"
+            item.isLoggedUser = false;
+            item.hierarchyLevel = rNode.hierarchyLevel+'';
+            item.profileUrl = "assets/layout/images/default_icon_employee.jpg"
+            item._upToTheRootHighlighted = true;
 
-                item._directSubordinates = data.filter(d => d.selfId == org.chartId).length
-                item._totalSubordinates = data.filter(d => d.hierarchyLevel > org.hierarchyLevel).length
+            const val = Math.round(rNode.roleName.length / 2);
+            item.progress = [...new Array(val)].map((d) => Math.random() * 25 + 5);
 
+            item._directSubordinates = this.companyHierarchies.filter(d => d.selfId == rNode.chartId).length
+            item._totalSubordinates = this.companyHierarchies.filter(d => d.hierarchyLevel > rNode.hierarchyLevel).length
 
-                nodes.push(item)
-            });
-            this.initOrgCharts(nodes)
-           // chartParams.nodes = nodes;
-            //this.chartDataNotification.sendNodes(chartParams);
-            //this.updateChart(this.chart,this.data);
-        });
+            this.AllotedNodes.push(item);
+            this.initAllotEmpCharts(this.AllotedNodes);
+        }
+    }
+
+    initRootNodeOnAdd(showOrgChart: boolean = false) {
+        this.AllotedNodes.splice(0, this.AllotedNodes.length);
+        this.loadCompanyHierarchies(true, showOrgChart);
     }
 
 
-    employeeProjectData(projectId: number) {
-        let nodes: NodeProps[] = []
-        //let chartParams: ChartParams = {};
+    employeeProjectData(projectId: number, showOrgChart: boolean = false) {
+        this.loadCompanyHierarchies(false);
+        this.AllotedNodes.splice(0, this.AllotedNodes.length);
         this.adminService.GetEmployeeHierarchy(projectId).subscribe((resp) => {
             let data = resp as unknown as EmployeeHierarchyDto[];
+            console.log(data);
+
+            let projectAllotments: any[] = [] ;
+
+
             data.forEach(empchart => {
-                // let item: NodeProps = new NodeProps()
+                let item: NodeProps = new NodeProps()
+                projectAllotments.push({
+                    employeeId: empchart.employeeId,
+                    projectId: projectId,
+                });
+                item.id = empchart.selfId == null ? `1-${empchart.chartId}` : `1-${empchart.chartId}-${empchart.employeeId}`;
+                if (empchart.selfId && empchart.selfId == 1)
+                    item.parentId = `1-${empchart.selfId}`; // Make sure the parent ID is unique too
+                else if (empchart.selfId && empchart.reportingToId)
+                    item.parentId = `1-${empchart.selfId}-${empchart.reportingToId}`; // Make sure the parent ID is unique too
+                else item.parentId = null // Make sure the parent ID is unique too
 
-                // item.id = `1-${empchart.chartId}-${empchart.employeeId}`; // Use a unique prefix like "1-" for this project
-                // if (empchart.selfId && empchart.reportingToId)
-                //     item.parentId = `1-${empchart.selfId}-${empchart.reportingToId}`; // Make sure the parent ID is unique too
-                // else item.parentId = null
+                let emp = this.Employees.filter(fn => fn.employeeId == empchart.employeeId);
+                if (emp.length == 1) {
+                    emp[0].usedInChart = true;
+                    emp[0].isActive = true;
+                }
 
-                // item.name = empchart.employeeName;
-                // item.roleName = empchart.employeeName;
-                // item.designation = empchart.designation;
-                // item.imageUrl = "assets/layout/images/default_icon_employee.jpg"
-                // if (empchart.photo) item.imageUrl = empchart.photo
-                // else item.imageUrl = 'data:image/jpeg;base64,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';
-                // item.office = `Office-${empchart.hierarchyLevel}`
-                // item.isLoggedUser = false;
-                // item.area = empchart.employeeName;
-                // item.profileUrl = "assets/layout/images/default_icon_employee.jpg";
-                // item.projectDescription = empchart.projectDescription
-                // item.projectName = empchart.projectName
-                // item.clientName = empchart.clientName
-                // item.clientCompanyName = empchart.clientCompanyName
-                // item.noOfWorkingDays = empchart.noOfWorkingDays
-                // item.noOfAbsents = empchart.noOfAbsents
-                // item.noOfLeaves = empchart.noOfLeaves
-                // item.assetCount = empchart.assetCount
 
-                // // item.positionName = `Position-${empchart.roleId}`
-                // // item.positionName = `Size-${empchart.selfId}`
-                // item._upToTheRootHighlighted = true;
+                item.name = empchart.employeeName;
+                item.isActive = true;
+                item.usedInChart = true;
+                item.roleName = empchart.roleName;
+                item.designation = empchart.designation;
+                item.imageUrl = "assets/layout/images/default_icon_employee.jpg"
+                if (empchart.photo) item.imageUrl = empchart.photo
+                else item.imageUrl = 'data:image/jpeg;base64,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';
+                item.isLoggedUser = false;
+                item.employeeId = empchart.employeeId
+                item.projectId = empchart.projectId
+                item.hierarchyLevel = empchart.hierarchyLevel;
+                item.profileUrl = "assets/layout/images/default_icon_employee.jpg";
+                item.projectDescription = empchart.projectDescription
+                item.projectName = empchart.projectName
+                item.clientName = empchart.clientName
+                item.clientCompanyName = empchart.clientCompanyName
+                item.noOfWorkingDays = empchart.noOfWorkingDays
+                item.noOfAbsents = empchart.noOfAbsents
+                item.noOfLeaves = empchart.noOfLeaves
+                item.assetCount = empchart.assetCount
+                item._upToTheRootHighlighted = true;
 
-                // const val = Math.round(empchart.roleName.length / 2);
-                // item.progress = [...new Array(val)].map((d) => Math.random() * 25 + 5);
+                const val = Math.round(empchart.roleName.length / 2);
+                item.progress = [...new Array(val)].map((d) => Math.random() * 25 + 5);
 
-                // item._directSubordinates = data.filter(d => d.selfId == empchart.chartId).length;
-                // item._totalSubordinates = data.filter(d => d.hierarchyLevel > empchart.hierarchyLevel).length;
+                item._directSubordinates = data.filter(d => d.selfId == empchart.chartId).length;
+                item._totalSubordinates = data.filter(d => d.hierarchyLevel > empchart.hierarchyLevel).length;
 
-                nodes.push(this.cloneEmployeeHierarchyNodeProps(empchart,data));
+
+                this.AllotedNodes.push(item)
             });
-            // chartParams.nodes = nodes;
-            // this.chartDataNotification.sendNodes(chartParams);
-            // console.log(nodes);
-            //this.updateChart(this.chart,this.chart);
-            this.initOrgCharts(nodes)
+            this.Employees.forEach(emp => {
+                if (!emp.isActive) emp.isActive = false;
+                if (!emp.usedInChart) emp.usedInChart = false;
+            });
+            this.fbproject.get('projectAllotments').patchValue(projectAllotments);
+            if (!showOrgChart)
+                this.initAllotEmpCharts(this.AllotedNodes);
+            else
+                this.initOrgCharts(this.AllotedNodes);
         });
     }
 
-    allottEmployeesToProject(){
 
-        //let chartParams: ChartParams = {};
-        this.employeeService.getCompanyHierarchy().subscribe((resp) => {
-            let data = resp as unknown as CompanyHierarchyViewDto[];
-            this.AllotedNodes.push(this.cloneFromCompanyHierarchyNodeProps(data[0],data));
-            this.initAllotEmpCharts(this.AllotedNodes)
-            //chartParams.nodes = nodes;
-            //this.chartDataNotification.sendNodes(chartParams);
-        });
-    }
 
-    cloneFromCompanyHierarchyNodeProps(org: CompanyHierarchyViewDto,data: CompanyHierarchyViewDto[]): NodeProps{
-        let item: NodeProps = new NodeProps()
-        item.id = `0-${org.chartId}`
-        if (org.selfId)
-            item.parentId = `0-${org.selfId}`
-        else item.parentId = null
-        item.name = org.roleName;
-        item.roleName = org.roleName;
-        item.imageUrl = "assets/layout/images/default_icon_employee.jpg"
-        item.office = `Office-${org.hierarchyLevel}`
-        item.isLoggedUser = false;
-        item.area = org.roleName;
-        item.profileUrl = "assets/layout/images/default_icon_employee.jpg"
-        item._upToTheRootHighlighted = true;
-        const val = Math.round(org.roleName.length / 2);
-        item.progress = [...new Array(val)].map((d) => Math.random() * 25 + 5);
-
-        item._directSubordinates = data.filter(d => d.selfId == org.chartId).length
-        item._totalSubordinates = data.filter(d => d.hierarchyLevel > org.hierarchyLevel).length;
-        return item;
-    }
-
-    cloneEmployeeHierarchyNodeProps(emp: EmployeeHierarchyDto,data: EmployeeHierarchyDto[]): NodeProps{
-        let item: NodeProps = new NodeProps()
-
-        item.id = `1-${emp.chartId}-${emp.employeeId}`; // Use a unique prefix like "1-" for this project
-        if (emp.selfId && emp.reportingToId)
-            item.parentId = `1-${emp.selfId}-${emp.reportingToId}`; // Make sure the parent ID is unique too
-        else item.parentId = null
-
-        item.name = emp.employeeName;
-        item.roleName = emp.employeeName;
-        item.designation = emp.designation;
-        item.imageUrl = "assets/layout/images/default_icon_employee.jpg"
-        if (emp.photo) item.imageUrl = emp.photo
-        else item.imageUrl = 'data:image/jpeg;base64,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';
-        item.office = `Office-${emp.hierarchyLevel}`
-        item.isLoggedUser = false;
-        item.area = emp.employeeName;
-        item.profileUrl = "assets/layout/images/default_icon_employee.jpg";
-        item.projectDescription = emp.projectDescription
-        item.projectName = emp.projectName
-        item.clientName = emp.clientName
-        item.clientCompanyName = emp.clientCompanyName
-        item.noOfWorkingDays = emp.noOfWorkingDays
-        item.noOfAbsents = emp.noOfAbsents
-        item.noOfLeaves = emp.noOfLeaves
-        item.assetCount = emp.assetCount
-
-        // item.positionName = `Position-${empchart.roleId}`
-        // item.positionName = `Size-${empchart.selfId}`
-        item._upToTheRootHighlighted = true;
-
-        const val = Math.round(emp.roleName.length / 2);
-        item.progress = [...new Array(val)].map((d) => Math.random() * 25 + 5);
-
-        item._directSubordinates = data.filter(d => d.selfId == emp.chartId).length;
-        item._totalSubordinates = data.filter(d => d.hierarchyLevel > emp.hierarchyLevel).length;
-
-        return item;
-    }
-
-    copyToNode(){}
-
-    async initOrgCharts(nodes: NodeProps[]){
+    async initOrgCharts(nodes: NodeProps[]) {
         this.orgProjectChartref.clear();
         const { D3OrgChartComponent } = await import('./d3-org-chart/d3-org-chart.component');
         const orgComponentRef = this.orgProjectChartref.createComponent(D3OrgChartComponent);
@@ -733,15 +805,12 @@ export class ProjectComponent implements OnInit {
         orgComponentRef.instance.UpdateChart();
     }
 
-    updateOrgChart(){
-
-    }
-
-    async initAllotEmpCharts(nodes: NodeProps[]){
+    async initAllotEmpCharts(nodes: NodeProps[]) {
         this.allottEmployeesref.clear();
         const { D3OrgChartComponent } = await import('./d3-org-chart/d3-org-chart.component');
         const allottEmpRef = this.allottEmployeesref.createComponent(D3OrgChartComponent);
         allottEmpRef.instance.DisplayType = "2";
+        allottEmpRef.instance.HeightOffset = 100
         allottEmpRef.instance.Data = nodes;
         this.cdr.detectChanges();
         allottEmpRef.instance.UpdateChart();

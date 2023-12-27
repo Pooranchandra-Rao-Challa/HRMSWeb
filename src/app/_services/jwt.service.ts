@@ -70,7 +70,7 @@ return this.DecodedJWT !=undefined ;
     }
 
     public get LookupKeys() {
-        //console.log(JSON.parse(localStorage.getItem(LOOKUP_KEYS)).Lookups);
+
 
         if (this.HasLookupKey)
             return JSON.parse(localStorage.getItem(LOOKUP_KEYS)).Lookups;
@@ -98,7 +98,7 @@ return this.DecodedJWT !=undefined ;
         const jwt = this.DecodedJWT;
         return jwt.Id;
     }
-    
+
     public get EmployeeId(): number {
         const jwt = this.DecodedJWT;
         return jwt.EmployeeId;

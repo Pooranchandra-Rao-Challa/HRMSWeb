@@ -6,7 +6,7 @@ import { GET_SELF_EMPLOYEE, GET_SELF_EMPLOYEE_MONTH_LEAVES } from './api.uri.ser
 @Injectable({
     providedIn: 'root'
 })
-export class DashboardService extends ApiHttpService { 
+export class DashboardService extends ApiHttpService {
 
     public GetEmployeeDetails(employeeId: number) {
         return this.get<SelfEmployeeDto>(GET_SELF_EMPLOYEE+"/"+employeeId)

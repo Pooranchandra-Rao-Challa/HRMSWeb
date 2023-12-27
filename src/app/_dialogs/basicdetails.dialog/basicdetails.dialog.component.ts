@@ -117,6 +117,7 @@ export class BasicdetailsDialogComponent {
             certificateDob: new FormControl(null, [Validators.required]),
             emailId: new FormControl(null, [Validators.required, Validators.pattern(RG_EMAIL)]),
             nationality:new FormControl(null,[Validators.required]),
+            isFromRecruitment:new FormControl(false),
             isActive: (''),
             isAFresher: (''),
             signDate: (''),
@@ -192,6 +193,7 @@ export class BasicdetailsDialogComponent {
             nationality:employeePrsDtls.nationality,
             signDate: employeePrsDtls.signDate,
             photo:employeePrsDtls.photo,
+            isFromRecruitment:false,
         });
         this.defaultPhoto = /^female$/gi.test(employeePrsDtls.gender) ? './assets/layout/images/women-emp-2.jpg' : './assets/layout/images/men-emp.jpg'
 

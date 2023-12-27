@@ -13,7 +13,7 @@ import {DomHandler} from 'primeng/dom';
     selector: '[app-menuitem]',
     template: `
         <ng-container>
-            <div *ngIf="root && item.visible !== false" class="layout-menuitem-root-text">{{ item.label }}</div>
+            <div *ngIf="root && item.visible !== false && item.permission === true" class="layout-menuitem-root-text">{{ item.label }}</div>
             <a
                 *ngIf="(!item.routerLink || item.items) && item.permission === true  && item.visible !== false"
                 [attr.href]="item.url"
@@ -178,7 +178,7 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
             // reset
             overlay.style.top = '';
             overlay.style.left = '';
-      
+
             if (this.layoutService.isHorizontal()) {
                 const width = left + oWidth + scrollbarWidth;
                 overlay.style.left = vWidth < width ? `${left - (width - vWidth)}px` : `${left}px`;

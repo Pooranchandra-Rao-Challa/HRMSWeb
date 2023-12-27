@@ -298,6 +298,7 @@ export class PieChart {
         }
 
         const pieData = pie(data);
+
         const right = pieData.filter((d) => this.isRightSide(d));
         const left = pieData.filter((d) => !this.isRightSide(d));
         pieData.forEach((d, i, arr) => {
@@ -308,7 +309,7 @@ export class PieChart {
                 d.yOffset = -30;
             }
         });
-
+        //console.log(right);console.log(left);
         const process = (d, i, arr) => {
             if (i < 1) return;
             const prev = arr[i - 1];
