@@ -727,7 +727,7 @@ export class ProjectComponent implements OnInit {
         this.AllotedNodes.splice(0, this.AllotedNodes.length);
         this.adminService.GetEmployeeHierarchy(projectId).subscribe((resp) => {
             let data = resp as unknown as EmployeeHierarchyDto[];
-            console.log(data);
+            //console.log(data);
 
             let projectAllotments: any[] = [] ;
 
@@ -784,6 +784,8 @@ export class ProjectComponent implements OnInit {
 
                 this.AllotedNodes.push(item)
             });
+            //console.log(this.AllotedNodes);
+
             this.Employees.forEach(emp => {
                 if (!emp.isActive) emp.isActive = false;
                 if (!emp.usedInChart) emp.usedInChart = false;
@@ -830,7 +832,7 @@ export class ProjectComponent implements OnInit {
     onCrop(image: File): void {
         this.imageCropService.onCrop(image, this.fbproject, 'logo');
     }
-    
+
 }
 
 

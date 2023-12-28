@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ResponseModel } from '../_models/login.model';
 import jwt_decode from 'jwt-decode';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment'
 
 
 const TOKEN_KEY = 'auth-token';
@@ -44,7 +45,12 @@ export class JwtService {
         this.saveRefreshToken(tokens);
     }
     public get IsLoggedIn(): boolean {
-return this.DecodedJWT !=undefined ;
+        let jwtToken = this.DecodedJWT;
+        if(jwtToken == undefined) return false;
+        const expires = new Date(jwtToken.exp * 1000);
+
+        const tokenExpired =  (new Date()).getTime() > expires.getTime();
+        return !tokenExpired;
     }
     public get Permissions(): any {
         const jwt = this.DecodedJWT;
@@ -56,7 +62,7 @@ return this.DecodedJWT !=undefined ;
         localStorage.removeItem(TOKEN_KEY);
         localStorage.removeItem(REFRESHTOKEN_KEY);
         localStorage.clear();
-        this.router.navigate(["/"]);
+        this.router.navigate([environment.LogoutUrl]);
     }
     public saveRefreshToken(tokens: ResponseModel) {
         localStorage.removeItem(REFRESHTOKEN_KEY)

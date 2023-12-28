@@ -33,7 +33,7 @@ export class HRMSAPIInterceptor implements HttpInterceptor {
                         }
                     )
                 );
-        }
+        }else this.jwtService.Logout()
         //if not logged in
         return next.handle(request).pipe(
             map(resp => {

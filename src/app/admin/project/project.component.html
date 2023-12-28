@@ -261,16 +261,6 @@
                   </div>
                 </div>
             </p-fieldset>
-                <div class="grid">
-                  <div class="col-12 md:col-3" *ngFor="let employee of this.fbproject.get('projectAllotments').value">
-                    <div class="m-2 card border-1 surface-border">
-                      <div class="text-xl font-bold">{{employee.employeeName}}</div>
-                      <span class="text-600 font-medium text-sm"> EmpId : {{employee.employeeId}}
-                      </span>
-                      <br />
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </form>
@@ -399,18 +389,6 @@
               <div class="grid">
                 <div class="col-12 md:col-6">
                   <!-- <button pButton  pRipple icon="pi pi-plus" class="p-element p-ripple p-button-text p-button p-component mr-2" (click)="addEmployees(this.projectDetails)">dfsfsdf</button> -->
-                </div>
-              </div>
-              <div class="grid">
-                <div class="col-12 md:col-3" *ngFor="let employee of this.projectDetails.expandEmployees">
-                  <div class="m-2 card border-1 surface-border" *ngIf="employee.isActive==true">
-                    <div class="text-xl font-bold">{{employee.employeeName}}</div>
-                    <span class="text-600 font-medium text-sm"> EmpId : {{employee.employeeId}}
-                      <br>
-                    </span>
-                    <br />
-                    <button pButton pRipple type="submit" label="Unassign" class="p-element p-ripple p-button-text p-button p-component p-button-primary w-100" (click)="unAssignedEmployee(employee)"></button>
-                  </div>
                 </div>
               </div>
             </p-tabPanel>
