@@ -221,7 +221,7 @@
                                           filterBy="employeeId,employeeName" appendTo="body"><ng-template let-employee pTemplate="selectedItem"><div class="block align-items-center gap-3"><div>{{employee.employeeName}}</div><div>{{employee.employeeCode}}</div></div></ng-template></p-multiSelect> -->
                     <p-tabView id="rolesTabView">
                       <p-tabPanel [header]="role.Name" *ngFor="let role of Roles" [disabled]="!role.EnableLink">
-                        <div class="col-12 md:col-8 drag-column">
+                        <div class="col-12 drag-column">
                           <div *ngFor="let employee of getRoleEmployees(role.Name)">
                             <div class="card border-1 surface-border card-height project_employee_card mb-5" pDraggable="allottedEmployee" draggable (onDragStart)="onEmployeeDragStart(employee)" (onDragEnd)="onEmployeeDragEnd()">
                               <div class="image-container">
