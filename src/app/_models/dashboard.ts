@@ -22,16 +22,36 @@ export class SelfEmployeeDto {
     allottedCasualLeaves?: number;
     allottedPrivilegeLeaves?: number;
     allottedAssets?: string;
+    assets?: allottedAssets[];
     workingProjects?: string;
     projects?: workingProjects[];
+    addresses?: string;
+    empaddress?: addresses[];
 }
 export class selfEmployeeMonthlyLeaves {
     usedCLsInMonth?: number
     usedPLsInMonth?: number
+}
+export class allottedAssets {
+    assetId?: number;
+    assetName?: string;
+    description?:string;
+    modelNumber?:string;
+    serialNumber?:string;
+    thumbnail?:string;
 }
 export class workingProjects {
     projectId?: number;
     projectName?: string;
     projectLogo?: string;
     projectDescription?: string;
+    sinceFrom?:Date;
+    endAt?:Date;
+}
+export class addresses {
+    addressId?: number;
+    addressLine1?: string;
+    addressLine2?: string;
+    addressType?: string;
+    city?: string;
 }

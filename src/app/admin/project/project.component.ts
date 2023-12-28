@@ -17,6 +17,7 @@ import { DownloadNotification, D3NodeChangeNotifier } from 'src/app/_services/no
 import { DatePipe } from '@angular/common';
 import { ValidateFileThenUpload } from 'src/app/_validators/upload.validators';
 import { D3OrgChartComponent } from './d3-org-chart/d3-org-chart.component';
+import { ImagecropService } from 'src/app/_services/_imagecrop.service';
 
 interface AutoCompleteCompleteEvent {
     originalEvent: Event;
@@ -56,7 +57,8 @@ export class ProjectComponent implements OnInit {
     selectedProjectId: number = -1;
     AllotedNodes: NodeProps[] = [];
     activeIndex: number = 0;
-
+    profileImage = '';
+    imageToCrop: File;
 
     @ViewChild('orgProjectChart', { read: ViewContainerRef, static: true })
     private orgProjectChartref: ViewContainerRef;
@@ -113,7 +115,8 @@ export class ProjectComponent implements OnInit {
         private datePipe: DatePipe,
         private messageService: MessageService,
         private d3NodeChanger: D3NodeChangeNotifier, private viewContainerRef: ViewContainerRef,
-        private cdr: ChangeDetectorRef) { }
+        private cdr: ChangeDetectorRef,
+        private imageCropService: ImagecropService) { }
 
     ngOnInit() {
 
@@ -397,7 +400,7 @@ export class ProjectComponent implements OnInit {
             clientId: project.clientId,
             isActive: project.clientIsActive,
             companyName: { clientId: project.clientId, companyName : project.companyName },
-            name: project.name,
+            name: project.clientName,
             email: project.email,
             mobileNumber: project.mobileNumber,
             cinno: project.cinno,
@@ -815,6 +818,19 @@ export class ProjectComponent implements OnInit {
         this.cdr.detectChanges();
         allottEmpRef.instance.UpdateChart();
     }
+
+    fileChangeEvent(event: any): void {
+        if (event.target.files.length) {
+            this.imageToCrop = event;
+        } else {
+            this.profileImage = '';
+        }
+    }
+
+    onCrop(image: File): void {
+        this.imageCropService.onCrop(image, this.fbproject, 'logo');
+    }
+    
 }
 
 

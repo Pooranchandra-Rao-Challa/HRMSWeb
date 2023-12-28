@@ -29,6 +29,7 @@ export class StarRatingComponent {
 
   handleValueofExpertise(index: number): void {
     if (this.ratings !== null && this.control) {
+      
       // Get the existing value from this.control
       const existingValue = this.control.value;
 

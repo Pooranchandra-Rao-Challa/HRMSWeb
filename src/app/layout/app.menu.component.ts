@@ -16,7 +16,7 @@ export class AppMenuComponent implements OnInit {
     GroupPermission(groupName: string): boolean {
         switch (groupName) {
             case 'Dashboards':
-                return this.jwtService.Permissions.CanViewSelfEmployees
+                return this.jwtService.Permissions.CanViewAdminDashboards || this.jwtService.Permissions.CanViewHrDashboards ||this.jwtService.Permissions.CanViewSelfEmployees
             case 'Security':
                 return this.jwtService.Permissions.CanViewUsers || this.jwtService.Permissions.CanViewRoles
             case 'Admin':
@@ -27,7 +27,8 @@ export class AppMenuComponent implements OnInit {
             case 'Assets':
                 return this.jwtService.Permissions.CanViewAssets || this.jwtService.Permissions.CanViewAssetsAllotments;
             case 'Employee':
-                return this.jwtService.Permissions.CanViewLookups || this.jwtService.Permissions.CanViewHolidays || this.jwtService.Permissions.CanViewAttendances
+                return  this.jwtService.Permissions.CanViewEnrollEmployees ||  this.jwtService.Permissions.CanViewEmployees ||this.jwtService.Permissions.CanViewAttendances ||
+                this.jwtService.Permissions.CanViewLeaves ||  this.jwtService.Permissions.CanViewMyLeaves
             default:
                 return false;
         }
@@ -39,16 +40,19 @@ export class AppMenuComponent implements OnInit {
             {
                 label: 'Dashboards',
                 icon: 'pi pi-home',
+                permission: this.GroupPermission('Dashboards'),
                 items: [
                     {
                         label: 'Admin',
                         icon: 'icon-admin_icon font-semibold',
-                        routerLink: ['dashboard/admin'], permission: true
+                        routerLink: ['dashboard/admin'], 
+                        permission: this.jwtService.Permissions.CanViewAdminDashboards
                     },
                     {
                         label: 'HR',
                         icon: 'icon-hr font-semibold',
-                        routerLink: ['dashboard/hr'], permission: true
+                        routerLink: ['dashboard/hr'], 
+                        permission: this.jwtService.Permissions.CanViewHrDashboards
                     },
                     {
                         label: 'Employee',
@@ -116,7 +120,6 @@ export class AppMenuComponent implements OnInit {
 
                             }
                         ]
-
                     },
                     {
                         label: 'Projects',
@@ -178,14 +181,14 @@ export class AppMenuComponent implements OnInit {
                         label: 'Enrolled Employees',
                         icon: 'pi pi-fw pi-users',
                         routerLink: ['employee/all-employees'],
-                        permission: this.jwtService.Permissions.CanViewAssetsAllotments
+                        permission: this.jwtService.Permissions.CanViewEnrollEmployees
 
                     },
                     {
                         label: 'On Boarding Employees',
                         icon: 'pi pi-fw pi-user',
                         routerLink: ['employee/onboardingemployee'],
-                        permission: this.jwtService.Permissions.CanViewAssetsAllotments
+                        permission: this.jwtService.Permissions.CanViewEmployees
 
                     },
                     {
@@ -197,14 +200,20 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'Employee Leaves',
                         icon: 'icon-leave-request font-semibold',
-                        routerLink: ['employee/leaves'],
+                        routerLink: ['employee/employeeleaves'],
                         permission: this.jwtService.Permissions.CanViewLeaves
+                    },
+                    {
+                        label: 'My Leaves',
+                        icon: 'icon-leave-request font-semibold',
+                        routerLink: ['employee/myleaves'],
+                        permission: this.jwtService.Permissions.CanViewMyLeaves
                     },
                     {
                         label: 'Notifications',
                         icon: 'pi pi-fw pi-clone',
                         routerLink: ['employee/notifications'],
-                        permission: this.jwtService.Permissions.CanViewAssetsAllotments
+                        permission: false
                     },
 
                 ]

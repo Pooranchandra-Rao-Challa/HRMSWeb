@@ -16,6 +16,7 @@ import { LookupService } from 'src/app/_services/lookup.service';
 import { MAX_LENGTH_20, MAX_LENGTH_256, MAX_LENGTH_3, MAX_LENGTH_50, MAX_LENGTH_7, MIN_LENGTH_2, RG_ALPHA_NUMERIC } from 'src/app/_shared/regex';
 import autoTable from 'jspdf-autotable';
 import { ValidateFileThenUpload } from 'src/app/_validators/upload.validators';
+import { ImagecropService } from 'src/app/_services/_imagecrop.service';
 
 @Component({
   selector: 'app-assets',
@@ -49,10 +50,12 @@ export class AssetsComponent {
   @Output() ImageValidator = new EventEmitter<PhotoFileProperties>();
   employeeName: string;
   defaultPhoto: string;
+  profileImage = '';
+  imageToCrop: File;
 
   constructor(private adminService: AdminService, private formbuilder: FormBuilder,
     private alertMessage: AlertmessageService, private lookupService: LookupService,
-    private confirmationDialogService: ConfirmationDialogService, private jwtService: JwtService) {
+    private confirmationDialogService: ConfirmationDialogService, private jwtService: JwtService, private imageCropService: ImagecropService) {
   }
 
 
@@ -88,8 +91,11 @@ export class AssetsComponent {
     this.initAssetCategories();
     this.initStatus();
     this.ImageValidator.subscribe((p: PhotoFileProperties) => {
+      console.log(p);
+      
       if (this.fileTypes.indexOf(p.FileExtension) > 0 && p.Resize || (p.Size / 1024 / 1024 < 1
         && (p.isPdf || (!p.isPdf && p.Width <= 300 && p.Height <= 300)))) {
+          debugger
         this.fbassets.get('thumbnail').setValue(p.File);
       } else {
         this.alertMessage.displayErrorMessage(p.Message);
@@ -130,8 +136,6 @@ export class AssetsComponent {
       this.assets = resp as unknown as AssetsViewDto[];
       this.assets.forEach(element => {
         element.expandassets = JSON.parse(element.assets) as unknown as AssetsDetailsViewDto[];
-        console.log(element.expandassets );
-        
       });
     })
   }
@@ -281,6 +285,18 @@ export class AssetsComponent {
       ))
     return existingAssetsCode.length > 0;
   }
+
+  fileChangeEvent(event: any): void {
+    if (event.target.files.length) {
+        this.imageToCrop = event;
+    } else {
+        this.profileImage = '';
+    }
+}
+
+onCrop(image: File): void {
+    this.imageCropService.onCrop(image, this.fbassets, 'photo');
+}
 
   exportPdf() {
     const doc = new jsPDF('l', 'mm', 'a4');

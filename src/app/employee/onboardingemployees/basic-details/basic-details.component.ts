@@ -13,6 +13,7 @@ import { LookupService } from 'src/app/_services/lookup.service';
 import { MIN_LENGTH_2, RG_ALPHA_ONLY, RG_EMAIL, RG_PHONE_NO } from 'src/app/_shared/regex';
 import { OnboardEmployeeService } from 'src/app/_helpers/view.notificaton.services'
 import { ValidateFileThenUpload } from 'src/app/_validators/upload.validators'
+import { ImagecropService } from 'src/app/_services/_imagecrop.service';
 
 interface Gender {
     name: string;
@@ -44,7 +45,8 @@ export class BasicDetailsComponent implements OnInit {
     constructor(private router: Router, private route: ActivatedRoute,
         private employeeService: EmployeeService, private formbuilder: FormBuilder,
         private lookupService: LookupService, private alertMessage: AlertmessageService,
-        private onboardEmployeeService: OnboardEmployeeService) {
+        private onboardEmployeeService: OnboardEmployeeService,
+        private imageCropService: ImagecropService) {
     }
 
     ngOnInit() {
@@ -115,6 +117,7 @@ export class BasicDetailsComponent implements OnInit {
             isActive: new FormControl(true, [Validators.required]),
             isAFresher: new FormControl(true, [Validators.required]),
             nationality: new FormControl('', [Validators.required]),
+            isFromRecruitment:new FormControl(false),
             photo: [],
             signDate: [null]
         });
@@ -148,11 +151,6 @@ export class BasicDetailsComponent implements OnInit {
         }
     }
 
-
-    handleFileClick(file: HTMLInputElement): void {
-        file.click(); // trigger input file
-    }
-
     fileChangeEvent(event: any): void {
         if (event.target.files.length) {
             this.imageToCrop = event;
@@ -161,21 +159,10 @@ export class BasicDetailsComponent implements OnInit {
         }
     }
 
-    onCrop(image: File) {
-        if (image) {
-            const reader = new FileReader();
-            reader.onload = (e: any) => {
-                this.profileImage = e.target.result;
-                // Update the form control value with the cropped image data URL
-                this.fbbasicDetails.get('photo').setValue(this.profileImage);
-            };
-            reader.readAsDataURL(image);
-        } else {
-            this.profileImage = '';
-            this.fbbasicDetails.get('photo').setValue('');
-        }
+    onCrop(image: File): void {
+        this.imageCropService.onCrop(image, this.fbbasicDetails, 'photo');
     }
-
+    
     getEmployeeBasedonId() {
         this.employeeService.GetViewEmpPersDtls(this.employeeId).subscribe((resp) => {
             this.empbasicDetails = resp as EmployeeBasicDetailDto;
@@ -191,6 +178,8 @@ export class BasicDetailsComponent implements OnInit {
     }
 
     save() {
+        this.fbbasicDetails.value.originalDob = FORMAT_DATE(this.fbbasicDetails.value.originalDob);
+        this.fbbasicDetails.value.certificateDob = FORMAT_DATE(this.fbbasicDetails.value.certificateDob);
         this.savebasicDetails().subscribe(resp => {
             this.employeeId = resp;
             if (this.employeeId) {

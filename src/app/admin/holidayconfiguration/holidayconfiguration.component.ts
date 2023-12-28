@@ -13,6 +13,7 @@ import { MIN_LENGTH_2, RG_ALPHA_ONLY } from 'src/app/_shared/regex';
 import { JwtService } from 'src/app/_services/jwt.service';
 import { ConfirmationDialogService } from 'src/app/_alerts/confirmationdialog.service';
 import { GlobalFilterService } from 'src/app/_services/global.filter.service';
+import { formatDate } from '@angular/common';
 interface Year {
   year: string;
 }
@@ -80,7 +81,6 @@ selectedYear: Year |undefined ;
   }
   // Initialize form with form controls
   holidayForm() {
-    const currentYear = new Date().getFullYear();
     this.fbHoliday = this.formbuilder.group({
       holidayId: null,
       title: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
@@ -88,12 +88,8 @@ selectedYear: Year |undefined ;
       toDate: [null],
       description: new FormControl('', Validators.minLength(MIN_LENGTH_2)),
       isActive: new FormControl(true, Validators.requiredTrue),
-      year: new FormControl(currentYear),
+      year: new FormControl(''),
       holidayDetails: this.formbuilder.array([])
-    }, {
-      validators: Validators.compose([
-        DateValidators.dateRangeValidator('fromDate', 'toDate', { 'fromDate': true }),
-      ])
     });
 
   }
@@ -132,14 +128,13 @@ selectedYear: Year |undefined ;
   }
   // Method to generate a FormGroup for a single row in the holidayDetails array
   generaterow(holidayDetails: HolidaysViewDto = new HolidaysViewDto()): FormGroup {
-    const currentYear = new Date().getFullYear();
     const formGroup = this.formbuilder.group({
       holidayId: new FormControl({ value: holidayDetails.holidayId, disabled: true }),
       title: new FormControl({ value: holidayDetails.title, disabled: true }),
       fromDate: new FormControl({ value: holidayDetails.fromDate, disabled: true }),
       toDate: new FormControl({ value: holidayDetails.toDate, disabled: true }),
       description: new FormControl({ value: holidayDetails.description, disabled: true }),
-      year: new FormControl({ value: holidayDetails.year || currentYear, disabled: true }),
+      year: new FormControl({ value: holidayDetails.year, disabled: true }),
       isActive: new FormControl({ value: holidayDetails.isActive, disabled: true }),
     });
     return formGroup;
@@ -153,14 +148,13 @@ selectedYear: Year |undefined ;
 
   // Method to initialize the holidayForm FormGroup for edit purposes
   initHolidayForm() {
-    const currentYear = new Date().getFullYear();
     this.editHolidayForm = new FormGroup({
       holidayId: new FormControl(),
       title: new FormControl('', Validators.required),
       fromDate: new FormControl('', Validators.required),
       toDate: new FormControl(''),
       description: new FormControl(''),
-      year: new FormControl(currentYear),
+      year: new FormControl(''),
       isActive: new FormControl(''),
     },
       {
@@ -196,12 +190,14 @@ selectedYear: Year |undefined ;
       const editedHoliday = this.editHolidayForm.value;
       editedHoliday.fromDate = FORMAT_DATE(new Date(editedHoliday.fromDate));
       editedHoliday.toDate = editedHoliday.toDate ? FORMAT_DATE(new Date(editedHoliday.toDate)) : null;
+      editedHoliday.year=editedHoliday.fromDate.getFullYear()
       holidays = [editedHoliday as HolidayDto];
     } else {
       holidays = this.fbHoliday.get('holidayDetails').value.map((holiday: HolidaysViewDto) => ({
         ...holiday,
         fromDate: FORMAT_DATE(new Date(holiday.fromDate)),
         toDate: holiday.toDate ? FORMAT_DATE(new Date(holiday.toDate)) : null,
+        year:holiday.fromDate.getFullYear()
       } as HolidayDto));
     }
     return this.AdminService.CreateHoliday(holidays);

@@ -106,7 +106,7 @@
             <label>Reported To:</label>
             <p-dropdown id="reported_dropdown" [autoDisplayFirst]="false" optionLabel="employeeName"
               [options]="employees" optionValue="employeeId" appendTo="body" formControlName="reportingToId"
-              placeholder="Select Reported To">
+              placeholder="Select Reported To" [showClear]="true">
             </p-dropdown>
             <!-- [ngClass]="{ 'is-invalid ng-dirty': EmpOfficeFormControls['reportingToId'].touched && EmpOfficeFormControls['reportingToId'].errors }" <div class="flex">
                 <div class="align-left w-60" style="width:70%">

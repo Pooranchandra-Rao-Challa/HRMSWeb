@@ -69,9 +69,10 @@
                           <img [src]="this.fbproject.get('logo').value  ? this.fbproject.get('logo').value : 'https://t3.ftcdn.net/jpg/02/18/21/86/360_F_218218632_jF6XAkcrlBjv1mAg9Ow0UBMLBaJrhygH.jpg'" onerror="this.onerror=null" alt="photo" width="100px" class="up_logo ">
                           <br />
                           <br />
-                          <label for="singleFile" class="p-element p-ripple p-button-raised p-button-primary p-button p-component" style="width:auto !important; white-space: nowrap;">
+                          <label for="singleFile" class="p-element p-ripple p-button-raised p-button-primary p-button p-component" style="width:auto !important; white-space: nowrap;" >
                             <i class="pi pi-paperclip"></i> Choose Logo: </label>
-                          <input id="singleFile" #fileUpload name="myFile" type="file" [accept]="fileTypes" hidden />
+                          <input id="singleFile" #fileUpload name="myFile" type="file" [accept]="fileTypes" hidden (change)="fileChangeEvent($event)" />
+                          <app-image-cropper [imageChangedEvent]="imageToCrop" (done)="onCrop($event)"></app-image-cropper>
                         </div>
                       </div>
                     </div>

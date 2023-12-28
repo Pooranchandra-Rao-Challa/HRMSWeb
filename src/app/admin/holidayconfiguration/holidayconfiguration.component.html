@@ -77,16 +77,11 @@
                                     </p-calendar>
                                     <span *ngIf="FormControls['toDate'].touched && FormControls['toDate'].invalid">
                                         <div class="ng-invalid ng-touched p-error"
-                                            *ngIf="FormControls['toDate'].errors?.['required'] && !FormControls['fromDate'].errors?.['required']">
+                                            *ngIf="FormControls['toDate'].errors?.['required']">
                                             Please Select To Date.</div>
                                         <div class="ng-invalid ng-touched p-error"
                                             *ngIf="FormControls['fromDate'].errors?.['required']">
                                             Please Select From Date First.</div>
-                                    </span>
-                                    <span>
-                                        <div class="ng-invalid ng-touched p-error"
-                                            *ngIf="fbHoliday.hasError('fromDate')">
-                                            To Date Always Greater Than Equals To From Date</div>
                                     </span>
                                 </div>
                                 <div class="field col-12 md:col-4">
