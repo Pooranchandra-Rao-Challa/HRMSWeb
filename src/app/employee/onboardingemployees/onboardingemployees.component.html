@@ -1,7 +1,7 @@
 <div class="grid">
   <div class="col-12">
     <div class="card">
-      <p-dataView #dv [value]="employees" [paginator]="dv.layout === 'grid' && dv.rows > 10" [rows]="10"
+      <p-dataView #dv [value]="employees" [paginator]="dv.layout === 'grid' && dv.rows > 10" [rows]="12"
         filterBy="employeeName,code,employeeRoleName,dateofJoin,officeEmailId,mobileNumber,certificateDOB,gender"
         [sortField]="sortField" [sortOrder]="sortOrder" layout="grid">
         <ng-template pTemplate="header">
