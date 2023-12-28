@@ -90,10 +90,6 @@ selectedYear: Year |undefined ;
       isActive: new FormControl(true, Validators.requiredTrue),
       year: new FormControl(currentYear),
       holidayDetails: this.formbuilder.array([])
-    }, {
-      validators: Validators.compose([
-        DateValidators.dateRangeValidator('fromDate', 'toDate', { 'fromDate': true }),
-      ])
     });
 
   }
@@ -134,13 +130,13 @@ selectedYear: Year |undefined ;
   generaterow(holidayDetails: HolidaysViewDto = new HolidaysViewDto()): FormGroup {
     const currentYear = new Date().getFullYear();
     const formGroup = this.formbuilder.group({
-      holidayId: new FormControl({ value: holidayDetails.holidayId, disabled: true }),
-      title: new FormControl({ value: holidayDetails.title, disabled: true }),
-      fromDate: new FormControl({ value: holidayDetails.fromDate, disabled: true }),
-      toDate: new FormControl({ value: holidayDetails.toDate, disabled: true }),
-      description: new FormControl({ value: holidayDetails.description, disabled: true }),
-      year: new FormControl({ value: holidayDetails.year || currentYear, disabled: true }),
-      isActive: new FormControl({ value: holidayDetails.isActive, disabled: true }),
+      holidayId:holidayDetails.holidayId,
+      title: holidayDetails.title,
+      fromDate:holidayDetails.fromDate,
+      toDate: holidayDetails.toDate,
+      description:  holidayDetails.description,
+      year: holidayDetails.year || currentYear,
+      isActive: holidayDetails.isActive,
     });
     return formGroup;
   }
