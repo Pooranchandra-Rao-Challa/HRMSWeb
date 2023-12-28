@@ -10,6 +10,7 @@ import { MaxLength, PhotoFileProperties, ViewApplicationScreen } from 'src/app/_
 import { ApplicantCertificationDto, ApplicantDto, ApplicantEducationDetailDto, ApplicantLanguageSkillDto, ApplicantSkillDto, ApplicantWorkExperienceDto, ViewApplicantDto } from 'src/app/_models/recruitment';
 import { LookupService } from 'src/app/_services/lookup.service';
 import { RecruitmentService } from 'src/app/_services/recruitment.service';
+import { ImagecropService } from 'src/app/_services/_imagecrop.service';
 import { MIN_LENGTH_2, MIN_LENGTH_6, RG_ALPHA_ONLY, RG_EMAIL, RG_PHONE_NO, RG_PINCODE } from 'src/app/_shared/regex';
 import { ValidateFileThenUpload } from 'src/app/_validators/upload.validators';
 
@@ -33,7 +34,7 @@ export class ApplicantDialogComponent {
   faapplicantLanguageSkillsDetails!: FormArray;
   genders: General[] | undefined;
   @ViewChild("fileUpload", { static: true }) fileUpload: ElementRef;
-  
+
   messageDisplayed: boolean = false;
   empUploadDetails: { fileBlob: Blob, title: string, fileName: string }[] = [];
   @Output() ImageValidator = new EventEmitter<PhotoFileProperties>();
@@ -57,13 +58,16 @@ export class ApplicantDialogComponent {
   addFlag: boolean;
   applicantdata: any;
   currentDate = new Date();
+  profileImage = '';
+  imageToCrop: File;
 
   constructor(private formbuilder: FormBuilder,
     public ref: DynamicDialogRef,
     public recruitmentService: RecruitmentService,
     private lookupService: LookupService,
     public alertMessage: AlertmessageService,
-    private config: DynamicDialogConfig,) {
+    private config: DynamicDialogConfig,
+    private imageCropService: ImagecropService) {
     this.applicantdata = this.config.data;
   }
 
@@ -674,4 +678,19 @@ export class ApplicantDialogComponent {
       this.fbApplicant.markAllAsTouched();
     }
   }
+
+  fileChangeEvent(event: any): void {
+    debugger
+    if (event.target.files.length) {
+      this.imageToCrop = event;
+    } else {
+      this.profileImage = '';
+    }
+  }
+
+  onCrop(image: File): void {
+    debugger
+    this.imageCropService.onCrop(image, this.fbApplicant, 'photo');
+  }
+
 }
