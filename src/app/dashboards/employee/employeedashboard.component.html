@@ -192,38 +192,52 @@
             </div>
             <div class="col-12 md:col-6 lg:col-3  ">
                 <h4 class="m-5 mx-0 mt-0 ">Assigned Projects</h4>
-                <div class="grid card p-1 orange-200  applicant-p-block-home">
-                    <div class="col-6" *ngFor="let project of empDetails?.projects">
-                        <div class="card p-2 text-center" [ngStyle]="project.endAt ? {'color': 'gray'} : {}">
-                            <img [src]="project.projectLogo" [alt]="project.projectLogo" class="shadow-2 my-0 mx-0"
-                                width="50%"  />
-                            
-                            <h5 class="text-primary m-2">{{project.projectName}}</h5>
-                            
-                            <span class="text-primary" *ngIf="project.sinceFrom">From: </span><span>{{project.sinceFrom}}</span> <br/>
-                            
-                            <span class="text-primary" *ngIf="project.endAt">To: </span><span>{{project.endAt}}</span>
+                <div class="grid card p-3 orange-200  applicant-p-block-home">
+                    <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2"
+                        *ngIf="!empDetails?.projects || empDetails?.projects.length === 0">
+                        There is no Assigned Projects for this Employee
+                    </div>
+                    <div class="grid" *ngIf="empDetails?.projects && empDetails?.projects.length > 0">
+                        <div class="col-6" *ngFor="let project of empDetails?.projects">
+                            <div class="card p-2 text-center" [ngStyle]="project.endAt ? {'color': 'gray'} : {}">
+                                <img [src]="project.projectLogo" [alt]="project.projectLogo" class="shadow-2 my-0 mx-0"
+                                    width="50%" />
+
+                                <h5 class="text-primary m-2">{{project.projectName}}</h5>
+
+                                <span class="text-primary" *ngIf="project.sinceFrom">From:
+                                </span><span>{{project.sinceFrom}}</span> <br />
+
+                                <span class="text-primary" *ngIf="project.endAt">To:
+                                </span><span>{{project.endAt}}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-12 md:col-6 lg:col-5 p-5" *ngIf="empDetails?.assets">
+            <div class="col-12 md:col-6 lg:col-5 p-5">
                 <h4 class="m-5 mt-0 mx-0 ">Alloted Assets</h4>
                 <div class="grid  applicant-p-block-home">
-                    <div class="col-12 sm:col-4" *ngFor="let asset of empDetails?.assets">
-                        <div class="card text-0 p-3 flex justify-content-between h-full assets_card">
-                            <div class="overview-info text-center alloted_assets">
-                                <p class="text-primary "><b>{{asset.assetName}}</b></p>
-                                <ng-container *ngIf="asset.thumbnail">
-                                    <img [src]="asset?.thumbnail" [alt]="asset?.thumbnail" class="shadow-2" /><br />
-                                </ng-container>
+                    <div class="text-900 font-bold text-2xl text-primary mb-3 mt-2"
+                        *ngIf="!empDetails?.assets || empDetails?.assets.length === 0">
+                        There is no Assigned Assets for this Employee
+                    </div>
+                    <div class="grid applicant-p-block-home"
+                        *ngIf="empDetails?.assets && empDetails?.assets.length > 0">
+                        <div class="col-12 sm:col-4" *ngFor="let asset of empDetails?.assets">
+                            <div class="card text-0 p-3 flex justify-content-between h-full assets_card">
+                                <div class="overview-info text-center alloted_assets">
+                                    <p class="text-primary "><b>{{asset.assetName}}</b></p>
+                                    <ng-container *ngIf="asset.thumbnail">
+                                        <img [src]="asset?.thumbnail" [alt]="asset?.thumbnail" class="shadow-2" /><br />
+                                    </ng-container>
 
-                                <div class="text-left text-primary">
-                                    <p class="mb-0 mt-2"><b>S/N</b> {{asset.serialNumber}} </p>
-                                    <p><b>M/N</b> {{asset.modelNumber}} </p>
-                                </div>
+                                    <div class="text-left text-primary">
+                                        <p class="mb-0 mt-2"><b>S/N</b> {{asset.serialNumber}} </p>
+                                        <p><b>M/N</b> {{asset.modelNumber}} </p>
+                                    </div>
 
-                                <!-- <h6 class="m-0 mb-1 text-0">
+                                    <!-- <h6 class="m-0 mb-1 text-0">
                                     
                                     <ng-container>
                                         <span>Asset Name:</span>
@@ -241,6 +255,7 @@
                                     </ng-container>
                                     
                                 </h6> -->
+                                </div>
                             </div>
                         </div>
                     </div>
