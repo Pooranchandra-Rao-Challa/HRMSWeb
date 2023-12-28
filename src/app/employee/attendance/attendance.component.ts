@@ -50,7 +50,7 @@ export class AttendanceComponent {
   NotUpdatedEmployees: EmployeesList[] = [];
   showingLeavesOfColors: boolean = false;
   infoMessage: boolean;
-
+ 
 
   constructor(private adminService: AdminService, private dashBoardService: DashboardService, private datePipe: DatePipe, private jwtService: JwtService, public ref: DynamicDialogRef,
     private formbuilder: FormBuilder, private alertMessage: AlertmessageService, private employeeService: EmployeeService, private lookupService: LookupService) {
@@ -369,4 +369,9 @@ export class AttendanceComponent {
   toggleTab() {
     this.showingLeavesOfColors = !this.showingLeavesOfColors;
   }
+
+  clearcard(dt1: Table){
+    dt1.filteredValue = null;
+    this.filter.nativeElement.value = '';
+}
 }

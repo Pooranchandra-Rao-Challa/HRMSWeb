@@ -223,7 +223,8 @@
                   style="width:45% !important; white-space: nowrap;">
                   <i class="pi pi-paperclip"></i> Choose Photo
                 </label>
-                <input id="singleFile" #fileUpload name="myFile" type="file" [accept]="fileTypes" hidden />
+                <input id="singleFile" #fileUpload name="myFile" type="file" [accept]="fileTypes" hidden (change)="fileChangeEvent($event)"/>
+                <app-image-cropper [imageChangedEvent]="imageToCrop" (done)="onCrop($event)"></app-image-cropper>
               </div>
               <div class="field col-12 md:col-4">
                 <label>Is Active: </label>

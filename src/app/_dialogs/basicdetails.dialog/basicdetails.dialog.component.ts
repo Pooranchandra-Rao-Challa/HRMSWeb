@@ -10,6 +10,7 @@ import { MaxLength, PhotoFileProperties, ViewEmployeeScreen } from 'src/app/_mod
 import { EmployeeBasicDetailDto, EmployeeBasicDetailViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { LookupService } from 'src/app/_services/lookup.service';
+import { ImagecropService } from 'src/app/_services/_imagecrop.service';
 import { MIN_LENGTH_2, RG_ALPHA_ONLY, RG_EMAIL, RG_PHONE_NO } from 'src/app/_shared/regex';
 import { ValidateFileThenUpload } from 'src/app/_validators/upload.validators'
 interface Gender {
@@ -43,6 +44,8 @@ export class BasicdetailsDialogComponent {
     fileTypes: string = ".jpg, .jpeg, .gif"
     @Output() ImageValidator = new EventEmitter<PhotoFileProperties>();
     defaultPhoto: string;
+    imageToCrop: File;
+    profileImage: '';
 
     constructor(
         private formbuilder: FormBuilder,
@@ -51,7 +54,8 @@ export class BasicdetailsDialogComponent {
         private lookupService: LookupService,
         public ref: DynamicDialogRef,
         private config: DynamicDialogConfig,
-        private activatedRoute: ActivatedRoute,) {
+        private activatedRoute: ActivatedRoute,
+        private imageCropService: ImagecropService) {
         this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
     }
 
@@ -116,8 +120,8 @@ export class BasicdetailsDialogComponent {
             originalDob: new FormControl(null, [Validators.required]),
             certificateDob: new FormControl(null, [Validators.required]),
             emailId: new FormControl(null, [Validators.required, Validators.pattern(RG_EMAIL)]),
-            nationality:new FormControl(null,[Validators.required]),
-            isFromRecruitment:new FormControl(false),
+            nationality: new FormControl(null, [Validators.required]),
+            isFromRecruitment: new FormControl(false),
             isActive: (''),
             isAFresher: (''),
             signDate: (''),
@@ -190,10 +194,10 @@ export class BasicdetailsDialogComponent {
             emailId: employeePrsDtls.emailId,
             isActive: employeePrsDtls.isActive,
             isAFresher: employeePrsDtl.isAFresher,
-            nationality:employeePrsDtls.nationality,
+            nationality: employeePrsDtls.nationality,
             signDate: employeePrsDtls.signDate,
-            photo:employeePrsDtls.photo,
-            isFromRecruitment:false,
+            photo: employeePrsDtls.photo,
+            isFromRecruitment: false,
         });
         this.defaultPhoto = /^female$/gi.test(employeePrsDtls.gender) ? './assets/layout/images/women-emp-2.jpg' : './assets/layout/images/men-emp.jpg'
 
@@ -215,4 +219,16 @@ export class BasicdetailsDialogComponent {
         })
     }
 
+    fileChangeEvent(event: any): void {
+        if (event.target.files.length) {
+            this.imageToCrop = event;
+        } else {
+            this.profileImage = '';
+        }
+    }
+
+    onCrop(image: File): void {
+        this.imageCropService.onCrop(image, this.fbEmpBasDtls, 'photo');
+    }
+    
 }

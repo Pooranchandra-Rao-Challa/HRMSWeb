@@ -10,7 +10,6 @@ import { EmployeeService } from 'src/app/_services/employee.service';
 import { Observable } from 'rxjs';
 import { HttpEvent } from '@angular/common/http';
 import { LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
-import { LookupService } from 'src/app/_services/lookup.service';
 import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { NgPluralCase } from '@angular/common';
@@ -18,12 +17,12 @@ import { LeaveConfirmationService } from 'src/app/_services/leaveconfirmation.se
 import { EmployeeLeaveDialogComponent } from 'src/app/_dialogs/employeeleave.dialog/employeeleave.dialog.component';
 
 @Component({
-  selector: 'app-leaves',
-  templateUrl: './leaves.component.html',
+  selector: 'app-employeeleaves',
+  templateUrl: './employeeleaves.component.html',
   styles: [
   ]
 })
-export class LeavesComponent {
+export class EmployeeLeavesComponent {
   globalFilterFields: string[] = ['employeeName', 'leaveType', 'fromDate', 'toDate', 'note', 'acceptedBy', 'acceptedAt', 'approvedBy']
   @ViewChild('filter') filter!: ElementRef;
   ActionTypes = Actions;
@@ -76,6 +75,7 @@ export class LeavesComponent {
   getLeaves() {
     this.employeeService.getEmployeeLeaveDetails().subscribe((resp) => {
       this.leaves = resp as unknown as EmployeeLeaveDto[];
+      
     })
   }
 

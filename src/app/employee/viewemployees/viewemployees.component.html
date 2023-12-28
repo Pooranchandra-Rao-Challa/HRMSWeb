@@ -94,10 +94,10 @@
             <span class="text-primary font-bold text-900">Reported To:</span> {{employeeofficeDtls?.reportingTo}}
           </div>
           <div class="col-12">
-            <span class="text-primary font-bold text-900">PF Eligible:</span> {{employeeofficeDtls?.isPFEligible}}
+            <span class="text-primary font-bold text-900">PF Eligible:</span> &nbsp;&nbsp; <i class="fa fa-close" style="font-size:24px; color:#e24c4c; vertical-align: sub;"  *ngIf="!employeeofficeDtls?.isPFEligible" ></i><i class="fa fa-check" style="font-size:24px; vertical-align: sub;" *ngIf="employeeofficeDtls?.isPFEligible"></i>
           </div>
           <div class="col-12">
-            <span class="text-primary font-bold text-900">ESI Elgible:</span> {{employeeofficeDtls?.isESIEligible}}
+            <span class="text-primary font-bold text-900">ESI Elgible:</span>  &nbsp;&nbsp; <i class="fa fa-close" style="font-size:24px; color:#e24c4c; vertical-align: sub;"  *ngIf="!employeeofficeDtls?.isESIEligible" ></i><i class="fa fa-check" style="font-size:24px; vertical-align: sub;" *ngIf="employeeofficeDtls?.isESIEligible"></i>
           </div>
           <br />
         </div>

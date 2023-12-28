@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AllEmployeesComponent } from './all-employees/all-employees.component';
 import { AttendanceComponent } from './attendance/attendance.component';
-import { LeavesComponent } from './leaves/leaves.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { AddressComponent } from './onboardingemployees/address/address.component';
 import { BankDetailsComponent } from './onboardingemployees/bank-details/bank-details.component';
@@ -14,6 +13,8 @@ import { FinalSubmitComponent } from './onboardingemployees/final-submit/final-s
 import { OnboardingemployeesComponent } from './onboardingemployees/onboardingemployees.component';
 import { UploadDocumentsComponent } from './onboardingemployees/upload-documents/upload-documents.component';
 import { ViewemployeesComponent } from './viewemployees/viewemployees.component';
+import { EmployeeLeavesComponent } from './employeeleaves/employeeleaves.component';
+import { MyleaveComponent } from './myleave/myleave.component';
 
 const routes: Routes = [];
 
@@ -21,7 +22,8 @@ const routes: Routes = [];
   imports: [
     RouterModule.forChild([
       { path: 'all-employees', data: { breadcrumb: 'Enrolled Employee' }, component: AllEmployeesComponent },
-      { path: 'leaves', data: { breadcrumb: 'Leaves' }, component: LeavesComponent },
+      { path: 'employeeleaves', data: { breadcrumb: 'Employee Leaves' }, component: EmployeeLeavesComponent },
+      { path: 'myleaves', data: { breadcrumb: 'My Leaves' }, component: MyleaveComponent },
       { path: 'notifications', data: { breadcrumb: 'Notification' }, component: NotificationsComponent },
       { path: 'attendance', data: { breadcrumb: 'Attendance' }, component: AttendanceComponent },
       {

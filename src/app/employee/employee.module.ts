@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { EmployeeRoutingModule } from './employee-routing.module';
 import { AllEmployeesComponent } from './all-employees/all-employees.component';
-import { LeavesComponent } from './leaves/leaves.component';
 import { AttendanceComponent } from './attendance/attendance.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { OnboardingemployeesComponent } from './onboardingemployees/onboardingemployees.component';
@@ -20,15 +19,15 @@ import { BankDetailsComponent } from './onboardingemployees/bank-details/bank-de
 import { CommonDialogModule } from '../_dialogs/common.dialog.module';
 import { OnboardEmployeeService } from 'src/app/_helpers/view.notificaton.services'
 import { FinalsubmitDialogComponent } from '../_dialogs/finalsubmit-dialog/finalsubmit-dialog.component';
-import { ImageCropComponent } from './onboardingemployees/basic-details/crop.component';
-import { ImageCropperModule } from 'ngx-image-cropper';
+import { EmployeeLeavesComponent } from './employeeleaves/employeeleaves.component';
+import { MyleaveComponent } from './myleave/myleave.component';
 
 
 
 @NgModule({
     declarations: [
         AllEmployeesComponent,
-        LeavesComponent,
+        EmployeeLeavesComponent,
         AttendanceComponent,
         NotificationsComponent,
         OnboardingemployeesComponent,
@@ -42,8 +41,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
         AddressComponent,
         BankDetailsComponent,
         FinalsubmitDialogComponent,
-        ImageCropComponent
-
+        MyleaveComponent
     ],
 
     imports: [
@@ -53,7 +51,6 @@ import { ImageCropperModule } from 'ngx-image-cropper';
         FileUploadModule,
         SharedModule,
         CommonDialogModule,
-        ImageCropperModule
     ],
     providers: [OnboardEmployeeService]
 })

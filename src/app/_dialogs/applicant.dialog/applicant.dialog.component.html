@@ -287,7 +287,8 @@
                                 style="width:auto !important; white-space: nowrap;">
                                 <i class="pi pi-paperclip"></i> Choose Photo
                             </label>
-                            <input id="singleFile" #fileUpload name="myFile" type="file" [accept]="fileTypes" hidden />
+                            <input (change)="fileChangeEvent($event)" id="singleFile" #fileUpload name="myFile" type="file" [accept]="fileTypes" hidden  />
+                            <app-image-cropper [imageChangedEvent]="imageToCrop" (done)="onCrop($event)"></app-image-cropper>
                         </div>
                     </div>
                 </p-fieldset>

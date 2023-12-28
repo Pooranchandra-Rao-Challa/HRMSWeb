@@ -9,7 +9,7 @@
                 <button pButton pRipple label="Add Leave" id="addLeaveButton" icon="pi pi-plus"
                     class="p-button-primary p-mr-2"
                     (click)="openComponentDialog(employeeleaveDialogComponent, null, ActionTypes.save)"
-                    *ngIf="permissions?.CanManageLeave"></button>
+                    *ngIf="permissions?.CanManageSuperActiveAdmin"></button>
             </ng-template>
         </p-toolbar>
         <!-- p-table -->
