@@ -110,7 +110,7 @@ export class BasicdetailsDialogComponent {
             employeeId: (this.employeeId),
             firstName: new FormControl(null, [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
             middleName: new FormControl(null, [Validators.minLength(MIN_LENGTH_2)]),
-            lastName: new FormControl(null, [Validators.required, Validators.minLength(MIN_LENGTH_2)]),
+            lastName: new FormControl(null, [Validators.required]),
             code: [null],
             gender: new FormControl(null, [Validators.required]),
             bloodGroupId: new FormControl(null, [Validators.required]),

@@ -10,11 +10,11 @@
             </div>
         </div>
         <div class="grid">
-            <div class="col-12 sm:col-3">
-                <div class="card p-5 orange-200 text-left applicant-p-block">
+            <div class="col-12 md:col-4 lg:col-3">
+                <div class="card p-5 orange-200 text-left applicant-p-block-home">
                     <div class="text-center">
                         <img [src]="empDetails?.photo ? empDetails?.photo : defaultPhoto" [alt]="empDetails?.photo"
-                            class="shadow-2 my-1 mx-0" width="30%" /><br />
+                            class="shadow-2 my-1 mx-0" width="60%" /><br />
                         <h4 class="m-5 mt-0 text-primary">{{ empDetails?.employeeName}}</h4>
                     </div>
                     <span class="inline-flex align-items-left mb-2">
@@ -60,11 +60,11 @@
                     </span>
                 </div>
             </div>
-            <div class="col-12 sm:col-9">
+            <div class="col-12 md:col-8 lg:col-6">
                 <div class="grid" style="margin: -1rem">
                     <div class="col-12 sm:col-4">
                         <div class="card text-0 flex justify-content-between pt-4 h-full"
-                            style="background-color: var(--primary-color); min-width: 17rem">
+                            style="background-color: var(--primary-color); ">
                             <div class="overview-info">
                                 <h6 class="m-0 mb-1 text-0">Academic PL's</h6>
                                 <h1 class="m-0 text-0">{{ empDetails?.usedPrivilegeLeavesInYear}}/{{
@@ -76,13 +76,13 @@
                     <div class="col-12 sm:col-4">
 
                         <div class="card surface-card text-500 flex justify-content-between pt-4 h-full"
-                            style="min-width: 17rem">
+                            >
                             <div class="overview-info">
                                 <h6 class="m-0 mb-1 text-500">Monthly PL's </h6>
                                 <h1 class="m-0 text-500">{{ this.monthlyLeaves?.usedPLsInMonth}}</h1>
                             </div>
-                            <div class="d-leave">
-                                <div class="pl-3">
+                            <div class="d-leave text-center">
+                                <div class="mb-2">
                                     {{this.month}}/{{this.year}}
                                 </div>
                                 <i class="pi pi-angle-left d-leave-font" (click)="gotoPreviousMonth()">
@@ -98,8 +98,7 @@
                     </div>
                     <div class="col-12 sm:col-4">
 
-                        <div class="card surface-card text-500 flex justify-content-between pt-4 h-full"
-                            style="min-width: 17rem">
+                        <div class="card surface-card text-500 flex justify-content-between pt-4 h-full">
                             <div class="overview-info">
                                 <h6 class="m-0 mb-1 text-500">Available PL's</h6>
                                 <h1 class="m-0 text-500">{{
@@ -114,7 +113,7 @@
 
                     <div class="col-12 sm:col-4">
                         <div class="card text-0 flex justify-content-between pt-4 h-full"
-                            style="background-color: var(--primary-color); min-width: 17rem">
+                            style="background-color: var(--primary-color); ">
                             <div class="overview-info">
                                 <h6 class="m-0 mb-1 text-0">Academic CL's</h6>
                                 <h1 class="m-0 text-0">{{ empDetails?.usedCasualLeavesInYear}}/{{
@@ -125,14 +124,13 @@
                     </div>
                     <div class="col-12 sm:col-4">
 
-                        <div class="card surface-card text-500 flex justify-content-between pt-4 h-full"
-                            style="min-width: 17rem">
+                        <div class="card surface-card text-500 flex justify-content-between pt-4 h-full">
                             <div class="overview-info">
                                 <h6 class="m-0 mb-1 text-500">Monthly CL's </h6>
                                 <h1 class="m-0 text-500">{{ this.monthlyLeaves?.usedCLsInMonth}}</h1>
                             </div>
-                            <div class="d-leave">
-                                <div class="pl-3">
+                            <div class="d-leave text-center">
+                                <div class=" mb-2">
                                     {{this.month}}/{{this.year}}
                                 </div>
                                 <i class="pi pi-angle-left d-leave-font" (click)="gotoPreviousMonth()">
@@ -148,8 +146,7 @@
                     </div>
                     <div class="col-12 sm:col-4">
 
-                        <div class="card surface-card text-500 flex justify-content-between pt-4 h-full"
-                            style="min-width: 17rem">
+                        <div class="card surface-card text-500 flex justify-content-between pt-4 h-full">
                             <div class="overview-info">
                                 <h6 class="m-0 mb-1 text-500">Available CL's</h6>
                                 <h1 class="m-0 text-500">{{
@@ -165,7 +162,7 @@
 
                     <div class="col-12 sm:col-4">
                         <div class="card text-0 flex justify-content-between pt-4 h-full"
-                            style="background-color: #f03030; min-width: 17rem">
+                            style="background-color: #f03030;">
                             <div class="overview-info">
                                 <h6 class="m-0 mb-1 text-0">Academic LWP</h6>
                                 <h1 class="m-0 text-0">3</h1>
@@ -175,13 +172,13 @@
                     </div>
                     <div class="col-12 sm:col-4">
                         <div class="card surface-card text-500 flex justify-content-between pt-4 h-full"
-                            style="min-width: 17rem">
+                            >
                             <div class="overview-info">
                                 <h6 class="m-0 mb-1 text-500">Monthly LWP</h6>
                                 <h1 class="m-0 text-500">2</h1>
                             </div>
-                            <div class="d-leave">
-                                <div class="pl-3">
+                            <div class="d-leave text-center">
+                                <div class="mb-2">
                                     {{this.month}}/{{this.year}}
                                 </div>
                                 <i class="pi pi-angle-left d-leave-font" (click)="gotoPreviousMonth()">
@@ -197,9 +194,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 sm:col-4 p-5">
-                <h4 class="m-5 ml-0 mt-0 ">Assigned Projects</h4>
-                <div class="grid card  orange-200 applicant-p-block2">
+            <div class="col-12 md:col-6 lg:col-3 ">
+                <h4 class="m-5 mx-0 mt-0 ">Assigned Projects</h4>
+                <div class="grid card  orange-200 ">
                     <div class="col-6" *ngFor="let project of empDetails?.projects">
                         <div class="card" [ngStyle]="project.endAt ? {'color': 'gray'} : {}">
                             <img [src]="project.projectLogo" [alt]="project.projectLogo" class="shadow-2 my-1 mx-0"
@@ -214,40 +211,48 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 sm:col-5" *ngIf="empDetails?.assets">
-                <h4 class="m-5 mt-0 ">Alloted Assets</h4>
+            <div class="col-12 md:col-6 lg:col-5 p-5" *ngIf="empDetails?.assets">
+                <h4 class="m-5 mt-0 mx-0 ">Alloted Assets</h4>
                 <div class="grid">
-                    <div class="col-12 sm:col-3" *ngFor="let asset of empDetails?.assets">
-                        <div class="card text-0 flex justify-content-between pt-4 h-full"
-                            style="background-color: var(--primary-color);">
-                            <div class="overview-info">
-                                <h6 class="m-0 mb-1 text-0">
+                    <div class="col-12 sm:col-4" *ngFor="let asset of empDetails?.assets">
+                        <div class="card text-0 p-3 flex justify-content-between h-full assets_card">
+                            <div class="overview-info text-center alloted_assets">
+                                <p class="text-primary "><b>{{asset.assetName}}</b></p>
+                                <ng-container *ngIf="asset.thumbnail">
+                                    <img [src]="asset?.thumbnail" [alt]="asset?.thumbnail"
+                                        class="shadow-2"  /><br />
+                                    </ng-container>
+                                    
+                                    <div class="text-left text-primary">
+                                    <p class="mb-0 mt-2"><b>S/N</b> {{asset.serialNumber}} </p>
+                                    <p><b>M/N</b> {{asset.modelNumber}} </p>
+                                    </div>
+                                    
+                                <!-- <h6 class="m-0 mb-1 text-0">
+                                    
                                     <ng-container>
                                         <span>Asset Name:</span>
-                                        {{asset.assetName}}
+                                        
                                     </ng-container>
                                     <br>
                                     <ng-container *ngIf="asset.serialNumber">
                                         <span>Serial Number:</span>
-                                        {{asset.serialNumber}}
+                                        
                                     </ng-container>
                                     <br>
                                     <ng-container *ngIf="asset.modelNumber">
                                         <span>Model Number:</span>
-                                        {{asset.modelNumber}}
+                                        
                                     </ng-container>
-                                    <ng-container *ngIf="asset.thumbnail">
-                                        <img [src]="asset?.thumbnail" [alt]="asset?.thumbnail"
-                                            class="shadow-2 my-1 mx-0" width="100%" height="50%" /><br />
-                                    </ng-container>
-                                </h6>
+                                    
+                                </h6> -->
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-12 sm:col-3 p-5">
-                <h4 class="m-5 mt-0 ">Holidays</h4>
+            <div class="col-12 md:col-6 lg:col-5 p-5">
+                <h4 class="m-5 mt-0 mx-0 ">Holidays</h4>
                 <!-- <p-dropdown [options]="years" id="year-dropdown" placeholder="Select a Year" [(ngModel)]="selectedYear"
                     (onChange)="getHoliday()" optionLabel="year" style="visibility: hidden;"></p-dropdown> -->
                 <p-table id="table" #dtholiday [value]="holidays" dataKey="id" [rows]="10" [rowHover]="true"

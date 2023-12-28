@@ -51,7 +51,6 @@ $gutter: 1rem; //for primeflex grid system
 .p-datepicker table td {
     padding: 1px;
 }
-
 .multi-progress-bar {
     display: flex;
     height: 20px;
@@ -611,6 +610,7 @@ label {
     transform: scale(1.2);
     color: #f17517;
 }
+
 .no-hover {
     pointer-events: none;
 }
@@ -706,14 +706,19 @@ div:where(.swal2-container) div:where(.swal2-validation-message)::before {
     cursor: pointer;
 }
 
-div.d-leave{
-    .pl-3{
+div.d-leave {
+    .pl-3 {
         padding-left: .8rem !important;
     }
-    .d-leave-font{
-        font-size: 1rem; font-weight: 900; color: var(--primary-color);cursor: pointer;
+
+    .d-leave-font {
+        font-size: 1rem;
+        font-weight: 900;
+        color: var(--primary-color);
+        cursor: pointer;
     }
-    .p-calendar{
+
+    .p-calendar {
         width: 2rem;
         height: 2rem;
     }
@@ -725,31 +730,51 @@ div.d-leave{
     //     border: 1px solid #cccccc;
 
     // }
-    .p-tabview-panels{
+    .p-tabview-panels {
         overflow: auto;
-        height:  calc(100vh - 120px);
+        height: calc(100vh - 120px);
     }
 }
-.project_name{
-    font-size: 1.4rem;color:#41b6a6;
+
+.project_name {
+    font-size: 1.4rem;
+    color: #41b6a6;
 
 }
-i.fa-link-slash{
+
+i.fa-link-slash {
     color: #41b6a6;
     border: 1px solid white;
     font-size: 16pt;
-    &:hover{
+
+    &:hover {
         color: rgb(2, 146, 139);
         border: 1px solid #41b6a6;
     }
 }
 
-p-fieldset.allott-employee{
-    fieldset.p-fieldset{
+p-fieldset.allott-employee {
+    fieldset.p-fieldset {
         margin: 10px 0;
     }
 }
 
 .topbar-menu a span{
     cursor: pointer;
+}
+.alloted_assets img{
+width:75%;
+border-radius: 10px;
+}
+.assets_card{
+    border:1px solid var(--primary-color);
+    border-radius: 10px;
+}
+.p-button.p-button-icon-only{
+    background-color: white;
+    color:var(--primary-color);
+}
+.applicant-p-block-home {
+    background-color: rgb(249, 245, 242);
+    border-radius: 10px;
 }

@@ -91,7 +91,6 @@ selectedYear: Year |undefined ;
       year: new FormControl(''),
       holidayDetails: this.formbuilder.array([])
     });
-
   }
 
   // Method to add holiday details to the form

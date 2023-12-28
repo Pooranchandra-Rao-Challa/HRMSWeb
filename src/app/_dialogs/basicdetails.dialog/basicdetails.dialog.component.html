@@ -33,14 +33,6 @@
                             [ngClass]="{ 'is-invalid ng-dirty': empBasDtlsFormControls['middleName'].touched && empBasDtlsFormControls['middleName'].errors }"
                             (keydown)="restrictSpaces($event)" />
                         <div class="flex">
-                            <div class="align-left w-60" style="width:70%">
-                                <span
-                                    *ngIf="empBasDtlsFormControls['middleName'].touched && empBasDtlsFormControls['middleName'].invalid">
-                                    <div class="ng-invalid ng-touched p-error"
-                                        *ngIf="empBasDtlsFormControls['middleName'].errors?.['minlength']">
-                                        Middle Name Min Length Is 2.</div>
-                                </span>
-                            </div>
                             <div class="align-right w-40" style="width:30%; text-align:right;">
                                 <small>{{middlename.value.length}}/{{maxLength.name}} </small>
                             </div>
