@@ -8,9 +8,6 @@ import { environment } from 'src/environments/environment';
 const TOKEN_HEADER_KEY = 'Authorization';
 @Injectable()
 export class HRMSAPIInterceptor implements HttpInterceptor {
-    private isRefreshing = false;
-    private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-
     constructor(private jwtService: JwtService,
         public loaderService: LoaderService) { }
 
@@ -37,14 +34,9 @@ export class HRMSAPIInterceptor implements HttpInterceptor {
                     )
                 );
         }
-
         //if not logged in
         return next.handle(request).pipe(
             map(resp => {
-                let response = resp as unknown as HttpResponse<any>;
-                // if ([200].includes(response.status)) {
-                //   this.messageService.add({ severity: 'success', key: 'myToast', summary: 'Success!', detail: 'Signing in...!' });
-                // }
                 return resp;
             }),
             finalize(
