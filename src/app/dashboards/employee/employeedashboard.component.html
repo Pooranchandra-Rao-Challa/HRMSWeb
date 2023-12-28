@@ -1,9 +1,7 @@
 <div class="grid">
     <!-- <p-messages [(value)]="msgs1" class="w-full mx-3" styleClass=" w-full border-round-3xl surface-card font-medium text-color-secondary" [enableService]="false"></p-messages> -->
-
     <div class="col-12">
         <div class="flex flex-column sm:flex-row align-items-center gap-3 mb-5">
-
             <div class="flex flex-column align-items-center sm:align-items-start">
                 <h4 class="text-800 font-medium m-0 mb-1">Welcome {{ empDetails?.employeeName}}</h4>
                 <!-- <p class="text-600 m-0">Your last login was on 01/02/2023 at 10:24 am</p> -->
@@ -75,8 +73,7 @@
                     </div>
                     <div class="col-12 sm:col-4">
 
-                        <div class="card surface-card text-500 flex justify-content-between pt-4 h-full"
-                            >
+                        <div class="card surface-card text-500 flex justify-content-between pt-4 h-full">
                             <div class="overview-info">
                                 <h6 class="m-0 mb-1 text-500">Monthly PL's </h6>
                                 <h1 class="m-0 text-500">{{ this.monthlyLeaves?.usedPLsInMonth}}</h1>
@@ -171,8 +168,7 @@
                         </div>
                     </div>
                     <div class="col-12 sm:col-4">
-                        <div class="card surface-card text-500 flex justify-content-between pt-4 h-full"
-                            >
+                        <div class="card surface-card text-500 flex justify-content-between pt-4 h-full">
                             <div class="overview-info">
                                 <h6 class="m-0 mb-1 text-500">Monthly LWP</h6>
                                 <h1 class="m-0 text-500">2</h1>
@@ -194,40 +190,39 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 md:col-6 lg:col-3 ">
+            <div class="col-12 md:col-6 lg:col-3  ">
                 <h4 class="m-5 mx-0 mt-0 ">Assigned Projects</h4>
-                <div class="grid card  orange-200 ">
+                <div class="grid card p-1 orange-200  applicant-p-block-home">
                     <div class="col-6" *ngFor="let project of empDetails?.projects">
-                        <div class="card" [ngStyle]="project.endAt ? {'color': 'gray'} : {}">
-                            <img [src]="project.projectLogo" [alt]="project.projectLogo" class="shadow-2 my-1 mx-0"
-                                width="100%" height="50%" /><br />
-                            <br />
-                            <h5 class="text-primary">{{project.projectName}}</h5>
-                            <br />
-                            <span *ngIf="project.sinceFrom">From:</span><span>{{project.sinceFrom}}</span>
-                            <br />
-                            <span *ngIf="project.endAt">To:</span><span>{{project.endAt}}</span>
+                        <div class="card p-2 text-center" [ngStyle]="project.endAt ? {'color': 'gray'} : {}">
+                            <img [src]="project.projectLogo" [alt]="project.projectLogo" class="shadow-2 my-0 mx-0"
+                                width="50%"  />
+                            
+                            <h5 class="text-primary m-2">{{project.projectName}}</h5>
+                            
+                            <span class="text-primary" *ngIf="project.sinceFrom">From: </span><span>{{project.sinceFrom}}</span> <br/>
+                            
+                            <span class="text-primary" *ngIf="project.endAt">To: </span><span>{{project.endAt}}</span>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-12 md:col-6 lg:col-5 p-5" *ngIf="empDetails?.assets">
                 <h4 class="m-5 mt-0 mx-0 ">Alloted Assets</h4>
-                <div class="grid">
+                <div class="grid  applicant-p-block-home">
                     <div class="col-12 sm:col-4" *ngFor="let asset of empDetails?.assets">
                         <div class="card text-0 p-3 flex justify-content-between h-full assets_card">
                             <div class="overview-info text-center alloted_assets">
                                 <p class="text-primary "><b>{{asset.assetName}}</b></p>
                                 <ng-container *ngIf="asset.thumbnail">
-                                    <img [src]="asset?.thumbnail" [alt]="asset?.thumbnail"
-                                        class="shadow-2"  /><br />
-                                    </ng-container>
-                                    
-                                    <div class="text-left text-primary">
+                                    <img [src]="asset?.thumbnail" [alt]="asset?.thumbnail" class="shadow-2" /><br />
+                                </ng-container>
+
+                                <div class="text-left text-primary">
                                     <p class="mb-0 mt-2"><b>S/N</b> {{asset.serialNumber}} </p>
                                     <p><b>M/N</b> {{asset.modelNumber}} </p>
-                                    </div>
-                                    
+                                </div>
+
                                 <!-- <h6 class="m-0 mb-1 text-0">
                                     
                                     <ng-container>
