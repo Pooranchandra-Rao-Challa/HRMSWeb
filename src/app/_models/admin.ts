@@ -159,6 +159,7 @@ export class ProjectAllotments {
     employeeId?: number
     projectAllotmentId?: number
     projectId: number
+    reportingToId?: number
     isActive: boolean
 }
 export class ProjectDetailsDto {
@@ -302,6 +303,7 @@ export class NodeProps {
     id?: string;
     parentId?: string;
     employeeId?:number;
+    reportingToId?:number;
     projectId?: number;
     projectName?: string;
     projectDescription?: string;

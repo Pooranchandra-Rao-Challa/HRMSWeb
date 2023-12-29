@@ -439,6 +439,7 @@ export class ProjectComponent implements OnInit {
             let companyName = values.clients.companyName.companyName;
             values.clients.companyName = companyName;
         }
+        console.log(values);
 
         if (this.addFlag) {
             return this.adminService.CreateProject(values);
@@ -575,7 +576,7 @@ export class ProjectComponent implements OnInit {
         projectAllotments.push({
             employeeId: this.dragNode.employeeId,
             projectId: values.projectId,
-
+            reportingToId: this.dragNode.reportingTo
         });
         this.fbproject.get('projectAllotments').patchValue(projectAllotments);
     }
@@ -590,6 +591,7 @@ export class ProjectComponent implements OnInit {
         });
         this.fbproject.get('projectAllotments').patchValue(projectAllotments);
     }
+    parentRegex = /(?<ref>^[1])[-]{1}?(?<chartId>\d+)[-]{1}(?<employeeId>\d+$)/;
     onEmployeeDrop(parentNode) {
 
         let pNode = parentNode;
@@ -608,8 +610,23 @@ export class ProjectComponent implements OnInit {
 
         item.id = `1-${emp.chartId}-${emp.employeeId}`; // Use a unique prefix like "1-" for this project
 
-        if (pNode.id)
+        if (pNode.id){
             item.parentId = pNode.id //`1-${currentHierarcy.selfId}-${emp.reportingToId}`; // Make sure the parent ID is unique too
+            let parentIds = this.parentRegex.exec(pNode.id)
+            console.log(parentIds);
+
+            if(parentIds){
+                console.log(parentIds.groups["employeeId"]);
+
+                item.reportingToId = Number(parentIds.groups["employeeId"])
+            }
+            /**let textArray = regex.exec(text);
+    let returnvalue ="";
+    if(textArray && textArray.groups){
+      return textArray.groups[groupname];
+    } */
+        }
+
         else item.parentId = null
 
         item.name = emp.fullName;
@@ -744,6 +761,7 @@ export class ProjectComponent implements OnInit {
                 projectAllotments.push({
                     employeeId: empchart.employeeId,
                     projectId: projectId,
+                    reportingToId: empchart.reportingToId
                 });
                 item.id = empchart.selfId == null ? `1-${empchart.chartId}` : `1-${empchart.chartId}-${empchart.employeeId}`;
                 if (empchart.selfId && empchart.selfId == 1)
@@ -751,6 +769,8 @@ export class ProjectComponent implements OnInit {
                 else if (empchart.selfId && empchart.reportingToId)
                     item.parentId = `1-${empchart.selfId}-${empchart.reportingToId}`; // Make sure the parent ID is unique too
                 else item.parentId = null // Make sure the parent ID is unique too
+
+                if(empchart.reportingToId) item.reportingToId = empchart.reportingToId;
 
                 let emp = this.Employees.filter(fn => fn.employeeId == empchart.employeeId);
                 if (emp.length == 1) {
