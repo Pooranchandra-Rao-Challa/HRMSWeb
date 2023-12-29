@@ -35,18 +35,18 @@ export class selfEmployeeMonthlyLeaves {
 export class allottedAssets {
     assetId?: number;
     assetName?: string;
-    description?:string;
-    modelNumber?:string;
-    serialNumber?:string;
-    thumbnail?:string;
+    description?: string;
+    modelNumber?: string;
+    serialNumber?: string;
+    thumbnail?: string;
 }
 export class workingProjects {
     projectId?: number;
     projectName?: string;
     projectLogo?: string;
     projectDescription?: string;
-    sinceFrom?:Date;
-    endAt?:Date;
+    sinceFrom?: Date;
+    endAt?: Date;
 }
 export class addresses {
     addressId?: number;
@@ -54,4 +54,42 @@ export class addresses {
     addressLine2?: string;
     addressType?: string;
     city?: string;
+}
+
+export class adminDashboardViewDto {
+    activeEmployees?: number;
+    activeProjects?: string;
+    savedactiveProjects?: activeProjects[];
+    supsendedProjects?: string;
+    savedsupsendedProjects?: supsendedProjects[];
+    employeeLeaveCounts?: string;
+    savedemployeeLeaveCounts?: employeeLeaveCounts[];
+    employeeBirthdays?: string;
+    savedemployeeBirthdays?: employeeBirthdays[];
+    employeesOnLeave?:string;
+    savedemployeesOnLeave?:employeesOnLeave[];
+}
+
+export class activeProjects {
+    projectStatus?: string;
+    projectStatusCount?: number;
+}
+
+export class supsendedProjects {
+    projectStatus?: string;
+    projectStatusCount?: number;
+}
+
+export class employeeLeaveCounts {
+    leaveType?: string;
+    leaveTypeCount?: number;
+}
+export class employeeBirthdays {
+    employeeName?: string;
+    employeeDOB?: Date;
+    employeeCode?: string;
+}
+export class employeesOnLeave{
+    employeeName?:string;
+    leaveType?:string;
 }

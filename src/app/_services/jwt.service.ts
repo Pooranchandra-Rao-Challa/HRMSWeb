@@ -8,9 +8,11 @@ import { environment } from 'src/environments/environment'
 const TOKEN_KEY = 'auth-token';
 const REFRESHTOKEN_KEY = 'auth-refreshtoken';
 const LOOKUP_KEYS = 'lookupkeys';
+
 @Injectable({
     providedIn: 'root'
 })
+
 export class JwtService {
 
     constructor(private router: Router,) { }
@@ -46,10 +48,10 @@ export class JwtService {
     }
     public get IsLoggedIn(): boolean {
         let jwtToken = this.DecodedJWT;
-        if(jwtToken == undefined) return false;
+        if (jwtToken == undefined) return false;
         const expires = new Date(jwtToken.exp * 1000);
 
-        const tokenExpired =  (new Date()).getTime() > expires.getTime();
+        const tokenExpired = (new Date()).getTime() > expires.getTime();
         return !tokenExpired;
     }
     public get Permissions(): any {
@@ -69,7 +71,7 @@ export class JwtService {
         localStorage.setItem(REFRESHTOKEN_KEY, tokens.refreshToken)
     }
 
-    public addLookupKeys(keys: {},forceLocal:boolean = false) {
+    public addLookupKeys(keys: {}, forceLocal: boolean = false) {
         if ((keys && !this.HasLookupKey) || forceLocal) {
             localStorage.setItem(LOOKUP_KEYS, JSON.stringify(keys))
         }
@@ -108,6 +110,14 @@ export class JwtService {
     public get EmployeeId(): number {
         const jwt = this.DecodedJWT;
         return jwt.EmployeeId;
+    }
+
+    public get IsSelfEmployee(): boolean {
+        if (this.Permissions.CanManageEmployee || this.Permissions.CanManageEnrollEmployee) {
+            return false;
+        }
+        else
+            return true;
     }
 }
 

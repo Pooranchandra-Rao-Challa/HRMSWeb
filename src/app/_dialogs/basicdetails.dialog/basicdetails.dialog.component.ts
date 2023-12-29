@@ -128,7 +128,10 @@ export class BasicdetailsDialogComponent {
             photo: []
         });
     }
-
+    cancelSelection(event: Event): void{
+        event.preventDefault();
+        this.fbEmpBasDtls.get('photo').setValue(null);
+      }
     get empBasDtlsFormControls() {
         return this.fbEmpBasDtls.controls;
     }

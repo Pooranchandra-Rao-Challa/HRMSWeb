@@ -151,7 +151,7 @@ export class ProjectComponent implements OnInit {
 
                 if (childLevel > parentLevel) {
                     this.onEmployeeDrop(value.DropNode);
-                }else{
+                } else {
                     this.messageService.add({ severity: 'error', key: 'myToast', summary: 'Higher level role can not be added to lower level role!', detail: `Trying to add ${childRole} role to ${parentRole} role, which is incorrect` });
                 }
             }
@@ -276,6 +276,11 @@ export class ProjectComponent implements OnInit {
             this.projectDetails.expandEmployees = JSON.parse(this.projectDetails.teamMembers);
         });
     }
+    cancelSelection(event: Event): void {
+        // Clear the value of the 'logo' control
+        event.preventDefault();
+        this.fbproject.get('logo').setValue(null);
+    }
 
     initProjects() {
         this.adminService.GetProjects().subscribe(resp => {
@@ -396,10 +401,12 @@ export class ProjectComponent implements OnInit {
             eProjectStatusesId: project.activeStatusId,
             Date: FORMAT_DATE(new Date(project[date[0]?.name.toLowerCase()])),
         });
+        console.log(project);
+
         this.fbproject.get('clients').patchValue({
             clientId: project.clientId,
             isActive: project.clientIsActive,
-            companyName: { clientId: project.clientId, companyName : project.companyName },
+            companyName: { clientId: project.clientId, companyName: project.companyName },
             name: project.clientName,
             email: project.email,
             mobileNumber: project.mobileNumber,
@@ -428,7 +435,7 @@ export class ProjectComponent implements OnInit {
     saveProject() {
 
         let values = Object.assign({}, this.fbproject.value);
-        if(values.clients.companyName instanceof Object){
+        if (values.clients.companyName instanceof Object) {
             let companyName = values.clients.companyName.companyName;
             values.clients.companyName = companyName;
         }
@@ -562,7 +569,7 @@ export class ProjectComponent implements OnInit {
     onEmployeeDragStart(empoloyee) {
         this.dragNode = Object.assign({}, empoloyee)
     }
-    updateProjectAllottment(){
+    updateProjectAllottment() {
         var values = this.fbproject.value;
         let projectAllotments: any[] = this.fbproject.get('projectAllotments').value;
         projectAllotments.push({
@@ -573,12 +580,12 @@ export class ProjectComponent implements OnInit {
         this.fbproject.get('projectAllotments').patchValue(projectAllotments);
     }
 
-    removeProjectAllottment(deleteNodes: NodeProps[]){
+    removeProjectAllottment(deleteNodes: NodeProps[]) {
         let projectAllotments: any[] = this.fbproject.get('projectAllotments').value;
         deleteNodes.forEach(fn => {
             var allottedEmployee = projectAllotments.filter(fn => fn.employeeId == this.dragNode.employeeId);
-            if(allottedEmployee.length > 0){
-                projectAllotments.splice(projectAllotments.indexOf(allottedEmployee),1);
+            if (allottedEmployee.length > 0) {
+                projectAllotments.splice(projectAllotments.indexOf(allottedEmployee), 1);
             }
         });
         this.fbproject.get('projectAllotments').patchValue(projectAllotments);
@@ -587,7 +594,7 @@ export class ProjectComponent implements OnInit {
 
         let pNode = parentNode;
         let project = this.fbproject.value as ProjectDetailsDto;
-        if(!project.clients) project.clients = new ClientDetailsDto();
+        if (!project.clients) project.clients = new ClientDetailsDto();
         this.updateProjectAllottment();
 
         let item: NodeProps = new NodeProps()
@@ -671,7 +678,7 @@ export class ProjectComponent implements OnInit {
             item.roleName = rNode.roleName;
             item.imageUrl = "assets/layout/images/default_icon_employee.jpg"
             item.isLoggedUser = false;
-            item.hierarchyLevel = rNode.hierarchyLevel+'';
+            item.hierarchyLevel = rNode.hierarchyLevel + '';
             item.profileUrl = "assets/layout/images/default_icon_employee.jpg"
             item._upToTheRootHighlighted = true;
             const val = Math.round(rNode.roleName.length / 2);
@@ -701,7 +708,7 @@ export class ProjectComponent implements OnInit {
             item.roleName = rNode.roleName;
             item.imageUrl = "assets/layout/images/default_icon_employee.jpg"
             item.isLoggedUser = false;
-            item.hierarchyLevel = rNode.hierarchyLevel+'';
+            item.hierarchyLevel = rNode.hierarchyLevel + '';
             item.profileUrl = "assets/layout/images/default_icon_employee.jpg"
             item._upToTheRootHighlighted = true;
 
@@ -727,9 +734,9 @@ export class ProjectComponent implements OnInit {
         this.AllotedNodes.splice(0, this.AllotedNodes.length);
         this.adminService.GetEmployeeHierarchy(projectId).subscribe((resp) => {
             let data = resp as unknown as EmployeeHierarchyDto[];
-            //console.log(data);
+            console.log(data);
 
-            let projectAllotments: any[] = [] ;
+            let projectAllotments: any[] = [];
 
 
             data.forEach(empchart => {

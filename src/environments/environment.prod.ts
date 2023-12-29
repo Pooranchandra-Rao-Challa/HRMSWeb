@@ -1,7 +1,11 @@
 export const environment = {
     production: true,
     ApiUrl: 'http://hrms.calibrage.in/API/hrmsapi/',
-    LogoutUrl: '/Web'
+    LogoutUrl: '/Web',
+    AdminDashboard:'./dashboard/admin',
+    HRDashboard:'./dashboard/hr',
+    EmployeeDashboard:'./dashboard/employee',
+    RecruitmentDashboard:'./admin/recruitmentDashboard'
   };
   export const URI_ENDPOINT = (term:string) => `${environment.ApiUrl}${term}`;
   export const URI_ENDPOINT_WITH_ID = (term:string,id: any) => `${environment.ApiUrl}${term}/${id}`;

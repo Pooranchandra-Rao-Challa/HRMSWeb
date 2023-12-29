@@ -51,6 +51,7 @@ $gutter: 1rem; //for primeflex grid system
 .p-datepicker table td {
     padding: 1px;
 }
+
 .multi-progress-bar {
     display: flex;
     height: 20px;
@@ -615,6 +616,32 @@ label {
     pointer-events: none;
 }
 
+.div1 {
+    position: relative;
+    display: inline-block;
+    width: 100px;
+}
+.cancel-button {
+    position: absolute;
+    border-radius: 47%;
+    top: 5px;
+    right: 3px;
+    background-color: rgb(244, 236, 236);
+    color: #f17517;
+    border: none;
+    padding: 5px 7px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.cancel-button:hover {
+    background-color: #f17517;
+    /* Hover background color */
+    color: rgb(244, 236, 236);
+    /* Hover text color */
+}
+
+
 .star.half {
     background: linear-gradient(90deg, #f17517 30%, transparent 50%);
     -webkit-background-clip: text;
@@ -759,21 +786,25 @@ p-fieldset.allott-employee {
     }
 }
 
-.topbar-menu a span{
+.topbar-menu a span {
     cursor: pointer;
 }
-.alloted_assets img{
-width:75%;
-border-radius: 10px;
-}
-.assets_card{
-    border:1px solid var(--primary-color);
+
+.alloted_assets img {
+    width: 75%;
     border-radius: 10px;
 }
-.p-button.p-button-icon-only{
-    background-color: white;
-    color:var(--primary-color);
+
+.assets_card {
+    border: 1px solid var(--primary-color);
+    border-radius: 10px;
 }
+
+.p-button.p-button-icon-only {
+    background-color: white;
+    color: var(--primary-color);
+}
+
 .applicant-p-block-home {
     background-color: rgb(249, 245, 242);
     border-radius: 10px;
