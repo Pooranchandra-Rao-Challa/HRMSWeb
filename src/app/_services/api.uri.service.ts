@@ -156,3 +156,6 @@ export const UPDATE_RESULT="Recruitment/UpdateFilteredApplicantForHRRound";
 
 export const GET_SELF_EMPLOYEE="Employee/GetSelfEmployeeData";
 export const GET_SELF_EMPLOYEE_MONTH_LEAVES="Attendance/GetLeavesForSelfInMonth"
+
+// Admin Dashboard
+export const GET_ADMIN_DASHBOARD="AdminDashboard/GetAdminDashboard"
