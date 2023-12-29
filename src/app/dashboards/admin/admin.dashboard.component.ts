@@ -37,14 +37,9 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     subscription: Subscription;
 
     constructor(private layoutService: LayoutService,
-        private dashboardService: DashboardService) {
-        this.subscription = this.layoutService.configUpdate$.subscribe((config) => {
-            // this.initChart();
-        });
-    }
+        private dashboardService: DashboardService) {    }
 
     ngOnInit() {
-        this.initChart();
         this.inItAdminDashboard();
     }
 
@@ -52,38 +47,31 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     inItAdminDashboard() {
         this.dashboardService.getAdminDashboard().subscribe((resp) => {
             this.admindashboardDtls = resp[0] as unknown as adminDashboardViewDto;
-            console.log(this.admindashboardDtls);
-            console.log(JSON.parse(this.admindashboardDtls.employeeLeaveCounts));
-
-            // // Parse the JSON data
-            // const employeeLeaveCounts = JSON.parse(this.admindashboardDtls.employeeLeaveCounts);
-
-            // // Sum leaveTypeCount for each leave type
-            // const leaveTypeCountsSum = employeeLeaveCounts.reduce((sum, leaveTypeData) => {
-            //     return sum + leaveTypeData.leaveTypeCount;
-            // }, 0);
-
-            // console.log('Total Leave Type Count:', leaveTypeCountsSum);
-
             this.admindashboardDtls.savedactiveProjects = JSON.parse(this.admindashboardDtls.activeProjects);
             this.admindashboardDtls.savedsupsendedProjects = JSON.parse(this.admindashboardDtls.supsendedProjects);
             this.admindashboardDtls.savedemployeeBirthdays = JSON.parse(this.admindashboardDtls.employeeBirthdays);
             this.admindashboardDtls.savedemployeeLeaveCounts = JSON.parse(this.admindashboardDtls.employeeLeaveCounts);
             this.admindashboardDtls.savedemployeesOnLeave = JSON.parse(this.admindashboardDtls.employeesOnLeave);
             this.admindashboardDtls.savedabsentEmployees = JSON.parse(this.admindashboardDtls.absentEmployees);
+            this.admindashboardDtls.savedActiveEmployeesInOffice=JSON.parse(this.admindashboardDtls.activeEmployeesInOffice);
+            this.initChart();
         })
     }
     initChart() {
         const documentStyle = getComputedStyle(document.documentElement);
         const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
-
+        const absent = this.admindashboardDtls?.savedabsentEmployees.find(each => each.employeeStatus === 'AT')?.employeesCount;
+        const CasualLeaves = this.admindashboardDtls?.savedemployeeLeaveCounts.find(each => each.leaveType === 'CL')?.leaveTypeCount;
+        const PersonalLeaves = this.admindashboardDtls?.savedemployeeLeaveCounts.find(each => each.leaveType === 'PL')?.leaveTypeCount;
+        const present = this.admindashboardDtls?.savedActiveEmployeesInOffice.find(each => each.employeeStatus === 'PT')?.employeesCount;
+        
         //sales by category pie chart
         this.pieData = {
-            labels: ['in Office', 'On Leave', 'WFH'],
+            labels: ['in Office', 'Absent','PL', 'CL',],
             datasets: [
                 {
-                    data: [40, 8, 2],
-                    backgroundColor: [documentStyle.getPropertyValue('--primary-300'), documentStyle.getPropertyValue('--red-300'), documentStyle.getPropertyValue('--green-300')],
+                    data: [present,absent,PersonalLeaves,CasualLeaves, ],
+                    backgroundColor: [documentStyle.getPropertyValue('--primary-300'), documentStyle.getPropertyValue('--red-300'), documentStyle.getPropertyValue('--green-300'),documentStyle.getPropertyValue('--blue-300')],
                     borderColor: surfaceBorder
                 }
             ]

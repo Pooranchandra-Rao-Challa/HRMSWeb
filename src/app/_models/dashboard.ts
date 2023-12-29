@@ -65,11 +65,13 @@ export class adminDashboardViewDto {
     employeeLeaveCounts?: string;
     savedemployeeLeaveCounts?: employeeLeaveCounts[];
     employeeBirthdays?: string;
+    savedActiveEmployeesInOffice?:absentEmployees[]
     savedemployeeBirthdays?: employeeBirthdays[];
     employeesOnLeave?: string;
     savedemployeesOnLeave?: employeesOnLeave[];
     absentEmployees?: string;
     savedabsentEmployees?: absentEmployees[];
+    activeEmployeesInOffice?:string
 }
 
 export class activeProjects {
