@@ -5,12 +5,12 @@ import { ImageCroppedEvent } from 'ngx-image-cropper';
   selector: 'app-image-cropper',
   template: `
     <div class="image-cropper-wrapper" *ngIf="showCropper">
-      <div class="image-cropper-content">
+      <div class="image-cropper-content" >
 
         <image-cropper
           [imageChangedEvent]="imageChangedEvent"
-          [maintainAspectRatio]="true"
-          [aspectRatio]="1 / 1"
+          [maintainAspectRatio]="false"
+          [aspectRatio]="1 / 1.5"
           format="png"
           (imageCropped)="imageCropped($event)"
           (loadImageFailed)="loadImageFailed()"
@@ -29,7 +29,7 @@ import { ImageCroppedEvent } from 'ngx-image-cropper';
     height: 100%;
     background-color: rgba(0, 0, 0, .4);
     z-index: 9999;
-  }
+  }   
   .image-cropper-wrapper .image-cropper-content {
     width: 330px !important;
     position: absolute !important;
