@@ -117,7 +117,10 @@ export class AssetsComponent {
       }
     });
   }
-
+  cancelSelection(event: Event): void{
+    event.preventDefault();
+    this.fbassets.get('thumbnail').setValue(null);
+  }
   initAssetCategories() {
     this.lookupService.AssetCategories().subscribe((resp) => {
       this.assetCategories = resp as unknown as LookupViewDto[];

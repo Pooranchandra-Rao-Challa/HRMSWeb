@@ -189,7 +189,10 @@ export class BasicDetailsComponent implements OnInit {
             }
         })
     }
-
+    cancelSelection(event: Event): void{
+        event.preventDefault();
+        this.fbbasicDetails.get('photo').setValue(null);
+      }
     editBasicDetails(empbasicDetails) {
         this.addFlag = false;
         this.fbbasicDetails.patchValue({

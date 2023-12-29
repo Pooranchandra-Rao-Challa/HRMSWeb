@@ -2,7 +2,11 @@
 export const environment = {
     production: true,
     ApiUrl: 'http://182.18.157.215/HRMS/API/hrmsapi/',
-    LogoutUrl: '/HRMS/Web'
+    LogoutUrl: '/HRMS/Web',
+    AdminDashboard:'./dashboard/admin',
+    HRDashboard:'./dashboard/hr',
+    EmployeeDashboard:'./dashboard/employee',
+    RecruitmentDashboard:'./admin/recruitmentDashboard'
   };
 
 export const URI_ENDPOINT = (term:string) => `${environment.ApiUrl}${term}`;

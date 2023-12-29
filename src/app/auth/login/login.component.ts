@@ -6,7 +6,7 @@ import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { LoginModel } from 'src/app/_models/login.model';
 import { JwtService } from 'src/app/_services/jwt.service';
 import { LoginService, LogInSuccessModel } from 'src/app/_services/login.service';
-
+import { environment } from 'src/environments/environment'
 
 @Component({
     selector: 'app-login',
@@ -46,9 +46,10 @@ export class LoginComponent implements OnInit {
                     next: (resp: LogInSuccessModel) => {
                         if (resp.isLoginSuccess && resp.hasSecureQuestions) {
                             this.messageService.add({ severity: 'success', key: 'myToast', summary: 'Success!', detail: 'Signing in...!' });
-                            setTimeout(() => {
-                                this.router.navigate(['./dashboard/admin']);
-                            }, 1000);
+                            let redirectUrl = environment.AdminDashboard;
+                            if (this.jWTService.IsSelfEmployee)
+                                redirectUrl = environment.EmployeeDashboard;
+                            this.router.navigate([redirectUrl]);
                             this.loginService.startRefreshTokenTimer();
                         }
                         else if (resp.isLoginSuccess && !resp.hasSecureQuestions) {
