@@ -104,7 +104,7 @@ export class BasicDetailsComponent implements OnInit {
             code: [null],
             firstName: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
             middleName: new FormControl('', [Validators.minLength(MIN_LENGTH_2)]),
-            lastName: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2)]),
+            lastName: new FormControl('', [Validators.required]),
             userId: [null],
             gender: new FormControl('', [Validators.required]),
             bloodGroupId: new FormControl('', [Validators.required]),
