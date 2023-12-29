@@ -2,39 +2,56 @@
     <div class="col-12">
         <div class="grid" style="margin: -1rem">
             <div class="col-12 sm:col">
-                <div class="card surface-card text-500 flex justify-content-between pt-4 h-full" style="min-width: 17rem">
+                <div class="card surface-card text-500 flex justify-content-between pt-4 h-full"
+                    style="min-width: 17rem">
                     <div class="overview-info">
                         <h6 class="m-0 mb-1 text-500">Total Employees</h6>
                         <h1 class="m-0 text-500">{{admindashboardDtls?.activeEmployees}}</h1>
                     </div>
-                    <i class="pi pi-users text-3xl"></i>
+                    <div (click)="navigateEmpDtls()">
+                        <i class="pi pi-users text-3xl"></i>
+                    </div>
                 </div>
             </div>
             <div class="col-12 sm:col">
-                <div class="card text-0 flex justify-content-between pt-4 h-full" style="background-color: var(--primary-color); min-width: 17rem">
+                <div class="card text-0 flex justify-content-between pt-4 h-full"
+                    style="background-color: var(--primary-color); min-width: 17rem">
                     <div class="overview-info">
                         <h6 class="m-0 mb-1 text-0">On Leave</h6>
                         <h1 class="m-0 text-0">{{admindashboardDtls?.calculatedLeaveCount}}</h1>
                     </div>
-                    <i class="pi pi-user-minus text-3xl"></i>
+                    <div (click)="navigateAttendence()">
+                        <i class="pi pi-user-minus text-3xl"></i>
+                    </div>
                 </div>
             </div>
             <div class="col-12 sm:col">
-                <div class="card bg-gray-400 text-white flex justify-content-between pt-4 h-full" style="min-width: 17rem">
+                <div class="card bg-gray-400 text-white flex justify-content-between pt-4 h-full"
+                    style="min-width: 17rem">
                     <div class="overview-info">
                         <h6 class="m-0 mb-1 text-white">Total Projects</h6>
-                        <h1 class="m-0 text-white">{{admindashboardDtls?.totalprojectsCount}}</h1>
+                        <h4 class="m-0 text-white">
+                            Ini: {{ getProjectCountByStatus('Initial') }}
+                            Dev: {{ getProjectCountByStatus('Working') }}
+                            Com: {{ getProjectCountByStatus('Completed') }}
+                            AMC: {{ getProjectCountByStatus('AMC') }}
+                            Total: {{ admindashboardDtls?.totalprojectsCount }}
+                        </h4>
                     </div>
                     <i class="pi pi-clone text-3xl"></i>
                 </div>
             </div>
             <div class="col-12 sm:col">
-                <div class="card bg-gray-600 text-white flex justify-content-between pt-4 h-full" style="min-width: 17rem">
+                <div class="card bg-gray-600 text-white flex justify-content-between pt-4 h-full"
+                    style="min-width: 17rem">
                     <div class="overview-info">
                         <h6 class="m-0 mb-1 text-white">Suspended Projects</h6>
-                        <h1 class="m-0 text-white">{{admindashboardDtls?.savedsupsendedProjects[0].projectStatusCount}}</h1>
+                        <h1 class="m-0 text-white">{{admindashboardDtls?.savedsupsendedProjects[0].projectStatusCount}}
+                        </h1>
                     </div>
-                    <i class="pi pi-stop text-3xl"></i>
+                    <div (click)="navigateProjects()">
+                        <i class="pi pi-stop text-3xl"></i>
+                    </div>
                 </div>
             </div>
             <!-- <div class="col-12 sm:col">
@@ -60,82 +77,36 @@
                     <p-tabView>
                         <p-tabPanel header="Unshipped Orders" class="w-full p-0">
                             <ng-template pTemplate="header">
-                                <div class="pr-2" pBadge value="3" severity="info">
+                                <div class="pr-2" pBadge value="{{ admindashboardDtls?.savedemployeesOnLeave?.length}}"
+                                    severity="info">
                                     <h6 class="m-0 mr-2">On Leave</h6>
                                 </div>
                             </ng-template>
-                            <ul class="list-none p-0 overflow-auto" style="margin: 0 -1.5rem -1rem; max-height: 17.745rem">
-                                <li class="border-round-lg pt-2 px-3 pb-2 mb-3" style="background-color: var(--primary-lighter-color)">
+                            <ul class="list-none p-0 overflow-auto"
+                                style="margin: 0 -1.5rem -1rem; max-height: 17.745rem">
+                                <li *ngFor="let employee of admindashboardDtls?.savedemployeesOnLeave"
+                                    class="border-round-lg pt-2 px-3 pb-2 mb-3"
+                                    style="background-color: var(--primary-lighter-color)">
                                     <div class="">
                                         <div class="grid ga leav_list m-0 p-0">
-                                            <div class="col-4 p-1">
-                                                <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-orange-300 " class="inline-block" value="#05895"></p-tag>
+                                            <div class="col-3 p-1">
+                                                <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-orange-300 "
+                                                    class="inline-block" value="{{employee?.employeecode}}"></p-tag>
                                             </div>
-                                            <div class="col-4 p-1">
-                                                <h6 class="line-height-3 m-0 font-medium font-medium "> <b>Manohar S.</b></h6> 
+                                            <div class="col-3 p-1">
+                                                <h6 class="line-height-3 m-0 font-medium font-medium ">
+                                                    <b>{{employee?.employeeName}}</b>
+                                                </h6>
                                             </div>
-                                            <div class="col-4 p-1 text-right">
-                                                <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-blue-300 leavelist_emp_designation " class="inline-block" value="Jr Android"></p-tag>
+                                            <div class="col-3 p-1" *ngIf="employee?.designation">
+                                                <p-tag
+                                                    styleClass="m-0 mr-2 px-2 text-xs bg-blue-300 leavelist_emp_designation "
+                                                    class="inline-block" value="{{employee?.designation}}"></p-tag>
                                             </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="border-round-lg pt-2 px-3 pb-2 mb-3" style="background-color: var(--primary-lighter-color)">
-                                    <div class="">
-                                        <div class="grid ga leav_list m-0 p-0">
-                                            <div class="col-4 p-1">
-                                                <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-orange-300 " class="inline-block" value="#05885"></p-tag>
-                                            </div>
-                                            <div class="col-4 p-1">
-                                                <h6 class="line-height-3 m-0 font-medium font-medium "> <b>Pavan T.</b></h6> 
-                                            </div>
-                                            <div class="col-4 p-1 text-right">
-                                                <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-blue-300 leavelist_emp_designation " class="inline-block" value="Android"></p-tag>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="border-round-lg pt-2 px-3 pb-2 mb-3" style="background-color: var(--primary-lighter-color)">
-                                    <div class="">
-                                        <div class="grid ga leav_list m-0 p-0">
-                                            <div class="col-4 p-1">
-                                                <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-orange-300 " class="inline-block" value="#06895"></p-tag>
-                                            </div>
-                                            <div class="col-4 p-1">
-                                                <h6 class="line-height-3 m-0 font-medium font-medium "> <b>Sai S.</b></h6> 
-                                            </div>
-                                            <div class="col-4 p-1 text-right">
-                                                <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-blue-300 leavelist_emp_designation " class="inline-block" value="Sr Angular"></p-tag>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="border-round-lg pt-2 px-3 pb-2 mb-3" style="background-color: var(--primary-lighter-color)">
-                                    <div class="">
-                                        <div class="grid ga leav_list m-0 p-0">
-                                            <div class="col-4 p-1">
-                                                <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-orange-300 " class="inline-block" value="#05795"></p-tag>
-                                            </div>
-                                            <div class="col-4 p-1">
-                                                <h6 class="line-height-3 m-0 font-medium font-medium "> <b>Ram S.</b></h6> 
-                                            </div>
-                                            <div class="col-4 p-1 text-right">
-                                                <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-blue-300 leavelist_emp_designation " class="inline-block" value="Jr IOS"></p-tag>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="border-round-lg pt-2 px-3 pb-2 mb-3" style="background-color: var(--primary-lighter-color)">
-                                    <div class="">
-                                        <div class="grid ga leav_list m-0 p-0">
-                                            <div class="col-4 p-1">
-                                                <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-orange-300 " class="inline-block" value="#05895"></p-tag>
-                                            </div>
-                                            <div class="col-4 p-1">
-                                                <h6 class="line-height-3 m-0 font-medium font-medium "> <b>Laxman S.</b></h6> 
-                                            </div>
-                                            <div class="col-4 p-1 text-right">
-                                                <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-blue-300 leavelist_emp_designation " class="inline-block" value="Inten"></p-tag>
+                                            <div class="col-3 p-1 text-right">
+                                                <p-tag
+                                                    styleClass="m-0 mr-2 px-2 text-xs bg-blue-300 leavelist_emp_designation "
+                                                    class="inline-block" value="{{employee?.leaveType}}"></p-tag>
                                             </div>
                                         </div>
                                     </div>
@@ -234,7 +205,7 @@
                     </p-tabView>
                 </div>
             </div>
-           
+
         </div>
     </div>
     <div class="col-12 xl:col-2">
@@ -246,12 +217,16 @@
             </div>
             <div class="mb-3">
                 <ul class="list-none p-0 m-0">
-                    <li class="mb-3 flex align-items-center"><i class="pi pi-circle-fill text-primary-300 mr-2"></i><span>In Office </span></li>
-                    <li class="mb-3 flex align-items-center"><i class="pi pi-circle-fill text-red-300 mr-2"></i><span>Absent</span></li>
-                    <li class="mb-3 flex align-items-center"><i class="pi pi-circle-fill text-green-300 mr-2"></i><span>PL</span></li>
-                    <li class="mb-3 flex align-items-center"><i class="pi pi-circle-fill text-blue-300 mr-2"></i><span>CL</span></li>
+                    <li class="mb-3 flex align-items-center"><i
+                            class="pi pi-circle-fill text-primary-300 mr-2"></i><span>In Office </span></li>
+                    <li class="mb-3 flex align-items-center"><i
+                            class="pi pi-circle-fill text-red-300 mr-2"></i><span>Absent</span></li>
+                    <li class="mb-3 flex align-items-center"><i
+                            class="pi pi-circle-fill text-green-300 mr-2"></i><span>PL</span></li>
+                    <li class="mb-3 flex align-items-center"><i
+                            class="pi pi-circle-fill text-blue-300 mr-2"></i><span>CL</span></li>
                 </ul>
-                <br/>
+                <br />
                 <p-chart type="doughnut" [data]="pieData" [options]="pieOptions" height="140px" width="140px"></p-chart>
             </div>
         </div>
@@ -350,39 +325,33 @@
                         </p-tabPanel> -->
                         <p-tabPanel header="Messages" class="w-full p-0">
                             <ng-template pTemplate="header">
-                                <div class="pr-2" pBadge value="3" severity="warning">
+                                <div class="pr-2" pBadge value="{{admindashboardDtls?.savedemployeeBirthdays?.length}}"
+                                    severity="warning">
                                     <h6 class="m-0 mr-2">Today Birthdays and Events</h6>
                                 </div>
                             </ng-template>
-                            <ul class="list-none p-0 overflow-auto" style="margin: 0 -1.5rem -1rem; max-height: 17.745rem">
-                                <li class="border-round-lg pt-2 px-3 pb-2 mb-3" style="background-color: var(--primary-lighter-color)">
-                                    <div class="flex justify-content-between align-items-center mb-1">
-                                        <div class="flex align-items-center gap-1">
-                                            <h6 class="line-height-3 m-0 font-medium font-medium"> <b>Anna K.</b></h6>
-                                            <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-orange-300" class="inline-block" value="#05895"></p-tag>
-                                            <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-blue-300" class="inline-block" value="UI Develoer"></p-tag>
+                            <ul class="list-none p-0 overflow-auto"
+                                style="margin: 0 -1.5rem -1rem; max-height: 17.745rem">
+                                <li *ngFor="let employee of admindashboardDtls?.savedemployeeBirthdays"
+                                    class="border-round-lg pt-2 px-3 pb-2 mb-3"
+                                    style="background-color: var(--primary-lighter-color)">
+                                    <div class="grid ga leav_list m-0 p-0">
+                                        <div class="col-4 p-1">
+                                            <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-orange-300 "
+                                                class="inline-block" value="{{employee?.employeecode}}"></p-tag>
+                                        </div>
+                                        <div class="col-4 p-1">
+                                            <h6 class="line-height-3 m-0 font-medium font-medium ">
+                                                <b>{{employee?.employeeName}}</b>
+                                            </h6>
+                                        </div>
+                                        <div class="col-4 p-1 text-right">
+                                            <p-tag
+                                                styleClass="m-0 mr-2 px-2 text-xs bg-blue-300 leavelist_emp_designation "
+                                                class="inline-block" value="{{employee?.employeeDOB}}"></p-tag>
                                         </div>
                                     </div>
                                 </li>
-                                <li class="border-round-lg pt-2 px-3 pb-2 mb-3" style="background-color: var(--primary-lighter-color)">
-                                    <div class="flex justify-content-between align-items-center mb-1">
-                                        <div class="flex align-items-center gap-1">
-                                            <h6 class="line-height-3 m-0 font-medium font-medium"> <b>Rakesh B.</b></h6>
-                                            <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-orange-300" class="inline-block" value="#05295"></p-tag>
-                                            <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-blue-300" class="inline-block" value="Angular"></p-tag>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="border-round-lg pt-2 px-3 pb-2 mb-3" style="background-color: var(--primary-lighter-color)">
-                                    <div class="flex justify-content-between align-items-center mb-1">
-                                        <div class="flex align-items-center gap-1">
-                                            <h6 class="line-height-3 m-0 font-medium font-medium"> <b>Praveen K.</b></h6>
-                                            <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-orange-300" class="inline-block" value="#05895"></p-tag>
-                                            <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-blue-300" class="inline-block" value="Tester"></p-tag>
-                                        </div>
-                                    </div>
-                                </li>
-                              
                             </ul>
                             <!-- <p-menu #menu2 [popup]="true" [model]="items"></p-menu> -->
                         </p-tabPanel>
@@ -391,5 +360,4 @@
             </div>
         </div>
     </div>
-   
 </div>
