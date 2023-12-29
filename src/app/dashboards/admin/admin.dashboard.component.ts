@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
-import { adminDashboardViewDto } from 'src/app/_models/dashboard';
+import { activeProjects, adminDashboardViewDto } from 'src/app/_models/dashboard';
 import { DashboardService } from 'src/app/_services/dashboard.service';
 
 
@@ -37,14 +37,9 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     subscription: Subscription;
 
     constructor(private layoutService: LayoutService,
-        private dashboardService: DashboardService) {
-        this.subscription = this.layoutService.configUpdate$.subscribe((config) => {
-            // this.initChart();
-        });
-    }
+        private dashboardService: DashboardService) {    }
 
     ngOnInit() {
-        this.initChart();
         this.inItAdminDashboard();
     }
 
@@ -53,24 +48,42 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
         this.dashboardService.getAdminDashboard().subscribe((resp) => {
             this.admindashboardDtls = resp[0] as unknown as adminDashboardViewDto;
             console.log(this.admindashboardDtls);
+            this.admindashboardDtls.savedemployeeLeaveCounts = JSON.parse(this.admindashboardDtls.employeeLeaveCounts);
+            const leaveTypeCountsSum = this.admindashboardDtls.savedemployeeLeaveCounts.reduce((sum, leaveTypeData) => {
+                return sum + leaveTypeData.leaveTypeCount;
+            }, 0);
+            this.admindashboardDtls.calculatedLeaveCount = leaveTypeCountsSum;
+
             this.admindashboardDtls.savedactiveProjects = JSON.parse(this.admindashboardDtls.activeProjects);
+            const activeProjectssum = this.admindashboardDtls.savedactiveProjects.reduce((sum, activeProjectsData) => {
+                return sum + activeProjectsData.projectStatusCount;
+            }, 0);
+            this.admindashboardDtls.totalprojectsCount = activeProjectssum;
             this.admindashboardDtls.savedsupsendedProjects = JSON.parse(this.admindashboardDtls.supsendedProjects);
             this.admindashboardDtls.savedemployeeBirthdays = JSON.parse(this.admindashboardDtls.employeeBirthdays);
-            this.admindashboardDtls.savedemployeeLeaveCounts = JSON.parse(this.admindashboardDtls.employeeLeaveCounts);
             this.admindashboardDtls.savedemployeesOnLeave = JSON.parse(this.admindashboardDtls.employeesOnLeave);
+            this.admindashboardDtls.savedabsentEmployees = JSON.parse(this.admindashboardDtls.absentEmployees);
+            
+
+            this.admindashboardDtls.savedActiveEmployeesInOffice=JSON.parse(this.admindashboardDtls.activeEmployeesInOffice);
+            this.initChart();
         })
     }
     initChart() {
         const documentStyle = getComputedStyle(document.documentElement);
         const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
-
+        const absent = this.admindashboardDtls?.savedabsentEmployees.find(each => each.employeeStatus === 'AT')?.employeesCount;
+        const CasualLeaves = this.admindashboardDtls?.savedemployeeLeaveCounts.find(each => each.leaveType === 'CL')?.leaveTypeCount;
+        const PersonalLeaves = this.admindashboardDtls?.savedemployeeLeaveCounts.find(each => each.leaveType === 'PL')?.leaveTypeCount;
+        const present = this.admindashboardDtls?.savedActiveEmployeesInOffice.find(each => each.employeeStatus === 'PT')?.employeesCount;
+        
         //sales by category pie chart
         this.pieData = {
-            labels: ['in Office', 'On Leave', 'WFH'],
+            labels: ['in Office', 'Absent','PL', 'CL',],
             datasets: [
                 {
-                    data: [40, 8, 2],
-                    backgroundColor: [documentStyle.getPropertyValue('--primary-300'), documentStyle.getPropertyValue('--red-300'), documentStyle.getPropertyValue('--green-300')],
+                    data: [present,absent,PersonalLeaves,CasualLeaves, ],
+                    backgroundColor: [documentStyle.getPropertyValue('--primary-300'), documentStyle.getPropertyValue('--red-300'), documentStyle.getPropertyValue('--green-300'),documentStyle.getPropertyValue('--blue-300')],
                     borderColor: surfaceBorder
                 }
             ]

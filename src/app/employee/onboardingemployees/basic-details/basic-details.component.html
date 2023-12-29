@@ -247,8 +247,13 @@
                     <p-inputSwitch formControlName="isAFresher" id="PersonalDetails_IsAFresher"></p-inputSwitch>
                 </div>
                 <div class="field col-12 md:col-4" style="display: grid;">
-                    <img [src]="this.fbbasicDetails.get('photo').value  ? this.fbbasicDetails.get('photo').value : this.defaultPhoto"
+                    <div class="div1">
+                        <img [src]="this.fbbasicDetails.get('photo').value  ? this.fbbasicDetails.get('photo').value : this.defaultPhoto"
                         onerror="this.onerror=null" alt="photo" width="100px" class="up_logo" >
+                        <button *ngIf="this.fbbasicDetails.get('photo').value" class="cancel-button"
+                          (click)="cancelSelection($event)"><i class="pi pi-times"></i></button>
+                      </div>
+                    
                     <label for="singleFile"
                         class="p-element p-ripple p-button-raised p-button-primary p-button p-component mt-1"
                         style="width:40% !important; white-space: nowrap;">
