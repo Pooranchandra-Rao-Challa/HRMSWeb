@@ -204,7 +204,24 @@ input:read-only {
     // border:0px;
 }
 
+.cropper {
+    width: 100px !important;
+    height: 140px !important;
+}
 
+::ng-deep image-cropper {
+    display: flex;
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    padding: 5px;
+    text-align: center;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
 input:read-only:focus {
     background-color: #bfbfbf;
     // border:0px;
@@ -621,6 +638,7 @@ label {
     display: inline-block;
     width: 100px;
 }
+
 .cancel-button {
     position: absolute;
     border-radius: 47%;
