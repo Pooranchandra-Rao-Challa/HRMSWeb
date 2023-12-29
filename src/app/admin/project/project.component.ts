@@ -396,6 +396,8 @@ export class ProjectComponent implements OnInit {
             eProjectStatusesId: project.activeStatusId,
             Date: FORMAT_DATE(new Date(project[date[0]?.name.toLowerCase()])),
         });
+        console.log(project);
+        
         this.fbproject.get('clients').patchValue({
             clientId: project.clientId,
             isActive: project.clientIsActive,
@@ -727,7 +729,7 @@ export class ProjectComponent implements OnInit {
         this.AllotedNodes.splice(0, this.AllotedNodes.length);
         this.adminService.GetEmployeeHierarchy(projectId).subscribe((resp) => {
             let data = resp as unknown as EmployeeHierarchyDto[];
-            //console.log(data);
+            console.log(data);
 
             let projectAllotments: any[] = [] ;
 
