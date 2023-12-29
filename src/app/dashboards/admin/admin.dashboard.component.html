@@ -5,7 +5,7 @@
                 <div class="card surface-card text-500 flex justify-content-between pt-4 h-full" style="min-width: 17rem">
                     <div class="overview-info">
                         <h6 class="m-0 mb-1 text-500">Total Employees</h6>
-                        <h1 class="m-0 text-500">{{admindashboardDtls.activeEmployees}}</h1>
+                        <h1 class="m-0 text-500">{{admindashboardDtls?.activeEmployees}}</h1>
                     </div>
                     <i class="pi pi-users text-3xl"></i>
                 </div>
@@ -247,8 +247,9 @@
             <div class="mb-3">
                 <ul class="list-none p-0 m-0">
                     <li class="mb-3 flex align-items-center"><i class="pi pi-circle-fill text-primary-300 mr-2"></i><span>In Office </span></li>
-                    <li class="mb-3 flex align-items-center"><i class="pi pi-circle-fill text-red-300 mr-2"></i><span>On Leave</span></li>
-                    <li class="mb-5 flex align-items-center"><i class="pi pi-circle-fill text-green-300 mr-2"></i><span>WFH</span></li>
+                    <li class="mb-3 flex align-items-center"><i class="pi pi-circle-fill text-red-300 mr-2"></i><span>Absent</span></li>
+                    <li class="mb-3 flex align-items-center"><i class="pi pi-circle-fill text-green-300 mr-2"></i><span>PL</span></li>
+                    <li class="mb-3 flex align-items-center"><i class="pi pi-circle-fill text-blue-300 mr-2"></i><span>CL</span></li>
                 </ul>
                 <br/>
                 <p-chart type="doughnut" [data]="pieData" [options]="pieOptions" height="140px" width="140px"></p-chart>

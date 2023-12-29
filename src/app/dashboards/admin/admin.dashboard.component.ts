@@ -37,14 +37,9 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     subscription: Subscription;
 
     constructor(private layoutService: LayoutService,
-        private dashboardService: DashboardService) {
-        this.subscription = this.layoutService.configUpdate$.subscribe((config) => {
-            // this.initChart();
-        });
-    }
+        private dashboardService: DashboardService) {    }
 
     ngOnInit() {
-        this.initChart();
         this.inItAdminDashboard();
     }
 
@@ -68,21 +63,27 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
             this.admindashboardDtls.savedemployeeBirthdays = JSON.parse(this.admindashboardDtls.employeeBirthdays);
             this.admindashboardDtls.savedemployeesOnLeave = JSON.parse(this.admindashboardDtls.employeesOnLeave);
             this.admindashboardDtls.savedabsentEmployees = JSON.parse(this.admindashboardDtls.absentEmployees);
-            console.log(JSON.parse(this.admindashboardDtls.employeesOnLeave));
+            
 
+            this.admindashboardDtls.savedActiveEmployeesInOffice=JSON.parse(this.admindashboardDtls.activeEmployeesInOffice);
+            this.initChart();
         })
     }
     initChart() {
         const documentStyle = getComputedStyle(document.documentElement);
         const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
-
+        const absent = this.admindashboardDtls?.savedabsentEmployees.find(each => each.employeeStatus === 'AT')?.employeesCount;
+        const CasualLeaves = this.admindashboardDtls?.savedemployeeLeaveCounts.find(each => each.leaveType === 'CL')?.leaveTypeCount;
+        const PersonalLeaves = this.admindashboardDtls?.savedemployeeLeaveCounts.find(each => each.leaveType === 'PL')?.leaveTypeCount;
+        const present = this.admindashboardDtls?.savedActiveEmployeesInOffice.find(each => each.employeeStatus === 'PT')?.employeesCount;
+        
         //sales by category pie chart
         this.pieData = {
-            labels: ['in Office', 'On Leave', 'WFH'],
+            labels: ['in Office', 'Absent','PL', 'CL',],
             datasets: [
                 {
-                    data: [40, 8, 2],
-                    backgroundColor: [documentStyle.getPropertyValue('--primary-300'), documentStyle.getPropertyValue('--red-300'), documentStyle.getPropertyValue('--green-300')],
+                    data: [present,absent,PersonalLeaves,CasualLeaves, ],
+                    backgroundColor: [documentStyle.getPropertyValue('--primary-300'), documentStyle.getPropertyValue('--red-300'), documentStyle.getPropertyValue('--green-300'),documentStyle.getPropertyValue('--blue-300')],
                     borderColor: surfaceBorder
                 }
             ]
