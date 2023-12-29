@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
-import { adminDashboardViewDto } from 'src/app/_models/dashboard';
+import { activeProjects, adminDashboardViewDto } from 'src/app/_models/dashboard';
 import { DashboardService } from 'src/app/_services/dashboard.service';
 
 
@@ -53,24 +53,23 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
         this.dashboardService.getAdminDashboard().subscribe((resp) => {
             this.admindashboardDtls = resp[0] as unknown as adminDashboardViewDto;
             console.log(this.admindashboardDtls);
-            console.log(JSON.parse(this.admindashboardDtls.employeeLeaveCounts));
-
-            // // Parse the JSON data
-            // const employeeLeaveCounts = JSON.parse(this.admindashboardDtls.employeeLeaveCounts);
-
-            // // Sum leaveTypeCount for each leave type
-            // const leaveTypeCountsSum = employeeLeaveCounts.reduce((sum, leaveTypeData) => {
-            //     return sum + leaveTypeData.leaveTypeCount;
-            // }, 0);
-
-            // console.log('Total Leave Type Count:', leaveTypeCountsSum);
+            this.admindashboardDtls.savedemployeeLeaveCounts = JSON.parse(this.admindashboardDtls.employeeLeaveCounts);
+            const leaveTypeCountsSum = this.admindashboardDtls.savedemployeeLeaveCounts.reduce((sum, leaveTypeData) => {
+                return sum + leaveTypeData.leaveTypeCount;
+            }, 0);
+            this.admindashboardDtls.calculatedLeaveCount = leaveTypeCountsSum;
 
             this.admindashboardDtls.savedactiveProjects = JSON.parse(this.admindashboardDtls.activeProjects);
+            const activeProjectssum = this.admindashboardDtls.savedactiveProjects.reduce((sum, activeProjectsData) => {
+                return sum + activeProjectsData.projectStatusCount;
+            }, 0);
+            this.admindashboardDtls.totalprojectsCount = activeProjectssum;
             this.admindashboardDtls.savedsupsendedProjects = JSON.parse(this.admindashboardDtls.supsendedProjects);
             this.admindashboardDtls.savedemployeeBirthdays = JSON.parse(this.admindashboardDtls.employeeBirthdays);
-            this.admindashboardDtls.savedemployeeLeaveCounts = JSON.parse(this.admindashboardDtls.employeeLeaveCounts);
             this.admindashboardDtls.savedemployeesOnLeave = JSON.parse(this.admindashboardDtls.employeesOnLeave);
             this.admindashboardDtls.savedabsentEmployees = JSON.parse(this.admindashboardDtls.absentEmployees);
+            console.log(JSON.parse(this.admindashboardDtls.employeesOnLeave));
+
         })
     }
     initChart() {

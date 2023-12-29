@@ -70,6 +70,8 @@ export class adminDashboardViewDto {
     savedemployeesOnLeave?: employeesOnLeave[];
     absentEmployees?: string;
     savedabsentEmployees?: absentEmployees[];
+    calculatedLeaveCount: number;
+    totalprojectsCount: number;
 }
 
 export class activeProjects {
