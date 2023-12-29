@@ -68,7 +68,7 @@
                           <br />
                           <div class="div1">
                             <img [src]="this.fbproject.get('logo').value  ? this.fbproject.get('logo').value : 'https://t3.ftcdn.net/jpg/02/18/21/86/360_F_218218632_jF6XAkcrlBjv1mAg9Ow0UBMLBaJrhygH.jpg'" onerror="this.onerror=null" alt="photo" width="100px" class="up_logo ">
-                            <button class="cancel-button" (click)="cancelSelection($event)"><i class="pi pi-times"></i></button>
+                            <button *ngIF="this.fbproject.get('logo').value" class="cancel-button" (click)="cancelSelection($event)"><i class="pi pi-times"></i></button>
                           </div>
                           <br />
                           <br />
