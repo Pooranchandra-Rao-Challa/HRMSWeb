@@ -23,7 +23,11 @@
                 <div class="card bg-gray-400 text-white flex justify-content-between pt-4 h-full" style="min-width: 17rem">
                     <div class="overview-info">
                         <h6 class="m-0 mb-1 text-white">Total Projects</h6>
-                        <h1 class="m-0 text-white">{{admindashboardDtls?.totalprojectsCount}}</h1>
+                        <h4 class="m-0 text-white">Ini: {{admindashboardDtls?.savedactiveProjects[0].projectStatusCount}}
+                             Dev: {{admindashboardDtls?.savedactiveProjects[1].projectStatusCount}}
+                            Com:{{admindashboardDtls?.savedactiveProjects[2].projectStatusCount}}
+                             AMC:{{admindashboardDtls?.savedactiveProjects[3].projectStatusCount}}
+                              Total: {{admindashboardDtls?.totalprojectsCount}}</h4>
                     </div>
                     <i class="pi pi-clone text-3xl"></i>
                 </div>
