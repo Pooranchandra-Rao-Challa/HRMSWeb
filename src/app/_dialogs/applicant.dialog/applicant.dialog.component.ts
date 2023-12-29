@@ -108,6 +108,11 @@ export class ApplicantDialogComponent {
     }
     this.defaultPhoto = /^female$/gi.test(this.fbApplicant.get('gender').value) ? './assets/layout/images/women-emp-2.jpg' : './assets/layout/images/men-emp.jpg'
   }
+  cancelSelection(event: Event): void{
+    event.preventDefault();
+    this.fbApplicant.get('photo').setValue(null);
+  }
+
 
   getCurriculum() {
     this.lookupService.Curriculums().subscribe((resp) => {
