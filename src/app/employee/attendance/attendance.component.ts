@@ -233,6 +233,8 @@ export class AttendanceComponent {
         this.getEmployeeDataBasedOnId(emp, leaveType);
         this.dialog = true;
         this.fbleave.reset();
+        console.log(result);
+        
         if (result && !result?.rejected)
           this.fbleave.patchValue({
             employeeId: result?.employeeId,
@@ -240,7 +242,8 @@ export class AttendanceComponent {
             leaveTypeId: result?.leaveTypeId,
             fromDate: FORMAT_DATE(new Date(this.datePipe.transform(result?.fromDate, 'yyyy-MM-dd'))),
             note: result?.note,
-            notReported: false
+            notReported: false,
+            isHalfDayLeave:result?.isHalfDayLeave
           });
         else {
           const StatusId = this.LeaveTypes.find(each => each.name === leaveType)
@@ -249,7 +252,8 @@ export class AttendanceComponent {
             employeeName: emp.EmployeeName,
             leaveTypeId: StatusId?.lookupDetailId,
             fromDate: FORMAT_DATE(new Date(this.datePipe.transform(this.isFutureDate(date), 'yyyy-MM-dd'))),
-            notReported: false
+            notReported: false,
+            isHalfDayLeave:false
           });
         }
       }
