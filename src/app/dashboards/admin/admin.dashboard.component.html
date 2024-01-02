@@ -31,25 +31,25 @@
         </div>
     </div>
     <div class="col-3">
-        <div class="card pb-1">
-            <div class="card-headr gap-3 pb-2">
+        <div class="card pb-2 pt-4">
+            <div class="card-headr gap-2 pb-1">
                 <div class="card-title">
-                    <h6 class="mb-5">Chart by Attendance </h6>
+                    <h6 class="mb-4">Chart by Attendance </h6>
                 </div>
             </div>
-            <div class="mb-0">
+            <div class="mb-1">
                 <div class="grid">
                     <div class="col-6 flex py-0">
-                        <i class="pi pi-circle-fill text-primary-300 mr-2"></i><span>In Office </span>
+                        <i class="pi pi-circle-fill text-primary-300 m-1"></i><span>In Office </span>
                     </div>
                     <div class="col-6 flex py-0">
-                        <i class="pi pi-circle-fill text-red-300 mr-2"></i><span>Absent</span>
+                        <i class="pi pi-circle-fill text-red-300 m-1"></i><span>Absent</span>
                     </div>
                     <div class="col-6 flex py-0">
-                        <i class="pi pi-circle-fill text-green-300 mr-2"></i><span>PL</span>
+                        <i class="pi pi-circle-fill text-green-300 m-1"></i><span>PL</span>
                     </div>
                     <div class="col-6 flex py-0">
-                        <i class="pi pi-circle-fill text-blue-300 mr-2"></i><span>CL</span>
+                        <i class="pi pi-circle-fill text-blue-300 m-1"></i><span>CL</span>
                     </div>
                 </div>
                 <ul class=" p-0 m-0">
@@ -66,7 +66,7 @@
                                 class="pi pi-circle-fill text-green-300 mr-2"></i><span>PL</span></li>
                         <li class=""><i
                                 class="pi pi-circle-fill text-blue-300 mr-2"></i><span>CL</span></li> -->
-                        <p-chart type="doughnut" [data]="pieData" [options]="pieOptions" height="auto" width="100%">
+                        <p-chart type="doughnut" [data]="pieData" [options]="pieOptions" height="135px" width="100%">
                         </p-chart>
                     </ng-template>
                     <ng-template #noDataMessage>
@@ -120,28 +120,28 @@
         </div>
     </div>
     <div class="col-3">
-        <div class="card pb-1">
-            <div class="card-hader gap-3 pb-1">
+        <div class="card pb-2 pt-4">
+            <div class="card-headr gap-2 pb-1">
                 <div class="card-title">
-                    <h6 class="mb-5">Chart by Projects </h6>
+                    <h6 class="mb-4">Chart by Attendance </h6>
                 </div>
             </div>
             <div class="mb-0">
                 <div class="grid">
                     <div class="col-6 flex py-0">
-                        <i class="pi pi-circle-fill text-primary-300 mr-2"></i><span>Initial </span>
+                        <i class="pi pi-circle-fill text-primary-300 m-1"></i><span>Initial </span>
                     </div>
                     <div class="col-6 flex py-0">
-                        <i class="pi pi-circle-fill text-red-300 mr-2"></i><span>Dev</span>
+                        <i class="pi pi-circle-fill text-red-300 m-1"></i><span>Dev</span>
                     </div>
                     <div class="col-6 flex py-0">
-                        <i class="pi pi-circle-fill text-green-300 mr-2"></i><span>Com</span>
+                        <i class="pi pi-circle-fill text-green-300 m-1"></i><span>Com</span>
                     </div>
                     <div class="col-6 flex py-0">
-                        <i class="pi pi-circle-fill text-blue-300 mr-2"></i><span>AMC</span>
+                        <i class="pi pi-circle-fill text-blue-300 m-1"></i><span>AMC</span>
                     </div>
                 </div>
-                <ul class="list-none p-0 mt-2">
+                <ul class="list-none p-0 m-1">
                     <ng-container
                         *ngIf="this.admindashboardDtls?.savedActiveEmployeesInOffice[0]?.employeesCount; then thenBlock else noDataMessage">
                     </ng-container>
@@ -154,7 +154,7 @@
                                 class="pi pi-circle-fill text-green-300 mr-2"></i><span>PL</span></li>
                         <li class=""><i
                                 class="pi pi-circle-fill text-blue-300 mr-2"></i><span>CL</span></li> -->
-                        <p-chart type="doughnut" [data]="pieData" [options]="pieOptions" height="auto" width="100%">
+                        <p-chart type="doughnut" [data]="pieData" [options]="pieOptions" height="125px" width="100%">
                         </p-chart>
                     </ng-template>
                     <ng-template #noDataMessage>
@@ -198,22 +198,28 @@
                                         <div class="">
                                             <div class="grid ga leav_list m-0 p-0">
                                                 <div class="col-3 p-1">
-                                                    <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-orange-300 "
+                                                    <span *ngIf="employee?.employeecode">
+                                                        <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-orange-300 "
                                                         class="inline-block" value="{{employee?.employeecode}}"></p-tag>
+                                                    </span>
+                                                    
                                                 </div>
                                                 <div class="col-3 p-1">
                                                     <h6 class="line-height-3 m-0 font-medium font-medium ">
                                                         <b>{{employee?.employeeName}}</b>
                                                     </h6>
                                                 </div>
-                                                <div class="col-3 p-1" *ngIf="employee?.designation">
-                                                    <p-tag
+                                                <div class="col-3 p-1" >
+                                                    <span *ngIf="employee?.designation">
+                                                        <p-tag
                                                         styleClass="m-0 mr-2 px-2 text-xs bg-blue-300 leavelist_emp_designation "
                                                         class="inline-block" value="{{employee?.designation}}"></p-tag>
+                                                    </span>
+                                                    
                                                 </div>
                                                 <div class="col-3 p-1 text-right">
                                                     <p-tag
-                                                        styleClass="m-0 mr-2 px-2 text-xs bg-blue-300 leavelist_emp_designation "
+                                                        styleClass="m-0 mr-2 px-2 text-xs  leavelist_emp_designation "
                                                         class="inline-block" value="{{employee?.leaveType}}"></p-tag>
                                                 </div>
                                             </div>
