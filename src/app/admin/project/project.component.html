@@ -207,7 +207,7 @@
                     </div>
                   </div>
                   <div class="field  col-12 md:col-4 p-2 mb-1">
-                    <label class="required">Mobile No: </label>&nbsp; <input pInputText id="Project_clientMobileNo"
+                    <label>Mobile No: </label>&nbsp; <input pInputText id="Project_clientMobileNo"
                       type="text" placeholder="Enter Mobile No"
                       [ngClass]="{ 'is-invalid ng-dirty': fcClientDetails.controls['mobileNumber'].touched && fcClientDetails.controls['mobileNumber'].errors }"
                       #clientNo [maxlength]="maxLength.phoneNo" formControlName="mobileNumber" numericOnly />
@@ -215,9 +215,6 @@
                       <div class="align-left w-60" style="width:70%">
                         <span
                           *ngIf="fcClientDetails.controls['mobileNumber'].touched && fcClientDetails.controls['mobileNumber'].invalid">
-                          <div class="ng-invalid ng-touched p-error"
-                            *ngIf="fcClientDetails.controls['mobileNumber'].errors?.['required']"> Please Enter Mobile
-                            No.</div>
                           <div class="ng-invalid ng-touched p-error"
                             *ngIf="fcClientDetails.controls['mobileNumber'].errors?.['pattern']"> Please Enter Valid
                             Client Mobile No.</div>
@@ -303,7 +300,7 @@
                     </div>
                   </div>
                   <div class="field  col-12 md:col-4 p-2 mb-1">
-                    <label class="required">Address: </label>&nbsp; <textarea inputId="textarea" rows="3" cols="30"
+                    <label >Address: </label>&nbsp; <textarea inputId="textarea" rows="3" cols="30"
                       id="Project_clientAddress" pInputTextarea #address
                       [ngClass]="{ 'is-invalid ng-dirty': fcClientDetails.controls['address'].touched && fcClientDetails.controls['address'].errors }"
                       (keydown)="restrictSpaces($event)" [maxlength]="maxLength.address" formControlName="address"
@@ -312,9 +309,6 @@
                       <div class="align-left w-60" style="width:70%">
                         <span
                           *ngIf="fcClientDetails.controls['address'].touched && fcClientDetails.controls['address'].invalid">
-                          <div class="ng-invalid ng-touched p-error"
-                            *ngIf="fcClientDetails.controls['address'].errors?.['required']"> Please Enter Address.
-                          </div>
                           <div class="ng-invalid ng-touched p-error"
                             *ngIf="fcClientDetails.controls['address'].errors?.['minlength']"> Address Min Characters Is
                             2.</div>
@@ -392,7 +386,7 @@
       <ng-template pTemplate="footer">
         <div class="col-12 lg:col-4 md:col-4 sm:col-6" style="float:right">
           <!-- [disabled]="!this.fbproject.valid"-->
-          <button pButton pRipple type="submit" [label]="submitLabel" class="p-button-raised p-button-primary"
+          <button pButton pRipple type="submit" label="SaveProject" class="p-button-raised p-button-primary"
             (click)="onSubmit()"></button>
         </div>
       </ng-template>

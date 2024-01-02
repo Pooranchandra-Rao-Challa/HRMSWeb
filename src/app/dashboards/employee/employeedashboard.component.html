@@ -73,23 +73,23 @@
                     </div>
                     <div class="col-12 sm:col-4">
 
-                        <div class="card surface-card text-500 flex justify-content-between pt-4 h-full">
+                        <div class="card surface-card text-500 flex justify-content-between pt-4 h-full" >
                             <div class="overview-info">
                                 <h6 class="m-0 mb-1 text-500">Monthly PL's </h6>
                                 <h1 class="m-0 text-500">{{ this.monthlyLeaves?.usedPLsInMonth}}</h1>
                             </div>
                             <div class="d-leave text-center">
                                 <div class="mb-2">
-                                    {{this.month}}/{{this.year}}
+                                    {{this.monthlyPLs}}/{{this.yearlyPLs}}
                                 </div>
-                                <i class="pi pi-angle-left d-leave-font" (click)="gotoPreviousMonth()">
+                                <i class="pi pi-angle-left d-leave-font" (click)="gotoPreviousMonthPLs()">
                                 </i>
                                 <p-calendar styleClass="only-icon" [(ngModel)]="selectedMonth" [showIcon]="true"
                                     view="month" [yearNavigator]="true" yearRange="2000:2030" [readonlyInput]="true"
-                                    inputId="monthpicker" (onSelect)="onMonthSelect($event)" pTooltip="Monthly PL's"
+                                    inputId="monthpicker" (onSelect)="onMonthSelectPLs($event)" pTooltip="Monthly PL's"
                                     tooltipPosition="bottom">
                                 </p-calendar>
-                                <i class="pi pi-angle-right d-leave-font" (click)="gotoNextMonth()"></i>
+                                <i class="pi pi-angle-right d-leave-font" (click)="gotoNextMonthPLs()"></i>
                             </div>
                         </div>
                     </div>
@@ -128,16 +128,16 @@
                             </div>
                             <div class="d-leave text-center">
                                 <div class=" mb-2">
-                                    {{this.month}}/{{this.year}}
+                                    {{this.monthlyCLs}}/{{this.yearlyCLs}}
                                 </div>
-                                <i class="pi pi-angle-left d-leave-font" (click)="gotoPreviousMonth()">
+                                <i class="pi pi-angle-left d-leave-font" (click)="gotoPreviousMonthCLs()">
                                 </i>
                                 <p-calendar styleClass="only-icon" [(ngModel)]="selectedMonth" [showIcon]="true"
                                     view="month" [yearNavigator]="true" yearRange="2000:2030" [readonlyInput]="true"
-                                    inputId="monthpicker" (onSelect)="onMonthSelect($event)" pTooltip="Monthly CL's"
+                                    inputId="monthpicker" (onSelect)="onMonthSelectCLs($event)" pTooltip="Monthly CL's"
                                     tooltipPosition="bottom">
                                 </p-calendar>
-                                <i class="pi pi-angle-right d-leave-font" (click)="gotoNextMonth()"></i>
+                                <i class="pi pi-angle-right d-leave-font" (click)="gotoNextMonthCLs()"></i>
                             </div>
                         </div>
                     </div>
@@ -168,23 +168,23 @@
                         </div>
                     </div>
                     <div class="col-12 sm:col-4">
-                        <div class="card surface-card text-500 flex justify-content-between pt-4 h-full">
+                        <div class="card surface-card text-500 flex justify-content-between pt-4 h-full" >
                             <div class="overview-info">
                                 <h6 class="m-0 mb-1 text-500">Monthly LWP</h6>
                                 <h1 class="m-0 text-500">2</h1>
                             </div>
                             <div class="d-leave text-center">
                                 <div class="mb-2">
-                                    {{this.month}}/{{this.year}}
+                                    {{this.monthlyLWP}}/{{this.yearlyLWP}}
                                 </div>
-                                <i class="pi pi-angle-left d-leave-font" (click)="gotoPreviousMonth()">
+                                <i class="pi pi-angle-left d-leave-font" (click)="gotoPreviousMonthLWP()">
                                 </i>
                                 <p-calendar styleClass="only-icon" [(ngModel)]="selectedMonth" [showIcon]="true"
                                     view="month" [yearNavigator]="true" yearRange="2000:2030" [readonlyInput]="true"
-                                    inputId="monthpicker" (onSelect)="onMonthSelect($event)" pTooltip="Monthly LWP's"
+                                    inputId="monthpicker" (onSelect)="onMonthSelectLWP($event)" pTooltip="Monthly LWP's"
                                     tooltipPosition="bottom">
                                 </p-calendar>
-                                <i class="pi pi-angle-right d-leave-font" (click)="gotoNextMonth()"></i>
+                                <i class="pi pi-angle-right d-leave-font" (click)="gotoNextMonthLWP()"></i>
                             </div>
                         </div>
                     </div>
