@@ -13,9 +13,9 @@
 
                 <div style="margin-bottom: 15px;">
                     <label class="required">Leave Type:</label>&nbsp;
-                    <p-dropdown formControlName="leaveTypeId" [options]="filteredLeaveTypes" optionLabel="name"
+                    <p-dropdown formControlName="leaveTypeId" [options]="filteredLeaveTypes" optionLabel="name" 
                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['leaveTypeId'].touched && FormControls['leaveTypeId'].errors }"
-                        (onChange)="checkLeaveType()" id="Attendance_leaveType" optionValue="lookupDetailId"
+                        (onChange)="checkLeaveType($event.value)" id="Attendance_leaveType" optionValue="lookupDetailId"
                         placeholder="Select Leave Type"></p-dropdown>
                     <div class="flex">
                         <div class="align-left w-60" style="width:70%">
@@ -23,6 +23,24 @@
                                 <div class="ng-invalid ng-touched p-error"
                                     *ngIf="FormControls['leaveTypeId'].errors?.['required']">
                                     Please Select Leave Type.</div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-bottom: 15px;" *ngIf="FormControls['leaveTypeId'].value== 270||FormControls['leaveTypeId'].value== 271">
+                    <label>Leave Purpose:</label>
+                    <p-dropdown placeholder="Select Leave Purpose" formControlName="leaveReasonId"
+                        [options]="leaveReasons" optionLabel="name" optionValue="lookupDetailId"
+                        id="leaveTypes_Dropdown"
+                        [ngClass]="{ 'is-invalid ng-dirty': FormControls['leaveReasonId'].touched && FormControls['leaveReasonId'].errors }">
+                    </p-dropdown>
+                    <div class="flex">
+                        <div class="align-left w-60" style="width:70%">
+                            <span
+                                *ngIf="FormControls['leaveReasonId'].touched && FormControls['leaveReasonId'].invalid">
+                                <div class="ng-invalid ng-touched p-error"
+                                    *ngIf="FormControls['leaveReasonId'].errors?.['required']">
+                                    Please Select Leave Type First.</div>
                             </span>
                         </div>
                     </div>

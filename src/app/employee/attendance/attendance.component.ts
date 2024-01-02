@@ -7,7 +7,7 @@ import { Table } from 'primeng/table';
 import { Observable } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { FORMAT_DATE } from 'src/app/_helpers/date.formate.pipe';
-import { EmployeesList, LookupDetailsDto } from 'src/app/_models/admin';
+import { EmployeesList, LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
 import { MaxLength } from 'src/app/_models/common';
 import { SelfEmployeeDto } from 'src/app/_models/dashboard';
 import { employeeAttendanceDto, EmployeeLeaveDto } from 'src/app/_models/employes';
@@ -37,6 +37,7 @@ export class AttendanceComponent {
   globalFilterFields: string[] = ['EmployeeName',];
   selectedMonth: Date;
   permissions: any;
+  leaveReasons: LookupViewDto[] = [];
   dialog: boolean = false;
   fbAttendance!: FormGroup;
   fbleave!: FormGroup;
@@ -84,6 +85,7 @@ export class AttendanceComponent {
       fromDate: new FormControl("", [Validators.required]),
       toDate: new FormControl(null),
       leaveTypeId: new FormControl('', [Validators.required]),
+      leaveReasonId: new FormControl(''),
       note: new FormControl('', [Validators.maxLength(MAX_LENGTH_256)]),
       isHalfDayLeave:new FormControl(),
       acceptedBy: new FormControl(null),
@@ -243,7 +245,8 @@ export class AttendanceComponent {
             fromDate: FORMAT_DATE(new Date(this.datePipe.transform(result?.fromDate, 'yyyy-MM-dd'))),
             note: result?.note,
             notReported: false,
-            isHalfDayLeave:result?.isHalfDayLeave
+            isHalfDayLeave:result?.isHalfDayLeave,
+            leaveReasonId:result?.leaveReasonId
           });
         else {
           const StatusId = this.LeaveTypes.find(each => each.name === leaveType)
@@ -310,11 +313,19 @@ export class AttendanceComponent {
     });
   }
 
-  checkLeaveType() {
+  checkLeaveType(id) {
     this.fbleave.get('note').setValue('');
     const StatusId = this.LeaveTypes.find(each => each.lookupDetailId === this.fbleave.get('leaveTypeId').value);
-    if (StatusId.name != 'PT' && StatusId.name != 'AT')
+    if (StatusId.name != 'PT' && StatusId.name != 'AT'){
       this.fbleave.get('note').setValue('Leave is Updated through Attendance form by Admin the approve is generated Automatically.');
+      this.lookupService.LeaveReasons(id).subscribe(resp => {
+        if (resp) {
+          this.leaveReasons = resp as unknown as LookupViewDto[];
+        }
+      })
+    }
+      
+
   }
 
 
