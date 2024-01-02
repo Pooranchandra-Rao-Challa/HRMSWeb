@@ -40,6 +40,11 @@ export class LookupService extends ApiHttpService {
         return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.DayWorkStatus]);
     }
 
+    public LeaveReasons(dayWorkStatusId?: number) {
+        console.log('LeaveReasons');
+        return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.LeaveReasons,dayWorkStatusId]);
+    }
+
     public Countries() {
         console.log('Countries');
         return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.Countries]);
