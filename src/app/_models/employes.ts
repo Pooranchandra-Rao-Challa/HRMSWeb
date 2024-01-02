@@ -375,7 +375,8 @@ export class EmployeeAttendanceList {
 	employeeId?: number;
 	date: Date
 	DayWorkStatusId?: number;
-	NotReported: boolean
+	NotReported: boolean;
+	isHalfDayLeave:boolean
 }
 
 export class CompanyHierarchyViewDto {
