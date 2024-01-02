@@ -217,17 +217,29 @@
         </tr>
     </ng-template>
 </p-table>
-<p-dialog header="Confirmation" [(visible)]="confirmationDialog">
+<p-dialog header="Statistaics Of {{this.notUpdatedDates| date:'dd-MMM-YYYY'}} Attendance:" [(visible)]="confirmationDialog">
     <div class="flex justify-content-center m-3">
         <i class="pi pi-exclamation-triangle" style="font-size: 24px;"></i>&nbsp;&nbsp;
-        <p>
-            Do you want to modify the status of {{this.filteredData?.length}} records to Present on
-            {{this.notUpdatedDates| date:'MMM dd YYYY'}}?
+        <p>When You Perform Confirm Action the Below shown Statistics Will Update:
+            <!-- Do you want to modify the status of {{this.filteredData?.length}} records to Present on
+            {{this.notUpdatedDates| date:'MMM dd YYYY'}}? -->
         </p>
+      
     </div>
+    <div class="justify-content-center m-3">
+        <p>Total No. of Employees: {{this.NotUpdatedEmployees?.length}}</p>
+        <p>No. of Present: {{getCount('NU')}}</p>
+        <p>No.of Absent: {{ getCount('AT') }}</p>
+        <p>No.of PL's: {{ getCount('PL') }}</p>
+        <p>No.of CL's: {{ getCount('CL') }}</p>
+        <p>No.of LWP: {{ getCount('LWP') }}</p>
+        <P>No. of HalfDays: {{ getCount('CL/PT') + getCount('PL/PT') }}</P>
+
+    </div>
+   
     <ng-template pTemplate="footer">
         <div style="float:right" class="p-2">
-            <button pButton type="button" class="btn btn-primary" label="Yes" (click)="addPresent()"
+            <button pButton type="button" class="btn btn-primary" label="Confirm" (click)="addPresent()"
                 id="Attendance_addPresentForAll"></button>
             <button pButton type="button" class="btn btn-danger" label="Cancel" (click)="onReject()"
                 id="Attendance_onReject"></button>
