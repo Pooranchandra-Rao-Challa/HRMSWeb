@@ -869,10 +869,19 @@ p-fieldset.allott-employee {
 
 li.p-highlight{
     background-color: #FF810E;
+    border-radius: 10px;
 }
 #rolesTabView .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
     background: transparent !important;
     border-color: #ff810e;
     color: white !important;
-
+}
+.layout-topbar .topbar-menu li.topbar-item ul{
+    bottom: -16.8rem !important;
+    right: -16px !important;
+}
+.text-14{
+    font-size: 14px;
+    margin-top:10px !important;
+    text-align: center;
 }
