@@ -31,7 +31,7 @@ export class AttendanceComponent {
   month: number = new Date().getMonth() + 1;
   days: number[] = [];
   maxLength: MaxLength = new MaxLength();
-  year: number =new Date().getFullYear();
+  year: number = new Date().getFullYear();
   employeesList!: EmployeesList[];
   filteredData: employeeAttendanceDto[];
   employeeAttendanceList: employeeAttendanceDto[];
@@ -50,7 +50,7 @@ export class AttendanceComponent {
   NotUpdatedEmployees: EmployeesList[] = [];
   showingLeavesOfColors: boolean = false;
   infoMessage: boolean;
- 
+
 
   constructor(private adminService: AdminService, private dashBoardService: DashboardService, private datePipe: DatePipe, private jwtService: JwtService, public ref: DynamicDialogRef,
     private formbuilder: FormBuilder, private alertMessage: AlertmessageService, private employeeService: EmployeeService, private lookupService: LookupService) {
@@ -169,11 +169,16 @@ export class AttendanceComponent {
       this.filteredData = [];
       if (this.NotUpdatedEmployees.length > 0) {
         this.notUpdatedDates = this.NotUpdatedEmployees[0].date;
-        const formattedDate = this.datePipe.transform(this.notUpdatedDates, 'dd-MM-yyyy');
-        this.filteredData = this.employeeAttendanceList.filter((each) =>
-          each[formattedDate] === 'NU'
-        );
-  
+        const formattedDate =  this.datePipe.transform(this.notUpdatedDates, 'dd-MM-yyyy');
+        const month = new Date(this.notUpdatedDates).getMonth() + 1;
+        const year = new Date(this.notUpdatedDates).getFullYear();
+        this.employeeService.GetAttendance(month, year).subscribe((resp) => {
+          const PreviousAttendance = resp as unknown as employeeAttendanceDto[];
+          if(PreviousAttendance.length>0)
+            this.filteredData = PreviousAttendance.filter((each) =>
+            each[formattedDate] === 'NU'
+          );
+        });
         if (this.notUpdatedDates && this.permissions?.CanManageAttendance && !this.infoMessage) {
           this.infoMessage = true;
           const message = ALERT_CODES["EAAS003"] + "  " + `${formattedDate}`;
@@ -185,7 +190,7 @@ export class AttendanceComponent {
       }
     });
   }
-  
+
 
   CheckPreviousDayAttendance() {
     const formattedDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
@@ -206,13 +211,13 @@ export class AttendanceComponent {
 
   openDialog(emp: any, date: string, leaveType: string) {
     if (this.permissions?.CanManageAttendance) {
-      const formattedDate = this.datePipe.transform(this.isFutureDate(date), 'dd-MM-yyyy');
-      const currentDate = this.datePipe.transform(new Date(), 'dd-MM-yyyy');
+      const formattedDate = new Date(this.datePipe.transform(this.isFutureDate(date), 'dd-MM-yyyy'));
+      const currentDate =new Date( this.datePipe.transform(new Date(), 'dd-MM-yyyy'));
       const dayBeforeYesterday = new Date();
       dayBeforeYesterday.setDate(dayBeforeYesterday.getDate() - 2);
-      if (formattedDate > currentDate || (formattedDate <= this.datePipe.transform(dayBeforeYesterday, 'dd-MM-yyyy')
-        && formattedDate !== this.datePipe.transform(this.notUpdatedDates, 'dd-MM-yyyy')))
-        return
+      if (formattedDate > currentDate || (formattedDate <= new Date(this.datePipe.transform(dayBeforeYesterday, 'dd-MM-yyyy'))
+        && formattedDate !== new Date(this.datePipe.transform(this.notUpdatedDates, 'dd-MM-yyyy'))))
+        return;
       else if (formattedDate < currentDate && !this.checkPreviousAttendance)
         return;
       else if (formattedDate === currentDate && this.checkPreviousAttendance)
@@ -369,8 +374,8 @@ export class AttendanceComponent {
     this.showingLeavesOfColors = !this.showingLeavesOfColors;
   }
 
-  clearcard(dt1: Table){
+  clearcard(dt1: Table) {
     dt1.filteredValue = null;
     this.filter.nativeElement.value = '';
-}
+  }
 }
