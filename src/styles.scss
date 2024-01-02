@@ -844,6 +844,7 @@ p-fieldset.allott-employee {
     font-size: 1.1rem;
     font-weight: 700;
     margin: 10px;
+    line-height: 39px;
     i{
         padding: 0 10px;
     }
@@ -867,12 +868,27 @@ p-fieldset.allott-employee {
     }
 }
 
-li.p-highlight{
+#rolesTabView li.p-highlight,
+#projectsview li.p-highlight{
     background-color: #FF810E;
 }
-#rolesTabView .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+#rolesTabView .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link,
+#projectsview .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link{
     background: transparent !important;
     border-color: #ff810e;
     color: white !important;
 
+}
+#rolesTabView .p-tabview .p-tabview-nav li .p-tabview-nav-link,
+#rolesTabView  .p-tabview .p-tabview-nav{
+    border: none;
+}
+#rolesTabView .p-tabview-nav-container{
+    border-bottom: 1px solid #ccc;
+}
+
+#projectsview  .p-tabview-panels{
+    border-bottom: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
 }

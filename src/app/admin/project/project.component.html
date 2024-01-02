@@ -361,7 +361,7 @@
                     </p-tabView>
                   </div>
                   <div class="field col-8 md:col-8" style="border:1px solid #cccccc; padding:unset">
-                    <div class="allotted-employees">Allotted Employee In this Project <span class="project_name">{{
+                    <div class="allotted-employees">Allotted Employee of the Project <span class="project_name">{{
                         projectFormControls['name'].value }}</span><div style="float:right">
                             <i class="fa fa-refresh" (click)="refreshChartView()"></i>
                             <i class="fa-solid fa-trash"  (click)="clearAllotments()" ></i>
@@ -393,7 +393,7 @@
       </ng-template>
     </p-dialog>
     <!-- Projects View -->
-    <div class="card">
+    <div class="card" id="projectsview">
       <p-toast key="myToast"></p-toast>
       <p-tabView [(activeIndex)]="activeIndex">
         <p-tabPanel header="Project View">
