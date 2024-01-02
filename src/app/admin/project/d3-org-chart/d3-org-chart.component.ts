@@ -151,6 +151,7 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
                     ${desc}
                     <div style="color:black;position:absolute;right:15px;top:-20px;font-weight: 600;">
                             <div style="font-size:15px;color:black;margin-top:32px">${d.data.name}</div>
+                            <div style="font-size:15px;color:black">${d.data.roleName}</div>
                             <div style="font-size:10px;">${d.data.designation || ""}</div>
                             <div style="font-size:15px;">
                             ${d.data.projectName ? `<span style="font-size:10px;">Project: ${d.data.projectName}</span>` : ''}

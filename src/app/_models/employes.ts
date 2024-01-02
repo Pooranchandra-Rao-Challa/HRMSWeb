@@ -385,6 +385,10 @@ export class CompanyHierarchyViewDto {
 	roleId?: number;
 	roleName?: string;
 	hierarchyLevel?: number;
+    employeeId?: number;
+    employeeName?: string;
+    photo?: string;
+    designation?: string;
 }
 
 export class EmployeeLeaveDetailsViewDto {

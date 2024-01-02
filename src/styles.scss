@@ -827,3 +827,16 @@ p-fieldset.allott-employee {
     background-color: rgb(249, 245, 242);
     border-radius: 10px;
 }
+
+.allotted-employees{
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 10px;
+    i.fa-trash{
+        color:rgba(248, 6, 6, 0.897);
+        &:hover{
+            color:rgb(240, 88, 88);
+        }
+    }
+}
