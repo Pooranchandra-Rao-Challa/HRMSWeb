@@ -214,21 +214,25 @@ export class AttendanceComponent {
 
   openDialog(emp: any, date: string, leaveType: string) {
     if (this.permissions?.CanManageAttendance) {
-      const formattedDate = new Date(this.datePipe.transform(this.isFutureDate(date), 'dd-MM-yyyy'));
-      const currentDate =new Date( this.datePipe.transform(new Date(), 'dd-MM-yyyy'));
+      const formattedDate = this.isFutureDate(this.datePipe.transform(new Date(this.isFutureDate(date)), 'dd-MM-yyyy'));
+      const currentDate = this.isFutureDate(this.datePipe.transform(new Date(), 'dd-MM-yyyy'));
       const dayBeforeYesterday = new Date();
-      dayBeforeYesterday.setDate(dayBeforeYesterday.getDate() - 2);
-      if (formattedDate > currentDate || (formattedDate <= new Date(this.datePipe.transform(dayBeforeYesterday, 'dd-MM-yyyy'))
-        && formattedDate !== new Date(this.datePipe.transform(this.notUpdatedDates, 'dd-MM-yyyy'))))
-        return;
-      else if (formattedDate < currentDate && !this.checkPreviousAttendance)
-        return;
-      else if (formattedDate === currentDate && this.checkPreviousAttendance)
-        return this.alertMessage.displayInfo(ALERT_CODES["EAAS007"]);
+      dayBeforeYesterday.setDate(dayBeforeYesterday.getDate() - 2); 
+      console.log(formattedDate.toISOString() > currentDate.toISOString()||(formattedDate.toISOString() <= (this.isFutureDate(this.datePipe.transform(dayBeforeYesterday, 'dd-MM-yyyy')).toISOString())
+      && formattedDate.toISOString() !== (this.isFutureDate(this.datePipe.transform(this.notUpdatedDates, 'dd-MM-yyyy')).toISOString())));
+      
+      if (formattedDate.toISOString() > currentDate.toISOString()||(formattedDate.toISOString() <= (this.isFutureDate(this.datePipe.transform(dayBeforeYesterday, 'dd-MM-yyyy')).toISOString())
+        && formattedDate.toISOString() !== (this.isFutureDate(this.datePipe.transform(this.notUpdatedDates, 'dd-MM-yyyy')).toISOString())))
+          return
+      else if (formattedDate.toISOString() < currentDate.toISOString() && !this.checkPreviousAttendance)
+        return
+      
+      else if (formattedDate.toISOString() === currentDate.toISOString() && this.checkPreviousAttendance)
+          return this.alertMessage.displayInfo(ALERT_CODES["EAAS007"]);
       else {
         this.filteredLeaveTypes = this.LeaveTypes;
         const result = this.leaves.find(each => each.employeeId === emp.EmployeeId && this.datePipe.transform(each.fromDate, 'yyyy-MM-dd') === this.datePipe.transform(this.isFutureDate(date), 'yyyy-MM-dd'));
-        this.getEmployeeDataBasedOnId(emp, leaveType)
+        this.getEmployeeDataBasedOnId(emp, leaveType);
         this.dialog = true;
         this.fbleave.reset();
         if (result && !result?.rejected)
@@ -238,8 +242,7 @@ export class AttendanceComponent {
             leaveTypeId: result?.leaveTypeId,
             fromDate: FORMAT_DATE(new Date(this.datePipe.transform(result?.fromDate, 'yyyy-MM-dd'))),
             note: result?.note,
-            notReported: false,
-            isHalfDayLeave:false
+            notReported: false
           });
         else {
           const StatusId = this.LeaveTypes.find(each => each.name === leaveType)
@@ -248,8 +251,7 @@ export class AttendanceComponent {
             employeeName: emp.EmployeeName,
             leaveTypeId: StatusId?.lookupDetailId,
             fromDate: FORMAT_DATE(new Date(this.datePipe.transform(this.isFutureDate(date), 'yyyy-MM-dd'))),
-            notReported: false,
-            isHalfDayLeave:false
+            notReported: false
           });
         }
       }

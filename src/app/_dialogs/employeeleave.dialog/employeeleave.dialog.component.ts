@@ -42,7 +42,7 @@ export class EmployeeLeaveDialogComponent {
   constructor(
     private formbuilder: FormBuilder,
     private adminService: AdminService,
-    private jwtService: JwtService,
+    public jwtService: JwtService,
     private lookupService: LookupService,
     private employeeService: EmployeeService,
     private dashBoardService: DashboardService,
