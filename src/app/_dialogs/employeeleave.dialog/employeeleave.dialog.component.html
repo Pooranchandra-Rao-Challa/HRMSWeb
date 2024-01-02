@@ -3,7 +3,8 @@
         <div class="grid mt-3 p-5">
             <div class="col-12 roles-container">
                 <span>Casual Leaves: {{empDetails?.allottedCasualLeaves-empDetails?.usedCasualLeavesInYear}}</span>,
-                <span>Privilege Leaves: {{empDetails?.allottedPrivilegeLeaves-empDetails?.usedPrivilegeLeavesInYear}}</span>
+                <span>Privilege Leaves:
+                    {{empDetails?.allottedPrivilegeLeaves-empDetails?.usedPrivilegeLeavesInYear}}</span>
                 <div class="p-fluid p-formgrid grid">
                     <div class="field col-12 md:col-4">
                         <label class="required">Employee Name:</label>
@@ -51,9 +52,13 @@
                             <div class="align-left w-60" style="width:70%">
                                 <span
                                     *ngIf="FormControls['leaveReasonId'].touched && FormControls['leaveReasonId'].invalid">
-                                    <div class="ng-invalid ng-touched p-error"
-                                        *ngIf="FormControls['leaveReasonId'].errors?.['required']">
+                                    <div class="ng-invalid ng-touched p-error" 
+                                    *ngIf=" FormControls['leaveTypeId'].untouched && FormControls['leaveReasonId'].touched ||
+                                    FormControls['leaveTypeId'].invalid && FormControls['leaveReasonId'].touched">
                                         Please Select Leave Type First.</div>
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf=" FormControls['leaveTypeId'].touched && FormControls['leaveReasonId'].errors?.['required'] &&  FormControls['leaveTypeId'].valid">
+                                        Please Select Leave Purpose.</div>
                                 </span>
                             </div>
                         </div>
