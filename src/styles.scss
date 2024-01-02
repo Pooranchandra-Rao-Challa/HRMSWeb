@@ -844,14 +844,35 @@ p-fieldset.allott-employee {
     font-size: 1.1rem;
     font-weight: 700;
     margin: 10px;
+    i{
+        padding: 0 10px;
+    }
     i.fa-trash{
         color:rgba(248, 6, 6, 0.897);
+        font-size: 24px;
+        border: none;
         &:hover{
-            color:rgb(240, 88, 88);
+            color:rgb(255, 145, 145);
+            // border: solid rgba(248, 6, 6, 0.897) 1px;
+        }
+    }
+    i.fa-refresh{
+        color:#41b6a6;
+        font-size: 24px;
+        border: none;
+        &:hover{
+            color:#84cfc5;
+            // border: solid #41b6a6 1px;
         }
     }
 }
-.layout-topbar .topbar-menu li.topbar-item ul{
-    bottom: -16.8rem !important;
-    right: -16px !important;
+
+li.p-highlight{
+    background-color: #FF810E;
+}
+#rolesTabView .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+    background: transparent !important;
+    border-color: #ff810e;
+    color: white !important;
+
 }
