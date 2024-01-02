@@ -240,8 +240,7 @@ export class AttendanceComponent {
             leaveTypeId: result?.leaveTypeId,
             fromDate: FORMAT_DATE(new Date(this.datePipe.transform(result?.fromDate, 'yyyy-MM-dd'))),
             note: result?.note,
-            notReported: false,
-            isHalfDayLeave:false
+            notReported: false
           });
         else {
           const StatusId = this.LeaveTypes.find(each => each.name === leaveType)
@@ -250,8 +249,7 @@ export class AttendanceComponent {
             employeeName: emp.EmployeeName,
             leaveTypeId: StatusId?.lookupDetailId,
             fromDate: FORMAT_DATE(new Date(this.datePipe.transform(this.isFutureDate(date), 'yyyy-MM-dd'))),
-            notReported: false,
-            isHalfDayLeave:false
+            notReported: false
           });
         }
       }

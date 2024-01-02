@@ -2,14 +2,14 @@
     <form [formGroup]="fbLeave">
         <div class="grid mt-3 p-5">
             <div class="col-12 roles-container">
-                <span>Used Casual Leaves: {{ empDetails?.usedCasualLeavesInMonth }}</span>,
-                <span>Used Privilege Leaves: {{ empDetails?.usedPrivilegeLeavesInMonth }}</span>
+                <span>Casual Leaves: {{empDetails?.allottedCasualLeaves-empDetails?.usedCasualLeavesInYear}}</span>,
+                <span>Privilege Leaves: {{empDetails?.allottedPrivilegeLeaves-empDetails?.usedPrivilegeLeavesInYear}}</span>
                 <div class="p-fluid p-formgrid grid">
                     <div class="field col-12 md:col-4">
                         <label class="required">Employee Name:</label>
                         <p-dropdown id="employeeName_Dropdown" appendTo="body" [filter]="true" [options]="employees"
                             optionLabel="employeeName" optionValue="employeeId" placeholder="Select Employee Name"
-                            formControlName="employeeId"
+                            formControlName="employeeId" [readonly]="this.jwtService.EmployeeId !== null"
                             [ngClass]="{'is-invalid ng-dirty': FormControls['employeeId'].touched && FormControls['employeeId'].errors}">
                         </p-dropdown>
                         <div class="flex">
