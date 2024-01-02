@@ -51,7 +51,6 @@ export class ProjectComponent implements OnInit {
     editProject: boolean;
     permission: any;
     addFlag: boolean = true;
-    submitLabel!: string;
     projectDetails: ProjectViewDto = {};
     companyHierarchy: CompanyHierarchyViewDto[] = [];
     selectedProjectId: number = -1;
@@ -197,11 +196,11 @@ export class ProjectComponent implements OnInit {
                 companyName: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
                 name: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
                 email: new FormControl('', [Validators.required, Validators.pattern("^[A-Za-z0-9._-]+[@][A-Za-z0-9._-]+[\.][A-Za-z]{2,4}$")]),
-                mobileNumber: new FormControl('', [Validators.required, Validators.pattern(RG_PHONE_NO)]),
+                mobileNumber: new FormControl('', [Validators.pattern(RG_PHONE_NO)]),
                 cinno: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_21), Validators.maxLength(MIN_LENGTH_21)]),
                 pocName: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
                 pocMobileNumber: new FormControl('', [Validators.required, Validators.pattern(RG_PHONE_NO)]),
-                address: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
+                address: new FormControl('', [ Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
             }),
             projectStatuses: new FormControl(),
             projectAllotments: new FormControl([])
@@ -373,12 +372,10 @@ export class ProjectComponent implements OnInit {
             this.minDate = new Date(this.projectDetails[status.name.toLowerCase()]);
             this.editEmployee(project);
             this.bindChartNodes(0);
-            this.submitLabel = "Edit Project";
             this.employeeProjectData(project.projectId);
         } else {
             this.projectDetails = {}
             this.addFlag = true;
-            this.submitLabel = "Add Project";
             this.bindChartNodes(0);
             this.initRootNodeOnAdd(false);
         }
@@ -393,7 +390,6 @@ export class ProjectComponent implements OnInit {
     editEmployee(project) {
         this.allottEmployeesref.clear();
         this.addFlag = false;
-        this.submitLabel = "Update Project Details";
         const date = this.projectStatues.filter(each => each.eProjectStatusesId === project.activeStatusId)
         this.fbproject.patchValue({
             clientId: project.clientId,

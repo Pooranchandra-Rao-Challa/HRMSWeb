@@ -2,12 +2,15 @@
     <form [formGroup]="fbLeave">
         <div class="grid mt-3 p-5">
             <div class="col-12 roles-container">
+                <span>Casual Leaves: {{empDetails?.allottedCasualLeaves-empDetails?.usedCasualLeavesInYear}}</span>,
+                <span>Privilege Leaves:
+                    {{empDetails?.allottedPrivilegeLeaves-empDetails?.usedPrivilegeLeavesInYear}}</span>
                 <div class="p-fluid p-formgrid grid">
                     <div class="field col-12 md:col-4">
                         <label class="required">Employee Name:</label>
                         <p-dropdown id="employeeName_Dropdown" appendTo="body" [filter]="true" [options]="employees"
                             optionLabel="employeeName" optionValue="employeeId" placeholder="Select Employee Name"
-                            formControlName="employeeId"
+                            formControlName="employeeId" [readonly]="this.jwtService.EmployeeId !== null"
                             [ngClass]="{'is-invalid ng-dirty': FormControls['employeeId'].touched && FormControls['employeeId'].errors}">
                         </p-dropdown>
                         <div class="flex">
@@ -24,7 +27,7 @@
                         <label class="required">Leave Type:</label>
                         <p-dropdown placeholder="Select Leave Type" formControlName="leaveTypeId"
                             [options]="filteredLeaveTypes" optionLabel="name" optionValue="lookupDetailId"
-                            id="leaveTypes_Dropdown"
+                            id="leaveTypes_Dropdown" (onChange)="getLeaveReasonsByLeaveTypeId($event.value)"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['leaveTypeId'].touched && FormControls['leaveTypeId'].errors }">
                         </p-dropdown>
                         <div class="flex">
@@ -37,6 +40,34 @@
                                 </span>
                             </div>
                         </div>
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label class="required">Leave Purpose:</label>
+                        <p-dropdown placeholder="Select Leave Purpose" formControlName="leaveReasonId"
+                            [options]="leaveReasons" optionLabel="name" optionValue="lookupDetailId"
+                            id="leaveTypes_Dropdown"
+                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['leaveReasonId'].touched && FormControls['leaveReasonId'].errors }">
+                        </p-dropdown>
+                        <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                                <span
+                                    *ngIf="FormControls['leaveReasonId'].touched && FormControls['leaveReasonId'].invalid">
+                                    <div class="ng-invalid ng-touched p-error" 
+                                    *ngIf=" FormControls['leaveTypeId'].untouched && FormControls['leaveReasonId'].touched ||
+                                    FormControls['leaveTypeId'].invalid && FormControls['leaveReasonId'].touched">
+                                        Please Select Leave Type First.</div>
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf=" FormControls['leaveTypeId'].touched && FormControls['leaveReasonId'].errors?.['required'] &&  FormControls['leaveTypeId'].valid">
+                                        Please Select Leave Purpose.</div>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label>Is HalfDay Leave:</label>
+                        <br>
+                        <p-checkbox formControlName="isHalfDayLeave" [binary]="true" inputId="binary"
+                            (onChange)="onChangeIsHalfDay()"></p-checkbox>
                     </div>
                     <div class="field col-12 md:col-4">
                         <label class="required">From Date:</label>

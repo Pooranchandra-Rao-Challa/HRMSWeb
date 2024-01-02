@@ -355,6 +355,8 @@ export class EmployeeLeaveDto {
 	fromDate?: Date;
 	toDate?: Date;
 	leaveTypeId?: number;
+	leaveReasonId?:number;
+	isHalfDayLeave?:boolean;
 	leaveType?: string;
 	note?: string;
 	acceptedBy?: string;
@@ -375,7 +377,8 @@ export class EmployeeAttendanceList {
 	employeeId?: number;
 	date: Date
 	DayWorkStatusId?: number;
-	NotReported: boolean
+	NotReported: boolean;
+	isHalfDayLeave:boolean
 }
 
 export class CompanyHierarchyViewDto {

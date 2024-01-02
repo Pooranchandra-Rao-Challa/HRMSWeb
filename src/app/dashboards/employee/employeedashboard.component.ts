@@ -21,13 +21,19 @@ export class EmployeeDashboardComponent {
     defaultPhoto: string;
     originalDOB: string = ORIGINAL_DOB;
     dateOfJoining: string = DATE_OF_JOINING;
-    mediumDate:string = MEDIUM_DATE;
+    mediumDate: string = MEDIUM_DATE;
     ActionTypes = Actions;
     permissions: any
     employeeleaveDialogComponent = EmployeeLeaveDialogComponent;
     dialogRequest: DialogRequest = new DialogRequest();
     month: number = new Date().getMonth() + 1;
-    year: number = 2023;
+    year: number = new Date().getFullYear();
+    monthlyPLs: number = new Date().getMonth() + 1;
+    yearlyPLs: number = new Date().getFullYear();
+    monthlyCLs: number = new Date().getMonth() + 1;
+    yearlyCLs: number = new Date().getFullYear();
+    monthlyLWP: number = new Date().getMonth() + 1;
+    yearlyLWP: number = new Date().getFullYear();
     selectedMonth: Date;
     days: number[] = [];
     monthlyLeaves: selfEmployeeMonthlyLeaves;
@@ -46,14 +52,13 @@ export class EmployeeDashboardComponent {
         { field: 'title', header: 'title', label: 'Holiday Title' },
         { field: 'fromDate', header: 'fromDate', label: 'From Date' },
         { field: 'toDate', header: 'toDate', label: 'To Date' }
-      ];
+    ];
 
     ngOnInit() {
         this.permissions = this.jwtService.Permissions;
         this.getEmployeeDataBasedOnId()
         this.initializeYears();
         this.getHoliday()
-        this.getDaysInMonth(this.year, this.month);
         this.initGetLeavesForMonth();
     }
 
@@ -68,22 +73,23 @@ export class EmployeeDashboardComponent {
 
     initializeYears(): void {
         const currentYear = new Date().getFullYear().toString();
-        this.adminService.GetYearsFromHolidays().subscribe((years) => {            
+        this.adminService.GetYearsFromHolidays().subscribe((years) => {
             this.years = years as unknown as Year[];
             this.selectedYear = this.years.find((year) => year.year.toString() === currentYear);
             if (!this.selectedYear) {
                 this.selectedYear = { year: currentYear };
             }
             this.getHoliday();
-
         });
     }
 
     initGetLeavesForMonth() {
         this.dashBoardService.GetEmployeeLeavesForMonth(this.month, this.jwtService.EmployeeId).subscribe(resp => {
             this.monthlyLeaves = resp[0] as unknown as selfEmployeeMonthlyLeaves;
+
         });
     }
+
     getEmployeeDataBasedOnId() {
         this.dashBoardService.GetEmployeeDetails(this.jwtService.EmployeeId).subscribe((resp) => {
             this.empDetails = resp as unknown as SelfEmployeeDto;
@@ -96,35 +102,35 @@ export class EmployeeDashboardComponent {
         })
     }
 
-    gotoPreviousMonth() {
-        if (this.month > 1)
-            this.month--;
+    gotoPreviousMonthPLs() {
+        if (this.monthlyPLs > 1)
+            this.monthlyPLs--;
         else {
-            this.month = 12;        // Reset to December
-            this.year--;            // Decrement the year
+            this.monthlyPLs = 12;        // Reset to December
+            this.yearlyPLs--;            // Decrement the year
         }
-        this.selectedMonth = FORMAT_DATE(new Date(this.year, this.month - 1, 1));
+        this.selectedMonth = FORMAT_DATE(new Date(this.yearlyPLs, this.monthlyPLs - 1, 1));
         this.selectedMonth.setHours(0, 0, 0, 0);
-        this.getDaysInMonth(this.year, this.month);
+        this.getDaysInMonthPLs(this.yearlyPLs, this.monthlyPLs);
         this.getEmployeeDataBasedOnId();
         this.initGetLeavesForMonth();
     }
 
-    gotoNextMonth() {
-        if (this.month < 12)
-            this.month++;
+    gotoNextMonthPLs() {
+        if (this.monthlyPLs < 12)
+            this.monthlyPLs++;
         else {
-            this.month = 1; // Reset to January
-            this.year++;    // Increment the year
+            this.monthlyPLs = 1; // Reset to January
+            this.yearlyPLs++;    // Increment the year
         }
-        this.selectedMonth = FORMAT_DATE(new Date(this.year, this.month - 1, 1));
+        this.selectedMonth = FORMAT_DATE(new Date(this.yearlyPLs, this.monthlyPLs - 1, 1));
         this.selectedMonth.setHours(0, 0, 0, 0);
-        this.getDaysInMonth(this.year, this.month);
+        this.getDaysInMonthPLs(this.yearlyPLs, this.monthlyPLs);
         this.getEmployeeDataBasedOnId();
         this.initGetLeavesForMonth();
     }
 
-    getDaysInMonth(year: number, month: number) {
+    getDaysInMonthPLs(year: number, month: number) {
         const date = new Date(year, month - 1, 1);
         date.setMonth(date.getMonth() + 1);
         date.setDate(date.getDate() - 1);
@@ -133,11 +139,101 @@ export class EmployeeDashboardComponent {
         for (let i = 1; i <= day; i++)
             this.days.push(i);
     }
+    
+    onMonthSelectPLs(event) {
+        this.monthlyPLs = this.selectedMonth.getMonth() + 1; // Month is zero-indexed
+        this.yearlyPLs = this.selectedMonth.getFullYear();
+        this.getDaysInMonthPLs(this.yearlyPLs, this.monthlyPLs);
+        this.getEmployeeDataBasedOnId();
+    }
+    
+    gotoPreviousMonthCLs() {
+        if (this.monthlyCLs > 1)
+            this.monthlyCLs--;
+        else {
+            this.monthlyCLs = 12;        // Reset to December
+            this.yearlyCLs--;            // Decrement the year
+        }
+        this.selectedMonth = FORMAT_DATE(new Date(this.yearlyCLs, this.monthlyCLs - 1, 1));
+        this.selectedMonth.setHours(0, 0, 0, 0);
+        this.getDaysInMonthCLs(this.yearlyCLs, this.monthlyCLs);
+        this.getEmployeeDataBasedOnId();
+        this.initGetLeavesForMonth();
+    }
 
-    onMonthSelect(event) {
-        this.month = this.selectedMonth.getMonth() + 1; // Month is zero-indexed
-        this.year = this.selectedMonth.getFullYear();
-        this.getDaysInMonth(this.year, this.month);
+    gotoNextMonthCLs() {
+        if (this.monthlyCLs < 12)
+            this.monthlyCLs++;
+        else {
+            this.monthlyCLs = 1; // Reset to January
+            this.yearlyCLs++;    // Increment the year
+        }
+        this.selectedMonth = FORMAT_DATE(new Date(this.yearlyCLs, this.monthlyCLs - 1, 1));
+        this.selectedMonth.setHours(0, 0, 0, 0);
+        this.getDaysInMonthCLs(this.yearlyCLs, this.monthlyCLs);
+        this.getEmployeeDataBasedOnId();
+        this.initGetLeavesForMonth();
+    }
+
+    getDaysInMonthCLs(year: number, month: number) {
+        const date = new Date(year, month - 1, 1);
+        date.setMonth(date.getMonth() + 1);
+        date.setDate(date.getDate() - 1);
+        let day = date.getDate();
+        this.days = [];
+        for (let i = 1; i <= day; i++)
+            this.days.push(i);
+    }
+    
+    onMonthSelectCLs(event) {
+        this.monthlyCLs = this.selectedMonth.getMonth() + 1; // Month is zero-indexed
+        this.yearlyCLs = this.selectedMonth.getFullYear();
+        this.getDaysInMonthCLs(this.yearlyCLs, this.monthlyCLs);
+        this.getEmployeeDataBasedOnId();
+    }
+
+    gotoPreviousMonthLWP() {
+        if (this.monthlyLWP> 1)
+            this.monthlyLWP--;
+        else {
+            this.monthlyLWP = 12;        // Reset to December
+            this.yearlyLWP--;            // Decrement the year
+        }
+        this.selectedMonth = FORMAT_DATE(new Date(this.yearlyLWP, this.monthlyLWP - 1, 1));
+        this.selectedMonth.setHours(0, 0, 0, 0);
+        this.getDaysInMonthLWP(this.yearlyLWP, this.monthlyLWP);
+        this.getEmployeeDataBasedOnId();
+        this.initGetLeavesForMonth();
+    }
+
+    gotoNextMonthLWP() {
+        if (this.monthlyLWP < 12)
+            this.monthlyLWP++;
+        else {
+            this.monthlyLWP = 1; // Reset to January
+            this.yearlyLWP++;    // Increment the year
+        }
+        this.selectedMonth = FORMAT_DATE(new Date(this.yearlyLWP, this.monthlyLWP - 1, 1));
+        this.selectedMonth.setHours(0, 0, 0, 0);
+        this.getDaysInMonthLWP(this.yearlyLWP, this.monthlyLWP);
+        this.getEmployeeDataBasedOnId();
+        this.initGetLeavesForMonth();
+    }
+
+    getDaysInMonthLWP(year: number, month: number) {
+        const date = new Date(year, month - 1, 1);
+        date.setMonth(date.getMonth() + 1);
+        date.setDate(date.getDate() - 1);
+        let day = date.getDate();
+        this.days = [];
+        for (let i = 1; i <= day; i++)
+            this.days.push(i);
+    }
+    
+    onMonthSelectLWP(event) {
+        this.monthlyLWP = this.selectedMonth.getMonth() + 1; // Month is zero-indexed
+        this.yearlyLWP = this.selectedMonth.getFullYear();
+        this.getDaysInMonthLWP(this.yearlyLWP, this.monthlyLWP);
         this.getEmployeeDataBasedOnId();
     }
 

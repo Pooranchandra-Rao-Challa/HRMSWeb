@@ -1,4 +1,4 @@
-import { DatePipe, formatDate } from '@angular/common';
+import { DatePipe, formatDate, getLocaleFirstDayOfWeek } from '@angular/common';
 import { HttpEvent } from '@angular/common/http';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -31,9 +31,8 @@ export class AttendanceComponent {
   month: number = new Date().getMonth() + 1;
   days: number[] = [];
   maxLength: MaxLength = new MaxLength();
-  year: number = 2023;
+  year: number = new Date().getFullYear();
   employeesList!: EmployeesList[];
-  filteredData: employeeAttendanceDto[];
   employeeAttendanceList: employeeAttendanceDto[];
   globalFilterFields: string[] = ['EmployeeName',];
   selectedMonth: Date;
@@ -42,6 +41,7 @@ export class AttendanceComponent {
   fbAttendance!: FormGroup;
   fbleave!: FormGroup;
   checkPreviousAttendance = true;
+  PreviousAttendance:employeeAttendanceDto[];
   notUpdatedDates: any;
   confirmationDialog: boolean = false;
   LeaveTypes: LookupDetailsDto[] = [];
@@ -50,7 +50,7 @@ export class AttendanceComponent {
   NotUpdatedEmployees: EmployeesList[] = [];
   showingLeavesOfColors: boolean = false;
   infoMessage: boolean;
- 
+
 
   constructor(private adminService: AdminService, private dashBoardService: DashboardService, private datePipe: DatePipe, private jwtService: JwtService, public ref: DynamicDialogRef,
     private formbuilder: FormBuilder, private alertMessage: AlertmessageService, private employeeService: EmployeeService, private lookupService: LookupService) {
@@ -66,7 +66,6 @@ export class AttendanceComponent {
     this.getDaysInMonth(this.year, this.month);
     this.initDayWorkStatus();
     this.getLeaves();
-
   }
 
   initLeaveForm() {
@@ -75,7 +74,8 @@ export class AttendanceComponent {
       notReported: new FormControl(false),
       employeeId: new FormControl('', [Validators.required]),
       dayWorkStatusId: new FormControl('', [Validators.required]),
-      date: new FormControl()
+      date: new FormControl(),
+      isHalfDayLeave:new FormControl(),
     });
     this.fbleave = this.formbuilder.group({
       employeeLeaveId: [null],
@@ -85,6 +85,7 @@ export class AttendanceComponent {
       toDate: new FormControl(null),
       leaveTypeId: new FormControl('', [Validators.required]),
       note: new FormControl('', [Validators.maxLength(MAX_LENGTH_256)]),
+      isHalfDayLeave:new FormControl(),
       acceptedBy: new FormControl(null),
       acceptedAt: new FormControl(null),
       approvedBy: new FormControl(null),
@@ -153,7 +154,8 @@ export class AttendanceComponent {
         employeeId: each.employeeId,
         dayWorkStatusId: type.lookupDetailId,
         date: FORMAT_DATE(new Date(this.notUpdatedDates)),
-        notReported: false
+        notReported: false,
+        isHalfDayLeave:false,
       })
       EmployeesList.push(this.fbAttendance.value)
     })
@@ -167,14 +169,14 @@ export class AttendanceComponent {
   getNotUpdatedEmployeesList(date, checkPreviousDate) {
     this.employeeService.GetNotUpdatedEmployees(date, checkPreviousDate).subscribe((resp) => {
       this.NotUpdatedEmployees = resp as unknown as EmployeesList[];
-      this.filteredData = [];
       if (this.NotUpdatedEmployees.length > 0) {
         this.notUpdatedDates = this.NotUpdatedEmployees[0].date;
         const formattedDate = this.datePipe.transform(this.notUpdatedDates, 'dd-MM-yyyy');
-        this.filteredData = this.employeeAttendanceList.filter((each) =>
-          each[formattedDate] === 'NU'
-        );
-  
+        const month = new Date(this.notUpdatedDates).getMonth() + 1;
+        const year = new Date(this.notUpdatedDates).getFullYear();
+        this.employeeService.GetAttendance(month, year).subscribe((resp) => {
+         this.PreviousAttendance = resp as unknown as employeeAttendanceDto[];
+        });
         if (this.notUpdatedDates && this.permissions?.CanManageAttendance && !this.infoMessage) {
           this.infoMessage = true;
           const message = ALERT_CODES["EAAS003"] + "  " + `${formattedDate}`;
@@ -186,7 +188,10 @@ export class AttendanceComponent {
       }
     });
   }
-  
+  getCount(type: string): number {
+    const formattedDate = this.datePipe.transform(this.notUpdatedDates, 'dd-MM-yyyy');
+    return this.PreviousAttendance.filter(each => each[formattedDate] === type).length;
+  }
 
   CheckPreviousDayAttendance() {
     const formattedDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
@@ -207,23 +212,29 @@ export class AttendanceComponent {
 
   openDialog(emp: any, date: string, leaveType: string) {
     if (this.permissions?.CanManageAttendance) {
-      const formattedDate = this.datePipe.transform(this.isFutureDate(date), 'dd-MM-yyyy');
-      const currentDate = this.datePipe.transform(new Date(), 'dd-MM-yyyy');
+      const formattedDate = this.isFutureDate(this.datePipe.transform(new Date(this.isFutureDate(date)), 'dd-MM-yyyy'));
+      const currentDate = this.isFutureDate(this.datePipe.transform(new Date(), 'dd-MM-yyyy'));
       const dayBeforeYesterday = new Date();
-      dayBeforeYesterday.setDate(dayBeforeYesterday.getDate() - 2);
-      if (formattedDate > currentDate || (formattedDate <= this.datePipe.transform(dayBeforeYesterday, 'dd-MM-yyyy')
-        && formattedDate !== this.datePipe.transform(this.notUpdatedDates, 'dd-MM-yyyy')))
+      dayBeforeYesterday.setDate(dayBeforeYesterday.getDate() - 2); 
+      console.log(formattedDate.toISOString() > currentDate.toISOString()||(formattedDate.toISOString() <= (this.isFutureDate(this.datePipe.transform(dayBeforeYesterday, 'dd-MM-yyyy')).toISOString())
+      && formattedDate.toISOString() !== (this.isFutureDate(this.datePipe.transform(this.notUpdatedDates, 'dd-MM-yyyy')).toISOString())));
+      
+      if (formattedDate.toISOString() > currentDate.toISOString()||(formattedDate.toISOString() <= (this.isFutureDate(this.datePipe.transform(dayBeforeYesterday, 'dd-MM-yyyy')).toISOString())
+        && formattedDate.toISOString() !== (this.isFutureDate(this.datePipe.transform(this.notUpdatedDates, 'dd-MM-yyyy')).toISOString())))
+          return
+      else if (formattedDate.toISOString() < currentDate.toISOString() && !this.checkPreviousAttendance)
         return
-      else if (formattedDate < currentDate && !this.checkPreviousAttendance)
-        return;
-      else if (formattedDate === currentDate && this.checkPreviousAttendance)
-        return this.alertMessage.displayInfo(ALERT_CODES["EAAS007"]);
+      
+      else if (formattedDate.toISOString() === currentDate.toISOString() && this.checkPreviousAttendance)
+          return this.alertMessage.displayInfo(ALERT_CODES["EAAS007"]);
       else {
         this.filteredLeaveTypes = this.LeaveTypes;
         const result = this.leaves.find(each => each.employeeId === emp.EmployeeId && this.datePipe.transform(each.fromDate, 'yyyy-MM-dd') === this.datePipe.transform(this.isFutureDate(date), 'yyyy-MM-dd'));
         this.getEmployeeDataBasedOnId(emp, leaveType);
         this.dialog = true;
         this.fbleave.reset();
+        console.log(result);
+        
         if (result && !result?.rejected)
           this.fbleave.patchValue({
             employeeId: result?.employeeId,
@@ -231,7 +242,8 @@ export class AttendanceComponent {
             leaveTypeId: result?.leaveTypeId,
             fromDate: FORMAT_DATE(new Date(this.datePipe.transform(result?.fromDate, 'yyyy-MM-dd'))),
             note: result?.note,
-            notReported: false
+            notReported: false,
+            isHalfDayLeave:result?.isHalfDayLeave
           });
         else {
           const StatusId = this.LeaveTypes.find(each => each.name === leaveType)
@@ -240,7 +252,8 @@ export class AttendanceComponent {
             employeeName: emp.EmployeeName,
             leaveTypeId: StatusId?.lookupDetailId,
             fromDate: FORMAT_DATE(new Date(this.datePipe.transform(this.isFutureDate(date), 'yyyy-MM-dd'))),
-            notReported: false
+            notReported: false,
+            isHalfDayLeave:false
           });
         }
       }
@@ -370,8 +383,8 @@ export class AttendanceComponent {
     this.showingLeavesOfColors = !this.showingLeavesOfColors;
   }
 
-  clearcard(dt1: Table){
+  clearcard(dt1: Table) {
     dt1.filteredValue = null;
     this.filter.nativeElement.value = '';
-}
+  }
 }

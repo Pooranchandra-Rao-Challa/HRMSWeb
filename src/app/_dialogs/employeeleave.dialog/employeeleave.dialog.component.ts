@@ -13,6 +13,7 @@ import { EmployeeLeaveDto } from 'src/app/_models/employes';
 import { AdminService } from 'src/app/_services/admin.service';
 import { DashboardService } from 'src/app/_services/dashboard.service';
 import { EmployeeService } from 'src/app/_services/employee.service';
+import { JwtService } from 'src/app/_services/jwt.service';
 import { LookupService } from 'src/app/_services/lookup.service';
 
 @Component({
@@ -23,6 +24,7 @@ export class EmployeeLeaveDialogComponent {
   fbLeave!: FormGroup;
   employees: EmployeesList[] = [];
   leaveType: LookupViewDto[] = [];
+  leaveReasons: LookupViewDto[] = [];
   leaves: EmployeeLeaveDto[] = [];
   filteredLeaveTypes: LookupViewDto[] = [];
   maxLength: MaxLength = new MaxLength();
@@ -40,6 +42,7 @@ export class EmployeeLeaveDialogComponent {
   constructor(
     private formbuilder: FormBuilder,
     private adminService: AdminService,
+    public jwtService: JwtService,
     private lookupService: LookupService,
     private employeeService: EmployeeService,
     private dashBoardService: DashboardService,
@@ -66,7 +69,6 @@ export class EmployeeLeaveDialogComponent {
     this.getEmployees();
     this.getLeaveTypes();
     this.leaveForm();
-
   }
 
   setMinMaxDates() {
@@ -156,11 +158,17 @@ export class EmployeeLeaveDialogComponent {
   getEmployees() {
     this.adminService.getEmployeesList().subscribe(resp => {
       this.employees = resp as unknown as EmployeesList[];
-      this.fbLeave.get('employeeId')?.valueChanges.subscribe((selectedEmployeeId: number) => {
-        if (selectedEmployeeId) {
-          this.getEmployeeDataBasedOnId(selectedEmployeeId);
-        }
-      });
+      const defaultEmployeeId = this.jwtService.EmployeeId;
+      this.fbLeave.get('employeeId')?.setValue(defaultEmployeeId);
+      const selectedEmployee = this.employees.find(employee => String(employee.employeeId) === String(defaultEmployeeId));
+      if (selectedEmployee) {
+        this.fbLeave.get('employeeId')?.patchValue(selectedEmployee.employeeId);
+        this.employees = [selectedEmployee];
+      }
+
+      if (defaultEmployeeId) {
+        this.getEmployeeDataBasedOnId(defaultEmployeeId);
+      }
     });
   }
 
@@ -171,9 +179,17 @@ export class EmployeeLeaveDialogComponent {
     })
   }
 
+  getLeaveReasonsByLeaveTypeId(id: number) {
+    this.lookupService.LeaveReasons(id).subscribe(resp => {
+      if (resp) {
+        this.leaveReasons = resp as unknown as LookupViewDto[];
+      }
+    })
+  }
+
   getEmployeeDataBasedOnId(employeeId: number) {
     this.dashBoardService.GetEmployeeDetails(employeeId).subscribe((resp) => {
-      this.empDetails = resp as unknown as SelfEmployeeDto;
+      this.empDetails = resp as unknown as SelfEmployeeDto;      
       this.filteringClsPls = (
         (this.empDetails.allottedPrivilegeLeaves - this.empDetails.usedPrivilegeLeavesInYear) > 0 &&
         (this.empDetails.allottedCasualLeaves - this.empDetails.usedCasualLeavesInYear) > 0
@@ -183,7 +199,8 @@ export class EmployeeLeaveDialogComponent {
         if (item.name === 'CL' && (this.empDetails.allottedCasualLeaves - this.empDetails.usedCasualLeavesInYear) > 0) {
           return true;
         }
-        return !this.filteringClsPls.includes(item.name) && !this.filterCriteria.includes(item.name);
+        return !this.filteringClsPls.includes(item.name) && !this.filterCriteria.includes(item.name) && item.name !== 'LWP';
+        ;
       });
     });
   }
@@ -194,7 +211,9 @@ export class EmployeeLeaveDialogComponent {
       employeeId: new FormControl('', [Validators.required]),
       fromDate: new FormControl('', [Validators.required]),
       toDate: new FormControl(null),
+      isHalfDayLeave: new FormControl(false),
       leaveTypeId: new FormControl('', [Validators.required]),
+      leaveReasonId: new FormControl('', [Validators.required]),
       note: new FormControl('', [Validators.required]),
       acceptedBy: new FormControl(null),
       acceptedAt: new FormControl(null),
@@ -208,6 +227,14 @@ export class EmployeeLeaveDialogComponent {
 
   get FormControls() {
     return this.fbLeave.controls;
+  }
+  onChangeIsHalfDay() {
+    const isHalfDayLeave = this.fbLeave.get('isHalfDayLeave').value;  
+    if (!isHalfDayLeave) {
+      this.fbLeave.get('toDate').enable();
+    } else {
+      this.fbLeave.get('toDate').disable();
+    }
   }
 
   save(): Observable<HttpEvent<EmployeeLeaveDto[]>> {
