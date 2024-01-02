@@ -18,7 +18,8 @@
                     style="background-color: var(--primary-color); min-width: 17rem">
                     <div class="overview-info">
                         <h6 class="m-0 mb-1 text-0">On Leave</h6>
-                        <h1 class="m-0 text-0">{{admindashboardDtls?.calculatedLeaveCount}}</h1>
+                        <h1 class="m-0 text-0">{{ admindashboardDtls?.calculatedLeaveCount ?
+                            admindashboardDtls?.calculatedLeaveCount : 'Please update today attendance' }}</h1>
                     </div>
                     <div (click)="navigateAttendence()">
                         <i class="pi pi-user-minus text-3xl"></i>
@@ -38,7 +39,9 @@
                             Total: {{ admindashboardDtls?.totalprojectsCount }}
                         </h4>
                     </div>
-                    <i class="pi pi-clone text-3xl"></i>
+                    <div (click)="navigateProjects()">
+                        <i class="pi pi-clone text-3xl"></i>
+                    </div>
                 </div>
             </div>
             <div class="col-12 sm:col">
@@ -84,33 +87,44 @@
                             </ng-template>
                             <ul class="list-none p-0 overflow-auto"
                                 style="margin: 0 -1.5rem -1rem; max-height: 17.745rem">
-                                <li *ngFor="let employee of admindashboardDtls?.savedemployeesOnLeave"
-                                    class="border-round-lg pt-2 px-3 pb-2 mb-3"
-                                    style="background-color: var(--primary-lighter-color)">
-                                    <div class="">
-                                        <div class="grid ga leav_list m-0 p-0">
-                                            <div class="col-3 p-1">
-                                                <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-orange-300 "
-                                                    class="inline-block" value="{{employee?.employeecode}}"></p-tag>
-                                            </div>
-                                            <div class="col-3 p-1">
-                                                <h6 class="line-height-3 m-0 font-medium font-medium ">
-                                                    <b>{{employee?.employeeName}}</b>
-                                                </h6>
-                                            </div>
-                                            <div class="col-3 p-1" *ngIf="employee?.designation">
-                                                <p-tag
-                                                    styleClass="m-0 mr-2 px-2 text-xs bg-blue-300 leavelist_emp_designation "
-                                                    class="inline-block" value="{{employee?.designation}}"></p-tag>
-                                            </div>
-                                            <div class="col-3 p-1 text-right">
-                                                <p-tag
-                                                    styleClass="m-0 mr-2 px-2 text-xs bg-blue-300 leavelist_emp_designation "
-                                                    class="inline-block" value="{{employee?.leaveType}}"></p-tag>
+                                <ng-container
+                                    *ngIf="admindashboardDtls?.savedemployeesOnLeave && admindashboardDtls?.savedemployeesOnLeave.length > 0; else noDataTemplate">
+                                    <li *ngFor="let employee of admindashboardDtls?.savedemployeesOnLeave"
+                                        class="border-round-lg pt-2 px-3 pb-2 mb-3"
+                                        style="background-color: var(--primary-lighter-color)">
+                                        <div class="">
+                                            <div class="grid ga leav_list m-0 p-0">
+                                                <div class="col-3 p-1">
+                                                    <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-orange-300 "
+                                                        class="inline-block" value="{{employee?.employeecode}}"></p-tag>
+                                                </div>
+                                                <div class="col-3 p-1">
+                                                    <h6 class="line-height-3 m-0 font-medium font-medium ">
+                                                        <b>{{employee?.employeeName}}</b>
+                                                    </h6>
+                                                </div>
+                                                <div class="col-3 p-1" *ngIf="employee?.designation">
+                                                    <p-tag
+                                                        styleClass="m-0 mr-2 px-2 text-xs bg-blue-300 leavelist_emp_designation "
+                                                        class="inline-block" value="{{employee?.designation}}"></p-tag>
+                                                </div>
+                                                <div class="col-3 p-1 text-right">
+                                                    <p-tag
+                                                        styleClass="m-0 mr-2 px-2 text-xs bg-blue-300 leavelist_emp_designation "
+                                                        class="inline-block" value="{{employee?.leaveType}}"></p-tag>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </li>
+                                    </li>
+                                </ng-container>
+                                <ng-template #noDataTemplate>
+                                    <li class="border-round-lg pt-2 px-3 pb-2 mb-3"
+                                        style="background-color: var(--primary-lighter-color)">
+                                        <div class="text-center">
+                                            <h4 class="m-0">Please update today attendance.</h4>
+                                        </div>
+                                    </li>
+                                </ng-template>
                             </ul>
                             <!-- <p-menu #menu [popup]="true" [model]="items"></p-menu> -->
                         </p-tabPanel>
@@ -217,18 +231,30 @@
             </div>
             <div class="mb-3">
                 <ul class="list-none p-0 m-0">
-                    <li class="mb-3 flex align-items-center"><i
-                            class="pi pi-circle-fill text-primary-300 mr-2"></i><span>In Office </span></li>
-                    <li class="mb-3 flex align-items-center"><i
-                            class="pi pi-circle-fill text-red-300 mr-2"></i><span>Absent</span></li>
-                    <li class="mb-3 flex align-items-center"><i
-                            class="pi pi-circle-fill text-green-300 mr-2"></i><span>PL</span></li>
-                    <li class="mb-3 flex align-items-center"><i
-                            class="pi pi-circle-fill text-blue-300 mr-2"></i><span>CL</span></li>
+                    <ng-container *ngIf="pieData === undefined || pieData === null; else noDataMessage">
+                        <li class="mb-3 flex align-items-center"><i
+                                class="pi pi-circle-fill text-primary-300 mr-2"></i><span>In Office </span></li>
+                        <li class="mb-3 flex align-items-center"><i
+                                class="pi pi-circle-fill text-red-300 mr-2"></i><span>Absent</span></li>
+                        <li class="mb-3 flex align-items-center"><i
+                                class="pi pi-circle-fill text-green-300 mr-2"></i><span>PL</span></li>
+                        <li class="mb-3 flex align-items-center"><i
+                                class="pi pi-circle-fill text-blue-300 mr-2"></i><span>CL</span></li>
+                    </ng-container>
+                    <br />
+                    <p-chart type="doughnut" [data]="pieData" [options]="pieOptions" height="140px" width="140px">
+                    </p-chart>
+                    <ng-template #noDataMessage>
+                        <div class="text-center mt-5">
+                            <li class="border-round-lg pt-2 px-3 pb-2 mb-3"
+                                style="background-color: var(--primary-lighter-color)">
+                                <h4>No data available for the attendance chart.</h4>
+                            </li>
+                        </div>
+                    </ng-template>
                 </ul>
-                <br />
-                <p-chart type="doughnut" [data]="pieData" [options]="pieOptions" height="140px" width="140px"></p-chart>
             </div>
+
         </div>
     </div>
     <div class="col-12 xl:col-6">
@@ -332,26 +358,38 @@
                             </ng-template>
                             <ul class="list-none p-0 overflow-auto"
                                 style="margin: 0 -1.5rem -1rem; max-height: 17.745rem">
-                                <li *ngFor="let employee of admindashboardDtls?.savedemployeeBirthdays"
-                                    class="border-round-lg pt-2 px-3 pb-2 mb-3"
-                                    style="background-color: var(--primary-lighter-color)">
-                                    <div class="grid ga leav_list m-0 p-0">
-                                        <div class="col-4 p-1">
-                                            <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-orange-300 "
-                                                class="inline-block" value="{{employee?.employeecode}}"></p-tag>
+                                <ng-container
+                                    *ngIf="admindashboardDtls?.savedemployeeBirthdays && admindashboardDtls?.savedemployeeBirthdays.length > 0; else noBirthdaysTemplate">
+
+                                    <li *ngFor="let employee of admindashboardDtls?.savedemployeeBirthdays"
+                                        class="border-round-lg pt-2 px-3 pb-2 mb-3"
+                                        style="background-color: var(--primary-lighter-color)">
+                                        <div class="grid ga leav_list m-0 p-0">
+                                            <div class="col-4 p-1">
+                                                <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-orange-300 "
+                                                    class="inline-block" value="{{employee?.employeecode}}"></p-tag>
+                                            </div>
+                                            <div class="col-4 p-1">
+                                                <h6 class="line-height-3 m-0 font-medium font-medium ">
+                                                    <b>{{employee?.employeeName}}</b>
+                                                </h6>
+                                            </div>
+                                            <div class="col-4 p-1 text-right">
+                                                <p-tag
+                                                    styleClass="m-0 mr-2 px-2 text-xs bg-blue-300 leavelist_emp_designation "
+                                                    class="inline-block" value="{{employee?.employeeDOB}}"></p-tag>
+                                            </div>
                                         </div>
-                                        <div class="col-4 p-1">
-                                            <h6 class="line-height-3 m-0 font-medium font-medium ">
-                                                <b>{{employee?.employeeName}}</b>
-                                            </h6>
+                                    </li>
+                                </ng-container>
+                                <ng-template #noBirthdaysTemplate>
+                                    <li class="border-round-lg pt-2 px-3 pb-2 mb-3"
+                                        style="background-color: var(--primary-lighter-color)">
+                                        <div class="text-center m-3">
+                                            <h4 class="m-0">Today, there is no employee birthdays or events.</h4>
                                         </div>
-                                        <div class="col-4 p-1 text-right">
-                                            <p-tag
-                                                styleClass="m-0 mr-2 px-2 text-xs bg-blue-300 leavelist_emp_designation "
-                                                class="inline-block" value="{{employee?.employeeDOB}}"></p-tag>
-                                        </div>
-                                    </div>
-                                </li>
+                                    </li>
+                                </ng-template>
                             </ul>
                             <!-- <p-menu #menu2 [popup]="true" [model]="items"></p-menu> -->
                         </p-tabPanel>

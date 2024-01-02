@@ -23,25 +23,34 @@ export class AdminDashboardComponent implements OnInit {
     inItAdminDashboard() {
         this.dashboardService.getAdminDashboard().subscribe((resp) => {
             this.admindashboardDtls = resp[0] as unknown as adminDashboardViewDto;
-            this.admindashboardDtls.savedemployeeLeaveCounts = JSON.parse(this.admindashboardDtls.employeeLeaveCounts);
+            // Parse and check if leave counts are available
+            if (this.admindashboardDtls?.employeeLeaveCounts) {
+                this.admindashboardDtls.savedemployeeLeaveCounts = JSON.parse(this.admindashboardDtls.employeeLeaveCounts) || [];
+            } else {
+                this.admindashboardDtls.savedemployeeLeaveCounts = [];
+            }
             const leaveTypeCountsSum = this.admindashboardDtls.savedemployeeLeaveCounts.reduce((sum, leaveTypeData) => {
                 return sum + leaveTypeData.leaveTypeCount;
             }, 0);
             this.admindashboardDtls.calculatedLeaveCount = leaveTypeCountsSum;
 
-            this.admindashboardDtls.savedactiveProjects = JSON.parse(this.admindashboardDtls.activeProjects);
-            const activeProjectssum = this.admindashboardDtls.savedactiveProjects.reduce((sum, activeProjectsData) => {
+            // Parse and check if active projects are available
+            this.admindashboardDtls.savedactiveProjects = JSON.parse(this.admindashboardDtls?.activeProjects) || [];
+            const activeProjectssum = this.admindashboardDtls?.savedactiveProjects.reduce((sum, activeProjectsData) => {
                 return sum + activeProjectsData.projectStatusCount;
             }, 0);
             this.admindashboardDtls.totalprojectsCount = activeProjectssum;
-            this.admindashboardDtls.savedsupsendedProjects = JSON.parse(this.admindashboardDtls.supsendedProjects);
-            this.admindashboardDtls.savedemployeeBirthdays = JSON.parse(this.admindashboardDtls.employeeBirthdays);
-            this.admindashboardDtls.savedemployeesOnLeave = JSON.parse(this.admindashboardDtls.employeesOnLeave);
-            this.admindashboardDtls.savedabsentEmployees = JSON.parse(this.admindashboardDtls.absentEmployees);
-            this.admindashboardDtls.savedActiveEmployeesInOffice = JSON.parse(this.admindashboardDtls.activeEmployeesInOffice);
+
+            // Parse and check if suspended projects are available
+            this.admindashboardDtls.savedsupsendedProjects = JSON.parse(this.admindashboardDtls?.supsendedProjects) || [];
+            this.admindashboardDtls.savedemployeeBirthdays = JSON.parse(this.admindashboardDtls?.employeeBirthdays) || [];
+            this.admindashboardDtls.savedemployeesOnLeave = JSON.parse(this.admindashboardDtls?.employeesOnLeave) || [];
+            this.admindashboardDtls.savedabsentEmployees = JSON.parse(this.admindashboardDtls?.absentEmployees) || [];
+            this.admindashboardDtls.savedActiveEmployeesInOffice = JSON.parse(this.admindashboardDtls?.activeEmployeesInOffice) || [];
             this.initChart();
-        })
+        });
     }
+
     initChart() {
         const documentStyle = getComputedStyle(document.documentElement);
         const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
@@ -50,7 +59,6 @@ export class AdminDashboardComponent implements OnInit {
         const PersonalLeaves = this.admindashboardDtls?.savedemployeeLeaveCounts.find(each => each.leaveType === 'PL')?.leaveTypeCount;
         const present = this.admindashboardDtls?.savedActiveEmployeesInOffice.find(each => each.employeeStatus === 'PT')?.employeesCount;
 
-        //sales by category pie chart
         this.pieData = {
             labels: ['In Office', 'Absent', 'PL', 'CL',],
             datasets: [
@@ -88,9 +96,10 @@ export class AdminDashboardComponent implements OnInit {
     }
 
     getProjectCountByStatus(status: string): number {
-        const project = this.admindashboardDtls?.savedactiveProjects.find(p => p.projectStatus === status);
+        const project = this.admindashboardDtls?.savedactiveProjects?.find(p => p.projectStatus === status);
         return project ? project.projectStatusCount : 0;
     }
+
 }
 
 
