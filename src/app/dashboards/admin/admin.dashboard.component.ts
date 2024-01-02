@@ -71,7 +71,7 @@ export class AdminDashboardComponent implements OnInit {
         };
         this.pieOptions = {
             animation: {
-                duration: 0
+                duration: 5     
             },
             plugins: {
                 legend: {
