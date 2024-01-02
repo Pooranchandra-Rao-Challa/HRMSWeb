@@ -31,7 +31,7 @@ export class AttendanceComponent {
   month: number = new Date().getMonth() + 1;
   days: number[] = [];
   maxLength: MaxLength = new MaxLength();
-  year: number = 2023;
+  year: number =new Date().getFullYear();
   employeesList!: EmployeesList[];
   filteredData: employeeAttendanceDto[];
   employeeAttendanceList: employeeAttendanceDto[];
@@ -66,7 +66,6 @@ export class AttendanceComponent {
     this.getDaysInMonth(this.year, this.month);
     this.initDayWorkStatus();
     this.getLeaves();
-
   }
 
   initLeaveForm() {
