@@ -76,8 +76,7 @@ export class LoginService extends ApiHttpService {
                 clearInterval(timerInterval);
             },
             customClass: {
-                confirmButton: 'confirm-refresh-session',
-                container: 'swal2-container-high-zindex',
+                container: '.swal2-container',
                 popup: 'swal-background',
             }
         }).then((result) => {
