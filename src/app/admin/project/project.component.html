@@ -333,10 +333,6 @@
               <p-fieldset legend="Allott Empolyee(s):" class="mt-2 allott-employee" [toggleable]="true">
                 <div class="p-fluid p-formgrid grid">
                   <div class="field col-12 md:col-4" style=" padding: unset; border: 1px solid #cccccc;">
-
-                    <!-- <p-multiSelect placeholder="Select Employees" [options]="Employees"
-                                          optionLabel="employeeName" formControlName="projectAllotments" [filter]="true"
-                                          filterBy="employeeId,employeeName" appendTo="body"><ng-template let-employee pTemplate="selectedItem"><div class="block align-items-center gap-3"><div>{{employee.employeeName}}</div><div>{{employee.employeeCode}}</div></div></ng-template></p-multiSelect> -->
                     <p-tabView id="rolesTabView">
                       <p-tabPanel [header]="role.Name" *ngFor="let role of Roles" [disabled]="!role.EnableLink">
                         <div class="col-12 drag-column">
@@ -371,16 +367,21 @@
                     </p-tabView>
                   </div>
                   <div class="field col-8 md:col-8" style="border:1px solid #cccccc; padding:unset">
-                    <div style="text-align: center;
-                    font-size: 1.1rem;
-                    font-weight: 700;
-                    margin: 10px;">Allotted Employee In this Project <span class="project_name">{{
-                        projectFormControls['name'].value }}</span></div>
+                    <div class="allotted-employees">Allotted Employee In this Project <span class="project_name">{{
+                        projectFormControls['name'].value }}</span><div style="float:right">
+                            <i class="fa-solid fa-trash" (click)="clearAllotments()" ></i>
+                            <!-- <button pButton pRipple icon="pi pi-pencil" *ngIf="permission?.CanManageProjects" style="background-color: transparent;"
+                            class="p-element p-ripple p-button-text p-button-primary p-component project_edit_button"
+                            (click)="clearAllotments()" id="project_edit_button"></button> -->
+                        </div></div>
                     <!-- <div class="col-12 md:col-8 drop-column"
                                           style="height: 50px; width: 50px; border:1px solid gray;"
                                           pDroppable="allottedemployee" (onDrop)="onEmployeeDrop()"></div> -->
                     <!-- <app-d3-org-chart DisplayType="2"></app-d3-org-chart> -->
-                    <ng-template #allottEmployees></ng-template>
+                    <div style="border-top: 1px solid #ccc">
+                        <ng-template #allottEmployees></ng-template>
+                    </div>
+
                   </div>
                 </div>
               </p-fieldset>
@@ -444,7 +445,7 @@
           <div style="float:right;padding-bottom: 20px;">
             <p-button appendTo="body" id="download-chart" [style]="{'margin-right':'20px'}"
               (onClick)="emitEventToChild()">Download Chart</p-button>
-            <p-dropdown appendTo="body" id="Project_dropdown" placeholder="Select Project Name" [options]="projects"
+            <p-dropdown appendTo="body" id="Project_dropdown" placeholder="Select Project Name" [options]="ProjectWithCharts()"
               optionValue="projectId" optionLabel="name" [(ngModel)]="selectedProjectId"
               (ngModelChange)="onProjectChange($event)"></p-dropdown>
           </div>
@@ -475,14 +476,14 @@
                   <span class="label text-primary font-bold text-900">Project Name</span>
                   <span class="value">: {{this.projectDetails.name}}</span>
                 </div>
-                <div class="pair">
+                <!-- <div class="pair">
                   <span class="label text-primary font-bold text-900">Project Manager</span>
                   <span class="value">: {{this.projectDetails.manager}}</span>
                 </div>
                 <div class="pair">
                   <span class="label text-primary font-bold text-900">Project Start Date</span>
                   <span class="value">: {{this.projectDetails.initial| date: 'dd-MMM-yyyy'}}</span>
-                </div>
+                </div> -->
                 <div class="pair">
                   <span class="label text-primary font-bold text-900">Project Description</span>
                   <br>

@@ -358,7 +358,18 @@ p-calendar input {
     text-align: center !important;
 
 }
-
+.cl_pt{
+    background-image: linear-gradient(to right,rgb(255, 192, 239),rgb(203, 244, 203));
+  color:black;
+    padding: 10px !important;
+    text-align: center !important;
+}
+.pl_pt{
+    background-image: linear-gradient(to right,rgb(194, 203, 253),rgb(203, 244, 203));
+    color:black;
+    padding: 10px !important;
+    text-align: center !important;
+}
 .pl {
     color: rgb(3, 6, 107);
     background-color: rgb(194, 203, 253);
@@ -826,4 +837,17 @@ p-fieldset.allott-employee {
 .applicant-p-block-home {
     background-color: rgb(249, 245, 242);
     border-radius: 10px;
+}
+
+.allotted-employees{
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 10px;
+    i.fa-trash{
+        color:rgba(248, 6, 6, 0.897);
+        &:hover{
+            color:rgb(240, 88, 88);
+        }
+    }
 }

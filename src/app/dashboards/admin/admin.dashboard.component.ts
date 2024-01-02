@@ -1,43 +1,19 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { LayoutService } from 'src/app/layout/service/app.layout.service';
-import { activeProjects, adminDashboardViewDto } from 'src/app/_models/dashboard';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { adminDashboardViewDto } from 'src/app/_models/dashboard';
 import { DashboardService } from 'src/app/_services/dashboard.service';
 
 
 @Component({
     templateUrl: './admin.dashboard.component.html'
 })
-export class AdminDashboardComponent implements OnInit, OnDestroy {
+export class AdminDashboardComponent implements OnInit {
     admindashboardDtls: adminDashboardViewDto;
-    //pie data for sales
     pieData: any;
     pieOptions: any;
 
-    // popup menu items for waiting actions
-    // items: MenuItem[] = [
-    //     {
-    //         icon: 'pi pi-check',
-    //         label: 'Complete'
-    //     },
-
-    //     {
-    //         icon: 'pi pi-times',
-    //         label: 'Cancel'
-    //     },
-    //     {
-    //         icon: 'pi pi-external-link',
-    //         label: 'Details'
-    //     }
-    // ];
-
-
-
-    //config subscription
-    subscription: Subscription;
-
-    constructor(private layoutService: LayoutService,
-        private dashboardService: DashboardService) {    }
+    constructor(private dashboardService: DashboardService,
+        private router: Router) { }
 
     ngOnInit() {
         this.inItAdminDashboard();
@@ -47,28 +23,34 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     inItAdminDashboard() {
         this.dashboardService.getAdminDashboard().subscribe((resp) => {
             this.admindashboardDtls = resp[0] as unknown as adminDashboardViewDto;
-            console.log(this.admindashboardDtls);
-            this.admindashboardDtls.savedemployeeLeaveCounts = JSON.parse(this.admindashboardDtls.employeeLeaveCounts);
+            // Parse and check if leave counts are available
+            if (this.admindashboardDtls?.employeeLeaveCounts) {
+                this.admindashboardDtls.savedemployeeLeaveCounts = JSON.parse(this.admindashboardDtls.employeeLeaveCounts) || [];
+            } else {
+                this.admindashboardDtls.savedemployeeLeaveCounts = [];
+            }
             const leaveTypeCountsSum = this.admindashboardDtls.savedemployeeLeaveCounts.reduce((sum, leaveTypeData) => {
                 return sum + leaveTypeData.leaveTypeCount;
             }, 0);
             this.admindashboardDtls.calculatedLeaveCount = leaveTypeCountsSum;
 
-            this.admindashboardDtls.savedactiveProjects = JSON.parse(this.admindashboardDtls.activeProjects);
-            const activeProjectssum = this.admindashboardDtls.savedactiveProjects.reduce((sum, activeProjectsData) => {
+            // Parse and check if active projects are available
+            this.admindashboardDtls.savedactiveProjects = JSON.parse(this.admindashboardDtls?.activeProjects) || [];
+            const activeProjectssum = this.admindashboardDtls?.savedactiveProjects.reduce((sum, activeProjectsData) => {
                 return sum + activeProjectsData.projectStatusCount;
             }, 0);
             this.admindashboardDtls.totalprojectsCount = activeProjectssum;
-            this.admindashboardDtls.savedsupsendedProjects = JSON.parse(this.admindashboardDtls.supsendedProjects);
-            this.admindashboardDtls.savedemployeeBirthdays = JSON.parse(this.admindashboardDtls.employeeBirthdays);
-            this.admindashboardDtls.savedemployeesOnLeave = JSON.parse(this.admindashboardDtls.employeesOnLeave);
-            this.admindashboardDtls.savedabsentEmployees = JSON.parse(this.admindashboardDtls.absentEmployees);
-            
 
-            this.admindashboardDtls.savedActiveEmployeesInOffice=JSON.parse(this.admindashboardDtls.activeEmployeesInOffice);
+            // Parse and check if suspended projects are available
+            this.admindashboardDtls.savedsupsendedProjects = JSON.parse(this.admindashboardDtls?.supsendedProjects) || [];
+            this.admindashboardDtls.savedemployeeBirthdays = JSON.parse(this.admindashboardDtls?.employeeBirthdays) || [];
+            this.admindashboardDtls.savedemployeesOnLeave = JSON.parse(this.admindashboardDtls?.employeesOnLeave) || [];
+            this.admindashboardDtls.savedabsentEmployees = JSON.parse(this.admindashboardDtls?.absentEmployees) || [];
+            this.admindashboardDtls.savedActiveEmployeesInOffice = JSON.parse(this.admindashboardDtls?.activeEmployeesInOffice) || [];
             this.initChart();
-        })
+        });
     }
+
     initChart() {
         const documentStyle = getComputedStyle(document.documentElement);
         const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
@@ -76,14 +58,13 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
         const CasualLeaves = this.admindashboardDtls?.savedemployeeLeaveCounts.find(each => each.leaveType === 'CL')?.leaveTypeCount;
         const PersonalLeaves = this.admindashboardDtls?.savedemployeeLeaveCounts.find(each => each.leaveType === 'PL')?.leaveTypeCount;
         const present = this.admindashboardDtls?.savedActiveEmployeesInOffice.find(each => each.employeeStatus === 'PT')?.employeesCount;
-        
-        //sales by category pie chart
+
         this.pieData = {
-            labels: ['in Office', 'Absent','PL', 'CL',],
+            labels: ['In Office', 'Absent', 'PL', 'CL',],
             datasets: [
                 {
-                    data: [present,absent,PersonalLeaves,CasualLeaves, ],
-                    backgroundColor: [documentStyle.getPropertyValue('--primary-300'), documentStyle.getPropertyValue('--red-300'), documentStyle.getPropertyValue('--green-300'),documentStyle.getPropertyValue('--blue-300')],
+                    data: [present, absent, PersonalLeaves, CasualLeaves,],
+                    backgroundColor: [documentStyle.getPropertyValue('--primary-300'), documentStyle.getPropertyValue('--red-300'), documentStyle.getPropertyValue('--green-300'), documentStyle.getPropertyValue('--blue-300')],
                     borderColor: surfaceBorder
                 }
             ]
@@ -104,25 +85,20 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
         };
     }
 
-
-    //     this.chartData = newBarData;
-    ngOnDestroy(): void {
-        if (this.subscription) {
-            this.subscription.unsubscribe();
-        }
+    navigateEmpDtls() {
+        this.router.navigate(['employee/all-employees'])
+    }
+    navigateAttendence() {
+        this.router.navigate(['employee/attendance'])
+    }
+    navigateProjects() {
+        this.router.navigate(['admin/project'])
     }
 
-
-    // sum function for main chart data
-    // sumOf(array: any[]) {
-    //     let sum: number = 0;
-    //     array.forEach((a) => (sum += a));
-    //     return sum;
-    // }
-
-    // onGlobalFilter(table: Table, event: Event) {
-    //     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
-    // }
+    getProjectCountByStatus(status: string): number {
+        const project = this.admindashboardDtls?.savedactiveProjects?.find(p => p.projectStatus === status);
+        return project ? project.projectStatusCount : 0;
+    }
 
 }
 

@@ -93,11 +93,13 @@ export class employeeLeaveCounts {
 export class employeeBirthdays {
     employeeName?: string;
     employeeDOB?: Date;
-    employeeCode?: string;
+    employeecode?: string;
 }
 export class employeesOnLeave {
     employeeName?: string;
     leaveType?: string;
+    employeecode?: string;
+    designation?:string;
 }
 export class absentEmployees{
     employeeStatus?:string;

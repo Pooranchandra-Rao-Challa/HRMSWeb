@@ -377,7 +377,8 @@ export class EmployeeAttendanceList {
 	employeeId?: number;
 	date: Date
 	DayWorkStatusId?: number;
-	NotReported: boolean
+	NotReported: boolean;
+	isHalfDayLeave:boolean
 }
 
 export class CompanyHierarchyViewDto {
@@ -387,6 +388,10 @@ export class CompanyHierarchyViewDto {
 	roleId?: number;
 	roleName?: string;
 	hierarchyLevel?: number;
+    employeeId?: number;
+    employeeName?: string;
+    photo?: string;
+    designation?: string;
 }
 
 export class EmployeeLeaveDetailsViewDto {

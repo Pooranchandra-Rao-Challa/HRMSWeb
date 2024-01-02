@@ -107,27 +107,28 @@ export class ProjectStatus {
     date?: Date;
 }
 export class ProjectViewDto {
-    projectId: number;
-    code: string;
-    name: string;
-    startDate: string;
-    description: string;
-    clientId: number;
-    clientName: string;
-    companyName: string;
-    email: string;
-    mobileNumber: string;
-    cinno: string;
-    pocName: string;
-    pocMobileNumber: string;
-    Initial: Date;
-    working: Date;
-    completed: Date;
-    address: string;
-    logo: string;
-    teamMembers: string
-    expandEmployees: EmployeesList[];
-    isActive: boolean
+    projectId?: number;
+    code?: string;
+    name?: string;
+    startDate?: string;
+    description?: string;
+    clientId?: number;
+    clientName?: string;
+    companyName?: string;
+    email?: string;
+    mobileNumber?: string;
+    cinno?: string;
+    pocName?: string;
+    pocMobileNumber?: string;
+    Initial?: Date;
+    working?: Date;
+    completed?: Date;
+    address?: string;
+    logo?: string;
+    teamMembers?: string
+    activeStatusId?:number;
+    expandEmployees?: EmployeesList[];
+    isActive?: boolean
     createdBy?: string
     createdAt?: string
     updatedBy?: string
@@ -159,7 +160,10 @@ export class ProjectAllotments {
     employeeId?: number
     projectAllotmentId?: number
     projectId: number
+    reportingToId?: number
     isActive: boolean
+    nodeId:string;
+    parentNodeId:string;
 }
 export class ProjectDetailsDto {
     clientId: number
@@ -238,6 +242,8 @@ export class EmployeeHierarchyDto {
     selfId?: number;
     reportingToId?: number;
     photo?: string;
+    nodeId?:string;
+    parentNodeId?:string;
 }
 
 export class JobOpeningsDetailsViewDto {
@@ -302,6 +308,7 @@ export class NodeProps {
     id?: string;
     parentId?: string;
     employeeId?:number;
+    reportingToId?:number;
     projectId?: number;
     projectName?: string;
     projectDescription?: string;
