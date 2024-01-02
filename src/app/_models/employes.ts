@@ -355,6 +355,8 @@ export class EmployeeLeaveDto {
 	fromDate?: Date;
 	toDate?: Date;
 	leaveTypeId?: number;
+	leaveReasonId?:number;
+	isHalfDayLeave?:boolean;
 	leaveType?: string;
 	note?: string;
 	acceptedBy?: string;
