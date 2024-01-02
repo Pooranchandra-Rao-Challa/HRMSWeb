@@ -369,7 +369,8 @@
                   <div class="field col-8 md:col-8" style="border:1px solid #cccccc; padding:unset">
                     <div class="allotted-employees">Allotted Employee In this Project <span class="project_name">{{
                         projectFormControls['name'].value }}</span><div style="float:right">
-                            <i class="fa-solid fa-trash" (click)="clearAllotments()" ></i>
+                            <i class="fa fa-refresh" (click)="refreshChartView()"></i>
+                            <i class="fa-solid fa-trash"  (click)="clearAllotments()" ></i>
                             <!-- <button pButton pRipple icon="pi pi-pencil" *ngIf="permission?.CanManageProjects" style="background-color: transparent;"
                             class="p-element p-ripple p-button-text p-button-primary p-component project_edit_button"
                             (click)="clearAllotments()" id="project_edit_button"></button> -->
