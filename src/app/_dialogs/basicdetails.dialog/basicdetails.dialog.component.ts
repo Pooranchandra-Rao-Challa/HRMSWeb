@@ -231,6 +231,7 @@ export class BasicdetailsDialogComponent {
     }
 
     onCrop(image: File): void {
+        this.fbEmpBasDtls.get('photo').setValue(image);
         this.imageCropService.onCrop(image, this.fbEmpBasDtls, 'photo');
     }
     

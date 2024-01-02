@@ -11,7 +11,7 @@ export class AdminDashboardComponent implements OnInit {
     admindashboardDtls: adminDashboardViewDto;
     pieData: any;
     pieOptions: any;
-
+    pieDataforProjects: any;
     constructor(private dashboardService: DashboardService,
         private router: Router) { }
 
@@ -82,6 +82,23 @@ export class AdminDashboardComponent implements OnInit {
                     position: 'bottom'
                 }
             }
+        };
+
+        // Data for the second pie chart (projects)
+        const initial = this.admindashboardDtls?.savedactiveProjects.find(each => each.projectStatus == 'Initial')?.projectStatusCount;
+        const development = this.admindashboardDtls?.savedactiveProjects.find(each => each.projectStatus == 'Working')?.projectStatusCount;
+        const completed = this.admindashboardDtls?.savedactiveProjects.find(each => each.projectStatus == 'Completed')?.projectStatusCount;
+        const amc = this.admindashboardDtls?.savedactiveProjects.find(each => each.projectStatus == 'AMC')?.projectStatusCount;
+
+        this.pieDataforProjects = {
+            labels: ['Initial', 'Dev', 'Com', 'amc'],
+            datasets: [
+                {
+                    data: [initial, development, completed, amc],
+                    backgroundColor: [documentStyle.getPropertyValue('--primary-300'), documentStyle.getPropertyValue('--red-300'), documentStyle.getPropertyValue('--green-300'), documentStyle.getPropertyValue('--blue-300')],
+                    borderColor: surfaceBorder
+                }
+            ]
         };
     }
 
