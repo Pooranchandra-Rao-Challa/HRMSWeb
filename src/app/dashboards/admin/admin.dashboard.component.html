@@ -231,7 +231,11 @@
             </div>
             <div class="mb-3">
                 <ul class="list-none p-0 m-0">
-                    <ng-container *ngIf="pieData === undefined || pieData === null; else noDataMessage">
+                    <ng-container
+                        *ngIf="this.admindashboardDtls?.savedActiveEmployeesInOffice[0]?.employeesCount; then thenBlock else noDataMessage">
+                    </ng-container>
+                    <br />
+                    <ng-template #thenBlock>
                         <li class="mb-3 flex align-items-center"><i
                                 class="pi pi-circle-fill text-primary-300 mr-2"></i><span>In Office </span></li>
                         <li class="mb-3 flex align-items-center"><i
@@ -240,10 +244,9 @@
                                 class="pi pi-circle-fill text-green-300 mr-2"></i><span>PL</span></li>
                         <li class="mb-3 flex align-items-center"><i
                                 class="pi pi-circle-fill text-blue-300 mr-2"></i><span>CL</span></li>
-                    </ng-container>
-                    <br />
-                    <p-chart type="doughnut" [data]="pieData" [options]="pieOptions" height="140px" width="140px">
-                    </p-chart>
+                        <p-chart type="doughnut" [data]="pieData" [options]="pieOptions" height="140px" width="140px">
+                        </p-chart>
+                    </ng-template>
                     <ng-template #noDataMessage>
                         <div class="text-center mt-5">
                             <li class="border-round-lg pt-2 px-3 pb-2 mb-3"
@@ -254,6 +257,8 @@
                     </ng-template>
                 </ul>
             </div>
+
+
 
         </div>
     </div>
