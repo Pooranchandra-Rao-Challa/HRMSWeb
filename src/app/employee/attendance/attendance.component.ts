@@ -74,7 +74,8 @@ export class AttendanceComponent {
       notReported: new FormControl(false),
       employeeId: new FormControl('', [Validators.required]),
       dayWorkStatusId: new FormControl('', [Validators.required]),
-      date: new FormControl()
+      date: new FormControl(),
+      isHalfDayLeave:new FormControl(),
     });
     this.fbleave = this.formbuilder.group({
       employeeLeaveId: [null],
@@ -84,6 +85,7 @@ export class AttendanceComponent {
       toDate: new FormControl(null),
       leaveTypeId: new FormControl('', [Validators.required]),
       note: new FormControl('', [Validators.maxLength(MAX_LENGTH_256)]),
+      isHalfDayLeave:new FormControl(),
       acceptedBy: new FormControl(null),
       acceptedAt: new FormControl(null),
       approvedBy: new FormControl(null),
@@ -152,7 +154,8 @@ export class AttendanceComponent {
         employeeId: each.employeeId,
         dayWorkStatusId: type.lookupDetailId,
         date: FORMAT_DATE(new Date(this.notUpdatedDates)),
-        notReported: false
+        notReported: false,
+        isHalfDayLeave:false
       })
       EmployeesList.push(this.fbAttendance.value)
     })
@@ -225,7 +228,7 @@ export class AttendanceComponent {
       else {
         this.filteredLeaveTypes = this.LeaveTypes;
         const result = this.leaves.find(each => each.employeeId === emp.EmployeeId && this.datePipe.transform(each.fromDate, 'yyyy-MM-dd') === this.datePipe.transform(this.isFutureDate(date), 'yyyy-MM-dd'));
-        this.getEmployeeDataBasedOnId(emp, leaveType);
+        this.getEmployeeDataBasedOnId(emp, leaveType)
         this.dialog = true;
         this.fbleave.reset();
         if (result && !result?.rejected)
@@ -235,7 +238,8 @@ export class AttendanceComponent {
             leaveTypeId: result?.leaveTypeId,
             fromDate: FORMAT_DATE(new Date(this.datePipe.transform(result?.fromDate, 'yyyy-MM-dd'))),
             note: result?.note,
-            notReported: false
+            notReported: false,
+            isHalfDayLeave:false
           });
         else {
           const StatusId = this.LeaveTypes.find(each => each.name === leaveType)
@@ -244,7 +248,8 @@ export class AttendanceComponent {
             employeeName: emp.EmployeeName,
             leaveTypeId: StatusId?.lookupDetailId,
             fromDate: FORMAT_DATE(new Date(this.datePipe.transform(this.isFutureDate(date), 'yyyy-MM-dd'))),
-            notReported: false
+            notReported: false,
+            isHalfDayLeave:false
           });
         }
       }
@@ -272,7 +277,8 @@ export class AttendanceComponent {
         employeeId: this.fbleave.get('employeeId').value,
         dayWorkStatusId: StatusId.lookupDetailId,
         date: this.fbleave.get('fromDate').value,
-        notReported: false
+        notReported: false,
+        isHalfDayLeave:false
       });
       this.save([this.fbAttendance.value]);
     }
