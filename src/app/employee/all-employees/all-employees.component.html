@@ -15,8 +15,14 @@
               </div>
             </div>
             <div class="flex">
-              <button pButton class="p-button doc_button mx-2" icon="pi pi-file-pdf" pTooltip="Download CSV"
-                tooltipPosition="left"></button>
+              <div *ngIf="permissions?.CanDownloadEmployees">
+                <p-dropdown [options]="employeeStatusOptions" [(ngModel)]="selectedEmployeeStatus"
+                  placeholder="Select Employees Status" [editable]="true" optionLabel="label"></p-dropdown>
+                <span>
+                  <button pButton class="p-button doc_button mx-2" icon="icon-csv-svgrepo-com-1" pTooltip="Download CSV"
+                    tooltipPosition="left" (click)="downloadEmployeesReport()"></button>
+                </span>
+              </div>
               <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
             </div>
           </div>

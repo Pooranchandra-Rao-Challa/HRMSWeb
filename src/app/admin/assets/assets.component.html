@@ -263,9 +263,10 @@
           <div class="flex">
             <button (click)="exportPdf()" pButton class="p-button doc_button mx-2" pTooltip="Download PDF"
               icon="pi pi-file-pdf"></button>
-            <button pButton class="p-button doc_button mx-2" icon="pi pi-file-pdf" pTooltip="Download CSV"
-              (click)="downloadAssetsReport()" tooltipPosition="left"></button>
-            <!-- </div> -->
+              <div *ngIf="permissions?.CanDownloadAssets">
+                <button pButton class="p-button doc_button mx-2" icon="icon-csv-svgrepo-com-1" pTooltip="Download CSV"
+                (click)="downloadAssetsReport()" tooltipPosition="left"></button>
+              </div>
             &nbsp;&nbsp;
             <div class="">
               <span class="p-input-icon-left mb-2">

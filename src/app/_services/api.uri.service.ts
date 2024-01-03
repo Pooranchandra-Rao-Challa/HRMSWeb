@@ -164,4 +164,5 @@ export const GET_ADMIN_DASHBOARD="AdminDashboard/GetAdminDashboard"
 //Reports
 export const GET_MONTHLY_ATTENDANCE_REPORT="Report/MonthlyAttendanceReport";
 export const GET_ASSETS_REPORT="Report/AssetsReport";
-export const GET_PROJECTS_REPORT="Report/ProjectDetailsReport"
+export const GET_PROJECTS_REPORT="Report/ProjectDetailsReport";
+export const GET_ACTIVE_EMPLOYEES_REPORT="Report/EmployeesDetailsReport";

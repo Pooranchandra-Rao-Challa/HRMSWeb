@@ -6,8 +6,12 @@ import { EmployeesViewDto } from 'src/app/_models/employes';
 import { ITableHeader } from 'src/app/_models/common';
 import { Router } from '@angular/router';
 import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
+import { JwtService } from 'src/app/_services/jwt.service';
+import { ReportService } from 'src/app/_services/report.service';
+import * as FileSaver from "file-saver";
+import { HttpEventType } from '@angular/common/http';
 
-@Component({ 
+@Component({
     selector: 'app-all-employees',
     templateUrl: './all-employees.component.html',
     styles: [
@@ -22,7 +26,10 @@ export class AllEmployeesComponent {
     sortOrder: number = 0;
     sortField: string = '';
     mediumDate: string = MEDIUM_DATE
-
+    permissions: any;
+    value: number;
+    selectedEmployeeStatus: { label: string; value: boolean };
+    employeeStatusOptions: { label: string; value: string }[] = [];
     headers: ITableHeader[] = [
         { field: 'code', header: 'code', label: 'Employee Code' },
         { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
@@ -33,11 +40,17 @@ export class AllEmployeesComponent {
         { field: 'dateofJoin', header: 'dateofJoin', label: 'Date of Joining' },
 
     ];
+
     constructor(private EmployeeService: EmployeeService,
-        private router: Router) { }
+        private router: Router, private jwtService: JwtService, private reportService: ReportService) { }
 
     ngOnInit() {
+        this.permissions = this.jwtService.Permissions;
         this.initEmployees()
+        this.employeeStatusOptions = [
+            { label: 'Active Employees', value: 'true' },
+            { label: 'Inactive Employees', value: 'false' },
+          ];
     }
 
     initEmployees() {
@@ -59,7 +72,7 @@ export class AllEmployeesComponent {
         table.clear();
         this.filter.nativeElement.value = '';
     }
-    clearcard(dv: DataView){
+    clearcard(dv: DataView) {
         dv.filteredValue = null;
         this.filter.nativeElement.value = '';
     }
@@ -69,6 +82,21 @@ export class AllEmployeesComponent {
 
     viewEmployeeDtls(employeeId: number) {
         this.router.navigate(['employee/viewemployees'], { queryParams: { employeeId: employeeId } });
+    }
+    downloadEmployeesReport() {
+        const employeeStatusValue = this.selectedEmployeeStatus?.value;
+        this.reportService.DownloadEmployees(employeeStatusValue)
+            .subscribe((resp) => {
+                if (resp.type === HttpEventType.DownloadProgress) {
+                    const percentDone = Math.round(100 * resp.loaded / resp.total);
+                    this.value = percentDone;
+                }
+                if (resp.type === HttpEventType.Response) {
+                    const file = new Blob([resp.body], { type: 'text/csv' });
+                    const document = window.URL.createObjectURL(file);
+                    FileSaver.saveAs(document, "AssetsReport.csv");
+                }
+            })
     }
 
 }
