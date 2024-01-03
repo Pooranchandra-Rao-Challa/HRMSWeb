@@ -24,7 +24,7 @@
                     <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
                         (click)="clear(dtleave)" id="clear-btn"></button>
                     <div class="flex gap-2">
-                        <div>
+                        <div *ngIf="permissions?.CanDownloadLeaves">
                             <button pButton class="p-button " icon="icon-csv-svgrepo-com-1" pTooltip="Download CSV"
                                 tooltipPosition="left"></button>
                         </div>

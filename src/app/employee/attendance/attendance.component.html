@@ -112,9 +112,9 @@
         </div>
     </ng-template>
     <ng-template pTemplate="right">
-        <div *ngIf="permissions?.CanDownloadAttendanceReport">
-            <button type="button" pButton pRipple icon="pi pi-file-excel" class=" mr-2" pTooltip="XLS"
-                tooltipPosition="bottom" (click)="downloadAttendanceReport()"></button>
+        <div *ngIf="permissions?.CanDownloadMonthlyAttendance">
+            <button type="button" pButton pRipple  icon="icon-csv-svgrepo-com-1"  class=" mr-2" pTooltip="Download CSV"
+                tooltipPosition="left" (click)="downloadAttendanceReport()"></button>
         </div>
         <div class="pr-2">
             <div>
