@@ -123,7 +123,7 @@ export class AppMenuComponent implements OnInit {
                     },
                     {
                         label: 'Projects',
-                        icon: 'font-semibold icon-projects',
+                        icon: 'text-700 icon-projects',
                         routerLink: ['admin/project'],
                         permission: this.jwtService.Permissions.CanViewProjects
 

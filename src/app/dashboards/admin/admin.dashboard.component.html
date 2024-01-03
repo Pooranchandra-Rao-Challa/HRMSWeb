@@ -1,5 +1,5 @@
 <div class="grid">
-    <div class="col-12">
+    <div class="col-3">
         <div class="grid" style="margin: -1rem">
             <div class="col-12 sm:col">
                 <div class="card surface-card text-500 flex justify-content-between pt-4 h-full"
@@ -18,7 +18,9 @@
                     style="background-color: var(--primary-color); min-width: 17rem">
                     <div class="overview-info">
                         <h6 class="m-0 mb-1 text-0">On Leave</h6>
-                        <h1 class="m-0 text-0">{{ admindashboardDtls?.calculatedLeaveCount ?
+                        <h1 class="m-0 text-0"
+                            [ngClass]="{'text-white': admindashboardDtls?.calculatedLeaveCount, 'text-14': !admindashboardDtls?.calculatedLeaveCount}">
+                            {{ admindashboardDtls?.calculatedLeaveCount ?
                             admindashboardDtls?.calculatedLeaveCount : 'Please update today attendance' }}</h1>
                     </div>
                     <div (click)="navigateAttendence()">
@@ -26,18 +28,76 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="card pb-2 pt-4">
+            <div class="card-headr gap-2 pb-1">
+                <div class="card-title">
+                    <h6 class="mb-4">Chart by Attendance </h6>
+                </div>
+            </div>
+            <div class="mb-1">
+                <div class="grid">
+                    <div class="col-6 flex py-0">
+                        <i class="pi pi-circle-fill text-primary-300 m-1"></i><span>In Office </span>
+                    </div>
+                    <div class="col-6 flex py-0">
+                        <i class="pi pi-circle-fill text-red-300 m-1"></i><span>Absent</span>
+                    </div>
+                    <div class="col-6 flex py-0">
+                        <i class="pi pi-circle-fill text-green-300 m-1"></i><span>PL</span>
+                    </div>
+                    <div class="col-6 flex py-0">
+                        <i class="pi pi-circle-fill text-blue-300 m-1"></i><span>CL</span>
+                    </div>
+                </div>
+                <ul class=" p-0 m-0">
+                    <ng-container
+                        *ngIf="this.admindashboardDtls?.savedActiveEmployeesInOffice[0]?.employeesCount; then thenBlock else noDataMessage">
+                    </ng-container>
+                    <br />
+                    <ng-template>
+                        <!-- <li class=""><i
+                                class="pi pi-circle-fill text-primary-300 mr-2"></i><span>In Office </span></li>
+                        <li class=""><i
+                                class="pi pi-circle-fill text-red-300 mr-2"></i><span>Absent</span></li>
+                        <li class=""><i
+                                class="pi pi-circle-fill text-green-300 mr-2"></i><span>PL</span></li>
+                        <li class=""><i
+                                class="pi pi-circle-fill text-blue-300 mr-2"></i><span>CL</span></li> -->
+                        <p-chart type="doughnut" [data]="pieData" [options]="pieOptions" height="135px" width="100%">
+                        </p-chart>
+                    </ng-template>
+                    <ng-template #noDataMessage>
+                        <div class="text-center mt-5">
+                            <li class="border-round-lg pt-2 px-3 pb-2 mb-3"
+                                style="background-color: var(--primary-lighter-color)">
+                                <p>No data available for the attendance chart.</p>
+                            </li>
+                        </div>
+                    </ng-template>
+                </ul>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="grid" style="margin: -1rem">
             <div class="col-12 sm:col">
                 <div class="card bg-gray-400 text-white flex justify-content-between pt-4 h-full"
                     style="min-width: 17rem">
                     <div class="overview-info">
                         <h6 class="m-0 mb-1 text-white">Total Projects</h6>
-                        <h4 class="m-0 text-white">
-                            Ini: {{ getProjectCountByStatus('Initial') }}
+                        <h1 class="m-0 text-white">
+                            <!-- Ini: {{ getProjectCountByStatus('Initial') }}
                             Dev: {{ getProjectCountByStatus('Working') }}
                             Com: {{ getProjectCountByStatus('Completed') }}
                             AMC: {{ getProjectCountByStatus('AMC') }}
-                            Total: {{ admindashboardDtls?.totalprojectsCount }}
-                        </h4>
+                            Total:  -->
+                            {{ admindashboardDtls?.totalprojectsCount }}
+                        </h1>
                     </div>
                     <div (click)="navigateProjects()">
                         <i class="pi pi-clone text-3xl"></i>
@@ -57,23 +117,67 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="col-12 sm:col">
-                <div class="card text-white flex justify-content-between pt-4 h-full" style="background: linear-gradient(90deg, #ffb340 0%, #ffa740 100%); min-width: 17rem">
-                    <div class="overview-info">
-                        <h6 class="m-0 mb-1 text-white">New Employees</h6>
-                        <h1 class="m-0 text-white">4</h1>
-                    </div>
-                    <i class="pi pi-box text-3xl"></i>
-                </div>
-            </div> -->
         </div>
     </div>
-    <div class="col-12 xl:col-4">
+    <div class="col-3">
+        <div class="card pb-2 pt-4">
+            <div class="card-headr gap-2 pb-1">
+                <div class="card-title">
+                    <h6 class="mb-4">Chart by Attendance </h6>
+                </div>
+            </div>
+            <div class="mb-0">
+                <div class="grid">
+                    <div class="col-6 flex py-0">
+                        <i class="pi pi-circle-fill text-primary-300 m-1"></i><span>Initial </span>
+                    </div>
+                    <div class="col-6 flex py-0">
+                        <i class="pi pi-circle-fill text-red-300 m-1"></i><span>Dev</span>
+                    </div>
+                    <div class="col-6 flex py-0">
+                        <i class="pi pi-circle-fill text-green-300 m-1"></i><span>Com</span>
+                    </div>
+                    <div class="col-6 flex py-0">
+                        <i class="pi pi-circle-fill text-blue-300 m-1"></i><span>AMC</span>
+                    </div>
+                </div>
+                <ul class="list-none p-0 m-1">
+                    <ng-container
+                        *ngIf="this.admindashboardDtls?.savedActiveEmployeesInOffice[0]?.employeesCount; then thenBlock else noDataMessage">
+                    </ng-container>
+                    <br />
+                    <ng-template #thenBlock>
+                        <!-- <li class=""></li>
+                        <li class=""><i
+                                class="pi pi-circle-fill text-red-300 mr-2"></i><span>Absent</span></li>
+                        <li class=""><i
+                                class="pi pi-circle-fill text-green-300 mr-2"></i><span>PL</span></li>
+                        <li class=""><i
+                                class="pi pi-circle-fill text-blue-300 mr-2"></i><span>CL</span></li> -->
+                        <p-chart type="doughnut" [data]="pieDataforProjects" [options]="pieOptions" height="auto"
+                            width="100%">
+                        </p-chart>
+                    </ng-template>
+                    <ng-template #noDataMessage>
+                        <div class="text-center mt-5">
+                            <li class="border-round-lg pt-2 px-3 pb-2 mb-3"
+                                style="background-color: var(--primary-lighter-color)">
+                                <p>No data available for the attendance chart.</p>
+                            </li>
+                        </div>
+                    </ng-template>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-12 xl:col-6">
         <div class="grid">
             <div class="col-12  xl:col-12">
                 <div class="card">
-                    <div class="card-header gap-3 pb-2">
-                        <div class="card-title">
+                    <div class="card-headr gap-3 pb-2">
+                        <div class="">
                             <h6>Employee </h6>
                         </div>
                     </div>
@@ -95,22 +199,28 @@
                                         <div class="">
                                             <div class="grid ga leav_list m-0 p-0">
                                                 <div class="col-3 p-1">
-                                                    <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-orange-300 "
+                                                    <span *ngIf="employee?.employeecode">
+                                                        <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-orange-300 "
                                                         class="inline-block" value="{{employee?.employeecode}}"></p-tag>
+                                                    </span>
+                                                    
                                                 </div>
                                                 <div class="col-3 p-1">
                                                     <h6 class="line-height-3 m-0 font-medium font-medium ">
                                                         <b>{{employee?.employeeName}}</b>
                                                     </h6>
                                                 </div>
-                                                <div class="col-3 p-1" *ngIf="employee?.designation">
-                                                    <p-tag
+                                                <div class="col-3 p-1" >
+                                                    <span *ngIf="employee?.designation">
+                                                        <p-tag
                                                         styleClass="m-0 mr-2 px-2 text-xs bg-blue-300 leavelist_emp_designation "
                                                         class="inline-block" value="{{employee?.designation}}"></p-tag>
+                                                    </span>
+                                                    
                                                 </div>
                                                 <div class="col-3 p-1 text-right">
                                                     <p-tag
-                                                        styleClass="m-0 mr-2 px-2 text-xs bg-blue-300 leavelist_emp_designation "
+                                                        styleClass="m-0 mr-2 px-2 text-xs  leavelist_emp_designation "
                                                         class="inline-block" value="{{employee?.leaveType}}"></p-tag>
                                                 </div>
                                             </div>
@@ -121,7 +231,7 @@
                                     <li class="border-round-lg pt-2 px-3 pb-2 mb-3"
                                         style="background-color: var(--primary-lighter-color)">
                                         <div class="text-center">
-                                            <h4 class="m-0">Please update today attendance.</h4>
+                                            <p class="m-0">Please update today attendance.</p>
                                         </div>
                                     </li>
                                 </ng-template>
@@ -222,51 +332,12 @@
 
         </div>
     </div>
-    <div class="col-12 xl:col-2">
-        <div class="card">
-            <div class="card-header gap-3 pb-2">
-                <div class="card-title">
-                    <h6 class="mb-5">Chart by Attendance </h6>
-                </div>
-            </div>
-            <div class="mb-3">
-                <ul class="list-none p-0 m-0">
-                    <ng-container
-                        *ngIf="this.admindashboardDtls?.savedActiveEmployeesInOffice[0]?.employeesCount; then thenBlock else noDataMessage">
-                    </ng-container>
-                    <br />
-                    <ng-template #thenBlock>
-                        <li class="mb-3 flex align-items-center"><i
-                                class="pi pi-circle-fill text-primary-300 mr-2"></i><span>In Office </span></li>
-                        <li class="mb-3 flex align-items-center"><i
-                                class="pi pi-circle-fill text-red-300 mr-2"></i><span>Absent</span></li>
-                        <li class="mb-3 flex align-items-center"><i
-                                class="pi pi-circle-fill text-green-300 mr-2"></i><span>PL</span></li>
-                        <li class="mb-3 flex align-items-center"><i
-                                class="pi pi-circle-fill text-blue-300 mr-2"></i><span>CL</span></li>
-                        <p-chart type="doughnut" [data]="pieData" [options]="pieOptions" height="140px" width="140px">
-                        </p-chart>
-                    </ng-template>
-                    <ng-template #noDataMessage>
-                        <div class="text-center mt-5">
-                            <li class="border-round-lg pt-2 px-3 pb-2 mb-3"
-                                style="background-color: var(--primary-lighter-color)">
-                                <h4>No data available for the attendance chart.</h4>
-                            </li>
-                        </div>
-                    </ng-template>
-                </ul>
-            </div>
 
-
-
-        </div>
-    </div>
     <div class="col-12 xl:col-6">
         <div class="grid">
             <div class="col-12 md:col-6 xl:col-12">
                 <div class="card">
-                    <div class="card-header gap-3 pb-2">
+                    <div class="card-hader gap-3 pb-2">
                         <div class="card-title">
                             <h6>Notifications </h6>
                         </div>
@@ -391,7 +462,7 @@
                                     <li class="border-round-lg pt-2 px-3 pb-2 mb-3"
                                         style="background-color: var(--primary-lighter-color)">
                                         <div class="text-center m-3">
-                                            <h4 class="m-0">Today, there is no employee birthdays or events.</h4>
+                                            <p class="m-0">Today, there is no employee birthdays or events.</p>
                                         </div>
                                     </li>
                                 </ng-template>
@@ -403,4 +474,6 @@
             </div>
         </div>
     </div>
+
+
 </div>

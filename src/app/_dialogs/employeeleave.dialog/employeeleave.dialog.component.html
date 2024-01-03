@@ -1,10 +1,19 @@
 <div class="flex flex-column align-items-center justify-content-center">
     <form [formGroup]="fbLeave">
-        <div class="grid mt-3 p-5">
+        <div class="grid mt-3 p-5 pt-2">
+            <div class="col-12 text-center">
+                <p-chip styleClass="pl-0 pr-3 mr-4">
+                    <span class="bg-primary border-circle w-2rem h-2rem flex align-items-center justify-content-center">{{empDetails?.allottedCasualLeaves-empDetails?.usedCasualLeavesInYear}}</span>
+                    <span class="ml-2 font-medium">Casual Leaves</span>
+                </p-chip>
+                <p-chip styleClass="pl-0 pr-3">
+                    <span class="bg-primary border-circle w-2rem h-2rem flex align-items-center justify-content-center">{{empDetails?.allottedPrivilegeLeaves-empDetails?.usedPrivilegeLeavesInYear}}</span>
+                    <span class="ml-2 font-medium">Privilege Leaves</span>
+                </p-chip>
+                
+            </div>
             <div class="col-12 roles-container">
-                <span>Casual Leaves: {{empDetails?.allottedCasualLeaves-empDetails?.usedCasualLeavesInYear}}</span>,
-                <span>Privilege Leaves:
-                    {{empDetails?.allottedPrivilegeLeaves-empDetails?.usedPrivilegeLeavesInYear}}</span>
+                
                 <div class="p-fluid p-formgrid grid">
                     <div class="field col-12 md:col-4">
                         <label class="required">Employee Name:</label>

@@ -48,6 +48,7 @@ import { PaginatorModule } from 'primeng/paginator';
 import { DragDropModule } from 'primeng/dragdrop';
 import { TimelineModule } from 'primeng/timeline';
 import { KnobModule } from 'primeng/knob';
+import { ChipModule } from 'primeng/chip';
 
 @NgModule({
     exports: [
@@ -98,7 +99,8 @@ import { KnobModule } from 'primeng/knob';
         OverlayPanelModule,
         DragDropModule,
         TimelineModule,
-        KnobModule
+        KnobModule,
+        ChipModule
     ]
 
 })
