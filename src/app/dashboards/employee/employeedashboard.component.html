@@ -12,11 +12,11 @@
                 <div class="card p-5 orange-200 text-left applicant-p-block-home">
                     <div class="text-center">
                         <img [src]="empDetails?.photo ? empDetails?.photo : defaultPhoto" [alt]="empDetails?.photo"
-                            class="shadow-2 my-1 mx-0" width="60%" /><br />
+                            class="shadow-2 my-1 mx-0" width="40%" /><br />
                         <h4 class="m-5 mt-0 text-primary">{{ empDetails?.employeeName}}</h4>
                     </div>
                     <span class="inline-flex align-items-left mb-2">
-                        <i class="pi pi-user text-primary text-700 mr-2" pTooltip="Gender" tooltipPosition="bottom"></i>
+                        <i class="pi icon-intersex text-primary text-700 mr-2" pTooltip="Gender" tooltipPosition="bottom"></i>
                         <span class="text-700 mr-2">{{ empDetails?.gender}}</span>
                     </span><br />
                     <span class="inline-flex align-items-left mb-2">
@@ -40,7 +40,7 @@
                         <span class="text-700 mr-2">{{ empDetails?.dateofJoin | date:dateOfJoining}}</span>
                     </span><br />
                     <span class="inline-flex align-items-left mb-2" *ngIf=" empDetails?.reportingTo">
-                        <i class="pi pi-fw pi-user text-700 text-primary mr-2" pTooltip="Reporting To"
+                        <i class="pi icon-POC text-700 font-bold text-primary mr-2" pTooltip="Reporting To"
                             tooltipPosition="bottom"></i>
                         <span class="text-700 text-left mr-2">
                             <span>{{ empDetails?.reportingTo}}</span>
