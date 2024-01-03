@@ -330,7 +330,7 @@
               </p-fieldset>
               <p-fieldset legend="Allott Empolyee(s):" class="mt-2 allott-employee" [toggleable]="true">
                 <div class="p-fluid p-formgrid grid">
-                  <div class="field col-12 md:col-4" style=" padding: unset;  border-top-left-radius: 10px;
+                  <div class="field col-12 md:col-4" style=" padding: 0 20px;  border-top-left-radius: 10px;
                   border-top-right-radius: 10px;">
                     <p-tabView id="rolesTabView">
                       <p-tabPanel [header]="role.Name" *ngFor="let role of Roles" [disabled]="!role.EnableLink">
@@ -438,7 +438,7 @@
             [totalRecords]="projects.length" [rowsPerPageOptions]="[12, 24, 36]"></p-paginator>
         </p-tabPanel>
         <p-tabPanel header="Org/Project Chart View">
-          <div style="float:right;padding-bottom: 20px;">
+          <div style="float:right;padding: 20px;">
             <p-button appendTo="body" id="download-chart" [style]="{'margin-right':'20px'}"
               (onClick)="emitEventToChild()">Download Chart</p-button>
             <p-dropdown appendTo="body" id="Project_dropdown" placeholder="Select Project Name"
@@ -465,7 +465,7 @@
           </div>
           <div class="col-12 lg:col-9">
             <div class="grid" style="text-align: left;">
-              
+
               <div class="col-12 lg:col-10">
                 <div class="pair">
                   <span class="label text-primary font-bold text-900">Project Name</span>
@@ -485,7 +485,7 @@
                   <span class="value">: {{this.projectDetails.description}}</span>
                 </div>
               </div>
-             
+
               <div class="col-12 lg:col-2" *ngIf="permission?.CanDownloadProjects" style="text-align:right">
                 <button pButton class="p-button doc_button"  icon="icon-csv-svgrepo-com-1" pTooltip="Download CSV"
                 tooltipPosition="left"></button>
@@ -534,7 +534,7 @@
                     class="p-element p-ripple p-button-text p-button p-component p-button-primary w-100"
                     (click)="showConfirmationDialog(employee)"></button>
                   </div>
-               
+
                 </div>
               </div>
             </div>
