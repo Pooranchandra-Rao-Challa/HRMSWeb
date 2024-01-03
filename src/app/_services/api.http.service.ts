@@ -8,7 +8,7 @@ import { MessageService } from 'primeng/api';
 import { LOOKUP_LOOKUPS_URI, LOOKUP_LOOKUP_KEYS_URI } from './api.uri.service';
 import * as FileSaver from "file-saver";
 
-const TOKEN_KEY = 'auth-token';
+const TOKEN_KEY = 'authorization';
 
 @Injectable({
     providedIn: 'root'
@@ -93,20 +93,21 @@ export class ApiHttpService {
         );
     }
 
-    public downloadExcel<T>(reqObj: any, headers: HttpHeaders) {
-        const endpointUrl = URI_ENDPOINT(reqObj) + 'DownloadExcel';
-        return this.http.post(endpointUrl, reqObj, { observe: "response", responseType: "arraybuffer", headers: headers })
-            .subscribe(
-                (resp) => {
-                    const blob = new Blob([resp.body], {
-                        type: resp.headers.get("content-type"),
-                    });
-                    const document = window.URL.createObjectURL(blob);
-                    FileSaver.saveAs(document, reqObj.FileName);
-                },
-                (error) => {
-                }
-            );
+    public downloadExcel<T>(uri: any,rParams:any[]) {
+        const endpointUrl = URI_ENDPOINT_WITH_PARAMS(uri,rParams);
+        let headers = {TOKEN_KEY:this.jwtService.JWTToken};
+        return this.http.get(endpointUrl,{ observe: "events",reportProgress:true, responseType: "arraybuffer", headers: headers })
+            // .subscribe(
+            //     (resp) => {
+            //         const blob = new Blob([resp.body], {
+            //             type: resp.headers.get("content-type"),
+            //         });
+            //         const document = window.URL.createObjectURL(blob);
+            //         FileSaver.saveAs(document,'file.csv');
+            //     },
+            //     (error) => {
+            //     }
+            // );
     }
 
     public getWithParams<T>(uri: string, params: any[], options?: any) {

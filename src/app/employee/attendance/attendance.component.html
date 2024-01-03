@@ -13,7 +13,7 @@
 
                 <div style="margin-bottom: 15px;">
                     <label class="required">Leave Type:</label>&nbsp;
-                    <p-dropdown formControlName="leaveTypeId" [options]="filteredLeaveTypes" optionLabel="displayName" 
+                    <p-dropdown formControlName="leaveTypeId" [options]="filteredLeaveTypes" optionLabel="displayName"
                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['leaveTypeId'].touched && FormControls['leaveTypeId'].errors }"
                         (onChange)="checkLeaveType($event.value)" id="Attendance_leaveType" optionValue="lookupDetailId"
                         placeholder="Select Leave Type"></p-dropdown>
@@ -27,8 +27,7 @@
                         </div>
                     </div>
                 </div>
-                <div style="margin-bottom: 15px;" *ngIf="isLeaveTypeSelected(FormControls['leaveTypeId'].value)"
-                >
+                <div style="margin-bottom: 15px;" *ngIf="isLeaveTypeSelected(FormControls['leaveTypeId'].value)">
                     <label>Leave Purpose:</label>
                     <p-dropdown placeholder="Select Leave Purpose" formControlName="leaveReasonId"
                         [options]="leaveReasons" optionLabel="name" optionValue="lookupDetailId"
@@ -54,7 +53,8 @@
                 </div>
                 <div style="margin-bottom: 15px;">
                     <label>Is HalfDay Leave:</label>&nbsp;
-                    <p-checkbox formControlName="isHalfDayLeave" id="Attendance_isHalfDayLeave" [binary]="true" inputId="binary"></p-checkbox>
+                    <p-checkbox formControlName="isHalfDayLeave" id="Attendance_isHalfDayLeave" [binary]="true"
+                        inputId="binary"></p-checkbox>
                 </div>
                 <div style="margin-bottom: 15px;">
                     <label>Leave Narration:</label>&nbsp;
@@ -112,12 +112,16 @@
         </div>
     </ng-template>
     <ng-template pTemplate="right">
+        <div *ngIf="permissions?.CanDownloadAttendanceReport">
+            <button type="button" pButton pRipple icon="pi pi-file-excel" class=" mr-2" pTooltip="XLS"
+                tooltipPosition="bottom" (click)="downloadAttendanceReport()"></button>
+        </div>
         <div class="pr-2">
             <div>
                 <div class="p-inputgroup">
                     <!-- <span class="p-inputgroup-addon"><i class="pi pi-search"></i></span> -->
                     <input pInputText type="text" class="w-full" placeholder="Employee Name" #filter
-                    id="Attendance_globalSearch" (input)="onGlobalFilter(dt1, $event)" />
+                        id="Attendance_globalSearch" (input)="onGlobalFilter(dt1, $event)" />
                     <span class="p-inputgroup-addon" (click)="clearcard(dt1)"><i class="pi pi-undo"></i></span>
                 </div>
             </div>
@@ -128,8 +132,8 @@
         </div>
         <div *ngIf="permissions?.CanManageAttendance">
             <button pButton pRipple label="" id="AddressDetails-AboutColors" icon="pi pi-info-circle"
-                class="p-button-primary ml-2 p-mr-2" [style]="{'backgroundColor':'white','color':'#f17517'}" (click)="toggleTab()" tooltipPosition="top"
-                pTooltip="Info Regarding Representation of Colors"></button>
+                class="p-button-primary ml-2 p-mr-2" [style]="{'backgroundColor':'white','color':'#f17517'}"
+                (click)="toggleTab()" tooltipPosition="top" pTooltip="Info Regarding Representation of Colors"></button>
         </div>
     </ng-template>
 </p-toolbar>
@@ -189,18 +193,15 @@
                         'pl_pt': employee[getFormattedDate(i)] === 'PL/PT',                      
                        }">
                 <ng-container *ngIf="getAttendance(employee, i)">
-                    <span
-                        (click)="openDialog(employee,getFormattedDate(i),employee[getFormattedDate(i)])"
+                    <span (click)="openDialog(employee,getFormattedDate(i),employee[getFormattedDate(i)])"
                         *ngIf="getAttendance(employee, i) === 'PT'" id="Attendance_addPresent">
                         {{ employee[getFormattedDate(i)] }}
                     </span>
-                    <span 
-                        (click)="openDialog(employee,getFormattedDate(i),employee[getFormattedDate(i)])"
+                    <span (click)="openDialog(employee,getFormattedDate(i),employee[getFormattedDate(i)])"
                         *ngIf="getAttendance(employee, i) === 'PL/PT'" id="Attendance_addPresent">
                         {{ employee[getFormattedDate(i)] }}
                     </span>
-                    <span 
-                        (click)="openDialog(employee,getFormattedDate(i),employee[getFormattedDate(i)])"
+                    <span (click)="openDialog(employee,getFormattedDate(i),employee[getFormattedDate(i)])"
                         *ngIf="getAttendance(employee, i) === 'CL/PT'" id="Attendance_addPresent">
                         {{ employee[getFormattedDate(i)] }}
                     </span>
@@ -236,14 +237,15 @@
         </tr>
     </ng-template>
 </p-table>
-<p-dialog header="Statistaics Of {{this.notUpdatedDates| date:'dd-MMM-YYYY'}} Attendance:" [(visible)]="confirmationDialog">
+<p-dialog header="Statistaics Of {{this.notUpdatedDates| date:'dd-MMM-YYYY'}} Attendance:"
+    [(visible)]="confirmationDialog">
     <div class="flex justify-content-center m-3">
         <i class="pi pi-exclamation-triangle" style="font-size: 24px;"></i>&nbsp;&nbsp;
         <p>When You Perform Confirm Action the Below shown Statistics Will Update:
             <!-- Do you want to modify the status of {{this.filteredData?.length}} records to Present on
             {{this.notUpdatedDates| date:'MMM dd YYYY'}}? -->
         </p>
-      
+
     </div>
     <div class="justify-content-center m-3">
         <p>Total No. of Employees: {{this.NotUpdatedEmployees?.length}}</p>
@@ -255,7 +257,7 @@
         <P>No. of HalfDays: {{ getCount('CL/PT') + getCount('PL/PT') }}</P>
 
     </div>
-   
+
     <ng-template pTemplate="footer">
         <div style="float:right" class="p-2">
             <button pButton type="button" class="btn btn-primary" label="Confirm" (click)="addPresent()"
