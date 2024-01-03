@@ -45,8 +45,9 @@ export class HolidayconfigurationComponent {
   editHolidayForm!: FormGroup;
   maxLength: MaxLength = new MaxLength();
 selectedYear: Year |undefined ;
-  years: any
-  permissions: any;
+years:any;
+year: number = new Date().getFullYear();
+permissions: any;
   holidayToEdit: HolidaysViewDto;
   mediumDate: string = MEDIUM_DATE
   currentDialog: ViewDialogs = ViewDialogs.none;
@@ -353,7 +354,7 @@ selectedYear: Year |undefined ;
   }
 
   downloadHolidayReport(){
-    this.reportService.DownloadMonthlyAttendanceReport(12,2023)
+    this.reportService.DownloadHolidays(this.year)
     .subscribe( (resp)=>
       {
         if (resp.type === HttpEventType.DownloadProgress) {
@@ -363,7 +364,7 @@ selectedYear: Year |undefined ;
         if (resp.type === HttpEventType.Response) {
           const file = new Blob([resp.body], { type: 'text/csv' });
           const document = window.URL.createObjectURL(file);
-          FileSaver.saveAs(document, "MonthlyAttendanceReport.csv");
+          FileSaver.saveAs(document, "HolidaysReport.csv");
         }
     })
   }

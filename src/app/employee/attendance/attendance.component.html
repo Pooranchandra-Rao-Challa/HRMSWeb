@@ -114,7 +114,7 @@
     <ng-template pTemplate="right">
         <div *ngIf="permissions?.CanDownloadMonthlyAttendance">
             <button type="button " pButton icon="icon-csv-svgrepo-com-1" class=" mr-2 doc_button"
-                pTooltip="Download CSV" tooltipPosition="left" (click)="downloadAttendanceReport()"></button>
+                pTooltip="Download Attendance Report" tooltipPosition="left" (click)="downloadAttendanceReport()"></button>
         </div>
         <div class="pr-2">
             <div>
@@ -237,11 +237,11 @@
         </tr>
     </ng-template>
 </p-table>
-<p-dialog header="Statistaics Of {{this.notUpdatedDates| date:'dd-MMM-YYYY'}} Attendance:"
+<p-dialog header="Statistaics of {{this.notUpdatedDates| date:DateFormat}} Attendance:"
     [(visible)]="confirmationDialog">
     <div class="flex justify-content-center m-3">
         <i class="pi pi-exclamation-triangle" style="font-size: 24px;"></i>&nbsp;&nbsp;
-        <p>When You Perform Confirm Action the Below shown Statistics Will Update:
+        <p>When You Perform 'Confirm' Action the below shown Statistics will update:
             <!-- Do you want to modify the status of {{this.filteredData?.length}} records to Present on
             {{this.notUpdatedDates| date:'MMM dd YYYY'}}? -->
         </p>
