@@ -53,22 +53,10 @@
                     </div>
                 </div>
                 <ul class=" p-0 m-0">
-                    <ng-container
-                        *ngIf="this.admindashboardDtls?.savedActiveEmployeesInOffice[0]?.employeesCount; then thenBlock else noDataMessage">
-                    </ng-container>
-                    <br />
-                    <ng-template>
-                        <!-- <li class=""><i
-                                class="pi pi-circle-fill text-primary-300 mr-2"></i><span>In Office </span></li>
-                        <li class=""><i
-                                class="pi pi-circle-fill text-red-300 mr-2"></i><span>Absent</span></li>
-                        <li class=""><i
-                                class="pi pi-circle-fill text-green-300 mr-2"></i><span>PL</span></li>
-                        <li class=""><i
-                                class="pi pi-circle-fill text-blue-300 mr-2"></i><span>CL</span></li> -->
-                        <p-chart type="doughnut" [data]="pieDataforAttendance" [options]="pieOptions" height="135px" width="100%">
-                        </p-chart>
-                    </ng-template>
+                    <li *ngIf="admindashboardDtls?.savedActiveEmployeesInOffice[0]?.employeesCount; else noDataMessage">
+                        <p-chart type="doughnut" [data]="pieDataforAttendance" [options]="pieOptions" height="135px"
+                            width="100%"></p-chart>
+                    </li>
                     <ng-template #noDataMessage>
                         <div class="text-center mt-5">
                             <li class="border-round-lg pt-5 px-5 pb-5 mb-3"
@@ -79,8 +67,6 @@
                     </ng-template>
                 </ul>
             </div>
-
-
         </div>
     </div>
     <div class="col-3">
@@ -142,22 +128,12 @@
                     </div>
                 </div>
                 <ul class="list-none p-0 m-1">
-                    <ng-container
-                        *ngIf="this.admindashboardDtls?.savedactiveProjects [0]?.projectStatusCount; then thenBlock else noDataMessage">
-                    </ng-container>
-                    <br />
-                    <ng-template #thenBlock>
-                        <!-- <li class=""></li>
-                        <li class=""><i
-                                class="pi pi-circle-fill text-red-300 mr-2"></i><span>Absent</span></li>
-                        <li class=""><i
-                                class="pi pi-circle-fill text-green-300 mr-2"></i><span>PL</span></li>
-                        <li class=""><i
-                                class="pi pi-circle-fill text-blue-300 mr-2"></i><span>CL</span></li> -->
+                    <li
+                        *ngIf="this.admindashboardDtls?.savedactiveProjects [0]?.projectStatusCount; else noDataMessage">
                         <p-chart type="doughnut" [data]="pieDataforProjects" [options]="pieOptions" height="auto"
                             width="100%">
                         </p-chart>
-                    </ng-template>
+                    </li>
                     <ng-template #noDataMessage>
                         <div class="text-center mt-5">
                             <li class="border-round-lg pt-5 px-5 pb-5 mb-3"
@@ -182,7 +158,7 @@
                         </div>
                     </div>
                     <p-tabView>
-                        <p-tabPanel header="Unshipped Orders" class="w-full p-0">
+                        <p-tabPanel header="On Leave" class="w-full p-0">
                             <ng-template pTemplate="header">
                                 <div class="pr-2" pBadge value="{{ admindashboardDtls?.savedemployeesOnLeave?.length}}"
                                     severity="info">

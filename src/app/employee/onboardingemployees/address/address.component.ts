@@ -57,7 +57,7 @@ export class AddressComponent {
   getBasicDetails() {
     this.employeeService.GetViewEmpPersDtls(this.employeeId).subscribe((resp) => {
       this.empbasicDetails = resp as unknown as EmployeeBasicDetailViewDto;
-      this.selectedOption = resp['isAFresher'];
+      this.selectedOption = resp?.['isAFresher'];
     })
   }
   initCountries() {
