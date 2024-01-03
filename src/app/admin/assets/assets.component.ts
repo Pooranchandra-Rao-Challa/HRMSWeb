@@ -1,5 +1,5 @@
 
-import { HttpEvent } from '@angular/common/http';
+import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import jsPDF from 'jspdf';
@@ -17,6 +17,8 @@ import { MAX_LENGTH_20, MAX_LENGTH_256, MAX_LENGTH_3, MAX_LENGTH_50, MAX_LENGTH_
 import autoTable from 'jspdf-autotable';
 import { ValidateFileThenUpload } from 'src/app/_validators/upload.validators';
 import { ImagecropService } from 'src/app/_services/_imagecrop.service';
+import { ReportService } from 'src/app/_services/report.service';
+import * as FileSaver from "file-saver";
 
 @Component({
   selector: 'app-assets',
@@ -52,10 +54,11 @@ export class AssetsComponent {
   defaultPhoto: string;
   profileImage = '';
   imageToCrop: File;
+  value: number;
 
   constructor(private adminService: AdminService, private formbuilder: FormBuilder,
     private alertMessage: AlertmessageService, private lookupService: LookupService,
-    private confirmationDialogService: ConfirmationDialogService, private jwtService: JwtService, private imageCropService: ImagecropService) {
+    private confirmationDialogService: ConfirmationDialogService, private jwtService: JwtService, private imageCropService: ImagecropService,private reportService:ReportService,) {
   }
 
 
@@ -407,4 +410,19 @@ onCrop(image: File): void {
     return data;
   }
 
+  downloadAssetsReport(){
+    this.reportService.DownloadAssets(this.selectedAssetTypeId)
+    .subscribe((resp)=>
+      {
+        if (resp.type === HttpEventType.DownloadProgress) {
+          const percentDone = Math.round(100 * resp.loaded / resp.total);
+          this.value = percentDone;
+        }
+        if (resp.type === HttpEventType.Response) {
+          const file = new Blob([resp.body], { type: 'text/csv' });
+          const document = window.URL.createObjectURL(file);
+          FileSaver.saveAs(document, "AssetsReport.csv");
+        }
+    })
+  }
 }

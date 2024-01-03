@@ -48,12 +48,12 @@ export class AppMenuComponent implements OnInit {
                         routerLink: ['dashboard/admin'], 
                         permission: this.jwtService.Permissions.CanViewAdminDashboards
                     },
-                    {
-                        label: 'HR',
-                        icon: 'icon-hr font-semibold',
-                        routerLink: ['dashboard/hr'], 
-                        permission: this.jwtService.Permissions.CanViewHrDashboards
-                    },
+                    // {
+                    //     label: 'HR',
+                    //     icon: 'icon-hr font-semibold',
+                    //     routerLink: ['dashboard/hr'], 
+                    //     permission: this.jwtService.Permissions.CanViewHrDashboards
+                    // },
                     {
                         label: 'Employee',
                         icon: 'icon-employe font-semibold',
