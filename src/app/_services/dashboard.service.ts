@@ -12,7 +12,7 @@ export class DashboardService extends ApiHttpService {
         return this.getWithId<SelfEmployeeDto>(GET_SELF_EMPLOYEE, [employeeId])
     }
     public GetEmployeeLeavesForMonth(month: number, empId: number) {
-        return this.get<selfEmployeeMonthlyLeaves>(GET_SELF_EMPLOYEE_MONTH_LEAVES + "/" + month + "/" + empId);
+        return this.getWithParams<selfEmployeeMonthlyLeaves>(GET_SELF_EMPLOYEE_MONTH_LEAVES ,[month ,empId]);
     }
     public getAdminDashboard() {
         return this.get<adminDashboardViewDto>(GET_ADMIN_DASHBOARD);
