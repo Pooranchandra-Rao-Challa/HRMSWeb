@@ -159,3 +159,7 @@ export const GET_SELF_EMPLOYEE_MONTH_LEAVES="Attendance/GetLeavesForSelfInMonth"
 
 // Admin Dashboard
 export const GET_ADMIN_DASHBOARD="AdminDashboard/GetAdminDashboard"
+
+
+//Reports
+export const GET_MONTHLY_ATTENDANCE_REPORT="Report/MonthlyAttendanceReport";

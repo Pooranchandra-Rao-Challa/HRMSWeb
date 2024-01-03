@@ -1,5 +1,5 @@
 import { DatePipe, formatDate, getLocaleFirstDayOfWeek } from '@angular/common';
-import { HttpEvent } from '@angular/common/http';
+import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -17,7 +17,9 @@ import { DashboardService } from 'src/app/_services/dashboard.service';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { JwtService } from 'src/app/_services/jwt.service';
 import { LookupService } from 'src/app/_services/lookup.service';
+import { ReportService } from 'src/app/_services/report.service';
 import { MAX_LENGTH_256 } from 'src/app/_shared/regex';
+import * as FileSaver from "file-saver";
 
 
 @Component({
@@ -50,9 +52,10 @@ export class AttendanceComponent {
   NotUpdatedEmployees: EmployeesList[] = [];
   showingLeavesOfColors: boolean = false;
   infoMessage: boolean;
+  value: number;
 
 
-  constructor(private adminService: AdminService, private dashBoardService: DashboardService, private datePipe: DatePipe, private jwtService: JwtService, public ref: DynamicDialogRef,
+  constructor(private adminService: AdminService,private reportService:ReportService, private dashBoardService: DashboardService, private datePipe: DatePipe, private jwtService: JwtService, public ref: DynamicDialogRef,
     private formbuilder: FormBuilder, private alertMessage: AlertmessageService, private employeeService: EmployeeService, private lookupService: LookupService) {
     this.selectedMonth = FORMAT_DATE(new Date(this.year, this.month - 1, 1));
     this.selectedMonth.setHours(0, 0, 0, 0);
@@ -418,5 +421,21 @@ export class AttendanceComponent {
   clearcard(dt1: Table) {
     dt1.filteredValue = null;
     this.filter.nativeElement.value = '';
+  }
+
+  downloadAttendanceReport(){
+    this.reportService.DownloadMonthlyAttendanceReport(this.month,this.year)
+    .subscribe( (resp)=>
+      {
+        if (resp.type === HttpEventType.DownloadProgress) {
+          const percentDone = Math.round(100 * resp.loaded / resp.total);
+          this.value = percentDone;
+        }
+        if (resp.type === HttpEventType.Response) {
+          const file = new Blob([resp.body], { type: 'text/csv' });
+          const document = window.URL.createObjectURL(file);
+          FileSaver.saveAs(document, "MonthlyAttendanceReport.csv");
+        }
+    })
   }
 }

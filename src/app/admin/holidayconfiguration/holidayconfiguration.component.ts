@@ -2,7 +2,7 @@
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Table } from 'primeng/table';
 import { AdminService } from 'src/app/_services/admin.service';
-import { HttpEvent } from '@angular/common/http';
+import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { Observable, filter } from 'rxjs';
 import { ALERT_CODES, AlertmessageService } from 'src/app/_alerts/alertmessage.service';
 import { ConfirmationRequest, ITableHeader, MaxLength } from 'src/app/_models/common';
@@ -14,6 +14,9 @@ import { JwtService } from 'src/app/_services/jwt.service';
 import { ConfirmationDialogService } from 'src/app/_alerts/confirmationdialog.service';
 import { GlobalFilterService } from 'src/app/_services/global.filter.service';
 import { formatDate } from '@angular/common';
+import { ReportService } from 'src/app/_services/report.service';
+import * as FileSaver from "file-saver";
+
 interface Year {
   year: string;
 }
@@ -50,12 +53,14 @@ selectedYear: Year |undefined ;
   ViewDialogs = ViewDialogs;
   minDateValue: any;
   confirmationRequest: ConfirmationRequest = new ConfirmationRequest();
+  value: number;
 
   constructor(
     private formbuilder: FormBuilder,
     private AdminService: AdminService,
     private alertMessage: AlertmessageService,
     private jwtService: JwtService,
+    private reportService:ReportService,
     private confirmationDialogService: ConfirmationDialogService,
     private globalFilterService: GlobalFilterService) { }
 
@@ -345,5 +350,21 @@ selectedYear: Year |undefined ;
 
   clearSelectionOnHide() {
     this.holidayToEdit = new HolidaysViewDto();
+  }
+
+  downloadHolidayReport(){
+    this.reportService.DownloadMonthlyAttendanceReport(12,2023)
+    .subscribe( (resp)=>
+      {
+        if (resp.type === HttpEventType.DownloadProgress) {
+          const percentDone = Math.round(100 * resp.loaded / resp.total);
+          this.value = percentDone;
+        }
+        if (resp.type === HttpEventType.Response) {
+          const file = new Blob([resp.body], { type: 'text/csv' });
+          const document = window.URL.createObjectURL(file);
+          FileSaver.saveAs(document, "MonthlyAttendanceReport.csv");
+        }
+    })
   }
 }
