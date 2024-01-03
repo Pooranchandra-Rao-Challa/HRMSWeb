@@ -172,8 +172,10 @@ export class RecruitmentProcessComponent {
     });
   }
   getAttributeTypes() {
-    this.RecruitmentService.getRecruitmentAttribute(this.jobOpeninginprocessId).subscribe((resp) => 
-      this.attributeTypes = resp as unknown as attributeTypeDto[])
+    this.RecruitmentService.getRecruitmentAttribute(this.jobOpeninginprocessId).subscribe((resp) => {
+      this.attributeTypes = resp as unknown as attributeTypeDto[]
+      console.log(resp);
+    })
   }
   getJobDetails() {
     this.adminService.GetJobDetails().subscribe((resp) => 

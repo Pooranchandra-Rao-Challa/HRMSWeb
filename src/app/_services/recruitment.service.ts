@@ -15,7 +15,7 @@ export class RecruitmentService extends ApiHttpService {
     return this.getWithId<ViewApplicantDto[]>(GET_VIEW_APPLICANT_DETAILS, [applicantId])
   }
   public getApplicantsForInitialRound(id:number) {
-    return this.get<ApplicantViewDto[]>(GET_APPLICANTS_WITH_JobProcessId+" /"+id);
+    return this.getWithId<ApplicantViewDto[]>(GET_APPLICANTS_WITH_JobProcessId,[id]);
   }
   public jobDoProcess(body:any){
     return this.post<ApplicantViewDto[]>(Get_Applicants_with_Id,body);
@@ -24,7 +24,7 @@ export class RecruitmentService extends ApiHttpService {
     return this.post(UPDATE_APPLICANT, data)
   }
   public getRAsBasedOnProcessId(id:number){
-    return this.get(GET_RAS+" /"+id)
+    return this.getWithId(GET_RAS,[id])
   }
   public UpdateInterviewResult(data:any){
     return this.post(UPDATE_RESULT,data);
@@ -39,7 +39,7 @@ export class RecruitmentService extends ApiHttpService {
     return this.get<JobOpeningsListDto[]>(GET_JOB_OPENINGS_DROPDOWN);
   }
   public getRecruitmentAttribute(id:number){
-    return this.get<attributeTypeDto[]>(GET_ATTRIBUTES+"/"+id)
+    return this.getWithId<attributeTypeDto[]>(GET_ATTRIBUTES,[id])
   }
   public CreateApplicant(applicantDetails: ApplicantDto[]) {
     return this.post<ApplicantDto[]>(CREATE_APPLICANT_DETAILS, applicantDetails)

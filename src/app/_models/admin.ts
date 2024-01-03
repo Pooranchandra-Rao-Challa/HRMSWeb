@@ -19,6 +19,7 @@ export class LookupDetailsDto {
     lookupDetailId?: number;
     code?: string;
     name?: string;
+    displayName?:string;
     description?: string;
     isActive?: boolean;
     fkeySelfId?: number;
