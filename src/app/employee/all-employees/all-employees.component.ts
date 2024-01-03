@@ -94,7 +94,7 @@ export class AllEmployeesComponent {
                 if (resp.type === HttpEventType.Response) {
                     const file = new Blob([resp.body], { type: 'text/csv' });
                     const document = window.URL.createObjectURL(file);
-                    FileSaver.saveAs(document, "AssetsReport.csv");
+                    FileSaver.saveAs(document, "EmployeeReport.csv");
                 }
             })
     }
