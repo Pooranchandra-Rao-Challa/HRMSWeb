@@ -62,7 +62,6 @@ export class EmployeeLeaveDialogComponent {
         console.error('Failed to fetch holiday dates:', error);
       }
     );
-    this.setMinMaxDates();
   }
 
   ngOnInit(): void {
@@ -71,12 +70,6 @@ export class EmployeeLeaveDialogComponent {
     this.leaveForm();
   }
 
-  setMinMaxDates() {
-    const today = new Date();
-    const tomorrow = new Date(today);
-    tomorrow.setDate(today.getDate() + 1);
-    this.minDate = tomorrow;
-  }
 
   // Initialize the disabled dates array for all months of the year
   initializeDisabledDates(currentYear: number): void {
