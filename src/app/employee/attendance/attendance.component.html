@@ -13,7 +13,7 @@
 
                 <div style="margin-bottom: 15px;">
                     <label class="required">Leave Type:</label>&nbsp;
-                    <p-dropdown formControlName="leaveTypeId" [options]="filteredLeaveTypes" optionLabel="name" 
+                    <p-dropdown formControlName="leaveTypeId" [options]="filteredLeaveTypes" optionLabel="displayName" 
                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['leaveTypeId'].touched && FormControls['leaveTypeId'].errors }"
                         (onChange)="checkLeaveType($event.value)" id="Attendance_leaveType" optionValue="lookupDetailId"
                         placeholder="Select Leave Type"></p-dropdown>
@@ -27,7 +27,8 @@
                         </div>
                     </div>
                 </div>
-                <div style="margin-bottom: 15px;" *ngIf="FormControls['leaveTypeId'].value== 270||FormControls['leaveTypeId'].value== 271">
+                <div style="margin-bottom: 15px;" *ngIf="isLeaveTypeSelected(FormControls['leaveTypeId'].value)"
+                >
                     <label>Leave Purpose:</label>
                     <p-dropdown placeholder="Select Leave Purpose" formControlName="leaveReasonId"
                         [options]="leaveReasons" optionLabel="name" optionValue="lookupDetailId"

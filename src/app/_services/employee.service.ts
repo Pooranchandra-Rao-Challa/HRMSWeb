@@ -45,12 +45,12 @@ export class EmployeeService extends ApiHttpService {
   baseUrl: string = environment.ApiUrl;
 
   public GetAttendance(month: number, year: number) {
-    return this.getWithId<employeeAttendanceDto>(GET_ATTENDENCE, [month + '/' + year]);
+    return this.getWithParams<employeeAttendanceDto>(GET_ATTENDENCE, [month, year]);
   }
   public DeleteDocument(documentId: number) {
     return this.post(DELETE_DOCUMENT + '/' + documentId, null);
   }
-  
+
 
   public downloadAttachment<T>(module: string, documentId: number) {
     const endpointUrl = GET_PATH + '/' + module + '/' + documentId;
@@ -68,7 +68,7 @@ export class EmployeeService extends ApiHttpService {
       );
   }
   public ViewAttachment(module: string, documentId: number) {
-    const endpointUrl =  GET_PATH + '/' + module + '/' + documentId;
+    const endpointUrl = GET_PATH + '/' + module + '/' + documentId;
     return this.get(endpointUrl, { observe: "response", responseType: "arraybuffer" })
       .subscribe(
         (resp: HttpResponse<Blob>) => {
@@ -106,7 +106,7 @@ export class EmployeeService extends ApiHttpService {
 
   }
   public GetNotUpdatedEmployees(date, previousDay: boolean) {
-    return this.get<any>(GET_NOTUPDATED_EMPLOYEES + '/' + `${date}` + '/' + `${previousDay}`);
+    return this.getWithParams<any>(GET_NOTUPDATED_EMPLOYEES, [date, previousDay]);
   }
   //Education Details of Employee
   public CreateEducationDetails(educationdetails: EducationDetailsDto[]) {
@@ -162,7 +162,7 @@ export class EmployeeService extends ApiHttpService {
     return this.getWithId<EmployeAdressViewDto[]>(GET_ADDRESS_BASED_ON_ID_URI, [employeeId])
   }
   public GetAddresses(employeeId: number, isbool: boolean) {
-    return this.getWithId<EmployeAdressViewDto[]>(GET_ADDRESS_BASED_ON_ID_URI, [employeeId + '/' + isbool])
+    return this.getWithParams<EmployeAdressViewDto[]>(GET_ADDRESS_BASED_ON_ID_URI, [employeeId, isbool])
   }
   public GetEducationDetails(employeeId: number) {
     return this.getWithId<EducationDetailsDto[]>(GET_EDUCATION_DETAILS_URI, [employeeId])
