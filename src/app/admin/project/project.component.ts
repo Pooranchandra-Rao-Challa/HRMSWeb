@@ -402,7 +402,7 @@ export class ProjectComponent implements OnInit {
             eProjectStatusesId: project.activeStatusId,
             Date: FORMAT_DATE(new Date(project[date[0]?.name.toLowerCase()])),
         });
-        console.log(project);
+        //console.log(project);
 
         this.fbproject.get('clients').patchValue({
             clientId: project.clientId,
@@ -440,7 +440,7 @@ export class ProjectComponent implements OnInit {
             let companyName = values.clients.companyName.companyName;
             values.clients.companyName = companyName;
         }
-        console.log(values);
+        //console.log(values);
 
         if (this.addFlag) {
             return this.adminService.CreateProject(values);
@@ -615,10 +615,10 @@ export class ProjectComponent implements OnInit {
         if (pNode.id){
             item.parentId = pNode.id // Make sure the parent ID is unique too
             let parentIds = this.parentRegex.exec(pNode.id)
-            console.log(parentIds);
+            //console.log(parentIds);
 
             if(parentIds){
-                console.log(parentIds.groups["employeeId"]);
+                //console.log(parentIds.groups["employeeId"]);
                 item.reportingToId = Number(parentIds.groups["employeeId"])
             }
         }
@@ -711,8 +711,8 @@ export class ProjectComponent implements OnInit {
     loadRootNodeOnAdd() {
         let values = Object.assign({}, this.fbproject.value);
         values.clients = this.fbproject.get('clients').value
-        console.log(this.fbproject.get('clients').value);
-        console.log(values);
+        //console.log(this.fbproject.get('clients').value);
+        //console.log(values);
         let rd = this.companyHierarchies.filter(f => f.selfId == null);
         let projectAllotments: any[] = [];
         if (rd.length === 1) {
@@ -839,7 +839,7 @@ export class ProjectComponent implements OnInit {
 
                 this.AllotedNodes.push(item)
             });
-            console.log(this.AllotedNodes);
+            //console.log(this.AllotedNodes);
 
             this.Employees.forEach(emp => {
                 if (!emp.isActive) emp.isActive = false;
@@ -873,17 +873,11 @@ export class ProjectComponent implements OnInit {
     }
 
     refreshChartView(){
-        var nodes = this.AllotedNodes.splice(1,this.AllotedNodes.length);
-        console.log(nodes);
-
-        this.AllotedNodes.splice(0,this.AllotedNodes.length);
+        let ceoNode = this.AllotedNodes.filter(node => node.id == '1-1')[0];
+        this.AllotedNodes.splice(this.AllotedNodes.indexOf(ceoNode),1);
+        let otherNode = this.AllotedNodes.splice(0,this.AllotedNodes.length);
         this.loadCompanyHierarchies(true,false);
-        console.log(this.AllotedNodes);
-
-        nodes.forEach(node => {this.AllotedNodes.push(node);})
-
-        // if(nodes.length > 0)
-        //     this.AllotedNodes=[this.AllotedNodes[0],...nodes];
+        otherNode.forEach(node => {this.AllotedNodes.push(node);});
     }
 
     async initOrgCharts(nodes: NodeProps[]) {

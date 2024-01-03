@@ -335,7 +335,7 @@
                               pDraggable="allottedEmployee" draggable (onDragStart)="onEmployeeDragStart(employee)"
                               (onDragEnd)="onEmployeeDragEnd()">
                               <div class="image-container">
-                                <!-- <img src="https://primefaces.org/cdn/primeng/images/demo/product/{{ product.image }}"[alt]="employee.employeeName" class="product-image" /> -->
+
                               </div>
                               <div class="project-employee-detail">
                                 <!-- <h5 class="mb-2">{{employee.fullName}}</h5> -->
@@ -365,14 +365,8 @@
                         projectFormControls['name'].value }}</span><div style="float:right">
                             <i class="fa fa-refresh" (click)="refreshChartView()"></i>
                             <i class="fa-solid fa-trash"  (click)="clearAllotments()" ></i>
-                            <!-- <button pButton pRipple icon="pi pi-pencil" *ngIf="permission?.CanManageProjects" style="background-color: transparent;"
-                            class="p-element p-ripple p-button-text p-button-primary p-component project_edit_button"
-                            (click)="clearAllotments()" id="project_edit_button"></button> -->
                         </div></div>
-                    <!-- <div class="col-12 md:col-8 drop-column"
-                                          style="height: 50px; width: 50px; border:1px solid gray;"
-                                          pDroppable="allottedemployee" (onDrop)="onEmployeeDrop()"></div> -->
-                    <!-- <app-d3-org-chart DisplayType="2"></app-d3-org-chart> -->
+
                     <div style="border-top: 1px solid #ccc">
                         <ng-template #allottEmployees></ng-template>
                     </div>
@@ -446,8 +440,6 @@
           </div>
           <div id="hrms" class="scroll_div scroll  pb-5">
             <ng-template #orgProjectChart></ng-template>
-            <!-- <app-d3-org-chart DisplayType="1" ></app-d3-org-chart> -->
-            <!--[events]="eventsSubject.asObservable()"     -->
           </div>
         </p-tabPanel>
       </p-tabView>
