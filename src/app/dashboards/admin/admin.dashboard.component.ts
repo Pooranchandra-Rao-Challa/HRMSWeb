@@ -9,7 +9,7 @@ import { DashboardService } from 'src/app/_services/dashboard.service';
 })
 export class AdminDashboardComponent implements OnInit {
     admindashboardDtls: adminDashboardViewDto;
-    pieData: any;
+    pieDataforAttendance: any;
     pieOptions: any;
     pieDataforProjects: any;
     constructor(private dashboardService: DashboardService,
@@ -59,7 +59,7 @@ export class AdminDashboardComponent implements OnInit {
         const PersonalLeaves = this.admindashboardDtls?.savedemployeeLeaveCounts.find(each => each.leaveType === 'PL')?.leaveTypeCount;
         const present = this.admindashboardDtls?.savedActiveEmployeesInOffice.find(each => each.employeeStatus === 'PT')?.employeesCount;
 
-        this.pieData = {
+        this.pieDataforAttendance = {
             labels: ['In Office', 'Absent', 'PL', 'CL',],
             datasets: [
                 {
@@ -84,7 +84,6 @@ export class AdminDashboardComponent implements OnInit {
             }
         };
 
-        // Data for the second pie chart (projects)
         const initial = this.admindashboardDtls?.savedactiveProjects.find(each => each.projectStatus == 'Initial')?.projectStatusCount;
         const development = this.admindashboardDtls?.savedactiveProjects.find(each => each.projectStatus == 'Working')?.projectStatusCount;
         const completed = this.admindashboardDtls?.savedactiveProjects.find(each => each.projectStatus == 'Completed')?.projectStatusCount;
@@ -99,7 +98,7 @@ export class AdminDashboardComponent implements OnInit {
                     borderColor: surfaceBorder
                 }
             ]
-        };
+        };        
     }
 
     navigateEmpDtls() {
