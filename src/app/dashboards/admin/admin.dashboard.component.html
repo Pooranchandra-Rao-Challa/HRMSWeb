@@ -31,7 +31,7 @@
         </div>
     </div>
     <div class="col-3">
-        <div class="card pb-2 pt-4">
+        <div class="card pb-2 pt-4 chart_card">
             <div class="card-headr gap-2 pb-1">
                 <div class="card-title">
                     <h6 class="mb-4">Chart by Attendance </h6>
@@ -106,7 +106,7 @@
         </div>
     </div>
     <div class="col-3">
-        <div class="card pb-2 pt-4">
+        <div class="card pb-2 pt-4  chart_card">
             <div class="card-headr gap-2 pb-1">
                 <div class="card-title">
                     <h6 class="mb-4">Chart by Projects </h6>
@@ -130,7 +130,7 @@
                 <ul class="list-none p-0 m-1">
                     <li
                         *ngIf="this.admindashboardDtls?.savedactiveProjects [0]?.projectStatusCount; else noDataMessage">
-                        <p-chart type="doughnut" [data]="pieDataforProjects" [options]="pieOptions" height="auto"
+                        <p-chart type="doughnut" [data]="pieDataforProjects" [options]="pieOptions" height="135px"
                             width="100%">
                         </p-chart>
                     </li>
