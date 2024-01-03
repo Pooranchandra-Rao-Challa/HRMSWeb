@@ -789,6 +789,7 @@ div.d-leave {
     .p-tabview-panels {
         overflow: auto;
         height: calc(100vh - 120px);
+        background-color: #fff2e5;
     }
 }
 
@@ -871,29 +872,37 @@ p-fieldset.allott-employee {
 #rolesTabView li.p-highlight,
 #projectsview li.p-highlight{
     background-color: #FF810E;
-    border-radius: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
+#rolesTabView div.p-tabview-nav-content{
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
 #rolesTabView .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link,
 #projectsview .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link{
     background: transparent !important;
     border-color: #ff810e;
     color: white !important;
 }
+
 .layout-topbar .topbar-menu li.topbar-item ul{
     bottom: -16.8rem !important;
     right: -16px !important;
 }
+
 .text-14{
     font-size: 14px;
     margin-top:10px !important;
     text-align: center;
 }
 
-}
 #rolesTabView .p-tabview .p-tabview-nav li .p-tabview-nav-link,
 #rolesTabView  .p-tabview .p-tabview-nav{
     border: none;
 }
+
 #rolesTabView .p-tabview-nav-container{
     border-bottom: 1px solid #ccc;
 }
@@ -902,4 +911,10 @@ p-fieldset.allott-employee {
     border-bottom: 1px solid #ccc;
     border-left: 1px solid #ccc;
     border-right: 1px solid #ccc;
+}
+
+#rolesTabView ul.p-tabview-nav li.ng-star-inserted{
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border: 1px solid #ccc;
 }
