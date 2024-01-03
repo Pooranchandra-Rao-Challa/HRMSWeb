@@ -6,6 +6,8 @@
         <h4>Projects</h4>
       </ng-template>
       <ng-template pTemplate="right">
+        <button type="button" *ngIf="permission?.CanDownloadProjectsReport" pButton pRipple icon="pi pi-file-excel"
+          class=" mr-2" pTooltip="XLS" tooltipPosition="bottom"></button>
         <button pButton pRipple label="Add New Project" icon="pi pi-plus" class="p-button-primary p-mr-2"
           id="Project_addProject" *ngIf="permission?.CanManageProjects" (click)="onEditProject(null)"></button>
       </ng-template>
@@ -207,8 +209,8 @@
                     </div>
                   </div>
                   <div class="field  col-12 md:col-4 p-2 mb-1">
-                    <label>Mobile No: </label>&nbsp; <input pInputText id="Project_clientMobileNo"
-                      type="text" placeholder="Enter Mobile No"
+                    <label>Mobile No: </label>&nbsp; <input pInputText id="Project_clientMobileNo" type="text"
+                      placeholder="Enter Mobile No"
                       [ngClass]="{ 'is-invalid ng-dirty': fcClientDetails.controls['mobileNumber'].touched && fcClientDetails.controls['mobileNumber'].errors }"
                       #clientNo [maxlength]="maxLength.phoneNo" formControlName="mobileNumber" numericOnly />
                     <div class="flex">
@@ -300,7 +302,7 @@
                     </div>
                   </div>
                   <div class="field  col-12 md:col-4 p-2 mb-1">
-                    <label >Address: </label>&nbsp; <textarea inputId="textarea" rows="3" cols="30"
+                    <label>Address: </label>&nbsp; <textarea inputId="textarea" rows="3" cols="30"
                       id="Project_clientAddress" pInputTextarea #address
                       [ngClass]="{ 'is-invalid ng-dirty': fcClientDetails.controls['address'].touched && fcClientDetails.controls['address'].errors }"
                       (keydown)="restrictSpaces($event)" [maxlength]="maxLength.address" formControlName="address"
@@ -364,13 +366,15 @@
                   <div class="field col-8 md:col-8" style="border:1px solid #cccccc; border-top-left-radius: 10px;
                   border-top-right-radius: 10px;padding:unset">
                     <div class="allotted-employees">Allotted Employee of the Project <span class="project_name">{{
-                        projectFormControls['name'].value }}</span><div style="float:right">
-                            <i class="fa fa-refresh" (click)="refreshChartView()"></i>
-                            <i class="fa-solid fa-trash"  (click)="clearAllotments()" ></i>
-                        </div></div>
+                        projectFormControls['name'].value }}</span>
+                      <div style="float:right">
+                        <i class="fa fa-refresh" (click)="refreshChartView()"></i>
+                        <i class="fa-solid fa-trash" (click)="clearAllotments()"></i>
+                      </div>
+                    </div>
 
                     <div style="border-top: 1px solid #ccc">
-                        <ng-template #allottEmployees></ng-template>
+                      <ng-template #allottEmployees></ng-template>
                     </div>
 
                   </div>
@@ -382,7 +386,6 @@
       </div>
       <ng-template pTemplate="footer">
         <div class="col-12 lg:col-4 md:col-4 sm:col-6" style="float:right">
-          <!-- [disabled]="!this.fbproject.valid"-->
           <button pButton pRipple type="submit" label="SaveProject" class="p-button-raised p-button-primary"
             (click)="onSubmit()"></button>
         </div>
@@ -436,8 +439,8 @@
           <div style="float:right;padding-bottom: 20px;">
             <p-button appendTo="body" id="download-chart" [style]="{'margin-right':'20px'}"
               (onClick)="emitEventToChild()">Download Chart</p-button>
-            <p-dropdown appendTo="body" id="Project_dropdown" placeholder="Select Project Name" [options]="ProjectWithCharts()"
-              optionValue="projectId" optionLabel="name" [(ngModel)]="selectedProjectId"
+            <p-dropdown appendTo="body" id="Project_dropdown" placeholder="Select Project Name"
+              [options]="ProjectWithCharts()" optionValue="projectId" optionLabel="name" [(ngModel)]="selectedProjectId"
               (ngModelChange)="onProjectChange($event)"></p-dropdown>
           </div>
           <div id="hrms" class="scroll_div scroll  pb-5">
@@ -460,7 +463,8 @@
           </div>
           <div class="col-12 lg:col-9">
             <div class="grid" style="text-align: left;">
-              <div class="col-12 lg:col-12">
+              
+              <div class="col-12 lg:col-10">
                 <div class="pair">
                   <span class="label text-primary font-bold text-900">Project Name</span>
                   <span class="value">: {{this.projectDetails.name}}</span>
@@ -478,6 +482,10 @@
                   <br>
                   <span class="value">: {{this.projectDetails.description}}</span>
                 </div>
+              </div>
+              <div class="col-12 lg:col-2" *ngIf="permission?.CanDownloadProjectsReport" style="text-align:right">
+                <button type="button" pButton pRipple icon="pi pi-file-excel" class=" mr-2" pTooltip="XLS"
+                  tooltipPosition="bottom"></button>
               </div>
             </div>
           </div>
@@ -517,10 +525,17 @@
                 <div class="m-2 card border-1 surface-border">
                   <div class="text-xl font-bold">{{employee.employeeName}}</div>
                   <div class="text-600 font-medium text-sm">EmpId: {{employee.employeeId}}</div>
+                  <br/>
+                  <div style=" text-align:center;">
+                    <button pButton pRipple type="submit" label="Unassign"
+                    class="p-element p-ripple p-button-text p-button p-component p-button-primary w-100"
+                    (click)="unAssignedEmployee(employee)"></button>
+                  </div>
+               
                 </div>
               </div>
             </div>
-            
+
           </p-tabPanel>
         </p-tabView>
       </div>

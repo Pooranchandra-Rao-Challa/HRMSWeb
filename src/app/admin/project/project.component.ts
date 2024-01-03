@@ -246,7 +246,7 @@ export class ProjectComponent implements OnInit {
         }
     }
 
-    unAssignedEmployee(employee: ProjectAllotments) {
+    unAssignedEmployee(employee) {
         this.fcUnAssignAsset['projectAllotmentId']?.setValue(employee.projectAllotmentId);
         this.fcUnAssignAsset['projectId']?.setValue(employee.projectId);
         this.fcUnAssignAsset['employeeId']?.setValue(employee.employeeId);
