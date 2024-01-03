@@ -888,8 +888,8 @@ p-fieldset.allott-employee {
 }
 
 .layout-topbar .topbar-menu li.topbar-item ul{
-    bottom: -16.8rem !important;
-    right: -16px !important;
+   top:40px;
+   height:fit-content;
 }
 
 .text-14{
@@ -925,4 +925,7 @@ p-fieldset.allott-employee {
 }
 .doc_button span{
     font-size: 20px;
+}
+.chart_card{
+    min-height:250px;
 }

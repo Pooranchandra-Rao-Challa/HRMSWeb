@@ -8,13 +8,15 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { JwtService } from 'src/app/_services/jwt.service';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { Observable } from 'rxjs';
-import { HttpEvent } from '@angular/common/http';
+import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
 import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { NgPluralCase } from '@angular/common';
 import { LeaveConfirmationService } from 'src/app/_services/leaveconfirmation.service';
 import { EmployeeLeaveDialogComponent } from 'src/app/_dialogs/employeeleave.dialog/employeeleave.dialog.component';
+import { ReportService } from 'src/app/_services/report.service';
+import * as FileSaver from "file-saver";
 
 @Component({
   selector: 'app-employeeleaves',
@@ -39,6 +41,7 @@ export class EmployeeLeavesComponent {
   leaveData: EmployeeLeaveDto;
   permissions: any;
   buttonLabel: string;
+  year: number = new Date().getFullYear();
 
   headers: ITableHeader[] = [
     { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
@@ -53,11 +56,13 @@ export class EmployeeLeavesComponent {
     { field: 'createdBy', header: 'createdBy', label: 'Created By' },
     { field: 'status', header: 'status', label: 'Status' }
   ];
+  value: number;
 
   constructor(
     private globalFilterService: GlobalFilterService,
     private employeeService: EmployeeService,
     private dialogService: DialogService,
+    private reportService:ReportService,
     public ref: DynamicDialogRef,
     private formbuilder: FormBuilder,
     private jwtService: JwtService,
@@ -159,6 +164,22 @@ export class EmployeeLeavesComponent {
 
   save(): Observable<HttpEvent<EmployeeLeaveDto[]>> {
     return this.employeeService.UpdateEmployeeLeaveDetails(this.fbLeave.value);
+  }
+
+  downloadLeavesReport(){
+    this.reportService.DownloadLeaves(this.year)
+    .subscribe( (resp)=>
+      {
+        if (resp.type === HttpEventType.DownloadProgress) {
+          const percentDone = Math.round(100 * resp.loaded / resp.total);
+          this.value = percentDone;
+        }
+        if (resp.type === HttpEventType.Response) {
+          const file = new Blob([resp.body], { type: 'text/csv' });
+          const document = window.URL.createObjectURL(file);
+          FileSaver.saveAs(document, "LeavesReport.csv");
+        }
+    })
   }
 
   openComponentDialog(content: any,

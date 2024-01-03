@@ -10,4 +10,7 @@ export const FORMAT_DATE = (date: Date): Date => { return new Date(Date.UTC(date
     export const LONG_DATE = 'dd MMMM, yyyy';
     export const ORIGINAL_DOB ='MMM y';
     export const DATE_OF_JOINING ='d MMM y';
+    export const ATTENDANCE_DATE =' d MMM,YYYY';
+
+   
     

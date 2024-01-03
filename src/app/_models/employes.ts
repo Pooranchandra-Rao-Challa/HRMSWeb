@@ -353,6 +353,7 @@ export class EmployeeLeaveDto {
 	employeeName?: string;
 	code?: string;
 	fromDate?: Date;
+	notReported?:boolean
 	toDate?: Date;
 	leaveTypeId?: number;
 	leaveReasonId?:number;
