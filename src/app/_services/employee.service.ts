@@ -97,8 +97,7 @@ export class EmployeeService extends ApiHttpService {
   }
   //Search Employee
   public GetEmployees(IsEnrolled: boolean) {
-    const url = `${GET_EMPLOYEES_URI}/${IsEnrolled}`;
-    return this.get<EmployeesViewDto[]>(url);
+    return this.getWithParams<EmployeesViewDto[]>(GET_EMPLOYEES_URI,[IsEnrolled]);
   }
   //personal Details of Employee
   public CreateBasicDetails(basicdetails: EmployeeBasicDetailDto) {
