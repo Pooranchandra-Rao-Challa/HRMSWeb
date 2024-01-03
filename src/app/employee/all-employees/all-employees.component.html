@@ -8,13 +8,17 @@
           <div class="flex flex-column md:flex-row md:justify-content-between gap-2">
             <div>
               <div class="p-inputgroup">
-                  <!-- <span class="p-inputgroup-addon"><i class="pi pi-search"></i></span> -->
-                  <input id="search-name-id" type="text"  #filter pInputText placeholder="Search by Name or Id"
-                      (input)="onFilter(dv, $event)" />
-                  <span class="p-inputgroup-addon" (click)="clearcard(dv)"><i class="pi pi-undo"></i></span>
+                <!-- <span class="p-inputgroup-addon"><i class="pi pi-search"></i></span> -->
+                <input id="search-name-id" type="text" #filter pInputText placeholder="Search by Name or Id"
+                  (input)="onFilter(dv, $event)" />
+                <span class="p-inputgroup-addon" (click)="clearcard(dv)"><i class="pi pi-undo"></i></span>
               </div>
-          </div>
-            <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+            </div>
+            <div class="flex">
+              <button pButton class="p-button doc_button mx-2" icon="pi pi-file-pdf" pTooltip="Download CSV"
+                tooltipPosition="left"></button>
+              <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+            </div>
           </div>
         </ng-template>
 
@@ -59,9 +63,9 @@
                     </td>
                     <td class="text-center" *ngFor="let col of headers">
                       <span
-                            *ngIf=" col?.field == 'employeeName' || col?.field == 'employeeRoleName'||col?.field == 'gender'  || col?.field == 'mobileNumber'||col?.field =='officeEmailId' || col?.field == 'createdBy'">
-                            {{employee[col.field]}}
-                        </span>
+                        *ngIf=" col?.field == 'employeeName' || col?.field == 'employeeRoleName'||col?.field == 'gender'  || col?.field == 'mobileNumber'||col?.field =='officeEmailId' || col?.field == 'createdBy'">
+                        {{employee[col.field]}}
+                      </span>
                       <span *ngIf="col.field == 'dateofJoin'">
                         {{employee[col.field] | date:mediumDate}}</span>
                     </td>
@@ -92,7 +96,7 @@
                   <img
                     [src]="employee.photo ? employee.photo : employee?.gender == 'Male' ?  './assets/layout/images/men-emp.jpg' : './assets/layout/images/women-emp.jpg'"
                     [alt]="employee.employeeName" class="shadow-2 my-1 mx-0 employee_profile_pic  " />
-                    <br/>
+                  <br />
                   <span class="text-500 font-medium text-md">
                     <i class="pi icon-intersex text-600 text-primary text-2xl  pb-2"></i> :
                     {{employee?.gender}}
