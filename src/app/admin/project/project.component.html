@@ -1,3 +1,4 @@
+<p-confirmDialog [style]="{width: '30%'}"></p-confirmDialog>
 <div class="col-12">
   <div class="card">
     <!-- Toolbar -->
@@ -6,7 +7,7 @@
         <h4>Projects</h4>
       </ng-template>
       <ng-template pTemplate="right">
-        <button type="button" *ngIf="permission?.CanDownloadProjectsReport" pButton pRipple icon="pi pi-file-excel"
+        <button type="button" *ngIf="permission?.CanDownloadProjects" pButton pRipple icon="pi pi-file-excel"
           class=" mr-2" pTooltip="XLS" tooltipPosition="bottom"></button>
         <button pButton pRipple label="Add New Project" icon="pi pi-plus" class="p-button-primary p-mr-2"
           id="Project_addProject" *ngIf="permission?.CanManageProjects" (click)="onEditProject(null)"></button>
@@ -483,7 +484,7 @@
                   <span class="value">: {{this.projectDetails.description}}</span>
                 </div>
               </div>
-              <div class="col-12 lg:col-2" *ngIf="permission?.CanDownloadProjectsReport" style="text-align:right">
+              <div class="col-12 lg:col-2" *ngIf="permission?.CanDownloadProjects" style="text-align:right">
                 <button type="button" pButton pRipple icon="pi pi-file-excel" class=" mr-2" pTooltip="XLS"
                   tooltipPosition="bottom"></button>
               </div>
@@ -529,7 +530,7 @@
                   <div style=" text-align:center;">
                     <button pButton pRipple type="submit" label="Unassign"
                     class="p-element p-ripple p-button-text p-button p-component p-button-primary w-100"
-                    (click)="unAssignedEmployee(employee)"></button>
+                    (click)="showConfirmationDialog(employee)"></button>
                   </div>
                
                 </div>

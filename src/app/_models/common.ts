@@ -35,6 +35,12 @@ export class ConfirmationRequestForRecruitmentProcess {
   icon: string = 'pi pi-exclamation-triangle';
   class: string ='text-red';
 }
+export class ConfirmationRequestForUnassignEmployee {
+  message: string = 'Are you sure you want to unassign the employee from this project ?';
+  header: string = 'Confirmation';
+  icon: string = 'pi pi-exclamation-triangle';
+  class: string ='text-red';
+}
 export class ConfirmationRequestForRecruitmentProcess1 {
   message: string = 'Are you sure want to move the Applicant to further Rounds  ?';
   header: string = 'Confirmation';
