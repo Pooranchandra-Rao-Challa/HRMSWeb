@@ -933,7 +933,7 @@ export class ProjectComponent implements OnInit {
             if (resp.type === HttpEventType.Response) {
               const file = new Blob([resp.body], { type: 'text/csv' });
               const document = window.URL.createObjectURL(file);
-              FileSaver.saveAs(document, "MonthlyAttendanceReport.csv");
+              FileSaver.saveAs(document, "ProjectsReport.csv");
             }
         })
     }
