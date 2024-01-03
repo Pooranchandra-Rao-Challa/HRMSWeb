@@ -87,7 +87,7 @@
                   <img
                     [src]="employee.photo ? employee.photo : employee?.gender == 'Male' ?  './assets/layout/images/men-emp.jpg' : './assets/layout/images/women-emp.jpg'"
                     [alt]="employee.employeeName" class="shadow-2 my-1 mx-0 employee_profile_pic zoomable-img" />
-
+                    <br/>
                   <span class="text-500 font-medium text-md">
                     <i class="pi icon-intersex text-600 text-primary text-2xl  pb-2"></i> : {{employee.gender}}
                   </span>
