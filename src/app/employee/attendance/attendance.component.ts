@@ -258,9 +258,6 @@ export class AttendanceComponent {
         this.getEmployeeDataBasedOnId(emp, leaveType);
         this.dialog = true;
         this.fbleave.reset();
-
-
-        
         if (result && !result?.rejected)
           this.fbleave.patchValue({
             employeeId: result?.employeeId,
