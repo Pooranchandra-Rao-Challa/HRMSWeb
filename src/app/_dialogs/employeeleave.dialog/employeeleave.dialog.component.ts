@@ -62,7 +62,6 @@ export class EmployeeLeaveDialogComponent {
         console.error('Failed to fetch holiday dates:', error);
       }
     );
-    this.setMinMaxDates();
   }
 
   ngOnInit(): void {
