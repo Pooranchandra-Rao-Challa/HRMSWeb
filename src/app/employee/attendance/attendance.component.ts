@@ -192,7 +192,7 @@ export class AttendanceComponent {
   }
   getCount(type: string): number {
     const formattedDate = this.datePipe.transform(this.notUpdatedDates, 'dd-MM-yyyy');
-    return this.PreviousAttendance.filter(each => each[formattedDate] === type).length;
+    return this.PreviousAttendance?.filter(each => each[formattedDate] === type).length;
   }
 
   CheckPreviousDayAttendance() {
