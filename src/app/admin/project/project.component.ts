@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { FORMAT_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { ClientDetailsDto, ClientNamesDto, EmployeeHierarchyDto, EmployeesList, LookupViewDto, ProjectAllotments, ProjectDetailsDto, ProjectStatus, ProjectViewDto } from 'src/app/_models/admin';
-import { MaxLength, PhotoFileProperties } from 'src/app/_models/common';
+import { ConfirmationRequestForUnassignEmployee, MaxLength, PhotoFileProperties } from 'src/app/_models/common';
 import { NodeProps } from 'src/app/_models/admin'
 import { AdminService } from 'src/app/_services/admin.service';
 import { JwtService } from 'src/app/_services/jwt.service';
@@ -18,6 +18,7 @@ import { DatePipe } from '@angular/common';
 import { ValidateFileThenUpload } from 'src/app/_validators/upload.validators';
 import { D3OrgChartComponent } from './d3-org-chart/d3-org-chart.component';
 import { ImagecropService } from 'src/app/_services/_imagecrop.service';
+import { ConfirmationDialogService } from 'src/app/_alerts/confirmationdialog.service';
 
 interface AutoCompleteCompleteEvent {
     originalEvent: Event;
@@ -35,7 +36,7 @@ export class ProjectRole {
 })
 export class ProjectComponent implements OnInit {
     @ViewChild("fileUpload", { static: true }) fileUpload: ElementRef;
-
+    confirmationRequest: ConfirmationRequestForUnassignEmployee = new ConfirmationRequestForUnassignEmployee();
     projects: ProjectViewDto[] = [];
     clientsNames: ClientNamesDto[] = [];
     Employees: EmployeesList[] = [];
@@ -111,7 +112,7 @@ export class ProjectComponent implements OnInit {
     constructor(private formbuilder: FormBuilder, private adminService: AdminService,
         private employeeService: EmployeeService, private alertMessage: AlertmessageService,
         private jwtService: JwtService, private downloadNotifier: DownloadNotification,
-        private datePipe: DatePipe,
+        private datePipe: DatePipe,private confirmationDialogService: ConfirmationDialogService,
         private messageService: MessageService,
         private d3NodeChanger: D3NodeChangeNotifier, private viewContainerRef: ViewContainerRef,
         private cdr: ChangeDetectorRef,
@@ -227,6 +228,13 @@ export class ProjectComponent implements OnInit {
             isActive: new FormControl('', [Validators.required]),
         });
     }
+    showConfirmationDialog(employee) {
+        this.confirmationDialogService.comfirmationDialog(this.confirmationRequest).subscribe(userChoice => {
+          if (userChoice) {
+            this.unAssignedEmployee(employee)
+          }
+        });
+      }
 
     initProjectStatuses() {
         this.adminService.ProjectStatuses().subscribe((resp) => {
