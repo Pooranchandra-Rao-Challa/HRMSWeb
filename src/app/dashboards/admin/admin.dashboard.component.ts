@@ -90,7 +90,7 @@ export class AdminDashboardComponent implements OnInit {
         const amc = this.admindashboardDtls?.savedactiveProjects.find(each => each.projectStatus == 'AMC')?.projectStatusCount;
 
         this.pieDataforProjects = {
-            labels: ['Initial', 'Dev', 'Com', 'amc'],
+            labels: ['Initial', 'Dev', 'Com', 'Amc'],
             datasets: [
                 {
                     data: [initial, development, completed, amc],
