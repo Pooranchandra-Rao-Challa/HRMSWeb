@@ -32,9 +32,8 @@ export class AttendanceComponent {
   days: number[] = [];
   maxLength: MaxLength = new MaxLength();
   year: number = new Date().getFullYear();
-  employeesList!: EmployeesList[];
   employeeAttendanceList: employeeAttendanceDto[];
-  globalFilterFields: string[] = ['EmployeeName',];
+  globalFilterFields: string[] = ['EmployeeName'];
   selectedMonth: Date;
   permissions: any;
   leaveReasons: LookupViewDto[] = [];
@@ -99,8 +98,34 @@ export class AttendanceComponent {
 
   initDayWorkStatus() {
     this.lookupService.DayWorkStatus().subscribe(resp => {
-      this.LeaveTypes = resp as unknown as LookupDetailsDto[];
+      const LeaveTypes = resp as unknown as LookupDetailsDto[];
+      this.LeaveTypes = [];
+      if (LeaveTypes) {
+        LeaveTypes.forEach(item => {
+           this.LeaveTypes.push({
+            ...item,
+            displayName: this.getLeaveTypeDisplayName(item.name)
+          });
+        });
+        
+      }
     })
+  }
+  getLeaveTypeDisplayName(name: string): string {
+    switch (name) {
+      case 'PT':
+        return 'PT (Present)';
+      case 'AT':
+        return 'AT (Absent)';
+      case 'PL':
+        return 'PL (Privilege Leave)';
+      case 'CL':
+        return 'CL (Casual Leave)';
+      case 'LWP':
+        return 'LWP (Leave Without Pay)';
+      default:
+        return null;
+    }
   }
   initAttendance() {
     this.employeeService.GetAttendance(this.month, this.year).subscribe((resp) => {
@@ -218,8 +243,6 @@ export class AttendanceComponent {
       const currentDate = this.isFutureDate(this.datePipe.transform(new Date(), 'dd-MM-yyyy'));
       const dayBeforeYesterday = new Date();
       dayBeforeYesterday.setDate(dayBeforeYesterday.getDate() - 2); 
-      console.log(formattedDate.toISOString() > currentDate.toISOString()||(formattedDate.toISOString() <= (this.isFutureDate(this.datePipe.transform(dayBeforeYesterday, 'dd-MM-yyyy')).toISOString())
-      && formattedDate.toISOString() !== (this.isFutureDate(this.datePipe.transform(this.notUpdatedDates, 'dd-MM-yyyy')).toISOString())));
       
       if (formattedDate.toISOString() > currentDate.toISOString()||(formattedDate.toISOString() <= (this.isFutureDate(this.datePipe.transform(dayBeforeYesterday, 'dd-MM-yyyy')).toISOString())
         && formattedDate.toISOString() !== (this.isFutureDate(this.datePipe.transform(this.notUpdatedDates, 'dd-MM-yyyy')).toISOString())))
@@ -235,8 +258,6 @@ export class AttendanceComponent {
         this.getEmployeeDataBasedOnId(emp, leaveType);
         this.dialog = true;
         this.fbleave.reset();
-        console.log(result);
-        
         if (result && !result?.rejected)
           this.fbleave.patchValue({
             employeeId: result?.employeeId,
@@ -276,7 +297,9 @@ export class AttendanceComponent {
     return stringDateObject;
   }
 
-
+  isLeaveTypeSelected(type: number): boolean {
+    return this.LeaveTypes.some(each => each.lookupDetailId === type && (each.name === 'PL' || each.name === 'CL'));
+  }
   addAttendance() {
     const StatusId = this.LeaveTypes.find(each => each.lookupDetailId === this.fbleave.get('leaveTypeId').value);
     if (StatusId.name == 'PT' || StatusId.name == 'AT') {
@@ -315,7 +338,7 @@ export class AttendanceComponent {
 
   checkLeaveType(id) {
     this.fbleave.get('note').setValue('');
-    const StatusId = this.LeaveTypes.find(each => each.lookupDetailId === this.fbleave.get('leaveTypeId').value);
+    const StatusId = this.LeaveTypes.find(each => each.lookupDetailId === this.fbleave.get('leaveTypeId').value); 
     if (StatusId.name != 'PT' && StatusId.name != 'AT'){
       this.fbleave.get('note').setValue('Leave is Updated through Attendance form by Admin the approve is generated Automatically.');
       this.lookupService.LeaveReasons(id).subscribe(resp => {
@@ -324,8 +347,6 @@ export class AttendanceComponent {
         }
       })
     }
-      
-
   }
 
 

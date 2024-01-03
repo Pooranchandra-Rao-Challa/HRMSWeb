@@ -513,10 +513,14 @@
           </p-tabPanel>
           <p-tabPanel header="Team Members ">
             <div class="grid">
-              <div class="col-12 md:col-6">
-                <!-- <button pButton  pRipple icon="pi pi-plus" class="p-element p-ripple p-button-text p-button p-component mr-2" (click)="addEmployees(this.projectDetails)">dfsfsdf</button> -->
+              <div class="col-12 md:col-4 lg:col-3" *ngFor="let employee of this.projectDetails.expandEmployees">
+                <div class="m-2 card border-1 surface-border">
+                  <div class="text-xl font-bold">{{employee.employeeName}}</div>
+                  <div class="text-600 font-medium text-sm">EmpId: {{employee.employeeId}}</div>
+                </div>
               </div>
             </div>
+            
           </p-tabPanel>
         </p-tabView>
       </div>

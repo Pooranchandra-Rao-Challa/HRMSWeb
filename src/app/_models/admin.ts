@@ -19,6 +19,7 @@ export class LookupDetailsDto {
     lookupDetailId?: number;
     code?: string;
     name?: string;
+    displayName?:string;
     description?: string;
     isActive?: boolean;
     fkeySelfId?: number;
@@ -140,6 +141,7 @@ export class projectStatuses {
 }
 export class EmployeesList {
     employeeId?: number
+    employeeName?:string
     reportingToId?: number;
     photo?: string;
     fullName?: string

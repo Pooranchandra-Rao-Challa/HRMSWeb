@@ -75,7 +75,7 @@ export class OnboardingemployeesComponent {
         this.initEmployees();
         this.employeeService.GetViewEmpPersDtls(this.employeeId).subscribe((resp) => {
           this.empbasicDetails = resp as unknown as EmployeeBasicDetailDto;
-          this.selectedOption = resp['isAFresher'];
+          this.selectedOption = resp?.['isAFresher'];
           this.showExperienceStep = this.selectedOption == false;
           this.employeeId =employeeId
           this.updateMenuItems();
