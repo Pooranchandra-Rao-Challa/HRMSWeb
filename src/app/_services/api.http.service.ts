@@ -97,17 +97,6 @@ export class ApiHttpService {
         const endpointUrl = URI_ENDPOINT_WITH_PARAMS(uri,rParams);
         let headers = {TOKEN_KEY:this.jwtService.JWTToken};
         return this.http.get(endpointUrl,{ observe: "events",reportProgress:true, responseType: "arraybuffer", headers: headers })
-            // .subscribe(
-            //     (resp) => {
-            //         const blob = new Blob([resp.body], {
-            //             type: resp.headers.get("content-type"),
-            //         });
-            //         const document = window.URL.createObjectURL(blob);
-            //         FileSaver.saveAs(document,'file.csv');
-            //     },
-            //     (error) => {
-            //     }
-            // );
     }
 
     public getWithParams<T>(uri: string, params: any[], options?: any) {
