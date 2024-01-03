@@ -19,7 +19,9 @@ import { ValidateFileThenUpload } from 'src/app/_validators/upload.validators';
 import { D3OrgChartComponent } from './d3-org-chart/d3-org-chart.component';
 import { ImagecropService } from 'src/app/_services/_imagecrop.service';
 import { ConfirmationDialogService } from 'src/app/_alerts/confirmationdialog.service';
-
+import { ReportService } from 'src/app/_services/report.service';
+import * as FileSaver from "file-saver";
+import { HttpEventType } from '@angular/common/http';
 interface AutoCompleteCompleteEvent {
     originalEvent: Event;
     query: string;
@@ -75,6 +77,7 @@ export class ProjectComponent implements OnInit {
     //For paginator
     first: number = 0;
     rows: number = 12;
+    value: number;
     onPageChange(event) {
         this.first = event.first;
         this.rows = event.rows;
@@ -112,10 +115,10 @@ export class ProjectComponent implements OnInit {
     constructor(private formbuilder: FormBuilder, private adminService: AdminService,
         private employeeService: EmployeeService, private alertMessage: AlertmessageService,
         private jwtService: JwtService, private downloadNotifier: DownloadNotification,
-        private datePipe: DatePipe,private confirmationDialogService: ConfirmationDialogService,
+        private datePipe: DatePipe, private confirmationDialogService: ConfirmationDialogService,
         private messageService: MessageService,
         private d3NodeChanger: D3NodeChangeNotifier, private viewContainerRef: ViewContainerRef,
-        private cdr: ChangeDetectorRef,
+        private cdr: ChangeDetectorRef, private reportService: ReportService,
         private imageCropService: ImagecropService) { }
 
     ngOnInit() {
@@ -201,7 +204,7 @@ export class ProjectComponent implements OnInit {
                 cinno: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_21), Validators.maxLength(MIN_LENGTH_21)]),
                 pocName: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
                 pocMobileNumber: new FormControl('', [Validators.required, Validators.pattern(RG_PHONE_NO)]),
-                address: new FormControl('', [ Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
+                address: new FormControl('', [Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
             }),
             projectStatuses: new FormControl(),
             projectAllotments: new FormControl([])
@@ -230,11 +233,11 @@ export class ProjectComponent implements OnInit {
     }
     showConfirmationDialog(employee) {
         this.confirmationDialogService.comfirmationDialog(this.confirmationRequest).subscribe(userChoice => {
-          if (userChoice) {
-            this.unAssignedEmployee(employee)
-          }
+            if (userChoice) {
+                this.unAssignedEmployee(employee)
+            }
         });
-      }
+    }
 
     initProjectStatuses() {
         this.adminService.ProjectStatuses().subscribe((resp) => {
@@ -296,11 +299,11 @@ export class ProjectComponent implements OnInit {
         });
     }
 
-    ProjectWithCharts(){
+    ProjectWithCharts() {
         let projectDTO: ProjectViewDto = new ProjectViewDto;
         projectDTO.projectId = -1;
         projectDTO.name = "Org Chart"
-        let localProjects = [projectDTO,...this.projects];
+        let localProjects = [projectDTO, ...this.projects];
         return localProjects
     }
 
@@ -586,7 +589,7 @@ export class ProjectComponent implements OnInit {
             projectId: item.projectId,
             reportingToId: item.reportingToId,
             nodeId: item.id,
-            parentNodeId:item.parentId
+            parentNodeId: item.parentId
         });
         this.fbproject.get('projectAllotments').patchValue(projectAllotments);
     }
@@ -620,12 +623,12 @@ export class ProjectComponent implements OnInit {
 
         item.id = `1-${emp.chartId}-${emp.employeeId}`; // Use a unique prefix like "1-" for this project
 
-        if (pNode.id){
+        if (pNode.id) {
             item.parentId = pNode.id // Make sure the parent ID is unique too
             let parentIds = this.parentRegex.exec(pNode.id)
             //console.log(parentIds);
 
-            if(parentIds){
+            if (parentIds) {
                 //console.log(parentIds.groups["employeeId"]);
                 item.reportingToId = Number(parentIds.groups["employeeId"])
             }
@@ -733,10 +736,10 @@ export class ProjectComponent implements OnInit {
 
             projectAllotments.push({
                 employeeId: rNode.employeeId,
-                projectId:  values.projectId,
+                projectId: values.projectId,
                 reportingToId: null,
-                nodeId:item.id,
-                parentNodeId:null,
+                nodeId: item.id,
+                parentNodeId: null,
             });
 
             item.name = rNode.employeeName;
@@ -783,7 +786,7 @@ export class ProjectComponent implements OnInit {
         this.AllotedNodes.splice(0, this.AllotedNodes.length);
         this.adminService.GetEmployeeHierarchy(projectId).subscribe((resp) => {
             let data = resp as unknown as EmployeeHierarchyDto[];
-         
+
             let projectAllotments: any[] = [];
 
 
@@ -793,8 +796,8 @@ export class ProjectComponent implements OnInit {
                     employeeId: empchart.employeeId,
                     projectId: projectId,
                     reportingToId: empchart.reportingToId,
-                    nodeId:empchart.nodeId,
-                    parentNodeId:empchart.parentNodeId,
+                    nodeId: empchart.nodeId,
+                    parentNodeId: empchart.parentNodeId,
                 });
                 item.id = empchart.nodeId //empchart.selfId == null ? `1-${empchart.chartId}` : `1-${empchart.chartId}-${empchart.employeeId}`;
                 item.parentId = empchart.parentNodeId;
@@ -804,7 +807,7 @@ export class ProjectComponent implements OnInit {
                 //     item.parentId = `1-${empchart.selfId}-${empchart.reportingToId}`; // Make sure the parent ID is unique too
                 // else item.parentId = null // Make sure the parent ID is unique too
 
-                if(empchart.reportingToId) item.reportingToId = empchart.reportingToId;
+                if (empchart.reportingToId) item.reportingToId = empchart.reportingToId;
 
                 let emp = this.Employees.filter(fn => fn.employeeId == empchart.employeeId);
                 if (emp.length == 1) {
@@ -860,8 +863,7 @@ export class ProjectComponent implements OnInit {
         });
     }
 
-    clearAllotments()
-    {
+    clearAllotments() {
 
 
         let projectAllotments: any[] = this.fbproject.get('projectAllotments').value;
@@ -873,18 +875,18 @@ export class ProjectComponent implements OnInit {
                 tmp[0].isActive = false;
             }
         });
-        projectAllotments = projectAllotments.splice(0,projectAllotments.length);
+        projectAllotments = projectAllotments.splice(0, projectAllotments.length);
         this.fbproject.get('projectAllotments').patchValue(projectAllotments);
-        this.AllotedNodes.splice(0,this.AllotedNodes.length);
-        this.loadCompanyHierarchies(true,false);
+        this.AllotedNodes.splice(0, this.AllotedNodes.length);
+        this.loadCompanyHierarchies(true, false);
     }
 
-    refreshChartView(){
+    refreshChartView() {
         let ceoNode = this.AllotedNodes.filter(node => node.id == '1-1')[0];
-        this.AllotedNodes.splice(this.AllotedNodes.indexOf(ceoNode),1);
-        let otherNode = this.AllotedNodes.splice(0,this.AllotedNodes.length);
-        this.loadCompanyHierarchies(true,false);
-        otherNode.forEach(node => {this.AllotedNodes.push(node);});
+        this.AllotedNodes.splice(this.AllotedNodes.indexOf(ceoNode), 1);
+        let otherNode = this.AllotedNodes.splice(0, this.AllotedNodes.length);
+        this.loadCompanyHierarchies(true, false);
+        otherNode.forEach(node => { this.AllotedNodes.push(node); });
     }
 
     async initOrgCharts(nodes: NodeProps[]) {
@@ -918,6 +920,22 @@ export class ProjectComponent implements OnInit {
 
     onCrop(image: File): void {
         this.imageCropService.onCrop(image, this.fbproject, 'logo');
+    }
+
+    downloadProjectReport() {
+        this.reportService.DownloadProjects()
+        .subscribe( (resp)=>
+          {
+            if (resp.type === HttpEventType.DownloadProgress) {
+              const percentDone = Math.round(100 * resp.loaded / resp.total);
+              this.value = percentDone;
+            }
+            if (resp.type === HttpEventType.Response) {
+              const file = new Blob([resp.body], { type: 'text/csv' });
+              const document = window.URL.createObjectURL(file);
+              FileSaver.saveAs(document, "MonthlyAttendanceReport.csv");
+            }
+        })
     }
 
 }

@@ -7,8 +7,9 @@
         <h4>Projects</h4>
       </ng-template>
       <ng-template pTemplate="right">
-        <button type="button" *ngIf="permission?.CanDownloadProjects" pButton pRipple icon="pi pi-file-excel"
-          class=" mr-2" pTooltip="XLS" tooltipPosition="bottom"></button>
+        <button pButton class="p-button doc_button mr-2" (click)="downloadProjectReport()"
+         *ngIf="permission?.CanDownloadProjects" icon="icon-csv-svgrepo-com-1" pTooltip="Download CSV"
+        tooltipPosition="left"></button>
         <button pButton pRipple label="Add New Project" icon="pi pi-plus" class="p-button-primary p-mr-2"
           id="Project_addProject" *ngIf="permission?.CanManageProjects" (click)="onEditProject(null)"></button>
       </ng-template>
@@ -484,9 +485,10 @@
                   <span class="value">: {{this.projectDetails.description}}</span>
                 </div>
               </div>
+             
               <div class="col-12 lg:col-2" *ngIf="permission?.CanDownloadProjects" style="text-align:right">
-                <button type="button" pButton pRipple icon="pi pi-file-excel" class=" mr-2" pTooltip="XLS"
-                  tooltipPosition="bottom"></button>
+                <button pButton class="p-button doc_button"  icon="icon-csv-svgrepo-com-1" pTooltip="Download CSV"
+                tooltipPosition="left"></button>
               </div>
             </div>
           </div>
