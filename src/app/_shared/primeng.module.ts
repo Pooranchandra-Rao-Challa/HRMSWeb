@@ -49,10 +49,12 @@ import { DragDropModule } from 'primeng/dragdrop';
 import { TimelineModule } from 'primeng/timeline';
 import { KnobModule } from 'primeng/knob';
 import { ChipModule } from 'primeng/chip';
-
+import { SplitButtonModule } from 'primeng/splitbutton';
+import { MenuModule } from 'primeng/menu';
 @NgModule({
     exports: [
         ReactiveFormsModule,
+        MenuModule,
         TabMenuModule,
         PaginatorModule,
         TagModule,
@@ -89,6 +91,7 @@ import { ChipModule } from 'primeng/chip';
         OrderListModule,
         PickListModule,
         RadioButtonModule,
+        SplitButtonModule,
         StepsModule,
         PasswordModule,
         ProgressSpinnerModule,
