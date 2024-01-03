@@ -6,6 +6,7 @@ import { ResponseModel } from '../_models/login.model';
 import { JwtService } from './jwt.service';
 import { MessageService } from 'primeng/api';
 import { LOOKUP_LOOKUPS_URI, LOOKUP_LOOKUP_KEYS_URI } from './api.uri.service';
+import * as FileSaver from "file-saver";
 
 const TOKEN_KEY = 'auth-token';
 
@@ -21,7 +22,7 @@ export class ApiHttpService {
 
     }
 
-    public UpdateLookups(forceLocal:boolean = false) {
+    public UpdateLookups(forceLocal: boolean = false) {
 
         if (this.jwtService.IsLoggedIn) {
             this.get<any>(LOOKUP_LOOKUP_KEYS_URI).subscribe({
@@ -78,8 +79,8 @@ export class ApiHttpService {
                 })
             );
     }
-    public upload<T>(uri:string,body:any,headers:HttpHeaders,params:HttpParams){
-        return this.http.post<T>(URI_ENDPOINT(uri),body,{headers:headers,params:params,observe:'events',responseType:'json',reportProgress:true}).pipe(
+    public upload<T>(uri: string, body: any, headers: HttpHeaders, params: HttpParams) {
+        return this.http.post<T>(URI_ENDPOINT(uri), body, { headers: headers, params: params, observe: 'events', responseType: 'json', reportProgress: true }).pipe(
             catchError(error => {
                 let errorMsg: {};
                 if (error.error instanceof ErrorEvent) {
@@ -90,6 +91,22 @@ export class ApiHttpService {
                 return throwError(() => errorMsg);
             })
         );
+    }
+
+    public downloadExcel<T>(reqObj: any, headers: HttpHeaders) {
+        const endpointUrl = URI_ENDPOINT(reqObj) + 'DownloadExcel';
+        return this.http.post(endpointUrl, reqObj, { observe: "response", responseType: "arraybuffer", headers: headers })
+            .subscribe(
+                (resp) => {
+                    const blob = new Blob([resp.body], {
+                        type: resp.headers.get("content-type"),
+                    });
+                    const document = window.URL.createObjectURL(blob);
+                    FileSaver.saveAs(document, reqObj.FileName);
+                },
+                (error) => {
+                }
+            );
     }
 
     public getWithParams<T>(uri: string, params: any[], options?: any) {
@@ -157,7 +174,7 @@ export class ApiHttpService {
         code: 1001, message: ''
     }
 
-    get LookupKeys(){
+    get LookupKeys() {
         return this.jwtService.LookupKeys;
     }
 }

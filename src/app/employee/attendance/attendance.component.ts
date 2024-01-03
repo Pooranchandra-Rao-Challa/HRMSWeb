@@ -243,8 +243,6 @@ export class AttendanceComponent {
       const currentDate = this.isFutureDate(this.datePipe.transform(new Date(), 'dd-MM-yyyy'));
       const dayBeforeYesterday = new Date();
       dayBeforeYesterday.setDate(dayBeforeYesterday.getDate() - 2); 
-      console.log(formattedDate.toISOString() > currentDate.toISOString()||(formattedDate.toISOString() <= (this.isFutureDate(this.datePipe.transform(dayBeforeYesterday, 'dd-MM-yyyy')).toISOString())
-      && formattedDate.toISOString() !== (this.isFutureDate(this.datePipe.transform(this.notUpdatedDates, 'dd-MM-yyyy')).toISOString())));
       
       if (formattedDate.toISOString() > currentDate.toISOString()||(formattedDate.toISOString() <= (this.isFutureDate(this.datePipe.transform(dayBeforeYesterday, 'dd-MM-yyyy')).toISOString())
         && formattedDate.toISOString() !== (this.isFutureDate(this.datePipe.transform(this.notUpdatedDates, 'dd-MM-yyyy')).toISOString())))
@@ -260,8 +258,6 @@ export class AttendanceComponent {
         this.getEmployeeDataBasedOnId(emp, leaveType);
         this.dialog = true;
         this.fbleave.reset();
-        console.log(result);
-        
         if (result && !result?.rejected)
           this.fbleave.patchValue({
             employeeId: result?.employeeId,

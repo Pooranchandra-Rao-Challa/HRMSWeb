@@ -141,6 +141,7 @@ export class projectStatuses {
 }
 export class EmployeesList {
     employeeId?: number
+    employeeName?:string
     reportingToId?: number;
     photo?: string;
     fullName?: string
