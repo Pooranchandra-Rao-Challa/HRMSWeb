@@ -775,8 +775,7 @@ export class ProjectComponent implements OnInit {
         this.AllotedNodes.splice(0, this.AllotedNodes.length);
         this.adminService.GetEmployeeHierarchy(projectId).subscribe((resp) => {
             let data = resp as unknown as EmployeeHierarchyDto[];
-            console.log(data);
-
+         
             let projectAllotments: any[] = [];
 
 
