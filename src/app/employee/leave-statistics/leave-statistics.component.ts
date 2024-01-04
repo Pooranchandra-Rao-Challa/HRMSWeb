@@ -4,12 +4,13 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Table } from 'primeng/table';
 import { EmployeeLeaveDialogComponent } from 'src/app/_dialogs/employeeleave.dialog/employeeleave.dialog.component';
 import { Actions, DialogRequest, ITableHeader } from 'src/app/_models/common';
-import { EmployeeLeaveDto } from 'src/app/_models/employes';
+import { EmployeeLeaveDto, LeaveStatistics } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { GlobalFilterService } from 'src/app/_services/global.filter.service';
 import { ReportService } from 'src/app/_services/report.service';
 import * as FileSaver from "file-saver";
 import { JwtService } from 'src/app/_services/jwt.service';
+import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 
 @Component({
   selector: 'app-leave-statistics',
@@ -18,33 +19,52 @@ import { JwtService } from 'src/app/_services/jwt.service';
   ]
 })
 export class LeaveStatisticsComponent {
-  globalFilterFields: string[] = ['employeeName', 'leaveType', 'fromDate', 'toDate', 'note', 'acceptedBy'];
+  globalFilterFields: string[] = ['name', 'gender', 'mobileNumber', 'originalDOB', 'experienceInCompany', 'dateofJoin', 'emailId',
+    'mobileNumber', 'bloodGroup', 'designation', 'officeEmailId', 'reportingTo', 'allottedCasualLeaves', 'allottedPrivilegeLeaves',
+    'usedCasualLeavesInYear', 'usedCasualLeavesInMonth', 'usedPrivilegeLeavesInYear', 'usedPrivilegeLeavesInMonth', 'usedLWPInYear',
+    'usedLWPInMonth', 'previousYearPrivilegeLeaves', 'absentsInYear', 'absentsInMonth'];
   @ViewChild('filter') filter!: ElementRef;
-  leaves: EmployeeLeaveDto[]=[];
+  leavesStatistics: LeaveStatistics[] = [];
   ActionTypes = Actions;
   employeeleaveDialogComponent = EmployeeLeaveDialogComponent;
   dialogRequest: DialogRequest = new DialogRequest();
   year: number = new Date().getFullYear();
+  month: number = new Date().getMonth() + 1;
+  days: number[] = [];
+  mediumDate: string = MEDIUM_DATE;
+  selectedMonth: Date;
   permissions: any;
-
-  headers: ITableHeader[] = [
-    { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
-    { field: 'leaveType', header: 'leaveType', label: 'Leave Type' },
-    { field: 'fromDate', header: 'fromDate', label: 'From Date' },
-    { field: 'toDate', header: 'toDate', label: 'To Date' },
-    { field: 'note', header: 'note', label: 'Leave Description' },
-    { field: 'acceptedBy', header: 'acceptedBy', label: 'Accepted By' }
-  ];
   value: number;
 
-   constructor(
+  headers: ITableHeader[] = [
+    { field: 'name', header: 'name', label: 'Employee Name' },
+    { field: 'isAFresher', header: 'isAFresher', label: 'Fresher' },
+    { field: 'experienceInCompany', header: 'experienceInCompany', label: 'Experience In Company' },
+    { field: 'dateofJoin', header: 'dateofJoin', label: 'DOJ' },
+    { field: 'designation', header: 'designation', label: 'Designation' },
+    { field: 'officeEmailId', header: 'officeEmailId', label: 'Office Email' },
+    { field: 'mobileNumber', header: 'mobileNumber', label: 'Mobile Number' },
+    { field: 'reportingTo', header: 'reportingTo', label: 'Reporting To' },
+    { field: 'allottedCasualLeaves', header: 'allottedCasualLeaves', label: 'Allotted Casual Leaves' },
+    { field: 'allottedPrivilegeLeaves', header: 'allottedPrivilegeLeaves', label: 'Allotted Privilege Leaves' },
+    { field: 'usedCasualLeavesInYear', header: 'usedCasualLeavesInYear', label: 'Used Casual Leaves(Year)' },
+    { field: 'usedCasualLeavesInMonth', header: 'usedCasualLeavesInMonth', label: 'Used Casual Leaves(Month)' },
+    { field: 'usedPrivilegeLeavesInYear', header: 'usedPrivilegeLeavesInYear', label: 'Used Privilege Leaves(Year)' },
+    { field: 'usedPrivilegeLeavesInMonth', header: 'usedPrivilegeLeavesInMonth', label: 'Used Privilege Leaves(Month)' },
+    { field: 'usedLWPInYear', header: 'usedLWPInYear', label: 'Used LWP(Year)' },
+    { field: 'usedLWPInMonth', header: 'usedLWPInMonth', label: 'Used LWP(Month)' },
+    { field: 'previousYearPrivilegeLeaves', header: 'previousYearPrivilegeLeaves', label: 'Previous Privilege Leaves(Year)' },
+    { field: 'absentsInYear', header: 'absentsInYear', label: 'Absent(Year)' },
+    { field: 'absentsInMonth', header: 'absentsInMonth', label: 'Absent(Month)' },
+  ];
+  constructor(
     private globalFilterService: GlobalFilterService,
     private employeeService: EmployeeService,
     private dialogService: DialogService,
     public ref: DynamicDialogRef,
     private reportService: ReportService,
     private jwtService: JwtService
-    ) {
+  ) {
 
   }
 
@@ -52,7 +72,7 @@ export class LeaveStatisticsComponent {
     this.permissions = this.jwtService.Permissions;
     this.getLeaves();
   }
-  
+
   onGlobalFilter(table: Table, event: Event) {
     const searchTerm = (event.target as HTMLInputElement).value;
     this.globalFilterService.filterTableByDate(table, searchTerm);
@@ -64,17 +84,29 @@ export class LeaveStatisticsComponent {
   }
 
   getLeaves() {
-    this.employeeService.getEmployeeLeaveDetails().subscribe((resp) => {
-      this.leaves = resp as unknown as EmployeeLeaveDto[];
-      
+    this.employeeService.getLeaveStatistics(this.year).subscribe((resp) => {
+      this.leavesStatistics = resp as unknown as LeaveStatistics[];
     })
   }
 
-  
-  downloadLeavesReport(){
+  onMonthSelect(event) {
+    this.year = this.selectedMonth.getFullYear();
+    this.getLeaves();
+  }
+
+  gotoPreviousMonth() {
+    this.year--;
+    this.getLeaves();
+  }
+
+  gotoNextMonth() {
+    this.year++;
+    this.getLeaves();
+  }
+
+  downloadLeavesReport() {
     this.reportService.DownloadLeaves(this.year)
-    .subscribe( (resp)=>
-      {
+      .subscribe((resp) => {
         if (resp.type === HttpEventType.DownloadProgress) {
           const percentDone = Math.round(100 * resp.loaded / resp.total);
           this.value = percentDone;
@@ -84,7 +116,7 @@ export class LeaveStatisticsComponent {
           const document = window.URL.createObjectURL(file);
           FileSaver.saveAs(document, "Leaves Statistics Report.csv");
         }
-    })
+      })
   }
 
   openComponentDialog(content: any,

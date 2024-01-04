@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiHttpService } from './api.http.service';
-import { GET_HOLIDAYS_REPORT, GET_LEAVES_REPORT, GET_ASSETS_REPORT,GET_MONTHLY_ATTENDANCE_REPORT, GET_PROJECTS_REPORT, GET_ACTIVE_EMPLOYEES_REPORT, GET_PROJECT_ALLOTMENTS_REPORT } from './api.uri.service';
+import { GET_HOLIDAYS_REPORT, GET_LEAVES_REPORT, GET_ASSETS_REPORT,GET_MONTHLY_ATTENDANCE_REPORT, GET_PROJECTS_REPORT, GET_ACTIVE_EMPLOYEES_REPORT, GET_PROJECT_ALLOTMENTS_REPORT, GET_EMPLOYEE_LEAVES_REPORT } from './api.uri.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +18,9 @@ export class ReportService extends ApiHttpService {
   }
   DownloadHolidays(year:number){
     return this.downloadExcel(GET_HOLIDAYS_REPORT,[year])
+  }
+  DownloadEmployeeLeaves(month:number,year:number){
+    return this.downloadExcel(GET_EMPLOYEE_LEAVES_REPORT,[month,year])
   }
   DownloadLeaves(year:number){
     return this.downloadExcel(GET_LEAVES_REPORT,[year])

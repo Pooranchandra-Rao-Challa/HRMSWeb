@@ -1,4 +1,4 @@
- import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Table } from 'primeng/table';
 import { AdminService } from 'src/app/_services/admin.service';
@@ -44,10 +44,10 @@ export class HolidayconfigurationComponent {
   fbHoliday!: FormGroup;
   editHolidayForm!: FormGroup;
   maxLength: MaxLength = new MaxLength();
-selectedYear: Year |undefined ;
-years:any;
-year: number = new Date().getFullYear();
-permissions: any;
+  selectedYear: Year | undefined;
+  years: any;
+  year: number = new Date().getFullYear();
+  permissions: any;
   holidayToEdit: HolidaysViewDto;
   mediumDate: string = MEDIUM_DATE
   currentDialog: ViewDialogs = ViewDialogs.none;
@@ -61,7 +61,7 @@ permissions: any;
     private AdminService: AdminService,
     private alertMessage: AlertmessageService,
     private jwtService: JwtService,
-    private reportService:ReportService,
+    private reportService: ReportService,
     private confirmationDialogService: ConfirmationDialogService,
     private globalFilterService: GlobalFilterService) { }
 
@@ -105,13 +105,13 @@ permissions: any;
       return;
     }
     const fromDateValue = this.fbHoliday.get('fromDate').value;
-  const isDuplicateDate = this.faholdyDetail().value.some((holiday: HolidaysViewDto) =>
-    new Date(holiday.fromDate).getTime() === new Date(fromDateValue).getTime()
-  );
-  if (isDuplicateDate) {
-    this.alertMessage.displayErrorMessage(ALERT_CODES["SMH005"]);
-    return;
-  }
+    const isDuplicateDate = this.faholdyDetail().value.some((holiday: HolidaysViewDto) =>
+      new Date(holiday.fromDate).getTime() === new Date(fromDateValue).getTime()
+    );
+    if (isDuplicateDate) {
+      this.alertMessage.displayErrorMessage(ALERT_CODES["SMH005"]);
+      return;
+    }
     // Push current values into the FormArray
     this.faholdyDetail().push(this.generaterow(this.fbHoliday.getRawValue()));
     // Reset form controls for the next entry
@@ -164,7 +164,7 @@ permissions: any;
     },
       {
         validators: Validators.compose([
-          DateValidators.dateRangeValidator('fromDate', 'toDate', { 'fromDate': true ,'toDate': false}),
+          DateValidators.dateRangeValidator('fromDate', 'toDate', { 'fromDate': true, 'toDate': false }),
         ])
       });
   }
@@ -195,14 +195,14 @@ permissions: any;
       const editedHoliday = this.editHolidayForm.value;
       editedHoliday.fromDate = FORMAT_DATE(new Date(editedHoliday.fromDate));
       editedHoliday.toDate = editedHoliday.toDate ? FORMAT_DATE(new Date(editedHoliday.toDate)) : null;
-      editedHoliday.year=editedHoliday.fromDate.getFullYear()
+      editedHoliday.year = editedHoliday.fromDate.getFullYear()
       holidays = [editedHoliday as HolidayDto];
     } else {
       holidays = this.fbHoliday.get('holidayDetails').value.map((holiday: HolidaysViewDto) => ({
         ...holiday,
         fromDate: FORMAT_DATE(new Date(holiday.fromDate)),
         toDate: holiday.toDate ? FORMAT_DATE(new Date(holiday.toDate)) : null,
-        year:holiday.fromDate.getFullYear()
+        year: holiday.fromDate.getFullYear()
       } as HolidayDto));
     }
     return this.AdminService.CreateHoliday(holidays);
@@ -301,13 +301,13 @@ permissions: any;
     const target = event.target as HTMLInputElement;
     // Prevent the first key from being a space
     if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0)
-        event.preventDefault();
+      event.preventDefault();
 
     // Restrict multiple spaces
     if (event.key === ' ' && target.selectionStart > 0 && target.value.charAt(target.selectionStart - 1) === ' ') {
-        event.preventDefault();
+      event.preventDefault();
     }
-}
+  }
 
   // Method to handle the global filter for the table
   onGlobalFilter(table: Table, event: Event) {
@@ -353,10 +353,9 @@ permissions: any;
     this.holidayToEdit = new HolidaysViewDto();
   }
 
-  downloadHolidayReport(){
+  downloadHolidayReport() {
     this.reportService.DownloadHolidays(this.year)
-    .subscribe( (resp)=>
-      {
+      .subscribe((resp) => {
         if (resp.type === HttpEventType.DownloadProgress) {
           const percentDone = Math.round(100 * resp.loaded / resp.total);
           this.value = percentDone;
@@ -366,6 +365,6 @@ permissions: any;
           const document = window.URL.createObjectURL(file);
           FileSaver.saveAs(document, "HolidaysReport.csv");
         }
-    })
+      })
   }
 }
