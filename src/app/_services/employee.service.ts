@@ -96,6 +96,9 @@ export class EmployeeService extends ApiHttpService {
   public CreateAttendance(data: EmployeeLeaveDto) {
     return this.post<EmployeeAttendanceList>(UPDATE_EMPLOYEE_LEAVE_DETAILS, data);
   }
+  public updateEmployeeAttendance(data:EmployeeLeaveDto){
+    return this.post<EmployeeLeaveDto>(UPDATE_EMPLOYEE_LEAVE_DETAILS, data);
+  }
   //Search Employee
   public GetEmployees(IsEnrolled: boolean) {
     return this.getWithParams<EmployeesViewDto[]>(GET_EMPLOYEES_URI,[IsEnrolled]);

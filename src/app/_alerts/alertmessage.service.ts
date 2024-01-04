@@ -195,12 +195,14 @@ export const ALERT_CODES: { [key: string]: string } = {
 
     //Attendence
     'EAAS001': 'Attendence Added Successfully',
-    'EAAS002': 'Attendence Details Not Added',
+    'EAAS002': 'Attendence Not Added',
     'EAAS003': 'Please Enter Attendance For ',
     'EAAS004': 'Please Enter Leave Narration',
     'EAAS005': 'Leave Applied Successfully.',
     'EAAS006': 'Attendence Details Updated For Previous Date and Current Date.',
     'EAAS007': 'Please Enter Previous Day Attendance.',
+    'EAAS008': 'Attendence Updated Successfully',
+    'EAAS009': 'Attendence Not Updated ',
 
 
 
