@@ -126,15 +126,19 @@
 							[ngClass]="{ 'is-invalid ng-dirty': FormControls['stateId'].touched && FormControls['stateId'].errors }"
 							formControlName="stateId" [options]="states" appendTo="body" optionValue="lookupDetailId"
 							optionLabel="name"></p-dropdown>
-						<div class="flex">
-							<div class="align-left w-60" style="width:70%">
-								<span *ngIf="FormControls['stateId'].touched && FormControls['stateId'].invalid">
+							<div class="flex">
+								<div class="align-left w-60" style="width:70%">
+								  <span *ngIf="FormControls['stateId'].touched && FormControls['stateId'].invalid">
 									<div class="ng-invalid ng-touched p-error"
-										*ngIf="FormControls['stateId'].errors?.['required']">
-										Please Select state.</div>
-								</span>
-							</div>
-						</div>
+									  *ngIf="FormControls['countryId'].untouched && FormControls['stateId'].touched ||
+									  FormControls['countryId'].invalid && FormControls['stateId'].touched">
+									  Please Select Country First.</div>
+									<div class="ng-invalid ng-touched p-error"
+									  *ngIf=" FormControls['countryId'].touched &&  FormControls['stateId'].errors?.['required'] && FormControls['countryId'].valid">
+									  Please Select State.</div>
+								  </span>
+								</div>
+							  </div>
 					</div>
 					<div class="field col-12 md:col-8">
 						<label class="required">Address Type:</label>

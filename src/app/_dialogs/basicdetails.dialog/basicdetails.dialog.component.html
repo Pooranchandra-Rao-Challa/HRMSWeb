@@ -33,6 +33,8 @@
                             [ngClass]="{ 'is-invalid ng-dirty': empBasDtlsFormControls['middleName'].touched && empBasDtlsFormControls['middleName'].errors }"
                             (keydown)="restrictSpaces($event)" />
                         <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                            </div>
                             <div class="align-right w-40" style="width:30%; text-align:right;">
                                 <small>{{middlename.value.length}}/{{maxLength.name}} </small>
                             </div>
@@ -218,7 +220,7 @@
                         <label class="required">Nationality:</label>
                         <p-dropdown id="maritalStatus_dropdown" placeholder="Select Nationality"
                             [autoDisplayFirst]="false" [options]="nationality" optionLabel="name"
-                            formControlName="nationality" optionValue="name" appendTo="body"
+                            formControlName="nationality" optionValue="name" appendTo="body" 
                             [ngClass]="{ 'is-invalid ng-dirty': empBasDtlsFormControls['nationality'].touched && empBasDtlsFormControls['nationality'].errors }">
                         </p-dropdown>
                         <div class="flex">
