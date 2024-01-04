@@ -839,6 +839,7 @@ p-fieldset.allott-employee {
 .applicant-p-block-home {
     background-color: rgb(249, 245, 242);
     border-radius: 10px;
+    min-height:390px;
 }
 
 .allotted-employees{
@@ -931,7 +932,22 @@ p-fieldset.allott-employee {
     min-height:250px;
 }
 .avatar{
-    height: 9.525rem;
+    height: 10rem;
+    width: 100px;
+    position: relative;
+    display: inline-block;
+    margin-bottom:10px;
+}
+.avatar_onb{
+    height: 8rem;
+    width: 90px;
+    position: relative;
+    display: inline-block;
+    margin-bottom:10px;
+}
+.avatar_emp_dboard{
+    height: 9rem;
+    width: 100px;
     position: relative;
     display: inline-block;
     margin-bottom:10px;

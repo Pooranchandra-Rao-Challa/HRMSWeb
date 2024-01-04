@@ -84,16 +84,20 @@
             <div class="card m-2 border-1 surface-border card-height">
               <div class=" mb-3 grid">
                 <div class="col-12 lg:col-4 md:col-12 p-1 employee_profile_pic_div">
-                  <img
+                  <div class="avatar_onb">
+                    <img
                     [src]="employee.photo ? employee.photo : employee?.gender == 'Male' ?  './assets/layout/images/men-emp.jpg' : './assets/layout/images/women-emp.jpg'"
-                    [alt]="employee.employeeName" class="shadow-2 my-1 mx-0 employee_profile_pic zoomable-img" />
+                    [alt]="employee.employeeName" class="shadow-2 my-1 mx-0 employee_profile_pic avatar_onb" />
+                  </div>
+                 
                     <br/>
-                  <span class="text-500 font-medium text-md">
-                    <i class="pi icon-intersex text-600 text-primary text-2xl  pb-2"></i> : {{employee.gender}}
-                  </span>
+                 
                 </div>
                 <div class="col-12 lg:col-8 md:col-12 p-1 px-2 employee_info">
                   <div class="text-xl font-bold">{{ employee.employeeName }}</div>
+                  <span class="text-500 font-medium text-md">
+                    <i class="pi icon-intersex text-600 text-primary text-2xl  pb-2"></i> : {{employee.gender}}
+                  </span><br/>
                   <span class="text-600 font-medium text-md">
                     <i class="pi pi-calendar text-300 text-primary text-1xl  pb-1"></i> : {{employee.certificateDOB|
                     date: mediumDate}}

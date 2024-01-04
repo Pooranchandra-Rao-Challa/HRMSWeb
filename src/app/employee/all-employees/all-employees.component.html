@@ -107,15 +107,14 @@
                     [alt]="employee.employeeName" class="shadow-2 my-1 mx-0 employee_profile_pic  avatar" />
                   </div>
                   
-                  <br />
-                  <span class="text-500 font-medium text-md">
-                    <i class="pi icon-intersex text-600 text-primary text-2xl  pb-2"></i> :
-                    {{employee?.gender}}
-                  </span>
-                  <br />
+                 
                 </div>
                 <div class="col-12 lg:col-8 md:col-12 p-1 px-3 employee_info">
                   <div class="text-xl font-bold">{{ employee?.employeeName }}</div>
+                  <span class="text-500 font-medium text-md">
+                    <i class="pi icon-intersex text-600 text-primary text-2xl  pb-2"></i> :
+                    {{employee?.gender}}
+                  </span><br/>
                   <span class="text-600 font-medium text-md">
                     <i class="pi pi-id-card text-300 text-primary text-1xl pb-1"></i> :
                     {{employee?.code}}
