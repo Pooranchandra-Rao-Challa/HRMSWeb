@@ -15,6 +15,7 @@ import { UploadDocumentsComponent } from './onboardingemployees/upload-documents
 import { ViewemployeesComponent } from './viewemployees/viewemployees.component';
 import { EmployeeLeavesComponent } from './employeeleaves/employeeleaves.component';
 import { MyleaveComponent } from './myleave/myleave.component';
+import { LeaveStatisticsComponent } from './leave-statistics/leave-statistics.component';
 
 const routes: Routes = [];
 
@@ -26,6 +27,7 @@ const routes: Routes = [];
       { path: 'myleaves', data: { breadcrumb: 'My Leaves' }, component: MyleaveComponent },
       { path: 'notifications', data: { breadcrumb: 'Notification' }, component: NotificationsComponent },
       { path: 'attendance', data: { breadcrumb: 'Attendance' }, component: AttendanceComponent },
+      { path: 'leaveStatistics', data: { breadcrumb: 'Leave Statistics' }, component: LeaveStatisticsComponent },
       {
         path: 'onboardingemployee', data: { breadcrumb: 'On-Boarding Employees' }, component: OnboardingemployeesComponent,
         children: [

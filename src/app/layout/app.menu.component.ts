@@ -210,6 +210,12 @@ export class AppMenuComponent implements OnInit {
                         permission: this.jwtService.Permissions.CanViewMyLeaves
                     },
                     {
+                        label: 'Leave Statistics',
+                        icon: 'icon-leave-request font-semibold',
+                        routerLink: ['employee/leaveStatistics'],
+                        permission:true
+                    },
+                    {
                         label: 'Notifications',
                         icon: 'pi pi-fw pi-clone',
                         routerLink: ['employee/notifications'],
