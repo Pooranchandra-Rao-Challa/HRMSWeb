@@ -18,7 +18,7 @@ export class FinalSubmitComponent {
   displayDialog: boolean = false;
   employees: any;
   employeeObj: any = {};
-  errorMessage: string;
+  errorMessage: any;
   roles: RoleViewDto[] = [];
 
   constructor(private router: Router, private employeeService: EmployeeService,
@@ -100,12 +100,7 @@ export class FinalSubmitComponent {
       this.message = res;
     },
       (error: HttpErrorResponse) => {
-        this.errorMessage = 'Request failed: ', error
-        if (error.status === 403) {
-          this.errorMessage = 'Access Denied: ', error.message
-        } else {
-          this.errorMessage = 'Duplicate UserName ' + error.message
-        }
+        this.errorMessage = error.message
       });
     this.dialog = true;
   }

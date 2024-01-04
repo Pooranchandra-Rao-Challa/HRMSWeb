@@ -29,7 +29,7 @@ export class FinalsubmitDialogComponent {
   displayDialog: boolean = false;
   employees: any;
   employeeObj: any = {};
-  errorMessage: string;
+  errorMessage: any;
   roles: RoleViewDto[] = [];
   educationDetails: employeeEducDtlsViewDto[] = [];
   workExperience: employeeExperienceDtlsViewDto[] = [];
@@ -117,12 +117,7 @@ export class FinalsubmitDialogComponent {
       this.message = res;
     },
       (error: HttpErrorResponse) => {
-        this.errorMessage = 'Request failed: ', error
-        if (error.status === 403) {
-          this.errorMessage = 'Access Denied: ', error.message
-        } else {
-          this.errorMessage = 'Duplicate UserName ' + error.message
-        }
+        this.errorMessage = error.message
       });
     this.dialog = true;
   }

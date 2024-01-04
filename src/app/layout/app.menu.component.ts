@@ -16,7 +16,7 @@ export class AppMenuComponent implements OnInit {
     GroupPermission(groupName: string): boolean {
         switch (groupName) {
             case 'Dashboards':
-                return this.jwtService.Permissions.CanViewAdminDashboards || this.jwtService.Permissions.CanViewHrDashboards ||this.jwtService.Permissions.CanViewSelfEmployees
+                return this.jwtService.Permissions.CanViewAdminDashboards || this.jwtService.Permissions.CanViewHrDashboards || this.jwtService.Permissions.CanViewSelfEmployees
             case 'Security':
                 return this.jwtService.Permissions.CanViewUsers || this.jwtService.Permissions.CanViewRoles
             case 'Admin':
@@ -27,8 +27,8 @@ export class AppMenuComponent implements OnInit {
             case 'Assets':
                 return this.jwtService.Permissions.CanViewAssets || this.jwtService.Permissions.CanViewAssetsAllotments;
             case 'Employee':
-                return  this.jwtService.Permissions.CanViewEnrollEmployees ||  this.jwtService.Permissions.CanViewEmployees ||this.jwtService.Permissions.CanViewAttendances ||
-                this.jwtService.Permissions.CanViewLeaves ||  this.jwtService.Permissions.CanViewMyLeaves
+                return this.jwtService.Permissions.CanViewEnrollEmployees || this.jwtService.Permissions.CanViewEmployees || this.jwtService.Permissions.CanViewAttendances ||
+                    this.jwtService.Permissions.CanViewLeaves || this.jwtService.Permissions.CanViewMyLeaves || this.jwtService.Permissions.CanViewLeaveStatistics
             default:
                 return false;
         }
@@ -45,7 +45,7 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'Admin',
                         icon: 'icon-admin_icon font-semibold',
-                        routerLink: ['dashboard/admin'], 
+                        routerLink: ['dashboard/admin'],
                         permission: this.jwtService.Permissions.CanViewAdminDashboards
                     },
                     // {
@@ -213,7 +213,7 @@ export class AppMenuComponent implements OnInit {
                         label: 'Leave Statistics',
                         icon: 'icon-leave-request font-semibold',
                         routerLink: ['employee/leaveStatistics'],
-                        permission:true
+                        permission: this.jwtService.Permissions.CanViewLeaveStatistics
                     },
                     {
                         label: 'Notifications',

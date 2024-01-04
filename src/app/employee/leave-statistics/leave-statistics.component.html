@@ -17,10 +17,15 @@
                 <div class="flex justify-content-between flex-column sm:flex-row">
                     <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
                         (click)="clear(dtleave)" id="clear-btn"></button>
+                    <div class="field text-center m-0">
+                        <label>Year:
+                        </label>
+                        &nbsp; <p-dropdown id="year-dropdown" placeholder="Select a Year"  optionLabel="year"></p-dropdown>
+                    </div>
                     <div class="flex gap-2">
-                        <div>
-                            <button pButton class="p-button doc_button" icon="icon-csv-svgrepo-com-1"
-                                pTooltip="Download Leaves Statistics Report" tooltipPosition="left"></button>
+                        <div *ngIf="permissions?.CanDownloadLeaves">
+                            <button pButton class="p-button doc_button" icon="icon-csv-svgrepo-com-1" pTooltip="Download Leaves Report"
+                                tooltipPosition="left" (click)="downloadLeavesReport()"></button>
                         </div>
                         <span class="p-input-icon-left mb-2">
                             <i class="pi pi-search"></i>
