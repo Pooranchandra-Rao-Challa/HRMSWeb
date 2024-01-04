@@ -408,8 +408,11 @@
                   (click)="onEditProject(project)" id="project_edit_button"></button>
                 <div class="list-none m-0 p-0 text-center" (click)="showProjectDetails(project.projectId)">
                   <!-- <div class="w-10rem h-10rem align-items-center"> -->
-                  <img [src]="project.logo" alt="img" [alt]="project.name" onerror="this.onerror=null;"
-                    class="inline-flex w-10rem h-10rem align-items-center w-10rem justify-content-center border-black-alpha-70 mb-5">
+                    <div class="avatar_projects">
+                      <img [src]="project.logo" alt="img" [alt]="project.name" onerror="this.onerror=null;"
+                      class="project_img avatar_projects">
+                    </div>
+                 
                   <!-- </div> -->
                   <div class="text-2xl mb-3 font-medium">
                     <a class="cursor-pointer" id="Project_viewDetails">{{project.name}} </a>

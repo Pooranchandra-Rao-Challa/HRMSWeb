@@ -952,3 +952,16 @@ p-fieldset.allott-employee {
     display: inline-block;
     margin-bottom:10px;
 }
+.project_img{
+    max-width: 100% !important;
+    object-fit: cover;
+    // border:1px solid green;
+}
+.avatar_projects{
+    height: 10rem;
+    width: 150px;
+    position: relative;
+    display: inline-block;
+    margin-bottom:10px;
+}
+
