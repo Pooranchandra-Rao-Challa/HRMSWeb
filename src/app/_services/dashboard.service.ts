@@ -11,8 +11,8 @@ export class DashboardService extends ApiHttpService {
     public GetEmployeeDetails(employeeId: number) {
         return this.getWithId<SelfEmployeeDto>(GET_SELF_EMPLOYEE, [employeeId])
     }
-    public GetEmployeeLeavesForMonth(month: number, empId: number) {
-        return this.getWithParams<selfEmployeeMonthlyLeaves>(GET_SELF_EMPLOYEE_MONTH_LEAVES ,[month ,empId]);
+    public GetEmployeeLeavesForMonth(month: number, empId: number,year:number) {
+        return this.getWithParams<selfEmployeeMonthlyLeaves>(GET_SELF_EMPLOYEE_MONTH_LEAVES ,[month ,empId,year]);
     }
     public getAdminDashboard() {
         return this.get<adminDashboardViewDto>(GET_ADMIN_DASHBOARD);

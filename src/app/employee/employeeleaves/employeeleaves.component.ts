@@ -82,7 +82,7 @@ export class EmployeeLeavesComponent {
   }
 
   getLeaves() {
-    this.employeeService.getEmployeeLeaveDetails().subscribe((resp) => {
+    this.employeeService.getEmployeeLeaveDetails(this.month,this.year).subscribe((resp) => {
       this.leaves = resp as unknown as EmployeeLeaveDto[];
     })
   }

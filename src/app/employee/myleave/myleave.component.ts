@@ -29,6 +29,7 @@ export class MyleaveComponent {
   mediumDate: string = MEDIUM_DATE
   permissions: any;
   leaves:EmployeeLeaveDto[]=[];
+  year: number = new Date().getFullYear();
 
   headers: ITableHeader[] = [
     { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
@@ -40,7 +41,9 @@ export class MyleaveComponent {
     { field: 'acceptedAt', header: 'acceptedAt', label: 'Accepted At' },
     { field: 'approvedBy', header: 'approvedBy', label: 'Approved By' },
     { field: 'approvedAt', header: 'approvedAt', label: 'Approved At' },
-    { field: 'createdBy', header: 'createdBy', label: 'Created By' }
+    { field: 'createdBy', header: 'createdBy', label: 'Created By' },
+    { field: 'status', header: 'status', label: 'Status' }
+
   ];
 
   constructor(
@@ -58,8 +61,10 @@ export class MyleaveComponent {
   }
 
   getLeaves() {
-    this.employeeService.getMyLeaves(this.jwtService.EmployeeId).subscribe((resp) => {
+    this.employeeService.getMyLeaves(this.jwtService.EmployeeId,this.year).subscribe((resp) => {
       this.leaves = resp as unknown as EmployeeLeaveDto[];
+      console.log(this.leaves);
+      
     })
   }
 

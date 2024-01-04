@@ -221,12 +221,12 @@ export class EmployeeService extends ApiHttpService {
     return this.post<ExperienceDetailsDto>(UPDATE_EXPERIENCE_DETAILS, empExpDtls);
   }
 
-  public getEmployeeLeaveDetails() {
-    return this.get<EmployeeLeaveDto[]>(GET_EMPLOYEE_LEAVE_DETAILS)
+  public getEmployeeLeaveDetails(month:number,year:number) {
+    return this.getWithParams<EmployeeLeaveDto[]>(GET_EMPLOYEE_LEAVE_DETAILS,[month,year])
   }
 
-  public getMyLeaves(employeeId: number) {
-    return this.getWithId<EmployeeLeaveDto[]>(GET_MY_LEAVE_DETAILS, [employeeId])
+  public getMyLeaves(employeeId: number,year:number) {
+    return this.getWithParams<EmployeeLeaveDto[]>(GET_MY_LEAVE_DETAILS, [employeeId,year])
   }
   public CreateEmployeeLeaveDetails(leaveDetails: EmployeeLeaveDto[]) {
     return this.post<EmployeeLeaveDto[]>(CREATE_EMPLOYEE_LEAVE_DETAILS, leaveDetails)

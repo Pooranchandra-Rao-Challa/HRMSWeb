@@ -84,7 +84,7 @@ export class EmployeeDashboardComponent {
     }
 
     initGetLeavesForMonth() {
-        this.dashBoardService.GetEmployeeLeavesForMonth(this.month, this.jwtService.EmployeeId).subscribe(resp => {
+        this.dashBoardService.GetEmployeeLeavesForMonth(this.month, this.jwtService.EmployeeId,this.year).subscribe(resp => {
             this.monthlyLeaves = resp[0] as unknown as selfEmployeeMonthlyLeaves;
 
         });
