@@ -54,7 +54,6 @@ export class AttendanceComponent {
   showingLeavesOfColors: boolean = false;
   infoMessage: boolean;
   value: number;
-  canUpdatePreviousdayAttendance: boolean;
   selfEmployeeLeaveCount: SelfEmployeeDto;
 
 
@@ -74,7 +73,6 @@ export class AttendanceComponent {
   }
 
   ngOnInit() {
-    this.canUpdatePreviousdayAttendance = true;
     this.infoMessage = false;
     this.permissions = this.jwtService.Permissions;
     this.initAttendance();
@@ -101,7 +99,7 @@ export class AttendanceComponent {
       toDate: new FormControl(null),
       leaveTypeId: new FormControl('', [Validators.required]),
       leaveReasonId: new FormControl(''),
-      previousWorkstatus: new FormControl(''),
+      PreviousWorkStatusId: new FormControl(''),
       note: new FormControl('', [Validators.maxLength(MAX_LENGTH_256)]),
       isHalfDayLeave: new FormControl(),
       acceptedBy: new FormControl(null),
@@ -161,7 +159,7 @@ export class AttendanceComponent {
 
   getLeaves() {
     this.employeeService.getEmployeeLeaveDetails(this.month,this.year).subscribe((resp) =>
-      this.leaves = resp as unknown as EmployeeLeaveDto[]
+      this.leaves = resp as unknown as EmployeeLeaveDto[]  
     );
   }
 
@@ -255,7 +253,7 @@ export class AttendanceComponent {
   }
 
   openDialog(emp: any, date: string, leaveType: string) {
-    if (this.canUpdatePreviousdayAttendance) {
+    if (this.permissions?.CanUpdatePreviousDayAttendance) {
       this.patchFormValues(emp, date, leaveType);
       return;
     }
@@ -264,18 +262,18 @@ export class AttendanceComponent {
     }
     this.patchFormValues(emp, date, leaveType);
   }
-  
+
   isValidDate(date: string): boolean {
     const formattedDate = this.isFutureDate(this.datePipe.transform(new Date(this.isFutureDate(date)), 'dd-MM-yyyy'));
     const currentDate = this.isFutureDate(this.datePipe.transform(new Date(), 'dd-MM-yyyy'));
     const dayBeforeYesterday = new Date();
     dayBeforeYesterday.setDate(dayBeforeYesterday.getDate() - 2);
-  
+
     if (formattedDate.toISOString() === currentDate.toISOString() && this.checkPreviousAttendance) {
       this.alertMessage.displayInfo(ALERT_CODES["EAAS007"]);
       return false;
     }
-  
+
     return !(
       formattedDate.toISOString() > currentDate.toISOString() ||
       (formattedDate.toISOString() <= this.isFutureDate(this.datePipe.transform(dayBeforeYesterday, 'dd-MM-yyyy')).toISOString() &&
@@ -283,9 +281,9 @@ export class AttendanceComponent {
       (formattedDate.toISOString() < currentDate.toISOString() && !this.checkPreviousAttendance)
     );
   }
-  
 
-  patchFormValues(emp,date,leaveType){
+
+  patchFormValues(emp, date, leaveType) {
     this.filteredLeaveTypes = this.LeaveTypes;
     const result = this.leaves.find(
       each => each.employeeId === emp.EmployeeId && this.datePipe.transform(each.fromDate, 'yyyy-MM-dd') === this.datePipe.transform(this.isFutureDate(date), 'yyyy-MM-dd')
@@ -295,30 +293,26 @@ export class AttendanceComponent {
     this.dialog = true;
     this.fbleave.reset();
 
-    if (result && !result?.rejected) {
-      this.fbleave.patchValue({
-        employeeId: result?.employeeId,
-        employeeName: result?.employeeName,
-        leaveTypeId: result?.leaveTypeId,
-        fromDate: FORMAT_DATE(new Date(this.datePipe.transform(result?.fromDate, 'yyyy-MM-dd'))),
-        note: result?.note,
-        previousWorkstatus:result?.leaveTypeId,
-        notReported: false,
-        isHalfDayLeave: result?.isHalfDayLeave,
-        leaveReasonId: result?.leaveReasonId
-      });
-    } else {
-      const statusId = this.LeaveTypes.find(each => each.name === leaveType)?.lookupDetailId;
-      this.fbleave.patchValue({
-        employeeId: emp.EmployeeId,
-        employeeName: emp.EmployeeName,
-        leaveTypeId: statusId,
-        previousWorkstatus:statusId,
-        fromDate: FORMAT_DATE(new Date(this.datePipe.transform(this.isFutureDate(date), 'yyyy-MM-dd'))),
-        notReported: false,
-        isHalfDayLeave: false
-      });
-    }
+    const statusId = this.LeaveTypes.find(each => each.name === leaveType)?.lookupDetailId;
+
+    const defaultValues = {
+      employeeId: emp.EmployeeId,
+      employeeName: emp.EmployeeName,
+      leaveTypeId: statusId,
+      PreviousWorkStatusId: statusId,
+      fromDate: FORMAT_DATE(new Date(this.datePipe.transform(this.isFutureDate(date), 'yyyy-MM-dd'))),
+      notReported: false,
+      isHalfDayLeave: false
+    };
+
+    const resultValues = result && !result?.rejected ? {
+      ...result,
+      PreviousWorkStatusId: result?.leaveTypeId,
+      fromDate: FORMAT_DATE(new Date(this.datePipe.transform(result?.fromDate, 'yyyy-MM-dd')))
+    } : defaultValues;
+
+    this.fbleave.patchValue(resultValues);
+
     console.log(this.fbleave.value);
   }
 
@@ -338,7 +332,7 @@ export class AttendanceComponent {
   isLeaveTypeSelected(type: number): boolean {
     return this.LeaveTypes.some(each => each.lookupDetailId === type && (each.name === 'PL' || each.name === 'CL'));
   }
-  updateEmployeeAttendance(){
+  updateEmployeeAttendance() {
     this.employeeService.updateEmployeeAttendance(this.fbleave.value).subscribe(resp => {
       if (resp) {
         this.alertMessage.displayAlertMessage(ALERT_CODES["EAAS008"]);
@@ -351,12 +345,13 @@ export class AttendanceComponent {
     });
   }
   addAttendance() {
-    if(this.fbleave.get('previousWorkstatus').value){
+    if (this.fbleave.get('PreviousWorkStatusId ').value) {
       this.updateEmployeeAttendance();
       return
     }
     const StatusId = this.LeaveTypes.find(each => each.lookupDetailId === this.fbleave.get('leaveTypeId').value);
-    if (StatusId.name == 'PT' || StatusId.name == 'AT') {
+
+    if (StatusId.name !== 'PL' && StatusId.name !== 'CL') {
       this.fbAttendance.patchValue({
         employeeId: this.fbleave.get('employeeId').value,
         dayWorkStatusId: StatusId.lookupDetailId,
