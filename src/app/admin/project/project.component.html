@@ -487,10 +487,10 @@
                   <span class="value">: {{this.projectDetails.description}}</span>
                 </div>
               </div>
-
               <div class="col-12 lg:col-2" *ngIf="permission?.CanDownloadProjects" style="text-align:right">
-                <button pButton class="p-button doc_button" icon="icon-csv-svgrepo-com-1" pTooltip="Download CSV"
-                  tooltipPosition="left"></button>
+                <button pButton class="p-button doc_button"
+                  (click)="downloadProjectAllotmentsReport(this.projectDetails.projectId)" icon="icon-csv-svgrepo-com-1"
+                  pTooltip="Download CSV" tooltipPosition="left"></button>
               </div>
             </div>
           </div>
