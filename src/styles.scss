@@ -76,7 +76,8 @@ $gutter: 1rem; //for primeflex grid system
 .employee_profile_pic {
     border-radius: 5px;
     border: 2px solid rgb(79, 223, 94);
-    width: 100px !important;
+    max-width: 100% !important;
+    object-fit: cover;
 }
 
 .employee_profile_pic_view {
@@ -928,4 +929,10 @@ p-fieldset.allott-employee {
 }
 .chart_card{
     min-height:250px;
+}
+.avatar{
+    height: 9.525rem;
+    position: relative;
+    display: inline-block;
+    margin-bottom:10px;
 }
