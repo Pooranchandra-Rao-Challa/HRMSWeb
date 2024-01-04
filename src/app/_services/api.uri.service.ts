@@ -75,6 +75,7 @@ export const GET_EMPLOYEE_ROLES_INFO = "Admin/GetERoles";
 
 //EMPLOYEE
 export const GET_EMPLOYEES_URI = "Employee/GetEmployeeDetails";
+export const GET_EMPLOYEES_BASED_ON_STATUS_URI = "Employee/GetEmployeeDetails";
 export const CREATE_BASIC_DETAILS_URI = "Employee/CreateEmployeeBasicDetails";
 export const CREATE_EDUCATION_DETAILS_URI = "Employee/UpdateEducationDetails";
 export const EMPLOYEES_FOR_ALLOTTED_ASSETS_URI = "Admin/GetAssetsForEmployees";
