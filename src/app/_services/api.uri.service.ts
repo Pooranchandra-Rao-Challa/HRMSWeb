@@ -168,3 +168,4 @@ export const GET_HOLIDAYS_REPORT="Report/HolidaysReport";
 export const GET_LEAVES_REPORT="Report/LeaveStatisticsReport";
 export const GET_ASSETS_REPORT="Report/AssetsReport";
 export const GET_ACTIVE_EMPLOYEES_REPORT="Report/EmployeesDetailsReport";
+export const GET_ALL_EMPLOYEES_REPORT="Report/EmployeesDetailsReport";

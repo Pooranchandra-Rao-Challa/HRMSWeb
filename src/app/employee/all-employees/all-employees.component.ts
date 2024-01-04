@@ -18,6 +18,8 @@ import { HttpEventType } from '@angular/common/http';
     ]
 })
 export class AllEmployeesComponent {
+    selectedEmployeeStatus: { label: string; value: boolean  | null} = { label: 'Active Employees', value: true };
+    employeeStatusOptions: { label: string; value: boolean  | null}[] = [];
     color1: string = 'Bluegray';
     visible: boolean = false;
     @ViewChild('filter') filter!: ElementRef;
@@ -28,8 +30,7 @@ export class AllEmployeesComponent {
     mediumDate: string = MEDIUM_DATE
     permissions: any;
     value: number;
-    selectedEmployeeStatus: { label: string; value: boolean };
-    employeeStatusOptions: { label: string; value: string }[] = [];
+ 
     headers: ITableHeader[] = [
         { field: 'code', header: 'code', label: 'Employee Code' },
         { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
@@ -48,8 +49,9 @@ export class AllEmployeesComponent {
         this.permissions = this.jwtService.Permissions;
         this.initEmployees()
         this.employeeStatusOptions = [
-            { label: 'Active Employees', value: 'true' },
-            { label: 'Inactive Employees', value: 'false' },
+            { label: 'Active Employees', value: true },
+            { label: 'Inactive Employees', value: false },
+            { label: 'All Employees', value: null },
           ];
     }
 

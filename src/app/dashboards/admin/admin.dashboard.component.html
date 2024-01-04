@@ -53,7 +53,7 @@
                     </div>
                 </div>
                 <ul class=" p-0 m-0">
-                    <li *ngIf="admindashboardDtls?.savedActiveEmployeesInOffice[0]?.employeesCount; else noDataMessage">
+                    <li *ngIf="admindashboardDtls?.savedActiveEmployeesInOffice?.length > 0; else noDataMessage">
                         <p-chart type="doughnut" [data]="pieDataforAttendance" [options]="pieOptions" height="135px"
                             width="100%"></p-chart>
                     </li>
@@ -77,11 +77,6 @@
                     <div class="overview-info">
                         <h6 class="m-0 mb-1 text-white">Total Projects</h6>
                         <h1 class="m-0 text-white">
-                            <!-- Ini: {{ getProjectCountByStatus('Initial') }}
-                            Dev: {{ getProjectCountByStatus('Working') }}
-                            Com: {{ getProjectCountByStatus('Completed') }}
-                            AMC: {{ getProjectCountByStatus('AMC') }}
-                            Total:  -->
                             {{ admindashboardDtls?.totalprojectsCount }}
                         </h1>
                     </div>
@@ -95,7 +90,7 @@
                     style="min-width: 17rem">
                     <div class="overview-info">
                         <h6 class="m-0 mb-1 text-white">Suspended Projects</h6>
-                        <h1 class="m-0 text-white">{{admindashboardDtls?.savedsupsendedProjects[0].projectStatusCount}}
+                        <h1 class="m-0 text-white">{{admindashboardDtls?.savedsupsendedProjects[0]?.projectStatusCount}}
                         </h1>
                     </div>
                     <div (click)="navigateProjects()">
@@ -128,8 +123,7 @@
                     </div>
                 </div>
                 <ul class="list-none p-0 m-1">
-                    <li
-                        *ngIf="this.admindashboardDtls?.savedactiveProjects [0]?.projectStatusCount; else noDataMessage">
+                    <li *ngIf="this.admindashboardDtls?.savedactiveProjects?.length > 0; else noDataMessage">
                         <p-chart type="doughnut" [data]="pieDataforProjects" [options]="pieOptions" height="135px"
                             width="100%">
                         </p-chart>
