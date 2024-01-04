@@ -76,7 +76,8 @@ $gutter: 1rem; //for primeflex grid system
 .employee_profile_pic {
     border-radius: 5px;
     border: 2px solid rgb(79, 223, 94);
-    width: 100px !important;
+    max-width: 100% !important;
+    object-fit: cover;
 }
 
 .employee_profile_pic_view {
@@ -838,6 +839,7 @@ p-fieldset.allott-employee {
 .applicant-p-block-home {
     background-color: rgb(249, 245, 242);
     border-radius: 10px;
+    min-height:390px;
 }
 
 .allotted-employees{
@@ -929,3 +931,45 @@ p-fieldset.allott-employee {
 .chart_card{
     min-height:250px;
 }
+.avatar{
+    height: 10rem;
+    width: 100px;
+    position: relative;
+    display: inline-block;
+    margin-bottom:10px;
+}
+.error .p-dropdown {
+    border-color: #E24c4c;
+}
+
+.error .p-inputtext {
+    border-color: #E24c4c;
+}
+
+.avatar_onb{
+    height: 8rem;
+    width: 90px;
+    position: relative;
+    display: inline-block;
+    margin-bottom:10px;
+}
+.avatar_emp_dboard{
+    height: 9rem;
+    width: 100px;
+    position: relative;
+    display: inline-block;
+    margin-bottom:10px;
+}
+.project_img{
+    max-width: 100% !important;
+    object-fit: cover;
+    // border:1px solid green;
+}
+.avatar_projects{
+    height: 150px;
+    width: 150px;
+    position: relative;
+    display: inline-block;
+    margin-bottom:10px;
+}
+
