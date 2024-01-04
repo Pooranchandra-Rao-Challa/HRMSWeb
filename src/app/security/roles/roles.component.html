@@ -49,9 +49,10 @@
             <span *ngIf="col?.field == 'createdAt' || col?.field == 'updatedAt'">
               {{role[col.field] | date: mediumDate }}
             </span>
-            <span *ngIf="col?.field == 'isActive'">
-              <p-checkbox name="isActive" value="isActive" [binary]="true" [(ngModel)]="role[col.field]"
-                [disabled]="true"></p-checkbox>
+            <span *ngIf="col?.field === 'isActive'">
+              <i class="fa" [ngClass]="{'fa-check': role[col.field], 'fa-close': !role[col.field]}"
+                [style.color]="role[col.field] ? '#119e2f' : '#e24c4c'"
+                style="font-size:18px; vertical-align: sub;"></i>
             </span>
           </td>
         </tr>
@@ -104,8 +105,8 @@
                 </div>
                 <div class="field col-12 md:col-6">
                   <label class="required">Employee Role:</label>
-                  <p-dropdown  appendTo="body" id="eRoleTitle_dropdown" [autoDisplayFirst]="false" optionLabel="name"
-                   [options]="eRolesInfo" optionValue="eroleId" formControlName="eroleId"
+                  <p-dropdown appendTo="body" id="eRoleTitle_dropdown" [autoDisplayFirst]="false" optionLabel="name"
+                    [options]="eRolesInfo" optionValue="eroleId" formControlName="eroleId"
                     placeholder="Select Employee Role"
                     [ngClass]="{ 'is-invalid ng-dirty': roleFormControls['eroleId'].touched && roleFormControls['eroleId'].errors}">
                   </p-dropdown>
@@ -123,9 +124,10 @@
                 </div>
                 <div class="field col-12 md:col-6">
                   <label>Is Active:</label><br>
-                  &nbsp;<p-inputSwitch formControlName="isActive" [readonly]="role.name === 'SuperAdmin'" id="Role_roleIsActive">
+                  &nbsp;<p-inputSwitch formControlName="isActive" [readonly]="role.name === 'SuperAdmin'"
+                    id="Role_roleIsActive">
                   </p-inputSwitch>
-                  
+
                 </div>
                 <div class="field col-12">
                   <label>Permissions:<sup class="p-error">*</sup></label><br>

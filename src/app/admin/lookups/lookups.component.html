@@ -66,8 +66,9 @@
                     <td>{{lookup.code}}</td>
                     <td>{{lookup.name}}</td>
                     <td [ngClass]="'isActive' ? 'text-center' : ''">
-                        <p-checkbox name="isActive" value="isActive" [(ngModel)]="lookup['isActive']" [binary]="true"
-                            [disabled]="true"></p-checkbox>
+                        <i class="fa" [ngClass]="{'fa-check': lookup['isActive'], 'fa-close': !lookup['isActive']}"
+                            [style.color]="lookup['isActive'] ? '#119e2f' : '#e24c4c'"
+                            style="font-size:18px; vertical-align: sub;"></i>
                     </td>
                     <td *ngFor="let col of columns" [ngClass]="col?.field == 'isActive' ? 'text-center' : ''">
                         <span
@@ -115,8 +116,10 @@
                             {{lookupDetails[col.field] | date: mediumDate }}
                         </span>
                         <span *ngIf="col?.field == 'isActive'">
-                            <p-checkbox name="isActive" value="isActive" [binary]="true"
-                                [(ngModel)]="lookupDetails[col.field]" [disabled]="true"></p-checkbox>
+                            <i class="fa"
+                                [ngClass]="{'fa-check': lookupDetails[col.field], 'fa-close': !lookupDetails[col.field]}"
+                                [style.color]="lookupDetails[col.field] ? '#119e2f' : '#e24c4c'"
+                                style="font-size:18px; vertical-align: sub;"></i>
                         </span>
                     </td>
             </ng-template>
