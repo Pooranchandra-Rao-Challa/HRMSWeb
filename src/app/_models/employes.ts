@@ -360,6 +360,7 @@ export class EmployeeLeaveDto {
 	isHalfDayLeave?:boolean;
 	leaveType?: string;
 	note?: string;
+	previousWorkstatus?:number
 	acceptedBy?: string;
 	acceptedAt?: Date;
 	approvedBy?: string;
