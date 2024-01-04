@@ -28,10 +28,11 @@ import {
   UPDATE_EMPLOYEE_LEAVE_DETAILS,
   GET_EMPLOYEE_PROFILE_PIC,
   GET_MY_LEAVE_DETAILS,
+  GET_LEAVE_STATISTICS,
   GET_EMPLOYEES_BASED_ON_STATUS_URI,
 
 } from './api.uri.service';
-import { ExperienceDetailsDto, SkillArea, AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments, employeeExperienceDtlsViewDto, FamilyDetailsViewDto, employeeAttendanceDto, EmployeeLeaveDto, EmployeeAttendanceList, CompanyHierarchyViewDto, EmployeeProfilePicViewDto } from '../_models/employes';
+import { ExperienceDetailsDto, SkillArea, AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments, employeeExperienceDtlsViewDto, FamilyDetailsViewDto, employeeAttendanceDto, EmployeeLeaveDto, EmployeeAttendanceList, CompanyHierarchyViewDto, EmployeeProfilePicViewDto, LeaveStatistics } from '../_models/employes';
 
 import { ApiHttpService } from './api.http.service';
 import { LookupViewDto } from '../_models/admin';
@@ -95,6 +96,9 @@ export class EmployeeService extends ApiHttpService {
   }
   public CreateAttendance(data: EmployeeLeaveDto) {
     return this.post<EmployeeAttendanceList>(UPDATE_EMPLOYEE_LEAVE_DETAILS, data);
+  }
+  public updateEmployeeAttendance(data:EmployeeLeaveDto){
+    return this.post<EmployeeLeaveDto>(UPDATE_EMPLOYEE_LEAVE_DETAILS, data);
   }
   //Search Employee
   public GetEmployeesBasedonstatus(IsEnrolled: boolean,EmployeeStatus:String) {
@@ -241,5 +245,9 @@ export class EmployeeService extends ApiHttpService {
   }
   public getEmployeeProfileInfo(employeeId: number) {
     return this.getWithId<EmployeeProfilePicViewDto[]>(GET_EMPLOYEE_PROFILE_PIC, [employeeId])
+  }
+  public getLeaveStatistics(year:number){
+    return this.getWithParams<LeaveStatistics[]>(GET_LEAVE_STATISTICS,[year])
+    
   }
 }

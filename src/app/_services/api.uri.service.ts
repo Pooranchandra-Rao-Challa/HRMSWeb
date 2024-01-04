@@ -166,8 +166,12 @@ export const GET_ADMIN_DASHBOARD="AdminDashboard/GetAdminDashboard"
 export const GET_MONTHLY_ATTENDANCE_REPORT="Report/MonthlyAttendanceReport";
 export const GET_PROJECTS_REPORT="Report/ProjectDetailsReport";
 export const GET_HOLIDAYS_REPORT="Report/HolidaysReport";
+export const GET_EMPLOYEE_LEAVES_REPORT ="Report/EmployeeLeavesReport"
 export const GET_LEAVES_REPORT="Report/LeaveStatisticsReport";
 export const GET_ASSETS_REPORT="Report/AssetsReport";
 export const GET_ACTIVE_EMPLOYEES_REPORT="Report/EmployeesDetailsReport";
-export const GET_ALL_EMPLOYEES_REPORT="Report/EmployeesDetailsReport";
 export const GET_PROJECT_ALLOTMENTS_REPORT="Report/AllottedMembersInProjectReport";
+
+//Leave Statistics
+export const GET_LEAVE_STATISTICS="Attendance/GetLeaveStatistics";
+export const GET_ALL_EMPLOYEES_REPORT="Report/EmployeesDetailsReport";

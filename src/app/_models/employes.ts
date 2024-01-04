@@ -360,6 +360,7 @@ export class EmployeeLeaveDto {
 	isHalfDayLeave?:boolean;
 	leaveType?: string;
 	note?: string;
+	previousWorkstatus?:number
 	acceptedBy?: string;
 	acceptedAt?: Date;
 	approvedBy?: string;
@@ -426,4 +427,33 @@ export class EmployeeProfilePicViewDto {
 	employeeName?: string;
 	employeePhoto?: string;
 	employeeGender?: string;
+}
+export class LeaveStatistics{
+	employeeId?:number;
+	code?:string;
+	name?:string;
+	gender?:string;
+	mobileNumber?:string;
+	originalDOB?:Date;
+	isAFresher?:boolean;
+	nationality?:string;
+	experienceInCompany?:string;
+	dateofJoin?:Date;
+	emailId?:string;
+	bloodGroup?:string;
+	designation?:string;
+	officeEmailId?:string;
+	reportingToId?:number;
+	reportingTo ?:string;
+	allottedCasualLeaves?:number;
+	usedCasualLeavesInYear?:number;
+	usedCasualLeavesInMonth?:number;
+	allottedPrivilegeLeaves ?:number;
+	usedPrivilegeLeavesInYear ?:number;
+	usedPrivilegeLeavesInMonth ?:number;
+	previousYearPrivilegeLeaves ?:number;
+	absentsInYear?:number;
+	absentsInMonth ?:number;
+	usedLWPInYear ?:number;
+	usedLWPInMonth?:number;
 }

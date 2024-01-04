@@ -42,6 +42,10 @@ export class EmployeeLeavesComponent {
   permissions: any;
   buttonLabel: string;
   year: number = new Date().getFullYear();
+  month:number =new Date().getMonth() + 1;
+  days: number[] = [];
+  selectedMonth: Date;
+
 
   headers: ITableHeader[] = [
     { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
@@ -68,19 +72,18 @@ export class EmployeeLeavesComponent {
     private jwtService: JwtService,
     public alertMessage: AlertmessageService,
     private leaveConfirmationService: LeaveConfirmationService) {
-
   }
 
   ngOnInit(): void {
     this.permissions = this.jwtService.Permissions;
     this.getLeaves();
+    this.getDaysInMonth(this.year, this.month);
     this.leaveForm();
   }
 
   getLeaves() {
     this.employeeService.getEmployeeLeaveDetails().subscribe((resp) => {
       this.leaves = resp as unknown as EmployeeLeaveDto[];
-      
     })
   }
 
@@ -113,6 +116,49 @@ export class EmployeeLeavesComponent {
       status: new FormControl(''),
       isapprovalEscalated: new FormControl(NgPluralCase)
     });
+  }
+
+  gotoPreviousMonth() {
+    if (this.month > 1)
+      this.month--;
+    else {
+      this.month = 12;        // Reset to December
+      this.year--;            // Decrement the year
+    }
+    this.selectedMonth = FORMAT_DATE(new Date(this.year, this.month - 1, 1));
+    this.selectedMonth.setHours(0, 0, 0, 0);
+    this.getDaysInMonth(this.year, this.month);
+    this.getLeaves();
+  }
+  gotoNextMonth() {
+    if (this.month < 12)
+      this.month++;
+    else {
+      this.month = 1; // Reset to January
+      this.year++;    // Increment the year
+    }
+    this.selectedMonth = FORMAT_DATE(new Date(this.year, this.month - 1, 1));
+    this.selectedMonth.setHours(0, 0, 0, 0);
+    this.getDaysInMonth(this.year, this.month);
+    this.getLeaves();
+  }
+
+  onMonthSelect(event) {
+    this.month = this.selectedMonth.getMonth() + 1; // Month is zero-indexed
+    this.year = this.selectedMonth.getFullYear();
+    this.getDaysInMonth(this.year, this.month);
+    this.getLeaves();
+  }
+
+  getDaysInMonth(year: number, month: number) {
+    const date = new Date(year, month - 1, 1);
+    date.setMonth(date.getMonth() + 1);
+    date.setDate(date.getDate() - 1);
+    let day = date.getDate();
+    this.days = [];
+    for (let i = 1; i <= day; i++) {
+      this.days.push(i);
+    }
   }
 
   openSweetAlert(title: string, leaves: EmployeeLeaveDto) {
@@ -166,8 +212,8 @@ export class EmployeeLeavesComponent {
     return this.employeeService.UpdateEmployeeLeaveDetails(this.fbLeave.value);
   }
 
-  downloadLeavesReport(){
-    this.reportService.DownloadLeaves(this.year)
+  downloadEmployeeLeavesReport(){
+    this.reportService.DownloadEmployeeLeaves(this.month,this.year)
     .subscribe( (resp)=>
       {
         if (resp.type === HttpEventType.DownloadProgress) {

@@ -44,6 +44,7 @@ export class ProjectComponent implements OnInit {
     Employees: EmployeesList[] = [];
     projectStatues: ProjectStatus[];
     Roles: ProjectRole[] = []
+    selectedOption:any;
     clientDetails: ClientDetailsDto;
     projectDetailsDialog: boolean = false;
     filteredClients: any;
@@ -864,8 +865,6 @@ export class ProjectComponent implements OnInit {
     }
 
     clearAllotments() {
-
-
         let projectAllotments: any[] = this.fbproject.get('projectAllotments').value;
         projectAllotments.forEach(fn => {
             var tmp = this.Employees.filter(gn => gn.employeeId == fn.employeeId)
