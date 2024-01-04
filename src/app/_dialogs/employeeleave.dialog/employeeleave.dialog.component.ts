@@ -2,6 +2,7 @@ import { PlatformLocation } from '@angular/common';
 import { HttpErrorResponse, HttpEvent } from '@angular/common/http';
 import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
@@ -38,6 +39,7 @@ export class EmployeeLeaveDialogComponent {
   emailURL: string;
   errorMessage: string;
   empDetails: SelfEmployeeDto;
+  currentRoute: any;
 
   constructor(
     private formbuilder: FormBuilder,
@@ -48,7 +50,9 @@ export class EmployeeLeaveDialogComponent {
     private dashBoardService: DashboardService,
     public ref: DynamicDialogRef,
     public alertMessage: AlertmessageService,
-    private platformLocation: PlatformLocation,) {
+    private platformLocation: PlatformLocation,
+    private router: Router) {
+
     this.emailURL = `${platformLocation.protocol}//${platformLocation.hostname}:${platformLocation.port}/`
     const today = new Date();
     const currentYear = today.getFullYear();
@@ -59,7 +63,7 @@ export class EmployeeLeaveDialogComponent {
         this.initializeDisabledDates(currentYear);
       },
       (error) => {
-        console.error('Failed to fetch holiday dates:', error);
+        console.error(error);
       }
     );
   }
@@ -151,16 +155,20 @@ export class EmployeeLeaveDialogComponent {
   getEmployees() {
     this.adminService.getEmployeesList().subscribe(resp => {
       this.employees = resp as unknown as EmployeesList[];
-      const defaultEmployeeId = this.jwtService.EmployeeId;
-      this.fbLeave.get('employeeId')?.setValue(defaultEmployeeId);
-      const selectedEmployee = this.employees.find(employee => String(employee.employeeId) === String(defaultEmployeeId));
-      if (selectedEmployee) {
-        this.fbLeave.get('employeeId')?.patchValue(selectedEmployee.employeeId);
-        this.employees = [selectedEmployee];
-      }
-
-      if (defaultEmployeeId) {
-        this.getEmployeeDataBasedOnId(defaultEmployeeId);
+      this.currentRoute = this.router.url;
+      if (this.currentRoute === '/dashboard/employee') {
+        const defaultEmployeeId = this.jwtService.EmployeeId;
+        this.fbLeave.get('employeeId')?.setValue(defaultEmployeeId);
+        const selectedEmployee = this.employees.find(employee => String(employee.employeeId) === String(defaultEmployeeId));
+        if (selectedEmployee) {
+          this.fbLeave.get('employeeId')?.patchValue(selectedEmployee.employeeId);
+          this.employees = [selectedEmployee];
+        }
+        if (defaultEmployeeId) {
+          this.getEmployeeDataBasedOnId(defaultEmployeeId);
+        }
+      } else if (this.currentRoute.startsWith('/employee/employeeleaves')) {
+        this.employees = resp as unknown as EmployeesList[];
       }
     });
   }
@@ -182,7 +190,7 @@ export class EmployeeLeaveDialogComponent {
 
   getEmployeeDataBasedOnId(employeeId: number) {
     this.dashBoardService.GetEmployeeDetails(employeeId).subscribe((resp) => {
-      this.empDetails = resp as unknown as SelfEmployeeDto;      
+      this.empDetails = resp as unknown as SelfEmployeeDto;
       this.filteringClsPls = (
         (this.empDetails.allottedPrivilegeLeaves - this.empDetails.usedPrivilegeLeavesInYear) > 0 &&
         (this.empDetails.allottedCasualLeaves - this.empDetails.usedCasualLeavesInYear) > 0
@@ -222,7 +230,7 @@ export class EmployeeLeaveDialogComponent {
     return this.fbLeave.controls;
   }
   onChangeIsHalfDay() {
-    const isHalfDayLeave = this.fbLeave.get('isHalfDayLeave').value;  
+    const isHalfDayLeave = this.fbLeave.get('isHalfDayLeave').value;
     if (!isHalfDayLeave) {
       this.fbLeave.get('toDate').enable();
     } else {
