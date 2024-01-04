@@ -99,7 +99,7 @@ export class AttendanceComponent {
       toDate: new FormControl(null),
       leaveTypeId: new FormControl('', [Validators.required]),
       leaveReasonId: new FormControl(''),
-      PreviousWorkStatusId: new FormControl(''),
+      previousWorkStatusId: new FormControl(''),
       note: new FormControl('', [Validators.maxLength(MAX_LENGTH_256)]),
       isHalfDayLeave: new FormControl(),
       acceptedBy: new FormControl(null),
@@ -240,8 +240,8 @@ export class AttendanceComponent {
     this.getNotUpdatedEmployeesList(formattedDate, this.checkPreviousAttendance);
   }
   getEmployeeLeavesBasedOnId(emp: any, leaveType: string): void {
-    this.dashBoardService.GetEmployeeDetails(emp.EmployeeId).subscribe((resp) => {
-      this.selfEmployeeLeaveCount = resp as SelfEmployeeDto;
+    this.dashBoardService.GetAllottedLeavesBasedOnEId(emp.EmployeeId,this.month,this.year).subscribe((resp) => {
+      this.selfEmployeeLeaveCount = resp[0] as SelfEmployeeDto;
       this.filterLeaveType('CL', leaveType, this.selfEmployeeLeaveCount?.allottedCasualLeaves - this.selfEmployeeLeaveCount?.usedCasualLeavesInYear);
       this.filterLeaveType('PL', leaveType, this.selfEmployeeLeaveCount?.allottedPrivilegeLeaves - this.selfEmployeeLeaveCount?.usedPrivilegeLeavesInYear);
     });
@@ -299,21 +299,20 @@ export class AttendanceComponent {
       employeeId: emp.EmployeeId,
       employeeName: emp.EmployeeName,
       leaveTypeId: statusId,
-      PreviousWorkStatusId: statusId,
+      previousWorkStatusId: statusId,
       fromDate: FORMAT_DATE(new Date(this.datePipe.transform(this.isFutureDate(date), 'yyyy-MM-dd'))),
       notReported: false,
       isHalfDayLeave: false
     };
-
     const resultValues = result && !result?.rejected ? {
       ...result,
-      PreviousWorkStatusId: result?.leaveTypeId,
+      note:result?.note,
+      previousWorkStatusId: result?.leaveTypeId,
       fromDate: FORMAT_DATE(new Date(this.datePipe.transform(result?.fromDate, 'yyyy-MM-dd')))
     } : defaultValues;
 
     this.fbleave.patchValue(resultValues);
-
-    console.log(this.fbleave.value);
+    
   }
 
   get FormControls() {
@@ -333,7 +332,12 @@ export class AttendanceComponent {
     return this.LeaveTypes.some(each => each.lookupDetailId === type && (each.name === 'PL' || each.name === 'CL'));
   }
   updateEmployeeAttendance() {
-    this.employeeService.updateEmployeeAttendance(this.fbleave.value).subscribe(resp => {
+    const updateData = {
+      ...this.fbleave.value,
+      dayWorkStatusId: this.fbleave.get('leaveTypeId').value,
+      fromDate: formatDate(this.fbleave.get('fromDate').value, 'yyyy-MM-dd', 'en')
+    };
+    this.employeeService.updateEmployeeAttendance(updateData).subscribe(resp => {
       if (resp) {
         this.alertMessage.displayAlertMessage(ALERT_CODES["EAAS008"]);
         this.CheckPreviousDayAttendance();
@@ -342,12 +346,13 @@ export class AttendanceComponent {
         return this.alertMessage.displayErrorMessage(ALERT_CODES["EAAS009"]);
       this.initAttendance();
       this.getLeaves();
+      this.dialog = false;
     });
   }
   addAttendance() {
-    if (this.fbleave.get('PreviousWorkStatusId ').value) {
+    if (this.fbleave?.get('previousWorkStatusId')?.value) {
       this.updateEmployeeAttendance();
-      return
+      return;
     }
     const StatusId = this.LeaveTypes.find(each => each.lookupDetailId === this.fbleave.get('leaveTypeId').value);
 

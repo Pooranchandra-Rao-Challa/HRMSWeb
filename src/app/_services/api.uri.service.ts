@@ -111,7 +111,7 @@ export const POST_LISTOF_ATTENDANCES = "Attendance/CreateAttendanceForEmployees"
 export const GET_MY_LEAVE_DETAILS="Attendance/GetLeavesForSelfEmployee";
 export const GET_EMPLOYEE_LEAVE_DETAILS = "Attendance/GetEmployeeLeaves";
 export const CREATE_EMPLOYEE_LEAVE_DETAILS = "Attendance/CreateEmployeeLeave";
-export const UPDATE_EMPLOYEE_LEAVE_DETAILS = "Attendance/UpdateEmployeeLeave";
+export const UPDATE_EMPLOYEE_LEAVE_DETAILS = "Attendance/UpdatePreviousDayAttendance";
 export const GET_NOTUPDATED_EMPLOYEES = "Attendance/GetNotUpdatedEmployeesInAttendance";
 export const GET_COMPANY_HIERARCHY = "Employee/GetCompanyHierarchy";
 
@@ -156,7 +156,8 @@ export const UPDATE_RESULT="Recruitment/UpdateFilteredApplicantForHRRound";
 //self Employee
 
 export const GET_SELF_EMPLOYEE="Employee/GetSelfEmployeeData";
-export const GET_SELF_EMPLOYEE_MONTH_LEAVES="Attendance/GetLeavesForSelfInMonth"
+export const GET_SELF_EMPLOYEE_MONTH_LEAVES="Attendance/GetLeavesForSelfInMonth";
+export const GET_ALLOTED_LEAVES="Attendance/GetAllottedLeavesBasedOnEId"
 
 // Admin Dashboard
 export const GET_ADMIN_DASHBOARD="AdminDashboard/GetAdminDashboard"
