@@ -937,6 +937,21 @@ export class ProjectComponent implements OnInit {
             }
         })
     }
+    downloadProjectAllotmentsReport(employeeId:number){
+        this.reportService.DownloadProjectsAllotments(employeeId)
+        .subscribe( (resp)=>
+          {
+            if (resp.type === HttpEventType.DownloadProgress) {
+              const percentDone = Math.round(100 * resp.loaded / resp.total);
+              this.value = percentDone;
+            }
+            if (resp.type === HttpEventType.Response) {
+              const file = new Blob([resp.body], { type: 'text/csv' });
+              const document = window.URL.createObjectURL(file);
+              FileSaver.saveAs(document, "ProjectAllotmentsReport.csv");
+            }
+        })
+    }
 
 }
 
