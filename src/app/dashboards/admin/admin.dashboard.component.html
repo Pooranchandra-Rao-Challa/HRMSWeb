@@ -34,11 +34,6 @@
                     <div class="overview-info">
                         <h6 class="m-0 mb-1 text-white">Total Projects</h6>
                         <h1 class="m-0 text-white">
-                            <!-- Ini: {{ getProjectCountByStatus('Initial') }}
-                            Dev: {{ getProjectCountByStatus('Working') }}
-                            Com: {{ getProjectCountByStatus('Completed') }}
-                            AMC: {{ getProjectCountByStatus('AMC') }}
-                            Total:  -->
                             {{ admindashboardDtls?.totalprojectsCount }}
                         </h1>
                     </div>
@@ -52,7 +47,7 @@
                     style="min-width: 17rem">
                     <div class="overview-info">
                         <h6 class="m-0 mb-1 text-white">Suspended Projects</h6>
-                        <h1 class="m-0 text-white">{{admindashboardDtls?.savedsupsendedProjects[0].projectStatusCount}}
+                        <h1 class="m-0 text-white">{{admindashboardDtls?.savedsupsendedProjects[0]?.projectStatusCount}}
                         </h1>
                     </div>
                     <div (click)="navigateProjects()">
@@ -85,7 +80,7 @@
                     </div>
                 </div>
                 <ul class=" p-0 m-0">
-                    <li *ngIf="admindashboardDtls?.savedActiveEmployeesInOffice[0]?.employeesCount; else noDataMessage">
+                    <li *ngIf="admindashboardDtls?.savedActiveEmployeesInOffice?.length > 0; else noDataMessage">
                         <p-chart type="doughnut" [data]="pieDataforAttendance" [options]="pieOptions" height="135px"
                             width="100%"></p-chart>
                     </li>
@@ -122,8 +117,7 @@
                     </div>
                 </div>
                 <ul class="list-none p-0 m-1">
-                    <li
-                        *ngIf="this.admindashboardDtls?.savedactiveProjects [0]?.projectStatusCount; else noDataMessage">
+                    <li *ngIf="this.admindashboardDtls?.savedactiveProjects?.length > 0; else noDataMessage">
                         <p-chart type="doughnut" [data]="pieDataforProjects" [options]="pieOptions" height="135px"
                             width="100%">
                         </p-chart>
@@ -153,8 +147,9 @@
                         <p-tabView>
                             <p-tabPanel header="On Leave" class="w-full p-0">
                                 <ng-template pTemplate="header">
-                                    <div class="pr-2" *ngIf="admindashboardDtls?.savedemployeesOnLeave?.length > 0" pBadge
-                                        value="{{ admindashboardDtls?.savedemployeesOnLeave?.length }}" severity="info">
+                                    <div class="pr-2" *ngIf="admindashboardDtls?.savedemployeesOnLeave?.length > 0"
+                                        pBadge value="{{ admindashboardDtls?.savedemployeesOnLeave?.length }}"
+                                        severity="info">
                                         <h6 class="m-0 mr-2">On Leave</h6>
                                     </div>
                                     <h6 *ngIf="admindashboardDtls?.savedemployeesOnLeave?.length === 0 || !admindashboardDtls?.savedemployeesOnLeave"
@@ -164,7 +159,7 @@
                                 <ul class="list-none p-0 overflow-auto"
                                     style="margin: 0 -1.5rem -1rem; max-height: 17.745rem">
                                     <ng-container
-                                        *ngIf="admindashboardDtls?.savedemployeesOnLeave && admindashboardDtls?.savedemployeesOnLeave.length > 0; else noDataTemplate">
+                                        *ngIf="admindashboardDtls?.savedemployeesOnLeave && admindashboardDtls?.savedemployeesOnLeave?.length > 0; else noDataTemplate">
                                         <li *ngFor="let employee of admindashboardDtls?.savedemployeesOnLeave"
                                             class="border-round-lg pt-2 px-3 pb-2 mb-3"
                                             style="background-color: var(--primary-lighter-color)">
@@ -195,7 +190,8 @@
                                                     <div class="col-3 p-1 text-right">
                                                         <p-tag
                                                             styleClass="m-0 mr-2 px-2 text-xs  leavelist_emp_designation "
-                                                            class="inline-block" value="{{employee?.leaveType}}"></p-tag>
+                                                            class="inline-block" value="{{employee?.leaveType}}">
+                                                        </p-tag>
                                                     </div>
                                                 </div>
                                             </div>
@@ -401,8 +397,9 @@
                             </p-tabPanel> -->
                             <p-tabPanel header="Messages" class="w-full p-2">
                                 <ng-template pTemplate="header">
-                                    <div class="pr-2" *ngIf="admindashboardDtls?.savedemployeeBirthdays?.length > 0" pBadge
-                                        value="{{admindashboardDtls?.savedemployeeBirthdays?.length }}" severity="info">
+                                    <div class="pr-2" *ngIf="admindashboardDtls?.savedemployeeBirthdays?.length > 0"
+                                        pBadge value="{{admindashboardDtls?.savedemployeeBirthdays?.length }}"
+                                        severity="info">
                                         <h6 class="m-0 mr-2">Today Birthdays and Events</h6>
                                     </div>
                                     <h6 *ngIf="admindashboardDtls?.savedemployeeBirthdays?.length === 0 || !admindashboardDtls?.savedemployeeBirthdays"

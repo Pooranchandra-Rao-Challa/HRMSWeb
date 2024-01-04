@@ -71,7 +71,7 @@ export class AdminDashboardComponent implements OnInit {
         };
         this.pieOptions = {
             animation: {
-                duration: 5     
+                duration: 5
             },
             plugins: {
                 legend: {
@@ -98,7 +98,7 @@ export class AdminDashboardComponent implements OnInit {
                     borderColor: surfaceBorder
                 }
             ]
-        };        
+        };
     }
 
     navigateEmpDtls() {
@@ -109,11 +109,6 @@ export class AdminDashboardComponent implements OnInit {
     }
     navigateProjects() {
         this.router.navigate(['admin/project'])
-    }
-
-    getProjectCountByStatus(status: string): number {
-        const project = this.admindashboardDtls?.savedactiveProjects?.find(p => p.projectStatus === status);
-        return project ? project.projectStatusCount : 0;
     }
 
 }
