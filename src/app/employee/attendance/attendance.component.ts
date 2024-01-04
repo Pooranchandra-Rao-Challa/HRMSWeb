@@ -56,8 +56,17 @@ export class AttendanceComponent {
   value: number;
 
 
-  constructor(private adminService: AdminService, private reportService: ReportService, private dashBoardService: DashboardService, private datePipe: DatePipe, private jwtService: JwtService, public ref: DynamicDialogRef,
-    private formbuilder: FormBuilder, private alertMessage: AlertmessageService, private employeeService: EmployeeService, private lookupService: LookupService) {
+  constructor(
+    private adminService: AdminService,
+    private reportService: ReportService,
+    private dashBoardService: DashboardService,
+    private datePipe: DatePipe,
+    private jwtService: JwtService,
+    public ref: DynamicDialogRef,
+    private formbuilder: FormBuilder,
+    private alertMessage: AlertmessageService,
+    private employeeService: EmployeeService,
+    private lookupService: LookupService) {
     this.selectedMonth = FORMAT_DATE(new Date(this.year, this.month - 1, 1));
     this.selectedMonth.setHours(0, 0, 0, 0);
   }
