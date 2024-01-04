@@ -246,10 +246,7 @@ export class AttendanceComponent {
     this.filteredLeaveTypes = this.LeaveTypes;
 
     this.dashBoardService.GetAllottedLeavesBasedOnEId(emp.EmployeeId,this.month,this.year).subscribe((resp) => {
-        console.log(resp);
-
       this.selfEmployeeLeaveCount = resp[0] as SelfEmployeeDto;
-      console.log(this.selfEmployeeLeaveCount);
       this.getEmployeeLeaveOnDate(emp, date, leaveType)
 
       this.filterLeaveType('CL', leaveType, this.selfEmployeeLeaveCount?.allottedCasualLeaves - this.selfEmployeeLeaveCount?.usedCasualLeavesInYear);
