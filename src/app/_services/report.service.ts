@@ -29,10 +29,7 @@ export class ReportService extends ApiHttpService {
   DownloadAssets(assetsStatus: number) {
     return this.downloadExcel(GET_ASSETS_REPORT, [assetsStatus])
   }
-  DownloadEmployees(employeeStatus: boolean) {
-    if (employeeStatus == null) {
-      return this.downloadExcel(GET_ALL_EMPLOYEES_REPORT, [])
-    }
+  DownloadEmployees(employeeStatus: String) {
     return this.downloadExcel(GET_ACTIVE_EMPLOYEES_REPORT, [employeeStatus])
   }
 }

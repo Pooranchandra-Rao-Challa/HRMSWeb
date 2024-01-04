@@ -18,8 +18,8 @@ import { HttpEventType } from '@angular/common/http';
     ]
 })
 export class AllEmployeesComponent {
-    selectedEmployeeStatus: { label: string; value: boolean  | null} = { label: 'Active Employees', value: true };
-    employeeStatusOptions: { label: string; value: boolean  | null}[] = [];
+    selectedEmployeeStatus: { label: string; value: string } = { label: 'Active Employees', value: 'Active Employees' };
+    employeeStatusOptions: { label: string; value: string }[] = [];
     color1: string = 'Bluegray';
     visible: boolean = false;
     @ViewChild('filter') filter!: ElementRef;
@@ -30,7 +30,7 @@ export class AllEmployeesComponent {
     mediumDate: string = MEDIUM_DATE
     permissions: any;
     value: number;
- 
+
     headers: ITableHeader[] = [
         { field: 'code', header: 'code', label: 'Employee Code' },
         { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
@@ -47,18 +47,18 @@ export class AllEmployeesComponent {
 
     ngOnInit() {
         this.permissions = this.jwtService.Permissions;
-        this.initEmployees()
+        this.initEmployees(this.selectedEmployeeStatus.value)
         this.employeeStatusOptions = [
-            { label: 'Active Employees', value: true },
-            { label: 'Inactive Employees', value: false },
-            { label: 'All Employees', value: null },
-          ];
+            { label: 'Active Employees', value: 'Active Employees' },
+            { label: 'InActive Employees', value: 'InActive Employees' },
+            { label: 'All Employees', value: 'All Employees' },
+        ];
     }
 
-    initEmployees() {
+    initEmployees(selectedEmployeeStatus: string) {
         // Fetch only records where IsEnrolled is true
         const isEnrolled = true;
-        this.EmployeeService.GetEmployees(isEnrolled).subscribe(resp => {
+        this.EmployeeService.GetEmployeesBasedonstatus(isEnrolled, selectedEmployeeStatus).subscribe(resp => {
             this.employees = resp as unknown as EmployeesViewDto[];
         });
     }
