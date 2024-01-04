@@ -12,7 +12,7 @@ export class DashboardService extends ApiHttpService {
         return this.getWithId<SelfEmployeeDto>(GET_SELF_EMPLOYEE, [employeeId])
     }
     public GetAllottedLeavesBasedOnEId(employeeId:number,month:number,year:number){
-        return this.getWithParams(GET_ALLOTED_LEAVES,[employeeId,month,year]);
+        return this.getWithParams<SelfEmployeeDto>(GET_ALLOTED_LEAVES,[employeeId,month,year]);
     }
     public GetEmployeeLeavesForMonth(month: number, empId: number,year:number) {
         return this.getWithParams<selfEmployeeMonthlyLeaves>(GET_SELF_EMPLOYEE_MONTH_LEAVES ,[month ,empId,year]);

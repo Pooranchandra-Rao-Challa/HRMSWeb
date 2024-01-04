@@ -454,7 +454,19 @@ export class LeaveStatistics{
 	usedPrivilegeLeavesInMonth ?:number;
 	previousYearPrivilegeLeaves ?:number;
 	absentsInYear?:number;
-	absentsInMonth ?:number;
-	usedLWPInYear ?:number;
+	absentsInMonth?:number;
+	usedLWPInYear?:number;
 	usedLWPInMonth?:number;
+}
+
+export class EmployeeLeaveOnDateDto
+{
+    employeeId?: number
+    leaveTypeId?: number
+    leaveReasonId?: number
+    note?: string
+    isHalfDayLeave?: Boolean
+    comments?: string
+    fromDate?: Date
+    toDate?: Date
 }

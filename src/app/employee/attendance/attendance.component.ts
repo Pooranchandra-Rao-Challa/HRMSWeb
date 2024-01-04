@@ -4,13 +4,13 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Table } from 'primeng/table';
-import { Observable } from 'rxjs';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { ATTENDANCE_DATE, FORMAT_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { EmployeesList, LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
 import { MaxLength } from 'src/app/_models/common';
 import { SelfEmployeeDto } from 'src/app/_models/dashboard';
-import { employeeAttendanceDto, EmployeeLeaveDto } from 'src/app/_models/employes';
+import { employeeAttendanceDto, EmployeeLeaveDto, EmployeeLeaveOnDateDto } from 'src/app/_models/employes';
 import { AdminService } from 'src/app/_services/admin.service';
 import { LOGIN_URI } from 'src/app/_services/api.uri.service';
 import { DashboardService } from 'src/app/_services/dashboard.service';
@@ -55,6 +55,8 @@ export class AttendanceComponent {
   infoMessage: boolean;
   value: number;
   selfEmployeeLeaveCount: SelfEmployeeDto;
+  filteredLeaveReasons:LookupViewDto[] = [];
+  employeeLeaveOnDate:EmployeeLeaveOnDateDto[] =[];
 
 
   constructor(
@@ -79,6 +81,7 @@ export class AttendanceComponent {
     this.initLeaveForm();
     this.getDaysInMonth(this.year, this.month);
     this.initDayWorkStatus();
+    this.loadLeaveReasons();
     this.getLeaves();
   }
 
@@ -159,7 +162,7 @@ export class AttendanceComponent {
 
   getLeaves() {
     this.employeeService.getEmployeeLeaveDetails(this.month,this.year).subscribe((resp) =>
-      this.leaves = resp as unknown as EmployeeLeaveDto[]  
+      this.leaves = resp as unknown as EmployeeLeaveDto[]
     );
   }
 
@@ -239,12 +242,36 @@ export class AttendanceComponent {
     const formattedDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
     this.getNotUpdatedEmployeesList(formattedDate, this.checkPreviousAttendance);
   }
-  getEmployeeLeavesBasedOnId(emp: any, leaveType: string): void {
+  getEmployeeLeavesBasedOnId(emp: any, date: string,leaveType: string): void {
+    this.filteredLeaveTypes = this.LeaveTypes;
+
     this.dashBoardService.GetAllottedLeavesBasedOnEId(emp.EmployeeId,this.month,this.year).subscribe((resp) => {
+        console.log(resp);
+
       this.selfEmployeeLeaveCount = resp[0] as SelfEmployeeDto;
+      console.log(this.selfEmployeeLeaveCount);
+      this.getEmployeeLeaveOnDate(emp, date, leaveType)
+
       this.filterLeaveType('CL', leaveType, this.selfEmployeeLeaveCount?.allottedCasualLeaves - this.selfEmployeeLeaveCount?.usedCasualLeavesInYear);
       this.filterLeaveType('PL', leaveType, this.selfEmployeeLeaveCount?.allottedPrivilegeLeaves - this.selfEmployeeLeaveCount?.usedPrivilegeLeavesInYear);
     });
+  }
+
+  getEmployeeLeaveOnDate(emp: any, date: string,leaveType :string){
+    let selectedLeaveType = this.LeaveTypes.filter(fn => fn.name == leaveType)[0];
+
+    this.employeeService.getEmployeeLeaveOnDate({
+        employeeId : emp.EmployeeId,
+        leaveDate: formatDate(this.isFutureDate(date), 'yyyy-MM-dd', 'en'),
+        leaveTypeId: selectedLeaveType.lookupDetailId
+    }).subscribe({
+        next: (data) => {
+            this.employeeLeaveOnDate = data as unknown as EmployeeLeaveOnDateDto[];
+            this.patchFormValues(emp, date, leaveType);
+        },
+        error: (err) =>{ console.log(err);
+        }
+    })
   }
 
   filterLeaveType(type: string, leaveType: string, leaveBalance: number): void {
@@ -254,13 +281,15 @@ export class AttendanceComponent {
 
   openDialog(emp: any, date: string, leaveType: string) {
     if (this.permissions?.CanUpdatePreviousDayAttendance) {
-      this.patchFormValues(emp, date, leaveType);
+        this.getEmployeeLeavesBasedOnId(emp, date,leaveType);
       return;
     }
     if (!this.permissions?.CanManageAttendance || !this.isValidDate(date)) {
       return;
     }
-    this.patchFormValues(emp, date, leaveType);
+
+
+    this.getEmployeeLeavesBasedOnId(emp, date,leaveType);
   }
 
   isValidDate(date: string): boolean {
@@ -284,12 +313,20 @@ export class AttendanceComponent {
 
 
   patchFormValues(emp, date, leaveType) {
-    this.filteredLeaveTypes = this.LeaveTypes;
+
     const result = this.leaves.find(
       each => each.employeeId === emp.EmployeeId && this.datePipe.transform(each.fromDate, 'yyyy-MM-dd') === this.datePipe.transform(this.isFutureDate(date), 'yyyy-MM-dd')
     );
+    let selectedLeaveType = this.LeaveTypes.filter( fn => fn.name == leaveType);
 
-    this.getEmployeeLeavesBasedOnId(emp, leaveType);
+    if(selectedLeaveType.length >0)
+        this.filteredLeaveReasons = this.leaveReasons.filter(fn => fn.fkeySelfId == selectedLeaveType[0].lookupDetailId);
+    let employeeleave: EmployeeLeaveOnDateDto = {}
+    if(this.employeeLeaveOnDate.length > 0){
+        employeeleave = this.employeeLeaveOnDate[0]
+    }
+
+
     this.dialog = true;
     this.fbleave.reset();
 
@@ -298,6 +335,7 @@ export class AttendanceComponent {
     const defaultValues = {
       employeeId: emp.EmployeeId,
       employeeName: emp.EmployeeName,
+      leaveReasonId:employeeleave.leaveReasonId,
       leaveTypeId: statusId,
       previousWorkStatusId: statusId,
       fromDate: FORMAT_DATE(new Date(this.datePipe.transform(this.isFutureDate(date), 'yyyy-MM-dd'))),
@@ -312,7 +350,7 @@ export class AttendanceComponent {
     } : defaultValues;
 
     this.fbleave.patchValue(resultValues);
-    
+    this.fbleave.get('fromDate').disable();
   }
 
   get FormControls() {
@@ -395,14 +433,20 @@ export class AttendanceComponent {
     const StatusId = this.LeaveTypes.find(each => each.lookupDetailId === this.fbleave.get('leaveTypeId').value);
     if (StatusId.name != 'PT' && StatusId.name != 'AT') {
       this.fbleave.get('note').setValue('Leave is Updated through Attendance form by Admin the approve is generated Automatically.');
-      this.lookupService.LeaveReasons(id).subscribe(resp => {
+      this.filteredLeaveReasons = this.leaveReasons.filter(fn => fn.fkeySelfId == id)
+    }
+  }
+
+
+
+
+  loadLeaveReasons(){
+    this.lookupService.AllLeaveReasons().subscribe(resp => {
         if (resp) {
           this.leaveReasons = resp as unknown as LookupViewDto[];
         }
       })
-    }
   }
-
 
   gotoPreviousMonth() {
     if (this.month > 1)
