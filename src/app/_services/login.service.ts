@@ -37,14 +37,10 @@ export class LoginService extends ApiHttpService {
     }
 
     refreshToken() {
-        this.getWithParams<any>(REFRESH_TOKEN_URI, [encodeURIComponent(this.jwtService.RefreshToken)])
+        this.getWithParams<any>(REFRESH_TOKEN_URI, [this.jwtService.RefreshToken])
             .subscribe((resp) => {
                 if (resp) {
-                    const u = resp as any;
-                    const tokens = {
-                        accessToken: u.accessToken,
-                        refreshToken: u.refreshToken
-                    }
+                    const tokens = resp as any;
                     this.jwtService.SaveToken(tokens);
                     this.startRefreshTokenTimer();
                 }
@@ -69,14 +65,13 @@ export class LoginService extends ApiHttpService {
                 Swal.showLoading(Swal.getDenyButton())
                 const b = Swal.getHtmlContainer().querySelector('b')
                 timerInterval = setInterval(() => {
-                    b.textContent = Math.floor(Swal.getTimerLeft() / 2000) + ''
+                    b.textContent = Math.floor(Swal.getTimerLeft() / 1000) + ''
                 }, 100)
             },
             willClose: () => {
                 clearInterval(timerInterval);
             },
             customClass: {
-                container: '.swal2-container',
                 popup: 'swal-background',
             }
         }).then((result) => {
@@ -121,19 +116,6 @@ export class LoginService extends ApiHttpService {
             );
     }
 
-    isLoggedIn() {
-        if (!this.jwtService.JWTToken) return false;
-        const jwtToken = this.jwtService.JWTToken as unknown as any;
-        const exp = new Date(jwtToken.exp * 1000);
-        const iat = new Date(jwtToken.iat);
-        const nbf = new Date(jwtToken.nbf);
-        // exp.setSeconds(0);
-        iat.setSeconds(0);
-        nbf.setSeconds(0);
-        const today = new Date();
-        const flag = today >= nbf && today >= iat && today <= exp;
-        return flag
-    }
 
     public startRefreshTokenTimer() {
         const jwtToken = jwtdecode(this.jwtService.JWTToken) as unknown as any;
@@ -141,14 +123,11 @@ export class LoginService extends ApiHttpService {
         console.log(`Session Timeout:  ${expires}`)
         const timeout = expires.getTime() - (new Date()).getTime() - 60000;
         console.log(`timeout ${timeout}`);
-
-        if (this.refreshTokenTimer) this.clearTimer();
+        if (this.refreshTokenTimer) this.stopRefreshTokenTimer();
         this.refreshTokenTimer = setTimeout(() => this.openRefeshDialog(), timeout);
     }
 
-    public clearTimer() {
-        clearTimeout(this.refreshTokenTimer);
-    }
+
 
     private stopRefreshTokenTimer() {
         clearTimeout(this.refreshTokenTimer);
