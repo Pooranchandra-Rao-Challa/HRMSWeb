@@ -21,6 +21,7 @@ import { OnboardEmployeeService } from 'src/app/_helpers/view.notificaton.servic
 import { FinalsubmitDialogComponent } from '../_dialogs/finalsubmit-dialog/finalsubmit-dialog.component';
 import { EmployeeLeavesComponent } from './employeeleaves/employeeleaves.component';
 import { MyleaveComponent } from './myleave/myleave.component';
+import { LeaveStatisticsComponent } from './leave-statistics/leave-statistics.component';
 
 
 
@@ -41,7 +42,8 @@ import { MyleaveComponent } from './myleave/myleave.component';
         AddressComponent,
         BankDetailsComponent,
         FinalsubmitDialogComponent,
-        MyleaveComponent
+        MyleaveComponent,
+        LeaveStatisticsComponent
     ],
 
     imports: [
