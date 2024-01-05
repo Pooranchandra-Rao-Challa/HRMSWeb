@@ -317,11 +317,12 @@ export class AttendanceComponent {
 
 
   patchFormValues(emp, date, leaveType) {
-
+   console.log(this.leaves);
+   
     const result = this.leaves.find(
       each => each.employeeId === emp.EmployeeId &&
         this.datePipe.transform(each.fromDate, 'yyyy-MM-dd') === this.datePipe.transform(this.isFutureDate(date), 'yyyy-MM-dd') 
-        && (each?.rejected == false||each?.rejected==null)
+        && (each?.approvedAt !=null)
     );
     console.log(result);
     
