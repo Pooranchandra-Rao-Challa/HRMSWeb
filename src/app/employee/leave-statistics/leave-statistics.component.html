@@ -68,20 +68,20 @@
             </ng-template>
             <ng-template pTemplate="body" let-leave>
                 <tr>
-                    <td *ngFor="let col of headers" [ngClass]="{'text-center':col?.field == 'isAFresher'}">
+                    <td *ngFor="let col of headers" >
                         <span
-                            *ngIf=" col?.field == 'name' || col?.field == 'gender'||col?.field == 'mobileNumber'  || col?.field == 'experienceInCompany'||col?.field =='emailId' || col?.field == 'mobileNumber'|| col?.field == 'bloodGroup'|| col?.field == 'designation'|| col?.field == 'officeEmailId'|| col?.field == 'reportingTo'|| col?.field == 'allottedCasualLeaves'|| col?.field == 'allottedPrivilegeLeaves'|| col?.field == 'usedCasualLeavesInYear'|| col?.field == 'usedCasualLeavesInMonth'|| col?.field == 'usedPrivilegeLeavesInYear'|| col?.field == 'usedPrivilegeLeavesInMonth'|| col?.field == 'usedLWPInYear'|| col?.field == 'usedLWPInMonth'|| col?.field == 'previousYearPrivilegeLeaves'|| col?.field == 'absentsInYear'|| col?.field == 'absentsInMonth'">
+                            *ngIf=" col?.field == 'name' || col?.field == 'experienceInCompany'|| col?.field == 'officeEmailId'|| col?.field == 'reportingTo'|| col?.field == 'allottedCasualLeaves'|| col?.field == 'allottedPrivilegeLeaves'|| col?.field == 'usedCasualLeavesInYear'|| col?.field == 'usedCasualLeavesInMonth'|| col?.field == 'usedPrivilegeLeavesInYear'|| col?.field == 'usedPrivilegeLeavesInMonth'|| col?.field == 'usedLWPInYear'|| col?.field == 'usedLWPInMonth'|| col?.field == 'previousYearPrivilegeLeaves'|| col?.field == 'absentsInYear'|| col?.field == 'absentsInMonth'">
                             {{leave[col.field]}}
                         </span>
                         <span *ngIf=" col?.field == 'originalDOB' || col?.field == 'dateofJoin'">
                             {{ leave[col.field] | date:mediumDate}}
                         </span>
-                        <span *ngIf="col?.field === 'isAFresher'">
+                        <!-- <span *ngIf="col?.field === 'isAFresher'">
                             <i class="fa"
                                 [ngClass]="{'fa-check': leave['isAFresher'], 'fa-close': !leave['isAFresher']}"
                                 [style.color]="leave['isAFresher'] ? '#119e2f' : '#e24c4c'"
                                 style="font-size:18px; vertical-align: sub;"></i>
-                        </span>
+                        </span> -->
                     </td>
                     <td>
                         {{leave?.allottedCasualLeaves -leave?.usedCasualLeavesInYear}}
