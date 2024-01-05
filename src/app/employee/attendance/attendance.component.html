@@ -259,12 +259,12 @@
 
     </div>
     <div class="justify-content-center m-3">
-        <p>Total No. of Employees: {{this.NotUpdatedEmployees?.length}}</p>
-        <p>No. of Present: {{getCountLeavescount('NU')}}</p>
-        <p>No.of Absent: {{ getCountLeavescount('AT') }}</p>
-        <p>No.of PL's: {{ getCountLeavescount('PL') }}</p>
-        <p>No.of CL's: {{ getCountLeavescount('CL') }}</p>
-        <p>No.of LWP: {{ getCountLeavescount('LWP') }}</p>
+        <p>Total No. of Employees: {{this.employeeAttendanceList?.length}}</p>
+        <p>No. of Present: {{getCountLeavescount('NU')+ getCountLeavescount('PT')}}</p>
+        <p>No. of Absent: {{ getCountLeavescount('AT') }}</p>
+        <p>No. of PL's: {{ getCountLeavescount('PL') }}</p>
+        <p>No. of CL's: {{ getCountLeavescount('CL') }}</p>
+        <p>No. of LWP: {{ getCountLeavescount('LWP') }}</p>
         <P>No. of HalfDays: {{ getCountLeavescount('CL/PT') + getCountLeavescount('PL/PT') }}</P>
 
     </div>
