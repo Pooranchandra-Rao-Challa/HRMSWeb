@@ -255,7 +255,7 @@ export class AttendanceComponent {
   }
 
   getEmployeeLeaveOnDate(emp: any, date: string,leaveType :string){
-    let selectedLeaveType = this.LeaveTypes.filter(fn => fn.name == leaveType)[0];
+    let selectedLeaveType = this.LeaveTypes.filter(fn => fn.name == leaveType)[0] || {};
 
     this.employeeService.getEmployeeLeaveOnDate({
         employeeId : emp.EmployeeId,
