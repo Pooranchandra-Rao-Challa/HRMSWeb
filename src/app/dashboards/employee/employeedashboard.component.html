@@ -81,7 +81,7 @@
                             <div class="overview-info">
                                 <h6 class="m-0 mb-1 text-500">Monthly PL's </h6>
                                 <h1 class="m-0 text-500">{{ this.monthlyLeaves?.usedPLsInMonth}}</h1>
-                                <h1 *ngIf="this.monthlyLeaves?.usedPLsInMonth === null">0</h1>
+                                <h1 class="m-0 text-500" *ngIf="this.monthlyLeaves?.usedPLsInMonth === null">0</h1>
                             </div>
                             <div class="d-leave text-center">
                                 <div class="mb-2">
@@ -130,7 +130,7 @@
                             <div class="overview-info">
                                 <h6 class="m-0 mb-1 text-500">Monthly CL's </h6>
                                 <h1 class="m-0 text-500">{{ this.monthlyLeaves?.usedCLsInMonth}}</h1>
-                                <h1 *ngIf="this.monthlyLeaves?.usedCLsInMonth === null">0</h1>
+                                <h1 class="m-0 text-500" *ngIf="this.monthlyLeaves?.usedCLsInMonth === null">0</h1>
                             </div>
                             <div class="d-leave text-center">
                                 <div class=" mb-2">
