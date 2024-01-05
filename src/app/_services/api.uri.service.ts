@@ -108,13 +108,13 @@ export const GET_EMPLOYEE_PROFILE_PIC = "Employee/GetEmployeeBasicInfo";
 
 export const GET_ATTENDENCE = "Attendance/GetMonthlyAttendanceReport";
 export const POST_LISTOF_ATTENDANCES = "Attendance/CreateAttendanceForEmployees";
-export const GET_MY_LEAVE_DETAILS="Attendance/GetLeavesForSelfEmployee";
+export const GET_MY_LEAVE_DETAILS = "Attendance/GetLeavesForSelfEmployee";
 export const GET_EMPLOYEE_LEAVE_DETAILS = "Attendance/GetEmployeeLeaves";
 export const CREATE_EMPLOYEE_LEAVE_DETAILS = "Attendance/CreateEmployeeLeave";
 export const UPDATE_EMPLOYEE_LEAVE_DETAILS = "Attendance/UpdateEmployeeLeave";
 export const GET_NOTUPDATED_EMPLOYEES = "Attendance/GetNotUpdatedEmployeesInAttendance";
 export const GET_COMPANY_HIERARCHY = "Employee/GetCompanyHierarchy";
-export const GET_EMPLOYEE_LEAVE_ONDATE="Attendance/GetEmployeeLeaveOnDate";
+export const GET_EMPLOYEE_LEAVE_ONDATE = "Attendance/GetEmployeeLeaveOnDate";
 
 //Job Details
 
@@ -122,9 +122,9 @@ export const GET_JOB_DETAILS = "JobOpening/GetJobOpening";
 export const CREATE_JOB_OPENINGS_DETAILS = "JobOpening/CreateJobOpening";
 export const UPDATE_JOB = "JobOpening/UpdateJobOpeningById";
 //RecruitmentAttributes
-export const CREATE_RECRUITMENT_ATTRIBUTE="Recruitment/CreateRecruitmentAttribute";
-export const UPDATE_RECRUITMENT_ATTRIBUTE="Recruitment/UpdateRecruitmentAttribute";
-export const GET_RECRUITMENT_DETAILS="Recruitment/GetRecruitmentAttributes"
+export const CREATE_RECRUITMENT_ATTRIBUTE = "Recruitment/CreateRecruitmentAttribute";
+export const UPDATE_RECRUITMENT_ATTRIBUTE = "Recruitment/UpdateRecruitmentAttribute";
+export const GET_RECRUITMENT_DETAILS = "Recruitment/GetRecruitmentAttributes"
 // leave confirmation
 export const GET_EMPLOYEE_MAIL_DETAILS = "Attendance/UpdateLeaveStatus";
 export const UPDATE_EMPLOYEE_MAIL_DETAILS = "Attendance/UpdateLeaveStatus";
@@ -146,34 +146,34 @@ export const GET_APPLICANT_DETAILS = "Recruitment/GetApplicants";
 export const CREATE_APPLICANT_DETAILS = "Recruitment/CreateApplicant";
 export const UPDATE_APPLICANT_DETAILS = "Recruitment/UpdateApplicant";
 export const GET_JOB_OPENINGS_DROPDOWN = "JobOpening/GetJobTitleWithInitiatedAt";
-export const GET_ATTRIBUTES="Recruitment/GetAttributeTypesBasedOnJOInProcessId";
+export const GET_ATTRIBUTES = "Recruitment/GetAttributeTypesBasedOnJOInProcessId";
 export const Get_Applicants_with_Id = "JobOpening/DoJobProcessforInitialQualification";
-export const GET_APPLICANTS_WITH_JobProcessId="Recruitment/GetApplicantsBasedOnJOProcesses"
+export const GET_APPLICANTS_WITH_JobProcessId = "Recruitment/GetApplicantsBasedOnJOProcesses"
 export const UPDATE_APPLICANT = "Recruitment/UpdateInitialQualification";
-export const GET_RAS="Recruitment/GetRAsBasedOnJOInProcessId";
-export const UPDATE_INTERVIEW_RESULT="Recruitment/CreateApplicantInterviewResult";
-export const UPDATE_RESULT="Recruitment/UpdateFilteredApplicantForHRRound";
+export const GET_RAS = "Recruitment/GetRAsBasedOnJOInProcessId";
+export const UPDATE_INTERVIEW_RESULT = "Recruitment/CreateApplicantInterviewResult";
+export const UPDATE_RESULT = "Recruitment/UpdateFilteredApplicantForHRRound";
 
 //self Employee
 
-export const GET_SELF_EMPLOYEE="Employee/GetSelfEmployeeData";
-export const GET_SELF_EMPLOYEE_MONTH_LEAVES="Attendance/GetLeavesForSelfInMonth";
-export const GET_ALLOTED_LEAVES="Attendance/GetAllottedLeavesBasedOnEId"
+export const GET_SELF_EMPLOYEE = "Employee/GetSelfEmployeeData";
+export const GET_SELF_EMPLOYEE_MONTH_LEAVES = "Attendance/GetLeavesForSelfInMonth";
+export const GET_ALLOTED_LEAVES = "Attendance/GetAllottedLeavesBasedOnEId"
 
 // Admin Dashboard
-export const GET_ADMIN_DASHBOARD="AdminDashboard/GetAdminDashboard"
+export const GET_ADMIN_DASHBOARD = "AdminDashboard/GetAdminDashboard"
 
 
 //Reports
-export const GET_MONTHLY_ATTENDANCE_REPORT="Report/MonthlyAttendanceReport";
-export const GET_PROJECTS_REPORT="Report/ProjectDetailsReport";
-export const GET_HOLIDAYS_REPORT="Report/HolidaysReport";
-export const GET_EMPLOYEE_LEAVES_REPORT ="Report/EmployeeLeavesReport"
-export const GET_LEAVES_REPORT="Report/LeaveStatisticsReport";
-export const GET_ASSETS_REPORT="Report/AssetsReport";
-export const GET_ACTIVE_EMPLOYEES_REPORT="Report/EmployeesDetailsReport";
-export const GET_PROJECT_ALLOTMENTS_REPORT="Report/AllottedMembersInProjectReport";
+export const GET_MONTHLY_ATTENDANCE_REPORT = "Report/MonthlyAttendanceReport";
+export const GET_PROJECTS_REPORT = "Report/ProjectDetailsReport";
+export const GET_HOLIDAYS_REPORT = "Report/HolidaysReport";
+export const GET_EMPLOYEE_LEAVES_REPORT = "Report/EmployeeLeavesReport"
+export const GET_LEAVES_REPORT = "Report/LeaveStatisticsReport";
+export const GET_ASSETS_REPORT = "Report/AssetsReport";
+export const GET_ACTIVE_EMPLOYEES_REPORT = "Report/EmployeesDetailsReport";
+export const GET_PROJECT_ALLOTMENTS_REPORT = "Report/AllottedMembersInProjectReport";
 
 //Leave Statistics
-export const GET_LEAVE_STATISTICS="Attendance/GetLeaveStatistics";
-export const GET_ALL_EMPLOYEES_REPORT="Report/EmployeesDetailsReport";
+export const GET_LEAVE_STATISTICS = "Attendance/GetLeaveStatistics";
+export const GET_ALL_EMPLOYEES_REPORT = "Report/EmployeesDetailsReport";
