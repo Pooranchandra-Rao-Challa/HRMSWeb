@@ -383,12 +383,17 @@ console.log(this.employeeAttendanceList);
       fromDate: formatDate(this.fbleave.get('fromDate').value, 'yyyy-MM-dd', 'en'),
     };
     this.employeeService.updateEmployeeAttendance(updateData).subscribe(resp => {
-      if (resp) {
+        let rdata = resp as unknown as any;
+        console.log(rdata);
+
+      if (!rdata.isSuccess) {
+        this.alertMessage.displayErrorMessage(rdata.message);
+      }
+      else{
         this.alertMessage.displayAlertMessage(ALERT_CODES["EAAS008"]);
         this.CheckPreviousDayAttendance();
       }
-      else
-        return this.alertMessage.displayErrorMessage(ALERT_CODES["EAAS009"]);
+        //return this.alertMessage.displayErrorMessage(ALERT_CODES["EAAS009"]);
       this.initAttendance();
       this.getLeaves();
       this.dialog = false;
