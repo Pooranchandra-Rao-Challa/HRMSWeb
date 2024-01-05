@@ -115,6 +115,7 @@ export const UPDATE_EMPLOYEE_LEAVE_DETAILS = "Attendance/UpdateEmployeeLeave";
 export const GET_NOTUPDATED_EMPLOYEES = "Attendance/GetNotUpdatedEmployeesInAttendance";
 export const GET_COMPANY_HIERARCHY = "Employee/GetCompanyHierarchy";
 export const GET_EMPLOYEE_LEAVE_ONDATE = "Attendance/GetEmployeeLeaveOnDate";
+export const UPDATE_PREVIOUS_ATTENDANCE="Attendance/UpdatePreviousDayAttendance";
 
 //Job Details
 
