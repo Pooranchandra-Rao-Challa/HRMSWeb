@@ -19,8 +19,7 @@ import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
   ]
 })
 export class LeaveStatisticsComponent {
-  globalFilterFields: string[] = ['name', 'gender', 'mobileNumber', 'originalDOB', 'experienceInCompany', 'dateofJoin', 'emailId',
-    'mobileNumber', 'bloodGroup', 'designation', 'officeEmailId', 'reportingTo', 'allottedCasualLeaves', 'allottedPrivilegeLeaves',
+  globalFilterFields: string[] = ['name', 'experienceInCompany','dateofJoin','reportingTo', 'allottedCasualLeaves', 'allottedPrivilegeLeaves',
     'usedCasualLeavesInYear', 'usedCasualLeavesInMonth', 'usedPrivilegeLeavesInYear', 'usedPrivilegeLeavesInMonth', 'usedLWPInYear',
     'usedLWPInMonth', 'previousYearPrivilegeLeaves', 'absentsInYear', 'absentsInMonth'];
   @ViewChild('filter') filter!: ElementRef;
@@ -38,8 +37,7 @@ export class LeaveStatisticsComponent {
 
   headers: ITableHeader[] = [
     { field: 'name', header: 'name', label: 'Employee Name' },
-    { field: 'isAFresher', header: 'isAFresher', label: 'Fresher' },
-    { field: 'experienceInCompany', header: 'experienceInCompany', label: 'Experience In Company' },
+    { field: 'experienceInCompany', header: 'experienceInCompany', label: 'Exp In Company'},
     { field: 'dateofJoin', header: 'dateofJoin', label: 'DOJ' },
     { field: 'reportingTo', header: 'reportingTo', label: 'Reporting To' },
     { field: 'allottedCasualLeaves', header: 'allottedCasualLeaves', label: 'Allotted CL' },

@@ -13,13 +13,14 @@
                     <div class="text-center">
                         <div class="avatar_emp_dboard">
                             <img [src]="empDetails?.photo ? empDetails?.photo : defaultPhoto" [alt]="empDetails?.photo"
-                            class="shadow-2 my-1 mx-0 employee_profile_pic avatar_emp_dboard"  />
+                                class="shadow-2 my-1 mx-0 employee_profile_pic avatar_emp_dboard" />
                         </div>
                         <br />
                         <h4 class="m-5 mb-2 mt-0 text-primary">{{ empDetails?.employeeName}}</h4>
                     </div>
                     <span class="inline-flex align-items-left mb-2">
-                        <i class="pi icon-intersex text-primary text-700 mr-2" pTooltip="Gender" tooltipPosition="bottom"></i>
+                        <i class="pi icon-intersex text-primary text-700 mr-2" pTooltip="Gender"
+                            tooltipPosition="bottom"></i>
                         <span class="text-700 mr-2">{{ empDetails?.gender}}</span>
                     </span><br />
                     <span class="inline-flex align-items-left mb-2">
@@ -76,10 +77,11 @@
                     </div>
                     <div class="col-12 sm:col-4">
 
-                        <div class="card surface-card text-500 flex justify-content-between pt-4 h-full" >
+                        <div class="card surface-card text-500 flex justify-content-between pt-4 h-full">
                             <div class="overview-info">
                                 <h6 class="m-0 mb-1 text-500">Monthly PL's </h6>
                                 <h1 class="m-0 text-500">{{ this.monthlyLeaves?.usedPLsInMonth}}</h1>
+                                <h1 class="m-0 text-500" *ngIf="this.monthlyLeaves?.usedPLsInMonth === null">0</h1>
                             </div>
                             <div class="d-leave text-center">
                                 <div class="mb-2">
@@ -128,6 +130,7 @@
                             <div class="overview-info">
                                 <h6 class="m-0 mb-1 text-500">Monthly CL's </h6>
                                 <h1 class="m-0 text-500">{{ this.monthlyLeaves?.usedCLsInMonth}}</h1>
+                                <h1 class="m-0 text-500" *ngIf="this.monthlyLeaves?.usedCLsInMonth === null">0</h1>
                             </div>
                             <div class="d-leave text-center">
                                 <div class=" mb-2">
@@ -171,7 +174,7 @@
                         </div>
                     </div>
                     <div class="col-12 sm:col-4">
-                        <div class="card surface-card text-500 flex justify-content-between pt-4 h-full" >
+                        <div class="card surface-card text-500 flex justify-content-between pt-4 h-full">
                             <div class="overview-info">
                                 <h6 class="m-0 mb-1 text-500">Monthly LWP</h6>
                                 <h1 class="m-0 text-500">2</h1>
@@ -196,19 +199,18 @@
             <div class="col-12 md:col-6 lg:col-3  ">
                 <div class="card p-5 orange-200 text-left applicant-p-block-home">
                     <div class="text-500  text-2xl text-primary text-center m-5 p-5">
-                    Notifications is Under Process...
-                </div>
+                        Notifications is Under Process...
+                    </div>
                 </div>
             </div>
-            <div class="col-12 md:col-6 lg:col-5 p-5 applicant-p-block-home">
-                <h4 class="m-5 mt-0 mx-0 ">Alloted Assets</h4>
-                <div class="grid  ">
+            <div class="col-12 md:col-6 lg:col-5 p-3">
+                <h4 class="m-5 mt-0 mx-0 mb-3">Alloted Assets</h4>
+                <div class="applicant-p-block-home">
                     <div class="text-500  text-2xl text-primary text-center m-5 p-5"
                         *ngIf="!empDetails?.assets || empDetails?.assets.length === 0">
                         There is no Assigned Assets for this Employee
                     </div>
-                    <div class="grid "
-                        *ngIf="empDetails?.assets && empDetails?.assets.length > 0">
+                    <div class="grid p-3 mt-3 " *ngIf="empDetails?.assets && empDetails?.assets.length > 0">
                         <div class="col-12 sm:col-4" *ngFor="let asset of empDetails?.assets">
                             <div class="card text-0 p-3  justify-content-between h-full assets_card">
                                 <div class="overview-info text-center alloted_assets">
@@ -244,48 +246,53 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-12 md:col-6 lg:col-4 p-5 ">
-                <h4 class="m-5 mt-0 mx-0 ">Holidays</h4>
-                <div class="applicant-p-block-home">
-                    <p-table id="table" #dtholiday [value]="holidays" dataKey="id" [rows]="10" [rowHover]="true"
-                    [alwaysShowPaginator]="false" [paginator]="true"
-                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                    [showCurrentPageReport]="true" paginatorDropdownAppendTo="body" [autoLayout]="true"
-                    responsiveLayout="scroll">
-                    <ng-template pTemplate="header">
-                        <tr>
-                            <th *ngFor="let col of headers">
-                                {{col?.label}}
-                            </th>
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-holiday>
-                        <tr>
-                            <td *ngFor="let col of headers"
-                                [ngClass]="{'text-center': col.field === 'isActive', 'text-wrap': col.field === 'description'}">
-                                <span
-                                    *ngIf="col?.field != 'fromDate' && col?.field != 'toDate'">{{holiday[col.field]}}</span>
-                                <span *ngIf="col?.field == 'fromDate' || col?.field == 'toDate'">
-                                    {{holiday[col.field] |date: mediumDate }}
-                                </span>
-                            </td>
 
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="emptymessage">
-                        <tr>
-                            <td class="md:text-center m-5" colspan="50%">No Holidays Found.</td>
-                        </tr>
-                    </ng-template>
-                </p-table>
                 </div>
-               
+
             </div>
-            <div class="col-12 md:col-6 lg:col-3 p-5">
-                <h4 class="m-5 mx-0 mt-0 ">Assigned Projects</h4>
-                <div class="grid card p-3 orange-200  applicant-p-block-home scroll_div" style="min-height:350px;">
+            <div class="col-12 md:col-6 lg:col-4 p-3">
+                <h4 class="m-5 mb-3  mt-0 mx-0 ">Holidays</h4>
+                <div class="applicant-p-block-home">
+                    <div class="p-3">
+                        <p-table id="table" #dtholiday [value]="holidays" dataKey="id" [rows]="10" [rowHover]="true"
+                            [alwaysShowPaginator]="false" [paginator]="true"
+                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                            [showCurrentPageReport]="true" paginatorDropdownAppendTo="body" [autoLayout]="true"
+                            responsiveLayout="scroll">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th *ngFor="let col of headers">
+                                        {{col?.label}}
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-holiday>
+                                <tr>
+                                    <td *ngFor="let col of headers"
+                                        [ngClass]="{'text-center': col.field === 'isActive', 'text-wrap': col.field === 'description'}">
+                                        <span
+                                            *ngIf="col?.field != 'fromDate' && col?.field != 'toDate'">{{holiday[col.field]}}</span>
+                                        <span *ngIf="col?.field == 'fromDate' || col?.field == 'toDate'">
+                                            {{holiday[col.field] |date: mediumDate }}
+                                        </span>
+                                    </td>
+
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="emptymessage">
+                                <tr>
+                                    <td class="md:text-center m-5" colspan="50%">No Holidays Found.</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="col-12 md:col-6 lg:col-3 p-3">
+                <h4 class="m-5 mb-3 mx-0 mt-0 ">Assigned Projects</h4>
+                <div class=" card p-3 orange-200  applicant-p-block-home scroll_div" style="min-height:350px;">
                     <div class="text-500  text-2xl text-primary text-center m-5 p-5"
                         *ngIf="!empDetails?.projects || empDetails?.projects.length === 0">
                         There is no Assigned Projects for this Employee
@@ -295,12 +302,12 @@
                             <div class="card p-2 text-center" [ngStyle]="project.endAt ? {'color': 'gray'} : {}">
                                 <img [src]="project.projectLogo" [alt]="project.projectLogo" class="shadow-2 my-0 mx-0"
                                     width="50%" />
-    
+
                                 <h5 class="text-primary m-2">{{project.projectName}}</h5>
-    
+
                                 <span class="text-primary" *ngIf="project.sinceFrom">From:
                                 </span><span>{{project.sinceFrom}}</span> <br />
-    
+
                                 <span class="text-primary" *ngIf="project.endAt">To:
                                 </span><span>{{project.endAt}}</span>
                             </div>
@@ -308,7 +315,7 @@
                     </div>
                 </div>
             </div>
-           
+
         </div>
     </div>
 </div>

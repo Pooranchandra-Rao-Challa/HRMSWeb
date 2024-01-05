@@ -31,7 +31,7 @@
                         </div>
                         <div>
                             <p-calendar styleClass="only-icon" [(ngModel)]="selectedMonth" [showIcon]="true"
-                                view="month" id="Attendance_selectMonth" [yearNavigator]="true" yearRange="2000:2030"
+                                view="month" [yearNavigator]="true" yearRange="2000:2030"
                                 [readonlyInput]="true" inputId="monthpicker" (onSelect)="onMonthSelect($event)">
                             </p-calendar>
                         </div>
@@ -39,7 +39,7 @@
                             <p-button icon="pi pi-angle-right ml-2" (click)="gotoNextMonth()"
                                 id="Attendance_nextMonth"></p-button>
                         </div>
-                        <div class="pl-2">
+                        <div class="pl-2"  style="margin-top: 10px;">
                             {{this.month}}/{{this.year}}
                         </div>
                     </div>

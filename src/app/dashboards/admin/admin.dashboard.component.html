@@ -84,12 +84,12 @@
                         <p-chart type="doughnut" [data]="pieDataforAttendance" [options]="pieOptions" height="135px"
                             width="100%"></p-chart>
                     </li>
-                    <ng-template #noDataMessage>
+                    <ng-template >
                         <div class="text-center mt-5">
-                            <li class="border-round-lg pt-5 px-5 pb-5 mb-3"
+                            <div class="border-round-lg pt-5 px-5 pb-5 mb-3"
                                 style="background-color: var(--primary-lighter-color)">
                                 <p>No data available for the attendance chart.</p>
-                            </li>
+                            </div>
                         </div>
                     </ng-template>
                 </ul>
@@ -124,10 +124,10 @@
                     </li>
                     <ng-template #noDataMessage>
                         <div class="text-center mt-5">
-                            <li class="border-round-lg pt-5 px-5 pb-5 mb-3"
+                            <div class="border-round-lg pt-5 px-5 pb-5 mb-3"
                                 style="background-color: var(--primary-lighter-color)">
                                 <p>No data available for the Project chart.</p>
-                            </li>
+                        </div>
                         </div>
                     </ng-template>
                 </ul>
@@ -208,94 +208,7 @@
                                 </ul>
                                 <!-- <p-menu #menu [popup]="true" [model]="items"></p-menu> -->
                             </p-tabPanel>
-                            <!-- <p-tabPanel header="Messages" class="w-full p-0">
-                                <ng-template pTemplate="header">
-                                    <div class="pr-2" pBadge value="1" severity="warning">
-                                        <h6 class="m-0 mr-2">WFH</h6>
-                                    </div>
-                                </ng-template>
-                                <ul class="list-none p-0 overflow-auto" style="margin: 0 -1.5rem -1rem; max-height: 17.745rem">
-                                    <li class="border-round-lg pt-2 px-3 pb-2 mb-3" style="background-color: var(--primary-lighter-color)">
-                                        <div class="">
-                                            <div class="grid ga leav_list m-0 p-0">
-                                                <div class="col-4 p-1">
-                                                    <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-orange-300 " class="inline-block" value="#05895"></p-tag>
-                                                </div>
-                                                <div class="col-4 p-1">
-                                                    <h6 class="line-height-3 m-0 font-medium font-medium "> <b>Manohar S.</b></h6>
-                                                </div>
-                                                <div class="col-4 p-1 text-right">
-                                                    <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-blue-300 leavelist_emp_designation " class="inline-block" value="Jr Android"></p-tag>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="flex justify-content-between align-items-center">
-                                            <span class="mt-1 text-400 block text-sm line-height-1"> <b>1</b> Bamboo Watch, <b>3</b> Blue Band, </span>
-                                            <button type="button" pButton icon="pi pi-ellipsis-v" class="p-button-rounded p-button-text p-button-sm flex-shrink-0" (click)="menu.toggle($event)"></button>
-                                        </div>
-                                    </li>
-                                    <li class="border-round-lg pt-2 px-3 pb-2 mb-3" style="background-color: var(--primary-lighter-color)">
-                                        <div class="">
-                                            <div class="grid ga leav_list m-0 p-0">
-                                                <div class="col-4 p-1">
-                                                    <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-orange-300 " class="inline-block" value="#05885"></p-tag>
-                                                </div>
-                                                <div class="col-4 p-1">
-                                                    <h6 class="line-height-3 m-0 font-medium font-medium "> <b>Pavan T.</b></h6>
-                                                </div>
-                                                <div class="col-4 p-1 text-right">
-                                                    <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-blue-300 leavelist_emp_designation " class="inline-block" value="Android"></p-tag>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="flex justify-content-between align-items-center">
-                                            <span class="mt-1 text-400 block text-sm line-height-1"> <b>1</b> Bamboo Watch, <b>3</b> Blue Band, </span>
-                                            <button type="button" pButton icon="pi pi-ellipsis-v" class="p-button-rounded p-button-text p-button-sm flex-shrink-0" (click)="menu.toggle($event)"></button>
-                                        </div>
-                                    </li>
-
-                                    <li class="border-round-lg pt-2 px-3 pb-2 mb-3" style="background-color: var(--primary-lighter-color)">
-                                        <div class="">
-                                            <div class="grid ga leav_list m-0 p-0">
-                                                <div class="col-4 p-1">
-                                                    <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-orange-300 " class="inline-block" value="#05795"></p-tag>
-                                                </div>
-                                                <div class="col-4 p-1">
-                                                    <h6 class="line-height-3 m-0 font-medium font-medium "> <b>Ram S.</b></h6>
-                                                </div>
-                                                <div class="col-4 p-1 text-right">
-                                                    <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-blue-300 leavelist_emp_designation " class="inline-block" value="Jr IOS"></p-tag>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="flex justify-content-between align-items-center">
-                                            <span class="mt-1 text-400 block text-sm line-height-1"> <b>1</b> Bamboo Watch, <b>3</b> Blue Band, </span>
-                                            <button type="button" pButton icon="pi pi-ellipsis-v" class="p-button-rounded p-button-text p-button-sm flex-shrink-0" (click)="menu.toggle($event)"></button>
-                                        </div>
-                                    </li>
-                                    <li class="border-round-lg pt-2 px-3 pb-2 mb-3" style="background-color: var(--primary-lighter-color)">
-                                        <div class="">
-                                            <div class="grid ga leav_list m-0 p-0">
-                                                <div class="col-4 p-1">
-                                                    <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-orange-300 " class="inline-block" value="#05895"></p-tag>
-                                                </div>
-                                                <div class="col-4 p-1">
-                                                    <h6 class="line-height-3 m-0 font-medium font-medium "> <b>Laxman S.</b></h6>
-                                                </div>
-                                                <div class="col-4 p-1 text-right">
-                                                    <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-blue-300 leavelist_emp_designation " class="inline-block" value="Inten"></p-tag>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="flex justify-content-between align-items-center">
-                                            <span class="mt-1 text-400 block text-sm line-height-1"> <b>1</b> Bamboo Watch, <b>3</b> Blue Band, </span>
-                                            <button type="button" pButton icon="pi pi-ellipsis-v" class="p-button-rounded p-button-text p-button-sm flex-shrink-0" (click)="menu.toggle($event)"></button>
-                                        </div>
-                                    </li>
-
-                                </ul>
-                                <p-menu #menu2 [popup]="true" [model]="items"></p-menu>
-                            </p-tabPanel> -->
+                          
                         </p-tabView>
                     </div>
                 </div>
@@ -313,88 +226,7 @@
                             </div>
                         </div>
                         <p-tabView>
-                            <!-- <p-tabPanel header="Unshipped Orders" class="w-full p-0">
-                                <ng-template pTemplate="header">
-                                    <div class="pr-2" pBadge value="6" severity="info">
-                                        <h6 class="m-0 mr-2">HR Notifications</h6>
-                                    </div>
-                                </ng-template>
-                                <ul class="list-none p-0 overflow-auto" style="margin: 0 -1.5rem -1rem; max-height: 17.745rem">
-                                    <li class="border-round-lg pt-2 px-3 pb-2 mb-3" style="background-color: var(--primary-lighter-color)">
-                                        <div class="flex justify-content-between align-items-center mb-1">
-                                            <div class="flex align-items-center gap-1">
-                                                <h6 class="line-height-3 m-0 font-medium">Hi Everyone,
-                                                    Greetings!
-                                                    🛰 It is a proud moment for us as Chandrayaan-3 🚀 India's Mission to Moon 🌝  🛰shall be launched🚀 on -
-                                                     Date : 14th July 23
-                                                    Time : 2:30pm⏱
-                                                    </h6>
-                                            </div>
-                                            <span class="text-gray-300 font-semibold text-sm line-height-1">4h ago</span>
-                                        </div>
-                                    </li>
-                                    <li class="border-round-lg pt-2 px-3 pb-2 mb-3" style="background-color: var(--primary-lighter-color)">
-                                        <div class="flex justify-content-between align-items-center mb-1">
-                                            <div class="flex align-items-center gap-1">
-                                                <h6 class="line-height-3 m-0 font-medium">Hi Everyone,
-                                                    Hi Everyone,
-                                                    Today Parvathi garu and satya garu(scrum master) is on leave today
-                                                    </h6>
-                                            </div>
-                                            <span class="text-gray-300 font-semibold text-sm line-height-1">4h ago</span>
-                                        </div>
-                                    </li>
-                                    <li class="border-round-lg pt-2 px-3 pb-2 mb-3" style="background-color: var(--primary-lighter-color)">
-                                        <div class="flex justify-content-between align-items-center mb-1">
-                                            <div class="flex align-items-center gap-1">
-                                                <h6 class="line-height-3 m-0 font-medium">Hi Everyone,
-                                                    Greetings!
-                                                    🛰 It is a proud moment for us as Chandrayaan-3 🚀 India's Mission to Moon 🌝  🛰shall be launched🚀 on -
-                                                    Date : 14th July 23
-                                                    Time : 2:30pm⏱
-                                                    </h6>
-                                            </div>
-                                            <span class="text-gray-300 font-semibold text-sm line-height-1">4h ago</span>
-                                        </div>
-                                    </li>
-                                    <li class="border-round-lg pt-2 px-3 pb-2 mb-3" style="background-color: var(--primary-lighter-color)">
-                                        <div class="flex justify-content-between align-items-center mb-1">
-                                            <div class="flex align-items-center gap-1">
-                                                <h6 class="line-height-3 m-0 font-medium">Hi Everyone,
-                                                    Hi Everyone,
-                                                    Today Parvathi garu and satya garu(scrum master) is on leave today
-                                                    </h6>
-                                            </div>
-                                            <span class="text-gray-300 font-semibold text-sm line-height-1">4h ago</span>
-                                        </div>
-                                    </li>
-                                    <li class="border-round-lg pt-2 px-3 pb-2 mb-3" style="background-color: var(--primary-lighter-color)">
-                                        <div class="flex justify-content-between align-items-center mb-1">
-                                            <div class="flex align-items-center gap-1">
-                                                <h6 class="line-height-3 m-0 font-medium">Hi Everyone,
-                                                    Greetings!
-                                                    🛰 It is a proud moment for us as Chandrayaan-3 🚀 India's Mission to Moon 🌝  🛰shall be launched🚀 on -
-                                                     Date : 14th July 23
-                                                    Time : 2:30pm⏱
-                                                    </h6>
-                                            </div>
-                                            <span class="text-gray-300 font-semibold text-sm line-height-1">4h ago</span>
-                                        </div>
-                                    </li>
-                                    <li class="border-round-lg pt-2 px-3 pb-2 mb-3" style="background-color: var(--primary-lighter-color)">
-                                        <div class="flex justify-content-between align-items-center mb-1">
-                                            <div class="flex align-items-center gap-1">
-                                                <h6 class="line-height-3 m-0 font-medium">Hi Everyone,
-                                                    Hi Everyone,
-                                                    Today Parvathi garu and satya garu(scrum master) is on leave today
-                                                    </h6>
-                                            </div>
-                                            <span class="text-gray-300 font-semibold text-sm line-height-1">4h ago</span>
-                                        </div>
-                                    </li>
-                                </ul>
-                                <p-menu #menu [popup]="true" [model]="items"></p-menu>
-                            </p-tabPanel> -->
+                           
                             <p-tabPanel header="Messages" class="w-full p-2">
                                 <ng-template pTemplate="header">
                                     <div class="pr-2" *ngIf="admindashboardDtls?.savedemployeeBirthdays?.length > 0"

@@ -31,6 +31,7 @@ import {
   GET_LEAVE_STATISTICS,
   GET_EMPLOYEES_BASED_ON_STATUS_URI,
   GET_EMPLOYEE_LEAVE_ONDATE,
+  UPDATE_PREVIOUS_ATTENDANCE,
 
 } from './api.uri.service';
 import { ExperienceDetailsDto, SkillArea, AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments, employeeExperienceDtlsViewDto, FamilyDetailsViewDto, employeeAttendanceDto, EmployeeLeaveDto, EmployeeAttendanceList, CompanyHierarchyViewDto, EmployeeProfilePicViewDto, LeaveStatistics, EmployeeLeaveOnDateDto } from '../_models/employes';
@@ -99,7 +100,7 @@ export class EmployeeService extends ApiHttpService {
     return this.post<EmployeeAttendanceList>(UPDATE_EMPLOYEE_LEAVE_DETAILS, data);
   }
   public updateEmployeeAttendance(data:EmployeeLeaveDto){
-    return this.post<EmployeeLeaveDto>(UPDATE_EMPLOYEE_LEAVE_DETAILS, data);
+    return this.post<EmployeeLeaveDto>(UPDATE_PREVIOUS_ATTENDANCE, data);
   }
   //Search Employee
   public GetEmployeesBasedonstatus(IsEnrolled: boolean,EmployeeStatus:String) {

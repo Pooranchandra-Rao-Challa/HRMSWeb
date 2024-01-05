@@ -163,7 +163,10 @@ export class AttendanceComponent {
   getLeaves() {
     this.employeeService.getEmployeeLeaveDetails(this.month,this.year).subscribe((resp) =>
       this.leaves = resp as unknown as EmployeeLeaveDto[]
+    
+      
     );
+    
   }
 
   save(data) {
@@ -255,8 +258,8 @@ export class AttendanceComponent {
   }
 
   getEmployeeLeaveOnDate(emp: any, date: string,leaveType :string){
-    let selectedLeaveType = this.LeaveTypes.filter(fn => fn.name == leaveType)[0];
-
+    let selectedLeaveType = this.LeaveTypes.filter(fn => fn.name == leaveType)[0] || {};
+    
     this.employeeService.getEmployeeLeaveOnDate({
         employeeId : emp.EmployeeId,
         leaveDate: formatDate(this.isFutureDate(date), 'yyyy-MM-dd', 'en'),
@@ -277,6 +280,7 @@ export class AttendanceComponent {
   }
 
   openDialog(emp: any, date: string, leaveType: string) {
+    console.log(this.leaves);
     if (this.permissions?.CanUpdatePreviousDayAttendance) {
         this.getEmployeeLeavesBasedOnId(emp, date,leaveType);
       return;
@@ -312,7 +316,8 @@ export class AttendanceComponent {
   patchFormValues(emp, date, leaveType) {
 
     const result = this.leaves.find(
-      each => each.employeeId === emp.EmployeeId && this.datePipe.transform(each.fromDate, 'yyyy-MM-dd') === this.datePipe.transform(this.isFutureDate(date), 'yyyy-MM-dd')
+      each => each.employeeId === emp.EmployeeId && 
+      this.datePipe.transform(each.fromDate, 'yyyy-MM-dd') === this.datePipe.transform(this.isFutureDate(date), 'yyyy-MM-dd')&&each?.rejected
     );
     let selectedLeaveType = this.LeaveTypes.filter( fn => fn.name == leaveType);
 
@@ -347,7 +352,7 @@ export class AttendanceComponent {
     } : defaultValues;
 
     this.fbleave.patchValue(resultValues);
-    this.fbleave.get('fromDate').disable();
+    // this.fbleave.get('fromDate').disable();
   }
 
   get FormControls() {
@@ -389,6 +394,7 @@ export class AttendanceComponent {
       this.updateEmployeeAttendance();
       return;
     }
+  
     const StatusId = this.LeaveTypes.find(each => each.lookupDetailId === this.fbleave.get('leaveTypeId').value);
 
     if (StatusId.name !== 'PL' && StatusId.name !== 'CL') {
