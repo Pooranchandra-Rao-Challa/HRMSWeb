@@ -320,8 +320,11 @@ export class AttendanceComponent {
 
     const result = this.leaves.find(
       each => each.employeeId === emp.EmployeeId &&
-        this.datePipe.transform(each.fromDate, 'yyyy-MM-dd') === this.datePipe.transform(this.isFutureDate(date), 'yyyy-MM-dd') && each?.rejected == false
+        this.datePipe.transform(each.fromDate, 'yyyy-MM-dd') === this.datePipe.transform(this.isFutureDate(date), 'yyyy-MM-dd') 
+        && (each?.rejected == false||each?.rejected==null)
     );
+    console.log(result);
+    
     let selectedLeaveType = this.LeaveTypes.filter(fn => fn.name == leaveType);
 
     if (selectedLeaveType.length > 0)
