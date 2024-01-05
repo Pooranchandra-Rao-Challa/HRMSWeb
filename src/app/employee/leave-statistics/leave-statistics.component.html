@@ -27,16 +27,16 @@
                             </p-button>
                         </div>
                         <div>
-                            <p-calendar styleClass="only-icon" [showIcon]="true" view="year" id="Attendance_selectMonth"
+                            <p-calendar styleClass="only-icon" [showIcon]="true" view="year" 
                                 [yearNavigator]="true" yearRange="2000:3000" [readonlyInput]="true" inputId="yearpicker"
-                                (onSelect)="onMonthSelect($event)">
+                                (onSelect)="onMonthSelect($event)" [disabled]="true">
                             </p-calendar>
                         </div>
                         <div class="pl-2">
                             <p-button icon="pi pi-angle-right ml-2" (click)="gotoNextMonth()"
                                 id="Attendance_nextMonth"></p-button>
                         </div>
-                        <div class="pl-2">
+                        <div class="pl-2" style="margin-top: 10px;">
                             {{this.year}}
                         </div>
                     </div>
