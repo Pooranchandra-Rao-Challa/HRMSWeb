@@ -37,7 +37,7 @@ export class LeaveStatisticsComponent {
 
   headers: ITableHeader[] = [
     { field: 'name', header: 'name', label: 'Employee Name' },
-    { field: 'experienceInCompany', header: 'experienceInCompany', label: 'Experience In Company' },
+    { field: 'experienceInCompany', header: 'experienceInCompany', label: 'Exp In Company'},
     { field: 'dateofJoin', header: 'dateofJoin', label: 'DOJ' },
     { field: 'reportingTo', header: 'reportingTo', label: 'Reporting To' },
     { field: 'allottedCasualLeaves', header: 'allottedCasualLeaves', label: 'Allotted CL' },
