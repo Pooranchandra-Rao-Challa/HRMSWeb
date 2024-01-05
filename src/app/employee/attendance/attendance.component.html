@@ -259,7 +259,8 @@
 
     </div>
     <div class="justify-content-center m-3">
-        <p>Total No. of Employees: {{this.employeeAttendanceList?.length}}</p>
+        
+        <p>Total No. of Employees: {{this.employeeAttendanceList?.length-getCountLeavescount('NE')}}</p>
         <p>No. of Present: {{getCountLeavescount('NU')+ getCountLeavescount('PT')}}</p>
         <p>No. of Absent: {{ getCountLeavescount('AT') }}</p>
         <p>No. of PL's: {{ getCountLeavescount('PL') }}</p>
