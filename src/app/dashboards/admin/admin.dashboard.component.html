@@ -79,8 +79,8 @@
                         <i class="pi pi-circle-fill text-blue-300 m-1"></i><span>CL</span>
                     </div>
                 </div>
-                <ul class=" p-0 m-0">
-                    <li *ngIf="admindashboardDtls?.savedActiveEmployeesInOffice?.length > 0; else noDataMessage">
+                <ul class="list-none p-0 m-0">
+                    <li *ngIf="this.admindashboardDtls?.savedActiveEmployeesInOffice?.length > 0; else noDataMessage">
                         <p-chart type="doughnut" [data]="pieDataforAttendance" [options]="pieOptions" height="135px"
                             width="100%"></p-chart>
                     </li>
