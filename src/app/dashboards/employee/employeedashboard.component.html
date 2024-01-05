@@ -200,14 +200,14 @@
                 </div>
                 </div>
             </div>
-            <div class="col-12 md:col-6 lg:col-5 p-5 applicant-p-block-home">
-                <h4 class="m-5 mt-0 mx-0 ">Alloted Assets</h4>
-                <div class="grid  ">
+            <div class="col-12 md:col-6 lg:col-5 p-3">
+                <h4 class="m-5 mt-0 mx-0 mb-3">Alloted Assets</h4>
+                <div class="applicant-p-block-home">                   
                     <div class="text-500  text-2xl text-primary text-center m-5 p-5"
                         *ngIf="!empDetails?.assets || empDetails?.assets.length === 0">
                         There is no Assigned Assets for this Employee
                     </div>
-                    <div class="grid "
+                    <div class="grid p-3 mt-3 "
                         *ngIf="empDetails?.assets && empDetails?.assets.length > 0">
                         <div class="col-12 sm:col-4" *ngFor="let asset of empDetails?.assets">
                             <div class="card text-0 p-3  justify-content-between h-full assets_card">
@@ -244,12 +244,15 @@
                             </div>
                         </div>
                     </div>
+                   
                 </div>
+                
             </div>
-            <div class="col-12 md:col-6 lg:col-4 p-5 ">
-                <h4 class="m-5 mt-0 mx-0 ">Holidays</h4>
+            <div class="col-12 md:col-6 lg:col-4 p-3">
+                <h4 class="m-5 mb-3  mt-0 mx-0 ">Holidays</h4>
                 <div class="applicant-p-block-home">
-                    <p-table id="table" #dtholiday [value]="holidays" dataKey="id" [rows]="10" [rowHover]="true"
+                    <div class="p-3">
+                        <p-table id="table" #dtholiday [value]="holidays" dataKey="id" [rows]="10" [rowHover]="true"
                     [alwaysShowPaginator]="false" [paginator]="true"
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                     [showCurrentPageReport]="true" paginatorDropdownAppendTo="body" [autoLayout]="true"
@@ -280,12 +283,14 @@
                         </tr>
                     </ng-template>
                 </p-table>
+                    </div>
+                    
                 </div>
                
             </div>
-            <div class="col-12 md:col-6 lg:col-3 p-5">
-                <h4 class="m-5 mx-0 mt-0 ">Assigned Projects</h4>
-                <div class="grid card p-3 orange-200  applicant-p-block-home scroll_div" style="min-height:350px;">
+            <div class="col-12 md:col-6 lg:col-3 p-3">
+                <h4 class="m-5 mb-3 mx-0 mt-0 ">Assigned Projects</h4>
+                <div class=" card p-3 orange-200  applicant-p-block-home scroll_div" style="min-height:350px;">
                     <div class="text-500  text-2xl text-primary text-center m-5 p-5"
                         *ngIf="!empDetails?.projects || empDetails?.projects.length === 0">
                         There is no Assigned Projects for this Employee

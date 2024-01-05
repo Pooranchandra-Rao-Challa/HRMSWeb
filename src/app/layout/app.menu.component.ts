@@ -211,7 +211,7 @@ export class AppMenuComponent implements OnInit {
                     },
                     {
                         label: 'Leave Statistics',
-                        icon: 'icon-leave-request font-semibold',
+                        icon: 'pi pi-fw pi-chart-bar',
                         routerLink: ['employee/leaveStatistics'],
                         permission: this.jwtService.Permissions.CanViewLeaveStatistics
                     },
