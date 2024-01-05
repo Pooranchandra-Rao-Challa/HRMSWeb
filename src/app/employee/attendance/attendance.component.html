@@ -1,6 +1,6 @@
 <!-- p-dialog -->
 <p-dialog header="Attendance" [(visible)]="dialog" [modal]="true" showEffect="fade"
-    [breakpoints]="{'960px': '70%', '640px': '80%'}">
+    [breakpoints]="{'960px': '70%', '640px': '80%'}" >
     <div class="flex flex-column align-items-center justify-content-center">
         <form [formGroup]="fbleave">
             <div class="col-12 text-center">
@@ -27,7 +27,7 @@
                     <p-dropdown formControlName="leaveTypeId" [options]="filteredLeaveTypes" optionLabel="displayName"
                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['leaveTypeId'].touched && FormControls['leaveTypeId'].errors }"
                         (onChange)="checkLeaveType($event.value)" id="Attendance_leaveType" optionValue="lookupDetailId"
-                        placeholder="Select Leave Type"></p-dropdown>
+                        placeholder="Select Leave Type" appendTo="body"></p-dropdown>
                     <div class="flex">
                         <div class="align-left w-60" style="width:70%">
                             <span *ngIf="FormControls['leaveTypeId'].touched && FormControls['leaveTypeId'].invalid">
@@ -42,7 +42,7 @@
                     <label>Leave Purpose:</label>
                     <p-dropdown placeholder="Select Leave Purpose" formControlName="leaveReasonId"
                         [options]="filteredLeaveReasons" optionLabel="name" optionValue="lookupDetailId"
-                        id="leaveTypes_Dropdown"
+                        id="leaveTypes_Dropdown" appendTo="body"
                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['leaveReasonId'].touched && FormControls['leaveReasonId'].errors }">
                     </p-dropdown>
                     <div class="flex">
@@ -62,12 +62,12 @@
                         placeholder="Enter From Date" [showIcon]="true" >
                     </p-calendar>
                 </div>
-                <div style="margin-bottom: 15px;">
+                <div style="margin-bottom: 15px;" *ngIf="isLeaveTypeSelected(FormControls['leaveTypeId'].value)">
                     <label>Is HalfDay Leave:</label>&nbsp;
                     <p-checkbox formControlName="isHalfDayLeave" id="Attendance_isHalfDayLeave" [binary]="true"
                         inputId="binary"></p-checkbox>
                 </div>
-                <div style="margin-bottom: 15px;">
+                <div style="margin-bottom: 15px;" *ngIf="isLeaveTypeSelected(FormControls['leaveTypeId'].value)">
                     <label>Leave Narration:</label>&nbsp;
                     <textarea rows="5" cols="30" pInputTextarea formControlName="note" #note
                         [maxlength]="maxLength.description" placeholder="Enter Leave Narration"

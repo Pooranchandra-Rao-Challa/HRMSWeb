@@ -163,10 +163,10 @@ export class AttendanceComponent {
   getLeaves() {
     this.employeeService.getEmployeeLeaveDetails(this.month,this.year).subscribe((resp) =>
       this.leaves = resp as unknown as EmployeeLeaveDto[]
-    
-      
+
+
     );
-    
+
   }
 
   save(data) {
@@ -259,13 +259,14 @@ export class AttendanceComponent {
 
   getEmployeeLeaveOnDate(emp: any, date: string,leaveType :string){
     let selectedLeaveType = this.LeaveTypes.filter(fn => fn.name == leaveType)[0] || {};
-    
+
     this.employeeService.getEmployeeLeaveOnDate({
         employeeId : emp.EmployeeId,
         leaveDate: formatDate(this.isFutureDate(date), 'yyyy-MM-dd', 'en'),
         leaveTypeId: selectedLeaveType.lookupDetailId
     }).subscribe({
         next: (data) => {
+            console.log(data);
             this.employeeLeaveOnDate = data as unknown as EmployeeLeaveOnDateDto[];
             this.patchFormValues(emp, date, leaveType);
         },
@@ -316,7 +317,7 @@ export class AttendanceComponent {
   patchFormValues(emp, date, leaveType) {
 
     const result = this.leaves.find(
-      each => each.employeeId === emp.EmployeeId && 
+      each => each.employeeId === emp.EmployeeId &&
       this.datePipe.transform(each.fromDate, 'yyyy-MM-dd') === this.datePipe.transform(this.isFutureDate(date), 'yyyy-MM-dd')&&each?.rejected
     );
     let selectedLeaveType = this.LeaveTypes.filter( fn => fn.name == leaveType);
@@ -327,22 +328,24 @@ export class AttendanceComponent {
     if(this.employeeLeaveOnDate.length > 0){
         employeeleave = this.employeeLeaveOnDate[0]
     }
+    console.log(this.employeeLeaveOnDate);
+console.log(this.employeeAttendanceList);
 
 
     this.dialog = true;
     this.fbleave.reset();
 
-    const statusId = this.LeaveTypes.find(each => each.name === leaveType)?.lookupDetailId;
+    const currentLeaveTypeId = this.LeaveTypes.find(each => each.name === leaveType)?.lookupDetailId;
 
     const defaultValues = {
       employeeId: emp.EmployeeId,
       employeeName: emp.EmployeeName,
       leaveReasonId:employeeleave.leaveReasonId,
-      leaveTypeId: statusId,
-      previousWorkStatusId: statusId,
+      leaveTypeId: currentLeaveTypeId,
+      previousWorkStatusId: currentLeaveTypeId,
       fromDate: FORMAT_DATE(new Date(this.datePipe.transform(this.isFutureDate(date), 'yyyy-MM-dd'))),
       notReported: false,
-      isHalfDayLeave: false
+      isHalfDayLeave: employeeleave.isHalfDayLeave
     };
     const resultValues = result && !result?.rejected ? {
       ...result,
@@ -394,7 +397,7 @@ export class AttendanceComponent {
       this.updateEmployeeAttendance();
       return;
     }
-  
+
     const StatusId = this.LeaveTypes.find(each => each.lookupDetailId === this.fbleave.get('leaveTypeId').value);
 
     if (StatusId.name !== 'PL' && StatusId.name !== 'CL') {
@@ -437,6 +440,9 @@ export class AttendanceComponent {
     if (StatusId.name != 'PT' && StatusId.name != 'AT') {
       this.fbleave.get('note').setValue('Leave is Updated through Attendance form by Admin the approve is generated Automatically.');
       this.filteredLeaveReasons = this.leaveReasons.filter(fn => fn.fkeySelfId == id)
+    }
+    if (StatusId.name != 'PL' && StatusId.name != 'CL'){
+        this.fbleave.get('isHalfDayLeave').setValue(false);
     }
   }
 
