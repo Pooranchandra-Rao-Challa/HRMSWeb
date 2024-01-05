@@ -12,7 +12,7 @@
                     <span class="bg-primary border-circle w-2rem h-2rem flex align-items-center justify-content-center">{{this.selfEmployeeLeaveCount?.allottedPrivilegeLeaves-this.selfEmployeeLeaveCount?.usedPrivilegeLeavesInYear}}</span>
                     <span class="ml-2 font-medium">Privilege Leaves</span>
                 </p-chip>
-                
+
             </div>
             <div class="p-fluid p-formgrid">
                 <div style="margin-bottom: 15px;">
@@ -41,7 +41,7 @@
                 <div style="margin-bottom: 15px;" *ngIf="isLeaveTypeSelected(FormControls['leaveTypeId'].value)">
                     <label>Leave Purpose:</label>
                     <p-dropdown placeholder="Select Leave Purpose" formControlName="leaveReasonId"
-                        [options]="leaveReasons" optionLabel="name" optionValue="lookupDetailId"
+                        [options]="filteredLeaveReasons" optionLabel="name" optionValue="lookupDetailId"
                         id="leaveTypes_Dropdown"
                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['leaveReasonId'].touched && FormControls['leaveReasonId'].errors }">
                     </p-dropdown>
@@ -59,7 +59,7 @@
                 <div style="margin-bottom: 15px;">
                     <label class="required">Date:</label>&nbsp;
                     <p-calendar formControlName="fromDate" id="Attendance_fromDate" appendTo="body"
-                        placeholder="Enter From Date" [showIcon]="true">
+                        placeholder="Enter From Date" [showIcon]="true" >
                     </p-calendar>
                 </div>
                 <div style="margin-bottom: 15px;">
@@ -199,37 +199,37 @@
                         'at': employee[getFormattedDate(i)] === 'AT',
                         'cl': employee[getFormattedDate(i)] === 'CL',
                         'pl': employee[getFormattedDate(i)] === 'PL',
-                        'el': employee[getFormattedDate(i)] === 'LWP', 
-                        'cl_pt': employee[getFormattedDate(i)] === 'CL/PT',    
-                        'pl_pt': employee[getFormattedDate(i)] === 'PL/PT',                      
+                        'el': employee[getFormattedDate(i)] === 'LWP',
+                        'cl_pt': employee[getFormattedDate(i)] === 'CL/PT',
+                        'pl_pt': employee[getFormattedDate(i)] === 'PL/PT',
                        }">
                 <ng-container *ngIf="getAttendance(employee, i)">
                     <span (click)="openDialog(employee,getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendance(employee, i) === 'PT'" id="Attendance_addPresent">
+                        *ngIf="getAttendance(employee, i) === 'PT'" id="Attendance_addPresent" class="att-pointer">
                         {{ employee[getFormattedDate(i)] }}
                     </span>
                     <span (click)="openDialog(employee,getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendance(employee, i) === 'PL/PT'" id="Attendance_addPresent">
+                        *ngIf="getAttendance(employee, i) === 'PL/PT'" id="Attendance_addPresent" class="att-pointer">
                         {{ employee[getFormattedDate(i)] }}
                     </span>
                     <span (click)="openDialog(employee,getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendance(employee, i) === 'CL/PT'" id="Attendance_addPresent">
+                        *ngIf="getAttendance(employee, i) === 'CL/PT'" id="Attendance_addPresent" class="att-pointer">
                         {{ employee[getFormattedDate(i)] }}
                     </span>
                     <span (click)="openDialog(employee, getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendance(employee, i) === 'AT'" id="Attendance_addAbesnt">
+                        *ngIf="getAttendance(employee, i) === 'AT'" id="Attendance_addAbesnt" class="att-pointer">
                         {{ employee[getFormattedDate(i)] }}
                     </span>
                     <span (click)="openDialog(employee, getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendance(employee, i) === 'CL'" id="Attendance_addCL">
+                        *ngIf="getAttendance(employee, i) === 'CL'" id="Attendance_addCL" class="att-pointer">
                         {{ employee[getFormattedDate(i)] }}
                     </span>
                     <span (click)="openDialog(employee, getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendance(employee, i) === 'PL'" id="Attendance_addPL">
+                        *ngIf="getAttendance(employee, i) === 'PL'" id="Attendance_addPL" class="att-pointer">
                         {{ employee[getFormattedDate(i)] }}
                     </span>
                     <span (click)="openDialog(employee, getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendance(employee, i) === 'LWP'" id="Attendance_addEL">
+                        *ngIf="getAttendance(employee, i) === 'LWP'" id="Attendance_addEL" class="att-pointer">
                         {{ employee[getFormattedDate(i)] }}
                     </span>
                     <span *ngIf="getAttendance(employee, i) === 'WOff'">
@@ -239,7 +239,7 @@
                         {{ employee[getFormattedDate(i)] }}
                     </span>
                     <span (click)="openDialog(employee, getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendance(employee, i) === 'NU'" id="Attendance_addNU">
+                        *ngIf="getAttendance(employee, i) === 'NU'" id="Attendance_addNU" class="att-pointer">
                         {{ employee[getFormattedDate(i)] }}
                     </span>
                 </ng-container>

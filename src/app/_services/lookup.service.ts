@@ -44,7 +44,10 @@ export class LookupService extends ApiHttpService {
         console.log('LeaveReasons');
         return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.LeaveReasons,dayWorkStatusId]);
     }
-
+    public AllLeaveReasons() {
+        console.log('LeaveReasons');
+        return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.LeaveReasons]);
+    }
     public Countries() {
         console.log('Countries');
         return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.Countries]);
@@ -87,7 +90,7 @@ export class LookupService extends ApiHttpService {
         console.log('NatureOfJobs');
         return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.NatureOfJob])
     }
-    
+
     public Nationality(){
         console.log('Nationality');
         return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.Nationality])

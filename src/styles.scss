@@ -938,6 +938,14 @@ p-fieldset.allott-employee {
     display: inline-block;
     margin-bottom:10px;
 }
+.error .p-dropdown {
+    border-color: #E24c4c;
+}
+
+.error .p-inputtext {
+    border-color: #E24c4c;
+}
+
 .avatar_onb{
     height: 8rem;
     width: 90px;
@@ -958,10 +966,13 @@ p-fieldset.allott-employee {
     // border:1px solid green;
 }
 .avatar_projects{
-    height: 10rem;
+    height: 150px;
     width: 150px;
     position: relative;
     display: inline-block;
     margin-bottom:10px;
 }
 
+.att-pointer{
+    cursor: pointer;
+}
