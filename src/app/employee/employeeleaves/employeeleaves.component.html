@@ -99,7 +99,7 @@
                         </span>
                     </td>
                     <td *ngIf="permissions?.CanManageLeave" pFrozenColumn alignFrozen="right" [frozen]="true">
-                        <div class="flex" *ngIf="leave.rejected === null">
+                        <div class="flex" *ngIf="leave.status != 'Approved'">
                             <button pButton pRipple icon="pi pi-check" id="Leave_Approved_Button"
                                 class="p-element p-ripple  p-button  p-button-outlined p-button-success mr-3 p-0"
                                 (click)="openSweetAlert('Reason For Approve',leave)"></button>
