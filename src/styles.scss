@@ -222,7 +222,8 @@ input:read-only {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-  }
+}
+
 input:read-only:focus {
     background-color: #bfbfbf;
     // border:0px;
@@ -337,8 +338,8 @@ p-calendar input {
 }
 
 .hd {
-    color: rgb(5, 118, 92);
-    background-color: rgb(232, 235, 251);
+    color: rgb(48, 51, 54);
+    background-color: rgb(239, 239, 240);
     padding: 10px !important;
     text-align: center !important;
 
@@ -359,18 +360,23 @@ p-calendar input {
     text-align: center !important;
 
 }
-.cl_pt{
-    background-image: linear-gradient(to right,rgb(255, 192, 239),rgb(203, 244, 203));
-  color:black;
-    padding: 10px !important;
+
+.cl_pt {
+    background-image: linear-gradient(to right, rgb(255, 192, 239) 50%, rgb(203, 244, 203) 50%);
+    color: black;
+    padding: 5px !important;
     text-align: center !important;
+
 }
-.pl_pt{
-    background-image: linear-gradient(to right,rgb(194, 203, 253),rgb(203, 244, 203));
-    color:black;
-    padding: 10px !important;
+
+.pl_pt {
+    background-image: linear-gradient(to right, rgb(194, 203, 253) 50%, rgb(203, 244, 203) 50%);
+    color: black;
+    padding: 5px !important;
     text-align: center !important;
+
 }
+
 .pl {
     color: rgb(3, 6, 107);
     background-color: rgb(194, 203, 253);
@@ -381,7 +387,7 @@ p-calendar input {
 .el {
     color: rgb(15, 200, 213);
     background-color: rgb(220, 249, 247);
-    padding: 10px !important;
+    padding: 5px !important;
     text-align: center !important;
 }
 
@@ -832,112 +838,123 @@ p-fieldset.allott-employee {
 }
 
 .p-button.p-button-icon-only {
-    background-color: white;
+    background-color: transparent;
     color: var(--primary-color);
 }
 
 .applicant-p-block-home {
     background-color: rgb(249, 245, 242);
     border-radius: 10px;
-    min-height:390px;
+    min-height: 390px;
 }
 
-.allotted-employees{
+.allotted-employees {
     text-align: center;
     font-size: 1.1rem;
     font-weight: 700;
     margin: 10px;
     line-height: 39px;
-    i{
+
+    i {
         padding: 0 10px;
     }
-    i.fa-trash{
-        color:rgba(248, 6, 6, 0.897);
+
+    i.fa-trash {
+        color: rgba(248, 6, 6, 0.897);
         font-size: 24px;
         border: none;
-        &:hover{
-            color:rgb(255, 145, 145);
+
+        &:hover {
+            color: rgb(255, 145, 145);
             // border: solid rgba(248, 6, 6, 0.897) 1px;
         }
     }
-    i.fa-refresh{
-        color:#41b6a6;
+
+    i.fa-refresh {
+        color: #41b6a6;
         font-size: 24px;
         border: none;
-        &:hover{
-            color:#84cfc5;
+
+        &:hover {
+            color: #84cfc5;
             // border: solid #41b6a6 1px;
         }
     }
 }
 
 #rolesTabView li.p-highlight,
-#projectsview li.p-highlight{
+#projectsview li.p-highlight {
     background-color: #FF810E;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
-#rolesTabView div.p-tabview-nav-content{
+
+#rolesTabView div.p-tabview-nav-content {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
 
 #rolesTabView .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link,
-#projectsview .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link{
+#projectsview .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
     background: transparent !important;
     border-color: #ff810e;
     color: white !important;
 }
 
-.layout-topbar .topbar-menu li.topbar-item ul{
-   top:40px;
-   height:fit-content;
+.layout-topbar .topbar-menu li.topbar-item ul {
+    top: 40px;
+    height: fit-content;
 }
 
-.text-14{
+.text-14 {
     font-size: 14px;
-    margin:20px !important;
+    margin: 20px !important;
     text-align: center;
 }
 
 #rolesTabView .p-tabview .p-tabview-nav li .p-tabview-nav-link,
-#rolesTabView  .p-tabview .p-tabview-nav{
+#rolesTabView .p-tabview .p-tabview-nav {
     border: none;
 }
 
-#rolesTabView .p-tabview-nav-container{
+#rolesTabView .p-tabview-nav-container {
     border-bottom: 1px solid #ccc;
 }
 
-#projectsview  .p-tabview-panels{
+#projectsview .p-tabview-panels {
     border-bottom: 1px solid #ccc;
     border-left: 1px solid #ccc;
     border-right: 1px solid #ccc;
 }
 
-#rolesTabView ul.p-tabview-nav li.ng-star-inserted{
+#rolesTabView ul.p-tabview-nav li.ng-star-inserted {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     border: 1px solid #ccc;
 }
-.doc_button{
+
+.doc_button {
     padding: 5px !important;
     width: auto !important;
     height: 40px;
 }
-.doc_button span{
+
+.doc_button span {
     font-size: 20px;
 }
-.chart_card{
-    min-height:250px;
+
+.chart_card {
+    min-height: 250px;
 }
-.avatar{
+
+.avatar {
     height: 10rem;
     width: 100px;
     position: relative;
     display: inline-block;
-    margin-bottom:10px;
+    margin-bottom: 10px;
 }
+
 .error .p-dropdown {
     border-color: #E24c4c;
 }
@@ -946,33 +963,88 @@ p-fieldset.allott-employee {
     border-color: #E24c4c;
 }
 
-.avatar_onb{
+.avatar_onb {
     height: 8rem;
     width: 90px;
     position: relative;
     display: inline-block;
-    margin-bottom:10px;
+    margin-bottom: 10px;
 }
-.avatar_emp_dboard{
+
+.avatar_emp_dboard {
     height: 9rem;
     width: 100px;
     position: relative;
     display: inline-block;
-    margin-bottom:10px;
+    margin-bottom: 10px;
 }
-.project_img{
+
+.project_img {
     max-width: 100% !important;
     object-fit: cover;
     // border:1px solid green;
 }
-.avatar_projects{
+
+.avatar_projects {
     height: 150px;
     width: 150px;
     position: relative;
     display: inline-block;
-    margin-bottom:10px;
+    margin-bottom: 10px;
 }
 
-.att-pointer{
+.att-pointer {
     cursor: pointer;
 }
+
+.highlight-new-row {
+    background-color: #ffffab !important;
+}
+
+// table grid header colors
+.p-datatable-table .p-datatable-thead tr th {
+    background-color: #ff810e;
+    color: white
+}
+
+.p-datatable .p-sortable-column .p-sortable-column-icon {
+    color: white !important;
+    &:hover {
+        color: #ff810e !important;
+    }
+}
+.p-datatable .p-sortable-column.p-highlight .p-sortable-column-icon {
+    color: #ff810e !important;
+    &:hover {
+        color: #ff810e !important;
+    }
+}
+
+.p-datatable .p-sortable-column .p-column-filter .p-column-filter-menu-button .pi{
+    color: white !important;
+    &:hover{
+        color: #343a40 !important;
+    }
+}
+.p-datatable .p-sortable-column.p-highlight .p-column-filter .p-column-filter-menu-button .pi{
+    color: #ff810e !important;
+    &:hover{
+        color: #343a40 !important;
+    }
+}
+
+.p-datatable .p-sortable-column:hover .p-column-filter .p-column-filter-menu-button .pi{
+    color: #ff810e !important;
+    &:hover{
+        color: #343a40 !important;
+    }
+}
+
+.p-datatable .p-sortable-column:hover .p-sortable-column-icon{
+    color: #ff810e !important;
+    &:hover{
+        color: #343a40 !important;
+    }
+}
+
+
