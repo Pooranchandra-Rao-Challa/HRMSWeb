@@ -162,7 +162,7 @@ export class BasicDetailsComponent implements OnInit {
     onCrop(image: File): void {
         this.imageCropService.onCrop(image, this.fbbasicDetails, 'photo');
     }
-    
+
     getEmployeeBasedonId() {
         this.employeeService.GetViewEmpPersDtls(this.employeeId).subscribe((resp) => {
             this.empbasicDetails = resp as EmployeeBasicDetailDto;

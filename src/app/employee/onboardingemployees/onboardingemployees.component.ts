@@ -58,7 +58,7 @@ export class OnboardingemployeesComponent {
   cancelModel() {
     this.router.navigate(['employee/onboardingemployee'])
   }
-  
+
   clearcard(dv: DataView){
     dv.filteredValue = null;
     this.filter.nativeElement.value = '';
@@ -151,7 +151,7 @@ export class OnboardingemployeesComponent {
     const isEnrolled = false;
     this.employeeService.GetEmployees(isEnrolled).subscribe(resp => {
       this.employees = resp as unknown as EmployeesViewDto[];
-
+      this.employees.forEach(employee => this.getEmployeePhoto(employee));
     });
   }
   onGlobalFilter(table: Table, event: Event) {
@@ -169,4 +169,9 @@ export class OnboardingemployeesComponent {
   viewEmployeeDtls(employeeId: number) {
     this.router.navigate(['employee/viewemployees'], { queryParams: { employeeId: employeeId } });
   }
+  getEmployeePhoto(employee:EmployeesViewDto){
+    return this.employeeService.getEmployeePhoto(employee.employeeId).subscribe((resp)=> {
+        employee.photo = (resp as any).ImageData;
+    })
+}
 }
