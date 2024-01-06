@@ -19,7 +19,7 @@
                         <label class="required">Employee Name:</label>
                         <p-dropdown id="employeeName_Dropdown" appendTo="body" [filter]="true" [options]="employees"
                             optionLabel="employeeName" optionValue="employeeId" placeholder="Select Employee Name"
-                            formControlName="employeeId" [readonly]="this.currentRoute === '/dashboard/employee'"
+                            formControlName="employeeId" (onChange)="onEmployeeSelect($event)" [readonly]="this.currentRoute === '/dashboard/employee'"
                             [ngClass]="{'is-invalid ng-dirty': FormControls['employeeId'].touched && FormControls['employeeId'].errors}">
                         </p-dropdown>
                         <div class="flex">
