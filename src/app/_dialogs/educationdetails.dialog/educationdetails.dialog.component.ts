@@ -86,7 +86,7 @@ export class EducationdetailsDialogComponent {
 
   addEducationDetails() {
     this.faeducationDetails = this.fbEducationDetails.get('educationDetails') as FormArray;
-    this.faeducationDetails.push(this.generateEducationRow());
+    this.faeducationDetails.insert(0,this.generateEducationRow());
   }
 
   initCurriculum() {

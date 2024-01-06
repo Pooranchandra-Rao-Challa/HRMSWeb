@@ -29,7 +29,7 @@
                 </tr>
               </ng-template>
               <ng-template pTemplate="body" let-education let-educationDetailsIndex="rowIndex">
-                <tr [formGroupName]="educationDetailsIndex">
+                <tr [formGroupName]="educationDetailsIndex" [ngClass]="{'highlight-new-row': formArrayControls(educationDetailsIndex, 'educationDetailId').value  === null}">
                   <td class="vertical-align-top">
                     <p-dropdown id="curriculum_dropdown" [autoDisplayFirst]="false" [options]="curriculum"
                       placeholder="Select Curriculum" optionLabel="name" appendTo="body" optionValue="lookupDetailId"

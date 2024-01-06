@@ -96,6 +96,7 @@ export class LookupDialogComponent {
   }
 
   getDependents(dependentId: number) {
+    if(!dependentId){this.dependentLookupData;return;}
     this.lookupService.LookupDetailsForSelectedDependent(dependentId).subscribe((resp) => {
       this.dependentLookupData = resp as unknown as LookupViewDto[];
     })
@@ -119,7 +120,7 @@ export class LookupDialogComponent {
     return this.falookupDetails().controls[i].get(formControlName);
   }
 
-  generaterow(lookupDetail: LookupDetailsDto = new LookupDetailsDto()): FormGroup {
+  generaterow(lookupDetail: LookupDetailsDto = {}): FormGroup {
     return this.formbuilder.group({
       lookupId: [lookupDetail.lookupId],
       lookupDetailId: [lookupDetail.lookupDetailId],
@@ -146,7 +147,7 @@ export class LookupDialogComponent {
   addLookupDetails() {
     this.ShowlookupDetails = true;
     this.falookUpDetails = this.fblookup.get("lookUpDetails") as FormArray
-    this.falookUpDetails.push(this.generaterow())
+    this.falookUpDetails.insert(0,this.generaterow())
     this.setDefaultIsActiveForAllRows();
   }
 

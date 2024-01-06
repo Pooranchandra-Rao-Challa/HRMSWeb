@@ -1084,14 +1084,14 @@ export class OrgChart {
                 attrs.onNodeClick(attrs.nodeId(data));
             })
             .on("dragEnable" ,(event,{data}) => {
-                console.log(event);
-                console.log(data);
+                //console.log(event);
+                //console.log(data);
             })
             .on("dragstart",(event,{data}) => {
 
                 //event.stopPropagation();
-                console.log(event);
-                console.log(data);
+                //console.log(event);
+                //console.log(data);
             })
             .on('dragover',(event,{data})=>{
                 //attrs.onNodeDragEnd(data);

@@ -82,7 +82,7 @@
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-lookUp let-lookUpDetailsIndex="rowIndex">
-                            <tr [formGroupName]="lookUpDetailsIndex">
+                            <tr [formGroupName]="lookUpDetailsIndex"  [ngClass]="{'highlight-new-row': formArrayControls(lookUpDetailsIndex, 'lookupDetailId').value  === null}">
                                 <td class="vertical-align-top" *ngIf="dependentDropdown">
                                     <p-dropdown *ngIf="this.fblookup.value.fkeySelfId" class="w-100"
                                         id="lookup_dropdown" [options]="dependentLookupData" optionLabel="name"

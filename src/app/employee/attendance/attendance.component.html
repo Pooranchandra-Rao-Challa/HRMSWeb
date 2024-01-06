@@ -1,15 +1,17 @@
 <!-- p-dialog -->
 <p-dialog header="Attendance" [(visible)]="dialog" [modal]="true" showEffect="fade"
-    [breakpoints]="{'960px': '70%', '640px': '80%'}" >
+    [breakpoints]="{'960px': '70%', '640px': '80%'}">
     <div class="flex flex-column align-items-center justify-content-center">
         <form [formGroup]="fbleave">
             <div class="col-12 text-center">
                 <p-chip styleClass="pl-0 pr-3 mr-4">
-                    <span class="bg-primary border-circle w-2rem h-2rem flex align-items-center justify-content-center">{{this.selfEmployeeLeaveCount?.allottedCasualLeaves-this.selfEmployeeLeaveCount?.usedCasualLeavesInYear}}</span>
+                    <span
+                        class="bg-primary border-circle w-2rem h-2rem flex align-items-center justify-content-center">{{this.selfEmployeeLeaveCount?.allottedCasualLeaves-this.selfEmployeeLeaveCount?.usedCasualLeavesInYear}}</span>
                     <span class="ml-2 font-medium">Casual Leaves</span>
                 </p-chip>
                 <p-chip styleClass="pl-0 pr-3">
-                    <span class="bg-primary border-circle w-2rem h-2rem flex align-items-center justify-content-center">{{this.selfEmployeeLeaveCount?.allottedPrivilegeLeaves-this.selfEmployeeLeaveCount?.usedPrivilegeLeavesInYear}}</span>
+                    <span
+                        class="bg-primary border-circle w-2rem h-2rem flex align-items-center justify-content-center">{{this.selfEmployeeLeaveCount?.allottedPrivilegeLeaves-this.selfEmployeeLeaveCount?.usedPrivilegeLeavesInYear}}</span>
                     <span class="ml-2 font-medium">Privilege Leaves</span>
                 </p-chip>
 
@@ -59,7 +61,7 @@
                 <div style="margin-bottom: 15px;">
                     <label class="required">Date:</label>&nbsp;
                     <p-calendar formControlName="fromDate" id="Attendance_fromDate" appendTo="body"
-                        placeholder="Enter From Date" [showIcon]="true" >
+                        placeholder="Enter From Date" [showIcon]="true">
                     </p-calendar>
                 </div>
                 <div style="margin-bottom: 15px;" *ngIf="isLeaveTypeSelected(FormControls['leaveTypeId'].value)">
@@ -125,7 +127,8 @@
     <ng-template pTemplate="right">
         <div *ngIf="permissions?.CanDownloadMonthlyAttendance">
             <button type="button " pButton icon="icon-csv-svgrepo-com-1" class=" mr-2 doc_button"
-                pTooltip="Download Attendance Report" tooltipPosition="left" (click)="downloadAttendanceReport()"></button>
+                pTooltip="Download Attendance Report" tooltipPosition="left"
+                (click)="downloadAttendanceReport()"></button>
         </div>
         <div class="pr-2">
             <div>
@@ -203,47 +206,16 @@
                         'cl_pt': employee[getFormattedDate(i)] === 'CL/PT',
                         'pl_pt': employee[getFormattedDate(i)] === 'PL/PT',
                        }">
-                <ng-container *ngIf="getAttendance(employee, i)">
-                    <span (click)="openDialog(employee,getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendance(employee, i) === 'PT'" id="Attendance_addPresent" class="att-pointer">
-                        {{ employee[getFormattedDate(i)] }}
-                    </span>
-                    <span (click)="openDialog(employee,getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendance(employee, i) === 'PL/PT'" id="Attendance_addPresent" class="att-pointer">
-                        {{ employee[getFormattedDate(i)] }}
-                    </span>
-                    <span (click)="openDialog(employee,getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendance(employee, i) === 'CL/PT'" id="Attendance_addPresent" class="att-pointer">
-                        {{ employee[getFormattedDate(i)] }}
-                    </span>
-                    <span (click)="openDialog(employee, getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendance(employee, i) === 'AT'" id="Attendance_addAbesnt" class="att-pointer">
-                        {{ employee[getFormattedDate(i)] }}
-                    </span>
-                    <span (click)="openDialog(employee, getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendance(employee, i) === 'CL'" id="Attendance_addCL" class="att-pointer">
-                        {{ employee[getFormattedDate(i)] }}
-                    </span>
-                    <span (click)="openDialog(employee, getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendance(employee, i) === 'PL'" id="Attendance_addPL" class="att-pointer">
-                        {{ employee[getFormattedDate(i)] }}
-                    </span>
-                    <span (click)="openDialog(employee, getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendance(employee, i) === 'LWP'" id="Attendance_addEL" class="att-pointer">
-                        {{ employee[getFormattedDate(i)] }}
-                    </span>
-                    <span *ngIf="getAttendance(employee, i) === 'WOff'">
-                        WO
-                    </span>
-                    <span *ngIf="getAttendance(employee, i) === 'HD'">
-                        {{ employee[getFormattedDate(i)] }}
-                    </span>
-                    <span (click)="openDialog(employee, getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendance(employee, i) === 'NU'" id="Attendance_addNU" class="att-pointer">
-                        {{ employee[getFormattedDate(i)] }}
-                    </span>
-                </ng-container>
-
+                <!-- To display updated attendance days-->
+                <span (click)="openDialog(employee,getFormattedDate(i),employee[getFormattedDate(i)])"
+                    *ngIf="getAttendance(employee, i) !== 'WOff' && getAttendance(employee, i) !== 'HD' && !isFeatureDate(i)"
+                    class="att-pointer">
+                    {{ employee[getFormattedDate(i)] }}
+                </span>
+                <!-- To display holidays, Weekly Off and Non updated attendance days-->
+                <span *ngIf="getAttendance(employee, i) === 'WOff' || getAttendance(employee, i) === 'HD' || isFeatureDate(i)">
+                    {{ employee[getFormattedDate(i)] }}
+                </span>
             </td>
         </tr>
     </ng-template>
@@ -259,7 +231,7 @@
 
     </div>
     <div class="justify-content-center m-3">
-        
+
         <p>Total No. of Employees: {{this.employeeAttendanceList?.length-getCountLeavescount('NE')}}</p>
         <p>No. of Present: {{getCountLeavescount('NU')+ getCountLeavescount('PT')}}</p>
         <p>No. of Absent: {{ getCountLeavescount('AT') }}</p>
