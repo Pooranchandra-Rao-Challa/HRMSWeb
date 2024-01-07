@@ -209,15 +209,15 @@
                         'pl_pt': employee[getFormattedDate(i)] === 'PL/PT',
                         'wfh': employee[getFormattedDate(i)] === 'WFH',
                        }">
-                <!-- To display updated attendance days-->
-                <span (click)="openDialog(employee,getFormattedDate(i),employee[getFormattedDate(i)])"
-                    *ngIf="getAttendance(employee, i) !== 'WOff' && getAttendance(employee, i) !== 'HD' && getAttendance(employee, i) !== 'NE'  && !isFeatureDate(i)"
+                <!-- To display updated attendance days -->
+                <span (click)="openDialog(employee,getFormattedDate(i),employee[getFormattedDate(i)],i)"
+                    *ngIf="canUpdateAttendance(employee,i)"
                     class="att-pointer">
-                    {{ employee[getFormattedDate(i)] }}
+                    {{ employee[getFormattedDate(i)]}}
                 </span>
                 <!-- To display holidays, Weekly Off and Non updated attendance days-->
-                <span *ngIf="getAttendance(employee, i) === 'WOff' || getAttendance(employee, i) === 'HD' || getAttendance(employee, i) === 'NE' || isFeatureDate(i)">
-                    {{ employee[getFormattedDate(i)] }}
+                <span *ngIf="!canUpdateAttendance(employee,i)">
+                    {{ getNonUpdateLabel(employee,i) }}
                 </span>
             </td>
         </tr>

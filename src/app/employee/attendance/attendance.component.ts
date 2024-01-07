@@ -59,6 +59,7 @@ export class AttendanceComponent {
     filteredLeaveReasons: LookupViewDto[] = [];
     employeeLeaveOnDate: EmployeeLeaveOnDateDto[] = [];
     today = new Date(this.year,this.month-1,this.day);
+    canUpdatePreviousDayAttendance: boolean = false;
 
     constructor(
         private adminService: AdminService,
@@ -78,6 +79,7 @@ export class AttendanceComponent {
     ngOnInit() {
         this.infoMessage = false;
         this.permissions = this.jwtService.Permissions;
+        this.canUpdatePreviousDayAttendance = this.permissions.CanUpdatePreviousDayAttendance;
         this.initAttendance();
         this.initLeaveForm();
         this.getDaysInMonth(this.year, this.month);
@@ -281,38 +283,17 @@ export class AttendanceComponent {
             this.filteredLeaveTypes = this.filteredLeaveTypes.filter(each => each.name !== type);
     }
 
-    openDialog(emp: any, date: string, leaveType: string) {
+    openDialog(emp: any, date: string, leaveType: string,rowIndex: number) {
 
         if (this.permissions?.CanUpdatePreviousDayAttendance) {
             this.getEmployeeLeavesBasedOnId(emp, date, leaveType);
             return;
         }
-        if (!this.permissions?.CanManageAttendance || !this.isValidDate(date)) {
+        if (!this.permissions?.CanManageAttendance || this.isPastDate(rowIndex)) {
             return;
         }
         this.getEmployeeLeavesBasedOnId(emp, date, leaveType);
     }
-
-
-    isValidDate(date: string): boolean {
-        const formattedDate = this.stringToDate(this.datePipe.transform(new Date(this.stringToDate(date)), 'dd-MM-yyyy'));
-        const currentDate = this.stringToDate(this.datePipe.transform(new Date(), 'dd-MM-yyyy'));
-        const dayBeforeYesterday = new Date();
-        dayBeforeYesterday.setDate(dayBeforeYesterday.getDate() - 2);
-
-        if (formattedDate.toISOString() === currentDate.toISOString() && this.checkPreviousAttendance) {
-            this.alertMessage.displayInfo(ALERT_CODES["EAAS007"]);
-            return false;
-        }
-
-        return !(
-            formattedDate.toISOString() > currentDate.toISOString() ||
-            (formattedDate.toISOString() <= this.stringToDate(this.datePipe.transform(dayBeforeYesterday, 'dd-MM-yyyy')).toISOString() &&
-                formattedDate.toISOString() !== this.stringToDate(this.notUpdatedDates).toISOString()) ||
-            (formattedDate.toISOString() < currentDate.toISOString() && !this.checkPreviousAttendance)
-        );
-    }
-
 
     patchFormValues(emp, date, leaveType) {
 
@@ -357,10 +338,22 @@ export class AttendanceComponent {
         const stringDateObject = new Date(year, month, day);
         return stringDateObject;
     }
-    isFeatureDate(rowIndex: number){
+    isPastDate(rowIndex: number){
         let dateString = this.getFormattedDate(rowIndex);
         let date = this.stringToDate(dateString);
-        return !(date <= this.today);
+        return (date < this.today);
+    }
+
+    isFutureDate(rowIndex: number){
+        let dateString = this.getFormattedDate(rowIndex);
+        let date = this.stringToDate(dateString);
+        return (date > this.today);
+    }
+
+    isTodayDate(rowIndex:number){
+        let dateString = this.getFormattedDate(rowIndex);
+        let date = this.stringToDate(dateString);
+        return (date = this.today);
     }
 
     isLeaveTypeSelected(type: number): boolean {
@@ -546,5 +539,20 @@ export class AttendanceComponent {
                     FileSaver.saveAs(document, "MonthlyAttendanceReport.csv");
                 }
             })
+    }
+
+    canUpdateAttendance(employee, i){
+        let dayWorkingStatus = this.getAttendance(employee, i);
+        let isPastDay = this.isPastDate(i);
+        let isFutureDay = this.isFutureDate(i);
+        let isToday = !isPastDay && !isFutureDay
+        let isJointed = dayWorkingStatus != 'NE'
+        let weeklyOffOrHoliday = ['WOff','HD'].indexOf(dayWorkingStatus) > -1;
+        return ((!weeklyOffOrHoliday && isToday) || (this.canUpdatePreviousDayAttendance && isPastDay && !isFutureDay)) && isJointed
+    }
+
+    getNonUpdateLabel(employee,rowIndex:number){
+        let dayWorkingStatus = this.getAttendance(employee, rowIndex)
+        return dayWorkingStatus == 'NE' ? '' : dayWorkingStatus;
     }
 }
