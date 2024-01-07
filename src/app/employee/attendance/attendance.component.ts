@@ -142,13 +142,16 @@ export class AttendanceComponent {
                 return 'CL (Casual Leave)';
             case 'LWP':
                 return 'LWP (Leave Without Pay)';
+            case 'WFH':
+                return 'WFH (Working from Home)';
             default:
                 return null;
         }
     }
     initAttendance() {
         this.employeeService.GetAttendance(this.month, this.year).subscribe((resp) => {
-            this.employeeAttendanceList = resp as unknown as employeeAttendanceDto[];
+            let employeesAttendance = resp as unknown as employeeAttendanceDto[];
+            this.employeeAttendanceList = employeesAttendance.sort((a,b)=> {return a.EmployeeName.localeCompare(b.EmployeeName)})
             this.CheckPreviousDayAttendance();
         });
     }
@@ -321,6 +324,7 @@ export class AttendanceComponent {
 
         let lt = leaveType.replace('/PT',"")
         let selectDayWork = this.LeaveTypes.filter(fn => fn.name == lt)[0] || {};
+        console.log(leaveType);
 
         this.dialog = true;
         this.fbleave.reset();
@@ -331,7 +335,7 @@ export class AttendanceComponent {
             leaveReasonId: employeeleave.leaveReasonId,
             leaveTypeId: selectDayWork.lookupDetailId,
             previousWorkStatusId: selectDayWork.lookupDetailId,
-            fromDate: FORMAT_DATE(new Date(this.datePipe.transform(this.stringToDate(date), 'yyyy-MM-dd'))),
+            fromDate: this.stringToDate(date),
             notReported: false,
             isHalfDayLeave: employeeleave.isHalfDayLeave,
             note:employeeleave.note
@@ -395,14 +399,18 @@ export class AttendanceComponent {
         // The condition checks the If day work status is not a leave then updates attendance, else updates or creates the
         // employee leave finally closes the opening employee work status update form.
         const DayWorkItem = this.LeaveTypes.find(each => each.lookupDetailId === this.fbleave.get('leaveTypeId').value);
+        console.log(this.fbleave.get('fromDate').value);
+        console.log(formatDate(this.fbleave.get('fromDate').value, 'yyyy-MM-dd', 'en'));
 
         if (DayWorkItem.name !== 'PL' && DayWorkItem.name !== 'CL') {
             this.fbAttendance.patchValue({
                 employeeId: this.fbleave.get('employeeId').value,
                 dayWorkStatusId: DayWorkItem.lookupDetailId,
-                date: this.fbleave.get('fromDate').value,
+                date: FORMAT_DATE(this.fbleave.get('fromDate').value),
                 notReported: false
             });
+            console.log(this.fbAttendance.value);
+
             this.saveAttendance([this.fbAttendance.value]);
         }
         else {
@@ -411,7 +419,7 @@ export class AttendanceComponent {
                 approvedBy: this.jwtService.UserId,
                 rejected: false
             });
-            this.saveEmployeeLeave();
+            //this.saveEmployeeLeave();
         }
         this.dialog = false;
     }

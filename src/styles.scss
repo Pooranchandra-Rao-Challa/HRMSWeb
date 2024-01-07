@@ -398,6 +398,14 @@ p-calendar input {
     text-align: center !important;
 }
 
+.wfh {
+    color: black;
+    background-color: rgb(241, 255, 209);
+    padding: 5px !important;
+    text-align: center !important;
+}
+
+
 .top_note_bar {
     text-align: center;
     background-color: white;
@@ -1047,4 +1055,6 @@ p-fieldset.allott-employee {
     }
 }
 
-
+app-attendance .p-datatable-table tbody tr td:first-child{
+    font-weight: 700 !important;
+}
