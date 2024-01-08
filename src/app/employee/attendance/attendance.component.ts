@@ -451,9 +451,10 @@ export class AttendanceComponent {
     if (StatusId.name != 'PL' && StatusId.name != 'CL') {
       this.fbleave.get('isHalfDayLeave').setValue(false);
     }
-    if (StatusId.name == 'PL' || StatusId.name == 'CL') {
-      LeaveTypeFormControl.setValidators([Validators.required]);
-    }
+    
+    // if (StatusId.name == 'PL' || StatusId.name == 'CL') {
+    //   LeaveTypeFormControl.setValidators([Validators.required]);
+    // }
   }
 
 
