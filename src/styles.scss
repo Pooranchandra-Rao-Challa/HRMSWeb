@@ -1008,7 +1008,9 @@ p-fieldset.allott-employee {
 .highlight-new-row {
     background-color: #ffffab !important;
 }
-
+.highlight-new-row .p-calendar{
+    background-color: #fff !important;
+}
 // table grid header colors
 .p-datatable-table .p-datatable-thead tr th {
     background-color: #ff810e;
