@@ -161,20 +161,20 @@ export class EmployeesList {
 export class ProjectAllotments {
     employeeId?: number
     projectAllotmentId?: number
-    projectId: number
+    projectId?: number
     reportingToId?: number
-    isActive: boolean
-    nodeId:string;
-    parentNodeId:string;
+    isActive?: boolean
+    nodeId?:string;
+    parentNodeId?:string;
 }
 export class ProjectDetailsDto {
-    clientId: number
-    projectId: number;
-    code: string;
-    name: string;
-    InceptionAt: string;
-    logo: string;
-    description: string;
+    clientId?: number
+    projectId?: number;
+    code?: string;
+    name?: string;
+    InceptionAt?: string;
+    logo?: string;
+    description?: string;
     isActive?: boolean;
     projectAllotments?: []
     projectStatuses?: []
@@ -185,30 +185,32 @@ export class ProjectDetailsDto {
     updatedAt?: string
 }
 export class ClientDetailsDto {
-    clientId: number
-    name: string
-    companyName: string
-    email: string
-    mobileNumber: string
-    cinno: string
-    pocName: string
-    pocMobileNumber: string
-    address: string;
+    clientId?: number
+    name?: string
+    companyName?: string
+    clientName?:string
+    email?: string
+    mobileNumber?: string
+    cinno?: string
+    pocName?: string
+    pocMobileNumber?: string
+    address?: string;
     isActive?: boolean;
 }
 export class ClientNamesDto {
-    clientId: number;
-    companyName: string;
+    clientId?: number;
+    companyName?: string;
+    clientName?:string
 }
 
 export interface EmployeesForAllottedAssetsViewDto {
-    employeeId: number;
-    employeeName: string;
-    code: string;
-    officeEmailId: string;
-    employeeRoleName: string;
-    mobileNumber: string;
-    photo: string;
+    employeeId?: number;
+    employeeName?: string;
+    code?: string;
+    officeEmailId?: string;
+    employeeRoleName?: string;
+    mobileNumber?: string;
+    photo?: string;
     certificateDOB?: Date;
     gender?: string;
     designationId?: number;
