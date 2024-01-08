@@ -305,7 +305,7 @@ export class AttendanceComponent {
 
     let lt = leaveType.replace('/PT', "")
     let selectDayWork = this.LeaveTypes.filter(fn => fn.name == lt)[0] || {};
-   
+
     this.dialog = true;
     this.fbleave.reset();
 
@@ -379,6 +379,7 @@ export class AttendanceComponent {
       this.dialog = false;
     });
   }
+
   addAttendance() {
     this.fbleave.get('fromDate').enable();
 
@@ -391,24 +392,35 @@ export class AttendanceComponent {
     // The condition checks the If day work status is not a leave then updates attendance, else updates or creates the
     // employee leave finally closes the opening employee work status update form.
     const DayWorkItem = this.LeaveTypes.find(each => each.lookupDetailId === this.fbleave.get('leaveTypeId').value);
+    let fromDate = FORMAT_DATE(this.fbleave.get('fromDate').value);
 
     if (DayWorkItem.name !== 'PL' && DayWorkItem.name !== 'CL') {
       this.fbAttendance.patchValue({
         employeeId: this.fbleave.get('employeeId').value,
         dayWorkStatusId: DayWorkItem.lookupDetailId,
-        date: FORMAT_DATE(this.fbleave.get('fromDate').value),
+        date: fromDate,
         notReported: false
       });
       this.saveAttendance([this.fbAttendance.value]);
     }
     else {
       this.fbleave.patchValue({
-        fromDate: FORMAT_DATE(this.fbleave.get('fromDate').value),
+        fromDate: fromDate,
         acceptedBy: this.jwtService.UserId,
         approvedBy: this.jwtService.UserId,
         rejected: false
       });
       this.saveEmployeeLeave();
+      if(fromDate < this.today){
+        const StatusId = this.LeaveTypes.find(each => each.name == "PT").lookupDetailId;
+        this.fbAttendance.patchValue({
+            employeeId: this.fbleave.get('employeeId').value,
+            dayWorkStatusId: StatusId,
+            date: fromDate,
+            notReported: false
+          });
+          this.saveAttendance([this.fbAttendance.value]);
+      }
     }
     this.dialog = false;
   }
