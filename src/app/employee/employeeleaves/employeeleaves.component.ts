@@ -49,7 +49,8 @@ export class EmployeeLeavesComponent {
 
   headers: ITableHeader[] = [
     { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
-    { field: 'leaveType', header: 'leaveType', label: 'Leave Type' },
+    { field: 'leaveType', header: 'leaveType', label: 'Leave Type' }, 
+    { field: 'isHalfDayLeave', header: 'isHalfDayLeave', label: 'Half Day Leave' },
     { field: 'fromDate', header: 'fromDate', label: 'From Date' },
     { field: 'toDate', header: 'toDate', label: 'To Date' },
     { field: 'note', header: 'note', label: 'Leave Description' },
@@ -84,6 +85,8 @@ export class EmployeeLeavesComponent {
   getLeaves() {
     this.employeeService.getEmployeeLeaveDetails(this.month,this.year).subscribe((resp) => {
       this.leaves = resp as unknown as EmployeeLeaveDto[];
+      console.log(this.leaves);
+      
     })
   }
 

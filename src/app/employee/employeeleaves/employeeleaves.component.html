@@ -31,15 +31,15 @@
                         </div>
                         <div>
                             <p-calendar styleClass="only-icon" [(ngModel)]="selectedMonth" [showIcon]="true"
-                                view="month" [yearNavigator]="true" yearRange="2000:2030"
-                                [readonlyInput]="true" inputId="monthpicker" (onSelect)="onMonthSelect($event)">
+                                view="month" [yearNavigator]="true" yearRange="2000:2030" [readonlyInput]="true"
+                                inputId="monthpicker" (onSelect)="onMonthSelect($event)">
                             </p-calendar>
                         </div>
                         <div class="pl-2">
                             <p-button icon="pi pi-angle-right ml-2" (click)="gotoNextMonth()"
                                 id="Attendance_nextMonth"></p-button>
                         </div>
-                        <div class="pl-2"  style="margin-top: 10px;">
+                        <div class="pl-2" style="margin-top: 10px;">
                             {{this.month}}/{{this.year}}
                         </div>
                     </div>
@@ -72,7 +72,7 @@
             <ng-template pTemplate="body" let-leave>
                 <tr>
                     <td *ngFor="let col of headers"
-                        [ngClass]="{'text-center':col?.field == 'status','text-wrap':col.field === 'note'}">
+                        [ngClass]="{'text-center': col?.field == 'status' || col?.field == 'isHalfDayLeave','text-wrap':col.field === 'note'}">
                         <span
                             *ngIf=" col?.field == 'employeeName' || col?.field == 'note'||col?.field == 'acceptedBy'  || col?.field == 'approvedBy'||col?.field =='createdAt' || col?.field == 'createdBy'">
                             {{leave[col.field]}}
@@ -83,6 +83,12 @@
                         </span>
                         <span *ngIf=" col?.field == 'leaveType'">
                             {{ leave[col.field]}}
+                        </span>
+                        <span *ngIf="col?.field === 'isHalfDayLeave'">
+                            <i class="fa"
+                                [ngClass]="{'fa-check': leave['isHalfDayLeave'], 'fa-close': !leave['isHalfDayLeave']}"
+                                [style.color]="leave['isHalfDayLeave'] ? '#119e2f' : '#e24c4c'"
+                                style="font-size:18px; vertical-align: sub;"></i>
                         </span>
                         <span *ngIf="col?.field == 'status'">
                             <ng-container *ngIf="leave.status === 'Approved'; else falseBlock">
