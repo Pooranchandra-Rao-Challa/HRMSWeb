@@ -71,7 +71,7 @@
                     </td>
                     <td class="text-center" *ngFor="let col of headers">
                       <span
-                        *ngIf=" col?.field == 'employeeName' || col?.field == 'employeeRoleName'||col?.field == 'gender'  || col?.field == 'mobileNumber'||col?.field =='officeEmailId' || col?.field == 'createdBy'">
+                        *ngIf="col?.field == 'code' || col?.field == 'employeeName' || col?.field == 'employeeRoleName'||col?.field == 'gender'  || col?.field == 'mobileNumber'||col?.field =='officeEmailId' || col?.field == 'createdBy'">
                         {{employee[col.field]}}
                       </span>
                       <span *ngIf="col.field == 'dateofJoin'">
