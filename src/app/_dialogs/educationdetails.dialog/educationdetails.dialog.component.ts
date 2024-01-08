@@ -86,7 +86,7 @@ export class EducationdetailsDialogComponent {
 
   addEducationDetails() {
     this.faeducationDetails = this.fbEducationDetails.get('educationDetails') as FormArray;
-    this.faeducationDetails.insert(0,this.generateEducationRow());
+    this.faeducationDetails.push(this.generateEducationRow());
   }
 
   initCurriculum() {
@@ -129,7 +129,7 @@ export class EducationdetailsDialogComponent {
     if (educationDetails.length === 0) {
       this.faeducationDetail().push(this.generateEducationRow());
     } else {
-      educationDetails.forEach((empEduDetails: EducationDetailsDto, educationDetailsIndex) => {
+      educationDetails.forEach((empEduDetails: any, educationDetailsIndex) => {
         this.onCountryChange(empEduDetails.countryId, educationDetailsIndex);
         this.onCurriculumChange(empEduDetails.curriculumId, educationDetailsIndex);
         this.faeducationDetail().push(this.generateEducationRow(empEduDetails));
