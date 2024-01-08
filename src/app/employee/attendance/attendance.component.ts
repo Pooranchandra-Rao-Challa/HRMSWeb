@@ -410,7 +410,7 @@ export class AttendanceComponent {
         rejected: false
       });
       this.saveEmployeeLeave();
-     
+
     }
     this.dialog = false;
   }
@@ -441,20 +441,19 @@ export class AttendanceComponent {
   }
 
   checkLeaveType(id) {
-    const LeaveTypeFormControl = this.fbleave.get('leaveReasonId');
+    const leaveReasonControl = this.fbleave.get('leaveReasonId');
     this.fbleave.get('note').setValue('');
     const StatusId = this.LeaveTypes.find(each => each.lookupDetailId === this.fbleave.get('leaveTypeId').value);
-    if (StatusId.name != 'PT' && StatusId.name != 'AT') {
+    if (StatusId.name != 'PT' && StatusId.name != 'AT'  && StatusId.name != 'LWP'  && StatusId.name != 'WFH') {
       this.fbleave.get('note').setValue('Leave is Updated through Attendance form by Admin the approve is generated Automatically.');
       this.filteredLeaveReasons = this.leaveReasons.filter(fn => fn.fkeySelfId == id)
+      leaveReasonControl.setValidators([Validators.required]);
     }
     if (StatusId.name != 'PL' && StatusId.name != 'CL') {
       this.fbleave.get('isHalfDayLeave').setValue(false);
+      leaveReasonControl.clearValidators();
+      leaveReasonControl.setErrors(null);
     }
-    
-    // if (StatusId.name == 'PL' || StatusId.name == 'CL') {
-    //   LeaveTypeFormControl.setValidators([Validators.required]);
-    // }
   }
 
 
