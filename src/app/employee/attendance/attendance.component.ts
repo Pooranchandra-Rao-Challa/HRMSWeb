@@ -172,7 +172,6 @@ export class AttendanceComponent {
   }
 
   saveAttendance(data) {
-    debugger
     this.employeeService.AddAttendance(data).subscribe(
       (response) => {
         if (response) {
@@ -442,6 +441,7 @@ export class AttendanceComponent {
   }
 
   checkLeaveType(id) {
+    const LeaveTypeFormControl = this.fbleave.get('leaveReasonId');
     this.fbleave.get('note').setValue('');
     const StatusId = this.LeaveTypes.find(each => each.lookupDetailId === this.fbleave.get('leaveTypeId').value);
     if (StatusId.name != 'PT' && StatusId.name != 'AT') {
@@ -451,6 +451,10 @@ export class AttendanceComponent {
     if (StatusId.name != 'PL' && StatusId.name != 'CL') {
       this.fbleave.get('isHalfDayLeave').setValue(false);
     }
+    
+    // if (StatusId.name == 'PL' || StatusId.name == 'CL') {
+    //   LeaveTypeFormControl.setValidators([Validators.required]);
+    // }
   }
 
 
