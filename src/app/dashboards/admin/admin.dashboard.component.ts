@@ -65,7 +65,7 @@ export class AdminDashboardComponent implements OnInit {
             datasets: [
                 {
                     data: [present, absent, PersonalLeaves, CasualLeaves,WrokFromHome],
-                    backgroundColor: [documentStyle.getPropertyValue('--primary-300'), documentStyle.getPropertyValue('--red-300'), documentStyle.getPropertyValue('--green-300'), documentStyle.getPropertyValue('--blue-300'), documentStyle.getPropertyValue('#f1ffd1')],
+                    backgroundColor: [documentStyle.getPropertyValue('--primary-300'), documentStyle.getPropertyValue('--red-300'), documentStyle.getPropertyValue('--green-300'), documentStyle.getPropertyValue('--blue-300'), documentStyle.getPropertyValue('--pink-300')],
                     borderColor: surfaceBorder
                 }
             ]
