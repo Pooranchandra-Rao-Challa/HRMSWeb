@@ -79,8 +79,8 @@
                     </div>
                     <div class="col-12 md:col-12" *ngIf="!isEditClicked">
                         <div class=" button-container mt-1">
-                            <p-button type="button" [label]="this.addLeaveLabel" (click)="addLeaveDetails()"
-                           [disabled]="fbLeaveConfiguration.invalid"></p-button>
+                            <p-button type="button" [label]="this.addLeaveLabel" 
+                           [disabled]="fbLeaveConfiguration.invalid" (click)="addLeaveDetails(fbLeaveConfiguration.invalid)"></p-button>
                         </div>
                     </div>
                 </div>
