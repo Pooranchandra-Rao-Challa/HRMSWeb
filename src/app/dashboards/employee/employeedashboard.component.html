@@ -107,7 +107,7 @@
                                     empDetails?.allottedPrivilegeLeaves-empDetails?.usedPrivilegeLeavesInYear}}</h1>
                             </div>
                             <i class="pi pi-fw pi-calendar-plus text-3xl" style="color: var(--primary-color);"
-                                label="Primary" pTooltip="Add Leaves" tooltipPosition="bottom"
+                                label="Primary" pTooltip="Apply Leaves" tooltipPosition="bottom"
                                 (click)="openComponentDialog(employeeleaveDialogComponent, null, ActionTypes.save)"
                                 *ngIf="permissions?.CanManageSelfEmployee"></i>
                         </div>
@@ -156,7 +156,7 @@
                                     empDetails?.allottedCasualLeaves-empDetails?.usedCasualLeavesInYear}}</h1>
                             </div>
                             <i class="pi pi-fw pi-calendar-plus text-3xl" style="color: var(--primary-color);"
-                                label="Primary" pTooltip="Add Leaves" tooltipPosition="bottom"
+                                label="Primary" pTooltip="Apply Leaves" tooltipPosition="bottom"
                                 (click)="openComponentDialog(employeeleaveDialogComponent, null, ActionTypes.save)"
                                 *ngIf="permissions?.CanManageSelfEmployee"></i>
                         </div>
