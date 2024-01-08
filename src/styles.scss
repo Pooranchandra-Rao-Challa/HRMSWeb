@@ -416,7 +416,6 @@ p-calendar input {
 .card-height {
     height: 90%;
 }
-
 .pair {
     display: flex;
     align-items: center;
@@ -429,8 +428,11 @@ p-calendar input {
 }
 
 .value {
+    max-width: 400px;
+    text-overflow: ellipsis;
     display: inline-block;
 }
+
 
 .text-wrap {
     max-width: 100px;
@@ -1017,44 +1019,52 @@ p-fieldset.allott-employee {
 
 .p-datatable .p-sortable-column .p-sortable-column-icon {
     color: white !important;
+
     &:hover {
         color: #ff810e !important;
     }
 }
+
 .p-datatable .p-sortable-column.p-highlight .p-sortable-column-icon {
     color: #ff810e !important;
+
     &:hover {
         color: #ff810e !important;
     }
 }
 
-.p-datatable .p-sortable-column .p-column-filter .p-column-filter-menu-button .pi{
+.p-datatable .p-sortable-column .p-column-filter .p-column-filter-menu-button .pi {
     color: white !important;
-    &:hover{
-        color: #343a40 !important;
-    }
-}
-.p-datatable .p-sortable-column.p-highlight .p-column-filter .p-column-filter-menu-button .pi{
-    color: #ff810e !important;
-    &:hover{
+
+    &:hover {
         color: #343a40 !important;
     }
 }
 
-.p-datatable .p-sortable-column:hover .p-column-filter .p-column-filter-menu-button .pi{
+.p-datatable .p-sortable-column.p-highlight .p-column-filter .p-column-filter-menu-button .pi {
     color: #ff810e !important;
-    &:hover{
+
+    &:hover {
         color: #343a40 !important;
     }
 }
 
-.p-datatable .p-sortable-column:hover .p-sortable-column-icon{
+.p-datatable .p-sortable-column:hover .p-column-filter .p-column-filter-menu-button .pi {
     color: #ff810e !important;
-    &:hover{
+
+    &:hover {
         color: #343a40 !important;
     }
 }
 
-app-attendance .p-datatable-table tbody tr td:first-child{
+.p-datatable .p-sortable-column:hover .p-sortable-column-icon {
+    color: #ff810e !important;
+
+    &:hover {
+        color: #343a40 !important;
+    }
+}
+
+app-attendance .p-datatable-table tbody tr td:first-child {
     font-weight: 700 !important;
 }
