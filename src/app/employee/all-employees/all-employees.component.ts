@@ -62,7 +62,6 @@ export class AllEmployeesComponent {
         this.EmployeeService.GetEmployeesBasedonstatus(isEnrolled, selectedEmployeeStatus).subscribe(resp => {
             this.employees = resp as unknown as EmployeesViewDto[];
             this.employees.forEach(employee => this.getEmployeePhoto(employee));
-
         });
     }
 

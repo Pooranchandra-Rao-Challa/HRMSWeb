@@ -30,7 +30,7 @@
                 </tr>
               </ng-template>
               <ng-template pTemplate="body" let-experience let-experienceDetailsIndex="rowIndex">
-                <tr [formGroupName]="experienceDetailsIndex">
+                <tr [formGroupName]="experienceDetailsIndex"  [ngClass]="{'highlight-new-row': expDtlsformArrayControls(experienceDetailsIndex, 'workExperienceId').value  === null}">
                   <td class="vertical-align-top">
                     <input pInputText class="form-control" formControlName="companyName"
                       placeholder="Enter Company Name" alphaOnly maxlength="50" #companyName id="company_Name"
