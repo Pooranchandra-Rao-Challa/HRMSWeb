@@ -411,26 +411,27 @@ export class AttendanceComponent {
         rejected: false
       });
       this.saveEmployeeLeave();
-      if(fromDate < this.today){
-        const StatusId = this.LeaveTypes.find(each => each.name == "PT").lookupDetailId;
-        this.fbAttendance.patchValue({
-            employeeId: this.fbleave.get('employeeId').value,
-            dayWorkStatusId: StatusId,
-            date: fromDate,
-            notReported: false
-          });
-          this.saveAttendance([this.fbAttendance.value]);
-      }
+     
     }
     this.dialog = false;
   }
 
 
   saveEmployeeLeave() {
-
+    let fromDate = FORMAT_DATE(this.fbleave.get('fromDate').value);
     this.employeeService.UpdateEmployeeLeaveFromAttendance(this.fbleave.value).subscribe(resp => {
       if (resp) {
         this.alertMessage.displayAlertMessage(ALERT_CODES["ELD001"]);
+        if(fromDate < this.today){
+          const StatusId = this.LeaveTypes.find(each => each.name == "PT").lookupDetailId;
+          this.fbAttendance.patchValue({
+              employeeId: this.fbleave.get('employeeId').value,
+              dayWorkStatusId: StatusId,
+              date: fromDate,
+              notReported: false
+            });
+            this.saveAttendance([this.fbAttendance.value]);
+        }
         this.CheckPreviousDayAttendance();
       }
       else
