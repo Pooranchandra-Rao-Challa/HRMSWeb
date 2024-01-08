@@ -211,14 +211,14 @@
                        }">
                 <!-- To display updated attendance days -->
                 <span (click)="openDialog(employee,getFormattedDate(i),employee[getFormattedDate(i)],i)"
-                    *ngIf="canUpdateAttendance(employee,i)"
+                    *ngIf="canUpdateAttendance(employee,i);else CannotUpdateAttendance"
                     class="att-pointer">
                     {{ employee[getFormattedDate(i)]}}
                 </span>
                 <!-- To display holidays, Weekly Off and Non updated attendance days-->
-                <span *ngIf="!canUpdateAttendance(employee,i)">
+                <ng-template #CannotUpdateAttendance>
                     {{ getNonUpdateLabel(employee,i) }}
-                </span>
+                </ng-template>
             </td>
         </tr>
     </ng-template>
