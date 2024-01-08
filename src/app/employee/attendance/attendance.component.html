@@ -41,7 +41,7 @@
                     </div>
                 </div>
                 <div style="margin-bottom: 15px;" *ngIf="isLeaveTypeSelected(FormControls['leaveTypeId'].value)">
-                    <label>Leave Purpose:</label>
+                    <label class="required">Leave Purpose:</label>
                     <p-dropdown placeholder="Select Leave Purpose" formControlName="leaveReasonId"
                         [options]="filteredLeaveReasons" optionLabel="name" optionValue="lookupDetailId"
                         id="leaveTypes_Dropdown" appendTo="body"
