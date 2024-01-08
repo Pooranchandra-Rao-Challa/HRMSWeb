@@ -23,8 +23,6 @@ export class AdminDashboardComponent implements OnInit {
     inItAdminDashboard() {
         this.dashboardService.getAdminDashboard().subscribe((resp) => {
             this.admindashboardDtls = resp[0] as unknown as adminDashboardViewDto;
-            console.log(this.admindashboardDtls);
-            
             // Parse and check if leave counts are available
             if (this.admindashboardDtls?.employeeLeaveCounts) {
                 this.admindashboardDtls.savedemployeeLeaveCounts = JSON.parse(this.admindashboardDtls.employeeLeaveCounts) || [];
