@@ -23,6 +23,8 @@ export class AdminDashboardComponent implements OnInit {
     inItAdminDashboard() {
         this.dashboardService.getAdminDashboard().subscribe((resp) => {
             this.admindashboardDtls = resp[0] as unknown as adminDashboardViewDto;
+            console.log(this.admindashboardDtls);
+            
             // Parse and check if leave counts are available
             if (this.admindashboardDtls?.employeeLeaveCounts) {
                 this.admindashboardDtls.savedemployeeLeaveCounts = JSON.parse(this.admindashboardDtls.employeeLeaveCounts) || [];
@@ -58,13 +60,14 @@ export class AdminDashboardComponent implements OnInit {
         const CasualLeaves = this.admindashboardDtls?.savedemployeeLeaveCounts.find(each => each.leaveType === 'CL')?.leaveTypeCount;
         const PersonalLeaves = this.admindashboardDtls?.savedemployeeLeaveCounts.find(each => each.leaveType === 'PL')?.leaveTypeCount;
         const present = this.admindashboardDtls?.savedActiveEmployeesInOffice.find(each => each.employeeStatus === 'PT')?.employeesCount;
+        const WrokFromHome = this.admindashboardDtls?.savedActiveEmployeesInOffice.find(each => each.employeeStatus === 'WFH')?.employeesCount;
 
         this.pieDataforAttendance = {
-            labels: ['In Office', 'Absent', 'PL', 'CL',],
+            labels: ['In Office', 'Absent', 'PL', 'CL', 'WFH'],
             datasets: [
                 {
-                    data: [present, absent, PersonalLeaves, CasualLeaves,],
-                    backgroundColor: [documentStyle.getPropertyValue('--primary-300'), documentStyle.getPropertyValue('--red-300'), documentStyle.getPropertyValue('--green-300'), documentStyle.getPropertyValue('--blue-300')],
+                    data: [present, absent, PersonalLeaves, CasualLeaves,WrokFromHome],
+                    backgroundColor: [documentStyle.getPropertyValue('--primary-300'), documentStyle.getPropertyValue('--red-300'), documentStyle.getPropertyValue('--green-300'), documentStyle.getPropertyValue('--blue-300'), documentStyle.getPropertyValue('#f1ffd1')],
                     borderColor: surfaceBorder
                 }
             ]
