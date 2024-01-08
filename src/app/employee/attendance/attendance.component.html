@@ -50,18 +50,22 @@
                     <div class="flex">
                         <div class="align-left w-60" style="width:70%">
                             <span
-                                *ngIf="FormControls['leaveReasonId'].touched && FormControls['leaveReasonId'].invalid">
-                                <div class="ng-invalid ng-touched p-error"
-                                    *ngIf="FormControls['leaveReasonId'].errors?.['required']">
-                                    Please Select Leave Type First.</div>
-                            </span>
+                                    *ngIf="FormControls['leaveReasonId'].touched && FormControls['leaveReasonId'].invalid">
+                                    <div class="ng-invalid ng-touched p-error" 
+                                    *ngIf=" FormControls['leaveTypeId'].untouched && FormControls['leaveReasonId'].touched ||
+                                    FormControls['leaveTypeId'].invalid && FormControls['leaveReasonId'].touched">
+                                        Please Select Leave Type First.</div>
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf=" FormControls['leaveTypeId'].touched && FormControls['leaveReasonId'].errors?.['required'] &&  FormControls['leaveTypeId'].valid">
+                                        Please Select Leave Purpose.</div>
+                                </span>
                         </div>
                     </div>
                 </div>
                 <div style="margin-bottom: 15px;">
                     <label class="required">Date:</label>&nbsp;
                     <p-calendar formControlName="fromDate" id="Attendance_fromDate" appendTo="body"
-                        placeholder="Enter From Date" [showIcon]="true">
+                        placeholder="Enter From Date" [showIcon]="true" >
                     </p-calendar>
                 </div>
                 <div style="margin-bottom: 15px;" *ngIf="isLeaveTypeSelected(FormControls['leaveTypeId'].value)">
