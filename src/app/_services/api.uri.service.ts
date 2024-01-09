@@ -108,6 +108,7 @@ export const GET_EMPLOYEE_PHOTO = "Employee/GetEmployeePhoto";
 //Attendence
 
 export const GET_ATTENDENCE = "Attendance/GetMonthlyAttendanceReport";
+export const Get_NotUpdated_AttendanceDates_List="Attendance/GetNotUpdatedAttendanceDates"
 export const POST_LISTOF_ATTENDANCES = "Attendance/CreateAttendanceForEmployees";
 export const GET_MY_LEAVE_DETAILS = "Attendance/GetLeavesForSelfEmployee";
 export const GET_EMPLOYEE_LEAVE_DETAILS = "Attendance/GetEmployeeLeaves";

@@ -33,6 +33,7 @@ import {
   GET_EMPLOYEE_LEAVE_ONDATE,
   UPDATE_PREVIOUS_ATTENDANCE,
   GET_EMPLOYEE_PHOTO,
+  Get_NotUpdated_AttendanceDates_List,
 
 } from './api.uri.service';
 import { ExperienceDetailsDto, SkillArea, AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments, employeeExperienceDtlsViewDto, FamilyDetailsViewDto, employeeAttendanceDto, EmployeeLeaveDto, EmployeeAttendanceList, CompanyHierarchyViewDto, EmployeeProfilePicViewDto, LeaveStatistics, EmployeeLeaveOnDateDto } from '../_models/employes';
@@ -52,6 +53,11 @@ export class EmployeeService extends ApiHttpService {
   public GetAttendance(month: number, year: number) {
     return this.getWithParams<employeeAttendanceDto>(GET_ATTENDENCE, [month, year]);
   }
+
+  public GetNotUpdatedAttendanceDatesList(month: number, year: number){
+    return this.getWithParams(Get_NotUpdated_AttendanceDates_List, [month, year]);
+  }
+
   public DeleteDocument(documentId: number) {
     return this.post(DELETE_DOCUMENT + '/' + documentId, null);
   }

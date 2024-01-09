@@ -346,6 +346,10 @@ export class employeeAttendanceDto {
 	EmployeeName?: string;
 	dates?: { [date: string]: string | {} };
 }
+export class NotUpdatedAttendanceDatesListDto{
+	date?:string;
+	dayOfWeek?:string
+}
 
 export class EmployeeLeaveDto {
 	employeeLeaveId?: number;

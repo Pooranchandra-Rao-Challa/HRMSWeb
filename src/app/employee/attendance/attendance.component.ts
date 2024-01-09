@@ -10,7 +10,7 @@ import { ATTENDANCE_DATE, FORMAT_DATE } from 'src/app/_helpers/date.formate.pipe
 import { EmployeesList, LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
 import { MaxLength } from 'src/app/_models/common';
 import { SelfEmployeeDto } from 'src/app/_models/dashboard';
-import { employeeAttendanceDto, EmployeeLeaveDto, EmployeeLeaveOnDateDto } from 'src/app/_models/employes';
+import { employeeAttendanceDto, EmployeeLeaveDto, EmployeeLeaveOnDateDto, NotUpdatedAttendanceDatesListDto } from 'src/app/_models/employes';
 import { AdminService } from 'src/app/_services/admin.service';
 import { LOGIN_URI } from 'src/app/_services/api.uri.service';
 import { DashboardService } from 'src/app/_services/dashboard.service';
@@ -38,12 +38,14 @@ export class AttendanceComponent {
   day: number = new Date().getDate();
   employeeAttendanceList: employeeAttendanceDto[];
   globalFilterFields: string[] = ['EmployeeName'];
+  NotUpdatedAttendanceDate: any;
   selectedMonth: Date;
   permissions: any;
   leaveReasons: LookupViewDto[] = [];
   dialog: boolean = false;
   fbAttendance!: FormGroup;
   fbleave!: FormGroup;
+  NotUpdatedAttendanceDatesList: NotUpdatedAttendanceDatesListDto[]
   PreviousAttendance: employeeAttendanceDto[];
   notUpdatedDates: any;
   confirmationDialog: boolean = false;
@@ -152,9 +154,40 @@ export class AttendanceComponent {
   initAttendance() {
     this.employeeService.GetAttendance(this.month, this.year).subscribe((resp) => {
       let employeesAttendance = resp as unknown as employeeAttendanceDto[];
-      this.employeeAttendanceList = employeesAttendance.sort((a, b) => { return a.EmployeeName.localeCompare(b.EmployeeName) })
+      this.employeeAttendanceList = employeesAttendance.sort((a, b) => { return a.EmployeeName.localeCompare(b.EmployeeName) });
+      this.initNotUpdatedAttendanceDatesList();
       this.CheckPreviousDayAttendance();
     });
+  }
+
+  initNotUpdatedAttendanceDatesList() {
+    this.employeeService.GetNotUpdatedAttendanceDatesList(this.month, this.year).subscribe((resp) => {
+      const NotUpdatedAttendanceDatesList = resp as unknown as NotUpdatedAttendanceDatesListDto[];
+      this.NotUpdatedAttendanceDatesList = [] as unknown as NotUpdatedAttendanceDatesListDto[];
+      if (NotUpdatedAttendanceDatesList)
+        NotUpdatedAttendanceDatesList.forEach(item => {
+          if (item?.date) {
+            this.NotUpdatedAttendanceDatesList.push({
+              date: this.datePipe.transform(item.date, 'dd MMM, yyyy'),
+              dayOfWeek: this.getDayName(new Date(item.date).getDay())
+            });
+          }
+        });
+
+    });
+  }
+  getDayName(dayOfWeek: number): string {
+    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    return daysOfWeek[dayOfWeek];
+  }
+
+  onDropdownChange(value) {
+    if (value)
+      this.NotUpdatedAttendanceDate = this.datePipe.transform(new Date(value), 'yyyy-MM-dd');
+
+    if (value == null)
+      this.NotUpdatedAttendanceDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+    this.getNotUpdatedEmployeesList(this.NotUpdatedAttendanceDate, false)
   }
 
   showConfirmationDialog() {
@@ -178,7 +211,6 @@ export class AttendanceComponent {
           this.alertMessage.displayAlertMessage(ALERT_CODES["EAAS001"]);
           this.confirmationDialog = false;
           this.initAttendance();
-          this.CheckPreviousDayAttendance();
         }
         else
           this.alertMessage.displayErrorMessage(ALERT_CODES["EAAS002"]);
@@ -222,7 +254,6 @@ export class AttendanceComponent {
       this.NotUpdatedEmployees = resp as unknown as EmployeesList[];
 
       if (this.NotUpdatedEmployees.length > 0) {
-
         this.notUpdatedDates = this.NotUpdatedEmployees[0].date;
         const formattedDate = this.datePipe.transform(this.notUpdatedDates, 'dd-MM-yyyy');
         const month = new Date(this.notUpdatedDates).getMonth() + 1;
@@ -348,10 +379,11 @@ export class AttendanceComponent {
     return (date > this.today);
   }
 
-  isTodayDate(rowIndex: number) {
-    let dateString = this.getFormattedDate(rowIndex);
-    let date = this.stringToDate(dateString);
-    return (date = this.today);
+  isTodayDate(date: Date): boolean {
+    const today = new Date();
+    console.log(today,date,today==date);
+    
+    return today==date
   }
 
   isLeaveTypeSelected(type: number): boolean {
@@ -370,7 +402,6 @@ export class AttendanceComponent {
       }
       else {
         this.alertMessage.displayAlertMessage(ALERT_CODES["EAAS008"]);
-        this.CheckPreviousDayAttendance();
       }
       //return this.alertMessage.displayErrorMessage(ALERT_CODES["EAAS009"]);
       this.initAttendance();
@@ -421,17 +452,16 @@ export class AttendanceComponent {
     this.employeeService.UpdateEmployeeLeaveFromAttendance(this.fbleave.value).subscribe(resp => {
       if (resp) {
         this.alertMessage.displayAlertMessage(ALERT_CODES["ELD001"]);
-        if(fromDate < this.today){
+        if (fromDate < this.today) {
           const StatusId = this.LeaveTypes.find(each => each.name == "PT").lookupDetailId;
           this.fbAttendance.patchValue({
-              employeeId: this.fbleave.get('employeeId').value,
-              dayWorkStatusId: StatusId,
-              date: fromDate,
-              notReported: false
-            });
-            this.saveAttendance([this.fbAttendance.value]);
+            employeeId: this.fbleave.get('employeeId').value,
+            dayWorkStatusId: StatusId,
+            date: fromDate,
+            notReported: false
+          });
+          this.saveAttendance([this.fbAttendance.value]);
         }
-        this.CheckPreviousDayAttendance();
       }
       else
         return this.alertMessage.displayErrorMessage(ALERT_CODES["ELR002"]);
@@ -444,7 +474,7 @@ export class AttendanceComponent {
     const leaveReasonControl = this.fbleave.get('leaveReasonId');
     this.fbleave.get('note').setValue('');
     const StatusId = this.LeaveTypes.find(each => each.lookupDetailId === this.fbleave.get('leaveTypeId').value);
-    if (StatusId.name != 'PT' && StatusId.name != 'AT'  && StatusId.name != 'LWP'  && StatusId.name != 'WFH') {
+    if (StatusId.name != 'PT' && StatusId.name != 'AT' && StatusId.name != 'LWP' && StatusId.name != 'WFH') {
       this.fbleave.get('note').setValue('Leave is Updated through Attendance form by Admin the approve is generated Automatically.');
       this.filteredLeaveReasons = this.leaveReasons.filter(fn => fn.fkeySelfId == id)
       leaveReasonControl.setValidators([Validators.required]);

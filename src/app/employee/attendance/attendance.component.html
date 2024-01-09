@@ -143,7 +143,20 @@
                     <span class="p-inputgroup-addon" (click)="clearcard(dt1)"><i class="pi pi-undo"></i></span>
                 </div>
             </div>
-        </div>
+        </div> 
+        <div *ngIf="canUpdatePreviousDayAttendance && NotUpdatedAttendanceDatesList?.length">
+            <p-dropdown [options]="NotUpdatedAttendanceDatesList"
+            optionValue="date"
+             optionLabel="date" placeholder="Select a Date" [showClear]="true" (onChange)="onDropdownChange($event.value)" class="mr-2">
+              <ng-template let-option pTemplate="selectedItem">
+                {{ option.dayOfWeek }}, {{ option.date }}
+              </ng-template>
+              <ng-template let-option pTemplate="item">
+                {{ option.dayOfWeek }}, {{ option.date }}
+              </ng-template>
+            </p-dropdown>
+          </div>
+          
         <div *ngIf="permissions?.CanManageAttendance">
             <button pButton pRipple label="Add Attendance" icon="pi pi-plus" id="Attendance_addAttendance"
                 class="p-button-primary p-mr-2" (click)="showConfirmationDialog()"></button>
@@ -173,15 +186,15 @@
             <td class="cl">CL</td>
             <td colspan="2">Casual Leave</td>
             <td class="pl">PL</td>
-            <td colspan="2">Paid Leave</td>
+            <td colspan="2">Privileged Leave</td>
             <td class="el">LWP</td>
-            <td colspan="2">Leave WithOut Pay</td>
+            <td colspan="2">Leave Without Pay</td>
             <td class="pl_pt">PL/PT</td>
-            <td colspan="2">HalfDay Leave</td>
+            <td colspan="2">Halfday Leave</td>
             <td class="cl_pt">CL/PT</td>
-            <td colspan="2">HalfDay Leave</td>
+            <td colspan="2">Halfday Leave</td>
             <td class="wfh">WFH</td>
-            <td colspan="2">Working From Home</td>
+            <td colspan="2">Work From Home</td>
         </tr>
     </ng-template>
 </p-table>
@@ -233,12 +246,15 @@
         <i class="pi pi-exclamation-triangle" style="font-size: 24px;"></i>&nbsp;&nbsp;
         <p>When You Perform 'Confirm' Action the below shown Statistics will update:
         </p>
+        <!-- <p *ngIf="!isTodayDate(this.notUpdatedDates)">When You Perform 'Confirm' Action the below NotUpdated({{getCountLeavescount('NU')}}) 
+            Statistics will update:
+        </p> -->
 
     </div>
     <div class="justify-content-center m-3">
-
         <p>Total No. of Employees: {{this.employeeAttendanceList?.length-getCountLeavescount('NE')}}</p>
-        <p>No. of Present: {{getCountLeavescount('NU')+ getCountLeavescount('PT')+getCountLeavescount('WFH')}}</p>
+        <p>No. of Present,Office(WFH): {{getCountLeavescount('PT')+getCountLeavescount('WFH')}} => {{getCountLeavescount('PT')}} ({{getCountLeavescount('WFH')}})</p>
+        <p>No. of NotUpdated: {{getCountLeavescount('NU')}}</p>
         <p>No. of Absent: {{ getCountLeavescount('AT') }}</p>
         <p>No. of PL's: {{ getCountLeavescount('PL') }}</p>
         <p>No. of CL's: {{ getCountLeavescount('CL') }}</p>
