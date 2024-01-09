@@ -20,7 +20,8 @@ export class EducationdetailsDialogComponent {
   faeducationDetails!: FormArray;
   stream: LookupViewDto[] = [];
   curriculum: LookupViewDto[] = [];
-  selectedCurriculumId: number[] = [];
+  selectedCurriculumId: number;
+  lookupDetailId: number;
   streamPerRow: LookupViewDto[][] = [];
   countries: LookupViewDto[] = [];
   statesPerRow: LookupViewDto[][] = [];
@@ -86,7 +87,7 @@ export class EducationdetailsDialogComponent {
 
   addEducationDetails() {
     this.faeducationDetails = this.fbEducationDetails.get('educationDetails') as FormArray;
-    this.faeducationDetails.push(this.generateEducationRow());
+    this.faeducationDetails.insert(0, this.generateEducationRow());
   }
 
   initCurriculum() {
@@ -95,12 +96,9 @@ export class EducationdetailsDialogComponent {
     });
   }
 
-  onCurriculumChange(selectedCurriculumId: number, educationDetailsIndex: number) {
-    this.selectedCurriculumId[educationDetailsIndex] = selectedCurriculumId;
+  onCurriculumChange(selectedCurriculumId: number) {
     this.lookupService.Streams(selectedCurriculumId).subscribe((resp) => {
-      if (resp) {
-        this.streamPerRow[educationDetailsIndex] = resp as unknown as LookupViewDto[];
-      }
+      this.streamPerRow[selectedCurriculumId] = resp as unknown as LookupViewDto[];
     });
   }
 
@@ -110,28 +108,25 @@ export class EducationdetailsDialogComponent {
     })
   }
 
-  onCountryChange(selectedCountryId: number, educationDetailsIndex: number) {
-    this.selectedCountry[educationDetailsIndex] = selectedCountryId;
+  onCountryChange(selectedCountryId: number) {
     this.lookupService.States(selectedCountryId).subscribe((resp) => {
-      if (resp) {
-        this.statesPerRow[educationDetailsIndex] = resp as unknown as LookupViewDto[];
-      }
+      this.statesPerRow[selectedCountryId] = resp as unknown as LookupViewDto[];
     });
   }
 
   initGrading() {
-    this.lookupService.GradingMethods().subscribe((resp) => {
-      this.gradingMethods = resp as unknown as LookupViewDto[];
-    });
-  }
+      this.lookupService.GradingMethods().subscribe((resp) => {
+        this.gradingMethods = resp as unknown as LookupViewDto[];
+      });
+    }
 
   ShowEducationDetails(educationDetails: employeeEducDtlsViewDto[]) {
-    if (educationDetails.length === 0) {
+      if(educationDetails.length === 0) {
       this.faeducationDetail().push(this.generateEducationRow());
     } else {
-      educationDetails.forEach((empEduDetails: any, educationDetailsIndex) => {
-        this.onCountryChange(empEduDetails.countryId, educationDetailsIndex);
-        this.onCurriculumChange(empEduDetails.curriculumId, educationDetailsIndex);
+      educationDetails.forEach((empEduDetails: any) => {
+        this.onCountryChange(empEduDetails.countryId);
+        this.onCurriculumChange(empEduDetails.curriculumId);
         this.faeducationDetail().push(this.generateEducationRow(empEduDetails));
       });
     }
