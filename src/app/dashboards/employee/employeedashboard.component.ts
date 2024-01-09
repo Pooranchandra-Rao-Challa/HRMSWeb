@@ -4,10 +4,11 @@ import { EmployeeLeaveDialogComponent } from 'src/app/_dialogs/employeeleave.dia
 import { DATE_OF_JOINING, FORMAT_DATE, MEDIUM_DATE, ORIGINAL_DOB } from 'src/app/_helpers/date.formate.pipe';
 import { HolidaysViewDto } from 'src/app/_models/admin';
 import { Actions, DialogRequest, ITableHeader } from 'src/app/_models/common';
-import { SelfEmployeeDto, selfEmployeeMonthlyLeaves } from 'src/app/_models/dashboard';
+import { SelfEmployeeDto, selfEmployeeMonthlyLeaves, workingProjects } from 'src/app/_models/dashboard';
 import { AdminService } from 'src/app/_services/admin.service';
 import { DashboardService } from 'src/app/_services/dashboard.service';
 import { JwtService } from 'src/app/_services/jwt.service';
+//import { GroupByPipe } from 'src/app/_directives/groupby'
 interface Year {
     year: string;
 }
@@ -40,10 +41,12 @@ export class EmployeeDashboardComponent {
     selectedYear: any | undefined;
     holidays: HolidaysViewDto[] = [];
     years: any
+    projects: {name:string, projectLogo: string, description:string, projectId:number, periods:{sinceFrom: Date, endAt:Date}[]}[] = [];
 
     constructor(private dashBoardService: DashboardService,
         private adminService: AdminService,
         private jwtService: JwtService,
+       // private groupby:GroupByPipe,
         private dialogService: DialogService,
         public ref: DynamicDialogRef,
     ) { }
@@ -90,16 +93,46 @@ export class EmployeeDashboardComponent {
         });
     }
 
+
+
     getEmployeeDataBasedOnId() {
+
         this.dashBoardService.GetEmployeeDetails(this.jwtService.EmployeeId).subscribe((resp) => {
             this.empDetails = resp as unknown as SelfEmployeeDto;
             this.empDetails.assets = JSON.parse(this.empDetails.allottedAssets);
             this.empDetails.empaddress = JSON.parse(this.empDetails.addresses);
             this.empDetails.projects = JSON.parse(this.empDetails.workingProjects);
+
+            this.updateProjects();
+
             /^male$/gi.test(this.empDetails.gender)
                 ? this.defaultPhoto = './assets/layout/images/men-emp.jpg'
                 : this.defaultPhoto = './assets/layout/images/women-emp.jpg'
         })
+    }
+
+
+    updateProjects(){
+        let projectNames = this.empDetails.projects.map((item) => item.projectName)
+            .filter((value, index, self) => self.indexOf(value) === index);
+            console.log(projectNames);
+            projectNames.forEach(projectName => {
+                let values = this.empDetails.projects.filter(fn => fn.projectName == projectName);
+                let periods: {sinceFrom: Date, endAt:Date}[] = [];
+                values.forEach(p => { periods.push({sinceFrom:p.sinceFrom,endAt:p.endAt }) })
+                this.projects.push(
+                    {
+                        projectId:values[0].projectId,
+                        description:values[0].projectDescription,
+                        name:projectName,
+                        projectLogo: values[0].projectLogo,
+                        periods:periods
+                    }
+                )
+            });
+
+            console.log(this.projects);
+
     }
 
     gotoPreviousMonthPLs() {
@@ -139,14 +172,14 @@ export class EmployeeDashboardComponent {
         for (let i = 1; i <= day; i++)
             this.days.push(i);
     }
-    
+
     onMonthSelectPLs(event) {
         this.monthlyPLs = this.selectedMonth.getMonth() + 1; // Month is zero-indexed
         this.yearlyPLs = this.selectedMonth.getFullYear();
         this.getDaysInMonthPLs(this.yearlyPLs, this.monthlyPLs);
         this.getEmployeeDataBasedOnId();
     }
-    
+
     gotoPreviousMonthCLs() {
         if (this.monthlyCLs > 1)
             this.monthlyCLs--;
@@ -184,7 +217,7 @@ export class EmployeeDashboardComponent {
         for (let i = 1; i <= day; i++)
             this.days.push(i);
     }
-    
+
     onMonthSelectCLs(event) {
         this.monthlyCLs = this.selectedMonth.getMonth() + 1; // Month is zero-indexed
         this.yearlyCLs = this.selectedMonth.getFullYear();
@@ -229,7 +262,7 @@ export class EmployeeDashboardComponent {
         for (let i = 1; i <= day; i++)
             this.days.push(i);
     }
-    
+
     onMonthSelectLWP(event) {
         this.monthlyLWP = this.selectedMonth.getMonth() + 1; // Month is zero-indexed
         this.yearlyLWP = this.selectedMonth.getFullYear();
@@ -255,3 +288,31 @@ export class EmployeeDashboardComponent {
         });
     }
 }
+// class Group<T> {
+//     key:string;
+//     members:T[] = [];
+//     constructor(key:string) {
+//         this.key = key;
+//     }
+// }
+
+
+// function groupBy<T>(list:T[], func:(x:T)=>string): Group<T>[] {
+//     let res:Group<T>[] = [];
+//     let group:Group<T> = null;
+//     list.forEach((o)=>{
+//         let groupName = func(o);
+//         if (group === null) {
+//             group = new Group<T>(groupName);
+//         }
+//         if (groupName != group.key) {
+//             res.push(group);
+//             group = new Group<T>(groupName);
+//         }
+//         group.members.push(o)
+//     });
+//     if (group != null) {
+//         res.push(group);
+//     }
+//     return res
+// }

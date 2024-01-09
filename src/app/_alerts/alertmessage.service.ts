@@ -207,8 +207,8 @@ export const ALERT_CODES: { [key: string]: string } = {
 
 
     //Leave Details
-    'ELD001': 'Leave Added Successfully',
-    'ELD002': 'Leave Not Added',
+    'ELD001': 'Leave Applied Successfully',
+    'ELD002': 'Leave Not Applied',
     'ELA001': 'Leave Approved Successfully',
     'ELR002': 'Leave Rejected',
 

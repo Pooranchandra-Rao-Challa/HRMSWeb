@@ -596,7 +596,7 @@ export class ProjectComponent implements OnInit {
     removeProjectAllottment(deleteNodes: NodeProps[]) {
         let projectAllotments: any[] = this.fbproject.get('projectAllotments').value;
         deleteNodes.forEach(fn => {
-            var allottedEmployee = projectAllotments.filter(fn => fn.employeeId == this.dragNode.employeeId);
+            var allottedEmployee = projectAllotments.filter(gn => gn.employeeId == fn.employeeId);
             if (allottedEmployee.length > 0) {
                 projectAllotments.splice(projectAllotments.indexOf(allottedEmployee), 1);
             }

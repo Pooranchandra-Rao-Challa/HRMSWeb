@@ -14,7 +14,7 @@
             <p-table #dt2 [value]="faExperienceDetail().controls" dataKey="id" [rows]="10" [rowHover]="true"
               styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="false"
               [autoLayout]="true" responsiveLayout="scroll" [tableStyle]="{ width: 'max-content'}"
-              [rowsPerPageOptions]="[10,25,50]">>
+              [rowsPerPageOptions]="[10,25,50]">
               <ng-template pTemplate="header">
                 <tr>
                   <th>Company Name<label class="required"></label></th>
@@ -101,12 +101,12 @@
                     <p-dropdown inputId="dropdown" id="Address_country" [autoDisplayFirst]="false" appendTo="body"
                       placeholder="Select Country" formControlName="countryId" [options]="countries"
                       optionValue="lookupDetailId" optionLabel="name"
-                      (onChange)="onCountryChange($event.value, experienceDetailsIndex)">
+                      (onChange)="onCountryChange($event.value)">
                     </p-dropdown>
                   </td>
                   <td class="vertical-align-top">
                     <p-dropdown id="states_dropdown" appendTo="body" optionLabel="name" placeholder="Select State"
-                      [options]="statesPerRow[experienceDetailsIndex]" optionValue="lookupDetailId"
+                      [options]="statesPerRow[expDtlsformArrayControls(experienceDetailsIndex,'countryId').value]" optionValue="lookupDetailId"
                       formControlName="stateId"></p-dropdown>
                   </td>
                   <td class="vertical-align-top">

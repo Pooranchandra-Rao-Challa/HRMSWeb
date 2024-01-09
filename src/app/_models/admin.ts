@@ -208,7 +208,7 @@ export interface EmployeesForAllottedAssetsViewDto {
     employeeName?: string;
     code?: string;
     officeEmailId?: string;
-    employeeRoleName?: string;
+    roleName?: string;
     mobileNumber?: string;
     photo?: string;
     certificateDOB?: Date;

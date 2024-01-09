@@ -37,7 +37,7 @@ export class AssetsallotmentComponent extends Unsubscribe {
         { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
         { field: 'code', header: 'code', label: 'Employee Code' },
         { field: 'certificateDOB', header: 'certificateDOB', label: 'Certificate DOB' },
-        { field: 'employeeRoleName', header: 'employeeRoleName', label: 'Employee Role' },
+        { field: 'roleName', header: 'roleName', label: 'Employee Role' },
         { field: 'dateofJoin', header: 'dateofJoin', label: 'Date of Join' },
         { field: 'designation', header: 'designation', label: 'Designation' },
         { field: 'officeEmailId', header: 'officeEmailId', label: 'Email' },

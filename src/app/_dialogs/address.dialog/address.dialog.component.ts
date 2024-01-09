@@ -95,9 +95,7 @@ export class AddressDialogComponent {
 
     getStatesByCountryId(id: number) {
         this.lookupService.States(id).subscribe((resp) => {
-            if (resp) {
-                this.states = resp as unknown as LookupDetailsDto[];
-            }
+            this.states = resp as unknown as LookupDetailsDto[];
         })
     }
 
