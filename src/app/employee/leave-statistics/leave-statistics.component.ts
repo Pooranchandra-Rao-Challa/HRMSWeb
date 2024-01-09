@@ -51,6 +51,7 @@ export class LeaveStatisticsComponent {
     { field: 'previousYearPrivilegeLeaves', header: 'previousYearPrivilegeLeaves', label: 'Previous PL(Year)' },
     { field: 'absentsInYear', header: 'absentsInYear', label: 'Absent(Year)' },
     { field: 'absentsInMonth', header: 'absentsInMonth', label: 'Absent(Month)' },
+    { field: 'workingFromHome', header: 'workingFromHome', label: 'WFH(Month)' },
   ];
   constructor(
     private globalFilterService: GlobalFilterService,

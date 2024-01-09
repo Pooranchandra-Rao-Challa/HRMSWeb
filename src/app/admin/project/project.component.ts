@@ -415,7 +415,6 @@ export class ProjectComponent implements OnInit {
             Date: FORMAT_DATE(new Date(project[date[0]?.name.toLowerCase()])),
         });
         //console.log(project);
-
         this.fbproject.get('clients').patchValue({
             clientId: project.clientId,
             isActive: project.clientIsActive,
@@ -435,7 +434,7 @@ export class ProjectComponent implements OnInit {
         this.adminService.GetClientDetails(selectedOption.clientId).subscribe(resp => {
             this.clientDetails = resp[0];
             this.fcClientDetails.get('clientId')?.setValue(this.clientDetails.clientId);
-            this.fcClientDetails.get('name')?.setValue(this.clientDetails.name);
+            this.fcClientDetails.get('name')?.setValue(this.clientDetails.clientName);
             this.fcClientDetails.get('email')?.setValue(this.clientDetails.email);
             this.fcClientDetails.get('mobileNumber')?.setValue(this.clientDetails.mobileNumber);
             this.fcClientDetails.get('cinno')?.setValue(this.clientDetails.cinno);
@@ -452,7 +451,6 @@ export class ProjectComponent implements OnInit {
             let companyName = values.clients.companyName.companyName;
             values.clients.companyName = companyName;
         }
-        //console.log(values);
 
         if (this.addFlag) {
             return this.adminService.CreateProject(values);
@@ -598,7 +596,7 @@ export class ProjectComponent implements OnInit {
     removeProjectAllottment(deleteNodes: NodeProps[]) {
         let projectAllotments: any[] = this.fbproject.get('projectAllotments').value;
         deleteNodes.forEach(fn => {
-            var allottedEmployee = projectAllotments.filter(fn => fn.employeeId == this.dragNode.employeeId);
+            var allottedEmployee = projectAllotments.filter(gn => gn.employeeId == fn.employeeId);
             if (allottedEmployee.length > 0) {
                 projectAllotments.splice(projectAllotments.indexOf(allottedEmployee), 1);
             }

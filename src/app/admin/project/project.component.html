@@ -475,8 +475,8 @@
 
               <div class="col-12 lg:col-10">
                 <div class="pair">
-                  <span class="label text-primary font-bold text-900">Project Name</span>
-                  <span class="value">: {{this.projectDetails.name}}</span>
+                  <span class="label text-primary font-bold text-900">Project Name:</span>
+                  <span class="value">{{this.projectDetails.name}}</span>
                 </div>
                 <!-- <div class="pair">
                   <span class="label text-primary font-bold text-900">Project Manager</span>
@@ -487,9 +487,8 @@
                   <span class="value">: {{this.projectDetails.initial| date: 'dd-MMM-yyyy'}}</span>
                 </div> -->
                 <div class="pair">
-                  <span class="label text-primary font-bold text-900">Project Description</span>
-                  <br>
-                  <span class="value">: {{this.projectDetails.description}}</span>
+                  <span class="label text-primary font-bold text-900">Project Description:</span>
+                  <span class="value">{{this.projectDetails.description}}</span>
                 </div>
               </div>
               <div class="col-12 lg:col-2" *ngIf="permission?.CanDownloadProjects" style="text-align:right">

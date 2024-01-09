@@ -5,11 +5,13 @@
         <form [formGroup]="fbleave">
             <div class="col-12 text-center">
                 <p-chip styleClass="pl-0 pr-3 mr-4">
-                    <span class="bg-primary border-circle w-2rem h-2rem flex align-items-center justify-content-center">{{this.selfEmployeeLeaveCount?.allottedCasualLeaves-this.selfEmployeeLeaveCount?.usedCasualLeavesInYear}}</span>
+                    <span
+                        class="bg-primary border-circle w-2rem h-2rem flex align-items-center justify-content-center">{{this.selfEmployeeLeaveCount?.allottedCasualLeaves-this.selfEmployeeLeaveCount?.usedCasualLeavesInYear}}</span>
                     <span class="ml-2 font-medium">Casual Leaves</span>
                 </p-chip>
                 <p-chip styleClass="pl-0 pr-3">
-                    <span class="bg-primary border-circle w-2rem h-2rem flex align-items-center justify-content-center">{{this.selfEmployeeLeaveCount?.allottedPrivilegeLeaves-this.selfEmployeeLeaveCount?.usedPrivilegeLeavesInYear}}</span>
+                    <span
+                        class="bg-primary border-circle w-2rem h-2rem flex align-items-center justify-content-center">{{this.selfEmployeeLeaveCount?.allottedPrivilegeLeaves-this.selfEmployeeLeaveCount?.usedPrivilegeLeavesInYear}}</span>
                     <span class="ml-2 font-medium">Privilege Leaves</span>
                 </p-chip>
 
@@ -27,7 +29,7 @@
                     <p-dropdown formControlName="leaveTypeId" [options]="filteredLeaveTypes" optionLabel="displayName"
                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['leaveTypeId'].touched && FormControls['leaveTypeId'].errors }"
                         (onChange)="checkLeaveType($event.value)" id="Attendance_leaveType" optionValue="lookupDetailId"
-                        placeholder="Select Leave Type"></p-dropdown>
+                        placeholder="Select Leave Type" appendTo="body"></p-dropdown>
                     <div class="flex">
                         <div class="align-left w-60" style="width:70%">
                             <span *ngIf="FormControls['leaveTypeId'].touched && FormControls['leaveTypeId'].invalid">
@@ -39,20 +41,24 @@
                     </div>
                 </div>
                 <div style="margin-bottom: 15px;" *ngIf="isLeaveTypeSelected(FormControls['leaveTypeId'].value)">
-                    <label>Leave Purpose:</label>
+                    <label class="required">Leave Purpose:</label>
                     <p-dropdown placeholder="Select Leave Purpose" formControlName="leaveReasonId"
                         [options]="filteredLeaveReasons" optionLabel="name" optionValue="lookupDetailId"
-                        id="leaveTypes_Dropdown"
+                        id="leaveTypes_Dropdown" appendTo="body"
                         [ngClass]="{ 'is-invalid ng-dirty': FormControls['leaveReasonId'].touched && FormControls['leaveReasonId'].errors }">
                     </p-dropdown>
                     <div class="flex">
                         <div class="align-left w-60" style="width:70%">
                             <span
-                                *ngIf="FormControls['leaveReasonId'].touched && FormControls['leaveReasonId'].invalid">
-                                <div class="ng-invalid ng-touched p-error"
-                                    *ngIf="FormControls['leaveReasonId'].errors?.['required']">
-                                    Please Select Leave Type First.</div>
-                            </span>
+                                    *ngIf="FormControls['leaveReasonId'].touched && FormControls['leaveReasonId'].invalid">
+                                    <div class="ng-invalid ng-touched p-error" 
+                                    *ngIf=" FormControls['leaveTypeId'].untouched && FormControls['leaveReasonId'].touched ||
+                                    FormControls['leaveTypeId'].invalid && FormControls['leaveReasonId'].touched">
+                                        Please Select Leave Type First.</div>
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf=" FormControls['leaveTypeId'].touched && FormControls['leaveReasonId'].errors?.['required'] &&  FormControls['leaveTypeId'].valid">
+                                        Please Select Leave Purpose.</div>
+                                </span>
                         </div>
                     </div>
                 </div>
@@ -62,12 +68,12 @@
                         placeholder="Enter From Date" [showIcon]="true" >
                     </p-calendar>
                 </div>
-                <div style="margin-bottom: 15px;">
+                <div style="margin-bottom: 15px;" *ngIf="isLeaveTypeSelected(FormControls['leaveTypeId'].value)">
                     <label>Is HalfDay Leave:</label>&nbsp;
                     <p-checkbox formControlName="isHalfDayLeave" id="Attendance_isHalfDayLeave" [binary]="true"
                         inputId="binary"></p-checkbox>
                 </div>
-                <div style="margin-bottom: 15px;">
+                <div style="margin-bottom: 15px;" *ngIf="isLeaveTypeSelected(FormControls['leaveTypeId'].value)">
                     <label>Leave Narration:</label>&nbsp;
                     <textarea rows="5" cols="30" pInputTextarea formControlName="note" #note
                         [maxlength]="maxLength.description" placeholder="Enter Leave Narration"
@@ -125,7 +131,8 @@
     <ng-template pTemplate="right">
         <div *ngIf="permissions?.CanDownloadMonthlyAttendance">
             <button type="button " pButton icon="icon-csv-svgrepo-com-1" class=" mr-2 doc_button"
-                pTooltip="Download Attendance Report" tooltipPosition="left" (click)="downloadAttendanceReport()"></button>
+                pTooltip="Download Attendance Report" tooltipPosition="left"
+                (click)="downloadAttendanceReport()"></button>
         </div>
         <div class="pr-2">
             <div>
@@ -150,7 +157,7 @@
 </p-toolbar>
 <!-- p-table -->
 <p-table [rowHover]="true" styleClass="p-datatable-striped p-datatable-gridlines top_note_bar" responsiveLayout="scroll"
-    [tableStyle]="{'min-width': '50rem'}" *ngIf="showingLeavesOfColors">
+    [tableStyle]="{'min-width': '50rem'}" *ngIf="showingLeavesOfColors" id="attendance">
     <ng-template pTemplate="header">
         <tr class="fadeinup" p-overlayPanel>
             <td class="woff"> WO </td>
@@ -173,6 +180,8 @@
             <td colspan="2">HalfDay Leave</td>
             <td class="cl_pt">CL/PT</td>
             <td colspan="2">HalfDay Leave</td>
+            <td class="wfh">WFH</td>
+            <td colspan="2">Working From Home</td>
         </tr>
     </ng-template>
 </p-table>
@@ -191,7 +200,7 @@
     <ng-template pTemplate="body" let-employee>
 
         <tr>
-            <td>{{employee.EmployeeName}}</td>
+            <td>{{employee.EmployeeName}} ({{employee.Code}})</td>
             <td *ngFor="let i of days" [ngClass]="{'woff': getAttendance(employee, i) === 'WOff',
                         'pt': employee[getFormattedDate(i)] === 'PT',
                         'nu': employee[getFormattedDate(i)] === 'NU',
@@ -202,48 +211,18 @@
                         'el': employee[getFormattedDate(i)] === 'LWP',
                         'cl_pt': employee[getFormattedDate(i)] === 'CL/PT',
                         'pl_pt': employee[getFormattedDate(i)] === 'PL/PT',
+                        'wfh': employee[getFormattedDate(i)] === 'WFH',
                        }">
-                <ng-container *ngIf="getAttendance(employee, i)">
-                    <span (click)="openDialog(employee,getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendance(employee, i) === 'PT'" id="Attendance_addPresent" class="att-pointer">
-                        {{ employee[getFormattedDate(i)] }}
-                    </span>
-                    <span (click)="openDialog(employee,getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendance(employee, i) === 'PL/PT'" id="Attendance_addPresent" class="att-pointer">
-                        {{ employee[getFormattedDate(i)] }}
-                    </span>
-                    <span (click)="openDialog(employee,getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendance(employee, i) === 'CL/PT'" id="Attendance_addPresent" class="att-pointer">
-                        {{ employee[getFormattedDate(i)] }}
-                    </span>
-                    <span (click)="openDialog(employee, getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendance(employee, i) === 'AT'" id="Attendance_addAbesnt" class="att-pointer">
-                        {{ employee[getFormattedDate(i)] }}
-                    </span>
-                    <span (click)="openDialog(employee, getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendance(employee, i) === 'CL'" id="Attendance_addCL" class="att-pointer">
-                        {{ employee[getFormattedDate(i)] }}
-                    </span>
-                    <span (click)="openDialog(employee, getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendance(employee, i) === 'PL'" id="Attendance_addPL" class="att-pointer">
-                        {{ employee[getFormattedDate(i)] }}
-                    </span>
-                    <span (click)="openDialog(employee, getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendance(employee, i) === 'LWP'" id="Attendance_addEL" class="att-pointer">
-                        {{ employee[getFormattedDate(i)] }}
-                    </span>
-                    <span *ngIf="getAttendance(employee, i) === 'WOff'">
-                        WO
-                    </span>
-                    <span *ngIf="getAttendance(employee, i) === 'HD'">
-                        {{ employee[getFormattedDate(i)] }}
-                    </span>
-                    <span (click)="openDialog(employee, getFormattedDate(i),employee[getFormattedDate(i)])"
-                        *ngIf="getAttendance(employee, i) === 'NU'" id="Attendance_addNU" class="att-pointer">
-                        {{ employee[getFormattedDate(i)] }}
-                    </span>
-                </ng-container>
-
+                <!-- To display updated attendance days -->
+                <span (click)="openDialog(employee,getFormattedDate(i),employee[getFormattedDate(i)],i)"
+                    *ngIf="canUpdateAttendance(employee,i);else CannotUpdateAttendance"
+                    class="att-pointer">
+                    {{ employee[getFormattedDate(i)]}}
+                </span>
+                <!-- To display holidays, Weekly Off and Non updated attendance days-->
+                <ng-template #CannotUpdateAttendance>
+                    {{ getNonUpdateLabel(employee,i) }}
+                </ng-template>
             </td>
         </tr>
     </ng-template>
@@ -253,18 +232,17 @@
     <div class="flex justify-content-center m-3">
         <i class="pi pi-exclamation-triangle" style="font-size: 24px;"></i>&nbsp;&nbsp;
         <p>When You Perform 'Confirm' Action the below shown Statistics will update:
-            <!-- Do you want to modify the status of {{this.filteredData?.length}} records to Present on
-            {{this.notUpdatedDates| date:'MMM dd YYYY'}}? -->
         </p>
 
     </div>
     <div class="justify-content-center m-3">
-        <p>Total No. of Employees: {{this.NotUpdatedEmployees?.length}}</p>
-        <p>No. of Present: {{getCountLeavescount('NU')}}</p>
-        <p>No.of Absent: {{ getCountLeavescount('AT') }}</p>
-        <p>No.of PL's: {{ getCountLeavescount('PL') }}</p>
-        <p>No.of CL's: {{ getCountLeavescount('CL') }}</p>
-        <p>No.of LWP: {{ getCountLeavescount('LWP') }}</p>
+
+        <p>Total No. of Employees: {{this.employeeAttendanceList?.length-getCountLeavescount('NE')}}</p>
+        <p>No. of Present: {{getCountLeavescount('NU')+ getCountLeavescount('PT')+getCountLeavescount('WFH')}}</p>
+        <p>No. of Absent: {{ getCountLeavescount('AT') }}</p>
+        <p>No. of PL's: {{ getCountLeavescount('PL') }}</p>
+        <p>No. of CL's: {{ getCountLeavescount('CL') }}</p>
+        <p>No. of LWP: {{ getCountLeavescount('LWP') }}</p>
         <P>No. of HalfDays: {{ getCountLeavescount('CL/PT') + getCountLeavescount('PL/PT') }}</P>
 
     </div>

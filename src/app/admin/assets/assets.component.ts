@@ -95,8 +95,8 @@ export class AssetsComponent {
     this.initAssetCategories();
     this.initStatus();
     this.ImageValidator.subscribe((p: PhotoFileProperties) => {
-      console.log(p);
-      
+      //console.log(p);
+
       if (this.fileTypes.indexOf(p.FileExtension) > 0 && p.Resize || (p.Size / 1024 / 1024 < 1
         && (p.isPdf || (!p.isPdf && p.Width <= 300 && p.Height <= 300)))) {
           debugger
@@ -313,46 +313,46 @@ onCrop(image: File): void {
     doc.save('assets.pdf');
   }
   addLetterhead(doc: jsPDF) {
-    const headerBackgroundColor = [255, 242, 229]; 
+    const headerBackgroundColor = [255, 242, 229];
     doc.setFillColor.apply(doc, headerBackgroundColor);
-    const rectangleWidth = doc.internal.pageSize.width; 
-    const rectangleHeight = 40; 
-    doc.rect(0, 0, rectangleWidth, rectangleHeight, 'F'); 
+    const rectangleWidth = doc.internal.pageSize.width;
+    const rectangleHeight = 40;
+    doc.rect(0, 0, rectangleWidth, rectangleHeight, 'F');
 
     const logoWidth = 35;
     const logoHeight = 30;
     const logoX = 15;
     const logoY = 4;
     doc.addImage('assets/layout/images/calibrage-logo.png', 'PNG', logoX, logoY, logoWidth, logoHeight);
-  
-    const additionalTextX = 60; 
-    const additionalTextY = 35; 
+
+    const additionalTextX = 60;
+    const additionalTextY = 35;
     const additionalText = 'Tel:+91-40-48525410  Web:WWW.calibrage.in  Email:info@calibrage.in';
-    doc.setFontSize(12); 
+    doc.setFontSize(12);
     doc.setTextColor(0, 0, 0); // Set text color (black in RGB)
     doc.text(additionalText, additionalTextX, additionalTextY);
-  
+
     // Set the position for the address text on the left side
     const addressX = 220; // Adjust the space between logo and address
     const addressY = 10; // Adjust the vertical position as needed
     const addressText =
       'Calibrage Info System Pvt.Ltd _ Inrhythm Solutions building, _ 4th Floor-4A, PL NO:1023,_Gurukul Society,_Madhapur, Hyderabad-500081.';
-    const fontSize = 12; 
+    const fontSize = 12;
     doc.setFontSize(fontSize);
     const addressParts = addressText.split('_');
-  
+
     // Adjust the line height
-    const lineHeight = fontSize * 0.5; 
+    const lineHeight = fontSize * 0.5;
     doc.setLineHeightFactor(lineHeight);
-  
+
     // Add each part of the address text on a new line without adding space
     addressParts.forEach((part, index) => {
       const yPos = addressY + index * lineHeight;
       doc.text(part.trim(), addressX, yPos);
     });
-    doc.setLineHeightFactor(1.2); 
+    doc.setLineHeightFactor(1.2);
   }
-  
+
   addBodyContent(doc: jsPDF) {
     const head = [['Asset Type', 'Asset Category', 'Count', 'Employee Name', 'Asset Code', 'Asset Name', 'Purchased Date', 'Model Number', 'Manufacturer',
       'Serial Number', 'Warranty', 'AddValue', 'Description', 'Status']];

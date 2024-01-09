@@ -188,6 +188,22 @@ export class EmployeeLeaveDialogComponent {
     })
   }
 
+  onEmployeeSelect(event: any) {
+    this.dashBoardService.GetEmployeeDetails(event.value).subscribe((resp) => {
+      this.empDetails = resp as unknown as SelfEmployeeDto;
+      this.filteringClsPls = (
+        (this.empDetails.allottedPrivilegeLeaves - this.empDetails.usedPrivilegeLeavesInYear) > 0 &&
+        (this.empDetails.allottedCasualLeaves - this.empDetails.usedCasualLeavesInYear) > 0
+      ) ? [] : ['PL', 'CL'];
+      this.filteredLeaveTypes = this.leaveType.filter(item => {
+        if (item.name === 'CL' && (this.empDetails.allottedCasualLeaves - this.empDetails.usedCasualLeavesInYear) > 0) {
+          return true;
+        }
+        return !this.filteringClsPls.includes(item.name) && !this.filterCriteria.includes(item.name) && item.name !== 'LWP';
+      });
+    });
+  }
+
   getEmployeeDataBasedOnId(employeeId: number) {
     this.dashBoardService.GetEmployeeDetails(employeeId).subscribe((resp) => {
       this.empDetails = resp as unknown as SelfEmployeeDto;

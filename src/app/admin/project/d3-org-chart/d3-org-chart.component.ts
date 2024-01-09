@@ -217,7 +217,7 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
 
                 d3.select(this)
                   .select(".remove-node-chain").on("click",(event,d)=>{
-                    console.log(d);
+
                     onChainDeleteEvent.emit(d);
                   })
 

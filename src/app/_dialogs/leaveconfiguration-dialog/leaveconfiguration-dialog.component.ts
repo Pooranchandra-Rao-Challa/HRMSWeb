@@ -131,12 +131,14 @@ export class LeaveconfigurationDialogComponent {
     }
   }
 
-  addLeaveDetails() {
-    let leaveId = this.fbLeaveConfiguration.get('leaveConfigurationId').value
-    if (leaveId == null) {
-      this.leaveConfiguration.push(this.fbLeaveConfiguration.value)
+  addLeaveDetails(isBool?:boolean) {
+    if(isBool ==false){
+      let leaveId = this.fbLeaveConfiguration.get('leaveConfigurationId').value
+      if (leaveId == null) {
+        this.leaveConfiguration.push(this.fbLeaveConfiguration.value)
+      }
+      this.fbLeaveConfiguration.reset();
     }
-    this.fbLeaveConfiguration.reset();
   }
 
   editLeaveDetails(leaveConfigurationDetails) {

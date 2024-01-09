@@ -342,8 +342,8 @@ export class employeeExperienceDtlsViewDto {
 }
 
 export class employeeAttendanceDto {
-	employeeId?: number;
-	employeeName?: string;
+	EmployeeId?: number;
+	EmployeeName?: string;
 	dates?: { [date: string]: string | {} };
 }
 
@@ -457,6 +457,7 @@ export class LeaveStatistics{
 	absentsInMonth?:number;
 	usedLWPInYear?:number;
 	usedLWPInMonth?:number;
+    workingFromHome?:number;
 }
 
 export class EmployeeLeaveOnDateDto

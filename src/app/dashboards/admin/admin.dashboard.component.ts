@@ -58,13 +58,14 @@ export class AdminDashboardComponent implements OnInit {
         const CasualLeaves = this.admindashboardDtls?.savedemployeeLeaveCounts.find(each => each.leaveType === 'CL')?.leaveTypeCount;
         const PersonalLeaves = this.admindashboardDtls?.savedemployeeLeaveCounts.find(each => each.leaveType === 'PL')?.leaveTypeCount;
         const present = this.admindashboardDtls?.savedActiveEmployeesInOffice.find(each => each.employeeStatus === 'PT')?.employeesCount;
+        const WrokFromHome = this.admindashboardDtls?.savedActiveEmployeesInOffice.find(each => each.employeeStatus === 'WFH')?.employeesCount;
 
         this.pieDataforAttendance = {
-            labels: ['In Office', 'Absent', 'PL', 'CL',],
+            labels: ['In Office', 'Absent', 'PL', 'CL', 'WFH'],
             datasets: [
                 {
-                    data: [present, absent, PersonalLeaves, CasualLeaves,],
-                    backgroundColor: [documentStyle.getPropertyValue('--primary-300'), documentStyle.getPropertyValue('--red-300'), documentStyle.getPropertyValue('--green-300'), documentStyle.getPropertyValue('--blue-300')],
+                    data: [present, absent, PersonalLeaves, CasualLeaves,WrokFromHome],
+                    backgroundColor: [documentStyle.getPropertyValue('--primary-300'), documentStyle.getPropertyValue('--red-300'), documentStyle.getPropertyValue('--green-300'), documentStyle.getPropertyValue('--blue-300'), documentStyle.getPropertyValue('--yellow-300')],
                     borderColor: surfaceBorder
                 }
             ]

@@ -46,6 +46,7 @@ export class AllEmployeesComponent {
         private router: Router, private jwtService: JwtService, private reportService: ReportService) { }
 
     ngOnInit() {
+
         this.permissions = this.jwtService.Permissions;
         this.initEmployees(this.selectedEmployeeStatus.value)
         this.employeeStatusOptions = [
@@ -60,6 +61,7 @@ export class AllEmployeesComponent {
         const isEnrolled = true;
         this.EmployeeService.GetEmployeesBasedonstatus(isEnrolled, selectedEmployeeStatus).subscribe(resp => {
             this.employees = resp as unknown as EmployeesViewDto[];
+            this.employees.forEach(employee => this.getEmployeePhoto(employee));
         });
     }
 
@@ -101,4 +103,9 @@ export class AllEmployeesComponent {
             })
     }
 
+    getEmployeePhoto(employee:EmployeesViewDto){
+        return this.EmployeeService.getEmployeePhoto(employee.employeeId).subscribe((resp)=> {
+            employee.photo = (resp as any).ImageData;
+        })
+    }
 }

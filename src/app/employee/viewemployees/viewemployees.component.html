@@ -1,11 +1,14 @@
 <div class="card">
   <div class="grid mb-3">
+    <!-- <div class="col-12 lg:col-12">
+        <div class="align-right">Back</div>
+    </div> -->
     <div class="col-12 lg:col-2">
       <p-confirmDialog [style]="{width: '30%'}"></p-confirmDialog>
       <div class="fex">
         <!-- Basic details card view -->
         <div class="col text-center">
-          <img [src]="employeePrsDtls.photo ? employeePrsDtls.photo : defaultPhoto" [alt]="employeePrsDtls.employeeName"
+          <img [src]="employeePrsDtls?.photo ? employeePrsDtls?.photo : defaultPhoto" [alt]="employeePrsDtls?.employeeName"
             class="shadow-2 my-1 mx-0 employee_profile_pic employee_profile_pic_view" width="100px" />
         </div>
         <div class=" align-items-center text-xl text-center font-medium text-900 mb-1">{{employeePrsDtls?.employeeName}}

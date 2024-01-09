@@ -45,7 +45,7 @@ export class ChangepasswordComponent {
 
     navigateToNext() {
         if (this.fbChangePassword.valid) {
-            console.log(this.fbChangePassword);
+            //console.log(this.fbChangePassword);
             this.securityService.ForgotPassword(this.fbChangePassword.value).subscribe(resp => {
                 if (resp as unknown as boolean) {
                     this.router.navigate(['auth/forgotpassword/successmessage'])

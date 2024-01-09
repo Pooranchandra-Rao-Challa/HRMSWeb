@@ -32,6 +32,7 @@ import {
   GET_EMPLOYEES_BASED_ON_STATUS_URI,
   GET_EMPLOYEE_LEAVE_ONDATE,
   UPDATE_PREVIOUS_ATTENDANCE,
+  GET_EMPLOYEE_PHOTO,
 
 } from './api.uri.service';
 import { ExperienceDetailsDto, SkillArea, AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments, employeeExperienceDtlsViewDto, FamilyDetailsViewDto, employeeAttendanceDto, EmployeeLeaveDto, EmployeeAttendanceList, CompanyHierarchyViewDto, EmployeeProfilePicViewDto, LeaveStatistics, EmployeeLeaveOnDateDto } from '../_models/employes';
@@ -39,7 +40,7 @@ import { ExperienceDetailsDto, SkillArea, AddressDetailsDto, BankDetailsDto, Cou
 import { ApiHttpService } from './api.http.service';
 import { LookupViewDto } from '../_models/admin';
 import { HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+import { URI_ENDPOINT, URI_ENDPOINT_WITH_ID, environment } from 'src/environments/environment';
 import * as FileSaver from "file-saver";
 
 @Injectable({
@@ -96,10 +97,10 @@ export class EmployeeService extends ApiHttpService {
   public AddAttendance(data: EmployeeAttendanceList[]) {
     return this.post<EmployeeAttendanceList[]>(POST_LISTOF_ATTENDANCES, data);
   }
-  public CreateAttendance(data: EmployeeLeaveDto) {
+  public UpdateEmployeeLeaveFromAttendance(data: EmployeeLeaveDto) {
     return this.post<EmployeeAttendanceList>(UPDATE_EMPLOYEE_LEAVE_DETAILS, data);
   }
-  public updateEmployeeAttendance(data:EmployeeLeaveDto){
+  public updatePreviousDayEmployeeAttendance(data:EmployeeLeaveDto){
     return this.post<EmployeeLeaveDto>(UPDATE_PREVIOUS_ATTENDANCE, data);
   }
   //Search Employee
@@ -256,4 +257,7 @@ export class EmployeeService extends ApiHttpService {
     return this.post<EmployeeLeaveOnDateDto[]>(GET_EMPLOYEE_LEAVE_ONDATE,leaveParams)
   }
 
+  public getEmployeePhoto(employeeId){
+    return this.getWithId<string>(GET_EMPLOYEE_PHOTO,employeeId)
+  }
 }
