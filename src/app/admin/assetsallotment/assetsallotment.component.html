@@ -9,9 +9,10 @@
                         <div>
                             <div class="p-inputgroup">
                                 <!-- <span class="p-inputgroup-addon"><i class="pi pi-search"></i></span> -->
-                                <input id="search-name-id" type="text"  #filter pInputText placeholder="Search by Name or Id"
-                                    (input)="onFilter(dv, $event)" />
-                                <span class="p-inputgroup-addon" (click)="clearcard(dv)"><i class="pi pi-undo"></i></span>
+                                <input id="search-name-id" type="text" #filter pInputText
+                                    placeholder="Search by Name or Id" (input)="onFilter(dv, $event)" />
+                                <span class="p-inputgroup-addon" (click)="clearcard(dv)"><i
+                                        class="pi pi-undo"></i></span>
                             </div>
                         </div>
                         <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
@@ -112,8 +113,8 @@
                                 <div class="col-8 p-1 px-2 employee_info">
                                     <div class="text-xl font-bold">{{ employee?.employeeName }}</div>
                                     <span class="text-600 font-medium text-md">
-                                        <i class="pi pi-id-card text-300 text-primary text-1xl pb-1"></i>
-                                        :{{employee?.code}}
+                                        <i class="pi pi-id-card text-300 text-primary text-1xl pb-1"></i> :
+                                        {{employee?.code}}
                                     </span>
                                     <br />
                                     <span class="text-600 font-medium text-md">
