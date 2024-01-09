@@ -471,3 +471,9 @@ export class EmployeeLeaveOnDateDto
     fromDate?: Date
     toDate?: Date
 }
+
+export class EmployeeReportDtlDto{
+	employeeId?: number;
+	employeeName?: string;
+	employeeCode?: string;
+}
