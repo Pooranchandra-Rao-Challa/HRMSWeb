@@ -84,7 +84,7 @@ export class ExperiencedetailsDialogComponent {
 
   addExperienceDetails() {
     this.faExperienceDetails = this.fbexperience.get('experienceDetails') as FormArray;
-    this.faExperienceDetails.push(this.generateRow());
+    this.faExperienceDetails.insert(0,this.generateRow());
   }
 
   faExperienceDetail(): FormArray {
@@ -101,12 +101,9 @@ export class ExperiencedetailsDialogComponent {
     })
   }
 
-  onCountryChange(selectedCountryId: number, rowIndex: number) {
-    this.selectedCountry[rowIndex] = selectedCountryId;
+  onCountryChange(selectedCountryId: number) {
     this.lookupService.States(selectedCountryId).subscribe((resp) => {
-      if (resp) {
-        this.statesPerRow[rowIndex] = resp as unknown as LookupViewDto[];
-      }
+      this.statesPerRow[selectedCountryId] = resp as unknown as LookupViewDto[];
     });
   }
 
@@ -146,8 +143,8 @@ export class ExperiencedetailsDialogComponent {
     if (workExperience.length == 0) {
       this.faExperienceDetail().push(this.generateRow());
     } else {
-      workExperience.forEach((experienceDetails: any, rowIndex) => {
-        this.onCountryChange(experienceDetails.countryId, rowIndex);
+      workExperience.forEach((experienceDetails: any) => {
+        this.onCountryChange(experienceDetails.countryId);
         this.faExperienceDetail().push(this.generateRow(experienceDetails));
       })
     }
