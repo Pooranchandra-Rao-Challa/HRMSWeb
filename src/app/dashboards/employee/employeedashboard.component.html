@@ -106,8 +106,8 @@
                                 <h1 class="m-0 text-500">{{
                                     empDetails?.allottedPrivilegeLeaves-empDetails?.usedPrivilegeLeavesInYear}}</h1>
                             </div>
-                            <i class="pi pi-fw pi-calendar-plus text-3xl" style="color: var(--primary-color);"
-                                label="Primary" pTooltip="Apply Leaves" tooltipPosition="bottom"
+                            <i class="pi pi-fw icon-add_leave text-6xl" style="color: var(--primary-color);"
+                                label="Primary" pTooltip="Apply Leaves" tooltipPosition="right"
                                 (click)="openComponentDialog(employeeleaveDialogComponent, null, ActionTypes.save)"
                                 *ngIf="permissions?.CanManageSelfEmployee"></i>
                         </div>
@@ -155,8 +155,8 @@
                                 <h1 class="m-0 text-500">{{
                                     empDetails?.allottedCasualLeaves-empDetails?.usedCasualLeavesInYear}}</h1>
                             </div>
-                            <i class="pi pi-fw pi-calendar-plus text-3xl" style="color: var(--primary-color);"
-                                label="Primary" pTooltip="Apply Leaves" tooltipPosition="bottom"
+                            <i class="pi pi-fw icon-add_leave text-6xl" style="color: var(--primary-color);"
+                                label="Primary" pTooltip="Apply Leaves" tooltipPosition="right"
                                 (click)="openComponentDialog(employeeleaveDialogComponent, null, ActionTypes.save)"
                                 *ngIf="permissions?.CanManageSelfEmployee"></i>
                         </div>
@@ -216,7 +216,9 @@
                                 <div class="overview-info text-center alloted_assets">
                                     <p class="text-primary "><b>{{asset.assetName}}</b></p>
                                     <ng-container *ngIf="asset.thumbnail">
-                                        <img [src]="asset?.thumbnail" [alt]="asset?.thumbnail" class="shadow-2" /><br />
+                                        <div class="project_img_dash">
+                                            <img [src]="asset?.thumbnail" [alt]="asset?.thumbnail" class="shadow-2 employee_profile_pic avatar_emp_dboard" />
+                                        </div>
                                     </ng-container>
 
                                     <div class="text-left text-primary">
@@ -301,13 +303,16 @@
                         <div class="col-6" *ngFor="let project of projects">
                             <div class="card p-2 text-center"
                                 [ngStyle]="project.periods.length > 0 ? {'color': 'gray'} : {}">
-                                <img [src]="project.projectLogo" [alt]="project.projectLogo" class="shadow-2 my-0 mx-0"
-                                    width="50%" />
+                                <div class=" project_img_dash ">
+                                    <img [src]="project.projectLogo" [alt]="project.projectLogo" class="shadow-2 my-0 mx-0 employee_profile_pic avatar_projects_dash"
+                                    />
+                                </div>
+                               
 
                                 <h5 class="text-primary m-2">{{project.name}}</h5>
-                                <div *ngFor="let period of project.periods" style="display: flex; border-top: 1px solid #ccc; color:gray">
+                                <div *ngFor="let period of project.periods" class="text-left" style=" color:gray">
                                     <span>
-                                        {{period.sinceFrom}} {{period.endAt ? ' - '+period.endAt : ""}}
+                                      <b>From:</b>  {{period.sinceFrom}} <br/> <b>To:</b> {{period.endAt ? ' - '+period.endAt : ""}}
                                     </span>
                                 </div>
                             </div>
