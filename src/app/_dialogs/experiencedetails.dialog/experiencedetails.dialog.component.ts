@@ -48,7 +48,7 @@ export class ExperiencedetailsDialogComponent {
     this.initCountries();
     this.initskillArea();
     if (this.config.data) this.showExperienceDetails(this.config.data);
-    this.workExperience =this.config.data;
+    this.workExperience = this.config.data;
   }
 
   initExperience() {
@@ -84,7 +84,7 @@ export class ExperiencedetailsDialogComponent {
 
   addExperienceDetails() {
     this.faExperienceDetails = this.fbexperience.get('experienceDetails') as FormArray;
-    this.faExperienceDetails.insert(0,this.generateRow());
+    this.faExperienceDetails.insert(0, this.generateRow());
   }
 
   faExperienceDetail(): FormArray {
