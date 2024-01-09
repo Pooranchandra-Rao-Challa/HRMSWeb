@@ -20,13 +20,12 @@ export class OfficedetailsDialogComponent {
   fbOfficDtls!: FormGroup;
   designation: LookupViewDto[] = [];
   employees: EmployeesList[] = [];
-  employeeId: string;
-
+  employeeId: any;
+  
   constructor(
     private formbuilder: FormBuilder,
     private lookupService: LookupService,
     private employeeService: EmployeeService,
-    private adminService: AdminService,
     private alertMessage: AlertmessageService,
     private activatedRoute: ActivatedRoute,
     public ref: DynamicDialogRef,
@@ -37,7 +36,7 @@ export class OfficedetailsDialogComponent {
   ngOnInit(): void {
     this.initdesignation();
     this.OfficDtlsForm();
-    this.initEmployees();
+    this.initEmployees(); 
     if (this.config.data) this.showEmpOfficDtlsDialog(this.config.data);
   }
 
@@ -67,7 +66,7 @@ export class OfficedetailsDialogComponent {
   }
 
   initEmployees() {
-    this.adminService.getEmployeesList().subscribe(resp => {
+    this.employeeService.getReportingEmpDtls(this.employeeId).subscribe(resp => {
       this.employees = resp as unknown as EmployeesList[];
     });
   }

@@ -106,8 +106,8 @@
                                 <h1 class="m-0 text-500">{{
                                     empDetails?.allottedPrivilegeLeaves-empDetails?.usedPrivilegeLeavesInYear}}</h1>
                             </div>
-                            <i class="pi pi-fw icon-add_leave text-6xl" style="color: var(--primary-color);"
-                                label="Primary" pTooltip="Apply PL Leaves" tooltipPosition="right"
+                            <i class="pi pi-fw icon-add_leave text-6xl att-pointer" style="color: var(--primary-color);"
+                                label="Primary" pTooltip="Apply PL" tooltipPosition="right"
                                 (click)="openComponentDialog(employeeleaveDialogComponent, null, ActionTypes.save)"
                                 *ngIf="permissions?.CanManageSelfEmployee"></i>
                         </div>
@@ -155,8 +155,8 @@
                                 <h1 class="m-0 text-500">{{
                                     empDetails?.allottedCasualLeaves-empDetails?.usedCasualLeavesInYear}}</h1>
                             </div>
-                            <i class="pi pi-fw icon-add_leave text-6xl" style="color: var(--primary-color);"
-                                label="Primary" pTooltip="Apply CL Leaves" tooltipPosition="right"
+                            <i class="pi pi-fw icon-add_leave text-6xl att-pointer" style="color: var(--primary-color);"
+                                label="Primary" pTooltip="Apply CL" tooltipPosition="right"
                                 (click)="openComponentDialog(employeeleaveDialogComponent, null, ActionTypes.save)"
                                 *ngIf="permissions?.CanManageSelfEmployee"></i>
                         </div>

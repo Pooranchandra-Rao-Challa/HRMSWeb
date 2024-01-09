@@ -19,7 +19,7 @@ import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
   ]
 })
 export class LeaveStatisticsComponent {
-  globalFilterFields: string[] = ['name', 'experienceInCompany','dateofJoin','reportingTo', 'allottedCasualLeaves', 'allottedPrivilegeLeaves',
+  globalFilterFields: string[] = ['name', 'experienceInCompany', 'dateofJoin', 'reportingTo', 'allottedCasualLeaves', 'allottedPrivilegeLeaves',
     'usedCasualLeavesInYear', 'usedCasualLeavesInMonth', 'usedPrivilegeLeavesInYear', 'usedPrivilegeLeavesInMonth', 'usedLWPInYear',
     'usedLWPInMonth', 'previousYearPrivilegeLeaves', 'absentsInYear', 'absentsInMonth'];
   @ViewChild('filter') filter!: ElementRef;
@@ -34,10 +34,12 @@ export class LeaveStatisticsComponent {
   selectedMonth: Date;
   permissions: any;
   value: number;
+  computedCLs: number[];
+  computedPLs: number[];
 
   headers: ITableHeader[] = [
     { field: 'name', header: 'name', label: 'Employee Name' },
-    { field: 'experienceInCompany', header: 'experienceInCompany', label: 'Exp In Company'},
+    { field: 'experienceInCompany', header: 'experienceInCompany', label: 'Exp In Company' },
     { field: 'dateofJoin', header: 'dateofJoin', label: 'DOJ' },
     { field: 'reportingTo', header: 'reportingTo', label: 'Reporting To' },
     { field: 'allottedCasualLeaves', header: 'allottedCasualLeaves', label: 'Allotted CL' },
@@ -52,6 +54,8 @@ export class LeaveStatisticsComponent {
     { field: 'absentsInYear', header: 'absentsInYear', label: 'Absent(Year)' },
     { field: 'absentsInMonth', header: 'absentsInMonth', label: 'Absent(Month)' },
     { field: 'workingFromHome', header: 'workingFromHome', label: 'WFH(Month)' },
+    { field: 'availableCLs', header: 'availableCLs', label: 'Available CLs' },
+    { field: 'availablePLs', header: 'availablePLs', label: 'Available PLs' },
   ];
   constructor(
     private globalFilterService: GlobalFilterService,
@@ -82,7 +86,19 @@ export class LeaveStatisticsComponent {
   getLeaves() {
     this.employeeService.getLeaveStatistics(this.year).subscribe((resp) => {
       this.leavesStatistics = resp as unknown as LeaveStatistics[];
+      this.availableLeaves();
     })
+  }
+
+  availableLeaves() {
+    this.computedCLs = this.leavesStatistics.map(leave => leave.allottedCasualLeaves - leave.usedCasualLeavesInYear);
+    this.computedPLs = this.leavesStatistics.map(leave =>
+      leave.allottedPrivilegeLeaves + leave.previousYearPrivilegeLeaves - leave.usedPrivilegeLeavesInYear
+    );
+    this.leavesStatistics.forEach((item, index) => {
+      item.availableCLs = this.computedCLs[index];
+      item.availablePLs = this.computedPLs[index];
+    });
   }
 
   onMonthSelect(event) {
