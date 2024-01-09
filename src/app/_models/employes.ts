@@ -458,6 +458,8 @@ export class LeaveStatistics{
 	usedLWPInYear?:number;
 	usedLWPInMonth?:number;
     workingFromHome?:number;
+	availableCLs?:any;
+	availablePLs?:any;
 }
 
 export class EmployeeLeaveOnDateDto
