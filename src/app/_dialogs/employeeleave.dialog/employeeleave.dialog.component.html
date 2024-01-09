@@ -15,7 +15,7 @@
             <div class="col-12 roles-container">
                 
                 <div class="p-fluid p-formgrid grid">
-                    <div class="field col-12 md:col-4">
+                    <div class="field col-12 md:col-4 mb-0">
                         <label class="required">Employee Name:</label>
                         <p-dropdown id="employeeName_Dropdown" appendTo="body" [filter]="true" [options]="employees"
                             optionLabel="employeeName" optionValue="employeeId" placeholder="Select Employee Name"
@@ -32,7 +32,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="field col-12 md:col-4">
+                    <div class="field col-12 md:col-4 mb-0">
                         <label class="required">Leave Type:</label>
                         <p-dropdown placeholder="Select Leave Type" formControlName="leaveTypeId"
                             [options]="filteredLeaveTypes" optionLabel="name" optionValue="lookupDetailId"
@@ -50,7 +50,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="field col-12 md:col-4">
+                    <div class="field col-12 md:col-4 mb-0">
                         <label class="required">Leave Purpose:</label>
                         <p-dropdown placeholder="Select Leave Purpose" formControlName="leaveReasonId"
                             [options]="leaveReasons" optionLabel="name" optionValue="lookupDetailId"
@@ -72,13 +72,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="field col-12 md:col-4">
+                    <div class="field col-12 md:col-4 mb-0">
                         <label>Is HalfDay Leave:</label>
                         <br>
                         <p-checkbox formControlName="isHalfDayLeave" [binary]="true" inputId="binary"
                             (onChange)="onChangeIsHalfDay()"></p-checkbox>
                     </div>
-                    <div class="field col-12 md:col-4">
+                    <div class="field col-12 md:col-4 mb-0">
                         <label class="required">From Date:</label>
                         <p-calendar appendTo="body" placeholder="Select From Date" [readonlyInput]="true"
                             [minDate]="minDate" [showIcon]="true" formControlName="fromDate" id="fromDateCalendar"
@@ -95,14 +95,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="field col-12 md:col-4">
+                    <div class="field col-12 md:col-4 mb-0">
                         <label>To Date:</label>
                         <p-calendar appendTo="body" placeholder="Select To Date" [readonlyInput]="true"
                             [showIcon]="true" formControlName="toDate" id="toDateCalendar"
                             [minDate]="fbLeave.value.fromDate" [disabledDates]="disabledDates">
                         </p-calendar>
                     </div>
-                    <div class="field col-12 md:col-4">
+                    <div class="field col-12 md:col-6 mb-0">
                         <label class="required">Leave Narration:</label>
                         <textarea class="form-control freeze_text-area" pInputTextarea formControlName="note"
                             placeholder="Enter Leave Narration" #description [maxlength]="256" id="Description"
