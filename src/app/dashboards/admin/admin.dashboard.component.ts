@@ -56,16 +56,17 @@ export class AdminDashboardComponent implements OnInit {
         const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
         const absent = this.admindashboardDtls?.savedabsentEmployees.find(each => each.employeeStatus === 'AT')?.employeesCount;
         const CasualLeaves = this.admindashboardDtls?.savedemployeeLeaveCounts.find(each => each.leaveType === 'CL')?.leaveTypeCount;
-        const PersonalLeaves = this.admindashboardDtls?.savedemployeeLeaveCounts.find(each => each.leaveType === 'PL')?.leaveTypeCount;
+        const PrevlageLeaves = this.admindashboardDtls?.savedemployeeLeaveCounts.find(each => each.leaveType === 'PL')?.leaveTypeCount;
         const present = this.admindashboardDtls?.savedActiveEmployeesInOffice.find(each => each.employeeStatus === 'PT')?.employeesCount;
         const WrokFromHome = this.admindashboardDtls?.savedActiveEmployeesInOffice.find(each => each.employeeStatus === 'WFH')?.employeesCount;
+        const leaveWithoutPay = this.admindashboardDtls?.savedemployeeLeaveCounts.find(each => each.leaveType === 'LWP')?.leaveTypeCount;
 
         this.pieDataforAttendance = {
-            labels: ['In Office', 'Absent', 'PL', 'CL', 'WFH'],
+            labels: ['In Office', 'Absent', 'PL', 'CL', 'WFH', 'LWP'],
             datasets: [
                 {
-                    data: [present, absent, PersonalLeaves, CasualLeaves,WrokFromHome],
-                    backgroundColor: [documentStyle.getPropertyValue('--primary-300'), documentStyle.getPropertyValue('--red-300'), documentStyle.getPropertyValue('--green-300'), documentStyle.getPropertyValue('--blue-300'), documentStyle.getPropertyValue('--yellow-300')],
+                    data: [present, absent, PrevlageLeaves, CasualLeaves, WrokFromHome, leaveWithoutPay],
+                    backgroundColor: [documentStyle.getPropertyValue('--inofc-b'), documentStyle.getPropertyValue('--abst-b'), documentStyle.getPropertyValue('--pl-b'), documentStyle.getPropertyValue('--cl-b'), documentStyle.getPropertyValue('--wfh-b'), documentStyle.getPropertyValue('--lwp-b')],
                     borderColor: surfaceBorder
                 }
             ]

@@ -138,10 +138,10 @@
         <div class="flex flex-column mt-4">
           <span class="p-input-icon-left w-full mb-1 ">
             <i class="pi pi-envelope"></i>
-            <input id="email" type="text" pInputText
-              class="w-full md:w-25rem text-color-secondary surface-50 " placeholder="User Name" 
-              formControlName="userName"  [ngClass]="{ 'is-invalid ng-dirty': FormControls['userName'].touched && FormControls['userName'].errors}"/>
-          </span> 
+            <input id="email" type="text" pInputText class="w-full md:w-25rem text-color-secondary surface-50 "
+              placeholder="User Name" formControlName="userName"
+              [ngClass]="{ 'is-invalid ng-dirty': FormControls['userName'].touched && FormControls['userName'].errors}" />
+          </span>
           <div class="flex mb-4 p-1">
             <div class="align-left w-60">
               <span *ngIf="FormControls['userName'].touched && FormControls['userName'].invalid">
@@ -156,15 +156,19 @@
               </span>
             </div>
           </div>
-          <span class="p-input-icon-left w-full">
+          <div class="p-input-icon-left w-full">
             <i class="pi pi-lock"></i>
-            <input id="password" type="password" pInputText
+            <input id="password" type="{{ showPassword ? 'text' : 'password' }}" pInputText
               class="w-full md:w-25rem text-color-secondary surface-50" placeholder="Password"
-              formControlName="password" maxlength="20" 
-               [ngClass]="{ 'is-invalid ng-dirty': FormControls['password'].touched && FormControls['password'].errors}"/>
-          </span>
+              formControlName="password" maxlength="20"
+              [ngClass]="{ 'is-invalid ng-dirty': FormControls['password'].touched && FormControls['password'].errors }" />
+            <span class="p-input-icon-right">
+              <i class="pi" [ngClass]="{ 'pi-eye': !showPassword, 'pi-eye-slash': showPassword }"
+                (click)="togglePasswordVisibility()"></i>
+            </span>
+          </div>
           <div class="flex  mb-4 p-1">
-            <div class="align-left w-40" >
+            <div class="align-left w-40">
               <span *ngIf="FormControls['password'].touched && FormControls['password'].invalid">
                 <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['password'].errors?.['required']">
                   Please Enter Password.</div>
