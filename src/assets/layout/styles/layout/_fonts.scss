@@ -53,7 +53,9 @@
     -moz-osx-font-smoothing: grayscale;
   }
   
- 
+  .icon-add_leave:before {
+    content: "\e919";
+  }
 .icon-POC:before {
   content: "\e918";
 }
