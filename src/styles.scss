@@ -1076,7 +1076,7 @@ p-fieldset.allott-employee {
 }
 
 .p-datatable .p-sortable-column:hover .p-sortable-column-icon {
-    color: #ff810e !important;
+    color: #8a4301 !important;
 
     &:hover {
         color: #343a40 !important;
@@ -1085,4 +1085,21 @@ p-fieldset.allott-employee {
 
 app-attendance .p-datatable-table tbody tr td:first-child {
     font-weight: 700 !important;
+}
+.icon-add_leave{
+    cursor: pointer;
+}
+.icon-add_leave:hover{
+    color:#8a4301  !important;
+}
+
+@media (min-width: 960px){
+    /*visibilities according to the platform*/
+	.ShowOnMobile{display:none; opacity:0;}
+	.ShowOnDesktop{display:inherit; opacity:1;}
+}
+/* Portrait tablet to landscape and desktop */
+@media (max-width: 959px) {
+	.ShowOnMobile{display:inherit; opacity:1;}
+	.ShowOnDesktop{display:none; opacity:0;}
 }
