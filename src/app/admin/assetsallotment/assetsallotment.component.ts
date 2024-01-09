@@ -64,8 +64,6 @@ export class AssetsallotmentComponent extends Unsubscribe {
     initEmployeesForAllottedAssets() {
         this.adminService.EmployeesForAllottedAssets().pipe(takeUntil(this.unsubscribe$)).subscribe((resp) => {
             this.employeesForAllottedAssets = resp as unknown as EmployeesForAllottedAssetsViewDto[];
-            console.log(this.employeesForAllottedAssets);
-            
         });
     }
 
