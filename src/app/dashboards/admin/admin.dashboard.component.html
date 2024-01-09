@@ -8,7 +8,8 @@
                         <h6 class="m-0 mb-1 text-500">Total Employees</h6>
                         <h1 class="m-0 text-500">{{admindashboardDtls?.activeEmployees}}</h1>
                     </div>
-                    <div (click)="navigateEmpDtls()">
+                    <div (click)="navigateEmpDtls()" class="att-pointer" pTooltip="Navigate Employees"
+                    tooltipPosition="top">
                         <i class="pi pi-users text-3xl"></i>
                     </div>
                 </div>
@@ -23,7 +24,8 @@
                             {{ admindashboardDtls?.calculatedLeaveCount ?
                             admindashboardDtls?.calculatedLeaveCount : 'Today,there is no employees Leaves.' }}</h1>
                     </div>
-                    <div (click)="navigateAttendence()">
+                    <div class="att-pointer" (click)="navigateAttendence()" pTooltip="Navigate Attendence"
+                    tooltipPosition="top">
                         <i class="pi pi-user-minus text-3xl"></i>
                     </div>
                 </div>
@@ -37,7 +39,8 @@
                             {{ admindashboardDtls?.totalprojectsCount }}
                         </h1>
                     </div>
-                    <div (click)="navigateProjects()">
+                    <div (click)="navigateProjects()" class="att-pointer" pTooltip="Navigate Projects"
+                    tooltipPosition="top">
                         <i class="pi pi-clone text-3xl"></i>
                     </div>
                 </div>
@@ -50,7 +53,8 @@
                         <h1 class="m-0 text-white">{{admindashboardDtls?.savedsupsendedProjects[0]?.projectStatusCount}}
                         </h1>
                     </div>
-                    <div (click)="navigateProjects()">
+                    <div (click)="navigateProjects()" class="att-pointer" pTooltip="Navigate Projects"
+                    tooltipPosition="top">
                         <i class="pi pi-stop text-3xl"></i>
                     </div>
                 </div>
