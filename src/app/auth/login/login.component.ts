@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
     rememberMe: boolean = false;
     submitted = false;
     fbloginForm: FormGroup;
+    showPassword: boolean = false;
 
     constructor(private layoutService: LayoutService,
         private loginService: LoginService,
@@ -75,5 +76,9 @@ export class LoginComponent implements OnInit {
     get dark(): boolean {
         return this.layoutService.config.colorScheme !== 'light';
     }
+    
+    togglePasswordVisibility(): void {
+        this.showPassword = !this.showPassword;
+      }
 
 }
