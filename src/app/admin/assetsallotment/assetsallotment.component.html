@@ -104,7 +104,8 @@
                                         class="shadow-2 my-1 mx-0 employee_profile_pic zoomable-img"
                                         style="width: 70%;" />
                                     <span class="text-500 font-medium text-md">
-                                        <i class="pi pi-users text-600 text-primary text-1xl  pb-2"></i> :
+                                        <i class="pi pi-users text-600 text-primary text-1xl  pb-2"
+                                        pTooltip="Gender" tooltipPosition="bottom"></i> :
                                         {{employee.gender}}
                                     </span>
                                     <br />
@@ -112,17 +113,20 @@
                                 <div class="col-8 p-1 px-2 employee_info">
                                     <div class="text-xl font-bold">{{ employee?.employeeName }}</div>
                                     <span class="text-600 font-medium text-md">
-                                        <i class="pi pi-id-card text-300 text-primary text-1xl pb-1"></i>
+                                        <i class="pi pi-id-card text-300 text-primary text-1xl pb-1"
+                                        pTooltip="Code" tooltipPosition="bottom"></i>
                                         :{{employee?.code}}
                                     </span>
                                     <br />
                                     <span class="text-600 font-medium text-md">
-                                        <i class="pi pi-calendar text-300 text-primary text-1xl  pb-1"></i> :
+                                        <i class="pi pi-calendar text-300 text-primary text-1xl  pb-1"
+                                        pTooltip="DOB" tooltipPosition="bottom"></i> :
                                         {{employee.certificateDOB| date: mediumDate}}
                                     </span>
                                     <br />
                                     <span class="text-600 font-medium text-md">
-                                        <i class="pi pi-star text-500 text-primary text-1xl  pb-1"></i> :
+                                        <i class="pi pi-star text-500 text-primary text-1xl  pb-1"
+                                        pTooltip="Role" tooltipPosition="bottom"></i> :
                                         {{employee.employeeRoleName }}
                                     </span>
                                     <br />
@@ -132,7 +136,8 @@
                                     </span>
                                     <br />
                                     <span class="text-600 font-medium text-md">
-                                        <i class="pi pi-star text-500 text-primary text-1xl  pb-1"></i> :
+                                        <i class="pi pi-star text-500 text-primary text-1xl  pb-1"
+                                        pTooltip="Designation" tooltipPosition="bottom"></i> :
                                         {{employee?.designation}}
                                     </span>
                                     <br />
@@ -141,12 +146,14 @@
                             <div class="grid">
                                 <div class="relative col-8 p-0 mb-3  employee_info">
                                     <span class="text-600 font-medium text-md">
-                                        <i class="pi pi-at text-500 text-primary text-1xl pb-1"></i> :
+                                        <i class="pi pi-at text-500 text-primary text-1xl pb-1"
+                                        pTooltip="Email" tooltipPosition="bottom"></i> :
                                         {{employee?.officeEmailId}}
                                     </span>
                                     <br />
                                     <span class="text-600 font-medium text-md">
-                                        <i class="pi pi-phone text-500 text-primary text-1xl pb-1"></i> :
+                                        <i class="pi pi-phone text-500 text-primary text-1xl pb-1"
+                                        pTooltip="Mobile Number" tooltipPosition="bottom"></i> :
                                         {{employee?.mobileNumber}}
                                     </span>
                                     <br />
