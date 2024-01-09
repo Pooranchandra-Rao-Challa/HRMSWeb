@@ -225,22 +225,22 @@
                                     </div>
 
                                     <!-- <h6 class="m-0 mb-1 text-0">
-                                    
+
                                     <ng-container>
                                         <span>Asset Name:</span>
-                                        
+
                                     </ng-container>
                                     <br>
                                     <ng-container *ngIf="asset.serialNumber">
                                         <span>Serial Number:</span>
-                                        
+
                                     </ng-container>
                                     <br>
                                     <ng-container *ngIf="asset.modelNumber">
                                         <span>Model Number:</span>
-                                        
+
                                     </ng-container>
-                                    
+
                                 </h6> -->
                                 </div>
                             </div>
@@ -294,22 +294,22 @@
                 <h4 class="m-5 mb-3 mx-0 mt-0 ">Assigned Projects</h4>
                 <div class=" card p-3 orange-200  applicant-p-block-home scroll_div" style="min-height:350px;">
                     <div class="text-500  text-2xl text-primary text-center m-5 p-5"
-                        *ngIf="!empDetails?.projects || empDetails?.projects.length === 0">
+                        *ngIf="!projects || projects.length === 0">
                         There is no Assigned Projects for this Employee
                     </div>
-                    <div class="grid" *ngIf="empDetails?.projects && empDetails?.projects.length > 0">
-                        <div class="col-6" *ngFor="let project of empDetails?.projects">
-                            <div class="card p-2 text-center" [ngStyle]="project.endAt ? {'color': 'gray'} : {}">
+                    <div class="grid" *ngIf="projects && projects.length > 0">
+                        <div class="col-6" *ngFor="let project of projects">
+                            <div class="card p-2 text-center"
+                                [ngStyle]="project.periods.length > 0 ? {'color': 'gray'} : {}">
                                 <img [src]="project.projectLogo" [alt]="project.projectLogo" class="shadow-2 my-0 mx-0"
                                     width="50%" />
 
-                                <h5 class="text-primary m-2">{{project.projectName}}</h5>
-
-                                <span class="text-primary" *ngIf="project.sinceFrom">From:
-                                </span><span>{{project.sinceFrom}}</span> <br />
-
-                                <span class="text-primary" *ngIf="project.endAt">To:
-                                </span><span>{{project.endAt}}</span>
+                                <h5 class="text-primary m-2">{{project.name}}</h5>
+                                <div *ngFor="let period of project.periods" style="display: flex; border-top: 1px solid #ccc; color:gray">
+                                    <span>
+                                        {{period.sinceFrom}} {{period.endAt ? ' - '+period.endAt : ""}}
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
