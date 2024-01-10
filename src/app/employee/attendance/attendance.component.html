@@ -240,21 +240,24 @@
         </tr>
     </ng-template>
 </p-table>
-<p-dialog header="Statistaics of {{this.notUpdatedDates| date:DatedFormat}} Attendance:"
+<p-dialog header="Statistics of {{this.notUpdatedDates| date:DatedFormat}} Attendance:"
     [(visible)]="confirmationDialog">
     <div class="flex justify-content-center m-3">
         <i class="pi pi-exclamation-triangle" style="font-size: 24px;"></i>&nbsp;&nbsp;
-        <p>When You Perform 'Confirm' Action the below shown Statistics will update:
+        <p *ngIf="isTodayDate(this.notUpdatedDates)">When You Perform 'Confirm' Action the below shown Statistics will update:
         </p>
-        <!-- <p *ngIf="!isTodayDate(this.notUpdatedDates)">When You Perform 'Confirm' Action the below NotUpdated({{getCountLeavescount('NU')}}) 
+        <p *ngIf="!isTodayDate(this.notUpdatedDates)">When You Perform 'Confirm' Action the below NotUpdated({{getCountLeavescount('NU')}}) 
             Statistics will update:
-        </p> -->
+        </p>
 
     </div>
     <div class="justify-content-center m-3">
         <p>Total No. of Employees: {{this.employeeAttendanceList?.length-getCountLeavescount('NE')}}</p>
-        <p>No. of Present,Office(WFH): {{getCountLeavescount('PT')+getCountLeavescount('WFH')}} => {{getCountLeavescount('PT')}} ({{getCountLeavescount('WFH')}})</p>
-        <p>No. of NotUpdated: {{getCountLeavescount('NU')}}</p>
+        <p *ngIf="!isTodayDate(this.notUpdatedDates);else elseBlock">No. of Present,Office(WFH): {{getCountLeavescount('PT')+getCountLeavescount('WFH')}} => {{getCountLeavescount('PT')}} ({{getCountLeavescount('WFH')}})</p>
+        <ng-template #elseBlock>
+            <p>No. of Present,Office(WFH): {{getCountLeavescount('PT')+getCountLeavescount('WFH')+getCountLeavescount('NU')}} => {{getCountLeavescount('PT')++getCountLeavescount('NU')}} ({{getCountLeavescount('WFH')}})</p>
+        </ng-template>
+        <p *ngIf="!isTodayDate(this.notUpdatedDates)" style="color:orange">No. of NotUpdated: {{getCountLeavescount('NU')}}</p>
         <p>No. of Absent: {{ getCountLeavescount('AT') }}</p>
         <p>No. of PL's: {{ getCountLeavescount('PL') }}</p>
         <p>No. of CL's: {{ getCountLeavescount('CL') }}</p>

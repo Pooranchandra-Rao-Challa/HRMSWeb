@@ -184,7 +184,6 @@ export class AttendanceComponent {
   onDropdownChange(value) {
     if (value)
       this.NotUpdatedAttendanceDate = this.datePipe.transform(new Date(value), 'yyyy-MM-dd');
-
     if (value == null)
       this.NotUpdatedAttendanceDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
     this.getNotUpdatedEmployeesList(this.NotUpdatedAttendanceDate, false)
@@ -250,9 +249,10 @@ export class AttendanceComponent {
 
 
   getNotUpdatedEmployeesList(date, checkPreviousDate) {
-    this.employeeService.GetNotUpdatedEmployees(date, checkPreviousDate).subscribe((resp) => {
-      this.NotUpdatedEmployees = resp as unknown as EmployeesList[];
 
+    this.employeeService.GetNotUpdatedEmployees(date, checkPreviousDate).subscribe((resp) => {
+
+      this.NotUpdatedEmployees = resp as unknown as EmployeesList[];
       if (this.NotUpdatedEmployees.length > 0) {
         this.notUpdatedDates = this.NotUpdatedEmployees[0].date;
         const formattedDate = this.datePipe.transform(this.notUpdatedDates, 'dd-MM-yyyy');
@@ -379,11 +379,16 @@ export class AttendanceComponent {
     return (date > this.today);
   }
 
-  isTodayDate(date: Date): boolean {
+  isTodayDate(date: string): boolean {
     const today = new Date();
-    console.log(today,date,today==date);
-    
-    return today==date
+    let formattedDate = new Date(date);
+
+    // Compare only the year, month, and day parts
+    return (
+      today.getFullYear() === formattedDate.getFullYear() &&
+      today.getMonth() === formattedDate.getMonth() &&
+      today.getDate() === formattedDate.getDate()
+    );
   }
 
   isLeaveTypeSelected(type: number): boolean {
