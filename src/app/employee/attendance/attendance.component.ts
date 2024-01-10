@@ -618,11 +618,13 @@ export class AttendanceComponent {
       this.ProjectwiseAttendanceReportDialog = true;
   }
   downloadProjectwiseAttendanceReport() {
-    const fromDateValue = this.fbDatewiseAttendanceReport.get('fromDate').value;
-    const toDateValue = this.fbDatewiseAttendanceReport.get('toDate').value;
-    this.reportService.DownloadDatewiseAttendanceReport(
+    const fromDateValue = this.fbProjectwiseAttendanceReport.get('fromDate').value;
+    const toDateValue = this.fbProjectwiseAttendanceReport.get('toDate').value;
+    this.reportService.DownloadProjectwiseAttendanceReport(
       formatDate(new Date(fromDateValue), 'yyyy-MM-dd', 'en'),
-      formatDate(new Date(toDateValue), 'yyyy-MM-dd', 'en'))
+      formatDate(new Date(toDateValue), 'yyyy-MM-dd', 'en'),
+      this.fbProjectwiseAttendanceReport.get('projectId').value
+      )
       .subscribe((resp) => {
         if (resp.type === HttpEventType.DownloadProgress) {
           const percentDone = Math.round(100 * resp.loaded / resp.total);
@@ -631,7 +633,8 @@ export class AttendanceComponent {
         if (resp.type === HttpEventType.Response) {
           const file = new Blob([resp.body], { type: 'text/csv' });
           const document = window.URL.createObjectURL(file);
-          FileSaver.saveAs(document, "DatewiseAttendanceReport.csv");
+          FileSaver.saveAs(document, "ProjectwiseAttendanceReport.csv");
+          this.ProjectwiseAttendanceReportDialog = false;
         }
       })
   }
@@ -640,8 +643,9 @@ export class AttendanceComponent {
     const fromDateValue = this.fbDatewiseAttendanceReport.get('fromDate').value;
     const toDateValue = this.fbDatewiseAttendanceReport.get('toDate').value;
     this.reportService.DownloadDatewiseAttendanceReport(
-      formatDate(new Date(fromDateValue), 'yyyy-MM-dd', 'en'),
-      formatDate(new Date(toDateValue), 'yyyy-MM-dd', 'en'))
+      formatDate(new Date(fromDateValue), 'yyyy-MM-d', 'en'),
+      formatDate(new Date(toDateValue), 'yyyy-MM-d', 'en'),
+      )
       .subscribe((resp) => {
         if (resp.type === HttpEventType.DownloadProgress) {
           const percentDone = Math.round(100 * resp.loaded / resp.total);
@@ -651,6 +655,7 @@ export class AttendanceComponent {
           const file = new Blob([resp.body], { type: 'text/csv' });
           const document = window.URL.createObjectURL(file);
           FileSaver.saveAs(document, "DatewiseAttendanceReport.csv");
+          this.DatewiseAttendanceReportDialog = false;
         }
       })
   }

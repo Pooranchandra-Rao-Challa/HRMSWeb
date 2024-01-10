@@ -164,13 +164,13 @@ export const UPDATE_RESULT = "Recruitment/UpdateFilteredApplicantForHRRound";
 export const GET_SELF_EMPLOYEE = "Employee/GetSelfEmployeeData";
 export const GET_SELF_EMPLOYEE_MONTH_LEAVES = "Attendance/GetLeavesForSelfInMonth";
 export const GET_ALLOTED_LEAVES = "Attendance/GetAllottedLeavesBasedOnEId"
-
 // Admin Dashboard
 export const GET_ADMIN_DASHBOARD = "AdminDashboard/GetAdminDashboard"
-
 //Reports
 export const GET_MONTHLY_ATTENDANCE_REPORT = "Report/AttendanceReportBasedOnYearAndMonth";
 export const GET_YEARLY_ATTENDANCE_REPORT = "Report/AttendanceReportBasedOnYear";
+export const GET_DATEWISE_ATTENDANCE_REPORT="Report/AttendanceReportBasedOnDates";
+export const GET_PROJECTWISE_ATTENDANCE_REPORT="Report/AttendanceReportBasedOnProjectId";
 export const GET_PROJECTS_REPORT = "Report/ProjectDetailsReport";
 export const GET_HOLIDAYS_REPORT = "Report/HolidaysReport";
 export const GET_EMPLOYEE_LEAVES_REPORT = "Report/EmployeeLeavesReport"

@@ -129,7 +129,7 @@
     </ng-template>
     <ng-template pTemplate="right">
         <div *ngIf="permissions?.CanDownloadAttendance">
-            <p-dropdown [options]="AttendanceReportsTypes" optionLabel="name" placeholder="Select AttendanceReport Type"
+            <p-dropdown [options]="AttendanceReportsTypes" optionLabel="name" placeholder="Select Attendance Report Type"
                 (onChange)="DownloadAttendanceReport($event.value)" optionValue="name"></p-dropdown>
         </div>
         <div *ngIf="permissions?.CanDownloadAttendance">
