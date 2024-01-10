@@ -127,12 +127,12 @@
                     </div>
                 </div>
                 <ul class="list-none p-0 m-1">
-                    <li *ngIf="this.admindashboardDtls?.savedactiveProjects?.length > 0; else noDataMessage">
+                    <li *ngIf="this.admindashboardDtls?.savedactiveProjects?.length > 0; else noDataMessageprojects">
                         <p-chart type="doughnut" [data]="pieDataforProjects" [options]="pieOptions" height="135px"
                             width="100%">
                         </p-chart>
                     </li>
-                    <ng-template #noDataMessage>
+                    <ng-template #noDataMessageprojects>
                         <div class="text-center mt-5">
                             <div class="border-round-lg pt-5 px-5 pb-5 mb-3"
                                 style="background-color: var(--primary-lighter-color)">

@@ -20,39 +20,39 @@
                     </div>
                     <span class="inline-flex align-items-left mb-2">
                         <i class="pi icon-intersex text-primary text-700 mr-2" pTooltip="Gender"
-                            tooltipPosition="bottom"></i>
+                            tooltipPosition="top"></i>
                         <span class="text-700 mr-2">{{ empDetails?.gender}}</span>
                     </span><br />
                     <span class="inline-flex align-items-left mb-2">
                         <i class="pi pi-envelope text-primary text-700 mr-2" pTooltip="Email"
-                            tooltipPosition="bottom"></i>
+                            tooltipPosition="top"></i>
                         <span class="text-700 mr-2">{{ empDetails?.officeEmailId}}</span>
                     </span><br />
                     <span class="inline-flex align-items-left mb-2">
                         <i class="pi pi-mobile text-primary text-700 mr-2" pTooltip="Mobile Number"
-                            tooltipPosition="bottom"></i>
+                            tooltipPosition="top"></i>
                         <span class="text-700 mr-2">{{ empDetails?.mobileNumber}}</span>
                     </span><br />
                     <span class="inline-flex align-items-left mb-2">
                         <i class="pi pi-calendar text-primary text-700 mr-2" pTooltip="Date Of Birth"
-                            tooltipPosition="bottom"></i>
+                            tooltipPosition="top"></i>
                         <span class="text-700 mr-2">{{ empDetails?.originalDOB | date:originalDOB}}</span>
                     </span><br />
                     <span class="inline-flex align-items-left mb-2">
                         <i class="pi pi-calendar text-primary text-700 mr-2" pTooltip="Date Of Joining"
-                            tooltipPosition="bottom"></i>
+                            tooltipPosition="top"></i>
                         <span class="text-700 mr-2">{{ empDetails?.dateofJoin | date:dateOfJoining}}</span>
                     </span><br />
                     <span class="inline-flex align-items-left mb-2" *ngIf=" empDetails?.reportingTo">
                         <i class="pi icon-POC text-700 font-bold text-primary mr-2" pTooltip="Reporting To"
-                            tooltipPosition="bottom"></i>
+                            tooltipPosition="top"></i>
                         <span class="text-700 text-left mr-2">
                             <span>{{ empDetails?.reportingTo}}</span>
                         </span>
                     </span>
                     <!-- <span class="inline-flex align-items-left mb-2">
                         <i class="pi pi-send text-700 text-primary mr-2" pTooltip="Address"
-                            tooltipPosition="bottom"></i>
+                            tooltipPosition="top"></i>
                         <span class="text-700 text-left mr-2" *ngFor="let address of empDetails?.empaddress">
                             <span>{{address.addressLine1}}</span>,
                             <span>{{address.addressLine2}}</span>,
@@ -92,7 +92,7 @@
                                 <p-calendar styleClass="only-icon" [(ngModel)]="selectedMonth" [showIcon]="true"
                                     view="month" [yearNavigator]="true" yearRange="2000:2030" [readonlyInput]="true"
                                     inputId="monthpicker" (onSelect)="onMonthSelectPLs($event)" pTooltip="Monthly PL's"
-                                    tooltipPosition="bottom">
+                                    tooltipPosition="top">
                                 </p-calendar>
                                 <i class="pi pi-angle-right d-leave-font" (click)="gotoNextMonthPLs()"></i>
                             </div>
@@ -141,7 +141,7 @@
                                 <p-calendar styleClass="only-icon" [(ngModel)]="selectedMonth" [showIcon]="true"
                                     view="month" [yearNavigator]="true" yearRange="2000:2030" [readonlyInput]="true"
                                     inputId="monthpicker" (onSelect)="onMonthSelectCLs($event)" pTooltip="Monthly CL's"
-                                    tooltipPosition="bottom">
+                                    tooltipPosition="top">
                                 </p-calendar>
                                 <i class="pi pi-angle-right d-leave-font" (click)="gotoNextMonthCLs()"></i>
                             </div>
@@ -188,7 +188,7 @@
                                 <p-calendar styleClass="only-icon" [(ngModel)]="selectedMonth" [showIcon]="true"
                                     view="month" [yearNavigator]="true" yearRange="2000:2030" [readonlyInput]="true"
                                     inputId="monthpicker" (onSelect)="onMonthSelectLWP($event)" pTooltip="Monthly LWP's"
-                                    tooltipPosition="bottom">
+                                    tooltipPosition="top">
                                 </p-calendar>
                                 <i class="pi pi-angle-right d-leave-font" (click)="gotoNextMonthLWP()"></i>
                             </div>
