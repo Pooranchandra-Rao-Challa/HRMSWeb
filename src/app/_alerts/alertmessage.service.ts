@@ -211,7 +211,8 @@ export const ALERT_CODES: { [key: string]: string } = {
     'ELD002': 'Leave Not Applied',
     'ELA001': 'Leave Approved Successfully',
     'ELR002': 'Leave Rejected',
-    'WFH001': 'WFH is applied successfully',
+    'WFH001': 'WFH is Applied successfully',
+    'WFH002': 'WFH is Failed to Applied',
     //Job Opening Details
     'JOD001': 'Job Opening Added Successfully',
     'DPJ001': 'There is no Suitable Applicants for this Job.',

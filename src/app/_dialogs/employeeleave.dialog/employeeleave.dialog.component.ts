@@ -271,14 +271,18 @@ export class EmployeeLeaveDialogComponent {
             this.alertMessage.displayAlertMessage(ALERT_CODES["ELD001"]);
           }
         }
-        //   this.alertMessage.displayAlertMessage(ALERT_CODES["ELD001"]);
-        // }
       },
         (error: HttpErrorResponse) => {
           if (error.status === 403) {
             this.alertMessage.displayErrorMessage(ALERT_CODES["ELD002"]);
           } else {
-            this.alertMessage.displayErrorMessage(ALERT_CODES["ELD002"]);
+            const leaveType = this.leaveType.find(item => item.lookupDetailId === this.fbLeave.get('leaveTypeId').value);
+            if (leaveType && leaveType.name === 'WFH') {
+              this.alertMessage.displayErrorMessage(ALERT_CODES["WFH002"]);
+            } else {
+              this.alertMessage.displayErrorMessage(ALERT_CODES["ELD002"]);
+            }
+
           }
         });
       this.ref.close(true);
