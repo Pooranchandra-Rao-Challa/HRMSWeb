@@ -128,12 +128,12 @@
         </div>
     </ng-template>
     <ng-template pTemplate="right">
-        <div *ngIf="permissions?.CanDownloadMonthlyAttendance">
+        <div *ngIf="permissions?.CanDownloadAttendance">
             <p-dropdown [options]="AttendanceReportsTypes" optionLabel="name" placeholder="Select AttendanceReport Type"
                 (onChange)="DownloadAttendanceReport($event.value)" optionValue="name" class="att_dropdown"></p-dropdown>
         </div>
-        <div *ngIf="permissions?.CanDownloadMonthlyAttendance">
-            <button type="button " pButton icon="icon-csv-svgrepo-com-1" class=" mr-2 doc_button att_report_button"
+        <div *ngIf="permissions?.CanDownloadAttendance">
+            <button type="button " pButton icon="icon-csv-svgrepo-com-1" class=" mr-2 doc_button doc_button att_report_button"
                 pTooltip="Download Attendance Report" tooltipPosition="left"
                 (click)="downloadMonthlyAttendanceReport()"></button>
         </div>
@@ -286,13 +286,13 @@
 
 <p-dialog header="DateWise Attendance Report" [(visible)]="DatewiseAttendanceReportDialog">
     <div class="flex flex-column align-items-center justify-content-center">
-        <form [formGroup]="fbAttendanceReport">
+        <form [formGroup]="fbDatewiseAttendanceReport">
             <div class="p-fluid p-formgrid">
                 <div style="margin-bottom: 15px;">
                     <label class="required">From Date:</label>&nbsp;
                     <p-calendar formControlName="fromDate" id="Attendance_Report_fromDate" appendTo="body"
                     [ngClass]="{ 'is-invalid ng-dirty': FormReportControls['fromDate'].touched && FormReportControls['fromDate'].errors }"
-                        placeholder="Enter From Date" [showIcon]="true">
+                        placeholder="Select From Date" [showIcon]="true">
                     </p-calendar>
                     <div class="flex">
                         <div class="align-left w-60" style="width:70%">
@@ -305,9 +305,10 @@
                     </div>
                 </div>
                 <div style="margin-bottom: 15px;">
-                    <label>To Date:</label>&nbsp;
+                    <label class="required">To Date:</label>&nbsp;
                     <p-calendar formControlName="toDate" id="Attendance_Report_fromDate" appendTo="body"
-                        placeholder="Enter To Date" [showIcon]="true"
+                    [ngClass]="{ 'is-invalid ng-dirty': FormReportControls['toDate'].touched && FormReportControls['toDate'].errors }"
+                        placeholder="Select To Date" [showIcon]="true"
                         [maxDate]="maxDate"
                         >
                     </p-calendar>
@@ -328,8 +329,74 @@
 
     <ng-template pTemplate="footer">
         <div style="float:right" class="p-2">
-            <button pButton type="button" class="btn btn-primary" [disabled]="!this.fbAttendanceReport.valid"
-                label="Submit" (click)="addEmployeesAttendance()" id="Attendance_DatewiseReport"></button>
+            <button pButton type="button" class="btn btn-primary" [disabled]="!this.fbDatewiseAttendanceReport.valid"
+                label="Submit" (click)="downloadDatewiseAttendanceReport()" id="Attendance_DatewiseReport"></button>
+        </div>
+    </ng-template>
+</p-dialog>
+<p-dialog header="ProjectWise Attendance Report" [(visible)]="ProjectwiseAttendanceReportDialog">
+    <div class="flex flex-column align-items-center justify-content-center">
+        <form [formGroup]="fbProjectwiseAttendanceReport">
+            <div class="p-fluid p-formgrid">
+                <div style="margin-bottom: 15px;">
+                    <label class="required">Project:</label>&nbsp;
+                    <p-dropdown formControlName="projectId" [options]="this.projects" optionLabel="name"
+                        [ngClass]="{ 'is-invalid ng-dirty': FormProjectReportControls['projectId'].touched && FormProjectReportControls['projectId'].errors }"
+                        (onChange)="checkLeaveType($event.value)" id="Attendance_leaveType" optionValue="projectId"
+                        placeholder="Select Project" appendTo="body"></p-dropdown>
+                    <div class="flex">
+                        <div class="align-left w-60" style="width:70%">
+                            <span *ngIf="FormProjectReportControls['projectId'].touched && FormProjectReportControls['projectId'].invalid">
+                                <div class="ng-invalid ng-touched p-error"
+                                    *ngIf="FormProjectReportControls['projectId'].errors?.['required']">
+                                    Please Select Project.</div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label class="required">From Date:</label>&nbsp;
+                    <p-calendar formControlName="fromDate" id="Attendance_Report_fromDate" appendTo="body"
+                    [ngClass]="{ 'is-invalid ng-dirty': FormProjectReportControls['fromDate'].touched && FormProjectReportControls['fromDate'].errors }"
+                        placeholder="Select From Date" [showIcon]="true">
+                    </p-calendar>
+                    <div class="flex">
+                        <div class="align-left w-60" style="width:70%">
+                            <span *ngIf="FormProjectReportControls['fromDate'].touched && FormProjectReportControls['fromDate'].invalid">
+                                <div class="ng-invalid ng-touched p-error"
+                                    *ngIf="FormProjectReportControls['fromDate'].errors?.['required']">
+                                    Please Select From Date.</div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label class="required">To Date:</label>&nbsp;
+                    <p-calendar formControlName="toDate" id="Attendance_Report_fromDate" appendTo="body"
+                    [ngClass]="{ 'is-invalid ng-dirty': FormProjectReportControls['toDate'].touched && FormProjectReportControls['toDate'].errors }"
+                        placeholder="Select To Date" [showIcon]="true"
+                        [maxDate]="maxDate"
+                        >
+                    </p-calendar>
+                    <div class="flex">
+                        <div class="align-left w-60" style="width:70%">
+                            <span *ngIf="FormProjectReportControls['toDate'].touched && FormProjectReportControls['toDate'].invalid">
+                                <div class="ng-invalid ng-touched p-error"
+                                    *ngIf="FormProjectReportControls['toDate'].errors?.['required']">
+                                    Please Select From Date.</div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <div style="float:right" class="p-2">
+            <button pButton type="button" class="btn btn-primary" [disabled]="!this.fbProjectwiseAttendanceReport.valid"
+                label="Submit" (click)="downloadProjectwiseAttendanceReport()" id="Attendance_ProjectwiseReport"></button>
         </div>
     </ng-template>
 </p-dialog>
