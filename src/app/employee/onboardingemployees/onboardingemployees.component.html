@@ -97,18 +97,18 @@
                   <div class="text-xl font-bold">{{ employee.employeeName }}</div>
                   <span class="text-500 font-medium text-md">
                     <i class="pi icon-intersex text-600 text-primary text-2xl  pb-2" pTooltip="Gender"
-                      tooltipPosition="bottom"></i> : {{employee.gender}}
+                      tooltipPosition="top"></i> : {{employee.gender}}
                   </span><br />
                   <span class="text-600 font-medium text-md">
                     <i class="pi pi-calendar text-300 text-primary text-1xl  pb-1" pTooltip="DOB"
-                      tooltipPosition="bottom"></i> : {{employee.certificateDOB|
+                      tooltipPosition="top"></i> : {{employee.certificateDOB|
                     date: mediumDate}}
                   </span>
 
                   <br />
                   <span class="text-600 font-medium text-md">
                     <i class="pi pi-phone text-500 text-primary text-1xl pb-1" pTooltip="Mobile Number"
-                      tooltipPosition="bottom"></i> : {{employee.mobileNumber}}
+                      tooltipPosition="top"></i> : {{employee.mobileNumber}}
                   </span>
                   <br />
                 </div>
@@ -126,7 +126,8 @@
                       (click)="viewEmployeeDtls(employee?.employeeId)"
                       class="p-element p-ripple p-button-text p-button p-component view_profile_button"
                       ng-reflect-label="Primary">
-                      <span class="p-button-label pi pi-chevron-right"></span>
+                      <span class="p-button-label pi pi-chevron-right"  pTooltip="View Employee"
+                      tooltipPosition="top"></span>
                     </button>
                   </div>
                 </div>

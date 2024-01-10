@@ -7,7 +7,7 @@ import { Table } from 'primeng/table';
 import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { ATTENDANCE_DATE, FORMAT_DATE } from 'src/app/_helpers/date.formate.pipe';
-import { EmployeesList, LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
+import { EmployeesList, LookupDetailsDto, LookupViewDto, ProjectViewDto } from 'src/app/_models/admin';
 import { MaxLength } from 'src/app/_models/common';
 import { SelfEmployeeDto } from 'src/app/_models/dashboard';
 import { employeeAttendanceDto, EmployeeLeaveDto, EmployeeLeaveOnDateDto, NotUpdatedAttendanceDatesListDto } from 'src/app/_models/employes';
@@ -43,7 +43,10 @@ export class AttendanceComponent {
   permissions: any;
   leaveReasons: LookupViewDto[] = [];
   dialog: boolean = false;
+  projects: ProjectViewDto[] = [];
   fbAttendance!: FormGroup;
+  fbDatewiseAttendanceReport!: FormGroup;
+  fbProjectwiseAttendanceReport!: FormGroup;
   fbleave!: FormGroup;
   NotUpdatedAttendanceDatesList: NotUpdatedAttendanceDatesListDto[]
   PreviousAttendance: employeeAttendanceDto[];
@@ -55,12 +58,16 @@ export class AttendanceComponent {
   NotUpdatedEmployees: EmployeesList[] = [];
   showingLeavesOfColors: boolean = false;
   infoMessage: boolean;
+  DatewiseAttendanceReportDialog: boolean = false;
+  ProjectwiseAttendanceReportDialog: boolean = false;
+  AttendanceReportsTypes: any[];
   value: number;
   selfEmployeeLeaveCount: SelfEmployeeDto;
   filteredLeaveReasons: LookupViewDto[] = [];
   employeeLeaveOnDate: EmployeeLeaveOnDateDto[] = [];
   today = new Date(this.year, this.month - 1, this.day);
   canUpdatePreviousDayAttendance: boolean = false;
+  maxDate: Date = new Date();
 
   constructor(
     private adminService: AdminService,
@@ -83,13 +90,29 @@ export class AttendanceComponent {
     this.canUpdatePreviousDayAttendance = this.permissions.CanUpdatePreviousDayAttendance;
     this.initAttendance();
     this.initLeaveForm();
+    this.initProjects();
     this.getDaysInMonth(this.year, this.month);
     this.initDayWorkStatus();
     this.loadLeaveReasons();
     this.getLeaves();
+    this.AttendanceReportsTypes = [
+      { name: 'Year Attendance Report', code: 'YAR' },
+      { name: 'Montly Attendance Report', code: 'MAR' },
+      { name: 'Datewise Attendance Report', code: 'DAR' },
+      { name: 'Projectwise Attendance Report', code: 'PAR' },
+    ]
   }
 
   initLeaveForm() {
+    this.fbProjectwiseAttendanceReport = this.formbuilder.group({
+      projectId: new FormControl('', [Validators.required]),
+      fromDate: new FormControl('', [Validators.required]),
+      toDate: new FormControl('', [Validators.required])
+    })
+    this.fbDatewiseAttendanceReport = this.formbuilder.group({
+      fromDate: new FormControl('', [Validators.required]),
+      toDate: new FormControl('', [Validators.required])
+    })
     this.fbAttendance = this.formbuilder.group({
       attendanceId: new FormControl(0),
       notReported: new FormControl(false),
@@ -117,7 +140,13 @@ export class AttendanceComponent {
     });
   }
 
+  initProjects() {
+    this.adminService.GetProjects().subscribe(resp => {
+      this.projects = resp as unknown as ProjectViewDto[];
+      console.log(resp);
 
+    });
+  }
   initDayWorkStatus() {
     this.lookupService.DayWorkStatus().subscribe(resp => {
       const LeaveTypes = resp as unknown as LookupDetailsDto[];
@@ -184,7 +213,6 @@ export class AttendanceComponent {
   onDropdownChange(value) {
     if (value)
       this.NotUpdatedAttendanceDate = this.datePipe.transform(new Date(value), 'yyyy-MM-dd');
-
     if (value == null)
       this.NotUpdatedAttendanceDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
     this.getNotUpdatedEmployeesList(this.NotUpdatedAttendanceDate, false)
@@ -250,9 +278,10 @@ export class AttendanceComponent {
 
 
   getNotUpdatedEmployeesList(date, checkPreviousDate) {
-    this.employeeService.GetNotUpdatedEmployees(date, checkPreviousDate).subscribe((resp) => {
-      this.NotUpdatedEmployees = resp as unknown as EmployeesList[];
 
+    this.employeeService.GetNotUpdatedEmployees(date, checkPreviousDate).subscribe((resp) => {
+
+      this.NotUpdatedEmployees = resp as unknown as EmployeesList[];
       if (this.NotUpdatedEmployees.length > 0) {
         this.notUpdatedDates = this.NotUpdatedEmployees[0].date;
         const formattedDate = this.datePipe.transform(this.notUpdatedDates, 'dd-MM-yyyy');
@@ -358,6 +387,12 @@ export class AttendanceComponent {
   get FormControls() {
     return this.fbleave.controls;
   }
+  get FormReportControls() {
+    return this.fbDatewiseAttendanceReport.controls;
+  }
+  get FormProjectReportControls() {
+    return this.fbProjectwiseAttendanceReport.controls;
+  }
 
   stringToDate(dateString: string) {
     const stringDateParts = dateString.split('-');
@@ -379,11 +414,15 @@ export class AttendanceComponent {
     return (date > this.today);
   }
 
-  isTodayDate(date: Date): boolean {
+  isTodayDate(date: string): boolean {
     const today = new Date();
-    console.log(today,date,today==date);
-    
-    return today==date
+    let formattedDate = new Date(date);
+
+    return (
+      today.getFullYear() === formattedDate.getFullYear() &&
+      today.getMonth() === formattedDate.getMonth() &&
+      today.getDate() === formattedDate.getDate()
+    );
   }
 
   isLeaveTypeSelected(type: number): boolean {
@@ -568,8 +607,75 @@ export class AttendanceComponent {
     dt1.filteredValue = null;
     this.filter.nativeElement.value = '';
   }
+  DownloadAttendanceReport(name: string) {
+    if (name == "Datewise Attendance Report")
+      this.DatewiseAttendanceReportDialog = true;
+    else if (name == "Montly Attendance Report")
+      this.downloadMonthlyAttendanceReport()
+    else if (name == "Year Attendance Report")
+      this.downloadYearlyAttendanceReport()
+    else if (name == "Projectwise Attendance Report")
+      this.ProjectwiseAttendanceReportDialog = true;
+  }
+  downloadProjectwiseAttendanceReport() {
+    const fromDateValue = this.fbProjectwiseAttendanceReport.get('fromDate').value;
+    const toDateValue = this.fbProjectwiseAttendanceReport.get('toDate').value;
+    this.reportService.DownloadProjectwiseAttendanceReport(
+      formatDate(new Date(fromDateValue), 'yyyy-MM-dd', 'en'),
+      formatDate(new Date(toDateValue), 'yyyy-MM-dd', 'en'),
+      this.fbProjectwiseAttendanceReport.get('projectId').value
+      )
+      .subscribe((resp) => {
+        if (resp.type === HttpEventType.DownloadProgress) {
+          const percentDone = Math.round(100 * resp.loaded / resp.total);
+          this.value = percentDone;
+        }
+        if (resp.type === HttpEventType.Response) {
+          const file = new Blob([resp.body], { type: 'text/csv' });
+          const document = window.URL.createObjectURL(file);
+          FileSaver.saveAs(document, "ProjectwiseAttendanceReport.csv");
+          this.ProjectwiseAttendanceReportDialog = false;
+        }
+      })
+  }
 
-  downloadAttendanceReport() {
+  downloadDatewiseAttendanceReport() {
+    const fromDateValue = this.fbDatewiseAttendanceReport.get('fromDate').value;
+    const toDateValue = this.fbDatewiseAttendanceReport.get('toDate').value;
+    this.reportService.DownloadDatewiseAttendanceReport(
+      formatDate(new Date(fromDateValue), 'yyyy-MM-d', 'en'),
+      formatDate(new Date(toDateValue), 'yyyy-MM-d', 'en'),
+      )
+      .subscribe((resp) => {
+        if (resp.type === HttpEventType.DownloadProgress) {
+          const percentDone = Math.round(100 * resp.loaded / resp.total);
+          this.value = percentDone;
+        }
+        if (resp.type === HttpEventType.Response) {
+          const file = new Blob([resp.body], { type: 'text/csv' });
+          const document = window.URL.createObjectURL(file);
+          FileSaver.saveAs(document, "DatewiseAttendanceReport.csv");
+          this.DatewiseAttendanceReportDialog = false;
+        }
+      })
+  }
+
+  downloadYearlyAttendanceReport() {
+    this.reportService.DownloadYearlyAttendanceReport(this.year)
+      .subscribe((resp) => {
+        if (resp.type === HttpEventType.DownloadProgress) {
+          const percentDone = Math.round(100 * resp.loaded / resp.total);
+          this.value = percentDone;
+        }
+        if (resp.type === HttpEventType.Response) {
+          const file = new Blob([resp.body], { type: 'text/csv' });
+          const document = window.URL.createObjectURL(file);
+          FileSaver.saveAs(document, "YearlyAttendanceReport.csv");
+        }
+      })
+  }
+
+  downloadMonthlyAttendanceReport() {
     this.reportService.DownloadMonthlyAttendanceReport(this.month, this.year)
       .subscribe((resp) => {
         if (resp.type === HttpEventType.DownloadProgress) {

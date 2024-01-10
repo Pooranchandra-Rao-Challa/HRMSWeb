@@ -52,7 +52,12 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  
+  .icon-start_time:before {
+    content: "\e91a";
+  }
+  .icon-stop_time:before {
+    content: "\e91b";
+  }
   .icon-add_leave:before {
     content: "\e919";
   }

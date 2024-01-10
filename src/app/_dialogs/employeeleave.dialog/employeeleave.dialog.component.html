@@ -13,7 +13,6 @@
                 
             </div>
             <div class="col-12 roles-container">
-                
                 <div class="p-fluid p-formgrid grid">
                     <div class="field col-12 md:col-4 mb-0">
                         <label class="required">Employee Name:</label>
@@ -50,9 +49,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="field col-12 md:col-4 mb-0">
-                        <label class="required">Leave Purpose:</label>
-                        <p-dropdown placeholder="Select Leave Purpose" formControlName="leaveReasonId"
+                    <div class="field col-12 md:col-4 mb-0" *ngIf="hideLeavereason()">
+                        <label class="required">Leave Reason:</label>
+                        <p-dropdown placeholder="Select Leave Reason" formControlName="leaveReasonId"
                             [options]="leaveReasons" optionLabel="name" optionValue="lookupDetailId"
                             id="leaveTypes_Dropdown"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['leaveReasonId'].touched && FormControls['leaveReasonId'].errors }">
@@ -72,7 +71,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="field col-12 md:col-4 mb-0">
+                    <div class="field col-12 md:col-4 mb-0" *ngIf="hideLeavereason()">
                         <label>Is HalfDay Leave:</label>
                         <br>
                         <p-checkbox formControlName="isHalfDayLeave" [binary]="true" inputId="binary"

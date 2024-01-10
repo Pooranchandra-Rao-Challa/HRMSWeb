@@ -1,14 +1,23 @@
 import { Injectable } from '@angular/core';
 import { ApiHttpService } from './api.http.service';
-import { GET_HOLIDAYS_REPORT, GET_LEAVES_REPORT, GET_ASSETS_REPORT,GET_MONTHLY_ATTENDANCE_REPORT, GET_PROJECTS_REPORT, GET_ACTIVE_EMPLOYEES_REPORT, GET_PROJECT_ALLOTMENTS_REPORT, GET_EMPLOYEE_LEAVES_REPORT,GET_ALL_EMPLOYEES_REPORT } from './api.uri.service';
+import { GET_HOLIDAYS_REPORT, GET_LEAVES_REPORT, GET_ASSETS_REPORT,GET_MONTHLY_ATTENDANCE_REPORT, GET_PROJECTS_REPORT, GET_ACTIVE_EMPLOYEES_REPORT, GET_PROJECT_ALLOTMENTS_REPORT, GET_EMPLOYEE_LEAVES_REPORT,GET_ALL_EMPLOYEES_REPORT, GET_YEARLY_ATTENDANCE_REPORT, GET_DATEWISE_ATTENDANCE_REPORT, GET_PROJECTWISE_ATTENDANCE_REPORT } from './api.uri.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReportService extends ApiHttpService {
-
+  
   DownloadMonthlyAttendanceReport(month: number, year: number) {
     return this.downloadExcel(GET_MONTHLY_ATTENDANCE_REPORT, [month, year])
+  }
+  DownloadYearlyAttendanceReport(year: number) {
+    return this.downloadExcel(GET_YEARLY_ATTENDANCE_REPORT, [year])
+  }
+  DownloadDatewiseAttendanceReport(fromDate:string,toDate:string) {
+    return this.downloadExcel(GET_DATEWISE_ATTENDANCE_REPORT, [fromDate,toDate])
+  }
+  DownloadProjectwiseAttendanceReport(fromDate:string,toDate:string,projectId:number) {
+    return this.downloadExcel(GET_PROJECTWISE_ATTENDANCE_REPORT, [fromDate,toDate,projectId])
   }
   DownloadProjects() {
     return this.downloadExcel(GET_PROJECTS_REPORT, [0])
