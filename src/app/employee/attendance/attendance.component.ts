@@ -44,6 +44,7 @@ export class AttendanceComponent {
   leaveReasons: LookupViewDto[] = [];
   dialog: boolean = false;
   fbAttendance!: FormGroup;
+  fbAttendanceReport!:FormGroup;
   fbleave!: FormGroup;
   NotUpdatedAttendanceDatesList: NotUpdatedAttendanceDatesListDto[]
   PreviousAttendance: employeeAttendanceDto[];
@@ -55,12 +56,15 @@ export class AttendanceComponent {
   NotUpdatedEmployees: EmployeesList[] = [];
   showingLeavesOfColors: boolean = false;
   infoMessage: boolean;
+  DatewiseAttendanceReportDialog: boolean = false;
+  AttendanceReportsTypes: any[];
   value: number;
   selfEmployeeLeaveCount: SelfEmployeeDto;
   filteredLeaveReasons: LookupViewDto[] = [];
   employeeLeaveOnDate: EmployeeLeaveOnDateDto[] = [];
   today = new Date(this.year, this.month - 1, this.day);
   canUpdatePreviousDayAttendance: boolean = false;
+  maxDate: Date = new Date();
 
   constructor(
     private adminService: AdminService,
@@ -87,9 +91,17 @@ export class AttendanceComponent {
     this.initDayWorkStatus();
     this.loadLeaveReasons();
     this.getLeaves();
+    this.AttendanceReportsTypes = [
+      { name: 'Montly Attendance Report', code: 'MAR' },
+      { name: 'Datewise Attendance Report', code: 'DAR' }
+    ]
   }
 
   initLeaveForm() {
+    this.fbAttendanceReport=this.formbuilder.group({
+      fromDate:new FormControl('', [Validators.required]),
+      toDate:new FormControl()
+    })
     this.fbAttendance = this.formbuilder.group({
       attendanceId: new FormControl(0),
       notReported: new FormControl(false),
@@ -358,6 +370,9 @@ export class AttendanceComponent {
   get FormControls() {
     return this.fbleave.controls;
   }
+  get FormReportControls() {
+    return this.fbAttendanceReport.controls;
+  }
 
   stringToDate(dateString: string) {
     const stringDateParts = dateString.split('-');
@@ -383,7 +398,6 @@ export class AttendanceComponent {
     const today = new Date();
     let formattedDate = new Date(date);
 
-    // Compare only the year, month, and day parts
     return (
       today.getFullYear() === formattedDate.getFullYear() &&
       today.getMonth() === formattedDate.getMonth() &&
@@ -450,7 +464,7 @@ export class AttendanceComponent {
     }
     this.dialog = false;
   }
-
+  
 
   saveEmployeeLeave() {
     let fromDate = FORMAT_DATE(this.fbleave.get('fromDate').value);
@@ -573,8 +587,30 @@ export class AttendanceComponent {
     dt1.filteredValue = null;
     this.filter.nativeElement.value = '';
   }
+  DownloadAttendanceReport(name: string) {
+    if (name == "Datewise Attendance Report")
+      this.DatewiseAttendanceReportDialog=true;
 
-  downloadAttendanceReport() {
+    else if (name == "Montly Attendance Report")
+      this.downloadMonthlyAttendanceReport()
+  }
+
+  downloadDatewiseAttendanceReport() {
+    this.reportService.DownloadMonthlyAttendanceReport(this.month, this.year)
+      .subscribe((resp) => {
+        if (resp.type === HttpEventType.DownloadProgress) {
+          const percentDone = Math.round(100 * resp.loaded / resp.total);
+          this.value = percentDone;
+        }
+        if (resp.type === HttpEventType.Response) {
+          const file = new Blob([resp.body], { type: 'text/csv' });
+          const document = window.URL.createObjectURL(file);
+          FileSaver.saveAs(document, "MonthlyAttendanceReport.csv");
+        }
+      })
+  }
+
+  downloadMonthlyAttendanceReport() {
     this.reportService.DownloadMonthlyAttendanceReport(this.month, this.year)
       .subscribe((resp) => {
         if (resp.type === HttpEventType.DownloadProgress) {
