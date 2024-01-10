@@ -253,15 +253,10 @@ export class EmployeeLeaveDialogComponent {
   }
 
   save(): Observable<HttpEvent<EmployeeLeaveDto[]>> {
-    debugger
-    
     return this.employeeService.CreateEmployeeLeaveDetails(this.fbLeave.value);
-   
-    
   }
 
   onSubmit() {
-    debugger
     this.fbLeave.get('fromDate').setValue(FORMAT_DATE(new Date(this.fbLeave.get('fromDate').value)));
     this.fbLeave.get('toDate').setValue(this.fbLeave.get('toDate').value ? FORMAT_DATE(new Date(this.fbLeave.get('toDate').value)) : null);
     this.fbLeave.get('url').setValue(this.emailURL);
