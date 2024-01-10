@@ -19,6 +19,8 @@ export class SelfEmployeeDto {
     usedEarnedLeaves?: number;
     usedPrivilegeLeavesInMonth?: number;
     usedPrivilegeLeavesInYear?: number;
+    usedLWPInMonth?: number;
+    usedLWPInYear?: number;
     allottedCasualLeaves?: number;
     allottedPrivilegeLeaves?: number;
     allottedAssets?: string;
@@ -29,6 +31,9 @@ export class SelfEmployeeDto {
     empaddress?: addresses[];
 }
 export class selfEmployeeMonthlyLeaves {
+    employeeName?:string;
+    leaveType?: string;
+    status?: string;
     usedCLsInMonth?: number
     usedPLsInMonth?: number
 }
@@ -65,7 +70,7 @@ export class adminDashboardViewDto {
     employeeLeaveCounts?: string;
     savedemployeeLeaveCounts?: employeeLeaveCounts[];
     employeeBirthdays?: string;
-    savedActiveEmployeesInOffice?:absentEmployees[]
+    savedActiveEmployeesInOffice?: absentEmployees[]
     savedemployeeBirthdays?: employeeBirthdays[];
     employeesOnLeave?: string;
     savedemployeesOnLeave?: employeesOnLeave[];
@@ -73,7 +78,7 @@ export class adminDashboardViewDto {
     savedabsentEmployees?: absentEmployees[];
     calculatedLeaveCount: number;
     totalprojectsCount: number;
-    activeEmployeesInOffice?:string
+    activeEmployeesInOffice?: string
 }
 
 export class activeProjects {
@@ -99,9 +104,9 @@ export class employeesOnLeave {
     employeeName?: string;
     leaveType?: string;
     employeecode?: string;
-    designation?:string;
+    designation?: string;
 }
-export class absentEmployees{
-    employeeStatus?:string;
-    employeesCount?:number;
+export class absentEmployees {
+    employeeStatus?: string;
+    employeesCount?: number;
 }

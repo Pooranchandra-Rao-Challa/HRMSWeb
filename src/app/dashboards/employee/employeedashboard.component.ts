@@ -41,12 +41,12 @@ export class EmployeeDashboardComponent {
     selectedYear: any | undefined;
     holidays: HolidaysViewDto[] = [];
     years: any
-    projects: {name:string, projectLogo: string, description:string, projectId:number, periods:{sinceFrom: Date, endAt:Date}[]}[] = [];
+    projects: { name: string, projectLogo: string, description: string, projectId: number, periods: { sinceFrom: Date, endAt: Date }[] }[] = [];
 
     constructor(private dashBoardService: DashboardService,
         private adminService: AdminService,
         private jwtService: JwtService,
-       // private groupby:GroupByPipe,
+        // private groupby:GroupByPipe,
         private dialogService: DialogService,
         public ref: DynamicDialogRef,
     ) { }
@@ -87,16 +87,12 @@ export class EmployeeDashboardComponent {
     }
 
     initGetLeavesForMonth() {
-        this.dashBoardService.GetEmployeeLeavesForMonth(this.month, this.jwtService.EmployeeId,this.year).subscribe(resp => {
+        this.dashBoardService.GetEmployeeLeavesForMonth(this.month, this.jwtService.EmployeeId, this.year).subscribe(resp => {
             this.monthlyLeaves = resp[0] as unknown as selfEmployeeMonthlyLeaves;
-
         });
     }
 
-
-
     getEmployeeDataBasedOnId() {
-
         this.dashBoardService.GetEmployeeDetails(this.jwtService.EmployeeId).subscribe((resp) => {
             this.empDetails = resp as unknown as SelfEmployeeDto;
             this.empDetails.assets = JSON.parse(this.empDetails.allottedAssets);
@@ -111,28 +107,23 @@ export class EmployeeDashboardComponent {
         })
     }
 
-
-    updateProjects(){
+    updateProjects() {
         let projectNames = this.empDetails.projects.map((item) => item.projectName)
             .filter((value, index, self) => self.indexOf(value) === index);
-            console.log(projectNames);
-            projectNames.forEach(projectName => {
-                let values = this.empDetails.projects.filter(fn => fn.projectName == projectName);
-                let periods: {sinceFrom: Date, endAt:Date}[] = [];
-                values.forEach(p => { periods.push({sinceFrom:p.sinceFrom,endAt:p.endAt }) })
-                this.projects.push(
-                    {
-                        projectId:values[0].projectId,
-                        description:values[0].projectDescription,
-                        name:projectName,
-                        projectLogo: values[0].projectLogo,
-                        periods:periods
-                    }
-                )
-            });
-
-            console.log(this.projects);
-
+        projectNames.forEach(projectName => {
+            let values = this.empDetails.projects.filter(fn => fn.projectName == projectName);
+            let periods: { sinceFrom: Date, endAt: Date }[] = [];
+            values.forEach(p => { periods.push({ sinceFrom: p.sinceFrom, endAt: p.endAt }) })
+            this.projects.push(
+                {
+                    projectId: values[0].projectId,
+                    description: values[0].projectDescription,
+                    name: projectName,
+                    projectLogo: values[0].projectLogo,
+                    periods: periods
+                }
+            )
+        });
     }
 
     gotoPreviousMonthPLs() {
@@ -226,7 +217,7 @@ export class EmployeeDashboardComponent {
     }
 
     gotoPreviousMonthLWP() {
-        if (this.monthlyLWP> 1)
+        if (this.monthlyLWP > 1)
             this.monthlyLWP--;
         else {
             this.monthlyLWP = 12;        // Reset to December
