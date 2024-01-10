@@ -24,8 +24,7 @@
                         <span class="text-700 mr-2">{{ empDetails?.gender}}</span>
                     </span><br />
                     <span class="inline-flex align-items-left mb-2">
-                        <i class="pi pi-envelope text-primary text-700 mr-2" pTooltip="Email"
-                            tooltipPosition="top"></i>
+                        <i class="pi pi-envelope text-primary text-700 mr-2" pTooltip="Email" tooltipPosition="top"></i>
                         <span class="text-700 mr-2">{{ empDetails?.officeEmailId}}</span>
                     </span><br />
                     <span class="inline-flex align-items-left mb-2">
@@ -163,7 +162,7 @@
                     </div>
 
 
-                    <div class="col-12 sm:col-4">
+                    <!-- <div class="col-12 sm:col-4">
                         <div class="card text-0 flex justify-content-between pt-4 h-full"
                             style="background-color: #f03030;">
                             <div class="overview-info">
@@ -193,7 +192,7 @@
                                 <i class="pi pi-angle-right d-leave-font" (click)="gotoNextMonthLWP()"></i>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="col-12 md:col-6 lg:col-3  ">
@@ -217,7 +216,8 @@
                                     <p class="text-primary "><b>{{asset.assetName}}</b></p>
                                     <ng-container *ngIf="asset.thumbnail">
                                         <div class="project_img_dash">
-                                            <img [src]="asset?.thumbnail" [alt]="asset?.thumbnail" class="shadow-2 employee_profile_pic avatar_emp_dboard" />
+                                            <img [src]="asset?.thumbnail" [alt]="asset?.thumbnail"
+                                                class="shadow-2 employee_profile_pic avatar_emp_dboard" />
                                         </div>
                                     </ng-container>
 
@@ -304,15 +304,15 @@
                             <div class="card p-2 text-center"
                                 [ngStyle]="project.periods.length > 0 ? {'color': 'gray'} : {}">
                                 <div class=" project_img_dash ">
-                                    <img [src]="project.projectLogo" [alt]="project.projectLogo" class="shadow-2 my-0 mx-0 employee_profile_pic avatar_projects_dash"
-                                    />
+                                    <img [src]="project.projectLogo" [alt]="project.projectLogo"
+                                        class="shadow-2 my-0 mx-0 employee_profile_pic avatar_projects_dash" />
                                 </div>
-                               
+
 
                                 <h5 class="text-primary m-2">{{project.name}}</h5>
-                                <div *ngFor="let period of project.periods" class="text-left" style=" color:gray">
+                                <div *ngFor="let period of project.periods" style=" border-top: 1px solid #ccc; color:gray">
                                     <span>
-                                      <b>From:</b>  {{period.sinceFrom}} <br/> <b>To:</b> {{period.endAt ? ' - '+period.endAt : ""}}
+                                        {{period.sinceFrom}} {{period.endAt ? ' - '+period.endAt : ""}}
                                     </span>
                                 </div>
                             </div>
@@ -320,7 +320,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
