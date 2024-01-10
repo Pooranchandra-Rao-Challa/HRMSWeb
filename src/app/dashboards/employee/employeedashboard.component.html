@@ -307,12 +307,12 @@
                                     <img [src]="project.projectLogo" [alt]="project.projectLogo" class="shadow-2 my-0 mx-0 employee_profile_pic avatar_projects_dash"
                                     />
                                 </div>
-                               
+
 
                                 <h5 class="text-primary m-2">{{project.name}}</h5>
-                                <div *ngFor="let period of project.periods" class="text-left" style=" color:gray">
-                                    <span>
-                                      <b>From:</b>  {{period.sinceFrom}} <br/> <b>To:</b> {{period.endAt ? ' - '+period.endAt : ""}}
+                                <div *ngFor="let period of project.periods" class="text-left" style=" color:gray; border-top:1px solid #ccc; font-size:12px; font-weight: 700;">
+                                    <span><!--{{period.endAt  ? ' - '+period.endAt : "  Continuing"}}-->
+                                        {{period.sinceFrom | date: 'yyyy-MM-dd'}} - {{ period.endAt ? (period.endAt | date: 'yyyy-MM-dd') : "Progress"}}
                                     </span>
                                 </div>
                             </div>
