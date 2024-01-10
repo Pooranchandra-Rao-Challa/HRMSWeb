@@ -264,8 +264,15 @@ export class EmployeeLeaveDialogComponent {
       this.save().subscribe(resp => {
         if (resp) {
           this.ref.close(true);
-          this.alertMessage.displayAlertMessage(ALERT_CODES["ELD001"]);
+          const leaveType = this.leaveType.find(item => item.lookupDetailId === this.fbLeave.get('leaveTypeId').value);
+          if (leaveType && leaveType.name === 'WFH') {
+            this.alertMessage.displayAlertMessage(ALERT_CODES["WFH001"]);
+          } else {
+            this.alertMessage.displayAlertMessage(ALERT_CODES["ELD001"]);
+          }
         }
+        //   this.alertMessage.displayAlertMessage(ALERT_CODES["ELD001"]);
+        // }
       },
         (error: HttpErrorResponse) => {
           if (error.status === 403) {
@@ -296,5 +303,5 @@ export class EmployeeLeaveDialogComponent {
       return true;
     }
   }
-  
+
 }

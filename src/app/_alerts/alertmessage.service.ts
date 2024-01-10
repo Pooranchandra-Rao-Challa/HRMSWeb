@@ -17,7 +17,7 @@ export class AlertmessageService {
     }
 
     displayMessageforLeave(message: string) {
-        this.service.add({ key: 'tst', severity: 'error', summary: 'Status',detail: message, life: 5000 });
+        this.service.add({ key: 'tst', severity: 'error', summary: 'Status', detail: message, life: 5000 });
     }
 
     displayInfo(message: string) {
@@ -211,30 +211,30 @@ export const ALERT_CODES: { [key: string]: string } = {
     'ELD002': 'Leave Not Applied',
     'ELA001': 'Leave Approved Successfully',
     'ELR002': 'Leave Rejected',
-
+    'WFH001': 'WFH is applied successfully',
     //Job Opening Details
     'JOD001': 'Job Opening Added Successfully',
-    'DPJ001':'There is no Suitable Applicants for this Job.',
+    'DPJ001': 'There is no Suitable Applicants for this Job.',
 
     //    Leave Confirmation
     'ALC001': 'Leave Confirmation Updated Successfully',
     'ALC002': 'Leave Confirmation Updated Failed',
 
     // view applicant
-    'ARVAP001':'Applicant Details Added Successfully',
-    'ARVAP002':'Applicant Details Updated Successfully',
-    'ARVAP003':'Applicant Details saved Failed',
+    'ARVAP001': 'Applicant Details Added Successfully',
+    'ARVAP002': 'Applicant Details Updated Successfully',
+    'ARVAP003': 'Applicant Details saved Failed',
     //Applicant 
-    'AP001':'Applicant Added Successfully',
-    'AP002':'Applicant Updated Successfully',
+    'AP001': 'Applicant Added Successfully',
+    'AP002': 'Applicant Updated Successfully',
     //Recruitment Attributes
-    'RAS001':'Recruitment Attribute Added Successfully',
-    'RAS003':'Recruitment Attribute Not Added',
-    'RAS002':'Recruitment Attribute Updated Successfully',
-    'RAS004':'Recruitment Attribute Not Updated',
+    'RAS001': 'Recruitment Attribute Added Successfully',
+    'RAS003': 'Recruitment Attribute Not Added',
+    'RAS002': 'Recruitment Attribute Updated Successfully',
+    'RAS004': 'Recruitment Attribute Not Updated',
 
     //Leave Configuration
-    'LC001':'Leave Configuration Added Successfully',
-    'LC002':'Leave Configuration Updated Successfully'
+    'LC001': 'Leave Configuration Added Successfully',
+    'LC002': 'Leave Configuration Updated Successfully'
 }
 
