@@ -556,6 +556,7 @@ export class OrgChart {
                 selector: "svg-chart-container"
             })
             .style("background-color", attrs.backgroundColor)
+            .style("height", attrs.svgHeight - 18)
             .attr("width", attrs.svgWidth)
             .attr("height", attrs.svgHeight)
             .attr("font-family", attrs.defaultFont);
