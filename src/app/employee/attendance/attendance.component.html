@@ -130,10 +130,10 @@
     <ng-template pTemplate="right">
         <div *ngIf="permissions?.CanDownloadMonthlyAttendance">
             <p-dropdown [options]="AttendanceReportsTypes" optionLabel="name" placeholder="Select AttendanceReport Type"
-                (onChange)="DownloadAttendanceReport($event.value)" optionValue="name"></p-dropdown>
+                (onChange)="DownloadAttendanceReport($event.value)" optionValue="name" class="att_dropdown"></p-dropdown>
         </div>
         <div *ngIf="permissions?.CanDownloadMonthlyAttendance">
-            <button type="button " pButton icon="icon-csv-svgrepo-com-1" class=" mr-2 doc_button"
+            <button type="button " pButton icon="icon-csv-svgrepo-com-1" class=" mr-2 doc_button att_report_button"
                 pTooltip="Download Attendance Report" tooltipPosition="left"
                 (click)="downloadMonthlyAttendanceReport()"></button>
         </div>
@@ -148,8 +148,8 @@
             </div>
         </div>
         <div *ngIf="canUpdatePreviousDayAttendance && NotUpdatedAttendanceDatesList?.length">
-            <p-dropdown [options]="NotUpdatedAttendanceDatesList" optionValue="date" optionLabel="date"
-                placeholder="Select a Date" [showClear]="true" (onChange)="onDropdownChange($event.value)" class="mr-2">
+            <p-dropdown  [options]="NotUpdatedAttendanceDatesList" optionValue="date" optionLabel="date"
+                placeholder="Select a Date" [showClear]="true" (onChange)="onDropdownChange($event.value)" class="mr-2 ">
                 <ng-template let-option pTemplate="selectedItem">
                     {{ option.dayOfWeek }}, {{ option.date }}
                 </ng-template>
