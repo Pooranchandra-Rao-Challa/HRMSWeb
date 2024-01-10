@@ -311,7 +311,7 @@
 
                                 <h5 class="text-primary m-2">{{project.name}}</h5>
                                 <div *ngFor="let period of project.periods" class="text-left" style=" color:gray; border-top:1px solid #ccc; font-size:12px; font-weight: 700;">
-                                    <span><!--{{period.endAt  ? ' - '+period.endAt : "  Continuing"}}-->
+                                    <span class="icon-start_time"><!--{{period.endAt  ? ' - '+period.endAt : "  Continuing"}}-->
                                         {{period.sinceFrom | date: 'yyyy-MM-dd'}} - {{ period.endAt ? (period.endAt | date: 'yyyy-MM-dd') : "Progress"}}
                                     </span>
                                 </div>
