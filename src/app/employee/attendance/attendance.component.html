@@ -135,7 +135,7 @@
         <div *ngIf="permissions?.CanDownloadAttendance">
             <button type="button " pButton icon="icon-csv-svgrepo-com-1" class=" mr-2 doc_button doc_button att_report_button"
                 pTooltip="Download Attendance Report" tooltipPosition="left"
-                (click)="downloadMonthlyAttendanceReport()"></button>
+                ></button>
         </div>
         <div class="pr-2">
             <div>
@@ -342,7 +342,7 @@
                     <label class="required">Project:</label>&nbsp;
                     <p-dropdown formControlName="projectId" [options]="this.projects" optionLabel="name"
                         [ngClass]="{ 'is-invalid ng-dirty': FormProjectReportControls['projectId'].touched && FormProjectReportControls['projectId'].errors }"
-                        (onChange)="checkLeaveType($event.value)" id="Attendance_leaveType" optionValue="projectId"
+                          id="Attendance_leaveType" optionValue="projectId"
                         placeholder="Select Project" appendTo="body"></p-dropdown>
                     <div class="flex">
                         <div class="align-left w-60" style="width:70%">
