@@ -168,9 +168,9 @@ export const GET_ALLOTED_LEAVES = "Attendance/GetAllottedLeavesBasedOnEId"
 // Admin Dashboard
 export const GET_ADMIN_DASHBOARD = "AdminDashboard/GetAdminDashboard"
 
-
 //Reports
-export const GET_MONTHLY_ATTENDANCE_REPORT = "Report/MonthlyAttendanceReport";
+export const GET_MONTHLY_ATTENDANCE_REPORT = "Report/AttendanceReportBasedOnYearAndMonth";
+export const GET_YEARLY_ATTENDANCE_REPORT = "Report/AttendanceReportBasedOnYear";
 export const GET_PROJECTS_REPORT = "Report/ProjectDetailsReport";
 export const GET_HOLIDAYS_REPORT = "Report/HolidaysReport";
 export const GET_EMPLOYEE_LEAVES_REPORT = "Report/EmployeeLeavesReport"
