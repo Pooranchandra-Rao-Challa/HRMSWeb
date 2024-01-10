@@ -50,8 +50,8 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4 mb-0" *ngIf="hideLeavereason()">
-                        <label class="required">Leave Purpose:</label>
-                        <p-dropdown placeholder="Select Leave Purpose" formControlName="leaveReasonId"
+                        <label class="required">Leave Reason:</label>
+                        <p-dropdown placeholder="Select Leave Reason" formControlName="leaveReasonId"
                             [options]="leaveReasons" optionLabel="name" optionValue="lookupDetailId"
                             id="leaveTypes_Dropdown"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['leaveReasonId'].touched && FormControls['leaveReasonId'].errors }">

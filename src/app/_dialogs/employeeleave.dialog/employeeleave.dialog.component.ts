@@ -70,8 +70,8 @@ export class EmployeeLeaveDialogComponent {
 
   ngOnInit(): void {
     this.getEmployees();
-    this.getLeaveTypes();
     this.leaveForm();
+    this.getLeaveTypes();
   }
 
 
@@ -262,8 +262,6 @@ export class EmployeeLeaveDialogComponent {
     this.fbLeave.get('url').setValue(this.emailURL);
     if (this.fbLeave.valid) {
       this.save().subscribe(resp => {
-        console.log(resp);
-        
         if (resp) {
           this.ref.close(true);
           this.alertMessage.displayAlertMessage(ALERT_CODES["ELD001"]);
