@@ -70,8 +70,8 @@ export class EmployeeLeaveDialogComponent {
 
   ngOnInit(): void {
     this.getEmployees();
-    this.getLeaveTypes();
     this.leaveForm();
+    this.getLeaveTypes();
   }
 
 
@@ -253,22 +253,15 @@ export class EmployeeLeaveDialogComponent {
   }
 
   save(): Observable<HttpEvent<EmployeeLeaveDto[]>> {
-    debugger
-    
     return this.employeeService.CreateEmployeeLeaveDetails(this.fbLeave.value);
-   
-    
   }
 
   onSubmit() {
-    debugger
     this.fbLeave.get('fromDate').setValue(FORMAT_DATE(new Date(this.fbLeave.get('fromDate').value)));
     this.fbLeave.get('toDate').setValue(this.fbLeave.get('toDate').value ? FORMAT_DATE(new Date(this.fbLeave.get('toDate').value)) : null);
     this.fbLeave.get('url').setValue(this.emailURL);
     if (this.fbLeave.valid) {
       this.save().subscribe(resp => {
-        console.log(resp);
-        
         if (resp) {
           this.ref.close(true);
           this.alertMessage.displayAlertMessage(ALERT_CODES["ELD001"]);
