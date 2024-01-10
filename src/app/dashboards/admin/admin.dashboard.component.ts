@@ -67,22 +67,19 @@ export class AdminDashboardComponent implements OnInit {
                 {
                     data: [present, absent, PrevlageLeaves, CasualLeaves, WrokFromHome, leaveWithoutPay],
                     backgroundColor: [documentStyle.getPropertyValue('--inofc-b'), documentStyle.getPropertyValue('--abst-b'), documentStyle.getPropertyValue('--pl-b'), documentStyle.getPropertyValue('--cl-b'), documentStyle.getPropertyValue('--wfh-b'), documentStyle.getPropertyValue('--lwp-b')],
-                    borderColor: surfaceBorder,
-                    pointStyle: 'circle',
+                    borderColor: surfaceBorder
                 }
             ]
         };
         this.pieOptions = {
             animation: {
-                duration: 500
+                duration: 5
             },
             plugins: {
                 legend: {
-                    display: true,
+                    display: false,
                     labels: {
-                        display: true,
-                        usePointStyle: true
-                        
+                        display: false
                     },
                     position: 'bottom'
                 }
