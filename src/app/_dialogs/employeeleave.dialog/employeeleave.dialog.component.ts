@@ -9,7 +9,7 @@ import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.s
 import { FORMAT_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { EmployeesList, HolidaysViewDto, LookupViewDto } from 'src/app/_models/admin';
 import { MaxLength } from 'src/app/_models/common';
-import { SelfEmployeeDto } from 'src/app/_models/dashboard';
+import { SelfEmployeeDto, selfEmployeeMonthlyLeaves } from 'src/app/_models/dashboard';
 import { EmployeeLeaveDto } from 'src/app/_models/employes';
 import { AdminService } from 'src/app/_services/admin.service';
 import { DashboardService } from 'src/app/_services/dashboard.service';
@@ -33,13 +33,16 @@ export class EmployeeLeaveDialogComponent {
   filteringClsPls: any;
   disabledDates: Date[] = [];
   holidays: HolidaysViewDto[] = [];
-  year: string;
   minDate: Date = new Date(new Date());
   maxDate: Date = new Date(new Date()); // Set the maxDate to a future date
   emailURL: string;
   errorMessage: string;
   empDetails: SelfEmployeeDto;
   currentRoute: any;
+  year: number = new Date().getFullYear();
+  month: number = new Date().getMonth() + 1;
+  monthlyLeaves: selfEmployeeMonthlyLeaves[] = [];
+  dialog: boolean = false;
 
   constructor(
     private formbuilder: FormBuilder,
@@ -56,8 +59,8 @@ export class EmployeeLeaveDialogComponent {
     this.emailURL = `${platformLocation.protocol}//${platformLocation.hostname}:${platformLocation.port}/`
     const today = new Date();
     const currentYear = today.getFullYear();
-    this.year = new Date().getFullYear().toString(); // Set year dynamically
-    this.adminService.GetHolidays(this.year).subscribe(
+    let year = new Date().getFullYear().toString(); // Set year dynamically
+    this.adminService.GetHolidays(year).subscribe(
       (response) => {
         this.holidays = response as unknown as HolidaysViewDto[];
         this.initializeDisabledDates(currentYear);
@@ -188,6 +191,37 @@ export class EmployeeLeaveDialogComponent {
     })
   }
 
+  handleLeaveTypeChange() {
+    const selectedLeaveType = this.FormControls['leaveTypeId'].value;
+    var employeeState = this.FormControls['employeeId'].disable;
+    var empId: number;
+    if (employeeState) {
+      empId = this.FormControls['employeeId'].value;
+    }
+    else {
+      empId = this.jwtService.EmployeeId;
+    }
+    this.onLeavetypeChange(selectedLeaveType, empId);
+  }
+
+  onLeavetypeChange(leavetypeId: number, employeeId: number) {
+    if (leavetypeId === 270) {
+      this.dashBoardService.GetEmployeeLeavesForMonth(this.month, employeeId, this.year)
+        .subscribe(resp => {
+          this.monthlyLeaves = resp as unknown as selfEmployeeMonthlyLeaves[];
+          const hasApprovedCLInMonth = this.monthlyLeaves.some(leave => leave.leaveType === 'CL' && leave.status === 'Approved');
+          if (hasApprovedCLInMonth) {
+            const leaveWithEmployeeName = this.monthlyLeaves.find(leave => leave.employeeName);
+            const empName = leaveWithEmployeeName ? leaveWithEmployeeName.employeeName : 'Unknown';
+            const monthName = new Date(this.year, this.month - 1, 1).toLocaleString('default', { month: 'long' });
+            const errorMessage = `${empName} has already used the CL in this ${monthName} Month.`;
+            this.alertMessage.displayErrorMessage(errorMessage);
+            this.FormControls['leaveTypeId'].setValue(null);
+          }
+        });
+    }
+  }
+
   onEmployeeSelect(event: any) {
     this.dashBoardService.GetEmployeeDetails(event.value).subscribe((resp) => {
       this.empDetails = resp as unknown as SelfEmployeeDto;
@@ -245,6 +279,7 @@ export class EmployeeLeaveDialogComponent {
   get FormControls() {
     return this.fbLeave.controls;
   }
+
   onChangeIsHalfDay() {
     const isHalfDayLeave = this.fbLeave.get('isHalfDayLeave').value;
     if (!isHalfDayLeave) {
