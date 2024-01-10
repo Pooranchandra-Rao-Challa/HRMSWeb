@@ -33,9 +33,11 @@ import {
   GET_EMPLOYEE_LEAVE_ONDATE,
   UPDATE_PREVIOUS_ATTENDANCE,
   GET_EMPLOYEE_PHOTO,
+  Get_NotUpdated_AttendanceDates_List,
+  GET_ALL_EMPLOYEES_FOR_REPORT,
 
 } from './api.uri.service';
-import { ExperienceDetailsDto, SkillArea, AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments, employeeExperienceDtlsViewDto, FamilyDetailsViewDto, employeeAttendanceDto, EmployeeLeaveDto, EmployeeAttendanceList, CompanyHierarchyViewDto, EmployeeProfilePicViewDto, LeaveStatistics, EmployeeLeaveOnDateDto } from '../_models/employes';
+import { ExperienceDetailsDto, SkillArea, AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments, employeeExperienceDtlsViewDto, FamilyDetailsViewDto, employeeAttendanceDto, EmployeeLeaveDto, EmployeeAttendanceList, CompanyHierarchyViewDto, EmployeeProfilePicViewDto, LeaveStatistics, EmployeeLeaveOnDateDto, EmployeeReportDtlDto } from '../_models/employes';
 
 import { ApiHttpService } from './api.http.service';
 import { LookupViewDto } from '../_models/admin';
@@ -52,6 +54,11 @@ export class EmployeeService extends ApiHttpService {
   public GetAttendance(month: number, year: number) {
     return this.getWithParams<employeeAttendanceDto>(GET_ATTENDENCE, [month, year]);
   }
+
+  public GetNotUpdatedAttendanceDatesList(month: number, year: number){
+    return this.getWithParams(Get_NotUpdated_AttendanceDates_List, [month, year]);
+  }
+
   public DeleteDocument(documentId: number) {
     return this.post(DELETE_DOCUMENT + '/' + documentId, null);
   }
@@ -110,6 +117,7 @@ export class EmployeeService extends ApiHttpService {
   public GetEmployees(IsEnrolled: boolean) {
     return this.getWithParams<EmployeesViewDto[]>(GET_EMPLOYEES_URI,[IsEnrolled]);
   }
+
   //personal Details of Employee
   public CreateBasicDetails(basicdetails: EmployeeBasicDetailDto) {
     return this.post<EmployeeBasicDetailDto>(CREATE_BASIC_DETAILS_URI, basicdetails);
@@ -142,8 +150,6 @@ export class EmployeeService extends ApiHttpService {
       documents,
       header, params);
   }
-
-
   //Familly Details of Employee
   public CreateFamilyDetails(family: FamilyDetailsDto[]) {
     return this.post<FamilyDetailsDto[]>(CREATE_FAMILY_DETAILS_URI, family)
@@ -259,5 +265,9 @@ export class EmployeeService extends ApiHttpService {
 
   public getEmployeePhoto(employeeId){
     return this.getWithId<string>(GET_EMPLOYEE_PHOTO,employeeId)
+  }
+
+  public getReportingEmpDtls(employeeId: number) {
+    return this.getWithId<EmployeeReportDtlDto[]>(GET_ALL_EMPLOYEES_FOR_REPORT, [employeeId])
   }
 }

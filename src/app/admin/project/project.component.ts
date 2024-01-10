@@ -297,9 +297,16 @@ export class ProjectComponent implements OnInit {
         this.adminService.GetProjects().subscribe(resp => {
             this.projects = resp as unknown as ProjectViewDto[];
             this.projects = this.projects.reverse();
+            this.projects.forEach(project =>{
+                this.getProjectLogo(project);
+            })
         });
     }
-
+    getProjectLogo(project:ProjectViewDto){
+        return this.adminService.GetProjectLogo(project.projectId).subscribe((resp)=> {
+            project.logo = (resp as any).ImageData;
+        })
+    }
     ProjectWithCharts() {
         let projectDTO: ProjectViewDto = new ProjectViewDto;
         projectDTO.projectId = -1;

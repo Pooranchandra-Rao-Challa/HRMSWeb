@@ -1,21 +1,22 @@
 <div class="grid">
-    <div class="col-12 lg:col-3 md:col-5 sm:col-6 ">
+    <div class="col-12 lg:col-2 md:col-5 sm:col-6 ">
         <div class="grid" style="margin: -1rem">
             <div class="col-12 sm:col">
                 <div class="card surface-card text-500 flex justify-content-between pt-4 h-full"
-                    style="min-width: 17rem">
+                    style="min-width:100%">
                     <div class="overview-info">
                         <h6 class="m-0 mb-1 text-500">Total Employees</h6>
                         <h1 class="m-0 text-500">{{admindashboardDtls?.activeEmployees}}</h1>
                     </div>
-                    <div (click)="navigateEmpDtls()">
+                    <div (click)="navigateEmpDtls()" class="att-pointer" pTooltip="Navigate Employees"
+                    tooltipPosition="top">
                         <i class="pi pi-users text-3xl"></i>
                     </div>
                 </div>
             </div>
             <div class="col-12 sm:col">
                 <div class="card text-0 flex justify-content-between pt-4 h-full"
-                    style="background-color: var(--primary-color); min-width: 17rem">
+                    style="background-color: var(--primary-color); min-width: 100%">
                     <div class="overview-info">
                         <h6 class="m-0 mb-1 text-0">On Leave</h6>
                         <h1 class="m-0 text-0"
@@ -23,34 +24,53 @@
                             {{ admindashboardDtls?.calculatedLeaveCount ?
                             admindashboardDtls?.calculatedLeaveCount : 'Today,there is no employees Leaves.' }}</h1>
                     </div>
-                    <div (click)="navigateAttendence()">
+                    <div class="att-pointer" (click)="navigateAttendence()" pTooltip="Navigate Attendence"
+                    tooltipPosition="top">
+                        <i class="pi pi-user-minus text-3xl"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 sm:col">
+                <div class="card text-0 flex justify-content-between pt-4 h-full"
+                    style="background-color: var(--primary-color); min-width: 100%">
+                    <div class="overview-info">
+                        <h6 class="m-0 mb-1 text-0">On WFH</h6>
+                        <h1 class="m-0 text-0"
+                            [ngClass]="{'text-white': admindashboardDtls?.calculatedLeaveCount, 'text-14': !admindashboardDtls?.calculatedLeaveCount}">
+                            {{ admindashboardDtls?.calculatedLeaveCount ?
+                            admindashboardDtls?.calculatedLeaveCount : 'Today,there is no employees Leaves.' }}</h1>
+                    </div>
+                    <div class="att-pointer" (click)="navigateAttendence()" pTooltip="Navigate Attendence"
+                    tooltipPosition="top">
                         <i class="pi pi-user-minus text-3xl"></i>
                     </div>
                 </div>
             </div>
             <div class="col-12 sm:col">
                 <div class="card bg-gray-400 text-white flex justify-content-between pt-4 h-full"
-                    style="min-width: 17rem">
+                    style="min-width:100%">
                     <div class="overview-info">
                         <h6 class="m-0 mb-1 text-white">Total Projects</h6>
                         <h1 class="m-0 text-white">
                             {{ admindashboardDtls?.totalprojectsCount }}
                         </h1>
                     </div>
-                    <div (click)="navigateProjects()">
+                    <div (click)="navigateProjects()" class="att-pointer" pTooltip="Navigate Projects"
+                    tooltipPosition="top">
                         <i class="pi pi-clone text-3xl"></i>
                     </div>
                 </div>
             </div>
             <div class="col-12 sm:col">
                 <div class="card bg-gray-600 text-white flex justify-content-between pt-4 h-full"
-                    style="min-width: 17rem">
+                    style="min-width:100%">
                     <div class="overview-info">
                         <h6 class="m-0 mb-1 text-white">Suspended Projects</h6>
                         <h1 class="m-0 text-white">{{admindashboardDtls?.savedsupsendedProjects[0]?.projectStatusCount}}
                         </h1>
                     </div>
-                    <div (click)="navigateProjects()">
+                    <div (click)="navigateProjects()" class="att-pointer" pTooltip="Navigate Projects"
+                    tooltipPosition="top">
                         <i class="pi pi-stop text-3xl"></i>
                     </div>
                 </div>
@@ -65,26 +85,40 @@
                 </div>
             </div>
             <div class="mb-1">
-                <div class="grid">
-                    <div class="col-6 flex py-0">
-                        <i class="pi pi-circle-fill text-primary-300 m-1"></i><span>In Office </span>
+                <div class="grid px-3" >
+                    <div class="col-3 p-0"> 
+                        <div class="flex align-items-center">
+                            <p-radioButton name="pizza" value="Cheese" id="charts"></p-radioButton>
+                            <label for="ingredient1" class="" id="charts-label">Day</label>
+                        </div>
                     </div>
-                    <div class="col-6 flex py-0">
-                        <i class="pi pi-circle-fill text-red-300 m-1"></i><span>Absent</span>
+                    <div class="col-3 p-0"> 
+                        <div class="flex align-items-center">
+                            <p-radioButton name="pizza" value="Cheese" id="charts"></p-radioButton>
+                            <label for="ingredient1" class="" id="charts-label">Month</label>
+                        </div>
                     </div>
-                    <div class="col-6 flex py-0">
-                        <i class="pi pi-circle-fill text-green-300 m-1"></i><span>PL</span>
+                    <div class="col-3 p-0"> 
+                        <div class="flex align-items-center">
+                            <p-radioButton name="pizza" value="Cheese" id="charts"></p-radioButton>
+                            <label for="ingredient1" class="" id="charts-label">Year</label>
+                        </div>
                     </div>
-                    <div class="col-6 flex py-0">
-                        <i class="pi pi-circle-fill text-blue-300 m-1"></i><span>CL</span>
-                    </div>
-                    <div class="col-6 flex py-0 ">
-                        <i class="pi pi-circle-fill text-yellow-300 m-1"></i><span>WFH</span>
+                    <div class="col-3 p-0"> 
+                        <i class="pi pi-angle-left d-leave-font" >
+                        </i>
+                        <p-calendar styleClass="only-icon" [showIcon]="true" id="charts_date_picker"
+                            view="month" [yearNavigator]="true" yearRange="2000:2030" [readonlyInput]="true"
+                            inputId="monthpicker"  pTooltip="Monthly PL's"
+                            tooltipPosition="bottom">
+                        </p-calendar>
+                        <i class="pi pi-angle-right d-leave-font" ></i>
                     </div>
                 </div>
+              
                 <ul class="list-none p-0 m-0">
                     <li *ngIf="this.admindashboardDtls?.savedActiveEmployeesInOffice?.length > 0; else noDataMessage">
-                        <p-chart type="doughnut" [data]="pieDataforAttendance" [options]="pieOptions" height="135px"
+                        <p-chart type="doughnut" [data]="pieDataforAttendance" [options]="pieOptions" height="270px"
                             width="100%"></p-chart>
                     </li>
                     <ng-template #noDataMessage>
@@ -96,6 +130,7 @@
                         </div>
                     </ng-template>
                 </ul>
+                
             </div>
         </div>
         <div class="card pb-5 pt-5  chart_card">
@@ -105,27 +140,14 @@
                 </div>
             </div>
             <div class="mb-0">
-                <div class="grid">
-                    <div class="col-6 flex py-0">
-                        <i class="pi pi-circle-fill text-primary-300 m-1"></i><span>Initial </span>
-                    </div>
-                    <div class="col-6 flex py-0">
-                        <i class="pi pi-circle-fill text-red-300 m-1"></i><span>Dev</span>
-                    </div>
-                    <div class="col-6 flex py-0">
-                        <i class="pi pi-circle-fill text-green-300 m-1"></i><span>Com</span>
-                    </div>
-                    <div class="col-6 flex py-0">
-                        <i class="pi pi-circle-fill text-blue-300 m-1"></i><span>AMC</span>
-                    </div>
-                </div>
+               
                 <ul class="list-none p-0 m-1">
-                    <li *ngIf="this.admindashboardDtls?.savedactiveProjects?.length > 0; else noDataMessage">
-                        <p-chart type="doughnut" [data]="pieDataforProjects" [options]="pieOptions" height="135px"
+                    <li *ngIf="this.admindashboardDtls?.savedactiveProjects?.length > 0; else noDataMessageprojects">
+                        <p-chart type="doughnut" [data]="pieDataforProjects" [options]="pieOptions" height="250px"
                             width="100%">
                         </p-chart>
                     </li>
-                    <ng-template #noDataMessage>
+                    <ng-template #noDataMessageprojects>
                         <div class="text-center mt-5">
                             <div class="border-round-lg pt-5 px-5 pb-5 mb-3"
                                 style="background-color: var(--primary-lighter-color)">
@@ -137,7 +159,7 @@
             </div>
         </div>
     </div>
-    <div class="col-12 lg:col-6 md:col-12 sm:col-12">
+    <div class="col-12 lg:col-7 md:col-12 sm:col-12">
         <div class="col-12 xl:col-12 pt-1">
             <div class="grid">
                 <div class="col-12  xl:col-12">
@@ -160,7 +182,7 @@
                                 </ng-template>
 
                                 <ul class="list-none p-0 overflow-auto"
-                                    style="margin: 0 -1.5rem -1rem; max-height: 17.745rem">
+                                    style="margin: 0 -1.5rem -1rem; max-height:220px">
                                     <ng-container
                                         *ngIf="admindashboardDtls?.savedemployeesOnLeave && admindashboardDtls?.savedemployeesOnLeave?.length > 0; else noDataTemplate">
                                         <li *ngFor="let employee of admindashboardDtls?.savedemployeesOnLeave"

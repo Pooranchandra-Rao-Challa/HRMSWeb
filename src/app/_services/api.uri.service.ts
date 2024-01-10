@@ -72,6 +72,7 @@ export const GET_EMPLOYEESLIST = "Employee/GetEmployeesForProject";
 export const UNASSIGNED_EMPLOYEE_URI = "Admin/InactiveProjectAllotment";
 export const GET_EMPLOYEE_HIERARCHY_BASED_ON_PROJECTS = "Admin/GetEmployeeHierarchy";
 export const GET_EMPLOYEE_ROLES_INFO = "Admin/GetERoles";
+export const GET_PROJECT_LOGO = "Admin/GetProjectLogo";
 
 //EMPLOYEE
 export const GET_EMPLOYEES_URI = "Employee/GetEmployeeDetails";
@@ -105,9 +106,11 @@ export const DELETE_DOCUMENT = "UploadDocument/DeleteUploadDocument";
 export const GET_PATH = "UploadDocument/DownloadFile";
 export const GET_EMPLOYEE_PROFILE_PIC = "Employee/GetEmployeeBasicInfo";
 export const GET_EMPLOYEE_PHOTO = "Employee/GetEmployeePhoto";
+export const GET_ALL_EMPLOYEES_FOR_REPORT ="Employee/GetEmployeesForReporting";
 //Attendence
 
 export const GET_ATTENDENCE = "Attendance/GetMonthlyAttendanceReport";
+export const Get_NotUpdated_AttendanceDates_List="Attendance/GetNotUpdatedAttendanceDates"
 export const POST_LISTOF_ATTENDANCES = "Attendance/CreateAttendanceForEmployees";
 export const GET_MY_LEAVE_DETAILS = "Attendance/GetLeavesForSelfEmployee";
 export const GET_EMPLOYEE_LEAVE_DETAILS = "Attendance/GetEmployeeLeaves";

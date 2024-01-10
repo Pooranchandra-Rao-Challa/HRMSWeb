@@ -346,6 +346,10 @@ export class employeeAttendanceDto {
 	EmployeeName?: string;
 	dates?: { [date: string]: string | {} };
 }
+export class NotUpdatedAttendanceDatesListDto{
+	date?:string;
+	dayOfWeek?:string
+}
 
 export class EmployeeLeaveDto {
 	employeeLeaveId?: number;
@@ -458,6 +462,8 @@ export class LeaveStatistics{
 	usedLWPInYear?:number;
 	usedLWPInMonth?:number;
     workingFromHome?:number;
+	availableCLs?:any;
+	availablePLs?:any;
 }
 
 export class EmployeeLeaveOnDateDto
@@ -470,4 +476,10 @@ export class EmployeeLeaveOnDateDto
     comments?: string
     fromDate?: Date
     toDate?: Date
+}
+
+export class EmployeeReportDtlDto{
+	employeeId?: number;
+	employeeName?: string;
+	employeeCode?: string;
 }

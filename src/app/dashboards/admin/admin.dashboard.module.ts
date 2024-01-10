@@ -18,6 +18,7 @@ import { TabViewModule } from 'primeng/tabview';
 import { TagModule } from 'primeng/tag';
 import { MenuModule } from 'primeng/menu';
 import { BadgeModule } from 'primeng/badge';
+import { PrimengModule } from 'src/app/_shared/primeng.module';
 
 @NgModule({
     imports: [
@@ -38,7 +39,8 @@ import { BadgeModule } from 'primeng/badge';
         TabViewModule,
         TagModule,
         MenuModule,
-        BadgeModule
+        BadgeModule,
+        PrimengModule
     ],
     declarations: [AdminDashboardComponent]
 })

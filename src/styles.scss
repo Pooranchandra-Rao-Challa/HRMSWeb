@@ -17,6 +17,20 @@ $gutter: 1rem; //for primeflex grid system
 // @import 'assets/demo/styles/flags/flags.css';
 // @import 'assets/demo/styles/badges.scss';
 // @import 'assets/demo/styles/code.scss';
+:root {
+    --wfh-t: #f9e000;
+    --wfh-b: #daf59c;
+    --inofc-t: #f17606;
+    --inofc-b: #ffba85;
+    --abst-t: red;
+    --abst-b: #f65f5f;
+    --pl-t: #03066b;
+    --pl-b: #909ff2;
+    --cl-t: #bc00808a;
+    --cl-b: #f49ede;
+    --lwp-t: #bd0848;
+    --lwp-b: #f86398;
+}
 
 .gradient_background {
     background-image: linear-gradient(160deg, white, #e6bd97);
@@ -416,6 +430,7 @@ p-calendar input {
 .card-height {
     height: 90%;
 }
+
 .pair {
     display: flex;
     align-items: center;
@@ -807,6 +822,9 @@ div.d-leave {
         overflow: auto;
         height: calc(100vh - 120px);
         background-color: #fff2e5;
+        border-left: 1px solid #ccc;
+        border-right: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
     }
 }
 
@@ -1026,9 +1044,11 @@ p-fieldset.allott-employee {
 .highlight-new-row {
     background-color: #ffffab !important;
 }
-.highlight-new-row .p-calendar{
+
+.highlight-new-row .p-calendar {
     background-color: #fff !important;
 }
+
 // table grid header colors
 .p-datatable-table .p-datatable-thead tr th {
     background-color: #ff810e;
@@ -1102,4 +1122,51 @@ app-attendance .p-datatable-table tbody tr td:first-child {
 @media (max-width: 959px) {
 	.ShowOnMobile{display:inherit; opacity:1;}
 	.ShowOnDesktop{display:none; opacity:0;}
+}
+.dashboardwfh {
+    color: var(--wfh-b);
+}
+
+.dashboardinoffice {
+    color: var(--inofc-b);
+}
+
+.dashboardabsent {
+    color: var(--abst-b);
+}
+
+.dashboardpl {
+    color: var(--pl-b);
+}
+
+.dashboardcl {
+    color: var(--cl-b);
+}
+
+.dashboardlwp {
+    color: var(--lwp-b);
+}
+
+#charts .p-radiobutton .p-radiobutton-box{
+    width: 15px !important;
+    height: 15px !important;
+    margin-top:2px !important;
+}
+#charts .p-radiobutton{
+    width: 18px !important;
+    height: 18px !important;
+}
+#charts-label{
+    font-size: 14px;
+}
+.chart-info .pi{
+    font-size:12px;
+    
+}
+.chart-info{
+    font-size:12px;
+}
+#charts_date_picker .p-button.p-button-icon-only{
+    width: 2rem;
+    padding: 0.40rem 0;
 }
