@@ -822,6 +822,9 @@ div.d-leave {
         overflow: auto;
         height: calc(100vh - 120px);
         background-color: #fff2e5;
+        border-left: 1px solid #ccc;
+        border-right: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
     }
 }
 
