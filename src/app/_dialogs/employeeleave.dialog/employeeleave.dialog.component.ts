@@ -7,7 +7,7 @@ import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { FORMAT_DATE } from 'src/app/_helpers/date.formate.pipe';
-import { EmployeesList, HolidaysViewDto, LookupViewDto } from 'src/app/_models/admin';
+import { EmployeesList, HolidaysViewDto, LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
 import { MaxLength } from 'src/app/_models/common';
 import { SelfEmployeeDto } from 'src/app/_models/dashboard';
 import { EmployeeLeaveDto } from 'src/app/_models/employes';
@@ -24,7 +24,7 @@ import { LookupService } from 'src/app/_services/lookup.service';
 export class EmployeeLeaveDialogComponent {
   fbLeave!: FormGroup;
   employees: EmployeesList[] = [];
-  leaveType: LookupViewDto[] = [];
+  leaveType: LookupDetailsDto[] = [];
   leaveReasons: LookupViewDto[] = [];
   leaves: EmployeeLeaveDto[] = [];
   filteredLeaveTypes: LookupViewDto[] = [];
@@ -40,7 +40,7 @@ export class EmployeeLeaveDialogComponent {
   errorMessage: string;
   empDetails: SelfEmployeeDto;
   currentRoute: any;
-
+  selectedLeaveType: string;
   constructor(
     private formbuilder: FormBuilder,
     private adminService: AdminService,
@@ -182,9 +182,7 @@ export class EmployeeLeaveDialogComponent {
 
   getLeaveReasonsByLeaveTypeId(id: number) {
     this.lookupService.LeaveReasons(id).subscribe(resp => {
-      if (resp) {
-        this.leaveReasons = resp as unknown as LookupViewDto[];
-      }
+      this.leaveReasons = resp as unknown as LookupViewDto[];
     })
   }
 
@@ -230,7 +228,7 @@ export class EmployeeLeaveDialogComponent {
       toDate: new FormControl(null),
       isHalfDayLeave: new FormControl(false),
       leaveTypeId: new FormControl('', [Validators.required]),
-      leaveReasonId: new FormControl('', [Validators.required]),
+      leaveReasonId: new FormControl(null),
       note: new FormControl('', [Validators.required]),
       acceptedBy: new FormControl(null),
       acceptedAt: new FormControl(null),
@@ -255,7 +253,7 @@ export class EmployeeLeaveDialogComponent {
   }
 
   save(): Observable<HttpEvent<EmployeeLeaveDto[]>> {
-    return this.employeeService.CreateEmployeeLeaveDetails(this.fbLeave.value)
+    return this.employeeService.CreateEmployeeLeaveDetails(this.fbLeave.value);
   }
 
   onSubmit() {
@@ -264,6 +262,8 @@ export class EmployeeLeaveDialogComponent {
     this.fbLeave.get('url').setValue(this.emailURL);
     if (this.fbLeave.valid) {
       this.save().subscribe(resp => {
+        console.log(resp);
+        
         if (resp) {
           this.ref.close(true);
           this.alertMessage.displayAlertMessage(ALERT_CODES["ELD001"]);
@@ -283,4 +283,20 @@ export class EmployeeLeaveDialogComponent {
     }
   }
 
+  hideLeavereason() {
+    const leaveReasonControl = this.fbLeave.get('leaveReasonId');
+    const selectedLeaveTypeId = this.fbLeave.get('leaveTypeId').value;
+    const leaveType = this.leaveType.find(item => item.lookupDetailId === selectedLeaveTypeId);
+    if (leaveType && leaveType.name === 'WFH') {
+      // If leave type is 'WFH', remove validators for 'leaveReasonId'
+      leaveReasonControl.clearValidators();
+      leaveReasonControl.setErrors(null);
+      return false;
+    } else {
+      // If leave type is not 'WFH', set validators for 'leaveReasonId'
+      leaveReasonControl.setValidators([Validators.required]);
+      return true;
+    }
+  }
+  
 }
