@@ -1152,3 +1152,35 @@ app-attendance .p-datatable-table tbody tr td:first-child {
 .att_report_button{
     border-radius: 0px 5px 5px 0px !important;
 }
+#charts .p-radiobutton .p-radiobutton-box{
+    width: 15px !important;
+    height: 15px !important;
+    margin-top:2px !important;
+}
+#charts .p-radiobutton{
+    width: 18px !important;
+    height: 18px !important;
+}
+#charts-label{
+    font-size: 14px;
+}
+.chart-info .pi{
+    font-size:12px;
+    
+}
+.chart-info{
+    font-size:12px;
+}
+#charts_date_picker .p-button.p-button-icon-only{
+    width: 2rem;
+    padding: 0.40rem 0;
+}
+.employee_card_dashboard{
+    min-height: 330px;
+}
+.project_employye_card{
+    min-height: 70px;
+}
+.confirmation_dialog .p-dialog{
+    width:40% !important;
+}
