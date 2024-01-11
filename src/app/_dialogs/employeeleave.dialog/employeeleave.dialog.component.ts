@@ -46,6 +46,7 @@ export class EmployeeLeaveDialogComponent {
   selectedLeaveType: string;
   empName: string;
   monthName: string;
+  hasPendingLeaveInMonth: any;
 
   constructor(
     private formbuilder: FormBuilder,
@@ -201,44 +202,6 @@ export class EmployeeLeaveDialogComponent {
     })
   }
 
-  handleLeaveTypeChange() {
-    const selectedLeaveType = this.FormControls['leaveTypeId'].value;
-    var employeeState = this.FormControls['employeeId'].disable;
-    var empId: number;
-    if (employeeState) {
-      empId = this.FormControls['employeeId'].value;
-    }
-    else {
-      empId = this.jwtService.EmployeeId;
-    }
-    this.onLeavetypeChange(selectedLeaveType, empId);
-  }
-
-  onLeavetypeChange(leavetypeId: number, employeeId: number) {
-    if (leavetypeId === 270) {
-      this.dashBoardService.GetEmployeeLeavesForMonth(this.month, employeeId, this.year)
-        .subscribe(resp => {
-          this.monthlyLeaves = resp as unknown as selfEmployeeMonthlyLeaves[];
-          const hasApprovedCLInMonth = this.monthlyLeaves.some(leave => leave.leaveType === 'CL' && leave.status === 'Approved');
-          const hasPendingLeaveInMonth = this.monthlyLeaves.some(leave => leave.leaveType === 'CL' && leave.status === 'Pending');
-          if (hasApprovedCLInMonth) {
-            const leaveWithEmployeeName = this.monthlyLeaves.find(leave => leave.employeeName);
-            this.empName = leaveWithEmployeeName ? leaveWithEmployeeName.employeeName : 'Unknown';
-            this.monthName = new Date(this.year, this.month - 1, 1).toLocaleString('default', { month: 'long' });
-            const errorMessage = `${this.empName} has already used the CL in this ${this.monthName} Month.`;
-            this.alertMessage.displayErrorMessage(errorMessage);
-            this.FormControls['leaveTypeId'].setValue(null);
-          }
-          else if (hasPendingLeaveInMonth) {
-            this.dialog = true;
-            const leaveWithEmployeeName = this.monthlyLeaves.find(leave => leave.employeeName);
-            this.empName = leaveWithEmployeeName ? leaveWithEmployeeName.employeeName : 'Unknown';
-            this.monthName = new Date(this.year, this.month - 1, 1).toLocaleString('default', { month: 'long' });
-          }
-        });
-    }
-  }
-
   onClose() {
     this.dialog = false;
   }
@@ -269,6 +232,8 @@ export class EmployeeLeaveDialogComponent {
       fromDate: new FormControl('', [Validators.required]),
       toDate: new FormControl(null),
       isHalfDayLeave: new FormControl(false),
+      isDeleted: new FormControl(false),
+      isFromAttendance: new FormControl(false),
       leaveTypeId: new FormControl('', [Validators.required]),
       leaveReasonId: new FormControl(null),
       note: new FormControl('', [Validators.required]),
@@ -299,6 +264,31 @@ export class EmployeeLeaveDialogComponent {
     return this.employeeService.CreateEmployeeLeaveDetails(this.fbLeave.value);
   }
 
+  confirmation() {
+    var employeeState = this.FormControls['employeeId'].disable;
+    var empId: number;
+    if (employeeState) {
+      empId = this.FormControls['employeeId'].value;
+    }
+    else {
+      empId = this.jwtService.EmployeeId;
+    }
+    this.dashBoardService.GetEmployeeLeavesForMonth(this.month, empId, this.year)
+      .subscribe(resp => {
+        this.monthlyLeaves = resp as unknown as selfEmployeeMonthlyLeaves[];
+        this.hasPendingLeaveInMonth = this.monthlyLeaves.some(leave => leave.leaveType === 'CL' && leave.status === 'Pending');
+        if (this.hasPendingLeaveInMonth) {
+          this.dialog = true;
+          const leaveWithEmployeeName = this.monthlyLeaves.find(leave => leave.employeeName);
+          this.empName = leaveWithEmployeeName ? leaveWithEmployeeName.employeeName : 'Unknown';
+          this.monthName = new Date(this.year, this.month - 1, 1).toLocaleString('default', { month: 'long' });
+        }
+        else{
+          this.onSubmit();
+        }
+      });
+  }
+
   onSubmit() {
     this.fbLeave.get('fromDate').setValue(FORMAT_DATE(new Date(this.fbLeave.get('fromDate').value)));
     this.fbLeave.get('toDate').setValue(this.fbLeave.get('toDate').value ? FORMAT_DATE(new Date(this.fbLeave.get('toDate').value)) : null);
@@ -307,11 +297,16 @@ export class EmployeeLeaveDialogComponent {
       this.save().subscribe(resp => {
         if (resp) {
           this.ref.close(true);
+          let result = resp as unknown as any;
+          if (!result.isSuccess || (result.isSuccess && result.message !== null)) {
+            this.alertMessage.displayErrorMessage(result.message);
+          }
+          else {
+            this.alertMessage.displayAlertMessage(ALERT_CODES["ELD001"]);
+          }
           const leaveType = this.leaveType.find(item => item.lookupDetailId === this.fbLeave.get('leaveTypeId').value);
           if (leaveType && leaveType.name === 'WFH') {
             this.alertMessage.displayAlertMessage(ALERT_CODES["WFH001"]);
-          } else {
-            this.alertMessage.displayAlertMessage(ALERT_CODES["ELD001"]);
           }
         }
       },

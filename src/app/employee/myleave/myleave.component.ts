@@ -63,8 +63,6 @@ export class MyleaveComponent {
   getLeaves() {
     this.employeeService.getMyLeaves(this.jwtService.EmployeeId,this.year).subscribe((resp) => {
       this.leaves = resp as unknown as EmployeeLeaveDto[];
-      //console.log(this.leaves);
-
     })
   }
 

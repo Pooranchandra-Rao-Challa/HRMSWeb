@@ -11,7 +11,8 @@
             [alwaysShowPaginator]="false" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
             [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
             [showCurrentPageReport]="true" [globalFilterFields]="globalFilterFields" paginatorDropdownAppendTo="body"
-            scrollDirection="horizontal" [rowsPerPageOptions]="[10,25,50]" [autoLayout]="true" responsiveLayout="scroll"  [tableStyle]="{ width: 'max'}">
+            scrollDirection="horizontal" [rowsPerPageOptions]="[10,25,50]" [autoLayout]="true" responsiveLayout="scroll"
+            [tableStyle]="{ width: 'max'}">
             <ng-template pTemplate="caption">
                 <div class="flex justify-content-between flex-column sm:flex-row">
                     <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
@@ -25,6 +26,7 @@
             </ng-template>
             <ng-template pTemplate="header">
                 <tr>
+                    <th>Actions</th>
                     <th *ngFor="let col of headers" [pSortableColumn]="col.header">
                         {{col?.label}}
                         <p-columnFilter type="text" [field]="col.header" id="Leaves_ColumnFilter" display="menu">
@@ -35,6 +37,10 @@
             </ng-template>
             <ng-template pTemplate="body" let-leave>
                 <tr>
+                    <td>
+                        <button pButton pRipple icon="pi pi-trash" id="delete"
+                            class="p-element p-ripple  p-button col-2 p-0"></button>
+                    </td>
                     <td *ngFor="let col of headers"
                         [ngClass]="{'text-center':col?.field == 'status','text-wrap':col.field === 'note'}">
                         <span
