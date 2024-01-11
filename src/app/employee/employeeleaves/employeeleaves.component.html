@@ -66,7 +66,8 @@
                         </p-columnFilter>
                         <p-sortIcon [field]="col.header"></p-sortIcon>
                     </th>
-                    <th *ngIf="permissions?.CanManageLeave" pFrozenColumn alignFrozen="right" [frozen]="true"> Actions
+                    <th *ngIf="permissions?.CanManageLeave || permissions?.CanDeleteLeaves" pFrozenColumn
+                        alignFrozen="right" [frozen]="true"> Actions
                     </th>
                 </tr>
             </ng-template>
@@ -105,7 +106,14 @@
                             </ng-template>
                         </span>
                     </td>
-                    <td pFrozenColumn alignFrozen="right" [frozen]="true">
+                    <td  pFrozenColumn alignFrozen="right" [frozen]="true">
+                        <div *ngIf="permissions?.CanDeleteLeaves">
+                            <div *ngIf="leave.isLeaveUsed !== true && leave.isDeleted !== true">
+                                <button pButton pRipple icon="pi pi-trash" id="delete"
+                                    class="p-element p-ripple p-button-outlined p-button-danger p-button col-2 p-0"
+                                    (click)="deleteleaveDetails(leave.leaveTypeId)"></button>
+                            </div>
+                        </div>
                         <div *ngIf="permissions?.CanManageLeave">
                             <div class="flex" *ngIf="leave.status === 'Pending'">
                                 <button pButton pRipple icon="pi pi-check" id="Leave_Approved_Button"
@@ -115,11 +123,6 @@
                                     class="p-element p-ripple p-button-outlined p-button-danger p-button col-2 p-0"
                                     (click)="openSweetAlert('Reason for Reject',leave)"></button>
                             </div>
-                        </div>
-                        <div *ngIf="leave.isLeaveUsed !== true && leave.isDeleted !== true">
-                            <button pButton pRipple icon="pi pi-trash" id="delete"
-                                class="p-element p-ripple p-button-outlined p-button-danger p-button col-2 p-0"
-                                (click)="deleteleaveDetails(leave.leaveTypeId)"></button>
                         </div>
                     </td>
                 </tr>
