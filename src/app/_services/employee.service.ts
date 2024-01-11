@@ -272,7 +272,7 @@ export class EmployeeService extends ApiHttpService {
     return this.getWithId<EmployeeReportDtlDto[]>(GET_ALL_EMPLOYEES_FOR_REPORT, [employeeId])
   }
 
-  public DeleteleaveDetails(leaveID:number){
-    return this.post(DELETE_LEAVE_DETAILS+'/'+leaveID,null);
+  public DeleteleaveDetails(leaveTypeId:number){
+    return this.post(DELETE_LEAVE_DETAILS+'/'+leaveTypeId,null);
   }
 }

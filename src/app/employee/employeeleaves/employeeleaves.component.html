@@ -106,7 +106,7 @@
                         </span>
                     </td>
                     <td pFrozenColumn alignFrozen="right" [frozen]="true">
-                        <div  *ngIf="permissions?.CanManageLeave">
+                        <div *ngIf="permissions?.CanManageLeave">
                             <div class="flex" *ngIf="leave.status === 'Pending'">
                                 <button pButton pRipple icon="pi pi-check" id="Leave_Approved_Button"
                                     class="p-element p-ripple  p-button  p-button-outlined p-button-success mr-3 p-0"
@@ -116,9 +116,9 @@
                                     (click)="openSweetAlert('Reason for Reject',leave)"></button>
                             </div>
                         </div>
-                        <div *ngIf="!leave.isLeaveUsed && leave.isDeleted == null">
+                        <div *ngIf="leave.isLeaveUsed !== true && leave.isDeleted !== true">
                             <button pButton pRipple icon="pi pi-trash" id="delete"
-                            class="p-element p-ripple p-button-outlined p-button-danger p-button col-2 p-0"
+                                class="p-element p-ripple p-button-outlined p-button-danger p-button col-2 p-0"
                                 (click)="deleteleaveDetails(leave.leaveTypeId)"></button>
                         </div>
                     </td>
