@@ -9,7 +9,7 @@ import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.s
 import { FORMAT_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { EmployeesList, HolidaysViewDto, LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
 import { MaxLength } from 'src/app/_models/common';
-import { SelfEmployeeDto } from 'src/app/_models/dashboard';
+import { SelfEmployeeDto, selfEmployeeMonthlyLeaves } from 'src/app/_models/dashboard';
 import { EmployeeLeaveDto } from 'src/app/_models/employes';
 import { AdminService } from 'src/app/_services/admin.service';
 import { DashboardService } from 'src/app/_services/dashboard.service';
@@ -33,14 +33,20 @@ export class EmployeeLeaveDialogComponent {
   filteringClsPls: any;
   disabledDates: Date[] = [];
   holidays: HolidaysViewDto[] = [];
-  year: string;
   minDate: Date = new Date(new Date());
   maxDate: Date = new Date(new Date()); // Set the maxDate to a future date
   emailURL: string;
   errorMessage: string;
   empDetails: SelfEmployeeDto;
   currentRoute: any;
+  year: number = new Date().getFullYear();
+  month: number = new Date().getMonth() + 1;
+  monthlyLeaves: selfEmployeeMonthlyLeaves[] = [];
+  dialog: boolean = false;
   selectedLeaveType: string;
+  empName: string;
+  monthName: string;
+
   constructor(
     private formbuilder: FormBuilder,
     private adminService: AdminService,
@@ -56,8 +62,8 @@ export class EmployeeLeaveDialogComponent {
     this.emailURL = `${platformLocation.protocol}//${platformLocation.hostname}:${platformLocation.port}/`
     const today = new Date();
     const currentYear = today.getFullYear();
-    this.year = new Date().getFullYear().toString(); // Set year dynamically
-    this.adminService.GetHolidays(this.year).subscribe(
+    let year = new Date().getFullYear().toString(); // Set year dynamically
+    this.adminService.GetHolidays(year).subscribe(
       (response) => {
         this.holidays = response as unknown as HolidaysViewDto[];
         this.initializeDisabledDates(currentYear);
@@ -71,7 +77,6 @@ export class EmployeeLeaveDialogComponent {
   ngOnInit(): void {
     this.getEmployees();
     this.leaveForm();
-    this.getLeaveTypes();
   }
 
 
@@ -165,7 +170,7 @@ export class EmployeeLeaveDialogComponent {
           this.employees = [selectedEmployee];
         }
         if (defaultEmployeeId) {
-          this.getEmployeeDataBasedOnId(defaultEmployeeId);
+          this.handleEmployeeLeaves();
         }
       } else if (this.currentRoute.startsWith('/employee/employeeleaves')) {
         this.employees = resp as unknown as EmployeesList[];
@@ -177,6 +182,16 @@ export class EmployeeLeaveDialogComponent {
     this.lookupService.DayWorkStatus().subscribe(resp => {
       this.leaveType = resp as unknown as LookupViewDto[];
       this.filteredLeaveTypes = this.leaveType.filter(item => !this.filterCriteria.includes(item.name));
+      this.filteringClsPls = (
+        (this.empDetails.allottedPrivilegeLeaves - this.empDetails.usedPrivilegeLeavesInYear) > 0 &&
+        (this.empDetails.allottedCasualLeaves - this.empDetails.usedCasualLeavesInYear) > 0
+      ) ? [] : ['PL', 'CL'];
+      this.filteredLeaveTypes = this.leaveType.filter(item => {
+        if (item.name === 'CL' && (this.empDetails.allottedCasualLeaves - this.empDetails.usedCasualLeavesInYear) > 0) {
+          return true;
+        }
+        return !this.filteringClsPls.includes(item.name) && !this.filterCriteria.includes(item.name) && item.name !== 'LWP';
+      });
     })
   }
 
@@ -186,37 +201,64 @@ export class EmployeeLeaveDialogComponent {
     })
   }
 
-  onEmployeeSelect(event: any) {
-    this.dashBoardService.GetEmployeeDetails(event.value).subscribe((resp) => {
-      this.empDetails = resp as unknown as SelfEmployeeDto;
-      this.filteringClsPls = (
-        (this.empDetails.allottedPrivilegeLeaves - this.empDetails.usedPrivilegeLeavesInYear) > 0 &&
-        (this.empDetails.allottedCasualLeaves - this.empDetails.usedCasualLeavesInYear) > 0
-      ) ? [] : ['PL', 'CL'];
-      this.filteredLeaveTypes = this.leaveType.filter(item => {
-        if (item.name === 'CL' && (this.empDetails.allottedCasualLeaves - this.empDetails.usedCasualLeavesInYear) > 0) {
-          return true;
-        }
-        return !this.filteringClsPls.includes(item.name) && !this.filterCriteria.includes(item.name) && item.name !== 'LWP';
-      });
-    });
+  handleLeaveTypeChange() {
+    const selectedLeaveType = this.FormControls['leaveTypeId'].value;
+    var employeeState = this.FormControls['employeeId'].disable;
+    var empId: number;
+    if (employeeState) {
+      empId = this.FormControls['employeeId'].value;
+    }
+    else {
+      empId = this.jwtService.EmployeeId;
+    }
+    this.onLeavetypeChange(selectedLeaveType, empId);
   }
 
-  getEmployeeDataBasedOnId(employeeId: number) {
+  onLeavetypeChange(leavetypeId: number, employeeId: number) {
+    if (leavetypeId === 270) {
+      this.dashBoardService.GetEmployeeLeavesForMonth(this.month, employeeId, this.year)
+        .subscribe(resp => {
+          this.monthlyLeaves = resp as unknown as selfEmployeeMonthlyLeaves[];
+          const hasApprovedCLInMonth = this.monthlyLeaves.some(leave => leave.leaveType === 'CL' && leave.status === 'Approved');
+          const hasPendingLeaveInMonth = this.monthlyLeaves.some(leave => leave.leaveType === 'CL' && leave.status === 'Pending');
+          if (hasApprovedCLInMonth) {
+            const leaveWithEmployeeName = this.monthlyLeaves.find(leave => leave.employeeName);
+            this.empName = leaveWithEmployeeName ? leaveWithEmployeeName.employeeName : 'Unknown';
+            this.monthName = new Date(this.year, this.month - 1, 1).toLocaleString('default', { month: 'long' });
+            const errorMessage = `${this.empName} has already used the CL in this ${this.monthName} Month.`;
+            this.alertMessage.displayErrorMessage(errorMessage);
+            this.FormControls['leaveTypeId'].setValue(null);
+          }
+          else if (hasPendingLeaveInMonth) {
+            this.dialog = true;
+            const leaveWithEmployeeName = this.monthlyLeaves.find(leave => leave.employeeName);
+            this.empName = leaveWithEmployeeName ? leaveWithEmployeeName.employeeName : 'Unknown';
+            this.monthName = new Date(this.year, this.month - 1, 1).toLocaleString('default', { month: 'long' });
+          }
+        });
+    }
+  }
+
+  onClose() {
+    this.dialog = false;
+  }
+
+  handleEmployeeLeaves() {
+    var employeeState = this.FormControls['employeeId'].disable;
+    var empId: number;
+    if (employeeState) {
+      empId = this.FormControls['employeeId'].value;
+    }
+    else {
+      empId = this.jwtService.EmployeeId;
+    }
+    this.onEmployeeSelect(empId);
+  }
+
+  onEmployeeSelect(employeeId: number) {
     this.dashBoardService.GetEmployeeDetails(employeeId).subscribe((resp) => {
       this.empDetails = resp as unknown as SelfEmployeeDto;
-      this.filteringClsPls = (
-        (this.empDetails.allottedPrivilegeLeaves - this.empDetails.usedPrivilegeLeavesInYear) > 0 &&
-        (this.empDetails.allottedCasualLeaves - this.empDetails.usedCasualLeavesInYear) > 0
-      ) ? [] : ['PL', 'CL'];
-
-      this.filteredLeaveTypes = this.leaveType.filter(item => {
-        if (item.name === 'CL' && (this.empDetails.allottedCasualLeaves - this.empDetails.usedCasualLeavesInYear) > 0) {
-          return true;
-        }
-        return !this.filteringClsPls.includes(item.name) && !this.filterCriteria.includes(item.name) && item.name !== 'LWP';
-        ;
-      });
+      this.getLeaveTypes();
     });
   }
 
@@ -243,6 +285,7 @@ export class EmployeeLeaveDialogComponent {
   get FormControls() {
     return this.fbLeave.controls;
   }
+
   onChangeIsHalfDay() {
     const isHalfDayLeave = this.fbLeave.get('isHalfDayLeave').value;
     if (!isHalfDayLeave) {

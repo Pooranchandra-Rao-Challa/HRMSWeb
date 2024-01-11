@@ -3,14 +3,16 @@
         <div class="grid mt-3 p-5 pt-2">
             <div class="col-12 text-center">
                 <p-chip styleClass="pl-0 pr-3 mr-4">
-                    <span class="bg-primary border-circle w-2rem h-2rem flex align-items-center justify-content-center">{{empDetails?.allottedCasualLeaves-empDetails?.usedCasualLeavesInYear}}</span>
+                    <span
+                        class="bg-primary border-circle w-2rem h-2rem flex align-items-center justify-content-center">{{empDetails?.allottedCasualLeaves-empDetails?.usedCasualLeavesInYear}}</span>
                     <span class="ml-2 font-medium">Casual Leaves</span>
                 </p-chip>
                 <p-chip styleClass="pl-0 pr-3">
-                    <span class="bg-primary border-circle w-2rem h-2rem flex align-items-center justify-content-center">{{empDetails?.allottedPrivilegeLeaves-empDetails?.usedPrivilegeLeavesInYear}}</span>
+                    <span
+                        class="bg-primary border-circle w-2rem h-2rem flex align-items-center justify-content-center">{{empDetails?.allottedPrivilegeLeaves-empDetails?.usedPrivilegeLeavesInYear}}</span>
                     <span class="ml-2 font-medium">Privilege Leaves</span>
                 </p-chip>
-                
+
             </div>
             <div class="col-12 roles-container">
                 <div class="p-fluid p-formgrid grid">
@@ -18,7 +20,8 @@
                         <label class="required">Employee Name:</label>
                         <p-dropdown id="employeeName_Dropdown" appendTo="body" [filter]="true" [options]="employees"
                             optionLabel="employeeName" optionValue="employeeId" placeholder="Select Employee Name"
-                            formControlName="employeeId" (onChange)="onEmployeeSelect($event)" [readonly]="this.currentRoute === '/dashboard/employee'"
+                            formControlName="employeeId" (onChange)="handleEmployeeLeaves()"
+                            [readonly]="this.currentRoute === '/dashboard/employee'"
                             [ngClass]="{'is-invalid ng-dirty': FormControls['employeeId'].touched && FormControls['employeeId'].errors}">
                         </p-dropdown>
                         <div class="flex">
@@ -35,15 +38,25 @@
                         <label class="required">Leave Type:</label>
                         <p-dropdown placeholder="Select Leave Type" formControlName="leaveTypeId"
                             [options]="filteredLeaveTypes" optionLabel="name" optionValue="lookupDetailId"
-                            id="leaveTypes_Dropdown" (onChange)="getLeaveReasonsByLeaveTypeId($event.value)" 
+                            id="leaveTypes_Dropdown"
+                            (onChange)="getLeaveReasonsByLeaveTypeId($event.value); handleLeaveTypeChange()"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['leaveTypeId'].touched && FormControls['leaveTypeId'].errors }">
                         </p-dropdown>
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
-                                <span
+                                <!-- <span
                                     *ngIf="FormControls['leaveTypeId'].touched && FormControls['leaveTypeId'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="FormControls['leaveTypeId'].errors?.['required']">
+                                        Please Select Leave Type.</div>
+                                </span> -->
+                                <span
+                                    *ngIf="FormControls['leaveTypeId'].touched && FormControls['leaveTypeId'].invalid">
+                                    <div class="ng-invalid ng-touched p-error" *ngIf=" FormControls['employeeId'].untouched && FormControls['leaveTypeId'].touched ||
+                                FormControls['employeeId'].invalid && FormControls['leaveTypeId'].touched">
+                                        Please Select Employee Name First.</div>
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf=" FormControls['employeeId'].touched && FormControls['leaveTypeId'].errors?.['required'] &&  FormControls['employeeId'].valid">
                                         Please Select Leave Type.</div>
                                 </span>
                             </div>
@@ -60,13 +73,12 @@
                             <div class="align-left w-60" style="width:70%">
                                 <span
                                     *ngIf="FormControls['leaveReasonId'].touched && FormControls['leaveReasonId'].invalid">
-                                    <div class="ng-invalid ng-touched p-error" 
-                                    *ngIf=" FormControls['leaveTypeId'].untouched && FormControls['leaveReasonId'].touched ||
+                                    <div class="ng-invalid ng-touched p-error" *ngIf=" FormControls['leaveTypeId'].untouched && FormControls['leaveReasonId'].touched ||
                                     FormControls['leaveTypeId'].invalid && FormControls['leaveReasonId'].touched">
                                         Please Select Leave Type First.</div>
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf=" FormControls['leaveTypeId'].touched && FormControls['leaveReasonId'].errors?.['required'] &&  FormControls['leaveTypeId'].valid">
-                                        Please Select Leave Purpose.</div>
+                                        Please Select Leave Reason.</div>
                                 </span>
                             </div>
                         </div>
@@ -129,3 +141,19 @@
     <button pButton pRipple type="submit" label="Add Leave" class="p-button-raised p-button-primary"
         id="SubmitLeaveForm" [disabled]="fbLeave.invalid" (click)="onSubmit()"></button>
 </div>
+
+
+<p-dialog header="Confirmation" [(visible)]="dialog" [modal]="true" showEffect="fade"
+[breakpoints]="{'960px': '40%', '640px': '50%'}" class="confirmation_dialog">
+    <p class="p-5">
+        Already '{{this.empName}}' applied for a CL in this '{{this.monthName}}' Month and its not approved, So do you
+        need to revert this CL,
+        Please confirm this by Clicking 'Confirm' else 'Cancle'.
+    </p>
+    <ng-template pTemplate="footer">
+        <div style="float:right" class="p-2">
+            <button pButton type="button" class="btn btn-primary" label="Confirm"></button>
+            <button pButton type="button" class="btn btn-primary" label="Cancle" (click)="onClose()"></button>
+        </div>
+    </ng-template>
+</p-dialog>

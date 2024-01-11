@@ -12,6 +12,7 @@ export class AdminDashboardComponent implements OnInit {
     pieDataforAttendance: any;
     pieOptions: any;
     pieDataforProjects: any;
+    chartFilled: boolean;
     constructor(private dashboardService: DashboardService,
         private router: Router) { }
 
@@ -33,7 +34,7 @@ export class AdminDashboardComponent implements OnInit {
                 return sum + leaveTypeData.leaveTypeCount;
             }, 0);
             this.admindashboardDtls.calculatedLeaveCount = leaveTypeCountsSum;
-
+          
             // Parse and check if active projects are available
             this.admindashboardDtls.savedactiveProjects = JSON.parse(this.admindashboardDtls?.activeProjects) || [];
             const activeProjectssum = this.admindashboardDtls?.savedactiveProjects.reduce((sum, activeProjectsData) => {
@@ -47,6 +48,7 @@ export class AdminDashboardComponent implements OnInit {
             this.admindashboardDtls.savedemployeesOnLeave = JSON.parse(this.admindashboardDtls?.employeesOnLeave) || [];
             this.admindashboardDtls.savedabsentEmployees = JSON.parse(this.admindashboardDtls?.absentEmployees) || [];
             this.admindashboardDtls.savedActiveEmployeesInOffice = JSON.parse(this.admindashboardDtls?.activeEmployeesInOffice) || [];
+            this.chartFilled = this.admindashboardDtls.savedActiveEmployeesInOffice.length > 0;
             this.initChart();
         });
     }
