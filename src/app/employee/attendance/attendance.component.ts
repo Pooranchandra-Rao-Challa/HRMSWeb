@@ -137,14 +137,13 @@ export class AttendanceComponent {
       approvedBy: new FormControl(null),
       approvedAt: new FormControl(null),
       rejected: new FormControl(null),
+      isFromAttendance: new FormControl(null),
     });
   }
 
   initProjects() {
     this.adminService.GetProjects().subscribe(resp => {
       this.projects = resp as unknown as ProjectViewDto[];
-      console.log(resp);
-
     });
   }
   initDayWorkStatus() {
@@ -488,22 +487,29 @@ export class AttendanceComponent {
 
   saveEmployeeLeave() {
     let fromDate = FORMAT_DATE(this.fbleave.get('fromDate').value);
-    this.employeeService.UpdateEmployeeLeaveFromAttendance(this.fbleave.value).subscribe(resp => {
-      if (resp) {
-        this.alertMessage.displayAlertMessage(ALERT_CODES["ELD001"]);
-        if (fromDate < this.today) {
-          const StatusId = this.LeaveTypes.find(each => each.name == "PT").lookupDetailId;
-          this.fbAttendance.patchValue({
-            employeeId: this.fbleave.get('employeeId').value,
-            dayWorkStatusId: StatusId,
-            date: fromDate,
-            notReported: false
-          });
-          this.saveAttendance([this.fbAttendance.value]);
-        }
-      }
+    this.fbleave.get('isFromAttendance').setValue(true);
+    this.employeeService.CreateEmployeeLeaveDetails(this.fbleave.value).subscribe(resp => {
+      let rdata = resp as unknown as any;
+      if (!rdata.isSuccess)
+        this.alertMessage.displayErrorMessage(rdata.message);
       else
-        return this.alertMessage.displayErrorMessage(ALERT_CODES["ELR002"]);
+        if (resp) {
+          if (rdata.message)
+            this.alertMessage.displayAlertMessage(rdata.message)
+          else
+            this.alertMessage.displayAlertMessage(ALERT_CODES["ELD001"]);
+          if (fromDate < this.today) {
+            const StatusId = this.LeaveTypes.find(each => each.name == "PT").lookupDetailId;
+            this.fbAttendance.patchValue({
+              employeeId: this.fbleave.get('employeeId').value,
+              dayWorkStatusId: StatusId,
+              date: fromDate,
+              notReported: false
+            });
+            this.saveAttendance([this.fbAttendance.value]);
+          }
+        }
+
       this.initAttendance();
       this.getLeaves();
     });
@@ -624,7 +630,7 @@ export class AttendanceComponent {
       formatDate(new Date(fromDateValue), 'yyyy-MM-dd', 'en'),
       formatDate(new Date(toDateValue), 'yyyy-MM-dd', 'en'),
       this.fbProjectwiseAttendanceReport.get('projectId').value
-      )
+    )
       .subscribe((resp) => {
         if (resp.type === HttpEventType.DownloadProgress) {
           const percentDone = Math.round(100 * resp.loaded / resp.total);
@@ -645,7 +651,7 @@ export class AttendanceComponent {
     this.reportService.DownloadDatewiseAttendanceReport(
       formatDate(new Date(fromDateValue), 'yyyy-MM-d', 'en'),
       formatDate(new Date(toDateValue), 'yyyy-MM-d', 'en'),
-      )
+    )
       .subscribe((resp) => {
         if (resp.type === HttpEventType.DownloadProgress) {
           const percentDone = Math.round(100 * resp.loaded / resp.total);

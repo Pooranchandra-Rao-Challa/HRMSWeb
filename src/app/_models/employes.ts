@@ -363,6 +363,7 @@ export class EmployeeLeaveDto {
 	leaveReasonId?:number;
 	isHalfDayLeave?:boolean;
 	leaveType?: string;
+	isFromAttendance?:boolean
 	note?: string;
 	previousWorkStatusId?:number
 	dayWorkStatusId?:number
