@@ -107,6 +107,7 @@ export const GET_PATH = "UploadDocument/DownloadFile";
 export const GET_EMPLOYEE_PROFILE_PIC = "Employee/GetEmployeeBasicInfo";
 export const GET_EMPLOYEE_PHOTO = "Employee/GetEmployeePhoto";
 export const GET_ALL_EMPLOYEES_FOR_REPORT ="Employee/GetEmployeesForReporting";
+export const DELETE_LEAVE_DETAILS ="Attendance/DeleteLeave";
 //Attendence
 
 export const GET_ATTENDENCE = "Attendance/GetMonthlyAttendanceReport";
