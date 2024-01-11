@@ -12,7 +12,6 @@ export class ConfirmationDialogService {
     constructor(private confirmationService: ConfirmationService) { }
 
     comfirmationDialog(confirmRequest: ConfirmationRequest): Observable<boolean> {
-      
         this.confirmationService.confirm({
             message: confirmRequest.message,
             header: confirmRequest.header,

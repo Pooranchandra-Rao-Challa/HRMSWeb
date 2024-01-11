@@ -213,6 +213,8 @@ export const ALERT_CODES: { [key: string]: string } = {
     'ELR002': 'Leave Rejected',
     'WFH001': 'WFH is Applied successfully',
     'WFH002': 'WFH is Failed to Applied',
+    'ELA003': 'Leave Deleted Successfully',
+    'ELA004': 'Leave Deleted Failed',
     //Job Opening Details
     'JOD001': 'Job Opening Added Successfully',
     'DPJ001': 'There is no Suitable Applicants for this Job.',
@@ -237,5 +239,7 @@ export const ALERT_CODES: { [key: string]: string } = {
     //Leave Configuration
     'LC001': 'Leave Configuration Added Successfully',
     'LC002': 'Leave Configuration Updated Successfully'
+
+
 }
 

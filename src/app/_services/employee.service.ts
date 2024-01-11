@@ -35,6 +35,7 @@ import {
   GET_EMPLOYEE_PHOTO,
   Get_NotUpdated_AttendanceDates_List,
   GET_ALL_EMPLOYEES_FOR_REPORT,
+  DELETE_LEAVE_DETAILS,
 
 } from './api.uri.service';
 import { ExperienceDetailsDto, SkillArea, AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments, employeeExperienceDtlsViewDto, FamilyDetailsViewDto, employeeAttendanceDto, EmployeeLeaveDto, EmployeeAttendanceList, CompanyHierarchyViewDto, EmployeeProfilePicViewDto, LeaveStatistics, EmployeeLeaveOnDateDto, EmployeeReportDtlDto } from '../_models/employes';
@@ -55,7 +56,7 @@ export class EmployeeService extends ApiHttpService {
     return this.getWithParams<employeeAttendanceDto>(GET_ATTENDENCE, [month, year]);
   }
 
-  public GetNotUpdatedAttendanceDatesList(month: number, year: number){
+  public GetNotUpdatedAttendanceDatesList(month: number, year: number) {
     return this.getWithParams(Get_NotUpdated_AttendanceDates_List, [month, year]);
   }
 
@@ -107,15 +108,15 @@ export class EmployeeService extends ApiHttpService {
   public UpdateEmployeeLeaveFromAttendance(data: EmployeeLeaveDto) {
     return this.post<EmployeeAttendanceList>(UPDATE_EMPLOYEE_LEAVE_DETAILS, data);
   }
-  public updatePreviousDayEmployeeAttendance(data:EmployeeLeaveDto){
+  public updatePreviousDayEmployeeAttendance(data: EmployeeLeaveDto) {
     return this.post<EmployeeLeaveDto>(UPDATE_PREVIOUS_ATTENDANCE, data);
   }
   //Search Employee
-  public GetEmployeesBasedonstatus(IsEnrolled: boolean,EmployeeStatus:String) {
-    return this.getWithParams<EmployeesViewDto[]>(GET_EMPLOYEES_BASED_ON_STATUS_URI,[IsEnrolled,EmployeeStatus]);
+  public GetEmployeesBasedonstatus(IsEnrolled: boolean, EmployeeStatus: String) {
+    return this.getWithParams<EmployeesViewDto[]>(GET_EMPLOYEES_BASED_ON_STATUS_URI, [IsEnrolled, EmployeeStatus]);
   }
   public GetEmployees(IsEnrolled: boolean) {
-    return this.getWithParams<EmployeesViewDto[]>(GET_EMPLOYEES_URI,[IsEnrolled]);
+    return this.getWithParams<EmployeesViewDto[]>(GET_EMPLOYEES_URI, [IsEnrolled]);
   }
 
   //personal Details of Employee
@@ -234,12 +235,12 @@ export class EmployeeService extends ApiHttpService {
     return this.post<ExperienceDetailsDto>(UPDATE_EXPERIENCE_DETAILS, empExpDtls);
   }
 
-  public getEmployeeLeaveDetails(month:number,year:number) {
-    return this.getWithParams<EmployeeLeaveDto[]>(GET_EMPLOYEE_LEAVE_DETAILS,[month,year])
+  public getEmployeeLeaveDetails(month: number, year: number) {
+    return this.getWithParams<EmployeeLeaveDto[]>(GET_EMPLOYEE_LEAVE_DETAILS, [month, year])
   }
 
-  public getMyLeaves(employeeId: number,year:number) {
-    return this.getWithParams<EmployeeLeaveDto[]>(GET_MY_LEAVE_DETAILS, [employeeId,year])
+  public getMyLeaves(employeeId: number, year: number) {
+    return this.getWithParams<EmployeeLeaveDto[]>(GET_MY_LEAVE_DETAILS, [employeeId, year])
   }
   public CreateEmployeeLeaveDetails(leaveDetails: EmployeeLeaveDto[]) {
     return this.post<EmployeeLeaveDto[]>(CREATE_EMPLOYEE_LEAVE_DETAILS, leaveDetails)
@@ -255,19 +256,23 @@ export class EmployeeService extends ApiHttpService {
   public getEmployeeProfileInfo(employeeId: number) {
     return this.getWithId<EmployeeProfilePicViewDto[]>(GET_EMPLOYEE_PROFILE_PIC, [employeeId])
   }
-  public getLeaveStatistics(year:number){
-    return this.getWithParams<LeaveStatistics[]>(GET_LEAVE_STATISTICS,[year])
+  public getLeaveStatistics(year: number) {
+    return this.getWithParams<LeaveStatistics[]>(GET_LEAVE_STATISTICS, [year])
 
   }
-  public getEmployeeLeaveOnDate(leaveParams){
-    return this.post<EmployeeLeaveOnDateDto[]>(GET_EMPLOYEE_LEAVE_ONDATE,leaveParams)
+  public getEmployeeLeaveOnDate(leaveParams) {
+    return this.post<EmployeeLeaveOnDateDto[]>(GET_EMPLOYEE_LEAVE_ONDATE, leaveParams)
   }
 
-  public getEmployeePhoto(employeeId){
-    return this.getWithId<string>(GET_EMPLOYEE_PHOTO,employeeId)
+  public getEmployeePhoto(employeeId) {
+    return this.getWithId<string>(GET_EMPLOYEE_PHOTO, employeeId)
   }
 
   public getReportingEmpDtls(employeeId: number) {
     return this.getWithId<EmployeeReportDtlDto[]>(GET_ALL_EMPLOYEES_FOR_REPORT, [employeeId])
+  }
+
+  public DeleteleaveDetails(leaveTypeId:number){
+    return this.post(DELETE_LEAVE_DETAILS+'/'+leaveTypeId,null);
   }
 }

@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Table } from 'primeng/table';
-import { Actions, DialogRequest, ITableHeader } from 'src/app/_models/common';
+import { Actions, ConfirmationRequest, DialogRequest, ITableHeader } from 'src/app/_models/common';
 import { GlobalFilterService } from 'src/app/_services/global.filter.service';
 import { EmployeeLeaveDetailsDto, EmployeeLeaveDto } from 'src/app/_models/employes';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -17,6 +17,7 @@ import { LeaveConfirmationService } from 'src/app/_services/leaveconfirmation.se
 import { EmployeeLeaveDialogComponent } from 'src/app/_dialogs/employeeleave.dialog/employeeleave.dialog.component';
 import { ReportService } from 'src/app/_services/report.service';
 import * as FileSaver from "file-saver";
+import { ConfirmationDialogService } from 'src/app/_alerts/confirmationdialog.service';
 
 @Component({
   selector: 'app-employeeleaves',
@@ -45,7 +46,7 @@ export class EmployeeLeavesComponent {
   month:number =new Date().getMonth() + 1;
   days: number[] = [];
   selectedMonth: Date;
-
+  confirmationRequest: ConfirmationRequest = new ConfirmationRequest();
 
   headers: ITableHeader[] = [
     { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
@@ -72,7 +73,8 @@ export class EmployeeLeavesComponent {
     private formbuilder: FormBuilder,
     private jwtService: JwtService,
     public alertMessage: AlertmessageService,
-    private leaveConfirmationService: LeaveConfirmationService) {
+    private leaveConfirmationService: LeaveConfirmationService,
+    private confirmationDialogService: ConfirmationDialogService) {
   }
 
   ngOnInit(): void {
@@ -85,6 +87,7 @@ export class EmployeeLeavesComponent {
   getLeaves() {
     this.employeeService.getEmployeeLeaveDetails(this.month,this.year).subscribe((resp) => {
       this.leaves = resp as unknown as EmployeeLeaveDto[];
+      console.log(this.leaves);
     })
   }
 
@@ -229,6 +232,22 @@ export class EmployeeLeavesComponent {
     })
   }
 
+  deleteleaveDetails(leaveTypeId) {
+    this.confirmationDialogService.comfirmationDialog(this.confirmationRequest).subscribe(userChoice => {
+      if (userChoice) {
+        this.employeeService.DeleteleaveDetails(leaveTypeId).subscribe((resp) => {
+            if (resp) {
+                this.alertMessage.displayAlertMessage(ALERT_CODES["ELA003"]);
+                this.getLeaves();
+            }
+            else {
+                this.alertMessage.displayErrorMessage(ALERT_CODES["ELA004"]);
+            }
+        })
+    }
+    });
+}
+
   openComponentDialog(content: any,
     dialogData, action: Actions = this.ActionTypes.add) {
     if (action == Actions.save && content === this.employeeleaveDialogComponent) {
@@ -246,5 +265,6 @@ export class EmployeeLeavesComponent {
       event.preventDefault(); // Prevent the default form submission
     });
   }
+
 
 }
