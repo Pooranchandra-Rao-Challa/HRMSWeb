@@ -39,7 +39,7 @@
                         <p-dropdown placeholder="Select Leave Type" formControlName="leaveTypeId"
                             [options]="filteredLeaveTypes" optionLabel="name" optionValue="lookupDetailId"
                             id="leaveTypes_Dropdown"
-                            (onChange)="getLeaveReasonsByLeaveTypeId($event.value); handleLeaveTypeChange()"
+                            (onChange)="getLeaveReasonsByLeaveTypeId($event.value)"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['leaveTypeId'].touched && FormControls['leaveTypeId'].errors }">
                         </p-dropdown>
                         <div class="flex">
@@ -139,7 +139,7 @@
 
 <div class=" footer dialog-footer">
     <button pButton pRipple type="submit" label="Add Leave" class="p-button-raised p-button-primary"
-        id="SubmitLeaveForm" [disabled]="fbLeave.invalid" (click)="onSubmit()"></button>
+        id="SubmitLeaveForm" [disabled]="fbLeave.invalid" (click)="confirmation()"></button>
 </div>
 
 
@@ -152,7 +152,7 @@
     </p>
     <ng-template pTemplate="footer">
         <div style="float:right" class="p-2">
-            <button pButton type="button" class="btn btn-primary" label="Confirm"></button>
+            <button pButton type="button" class="btn btn-primary" label="Confirm" (click)="onSubmit()"></button>
             <button pButton type="button" class="btn btn-primary" label="Cancle" (click)="onClose()"></button>
         </div>
     </ng-template>
