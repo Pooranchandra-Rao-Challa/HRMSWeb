@@ -1,5 +1,6 @@
 <div class="col-12">
     <div class="card" id="main-card">
+        <p-confirmDialog [style]="{width: '30%'}"></p-confirmDialog>
         <!-- Toolbar -->
         <p-toolbar styleClass="p-mb-4">
             <ng-template pTemplate="left">
@@ -38,11 +39,16 @@
             <ng-template pTemplate="body" let-leave>
                 <tr>
                     <td>
-                        <button pButton pRipple icon="pi pi-trash" id="delete"
-                            class="p-element p-ripple  p-button col-2 p-0"></button>
+                        <div *ngIf="permissions?.CanDeleteMyLeaves">
+                            <div *ngIf="!leave.isLeaveUsed && !leave.isDeleted">
+                                <button pButton pRipple icon="pi pi-trash" id="delete"
+                                    class="p-element p-ripple  p-button col-2 p-0"
+                                    (click)="deleteleaveDetails(leave.leaveTypeId)"></button>
+                            </div>
+                        </div>
                     </td>
                     <td *ngFor="let col of headers"
-                        [ngClass]="{'text-center':col?.field == 'status','text-wrap':col.field === 'note'}">
+                        [ngClass]="{'text-center':col?.field == 'status' || col?.field == 'isDeleted','text-wrap':col.field === 'note'}">
                         <span
                             *ngIf=" col?.field == 'employeeName' || col?.field == 'note'||col?.field == 'acceptedBy'  || col?.field == 'approvedBy'||col?.field =='createdAt' || col?.field == 'createdBy'">
                             {{leave[col.field]}}
@@ -53,6 +59,12 @@
                         </span>
                         <span *ngIf=" col?.field == 'leaveType'">
                             {{ leave[col.field]}}
+                        </span>
+                        <span *ngIf="col?.field === 'isDeleted'">
+                            <i class="fa"
+                                [ngClass]="{'fa-check': leave['isDeleted'], 'fa-close': !leave['isDeleted']}"
+                                [style.color]="leave['isDeleted'] ? '#119e2f' : '#e24c4c'"
+                                style="font-size:18px; vertical-align: sub;"></i>
                         </span>
                         <span *ngIf="col?.field == 'status'">
                             <ng-container *ngIf="leave.status === 'Approved'; else falseBlock">
