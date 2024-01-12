@@ -273,6 +273,6 @@ export class EmployeeService extends ApiHttpService {
   }
 
   public DeleteleaveDetails(leaveTypeId:number){
-    return this.post(DELETE_LEAVE_DETAILS+'/'+leaveTypeId,null);
+    return this.getWithId(DELETE_LEAVE_DETAILS,leaveTypeId);
   }
 }

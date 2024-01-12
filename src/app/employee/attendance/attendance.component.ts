@@ -117,7 +117,7 @@ export class AttendanceComponent {
       attendanceId: new FormControl(0),
       notReported: new FormControl(false),
       employeeId: new FormControl('', [Validators.required]),
-      dayWorkStatusId: new FormControl('', [Validators.required]),
+      leaveTypeId: new FormControl('', [Validators.required]),
       date: new FormControl(),
       isHalfDayLeave: new FormControl(),
     });
@@ -261,7 +261,7 @@ export class AttendanceComponent {
       let type = this.LeaveTypes.find(x => x.name === 'PT');
       this.fbAttendance.patchValue({
         employeeId: each.employeeId,
-        dayWorkStatusId: type.lookupDetailId,
+        leaveTypeId: type.lookupDetailId,
         date: FORMAT_DATE(new Date(this.notUpdatedDates)),
         notReported: false,
         isHalfDayLeave: false,
@@ -376,7 +376,8 @@ export class AttendanceComponent {
       fromDate: this.stringToDate(date),
       notReported: false,
       isHalfDayLeave: employeeleave.isHalfDayLeave,
-      note: employeeleave.note
+      note: employeeleave.note,
+      isFromAttendance:true
     };
 
     this.fbleave.patchValue(defaultValues);
@@ -430,7 +431,7 @@ export class AttendanceComponent {
   updateEmployeeAttendance() {
     const updateData = {
       ...this.fbleave.value,
-      dayWorkStatusId: this.fbleave.get('leaveTypeId').value,
+      leaveTypeId: this.fbleave.get('leaveTypeId').value,
       fromDate: formatDate(this.fbleave.get('fromDate').value, 'yyyy-MM-dd', 'en'),
     };
     this.employeeService.updatePreviousDayEmployeeAttendance(updateData).subscribe(resp => {
@@ -465,7 +466,7 @@ export class AttendanceComponent {
     if (DayWorkItem.name !== 'PL' && DayWorkItem.name !== 'CL') {
       this.fbAttendance.patchValue({
         employeeId: this.fbleave.get('employeeId').value,
-        dayWorkStatusId: DayWorkItem.lookupDetailId,
+        leaveTypeId: DayWorkItem.lookupDetailId,
         date: fromDate,
         notReported: false
       });
@@ -502,7 +503,7 @@ export class AttendanceComponent {
             const StatusId = this.LeaveTypes.find(each => each.name == "PT").lookupDetailId;
             this.fbAttendance.patchValue({
               employeeId: this.fbleave.get('employeeId').value,
-              dayWorkStatusId: StatusId,
+              leaveTypeId: StatusId,
               date: fromDate,
               notReported: false
             });
