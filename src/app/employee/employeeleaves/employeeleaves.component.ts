@@ -232,10 +232,10 @@ export class EmployeeLeavesComponent {
     })
   }
 
-  deleteleaveDetails(leaveTypeId) {
+  deleteleaveDetails(employeeLeaveId) {
     this.confirmationDialogService.comfirmationDialog(this.confirmationRequest).subscribe(userChoice => {
       if (userChoice) {
-        this.employeeService.DeleteleaveDetails(leaveTypeId).subscribe((resp) => {
+        this.employeeService.DeleteleaveDetails(employeeLeaveId).subscribe((resp) => {
             if (resp) {
                 this.alertMessage.displayAlertMessage(ALERT_CODES["ELA003"]);
                 this.getLeaves();
