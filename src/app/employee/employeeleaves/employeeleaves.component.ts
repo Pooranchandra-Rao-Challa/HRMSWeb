@@ -50,7 +50,7 @@ export class EmployeeLeavesComponent {
 
   headers: ITableHeader[] = [
     { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
-    { field: 'leaveType', header: 'leaveType', label: 'Leave Type' }, 
+    { field: 'leaveType', header: 'leaveType', label: 'Leave Type' },
     { field: 'isHalfDayLeave', header: 'isHalfDayLeave', label: 'Half Day Leave' },
     { field: 'fromDate', header: 'fromDate', label: 'From Date' },
     { field: 'toDate', header: 'toDate', label: 'To Date' },

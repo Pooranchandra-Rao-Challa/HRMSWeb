@@ -67,6 +67,8 @@ export class MyleaveComponent {
   getLeaves() {
     this.employeeService.getMyLeaves(this.jwtService.EmployeeId, this.year).subscribe((resp) => {
       this.leaves = resp as unknown as EmployeeLeaveDto[];
+      console.log(this.leaves);
+      
     })
   }
 
@@ -80,10 +82,10 @@ export class MyleaveComponent {
     this.filter.nativeElement.value = '';
   }
 
-  deleteleaveDetails(leaveTypeId) {
+  deleteleaveDetails(employeeLeaveId) {
     this.confirmationDialogService.comfirmationDialog(this.confirmationRequest).subscribe(userChoice => {
       if (userChoice) {
-        this.employeeService.DeleteleaveDetails(leaveTypeId).subscribe((resp) => {
+        this.employeeService.DeleteleaveDetails(employeeLeaveId).subscribe((resp) => {
           if (resp) {
             this.alertMessage.displayAlertMessage(ALERT_CODES["ELA003"]);
             this.getLeaves();
