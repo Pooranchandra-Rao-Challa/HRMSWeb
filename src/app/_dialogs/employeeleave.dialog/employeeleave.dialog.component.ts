@@ -277,12 +277,9 @@ export class EmployeeLeaveDialogComponent {
       this.dashBoardService.GetEmployeeLeavesForMonth(this.month, empId, this.year)
         .subscribe(resp => {
           this.monthlyLeaves = resp as unknown as selfEmployeeMonthlyLeaves[];
-          console.log(this.monthlyLeaves);
           this.hasPendingLeaveInMonth = this.monthlyLeaves.some(leave => leave.leaveType === 'CL' && leave.status === 'Pending');
           const isDeletedCL = this.monthlyLeaves.find(leave => leave.isDeleted === true && leave.leaveType === 'CL');
           const clIsNotDeleted = this.monthlyLeaves.find(leave => (leave.isDeleted === false || leave.isDeleted === null) && leave.leaveType === 'CL');
-          console.log(isDeletedCL);
-          console.log(clIsNotDeleted);
           if ((this.hasPendingLeaveInMonth && clIsNotDeleted) ||(this.hasPendingLeaveInMonth && isDeletedCL !==null && clIsNotDeleted )) {
             this.dialog = true;
             const leaveWithEmployeeName = this.monthlyLeaves.find(leave => leave.employeeName);
