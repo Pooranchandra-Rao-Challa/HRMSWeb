@@ -61,7 +61,7 @@ export class EmployeeService extends ApiHttpService {
   }
 
   public DeleteDocument(documentId: number) {
-    return this.post(DELETE_DOCUMENT + '/' + documentId, null);
+    return this.getWithId(DELETE_DOCUMENT , documentId);
   }
 
 
