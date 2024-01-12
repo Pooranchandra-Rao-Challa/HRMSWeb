@@ -21,6 +21,12 @@ import { ReportService } from 'src/app/_services/report.service';
 import { MAX_LENGTH_256 } from 'src/app/_shared/regex';
 import * as FileSaver from "file-saver";
 
+enum AttendanceReportTypes {
+  MonthlyAttendanceReport = 'Monthly Attendance Report',
+  YearlyAttendanceReport = 'Yearly Attendance Report',
+  DatewiseAttendanceReport = 'Datewise Attendance Report',
+  ProjectwiseAttendanceReport = 'Projectwise Attendance Report',
+}
 
 @Component({
   selector: 'app-attendance',
@@ -95,12 +101,6 @@ export class AttendanceComponent {
     this.initDayWorkStatus();
     this.loadLeaveReasons();
     this.getLeaves();
-    this.AttendanceReportsTypes = [
-      { name: 'Year Attendance Report', code: 'YAR' },
-      { name: 'Montly Attendance Report', code: 'MAR' },
-      { name: 'Datewise Attendance Report', code: 'DAR' },
-      { name: 'Projectwise Attendance Report', code: 'PAR' },
-    ]
   }
 
   initLeaveForm() {
@@ -160,6 +160,15 @@ export class AttendanceComponent {
 
       }
     })
+  }
+  getAttendanceReportTypeOptions() {
+    const options = [];
+    for (const key in AttendanceReportTypes) {
+      if (AttendanceReportTypes.hasOwnProperty(key)) {
+        options.push({ label: AttendanceReportTypes[key], value: key });
+      }
+    }
+    return options;
   }
   getLeaveTypeDisplayName(name: string): string {
     switch (name) {
@@ -614,13 +623,13 @@ export class AttendanceComponent {
     this.filter.nativeElement.value = '';
   }
   DownloadAttendanceReport(name: string) {
-    if (name == "Datewise Attendance Report")
+    if (name == AttendanceReportTypes.DatewiseAttendanceReport)
       this.DatewiseAttendanceReportDialog = true;
-    else if (name == "Montly Attendance Report")
+    else if (name == AttendanceReportTypes.MonthlyAttendanceReport)
       this.downloadMonthlyAttendanceReport()
-    else if (name == "Year Attendance Report")
+    else if (name == AttendanceReportTypes.YearlyAttendanceReport)
       this.downloadYearlyAttendanceReport()
-    else if (name == "Projectwise Attendance Report")
+    else if (name == AttendanceReportTypes.ProjectwiseAttendanceReport)
       this.ProjectwiseAttendanceReportDialog = true;
   }
   downloadProjectwiseAttendanceReport() {
