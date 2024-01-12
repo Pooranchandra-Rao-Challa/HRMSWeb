@@ -34,6 +34,7 @@ export class selfEmployeeMonthlyLeaves {
     employeeName?:string;
     leaveType?: string;
     status?: string;
+    isDeleted?:boolean;
     usedCLsInMonth?: number
     usedPLsInMonth?: number
 }
