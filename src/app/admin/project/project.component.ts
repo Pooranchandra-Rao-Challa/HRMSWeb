@@ -22,6 +22,8 @@ import { ConfirmationDialogService } from 'src/app/_alerts/confirmationdialog.se
 import { ReportService } from 'src/app/_services/report.service';
 import * as FileSaver from "file-saver";
 import { HttpEventType } from '@angular/common/http';
+
+
 interface AutoCompleteCompleteEvent {
     originalEvent: Event;
     query: string;
@@ -44,7 +46,6 @@ export class ProjectComponent implements OnInit {
     Employees: EmployeesList[] = [];
     projectStatues: ProjectStatus[];
     Roles: ProjectRole[] = []
-    selectedOption:any;
     clientDetails: ClientDetailsDto;
     projectDetailsDialog: boolean = false;
     filteredClients: any;
@@ -61,6 +62,7 @@ export class ProjectComponent implements OnInit {
     AllotedNodes: NodeProps[] = [];
     activeIndex: number = 0;
     profileImage = '';
+    ProjectstatuesReportType:any[];
     imageToCrop: File;
 
     @ViewChild('orgProjectChart', { read: ViewContainerRef, static: true })
@@ -243,6 +245,7 @@ export class ProjectComponent implements OnInit {
     initProjectStatuses() {
         this.adminService.ProjectStatuses().subscribe((resp) => {
             this.projectStatues = resp as unknown as ProjectStatus[];
+            this.ProjectstatuesReportType= [...this.projectStatues,{eProjectStatusesId:0,name:"All"}];
         })
     }
     restrictSpaces(event: KeyboardEvent) {
@@ -297,13 +300,13 @@ export class ProjectComponent implements OnInit {
         this.adminService.GetProjects().subscribe(resp => {
             this.projects = resp as unknown as ProjectViewDto[];
             this.projects = this.projects.reverse();
-            this.projects.forEach(project =>{
+            this.projects.forEach(project => {
                 this.getProjectLogo(project);
             })
         });
     }
-    getProjectLogo(project:ProjectViewDto){
-        return this.adminService.GetProjectLogo(project.projectId).subscribe((resp)=> {
+    getProjectLogo(project: ProjectViewDto) {
+        return this.adminService.GetProjectLogo(project.projectId).subscribe((resp) => {
             project.logo = (resp as any).ImageData;
         })
     }
@@ -926,35 +929,33 @@ export class ProjectComponent implements OnInit {
         this.imageCropService.onCrop(image, this.fbproject, 'logo');
     }
 
-    downloadProjectReport() {
-        this.reportService.DownloadProjects()
-        .subscribe( (resp)=>
-          {
-            if (resp.type === HttpEventType.DownloadProgress) {
-              const percentDone = Math.round(100 * resp.loaded / resp.total);
-              this.value = percentDone;
-            }
-            if (resp.type === HttpEventType.Response) {
-              const file = new Blob([resp.body], { type: 'text/csv' });
-              const document = window.URL.createObjectURL(file);
-              FileSaver.saveAs(document, "ProjectsReport.csv");
-            }
-        })
+    downloadProjectReport(id:number) {
+        this.reportService.DownloadProjects(id)
+            .subscribe((resp) => {
+                if (resp.type === HttpEventType.DownloadProgress) {
+                    const percentDone = Math.round(100 * resp.loaded / resp.total);
+                    this.value = percentDone;
+                }
+                if (resp.type === HttpEventType.Response) {
+                    const file = new Blob([resp.body], { type: 'text/csv' });
+                    const document = window.URL.createObjectURL(file);
+                    FileSaver.saveAs(document, "ProjectsReport.csv");
+                }
+            })
     }
-    downloadProjectAllotmentsReport(employeeId:number){
+    downloadProjectAllotmentsReport(employeeId: number) {
         this.reportService.DownloadProjectsAllotments(employeeId)
-        .subscribe( (resp)=>
-          {
-            if (resp.type === HttpEventType.DownloadProgress) {
-              const percentDone = Math.round(100 * resp.loaded / resp.total);
-              this.value = percentDone;
-            }
-            if (resp.type === HttpEventType.Response) {
-              const file = new Blob([resp.body], { type: 'text/csv' });
-              const document = window.URL.createObjectURL(file);
-              FileSaver.saveAs(document, "ProjectAllotmentsReport.csv");
-            }
-        })
+            .subscribe((resp) => {
+                if (resp.type === HttpEventType.DownloadProgress) {
+                    const percentDone = Math.round(100 * resp.loaded / resp.total);
+                    this.value = percentDone;
+                }
+                if (resp.type === HttpEventType.Response) {
+                    const file = new Blob([resp.body], { type: 'text/csv' });
+                    const document = window.URL.createObjectURL(file);
+                    FileSaver.saveAs(document, "ProjectAllotmentsReport.csv");
+                }
+            })
     }
 
 }

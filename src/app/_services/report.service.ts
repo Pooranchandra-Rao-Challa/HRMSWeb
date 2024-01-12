@@ -19,8 +19,8 @@ export class ReportService extends ApiHttpService {
   DownloadProjectwiseAttendanceReport(fromDate:string,toDate:string,projectId:number) {
     return this.downloadExcel(GET_PROJECTWISE_ATTENDANCE_REPORT, [fromDate,toDate,projectId])
   }
-  DownloadProjects() {
-    return this.downloadExcel(GET_PROJECTS_REPORT, [0])
+  DownloadProjects(id:number) {
+    return this.downloadExcel(GET_PROJECTS_REPORT, [id])
   }
   DownloadProjectsAllotments(id:number){
     return this.downloadExcel(GET_PROJECT_ALLOTMENTS_REPORT,[id])
