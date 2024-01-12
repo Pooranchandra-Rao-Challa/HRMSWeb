@@ -385,8 +385,9 @@ export class EmployeeLeaveDto {
 export class EmployeeAttendanceList {
 	attendanceId?: number;
 	employeeId?: number;
+	leaveTypeId?: number;
 	date: Date
-	DayWorkStatusId?: number;
+	dayWorkStatusId?: number;
 	NotReported: boolean;
 	isHalfDayLeave:boolean
 }
