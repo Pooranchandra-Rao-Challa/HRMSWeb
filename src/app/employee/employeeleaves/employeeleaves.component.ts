@@ -55,6 +55,7 @@ export class EmployeeLeavesComponent {
     { field: 'fromDate', header: 'fromDate', label: 'From Date' },
     { field: 'toDate', header: 'toDate', label: 'To Date' },
     { field: 'note', header: 'note', label: 'Leave Description' },
+    { field: 'isDeleted', header: 'isDeleted', label: 'Is Deleted' },
     { field: 'acceptedBy', header: 'acceptedBy', label: 'Accepted By' },
     { field: 'acceptedAt', header: 'acceptedAt', label: 'Accepted At' },
     { field: 'approvedBy', header: 'approvedBy', label: 'Approved By' },

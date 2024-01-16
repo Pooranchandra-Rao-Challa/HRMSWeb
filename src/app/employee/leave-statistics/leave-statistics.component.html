@@ -22,18 +22,18 @@
                         (click)="clear(dtleave)" id="clear-btn"></button>
                     <div class="flex">
                         <div class="pr-2">
-                            <p-button icon="pi pi-angle-left mr-2" (click)="gotoPreviousMonth()"
+                            <p-button icon="pi pi-angle-left mr-2" (click)="gotoPreviousYear()"
                                 id="Attendance_previousMonth">
                             </p-button>
                         </div>
                         <div>
                             <p-calendar styleClass="only-icon" [showIcon]="true" view="year" [yearNavigator]="true"
                                 yearRange="2000:3000" [readonlyInput]="true" inputId="yearpicker"
-                                (onSelect)="onMonthSelect($event)" [disabled]="true">
+                                (onSelect)="onYearSelect($event)" [disabled]="true">
                             </p-calendar>
                         </div>
                         <div class="pl-2">
-                            <p-button icon="pi pi-angle-right ml-2" (click)="gotoNextMonth()"
+                            <p-button icon="pi pi-angle-right ml-2" (click)="gotoNextYear()"
                                 id="Attendance_nextMonth"></p-button>
                         </div>
                         <div class="pl-2" style="margin-top: 10px;">

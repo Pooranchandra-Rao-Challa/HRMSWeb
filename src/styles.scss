@@ -1171,7 +1171,7 @@ app-attendance .p-datatable-table tbody tr td:first-child {
 .chart-info{
     font-size:12px;
 }
-#charts_date_picker .p-button.p-button-icon-only{
+.charts_date_picker .p-button.p-button-icon-only{
     width: 2rem;
     padding: 0.40rem 0;
 }
@@ -1183,4 +1183,8 @@ app-attendance .p-datatable-table tbody tr td:first-child {
 }
 .confirmation_dialog .p-dialog{
     width:40% !important;
+}
+.charts_date_picker .p-datepicker{
+    top: 42px !important;
+    left: 0px !important;
 }
