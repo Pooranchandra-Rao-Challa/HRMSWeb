@@ -1,5 +1,7 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { FORMAT_DATE, FORMAT_MONTH, MEDIUM_DATE, MONTH, ORIGINAL_DOB } from 'src/app/_helpers/date.formate.pipe';
 import { adminDashboardViewDto } from 'src/app/_models/dashboard';
 import { DashboardService } from 'src/app/_services/dashboard.service';
 
@@ -13,13 +15,107 @@ export class AdminDashboardComponent implements OnInit {
     pieOptions: any;
     pieDataforProjects: any;
     chartFilled: boolean;
+    chart: string = 'Day'; // Set the default value to 'Day'
+    empRadio: string = 'Day';
+    year: number = new Date().getFullYear();
+    month: number = new Date().getMonth() + 1;
+    selectedMonth: any;
+    selectedDate: Date;
+    days: number[] = [];
+    monthFormat: string = MONTH;
+    dateFormat: string = MEDIUM_DATE;
+
     constructor(private dashboardService: DashboardService,
-        private router: Router) { }
+        private router: Router, private datePipe: DatePipe) {
+        this.selectedDate = new Date();
+    }
 
     ngOnInit() {
         this.inItAdminDashboard();
     }
 
+    gotoPreviousDay() {
+        const previousDay = new Date(this.selectedDate);
+        previousDay.setDate(previousDay.getDate() - 1);
+        this.selectedDate = previousDay;
+    }
+
+    onDaySelect(event) {
+        this.selectedDate = event.value;
+    }
+
+    gotoNextDay() {
+        // Increment the current day by 1
+        const nextDay = new Date(this.selectedDate);
+        nextDay.setDate(nextDay.getDate() + 1);
+        this.selectedDate = nextDay;
+    }
+
+    getCurrentDay(): string {
+        return this.formatDate(this.selectedDate, MEDIUM_DATE);
+    }
+
+    formatDate(date: Date, format: string): string {
+        return this.datePipe.transform(date, format);
+    }
+
+    gotoPreviousMonth() {
+        if (this.month > 1)
+            this.month--;
+        else {
+            this.month = 12;        // Reset to December
+            this.year--;            // Decrement the year
+        }
+        this.selectedMonth = FORMAT_DATE(new Date(this.year, this.month - 1, 1));
+        this.selectedMonth.setHours(0, 0, 0, 0);
+        this.getDaysInMonth(this.year, this.month);
+    }
+
+    onMonthSelect(event) {
+        this.month = this.selectedMonth.getMonth() + 1; // Month is zero-indexed
+        this.year = this.selectedMonth.getFullYear();
+        this.getDaysInMonth(this.year, this.month);
+    }
+
+    getDaysInMonth(year: number, month: number) {
+        const date = new Date(year, month - 1, 1);
+        date.setMonth(date.getMonth() + 1);
+        date.setDate(date.getDate() - 1);
+        let day = date.getDate();
+        this.days = [];
+        for (let i = 1; i <= day; i++) {
+            this.days.push(i);
+        }
+    }
+
+    formatMonth(month: number): string {
+        const date = new Date(2000, month - 1, 1); // Using a common year for simplicity
+        return FORMAT_MONTH(date, this.monthFormat);
+    }
+
+    gotoNextMonth() {
+        if (this.month < 12)
+            this.month++;
+        else {
+            this.month = 1; // Reset to January
+            this.year++;    // Increment the year
+        }
+        this.selectedMonth = this.formatMonth(this.month);
+        this.selectedMonth.setHours(0, 0, 0, 0);
+        this.getDaysInMonth(this.year, this.month);
+    }
+
+    onYearSelect(event) {
+        this.year = this.selectedMonth.getFullYear();
+    }
+
+    gotoPreviousYear() {
+        this.year--;
+    }
+
+    gotoNextYear() {
+        this.year++;
+    }
 
     inItAdminDashboard() {
         this.dashboardService.getAdminDashboard().subscribe((resp) => {
@@ -34,7 +130,7 @@ export class AdminDashboardComponent implements OnInit {
                 return sum + leaveTypeData.leaveTypeCount;
             }, 0);
             this.admindashboardDtls.calculatedLeaveCount = leaveTypeCountsSum;
-          
+
             // Parse and check if active projects are available
             this.admindashboardDtls.savedactiveProjects = JSON.parse(this.admindashboardDtls?.activeProjects) || [];
             const activeProjectssum = this.admindashboardDtls?.savedactiveProjects.reduce((sum, activeProjectsData) => {

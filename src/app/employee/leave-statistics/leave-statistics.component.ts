@@ -101,17 +101,17 @@ export class LeaveStatisticsComponent {
     });
   }
 
-  onMonthSelect(event) {
+  onYearSelect(event) {
     this.year = this.selectedMonth.getFullYear();
     this.getLeaves();
   }
 
-  gotoPreviousMonth() {
+  gotoPreviousYear() {
     this.year--;
     this.getLeaves();
   }
 
-  gotoNextMonth() {
+  gotoNextYear() {
     this.year++;
     this.getLeaves();
   }
