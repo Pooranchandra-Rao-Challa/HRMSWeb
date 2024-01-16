@@ -1,8 +1,8 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FORMAT_DATE, FORMAT_MONTH, MEDIUM_DATE, MONTH, ORIGINAL_DOB } from 'src/app/_helpers/date.formate.pipe';
-import { adminDashboardViewDto } from 'src/app/_models/dashboard';
+import { DATE_FORMAT, DATE_FORMAT_MONTH, FORMAT_DATE, FORMAT_MONTH, MEDIUM_DATE, MONTH, ORIGINAL_DOB } from 'src/app/_helpers/date.formate.pipe';
+import { AttendanceCountBasedOnTypeViewDto, adminDashboardViewDto } from 'src/app/_models/dashboard';
 import { DashboardService } from 'src/app/_services/dashboard.service';
 
 
@@ -15,15 +15,16 @@ export class AdminDashboardComponent implements OnInit {
     pieOptions: any;
     pieDataforProjects: any;
     chartFilled: boolean;
-    chart: string = 'Day'; // Set the default value to 'Day'
-    empRadio: string = 'Day';
+    chart: string;
+    empRadio: string;
     year: number = new Date().getFullYear();
     month: number = new Date().getMonth() + 1;
     selectedMonth: any;
-    selectedDate: Date;
+    selectedDate: any;
     days: number[] = [];
     monthFormat: string = MONTH;
     dateFormat: string = MEDIUM_DATE;
+    attendanceCount: AttendanceCountBasedOnTypeViewDto[] = [];
 
     constructor(private dashboardService: DashboardService,
         private router: Router, private datePipe: DatePipe) {
@@ -32,6 +33,18 @@ export class AdminDashboardComponent implements OnInit {
 
     ngOnInit() {
         this.inItAdminDashboard();
+        this.getAttendanceCountsBasedOnType();
+        this.chart = 'Day';
+        const currentDate = new Date();
+        this.month = currentDate.getMonth() + 1;
+        this.year = currentDate.getFullYear();
+
+        // Set the selected month based on the default values
+        this.selectedMonth = new Date(this.year, this.month - 1, 1);
+        this.selectedMonth.setHours(0, 0, 0, 0);
+
+        // Update the selected month
+        this.updateSelectedMonth();
     }
 
     gotoPreviousDay() {
@@ -60,21 +73,36 @@ export class AdminDashboardComponent implements OnInit {
     }
 
     gotoPreviousMonth() {
-        if (this.month > 1)
+        if (this.month > 1) {
             this.month--;
-        else {
-            this.month = 12;        // Reset to December
-            this.year--;            // Decrement the year
+        } else {
+            this.month = 12; // Reset to December
+            this.year--;     // Decrement the year
         }
-        this.selectedMonth = FORMAT_DATE(new Date(this.year, this.month - 1, 1));
+        this.updateSelectedMonth();
+    }
+
+    gotoNextMonth() {
+        if (this.month < 12) {
+            this.month++;
+        } else {
+            this.month = 1; // Reset to January
+            this.year++;    // Increment the year
+        }
+        this.updateSelectedMonth();
+    }
+
+    updateSelectedMonth() {
+        this.selectedMonth = new Date(this.year, this.month - 1, 1);
         this.selectedMonth.setHours(0, 0, 0, 0);
         this.getDaysInMonth(this.year, this.month);
     }
 
     onMonthSelect(event) {
+        this.selectedMonth = event;
         this.month = this.selectedMonth.getMonth() + 1; // Month is zero-indexed
         this.year = this.selectedMonth.getFullYear();
-        this.getDaysInMonth(this.year, this.month);
+        this.updateSelectedMonth();
     }
 
     getDaysInMonth(year: number, month: number) {
@@ -88,21 +116,10 @@ export class AdminDashboardComponent implements OnInit {
         }
     }
 
+
     formatMonth(month: number): string {
         const date = new Date(2000, month - 1, 1); // Using a common year for simplicity
         return FORMAT_MONTH(date, this.monthFormat);
-    }
-
-    gotoNextMonth() {
-        if (this.month < 12)
-            this.month++;
-        else {
-            this.month = 1; // Reset to January
-            this.year++;    // Increment the year
-        }
-        this.selectedMonth = this.formatMonth(this.month);
-        this.selectedMonth.setHours(0, 0, 0, 0);
-        this.getDaysInMonth(this.year, this.month);
     }
 
     onYearSelect(event) {
@@ -115,6 +132,29 @@ export class AdminDashboardComponent implements OnInit {
 
     gotoNextYear() {
         this.year++;
+    }
+
+    getAttendanceCountsBasedOnType() {
+        if (this.chart === 'Day') {
+            this.selectedDate = DATE_FORMAT(new Date(this.selectedDate));
+            this.dashboardService.getAttendanceCountBasedOnType(this.chart, this.selectedDate).subscribe((resp) => {
+                this.attendanceCount = resp as unknown as AttendanceCountBasedOnTypeViewDto[];
+                this.initChart();
+            })
+        }
+        else if (this.chart === 'Month') {
+            this.selectedMonth = DATE_FORMAT_MONTH(new Date(this.selectedMonth));
+            this.dashboardService.getAttendanceCountBasedOnType(this.chart, this.selectedMonth).subscribe((resp) => {
+                this.attendanceCount = resp as unknown as AttendanceCountBasedOnTypeViewDto[];
+                this.initChart();
+            })
+        }
+        else if (this.chart === 'Year') {
+            this.dashboardService.getAttendanceCountBasedOnType(this.chart, this.year).subscribe((resp) => {
+                this.attendanceCount = resp as unknown as AttendanceCountBasedOnTypeViewDto[];                
+                this.initChart();
+            })
+        }
     }
 
     inItAdminDashboard() {
@@ -152,19 +192,17 @@ export class AdminDashboardComponent implements OnInit {
     initChart() {
         const documentStyle = getComputedStyle(document.documentElement);
         const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
-        const absent = this.admindashboardDtls?.savedabsentEmployees.find(each => each.employeeStatus === 'AT')?.employeesCount;
-        const CasualLeaves = this.admindashboardDtls?.savedemployeeLeaveCounts.find(each => each.leaveType === 'CL')?.leaveTypeCount;
-        const PrevlageLeaves = this.admindashboardDtls?.savedemployeeLeaveCounts.find(each => each.leaveType === 'PL')?.leaveTypeCount;
-        const present = this.admindashboardDtls?.savedActiveEmployeesInOffice.find(each => each.employeeStatus === 'PT')?.employeesCount;
-        const WrokFromHome = this.admindashboardDtls?.savedActiveEmployeesInOffice.find(each => each.employeeStatus === 'WFH')?.employeesCount;
-        const leaveWithoutPay = this.admindashboardDtls?.savedemployeeLeaveCounts.find(each => each.leaveType === 'LWP')?.leaveTypeCount;
+        const CasualLeaves = this.attendanceCount?.find(each => each.cl);
+        const PrevlageLeaves = this.attendanceCount?.find(each => each.pl);
+        const present = this.attendanceCount?.find(each => each.pt);
+        const leaveWithoutPay = this.attendanceCount?.find(each => each.lwp);
 
         this.pieDataforAttendance = {
-            labels: ['In Office', 'Absent', 'PL', 'CL', 'WFH', 'LWP'],
+            labels: ['PT', 'PL', 'CL', 'WFH', 'LWP'],
             datasets: [
                 {
-                    data: [present, absent, PrevlageLeaves, CasualLeaves, WrokFromHome, leaveWithoutPay],
-                    backgroundColor: [documentStyle.getPropertyValue('--inofc-b'), documentStyle.getPropertyValue('--abst-b'), documentStyle.getPropertyValue('--pl-b'), documentStyle.getPropertyValue('--cl-b'), documentStyle.getPropertyValue('--wfh-b'), documentStyle.getPropertyValue('--lwp-b')],
+                    data: [present?.pt || 0, PrevlageLeaves?.pl || 0, CasualLeaves?.cl || 0, leaveWithoutPay?.lwp || 0],
+                    backgroundColor: [documentStyle.getPropertyValue('--inofc-b'),documentStyle.getPropertyValue('--pl-b'), documentStyle.getPropertyValue('--cl-b'),documentStyle.getPropertyValue('--lwp-b')],
                     borderColor: surfaceBorder,
                     pointStyle: 'circle',
                 }

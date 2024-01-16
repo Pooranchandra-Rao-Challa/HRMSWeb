@@ -166,7 +166,8 @@ export const GET_SELF_EMPLOYEE = "Employee/GetSelfEmployeeData";
 export const GET_SELF_EMPLOYEE_MONTH_LEAVES = "Attendance/GetLeavesForSelfInMonth";
 export const GET_ALLOTED_LEAVES = "Attendance/GetAllottedLeavesBasedOnEId"
 // Admin Dashboard
-export const GET_ADMIN_DASHBOARD = "AdminDashboard/GetAdminDashboard"
+export const GET_ADMIN_DASHBOARD = "AdminDashboard/GetAdminDashboard";
+export const GET_ATTENDANCE_COUNT_BASED_ON_TYPE="AdminDashboard/GetAttendanceCountsBasedOnType";
 //Reports
 export const GET_MONTHLY_ATTENDANCE_REPORT = "Report/AttendanceReportBasedOnYearAndMonth";
 export const GET_YEARLY_ATTENDANCE_REPORT = "Report/AttendanceReportBasedOnYear";

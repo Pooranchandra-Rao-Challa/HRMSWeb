@@ -82,6 +82,14 @@ export class adminDashboardViewDto {
     activeEmployeesInOffice?: string
 }
 
+export class AttendanceCountBasedOnTypeViewDto{
+    value?:string;
+    lwp?:number;
+    pt?:number;
+    cl?:number;
+    pl?:number;
+}
+
 export class activeProjects {
     projectStatus?: string;
     projectStatusCount?: number;

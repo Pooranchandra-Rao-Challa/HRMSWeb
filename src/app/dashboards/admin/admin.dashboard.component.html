@@ -76,19 +76,22 @@
                         <div class="grid p-0">
                             <div class="col-4 p-0">
                                 <div class="flex align-items-center">
-                                    <p-radioButton [(ngModel)]="chart" value="Day" id="charts1"></p-radioButton>
+                                    <p-radioButton [(ngModel)]="chart" value="Day" id="charts1"
+                                        (click)="getAttendanceCountsBasedOnType()"></p-radioButton>
                                     <label for="charts1" class="" id="charts-label">Day</label>
                                 </div>
                             </div>
                             <div class="col-4 p-0">
                                 <div class="flex align-items-center">
-                                    <p-radioButton [(ngModel)]="chart" value="Month" id="charts2"></p-radioButton>
+                                    <p-radioButton [(ngModel)]="chart" value="Month" id="charts2"
+                                        (click)="getAttendanceCountsBasedOnType()"></p-radioButton>
                                     <label for="charts2" class="" id="charts-label">Month</label>
                                 </div>
                             </div>
                             <div class="col-4 p-0">
                                 <div class="flex align-items-center">
-                                    <p-radioButton [(ngModel)]="chart" value="Year" id="charts3"></p-radioButton>
+                                    <p-radioButton [(ngModel)]="chart" value="Year" id="charts3"
+                                        (click)="getAttendanceCountsBasedOnType()"></p-radioButton>
                                     <label for="charts3" class="" id="charts-label">Year</label>
                                 </div>
                             </div>
@@ -133,12 +136,9 @@
                             </ng-template>
                         </div>
                     </div>
-
-
-
                 </div>
                 <ul class="list-none p-0 m-0">
-                    <li *ngIf="this.admindashboardDtls?.savedActiveEmployeesInOffice?.length > 0; else noDataMessage">
+                    <li *ngIf="this.attendanceCount?.length > 0; else noDataMessage">
                         <p-chart type="doughnut" [data]="pieDataforAttendance" [options]="pieOptions" height="200px"
                             width="100%"></p-chart>
                     </li>
