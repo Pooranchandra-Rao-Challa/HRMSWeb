@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiHttpService } from './api.http.service';
-import { adminDashboardViewDto, AttendanceCountBasedOnTypeViewDto, SelfEmployeeDto, selfEmployeeMonthlyLeaves } from '../_models/dashboard';
-import { GET_ADMIN_DASHBOARD, GET_ALLOTED_LEAVES, GET_ATTENDANCE_COUNT_BASED_ON_TYPE, GET_SELF_EMPLOYEE, GET_SELF_EMPLOYEE_MONTH_LEAVES } from './api.uri.service';
+import { adminDashboardViewDto, NotificationsDto,AttendanceCountBasedOnTypeViewDto, SelfEmployeeDto, selfEmployeeMonthlyLeaves } from '../_models/dashboard';
+import { GET_ADMIN_DASHBOARD, GET_ALLOTED_LEAVES, GET_NOTIFICATIONS, GET_NOTIFICATION_REPLIES, GET_ATTENDANCE_COUNT_BASED_ON_TYPE, GET_SELF_EMPLOYEE, GET_SELF_EMPLOYEE_MONTH_LEAVES } from './api.uri.service';
 
 @Injectable({
     providedIn: 'root'
@@ -23,4 +23,11 @@ export class DashboardService extends ApiHttpService {
     public getAttendanceCountBasedOnType(datatype:string,value:any){
         return this.getWithParams<AttendanceCountBasedOnTypeViewDto>(GET_ATTENDANCE_COUNT_BASED_ON_TYPE,[datatype,value])
     }
+    public GetNotifications(isactive:boolean){
+        return this.getWithParams<NotificationsDto>(GET_NOTIFICATIONS,[isactive]);
+    }
+    public GetNotificationsBasedOnId(isActive:boolean,employeeId:number){
+        return this.getWithParams(GET_NOTIFICATION_REPLIES,[isActive,employeeId]);
+    }
+
 }
