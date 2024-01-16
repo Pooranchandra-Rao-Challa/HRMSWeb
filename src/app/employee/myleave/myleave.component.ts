@@ -1,7 +1,7 @@
 
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Table } from 'primeng/table';
-import { Actions, DialogRequest, ITableHeader } from 'src/app/_models/common';
+import { Actions, ConfirmationRequest, DialogRequest, ITableHeader } from 'src/app/_models/common';
 import { GlobalFilterService } from 'src/app/_services/global.filter.service';
 import { EmployeeLeaveDetailsDto, EmployeeLeaveDto } from 'src/app/_models/employes';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -16,6 +16,7 @@ import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.s
 import { NgPluralCase } from '@angular/common';
 import { LeaveConfirmationService } from 'src/app/_services/leaveconfirmation.service';
 import { EmployeeLeaveDialogComponent } from 'src/app/_dialogs/employeeleave.dialog/employeeleave.dialog.component';
+import { ConfirmationDialogService } from 'src/app/_alerts/confirmationdialog.service';
 
 @Component({
   selector: 'app-myleave',
@@ -28,8 +29,9 @@ export class MyleaveComponent {
   @ViewChild('filter') filter!: ElementRef;
   mediumDate: string = MEDIUM_DATE
   permissions: any;
-  leaves:EmployeeLeaveDto[]=[];
+  leaves: EmployeeLeaveDto[] = [];
   year: number = new Date().getFullYear();
+  confirmationRequest: ConfirmationRequest = new ConfirmationRequest();
 
   headers: ITableHeader[] = [
     { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
@@ -37,6 +39,7 @@ export class MyleaveComponent {
     { field: 'fromDate', header: 'fromDate', label: 'From Date' },
     { field: 'toDate', header: 'toDate', label: 'To Date' },
     { field: 'note', header: 'note', label: 'Leave Description' },
+    { field: 'isDeleted', header: 'isDeleted', label: 'Is Deleted' },
     { field: 'acceptedBy', header: 'acceptedBy', label: 'Accepted By' },
     { field: 'acceptedAt', header: 'acceptedAt', label: 'Accepted At' },
     { field: 'approvedBy', header: 'approvedBy', label: 'Approved By' },
@@ -51,7 +54,8 @@ export class MyleaveComponent {
     private employeeService: EmployeeService,
     public ref: DynamicDialogRef,
     private jwtService: JwtService,
-    public alertMessage: AlertmessageService,) {
+    public alertMessage: AlertmessageService,
+    private confirmationDialogService: ConfirmationDialogService) {
 
   }
 
@@ -61,10 +65,10 @@ export class MyleaveComponent {
   }
 
   getLeaves() {
-    this.employeeService.getMyLeaves(this.jwtService.EmployeeId,this.year).subscribe((resp) => {
+    this.employeeService.getMyLeaves(this.jwtService.EmployeeId, this.year).subscribe((resp) => {
       this.leaves = resp as unknown as EmployeeLeaveDto[];
-      //console.log(this.leaves);
-
+      console.log(this.leaves);
+      
     })
   }
 
@@ -76,5 +80,21 @@ export class MyleaveComponent {
   clear(table: Table) {
     table.clear();
     this.filter.nativeElement.value = '';
+  }
+
+  deleteleaveDetails(employeeLeaveId) {
+    this.confirmationDialogService.comfirmationDialog(this.confirmationRequest).subscribe(userChoice => {
+      if (userChoice) {
+        this.employeeService.DeleteleaveDetails(employeeLeaveId).subscribe((resp) => {
+          if (resp) {
+            this.alertMessage.displayAlertMessage(ALERT_CODES["ELA003"]);
+            this.getLeaves();
+          }
+          else {
+            this.alertMessage.displayErrorMessage(ALERT_CODES["ELA004"]);
+          }
+        })
+      }
+    });
   }
 }

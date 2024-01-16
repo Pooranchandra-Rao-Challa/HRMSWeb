@@ -362,6 +362,9 @@ export class EmployeeLeaveDto {
 	leaveTypeId?: number;
 	leaveReasonId?:number;
 	isHalfDayLeave?:boolean;
+	isDeleted?:boolean;
+	isLeaveUsed?:boolean;
+	isFromAttendance?:boolean;
 	leaveType?: string;
 	note?: string;
 	previousWorkStatusId?:number
@@ -382,8 +385,9 @@ export class EmployeeLeaveDto {
 export class EmployeeAttendanceList {
 	attendanceId?: number;
 	employeeId?: number;
+	leaveTypeId?: number;
 	date: Date
-	DayWorkStatusId?: number;
+	dayWorkStatusId?: number;
 	NotReported: boolean;
 	isHalfDayLeave:boolean
 }

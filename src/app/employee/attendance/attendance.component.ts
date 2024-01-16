@@ -21,6 +21,12 @@ import { ReportService } from 'src/app/_services/report.service';
 import { MAX_LENGTH_256 } from 'src/app/_shared/regex';
 import * as FileSaver from "file-saver";
 
+enum AttendanceReportTypes {
+  MonthlyAttendanceReport = 'Monthly Attendance Report',
+  YearlyAttendanceReport = 'Yearly Attendance Report',
+  DatewiseAttendanceReport = 'Datewise Attendance Report',
+  ProjectwiseAttendanceReport = 'Projectwise Attendance Report',
+}
 
 @Component({
   selector: 'app-attendance',
@@ -95,12 +101,6 @@ export class AttendanceComponent {
     this.initDayWorkStatus();
     this.loadLeaveReasons();
     this.getLeaves();
-    this.AttendanceReportsTypes = [
-      { name: 'Year Attendance Report', code: 'YAR' },
-      { name: 'Montly Attendance Report', code: 'MAR' },
-      { name: 'Datewise Attendance Report', code: 'DAR' },
-      { name: 'Projectwise Attendance Report', code: 'PAR' },
-    ]
   }
 
   initLeaveForm() {
@@ -137,14 +137,13 @@ export class AttendanceComponent {
       approvedBy: new FormControl(null),
       approvedAt: new FormControl(null),
       rejected: new FormControl(null),
+      isFromAttendance: new FormControl(null),
     });
   }
 
   initProjects() {
     this.adminService.GetProjects().subscribe(resp => {
       this.projects = resp as unknown as ProjectViewDto[];
-      console.log(resp);
-
     });
   }
   initDayWorkStatus() {
@@ -161,6 +160,15 @@ export class AttendanceComponent {
 
       }
     })
+  }
+  getAttendanceReportTypeOptions() {
+    const options = [];
+    for (const key in AttendanceReportTypes) {
+      if (AttendanceReportTypes.hasOwnProperty(key)) {
+        options.push({ label: AttendanceReportTypes[key], value: key });
+      }
+    }
+    return options;
   }
   getLeaveTypeDisplayName(name: string): string {
     switch (name) {
@@ -377,7 +385,8 @@ export class AttendanceComponent {
       fromDate: this.stringToDate(date),
       notReported: false,
       isHalfDayLeave: employeeleave.isHalfDayLeave,
-      note: employeeleave.note
+      note: employeeleave.note,
+      isFromAttendance:true
     };
 
     this.fbleave.patchValue(defaultValues);
@@ -431,8 +440,8 @@ export class AttendanceComponent {
   updateEmployeeAttendance() {
     const updateData = {
       ...this.fbleave.value,
-      dayWorkStatusId: this.fbleave.get('leaveTypeId').value,
-      fromDate: formatDate(this.fbleave.get('fromDate').value, 'yyyy-MM-dd', 'en'),
+      leaveTypeId: this.fbleave.get('leaveTypeId').value,
+      fromDate: formatDate(new Date(this.fbleave.get('fromDate').value), 'yyyy-MM-dd', 'en'),
     };
     this.employeeService.updatePreviousDayEmployeeAttendance(updateData).subscribe(resp => {
       let rdata = resp as unknown as any;
@@ -451,7 +460,6 @@ export class AttendanceComponent {
 
   addAttendance() {
     this.fbleave.get('fromDate').enable();
-
     // To update the previous day or updated attendance date of employee the condition will do and stops.
     if (this.fbleave?.get('previousWorkStatusId')?.value) {
       this.updateEmployeeAttendance();
@@ -488,22 +496,29 @@ export class AttendanceComponent {
 
   saveEmployeeLeave() {
     let fromDate = FORMAT_DATE(this.fbleave.get('fromDate').value);
-    this.employeeService.UpdateEmployeeLeaveFromAttendance(this.fbleave.value).subscribe(resp => {
-      if (resp) {
-        this.alertMessage.displayAlertMessage(ALERT_CODES["ELD001"]);
-        if (fromDate < this.today) {
-          const StatusId = this.LeaveTypes.find(each => each.name == "PT").lookupDetailId;
-          this.fbAttendance.patchValue({
-            employeeId: this.fbleave.get('employeeId').value,
-            dayWorkStatusId: StatusId,
-            date: fromDate,
-            notReported: false
-          });
-          this.saveAttendance([this.fbAttendance.value]);
-        }
-      }
+    this.fbleave.get('isFromAttendance').setValue(true);
+    this.employeeService.CreateEmployeeLeaveDetails(this.fbleave.value).subscribe(resp => {
+      let rdata = resp as unknown as any;
+      if (!rdata.isSuccess)
+        this.alertMessage.displayErrorMessage(rdata.message);
       else
-        return this.alertMessage.displayErrorMessage(ALERT_CODES["ELR002"]);
+        if (resp) {
+          if (rdata.message)
+            this.alertMessage.displayAlertMessage(rdata.message)
+          else
+            this.alertMessage.displayAlertMessage(ALERT_CODES["ELD001"]);
+          if (fromDate < this.today) {
+            const StatusId = this.LeaveTypes.find(each => each.name == "PT").lookupDetailId;
+            this.fbAttendance.patchValue({
+              employeeId: this.fbleave.get('employeeId').value,
+              dayWorkStatusId: StatusId,
+              date: fromDate,
+              notReported: false
+            });
+            this.saveAttendance([this.fbAttendance.value]);
+          }
+        }
+
       this.initAttendance();
       this.getLeaves();
     });
@@ -608,13 +623,13 @@ export class AttendanceComponent {
     this.filter.nativeElement.value = '';
   }
   DownloadAttendanceReport(name: string) {
-    if (name == "Datewise Attendance Report")
+    if (name == AttendanceReportTypes.DatewiseAttendanceReport)
       this.DatewiseAttendanceReportDialog = true;
-    else if (name == "Montly Attendance Report")
+    else if (name == AttendanceReportTypes.MonthlyAttendanceReport)
       this.downloadMonthlyAttendanceReport()
-    else if (name == "Year Attendance Report")
+    else if (name == AttendanceReportTypes.YearlyAttendanceReport)
       this.downloadYearlyAttendanceReport()
-    else if (name == "Projectwise Attendance Report")
+    else if (name == AttendanceReportTypes.ProjectwiseAttendanceReport)
       this.ProjectwiseAttendanceReportDialog = true;
   }
   downloadProjectwiseAttendanceReport() {
@@ -624,7 +639,7 @@ export class AttendanceComponent {
       formatDate(new Date(fromDateValue), 'yyyy-MM-dd', 'en'),
       formatDate(new Date(toDateValue), 'yyyy-MM-dd', 'en'),
       this.fbProjectwiseAttendanceReport.get('projectId').value
-      )
+    )
       .subscribe((resp) => {
         if (resp.type === HttpEventType.DownloadProgress) {
           const percentDone = Math.round(100 * resp.loaded / resp.total);
@@ -645,7 +660,7 @@ export class AttendanceComponent {
     this.reportService.DownloadDatewiseAttendanceReport(
       formatDate(new Date(fromDateValue), 'yyyy-MM-d', 'en'),
       formatDate(new Date(toDateValue), 'yyyy-MM-d', 'en'),
-      )
+    )
       .subscribe((resp) => {
         if (resp.type === HttpEventType.DownloadProgress) {
           const percentDone = Math.round(100 * resp.loaded / resp.total);

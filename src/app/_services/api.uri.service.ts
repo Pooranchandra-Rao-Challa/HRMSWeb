@@ -107,6 +107,7 @@ export const GET_PATH = "UploadDocument/DownloadFile";
 export const GET_EMPLOYEE_PROFILE_PIC = "Employee/GetEmployeeBasicInfo";
 export const GET_EMPLOYEE_PHOTO = "Employee/GetEmployeePhoto";
 export const GET_ALL_EMPLOYEES_FOR_REPORT ="Employee/GetEmployeesForReporting";
+export const DELETE_LEAVE_DETAILS ="Attendance/DeleteLeave";
 //Attendence
 
 export const GET_ATTENDENCE = "Attendance/GetMonthlyAttendanceReport";
@@ -115,7 +116,7 @@ export const POST_LISTOF_ATTENDANCES = "Attendance/CreateAttendanceForEmployees"
 export const GET_MY_LEAVE_DETAILS = "Attendance/GetLeavesForSelfEmployee";
 export const GET_EMPLOYEE_LEAVE_DETAILS = "Attendance/GetEmployeeLeaves";
 export const CREATE_EMPLOYEE_LEAVE_DETAILS = "Attendance/CreateEmployeeLeave";
-export const UPDATE_EMPLOYEE_LEAVE_DETAILS = "Attendance/UpdateEmployeeLeave";
+export const UPDATE_EMPLOYEE_LEAVE_DETAILS = "Attendance/AdminLeaveApproval";
 export const GET_NOTUPDATED_EMPLOYEES = "Attendance/GetNotUpdatedEmployeesInAttendance";
 export const GET_COMPANY_HIERARCHY = "Employee/GetCompanyHierarchy";
 export const GET_EMPLOYEE_LEAVE_ONDATE = "Attendance/GetEmployeeLeaveOnDate";

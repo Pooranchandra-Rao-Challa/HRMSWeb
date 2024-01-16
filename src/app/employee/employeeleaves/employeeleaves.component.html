@@ -1,5 +1,6 @@
 <div class="col-12">
     <div class="card" id="main-card">
+        <p-confirmDialog [style]="{width: '30%'}"></p-confirmDialog>
         <!-- Toolbar -->
         <p-toolbar styleClass="p-mb-4">
             <ng-template pTemplate="left">
@@ -36,8 +37,8 @@
                             </p-calendar>
                         </div>
                         <div class="pl-2">
-                            <p-button icon="pi pi-angle-right ml-2" (click)="gotoNextMonth()"
-                                id="Attendance_nextMonth"></p-button>
+                            <p-button icon="pi pi-angle-right ml-2" (click)="gotoNextMonth()" id="Attendance_nextMonth">
+                            </p-button>
                         </div>
                         <div class="pl-2" style="margin-top: 10px;">
                             {{this.month}}/{{this.year}}
@@ -65,7 +66,8 @@
                         </p-columnFilter>
                         <p-sortIcon [field]="col.header"></p-sortIcon>
                     </th>
-                    <th *ngIf="permissions?.CanManageLeave" pFrozenColumn alignFrozen="right" [frozen]="true"> Actions
+                    <th *ngIf="permissions?.CanManageLeave || permissions?.CanDeleteLeaves" pFrozenColumn
+                        alignFrozen="right" [frozen]="true"> Actions
                     </th>
                 </tr>
             </ng-template>
@@ -104,14 +106,24 @@
                             </ng-template>
                         </span>
                     </td>
-                    <td *ngIf="permissions?.CanManageLeave" pFrozenColumn alignFrozen="right" [frozen]="true">
-                        <div class="flex" *ngIf="leave.status === 'Pending'">
-                            <button pButton pRipple icon="pi pi-check" id="Leave_Approved_Button"
-                                class="p-element p-ripple  p-button  p-button-outlined p-button-success mr-3 p-0"
-                                (click)="openSweetAlert('Reason For Approve',leave)"></button>
-                            <button pButton pRipple icon="pi pi-times" id="Levave_Rejected_Button"
+                    <td pFrozenColumn alignFrozen="right" [frozen]="true">
+
+                        <div *ngIf="permissions?.CanManageLeave" style="display:flex" class="pb-2">
+                            <div class="flex" *ngIf="leave.status === 'Pending' && leave.isDeleted !== true">
+                                <button pButton pRipple icon="pi pi-check" id="Leave_Approved_Button"
+                                    class="p-element p-ripple  p-button  p-button-outlined p-button-success mr-3 p-0"
+                                    (click)="openSweetAlert('Reason For Approve',leave)"></button>
+                                <button pButton pRipple icon="pi pi-times" id="Levave_Rejected_Button"
+                                    class="p-element p-ripple p-button-outlined p-button-danger p-button col-2 p-0"
+                                    (click)="openSweetAlert('Reason for Reject',leave)"></button>
+                            </div>
+                        </div>
+                        <div
+                            *ngIf="permissions?.CanDeleteLeaves && leave?.isLeaveUsed !== true &&  leave?.isDeleted !== true">
+                            <button pButton pRipple icon="pi pi-trash" id="delete"
                                 class="p-element p-ripple p-button-outlined p-button-danger p-button col-2 p-0"
-                                (click)="openSweetAlert('Reason for Reject',leave)"></button>
+                                (click)="deleteleaveDetails(leave.employeeLeaveId)"></button>
+
                         </div>
                     </td>
                 </tr>

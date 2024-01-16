@@ -7,9 +7,18 @@
         <h4>Projects</h4>
       </ng-template>
       <ng-template pTemplate="right">
-        <button pButton class="p-button doc_button mr-2" (click)="downloadProjectReport()"
-          *ngIf="permission?.CanDownloadProjects" icon="icon-csv-svgrepo-com-1" pTooltip="Download CSV"
-          tooltipPosition="left"></button>
+        <div *ngIf="permission?.CanDownloadProjects">
+          <p-dropdown [options]="this.ProjectstatuesReportType" optionLabel="name"
+              placeholder="Select Project Report Type" (onChange)="downloadProjectReport($event.value)"
+              optionValue="eProjectStatusesId" class="att_dropdown">
+          </p-dropdown>
+
+      </div>
+      <div *ngIf="permission?.CanDownloadProjects">
+          <button type="button " pButton icon="icon-csv-svgrepo-com-1"
+              class=" mr-2 doc_button doc_button att_report_button" pTooltip="Download Attendance Report"
+              tooltipPosition="left"></button>
+      </div>
         <button pButton pRipple label="Add New Project" icon="pi pi-plus" class="p-button-primary p-mr-2"
           id="Project_addProject" *ngIf="permission?.CanManageProjects" (click)="onEditProject(null)"></button>
       </ng-template>
