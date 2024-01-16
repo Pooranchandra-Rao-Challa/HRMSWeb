@@ -62,6 +62,7 @@
         </div>
     </div>
     <div class="col-12 lg:col-3 md:col-5 sm:col-6">
+       
         <div class="card pb-5 pt-5 chart_card">
             <div class="card-headr gap-2 pb-2">
                 <div class="card-title">
@@ -69,29 +70,41 @@
                 </div>
             </div>
             <div class="mb-1">
-                <div class="grid">
-                    <div class="col-6 flex py-0">
-                        <i class="pi pi-circle-fill dashboardinoffice m-1"></i><span>In Office </span>
+                <div class="grid px-3" >
+                    <div class="col-3 p-0"> 
+                        <div class="flex align-items-center">
+                            <p-radioButton name="pizza" value="Cheese" id="charts"></p-radioButton>
+                            <label for="ingredient1" class="" id="charts-label">Day</label>
+                        </div>
                     </div>
-                    <div class="col-6 flex py-0">
-                        <i class="pi pi-circle-fill dashboardabsent m-1"></i><span>Absent</span>
+                    <div class="col-3 p-0"> 
+                        <div class="flex align-items-center">
+                            <p-radioButton name="pizza" value="Cheese" id="charts"></p-radioButton>
+                            <label for="ingredient1" class="" id="charts-label">Month</label>
+                        </div>
                     </div>
-                    <div class="col-6 flex py-0">
-                        <i class="pi pi-circle-fill dashboardpl m-1"></i><span>PL</span>
+                    <div class="col-3 p-0"> 
+                        <div class="flex align-items-center">
+                            <p-radioButton name="pizza" value="Cheese" id="charts"></p-radioButton>
+                            <label for="ingredient1" class="" id="charts-label">Year</label>
+                        </div>
                     </div>
-                    <div class="col-6 flex py-0">
-                        <i class="pi pi-circle-fill dashboardcl m-1"></i><span>CL</span>
-                    </div>
-                    <div class="col-6 flex py-0 ">
-                        <i class="pi pi-circle-fill dashboardwfh m-1"></i><span>WFH</span>
-                    </div>
-                    <div class="col-6 flex py-0 ">
-                        <i class="pi pi-circle-fill dashboardlwp m-1"></i><span>LWP</span>
+                    <div class="col-3 p-0 text-center"> 
+                        <i class="pi pi-angle-left d-leave-font" >
+                        </i>
+                        <p-calendar styleClass="only-icon" [showIcon]="true" id="charts_date_picker"
+                            view="month" [yearNavigator]="true" yearRange="2000:2030" [readonlyInput]="true"
+                            inputId="monthpicker"  pTooltip="Monthly PL's"
+                            tooltipPosition="bottom">
+                        </p-calendar>
+                        <i class="pi pi-angle-right d-leave-font" ></i>
+                        <p class="text-xs">10-Feb-2023</p>
                     </div>
                 </div>
+                
                 <ul class="list-none p-0 m-0">
                     <li *ngIf="this.admindashboardDtls?.savedActiveEmployeesInOffice?.length > 0; else noDataMessage">
-                        <p-chart type="doughnut" [data]="pieDataforAttendance" [options]="pieOptions" height="135px"
+                        <p-chart type="doughnut" [data]="pieDataforAttendance" [options]="pieOptions" height="200px"
                             width="100%"></p-chart>
                     </li>
                     <ng-template #noDataMessage>
@@ -103,6 +116,7 @@
                         </div>
                     </ng-template>
                 </ul>
+                
             </div>
         </div>
         <div class="card pb-5 pt-5  chart_card">
@@ -112,7 +126,7 @@
                 </div>
             </div>
             <div class="mb-0">
-                <div class="grid">
+                <!-- <div class="grid">
                     <div class="col-6 flex py-0">
                         <i class="pi pi-circle-fill text-primary-300 m-1"></i><span>Initial </span>
                     </div>
@@ -125,10 +139,10 @@
                     <div class="col-6 flex py-0">
                         <i class="pi pi-circle-fill text-blue-300 m-1"></i><span>AMC</span>
                     </div>
-                </div>
+                </div> -->
                 <ul class="list-none p-0 m-1">
                     <li *ngIf="this.admindashboardDtls?.savedactiveProjects?.length > 0; else noDataMessage">
-                        <p-chart type="doughnut" [data]="pieDataforProjects" [options]="pieOptions" height="135px"
+                        <p-chart type="doughnut" [data]="pieDataforProjects" [options]="pieOptions" height="200px"
                             width="100%">
                         </p-chart>
                     </li>
@@ -148,10 +162,45 @@
         <div class="col-12 xl:col-12 pt-1">
             <div class="grid">
                 <div class="col-12  xl:col-12">
-                    <div class="card">
-                        <div class="card-headr gap-3 pb-2">
+                    <div class="card employee_card_dashboard">
+                        <div class="card-headr  gap-6 pb-2">
                             <div class="">
-                                <h6>Employee </h6>
+                               
+                            </div>
+                            <div class="grid px-3" >
+                                <div class="col-4 p-0">
+                                    <h6>Employee </h6>
+                                </div>
+                               
+                                <div class="col-2 p-0"> 
+                                    <div class="flex align-items-center">
+                                        <p-radioButton name="pizza" value="Cheese" id="charts"></p-radioButton>
+                                        <label for="ingredient1" class="" id="charts-label">Day</label>
+                                    </div>
+                                </div>
+                                <div class="col-2 p-0"> 
+                                    <div class="flex align-items-center">
+                                        <p-radioButton name="pizza" value="Cheese" id="charts"></p-radioButton>
+                                        <label for="ingredient1" class="" id="charts-label">Month</label>
+                                    </div>
+                                </div>
+                                <div class="col-2 p-0"> 
+                                    <div class="flex align-items-center">
+                                        <p-radioButton name="pizza" value="Cheese" id="charts"></p-radioButton>
+                                        <label for="ingredient1" class="" id="charts-label">Year</label>
+                                    </div>
+                                </div>
+                                <div class="col-2 p-0 text-center"> 
+                                    <i class="pi pi-angle-left d-leave-font" >
+                                    </i>
+                                    <p-calendar styleClass="only-icon" [showIcon]="true" id="charts_date_picker"
+                                        view="month" [yearNavigator]="true" yearRange="2000:2030" [readonlyInput]="true"
+                                        inputId="monthpicker"  pTooltip="Monthly PL's"
+                                        tooltipPosition="bottom">
+                                    </p-calendar>
+                                    <i class="pi pi-angle-right d-leave-font" ></i>
+                                    <p class="text-xs">10-Feb-2023</p>
+                                </div>
                             </div>
                         </div>
                         <p-tabView>
@@ -167,7 +216,7 @@
                                 </ng-template>
 
                                 <ul class="list-none p-0 overflow-auto"
-                                    style="margin: 0 -1.5rem -1rem; max-height: 17.745rem">
+                                    style="margin: 0 -1.5rem -1rem; max-height: 150px">
                                     <ng-container
                                         *ngIf="admindashboardDtls?.savedemployeesOnLeave && admindashboardDtls?.savedemployeesOnLeave?.length > 0; else noDataTemplate">
                                         <li *ngFor="let employee of admindashboardDtls?.savedemployeesOnLeave"

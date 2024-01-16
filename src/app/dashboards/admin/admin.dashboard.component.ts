@@ -67,19 +67,21 @@ export class AdminDashboardComponent implements OnInit {
                 {
                     data: [present, absent, PrevlageLeaves, CasualLeaves, WrokFromHome, leaveWithoutPay],
                     backgroundColor: [documentStyle.getPropertyValue('--inofc-b'), documentStyle.getPropertyValue('--abst-b'), documentStyle.getPropertyValue('--pl-b'), documentStyle.getPropertyValue('--cl-b'), documentStyle.getPropertyValue('--wfh-b'), documentStyle.getPropertyValue('--lwp-b')],
-                    borderColor: surfaceBorder
+                    borderColor: surfaceBorder,
+                    pointStyle: 'circle',
                 }
             ]
         };
         this.pieOptions = {
             animation: {
-                duration: 5
+                duration: 500
             },
             plugins: {
                 legend: {
-                    display: false,
+                    display: true,
                     labels: {
-                        display: false
+                        display: true,
+                        usePointStyle: true
                     },
                     position: 'bottom'
                 }
@@ -92,7 +94,7 @@ export class AdminDashboardComponent implements OnInit {
         const amc = this.admindashboardDtls?.savedactiveProjects.find(each => each.projectStatus == 'AMC')?.projectStatusCount;
 
         this.pieDataforProjects = {
-            labels: ['Initial', 'Dev', 'Com', 'Amc'],
+            labels: ['Initial', 'Development', 'Completed', 'AMC'],
             datasets: [
                 {
                     data: [initial, development, completed, amc],
