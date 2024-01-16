@@ -4,7 +4,7 @@ import { EmployeeLeaveDialogComponent } from 'src/app/_dialogs/employeeleave.dia
 import { DATE_OF_JOINING, FORMAT_DATE, MEDIUM_DATE, ORIGINAL_DOB } from 'src/app/_helpers/date.formate.pipe';
 import { HolidaysViewDto } from 'src/app/_models/admin';
 import { Actions, DialogRequest, ITableHeader } from 'src/app/_models/common';
-import { SelfEmployeeDto, selfEmployeeMonthlyLeaves, workingProjects } from 'src/app/_models/dashboard';
+import { NotificationsDto, NotificationsRepliesDto, SelfEmployeeDto, selfEmployeeMonthlyLeaves, workingProjects } from 'src/app/_models/dashboard';
 import { AdminService } from 'src/app/_services/admin.service';
 import { DashboardService } from 'src/app/_services/dashboard.service';
 import { JwtService } from 'src/app/_services/jwt.service';
@@ -40,6 +40,10 @@ export class EmployeeDashboardComponent {
     monthlyLeaves: selfEmployeeMonthlyLeaves;
     selectedYear: any | undefined;
     holidays: HolidaysViewDto[] = [];
+    isActiveNotifications: boolean = true;
+    notifications: NotificationsDto[] = [];
+    notificationReplies: NotificationsRepliesDto[] = []
+    wishesDialog: boolean;
     years: any
     projects: { name: string, projectLogo: string, description: string, projectId: number, periods: { sinceFrom: Date, endAt: Date }[] }[] = [];
 
@@ -59,10 +63,13 @@ export class EmployeeDashboardComponent {
 
     ngOnInit() {
         this.permissions = this.jwtService.Permissions;
+        this.wishesDialog = false;
         this.getEmployeeDataBasedOnId()
         this.initializeYears();
         this.getHoliday()
         this.initGetLeavesForMonth();
+        this.initNotifications();
+        this.initNotificationsBasedOnId();
     }
 
     getHoliday(): void {
@@ -90,6 +97,32 @@ export class EmployeeDashboardComponent {
         this.dashBoardService.GetEmployeeLeavesForMonth(this.month, this.jwtService.EmployeeId, this.year).subscribe(resp => {
             this.monthlyLeaves = resp[0] as unknown as selfEmployeeMonthlyLeaves;
         });
+    }
+    initNotifications() {
+        this.dashBoardService.GetNotifications(this.isActiveNotifications).subscribe(resp => {
+            this.notifications = resp as unknown as NotificationsDto[];
+            console.log(resp);
+        })
+    }
+    initNotificationsBasedOnId() {
+        this.dashBoardService.GetNotificationsBasedOnId(this.isActiveNotifications, this.jwtService.EmployeeId).subscribe(resp => {
+            this.notificationReplies = resp as unknown as NotificationsRepliesDto[];
+            console.log(resp, this.jwtService.EmployeeId)
+        })
+    }
+    getNotificationsBasedOnActive() {
+
+        this.initNotifications();
+        this.initNotificationsBasedOnId();
+    }
+    showBirthdayDialog() {
+        this.wishesDialog = true;
+    }
+    onSubmit() {
+
+    }
+    onClose() {
+        this.wishesDialog = false;
     }
 
     getEmployeeDataBasedOnId() {

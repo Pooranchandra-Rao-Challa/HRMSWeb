@@ -31,10 +31,10 @@ export class SelfEmployeeDto {
     empaddress?: addresses[];
 }
 export class selfEmployeeMonthlyLeaves {
-    employeeName?:string;
+    employeeName?: string;
     leaveType?: string;
     status?: string;
-    isDeleted?:boolean;
+    isDeleted?: boolean;
     usedCLsInMonth?: number
     usedPLsInMonth?: number
 }
@@ -53,6 +53,25 @@ export class workingProjects {
     projectDescription?: string;
     sinceFrom?: Date;
     endAt?: Date;
+}
+export class NotificationsDto {
+    employeeId?: number
+    employeeName?: string
+    isActive?: boolean
+    message?: string
+    messageType?: string
+    messageTypeId?: number
+}
+export class NotificationsRepliesDto {
+    employeeId?: number
+    employeeName?: string
+    isActive?: boolean
+    message?: string
+    messageType?: string
+    messageTypeId?: number
+    notificationId?:number
+    notificationMessage?:string
+    notificationReplyId?:number
 }
 export class addresses {
     addressId?: number;
