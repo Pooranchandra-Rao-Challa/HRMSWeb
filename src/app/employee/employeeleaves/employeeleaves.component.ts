@@ -49,19 +49,19 @@ export class EmployeeLeavesComponent {
   confirmationRequest: ConfirmationRequest = new ConfirmationRequest();
 
   headers: ITableHeader[] = [
+    { field: 'status', header: 'status', label: 'Status' },
     { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
     { field: 'leaveType', header: 'leaveType', label: 'Leave Type' },
-    { field: 'isHalfDayLeave', header: 'isHalfDayLeave', label: 'Half Day Leave' },
     { field: 'fromDate', header: 'fromDate', label: 'From Date' },
     { field: 'toDate', header: 'toDate', label: 'To Date' },
     { field: 'note', header: 'note', label: 'Leave Description' },
+    { field: 'isHalfDayLeave', header: 'isHalfDayLeave', label: 'Half Day Leave' },
     { field: 'isDeleted', header: 'isDeleted', label: 'Is Deleted' },
     { field: 'acceptedBy', header: 'acceptedBy', label: 'Accepted By' },
     { field: 'acceptedAt', header: 'acceptedAt', label: 'Accepted At' },
     { field: 'approvedBy', header: 'approvedBy', label: 'Approved By' },
     { field: 'approvedAt', header: 'approvedAt', label: 'Approved At' },
     { field: 'createdBy', header: 'createdBy', label: 'Created By' },
-    { field: 'status', header: 'status', label: 'Status' }
   ];
   value: number;
 
