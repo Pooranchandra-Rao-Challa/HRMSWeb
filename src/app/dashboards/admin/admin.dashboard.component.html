@@ -76,9 +76,9 @@
                         <div class="grid p-0">
                             <div class="col-4 p-0">
                                 <div class="flex align-items-center">
-                                    <p-radioButton [(ngModel)]="chart" value="Day" id="charts1"
+                                    <p-radioButton [(ngModel)]="chart" value="Date" id="charts1"
                                         (click)="getAttendanceCountsBasedOnType()"></p-radioButton>
-                                    <label for="charts1" class="" id="charts-label">Day</label>
+                                    <label for="charts1" class="" id="charts-label">Date</label>
                                 </div>
                             </div>
                             <div class="col-4 p-0">
@@ -105,7 +105,7 @@
                     <div class="col-4">
                         <!-- For attendance section -->
                         <div class="col-12 p-0 text-center">
-                            <span *ngIf="chart === 'Day'; else attendanceMonthContent">
+                            <span *ngIf="chart === 'Date'; else attendanceMonthContent">
                                 <i class="pi pi-angle-left d-leave-font" (click)="gotoPreviousDay()"></i>
                                 <p-calendar class="charts_date_picker" styleClass="only-icon" [showIcon]="true"
                                     id="Attendance_date_picker" [yearNavigator]="true" yearRange="2000:2030"

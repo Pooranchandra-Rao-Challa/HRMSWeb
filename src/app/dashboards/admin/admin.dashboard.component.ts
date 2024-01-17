@@ -33,8 +33,7 @@ export class AdminDashboardComponent implements OnInit {
 
     ngOnInit() {
         this.inItAdminDashboard();
-        this.getAttendanceCountsBasedOnType();
-        this.chart = 'Day';
+        this.chart = 'Date';
         const currentDate = new Date();
         this.month = currentDate.getMonth() + 1;
         this.year = currentDate.getFullYear();
@@ -51,21 +50,23 @@ export class AdminDashboardComponent implements OnInit {
         const previousDay = new Date(this.selectedDate);
         previousDay.setDate(previousDay.getDate() - 1);
         this.selectedDate = previousDay;
+        this.getAttendanceCountsBasedOnType();
     }
 
     onDaySelect(event) {
         this.selectedDate = event.value;
+        this.getAttendanceCountsBasedOnType();
     }
 
     gotoNextDay() {
-        // Increment the current day by 1
         const nextDay = new Date(this.selectedDate);
         nextDay.setDate(nextDay.getDate() + 1);
         this.selectedDate = nextDay;
+        this.getAttendanceCountsBasedOnType();
     }
 
     getCurrentDay(): string {
-        return this.formatDate(this.selectedDate, MEDIUM_DATE);
+        return this.formatDate(this.selectedDate, 'yyyy-MM-dd');
     }
 
     formatDate(date: Date, format: string): string {
@@ -90,6 +91,7 @@ export class AdminDashboardComponent implements OnInit {
             this.year++;    // Increment the year
         }
         this.updateSelectedMonth();
+        this.getAttendanceCountsBasedOnType();
     }
 
     updateSelectedMonth() {
@@ -103,6 +105,7 @@ export class AdminDashboardComponent implements OnInit {
         this.month = this.selectedMonth.getMonth() + 1; // Month is zero-indexed
         this.year = this.selectedMonth.getFullYear();
         this.updateSelectedMonth();
+        this.getAttendanceCountsBasedOnType();
     }
 
     getDaysInMonth(year: number, month: number) {
@@ -114,6 +117,7 @@ export class AdminDashboardComponent implements OnInit {
         for (let i = 1; i <= day; i++) {
             this.days.push(i);
         }
+        this.getAttendanceCountsBasedOnType();
     }
 
 
@@ -124,35 +128,38 @@ export class AdminDashboardComponent implements OnInit {
 
     onYearSelect(event) {
         this.year = this.selectedMonth.getFullYear();
+        this.getAttendanceCountsBasedOnType();
     }
 
     gotoPreviousYear() {
         this.year--;
+        this.getAttendanceCountsBasedOnType();
     }
 
     gotoNextYear() {
         this.year++;
+        this.getAttendanceCountsBasedOnType();
     }
 
     getAttendanceCountsBasedOnType() {
-        if (this.chart === 'Day') {
+        if (this.chart === 'Date') {
             this.selectedDate = DATE_FORMAT(new Date(this.selectedDate));
             this.dashboardService.getAttendanceCountBasedOnType(this.chart, this.selectedDate).subscribe((resp) => {
                 this.attendanceCount = resp as unknown as AttendanceCountBasedOnTypeViewDto[];
-                this.initChart();
+                this.attendanceChart();
             })
         }
         else if (this.chart === 'Month') {
             this.selectedMonth = DATE_FORMAT_MONTH(new Date(this.selectedMonth));
             this.dashboardService.getAttendanceCountBasedOnType(this.chart, this.selectedMonth).subscribe((resp) => {
                 this.attendanceCount = resp as unknown as AttendanceCountBasedOnTypeViewDto[];
-                this.initChart();
+                this.attendanceChart();
             })
         }
         else if (this.chart === 'Year') {
             this.dashboardService.getAttendanceCountBasedOnType(this.chart, this.year).subscribe((resp) => {
-                this.attendanceCount = resp as unknown as AttendanceCountBasedOnTypeViewDto[];                
-                this.initChart();
+                this.attendanceCount = resp as unknown as AttendanceCountBasedOnTypeViewDto[];
+                this.attendanceChart();
             })
         }
     }
@@ -189,7 +196,7 @@ export class AdminDashboardComponent implements OnInit {
         });
     }
 
-    initChart() {
+    attendanceChart() {
         const documentStyle = getComputedStyle(document.documentElement);
         const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
         const CasualLeaves = this.attendanceCount.find(each => each.cl);
@@ -202,7 +209,7 @@ export class AdminDashboardComponent implements OnInit {
             datasets: [
                 {
                     data: [present?.pt || 0, PrevlageLeaves?.pl || 0, CasualLeaves?.cl || 0, leaveWithoutPay?.lwp || 0],
-                    backgroundColor: [documentStyle.getPropertyValue('--inofc-b'),documentStyle.getPropertyValue('--pl-b'), documentStyle.getPropertyValue('--cl-b'),documentStyle.getPropertyValue('--lwp-b')],
+                    backgroundColor: [documentStyle.getPropertyValue('--inofc-b'), documentStyle.getPropertyValue('--pl-b'), documentStyle.getPropertyValue('--cl-b'), documentStyle.getPropertyValue('--lwp-b')],
                     borderColor: surfaceBorder,
                     pointStyle: 'circle',
                 }
@@ -224,6 +231,11 @@ export class AdminDashboardComponent implements OnInit {
             }
         };
 
+    }
+
+    initChart() {
+        const documentStyle = getComputedStyle(document.documentElement);
+        const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
         const initial = this.admindashboardDtls?.savedactiveProjects.find(each => each.projectStatus == 'Initial')?.projectStatusCount;
         const development = this.admindashboardDtls?.savedactiveProjects.find(each => each.projectStatus == 'Working')?.projectStatusCount;
         const completed = this.admindashboardDtls?.savedactiveProjects.find(each => each.projectStatus == 'Completed')?.projectStatusCount;
@@ -238,6 +250,21 @@ export class AdminDashboardComponent implements OnInit {
                     borderColor: surfaceBorder
                 }
             ]
+        };
+        this.pieOptions = {
+            animation: {
+                duration: 500
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    labels: {
+                        display: true,
+                        usePointStyle: true
+                    },
+                    position: 'bottom'
+                }
+            }
         };
     }
 
