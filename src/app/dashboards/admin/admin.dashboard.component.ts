@@ -2,8 +2,10 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DATE_FORMAT, DATE_FORMAT_MONTH, FORMAT_DATE, FORMAT_MONTH, MEDIUM_DATE, MONTH, ORIGINAL_DOB } from 'src/app/_helpers/date.formate.pipe';
-import { AttendanceCountBasedOnTypeViewDto, adminDashboardViewDto } from 'src/app/_models/dashboard';
+import { LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
+import { AttendanceCountBasedOnTypeViewDto, EmployeesofAttendanceCountsViewDto, adminDashboardViewDto } from 'src/app/_models/dashboard';
 import { DashboardService } from 'src/app/_services/dashboard.service';
+import { LookupService } from 'src/app/_services/lookup.service';
 
 
 @Component({
@@ -13,7 +15,7 @@ export class AdminDashboardComponent implements OnInit {
     admindashboardDtls: adminDashboardViewDto;
     pieDataforAttendance: any;
     pieOptionsforProjects: any;
-    pieOptionsforAttendance:any;
+    pieOptionsforAttendance: any;
     pieDataforProjects: any;
     chartFilled: boolean;
     chart: string;
@@ -26,9 +28,12 @@ export class AdminDashboardComponent implements OnInit {
     monthFormat: string = MONTH;
     dateFormat: string = MEDIUM_DATE;
     attendanceCount: AttendanceCountBasedOnTypeViewDto[] = [];
+    employeeCount: EmployeesofAttendanceCountsViewDto[] = [];
+    hideElements: boolean = true;
+    leaveType: LookupDetailsDto[] = [];
 
     constructor(private dashboardService: DashboardService,
-        private router: Router, private datePipe: DatePipe) {
+        private router: Router, private datePipe: DatePipe, private lookupService: LookupService) {
         this.selectedDate = new Date();
     }
 
@@ -120,7 +125,7 @@ export class AdminDashboardComponent implements OnInit {
     }
 
     formatMonth(month: number): string {
-        const date = new Date(2000, month - 1, 1); 
+        const date = new Date(2000, month - 1, 1);
         return FORMAT_MONTH(date, this.monthFormat);
     }
 
@@ -140,23 +145,24 @@ export class AdminDashboardComponent implements OnInit {
     }
 
     getAttendanceCountsBasedOnType() {
-        this.attendanceCount=[];
+        this.attendanceCount = [];
+        this.employeeCount = [];
         if (this.chart === 'Date') {
             this.selectedDate = DATE_FORMAT(new Date(this.selectedDate));
-            this.dashboardService.getAttendanceCountBasedOnType(this.chart, this.selectedDate).subscribe((resp) => {
+            this.dashboardService.GetAttendanceCountBasedOnType(this.chart, this.selectedDate).subscribe((resp) => {
                 this.attendanceCount = resp as unknown as AttendanceCountBasedOnTypeViewDto[];
                 this.attendanceChart();
             })
         }
         else if (this.chart === 'Month') {
             this.selectedMonth = DATE_FORMAT_MONTH(new Date(this.selectedMonth));
-            this.dashboardService.getAttendanceCountBasedOnType(this.chart, this.selectedMonth).subscribe((resp) => {
+            this.dashboardService.GetAttendanceCountBasedOnType(this.chart, this.selectedMonth).subscribe((resp) => {
                 this.attendanceCount = resp as unknown as AttendanceCountBasedOnTypeViewDto[];
                 this.attendanceChart();
             })
         }
         else if (this.chart === 'Year') {
-            this.dashboardService.getAttendanceCountBasedOnType(this.chart, this.year).subscribe((resp) => {
+            this.dashboardService.GetAttendanceCountBasedOnType(this.chart, this.year).subscribe((resp) => {
                 this.attendanceCount = resp as unknown as AttendanceCountBasedOnTypeViewDto[];
                 this.attendanceChart();
             })
@@ -202,12 +208,13 @@ export class AdminDashboardComponent implements OnInit {
         const PrevlageLeaves = this.attendanceCount.find(each => each.pl);
         const present = this.attendanceCount.find(each => each.pt);
         const leaveWithoutPay = this.attendanceCount.find(each => each.lwp);
+        const workFromHome = this.attendanceCount.find(each => each.wfh);
 
         this.pieDataforAttendance = {
-            labels: ['PT', 'PL', 'CL', 'WFH', 'LWP'],
+            labels: ['PT', 'WFH', 'PL', 'CL', 'LWP'],
             datasets: [
                 {
-                    data: [present?.pt || 0, PrevlageLeaves?.pl || 0, CasualLeaves?.cl || 0, leaveWithoutPay?.lwp || 0],
+                    data: [present?.pt, workFromHome?.wfh, PrevlageLeaves?.pl, CasualLeaves?.cl, leaveWithoutPay?.lwp],
                     backgroundColor: [documentStyle.getPropertyValue('--inofc-b'), documentStyle.getPropertyValue('--pl-b'), documentStyle.getPropertyValue('--cl-b'), documentStyle.getPropertyValue('--lwp-b')],
                     borderColor: surfaceBorder,
                     pointStyle: 'circle',
@@ -227,9 +234,73 @@ export class AdminDashboardComponent implements OnInit {
                     },
                     position: 'bottom'
                 }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: surfaceBorder,
+                        drawBorder: false
+                    },
+                    ticks: {
+                        precision: 0
+                    }
+                },
+                x: {
+                    grid: {
+                        color: surfaceBorder,
+                        drawBorder: false
+                    }
+                }
             }
         };
+    }
 
+    onChartClick(event: any): void {
+        const clickedIndex = event?.element?.index;
+        if (clickedIndex !== undefined) {
+            const clickedLabel = this.pieDataforAttendance.labels[clickedIndex];
+            this.handleChartClick(clickedLabel);
+        }
+    }
+
+    handleChartClick(clickedLabel: string): void {
+        this.lookupService.DayWorkStatus().subscribe(resp => {
+            this.leaveType = resp as unknown as LookupViewDto[];
+            const leaveType = this.leaveType.find(type => type.name === clickedLabel);
+            if (leaveType) {
+                const lookupDetailId = leaveType.lookupDetailId;
+                switch (clickedLabel) {
+                    case 'PL':
+                    case 'CL':
+                    case 'PT':
+                    case 'LWP':
+                    case 'WFH':
+                        if (this.chart === 'Date') {
+                            this.selectedDate = DATE_FORMAT(new Date(this.selectedDate));
+                            this.dashboardService.GetEmployeeAttendanceCount(this.chart, this.selectedDate, lookupDetailId)
+                                .subscribe((resp) => {
+                                    this.employeeCount = resp as unknown as EmployeesofAttendanceCountsViewDto[];
+                                });
+                        } else if (this.chart === 'Month') {
+                            this.selectedMonth = DATE_FORMAT_MONTH(new Date(this.selectedMonth));
+                            this.dashboardService.GetEmployeeAttendanceCount(this.chart, this.selectedMonth, lookupDetailId)
+                                .subscribe((resp) => {
+                                    this.employeeCount = resp as unknown as EmployeesofAttendanceCountsViewDto[];
+                                });
+                        } else if (this.chart === 'Year') {
+                            this.dashboardService.GetEmployeeAttendanceCount(this.chart, this.year, lookupDetailId)
+                                .subscribe((resp) => {
+                                    this.employeeCount = resp as unknown as EmployeesofAttendanceCountsViewDto[];
+                                });
+                        }
+                        break;
+                    default:
+                        console.log('Unhandled click');
+                        break;
+                }
+            }
+        })
     }
 
     initChart() {

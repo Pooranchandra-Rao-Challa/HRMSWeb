@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiHttpService } from './api.http.service';
-import { adminDashboardViewDto, NotificationsDto,AttendanceCountBasedOnTypeViewDto, SelfEmployeeDto, selfEmployeeMonthlyLeaves } from '../_models/dashboard';
-import { GET_ADMIN_DASHBOARD, GET_ALLOTED_LEAVES, GET_NOTIFICATIONS, GET_NOTIFICATION_REPLIES, GET_ATTENDANCE_COUNT_BASED_ON_TYPE, GET_SELF_EMPLOYEE, GET_SELF_EMPLOYEE_MONTH_LEAVES } from './api.uri.service';
+import { adminDashboardViewDto, NotificationsDto,AttendanceCountBasedOnTypeViewDto, SelfEmployeeDto, selfEmployeeMonthlyLeaves, EmployeesofAttendanceCountsViewDto } from '../_models/dashboard';
+import { GET_ADMIN_DASHBOARD, GET_ALLOTED_LEAVES, GET_NOTIFICATIONS, GET_NOTIFICATION_REPLIES, GET_ATTENDANCE_COUNT_BASED_ON_TYPE, GET_SELF_EMPLOYEE, GET_SELF_EMPLOYEE_MONTH_LEAVES, GET_EMPLOYEES_OF_ATTENDANCE_COUNT } from './api.uri.service';
 
 @Injectable({
     providedIn: 'root'
@@ -20,8 +20,11 @@ export class DashboardService extends ApiHttpService {
     public getAdminDashboard() {
         return this.get<adminDashboardViewDto>(GET_ADMIN_DASHBOARD);
     }
-    public getAttendanceCountBasedOnType(datatype:string,value:any){
+    public GetAttendanceCountBasedOnType(datatype:string,value:any){
         return this.getWithParams<AttendanceCountBasedOnTypeViewDto>(GET_ATTENDANCE_COUNT_BASED_ON_TYPE,[datatype,value])
+    }
+    public GetEmployeeAttendanceCount(datatype:string,value:any,dayworkstatus:number){
+        return this.getWithParams<EmployeesofAttendanceCountsViewDto>(GET_EMPLOYEES_OF_ATTENDANCE_COUNT,[datatype,value,dayworkstatus])
     }
     public GetNotifications(isactive:boolean){
         return this.getWithParams<NotificationsDto>(GET_NOTIFICATIONS,[isactive]);

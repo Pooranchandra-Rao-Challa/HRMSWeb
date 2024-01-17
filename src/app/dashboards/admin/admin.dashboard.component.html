@@ -95,14 +95,16 @@
                                     <label for="charts3" class="mx-2" id="charts-label">Year</label>
                                 </div>
                             </div>
-                            <div class="col p-0">
-                                <div class="align-items-center">                                    
-                                    <label for="charts3" class="" id="charts-label">By Projcts</label><br/>
-                                    <p-dropdown appendTo="body" [filter]="true" placeholder="Select Project" class="w-100">
+                            <div class="col p-0" *ngIf="!hideElements">
+                                <div class="align-items-center">
+                                    <p-checkbox [binary]="true"></p-checkbox>
+                                    <label for="charts3" class="" id="charts-label">By Projects</label><br />
+                                    <p-dropdown appendTo="body" [filter]="true" placeholder="Select Project"
+                                        class="w-100">
                                     </p-dropdown>
                                 </div>
                             </div>
-                             <!-- For attendance section -->
+                            <!-- For attendance section -->
                             <div class="col p-0 text-center">
                                 <span *ngIf="chart === 'Date'; else attendanceMonthContent">
                                     <i class="pi pi-angle-left d-leave-font" (click)="gotoPreviousDay()"></i>
@@ -118,7 +120,8 @@
                                         <i class="pi pi-angle-left d-leave-font" (click)="gotoPreviousMonth()"></i>
                                         <p-calendar class="charts_date_picker" styleClass="only-icon" [showIcon]="true"
                                             id="Attendance_month_picker" view="month" [yearNavigator]="true"
-                                            yearRange="2000:2030" [readonlyInput]="true" (onSelect)="onMonthSelect($event)">
+                                            yearRange="2000:2030" [readonlyInput]="true"
+                                            (onSelect)="onMonthSelect($event)">
                                         </p-calendar>
                                         <i class="pi pi-angle-right d-leave-font" (click)="gotoNextMonth()"></i>
                                         <p class="text-xs">{{formatMonth(this.month)}}/{{this.year}}</p>
@@ -127,7 +130,8 @@
                                         <i class="pi pi-angle-left d-leave-font" (click)="gotoPreviousYear()"></i>
                                         <p-calendar class="charts_date_picker" styleClass="only-icon" [showIcon]="true"
                                             id="Attendance_year_picker" view="year" [yearNavigator]="true"
-                                            yearRange="2000:2030" [readonlyInput]="true" (onSelect)="onYearSelect($event)">
+                                            yearRange="2000:2030" [readonlyInput]="true"
+                                            (onSelect)="onYearSelect($event)">
                                         </p-calendar>
                                         <i class="pi pi-angle-right d-leave-font" (click)="gotoNextYear()"></i>
                                         <p class="text-xs">{{this.year}}</p>
@@ -137,14 +141,15 @@
                         </div>
                     </div>
                 </div>
-            
+
                 <!-- <li *ngIf="this.attendanceCount?.length > 0; else noDataMessage">
                     <p-chart type="doughnut" [data]="pieDataforAttendance" [options]="pieOptionsforAttendance"
                         height="200px" width="100%"></p-chart>
                 </li> -->
                 <div *ngIf="this.attendanceCount?.length > 0; else noDataMessage">
-                    <p-chart type="bar" [data]="pieDataforAttendance" [options]="pieOptionsforAttendance"></p-chart>
-                </div>                    
+                    <p-chart type="bar" [data]="pieDataforAttendance" [options]="pieOptionsforAttendance" height="250px"
+                        width="100%" (onDataSelect)="onChartClick($event)"></p-chart>
+                </div>
                 <ng-template #noDataMessage>
                     <div class="text-center mt-5">
                         <div class="border-round-lg pt-5 px-5 pb-5 mb-3"
@@ -164,61 +169,53 @@
                     <h6 class="mb-2">Employee </h6>
                 </div>
             </div>
-            <div class="mb-1">               
+            <div class="mb-1">
                 <div class="p-3 ">
-                    <ul class="list-none p-0 overflow-auto"
-                        style="margin: 0 -1.5rem -1rem; max-height: 150px">
-                        <ng-container
-                            *ngIf="admindashboardDtls?.savedemployeesOnLeave && admindashboardDtls?.savedemployeesOnLeave?.length > 0; else noDataTemplate">
-                            <li *ngFor="let employee of admindashboardDtls?.savedemployeesOnLeave"
-                                class="border-round-lg pt-2 px-3 pb-2 mb-3"
-                                style="background-color: var(--primary-lighter-color)">
-                                <div class="">
-                                    <div class="grid ga leav_list m-0 p-0">
-                                        <div class="col-3 p-1">
-                                            <span *ngIf="employee?.employeecode">
-                                                <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-orange-300 "
-                                                    class="inline-block" value="{{employee?.employeecode}}">
+                    <ul class="list-none p-0 overflow-auto" style="margin: 0 -1.5rem -1rem;">
+                        <ng-container *ngIf="employeeCount.length>0; else noDataTemplate">
+                            <p-table #employeeTable [value]="employeeCount" [paginator]="true" [rows]="10"
+                                [responsive]="true"
+                                styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Employee Name</th>
+                                        <th>Day Work Status</th>
+                                    </tr>
+                                </ng-template> <ng-template pTemplate="body" let-employee>
+                                    <tr>
+                                        <td>
+                                            <span *ngIf="employee?.code">
+                                                <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-orange-300"
+                                                    class="inline-block" value="{{employee?.code}}">
                                                 </p-tag>
                                             </span>
-
-                                        </div>
-                                        <div class="col-3 p-1">
+                                        </td>
+                                        <td>
                                             <h6 class="line-height-3 m-0 font-medium font-medium ">
                                                 <b>{{employee?.employeeName}}</b>
                                             </h6>
-                                        </div>
-                                        <div class="col-3 p-1">
-                                            <span *ngIf="employee?.designation">
-                                                <p-tag
-                                                    styleClass="m-0 mr-2 px-2 text-xs bg-blue-300 leavelist_emp_designation "
-                                                    class="inline-block" value="{{employee?.designation}}">
-                                                </p-tag>
-                                            </span>
-
-                                        </div>
-                                        <div class="col-3 p-1 text-right">
-                                            <p-tag
-                                                styleClass="m-0 mr-2 px-2 text-xs  leavelist_emp_designation "
-                                                class="inline-block" value="{{employee?.leaveType}}">
-                                            </p-tag>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
+                                        </td>
+                                        <td>
+                                            <h6 class="line-height-3 m-0 font-medium font-medium ">
+                                                <b>{{employee?.dayWorkStatus}}</b>
+                                            </h6>
+                                        </td>
+                                        <!-- Add more columns if needed -->
+                                    </tr>
+                                </ng-template>
+                            </p-table>
                         </ng-container>
                         <ng-template #noDataTemplate>
                             <li class="border-round-lg pt-2 px-3 pb-2 mb-3"
                                 style="background-color: var(--primary-lighter-color)">
                                 <div class="text-center">
-                                    <p class="m-3">
-                                        {{ (chartFilled ? 'Today, there is no employee leaves.' : 'Please
-                                        update today attendance.') }}</p>
+                                    <p class="m-3">Select any Vertical Bar to Display Employees Belonging to that Working Type.</p>
                                 </div>
                             </li>
                         </ng-template>
                     </ul>
-                </div>                
+                </div>
             </div>
         </div>
     </div>

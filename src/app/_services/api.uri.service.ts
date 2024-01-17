@@ -170,6 +170,7 @@ export const GET_NOTIFICATION_REPLIES="Notification/GetNotificationReplies"
 // Admin Dashboard
 export const GET_ADMIN_DASHBOARD = "AdminDashboard/GetAdminDashboard";
 export const GET_ATTENDANCE_COUNT_BASED_ON_TYPE="AdminDashboard/GetAttendanceCountsBasedOnType";
+export const GET_EMPLOYEES_OF_ATTENDANCE_COUNT="AdminDashboard/GetEmployeesofAttendanceCounts"
 //Reports
 export const GET_MONTHLY_ATTENDANCE_REPORT = "Report/AttendanceReportBasedOnYearAndMonth";
 export const GET_YEARLY_ATTENDANCE_REPORT = "Report/AttendanceReportBasedOnYear";

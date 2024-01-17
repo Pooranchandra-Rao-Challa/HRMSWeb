@@ -107,6 +107,14 @@ export class AttendanceCountBasedOnTypeViewDto{
     pt?:number;
     cl?:number;
     pl?:number;
+    wfh?:number;
+}
+
+export class EmployeesofAttendanceCountsViewDto{
+    value?:string;
+    dayWorkStatus?:string;
+    employeeName?:string;
+    code?:string;
 }
 
 export class activeProjects {
