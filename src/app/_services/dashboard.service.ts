@@ -23,11 +23,11 @@ export class DashboardService extends ApiHttpService {
     public getAttendanceCountBasedOnType(datatype:string,value:any){
         return this.getWithParams<AttendanceCountBasedOnTypeViewDto>(GET_ATTENDANCE_COUNT_BASED_ON_TYPE,[datatype,value])
     }
-    public GetNotifications(isactive:boolean){
-        return this.getWithParams<NotificationsDto>(GET_NOTIFICATIONS,[isactive]);
+    public GetNotifications(){
+        return this.get<NotificationsDto>(GET_NOTIFICATIONS);
     }
-    public GetNotificationsBasedOnId(isActive:boolean,employeeId:number){
-        return this.getWithParams(GET_NOTIFICATION_REPLIES,[isActive,employeeId]);
+    public GetNotificationsBasedOnId(employeeId:number){
+        return this.getWithParams(GET_NOTIFICATION_REPLIES,[employeeId]);
     }
 
 }

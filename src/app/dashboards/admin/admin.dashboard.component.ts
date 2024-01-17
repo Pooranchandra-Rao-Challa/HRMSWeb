@@ -2,8 +2,9 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DATE_FORMAT, DATE_FORMAT_MONTH, FORMAT_DATE, FORMAT_MONTH, MEDIUM_DATE, MONTH, ORIGINAL_DOB } from 'src/app/_helpers/date.formate.pipe';
-import { AttendanceCountBasedOnTypeViewDto, adminDashboardViewDto } from 'src/app/_models/dashboard';
+import { AttendanceCountBasedOnTypeViewDto, adminDashboardViewDto, NotificationsRepliesDto, NotificationsDto } from 'src/app/_models/dashboard';
 import { DashboardService } from 'src/app/_services/dashboard.service';
+import { JwtService } from 'src/app/_services/jwt.service';
 
 
 @Component({
@@ -25,9 +26,12 @@ export class AdminDashboardComponent implements OnInit {
     monthFormat: string = MONTH;
     dateFormat: string = MEDIUM_DATE;
     attendanceCount: AttendanceCountBasedOnTypeViewDto[] = [];
-
+    notifications: NotificationsDto[] = [];
+    notificationReplies: NotificationsRepliesDto[] = []
+    wishesDialog: boolean = false;
     constructor(private dashboardService: DashboardService,
-        private router: Router, private datePipe: DatePipe) {
+        private router: Router, private datePipe: DatePipe,
+        private jwtService: JwtService,) {
         this.selectedDate = new Date();
     }
 
@@ -45,6 +49,11 @@ export class AdminDashboardComponent implements OnInit {
 
         // Update the selected month
         this.updateSelectedMonth();
+        this.initNotifications();
+        if (this.jwtService.EmployeeId) {
+            this.initNotificationsBasedOnId()
+        }
+
     }
 
     gotoPreviousDay() {
@@ -151,7 +160,7 @@ export class AdminDashboardComponent implements OnInit {
         }
         else if (this.chart === 'Year') {
             this.dashboardService.getAttendanceCountBasedOnType(this.chart, this.year).subscribe((resp) => {
-                this.attendanceCount = resp as unknown as AttendanceCountBasedOnTypeViewDto[];                
+                this.attendanceCount = resp as unknown as AttendanceCountBasedOnTypeViewDto[];
                 this.initChart();
             })
         }
@@ -202,7 +211,7 @@ export class AdminDashboardComponent implements OnInit {
             datasets: [
                 {
                     data: [present?.pt || 0, PrevlageLeaves?.pl || 0, CasualLeaves?.cl || 0, leaveWithoutPay?.lwp || 0],
-                    backgroundColor: [documentStyle.getPropertyValue('--inofc-b'),documentStyle.getPropertyValue('--pl-b'), documentStyle.getPropertyValue('--cl-b'),documentStyle.getPropertyValue('--lwp-b')],
+                    backgroundColor: [documentStyle.getPropertyValue('--inofc-b'), documentStyle.getPropertyValue('--pl-b'), documentStyle.getPropertyValue('--cl-b'), documentStyle.getPropertyValue('--lwp-b')],
                     borderColor: surfaceBorder,
                     pointStyle: 'circle',
                 }
@@ -249,6 +258,33 @@ export class AdminDashboardComponent implements OnInit {
     }
     navigateProjects() {
         this.router.navigate(['admin/project'])
+    }
+
+    initNotifications() {
+        this.dashboardService.GetNotifications().subscribe(resp => {
+            this.notifications = resp as unknown as NotificationsDto[];
+            console.log(resp);
+        })
+    }
+
+    initNotificationsBasedOnId() {
+        this.dashboardService.GetNotificationsBasedOnId(this.jwtService.EmployeeId).subscribe(resp => {
+            this.notificationReplies = resp as unknown as NotificationsRepliesDto[];
+            console.log(resp, this.jwtService.EmployeeId)
+        })
+    }
+    showBirthdayDialog() {
+        if (this.jwtService.EmployeeId) {
+            this.wishesDialog = true;
+        } else {
+            this.wishesDialog = false;
+        }
+    }
+    onClose() {
+        this.wishesDialog = false;
+    }
+    onSubmit() {
+
     }
 
 }
