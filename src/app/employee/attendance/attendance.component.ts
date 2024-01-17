@@ -193,7 +193,10 @@ export class AttendanceComponent {
       let employeesAttendance = resp as unknown as employeeAttendanceDto[];
       this.employeeAttendanceList = employeesAttendance.sort((a, b) => { return a.EmployeeName.localeCompare(b.EmployeeName) });
       this.initNotUpdatedAttendanceDatesList();
-      this.CheckPreviousDayAttendance();
+      if (this.NotUpdatedAttendanceDate)
+        this.getNotUpdatedEmployeesList(this.NotUpdatedAttendanceDate, false);
+      else
+        this.CheckPreviousDayAttendance();
     });
   }
 
@@ -329,7 +332,7 @@ export class AttendanceComponent {
   getEmployeeLeaveOnDate(emp: any, date: string, leaveType: string) {
     let lt = leaveType.replace('/PT', "")
     let selectedLeaveType = this.LeaveTypes.filter(fn => fn.name == lt)[0] || {};
-
+  
     this.employeeService.getEmployeeLeaveOnDate({
       employeeId: emp.EmployeeId,
       leaveDate: formatDate(this.stringToDate(date), 'yyyy-MM-dd', 'en'),
@@ -363,7 +366,7 @@ export class AttendanceComponent {
   }
 
   patchFormValues(emp, date, leaveType) {
-
+    
     let employeeleave: EmployeeLeaveOnDateDto = {}
     if (this.employeeLeaveOnDate.length > 0) {
       employeeleave = this.employeeLeaveOnDate[0]
@@ -386,9 +389,9 @@ export class AttendanceComponent {
       notReported: false,
       isHalfDayLeave: employeeleave.isHalfDayLeave,
       note: employeeleave.note,
-      isFromAttendance:true
+      isFromAttendance: true
     };
-
+  
     this.fbleave.patchValue(defaultValues);
     this.fbleave.get('fromDate').disable();
   }
@@ -471,7 +474,7 @@ export class AttendanceComponent {
     const DayWorkItem = this.LeaveTypes.find(each => each.lookupDetailId === this.fbleave.get('leaveTypeId').value);
     let fromDate = FORMAT_DATE(this.fbleave.get('fromDate').value);
 
-    if (DayWorkItem.name !== 'PL' && DayWorkItem.name !== 'CL') {
+    if (DayWorkItem.name !== 'PL' && DayWorkItem.name !== 'CL'&& DayWorkItem.name !== 'WFH') {
       this.fbAttendance.patchValue({
         employeeId: this.fbleave.get('employeeId').value,
         dayWorkStatusId: DayWorkItem.lookupDetailId,

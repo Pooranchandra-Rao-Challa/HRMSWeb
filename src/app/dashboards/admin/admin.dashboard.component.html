@@ -1,5 +1,5 @@
 <div class="grid">
-    <div class="col-12 lg:col-3 md:col-5 sm:col-6 ">
+    <div class="col-12 lg:col-12 md:col-12 sm:col-12">
         <div class="grid" style="margin: -1rem">
             <div class="col-12 sm:col">
                 <div class="card surface-card text-500 flex justify-content-between pt-4 h-full"
@@ -62,8 +62,8 @@
             </div>
         </div>
     </div>
-    <div class="col-12 lg:col-3 md:col-5 sm:col-6">
 
+    <div class="col-12 lg:col-5 md:col-6 sm:col-12">
         <div class="card pb-5 pt-5 chart_card employee_card_dashboard">
             <div class="card-headr gap-2 pb-2">
                 <div class="card-title">
@@ -72,88 +72,160 @@
             </div>
             <div class="mb-1">
                 <div class="grid px-3">
-                    <div class="col-8">
+                    <div class="col-12">
                         <div class="grid p-0">
-                            <div class="col-4 p-0">
+                            <div class="col p-0">
                                 <div class="flex align-items-center">
-                                    <p-radioButton [(ngModel)]="chart" value="Day" id="charts1"
+                                    <p-radioButton [(ngModel)]="chart" value="Date" id="charts1"
                                         (click)="getAttendanceCountsBasedOnType()"></p-radioButton>
-                                    <label for="charts1" class="" id="charts-label">Day</label>
+                                    <label for="charts1" class="mx-2" id="charts-label">Date</label>
                                 </div>
                             </div>
-                            <div class="col-4 p-0">
+                            <div class="col p-0">
                                 <div class="flex align-items-center">
                                     <p-radioButton [(ngModel)]="chart" value="Month" id="charts2"
                                         (click)="getAttendanceCountsBasedOnType()"></p-radioButton>
-                                    <label for="charts2" class="" id="charts-label">Month</label>
+                                    <label for="charts2" class="mx-2" id="charts-label">Month</label>
                                 </div>
                             </div>
-                            <div class="col-4 p-0">
+                            <div class="col p-0">
                                 <div class="flex align-items-center">
                                     <p-radioButton [(ngModel)]="chart" value="Year" id="charts3"
                                         (click)="getAttendanceCountsBasedOnType()"></p-radioButton>
-                                    <label for="charts3" class="" id="charts-label">Year</label>
+                                    <label for="charts3" class="mx-2" id="charts-label">Year</label>
                                 </div>
                             </div>
-                            <div class="col-12 p-0 text-center">
-                                <p-dropdown appendTo="body" [filter]="true" placeholder="Select Project" class="w-100">
-                                </p-dropdown>
+                            <div class="col p-0">
+                                <div class="align-items-center">                                    
+                                    <label for="charts3" class="" id="charts-label">By Projcts</label><br/>
+                                    <p-dropdown appendTo="body" [filter]="true" placeholder="Select Project" class="w-100">
+                                    </p-dropdown>
+                                </div>
                             </div>
-                        </div>
-
-                    </div>
-                    <div class="col-4">
-                        <!-- For attendance section -->
-                        <div class="col-12 p-0 text-center">
-                            <span *ngIf="chart === 'Day'; else attendanceMonthContent">
-                                <i class="pi pi-angle-left d-leave-font" (click)="gotoPreviousDay()"></i>
-                                <p-calendar class="charts_date_picker" styleClass="only-icon" [showIcon]="true"
-                                    id="Attendance_date_picker" [yearNavigator]="true" yearRange="2000:2030"
-                                    [readonlyInput]="true" (onSelect)="onDaySelect($event)">
-                                </p-calendar>
-                                <i class="pi pi-angle-right d-leave-font" (click)="gotoNextDay()"></i>
-                                <p class="text-xs">{{ getCurrentDay() }}</p>
-                            </span>
-                            <ng-template #attendanceMonthContent>
-                                <span *ngIf="chart === 'Month'; else attendanceYearContent">
-                                    <i class="pi pi-angle-left d-leave-font" (click)="gotoPreviousMonth()"></i>
+                             <!-- For attendance section -->
+                            <div class="col p-0 text-center">
+                                <span *ngIf="chart === 'Date'; else attendanceMonthContent">
+                                    <i class="pi pi-angle-left d-leave-font" (click)="gotoPreviousDay()"></i>
                                     <p-calendar class="charts_date_picker" styleClass="only-icon" [showIcon]="true"
-                                        id="Attendance_month_picker" view="month" [yearNavigator]="true"
-                                        yearRange="2000:2030" [readonlyInput]="true" (onSelect)="onMonthSelect($event)">
+                                        id="Attendance_date_picker" [yearNavigator]="true" yearRange="2000:2030"
+                                        [readonlyInput]="true" (onSelect)="onDaySelect($event)">
                                     </p-calendar>
-                                    <i class="pi pi-angle-right d-leave-font" (click)="gotoNextMonth()"></i>
-                                    <p class="text-xs">{{formatMonth(this.month)}}/{{this.year}}</p>
+                                    <i class="pi pi-angle-right d-leave-font" (click)="gotoNextDay()"></i>
+                                    <p class="text-xs">{{ getCurrentDay() }}</p>
                                 </span>
-                                <ng-template #attendanceYearContent>
-                                    <i class="pi pi-angle-left d-leave-font" (click)="gotoPreviousYear()"></i>
-                                    <p-calendar class="charts_date_picker" styleClass="only-icon" [showIcon]="true"
-                                        id="Attendance_year_picker" view="year" [yearNavigator]="true"
-                                        yearRange="2000:2030" [readonlyInput]="true" (onSelect)="onYearSelect($event)">
-                                    </p-calendar>
-                                    <i class="pi pi-angle-right d-leave-font" (click)="gotoNextYear()"></i>
-                                    <p class="text-xs">{{this.year}}</p>
+                                <ng-template #attendanceMonthContent>
+                                    <span *ngIf="chart === 'Month'; else attendanceYearContent">
+                                        <i class="pi pi-angle-left d-leave-font" (click)="gotoPreviousMonth()"></i>
+                                        <p-calendar class="charts_date_picker" styleClass="only-icon" [showIcon]="true"
+                                            id="Attendance_month_picker" view="month" [yearNavigator]="true"
+                                            yearRange="2000:2030" [readonlyInput]="true" (onSelect)="onMonthSelect($event)">
+                                        </p-calendar>
+                                        <i class="pi pi-angle-right d-leave-font" (click)="gotoNextMonth()"></i>
+                                        <p class="text-xs">{{formatMonth(this.month)}}/{{this.year}}</p>
+                                    </span>
+                                    <ng-template #attendanceYearContent>
+                                        <i class="pi pi-angle-left d-leave-font" (click)="gotoPreviousYear()"></i>
+                                        <p-calendar class="charts_date_picker" styleClass="only-icon" [showIcon]="true"
+                                            id="Attendance_year_picker" view="year" [yearNavigator]="true"
+                                            yearRange="2000:2030" [readonlyInput]="true" (onSelect)="onYearSelect($event)">
+                                        </p-calendar>
+                                        <i class="pi pi-angle-right d-leave-font" (click)="gotoNextYear()"></i>
+                                        <p class="text-xs">{{this.year}}</p>
+                                    </ng-template>
                                 </ng-template>
-                            </ng-template>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <ul class="list-none p-0 m-0">
-                    <li *ngIf="this.attendanceCount?.length > 0; else noDataMessage">
-                        <p-chart type="doughnut" [data]="pieDataforAttendance" [options]="pieOptions" height="200px"
-                            width="100%"></p-chart>
-                    </li>
-                    <ng-template #noDataMessage>
-                        <div class="text-center mt-5">
-                            <div class="border-round-lg pt-5 px-5 pb-5 mb-3"
-                                style="background-color: var(--primary-lighter-color)">
-                                <p>Please update today attendance.</p>
-                            </div>
+            
+                <!-- <li *ngIf="this.attendanceCount?.length > 0; else noDataMessage">
+                    <p-chart type="doughnut" [data]="pieDataforAttendance" [options]="pieOptionsforAttendance"
+                        height="200px" width="100%"></p-chart>
+                </li> -->
+                <div *ngIf="this.attendanceCount?.length > 0; else noDataMessage">
+                    <p-chart type="bar" [data]="pieDataforAttendance" [options]="pieOptionsforAttendance"></p-chart>
+                </div>                    
+                <ng-template #noDataMessage>
+                    <div class="text-center mt-5">
+                        <div class="border-round-lg pt-5 px-5 pb-5 mb-3"
+                            style="background-color: var(--primary-lighter-color)">
+                            <p>Please update today attendance.</p>
                         </div>
-                    </ng-template>
-                </ul>
-
+                    </div>
+                </ng-template>
             </div>
         </div>
+    </div>
+
+    <div class="col-12 lg:col-7 md:col-6 sm:col-12">
+        <div class="card pb-5 pt-5 chart_card employee_card_dashboard">
+            <div class="card-headr gap-2 pb-2">
+                <div class="card-title">
+                    <h6 class="mb-2">Employee </h6>
+                </div>
+            </div>
+            <div class="mb-1">               
+                <div class="p-3 ">
+                    <ul class="list-none p-0 overflow-auto"
+                        style="margin: 0 -1.5rem -1rem; max-height: 150px">
+                        <ng-container
+                            *ngIf="admindashboardDtls?.savedemployeesOnLeave && admindashboardDtls?.savedemployeesOnLeave?.length > 0; else noDataTemplate">
+                            <li *ngFor="let employee of admindashboardDtls?.savedemployeesOnLeave"
+                                class="border-round-lg pt-2 px-3 pb-2 mb-3"
+                                style="background-color: var(--primary-lighter-color)">
+                                <div class="">
+                                    <div class="grid ga leav_list m-0 p-0">
+                                        <div class="col-3 p-1">
+                                            <span *ngIf="employee?.employeecode">
+                                                <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-orange-300 "
+                                                    class="inline-block" value="{{employee?.employeecode}}">
+                                                </p-tag>
+                                            </span>
+
+                                        </div>
+                                        <div class="col-3 p-1">
+                                            <h6 class="line-height-3 m-0 font-medium font-medium ">
+                                                <b>{{employee?.employeeName}}</b>
+                                            </h6>
+                                        </div>
+                                        <div class="col-3 p-1">
+                                            <span *ngIf="employee?.designation">
+                                                <p-tag
+                                                    styleClass="m-0 mr-2 px-2 text-xs bg-blue-300 leavelist_emp_designation "
+                                                    class="inline-block" value="{{employee?.designation}}">
+                                                </p-tag>
+                                            </span>
+
+                                        </div>
+                                        <div class="col-3 p-1 text-right">
+                                            <p-tag
+                                                styleClass="m-0 mr-2 px-2 text-xs  leavelist_emp_designation "
+                                                class="inline-block" value="{{employee?.leaveType}}">
+                                            </p-tag>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ng-container>
+                        <ng-template #noDataTemplate>
+                            <li class="border-round-lg pt-2 px-3 pb-2 mb-3"
+                                style="background-color: var(--primary-lighter-color)">
+                                <div class="text-center">
+                                    <p class="m-3">
+                                        {{ (chartFilled ? 'Today, there is no employee leaves.' : 'Please
+                                        update today attendance.') }}</p>
+                                </div>
+                            </li>
+                        </ng-template>
+                    </ul>
+                </div>                
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 lg:col-5 md:col-6 sm:col-12">
+
+
         <div class="card pb-5 pt-5  chart_card employee_card_dashboard">
             <div class="card-headr gap-2 pb-2">
                 <div class="card-title">
@@ -177,8 +249,8 @@
                 </div> -->
                 <ul class="list-none p-0 m-1">
                     <li *ngIf="this.admindashboardDtls?.savedactiveProjects?.length > 0; else noProjectsMessage">
-                        <p-chart type="doughnut" [data]="pieDataforProjects" [options]="pieOptions" height="200px"
-                            width="100%">
+                        <p-chart type="doughnut" [data]="pieDataforProjects" [options]="pieOptionsforProjects"
+                            height="200px" width="100%">
                         </p-chart>
                     </li>
                     <ng-template #noProjectsMessage>
@@ -193,153 +265,7 @@
             </div>
         </div>
     </div>
-    <div class="col-12 lg:col-6 md:col-12 sm:col-12">
-        <div class="col-12 xl:col-12 pt-1">
-            <div class="grid">
-                <div class="col-12  xl:col-12">
-                    <div class="card employee_card_dashboard">
-                        <div class="card-headr  gap-6 pb-2">
-                            <div class="">
-
-                            </div>
-                            <div class="grid px-3">
-                                <div class="col-4 p-0">
-                                    <h6>Employee </h6>
-                                </div>
-                                <div class="col-2 p-0">
-                                    <div class="flex align-items-center">
-                                        <p-radioButton [(ngModel)]="empRadio" value="Day" id="empR1"></p-radioButton>
-                                        <label for="empR1" class="" id="charts-label">Day</label>
-                                    </div>
-                                </div>
-                                <div class="col-2 p-0">
-                                    <div class="flex align-items-center">
-                                        <p-radioButton [(ngModel)]="empRadio" value="Month" id="empR2"></p-radioButton>
-                                        <label for="empR2" class="" id="charts-label">Month</label>
-                                    </div>
-                                </div>
-                                <div class="col-2 p-0">
-                                    <div class="flex align-items-center">
-                                        <p-radioButton [(ngModel)]="empRadio" value="Year" id="empR3"></p-radioButton>
-                                        <label for="empR3" class="" id="charts-label">Year</label>
-                                    </div>
-                                </div>
-                                <!-- For employee section -->
-                                <div class=" d-leave col-2 p-0 text-center">
-                                    <span *ngIf="empRadio === 'Day'; else empMonthContent">
-                                        <i class="pi pi-angle-left d-leave-font" (click)="gotoPreviousDay()"></i>
-                                        <p-calendar class="charts_date_picker" styleClass="only-icon" [showIcon]="true"
-                                            id="emp_date_picker_day" [yearNavigator]="true" yearRange="2000:2030"
-                                            [readonlyInput]="true" inputId="monthpicker_day"
-                                            (onSelect)="onDaySelect($event)">
-                                        </p-calendar>
-                                        <i class="pi pi-angle-right d-leave-font" (click)="gotoNextDay()"></i>
-                                        <p class="text-xs">{{ getCurrentDay() }}</p>
-                                    </span>
-                                    <ng-template #empMonthContent>
-                                        <span *ngIf="empRadio === 'Month'; else empYearContent">
-                                            <i class="pi pi-angle-left d-leave-font" (click)="gotoPreviousMonth()"></i>
-                                            <p-calendar class="charts_date_picker" styleClass="only-icon"
-                                                [showIcon]="true" id="emp_date_picker_month" view="month"
-                                                [yearNavigator]="true" yearRange="2000:2030" [readonlyInput]="true"
-                                                (onSelect)="onMonthSelect($event)">
-                                            </p-calendar>
-                                            <i class="pi pi-angle-right d-leave-font" (click)="gotoNextMonth()"></i>
-                                            <p class="text-xs">{{formatMonth(this.month)}}/{{this.year}}</p>
-
-                                        </span>
-                                        <ng-template #empYearContent>
-                                            <i class="pi pi-angle-left d-leave-font" (click)="gotoPreviousYear()"></i>
-                                            <p-calendar class="charts_date_picker" styleClass="only-icon"
-                                                [showIcon]="true" id="emp_date_picker_year" view="year"
-                                                [yearNavigator]="true" yearRange="2000:2030" [readonlyInput]="true"
-                                                (onSelect)="onYearSelect($event)">
-                                            </p-calendar>
-                                            <i class="pi pi-angle-right d-leave-font" (click)="gotoNextYear()"></i>
-                                            <p class="text-xs">{{this.year}}</p>
-                                        </ng-template>
-                                    </ng-template>
-                                </div>
-                                <div class="col-3 p-0 text-center">
-                                    <p-dropdown appendTo="body" [filter]="true" placeholder="Select Project">
-                                    </p-dropdown>
-                                </div>
-                            </div>
-                        </div>
-                        <p-tabView>
-                            <p-tabPanel header="On Leave" class="w-full p-0">
-                                <ng-template pTemplate="header">
-                                    <div class="pr-2" *ngIf="admindashboardDtls?.savedemployeesOnLeave?.length > 0"
-                                        pBadge value="{{ admindashboardDtls?.savedemployeesOnLeave?.length }}"
-                                        severity="info">
-                                        <h6 class="m-0 mr-2">On Leave</h6>
-                                    </div>
-                                    <h6 *ngIf="admindashboardDtls?.savedemployeesOnLeave?.length === 0 || !admindashboardDtls?.savedemployeesOnLeave"
-                                        class="m-0 mr-2">On Leave</h6>
-                                </ng-template>
-
-                                <ul class="list-none p-0 overflow-auto"
-                                    style="margin: 0 -1.5rem -1rem; max-height: 150px">
-                                    <ng-container
-                                        *ngIf="admindashboardDtls?.savedemployeesOnLeave && admindashboardDtls?.savedemployeesOnLeave?.length > 0; else noDataTemplate">
-                                        <li *ngFor="let employee of admindashboardDtls?.savedemployeesOnLeave"
-                                            class="border-round-lg pt-2 px-3 pb-2 mb-3"
-                                            style="background-color: var(--primary-lighter-color)">
-                                            <div class="">
-                                                <div class="grid ga leav_list m-0 p-0">
-                                                    <div class="col-3 p-1">
-                                                        <span *ngIf="employee?.employeecode">
-                                                            <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-orange-300 "
-                                                                class="inline-block" value="{{employee?.employeecode}}">
-                                                            </p-tag>
-                                                        </span>
-
-                                                    </div>
-                                                    <div class="col-3 p-1">
-                                                        <h6 class="line-height-3 m-0 font-medium font-medium ">
-                                                            <b>{{employee?.employeeName}}</b>
-                                                        </h6>
-                                                    </div>
-                                                    <div class="col-3 p-1">
-                                                        <span *ngIf="employee?.designation">
-                                                            <p-tag
-                                                                styleClass="m-0 mr-2 px-2 text-xs bg-blue-300 leavelist_emp_designation "
-                                                                class="inline-block" value="{{employee?.designation}}">
-                                                            </p-tag>
-                                                        </span>
-
-                                                    </div>
-                                                    <div class="col-3 p-1 text-right">
-                                                        <p-tag
-                                                            styleClass="m-0 mr-2 px-2 text-xs  leavelist_emp_designation "
-                                                            class="inline-block" value="{{employee?.leaveType}}">
-                                                        </p-tag>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ng-container>
-                                    <ng-template #noDataTemplate>
-                                        <li class="border-round-lg pt-2 px-3 pb-2 mb-3"
-                                            style="background-color: var(--primary-lighter-color)">
-                                            <div class="text-center">
-                                                <p class="m-3">
-                                                    {{ (chartFilled ? 'Today, there is no employee leaves.' : 'Please
-                                                    update today attendance.') }}</p>
-                                            </div>
-                                        </li>
-                                    </ng-template>
-                                </ul>
-                                <!-- <p-menu #menu [popup]="true" [model]="items"></p-menu> -->
-                            </p-tabPanel>
-
-                        </p-tabView>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
+    <div class="col-12 lg:col-7 md:col-6 sm:col-12">
         <div class="col-12 xl:col-12 pt-1">
             <div class="grid">
                 <div class="col-12 md:col-6 xl:col-12">
