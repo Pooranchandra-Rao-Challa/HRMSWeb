@@ -140,6 +140,7 @@ export class AdminDashboardComponent implements OnInit {
     }
 
     getAttendanceCountsBasedOnType() {
+        this.attendanceCount=[];
         if (this.chart === 'Date') {
             this.selectedDate = DATE_FORMAT(new Date(this.selectedDate));
             this.dashboardService.getAttendanceCountBasedOnType(this.chart, this.selectedDate).subscribe((resp) => {
