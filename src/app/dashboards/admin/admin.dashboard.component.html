@@ -76,9 +76,9 @@
                         <div class="grid p-0">
                             <div class="col-4 p-0">
                                 <div class="flex align-items-center">
-                                    <p-radioButton [(ngModel)]="chart" value="Day" id="charts1"
+                                    <p-radioButton [(ngModel)]="chart" value="Date" id="charts1"
                                         (click)="getAttendanceCountsBasedOnType()"></p-radioButton>
-                                    <label for="charts1" class="" id="charts-label">Day</label>
+                                    <label for="charts1" class="" id="charts-label">Date</label>
                                 </div>
                             </div>
                             <div class="col-4 p-0">
@@ -105,7 +105,7 @@
                     <div class="col-4">
                         <!-- For attendance section -->
                         <div class="col-12 p-0 text-center">
-                            <span *ngIf="chart === 'Day'; else attendanceMonthContent">
+                            <span *ngIf="chart === 'Date'; else attendanceMonthContent">
                                 <i class="pi pi-angle-left d-leave-font" (click)="gotoPreviousDay()"></i>
                                 <p-calendar class="charts_date_picker" styleClass="only-icon" [showIcon]="true"
                                     id="Attendance_date_picker" [yearNavigator]="true" yearRange="2000:2030"
@@ -139,7 +139,7 @@
                 </div>
                 <ul class="list-none p-0 m-0">
                     <li *ngIf="this.attendanceCount?.length > 0; else noDataMessage">
-                        <p-chart type="doughnut" [data]="pieDataforAttendance" [options]="pieOptions" height="200px"
+                        <p-chart type="doughnut" [data]="pieDataforAttendance" [options]="pieOptionsforAttendance" height="200px"
                             width="100%"></p-chart>
                     </li>
                     <ng-template #noDataMessage>
@@ -177,7 +177,7 @@
                 </div> -->
                 <ul class="list-none p-0 m-1">
                     <li *ngIf="this.admindashboardDtls?.savedactiveProjects?.length > 0; else noProjectsMessage">
-                        <p-chart type="doughnut" [data]="pieDataforProjects" [options]="pieOptions" height="200px"
+                        <p-chart type="doughnut" [data]="pieDataforProjects" [options]="pieOptionsforProjects" height="200px"
                             width="100%">
                         </p-chart>
                     </li>
