@@ -3,8 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DATE_FORMAT, DATE_FORMAT_MONTH, FORMAT_DATE, FORMAT_MONTH, MEDIUM_DATE, MONTH, ORIGINAL_DOB } from 'src/app/_helpers/date.formate.pipe';
 import { LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
-import { AttendanceCountBasedOnTypeViewDto, EmployeesofAttendanceCountsViewDto, adminDashboardViewDto } from 'src/app/_models/dashboard';
+import { AttendanceCountBasedOnTypeViewDto, EmployeesofAttendanceCountsViewDto, adminDashboardViewDto, NotificationsRepliesDto, NotificationsDto } from 'src/app/_models/dashboard';
 import { DashboardService } from 'src/app/_services/dashboard.service';
+import { JwtService } from 'src/app/_services/jwt.service';
 import { LookupService } from 'src/app/_services/lookup.service';
 
 
@@ -28,12 +29,15 @@ export class AdminDashboardComponent implements OnInit {
     monthFormat: string = MONTH;
     dateFormat: string = MEDIUM_DATE;
     attendanceCount: AttendanceCountBasedOnTypeViewDto[] = [];
-    employeeCount: EmployeesofAttendanceCountsViewDto[] = [];
+    notifications: NotificationsDto[] = [];
+    notificationReplies: NotificationsRepliesDto[] = []
+    wishesDialog: boolean = false;    employeeCount: EmployeesofAttendanceCountsViewDto[] = [];
     hideElements: boolean = true;
     leaveType: LookupDetailsDto[] = [];
 
     constructor(private dashboardService: DashboardService,
-        private router: Router, private datePipe: DatePipe, private lookupService: LookupService) {
+        private router: Router, private datePipe: DatePipe,
+        private jwtService: JwtService, private lookupService: LookupService) {
         this.selectedDate = new Date();
     }
 
@@ -48,6 +52,11 @@ export class AdminDashboardComponent implements OnInit {
         this.selectedMonth.setHours(0, 0, 0, 0);
 
         this.updateSelectedMonth();
+        this.initNotifications();
+        if (this.jwtService.EmployeeId) {
+            this.initNotificationsBasedOnId()
+        }
+
     }
 
     gotoPreviousDay() {
@@ -346,6 +355,33 @@ export class AdminDashboardComponent implements OnInit {
     }
     navigateProjects() {
         this.router.navigate(['admin/project'])
+    }
+
+    initNotifications() {
+        this.dashboardService.GetNotifications().subscribe(resp => {
+            this.notifications = resp as unknown as NotificationsDto[];
+            console.log(resp);
+        })
+    }
+
+    initNotificationsBasedOnId() {
+        this.dashboardService.GetNotificationsBasedOnId(this.jwtService.EmployeeId).subscribe(resp => {
+            this.notificationReplies = resp as unknown as NotificationsRepliesDto[];
+            console.log(resp, this.jwtService.EmployeeId)
+        })
+    }
+    showBirthdayDialog() {
+        if (this.jwtService.EmployeeId) {
+            this.wishesDialog = true;
+        } else {
+            this.wishesDialog = false;
+        }
+    }
+    onClose() {
+        this.wishesDialog = false;
+    }
+    onSubmit() {
+
     }
 
 }

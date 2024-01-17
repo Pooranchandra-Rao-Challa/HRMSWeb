@@ -99,22 +99,18 @@ export class EmployeeDashboardComponent {
         });
     }
     initNotifications() {
-        this.dashBoardService.GetNotifications(this.isActiveNotifications).subscribe(resp => {
+        this.dashBoardService.GetNotifications().subscribe(resp => {
             this.notifications = resp as unknown as NotificationsDto[];
             console.log(resp);
         })
     }
     initNotificationsBasedOnId() {
-        this.dashBoardService.GetNotificationsBasedOnId(this.isActiveNotifications, this.jwtService.EmployeeId).subscribe(resp => {
+        this.dashBoardService.GetNotificationsBasedOnId(this.jwtService.EmployeeId).subscribe(resp => {
             this.notificationReplies = resp as unknown as NotificationsRepliesDto[];
             console.log(resp, this.jwtService.EmployeeId)
         })
     }
-    getNotificationsBasedOnActive() {
-
-        this.initNotifications();
-        this.initNotificationsBasedOnId();
-    }
+  
     showBirthdayDialog() {
         this.wishesDialog = true;
     }

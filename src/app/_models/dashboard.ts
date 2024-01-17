@@ -55,6 +55,7 @@ export class workingProjects {
     endAt?: Date;
 }
 export class NotificationsDto {
+    code?:string;
     employeeId?: number
     employeeName?: string
     isActive?: boolean

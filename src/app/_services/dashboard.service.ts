@@ -26,11 +26,11 @@ export class DashboardService extends ApiHttpService {
     public GetEmployeeAttendanceCount(datatype:string,value:any,dayworkstatus:number){
         return this.getWithParams<EmployeesofAttendanceCountsViewDto>(GET_EMPLOYEES_OF_ATTENDANCE_COUNT,[datatype,value,dayworkstatus])
     }
-    public GetNotifications(isactive:boolean){
-        return this.getWithParams<NotificationsDto>(GET_NOTIFICATIONS,[isactive]);
+    public GetNotifications(){
+        return this.get<NotificationsDto>(GET_NOTIFICATIONS);
     }
-    public GetNotificationsBasedOnId(isActive:boolean,employeeId:number){
-        return this.getWithParams(GET_NOTIFICATION_REPLIES,[isActive,employeeId]);
+    public GetNotificationsBasedOnId(employeeId:number){
+        return this.getWithParams(GET_NOTIFICATION_REPLIES,[employeeId]);
     }
 
 }
