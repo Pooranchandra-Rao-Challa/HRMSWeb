@@ -39,11 +39,9 @@ export class AdminDashboardComponent implements OnInit {
         this.month = currentDate.getMonth() + 1;
         this.year = currentDate.getFullYear();
 
-        // Set the selected month based on the default values
         this.selectedMonth = new Date(this.year, this.month - 1, 1);
         this.selectedMonth.setHours(0, 0, 0, 0);
 
-        // Update the selected month
         this.updateSelectedMonth();
     }
 
@@ -67,7 +65,7 @@ export class AdminDashboardComponent implements OnInit {
     }
 
     getCurrentDay(): string {
-        return this.formatDate(this.selectedDate, 'yyyy-MM-dd');
+        return this.formatDate(this.selectedDate, MEDIUM_DATE);
     }
 
     formatDate(date: Date, format: string): string {
@@ -103,7 +101,7 @@ export class AdminDashboardComponent implements OnInit {
 
     onMonthSelect(event) {
         this.selectedMonth = event;
-        this.month = this.selectedMonth.getMonth() + 1; // Month is zero-indexed
+        this.month = this.selectedMonth.getMonth() + 1;
         this.year = this.selectedMonth.getFullYear();
         this.updateSelectedMonth();
         this.getAttendanceCountsBasedOnType();
@@ -121,9 +119,8 @@ export class AdminDashboardComponent implements OnInit {
         this.getAttendanceCountsBasedOnType();
     }
 
-
     formatMonth(month: number): string {
-        const date = new Date(2000, month - 1, 1); // Using a common year for simplicity
+        const date = new Date(2000, month - 1, 1); 
         return FORMAT_MONTH(date, this.monthFormat);
     }
 
