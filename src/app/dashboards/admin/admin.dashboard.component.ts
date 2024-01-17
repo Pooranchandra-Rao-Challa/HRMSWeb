@@ -12,7 +12,8 @@ import { DashboardService } from 'src/app/_services/dashboard.service';
 export class AdminDashboardComponent implements OnInit {
     admindashboardDtls: adminDashboardViewDto;
     pieDataforAttendance: any;
-    pieOptions: any;
+    pieOptionsforProjects: any;
+    pieOptionsforAttendance:any;
     pieDataforProjects: any;
     chartFilled: boolean;
     chart: string;
@@ -215,7 +216,7 @@ export class AdminDashboardComponent implements OnInit {
                 }
             ]
         };
-        this.pieOptions = {
+        this.pieOptionsforAttendance = {
             animation: {
                 duration: 500
             },
@@ -251,7 +252,7 @@ export class AdminDashboardComponent implements OnInit {
                 }
             ]
         };
-        this.pieOptions = {
+        this.pieOptionsforProjects = {
             animation: {
                 duration: 500
             },

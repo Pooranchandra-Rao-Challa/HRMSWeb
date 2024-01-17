@@ -139,7 +139,7 @@
                 </div>
                 <ul class="list-none p-0 m-0">
                     <li *ngIf="this.attendanceCount?.length > 0; else noDataMessage">
-                        <p-chart type="doughnut" [data]="pieDataforAttendance" [options]="pieOptions" height="200px"
+                        <p-chart type="doughnut" [data]="pieDataforAttendance" [options]="pieOptionsforAttendance" height="200px"
                             width="100%"></p-chart>
                     </li>
                     <ng-template #noDataMessage>
@@ -177,7 +177,7 @@
                 </div> -->
                 <ul class="list-none p-0 m-1">
                     <li *ngIf="this.admindashboardDtls?.savedactiveProjects?.length > 0; else noProjectsMessage">
-                        <p-chart type="doughnut" [data]="pieDataforProjects" [options]="pieOptions" height="200px"
+                        <p-chart type="doughnut" [data]="pieDataforProjects" [options]="pieOptionsforProjects" height="200px"
                             width="100%">
                         </p-chart>
                     </li>
