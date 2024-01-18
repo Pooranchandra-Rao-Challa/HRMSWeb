@@ -1,6 +1,9 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { DATE_FORMAT, DATE_FORMAT_MONTH, FORMAT_DATE, FORMAT_MONTH, MEDIUM_DATE, MONTH, ORIGINAL_DOB } from 'src/app/_helpers/date.formate.pipe';
 import { LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
 import { AttendanceCountBasedOnTypeViewDto, EmployeesofAttendanceCountsViewDto, adminDashboardViewDto, NotificationsRepliesDto, NotificationsDto } from 'src/app/_models/dashboard';
@@ -31,19 +34,24 @@ export class AdminDashboardComponent implements OnInit {
     attendanceCount: AttendanceCountBasedOnTypeViewDto[] = [];
     notifications: NotificationsDto[] = [];
     notificationReplies: NotificationsRepliesDto[] = []
-    wishesDialog: boolean = false;    employeeCount: EmployeesofAttendanceCountsViewDto[] = [];
+    wishesDialog: boolean = false; employeeCount: EmployeesofAttendanceCountsViewDto[] = [];
     hideElements: boolean = true;
     leaveType: LookupDetailsDto[] = [];
     EmployeeId: number;
+    fbWishes!: FormGroup;
 
     constructor(private dashboardService: DashboardService,
         private router: Router, private datePipe: DatePipe,
-        private jwtService: JwtService, private lookupService: LookupService) {
+        private jwtService: JwtService, private lookupService: LookupService,
+        private formbuilder: FormBuilder,
+        private alertMessage: AlertmessageService,
+        private messageService: MessageService,) {
         this.selectedDate = new Date();
         this.EmployeeId = this.jwtService.EmployeeId;
     }
 
     ngOnInit() {
+        this.initWishesForm();
         this.inItAdminDashboard();
         this.chart = 'Date';
         const currentDate = new Date();
@@ -369,21 +377,46 @@ export class AdminDashboardComponent implements OnInit {
     initNotificationsBasedOnId() {
         this.dashboardService.GetNotificationsBasedOnId(this.EmployeeId).subscribe(resp => {
             this.notificationReplies = resp as unknown as NotificationsRepliesDto[];
-            console.log(resp,this.EmployeeId)             
+            console.log(resp, this.EmployeeId)
         })
     }
-    showBirthdayDialog() {
+
+    initWishesForm() {
+        this.fbWishes = this.formbuilder.group({
+            message: new FormControl('', [Validators.required]),
+            notificationId: new FormControl('', [Validators.required]),
+            employeeId: new FormControl('', [Validators.required])
+        })
+    }
+    showBirthdayDialog(data: any) {
         if (this.jwtService.EmployeeId) {
             this.wishesDialog = true;
+            this.fbWishes.get('notificationId').setValue(data.notificationId);
+            this.fbWishes.get('employeeId').setValue(this.jwtService.EmployeeId);
         } else {
             this.wishesDialog = false;
         }
     }
+
+    onSubmit() {
+        console.log(this.fbWishes.value);
+        this.dashboardService.sendBithdayWishes(this.fbWishes.value).subscribe({
+            next: (resp) => {
+                this.alertMessage.displayAlertMessage(ALERT_CODES["ADW001"]);
+            },
+            error: (error) => {
+                if (error) {
+                    this.messageService.add({ severity: 'error', key: 'myToast', detail: error.error});
+                } else {
+                    this.alertMessage.displayErrorMessage(ALERT_CODES["ADW002"])
+                }
+                this.wishesDialog = false;
+            }
+        })
+    }
+
     onClose() {
         this.wishesDialog = false;
-    }
-    onSubmit() {
-
     }
 
 }

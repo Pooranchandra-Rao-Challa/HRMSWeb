@@ -238,8 +238,10 @@ export const ALERT_CODES: { [key: string]: string } = {
 
     //Leave Configuration
     'LC001': 'Leave Configuration Added Successfully',
-    'LC002': 'Leave Configuration Updated Successfully'
+    'LC002': 'Leave Configuration Updated Successfully',
 
+    'ADW001': 'Wishes Send Successfully',
+    'ADW002': 'Wishes Send Failed',
 
 }
 
