@@ -397,7 +397,7 @@ export class AdminDashboardComponent implements OnInit {
             message: new FormControl('', [Validators.required]),
             notificationId: new FormControl('', [Validators.required]),
             employeeId: new FormControl('', [Validators.required]),
-            isActive:(true),
+            isActive: new FormControl(true),
         })
     }
     showBirthdayDialog(data: any) {
