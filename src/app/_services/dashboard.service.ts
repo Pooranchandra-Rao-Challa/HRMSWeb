@@ -33,7 +33,7 @@ export class DashboardService extends ApiHttpService {
         return this.getWithParams<NotificationsRepliesDto>(GET_NOTIFICATION_REPLIES,[employeeId]);
     }
     public sendBithdayWishes(wishes){
-        return this.post(POST_BIRTHDAY_WISHES,wishes);
+        return this.post<NotificationsRepliesDto>(POST_BIRTHDAY_WISHES,wishes);
     }
 
 }
