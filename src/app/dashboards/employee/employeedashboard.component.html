@@ -209,7 +209,7 @@
                             <ul class="list-none p-0 overflow-auto" style=" max-height: 10.745rem;"
                                 *ngIf="notifications && notifications?.length > 0 ; else noHRTemplate">
                                 <div class="" *ngFor="let employee of notifications">
-                                    <li class="border-round-lg p-3 mb-1" *ngIf="employee.messageType =='HR'"
+                                    <li class="border-round-lg p-3 mb-1" *ngIf="employee.messageType !='Birthday'"
                                         style="background-color: var(--primary-lighter-color)">
                                         <div class="flex justify-content-between align-items-center mb-1">
                                             <div class="flex align-items-center  w-100 gap-1">

@@ -44,8 +44,10 @@ export class HrNotificationsComponent {
       notifyTill: formatDate(new Date(this.fbHrNotification.get('notifyTill').value), 'yyyy-MM-dd', 'en'),
     };
     this.dashBoardService.CreateHRNotification(updateData).subscribe(resp => {
-      if (resp) {
-        this.alertMessage.displayAlertMessage(ALERT_CODES["HRN001"])
+      if (resp){
+        this.alertMessage.displayAlertMessage(ALERT_CODES["HRN001"]);
+        this.initHRForm();
+        this.initNotifications();
       }
       else
         this.alertMessage.displayErrorMessage(ALERT_CODES["HRN002"]);
