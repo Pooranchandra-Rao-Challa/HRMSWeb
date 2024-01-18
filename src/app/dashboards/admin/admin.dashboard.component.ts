@@ -390,7 +390,8 @@ export class AdminDashboardComponent implements OnInit {
         this.fbWishes = this.formbuilder.group({
             message: new FormControl('', [Validators.required]),
             notificationId: new FormControl('', [Validators.required]),
-            employeeId: new FormControl('', [Validators.required])
+            employeeId: new FormControl('', [Validators.required]),
+            isActive:(true),
         })
     }
     showBirthdayDialog(data: any) {
@@ -406,16 +407,14 @@ export class AdminDashboardComponent implements OnInit {
     onSubmit() {
         this.dashboardService.sendBithdayWishes(this.fbWishes.value).subscribe(resp => {
             let rdata = resp as unknown as any;
-            if (rdata.isSuccess) {
-                this.wishesDialog = false;
-                this.fbWishes.reset();
+            if (rdata.isSuccess) {  
                 this.alertMessage.displayAlertMessage(ALERT_CODES["ADW001"])
             }
-            else if (!rdata.isSuccess) {
-                this.wishesDialog = false;
-                this.fbWishes.reset();
+            else if (!rdata.isSuccess) {  
                 this.alertMessage.displayErrorMessage(rdata.message);
             }
+            this.wishesDialog = false;
+            this.initWishesForm();
         })
     }
 
