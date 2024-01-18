@@ -48,7 +48,7 @@ export class EmployeeDashboardComponent {
     notificationReplies: NotificationsRepliesDto[] = []
     @ViewChild('Wishes') Wishes!: ElementRef;
     fbWishes!: FormGroup;
-    employeeId:any;
+    employeeId: any;
     wishesDialog: boolean;
     years: any
     projects: { name: string, projectLogo: string, description: string, projectId: number, periods: { sinceFrom: Date, endAt: Date }[] }[] = [];
@@ -61,8 +61,8 @@ export class EmployeeDashboardComponent {
         private dialogService: DialogService,
         public ref: DynamicDialogRef, private formbuilder: FormBuilder,
     ) {
-        this.employeeId=this.jwtService.EmployeeId
-     }
+        this.employeeId = this.jwtService.EmployeeId
+    }
 
     headers: ITableHeader[] = [
         { field: 'title', header: 'title', label: 'Holiday Title' },
@@ -86,7 +86,8 @@ export class EmployeeDashboardComponent {
         this.fbWishes = this.formbuilder.group({
             message: new FormControl('', [Validators.required]),
             notificationId: new FormControl('', [Validators.required]),
-            employeeId: new FormControl('', [Validators.required])
+            employeeId: new FormControl('', [Validators.required]),
+            isActive: new FormControl(true),
         })
     }
     getHoliday(): void {
@@ -134,16 +135,14 @@ export class EmployeeDashboardComponent {
     onSubmit() {
         this.dashBoardService.sendBithdayWishes(this.fbWishes.value).subscribe(resp => {
             let rdata = resp as unknown as any;
-            if(rdata.isSuccess){
-                this.wishesDialog = false;
-                this.fbWishes.reset();
+            if (rdata.isSuccess)
                 this.alertMessage.displayAlertMessage(ALERT_CODES["ADW001"])
-            }
-            else if(!rdata.isSuccess){
-                this.wishesDialog = false;
-                this.fbWishes.reset();
-                this.alertMessage.displayErrorMessage(rdata.message); 
-            }
+                
+            else if (!rdata.isSuccess)
+                this.alertMessage.displayErrorMessage(rdata.message);
+
+            this.wishesDialog = false;
+            this.initWishesForm();
         })
     }
     onClose() {
