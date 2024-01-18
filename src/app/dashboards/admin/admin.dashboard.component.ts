@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { dE } from '@fullcalendar/core/internal-common';
 import { MessageService } from 'primeng/api';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { DATE_FORMAT, DATE_FORMAT_MONTH, FORMAT_DATE, FORMAT_MONTH, MEDIUM_DATE, MONTH, ORIGINAL_DOB } from 'src/app/_helpers/date.formate.pipe';
@@ -41,18 +42,20 @@ export class AdminDashboardComponent implements OnInit {
     filteredEmployeeCount: any;
     EmployeeId: any;
     fbWishes!: FormGroup;
+    permissions: any;
+   
 
     constructor(private dashboardService: DashboardService,
         private router: Router,
         private jwtService: JwtService, private lookupService: LookupService,
         private formbuilder: FormBuilder,
-        private alertMessage: AlertmessageService,
-        private messageService: MessageService,) {
+        private alertMessage: AlertmessageService,) {
         this.selectedDate = new Date();
         this.EmployeeId = this.jwtService.EmployeeId;
     }
 
     ngOnInit() {
+        this.permissions = this.jwtService.Permissions;
         this.initWishesForm();
         this.inItAdminDashboard();
         this.chart = 'Date';
@@ -166,8 +169,6 @@ export class AdminDashboardComponent implements OnInit {
             this.selectedDate = DATE_FORMAT(new Date(this.selectedDate));
             this.dashboardService.GetAttendanceCountBasedOnType(this.chart, this.selectedDate).subscribe((resp) => {
                 this.attendanceCount = resp as unknown as AttendanceCountBasedOnTypeViewDto[];
-                console.log(this.attendanceCount);
-
                 this.attendanceChart();
             })
         }
@@ -175,16 +176,12 @@ export class AdminDashboardComponent implements OnInit {
             this.selectedMonth = DATE_FORMAT_MONTH(new Date(this.selectedMonth));
             this.dashboardService.GetAttendanceCountBasedOnType(this.chart, this.selectedMonth).subscribe((resp) => {
                 this.attendanceCount = resp as unknown as AttendanceCountBasedOnTypeViewDto[];
-                console.log(this.attendanceCount);
-
                 this.attendanceChart();
             })
         }
         else if (this.chart === 'Year') {
             this.dashboardService.GetAttendanceCountBasedOnType(this.chart, this.year).subscribe((resp) => {
                 this.attendanceCount = resp as unknown as AttendanceCountBasedOnTypeViewDto[];
-                console.log(this.attendanceCount);
-
                 this.attendanceChart();
             })
         }
@@ -313,8 +310,6 @@ export class AdminDashboardComponent implements OnInit {
                             this.dashboardService.GetEmployeeAttendanceCount(this.chart, this.year, lookupDetailId)
                                 .subscribe((resp) => {
                                     this.employeeCount = resp as unknown as EmployeesofAttendanceCountsViewDto[];
-                                    console.log(this.employeeCount);
-
                                     this.employeeCount.forEach(emp => {
                                         const date = new Date(emp.value);
                                         if (isNaN(date.getTime())) {
@@ -382,14 +377,12 @@ export class AdminDashboardComponent implements OnInit {
     initNotifications() {
         this.dashboardService.GetNotifications().subscribe(resp => {
             this.notifications = resp as unknown as NotificationsDto[];
-            console.log(resp);
         })
     }
 
     initNotificationsBasedOnId() {
         this.dashboardService.GetNotificationsBasedOnId(this.EmployeeId).subscribe(resp => {
             this.notificationReplies = resp as unknown as NotificationsRepliesDto[];
-            console.log(resp, this.EmployeeId)
         })
     }
 
@@ -411,18 +404,17 @@ export class AdminDashboardComponent implements OnInit {
     }
 
     onSubmit() {
-        console.log(this.fbWishes.value);
-        this.dashboardService.sendBithdayWishes(this.fbWishes.value).subscribe({
-            next: (resp) => {
-                this.alertMessage.displayAlertMessage(ALERT_CODES["ADW001"]);
-            },
-            error: (error) => {
-                if (error) {
-                    this.messageService.add({ severity: 'error', key: 'myToast', detail: error.error });
-                } else {
-                    this.alertMessage.displayErrorMessage(ALERT_CODES["ADW002"])
-                }
+        this.dashboardService.sendBithdayWishes(this.fbWishes.value).subscribe(resp => {
+            let rdata = resp as unknown as any;
+            if (rdata.isSuccess) {
                 this.wishesDialog = false;
+                this.fbWishes.reset();
+                this.alertMessage.displayAlertMessage(ALERT_CODES["ADW001"])
+            }
+            else if (!rdata.isSuccess) {
+                this.wishesDialog = false;
+                this.fbWishes.reset();
+                this.alertMessage.displayErrorMessage(rdata.message);
             }
         })
     }
@@ -430,7 +422,7 @@ export class AdminDashboardComponent implements OnInit {
     onClose() {
         this.wishesDialog = false;
     }
-
+  
 }
 
 

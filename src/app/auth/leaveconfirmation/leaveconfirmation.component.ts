@@ -37,7 +37,7 @@ export class LeaveconfirmationComponent {
   openConfirmationAlert(title: string) {
     const buttonLabel = title === 'Reason For Approve' ? 'Approve' : 'Reject';
     this.leaveConfirmationService.openDialogWithInput(title, buttonLabel).subscribe((result) => {
-      if (result && result.description || result.description !== undefined) {
+      if (result && result.description !== undefined) {
         const employeeLeaveDetails: EmployeeLeaveDetailsDto = {
           employeeId: this.employeeleavedetails.leaveDto.employeeId,
           leaveId: this.employeeleavedetails.leaveDto.leaveTypeId,
@@ -47,17 +47,38 @@ export class LeaveconfirmationComponent {
           comments: result.description,
         };
         this.leaveConfirmationService.UpdateEmployeeLeaveDetails(employeeLeaveDetails).subscribe((resp) => {
-          if (resp) {
+          let rdata = resp as unknown as any;
+          if (rdata.isSuccess) {
             this.showConfirmationMessage = true;
-            this.alertMessage.displayAlertMessage(ALERT_CODES["ALC001"]);
-          } else {
-            this.alertMessage.displayErrorMessage(ALERT_CODES["ALC002"]);
+            // Display different toaster messages based on leave type
+            const leaveType = this.employeeleavedetails?.leaveDto?.getLeaveType;
+            if (leaveType === 'PL') {
+              this.alertMessage.displayAlertMessage(ALERT_CODES["ALC001_PL"]);
+            } else if (leaveType === 'CL') {
+              this.alertMessage.displayAlertMessage(ALERT_CODES["ALC002_CL"]);
+            } else if (leaveType === 'WFH') {
+              this.alertMessage.displayAlertMessage(ALERT_CODES["ALC003_WFH"]);
+            }
+          } else if (!rdata.isSuccess) {
+            this.alertMessage.displayErrorMessage(rdata.message); 
           }
-        })
+        });
       }
     });
   }
-
+  
+  getConfirmationMessage(leaveType: string): string {
+    switch (leaveType) {
+      case 'CL':
+        return 'CL is Approved Successfully';
+      case 'PL':
+        return 'PL is Approved Successfully';
+      case 'WFH':
+        return 'WFH is Approved Successfully';
+      default:
+        return 'Confirmation Approved Successfully';
+    }
+  }
 }
 
 

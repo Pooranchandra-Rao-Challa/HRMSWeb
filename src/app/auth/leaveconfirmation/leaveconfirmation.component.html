@@ -134,14 +134,17 @@
                 </svg>
             </a>
             <h2 class=" topbar_title mb-4">HRMS Admin</h2>
-            <h3 *ngIf="showConfirmationMessage">Employee Leave Confirmation Updated Successfully</h3>
+            <h3 *ngIf="showConfirmationMessage">
+                {{ getConfirmationMessage(employeeleavedetails?.leaveDto?.getLeaveType) }}
+            </h3>
             <div *ngIf="!showConfirmationMessage" class="flex flex-column mt-5 p-2 surface-0"
                 style=" border-radius: 5px;">
                 <table border="1" cellpadding="0" cellspacing="0" width="100%" class="mb-3 text-left"
                     style="border-radius: 5px;">
                     <tr>
                         <th width="35% " class="p-2">Employee Name</th>
-                        <td class="p-2" style="line-height:2; padding:5px;">{{employeeleavedetails?.leaveDto?.employeeName}}</td>
+                        <td class="p-2" style="line-height:2; padding:5px;">
+                            {{employeeleavedetails?.leaveDto?.employeeName}}</td>
                     </tr>
                     <tr>
                         <th width="35% " class="p-2">Leave Type</th>
@@ -162,11 +165,9 @@
                 </table>
                 <div class="flex flex-wrap gap-2 justify-content-between">
                     <button pButton pRipple label="Approve" *ngIf="employeeleavedetails?.action === 'Approve'"
-                    (click)="openConfirmationAlert('Reason For Approve')"
-                        class="flex-auto"></button>
+                        (click)="openConfirmationAlert('Reason For Approve')" class="flex-auto"></button>
                     <button pButton pRipple label="Reject" *ngIf="employeeleavedetails?.action === 'Reject'"
-                    (click)="openConfirmationAlert('Reason For Reject')"
-                        class="flex-auto"></button>
+                        (click)="openConfirmationAlert('Reason For Reject')" class="flex-auto"></button>
                 </div>
             </div>
         </div>
