@@ -198,7 +198,8 @@
                                                         <th class="text-center">Employee Name</th>
                                                         <th class="text-center">Day Work Status</th>
                                                     </tr>
-                                                </ng-template> <ng-template pTemplate="body" let-employee>
+                                                </ng-template>
+                                                <ng-template pTemplate="body" let-employee>
                                                     <tr>
                                                         <td class="text-center">
                                                             <span *ngIf="employee?.code">
@@ -366,18 +367,15 @@
         </div>
     </div>
 
-    <div class="col-12 lg:col-7 md:col-6 sm:col-12">
+    <div class="col-12 lg:col-7 md:col-6 sm:col-12" *ngIf="permissions?.CanViewNotifications">
         <div class="card-headr chart_head gap-2 ">
             <div class="card-title text-center">
                 <h6 class="m-0">Notifications </h6>
             </div>
         </div>
-
-
         <div class="card employee_card_dashboard2">
             <p-fieldset legend="HR Notifications" [collapsed]="false" [toggleable]="true"
-                class="line-height-3 m-0 mb-2 dashboard_fieldset ">
-
+            class="line-height-3 m-0 mb-2 dashboard_fieldset">
                 <ul class="list-none p-0 overflow-auto" style=" max-height: 10.745rem;"
                     *ngIf="notifications && notifications?.length > 0 ; else noHRTemplate">
                     <div class="" *ngFor="let employee of notifications">
@@ -395,9 +393,8 @@
                                 </div>
                             </div>
                         </li>
-                        </div>
+                    </div>
                 </ul>
-
                 <ng-template #noHRTemplate>
                     <li class="border-round-lg pt-2 px-3 pb-2 mb-3"
                         style="background-color: var(--primary-lighter-color)">
@@ -407,8 +404,8 @@
                     </li>
                 </ng-template>
             </p-fieldset><br />
-            <p-fieldset legend="Birthday Greetings" [toggleable]="true" [collapsed]="true"
-                class="line-height-3 m-0 dashboard_fieldset ">
+            <p-fieldset legend="Birthday Greetings" [collapsed]="true" [toggleable]="true"
+            class="line-height-3 m-0 mb-2 dashboard_fieldset">
                 <div class="overflow-auto" style="max-height:10rem;">
                     <div>
                         <ul class="list-none p-0 overflow-auto"
@@ -426,7 +423,7 @@
                                                 value="{{employee?.code}}"></p-tag>
                                         </div>
                                         <div style="width:30%;"
-                                            *ngIf="EmployeeId && EmployeeId != employee?.employeeId">
+                                            *ngIf="EmployeeId && EmployeeId != employee?.employeeId && permissions?.CanSendBirthdayWishes">
                                             <button type="button" pButton icon="pi icon-redeem"
                                                 class="p-button-rounded p-button-text p-button-sm flex-shrink-0"
                                                 (click)="showBirthdayDialog(employee)">&nbsp; Send Greetings </button>
@@ -435,8 +432,6 @@
 
                                 </li>
                             </div>
-
-                            <!--  -->
                         </ul>
                     </div>
                     <ng-template #noBirthdaysTemplate>
@@ -482,205 +477,8 @@
                         </ng-template>
                     </ul>
                 </div>
-
-
             </p-fieldset>
-
-
-            <!-- <p-tabView>
-                <p-tabPanel header="Today Birthdays and Events" class="w-full p-2">
-                    <div *ngIf="notifications && notifications?.length > 0; else noBirthdaysTemplate">
-                        <div *ngFor="let employee of notifications">
-                            <ul class="list-none p-0 overflow-auto"
-                                style="margin: 0 -1.5rem -1rem; max-height: 17.745rem">
-                                <li *ngIf="employee.messageType =='Birthday'"
-                                    class="border-round-lg pt-2 px-3 pb-2 mb-3"
-                                    style="background-color: var(--primary-lighter-color)">
-                                    <div class="grid ga leav_list m-0 p-0">
-                                        <div class="col-4 p-1">
-                                            <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-orange-300 "
-                                                class="inline-block" value="{{employee?.code}}"></p-tag>
-                                        </div>
-                                        <div class="col-4 p-1">
-                                            <h6 class="line-height-3 m-0 font-medium font-medium ">
-                                                <b>{{employee?.employeeName}}</b>
-                                            </h6>
-                                        </div>
-                                        <div class="col-4 p-1">
-                                            <button pButton type="button" class="btn btn-primary"
-                                                label="Send Wishes" (click)="showBirthdayDialog()"></button>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <ng-template #noBirthdaysTemplate>
-                        <li class="border-round-lg pt-2 px-3 pb-2 mb-3"
-                            style="background-color: var(--primary-lighter-color)">
-                            <div class="text-center m-3">
-                                <p class="m-0">Today, there is no employee birthdays or events.</p>
-                            </div>
-                        </li>
-                    </ng-template>
-                    <ul class="list-none p-0 overflow-auto"
-                        style="margin: 0 -1.5rem -1rem; max-height: 17.745rem">
-                        <div
-                            *ngIf="notificationReplies && notificationReplies?.length > 0 ; else nobdTemplate">
-                            <div *ngFor="let employee of notificationReplies">
-                                <ul class="list-none p-0 overflow-auto"
-                                    style="margin: 0 -1.5rem -1rem; max-height: 17.745rem">
-                                    <li class="border-round-lg pt-2 px-3 pb-2 mb-3"
-                                        style="background-color: var(--primary-lighter-color)">
-                                        <div class="grid ga leav_list m-0 p-0">
-                                            <div class="col-12 p-1">
-                                                <h6 class="line-height-3 m-0 font-medium font-medium ">
-                                                    <b>{{employee?.message}}</b>
-                                                </h6>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <ng-template #nobdTemplate>
-                            <li class="border-round-lg pt-2 px-3 pb-2 mb-3"
-                                style="background-color: var(--primary-lighter-color)">
-                                <div class="text-center m-3">
-                                    <p class="m-0">There is no Birthday Notifications.</p>
-                                </div>
-                            </li>
-                        </ng-template>
-                    </ul>
-                </p-tabPanel>
-                <p-tabPanel header="HR Notifications" class="w-full p-2">
-                    <div *ngIf="notifications && notifications?.length > 0 ; else noHRTemplate">
-                        <div *ngFor="let employee of notifications">
-                            <ul class="list-none p-0 overflow-auto"
-                                style="margin: 0 -1.5rem -1rem; max-height: 17.745rem">
-                                <li class="border-round-lg pt-2 px-3 pb-2 mb-3"
-                                    style="background-color: var(--primary-lighter-color)">
-                                    <div class="grid ga leav_list m-0 p-0">
-                                        <div class="col-12 p-1" *ngIf="employee.messageType =='HR'">
-                                            <h6 class="line-height-3 m-0 font-medium font-medium ">
-                                                <b>{{employee?.message}}</b>
-                                            </h6>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <ng-template #noHRTemplate>
-                        <li class="border-round-lg pt-2 px-3 pb-2 mb-3"
-                            style="background-color: var(--primary-lighter-color)">
-                            <div class="text-center m-3">
-                                <p class="m-0">There is no HR Notifications.</p>
-                            </div>
-                        </li>
-                    </ng-template>
-                </p-tabPanel>
-            </p-tabView> -->
         </div>
-
-
-        <!-- <div class="col-12 xl:col-12 pt-1">
-            <div class=" p-5 orange-200  applicant-p-block-home">
-                <div class="card-hader flex justify-content-between gap-3 pb-2">
-                    <div class="card-title">
-                        <h6>Notifications </h6>
-                    </div>
-
-                </div>
-
-                <p-tabView>
-
-                    <p-tabPanel header="Today Birthdays and Events" class="w-full p-2">
-                        <div *ngIf="notifications && notifications?.length > 0; else noBirthdaysTemplate">
-                            <div *ngFor="let employee of notifications">
-                                <ul class="list-none p-0 overflow-auto"
-                                    style="margin: 0 -1.5rem -1rem; max-height: 17.745rem">
-                                    <li *ngIf="employee.messageType=='Birthday'"
-                                        class="border-round-lg pt-2 px-3 pb-2 mb-3"
-                                        style="background-color: var(--primary-lighter-color)">
-                                        <div class="grid ga leav_list m-0 p-0">
-                                            <div class="col-4 p-1">
-                                                <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-orange-300 "
-                                                    class="inline-block" value="{{employee?.employeeName}}">
-                                                </p-tag>
-                                            </div>
-                                            <div class="col-4 p-1">
-                                                <h6 class="line-height-3 m-0 font-medium font-medium ">
-                                                    <b>{{employee?.message}}</b>
-                                                </h6>
-                                            </div>
-
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <ng-template #noBirthdaysTemplate>
-                            <li class="border-round-lg pt-2 px-3 pb-2 mb-3"
-                                style="background-color: var(--primary-lighter-color)">
-                                <div class="text-center m-3">
-                                    <p class="m-0">Today, there is no employee birthdays or events.</p>
-                                </div>
-                            </li>
-                        </ng-template>
-                    </p-tabPanel>
-                    <p-tabPanel header="HR Notifications" class="w-full p-2">
-
-                        <div
-                            *ngIf="notifications && notifications?.length > 0||notificationReplies && notificationReplies?.length > 0; else noHRTemplate">
-                            <div *ngFor="let employee of notificationReplies">
-                                <ul class="list-none p-0 overflow-auto"
-                                    style="margin: 0 -1.5rem -1rem; max-height: 17.745rem">
-                                    <li *ngIf="employee.messageType=='HR'" class="border-round-lg pt-2 px-3 pb-2 mb-3"
-                                        style="background-color: var(--primary-lighter-color)">
-                                        <div class="grid ga leav_list m-0 p-0">
-
-                                            <div class="col-12 p-1">
-                                                <h6 class="line-height-3 m-0 font-medium font-medium ">
-                                                    <b>{{employee?.message}}</b>
-                                                </h6>
-                                            </div>
-
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div *ngFor="let employee of notifications">
-                                <ul class="list-none p-0 overflow-auto"
-                                    style="margin: 0 -1.5rem -1rem; max-height: 17.745rem">
-                                    <li class="border-round-lg pt-2 px-3 pb-2 mb-3"
-                                        style="background-color: var(--primary-lighter-color)">
-                                        <div class="grid ga leav_list m-0 p-0">
-
-                                            <div class="col-12 p-1">
-                                                <h6 class="line-height-3 m-0 font-medium font-medium ">
-                                                    <b>{{employee?.message}}</b>
-                                                </h6>
-                                            </div>
-
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <ng-template #noHRTemplate>
-                            <li class="border-round-lg pt-2 px-3 pb-2 mb-3"
-                                style="background-color: var(--primary-lighter-color)">
-                                <div class="text-center m-3">
-                                    <p class="m-0">There is no HR Notifications.</p>
-                                </div>
-                            </li>
-                        </ng-template>
-                    </p-tabPanel>
-                </p-tabView>
-            </div>
-        </div> -->
     </div>
 </div>
 

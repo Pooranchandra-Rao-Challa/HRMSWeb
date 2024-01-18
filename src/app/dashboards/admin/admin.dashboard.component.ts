@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { dE } from '@fullcalendar/core/internal-common';
 import { MessageService } from 'primeng/api';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { DATE_FORMAT, DATE_FORMAT_MONTH, FORMAT_DATE, FORMAT_MONTH, MEDIUM_DATE, MONTH, ORIGINAL_DOB } from 'src/app/_helpers/date.formate.pipe';
@@ -41,18 +42,20 @@ export class AdminDashboardComponent implements OnInit {
     filteredEmployeeCount: any;
     EmployeeId: any;
     fbWishes!: FormGroup;
+    permissions: any;
+   
 
     constructor(private dashboardService: DashboardService,
         private router: Router, private datePipe: DatePipe,
         private jwtService: JwtService, private lookupService: LookupService,
         private formbuilder: FormBuilder,
-        private alertMessage: AlertmessageService,
-        private messageService: MessageService,) {
+        private alertMessage: AlertmessageService,) {
         this.selectedDate = new Date();
         this.EmployeeId = this.jwtService.EmployeeId;
     }
 
     ngOnInit() {
+        this.permissions = this.jwtService.Permissions;
         this.initWishesForm();
         this.inItAdminDashboard();
         this.chart = 'Date';
@@ -275,7 +278,7 @@ export class AdminDashboardComponent implements OnInit {
             }
         };
     }
-    
+
     onChartClick(event: any): void {
         const clickedIndex = event?.element?.index;
         if (clickedIndex !== undefined) {
@@ -410,18 +413,17 @@ export class AdminDashboardComponent implements OnInit {
     }
 
     onSubmit() {
-        console.log(this.fbWishes.value);
-        this.dashboardService.sendBithdayWishes(this.fbWishes.value).subscribe({
-            next: (resp) => {
-                this.alertMessage.displayAlertMessage(ALERT_CODES["ADW001"]);
-            },
-            error: (error) => {
-                if (error) {
-                    this.messageService.add({ severity: 'error', key: 'myToast', detail: error.error});
-                } else {
-                    this.alertMessage.displayErrorMessage(ALERT_CODES["ADW002"])
-                }
+        this.dashboardService.sendBithdayWishes(this.fbWishes.value).subscribe(resp => {
+            let rdata = resp as unknown as any;
+            if (rdata.isSuccess) {
                 this.wishesDialog = false;
+                this.fbWishes.reset();
+                this.alertMessage.displayAlertMessage(ALERT_CODES["ADW001"])
+            }
+            else if (!rdata.isSuccess) {
+                this.wishesDialog = false;
+                this.fbWishes.reset();
+                this.alertMessage.displayErrorMessage(rdata.message);
             }
         })
     }
@@ -429,7 +431,7 @@ export class AdminDashboardComponent implements OnInit {
     onClose() {
         this.wishesDialog = false;
     }
-
+  
 }
 
 
