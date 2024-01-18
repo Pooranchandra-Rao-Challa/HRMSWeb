@@ -250,7 +250,7 @@
                 <h6 class="m-0">Chart by Projects </h6>
             </div>
         </div>
-        <div class="card pb-5 pt-5  chart_card employee_card_dashboard">
+        <div class="card pb-5 pt-5  chart_card employee_card_dashboard2">
 
             <div class="mb-0">
                 <!-- <div class="grid">
@@ -270,7 +270,7 @@
                 <ul class="list-none p-0 m-1">
                     <li *ngIf="this.admindashboardDtls?.savedactiveProjects?.length > 0; else noProjectsMessage">
                         <p-chart type="doughnut" [data]="pieDataforProjects" [options]="pieOptionsforProjects"
-                            height="250px" width="100%">
+                            height="330px" width="100%">
                         </p-chart>
                     </li>
                     <ng-template #noProjectsMessage>
@@ -294,8 +294,8 @@
         </div>
 
 
-        <div class="card employee_card_dashboard">
-            <p-fieldset legend="HR Notifications" [toggleable]="true"
+        <div class="card employee_card_dashboard2">
+            <p-fieldset legend="HR Notifications" [collapsed]="false" [toggleable]="true"
                 class="line-height-3 m-0 mb-2 dashboard_fieldset ">
 
 
@@ -322,8 +322,8 @@
                                 <span
                                     class="mt-1 text-900 block text-sm line-height-2  overflow-hidden text-overflow-ellipsis"
                                     style="width:90%;">
-                                    {{employee?.message}}
-                                </span>
+                                    {{employee?.message}} 
+                            </span>
                                 <span class="text-gray-500 font-semibold text-sm line-height-1 w-20"
                                     style="width:10%;">4h ago</span>
                             </div>
@@ -350,7 +350,7 @@
                     </li>
                 </ng-template>
             </p-fieldset><br />
-            <p-fieldset legend="Birthday Greetings" [toggleable]="true" class="line-height-3 m-0 dashboard_fieldset ">
+            <p-fieldset legend="Birthday Greetings" [toggleable]="true" [collapsed]="true" class="line-height-3 m-0 dashboard_fieldset ">
                 <div class="overflow-auto" style="max-height:10rem;">
                     <div>
                         <ul class="list-none p-0 overflow-auto"
