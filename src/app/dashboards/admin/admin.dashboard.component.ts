@@ -166,6 +166,7 @@ export class AdminDashboardComponent implements OnInit {
     getAttendanceCountsBasedOnType() {
         this.attendanceCount = [];
         this.employeeCount = [];
+        this.shouldDisplayMessage = false;
         if (this.chart === 'Date') {
             this.selectedDate = DATE_FORMAT(new Date(this.selectedDate));
             this.dashboardService.GetAttendanceCountBasedOnType(this.chart, this.selectedDate).subscribe((resp) => {
@@ -331,7 +332,6 @@ export class AdminDashboardComponent implements OnInit {
     }
 
     displayHugeDataMessage(): void {
-        // Assuming you have a property to track whether to display the message
         this.shouldDisplayMessage = this.chart === 'Year' && (!this.employeeCount || this.employeeCount.length === 0);
     }
 
