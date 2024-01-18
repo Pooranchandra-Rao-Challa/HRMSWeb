@@ -70,11 +70,17 @@ export class HrNotificationsComponent {
     }
   }
 
+  
+
   getMessageTypes() {
-    this.lookupService.MessageTypes().subscribe(resp => {
-      this.messageTypes = resp as unknown as LookupViewDto[];
-    })
+    this.lookupService.MessageTypes().subscribe(
+      (resp) => {
+        const messageTypes=resp as unknown as LookupViewDto[]
+        this.messageTypes = messageTypes.filter(each => each.name !== "Birthday");
+      }
+    );
   }
+  
 
   initNotifications() {
     this.dashBoardService.GetNotifications().subscribe(resp => {
