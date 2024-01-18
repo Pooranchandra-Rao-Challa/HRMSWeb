@@ -58,7 +58,6 @@ export class NotificationsDto {
     code?:string;
     employeeId?: number
     employeeName?: string
-    isActive?: boolean
     message?: string
     messageType?: string
     messageTypeId?: number
@@ -66,7 +65,6 @@ export class NotificationsDto {
 export class NotificationsRepliesDto {
     employeeId?: number
     employeeName?: string
-    isActive?: boolean
     message?: string
     messageType?: string
     messageTypeId?: number
