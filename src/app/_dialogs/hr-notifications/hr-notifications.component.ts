@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
+import { formatDate } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { AlertmessageService } from 'src/app/_alerts/alertmessage.service';
+import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { LookupViewDto } from 'src/app/_models/admin';
 import { NotificationsDto } from 'src/app/_models/dashboard';
 import { DashboardService } from 'src/app/_services/dashboard.service';
@@ -36,12 +37,25 @@ export class HrNotificationsComponent {
       notifyTill: new FormControl('', [Validators.required]),
     });
   }
-  addNotification() {
 
+  addNotification() {
+    const updateData = {
+      ...this.fbHrNotification.value,
+      notifyTill: formatDate(new Date(this.fbHrNotification.get('notifyTill').value), 'yyyy-MM-dd', 'en'),
+    };
+    this.dashBoardService.CreateHRNotification(updateData).subscribe(resp => {
+      if (resp) {
+        this.alertMessage.displayAlertMessage(ALERT_CODES["HRN001"])
+      }
+      else
+        this.alertMessage.displayErrorMessage(ALERT_CODES["HRN002"]);
+    });
   }
+
   get FormControls() {
     return this.fbHrNotification.controls;
   }
+
   restrictSpaces(event: KeyboardEvent) {
     const target = event.target as HTMLInputElement;
     // Prevent the first key from being a space
@@ -53,22 +67,17 @@ export class HrNotificationsComponent {
       event.preventDefault();
     }
   }
+
   getMessageTypes() {
     this.lookupService.MessageTypes().subscribe(resp => {
       this.messageTypes = resp as unknown as LookupViewDto[];
-      console.log(resp);
-
     })
   }
+
   initNotifications() {
     this.dashBoardService.GetNotifications().subscribe(resp => {
       this.notifications = resp as unknown as NotificationsDto[];
     })
   }
-  editLeaveDetails(notification){
-    
-  }
-  onSubmit() {
 
-  }
 }

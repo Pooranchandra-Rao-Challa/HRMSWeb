@@ -89,6 +89,10 @@ export const ALERT_CODES: { [key: string]: string } = {
     'SCUQ002': 'Security Questions Added Failed',
 
     // settings
+
+    //Hr Notifications
+    'HRN001':'Notification Added Successfully',
+    'HRN002':'Notification Added Failed',
     // change password
     'SSECP001': 'Password Updated Successfully',
     'ESECP001': 'Invalid Current Password',
