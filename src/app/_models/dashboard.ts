@@ -116,6 +116,7 @@ export class EmployeesofAttendanceCountsViewDto{
     dayWorkStatus?:string;
     employeeName?:string;
     code?:string;
+    monthNames?:string;
 }
 
 export class activeProjects {
