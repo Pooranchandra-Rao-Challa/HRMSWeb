@@ -37,7 +37,7 @@ export class AdminDashboardComponent implements OnInit {
     wishesDialog: boolean = false; employeeCount: EmployeesofAttendanceCountsViewDto[] = [];
     hideElements: boolean = true;
     leaveType: LookupDetailsDto[] = [];
-    EmployeeId: number;
+    EmployeeId: any;
     fbWishes!: FormGroup;
 
     constructor(private dashboardService: DashboardService,
