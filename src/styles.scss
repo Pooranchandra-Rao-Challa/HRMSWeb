@@ -1176,7 +1176,7 @@ app-attendance .p-datatable-table tbody tr td:first-child {
     padding: 0.40rem 0;
 }
 .employee_card_dashboard{
-    min-height: 420px;
+    min-height: 320px;
 }
 .project_employye_card{
     min-height: 70px;
@@ -1190,4 +1190,11 @@ app-attendance .p-datatable-table tbody tr td:first-child {
 }
 .read-only-row {
     background-color: rgb(235, 235, 235) !important;
+}
+.chart_head{
+    background-color: var(--topbar-bg-color);
+    padding:10px;
+}
+.employee_dash_view{
+    border-left: 1px solid var(--topbar-bg-color) ;
 }
