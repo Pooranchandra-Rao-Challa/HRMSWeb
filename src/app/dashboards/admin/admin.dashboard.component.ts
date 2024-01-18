@@ -17,9 +17,9 @@ import { LookupService } from 'src/app/_services/lookup.service';
 })
 export class AdminDashboardComponent implements OnInit {
     admindashboardDtls: adminDashboardViewDto;
-    pieDataforAttendance: any;
+    barDataforAttendance: any;
+    barOptionsforAttendance: any;
     pieOptionsforProjects: any;
-    pieOptionsforAttendance: any;
     pieDataforProjects: any;
     chartFilled: boolean;
     chart: string;
@@ -34,9 +34,11 @@ export class AdminDashboardComponent implements OnInit {
     attendanceCount: AttendanceCountBasedOnTypeViewDto[] = [];
     notifications: NotificationsDto[] = [];
     notificationReplies: NotificationsRepliesDto[] = []
-    wishesDialog: boolean = false; employeeCount: EmployeesofAttendanceCountsViewDto[] = [];
+    wishesDialog: boolean = false;
+    employeeCount: EmployeesofAttendanceCountsViewDto[] = [];
     hideElements: boolean = true;
     leaveType: LookupDetailsDto[] = [];
+    filteredEmployeeCount: any;
     EmployeeId: any;
     fbWishes!: FormGroup;
 
@@ -229,27 +231,26 @@ export class AdminDashboardComponent implements OnInit {
         const leaveWithoutPay = this.attendanceCount.find(each => each.lwp);
         const workFromHome = this.attendanceCount.find(each => each.wfh);
 
-        this.pieDataforAttendance = {
+        this.barDataforAttendance = {
             labels: ['PT', 'WFH', 'PL', 'CL', 'LWP'],
             datasets: [
                 {
                     data: [present?.pt, workFromHome?.wfh, PrevlageLeaves?.pl, CasualLeaves?.cl, leaveWithoutPay?.lwp],
-                    backgroundColor: [documentStyle.getPropertyValue('--inofc-b'), documentStyle.getPropertyValue('--pl-b'), documentStyle.getPropertyValue('--cl-b'), documentStyle.getPropertyValue('--lwp-b')],
+                    backgroundColor: [documentStyle.getPropertyValue('--inofc-b'), documentStyle.getPropertyValue('--wfh-b'), documentStyle.getPropertyValue('--pl-b'), documentStyle.getPropertyValue('--cl-b'), documentStyle.getPropertyValue('--lwp-b')],
                     borderColor: surfaceBorder,
-                    pointStyle: 'circle',
                 }
             ]
         };
-        this.pieOptionsforAttendance = {
+        this.barOptionsforAttendance = {
             animation: {
                 duration: 500
             },
             plugins: {
                 legend: {
-                    display: true,
+                    display: false,
                     labels: {
                         display: true,
-                        usePointStyle: true
+                        usePointStyle: true,
                     },
                     position: 'bottom'
                 }
@@ -274,11 +275,11 @@ export class AdminDashboardComponent implements OnInit {
             }
         };
     }
-
+    
     onChartClick(event: any): void {
         const clickedIndex = event?.element?.index;
         if (clickedIndex !== undefined) {
-            const clickedLabel = this.pieDataforAttendance.labels[clickedIndex];
+            const clickedLabel = this.barDataforAttendance.labels[clickedIndex];
             this.handleChartClick(clickedLabel);
         }
     }
@@ -311,6 +312,16 @@ export class AdminDashboardComponent implements OnInit {
                             this.dashboardService.GetEmployeeAttendanceCount(this.chart, this.year, lookupDetailId)
                                 .subscribe((resp) => {
                                     this.employeeCount = resp as unknown as EmployeesofAttendanceCountsViewDto[];
+                                    console.log(this.employeeCount);
+                                    this.employeeCount.forEach(emp => {
+                                        const date = new Date(emp.value);
+                                        if (isNaN(date.getTime())) {
+                                            emp.monthNames = 'Invalid Date';
+                                        } else {
+                                            emp.monthNames = new Intl.DateTimeFormat('en', { month: 'long' }).format(date);
+                                            console.log(emp.monthNames);
+                                        }
+                                    });
                                 });
                         }
                         break;

@@ -1,6 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { EmployeeLeaveDialogComponent } from 'src/app/_dialogs/employeeleave.dialog/employeeleave.dialog.component';
 import { DATE_OF_JOINING, FORMAT_DATE, MEDIUM_DATE, ORIGINAL_DOB } from 'src/app/_helpers/date.formate.pipe';
 import { HolidaysViewDto } from 'src/app/_models/admin';
@@ -53,6 +54,7 @@ export class EmployeeDashboardComponent {
     constructor(private dashBoardService: DashboardService,
         private adminService: AdminService,
         private jwtService: JwtService,
+        private alertMessage: AlertmessageService,
         // private groupby:GroupByPipe,
         private dialogService: DialogService,
         public ref: DynamicDialogRef, private formbuilder: FormBuilder,
@@ -126,10 +128,16 @@ export class EmployeeDashboardComponent {
         this.fbWishes.get('employeeId').setValue(this.jwtService.EmployeeId);
     }
     onSubmit() {
-        console.log(this.fbWishes.value);
         this.dashBoardService.sendBithdayWishes(this.fbWishes.value).subscribe(resp => {
-            console.log(resp);
-
+            let rdata = resp as unknown as any;
+            if(resp){
+                this.wishesDialog = false;
+                this.fbWishes.reset();
+                this.alertMessage.displayAlertMessage(ALERT_CODES["SSW001"])
+            }
+            else{
+                this.alertMessage.displayErrorMessage(rdata.message); 
+            }
         })
     }
     onClose() {
