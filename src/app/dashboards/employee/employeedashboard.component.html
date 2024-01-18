@@ -61,9 +61,9 @@
                     </span> -->
                 </div>
             </div>
-            <div class="col-12 md:col-8 lg:col-6">
+            <div class="col-12 md:col-8 lg:col-2">
                 <div class="grid" style="margin: -1rem">
-                    <div class="col-12 sm:col-4">
+                    <div class="col-12 sm:col-12">
                         <div class="card text-0 flex justify-content-between pt-4 h-full"
                             style="background-color: var(--primary-color); ">
                             <div class="overview-info">
@@ -74,7 +74,7 @@
                             <i class="icon-leave-request text-3xl"></i>
                         </div>
                     </div>
-                    <div class="col-12 sm:col-4">
+                    <div class="col-12 sm:col-12">
 
                         <div class="card surface-card text-500 flex justify-content-between pt-4 h-full">
                             <div class="overview-info">
@@ -97,7 +97,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 sm:col-4">
+                    <div class="col-12 sm:col-12">
 
                         <div class="card surface-card text-500 flex justify-content-between pt-4 h-full">
                             <div class="overview-info">
@@ -111,8 +111,11 @@
                                 *ngIf="permissions?.CanManageSelfEmployee"></i>
                         </div>
                     </div>
-
-                    <div class="col-12 sm:col-4">
+                 </div>
+            </div>
+            <div class="col-12 md:col-8 lg:col-2">
+                <div class="grid" style="margin: -1rem">
+                    <div class="col-12 sm:col-12">
                         <div class="card text-0 flex justify-content-between pt-4 h-full"
                             style="background-color: var(--primary-color); ">
                             <div class="overview-info">
@@ -123,7 +126,7 @@
                             <i class="icon-leave-request text-3xl"></i>
                         </div>
                     </div>
-                    <div class="col-12 sm:col-4">
+                    <div class="col-12 sm:col-12">
 
                         <div class="card surface-card text-500 flex justify-content-between pt-4 h-full">
                             <div class="overview-info">
@@ -146,7 +149,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 sm:col-4">
+                    <div class="col-12 sm:col-12">
 
                         <div class="card surface-card text-500 flex justify-content-between pt-4 h-full">
                             <div class="overview-info">
@@ -195,21 +198,20 @@
                     </div> -->
                 </div>
             </div>
-            <div class="col-12 md:col-6 lg:col-3  " *ngIf="this.permissions.CanViewNotifications">
-                <div class=" p-5 orange-200  applicant-p-block-home">
-                    <div class="card-hader flex justify-content-between gap-3 pb-2">
-                        <div class="card-title">
-                            <h6>Notifications </h6>
-                        </div>
+            <div class="col-12 md:col-6 lg:col-5  " *ngIf="this.permissions.CanViewNotifications">
+                <div class="card-headr chart_head gap-2 ">
+                    <div class="card-title text-center">
+                        <h6 class="m-0">Notifications </h6>
                     </div>
-
-                    <div class=" employee_card_dashboard2">
+                </div>
+                <div class=" p-5 py-2 orange-200  applicant-n-block-home " >
+                    <div class=" employee_card_dashbard2">
                         <p-fieldset legend="HR Notifications" [collapsed]="false" [toggleable]="true"
                             class="line-height-3 m-0 mb-2 dashboard_fieldset ">
                             <ul class="list-none p-0 overflow-auto" style=" max-height: 10.745rem;"
                                 *ngIf="notifications && notifications?.length > 0 ; else noHRTemplate">
                                 <div class="" *ngFor="let employee of notifications">
-                                    <li class="border-round-lg p-3 mb-1" *ngIf="employee.messageType =='HR'"
+                                    <li class="border-round-lg p-3 mb-1" *ngIf="employee.messageType !='Birthday'"
                                         style="background-color: var(--primary-lighter-color)">
                                         <div class="flex justify-content-between align-items-center mb-1">
                                             <div class="flex align-items-center  w-100 gap-1">
@@ -249,10 +251,11 @@
                                                     <span class="text-primary" style="width:10%;"><i
                                                             class="pi icon-cake"></i></span>
                                                     <div style="width:80%;" class="flex align-items-center gap-1">
-                                                        <h6 class="line-height-3 m-0 font-medium">
-                                                            {{employee?.employeeName}}</h6>
                                                         <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-blue-300"
                                                             class="inline-block" value="{{employee?.code}}"></p-tag>
+                                                        <h6 class="line-height-3 m-0 font-medium">
+                                                            {{employee?.employeeName}}</h6>
+                                                        
                                                     </div>
                                                     <div style="width:30%;"
                                                         *ngIf="this.employeeId != employee?.employeeId && this.permissions.CanSendBirthdayWishes">
@@ -321,8 +324,12 @@
 
             </div>
             <div class="col-12 md:col-6 lg:col-5 p-3">
-                <h4 class="m-5 mt-0 mx-0 mb-3">Alloted Assets</h4>
-                <div class="applicant-p-block-home">
+                <div class="card-headr chart_head gap-2 ">
+                    <div class="card-title text-center">
+                        <h6 class="m-0">Alloted Assets </h6>
+                    </div>
+                </div>
+                <div class="applicant-n-block-home">
                     <div class="text-500  text-2xl text-primary text-center m-5 p-5"
                         *ngIf="!empDetails?.assets || empDetails?.assets.length === 0">
                         There is no Assigned Assets for this Employee
@@ -371,8 +378,12 @@
 
             </div>
             <div class="col-12 md:col-6 lg:col-4 p-3">
-                <h4 class="m-5 mb-3  mt-0 mx-0 ">Holidays</h4>
-                <div class="applicant-p-block-home">
+                <div class="card-headr chart_head gap-2 ">
+                    <div class="card-title text-center">
+                        <h6 class="m-0">Holidays </h6>
+                    </div>
+                </div>
+                <div class="applicant-n-block-home">
                     <div class="p-3">
                         <p-table id="table" #dtholiday [value]="holidays" dataKey="id" [rows]="10" [rowHover]="true"
                             [alwaysShowPaginator]="false" [paginator]="true"
@@ -411,8 +422,12 @@
 
             </div>
             <div class="col-12 md:col-6 lg:col-3 p-3">
-                <h4 class="m-5 mb-3 mx-0 mt-0 ">Assigned Projects</h4>
-                <div class=" card p-3 orange-200  applicant-p-block-home scroll_div" style="min-height:350px;">
+                <div class="card-headr chart_head gap-2 ">
+                    <div class="card-title text-center">
+                        <h6 class="m-0">Assigned Projects </h6>
+                    </div>
+                </div>
+                <div class=" card p-3 orange-200  applicant-n-block-home scroll_div" style="min-height:350px;">
                     <div class="text-500  text-2xl text-primary text-center m-5 p-5"
                         *ngIf="!projects || projects.length === 0">
                         There is no Assigned Projects for this Employee
