@@ -426,13 +426,13 @@
                                         <span class="text-primary" style="width:10%;"><i
                                                 class="pi icon-cake"></i></span>
                                         <div style="width:80%;" class="flex align-items-center gap-1">
-                                            <h6 class="line-height-3 m-0 font-medium">{{employee?.employeeName}}</h6>
                                             <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-blue-300" class="inline-block"
-                                                value="{{employee?.code}}"></p-tag>
+                                            value="{{employee?.code}}"></p-tag>
+                                            <h6 class="line-height-3 m-0 font-medium">{{employee?.employeeName}}</h6>
+                                           
                                         </div>
-                                        <div style="width:30%;"
-                                            *ngIf="EmployeeId && EmployeeId != employee?.employeeId">
-                                            <button type="button" pButton icon="pi icon-redeem"
+                                        <div style="width:30%;">
+                                            <button type="button" pButton icon="pi icon-redeem" *ngIf="EmployeeId && EmployeeId != employee?.employeeId"
                                                 class="p-button-rounded p-button-text p-button-sm flex-shrink-0"
                                                 (click)="showBirthdayDialog(employee)">&nbsp; Send Greetings </button>
                                         </div>
