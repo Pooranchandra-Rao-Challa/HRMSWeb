@@ -46,7 +46,7 @@ export class AdminDashboardComponent implements OnInit {
    
 
     constructor(private dashboardService: DashboardService,
-        private router: Router, private datePipe: DatePipe,
+        private router: Router,
         private jwtService: JwtService, private lookupService: LookupService,
         private formbuilder: FormBuilder,
         private alertMessage: AlertmessageService,) {
@@ -82,7 +82,7 @@ export class AdminDashboardComponent implements OnInit {
     }
 
     onDaySelect(event) {
-        this.selectedDate = event.value;
+        this.selectedDate = DATE_FORMAT(new Date(event));
         this.getAttendanceCountsBasedOnType();
     }
 
@@ -91,14 +91,6 @@ export class AdminDashboardComponent implements OnInit {
         nextDay.setDate(nextDay.getDate() + 1);
         this.selectedDate = nextDay;
         this.getAttendanceCountsBasedOnType();
-    }
-
-    getCurrentDay(): string {
-        return this.formatDate(this.selectedDate, MEDIUM_DATE);
-    }
-
-    formatDate(date: Date, format: string): string {
-        return this.datePipe.transform(date, format);
     }
 
     gotoPreviousMonth() {
@@ -154,7 +146,9 @@ export class AdminDashboardComponent implements OnInit {
     }
 
     onYearSelect(event) {
-        this.year = this.selectedMonth.getFullYear();
+        const date = new Date(event);
+        const yearNumber = date.getFullYear();
+        this.year = yearNumber;
         this.getAttendanceCountsBasedOnType();
     }
 
@@ -310,7 +304,7 @@ export class AdminDashboardComponent implements OnInit {
                             this.dashboardService.GetEmployeeAttendanceCount(this.chart, this.selectedMonth, lookupDetailId)
                                 .subscribe((resp) => {
                                     this.employeeCount = resp as unknown as EmployeesofAttendanceCountsViewDto[];
-                                    
+
                                 });
                         } else if (this.chart === 'Year') {
                             this.dashboardService.GetEmployeeAttendanceCount(this.chart, this.year, lookupDetailId)
@@ -383,14 +377,12 @@ export class AdminDashboardComponent implements OnInit {
     initNotifications() {
         this.dashboardService.GetNotifications().subscribe(resp => {
             this.notifications = resp as unknown as NotificationsDto[];
-            console.log(resp);
         })
     }
 
     initNotificationsBasedOnId() {
         this.dashboardService.GetNotificationsBasedOnId(this.EmployeeId).subscribe(resp => {
             this.notificationReplies = resp as unknown as NotificationsRepliesDto[];
-            console.log(resp, this.EmployeeId)
         })
     }
 
