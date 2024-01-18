@@ -331,7 +331,8 @@
                                             <b>{{employee?.employeeName}}</b>
                                         </h6>
                                     </div>
-                                    <div class="col-4 p-1">
+                                    <!-- {{EmployeeId}} -->
+                                    <div class="col-4 p-1"  *ngIf="EmployeeId">
                                         <button pButton type="button" class="btn btn-primary"
                                             label="Send Wishes" (click)="showBirthdayDialog()"></button>
                                     </div>
@@ -348,7 +349,7 @@
                         </div>
                     </li>
                 </ng-template>
-                <ul class="list-none p-0 overflow-auto"
+                <ul class="list-none p-0 overflow-auto"  *ngIf="notificationReplies && notificationReplies.length > 0"
                     style="margin: 0 -1.5rem -1rem; max-height: 17.745rem">
                     <div
                         *ngIf="notificationReplies && notificationReplies?.length > 0 ; else nobdTemplate">
@@ -358,7 +359,11 @@
                                 <li class="border-round-lg pt-2 px-3 pb-2 mb-3"
                                     style="background-color: var(--primary-lighter-color)">
                                     <div class="grid ga leav_list m-0 p-0">
-                                        <div class="col-12 p-1">
+                                        <div class="col-4 p-1">
+                                            <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-orange-300 "
+                                                class="inline-block" value="{{employee?.employeeName}}"></p-tag>
+                                        </div>
+                                        <div class="col-4 p-1">
                                             <h6 class="line-height-3 m-0 font-medium font-medium ">
                                                 <b>{{employee?.message}}</b>
                                             </h6>
@@ -372,7 +377,7 @@
                         <li class="border-round-lg pt-2 px-3 pb-2 mb-3"
                             style="background-color: var(--primary-lighter-color)">
                             <div class="text-center m-3">
-                                <p class="m-0">There is no Birthday Notifications.</p>
+                                <p class="m-0">There is no Birthday Replies.</p>
                             </div>
                         </li>
                     </ng-template>
