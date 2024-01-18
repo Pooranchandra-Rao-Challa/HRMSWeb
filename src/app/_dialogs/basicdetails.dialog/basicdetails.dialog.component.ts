@@ -180,7 +180,6 @@ export class BasicdetailsDialogComponent {
         var employeePrsDtl = employeePrsDtls as unknown as EmployeeBasicDetailDto;
         employeePrsDtl.originalDob = new Date(employeePrsDtls.originalDOB);
         employeePrsDtl.certificateDob = new Date(employeePrsDtls.certificateDOB);
-        employeePrsDtl.isActive = true;
         this.fbEmpBasDtls.patchValue({
             employeeId: employeePrsDtls.employeeId,
             firstName: employeePrsDtls.firstName,
