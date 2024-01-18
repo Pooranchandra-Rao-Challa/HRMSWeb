@@ -1,12 +1,14 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { EmployeeLeaveDialogComponent } from 'src/app/_dialogs/employeeleave.dialog/employeeleave.dialog.component';
 import { DATE_OF_JOINING, FORMAT_DATE, MEDIUM_DATE, ORIGINAL_DOB } from 'src/app/_helpers/date.formate.pipe';
 import { HolidaysViewDto } from 'src/app/_models/admin';
 import { Actions, DialogRequest, ITableHeader } from 'src/app/_models/common';
 import { NotificationsDto, NotificationsRepliesDto, SelfEmployeeDto, selfEmployeeMonthlyLeaves, workingProjects } from 'src/app/_models/dashboard';
 import { AdminService } from 'src/app/_services/admin.service';
+import { LOGIN_URI } from 'src/app/_services/api.uri.service';
 import { DashboardService } from 'src/app/_services/dashboard.service';
 import { JwtService } from 'src/app/_services/jwt.service';
 //import { GroupByPipe } from 'src/app/_directives/groupby'
@@ -46,6 +48,7 @@ export class EmployeeDashboardComponent {
     notificationReplies: NotificationsRepliesDto[] = []
     @ViewChild('Wishes') Wishes!: ElementRef;
     fbWishes!: FormGroup;
+    employeeId:any;
     wishesDialog: boolean;
     years: any
     projects: { name: string, projectLogo: string, description: string, projectId: number, periods: { sinceFrom: Date, endAt: Date }[] }[] = [];
@@ -53,10 +56,13 @@ export class EmployeeDashboardComponent {
     constructor(private dashBoardService: DashboardService,
         private adminService: AdminService,
         private jwtService: JwtService,
+        private alertMessage: AlertmessageService,
         // private groupby:GroupByPipe,
         private dialogService: DialogService,
         public ref: DynamicDialogRef, private formbuilder: FormBuilder,
-    ) { }
+    ) {
+        this.employeeId=this.jwtService.EmployeeId
+     }
 
     headers: ITableHeader[] = [
         { field: 'title', header: 'title', label: 'Holiday Title' },
@@ -126,10 +132,18 @@ export class EmployeeDashboardComponent {
         this.fbWishes.get('employeeId').setValue(this.jwtService.EmployeeId);
     }
     onSubmit() {
-        console.log(this.fbWishes.value);
         this.dashBoardService.sendBithdayWishes(this.fbWishes.value).subscribe(resp => {
-            console.log(resp);
-
+            let rdata = resp as unknown as any;
+            if(rdata.isSuccess){
+                this.wishesDialog = false;
+                this.fbWishes.reset();
+                this.alertMessage.displayAlertMessage(ALERT_CODES["ADW001"])
+            }
+            else if(!rdata.isSuccess){
+                this.wishesDialog = false;
+                this.fbWishes.reset();
+                this.alertMessage.displayErrorMessage(rdata.message); 
+            }
         })
     }
     onClose() {

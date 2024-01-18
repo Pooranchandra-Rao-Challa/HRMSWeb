@@ -383,47 +383,24 @@
             <p-fieldset legend="HR Notifications" [collapsed]="false" [toggleable]="true"
                 class="line-height-3 m-0 mb-2 dashboard_fieldset ">
 
-
-                <!-- <ul class="list-none p-0 overflow-auto" >
-                           
-                            <li class="border-round-lg p-3 mb-3" style="background-color: var(--primary-lighter-color)">
-                                <div class="flex justify-content-between align-items-center mb-1">
-                                    <div class="flex align-items-center  w-100 gap-1"> 
-                                        <span class="mt-1 text-400 block text-sm line-height-2  overflow-hidden text-overflow-ellipsis">
-                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam ad itaque voluptatum deleniti impedit! Inventore eius soluta maxime a quisquam alias, at minima ullam reiciendis blanditiis voluptate.
-                                            Dolore, nisi vel.
-                                        </span>                                          
-                                        <span class="text-gray-300 font-semibold text-sm line-height-1 w-20" style="width:20%;">4h ago</span>
-                                    </div>                                    
-                                </div>
-                            </li>
-                        </ul> -->
                 <ul class="list-none p-0 overflow-auto" style=" max-height: 10.745rem;"
                     *ngIf="notifications && notifications?.length > 0 ; else noHRTemplate">
-                    <li class="border-round-lg p-3 mb-1" *ngFor="let employee of notifications"
-                        style="background-color: var(--primary-lighter-color)">
-                        <div class="flex justify-content-between align-items-center mb-1">
-                            <div class="flex align-items-center  w-100 gap-1">
-                                <span
-                                    class="mt-1 text-900 block text-sm line-height-2  overflow-hidden text-overflow-ellipsis"
-                                    style="width:90%;">
-                                    {{employee?.message}}
-                                </span>
-                                <span class="text-gray-500 font-semibold text-sm line-height-1 w-20"
-                                    style="width:10%;">4h ago</span>
+                    <div class="" *ngFor="let employee of notifications">
+                        <li class="border-round-lg p-3 mb-1" *ngIf="employee.messageType =='HR'"
+                            style="background-color: var(--primary-lighter-color)">
+                            <div class="flex justify-content-between align-items-center mb-1">
+                                <div class="flex align-items-center  w-100 gap-1">
+                                    <span
+                                        class="mt-1 text-900 block text-sm line-height-2  overflow-hidden text-overflow-ellipsis"
+                                        style="width:90%;">
+                                        {{employee?.message}}
+                                    </span>
+                                    <span class="text-gray-500 font-semibold text-sm line-height-1 w-20"
+                                        style="width:10%;">4h ago</span>
+                                </div>
                             </div>
+                        </li>
                         </div>
-                    </li>
-                    <!-- <li class="border-round-lg pt-2 px-3 pb-2 mb-3"
-                        style="background-color: var(--primary-lighter-color)">
-                        <div class="grid ga leav_list m-0 p-0">
-                            <div class="col-12 p-1" *ngIf="employee.messageType =='HR'">
-                                <h6 class="line-height-3 m-0 font-medium font-medium ">
-                                    <b></b>
-                                </h6>
-                            </div>
-                        </div>
-                    </li> -->
                 </ul>
 
                 <ng-template #noHRTemplate>
@@ -453,7 +430,8 @@
                                             <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-blue-300" class="inline-block"
                                                 value="{{employee?.code}}"></p-tag>
                                         </div>
-                                        <div style="width:30%;" *ngIf="EmployeeId">
+                                        <div style="width:30%;"
+                                            *ngIf="EmployeeId && EmployeeId != employee?.employeeId">
                                             <button type="button" pButton icon="pi icon-redeem"
                                                 class="p-button-rounded p-button-text p-button-sm flex-shrink-0"
                                                 (click)="showBirthdayDialog(employee)">&nbsp; Send Greetings </button>
@@ -496,20 +474,6 @@
                                             </span>
                                         </div>
                                     </li>
-                                    <!-- <li class="border-round-lg pt-2 px-3 pb-2 mb-3"
-                                        style="background-color: var(--primary-lighter-color)">
-                                        <div class="grid ga leav_list m-0 p-0">
-                                            <div class="col-4 p-1">
-                                                <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-orange-300 "
-                                                    class="inline-block" value="{{employee?.employeeName}}"></p-tag>
-                                            </div>
-                                            <div class="col-4 p-1">
-                                                <h6 class="line-height-3 m-0 font-medium font-medium ">
-                                                    <b></b>
-                                                </h6>
-                                            </div>
-                                        </div>
-                                    </li> -->
                                 </ul>
                             </div>
                         </div>
