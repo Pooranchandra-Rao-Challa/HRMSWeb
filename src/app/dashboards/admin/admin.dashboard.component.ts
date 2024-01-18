@@ -34,11 +34,13 @@ export class AdminDashboardComponent implements OnInit {
     wishesDialog: boolean = false;    employeeCount: EmployeesofAttendanceCountsViewDto[] = [];
     hideElements: boolean = true;
     leaveType: LookupDetailsDto[] = [];
+    EmployeeId: number;
 
     constructor(private dashboardService: DashboardService,
         private router: Router, private datePipe: DatePipe,
         private jwtService: JwtService, private lookupService: LookupService) {
         this.selectedDate = new Date();
+        this.EmployeeId = this.jwtService.EmployeeId;
     }
 
     ngOnInit() {
@@ -365,9 +367,9 @@ export class AdminDashboardComponent implements OnInit {
     }
 
     initNotificationsBasedOnId() {
-        this.dashboardService.GetNotificationsBasedOnId(this.jwtService.EmployeeId).subscribe(resp => {
+        this.dashboardService.GetNotificationsBasedOnId(this.EmployeeId).subscribe(resp => {
             this.notificationReplies = resp as unknown as NotificationsRepliesDto[];
-            console.log(resp, this.jwtService.EmployeeId)
+            console.log(resp,this.EmployeeId)             
         })
     }
     showBirthdayDialog() {
