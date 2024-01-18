@@ -124,7 +124,7 @@
                                                     (onSelect)="onDaySelect($event)">
                                                 </p-calendar>
                                                 <i class="pi pi-angle-right d-leave-font" (click)="gotoNextDay()"></i>
-                                                <p class="text-xs">{{ getCurrentDay() }}</p>
+                                                <p class="text-xs">{{ this.selectedDate}}</p>
                                             </span>
                                             <ng-template #attendanceMonthContent>
                                                 <span *ngIf="chart === 'Month'; else attendanceYearContent">
@@ -400,7 +400,7 @@
                                 </div>
                             </div>
                         </li>
-                        </div>
+                    </div>
                 </ul>
 
                 <ng-template #noHRTemplate>

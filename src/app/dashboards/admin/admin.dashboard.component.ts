@@ -43,7 +43,7 @@ export class AdminDashboardComponent implements OnInit {
     fbWishes!: FormGroup;
 
     constructor(private dashboardService: DashboardService,
-        private router: Router, private datePipe: DatePipe,
+        private router: Router,
         private jwtService: JwtService, private lookupService: LookupService,
         private formbuilder: FormBuilder,
         private alertMessage: AlertmessageService,
@@ -79,7 +79,7 @@ export class AdminDashboardComponent implements OnInit {
     }
 
     onDaySelect(event) {
-        this.selectedDate = event.value;
+        this.selectedDate = DATE_FORMAT(new Date(event));
         this.getAttendanceCountsBasedOnType();
     }
 
@@ -88,14 +88,6 @@ export class AdminDashboardComponent implements OnInit {
         nextDay.setDate(nextDay.getDate() + 1);
         this.selectedDate = nextDay;
         this.getAttendanceCountsBasedOnType();
-    }
-
-    getCurrentDay(): string {
-        return this.formatDate(this.selectedDate, MEDIUM_DATE);
-    }
-
-    formatDate(date: Date, format: string): string {
-        return this.datePipe.transform(date, format);
     }
 
     gotoPreviousMonth() {
@@ -151,7 +143,9 @@ export class AdminDashboardComponent implements OnInit {
     }
 
     onYearSelect(event) {
-        this.year = this.selectedMonth.getFullYear();
+        const date = new Date(event);
+        const yearNumber = date.getFullYear();
+        this.year = yearNumber;
         this.getAttendanceCountsBasedOnType();
     }
 
@@ -172,6 +166,8 @@ export class AdminDashboardComponent implements OnInit {
             this.selectedDate = DATE_FORMAT(new Date(this.selectedDate));
             this.dashboardService.GetAttendanceCountBasedOnType(this.chart, this.selectedDate).subscribe((resp) => {
                 this.attendanceCount = resp as unknown as AttendanceCountBasedOnTypeViewDto[];
+                console.log(this.attendanceCount);
+
                 this.attendanceChart();
             })
         }
@@ -179,12 +175,16 @@ export class AdminDashboardComponent implements OnInit {
             this.selectedMonth = DATE_FORMAT_MONTH(new Date(this.selectedMonth));
             this.dashboardService.GetAttendanceCountBasedOnType(this.chart, this.selectedMonth).subscribe((resp) => {
                 this.attendanceCount = resp as unknown as AttendanceCountBasedOnTypeViewDto[];
+                console.log(this.attendanceCount);
+
                 this.attendanceChart();
             })
         }
         else if (this.chart === 'Year') {
             this.dashboardService.GetAttendanceCountBasedOnType(this.chart, this.year).subscribe((resp) => {
                 this.attendanceCount = resp as unknown as AttendanceCountBasedOnTypeViewDto[];
+                console.log(this.attendanceCount);
+
                 this.attendanceChart();
             })
         }
@@ -275,7 +275,7 @@ export class AdminDashboardComponent implements OnInit {
             }
         };
     }
-    
+
     onChartClick(event: any): void {
         const clickedIndex = event?.element?.index;
         if (clickedIndex !== undefined) {
@@ -307,12 +307,14 @@ export class AdminDashboardComponent implements OnInit {
                             this.dashboardService.GetEmployeeAttendanceCount(this.chart, this.selectedMonth, lookupDetailId)
                                 .subscribe((resp) => {
                                     this.employeeCount = resp as unknown as EmployeesofAttendanceCountsViewDto[];
-                                    
+
                                 });
                         } else if (this.chart === 'Year') {
                             this.dashboardService.GetEmployeeAttendanceCount(this.chart, this.year, lookupDetailId)
                                 .subscribe((resp) => {
                                     this.employeeCount = resp as unknown as EmployeesofAttendanceCountsViewDto[];
+                                    console.log(this.employeeCount);
+
                                     this.employeeCount.forEach(emp => {
                                         const date = new Date(emp.value);
                                         if (isNaN(date.getTime())) {
@@ -416,7 +418,7 @@ export class AdminDashboardComponent implements OnInit {
             },
             error: (error) => {
                 if (error) {
-                    this.messageService.add({ severity: 'error', key: 'myToast', detail: error.error});
+                    this.messageService.add({ severity: 'error', key: 'myToast', detail: error.error });
                 } else {
                     this.alertMessage.displayErrorMessage(ALERT_CODES["ADW002"])
                 }
