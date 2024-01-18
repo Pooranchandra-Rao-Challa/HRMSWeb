@@ -195,7 +195,7 @@
                     </div> -->
                 </div>
             </div>
-            <div class="col-12 md:col-6 lg:col-3  ">
+            <div class="col-12 md:col-6 lg:col-3  " *ngIf="this.permissions.CanViewNotifications">
                 <div class=" p-5 orange-200  applicant-p-block-home">
                     <div class="card-hader flex justify-content-between gap-3 pb-2">
                         <div class="card-title">
@@ -206,8 +206,6 @@
                     <div class=" employee_card_dashboard2">
                         <p-fieldset legend="HR Notifications" [collapsed]="false" [toggleable]="true"
                             class="line-height-3 m-0 mb-2 dashboard_fieldset ">
-
-
                             <ul class="list-none p-0 overflow-auto" style=" max-height: 10.745rem;"
                                 *ngIf="notifications && notifications?.length > 0 ; else noHRTemplate">
                                 <div class="" *ngFor="let employee of notifications">
@@ -257,7 +255,7 @@
                                                             class="inline-block" value="{{employee?.code}}"></p-tag>
                                                     </div>
                                                     <div style="width:30%;"
-                                                        *ngIf="this.employeeId != employee?.employeeId">
+                                                        *ngIf="this.employeeId != employee?.employeeId && this.permissions.CanSendBirthdayWishes">
                                                         <button type="button" pButton icon="pi icon-redeem"
                                                             class="p-button-rounded p-button-text p-button-sm flex-shrink-0"
                                                             (click)="showBirthdayDialog(employee)">&nbsp; Send Greetings
