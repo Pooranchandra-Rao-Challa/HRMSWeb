@@ -43,7 +43,8 @@ export class AdminDashboardComponent implements OnInit {
     EmployeeId: any;
     fbWishes!: FormGroup;
     permissions: any;
-   
+    shouldDisplayMessage: boolean = false;
+
 
     constructor(private dashboardService: DashboardService,
         private router: Router,
@@ -304,12 +305,11 @@ export class AdminDashboardComponent implements OnInit {
                             this.dashboardService.GetEmployeeAttendanceCount(this.chart, this.selectedMonth, lookupDetailId)
                                 .subscribe((resp) => {
                                     this.employeeCount = resp as unknown as EmployeesofAttendanceCountsViewDto[];
-
                                 });
                         } else if (this.chart === 'Year') {
                             this.dashboardService.GetEmployeeAttendanceCount(this.chart, this.year, lookupDetailId)
                                 .subscribe((resp) => {
-                                    this.employeeCount = resp as unknown as EmployeesofAttendanceCountsViewDto[];
+                                    this.employeeCount = resp as unknown as EmployeesofAttendanceCountsViewDto[];                                    
                                     this.employeeCount.forEach(emp => {
                                         const date = new Date(emp.value);
                                         if (isNaN(date.getTime())) {
@@ -318,6 +318,7 @@ export class AdminDashboardComponent implements OnInit {
                                             emp.monthNames = new Intl.DateTimeFormat('en', { month: 'long' }).format(date);
                                         }
                                     });
+                                    this.displayHugeDataMessage();
                                 });
                         }
                         break;
@@ -327,6 +328,11 @@ export class AdminDashboardComponent implements OnInit {
                 }
             }
         })
+    }
+
+    displayHugeDataMessage(): void {
+        // Assuming you have a property to track whether to display the message
+        this.shouldDisplayMessage = this.chart === 'Year' && (!this.employeeCount || this.employeeCount.length === 0);
     }
 
     initChart() {
