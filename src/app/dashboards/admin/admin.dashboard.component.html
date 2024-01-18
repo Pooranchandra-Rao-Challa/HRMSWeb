@@ -70,7 +70,6 @@
             </div>
         </div>
         <div class="card">
-
             <div class="grid m-0">
                 <div class="col-12 lg:col-5 md:col-6 sm:col-12 pt-0">
                     <div class=" pb-5 pt-0 chart_card employee_card_dashboard">
@@ -163,7 +162,7 @@
                                     height="200px" width="100%"></p-chart>
                             </li> -->
                             <div *ngIf="this.attendanceCount?.length > 0; else noDataMessage">
-                                <p-chart type="bar" [data]="pieDataforAttendance" [options]="pieOptionsforAttendance"
+                                <p-chart type="bar" [data]="barDataforAttendance" [options]="barOptionsforAttendance"
                                     height="250px" width="100%" (onDataSelect)="onChartClick($event)"></p-chart>
                             </div>
                             <ng-template #noDataMessage>
@@ -189,39 +188,120 @@
                             <div class="p-5 pt-0 pb-0 ">
                                 <ul class="list-none p-0 overflow-auto" style="margin: 0 -1.5rem -1rem;">
                                     <ng-container *ngIf="employeeCount.length>0; else noDataTemplate">
-                                        <p-table #employeeTable [value]="employeeCount" [paginator]="true" [rows]="5"
-                                            [rowHover]="true"
-                                            styleClass="p-datatable-striped p-datatable-gridlines top_note_bar"
-                                            responsiveLayout="scroll">
-                                            <ng-template pTemplate="header">
-                                                <tr>
-                                                    <th>Code</th>
-                                                    <th>Employee Name</th>
-                                                    <th>Day Work Status</th>
-                                                </tr>
-                                            </ng-template>
-                                            <ng-template pTemplate="body" let-employee>
-                                                <tr>
-                                                    <td>
-                                                        <span *ngIf="employee?.code">
-                                                            <p-tag class="inline-block" value="{{employee?.code}}">
-                                                            </p-tag>
-                                                        </span>
-                                                    </td>
-                                                    <td>
-                                                        <h6 class="line-height-3 m-0 font-medium font-medium ">
+                                        <span *ngIf="chart == 'Date'">
+                                            <p-table #employeeTable [value]="employeeCount" [paginator]="true"
+                                                [rows]="5" [responsive]="true"
+                                                styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm">
+                                                <ng-template pTemplate="header">
+                                                    <tr>
+                                                        <th class="text-center">Code</th>
+                                                        <th class="text-center">Employee Name</th>
+                                                        <th class="text-center">Day Work Status</th>
+                                                    </tr>
+                                                </ng-template> <ng-template pTemplate="body" let-employee>
+                                                    <tr>
+                                                        <td class="text-center">
+                                                            <span *ngIf="employee?.code">
+                                                                <p-tag class="inline-block" value="{{employee?.code}}">
+                                                                </p-tag>
+                                                            </span>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <h6 class="line-height-3 m-0 font-medium font-medium ">
+                                                                {{employee?.employeeName}}
+                                                            </h6>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <h6 class="line-height-3 m-0 font-medium font-medium ">
+                                                                {{employee?.dayWorkStatus}}
+                                                            </h6>
+                                                        </td>
+                                                    </tr>
+                                                </ng-template>
+                                            </p-table>
+                                        </span>
+                                        <span *ngIf="chart == 'Month'">
+                                            <p-table [value]="employeeCount" sortField="value" sortMode="single"
+                                                dataKey="value" rowGroupMode="subheader" groupRowsBy="value"
+                                                styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm">
+                                                <ng-template pTemplate="header">
+                                                    <tr>
+                                                        <th class="text-center">Code</th>
+                                                        <th class="text-center">Employee Name</th>
+                                                        <th class="text-center">Day Work Status</th>
+                                                    </tr>
+                                                </ng-template>
+                                                <ng-template pTemplate="groupheader" let-employee
+                                                    let-rowIndex="rowIndex" let-expanded="expanded">
+                                                    <tr>
+                                                        <td colspan="5">
+                                                            <button type="button" pButton pRipple
+                                                                [pRowToggler]="employee"
+                                                                class="p-button-text p-button-rounded p-button-plain mr-2"
+                                                                [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                                                            <span class="font-bold ml-2">{{employee.value}}</span>
+                                                        </td>
+                                                    </tr>
+                                                </ng-template>
+                                                <ng-template pTemplate="rowexpansion" let-employee>
+                                                    <tr>
+                                                        <td class="text-center">
+                                                            <span *ngIf="employee?.code">
+                                                                <p-tag class="inline-block" value="{{employee?.code}}">
+                                                                </p-tag>
+                                                            </span>
+                                                        </td>
+                                                        <td class="text-center">
                                                             {{employee?.employeeName}}
-                                                        </h6>
-                                                    </td>
-                                                    <td>
-                                                        <h6 class="line-height-3 m-0 font-medium font-medium ">
+                                                        </td>
+                                                        <td class="text-center">
                                                             {{employee?.dayWorkStatus}}
-                                                        </h6>
-                                                    </td>
-                                                    <!-- Add more columns if needed -->
-                                                </tr>
-                                            </ng-template>
-                                        </p-table>
+                                                        </td>
+                                                    </tr>
+                                                </ng-template>
+                                            </p-table>
+                                        </span>
+                                        <span *ngIf="chart == 'Year'">
+                                            <p-table [value]="employeeCount" sortField="monthNames" sortMode="single"
+                                                dataKey="monthNames" rowGroupMode="subheader" groupRowsBy="monthNames"
+                                                styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm">
+                                                <ng-template pTemplate="header">
+                                                    <tr>
+                                                        <th class="text-center">Code</th>
+                                                        <th class="text-center">Employee Name</th>
+                                                        <th class="text-center">Day Work Status</th>
+                                                    </tr>
+                                                </ng-template>
+                                                <ng-template pTemplate="groupheader" let-employee
+                                                    let-rowIndex="rowIndex" let-expanded="expanded">
+                                                    <tr>
+                                                        <td colspan="5">
+                                                            <button type="button" pButton pRipple
+                                                                [pRowToggler]="employee"
+                                                                class="p-button-text p-button-rounded p-button-plain mr-2"
+                                                                [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                                                            <span class="font-bold ml-2">{{employee.monthNames}}</span>
+                                                        </td>
+                                                    </tr>
+                                                </ng-template>
+                                                <ng-template pTemplate="rowexpansion" let-employee>
+                                                    <tr>
+                                                        <td class="text-center">
+                                                            <span *ngIf="employee?.code">
+                                                                <p-tag class="inline-block" value="{{employee?.code}}">
+                                                                </p-tag>
+                                                            </span>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            {{employee?.employeeName}}
+                                                        </td>
+                                                        <td class="text-center">
+                                                            {{employee?.dayWorkStatus}}
+                                                        </td>
+                                                    </tr>
+                                                </ng-template>
+                                            </p-table>
+                                        </span>
                                     </ng-container>
                                     <ng-template #noDataTemplate>
                                         <li class="border-round-lg pt-2 px-3 pb-2 mb-3"
