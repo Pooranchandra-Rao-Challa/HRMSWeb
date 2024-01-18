@@ -1,11 +1,11 @@
 <div class=" align-items-center justify-content-center">
     <form [formGroup]="fbHrNotification">
-        <div class="grid p-5" style="height:400px;">
-            <div class="col-5 mt-4">
+        <div class="grid p-5 m-1" style="height:400px;">
+            <div class="col-12 md:col-5 mt-4">
                 <div class="p-fluid p-formgrid grid ">
                     <div class="col-11 p-1">
                         <label class="required">Message Type:</label>
-                        <p-dropdown appendTo="body" id="gender_dropdown" placeholder="Select Message Type"
+                        <p-dropdown appendTo="body" id="messageType_HRNotify" placeholder="Select Message Type"
                             [autoDisplayFirst]="false" [options]="messageTypes" optionLabel="name"
                             formControlName="messageTypeId" optionValue="lookupDetailId"
                             [ngClass]="{'is-invalid ng-dirty': FormControls['messageTypeId'].touched && FormControls['messageTypeId'].errors}">
@@ -23,7 +23,7 @@
                     </div>
                     <div class="col-11 p-1">
                         <label class="required">Message:</label>
-                        <textarea id="wishes" #Wishes rows="3" placeholder="Enter Message" pInputTextarea
+                        <textarea id="message_HRNotify" #Wishes rows="3" placeholder="Enter Message" pInputTextarea
                             formControlName="message" class="freeze_text-area col-12 mb-1" [maxLength]="256"
                             (keydown)="restrictSpaces($event)" #message
                             [ngClass]="{'is-invalid ng-dirty': FormControls['message'].touched && FormControls['message'].errors}">
@@ -44,7 +44,7 @@
                     <div class="col-11 p-1">
                         <label class="required">Notify Till:</label>
                         <p-calendar appendTo="body" placeholder="Select Notify Till" [readonlyInput]="true"
-                            [minDate]="minDate" [showIcon]="true" formControlName="notifyTill" id="fromDateCalendar"
+                            [minDate]="minDate" [showIcon]="true" formControlName="notifyTill" id="notifyTill_HRNotify"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['notifyTill'].touched && FormControls['notifyTill'].errors }">
                         </p-calendar>
                         <div class="flex">
@@ -57,18 +57,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 md:col-12">
-                        <div class=" button-container mt-1">
-                            <p-button type="button" label="Save" [disabled]="fbHrNotification.invalid"
-                                (click)="addNotification()"></p-button>
-                        </div>
-                    </div>
                 </div>
             </div>
-            <div class="col-6 roles-container">
+            <div class="col-12 md:col-7 roles-container">
                 <p-table #dt2 [value]="notifications" dataKey="id" [rows]="10" [rowHover]="true"
-
-                
                     styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm mt-5" [paginator]="false"
                     [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]" [scrollable]="true"
                     scrollDirection="vertical" scrollHeight="300px" [style]="{width: 'max'}">
@@ -76,21 +68,21 @@
                         <tr>
                             <th class="text-center">Message Type</th>
                             <th class="text-center">Message</th>
-                            <th>Actions</th>
+                            <!-- <th>Actions</th> -->
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-notification let-notificationDetailsIndex="rowIndex">
                         <tr *ngIf="notification.messageType!='Birthday'">
                             <td class="text-center">{{ notification.messageType}}</td>
                             <td class="text-center">{{ notification.message}}</td>
-                            <td>
+                            <!-- <td>
                                 <div class="flex">
-                                    <button pButton pRipple icon="pi pi-pencil" id="educationDetailsAdd-Btn"
+                                    <button pButton pRipple icon="pi pi-pencil" id="edit_HRNotify"
                                         (click)="editLeaveDetails(notification)"
                                         class="p-element p-ripple p-button-text p-button p-component mr-3 p-0 ">
                                     </button>
                                 </div>
-                            </td>
+                            </td> -->
                         </tr>
                     </ng-template>
                 </p-table>
@@ -99,5 +91,8 @@
     </form>
 </div>
 <div class=" footer dialog-footer">
-    
+    <div class=" button-container mt-1">
+        <p-button type="button" label="Save" [disabled]="fbHrNotification.invalid"
+            (click)="addNotification()"></p-button>
+    </div>
 </div>
