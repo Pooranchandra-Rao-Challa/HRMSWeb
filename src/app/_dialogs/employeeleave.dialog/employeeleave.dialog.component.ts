@@ -277,17 +277,21 @@ export class EmployeeLeaveDialogComponent {
     if (leaveType.name === 'CL') {
       this.dashBoardService.GetEmployeeLeavesForMonth(this.month, empId, this.year)
         .subscribe(resp => {
-          this.monthlyLeaves = resp as unknown as selfEmployeeMonthlyLeaves[];
+          this.monthlyLeaves = resp as unknown as selfEmployeeMonthlyLeaves[];          
           this.hasPendingLeaveInMonth = this.monthlyLeaves.some(leave => leave.leaveType === 'CL' && leave.status === 'Pending');
+          const isLeaveRejected = this.monthlyLeaves.find(leave =>  leave.status === 'Rejected' && leave.leaveType === 'CL');          
           const isDeletedCL = this.monthlyLeaves.find(leave => leave.isDeleted === true && leave.leaveType === 'CL');          
           const clIsNotDeleted = this.monthlyLeaves.find(leave => (leave.isDeleted === false || leave.isDeleted === null) && leave.leaveType === 'CL');
-          if ((this.hasPendingLeaveInMonth && clIsNotDeleted) ||(this.hasPendingLeaveInMonth && isDeletedCL !==null && clIsNotDeleted )) {
+          if(isLeaveRejected){
+            this.onSubmit();
+          }
+          else if ((this.hasPendingLeaveInMonth && clIsNotDeleted) ||(this.hasPendingLeaveInMonth && isDeletedCL !==null && clIsNotDeleted && isLeaveRejected)) {
             this.dialog = true;
             const leaveWithEmployeeName = this.monthlyLeaves.find(leave => leave.employeeName);
             this.empName = leaveWithEmployeeName ? leaveWithEmployeeName.employeeName : 'Unknown';
             this.monthName = new Date(this.year, this.month - 1, 1).toLocaleString('default', { month: 'long' });
           }
-          else if (this.hasPendingLeaveInMonth && isDeletedCL) {
+          else if (this.hasPendingLeaveInMonth && isDeletedCL && isLeaveRejected) {
             this.onSubmit();
           }
           else {
