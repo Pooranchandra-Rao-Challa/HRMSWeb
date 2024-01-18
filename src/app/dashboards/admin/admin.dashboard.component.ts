@@ -307,19 +307,18 @@ export class AdminDashboardComponent implements OnInit {
                             this.dashboardService.GetEmployeeAttendanceCount(this.chart, this.selectedMonth, lookupDetailId)
                                 .subscribe((resp) => {
                                     this.employeeCount = resp as unknown as EmployeesofAttendanceCountsViewDto[];
+                                    
                                 });
                         } else if (this.chart === 'Year') {
                             this.dashboardService.GetEmployeeAttendanceCount(this.chart, this.year, lookupDetailId)
                                 .subscribe((resp) => {
                                     this.employeeCount = resp as unknown as EmployeesofAttendanceCountsViewDto[];
-                                    console.log(this.employeeCount);
                                     this.employeeCount.forEach(emp => {
                                         const date = new Date(emp.value);
                                         if (isNaN(date.getTime())) {
                                             emp.monthNames = 'Invalid Date';
                                         } else {
                                             emp.monthNames = new Intl.DateTimeFormat('en', { month: 'long' }).format(date);
-                                            console.log(emp.monthNames);
                                         }
                                     });
                                 });
