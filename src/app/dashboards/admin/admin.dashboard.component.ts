@@ -383,14 +383,12 @@ export class AdminDashboardComponent implements OnInit {
     initNotifications() {
         this.dashboardService.GetNotifications().subscribe(resp => {
             this.notifications = resp as unknown as NotificationsDto[];
-            console.log(resp);
         })
     }
 
     initNotificationsBasedOnId() {
         this.dashboardService.GetNotificationsBasedOnId(this.EmployeeId).subscribe(resp => {
             this.notificationReplies = resp as unknown as NotificationsRepliesDto[];
-            console.log(resp, this.EmployeeId)
         })
     }
 
