@@ -206,7 +206,7 @@
                     <p-tabView>
 
                         <p-tabPanel header="Today Birthdays and Events" class="w-full p-2">
-                            
+
                             <div *ngIf="notifications && notifications?.length > 0; else noBirthdaysTemplate">
                                 <div *ngFor="let employee of notifications">
                                     <ul class="list-none p-0 overflow-auto"
@@ -219,12 +219,12 @@
                                                     <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-orange-300 "
                                                         class="inline-block" value="{{employee?.employeeName}}"></p-tag>
                                                 </div>
-                                                <!-- <div class="col-4 p-1">
+                                                <div class="col-4 p-1">
                                                     <h6 class="line-height-3 m-0 font-medium font-medium ">
                                                         <b>{{employee?.message}}</b>
                                                     </h6>
-                                                </div> -->
-    
+                                                </div>
+
                                             </div>
                                         </li>
                                     </ul>
@@ -241,8 +241,10 @@
                         </p-tabPanel>
                         <p-tabPanel header="HR Notifications" class="w-full p-2">
 
-                            <div *ngIf="notifications && notifications?.length > 0||notificationReplies && notificationReplies?.length > 0; else noHRTemplate">
-                                <div *ngFor="let employee of notificationReplies">
+                            <div
+                                *ngIf="notifications && notifications?.length > 0 || notificationReplies && notificationReplies?.length > 0; else noHRTemplate">
+                                
+                                <div *ngFor="let employee of notifications">
                                     <ul class="list-none p-0 overflow-auto"
                                         style="margin: 0 -1.5rem -1rem; max-height: 17.745rem">
                                         <li *ngIf="employee.messageType=='HR'"
@@ -260,11 +262,10 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <div *ngFor="let employee of notifications">
+                                <div *ngFor="let employee of notificationReplies">
                                     <ul class="list-none p-0 overflow-auto"
                                         style="margin: 0 -1.5rem -1rem; max-height: 17.745rem">
-                                        <li
-                                            class="border-round-lg pt-2 px-3 pb-2 mb-3"
+                                        <li class="border-round-lg pt-2 px-3 pb-2 mb-3"
                                             style="background-color: var(--primary-lighter-color)">
                                             <div class="grid ga leav_list m-0 p-0">
 
@@ -279,7 +280,7 @@
                                     </ul>
                                 </div>
                             </div>
-                           
+
                             <ng-template #noHRTemplate>
                                 <li class="border-round-lg pt-2 px-3 pb-2 mb-3"
                                     style="background-color: var(--primary-lighter-color)">

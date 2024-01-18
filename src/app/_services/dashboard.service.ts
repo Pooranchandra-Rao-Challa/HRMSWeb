@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiHttpService } from './api.http.service';
-import { adminDashboardViewDto, NotificationsDto,AttendanceCountBasedOnTypeViewDto, SelfEmployeeDto, selfEmployeeMonthlyLeaves, EmployeesofAttendanceCountsViewDto } from '../_models/dashboard';
+import { adminDashboardViewDto, NotificationsDto,AttendanceCountBasedOnTypeViewDto, SelfEmployeeDto, selfEmployeeMonthlyLeaves, EmployeesofAttendanceCountsViewDto, NotificationsRepliesDto } from '../_models/dashboard';
 import { GET_ADMIN_DASHBOARD, GET_ALLOTED_LEAVES, GET_NOTIFICATIONS, GET_NOTIFICATION_REPLIES, GET_ATTENDANCE_COUNT_BASED_ON_TYPE, GET_SELF_EMPLOYEE, GET_SELF_EMPLOYEE_MONTH_LEAVES, GET_EMPLOYEES_OF_ATTENDANCE_COUNT } from './api.uri.service';
 
 @Injectable({
@@ -30,7 +30,7 @@ export class DashboardService extends ApiHttpService {
         return this.get<NotificationsDto>(GET_NOTIFICATIONS);
     }
     public GetNotificationsBasedOnId(employeeId:number){
-        return this.getWithParams(GET_NOTIFICATION_REPLIES,[employeeId]);
+        return this.getWithParams<NotificationsRepliesDto>(GET_NOTIFICATION_REPLIES,[employeeId]);
     }
 
 }
