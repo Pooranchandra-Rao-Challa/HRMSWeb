@@ -161,8 +161,8 @@
                                 <p-chart type="doughnut" [data]="pieDataforAttendance" [options]="pieOptionsforAttendance"
                                     height="200px" width="100%"></p-chart>
                             </li> -->
-                            <div *ngIf="this.attendanceCount?.length > 0; else noDataMessage">
-                                <p-chart type="bar" [data]="barDataforAttendance" [options]="barOptionsforAttendance"
+                            <div class="d-leave" *ngIf="this.attendanceCount?.length > 0; else noDataMessage">
+                                <p-chart class="d-leave-font" type="bar" [data]="barDataforAttendance" [options]="barOptionsforAttendance"
                                     height="250px" width="100%" (onDataSelect)="onChartClick($event)"></p-chart>
                             </div>
                             <ng-template #noDataMessage>
