@@ -211,8 +211,7 @@
                             <ul class="list-none p-0 overflow-auto" style=" max-height: 10.745rem;"
                                 *ngIf="notifications && notifications?.length > 0 ; else noHRTemplate">
                                 <div class="" *ngFor="let employee of notifications">
-                                    <li class="border-round-lg p-3 mb-1"
-                                        *ngIf="employee.messageType =='HR'"
+                                    <li class="border-round-lg p-3 mb-1" *ngIf="employee.messageType =='HR'"
                                         style="background-color: var(--primary-lighter-color)">
                                         <div class="flex justify-content-between align-items-center mb-1">
                                             <div class="flex align-items-center  w-100 gap-1">
@@ -257,7 +256,8 @@
                                                         <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-blue-300"
                                                             class="inline-block" value="{{employee?.code}}"></p-tag>
                                                     </div>
-                                                    <div style="width:30%;">
+                                                    <div style="width:30%;"
+                                                        *ngIf="this.employeeId != employee?.employeeId">
                                                         <button type="button" pButton icon="pi icon-redeem"
                                                             class="p-button-rounded p-button-text p-button-sm flex-shrink-0"
                                                             (click)="showBirthdayDialog(employee)">&nbsp; Send Greetings
