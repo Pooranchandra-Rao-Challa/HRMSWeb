@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EmployeeLeaveDialogComponent } from 'src/app/_dialogs/employeeleave.dialog/employeeleave.dialog.component';
 import { DATE_OF_JOINING, FORMAT_DATE, MEDIUM_DATE, ORIGINAL_DOB } from 'src/app/_helpers/date.formate.pipe';
@@ -43,6 +43,7 @@ export class EmployeeDashboardComponent {
     isActiveNotifications: boolean = true;
     notifications: NotificationsDto[] = [];
     notificationReplies: NotificationsRepliesDto[] = []
+    @ViewChild('Wishes') Wishes!: ElementRef;
     wishesDialog: boolean;
     years: any
     projects: { name: string, projectLogo: string, description: string, projectId: number, periods: { sinceFrom: Date, endAt: Date }[] }[] = [];
@@ -110,12 +111,20 @@ export class EmployeeDashboardComponent {
             console.log(resp, this.jwtService.EmployeeId)
         })
     }
-  
-    showBirthdayDialog() {
+
+    showBirthdayDialog(data: any) {
         this.wishesDialog = true;
     }
     onSubmit() {
+        const sendWishes = {
+            message: this.Wishes.nativeElement.value,
+            // notificationId:,
+            employeeId: this.jwtService.EmployeeId
+        };
+        this.dashBoardService.sendBithdayWishes(sendWishes).subscribe(resp => {
+            console.log(resp);
 
+        })
     }
     onClose() {
         this.wishesDialog = false;

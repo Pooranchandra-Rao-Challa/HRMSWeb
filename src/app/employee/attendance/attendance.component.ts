@@ -540,6 +540,7 @@ export class AttendanceComponent {
       this.fbleave.get('isHalfDayLeave').setValue(false);
       leaveReasonControl.clearValidators();
       leaveReasonControl.setErrors(null);
+      this.fbleave.get('leaveReasonId').setValue(null);
     }
   }
 
