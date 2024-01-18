@@ -72,6 +72,12 @@ export class NotificationsRepliesDto {
     notificationMessage?:string
     notificationReplyId?:number
 }
+export class HrNotification{
+    employeeId?: number
+    message?: string
+    messageTypeId?: string
+    notifyTill?:Date
+}
 export class addresses {
     addressId?: number;
     addressLine1?: string;

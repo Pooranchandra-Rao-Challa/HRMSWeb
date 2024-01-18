@@ -44,6 +44,9 @@ export class LookupService extends ApiHttpService {
         console.log('LeaveReasons');
         return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.LeaveReasons,dayWorkStatusId]);
     }
+    public MessageTypes(){
+        return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.MessageType]);
+    }
     public AllLeaveReasons() {
         console.log('LeaveReasons');
         return this.getWithParams<LookupViewDto[]>(LOOKUP_DETAILS_URI, [this.LookupKeys.LeaveReasons]);

@@ -16,6 +16,7 @@ import { RecruitmentStageDetailsDto } from '../demo/api/security';
 import { LookupService } from '../_services/lookup.service';
 import { LookupDetailsDto } from '../_models/admin';
 import { EmployeeService } from '../_services/employee.service';
+import { HrNotificationsComponent } from '../_dialogs/hr-notifications/hr-notifications.component';
 
 @Component({
     selector: 'app-topbar',
@@ -29,6 +30,7 @@ export class AppTopbarComponent {
     isUpdating: boolean;
     ActionTypes = Actions;
     lookupDialogComponent = LookupDialogComponent;
+    hrNotificationsComponent=HrNotificationsComponent;
     leaveConfigurationDialogComponent = LeaveconfigurationDialogComponent;
     recruitmentattributeDialogComponent = RecruitmentattributeDialogComponent;
     dialogRequest: DialogRequest = new DialogRequest();
@@ -148,10 +150,19 @@ export class AppTopbarComponent {
             header: this.dialogRequest.header,
             width: this.dialogRequest.width
         });
-        // this.ref.onClose.subscribe((res: any) => {
-        //   if (res) this.getLookUp(true);
-        //   event.preventDefault(); // Prevent the default form submission
-        // });
+    }
+    openHRComponentDialog(content: any,
+        dialogData, action: Actions = this.ActionTypes.add) {
+        if (action == Actions.save && content === this.hrNotificationsComponent) {
+            this.dialogRequest.dialogData = dialogData;
+            this.dialogRequest.header = "HR Notifications";
+            this.dialogRequest.width = "70%";
+        }
+        this.ref = this.dialogService.open(content, {
+            data: this.dialogRequest.dialogData,
+            header: this.dialogRequest.header,
+            width: this.dialogRequest.width
+        });
     }
 
     openComponentDialogforLeaveConfiguration(content: any,

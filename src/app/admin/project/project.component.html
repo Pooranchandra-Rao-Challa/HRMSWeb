@@ -468,36 +468,31 @@
       </p-tabView>
     </div>
     <!-- Project Details Dialog -->
-    <p-dialog header="Project Details" [(visible)]="projectDetailsDialog"
-      [breakpoints]="{'960px': '70%', '640px': '60%'}" [style]="{width: '70%'}">
+    <p-dialog header="Project Details" [(visible)]="projectDetailsDialog" [modal]="true" showEffect="fade"
+      [breakpoints]="{'960px': '50%', '640px': '60%'}" [style]="{width: '50%'}">
       <div class="card">
         <div class="grid">
           <div class="col-12 lg:col-3">
             <div class="fex">
-              <div class="col text-center">
-                <img [src]="this.projectDetails.logo" class="w-10 align-items-center border-transparent border-round" />
+              <div class="avatar_projects">
+                <img [src]="this.projectDetails.logo"  alt="img" 
+                class="project_img avatar_projects">
               </div>
+              <div class="text-2xl mb-3 font-medium">
+                <a class="cursor-pointer" id="Project_viewDetails">{{this.projectDetails.name}}</a>
+              </div>
+              
             </div>
           </div>
           <div class="col-12 lg:col-9">
             <div class="grid" style="text-align: left;">
 
               <div class="col-12 lg:col-10">
-                <div class="pair">
-                  <span class="label text-primary font-bold text-900">Project Name:</span>
-                  <span class="value">{{this.projectDetails.name}}</span>
-                </div>
-                <!-- <div class="pair">
-                  <span class="label text-primary font-bold text-900">Project Manager</span>
-                  <span class="value">: {{this.projectDetails.manager}}</span>
-                </div>
-                <div class="pair">
-                  <span class="label text-primary font-bold text-900">Project Start Date</span>
-                  <span class="value">: {{this.projectDetails.initial| date: 'dd-MMM-yyyy'}}</span>
-                </div> -->
-                <div class="pair">
-                  <span class="label text-primary font-bold text-900">Project Description:</span>
-                  <span class="value">{{this.projectDetails.description}}</span>
+                
+                
+                <div class="">
+                  <span class="label text-primary font-bold text-900">Project Description:</span><br/>
+                  <span class="value mt-2 ">{{this.projectDetails.description}}</span>
                 </div>
               </div>
               <div class="col-12 lg:col-2" *ngIf="permission?.CanDownloadProjects" style="text-align:right">
@@ -539,10 +534,13 @@
           </p-tabPanel>
           <p-tabPanel header="Team Members ">
             <div class="grid">
-              <div class="col-12 md:col-4 lg:col-3" *ngFor="let employee of this.projectDetails.expandEmployees">
-                <div class="m-2 card border-1 surface-border">
-                  <div class="text-xl font-bold">{{employee.employeeName}}</div>
-                  <div class="text-600 font-medium text-sm">EmpId: {{employee.employeeId}}</div>
+              <div class="col-12 md:col-6 lg:col-4" *ngFor="let employee of this.projectDetails.expandEmployees">
+                <div class="card border-1 surface-border">
+                  <div class="project_employye_card">
+                    <div class="text-xl font-bold">{{employee.employeeName}}</div>
+                    <div class="text-600 font-medium text-sm">EmpId: {{employee.employeeId}}</div>
+                  </div>
+                
                   <br />
                   <div style=" text-align:center;">
                     <button pButton pRipple type="submit" label="Unassign"
