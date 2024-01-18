@@ -1205,3 +1205,8 @@ app-attendance .p-datatable-table tbody tr td:first-child {
     padding:0px !important;
    
    }
+.dashboard_employee_list{
+    min-height:330px;
+    max-height:350px;
+    overflow: auto;
+}
