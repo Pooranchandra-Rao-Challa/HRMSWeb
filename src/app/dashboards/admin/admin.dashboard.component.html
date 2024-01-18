@@ -114,7 +114,7 @@
                                             </div>
                                         </div>
                                         <!-- For attendance section -->
-                                        <div class="col p-0 text-center">
+                                        <div class="col p-0 text-center d-leave">
                                             <span *ngIf="chart === 'Date'; else attendanceMonthContent">
                                                 <i class="pi pi-angle-left d-leave-font"
                                                     (click)="gotoPreviousDay()"></i>
@@ -313,8 +313,12 @@
                                         <li class="border-round-lg pt-2 px-3 pb-2 mb-3"
                                             style="background-color: var(--primary-lighter-color)">
                                             <div class="text-center">
-                                                <p class="m-3">Select any Vertical Bar to Display Employees Belonging to
+                                                <p class="m-3" *ngIf="!shouldDisplayMessage">Select any Vertical Bar to
+                                                    Display Employees Belonging to
                                                     that Working Type.</p>
+                                                <p *ngIf="shouldDisplayMessage">
+                                                    It is the Huge Data to Display
+                                                </p>
                                             </div>
                                         </li>
                                     </ng-template>
@@ -339,20 +343,6 @@
         <div class="card pb-5 pt-5  chart_card employee_card_dashboard2">
 
             <div class="mb-0">
-                <!-- <div class="grid">
-                    <div class="col-6 flex py-0">
-                        <i class="pi pi-circle-fill text-primary-300 m-1"></i><span>Initial </span>
-                    </div>
-                    <div class="col-6 flex py-0">
-                        <i class="pi pi-circle-fill text-red-300 m-1"></i><span>Dev</span>
-                    </div>
-                    <div class="col-6 flex py-0">
-                        <i class="pi pi-circle-fill text-green-300 m-1"></i><span>Com</span>
-                    </div>
-                    <div class="col-6 flex py-0">
-                        <i class="pi pi-circle-fill text-blue-300 m-1"></i><span>AMC</span>
-                    </div>
-                </div> -->
                 <ul class="list-none p-0 m-1">
                     <li *ngIf="this.admindashboardDtls?.savedactiveProjects?.length > 0; else noProjectsMessage">
                         <p-chart type="doughnut" [data]="pieDataforProjects" [options]="pieOptionsforProjects"
