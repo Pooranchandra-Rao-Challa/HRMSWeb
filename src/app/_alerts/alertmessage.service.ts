@@ -224,8 +224,9 @@ export const ALERT_CODES: { [key: string]: string } = {
     'DPJ001': 'There is no Suitable Applicants for this Job.',
 
     //    Leave Confirmation
-    'ALC001': 'Leave Confirmation Updated Successfully',
-    'ALC002': 'Leave Confirmation Updated Failed',
+    'ALC001_PL': 'PL is Approved Successfully',
+    'ALC002_CL': 'CL is Approved Successfully',
+    'ALC003_WFH': 'WFH is Approved Successfully',
 
     // view applicant
     'ARVAP001': 'Applicant Details Added Successfully',
