@@ -39,7 +39,7 @@ export class AdminDashboardComponent implements OnInit {
     hideElements: boolean = true;
     leaveType: LookupDetailsDto[] = [];
     filteredEmployeeCount: any;
-    EmployeeId: number;
+    EmployeeId: any;
     fbWishes!: FormGroup;
 
     constructor(private dashboardService: DashboardService,
