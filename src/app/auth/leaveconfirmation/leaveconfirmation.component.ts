@@ -50,33 +50,43 @@ export class LeaveconfirmationComponent {
           let rdata = resp as unknown as any;
           if (rdata.isSuccess) {
             this.showConfirmationMessage = true;
-            // Display different toaster messages based on leave type
             const leaveType = this.employeeleavedetails?.leaveDto?.getLeaveType;
-            if (leaveType === 'PL') {
-              this.alertMessage.displayAlertMessage(ALERT_CODES["ALC001_PL"]);
-            } else if (leaveType === 'CL') {
-              this.alertMessage.displayAlertMessage(ALERT_CODES["ALC002_CL"]);
-            } else if (leaveType === 'WFH') {
-              this.alertMessage.displayAlertMessage(ALERT_CODES["ALC003_WFH"]);
+            const action = this.employeeleavedetails.action;
+            if (action === 'Reject') {
+              if (leaveType === 'PL') {
+                this.alertMessage.displayErrorMessage(ALERT_CODES["ALC004_PL"]);
+              } else if (leaveType === 'CL') {
+                this.alertMessage.displayErrorMessage(ALERT_CODES["ALC005_CL"]);
+              } else if (leaveType === 'WFH') {
+                this.alertMessage.displayErrorMessage(ALERT_CODES["ALC006_WFH"]);
+              }
+            } else {
+              if (leaveType === 'PL') {
+                this.alertMessage.displayAlertMessage(ALERT_CODES["ALC001_PL"]);
+              } else if (leaveType === 'CL') {
+                this.alertMessage.displayAlertMessage(ALERT_CODES["ALC002_CL"]);
+              } else if (leaveType === 'WFH') {
+                this.alertMessage.displayAlertMessage(ALERT_CODES["ALC003_WFH"]);
+              }
             }
           } else if (!rdata.isSuccess) {
-            this.alertMessage.displayErrorMessage(rdata.message); 
+            this.alertMessage.displayErrorMessage(rdata.message);
           }
         });
       }
     });
   }
-  
+
   getConfirmationMessage(leaveType: string): string {
     switch (leaveType) {
       case 'CL':
-        return 'CL is Approved Successfully';
+        return 'CL is Updated Successfully';
       case 'PL':
-        return 'PL is Approved Successfully';
+        return 'PL is Updated Successfully';
       case 'WFH':
-        return 'WFH is Approved Successfully';
+        return 'WFH is Updated Successfully';
       default:
-        return 'Confirmation Approved Successfully';
+        return 'Confirmation Updated Successfully';
     }
   }
 }
