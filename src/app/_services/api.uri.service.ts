@@ -167,6 +167,7 @@ export const GET_SELF_EMPLOYEE_MONTH_LEAVES = "Attendance/GetLeavesForSelfInMont
 export const GET_ALLOTED_LEAVES = "Attendance/GetAllottedLeavesBasedOnEId"
 export const GET_NOTIFICATIONS="Notification/GetNotifications";
 export const GET_NOTIFICATION_REPLIES="Notification/GetNotificationReplies"
+export const POST_BIRTHDAY_WISHES="Notification/CreateNotificationReplies"
 // Admin Dashboard
 export const GET_ADMIN_DASHBOARD = "AdminDashboard/GetAdminDashboard";
 export const GET_ATTENDANCE_COUNT_BASED_ON_TYPE="AdminDashboard/GetAttendanceCountsBasedOnType";

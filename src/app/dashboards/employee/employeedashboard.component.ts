@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EmployeeLeaveDialogComponent } from 'src/app/_dialogs/employeeleave.dialog/employeeleave.dialog.component';
 import { DATE_OF_JOINING, FORMAT_DATE, MEDIUM_DATE, ORIGINAL_DOB } from 'src/app/_helpers/date.formate.pipe';
@@ -43,6 +44,8 @@ export class EmployeeDashboardComponent {
     isActiveNotifications: boolean = true;
     notifications: NotificationsDto[] = [];
     notificationReplies: NotificationsRepliesDto[] = []
+    @ViewChild('Wishes') Wishes!: ElementRef;
+    fbWishes!: FormGroup;
     wishesDialog: boolean;
     years: any
     projects: { name: string, projectLogo: string, description: string, projectId: number, periods: { sinceFrom: Date, endAt: Date }[] }[] = [];
@@ -52,7 +55,7 @@ export class EmployeeDashboardComponent {
         private jwtService: JwtService,
         // private groupby:GroupByPipe,
         private dialogService: DialogService,
-        public ref: DynamicDialogRef,
+        public ref: DynamicDialogRef, private formbuilder: FormBuilder,
     ) { }
 
     headers: ITableHeader[] = [
@@ -70,8 +73,16 @@ export class EmployeeDashboardComponent {
         this.initGetLeavesForMonth();
         this.initNotifications();
         this.initNotificationsBasedOnId();
+        this.initWishesForm();
     }
 
+    initWishesForm() {
+        this.fbWishes = this.formbuilder.group({
+            message: new FormControl('', [Validators.required]),
+            notificationId: new FormControl('', [Validators.required]),
+            employeeId: new FormControl('', [Validators.required])
+        })
+    }
     getHoliday(): void {
         if (this.selectedYear) {
             const year = this.selectedYear.year;
@@ -101,21 +112,25 @@ export class EmployeeDashboardComponent {
     initNotifications() {
         this.dashBoardService.GetNotifications().subscribe(resp => {
             this.notifications = resp as unknown as NotificationsDto[];
-            console.log(resp);
         })
     }
     initNotificationsBasedOnId() {
         this.dashBoardService.GetNotificationsBasedOnId(this.jwtService.EmployeeId).subscribe(resp => {
             this.notificationReplies = resp as unknown as NotificationsRepliesDto[];
-            console.log(resp, this.jwtService.EmployeeId)
         })
     }
-  
-    showBirthdayDialog() {
+
+    showBirthdayDialog(data: any) {
         this.wishesDialog = true;
+        this.fbWishes.get('notificationId').setValue(data.notificationId);
+        this.fbWishes.get('employeeId').setValue(this.jwtService.EmployeeId);
     }
     onSubmit() {
+        console.log(this.fbWishes.value);
+        this.dashBoardService.sendBithdayWishes(this.fbWishes.value).subscribe(resp => {
+            console.log(resp);
 
+        })
     }
     onClose() {
         this.wishesDialog = false;
