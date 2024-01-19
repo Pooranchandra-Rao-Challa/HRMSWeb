@@ -420,12 +420,11 @@
 
                                     </div>
                                     <div style="width:30%;"
-                                        *ngIf="this.EmployeeId != employee?.employeeId && this.permissions.CanSendBirthdayWishes">
-                                        <button type="button" pButton icon="pi icon-redeem"
-                                            class="p-button-rounded p-button-text p-button-sm flex-shrink-0"
-                                            (click)="showBirthdayDialog(employee)">&nbsp; Send Greetings
-                                        </button>
-                                    </div>
+                                    *ngIf="EmployeeId && EmployeeId != employee?.employeeId && permissions?.CanSendBirthdayWishes">
+                                    <button type="button" pButton icon="pi icon-redeem"
+                                        class="p-button-rounded p-button-text p-button-sm flex-shrink-0"
+                                        (click)="showBirthdayDialog(employee)">&nbsp; Send Greetings </button>
+                                </div>
                                 </div>
 
                             </li>
