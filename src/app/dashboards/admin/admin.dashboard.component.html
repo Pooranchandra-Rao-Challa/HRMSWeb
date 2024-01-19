@@ -191,7 +191,7 @@
                                     <ng-container *ngIf="employeeCount.length>0; else noDataTemplate">
                                         <span *ngIf="chart == 'Date'">
                                             <p-table #employeeTable [value]="employeeCount" [paginator]="true"
-                                                [rows]="6" [responsive]="true"
+                                                [rows]="6" [responsive]="true" [alwaysShowPaginator]="false"
                                                 styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm">
                                                 <ng-template pTemplate="header">
                                                     <tr>
@@ -225,7 +225,7 @@
                                         <span *ngIf="chart == 'Month'">
                                             <p-table [value]="employeeCount" sortField="value" sortMode="single"
                                                 dataKey="value" rowGroupMode="subheader" groupRowsBy="value"
-                                                rowExpandMode="single"
+                                                rowExpandMode="single" 
                                                 styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm">
                                                 <ng-template pTemplate="header">
                                                     <tr>
