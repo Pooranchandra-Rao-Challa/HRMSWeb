@@ -420,10 +420,12 @@ export class AdminDashboardComponent implements OnInit {
         })
     }
     showBirthdayDialog(data: any) {
+        this.fbWishes.reset();
         if (this.jwtService.EmployeeId) {
             this.wishesDialog = true;
             this.fbWishes.get('notificationId').setValue(data.notificationId);
             this.fbWishes.get('employeeId').setValue(this.jwtService.EmployeeId);
+            this.fbWishes.get('isActive').setValue(true);
         } else {
             this.wishesDialog = false;
         }

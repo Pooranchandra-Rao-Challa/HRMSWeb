@@ -215,8 +215,8 @@ export const ALERT_CODES: { [key: string]: string } = {
     'ELD002': 'Leave Not Applied',
     'ELA001': 'Leave Approved Successfully',
     'ELR002': 'Leave Rejected',
-    'WFH001': 'WFH is Applied successfully',
-    'WFH002': 'WFH is Failed to Applied',
+    'WFH001': 'WFH Applied successfully',
+    'WFH002': 'WFH Failed to Applied',
     'ELA003': 'Leave Deleted Successfully',
     'ELA004': 'Leave Deleted Failed',
     //Job Opening Details
@@ -224,12 +224,12 @@ export const ALERT_CODES: { [key: string]: string } = {
     'DPJ001': 'There is no Suitable Applicants for this Job.',
 
     //    Leave Confirmation
-    'ALC001_PL': 'PL is Approved Successfully',
-    'ALC002_CL': 'CL is Approved Successfully',
-    'ALC003_WFH': 'WFH is Approved Successfully',
-    'ALC004_PL': 'PL is Rejected Successfully',
-    'ALC005_CL': 'CL is Rejected Successfully',
-    'ALC006_WFH': 'WFH is Rejected Successfully',
+    'ALC001_PL': 'PL Approved Successfully',
+    'ALC002_CL': 'CL Approved Successfully',
+    'ALC003_WFH': 'WFH Approved Successfully',
+    'ALC004_PL': 'PL Rejected Successfully',
+    'ALC005_CL': 'CL Rejected Successfully',
+    'ALC006_WFH': 'WFH Rejected Successfully',
     // view applicant
     'ARVAP001': 'Applicant Details Added Successfully',
     'ARVAP002': 'Applicant Details Updated Successfully',
