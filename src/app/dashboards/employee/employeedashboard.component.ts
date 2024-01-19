@@ -52,6 +52,9 @@ export class EmployeeDashboardComponent {
     wishesDialog: boolean;
     years: any
     projects: { name: string, projectLogo: string, description: string, projectId: number, periods: { sinceFrom: Date, endAt: Date }[] }[] = [];
+    fieldset1Open = true;
+    fieldset2Open = false;
+    fieldset3Open = false;
 
     constructor(private dashBoardService: DashboardService,
         private adminService: AdminService,
@@ -90,12 +93,27 @@ export class EmployeeDashboardComponent {
             isActive: new FormControl(true),
         })
     }
+
     getHoliday(): void {
         if (this.selectedYear) {
             const year = this.selectedYear.year;
             this.adminService.GetHolidays(year).subscribe((resp) => {
                 this.holidays = resp as unknown as HolidaysViewDto[];
             });
+        }
+    }
+    toggleFieldset(legend: string): void {
+        const fieldsets = ['HR Notifications', 'Today Birthday', 'Greetings'];
+
+        // Close all fieldsets
+        this.fieldset1Open = false;
+        this.fieldset2Open = false;
+        this.fieldset3Open = false;
+
+        // Open the selected fieldset
+        const index = fieldsets.indexOf(legend);
+        if (index !== -1) {
+            this[`fieldset${index + 1}Open`] = true;
         }
     }
 
@@ -124,6 +142,7 @@ export class EmployeeDashboardComponent {
     initNotificationsBasedOnId() {
         this.dashBoardService.GetNotificationsBasedOnId(this.jwtService.EmployeeId).subscribe(resp => {
             this.notificationReplies = resp as unknown as NotificationsRepliesDto[];
+          
         })
     }
 
@@ -137,7 +156,7 @@ export class EmployeeDashboardComponent {
             let rdata = resp as unknown as any;
             if (rdata.isSuccess)
                 this.alertMessage.displayAlertMessage(ALERT_CODES["ADW001"])
-                
+
             else if (!rdata.isSuccess)
                 this.alertMessage.displayErrorMessage(rdata.message);
 
