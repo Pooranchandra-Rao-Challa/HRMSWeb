@@ -151,9 +151,11 @@ export class EmployeeDashboardComponent {
     }
 
     showBirthdayDialog(data: any) {
+        this.fbWishes.reset();
         this.wishesDialog = true;
         this.fbWishes.get('notificationId').setValue(data.notificationId);
         this.fbWishes.get('employeeId').setValue(this.jwtService.EmployeeId);
+        this.fbWishes.get('isActive').setValue(true);
     }
     onSubmit() {
         this.dashBoardService.sendBithdayWishes(this.fbWishes.value).subscribe(resp => {

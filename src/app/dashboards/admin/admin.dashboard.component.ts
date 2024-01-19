@@ -425,6 +425,7 @@ export class AdminDashboardComponent implements OnInit {
             this.wishesDialog = true;
             this.fbWishes.get('notificationId').setValue(data.notificationId);
             this.fbWishes.get('employeeId').setValue(this.jwtService.EmployeeId);
+            this.fbWishes.get('isActive').setValue(true);
         } else {
             this.wishesDialog = false;
         }
