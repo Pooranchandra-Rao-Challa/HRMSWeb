@@ -77,18 +77,6 @@ export class LeaveconfirmationComponent {
     });
   }
 
-  // getConfirmationMessage(leaveType: string): string {
-  //   switch (leaveType) {
-  //     case 'CL':
-  //       return 'CL is Updated Successfully';
-  //     case 'PL':
-  //       return 'PL is Updated Successfully';
-  //     case 'WFH':
-  //       return 'WFH is Updated Successfully';
-  //     default:
-  //       return 'Confirmation Updated Successfully';
-  //   }
-  // }
   getConfirmationMessage(leaveType: string, action: string): string {
     switch (leaveType) {
       case 'CL':
