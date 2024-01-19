@@ -420,11 +420,11 @@
 
                                     </div>
                                     <div style="width:30%;"
-                                    *ngIf="EmployeeId && EmployeeId != employee?.employeeId && permissions?.CanSendBirthdayWishes">
-                                    <button type="button" pButton icon="pi icon-redeem"
-                                        class="p-button-rounded p-button-text p-button-sm flex-shrink-0"
-                                        (click)="showBirthdayDialog(employee)">&nbsp; Send Greetings </button>
-                                </div>
+                                        *ngIf="EmployeeId && EmployeeId != employee?.employeeId && permissions?.CanSendBirthdayWishes">
+                                        <button type="button" pButton icon="pi icon-redeem"
+                                            class="p-button-rounded p-button-text p-button-sm flex-shrink-0"
+                                            (click)="showBirthdayDialog(employee)">&nbsp; Send Greetings </button>
+                                    </div>
                                 </div>
 
                             </li>
@@ -486,9 +486,14 @@
 <p-dialog header="Send Wishes" [(visible)]="wishesDialog" [modal]="true" showEffect="fade"
     [breakpoints]="{'960px': '40%', '640px': '50%'}" class="confirmation_dialog">
     <form [formGroup]="fbWishes">
-        <textarea id="comment" rows="3" placeholder="Enter Wishes" pInputTextarea formControlName="message"
-            class="freeze_text-area col-12 mb-1" [maxLength]="256">
-</textarea>
+        <div class="col-12 ">
+            <textarea id="mytextarea" type="text" #Wishes rows="3" placeholder="Enter Wishes" pInputTextarea
+                formControlName="message" class="freeze_text-area col-12 mb-1" [maxLength]="256">
+            </textarea>
+            <div class="align-right w-40" style="width:100%; text-align:right;">
+                <small>{{Wishes.value.length}}/256</small>
+            </div>
+        </div>
     </form>
     <ng-template pTemplate="footer">
         <div style="float:right" class="p-2">
