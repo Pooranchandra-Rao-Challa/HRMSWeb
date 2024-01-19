@@ -55,6 +55,8 @@ export class EmployeeDashboardComponent {
     fieldset1Open = true;
     fieldset2Open = false;
     fieldset3Open = false;
+    hasBirthdayNotifications: any;
+    hasHRNotifications: any;
 
     constructor(private dashBoardService: DashboardService,
         private adminService: AdminService,
@@ -137,6 +139,8 @@ export class EmployeeDashboardComponent {
     initNotifications() {
         this.dashBoardService.GetNotifications().subscribe(resp => {
             this.notifications = resp as unknown as NotificationsDto[];
+            this.hasBirthdayNotifications = !!this.notifications.find(employee => employee.messageType === 'Birthday');
+            this.hasHRNotifications=!!this.notifications.find(employee => employee.messageType !== 'Birthday');
         })
     }
     initNotificationsBasedOnId() {

@@ -45,6 +45,10 @@ export class AdminDashboardComponent implements OnInit {
     permissions: any;
     shouldDisplayMessage: boolean = false;
     hasBirthdayNotifications: any;
+    hasHRNotifications: any;
+    fieldset1Open = true;
+    fieldset2Open = false;
+    fieldset3Open = false;
 
     constructor(private dashboardService: DashboardService,
         private router: Router,
@@ -81,7 +85,20 @@ export class AdminDashboardComponent implements OnInit {
         this.selectedDate = previousDay;
         this.getAttendanceCountsBasedOnType();
     }
+    toggleFieldset(legend: string): void {
+        const fieldsets = ['HR Notifications', 'Today Birthday', 'Greetings'];
 
+        // Close all fieldsets
+        this.fieldset1Open = false;
+        this.fieldset2Open = false;
+        this.fieldset3Open = false;
+
+        // Open the selected fieldset
+        const index = fieldsets.indexOf(legend);
+        if (index !== -1) {
+            this[`fieldset${index + 1}Open`] = true;
+        }
+    }
     onDaySelect(event) {
         this.selectedDate = DATE_FORMAT(new Date(event));
         this.getAttendanceCountsBasedOnType();
@@ -384,6 +401,7 @@ export class AdminDashboardComponent implements OnInit {
         this.dashboardService.GetNotifications().subscribe(resp => {
             this.notifications = resp as unknown as NotificationsDto[];
             this.hasBirthdayNotifications = !!this.notifications.find(employee => employee.messageType === 'Birthday');
+            this.hasHRNotifications=!!this.notifications.find(employee => employee.messageType !== 'Birthday');
         })
     }
 
