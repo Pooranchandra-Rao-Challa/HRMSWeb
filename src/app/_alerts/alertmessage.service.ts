@@ -227,7 +227,9 @@ export const ALERT_CODES: { [key: string]: string } = {
     'ALC001_PL': 'PL is Approved Successfully',
     'ALC002_CL': 'CL is Approved Successfully',
     'ALC003_WFH': 'WFH is Approved Successfully',
-
+    'ALC004_PL': 'PL is Rejected Successfully',
+    'ALC005_CL': 'CL is Rejected Successfully',
+    'ALC006_WFH': 'WFH is Rejected Successfully',
     // view applicant
     'ARVAP001': 'Applicant Details Added Successfully',
     'ARVAP002': 'Applicant Details Updated Successfully',
