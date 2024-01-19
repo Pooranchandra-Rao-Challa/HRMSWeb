@@ -77,18 +77,31 @@ export class LeaveconfirmationComponent {
     });
   }
 
-  getConfirmationMessage(leaveType: string): string {
+  // getConfirmationMessage(leaveType: string): string {
+  //   switch (leaveType) {
+  //     case 'CL':
+  //       return 'CL is Updated Successfully';
+  //     case 'PL':
+  //       return 'PL is Updated Successfully';
+  //     case 'WFH':
+  //       return 'WFH is Updated Successfully';
+  //     default:
+  //       return 'Confirmation Updated Successfully';
+  //   }
+  // }
+  getConfirmationMessage(leaveType: string, action: string): string {
     switch (leaveType) {
       case 'CL':
-        return 'CL is Updated Successfully';
+        return action === 'Approve' ? 'CL Approved Successfully' : 'CL Rejected Successfully';
       case 'PL':
-        return 'PL is Updated Successfully';
+        return action === 'Approve' ? 'PL Approved Successfully' : 'PL Rejected Successfully';
       case 'WFH':
-        return 'WFH is Updated Successfully';
+        return action === 'Approve' ? 'WFH Approved Successfully' : 'WFH Rejected Successfully';
       default:
         return 'Confirmation Updated Successfully';
     }
   }
+
 }
 
 
