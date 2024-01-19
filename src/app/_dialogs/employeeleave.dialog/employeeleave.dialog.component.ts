@@ -285,13 +285,13 @@ export class EmployeeLeaveDialogComponent {
           if(isLeaveRejected){
             this.onSubmit();
           }
-          else if ((this.hasPendingLeaveInMonth && clIsNotDeleted) ||(this.hasPendingLeaveInMonth && isDeletedCL !==null && clIsNotDeleted && isLeaveRejected)) {
+          else if ((this.hasPendingLeaveInMonth && clIsNotDeleted) ||(this.hasPendingLeaveInMonth && isDeletedCL !==null && clIsNotDeleted)) {
             this.dialog = true;
             const leaveWithEmployeeName = this.monthlyLeaves.find(leave => leave.employeeName);
             this.empName = leaveWithEmployeeName ? leaveWithEmployeeName.employeeName : 'Unknown';
             this.monthName = new Date(this.year, this.month - 1, 1).toLocaleString('default', { month: 'long' });
           }
-          else if (this.hasPendingLeaveInMonth && isDeletedCL && isLeaveRejected) {
+          else if (this.hasPendingLeaveInMonth && isDeletedCL) {
             this.onSubmit();
           }
           else {
