@@ -44,7 +44,7 @@ export class AdminDashboardComponent implements OnInit {
     fbWishes!: FormGroup;
     permissions: any;
     shouldDisplayMessage: boolean = false;
-
+    hasBirthdayNotifications: any;
 
     constructor(private dashboardService: DashboardService,
         private router: Router,
@@ -310,7 +310,7 @@ export class AdminDashboardComponent implements OnInit {
                         } else if (this.chart === 'Year') {
                             this.dashboardService.GetEmployeeAttendanceCount(this.chart, this.year, lookupDetailId)
                                 .subscribe((resp) => {
-                                    this.employeeCount = resp as unknown as EmployeesofAttendanceCountsViewDto[];                                    
+                                    this.employeeCount = resp as unknown as EmployeesofAttendanceCountsViewDto[];
                                     this.employeeCount.forEach(emp => {
                                         const date = new Date(emp.value);
                                         if (isNaN(date.getTime())) {
@@ -383,6 +383,7 @@ export class AdminDashboardComponent implements OnInit {
     initNotifications() {
         this.dashboardService.GetNotifications().subscribe(resp => {
             this.notifications = resp as unknown as NotificationsDto[];
+            this.hasBirthdayNotifications = !!this.notifications.find(employee => employee.messageType === 'Birthday');
         })
     }
 
@@ -413,10 +414,10 @@ export class AdminDashboardComponent implements OnInit {
     onSubmit() {
         this.dashboardService.sendBithdayWishes(this.fbWishes.value).subscribe(resp => {
             let rdata = resp as unknown as any;
-            if (rdata.isSuccess) {  
+            if (rdata.isSuccess) {
                 this.alertMessage.displayAlertMessage(ALERT_CODES["ADW001"])
             }
-            else if (!rdata.isSuccess) {  
+            else if (!rdata.isSuccess) {
                 this.alertMessage.displayErrorMessage(rdata.message);
             }
             this.wishesDialog = false;
@@ -427,7 +428,7 @@ export class AdminDashboardComponent implements OnInit {
     onClose() {
         this.wishesDialog = false;
     }
-  
+
 }
 
 

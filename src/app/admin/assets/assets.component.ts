@@ -69,7 +69,7 @@ export class AssetsComponent {
     { field: 'count', header: 'count', label: 'Count' },
   ];
   AssetsTypeTable: ITableHeader[] = [
-    { field: 'employeeName', header: 'employeeName', label: 'employee Name' },
+    { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
     { field: 'code', header: 'code', label: 'Code' },
     { field: 'name', header: 'name', label: 'Asset Name' },
     { field: 'purchasedDate', header: 'purchasedDate', label: 'Purchased Date' },
