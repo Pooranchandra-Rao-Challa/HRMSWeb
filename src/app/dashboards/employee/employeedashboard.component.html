@@ -230,12 +230,12 @@
                             </ul>
 
                             <ng-template #noHRTemplate>
-                                <li class="border-round-lg pt-2 px-3 pb-2 mb-3"
+                                <div class="border-round-lg pt-2 px-3 pb-2 mb-3"
                                     style="background-color: var(--primary-lighter-color)">
                                     <div class="text-center m-3">
                                         <p class="m-0">There is no HR Notifications.</p>
                                     </div>
-                                </li>
+                                </div>
                             </ng-template>
                         </p-fieldset><br />
                         <p-fieldset legend="Today Birthday" [toggleable]="true" [collapsed]="!fieldset2Open"
@@ -272,12 +272,12 @@
                                 </ul>
 
                                 <ng-template #noBirthdaysTemplate>
-                                    <li class="border-round-lg pt-2 px-3 pb-2 mb-3"
+                                    <div class="border-round-lg pt-2 px-3 pb-2 mb-3"
                                         style="background-color: var(--primary-lighter-color)">
                                         <div class="text-center m-3">
                                             <p class="m-0">Today, there is no Employee birthdays .</p>
                                         </div>
-                                    </li>
+                                    </div>
                                 </ng-template>
                             </div>
                         </p-fieldset>
@@ -312,12 +312,12 @@
                             </ul>
 
                             <ng-template #noHRTemplate>
-                                <li class="border-round-lg pt-2 px-3 pb-2 mb-3"
+                                <div class="border-round-lg pt-2 px-3 pb-2 mb-3"
                                     style="background-color: var(--primary-lighter-color)">
                                     <div class="text-center m-3">
                                         <p class="m-0">There is no Birthday Greetings.</p>
                                     </div>
-                                </li>
+                                </div>
                             </ng-template>
                         </p-fieldset><br />
                     </div>
@@ -430,21 +430,21 @@
                 </div>
                 <div class=" card p-3 orange-200  applicant-n-block-home scroll_div" style="min-height:350px;">
                     <div class="text-500  text-2xl text-primary text-center m-5 p-5"
-                        *ngIf="!projects || projects.length === 0">
+                        *ngIf="!projects || projects?.length === 0">
                         There is no Assigned Projects for this Employee
                     </div>
-                    <div class="grid" *ngIf="projects && projects.length > 0">
+                    <div class="grid" *ngIf="projects && projects?.length > 0">
                         <div class="col-6" *ngFor="let project of projects">
                             <div class="card p-2 text-center"
-                                [ngStyle]="project.periods.length > 0 ? {'color': 'gray'} : {}">
+                                [ngStyle]="project?.periods?.length > 0 ? {'color': 'gray'} : {}">
                                 <div class=" project_img_dash ">
-                                    <img [src]="project.projectLogo" [alt]="project.projectLogo"
+                                    <img [src]="project?.projectLogo" [alt]="project?.projectLogo"
                                         class="shadow-2 my-0 mx-0 employee_profile_pic avatar_projects_dash" />
                                 </div>
 
 
                                 <h5 class="text-primary m-2">{{project.name}}</h5>
-                                <div *ngFor="let period of project.periods" class="text-left"
+                                <div *ngFor="let period of project?.periods" class="text-left"
                                     style=" color:gray; border-top:1px solid #ccc; font-size:12px; font-weight: 700;">
                                     <span class="icon-start_time">
                                         <!--{{period.endAt  ? ' - '+period.endAt : "  Continuing"}}-->
