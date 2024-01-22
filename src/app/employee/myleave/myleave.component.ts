@@ -1,5 +1,5 @@
 
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { Table } from 'primeng/table';
 import { Actions, ConfirmationRequest, DialogRequest, ITableHeader } from 'src/app/_models/common';
 import { GlobalFilterService } from 'src/app/_services/global.filter.service';
@@ -32,20 +32,18 @@ export class MyleaveComponent {
   leaves: EmployeeLeaveDto[] = [];
   year: number = new Date().getFullYear();
   confirmationRequest: ConfirmationRequest = new ConfirmationRequest();
+  selectedColumnHeader!: ITableHeader[];
+  _selectedColumns!: ITableHeader[];
 
   headers: ITableHeader[] = [
+    { field: 'status', header: 'status', label: 'Status' },
     { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
     { field: 'leaveType', header: 'leaveType', label: 'Leave Type' },
     { field: 'fromDate', header: 'fromDate', label: 'From Date' },
     { field: 'toDate', header: 'toDate', label: 'To Date' },
     { field: 'note', header: 'note', label: 'Leave Description' },
+    { field: 'isHalfDayLeave', header: 'isHalfDayLeave', label: 'Half Day Leave' },
     { field: 'isDeleted', header: 'isDeleted', label: 'Is Deleted' },
-    { field: 'acceptedBy', header: 'acceptedBy', label: 'Accepted By' },
-    { field: 'acceptedAt', header: 'acceptedAt', label: 'Accepted At' },
-    { field: 'approvedBy', header: 'approvedBy', label: 'Approved By' },
-    { field: 'approvedAt', header: 'approvedAt', label: 'Approved At' },
-    { field: 'createdBy', header: 'createdBy', label: 'Created By' },
-    { field: 'status', header: 'status', label: 'Status' }
 
   ];
 
@@ -58,10 +56,24 @@ export class MyleaveComponent {
     private confirmationDialogService: ConfirmationDialogService) {
 
   }
+  set selectedColumns(val: any[]) {
+    this._selectedColumns = this.selectedColumnHeader.filter((col) => val.includes(col));
+  }
+  @Input() get selectedColumns(): any[] {
+    return this._selectedColumns;
+  }
 
   ngOnInit(): void {
     this.permissions = this.jwtService.Permissions;
     this.getLeaves();
+    this._selectedColumns = this.selectedColumnHeader;
+    this.selectedColumnHeader = [
+      { field: 'acceptedBy', header: 'acceptedBy', label: 'Accepted By' },
+      { field: 'acceptedAt', header: 'acceptedAt', label: 'Accepted At' },
+      { field: 'approvedBy', header: 'approvedBy', label: 'Approved By' },
+      { field: 'approvedAt', header: 'approvedAt', label: 'Approved At' },
+      { field: 'createdBy', header: 'createdBy', label: 'Created By' },
+    ];
   }
 
   getLeaves() {
