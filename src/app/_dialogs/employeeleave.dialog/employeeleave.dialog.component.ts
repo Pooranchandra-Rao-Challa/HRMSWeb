@@ -279,10 +279,14 @@ export class EmployeeLeaveDialogComponent {
         .subscribe(resp => {
           this.monthlyLeaves = resp as unknown as selfEmployeeMonthlyLeaves[];          
           this.hasPendingLeaveInMonth = this.monthlyLeaves.some(leave => leave.leaveType === 'CL' && leave.status === 'Pending');
+          const isLeaveApproved= this.monthlyLeaves.find(leave =>  leave.status === 'Approved' && leave.leaveType === 'CL');          
           const isLeaveRejected = this.monthlyLeaves.find(leave =>  leave.status === 'Rejected' && leave.leaveType === 'CL');          
           const isDeletedCL = this.monthlyLeaves.find(leave => leave.isDeleted === true && leave.leaveType === 'CL');          
           const clIsNotDeleted = this.monthlyLeaves.find(leave => (leave.isDeleted === false || leave.isDeleted === null) && leave.leaveType === 'CL');
-          if(isLeaveRejected){
+          if(isLeaveApproved){
+            this.onSubmit();
+          }
+          else if(isLeaveRejected){
             this.onSubmit();
           }
           else if ((this.hasPendingLeaveInMonth && clIsNotDeleted) ||(this.hasPendingLeaveInMonth && isDeletedCL !==null && clIsNotDeleted)) {

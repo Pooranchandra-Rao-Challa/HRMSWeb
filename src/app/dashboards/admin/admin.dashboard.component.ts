@@ -263,13 +263,38 @@ export class AdminDashboardComponent implements OnInit {
             },
             plugins: {
                 legend: {
-                    display: false,
+                    display: true,
+                    position: 'bottom',
                     labels: {
                         display: true,
                         usePointStyle: true,
+                        generateLabels: function (chart) {
+                            const data = chart.data;
+                            if (data.labels.length && data.datasets.length) {
+                                return data.labels.reduce(function (labels, label, i) {
+                                    const dataset = data.datasets[0];
+                                    const value = dataset.data[i];
+                                    if (!isNaN(value)) {
+                                        labels.push({
+                                            text: label,
+                                            fillStyle: dataset.backgroundColor[i],
+                                            hidden: isNaN(value),
+                                            lineCap: dataset.borderCapStyle,
+                                            lineDash: dataset.borderDash,
+                                            lineDashOffset: dataset.borderDashOffset,
+                                            lineJoin: dataset.borderJoinStyle,
+                                            lineWidth: dataset.borderWidth,
+                                            strokeStyle: dataset.borderColor[i],
+                                            pointStyle: dataset.pointStyle,
+                                        });
+                                    }
+                                    return labels;
+                                }, []);
+                            }
+                            return [];
+                        },
                     },
-                    position: 'bottom'
-                }
+                },
             },
             scales: {
                 y: {
