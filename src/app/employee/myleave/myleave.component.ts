@@ -42,7 +42,7 @@ export class MyleaveComponent {
     { field: 'toDate', header: 'toDate', label: 'To Date' },
     { field: 'note', header: 'note', label: 'Leave Description' },
     { field: 'isHalfDayLeave', header: 'isHalfDayLeave', label: 'Half Day Leave' },
-    { field: 'isDeleted', header: 'isDeleted', label: 'Is Deleted' },
+    { field: 'isDeleted', header: 'isDeleted', label: 'Declined' },
 
   ];
 
