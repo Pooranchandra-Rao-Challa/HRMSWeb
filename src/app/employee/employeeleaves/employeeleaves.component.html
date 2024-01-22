@@ -121,10 +121,14 @@
                     <td>{{leave.employeeName}}</td>
                     <td class="text-center">{{leave.leaveType}}</td>
                     <td class="text-center">{{leave.fromDate |date: mediumDate}}</td>
-                    <td class="text-center">{{leave.toDate |date: mediumDate}}</td>
+                    <td class="text-center">{{leave.toDate |date: mediumDate}}
+                        <span *ngIf="leave.toDate === null">
+                            {{leave.fromDate |date: mediumDate}}
+                        </span>
+                    </td>
                     <td class="text-wrap">{{leave.note}}</td>
                     <td class="text-center">
-                        <span *ngIf="leave.isHalfDayLeave">
+                        <span *ngIf="leave.isHalfDayLeave || !leave.isHalfDayLeave">
                             <i class="fa"
                                 [ngClass]="{'fa-check': leave['isHalfDayLeave'], 'fa-close': !leave['isHalfDayLeave']}"
                                 [style.color]="leave['isHalfDayLeave'] ? '#119e2f' : '#e24c4c'"
@@ -132,7 +136,7 @@
                         </span>
                     </td>
                     <td class="text-center">
-                        <span *ngIf="leave.isDeleted">
+                        <span *ngIf="leave.isDeleted || !leave.isDeleted">
                             <i class="fa" [ngClass]="{'fa-check': leave['isDeleted'], 'fa-close': !leave['isDeleted']}"
                                 [style.color]="leave['isDeleted'] ? '#119e2f' : '#e24c4c'"
                                 style="font-size:18px; vertical-align: sub;"></i>

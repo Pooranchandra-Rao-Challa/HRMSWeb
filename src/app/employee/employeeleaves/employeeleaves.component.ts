@@ -100,7 +100,7 @@ export class EmployeeLeavesComponent {
 
   getLeaves() {
     this.employeeService.getEmployeeLeaveDetails(this.month, this.year).subscribe((resp) => {
-      this.leaves = resp as unknown as EmployeeLeaveDto[];
+      this.leaves = resp as unknown as EmployeeLeaveDto[];      
     })
   }
 
@@ -128,6 +128,7 @@ export class EmployeeLeavesComponent {
       acceptedAt: new FormControl(null),
       approvedBy: new FormControl(''),
       approvedAt: new FormControl(null),
+      createdBy:new FormControl(''),
       rejected: new FormControl(''),
       comments: new FormControl(''),
       status: new FormControl(''),
@@ -203,7 +204,7 @@ export class EmployeeLeavesComponent {
           comments: result.description,
           status: this.leaveData.status,
           isapprovalEscalated: true,
-          createdBy: this.leaveData.createdBy
+          createdBy: this.leaveData.createdBy    
         });
         this.save().subscribe(resp => {
           if (resp) {

@@ -43,7 +43,7 @@
                     <div class="flex gap-2">
                         <div *ngIf="permissions?.CanDownloadLeaves">
                             <p-dropdown [options]="getLeavesReportTypeOptions()" optionLabel="label"
-                                placeholder="Select LeavesReport Type" (onChange)="DownloadLeavesReports($event.value)"
+                                placeholder="Select Leaves Report Type" (onChange)="DownloadLeavesReports($event.value)"
                                 optionValue="label" class="att_dropdown" [showClear]="true">
                             </p-dropdown>
                         </div>

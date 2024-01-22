@@ -241,11 +241,11 @@ export class AdminDashboardComponent implements OnInit {
     attendanceChart() {
         const documentStyle = getComputedStyle(document.documentElement);
         const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
-        const CasualLeaves = this.attendanceCount.find(each => each.cl);
-        const PrevlageLeaves = this.attendanceCount.find(each => each.pl);
-        const present = this.attendanceCount.find(each => each.pt);
-        const leaveWithoutPay = this.attendanceCount.find(each => each.lwp);
-        const workFromHome = this.attendanceCount.find(each => each.wfh);
+        const CasualLeaves = this.attendanceCount?.find(each => each.cl);
+        const PrevlageLeaves = this.attendanceCount?.find(each => each.pl);
+        const present = this.attendanceCount?.find(each => each.pt);
+        const leaveWithoutPay = this.attendanceCount?.find(each => each.lwp);
+        const workFromHome = this.attendanceCount?.find(each => each.wfh);
 
         this.barDataforAttendance = {
             labels: ['PT', 'WFH', 'PL', 'CL', 'LWP'],
