@@ -425,8 +425,8 @@ export class AdminDashboardComponent implements OnInit {
     initNotifications() {
         this.dashboardService.GetNotifications().subscribe(resp => {
             this.notifications = resp as unknown as NotificationsDto[];
-            this.hasBirthdayNotifications = this.notifications.some(employee => employee.messageType === 'Birthday');
-            this.hasHRNotifications = this.notifications.some(employee => employee.messageType !== 'Birthday');
+            this.hasBirthdayNotifications = this.notifications?.some(employee => employee.messageType === 'Birthday');
+            this.hasHRNotifications = this.notifications?.some(employee => employee.messageType !== 'Birthday');
         })
     }
 

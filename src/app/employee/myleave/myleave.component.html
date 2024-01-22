@@ -71,10 +71,13 @@
                             </ng-template>
                         </span>
                     </td>
-                    <td>{{leave.employeeName}}</td>
                     <td class="text-center">{{leave.leaveType}}</td>
                     <td class="text-center">{{leave.fromDate |date: mediumDate}}</td>
-                    <td class="text-center">{{leave.toDate |date: mediumDate}}</td>
+                    <td class="text-center">{{leave.toDate |date: mediumDate}}
+                        <span *ngIf="leave.toDate === null">
+                            {{leave.fromDate |date: mediumDate}}
+                        </span>
+                    </td>
                     <td class="text-wrap">{{leave.note}}</td>
                     <td class="text-center">
                         <span *ngIf="leave.isHalfDayLeave||!leave.isHalfDayLeave">

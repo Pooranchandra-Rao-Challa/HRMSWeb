@@ -37,7 +37,6 @@ export class MyleaveComponent {
 
   headers: ITableHeader[] = [
     { field: 'status', header: 'status', label: 'Status' },
-    { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
     { field: 'leaveType', header: 'leaveType', label: 'Leave Type' },
     { field: 'fromDate', header: 'fromDate', label: 'From Date' },
     { field: 'toDate', header: 'toDate', label: 'To Date' },
@@ -79,8 +78,6 @@ export class MyleaveComponent {
   getLeaves() {
     this.employeeService.getMyLeaves(this.jwtService.EmployeeId, this.year).subscribe((resp) => {
       this.leaves = resp as unknown as EmployeeLeaveDto[];
-      console.log(this.leaves);
-      
     })
   }
 
