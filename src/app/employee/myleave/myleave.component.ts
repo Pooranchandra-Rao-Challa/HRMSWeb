@@ -40,10 +40,10 @@ export class MyleaveComponent {
     { field: 'leaveType', header: 'leaveType', label: 'Leave Type' },
     { field: 'fromDate', header: 'fromDate', label: 'From Date' },
     { field: 'toDate', header: 'toDate', label: 'To Date' },
-    { field: 'note', header: 'note', label: 'Leave Description' },
     { field: 'isHalfDayLeave', header: 'isHalfDayLeave', label: 'Half Day Leave' },
     { field: 'isDeleted', header: 'isDeleted', label: 'Declined' },
-
+    { field: 'acceptedAt', header: 'acceptedAt', label: 'Accepted At' },
+    { field: 'approvedAt', header: 'approvedAt', label: 'Approved At' },
   ];
 
   constructor(
@@ -67,10 +67,9 @@ export class MyleaveComponent {
     this.getLeaves();
     this._selectedColumns = this.selectedColumnHeader;
     this.selectedColumnHeader = [
+      { field: 'note', header: 'note', label: 'Leave Description' },
       { field: 'acceptedBy', header: 'acceptedBy', label: 'Accepted By' },
-      { field: 'acceptedAt', header: 'acceptedAt', label: 'Accepted At' },
       { field: 'approvedBy', header: 'approvedBy', label: 'Approved By' },
-      { field: 'approvedAt', header: 'approvedAt', label: 'Approved At' },
       { field: 'createdBy', header: 'createdBy', label: 'Created By' },
     ];
   }

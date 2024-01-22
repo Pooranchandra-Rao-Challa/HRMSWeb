@@ -18,14 +18,16 @@
                 <div class="flex justify-content-between flex-column sm:flex-row">
                     <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
                         (click)="clear(dtleave)" id="clear-btn"></button>
-                    <p-multiSelect [options]="selectedColumnHeader" [(ngModel)]="selectedColumns" optionLabel="label"
-                        id="lookup_ColumnSelection" selectedItemsLabel="{0} columns selected"
-                        [style]="{'min-width': '200px'}" placeholder="Choose Columns"></p-multiSelect>
-                    <span class="p-input-icon-left mb-2">
-                        <i class="pi pi-search"></i>
-                        <input pInputText type="text" id="search-input" #filter
-                            (input)="onGlobalFilter(dtleave, $event)" placeholder="Search Keyword" class="w-full" />
-                    </span>
+                    <div class="flex gap-2">
+                        <p-multiSelect [options]="selectedColumnHeader" [(ngModel)]="selectedColumns"
+                            optionLabel="label" id="lookup_ColumnSelection" selectedItemsLabel="{0} columns selected"
+                            [style]="{'min-width': '200px'}" placeholder="Choose Columns"></p-multiSelect>
+                        <span class="p-input-icon-left mb-2">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" id="search-input" #filter
+                                (input)="onGlobalFilter(dtleave, $event)" placeholder="Search Keyword" class="w-full" />
+                        </span>
+                    </div>
                 </div>
             </ng-template>
             <ng-template pTemplate="header" let-columns>
@@ -78,7 +80,6 @@
                             {{leave.fromDate |date: mediumDate}}
                         </span>
                     </td>
-                    <td class="text-wrap">{{leave.note}}</td>
                     <td class="text-center">
                         <span *ngIf="leave.isHalfDayLeave||!leave.isHalfDayLeave">
                             <i class="fa"
@@ -94,7 +95,12 @@
                                 style="font-size:18px; vertical-align: sub;"></i>
                         </span>
                     </td>
-                    <td *ngFor="let col of columns">
+                    <td class="text-center">{{leave.acceptedAt |date: mediumDate}}</td>
+                    <td class="text-center">{{leave.approvedAt |date: mediumDate}}</td>
+                    <td *ngFor="let col of columns" [ngClass]="{ 'text-wrap': col.field === 'note'}">
+                        <span *ngIf="col?.field == 'note'">
+                            {{leave[col.field] }}
+                        </span>
                         <span
                             *ngIf="col?.field == 'acceptedBy' || col?.field == 'approvedBy'|| col?.field == 'createdBy'">
                             {{leave[col.field] }}
