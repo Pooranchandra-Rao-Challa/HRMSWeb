@@ -20,7 +20,7 @@
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
             [showCurrentPageReport]="true" [globalFilterFields]="globalFilterFields" paginatorDropdownAppendTo="body"
             scrollDirection="horizontal" [rowsPerPageOptions]="[10,25,50]" [autoLayout]="true" responsiveLayout="scroll"
-            [tableStyle]="{ width: selectedColumns? 'max-content' : 'max' }"
+            [tableStyle]="{ width:'max' }"
             >
             <ng-template pTemplate="caption">
                 <div class="flex justify-content-between flex-column sm:flex-row">
