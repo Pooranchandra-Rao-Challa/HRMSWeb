@@ -139,8 +139,8 @@ export class EmployeeDashboardComponent {
     initNotifications() {
         this.dashBoardService.GetNotifications().subscribe(resp => {
             this.notifications = resp as unknown as NotificationsDto[];
-            this.hasBirthdayNotifications = this.notifications.some(employee => employee.messageType === 'Birthday');
-            this.hasHRNotifications = this.notifications.some(employee => employee.messageType !== 'Birthday');
+            this.hasBirthdayNotifications = this.notifications?.some(employee => employee.messageType === 'Birthday');
+            this.hasHRNotifications = this.notifications?.some(employee => employee.messageType !== 'Birthday');
         })
     }
     initNotificationsBasedOnId() {
@@ -192,8 +192,9 @@ export class EmployeeDashboardComponent {
     updateProjects() {
         let projectNames = this.empDetails?.projects?.map((item) => item.projectName)
             .filter((value, index, self) => self.indexOf(value) === index);
-        projectNames?.forEach(projectName => {
-            let values = this.empDetails?.projects?.filter(fn => fn.projectName == projectName);
+            this.projects = [];
+        projectNames.forEach(projectName => {
+            let values = this.empDetails.projects.filter(fn => fn.projectName == projectName);
             let periods: { sinceFrom: Date, endAt: Date }[] = [];
             values.forEach(p => { periods.push({ sinceFrom: p.sinceFrom, endAt: p.endAt }) })
             this.projects.push(

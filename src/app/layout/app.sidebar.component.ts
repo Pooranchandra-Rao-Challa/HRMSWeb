@@ -36,8 +36,4 @@ export class AppSidebarComponent {
     anchor() {
         this.layoutService.state.anchored = !this.layoutService.state.anchored;
     }
-
-    onCalibrageLogo() {
-        this.router.navigate(['./dashboard/admin']);
-    }
 }

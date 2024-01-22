@@ -13,8 +13,8 @@ import { JwtService } from 'src/app/_services/jwt.service';
 import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 
 enum LeavesReportType {
-  YearlyLeavesReport = 'Yearly Leaves Report',
-  AsOnDate = 'As On Date'
+  CompleteLeavesReport = 'Complete Leaves Report',
+  AsOnDateLeavesReport = 'As On Date Leaves Report'
 }
 
 
@@ -153,9 +153,9 @@ export class LeaveStatisticsComponent {
   }
 
   DownloadLeavesReports(name: string) {
-    if (name == LeavesReportType.YearlyLeavesReport)
+    if (name == LeavesReportType.CompleteLeavesReport)
       this.downloadLeavesReport();
-    else if (name == LeavesReportType.AsOnDate)
+    else if (name == LeavesReportType.AsOnDateLeavesReport)
       this.downloadLeavesAsOnDate();
   }
 

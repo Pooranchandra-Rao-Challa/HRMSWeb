@@ -43,8 +43,8 @@
                     <div class="flex gap-2">
                         <div *ngIf="permissions?.CanDownloadLeaves">
                             <p-dropdown [options]="getLeavesReportTypeOptions()" optionLabel="label"
-                                placeholder="Select LeavesReport Type" (onChange)="DownloadLeavesReports($event.value)"
-                                optionValue="label" class="att_dropdown">
+                                placeholder="Select Leaves Report Type" (onChange)="DownloadLeavesReports($event.value)"
+                                optionValue="label" class="att_dropdown" [showClear]="true">
                             </p-dropdown>
                         </div>
                         <div *ngIf="permissions?.CanDownloadLeaves">
@@ -73,10 +73,10 @@
                 <tr>
                     <td *ngFor="let col of headers">
                         <span
-                            *ngIf="col?.field !== 'availableCLs' && col?.field !== 'availablePLs' || col?.field == 'name' || col?.field == 'experienceInCompany'|| col?.field == 'officeEmailId'|| col?.field == 'reportingTo'|| col?.field == 'allottedCasualLeaves'|| col?.field == 'allottedPrivilegeLeaves'|| col?.field == 'usedCasualLeavesInYear'|| col?.field == 'usedCasualLeavesInMonth'|| col?.field == 'usedPrivilegeLeavesInYear'|| col?.field == 'usedPrivilegeLeavesInMonth'|| col?.field == 'usedLWPInYear'|| col?.field == 'usedLWPInMonth'|| col?.field == 'previousYearPrivilegeLeaves'|| col?.field == 'absentsInYear' || col?.field == 'absentsInMonth' || col?.field == 'workingFromHome'">
+                            *ngIf="col?.field !== 'availableCLs' && col?.field !== 'availablePLs' && col?.field !== 'dateofJoin' || col?.field == 'name' || col?.field == 'experienceInCompany'|| col?.field == 'officeEmailId'|| col?.field == 'reportingTo'|| col?.field == 'allottedCasualLeaves'|| col?.field == 'allottedPrivilegeLeaves'|| col?.field == 'usedCasualLeavesInYear'|| col?.field == 'usedCasualLeavesInMonth'|| col?.field == 'usedPrivilegeLeavesInYear'|| col?.field == 'usedPrivilegeLeavesInMonth'|| col?.field == 'usedLWPInYear'|| col?.field == 'usedLWPInMonth'|| col?.field == 'previousYearPrivilegeLeaves'|| col?.field == 'absentsInYear' || col?.field == 'absentsInMonth' || col?.field == 'workingFromHome'">
                             {{leave[col.field]}}
                         </span>
-                        <span *ngIf=" col?.field == 'originalDOB' || col?.field == 'dateofJoin'">
+                        <span *ngIf="col?.field == 'dateofJoin'">
                             {{ leave[col.field] | date:mediumDate}}
                         </span>
                         <span *ngIf="col?.field == 'availableCLs'">
