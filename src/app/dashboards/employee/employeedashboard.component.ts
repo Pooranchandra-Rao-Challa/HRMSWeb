@@ -137,7 +137,7 @@ export class EmployeeDashboardComponent {
             let rdata = resp as unknown as any;
             if (rdata.isSuccess)
                 this.alertMessage.displayAlertMessage(ALERT_CODES["ADW001"])
-                
+
             else if (!rdata.isSuccess)
                 this.alertMessage.displayErrorMessage(rdata.message);
 
@@ -167,6 +167,7 @@ export class EmployeeDashboardComponent {
     updateProjects() {
         let projectNames = this.empDetails.projects.map((item) => item.projectName)
             .filter((value, index, self) => self.indexOf(value) === index);
+            this.projects = [];
         projectNames.forEach(projectName => {
             let values = this.empDetails.projects.filter(fn => fn.projectName == projectName);
             let periods: { sinceFrom: Date, endAt: Date }[] = [];
