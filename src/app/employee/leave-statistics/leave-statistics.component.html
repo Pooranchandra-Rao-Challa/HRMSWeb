@@ -42,9 +42,14 @@
                     </div>
                     <div class="flex gap-2">
                         <div *ngIf="permissions?.CanDownloadLeaves">
+                            <p-dropdown [options]="getLeavesReportTypeOptions()" optionLabel="label"
+                                placeholder="Select LeavesReport Type" (onChange)="DownloadLeavesReports($event.value)"
+                                optionValue="label" class="att_dropdown">
+                            </p-dropdown>
+                        </div>
+                        <div *ngIf="permissions?.CanDownloadLeaves">
                             <button pButton class="p-button doc_button" icon="icon-csv-svgrepo-com-1"
-                                pTooltip="Download Leaves Report" tooltipPosition="left"
-                                (click)="downloadLeavesReport()"></button>
+                                pTooltip="Download Leaves Report" tooltipPosition="left"></button>
                         </div>
                         <span class="p-input-icon-left mb-2">
                             <i class="pi pi-search"></i>

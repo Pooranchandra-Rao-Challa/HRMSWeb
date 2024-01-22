@@ -93,6 +93,12 @@ export class ApiHttpService {
         );
     }
 
+    public downloadExcelforLeavesAsOnDate<T>(uri: any) {
+        const endpointUrl = URI_ENDPOINT(uri);
+        let headers = {TOKEN_KEY:this.jwtService.JWTToken};
+        return this.http.get(endpointUrl,{ observe: "events",reportProgress:true, responseType: "arraybuffer", headers: headers })
+    }
+    
     public downloadExcel<T>(uri: any,rParams:any[]) {
         const endpointUrl = URI_ENDPOINT_WITH_PARAMS(uri,rParams);
         let headers = {TOKEN_KEY:this.jwtService.JWTToken};

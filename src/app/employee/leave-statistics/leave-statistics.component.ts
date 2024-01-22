@@ -12,6 +12,12 @@ import * as FileSaver from "file-saver";
 import { JwtService } from 'src/app/_services/jwt.service';
 import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 
+enum LeavesReportType {
+  YearlyLeavesReport = 'Yearly Leaves Report',
+  AsOnDate = 'As On Date'
+}
+
+
 @Component({
   selector: 'app-leave-statistics',
   templateUrl: './leave-statistics.component.html',
@@ -129,6 +135,38 @@ export class LeaveStatisticsComponent {
           FileSaver.saveAs(document, "Leaves Statistics Report.csv");
         }
       })
+  }
+
+  downloadLeavesAsOnDate(){
+    this.reportService.DownloadLeavesAsOnDate()
+    .subscribe((resp) => {
+      if (resp.type === HttpEventType.DownloadProgress) {
+        const percentDone = Math.round(100 * resp.loaded / resp.total);
+        this.value = percentDone;
+      }
+      if (resp.type === HttpEventType.Response) {
+        const file = new Blob([resp.body], { type: 'text/csv' });
+        const document = window.URL.createObjectURL(file);
+        FileSaver.saveAs(document, "Leaves Statistics Report As On Date.csv");
+      }
+    })
+  }
+
+  DownloadLeavesReports(name: string) {
+    if (name == LeavesReportType.YearlyLeavesReport)
+      this.downloadLeavesReport();
+    else if (name == LeavesReportType.AsOnDate)
+      this.downloadLeavesAsOnDate();
+  }
+
+  getLeavesReportTypeOptions() {
+    const options = [];
+    for (const key in LeavesReportType) {
+      if (LeavesReportType.hasOwnProperty(key)) {
+        options.push({ label: LeavesReportType[key], value: key });
+      }
+    }
+    return options;
   }
 
   openComponentDialog(content: any,
