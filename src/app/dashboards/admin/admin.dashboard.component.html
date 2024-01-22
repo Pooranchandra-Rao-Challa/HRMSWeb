@@ -162,8 +162,9 @@
                                     height="200px" width="100%"></p-chart>
                             </li> -->
                             <div class="d-leave" *ngIf="this.attendanceCount?.length > 0; else noDataMessage">
-                                <p-chart class="d-leave-font" type="bar" [data]="barDataforAttendance" [options]="barOptionsforAttendance"
-                                    height="250px" width="100%" (onDataSelect)="onChartClick($event)"></p-chart>
+                                <p-chart class="d-leave-font" type="bar" [data]="barDataforAttendance"
+                                    [options]="barOptionsforAttendance" height="250px" width="100%"
+                                    (onDataSelect)="onChartClick($event)"></p-chart>
                             </div>
                             <ng-template #noDataMessage>
                                 <div class="text-center mt-5">
@@ -190,7 +191,7 @@
                                     <ng-container *ngIf="employeeCount.length>0; else noDataTemplate">
                                         <span *ngIf="chart == 'Date'">
                                             <p-table #employeeTable [value]="employeeCount" [paginator]="true"
-                                                [rows]="6" [responsive]="true"
+                                                [rows]="6" [responsive]="true" [alwaysShowPaginator]="false"
                                                 styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm">
                                                 <ng-template pTemplate="header">
                                                     <tr>
@@ -369,12 +370,12 @@
             </div>
         </div>
         <div class="card employee_card_dashboard2">
-            <p-fieldset legend="HR Notifications" [collapsed]="false" [toggleable]="true"
-                class="line-height-3 m-0 mb-2 dashboard_fieldset">
+            <p-fieldset legend="HR Notifications" [toggleable]="true" [collapsed]="!fieldset1Open"
+                (onAfterToggle)="toggleFieldset('HR Notifications')" class="line-height-3 m-0 mb-2 dashboard_fieldset ">
                 <ul class="list-none p-0 overflow-auto" style=" max-height: 10.745rem;"
-                    *ngIf="notifications && notifications?.length > 0 ; else noHRTemplate">
+                    *ngIf="notifications && notifications?.length > 0 && hasHRNotifications ; else noHRTemplate">
                     <div class="" *ngFor="let employee of notifications">
-                        <li class="border-round-lg p-3 mb-1" *ngIf="employee.messageType !=='Birthday'"
+                        <li class="border-round-lg p-3 mb-1" *ngIf="employee.messageType !='Birthday'"
                             style="background-color: var(--primary-lighter-color)">
                             <div class="flex justify-content-between align-items-center mb-1">
                                 <div class="flex align-items-center  w-100 gap-1">
@@ -390,8 +391,9 @@
                         </li>
                     </div>
                 </ul>
+
                 <ng-template #noHRTemplate>
-                    <li class="border-round-lg pt-2 px-3 pb-2 mb-3"
+                    <li class="list-none border-round-lg pt-2 px-3 pb-2 mb-3"
                         style="background-color: var(--primary-lighter-color)">
                         <div class="text-center m-3">
                             <p class="m-0">There is no HR Notifications.</p>
@@ -399,81 +401,84 @@
                     </li>
                 </ng-template>
             </p-fieldset><br />
-            <p-fieldset legend="Birthday Greetings" [collapsed]="true" [toggleable]="true"
-                class="line-height-3 m-0 mb-2 dashboard_fieldset">
+            <p-fieldset legend="Today Birthday" [toggleable]="true" [collapsed]="!fieldset2Open"
+                (onAfterToggle)="toggleFieldset('Today Birthday')" class="line-height-3 m-0 dashboard_fieldset ">
                 <div class="overflow-auto" style="max-height:10rem;">
-                    <div>
-                        <ul class="list-none p-0 overflow-auto"
-                            *ngIf="notifications && notifications?.length > 0; else noBirthdaysTemplate">
-                            <div class="" *ngFor="let employee of notifications">
-                                <li class="border-round-lg pt-2 px-3 pb-2 mb-1"
-                                    *ngIf="employee.messageType =='Birthday'"
-                                    style="background-color: var(--primary-lighter-color)">
-                                    <div class="flex  align-items-center mb-0">
-                                        <span class="text-primary" style="width:10%;"><i
-                                                class="pi icon-cake"></i></span>
-                                        <div style="width:80%;" class="flex align-items-center gap-1">
-                                            <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-blue-300" class="inline-block"
-                                                value="{{employee?.code}}"></p-tag>
-                                            <h6 class="line-height-3 m-0 font-medium">{{employee?.employeeName}}</h6>
 
-                                        </div>
-                                        <div style="width:30%;"
-                                            *ngIf="EmployeeId && EmployeeId != employee?.employeeId && permissions?.CanSendBirthdayWishes">
-                                            <button type="button" pButton icon="pi icon-redeem"
-                                                class="p-button-rounded p-button-text p-button-sm flex-shrink-0"
-                                                (click)="showBirthdayDialog(employee)">&nbsp; Send Greetings </button>
-                                        </div>
+                    <ul class="list-none p-0 overflow-auto"
+                        *ngIf="notifications && notifications?.length > 0&& hasBirthdayNotifications; else noBirthdaysTemplate">
+                        <div class="" *ngFor="let employee of notifications">
+                            <li class="border-round-lg pt-2 px-3 pb-2 mb-1" *ngIf="employee.messageType =='Birthday'"
+                                style="background-color: var(--primary-lighter-color)">
+                                <div class="flex  align-items-center mb-0">
+                                    <span class="text-primary" style="width:10%;"><i class="pi icon-cake"></i></span>
+                                    <div style="width:80%;" class="flex align-items-center gap-1">
+                                        <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-blue-300" *ngIf="employee.code"
+                                            class="inline-block" value="{{employee?.code}}"></p-tag>
+                                        <h6 class="line-height-3 m-0 font-medium">
+                                            {{employee?.employeeName}}</h6>
+
                                     </div>
+                                    <div style="width:30%;"
+                                        *ngIf="EmployeeId && EmployeeId != employee?.employeeId && permissions?.CanSendBirthdayWishes">
+                                        <button type="button" pButton icon="pi icon-redeem"
+                                            class="p-button-rounded p-button-text p-button-sm flex-shrink-0"
+                                            (click)="showBirthdayDialog(employee)">&nbsp; Send Greetings </button>
+                                    </div>
+                                </div>
 
-                                </li>
-                            </div>
-                        </ul>
-                    </div>
+                            </li>
+                        </div>
+
+                    </ul>
+
                     <ng-template #noBirthdaysTemplate>
-                        <li class="border-round-lg pt-2 px-3 pb-2 mb-3"
+                        <li class="list-none border-round-lg pt-2 px-3 pb-2 mb-3"
                             style="background-color: var(--primary-lighter-color)">
                             <div class="text-center m-3">
                                 <p class="m-0">Today, there is no Employee birthdays .</p>
                             </div>
                         </li>
                     </ng-template>
-                    <ul class="list-none p-0 overflow-auto"
-                        *ngIf="notificationReplies && notificationReplies.length > 0">
-                        <div *ngIf="notificationReplies && notificationReplies?.length > 0 ; else nobdTemplate">
-                            <div *ngFor="let employee of notificationReplies">
-                                <ul class="list-none p-0 overflow-auto">
-                                    <li class="border-round-lg pt-2 px-3 pb-2 mb-1"
-                                        style="background-color: var(--primary-lighter-color)">
-                                        <div class="flex justify-content-between align-items-center mb-1">
-                                            <div class="flex align-items-center gap-1">
-                                                <h6 class="line-height-3 m-0 font-medium font-medium">Birthday Wishes
-                                                    from <b>{{employee?.employeeName}}.</b></h6>
-                                                <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-orange-300"
-                                                    class="inline-block" value="#05895"></p-tag>
-                                            </div>
-                                        </div>
-                                        <div class="flex justify-content-between align-items-center">
-                                            <span
-                                                class="mt-1 text-400 block text-sm line-height-2  overflow-hidden text-overflow-ellipsis">
-                                                {{employee?.message}}
-                                            </span>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <ng-template #nobdTemplate>
-                            <li class="border-round-lg pt-2 px-3 pb-2 mb-3"
-                                style="background-color: var(--primary-lighter-color)">
-                                <div class="text-center m-3">
-                                    <p class="m-0">There is no Birthday Greetings.</p>
-                                </div>
-                            </li>
-                        </ng-template>
-                    </ul>
                 </div>
             </p-fieldset>
+            <br />
+            <p-fieldset *ngIf="notificationReplies && notificationReplies.length > 0" legend="Greetings"
+                [toggleable]="true" [collapsed]="!fieldset3Open" (onAfterToggle)="toggleFieldset('Greetings')"
+                class="line-height-3 m-0 mb-2 dashboard_fieldset ">
+                <ul class="list-none p-0 overflow-auto" style=" max-height: 10.745rem;"
+                    *ngIf="notificationReplies && notificationReplies.length > 0 ; else noHRTemplate">
+                    <div class="" *ngFor="let employee of notificationReplies">
+                        <li class="border-round-lg pt-2 px-3 pb-2 mb-1"
+                            style="background-color: var(--primary-lighter-color)">
+                            <div class="flex justify-content-between align-items-center mb-1">
+                                <div class="flex align-items-center gap-1">
+                                    <h6 class="line-height-3 m-0 font-medium font-medium">
+                                        Birthday Wishes
+                                        from <b>{{employee?.employeeName}}.</b></h6>
+                                    <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-orange-300" *ngIf="employee.code"
+                                        class="inline-block" value="{{employee?.code}}"></p-tag>
+                                </div>
+                            </div>
+                            <div class="flex justify-content-between align-items-center">
+                                <span
+                                    class="mt-1 text-400 block text-sm line-height-2  overflow-hidden text-overflow-ellipsis">
+                                    {{employee?.message}}
+                                </span>
+                            </div>
+                        </li>
+                    </div>
+                </ul>
+
+                <ng-template #noHRTemplate>
+                    <li class="border-round-lg pt-2 px-3 pb-2 mb-3"
+                        style="background-color: var(--primary-lighter-color)">
+                        <div class="text-center m-3">
+                            <p class="m-0">There is no Birthday Greetings.</p>
+                        </div>
+                    </li>
+                </ng-template>
+            </p-fieldset><br />
         </div>
     </div>
 </div>
@@ -481,9 +486,14 @@
 <p-dialog header="Send Wishes" [(visible)]="wishesDialog" [modal]="true" showEffect="fade"
     [breakpoints]="{'960px': '40%', '640px': '50%'}" class="confirmation_dialog">
     <form [formGroup]="fbWishes">
-        <textarea id="comment" rows="3" placeholder="Enter Wishes" pInputTextarea formControlName="message"
-            class="freeze_text-area col-12 mb-1" [maxLength]="256">
-</textarea>
+        <div class="col-12 ">
+            <textarea id="mytextarea" type="text" #Wishes rows="3" placeholder="Enter Wishes" pInputTextarea
+                formControlName="message" class="freeze_text-area col-12 mb-1" [maxLength]="256">
+            </textarea>
+            <div class="align-right w-40" style="width:100%; text-align:right;">
+                <small>{{Wishes.value.length}}/256</small>
+            </div>
+        </div>
     </form>
     <ng-template pTemplate="footer">
         <div style="float:right" class="p-2">

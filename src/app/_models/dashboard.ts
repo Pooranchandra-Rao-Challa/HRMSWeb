@@ -63,6 +63,7 @@ export class NotificationsDto {
     messageTypeId?: number
 }
 export class NotificationsRepliesDto {
+    code?:string
     employeeId?: number
     employeeName?: string
     isActive?:boolean

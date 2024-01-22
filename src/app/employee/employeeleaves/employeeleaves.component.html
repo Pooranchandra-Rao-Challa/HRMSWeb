@@ -15,11 +15,13 @@
         </p-toolbar>
         <!-- p-table -->
         <p-table id="table" #dtleave [value]="leaves" dataKey="id" [rows]="10" [rowHover]="true"
-            [alwaysShowPaginator]="false" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
-            [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            styleClass="p-datatable-gridlines  p-datatable-sm" [style]="{width: 'auto'}" rowExpandMode="single"
+            [alwaysShowPaginator]="false" [paginator]="true" [columns]="selectedColumns"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
             [showCurrentPageReport]="true" [globalFilterFields]="globalFilterFields" paginatorDropdownAppendTo="body"
             scrollDirection="horizontal" [rowsPerPageOptions]="[10,25,50]" [autoLayout]="true" responsiveLayout="scroll"
-            [tableStyle]="{ width: 'max-content'}">
+            [tableStyle]="{ width:'max' }"
+            >
             <ng-template pTemplate="caption">
                 <div class="flex justify-content-between flex-column sm:flex-row">
                     <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
@@ -50,6 +52,9 @@
                                 pTooltip="Download Leaves Report" tooltipPosition="left"
                                 (click)="downloadEmployeeLeavesReport()"></button>
                         </div>
+                        <p-multiSelect [options]="selectedColumnHeader" [(ngModel)]="selectedColumns"
+                            optionLabel="label" id="lookup_ColumnSelection" selectedItemsLabel="{0} columns selected"
+                            [style]="{'min-width': '200px'}" placeholder="Choose Columns"></p-multiSelect>
                         <span class="p-input-icon-left mb-2">
                             <i class="pi pi-search"></i>
                             <input pInputText type="text" id="search-input" #filter
@@ -58,7 +63,7 @@
                     </div>
                 </div>
             </ng-template>
-            <ng-template pTemplate="header">
+            <ng-template pTemplate="header" let-columns>
                 <tr>
                     <th *ngIf="permissions?.CanManageLeave || permissions?.CanDeleteLeaves" pFrozenColumn
                         alignFrozen="right" [frozen]="true" pFrozenColumn> Actions
@@ -69,9 +74,15 @@
                         </p-columnFilter>
                         <p-sortIcon [field]="col.header"></p-sortIcon>
                     </th>
+                    <th *ngFor="let col of columns" [pSortableColumn]="col.header">
+                        {{col?.label}}
+                        <p-columnFilter id="LEAVE_leaveColumnFilter" type="text" [field]="col.header" display="menu">
+                        </p-columnFilter>
+                        <p-sortIcon [field]="col.header"></p-sortIcon>
+                    </th>
                 </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-leave>
+            <ng-template pTemplate="body" let-leave let-columns="columns">
                 <tr [ngClass]="{'read-only-row': leave?.isDeleted == true}">
                     <td pFrozenColumn alignFrozen="right" [frozen]="true">
                         <div *ngIf="permissions?.CanManageLeave" style="display:flex" class="pb-2">
@@ -92,31 +103,8 @@
 
                         </div>
                     </td>
-                    <td *ngFor="let col of headers"
-                        [ngClass]="{'text-center': col?.field == 'status' || col?.field == 'isHalfDayLeave' || col?.field == 'isDeleted','text-wrap':col.field === 'note'}">
-                        <span
-                            *ngIf=" col?.field == 'employeeName' || col?.field == 'note'||col?.field == 'acceptedBy'  || col?.field == 'approvedBy'||col?.field =='createdAt' || col?.field == 'createdBy'">
-                            {{leave[col.field]}}
-                        </span>
-                        <span
-                            *ngIf="col?.field == 'fromDate' || col?.field == 'toDate'|| col?.field == 'acceptedAt' || col?.field == 'approvedAt'">
-                            {{leave[col.field] | date: mediumDate}}
-                        </span>
-                        <span *ngIf=" col?.field == 'leaveType'">
-                            {{ leave[col.field]}}
-                        </span>
-                        <span *ngIf="col?.field === 'isHalfDayLeave'">
-                            <i class="fa"
-                                [ngClass]="{'fa-check': leave['isHalfDayLeave'], 'fa-close': !leave['isHalfDayLeave']}"
-                                [style.color]="leave['isHalfDayLeave'] ? '#119e2f' : '#e24c4c'"
-                                style="font-size:18px; vertical-align: sub;"></i>
-                        </span>
-                        <span *ngIf="col?.field === 'isDeleted'">
-                            <i class="fa" [ngClass]="{'fa-check': leave['isDeleted'], 'fa-close': !leave['isDeleted']}"
-                                [style.color]="leave['isDeleted'] ? '#119e2f' : '#e24c4c'"
-                                style="font-size:18px; vertical-align: sub;"></i>
-                        </span>
-                        <span *ngIf="col?.field == 'status'">
+                    <td class="text-center">
+                        <span *ngIf="leave.status">
                             <ng-container *ngIf="leave.status === 'Approved'; else falseBlock">
                                 <i class="pi pi-check text-green-500"></i>
                             </ng-container>
@@ -128,6 +116,35 @@
                                     <i class="pi pi-spin pi-spinner text-primary"></i>
                                 </ng-template>
                             </ng-template>
+                        </span>
+                    </td>
+                    <td>{{leave.employeeName}}</td>
+                    <td class="text-center">{{leave.leaveType}}</td>
+                    <td class="text-center">{{leave.fromDate |date: mediumDate}}</td>
+                    <td class="text-center">{{leave.toDate |date: mediumDate}}</td>
+                    <td class="text-wrap">{{leave.note}}</td>
+                    <td class="text-center">
+                        <span *ngIf="leave.isHalfDayLeave">
+                            <i class="fa"
+                                [ngClass]="{'fa-check': leave['isHalfDayLeave'], 'fa-close': !leave['isHalfDayLeave']}"
+                                [style.color]="leave['isHalfDayLeave'] ? '#119e2f' : '#e24c4c'"
+                                style="font-size:18px; vertical-align: sub;"></i>
+                        </span>
+                    </td>
+                    <td class="text-center">
+                        <span *ngIf="leave.isDeleted">
+                            <i class="fa" [ngClass]="{'fa-check': leave['isDeleted'], 'fa-close': !leave['isDeleted']}"
+                                [style.color]="leave['isDeleted'] ? '#119e2f' : '#e24c4c'"
+                                style="font-size:18px; vertical-align: sub;"></i>
+                        </span>
+                    </td>
+                    <td *ngFor="let col of columns">
+                        <span
+                            *ngIf="col?.field == 'acceptedBy' || col?.field == 'approvedBy'|| col?.field == 'createdBy'">
+                            {{leave[col.field] }}
+                        </span>
+                        <span *ngIf=" col?.field == 'acceptedAt'|| col?.field == 'approvedAt'">
+                            {{leave[col.field] | date: mediumDate }}
                         </span>
                     </td>
                 </tr>

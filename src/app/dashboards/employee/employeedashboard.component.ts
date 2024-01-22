@@ -52,6 +52,11 @@ export class EmployeeDashboardComponent {
     wishesDialog: boolean;
     years: any
     projects: { name: string, projectLogo: string, description: string, projectId: number, periods: { sinceFrom: Date, endAt: Date }[] }[] = [];
+    fieldset1Open = true;
+    fieldset2Open = false;
+    fieldset3Open = false;
+    hasBirthdayNotifications: any;
+    hasHRNotifications: any;
 
     constructor(private dashBoardService: DashboardService,
         private adminService: AdminService,
@@ -90,12 +95,27 @@ export class EmployeeDashboardComponent {
             isActive: new FormControl(true),
         })
     }
+
     getHoliday(): void {
         if (this.selectedYear) {
             const year = this.selectedYear.year;
             this.adminService.GetHolidays(year).subscribe((resp) => {
                 this.holidays = resp as unknown as HolidaysViewDto[];
             });
+        }
+    }
+    toggleFieldset(legend: string): void {
+        const fieldsets = ['HR Notifications', 'Today Birthday', 'Greetings'];
+
+        // Close all fieldsets
+        this.fieldset1Open = false;
+        this.fieldset2Open = false;
+        this.fieldset3Open = false;
+
+        // Open the selected fieldset
+        const index = fieldsets.indexOf(legend);
+        if (index !== -1) {
+            this[`fieldset${index + 1}Open`] = true;
         }
     }
 
@@ -119,18 +139,23 @@ export class EmployeeDashboardComponent {
     initNotifications() {
         this.dashBoardService.GetNotifications().subscribe(resp => {
             this.notifications = resp as unknown as NotificationsDto[];
+            this.hasBirthdayNotifications = this.notifications.some(employee => employee.messageType === 'Birthday');
+            this.hasHRNotifications = this.notifications.some(employee => employee.messageType !== 'Birthday');
         })
     }
     initNotificationsBasedOnId() {
         this.dashBoardService.GetNotificationsBasedOnId(this.jwtService.EmployeeId).subscribe(resp => {
             this.notificationReplies = resp as unknown as NotificationsRepliesDto[];
+
         })
     }
 
     showBirthdayDialog(data: any) {
+        this.fbWishes.reset();
         this.wishesDialog = true;
         this.fbWishes.get('notificationId').setValue(data.notificationId);
         this.fbWishes.get('employeeId').setValue(this.jwtService.EmployeeId);
+        this.fbWishes.get('isActive').setValue(true);
     }
     onSubmit() {
         this.dashBoardService.sendBithdayWishes(this.fbWishes.value).subscribe(resp => {
@@ -165,7 +190,7 @@ export class EmployeeDashboardComponent {
     }
 
     updateProjects() {
-        let projectNames = this.empDetails.projects.map((item) => item.projectName)
+        let projectNames = this.empDetails?.projects?.map((item) => item.projectName)
             .filter((value, index, self) => self.indexOf(value) === index);
             this.projects = [];
         projectNames.forEach(projectName => {

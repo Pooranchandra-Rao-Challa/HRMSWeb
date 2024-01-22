@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { Table } from 'primeng/table';
 import { Actions, ConfirmationRequest, DialogRequest, ITableHeader } from 'src/app/_models/common';
 import { GlobalFilterService } from 'src/app/_services/global.filter.service';
@@ -43,7 +43,9 @@ export class EmployeeLeavesComponent {
   permissions: any;
   buttonLabel: string;
   year: number = new Date().getFullYear();
-  month:number =new Date().getMonth() + 1;
+  month: number = new Date().getMonth() + 1;
+  selectedColumnHeader!: ITableHeader[];
+  _selectedColumns!: ITableHeader[];
   days: number[] = [];
   selectedMonth: Date;
   confirmationRequest: ConfirmationRequest = new ConfirmationRequest();
@@ -57,11 +59,7 @@ export class EmployeeLeavesComponent {
     { field: 'note', header: 'note', label: 'Leave Description' },
     { field: 'isHalfDayLeave', header: 'isHalfDayLeave', label: 'Half Day Leave' },
     { field: 'isDeleted', header: 'isDeleted', label: 'Is Deleted' },
-    { field: 'acceptedBy', header: 'acceptedBy', label: 'Accepted By' },
-    { field: 'acceptedAt', header: 'acceptedAt', label: 'Accepted At' },
-    { field: 'approvedBy', header: 'approvedBy', label: 'Approved By' },
-    { field: 'approvedAt', header: 'approvedAt', label: 'Approved At' },
-    { field: 'createdBy', header: 'createdBy', label: 'Created By' },
+
   ];
   value: number;
 
@@ -69,7 +67,7 @@ export class EmployeeLeavesComponent {
     private globalFilterService: GlobalFilterService,
     private employeeService: EmployeeService,
     private dialogService: DialogService,
-    private reportService:ReportService,
+    private reportService: ReportService,
     public ref: DynamicDialogRef,
     private formbuilder: FormBuilder,
     private jwtService: JwtService,
@@ -78,15 +76,30 @@ export class EmployeeLeavesComponent {
     private confirmationDialogService: ConfirmationDialogService) {
   }
 
+  set selectedColumns(val: any[]) {
+    this._selectedColumns = this.selectedColumnHeader.filter((col) => val.includes(col));
+  }
+  @Input() get selectedColumns(): any[] {
+    return this._selectedColumns;
+  }
+
   ngOnInit(): void {
     this.permissions = this.jwtService.Permissions;
     this.getLeaves();
     this.getDaysInMonth(this.year, this.month);
     this.leaveForm();
+    this._selectedColumns = this.selectedColumnHeader;
+    this.selectedColumnHeader = [
+      { field: 'acceptedBy', header: 'acceptedBy', label: 'Accepted By' },
+      { field: 'acceptedAt', header: 'acceptedAt', label: 'Accepted At' },
+      { field: 'approvedBy', header: 'approvedBy', label: 'Approved By' },
+      { field: 'approvedAt', header: 'approvedAt', label: 'Approved At' },
+      { field: 'createdBy', header: 'createdBy', label: 'Created By' },
+    ];
   }
 
   getLeaves() {
-    this.employeeService.getEmployeeLeaveDetails(this.month,this.year).subscribe((resp) => {
+    this.employeeService.getEmployeeLeaveDetails(this.month, this.year).subscribe((resp) => {
       this.leaves = resp as unknown as EmployeeLeaveDto[];
     })
   }
@@ -168,7 +181,7 @@ export class EmployeeLeavesComponent {
   openSweetAlert(title: string, leaves: EmployeeLeaveDto) {
     const buttonLabel = title === 'Reason For Approve' ? 'Approve' : 'Reject';
     this.leaveConfirmationService.openDialogWithInput(title, buttonLabel).subscribe((result) => {
-       if (result && result.description || result.description !== undefined) {
+      if (result && result.description || result.description !== undefined) {
         this.leaveData = leaves;
         this.selectedAction = title
         const acceptedBy = this.selectedAction === 'Reason For Approve' ? this.jwtService.UserId : null;
@@ -204,7 +217,7 @@ export class EmployeeLeavesComponent {
             }
           }
         })
-       }
+      }
     });
   }
 
@@ -216,10 +229,9 @@ export class EmployeeLeavesComponent {
     return this.employeeService.UpdateEmployeeLeaveDetails(this.fbLeave.value);
   }
 
-  downloadEmployeeLeavesReport(){
-    this.reportService.DownloadEmployeeLeaves(this.month,this.year)
-    .subscribe( (resp)=>
-      {
+  downloadEmployeeLeavesReport() {
+    this.reportService.DownloadEmployeeLeaves(this.month, this.year)
+      .subscribe((resp) => {
         if (resp.type === HttpEventType.DownloadProgress) {
           const percentDone = Math.round(100 * resp.loaded / resp.total);
           this.value = percentDone;
@@ -229,24 +241,24 @@ export class EmployeeLeavesComponent {
           const document = window.URL.createObjectURL(file);
           FileSaver.saveAs(document, "LeavesReport.csv");
         }
-    })
+      })
   }
 
   deleteleaveDetails(employeeLeaveId) {
     this.confirmationDialogService.comfirmationDialog(this.confirmationRequest).subscribe(userChoice => {
       if (userChoice) {
         this.employeeService.DeleteleaveDetails(employeeLeaveId).subscribe((resp) => {
-            if (resp) {
-                this.alertMessage.displayAlertMessage(ALERT_CODES["ELA003"]);
-                this.getLeaves();
-            }
-            else {
-                this.alertMessage.displayErrorMessage(ALERT_CODES["ELA004"]);
-            }
+          if (resp) {
+            this.alertMessage.displayAlertMessage(ALERT_CODES["ELA003"]);
+            this.getLeaves();
+          }
+          else {
+            this.alertMessage.displayErrorMessage(ALERT_CODES["ELA004"]);
+          }
         })
-    }
+      }
     });
-}
+  }
 
   openComponentDialog(content: any,
     dialogData, action: Actions = this.ActionTypes.add) {

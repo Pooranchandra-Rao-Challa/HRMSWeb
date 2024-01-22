@@ -44,7 +44,11 @@ export class AdminDashboardComponent implements OnInit {
     fbWishes!: FormGroup;
     permissions: any;
     shouldDisplayMessage: boolean = false;
-
+    hasBirthdayNotifications: any;
+    hasHRNotifications: any;
+    fieldset1Open = true;
+    fieldset2Open = false;
+    fieldset3Open = false;
 
     constructor(private dashboardService: DashboardService,
         private router: Router,
@@ -81,7 +85,20 @@ export class AdminDashboardComponent implements OnInit {
         this.selectedDate = previousDay;
         this.getAttendanceCountsBasedOnType();
     }
+    toggleFieldset(legend: string): void {
+        const fieldsets = ['HR Notifications', 'Today Birthday', 'Greetings'];
 
+        // Close all fieldsets
+        this.fieldset1Open = false;
+        this.fieldset2Open = false;
+        this.fieldset3Open = false;
+
+        // Open the selected fieldset
+        const index = fieldsets.indexOf(legend);
+        if (index !== -1) {
+            this[`fieldset${index + 1}Open`] = true;
+        }
+    }
     onDaySelect(event) {
         this.selectedDate = DATE_FORMAT(new Date(event));
         this.getAttendanceCountsBasedOnType();
@@ -246,13 +263,38 @@ export class AdminDashboardComponent implements OnInit {
             },
             plugins: {
                 legend: {
-                    display: false,
+                    display: true,
+                    position: 'bottom',
                     labels: {
                         display: true,
                         usePointStyle: true,
+                        generateLabels: function (chart) {
+                            const data = chart.data;
+                            if (data.labels.length && data.datasets.length) {
+                                return data.labels.reduce(function (labels, label, i) {
+                                    const dataset = data.datasets[0];
+                                    const value = dataset.data[i];
+                                    if (!isNaN(value)) {
+                                        labels.push({
+                                            text: label,
+                                            fillStyle: dataset.backgroundColor[i],
+                                            hidden: isNaN(value),
+                                            lineCap: dataset.borderCapStyle,
+                                            lineDash: dataset.borderDash,
+                                            lineDashOffset: dataset.borderDashOffset,
+                                            lineJoin: dataset.borderJoinStyle,
+                                            lineWidth: dataset.borderWidth,
+                                            strokeStyle: dataset.borderColor[i],
+                                            pointStyle: dataset.pointStyle,
+                                        });
+                                    }
+                                    return labels;
+                                }, []);
+                            }
+                            return [];
+                        },
                     },
-                    position: 'bottom'
-                }
+                },
             },
             scales: {
                 y: {
@@ -310,7 +352,7 @@ export class AdminDashboardComponent implements OnInit {
                         } else if (this.chart === 'Year') {
                             this.dashboardService.GetEmployeeAttendanceCount(this.chart, this.year, lookupDetailId)
                                 .subscribe((resp) => {
-                                    this.employeeCount = resp as unknown as EmployeesofAttendanceCountsViewDto[];                                    
+                                    this.employeeCount = resp as unknown as EmployeesofAttendanceCountsViewDto[];
                                     this.employeeCount.forEach(emp => {
                                         const date = new Date(emp.value);
                                         if (isNaN(date.getTime())) {
@@ -383,6 +425,8 @@ export class AdminDashboardComponent implements OnInit {
     initNotifications() {
         this.dashboardService.GetNotifications().subscribe(resp => {
             this.notifications = resp as unknown as NotificationsDto[];
+            this.hasBirthdayNotifications = this.notifications.some(employee => employee.messageType === 'Birthday');
+            this.hasHRNotifications = this.notifications.some(employee => employee.messageType !== 'Birthday');
         })
     }
 
@@ -401,10 +445,12 @@ export class AdminDashboardComponent implements OnInit {
         })
     }
     showBirthdayDialog(data: any) {
+        this.fbWishes.reset();
         if (this.jwtService.EmployeeId) {
             this.wishesDialog = true;
             this.fbWishes.get('notificationId').setValue(data.notificationId);
             this.fbWishes.get('employeeId').setValue(this.jwtService.EmployeeId);
+            this.fbWishes.get('isActive').setValue(true);
         } else {
             this.wishesDialog = false;
         }
@@ -413,10 +459,10 @@ export class AdminDashboardComponent implements OnInit {
     onSubmit() {
         this.dashboardService.sendBithdayWishes(this.fbWishes.value).subscribe(resp => {
             let rdata = resp as unknown as any;
-            if (rdata.isSuccess) {  
+            if (rdata.isSuccess) {
                 this.alertMessage.displayAlertMessage(ALERT_CODES["ADW001"])
             }
-            else if (!rdata.isSuccess) {  
+            else if (!rdata.isSuccess) {
                 this.alertMessage.displayErrorMessage(rdata.message);
             }
             this.wishesDialog = false;
@@ -427,7 +473,7 @@ export class AdminDashboardComponent implements OnInit {
     onClose() {
         this.wishesDialog = false;
     }
-  
+
 }
 
 
