@@ -13,7 +13,8 @@
     <div class="topbar-end">
 
         <ul class="topbar-menu">
-            <h6 class="m-2">{{loggedInUser}}</h6>
+            <h6 class="m-2" *ngIf="!this.EmployeeId">{{loggedInUser}}</h6>
+            <h6 class="m-2">{{employeeDtls?.employeeName}}</h6>
             <li class="topbar-item">
                 <a pStyleClass="@next" enterClass="ng-hidden" enterActiveClass="px-scalein" leaveToClass="ng-hidden"
                     leaveActiveClass="px-fadeout" [hideOnOutsideClick]="true" pRipple class="cursor-pointer">

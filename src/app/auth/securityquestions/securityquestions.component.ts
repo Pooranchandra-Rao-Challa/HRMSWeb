@@ -8,6 +8,7 @@ import { SecurityService } from 'src/app/_services/security.service';
 import { Table } from 'primeng/table';
 import { Router } from '@angular/router';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
+import { environment } from 'src/environments/environment';
 
 export interface IHeader {
     field: string;
@@ -135,7 +136,11 @@ export class SecurityquestionsComponent {
                 if (resp) {
                     this.alertMessage.displayAlertMessage(ALERT_CODES["SCUQ001"]);
                     this.securityDto = [];
-                    this.router.navigate(['./dashboard/admin']);
+                    let redirectUrl = environment.AdminDashboard;
+                    if (this.jwtService.IsSelfEmployee)
+                        redirectUrl = environment.EmployeeDashboard;
+                    this.router.navigate([redirectUrl]);
+                    // this.router.navigate(['./dashboard/admin']);
                 }
                 else {
                     this.alertMessage.displayErrorMessage(ALERT_CODES["SCUQ002"]);
