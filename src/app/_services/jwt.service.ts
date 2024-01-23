@@ -119,5 +119,9 @@ export class JwtService {
         else
             return true;
     }
+
+    public get IsAdminEmployee(): boolean{
+        return this.Permissions.CanManageAdminDashboard;
+    }
 }
 
