@@ -61,143 +61,112 @@
                     </span> -->
                 </div>
             </div>
-            <div class="col-12 md:col-8 lg:col-2">
+            <div class="col-12 md:col-8 lg:col-4">
                 <div class="grid" style="margin: -1rem">
                     <div class="col-12 sm:col-12">
-                        <div class="card text-0 flex justify-content-between pt-4 h-full"
-                            style="background-color: var(--primary-color); ">
-                            <div class="overview-info">
-                                <h6 class="m-0 mb-1 text-0">Current PL Balance </h6>
-                                <h1 class="m-0 text-0">{{ empDetails?.usedPrivilegeLeavesInYear}}/{{
-                                    empDetails?.allottedPrivilegeLeaves}}</h1>
+                        <div class="card-headr chart_head gap-2 ">
+                            <div class="card-title text-center">
+                                <h6 class="m-0">PL's </h6>
                             </div>
-                            <i class="icon-leave-request text-3xl"></i>
                         </div>
-                    </div>
-                    <div class="col-12 sm:col-12">
-
-                        <div class="card surface-card text-500 flex justify-content-between pt-4 h-full">
-                            <div class="overview-info">
-                                <h6 class="m-0 mb-1 text-500">Monthly Consumed PL's </h6>
-                                <h1 class="m-0 text-500">{{ this.monthlyLeaves?.usedPLsInMonth}}</h1>
-                                <h1 class="m-0 text-500" *ngIf="this.monthlyLeaves?.usedPLsInMonth === null">0</h1>
-                            </div>
-                            <div class="d-leave text-center">
-                                <div class="mb-2">
-                                    {{this.monthlyPLs}}/{{this.yearlyPLs}}
+                        <div class="card text-0  pt-2 stat_background overview-ifo">
+                            <div class="flex justify-content-between ">
+                                <div class="overview-info">
+                                    <h6 class="m-0 mb-1 ">Current Balance </h6>
+                                    <h4 class="m-0 ">{{ empDetails?.usedPrivilegeLeavesInYear}}/{{
+                                        empDetails?.allottedPrivilegeLeaves}}</h4>
                                 </div>
-                                <i class="pi pi-angle-left d-leave-font" (click)="gotoPreviousMonthPLs()">
-                                </i>
-                                <p-calendar styleClass="only-icon" [(ngModel)]="selectedMonth" [showIcon]="true"
-                                    view="month" [yearNavigator]="true" yearRange="2000:2030" [readonlyInput]="true"
-                                    inputId="monthpicker" (onSelect)="onMonthSelectPLs($event)" pTooltip="Monthly PL's"
-                                    tooltipPosition="top">
-                                </p-calendar>
-                                <i class="pi pi-angle-right d-leave-font" (click)="gotoNextMonthPLs()"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 sm:col-12">
-
-                        <div class="card surface-card text-500 flex justify-content-between pt-4 h-full">
-                            <div class="overview-info">
-                                <h6 class="m-0 mb-1 text-500">Available PL's</h6>
-                                <h1 class="m-0 text-500">{{
-                                    empDetails?.allottedPrivilegeLeaves-empDetails?.usedPrivilegeLeavesInYear}}</h1>
-                            </div>
-                            <i class="pi pi-fw icon-add_leave text-6xl att-pointer" style="color: var(--primary-color);"
+                                <i class="pi pi-fw icon-add_leave  text-6xl att-pointer"
                                 label="Primary" pTooltip="Apply PL" tooltipPosition="right"
                                 (click)="openComponentDialog(employeeleaveDialogComponent, null, ActionTypes.save)"
                                 *ngIf="permissions?.CanManageSelfEmployee"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 md:col-8 lg:col-2">
-                <div class="grid" style="margin: -1rem">
-                    <div class="col-12 sm:col-12">
-                        <div class="card text-0 flex justify-content-between pt-4 h-full"
-                            style="background-color: var(--primary-color); ">
-                            <div class="overview-info">
-                                <h6 class="m-0 mb-1 text-0">Current CL Balance</h6>
-                                <h1 class="m-0 text-0">{{ empDetails?.usedCasualLeavesInYear}}/{{
-                                    empDetails?.allottedCasualLeaves}}</h1>
                             </div>
-                            <i class="icon-leave-request text-3xl"></i>
-                        </div>
-                    </div>
-                    <div class="col-12 sm:col-12">
-
-                        <div class="card surface-card text-500 flex justify-content-between pt-4 h-full">
-                            <div class="overview-info">
-                                <h6 class="m-0 mb-1 text-500">Monthly Consumed CL's </h6>
-                                <h1 class="m-0 text-500">{{ this.monthlyLeaves?.usedCLsInMonth}}</h1>
-                                <h1 class="m-0 text-500" *ngIf="this.monthlyLeaves?.usedCLsInMonth === null">0</h1>
-                            </div>
-                            <div class="d-leave text-center">
-                                <div class=" mb-2">
-                                    {{this.monthlyCLs}}/{{this.yearlyCLs}}
+                            <hr class="primary_hr"/>
+                            <div class="flex justify-content-between">
+                                <div class="overview-ifo">
+                                    <p class="m-0 mb-1  text-500">Monthly Consumed  </p>
+                                    <p  class="m-0  text-500">{{ this.monthlyLeaves?.usedPLsInMonth}}</p>
+                                    <p class="m-0  text-500" *ngIf="this.monthlyLeaves?.usedPLsInMonth === null">0</p>
                                 </div>
-                                <i class="pi pi-angle-left d-leave-font" (click)="gotoPreviousMonthCLs()">
-                                </i>
-                                <p-calendar styleClass="only-icon" [(ngModel)]="selectedMonth" [showIcon]="true"
-                                    view="month" [yearNavigator]="true" yearRange="2000:2030" [readonlyInput]="true"
-                                    inputId="monthpicker" (onSelect)="onMonthSelectCLs($event)" pTooltip="Monthly CL's"
-                                    tooltipPosition="top">
-                                </p-calendar>
-                                <i class="pi pi-angle-right d-leave-font" (click)="gotoNextMonthCLs()"></i>
+                              
+                                <div class="d-leave overview-ifo text-center">
+                                    <p class="m-0 mb-1  text-500">
+                                        {{this.monthlyPLs}}/{{this.yearlyPLs}}
+                                    </p>
+                                    <i class="pi pi-angle-left d-leave-font " (click)="gotoPreviousMonthPLs()">
+                                    </i>
+                                    <p-calendar styleClass="only-icon dashboard_mon"  [(ngModel)]="selectedMonth" [showIcon]="true"
+                                        view="month" [yearNavigator]="true" yearRange="2000:2030" [readonlyInput]="true"
+                                        inputId="monthpicker" (onSelect)="onMonthSelectPLs($event)" pTooltip="Monthly PL's"
+                                        tooltipPosition="top">
+                                    </p-calendar>
+                                    <i class="pi pi-angle-right d-leave-font " (click)="gotoNextMonthPLs()"></i>
+                                </div>
+
+                                <div class="overview-ifo">
+                                    <p class="m-0 mb-1  text-500">Available </p>
+                                    <p class="m-0  text-500"><b>{{
+                                        empDetails?.allottedPrivilegeLeaves-empDetails?.usedPrivilegeLeavesInYear}}</b></p>
+                                </div>
                             </div>
+                          
                         </div>
                     </div>
-                    <div class="col-12 sm:col-12">
 
-                        <div class="card surface-card text-500 flex justify-content-between pt-4 h-full">
-                            <div class="overview-info">
-                                <h6 class="m-0 mb-1 text-500">Available CL's</h6>
-                                <h1 class="m-0 text-500">{{
-                                    empDetails?.allottedCasualLeaves-empDetails?.usedCasualLeavesInYear}}</h1>
+
+                    <div class="col-12 sm:col-12">
+                        <div class="card-headr chart_head gap-2 ">
+                            <div class="card-title text-center">
+                                <h6 class="m-0">CL's </h6>
                             </div>
-                            <i class="pi pi-fw icon-add_leave text-6xl att-pointer" style="color: var(--primary-color);"
+                        </div>
+                        <div class="card text-0  pt-2  stat_background overview-ifo ">
+                            <div class="flex justify-content-between">
+                                <div class="overview-info">
+                                    <h6 class="m-0 mb-1 ">Current Balance </h6>
+                                    <h4 class="m-0 ">{{ empDetails?.usedCasualLeavesInYear}}/{{
+                                        empDetails?.allottedCasualLeaves}}</h4>
+                                </div>
+                                <i class="pi pi-fw icon-add_leave text-white text-6xl att-pointer" 
                                 label="Primary" pTooltip="Apply CL" tooltipPosition="right"
                                 (click)="openComponentDialog(employeeleaveDialogComponent, null, ActionTypes.save)"
                                 *ngIf="permissions?.CanManageSelfEmployee"></i>
-                        </div>
-                    </div>
-
-
-                    <!--  <div class="col-12 sm:col-4">
-                        <div class="card text-0 flex justify-content-between pt-4 h-full"
-                            style="background-color: #f03030;">
-                            <div class="overview-info">
-                                <h6 class="m-0 mb-1 text-0">Academic LWP</h6>
-                                <h1 class="m-0 text-0">{{empDetails?.usedLWPInYear}}</h1>
+                            
                             </div>
-                            <i class="icon-leave-request text-3xl"></i>
-                        </div>
-                    </div>
-                    <div class="col-12 sm:col-4">
-                        <div class="card surface-card text-500 flex justify-content-between pt-4 h-full">
-                            <div class="overview-info">
-                                <h6 class="m-0 mb-1 text-500">Monthly LWP</h6>
-                                <h1 class="m-0 text-500">{{empDetails?.usedLWPInMonth}}</h1>
-                            </div>
-                            <div class="d-leave text-center">
-                                <div class="mb-2">
-                                    {{this.monthlyLWP}}/{{this.yearlyLWP}}
+                            <hr class="primary_hr"/>
+                            <div class="flex justify-content-between">
+                                <div class="overview-ifo">
+                                    <p class="m-0 mb-1  text-500">Monthly Consumed  </p>
+                                    <p  class="m-0  text-500">{{ this.monthlyLeaves?.usedCLsInMonth}}</p>
+                                    <p class="m-0  text-500" *ngIf="this.monthlyLeaves?.usedCLsInMonth === null">0</p>
                                 </div>
-                                <i class="pi pi-angle-left d-leave-font" (click)="gotoPreviousMonthLWP()">
-                                </i>
-                                <p-calendar styleClass="only-icon" [(ngModel)]="selectedMonth" [showIcon]="true"
-                                    view="month" [yearNavigator]="true" yearRange="2000:2030" [readonlyInput]="true"
-                                    inputId="monthpicker" (onSelect)="onMonthSelectLWP($event)" pTooltip="Monthly LWP's"
-                                    tooltipPosition="top">
-                                </p-calendar>
-                                <i class="pi pi-angle-right d-leave-font" (click)="gotoNextMonthLWP()"></i>
+                              
+                                <div class="d-leave overview-ifo text-center">
+                                    <p class="m-0 mb-1  text-500">
+                                        {{this.monthlyCLs}}/{{this.yearlyCLs}}
+                                    </p>
+                                    <i class="pi pi-angle-left d-leave-font  " (click)="gotoPreviousMonthCLs()">
+                                    </i>
+                                    <p-calendar styleClass="only-icon dashboard_mon" [(ngModel)]="selectedMonth" [showIcon]="true"
+                                        view="month" [yearNavigator]="true" yearRange="2000:2030" [readonlyInput]="true"
+                                        inputId="monthpicker" (onSelect)="onMonthSelectCLs($event)" pTooltip="Monthly CL's"
+                                        tooltipPosition="top">
+                                    </p-calendar>
+                                    <i class="pi pi-angle-right d-leave-font " (click)="gotoNextMonthCLs()"></i>
+                                </div>
+
+                                <div class="overview-ifo">
+                                    <p class="m-0 mb-1  text-500">Available </p>
+                                    <p class="m-0  text-500"><b>{{
+                                        empDetails?.allottedCasualLeaves-empDetails?.usedCasualLeavesInYear}}</b></p>
+                                </div>
                             </div>
+                          
                         </div>
-                    </div> -->
+                    </div>
                 </div>
             </div>
+     
             <div class="col-12 md:col-6 lg:col-5  " *ngIf="this.permissions.CanViewNotifications">
                 <div class="card-headr chart_head gap-2 ">
                     <div class="card-title text-center">

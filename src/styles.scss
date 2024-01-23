@@ -873,14 +873,14 @@ p-fieldset.allott-employee {
 .applicant-p-block-home {
     background-color: rgb(249, 245, 242);
     border-radius: 10px;
-    height: 400px;
+    height: 415px;
     overflow-x: hidden;
     overflow-y: auto;
 }
 .applicant-n-block-home {
     background-color: rgb(255, 255, 255);
     border-radius: 10px;
-    height: 360px;
+    height: 377px;
     overflow-x: hidden;
     overflow-y: auto;
 }
@@ -1219,4 +1219,52 @@ app-attendance .p-datatable-table tbody tr td:first-child {
 }
 .layout-breadcrumb ol li{
     font-size: 16px !important;
+}
+// .dashboard_mon .p-button.p-button-icon-only{
+//     color:white !important;
+//     font-size: 10px !important;
+// }
+// .dashboard_mon .p-button{
+//     border:1px solid white !important;
+//     padding:0.10rem !important;
+//     width:auto;
+// }
+.dashboard_mon.p-calendar{
+    display: inline !important;
+}
+.dashboard_mon.p-calendar .pi{
+    font-size: 8px !important;
+}
+// .stat_background{
+//     background-color: var(--primary-color) !important;
+// }
+// .overview-ifo p{
+//     font-size: 12px;
+//     color:white !important;
+// }
+// .overview-ifo i{
+//     color:white !important;
+// }
+
+.stat_background{
+    background-color: rgb(249, 245, 242) !important;
+}
+.overview-ifo p{
+    font-size: 12px;
+    color: var(--primary-color) !important;
+}
+.overview-ifo i{
+    color:var(--primary-color) !important;
+}
+.dashboard_mon .p-button.p-button-icon-only{
+    color: var(--primary-color) !important;
+    font-size: 10px !important;
+}
+.dashboard_mon .p-button{
+    border:1px solid  var(--primary-color) !important;
+    padding:0.10rem !important;
+    width:auto;
+}
+.primary_hr{
+    border-top: 1px solid var(--primary-color);
 }
