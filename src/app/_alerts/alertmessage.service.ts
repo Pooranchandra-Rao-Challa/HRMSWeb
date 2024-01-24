@@ -215,6 +215,7 @@ export const ALERT_CODES: { [key: string]: string } = {
     'ELD002': 'Leave Not Applied',
     'ELA001': 'Leave Approved Successfully',
     'ELR002': 'Leave Rejected',
+    'ELA005': 'Leave Accepted Successfully',
     'WFH001': 'WFH Applied successfully',
     'WFH002': 'WFH Failed to Applied',
     'ELA003': 'Leave Deleted Successfully',

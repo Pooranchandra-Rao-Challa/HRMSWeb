@@ -238,7 +238,7 @@ export class AttendanceComponent {
   }
 
   getLeaves() {
-    this.employeeService.getEmployeeLeaveDetails(this.month, this.year).subscribe((resp) =>
+    this.employeeService.getEmployeeLeaveDetails(this.month, this.year,this.jwtService.EmployeeId).subscribe((resp) =>
       this.leaves = resp as unknown as EmployeeLeaveDto[]
     );
   }
@@ -486,8 +486,8 @@ export class AttendanceComponent {
     else {
       this.fbleave.patchValue({
         fromDate: fromDate,
-        acceptedBy: this.jwtService.UserId,
-        approvedBy: this.jwtService.UserId,
+        acceptedBy: this.jwtService.EmployeeId,
+        approvedBy: this.jwtService.EmployeeId,
         rejected: false
       });
       this.saveEmployeeLeave();

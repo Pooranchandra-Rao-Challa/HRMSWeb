@@ -369,9 +369,9 @@ export class EmployeeLeaveDto {
 	note?: string;
 	previousWorkStatusId?:number
 	dayWorkStatusId?:number
-	acceptedBy?: string;
+	acceptedBy?: number;
 	acceptedAt?: Date;
-	approvedBy?: string;
+	approvedBy?: number;
 	approvedAt?: Date;
 	rejected?: boolean;
 	comments?: String;

@@ -42,6 +42,7 @@ export class LeaveStatisticsComponent {
   value: number;
   computedCLs: number[];
   computedPLs: number[];
+  leaveReportTypes:any[];
 
   headers: ITableHeader[] = [
     { field: 'name', header: 'name', label: 'Employee Name' },
@@ -77,6 +78,7 @@ export class LeaveStatisticsComponent {
   ngOnInit(): void {
     this.permissions = this.jwtService.Permissions;
     this.getLeaves();
+    this.getLeavesReportTypeOptions();
   }
 
   onGlobalFilter(table: Table, event: Event) {
@@ -160,13 +162,12 @@ export class LeaveStatisticsComponent {
   }
 
   getLeavesReportTypeOptions() {
-    const options = [];
+    this.leaveReportTypes = [];
     for (const key in LeavesReportType) {
       if (LeavesReportType.hasOwnProperty(key)) {
-        options.push({ label: LeavesReportType[key], value: key });
+        this.leaveReportTypes.push({ label: LeavesReportType[key], value: key });
       }
     }
-    return options;
   }
 
   openComponentDialog(content: any,

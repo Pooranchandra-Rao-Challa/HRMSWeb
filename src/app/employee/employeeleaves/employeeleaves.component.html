@@ -6,6 +6,13 @@
             <ng-template pTemplate="left">
                 <h4>Employee Leaves</h4>
             </ng-template>
+            <ng-template pTemplate="center">
+                <div *ngFor="let status of statuses" class="field-checkbox">
+                    <p-radioButton [inputId]="status.key" name="status" [value]="status" [(ngModel)]="selectedStatus"
+                        (click)="getLeaves()"></p-radioButton>
+                    <label [for]="status.key" class="ml-2">{{ status.name }}</label>
+                </div>
+            </ng-template>
             <ng-template pTemplate="right">
                 <button pButton pRipple label="Add Leave" id="addLeaveButton" icon="pi pi-plus"
                     class="p-button-primary p-mr-2"
@@ -20,8 +27,7 @@
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
             [showCurrentPageReport]="true" [globalFilterFields]="globalFilterFields" paginatorDropdownAppendTo="body"
             scrollDirection="horizontal" [rowsPerPageOptions]="[10,25,50]" [autoLayout]="true" responsiveLayout="scroll"
-            [tableStyle]="{ width:'max' }"
-            >
+            [tableStyle]="{ width:'max' }">
             <ng-template pTemplate="caption">
                 <div class="flex justify-content-between flex-column sm:flex-row">
                     <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
@@ -65,8 +71,9 @@
             </ng-template>
             <ng-template pTemplate="header" let-columns>
                 <tr>
-                    <th *ngIf="permissions?.CanManageLeave || permissions?.CanDeleteLeaves" pFrozenColumn
-                        alignFrozen="right" [frozen]="true" pFrozenColumn> Actions
+                    <th class="text-center" *ngIf="permissions?.CanDeleteLeaves">Delete</th>
+                    <th class="text-center" *ngIf="permissions?.CanManageLeave" pFrozenColumn alignFrozen="right"
+                        [frozen]="true" pFrozenColumn> Actions
                     </th>
                     <th *ngFor="let col of headers" [pSortableColumn]="col.header">
                         {{col?.label}}
@@ -84,23 +91,30 @@
             </ng-template>
             <ng-template pTemplate="body" let-leave let-columns="columns">
                 <tr [ngClass]="{'read-only-row': leave?.isDeleted == true}">
-                    <td pFrozenColumn alignFrozen="right" [frozen]="true">
-                        <div *ngIf="permissions?.CanManageLeave" style="display:flex" class="pb-2">
-                            <div class="flex" *ngIf="leave.status === 'Pending' && leave.isDeleted !== true">
+                    <td class="text-center"
+                        *ngIf="permissions?.CanDeleteLeaves && leave?.isLeaveUsed !== true &&  leave?.isDeleted !== true">
+                        <button pButton pRipple icon="pi pi-trash" id="delete"
+                            class="p-element p-ripple p-button-outlined p-button-danger p-button p-0"
+                            (click)="deleteleaveDetails(leave.employeeLeaveId)"></button>
+                    </td>
+                    <td pFrozenColumn alignFrozen="right" [frozen]="true" class="text-center"
+                        *ngIf="permissions?.CanManageLeave">
+                        <div class="flex"
+                            *ngIf="leave.status === 'Accepted' || leave.status === 'Pending' && leave.isDeleted !== true">
+                            
+                            <span *ngIf="leave.acceptedAt !==null">
                                 <button pButton pRipple icon="pi pi-check" id="Leave_Approved_Button"
                                     class="p-element p-ripple  p-button  p-button-outlined p-button-success mr-3 p-0"
                                     (click)="openSweetAlert('Reason For Approve',leave)"></button>
-                                <button pButton pRipple icon="pi pi-times" id="Levave_Rejected_Button"
-                                    class="p-element p-ripple p-button-outlined p-button-danger p-button col-2 p-0"
-                                    (click)="openSweetAlert('Reason for Reject',leave)"></button>
-                            </div>
-                        </div>
-                        <div
-                            *ngIf="permissions?.CanDeleteLeaves && leave?.isLeaveUsed !== true &&  leave?.isDeleted !== true">
-                            <button pButton pRipple icon="pi pi-trash" id="delete"
-                                class="p-element p-ripple p-button-outlined p-button-danger p-button col-2 p-0"
-                                (click)="deleteleaveDetails(leave.employeeLeaveId)"></button>
-
+                            </span>
+                            <button pButton pRipple icon="pi pi-times" id="Levave_Rejected_Button"
+                                class="p-element p-ripple p-button-outlined p-button-danger p-button  p-0"
+                                (click)="openSweetAlert('Reason For Reject',leave)"></button>
+                            <span *ngIf="leave.acceptedAt === null">
+                                <button pButton pRipple icon="pi pi-thumbs-up" id="Leave_Accepted_Button"
+                                    class="p-element p-ripple  p-button  p-button-outlined p-button-success ml-2 p-0"
+                                    (click)="openSweetAlert('Reason For Accept',leave)"></button>
+                            </span>
                         </div>
                     </td>
                     <td class="text-center">
@@ -109,11 +123,16 @@
                                 <i class="pi pi-check text-green-500"></i>
                             </ng-container>
                             <ng-template #falseBlock>
-                                <ng-container *ngIf="leave.status === 'Rejected'; else nullBlock">
+                                <ng-container *ngIf="leave.status === 'Rejected'; else acceptedBlock">
                                     <i class="pi pi-times text-red-500"></i>
                                 </ng-container>
-                                <ng-template #nullBlock>
-                                    <i class="pi pi-spin pi-spinner text-primary"></i>
+                                <ng-template #acceptedBlock>
+                                    <ng-container *ngIf="leave.status === 'Accepted'; else nullBlock">
+                                        <i class="pi pi-thumbs-up text-primary-500"></i>
+                                    </ng-container>
+                                    <ng-template #nullBlock>
+                                        <i class="pi pi-spin pi-spinner text-primary"></i>
+                                    </ng-template>
                                 </ng-template>
                             </ng-template>
                         </span>
@@ -142,12 +161,14 @@
                                 style="font-size:18px; vertical-align: sub;"></i>
                         </span>
                     </td>
+                    <td class="text-center">{{leave.acceptedAt |date: mediumDate}}</td>
+                    <td class="text-center">{{leave.approvedAt |date: mediumDate}}</td>
                     <td *ngFor="let col of columns">
                         <span
-                            *ngIf="col?.field == 'acceptedBy' || col?.field == 'approvedBy'|| col?.field == 'createdBy'">
+                            *ngIf="col?.field == 'acceptedBy' || col?.field == 'rejectedBy' || col?.field == 'approvedBy'|| col?.field == 'createdBy'">
                             {{leave[col.field] }}
                         </span>
-                        <span *ngIf=" col?.field == 'acceptedAt'|| col?.field == 'approvedAt'">
+                        <span *ngIf=" col?.field == 'rejectedAt'">
                             {{leave[col.field] | date: mediumDate }}
                         </span>
                     </td>

@@ -81,7 +81,7 @@
         </ng-template>
         <ng-template let-employee pTemplate="gridItem">
           <div class="col-12 md:col-4 lg:col-3 sm:col-6">
-            <div class="card m-2 border-1 surface-border card-height">
+            <div class="card m-2 border-1 surface-border card-height project_card" >
               <div class=" mb-3 grid">
                 <div class="col-12 lg:col-4 md:col-12 p-1 text-center employee_profile_pic_div">
                   <div class="avatar_onb">
@@ -93,20 +93,20 @@
                   <br />
 
                 </div>
-                <div class="col-12 lg:col-8 md:col-12 p-1 px-2 employee_info">
-                  <div class="text-xl font-bold">{{ employee.employeeName }}</div>
-                  <span class="text-500 font-medium text-md">
+                <div class="col-12 lg:col-8 md:col-12 p-1 px-2 employee_info ">
+                  <div class="text-xl font-bold text-color">{{ employee.employeeName }}</div>
+                  <span class="text-500 font-medium text-md text-color">
                     <i class="pi icon-intersex text-600 text-primary text-2xl  pb-2" pTooltip="Gender"
                       tooltipPosition="top"></i> : {{employee.gender}}
                   </span><br />
-                  <span class="text-600 font-medium text-md">
+                  <span class="text-600 font-medium text-md text-color">
                     <i class="pi pi-calendar text-300 text-primary text-1xl  pb-1" pTooltip="DOB"
                       tooltipPosition="top"></i> : {{employee.certificateDOB|
                     date: mediumDate}}
                   </span>
 
                   <br />
-                  <span class="text-600 font-medium text-md">
+                  <span class="text-600 font-medium text-md text-color">
                     <i class="pi pi-phone text-500 text-primary text-1xl pb-1" pTooltip="Mobile Number"
                       tooltipPosition="top"></i> : {{employee.mobileNumber}}
                   </span>
@@ -117,7 +117,7 @@
                 <div class="relative col-12 p-0 mb-3  employee_info"></div>
                 <div class="grid m-0 ">
                   <div class="relative col-9 p-0 mb-3  employee_info">
-                    <span class="text-600 font-medium text-md">
+                    <span class="text-600 font-medium text-md text-color">
                       <i class="pi  text-500 text-primary text-1xl pb-1">Pending </i> :
                       {{employee?.pendingDetails}}</span>
                   </div>
