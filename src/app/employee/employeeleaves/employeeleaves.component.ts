@@ -49,6 +49,14 @@ export class EmployeeLeavesComponent {
   days: number[] = [];
   selectedMonth: Date;
   confirmationRequest: ConfirmationRequest = new ConfirmationRequest();
+  selectedStatus: any;
+
+  statuses: any[] = [
+    { name: 'Pending', key: 'P' },
+    { name: 'Accepted', key: 'A' },
+    { name: 'Approved', key: 'Ap' },
+    { name: 'Rejected', key: 'R' }
+  ];
 
   headers: ITableHeader[] = [
     { field: 'status', header: 'status', label: 'Status' },
@@ -59,7 +67,8 @@ export class EmployeeLeavesComponent {
     { field: 'note', header: 'note', label: 'Leave Description' },
     { field: 'isHalfDayLeave', header: 'isHalfDayLeave', label: 'Half Day Leave' },
     { field: 'isDeleted', header: 'isDeleted', label: 'Declined' },
-
+    { field: 'acceptedAt', header: 'acceptedAt', label: 'Accepted At' },
+    { field: 'approvedAt', header: 'approvedAt', label: 'Approved At' },
   ];
   value: number;
 
@@ -85,23 +94,25 @@ export class EmployeeLeavesComponent {
 
   ngOnInit(): void {
     this.permissions = this.jwtService.Permissions;
+    this.selectedStatus = this.statuses[0];
     this.getLeaves();
     this.getDaysInMonth(this.year, this.month);
     this.leaveForm();
     this._selectedColumns = this.selectedColumnHeader;
     this.selectedColumnHeader = [
       { field: 'acceptedBy', header: 'acceptedBy', label: 'Accepted By' },
-      { field: 'acceptedAt', header: 'acceptedAt', label: 'Accepted At' },
       { field: 'approvedBy', header: 'approvedBy', label: 'Approved By' },
-      { field: 'approvedAt', header: 'approvedAt', label: 'Approved At' },
+      { field: 'rejectedBy', header: 'rejectedBy', label: 'Rejected By' },
+      { field: 'rejectedAt', header: 'rejectedAt', label: 'Rejected At' },
       { field: 'createdBy', header: 'createdBy', label: 'Created By' },
     ];
   }
 
   getLeaves() {
-    this.employeeService.getEmployeeLeaveDetails(this.month, this.year).subscribe((resp) => {
-      this.leaves = resp as unknown as EmployeeLeaveDto[];      
-    })
+    this.employeeService.getEmployeeLeaveDetails(this.month, this.year,this.jwtService.EmployeeId).subscribe((resp) => {
+      this.leaves = resp as unknown as EmployeeLeaveDto[];
+      this.leaves = this.leaves.filter(leave => leave.status === this.selectedStatus.name);
+    });
   }
 
   onGlobalFilter(table: Table, event: Event) {
@@ -128,7 +139,7 @@ export class EmployeeLeavesComponent {
       acceptedAt: new FormControl(null),
       approvedBy: new FormControl(''),
       approvedAt: new FormControl(null),
-      createdBy:new FormControl(''),
+      createdBy: new FormControl(''),
       rejected: new FormControl(''),
       comments: new FormControl(''),
       status: new FormControl(''),
@@ -180,13 +191,15 @@ export class EmployeeLeavesComponent {
   }
 
   openSweetAlert(title: string, leaves: EmployeeLeaveDto) {
-    const buttonLabel = title === 'Reason For Approve' ? 'Approve' : 'Reject';
+    const buttonLabel = title === 'Reason For Approve' ? 'Approve' : (title === 'Reason For Accept' ? 'Accept' : 'Reject')
     this.leaveConfirmationService.openDialogWithInput(title, buttonLabel).subscribe((result) => {
-      if (result && result.description || result.description !== undefined) {
+      if (result && result.description !== undefined) {
         this.leaveData = leaves;
-        this.selectedAction = title
-        const acceptedBy = this.selectedAction === 'Reason For Approve' ? this.jwtService.UserId : null;
-        const approvedBy = this.selectedAction === 'Reason For Approve' ? this.jwtService.UserId : null;
+        this.selectedAction = title;
+        const currentDate = FORMAT_DATE(new Date());
+        const acceptedBy = this.selectedAction === 'Reason For Approve' ? this.jwtService.EmployeeId : (this.selectedAction === 'Reason For Accept' ? this.jwtService.EmployeeId : this.jwtService.EmployeeId);
+        const approvedAt = this.selectedAction === 'Reason For Approve' ? currentDate : (this.selectedAction === 'Reason For Accept' ? null : null);
+        const approvedBy = this.selectedAction === 'Reason For Approve' ? this.jwtService.EmployeeId : null;
         this.fbLeave.patchValue({
           employeeLeaveId: this.leaveData.employeeLeaveId,
           employeeId: this.leaveData.employeeId,
@@ -197,28 +210,30 @@ export class EmployeeLeavesComponent {
           leaveTypeId: this.leaveData.leaveTypeId,
           note: this.leaveData.note,
           acceptedBy: acceptedBy,
-          acceptedAt: this.leaveData.acceptedAt ? FORMAT_DATE(new Date(this.leaveData.acceptedAt)) : null,
-          approvedBy: approvedBy,
-          approvedAt: this.leaveData.approvedAt ? FORMAT_DATE(new Date(this.leaveData.approvedAt)) : null,
-          rejected: this.selectedAction === 'Reason For Approve' ? false : true,
+          acceptedAt: this.selectedAction === 'Reason For Accept' ? currentDate : (this.leaveData.acceptedAt ? FORMAT_DATE(new Date(this.leaveData.acceptedAt)) : currentDate),
+          approvedBy: this.selectedAction === 'Reason For Accept' ? null : approvedBy,
+          approvedAt: approvedAt,
+          rejected: this.selectedAction === 'Reason For Approve' ? false : (this.selectedAction === 'Reason For Accept' ? false : true),
           comments: result.description,
           status: this.leaveData.status,
           isapprovalEscalated: true,
-          createdBy: this.leaveData.createdBy    
         });
-        this.save().subscribe(resp => {
-          if (resp) {
-            this.dialog = false;
-            this.getLeaves();
-            if (this.selectedAction === 'Reason For Approve') {
-              this.alertMessage.displayAlertMessage(ALERT_CODES["ELA001"]);
-            }
-            else {
-              this.alertMessage.displayMessageforLeave(ALERT_CODES["ELR002"]);
-            }
-          }
-        })
       }
+      this.save().subscribe(resp => {
+        if (resp) {
+          this.dialog = false;
+          this.getLeaves();
+          if (this.selectedAction === 'Reason For Approve') {
+            this.alertMessage.displayAlertMessage(ALERT_CODES["ELA001"]);
+          } else if (this.selectedAction === 'Reason For Accept') {
+            this.alertMessage.displayAlertMessage(ALERT_CODES["ELA005"]);
+          } else {
+            this.alertMessage.displayMessageforLeave(ALERT_CODES["ELR002"]);
+          }
+        }
+      });
+      console.log(this.fbLeave.value);
+
     });
   }
 

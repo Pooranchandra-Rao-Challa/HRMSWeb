@@ -102,10 +102,10 @@
                             {{leave[col.field] }}
                         </span>
                         <span
-                            *ngIf="col?.field == 'acceptedBy' || col?.field == 'approvedBy'|| col?.field == 'createdBy'">
+                            *ngIf="col?.field == 'rejectedBy' || col?.field == 'acceptedBy' || col?.field == 'approvedBy'|| col?.field == 'createdBy'">
                             {{leave[col.field] }}
                         </span>
-                        <span *ngIf=" col?.field == 'acceptedAt'|| col?.field == 'approvedAt'">
+                        <span *ngIf="col?.field == 'rejectedAt'||col?.field == 'acceptedAt'|| col?.field == 'approvedAt'">
                             {{leave[col.field] | date: mediumDate }}
                         </span>
                     </td>

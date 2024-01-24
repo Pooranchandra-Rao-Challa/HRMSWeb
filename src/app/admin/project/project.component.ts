@@ -1,5 +1,5 @@
 
-import { ChangeDetectorRef, Component, ComponentRef, ElementRef, EventEmitter, OnInit, Output, ViewChild, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, Component, ComponentRef, ElementRef, EventEmitter, OnInit, Output, QueryList, ViewChild, ViewChildren, ViewContainerRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { FORMAT_DATE } from 'src/app/_helpers/date.formate.pipe';
@@ -40,6 +40,7 @@ export class ProjectRole {
     styles: ['']
 })
 export class ProjectComponent implements OnInit {
+    @ViewChildren('filterEmployeesInput') filterEmployeesInputs: QueryList<ElementRef>;
     @ViewChild("fileUpload", { static: true }) fileUpload: ElementRef;
     confirmationRequest: ConfirmationRequestForUnassignEmployee = new ConfirmationRequestForUnassignEmployee();
     projects: ProjectViewDto[] = [];
@@ -573,11 +574,33 @@ export class ProjectComponent implements OnInit {
             this.Roles = this.Roles.reverse();
         });
     }
-
-    getRoleEmployees(roleName: string): EmployeesList[] {
-        return this.Employees.filter(value => value.eRoleName === roleName && (value.usedInChart == false || value.usedInChart === undefined))
+    
+    clearInput(roleName: string): void {
+        const matchingInput = this.filterEmployeesInputs.find(input => input.nativeElement.id === `Project_Employee_Search_${roleName}`);
+        if (matchingInput) 
+            matchingInput.nativeElement.value = '';
     }
 
+    getFilterInputValue(roleName: string): string {
+        return this.filterEmployeesInputs.find(input => input.nativeElement.id === `Project_Employee_Search_${roleName}`)
+            ?.nativeElement.value || '';
+    }
+
+    employeeSearch(roleName: string, value: string) {
+        this.getRoleEmployees(roleName, value);
+    }
+
+    getRoleEmployees(roleName: string, searchTerm: string = null): EmployeesList[] {
+        searchTerm = this.getFilterInputValue(roleName) || searchTerm;
+        return this.Employees.filter(value =>
+            value.eRoleName === roleName &&
+            (value.usedInChart == false || value.usedInChart === undefined) &&
+            (searchTerm == null ||
+                value.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                value.code.toLowerCase().includes(searchTerm.toLowerCase())
+            )
+        );
+    }
     filterClients(event: AutoCompleteCompleteEvent) {
         this.filteredClients = this.clientsNames;
         let filtered: any[] = [];

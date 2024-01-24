@@ -70,6 +70,8 @@ export class MyleaveComponent {
       { field: 'note', header: 'note', label: 'Leave Description' },
       { field: 'acceptedBy', header: 'acceptedBy', label: 'Accepted By' },
       { field: 'approvedBy', header: 'approvedBy', label: 'Approved By' },
+      { field: 'rejectedBy', header: 'rejectedBy', label: 'Rejected By' },
+      { field: 'rejectedAt', header: 'rejectedAt', label: 'Rejected At' },
       { field: 'createdBy', header: 'createdBy', label: 'Created By' },
     ];
   }

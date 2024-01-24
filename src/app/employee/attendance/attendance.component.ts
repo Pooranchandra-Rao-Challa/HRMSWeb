@@ -74,6 +74,7 @@ export class AttendanceComponent {
   today = new Date(this.year, this.month - 1, this.day);
   canUpdatePreviousDayAttendance: boolean = false;
   maxDate: Date = new Date();
+  attendanceExcelTypes: any[];
 
   constructor(
     private adminService: AdminService,
@@ -101,6 +102,7 @@ export class AttendanceComponent {
     this.initDayWorkStatus();
     this.loadLeaveReasons();
     this.getLeaves();
+    this.getAttendanceReportTypeOptions();
   }
 
   initLeaveForm() {
@@ -162,13 +164,12 @@ export class AttendanceComponent {
     })
   }
   getAttendanceReportTypeOptions() {
-    const options = [];
+    this.attendanceExcelTypes = [];
     for (const key in AttendanceReportTypes) {
       if (AttendanceReportTypes.hasOwnProperty(key)) {
-        options.push({ label: AttendanceReportTypes[key], value: key });
+        this.attendanceExcelTypes.push({ label: AttendanceReportTypes[key], value: key });
       }
     }
-    return options;
   }
   getLeaveTypeDisplayName(name: string): string {
     switch (name) {
@@ -238,7 +239,7 @@ export class AttendanceComponent {
   }
 
   getLeaves() {
-    this.employeeService.getEmployeeLeaveDetails(this.month, this.year).subscribe((resp) =>
+    this.employeeService.getEmployeeLeaveDetails(this.month, this.year,this.jwtService.EmployeeId).subscribe((resp) =>
       this.leaves = resp as unknown as EmployeeLeaveDto[]
     );
   }
@@ -332,7 +333,7 @@ export class AttendanceComponent {
   getEmployeeLeaveOnDate(emp: any, date: string, leaveType: string) {
     let lt = leaveType.replace('/PT', "")
     let selectedLeaveType = this.LeaveTypes.filter(fn => fn.name == lt)[0] || {};
-  
+
     this.employeeService.getEmployeeLeaveOnDate({
       employeeId: emp.EmployeeId,
       leaveDate: formatDate(this.stringToDate(date), 'yyyy-MM-dd', 'en'),
@@ -366,7 +367,7 @@ export class AttendanceComponent {
   }
 
   patchFormValues(emp, date, leaveType) {
-    
+
     let employeeleave: EmployeeLeaveOnDateDto = {}
     if (this.employeeLeaveOnDate.length > 0) {
       employeeleave = this.employeeLeaveOnDate[0]
@@ -391,7 +392,7 @@ export class AttendanceComponent {
       note: employeeleave.note,
       isFromAttendance: true
     };
-  
+
     this.fbleave.patchValue(defaultValues);
     this.fbleave.get('fromDate').disable();
   }
@@ -469,12 +470,10 @@ export class AttendanceComponent {
       return;
     }
 
-    // The condition checks the If day work status is not a leave then updates attendance, else updates or creates the
-    // employee leave finally closes the opening employee work status update form.
     const DayWorkItem = this.LeaveTypes.find(each => each.lookupDetailId === this.fbleave.get('leaveTypeId').value);
     let fromDate = FORMAT_DATE(this.fbleave.get('fromDate').value);
 
-    if (DayWorkItem.name !== 'PL' && DayWorkItem.name !== 'CL'&& DayWorkItem.name !== 'WFH') {
+    if (DayWorkItem.name !== 'PL' && DayWorkItem.name !== 'CL' && DayWorkItem.name !== 'WFH') {
       this.fbAttendance.patchValue({
         employeeId: this.fbleave.get('employeeId').value,
         dayWorkStatusId: DayWorkItem.lookupDetailId,
@@ -486,8 +485,8 @@ export class AttendanceComponent {
     else {
       this.fbleave.patchValue({
         fromDate: fromDate,
-        acceptedBy: this.jwtService.UserId,
-        approvedBy: this.jwtService.UserId,
+        acceptedBy: this.jwtService.EmployeeId,
+        approvedBy: this.jwtService.EmployeeId,
         rejected: false
       });
       this.saveEmployeeLeave();
@@ -510,18 +509,16 @@ export class AttendanceComponent {
             this.alertMessage.displayAlertMessage(rdata.message)
           else
             this.alertMessage.displayAlertMessage(ALERT_CODES["ELD001"]);
-          if (fromDate < this.today) {
-            const StatusId = this.LeaveTypes.find(each => each.name == "PT").lookupDetailId;
-            this.fbAttendance.patchValue({
-              employeeId: this.fbleave.get('employeeId').value,
-              dayWorkStatusId: StatusId,
-              date: fromDate,
-              notReported: false
-            });
-            this.saveAttendance([this.fbAttendance.value]);
-          }
-        }
 
+          const StatusId = this.LeaveTypes.find(each => each.name == "PT").lookupDetailId;
+          this.fbAttendance.patchValue({
+            employeeId: this.fbleave.get('employeeId').value,
+            dayWorkStatusId: StatusId,
+            date: fromDate,
+            notReported: false
+          });
+          this.saveAttendance([this.fbAttendance.value]);
+        }
       this.initAttendance();
       this.getLeaves();
     });

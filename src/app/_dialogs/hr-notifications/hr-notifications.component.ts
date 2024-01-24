@@ -7,6 +7,7 @@ import { NotificationsDto } from 'src/app/_models/dashboard';
 import { DashboardService } from 'src/app/_services/dashboard.service';
 import { LookupService } from 'src/app/_services/lookup.service';
 import { MIN_LENGTH_2 } from 'src/app/_shared/regex';
+import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 
 @Component({
   selector: 'app-hr-notifications',
@@ -17,6 +18,7 @@ export class HrNotificationsComponent {
   messageTypes: LookupViewDto[] = [];
   minDate: Date = new Date(new Date());
   notifications: NotificationsDto[] = [];
+  mediumDate: string = MEDIUM_DATE;
 
   constructor(private formbuilder: FormBuilder,
     private alertMessage: AlertmessageService,
@@ -85,6 +87,18 @@ export class HrNotificationsComponent {
   initNotifications() {
     this.dashBoardService.GetNotifications().subscribe(resp => {
       this.notifications = resp as unknown as NotificationsDto[];
+     
+    })
+  }
+
+  delete(notification){
+    this.dashBoardService.DeleteNotfication(notification.notificationId).subscribe(resp => {
+    if(resp){
+      this.alertMessage.displayAlertMessage(ALERT_CODES["HRN003"]);
+        this.initNotifications();
+      }
+      else
+        this.alertMessage.displayErrorMessage(ALERT_CODES["HRN004"]);
     })
   }
 

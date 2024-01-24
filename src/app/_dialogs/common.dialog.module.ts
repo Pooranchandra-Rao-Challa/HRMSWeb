@@ -23,6 +23,7 @@ import { EmployeeLeaveDialogComponent } from './employeeleave.dialog/employeelea
 import { ImageCropComponent } from './crop.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { HrNotificationsComponent } from './hr-notifications/hr-notifications.component';
+import { AdminSettingsComponent } from './admin-settings/admin-settings.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { HrNotificationsComponent } from './hr-notifications/hr-notifications.co
     RecruitmentattributeDialogComponent,
     LeaveconfigurationDialogComponent,
     ImageCropComponent,
-    HrNotificationsComponent
+    HrNotificationsComponent,
+    AdminSettingsComponent
 
   ],
   imports: [SharedModule,

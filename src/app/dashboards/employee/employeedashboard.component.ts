@@ -76,7 +76,7 @@ export class EmployeeDashboardComponent {
     ngOnInit() {
         this.permissions = this.jwtService.Permissions;
         this.wishesDialog = false;
-        this.getEmployeeDataBasedOnId()
+        this.getEmployeeDataBasedOnId();
         this.initializeYears();
         this.getHoliday()
         this.initGetLeavesForMonth();
@@ -132,24 +132,18 @@ export class EmployeeDashboardComponent {
     initGetLeavesForMonth() {
         this.dashBoardService.GetEmployeeLeavesForMonth(this.month, this.jwtService.EmployeeId, this.year).subscribe(resp => {
             this.monthlyLeaves = resp[0] as unknown as selfEmployeeMonthlyLeaves;
-            console.log(this.monthlyLeaves);
-            
         });
     }
 
     initGetLeavesForMonthPL() {
         this.dashBoardService.GetEmployeeLeavesForMonth(this.monthlyPLs, this.jwtService.EmployeeId, this.yearlyPLs).subscribe(resp => {
             this.monthlyLeaves = resp[0] as unknown as selfEmployeeMonthlyLeaves;
-            console.log(this.monthlyLeaves);
-            
         });
     }
 
     initGetLeavesForMonthCL() {
         this.dashBoardService.GetEmployeeLeavesForMonth(this.monthlyCLs, this.jwtService.EmployeeId, this.yearlyCLs).subscribe(resp => {
             this.monthlyLeaves = resp[0] as unknown as selfEmployeeMonthlyLeaves;
-            console.log(this.monthlyLeaves);
-            
         });
     }
     initNotifications() {
@@ -163,6 +157,30 @@ export class EmployeeDashboardComponent {
         this.dashBoardService.GetNotificationsBasedOnId(this.jwtService.EmployeeId).subscribe(resp => {
             this.notificationReplies = resp as unknown as NotificationsRepliesDto[];
         })
+    }
+    transformDateIntoTime(createdAt: any): string {
+        const currentDate = new Date();
+        const createdDate = new Date(createdAt);
+
+        const timeDifference = currentDate.getTime() - createdDate.getTime();
+        const hours: number = Math.floor(timeDifference / (1000 * 60 * 60));
+        const minutes: number = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+
+        if (hours >= 24) {
+            const formattedDate = this.formatDate(createdDate);
+            return `${formattedDate}`;
+        }
+        else if (hours > 0)
+            return `${hours} hr${hours > 1 ? 's' : ''} ago`;
+        else if (minutes > 0)
+            return `${minutes} min${minutes > 1 ? 's' : ''} ago`;
+        else
+            return 'Just now';
+
+    }
+    private formatDate(date: Date): string {
+        const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'short' };
+        return date.toLocaleDateString('en-US', options);
     }
 
     showBirthdayDialog(data: any) {
@@ -204,25 +222,33 @@ export class EmployeeDashboardComponent {
         })
     }
 
-    updateProjects() {
-        let projectNames = this.empDetails?.projects?.map((item) => item.projectName)
+   updateProjects() {
+    if (this.empDetails && this.empDetails.projects) {
+        let projectNames = this.empDetails.projects
+            .map((item) => item.projectName)
             .filter((value, index, self) => self.indexOf(value) === index);
-            this.projects = [];
+        this.projects = [];
         projectNames.forEach(projectName => {
             let values = this.empDetails.projects.filter(fn => fn.projectName == projectName);
-            let periods: { sinceFrom: Date, endAt: Date }[] = [];
-            values.forEach(p => { periods.push({ sinceFrom: p.sinceFrom, endAt: p.endAt }) })
-            this.projects.push(
-                {
+            
+            if (values.length > 0) {
+                let periods: { sinceFrom: Date, endAt: Date }[] = [];
+                values.forEach(p => {
+                    periods.push({ sinceFrom: p.sinceFrom, endAt: p.endAt });
+                });
+
+                this.projects.push({
                     projectId: values[0].projectId,
                     description: values[0].projectDescription,
                     name: projectName,
                     projectLogo: values[0].projectLogo,
                     periods: periods
-                }
-            )
+                });
+            }
         });
     }
+}
+
 
     gotoPreviousMonthPLs() {
         if (this.monthlyPLs > 1)

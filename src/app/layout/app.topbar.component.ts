@@ -17,6 +17,7 @@ import { LookupService } from '../_services/lookup.service';
 import { LookupDetailsDto } from '../_models/admin';
 import { EmployeeService } from '../_services/employee.service';
 import { HrNotificationsComponent } from '../_dialogs/hr-notifications/hr-notifications.component';
+import { AdminSettingsComponent } from '../_dialogs/admin-settings/admin-settings.component';
 
 @Component({
     selector: 'app-topbar',
@@ -33,6 +34,7 @@ export class AppTopbarComponent {
     hrNotificationsComponent=HrNotificationsComponent;
     leaveConfigurationDialogComponent = LeaveconfigurationDialogComponent;
     recruitmentattributeDialogComponent = RecruitmentattributeDialogComponent;
+    adminSettingsDialogComponent=AdminSettingsComponent;
     dialogRequest: DialogRequest = new DialogRequest();
     employeeDtls = new EmployeeProfilePicViewDto();
     EmployeeId: number;
@@ -156,6 +158,19 @@ export class AppTopbarComponent {
         if (action == Actions.save && content === this.hrNotificationsComponent) {
             this.dialogRequest.dialogData = dialogData;
             this.dialogRequest.header = "HR Notifications";
+            this.dialogRequest.width = "70%";
+        }
+        this.ref = this.dialogService.open(content, {
+            data: this.dialogRequest.dialogData,
+            header: this.dialogRequest.header,
+            width: this.dialogRequest.width
+        });
+    }
+    openAdminSettingsComponentDialog(content: any,
+        dialogData, action: Actions = this.ActionTypes.add) {
+        if (action == Actions.save && content === this.adminSettingsDialogComponent) {
+            this.dialogRequest.dialogData = dialogData;
+            this.dialogRequest.header = "Admin Settings";
             this.dialogRequest.width = "70%";
         }
         this.ref = this.dialogService.open(content, {
