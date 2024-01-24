@@ -265,13 +265,15 @@ export class AssetsComponent {
       this.alertMessage.displayErrorMessage(
         `Assets Code :"${this.fbassets.value.code}" Already Exists.`
       );
-    } else if (this.isUniqueAssetsName()) {
-      this.alertMessage.displayErrorMessage(
-        `Assets Name :"${this.fbassets.value.name}" Already Exists.`
-      );
-    } else {
+    }  else {
       this.save();
     }
+    // else if (this.isUniqueAssetsName()) {
+    //   this.alertMessage.displayErrorMessage(
+    //     `Assets Name :"${this.fbassets.value.name}" Already Exists.`
+    //   );
+    // }
+    
   }
 
   isUniqueAssetsCode() {
@@ -283,15 +285,14 @@ export class AssetsComponent {
     return existingAssetsCode.length > 0;
   }
 
-
-  isUniqueAssetsName() {
-    const existingAssetsCode = this.assets.filter(assets =>
-      assets.expandassets.find((expandAsset) =>
-        expandAsset.name === this.fbassets.get('name').value &&
-        expandAsset.assetId !== this.fbassets.get('assetId').value
-      ))
-    return existingAssetsCode.length > 0;
-  }
+  // isUniqueAssetsName() {
+  //   const existingAssetsCode = this.assets.filter(assets =>
+  //     assets.expandassets.find((expandAsset) =>
+  //       expandAsset.name === this.fbassets.get('name').value &&
+  //       expandAsset.assetId !== this.fbassets.get('assetId').value
+  //     ))
+  //   return existingAssetsCode.length > 0;
+  // }
 
   fileChangeEvent(event: any): void {
     if (event.target.files.length) {

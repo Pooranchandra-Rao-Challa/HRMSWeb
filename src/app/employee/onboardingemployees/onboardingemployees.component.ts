@@ -34,7 +34,7 @@ export class OnboardingemployeesComponent {
   empbasicDetails = new EmployeeBasicDetailDto();
   selectedOption: boolean;
   showExperienceStep: boolean;
-
+  searchKeyword: string = '';
 
   headers: ITableHeader[] = [
     { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
@@ -160,7 +160,7 @@ export class OnboardingemployeesComponent {
 
   clear(table: Table) {
     table.clear();
-    this.filter.nativeElement.value = '';
+    this.searchKeyword = '';
   }
   onFilter(dv: DataView, event: Event) {
     dv.filter((event.target as HTMLInputElement).value);

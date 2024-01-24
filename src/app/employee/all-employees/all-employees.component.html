@@ -45,7 +45,7 @@
                       (click)="clear(dtEmployees)"></button>
                     <span class="p-input-icon-left mb-2">
                       <i class="pi pi-search"></i>
-                      <input pInputText type="text" #filter (input)="onGlobalFilter(dtEmployees, $event)"
+                      <input pInputText type="text" [(ngModel)]="searchKeyword" #filter id="search" (input)="onGlobalFilter(dtEmployees, $event)"
                         placeholder="Search Keyword" class="w-full" />
                     </span>
                   </div>

@@ -52,9 +52,13 @@
                 <div class="field col-12 md:col-4">
                     <label class="required">Asset Name:</label>
                     <p-dropdown id="asset-name" [options]="assets" optionLabel="name" [filter]="true" filterBy="name"
-                        placeholder="Select Asset Name" formControlName="assetId" optionValue="assetId" appendTo="body"
-                        [ngClass]="{ 'is-invalid ng-dirty': FormControls['assetId'].touched && FormControls['assetId'].errors }">
-                    </p-dropdown>
+                    placeholder="Select Asset Name" formControlName="assetId" optionValue="assetId" appendTo="body"
+                    [ngClass]="{ 'is-invalid ng-dirty': FormControls['assetId'].touched && FormControls['assetId'].errors }">
+                    <ng-template let-option pTemplate="option">
+                        <div>{{ option.name }} </div>
+                        <span style="font-size: smaller;">{{ option.code }}</span>
+                    </ng-template>
+                </p-dropdown>
                     <span *ngIf="FormControls['assetId'].touched && FormControls['assetId'].invalid">
                         <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['assetId'].errors?.['required']">
                             Please Select Asset Name.</div>

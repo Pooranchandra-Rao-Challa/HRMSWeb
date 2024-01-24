@@ -30,6 +30,7 @@ export class AllEmployeesComponent {
     mediumDate: string = MEDIUM_DATE
     permissions: any;
     value: number;
+    searchKeyword: string = '';
 
     headers: ITableHeader[] = [
         { field: 'code', header: 'code', label: 'Employee Code' },
@@ -74,8 +75,9 @@ export class AllEmployeesComponent {
 
     clear(table: Table) {
         table.clear();
-        this.filter.nativeElement.value = '';
+        this.searchKeyword = '';
     }
+
     clearcard(dv: DataView) {
         dv.filteredValue = null;
         this.filter.nativeElement.value = '';
@@ -103,8 +105,8 @@ export class AllEmployeesComponent {
             })
     }
 
-    getEmployeePhoto(employee:EmployeesViewDto){
-        return this.EmployeeService.getEmployeePhoto(employee.employeeId).subscribe((resp)=> {
+    getEmployeePhoto(employee: EmployeesViewDto) {
+        return this.EmployeeService.getEmployeePhoto(employee.employeeId).subscribe((resp) => {
             employee.photo = (resp as any).ImageData;
         })
     }

@@ -22,6 +22,7 @@ import { ConfirmationDialogService } from 'src/app/_alerts/confirmationdialog.se
 import { ReportService } from 'src/app/_services/report.service';
 import * as FileSaver from "file-saver";
 import { HttpEventType } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 interface AutoCompleteCompleteEvent {
@@ -62,7 +63,7 @@ export class ProjectComponent implements OnInit {
     AllotedNodes: NodeProps[] = [];
     activeIndex: number = 0;
     profileImage = '';
-    ProjectstatuesReportType:any[];
+    ProjectstatuesReportType: any[];
     imageToCrop: File;
 
     @ViewChild('orgProjectChart', { read: ViewContainerRef, static: true })
@@ -122,7 +123,8 @@ export class ProjectComponent implements OnInit {
         private messageService: MessageService,
         private d3NodeChanger: D3NodeChangeNotifier, private viewContainerRef: ViewContainerRef,
         private cdr: ChangeDetectorRef, private reportService: ReportService,
-        private imageCropService: ImagecropService) { }
+        private imageCropService: ImagecropService,
+        private activatedRoute: ActivatedRoute) { }
 
     ngOnInit() {
 
@@ -245,7 +247,7 @@ export class ProjectComponent implements OnInit {
     initProjectStatuses() {
         this.adminService.ProjectStatuses().subscribe((resp) => {
             this.projectStatues = resp as unknown as ProjectStatus[];
-            this.ProjectstatuesReportType= [...this.projectStatues,{eProjectStatusesId:0,name:"All"}];
+            this.ProjectstatuesReportType = [...this.projectStatues, { eProjectStatusesId: 0, name: "All" }];
         })
     }
     restrictSpaces(event: KeyboardEvent) {
@@ -300,6 +302,10 @@ export class ProjectComponent implements OnInit {
         this.adminService.GetProjects().subscribe(resp => {
             this.projects = resp as unknown as ProjectViewDto[];
             this.projects = this.projects.reverse();
+            // Filter suspended projects if the showSuspendedProjects query parameter is true
+            if (this.activatedRoute.snapshot.queryParams['showSuspendedProjects'] === 'true') {
+                this.projects = this.projects.filter(project => project.suspended !== null);
+            }
             this.projects.forEach(project => {
                 this.getProjectLogo(project);
             })
@@ -929,7 +935,7 @@ export class ProjectComponent implements OnInit {
         this.imageCropService.onCrop(image, this.fbproject, 'logo');
     }
 
-    downloadProjectReport(id:number) {
+    downloadProjectReport(id: number) {
         this.reportService.DownloadProjects(id)
             .subscribe((resp) => {
                 if (resp.type === HttpEventType.DownloadProgress) {
