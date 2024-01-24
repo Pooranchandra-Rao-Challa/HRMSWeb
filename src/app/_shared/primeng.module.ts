@@ -52,6 +52,8 @@ import { ChipModule } from 'primeng/chip';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { MenuModule } from 'primeng/menu';
 import { ListboxModule } from 'primeng/listbox';
+import { Calendar } from 'primeng/calendar';
+Calendar.prototype.getDateFormat = () => 'dd/mm/yy';
 
 @NgModule({
     exports: [

@@ -8,9 +8,9 @@
             </ng-template>
             <ng-template pTemplate="center">
                 <div *ngFor="let status of statuses" class="field-checkbox">
-                    <p-radioButton [inputId]="status.key" name="status" [value]="status" [(ngModel)]="selectedStatus"
+                    <p-radioButton [inputId]="status.key" class="ml-3" name="status" [value]="status" [(ngModel)]="selectedStatus"
                         (click)="getLeaves()"></p-radioButton>
-                    <label [for]="status.key" class="ml-2">{{ status.name }}</label>
+                    <label [for]="status.key" class="ml-1">{{ status.name }}</label>
                 </div>
             </ng-template>
             <ng-template pTemplate="right">
@@ -91,17 +91,19 @@
             </ng-template>
             <ng-template pTemplate="body" let-leave let-columns="columns">
                 <tr [ngClass]="{'read-only-row': leave?.isDeleted == true}">
-                    <td class="text-center"
-                        *ngIf="permissions?.CanDeleteLeaves && leave?.isLeaveUsed !== true &&  leave?.isDeleted !== true">
-                        <button pButton pRipple icon="pi pi-trash" id="delete"
-                            class="p-element p-ripple p-button-outlined p-button-danger p-button p-0"
-                            (click)="deleteleaveDetails(leave.employeeLeaveId)"></button>
+                    <td class="text-center">
+                        <div
+                            *ngIf="permissions?.CanDeleteLeaves && leave?.isLeaveUsed !== true &&  leave?.isDeleted !== true">
+                            <button pButton pRipple icon="pi pi-trash" id="delete"
+                                class="p-element p-ripple p-button-outlined p-button-danger p-button p-0"
+                                (click)="deleteleaveDetails(leave.employeeLeaveId)"></button>
+                        </div>
                     </td>
                     <td pFrozenColumn alignFrozen="right" [frozen]="true" class="text-center"
                         *ngIf="permissions?.CanManageLeave">
                         <div class="flex"
                             *ngIf="leave.status === 'Accepted' || leave.status === 'Pending' && leave.isDeleted !== true">
-                            
+
                             <span *ngIf="leave.acceptedAt !==null">
                                 <button pButton pRipple icon="pi pi-check" id="Leave_Approved_Button"
                                     class="p-element p-ripple  p-button  p-button-outlined p-button-success mr-3 p-0"
