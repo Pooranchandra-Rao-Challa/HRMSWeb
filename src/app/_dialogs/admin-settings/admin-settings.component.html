@@ -1,0 +1,27 @@
+<div class=" align-items-center justify-content-center" *ngIf="fbAdminSettings?.controls">
+    <form [formGroup]="fbAdminSettings">
+        <div class="grid mt-3 p-5">
+            <div class="col-12 roles-container">
+                <div class="p-fluid p-formgrid grid content_scroll">
+                    <div class="field col-12 md:col-4" *ngFor="let key of fbAdminSettings?.controls | keyvalue">
+                        <label >{{ key.key}}:</label>
+                
+                        <ng-container *ngIf="fbAdminSettings.get(key?.key)?.value === false || fbAdminSettings.get(key?.key)?.value === true; else elseBlock">
+                            <br/><p-inputSwitch [formControlName]="key?.key" id="adminSettings_{{key?.key}}"></p-inputSwitch>
+                        </ng-container>
+                    
+                        <ng-template #elseBlock>
+                            <p-inputNumber id="adminSettings_{{key?.key}}" [formControlName]="key?.key" ></p-inputNumber>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class=" footer dialog-footer" *ngIf="fbAdminSettings?.controls">
+    <div class=" button-container mt-1">
+        <p-button type="button" label="Save" [disabled]="fbAdminSettings.invalid"
+        (click)="addAdminSettings()"></p-button>
+    </div>
+</div>

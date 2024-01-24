@@ -137,7 +137,31 @@ export class AdminDashboardComponent implements OnInit {
         this.selectedMonth.setHours(0, 0, 0, 0);
         this.getDaysInMonth(this.year, this.month);
     }
+    transformDateIntoTime(createdAt: any): string {
+        const currentDate = new Date();
+        const createdDate = new Date(createdAt);
 
+        const timeDifference = currentDate.getTime() - createdDate.getTime();
+        const hours: number = Math.floor(timeDifference / (1000 * 60 * 60));
+        const daysDifference = Math.floor(hours / 24);
+        const minutes: number = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+
+        if (hours >= 24) {
+            const formattedDate = this.formatDate(createdDate);
+            return `${formattedDate}`;
+        }
+        else if (hours > 0)
+            return `${hours} hr${hours > 1 ? 's' : ''} ago`;
+        else if (minutes > 0)
+            return `${minutes} min${minutes > 1 ? 's' : ''} ago`;
+        else
+            return 'Just now';
+
+    }
+    private formatDate(date: Date): string {
+        const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'short' };
+        return date.toLocaleDateString('en-US', options);
+    }
     onMonthSelect(event) {
         this.selectedMonth = event;
         this.month = this.selectedMonth.getMonth() + 1;

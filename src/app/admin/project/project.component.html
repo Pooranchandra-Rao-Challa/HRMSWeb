@@ -9,16 +9,16 @@
       <ng-template pTemplate="right">
         <div *ngIf="permission?.CanDownloadProjects">
           <p-dropdown [options]="this.ProjectstatuesReportType" optionLabel="name"
-              placeholder="Select Project Report Type" (onChange)="downloadProjectReport($event.value)"
-              optionValue="eProjectStatusesId" class="att_dropdown">
+            placeholder="Select Project Report Type" (onChange)="downloadProjectReport($event.value)"
+            optionValue="eProjectStatusesId" class="att_dropdown">
           </p-dropdown>
 
-      </div>
-      <div *ngIf="permission?.CanDownloadProjects">
+        </div>
+        <div *ngIf="permission?.CanDownloadProjects">
           <button type="button " pButton icon="icon-csv-svgrepo-com-1"
-              class=" mr-2 doc_button doc_button att_report_button" pTooltip="Download Attendance Report"
-              tooltipPosition="left"></button>
-      </div>
+            class=" mr-2 doc_button doc_button att_report_button" pTooltip="Download Attendance Report"
+            tooltipPosition="left"></button>
+        </div>
         <button pButton pRipple label="Add New Project" icon="pi pi-plus" class="p-button-primary p-mr-2"
           id="Project_addProject" *ngIf="permission?.CanManageProjects" (click)="onEditProject(null)"></button>
       </ng-template>
@@ -345,6 +345,13 @@
                   border-top-right-radius: 10px;">
                     <p-tabView id="rolesTabView">
                       <p-tabPanel [header]="role.Name" *ngFor="let role of Roles" [disabled]="!role.EnableLink">
+                  
+                        <div class="p-inputgroup col-12">
+                          <input pInputText type="text" class="w-full" placeholder="Search Employee"
+                            #filterEmployeesInput id="Project_Employee_Search_{{role.Name}}" 
+                            (keyup)="employeeSearch(role.Name, filterEmployeesInput.value)" />
+                          <span class="p-inputgroup-addon" (click)="clearInput(role.Name)"><i class="pi pi-undo"></i></span>
+                        </div>
                         <div class="col-12 drag-column">
                           <div *ngFor="let employee of getRoleEmployees(role.Name)">
                             <div class="card border-1 surface-border card-height project_employee_card mb-5"
@@ -417,13 +424,13 @@
                   (click)="onEditProject(project)" id="project_edit_button"></button>
                 <div class="list-none m-0 p-0 text-center" (click)="showProjectDetails(project.projectId)">
                   <!-- <div class="w-10rem h-10rem align-items-center"> -->
-                    <div class="avatar_projects">
-                      <img [src]="project.logo" alt="img" [alt]="project.name" onerror="this.onerror=null;"
+                  <div class="avatar_projects">
+                    <img [src]="project.logo" alt="img" [alt]="project.name" onerror="this.onerror=null;"
                       class="project_img avatar_projects">
-                    </div>
-                    <!-- <img [src]="project.logo" alt="img" [alt]="project.name" onerror="this.onerror=null;"
+                  </div>
+                  <!-- <img [src]="project.logo" alt="img" [alt]="project.name" onerror="this.onerror=null;"
                     class="inline-flex w-10rem h-10rem align-items-center w-10rem justify-content-center border-black-alpha-70 mb-5"> -->
-                 
+
                   <!-- </div> -->
                   <div class="text-2xl mb-3 font-medium">
                     <a class="cursor-pointer" id="Project_viewDetails">{{project.name}} </a>
@@ -475,23 +482,22 @@
           <div class="col-12 lg:col-3">
             <div class="fex">
               <div class="avatar_projects">
-                <img [src]="this.projectDetails.logo"  alt="img" 
-                class="project_img avatar_projects">
+                <img [src]="this.projectDetails.logo" alt="img" class="project_img avatar_projects">
               </div>
               <div class="text-2xl mb-3 font-medium text-left">
                 <a class="cursor-pointer " id="Project_viewDetails">{{this.projectDetails.name}}</a>
               </div>
-              
+
             </div>
           </div>
           <div class="col-12 lg:col-9">
             <div class="grid" style="text-align: left;">
 
               <div class="col-12 lg:col-10">
-                
-                
+
+
                 <div class="">
-                  <span class="label text-primary font-bold text-900">Project Description:</span><br/>
+                  <span class="label text-primary font-bold text-900">Project Description:</span><br />
                   <span class="value mt-2 ">{{this.projectDetails.description}}</span>
                 </div>
               </div>
@@ -540,7 +546,7 @@
                     <div class="text-xl font-bold">{{employee.employeeName}}</div>
                     <div class="text-600 font-medium text-sm">EmpId: {{employee.employeeId}}</div>
                   </div>
-                
+
                   <br />
                   <div style=" text-align:center;">
                     <button pButton pRipple type="submit" label="Unassign"

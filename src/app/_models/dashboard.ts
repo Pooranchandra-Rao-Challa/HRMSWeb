@@ -61,6 +61,7 @@ export class NotificationsDto {
     message?: string
     messageType?: string
     messageTypeId?: number
+    createdAt?:any
 }
 export class NotificationsRepliesDto {
     code?:string
