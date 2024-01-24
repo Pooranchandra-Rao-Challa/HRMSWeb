@@ -36,8 +36,6 @@ export class EmployeeDashboardComponent {
     yearlyPLs: number = new Date().getFullYear();
     monthlyCLs: number = new Date().getMonth() + 1;
     yearlyCLs: number = new Date().getFullYear();
-    monthlyLWP: number = new Date().getMonth() + 1;
-    yearlyLWP: number = new Date().getFullYear();
     selectedMonth: Date;
     days: number[] = [];
     monthlyLeaves: selfEmployeeMonthlyLeaves;
@@ -134,6 +132,24 @@ export class EmployeeDashboardComponent {
     initGetLeavesForMonth() {
         this.dashBoardService.GetEmployeeLeavesForMonth(this.month, this.jwtService.EmployeeId, this.year).subscribe(resp => {
             this.monthlyLeaves = resp[0] as unknown as selfEmployeeMonthlyLeaves;
+            console.log(this.monthlyLeaves);
+            
+        });
+    }
+
+    initGetLeavesForMonthPL() {
+        this.dashBoardService.GetEmployeeLeavesForMonth(this.monthlyPLs, this.jwtService.EmployeeId, this.yearlyPLs).subscribe(resp => {
+            this.monthlyLeaves = resp[0] as unknown as selfEmployeeMonthlyLeaves;
+            console.log(this.monthlyLeaves);
+            
+        });
+    }
+
+    initGetLeavesForMonthCL() {
+        this.dashBoardService.GetEmployeeLeavesForMonth(this.monthlyCLs, this.jwtService.EmployeeId, this.yearlyCLs).subscribe(resp => {
+            this.monthlyLeaves = resp[0] as unknown as selfEmployeeMonthlyLeaves;
+            console.log(this.monthlyLeaves);
+            
         });
     }
     initNotifications() {
@@ -146,7 +162,6 @@ export class EmployeeDashboardComponent {
     initNotificationsBasedOnId() {
         this.dashBoardService.GetNotificationsBasedOnId(this.jwtService.EmployeeId).subscribe(resp => {
             this.notificationReplies = resp as unknown as NotificationsRepliesDto[];
-
         })
     }
     transformDateIntoTime(createdAt: any): string {
@@ -244,7 +259,7 @@ export class EmployeeDashboardComponent {
         this.selectedMonth.setHours(0, 0, 0, 0);
         this.getDaysInMonthPLs(this.yearlyPLs, this.monthlyPLs);
         this.getEmployeeDataBasedOnId();
-        this.initGetLeavesForMonth();
+        this.initGetLeavesForMonthPL();
     }
 
     gotoNextMonthPLs() {
@@ -258,7 +273,7 @@ export class EmployeeDashboardComponent {
         this.selectedMonth.setHours(0, 0, 0, 0);
         this.getDaysInMonthPLs(this.yearlyPLs, this.monthlyPLs);
         this.getEmployeeDataBasedOnId();
-        this.initGetLeavesForMonth();
+        this.initGetLeavesForMonthPL();
     }
 
     getDaysInMonthPLs(year: number, month: number) {
@@ -276,6 +291,7 @@ export class EmployeeDashboardComponent {
         this.yearlyPLs = this.selectedMonth.getFullYear();
         this.getDaysInMonthPLs(this.yearlyPLs, this.monthlyPLs);
         this.getEmployeeDataBasedOnId();
+        this.initGetLeavesForMonthPL();
     }
 
     gotoPreviousMonthCLs() {
@@ -289,7 +305,7 @@ export class EmployeeDashboardComponent {
         this.selectedMonth.setHours(0, 0, 0, 0);
         this.getDaysInMonthCLs(this.yearlyCLs, this.monthlyCLs);
         this.getEmployeeDataBasedOnId();
-        this.initGetLeavesForMonth();
+        this.initGetLeavesForMonthCL();
     }
 
     gotoNextMonthCLs() {
@@ -303,7 +319,7 @@ export class EmployeeDashboardComponent {
         this.selectedMonth.setHours(0, 0, 0, 0);
         this.getDaysInMonthCLs(this.yearlyCLs, this.monthlyCLs);
         this.getEmployeeDataBasedOnId();
-        this.initGetLeavesForMonth();
+        this.initGetLeavesForMonthCL();
     }
 
     getDaysInMonthCLs(year: number, month: number) {
@@ -321,51 +337,7 @@ export class EmployeeDashboardComponent {
         this.yearlyCLs = this.selectedMonth.getFullYear();
         this.getDaysInMonthCLs(this.yearlyCLs, this.monthlyCLs);
         this.getEmployeeDataBasedOnId();
-    }
-
-    gotoPreviousMonthLWP() {
-        if (this.monthlyLWP > 1)
-            this.monthlyLWP--;
-        else {
-            this.monthlyLWP = 12;        // Reset to December
-            this.yearlyLWP--;            // Decrement the year
-        }
-        this.selectedMonth = FORMAT_DATE(new Date(this.yearlyLWP, this.monthlyLWP - 1, 1));
-        this.selectedMonth.setHours(0, 0, 0, 0);
-        this.getDaysInMonthLWP(this.yearlyLWP, this.monthlyLWP);
-        this.getEmployeeDataBasedOnId();
-        this.initGetLeavesForMonth();
-    }
-
-    gotoNextMonthLWP() {
-        if (this.monthlyLWP < 12)
-            this.monthlyLWP++;
-        else {
-            this.monthlyLWP = 1; // Reset to January
-            this.yearlyLWP++;    // Increment the year
-        }
-        this.selectedMonth = FORMAT_DATE(new Date(this.yearlyLWP, this.monthlyLWP - 1, 1));
-        this.selectedMonth.setHours(0, 0, 0, 0);
-        this.getDaysInMonthLWP(this.yearlyLWP, this.monthlyLWP);
-        this.getEmployeeDataBasedOnId();
-        this.initGetLeavesForMonth();
-    }
-
-    getDaysInMonthLWP(year: number, month: number) {
-        const date = new Date(year, month - 1, 1);
-        date.setMonth(date.getMonth() + 1);
-        date.setDate(date.getDate() - 1);
-        let day = date.getDate();
-        this.days = [];
-        for (let i = 1; i <= day; i++)
-            this.days.push(i);
-    }
-
-    onMonthSelectLWP(event) {
-        this.monthlyLWP = this.selectedMonth.getMonth() + 1; // Month is zero-indexed
-        this.yearlyLWP = this.selectedMonth.getFullYear();
-        this.getDaysInMonthLWP(this.yearlyLWP, this.monthlyLWP);
-        this.getEmployeeDataBasedOnId();
+        this.initGetLeavesForMonthCL();
     }
 
     openComponentDialog(content: any,
