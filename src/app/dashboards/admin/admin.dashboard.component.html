@@ -381,11 +381,11 @@
                                 <div class="flex align-items-center  w-100 gap-1">
                                     <span
                                         class="mt-1 text-900 block text-sm line-height-2  overflow-hidden text-overflow-ellipsis"
-                                        style="width:90%;">
+                                        style="width:85%;">
                                         {{employee?.message}}
                                     </span>
                                     <span class="text-gray-500 font-semibold text-sm line-height-1 w-20"
-                                        style="width:10%;">4h ago</span>
+                                        style="width:15%;">{{transformDateIntoTime(employee?.createdAt)}}</span>
                                 </div>
                             </div>
                         </li>

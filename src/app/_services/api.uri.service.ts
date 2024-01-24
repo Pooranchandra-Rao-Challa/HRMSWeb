@@ -169,6 +169,9 @@ export const GET_NOTIFICATIONS="Notification/GetNotifications";
 export const GET_NOTIFICATION_REPLIES="Notification/GetNotificationReplies"
 export const POST_BIRTHDAY_WISHES="Notification/CreateNotificationReplies"
 export const POST_HR_NOTIFICATIONS="Notification/CreateHRNotifications"
+export const DELETE_NOTIFICATION="Notification/DeleteHRNotifications"
+export const GET_ADMIN_SETTINGS="AdminDashboard/GetAppSettings";
+export const UPDATE_ADMIN_SETTINGS="AdminDashboard/UpdateAppSettings";
 // Admin Dashboard
 export const GET_ADMIN_DASHBOARD = "AdminDashboard/GetAdminDashboard";
 export const GET_ATTENDANCE_COUNT_BASED_ON_TYPE="AdminDashboard/GetAttendanceCountsBasedOnType";

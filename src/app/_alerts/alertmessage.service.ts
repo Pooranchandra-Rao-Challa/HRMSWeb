@@ -93,6 +93,8 @@ export const ALERT_CODES: { [key: string]: string } = {
     //Hr Notifications
     'HRN001':'Notification Added Successfully',
     'HRN002':'Notification Added Failed',
+    'HRN003':'Notification Deleted Successfully',
+    'HRN004':'Notification Deletion Failed',
     // change password
     'SSECP001': 'Password Updated Successfully',
     'ESECP001': 'Invalid Current Password',
@@ -106,7 +108,9 @@ export const ALERT_CODES: { [key: string]: string } = {
     'SSESQ002': 'Security Questions Saved Failed',
     'SSESQ003': 'Security Questions Deleted Successfully',
     'SSESQ004': 'Security Questions Deleted Failed',
-
+     //Admin Settings
+     'ASS001':'Settings Updated Successfully',
+     'ASS002':'Settings Updated Failed',
     //Projects
     'PAS001': 'Project Added Successfully',
     'PAS002': 'Project Updated Successfully',

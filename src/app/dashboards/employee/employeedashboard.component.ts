@@ -149,6 +149,30 @@ export class EmployeeDashboardComponent {
 
         })
     }
+    transformDateIntoTime(createdAt: any): string {
+        const currentDate = new Date();
+        const createdDate = new Date(createdAt);
+
+        const timeDifference = currentDate.getTime() - createdDate.getTime();
+        const hours: number = Math.floor(timeDifference / (1000 * 60 * 60));
+        const minutes: number = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+
+        if (hours >= 24) {
+            const formattedDate = this.formatDate(createdDate);
+            return `${formattedDate}`;
+        }
+        else if (hours > 0)
+            return `${hours} hr${hours > 1 ? 's' : ''} ago`;
+        else if (minutes > 0)
+            return `${minutes} min${minutes > 1 ? 's' : ''} ago`;
+        else
+            return 'Just now';
+
+    }
+    private formatDate(date: Date): string {
+        const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'short' };
+        return date.toLocaleDateString('en-US', options);
+    }
 
     showBirthdayDialog(data: any) {
         this.fbWishes.reset();
@@ -192,7 +216,7 @@ export class EmployeeDashboardComponent {
     updateProjects() {
         let projectNames = this.empDetails?.projects?.map((item) => item.projectName)
             .filter((value, index, self) => self.indexOf(value) === index);
-            this.projects = [];
+        this.projects = [];
         projectNames.forEach(projectName => {
             let values = this.empDetails.projects.filter(fn => fn.projectName == projectName);
             let periods: { sinceFrom: Date, endAt: Date }[] = [];

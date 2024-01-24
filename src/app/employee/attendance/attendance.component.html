@@ -129,9 +129,9 @@
     </ng-template>
     <ng-template pTemplate="right">
         <div *ngIf="permissions?.CanDownloadAttendance">
-            <p-dropdown [options]="getAttendanceReportTypeOptions()" optionLabel="label"
+            <p-dropdown [options]="attendanceExcelTypes" optionLabel="label"
                 placeholder="Select AttendanceReport Type" (onChange)="DownloadAttendanceReport($event.value)"
-                optionValue="label" class="att_dropdown" [showClear]="true">
+                optionValue="label" class="att_dropdown" >
             </p-dropdown>
 
         </div>

@@ -53,6 +53,16 @@
                         <a  class="flex align-items-center hover:text-primary-500 transition-duration-200 topbar-menu-item"
                             pStyleClass="@grandparent" enterClass="ng-hidden" enterActiveClass="px-scalein"
                             leaveToClass="ng-hidden" leaveActiveClass="px-fadeout"
+                            (click)="openAdminSettingsComponentDialog(adminSettingsDialogComponent, null, ActionTypes.save)"
+                            *ngIf="permissions?.CanManageAdminSetting">
+                            <i class="pi pi-fw pi-circle mr-2"></i>
+                            <span>Admin Settings</span>
+                        </a>
+                    </li>
+                    <li role="menuitem" class="m-0 mb-3">
+                        <a  class="flex align-items-center hover:text-primary-500 transition-duration-200 topbar-menu-item"
+                            pStyleClass="@grandparent" enterClass="ng-hidden" enterActiveClass="px-scalein"
+                            leaveToClass="ng-hidden" leaveActiveClass="px-fadeout"
                             (click)="openComponentDialog(lookupDialogComponent, null, ActionTypes.save)"
                             *ngIf="permissions?.CanManageLookups">
                             <i class="pi pi-fw pi-circle mr-2"></i>
