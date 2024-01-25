@@ -1,6 +1,6 @@
 <div class="col-12">
   <div class="card">
-    <p-confirmDialog [style]="{width: '30%'}"></p-confirmDialog>
+    <p-confirmDialog [style]="{width: '30%'}" class="confirm_dialog"></p-confirmDialog>
     <!-- Toolbar -->
     <p-toolbar styleClass="p-mb-4">
       <ng-template pTemplate="left">
@@ -269,9 +269,10 @@
               </div>
             &nbsp;&nbsp;
             <div class="">
+             
               <span class="p-input-icon-left mb-2">
                 <i class="pi pi-search"></i>
-                <input pInputText type="text" #filter id="search" (input)="onGlobalFilter(dtAssets, $event)"
+                <input pInputText type="text" #filter id="search_asssets" (input)="onGlobalFilter(dtAssets, $event)"
                   placeholder="Search Keyword" class="w-full" />
               </span>
             </div>

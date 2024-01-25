@@ -89,11 +89,11 @@ export class AssetsallotmentComponent extends Unsubscribe {
         dialogData, action: Actions = this.ActionTypes.add) {
         if (action == Actions.view && content === this.viewAssetAllotmentsDialogComponent) {
             this.dialogRequest.header = "View Asset Allotment";
-            this.dialogRequest.width = "70%";
+            this.dialogRequest.width = "50%";
         }
         else if (action == Actions.add && content === this.addassetallotmentDialogComponent) {
             this.dialogRequest.header = "Asset Allotment";
-            this.dialogRequest.width = "70%";
+            this.dialogRequest.width = "50%";
         }
         this.ref = this.dialogService.open(content, {
             data: {
