@@ -28,8 +28,8 @@ export class ReportService extends ApiHttpService {
   DownloadHolidays(year:number){
     return this.downloadExcel(GET_HOLIDAYS_REPORT,[year])
   }
-  DownloadEmployeeLeaves(month:number,year:number){
-    return this.downloadExcel(GET_EMPLOYEE_LEAVES_REPORT,[month,year])
+  DownloadEmployeeLeaves(month:number,year:number,loggedInEId:number){
+    return this.downloadExcel(GET_EMPLOYEE_LEAVES_REPORT,[month,year,loggedInEId])
   }
   DownloadLeaves(year:number){
     return this.downloadExcel(GET_LEAVES_REPORT,[year])

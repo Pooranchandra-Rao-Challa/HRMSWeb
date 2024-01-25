@@ -317,28 +317,9 @@
                                     </ng-container>
 
                                     <div class="text-left text-primary">
-                                        <p class="mb-0 mt-2"><b>S/N</b> {{asset.serialNumber}} </p>
-                                        <p><b>M/N</b> {{asset.modelNumber}} </p>
+                                        <p class="mb-0 mt-2"*ngIf="asset.serialNumber"><b>S/N</b> {{asset.serialNumber}} </p>
+                                        <p *ngIf="asset.modelNumber"><b>M/N</b> {{asset.modelNumber}} </p>
                                     </div>
-
-                                    <!-- <h6 class="m-0 mb-1 text-0">
-
-                                    <ng-container>
-                                        <span>Asset Name:</span>
-
-                                    </ng-container>
-                                    <br>
-                                    <ng-container *ngIf="asset.serialNumber">
-                                        <span>Serial Number:</span>
-
-                                    </ng-container>
-                                    <br>
-                                    <ng-container *ngIf="asset.modelNumber">
-                                        <span>Model Number:</span>
-
-                                    </ng-container>
-
-                                </h6> -->
                                 </div>
                             </div>
                         </div>
