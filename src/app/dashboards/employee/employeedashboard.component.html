@@ -324,7 +324,7 @@
                                     <div class="text-left text-primary">
                                         <p class="mb-0 mt-2" *ngIf="asset.assetCode"><b>Asset Code:</b>
                                             {{asset.assetCode}} </p>
-                                        <p *ngIf="asset.assignedOn"><b>Assigned On:</b> {{asset.assignedOn}} </p>
+                                        <p *ngIf="asset.assignedOn"><b>Assigned On:</b> {{asset.assignedOn | date:dateOfJoining }} </p>
                                     </div>
                                 </div>
                             </div>
