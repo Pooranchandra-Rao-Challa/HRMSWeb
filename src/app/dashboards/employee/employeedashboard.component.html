@@ -324,7 +324,8 @@
                                     <div class="text-left text-primary">
                                         <p class="mb-0 mt-2" *ngIf="asset.assetCode"><b>Asset Code:</b>
                                             {{asset.assetCode}} </p>
-                                        <p *ngIf="asset.assignedOn"><b>Assigned On:</b> {{asset.assignedOn | date:dateOfJoining }} </p>
+                                        <p *ngIf="asset.assignedOn"><b>Assigned On:</b> {{asset.assignedOn |
+                                            date:dateOfJoining }} </p>
                                     </div>
                                 </div>
                             </div>
@@ -355,16 +356,19 @@
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-holiday>
-                                <tr>
-                                    <td *ngFor="let col of headers"
-                                        [ngClass]="{'text-center': col.field === 'isActive', 'text-wrap': col.field === 'description'}">
+                                <tr *ngIf="holiday.isActive === true">
+                                    <td *ngFor="let col of headers">
                                         <span
                                             *ngIf="col?.field != 'fromDate' && col?.field != 'toDate'">{{holiday[col.field]}}</span>
                                         <span *ngIf="col?.field == 'fromDate' || col?.field == 'toDate'">
                                             {{holiday[col.field] |date: mediumDate }}
                                         </span>
+                                        <span *ngIf="col?.field === 'toDate'">
+                                            <span *ngIf="holiday[col.field] === null">
+                                                {{ holiday['fromDate'] | date: 'mediumDate' }}
+                                            </span>
+                                        </span>
                                     </td>
-
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="emptymessage">
