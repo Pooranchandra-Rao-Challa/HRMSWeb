@@ -55,6 +55,7 @@ export class EmployeeDashboardComponent {
     fieldset3Open = false;
     hasBirthdayNotifications: any;
     hasHRNotifications: any;
+    defaultPhotoforAssets:any;
 
     constructor(private dashBoardService: DashboardService,
         private adminService: AdminService,
@@ -77,6 +78,7 @@ export class EmployeeDashboardComponent {
         this.permissions = this.jwtService.Permissions;
         this.wishesDialog = false;
         this.getEmployeeDataBasedOnId();
+        this.defaultPhotoforAssets = './assets/layout/images/projectsDefault.jpg';
         this.initializeYears();
         this.getHoliday()
         this.initGetLeavesForMonth();
@@ -210,7 +212,7 @@ export class EmployeeDashboardComponent {
     getEmployeeDataBasedOnId() {
         this.dashBoardService.GetEmployeeDetails(this.jwtService.EmployeeId).subscribe((resp) => {
             this.empDetails = resp as unknown as SelfEmployeeDto;
-            this.empDetails.assets = JSON.parse(this.empDetails.allottedAssets);
+            this.empDetails.assets = JSON.parse(this.empDetails.allottedAssets);            
             this.empDetails.empaddress = JSON.parse(this.empDetails.addresses);
             this.empDetails.projects = JSON.parse(this.empDetails.workingProjects);
 

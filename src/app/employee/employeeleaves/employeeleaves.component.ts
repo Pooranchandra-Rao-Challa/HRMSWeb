@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { Table } from 'primeng/table';
 import { Actions, ConfirmationRequest, DialogRequest, ITableHeader } from 'src/app/_models/common';
 import { GlobalFilterService } from 'src/app/_services/global.filter.service';
-import { EmployeeLeaveDetailsDto, EmployeeLeaveDto } from 'src/app/_models/employes';
+import { EmployeeLeaveDto } from 'src/app/_models/employes';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { JwtService } from 'src/app/_services/jwt.service';
@@ -50,6 +50,7 @@ export class EmployeeLeavesComponent {
   selectedMonth: Date;
   confirmationRequest: ConfirmationRequest = new ConfirmationRequest();
   selectedStatus: any;
+  value: number;
 
   statuses: any[] = [
     { name: 'Pending', key: 'P' },
@@ -70,7 +71,6 @@ export class EmployeeLeavesComponent {
     { field: 'acceptedAt', header: 'acceptedAt', label: 'Accepted At' },
     { field: 'approvedAt', header: 'approvedAt', label: 'Approved At' },
   ];
-  value: number;
 
   constructor(
     private globalFilterService: GlobalFilterService,
@@ -109,7 +109,7 @@ export class EmployeeLeavesComponent {
   }
 
   getLeaves() {
-    this.employeeService.getEmployeeLeaveDetails(this.month, this.year,this.jwtService.EmployeeId).subscribe((resp) => {
+    this.employeeService.getEmployeeLeaveDetails(this.month, this.year, this.jwtService.EmployeeId).subscribe((resp ) => {
       this.leaves = resp as unknown as EmployeeLeaveDto[];
       this.leaves = this.leaves.filter(leave => leave.status === this.selectedStatus.name);
     });
@@ -232,8 +232,6 @@ export class EmployeeLeavesComponent {
           }
         }
       });
-      console.log(this.fbLeave.value);
-
     });
   }
 
@@ -246,7 +244,7 @@ export class EmployeeLeavesComponent {
   }
 
   downloadEmployeeLeavesReport() {
-    this.reportService.DownloadEmployeeLeaves(this.month, this.year)
+    this.reportService.DownloadEmployeeLeaves(this.month, this.year, this.jwtService.EmployeeId)
       .subscribe((resp) => {
         if (resp.type === HttpEventType.DownloadProgress) {
           const percentDone = Math.round(100 * resp.loaded / resp.total);

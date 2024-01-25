@@ -76,28 +76,29 @@
                                     <h4 class="m-0 ">{{ empDetails?.usedPrivilegeLeavesInYear}}/{{
                                         empDetails?.allottedPrivilegeLeaves}}</h4>
                                 </div>
-                                <i class="pi pi-fw icon-add_leave  text-6xl att-pointer"
-                                label="Primary" pTooltip="Apply PL" tooltipPosition="right"
-                                (click)="openComponentDialog(employeeleaveDialogComponent, null, ActionTypes.save)"
-                                *ngIf="permissions?.CanManageSelfEmployee"></i>
+                                <i class="pi pi-fw icon-add_leave  text-6xl att-pointer" label="Primary"
+                                    pTooltip="Apply PL" tooltipPosition="right"
+                                    (click)="openComponentDialog(employeeleaveDialogComponent, null, ActionTypes.save)"
+                                    *ngIf="permissions?.CanManageSelfEmployee"></i>
                             </div>
-                            <hr class="primary_hr"/>
+                            <hr class="primary_hr" />
                             <div class="flex justify-content-between">
                                 <div class="overview-ifo">
-                                    <p class="m-0 mb-1  text-500">Monthly Consumed  </p>
-                                    <p  class="m-0  text-500">{{ this.monthlyLeaves?.usedPLsInMonth}}</p>
+                                    <p class="m-0 mb-1  text-500">Monthly Consumed </p>
+                                    <p class="m-0  text-500">{{ this.monthlyLeaves?.usedPLsInMonth}}</p>
                                     <p class="m-0  text-500" *ngIf="this.monthlyLeaves?.usedPLsInMonth === null">0</p>
                                 </div>
-                              
+
                                 <div class="d-leave overview-ifo text-center">
                                     <p class="m-0 mb-1  text-500">
                                         {{this.monthlyPLs}}/{{this.yearlyPLs}}
                                     </p>
                                     <i class="pi pi-angle-left d-leave-font " (click)="gotoPreviousMonthPLs()">
                                     </i>
-                                    <p-calendar styleClass="only-icon dashboard_mon"  [(ngModel)]="selectedMonth" [showIcon]="true"
-                                        view="month" [yearNavigator]="true" yearRange="2000:2030" [readonlyInput]="true"
-                                        inputId="monthpicker" (onSelect)="onMonthSelectPLs($event)" pTooltip="Monthly PL's"
+                                    <p-calendar styleClass="only-icon dashboard_mon" [(ngModel)]="selectedMonth"
+                                        [showIcon]="true" view="month" [yearNavigator]="true" yearRange="2000:2030"
+                                        [readonlyInput]="true" inputId="monthpicker"
+                                        (onSelect)="onMonthSelectPLs($event)" pTooltip="Monthly PL's"
                                         tooltipPosition="top">
                                     </p-calendar>
                                     <i class="pi pi-angle-right d-leave-font " (click)="gotoNextMonthPLs()"></i>
@@ -106,10 +107,11 @@
                                 <div class="overview-ifo">
                                     <p class="m-0 mb-1  text-500">Available </p>
                                     <p class="m-0  text-500"><b>{{
-                                        empDetails?.allottedPrivilegeLeaves-empDetails?.usedPrivilegeLeavesInYear}}</b></p>
+                                            empDetails?.allottedPrivilegeLeaves-empDetails?.usedPrivilegeLeavesInYear}}</b>
+                                    </p>
                                 </div>
                             </div>
-                          
+
                         </div>
                     </div>
 
@@ -127,29 +129,30 @@
                                     <h4 class="m-0 ">{{ empDetails?.usedCasualLeavesInYear}}/{{
                                         empDetails?.allottedCasualLeaves}}</h4>
                                 </div>
-                                <i class="pi pi-fw icon-add_leave text-white text-6xl att-pointer" 
-                                label="Primary" pTooltip="Apply CL" tooltipPosition="right"
-                                (click)="openComponentDialog(employeeleaveDialogComponent, null, ActionTypes.save)"
-                                *ngIf="permissions?.CanManageSelfEmployee"></i>
-                            
+                                <i class="pi pi-fw icon-add_leave text-white text-6xl att-pointer" label="Primary"
+                                    pTooltip="Apply CL" tooltipPosition="right"
+                                    (click)="openComponentDialog(employeeleaveDialogComponent, null, ActionTypes.save)"
+                                    *ngIf="permissions?.CanManageSelfEmployee"></i>
+
                             </div>
-                            <hr class="primary_hr"/>
+                            <hr class="primary_hr" />
                             <div class="flex justify-content-between">
                                 <div class="overview-ifo">
-                                    <p class="m-0 mb-1  text-500">Monthly Consumed  </p>
-                                    <p  class="m-0  text-500">{{ this.monthlyLeaves?.usedCLsInMonth}}</p>
+                                    <p class="m-0 mb-1  text-500">Monthly Consumed </p>
+                                    <p class="m-0  text-500">{{ this.monthlyLeaves?.usedCLsInMonth}}</p>
                                     <p class="m-0  text-500" *ngIf="this.monthlyLeaves?.usedCLsInMonth === null">0</p>
                                 </div>
-                              
+
                                 <div class="d-leave overview-ifo text-center">
                                     <p class="m-0 mb-1  text-500">
                                         {{this.monthlyCLs}}/{{this.yearlyCLs}}
                                     </p>
                                     <i class="pi pi-angle-left d-leave-font  " (click)="gotoPreviousMonthCLs()">
                                     </i>
-                                    <p-calendar styleClass="only-icon dashboard_mon" [(ngModel)]="selectedMonth" [showIcon]="true"
-                                        view="month" [yearNavigator]="true" yearRange="2000:2030" [readonlyInput]="true"
-                                        inputId="monthpicker" (onSelect)="onMonthSelectCLs($event)" pTooltip="Monthly CL's"
+                                    <p-calendar styleClass="only-icon dashboard_mon" [(ngModel)]="selectedMonth"
+                                        [showIcon]="true" view="month" [yearNavigator]="true" yearRange="2000:2030"
+                                        [readonlyInput]="true" inputId="monthpicker"
+                                        (onSelect)="onMonthSelectCLs($event)" pTooltip="Monthly CL's"
                                         tooltipPosition="top">
                                     </p-calendar>
                                     <i class="pi pi-angle-right d-leave-font " (click)="gotoNextMonthCLs()"></i>
@@ -158,15 +161,16 @@
                                 <div class="overview-ifo">
                                     <p class="m-0 mb-1  text-500">Available </p>
                                     <p class="m-0  text-500"><b>{{
-                                        empDetails?.allottedCasualLeaves-empDetails?.usedCasualLeavesInYear}}</b></p>
+                                            empDetails?.allottedCasualLeaves-empDetails?.usedCasualLeavesInYear}}</b>
+                                    </p>
                                 </div>
                             </div>
-                          
+
                         </div>
                     </div>
                 </div>
             </div>
-     
+
             <div class="col-12 md:col-6 lg:col-5  " *ngIf="this.permissions.CanViewNotifications">
                 <div class="card-headr chart_head gap-2 ">
                     <div class="card-title text-center">
@@ -311,34 +315,17 @@
                                     <p class="text-primary "><b>{{asset.assetName}}</b></p>
                                     <ng-container *ngIf="asset.thumbnail">
                                         <div class="project_img_dash">
-                                            <img [src]="asset?.thumbnail" [alt]="asset?.thumbnail"
+                                            <img [src]="asset?.thumbnail !== '0' ? asset?.thumbnail : (asset?.thumbnail == '0' ? this.defaultPhotoforAssets : this.defaultPhotoforAssets)"
+                                                [alt]="asset?.thumbnail"
                                                 class="shadow-2 employee_profile_pic avatar_emp_dboard" />
                                         </div>
                                     </ng-container>
 
                                     <div class="text-left text-primary">
-                                        <p class="mb-0 mt-2"><b>S/N</b> {{asset.serialNumber}} </p>
-                                        <p><b>M/N</b> {{asset.modelNumber}} </p>
+                                        <p class="mb-0 mt-2" *ngIf="asset.assetCode"><b>Asset Code:</b>
+                                            {{asset.assetCode}} </p>
+                                        <p *ngIf="asset.assignedOn"><b>Assigned On:</b> {{asset.assignedOn}} </p>
                                     </div>
-
-                                    <!-- <h6 class="m-0 mb-1 text-0">
-
-                                    <ng-container>
-                                        <span>Asset Name:</span>
-
-                                    </ng-container>
-                                    <br>
-                                    <ng-container *ngIf="asset.serialNumber">
-                                        <span>Serial Number:</span>
-
-                                    </ng-container>
-                                    <br>
-                                    <ng-container *ngIf="asset.modelNumber">
-                                        <span>Model Number:</span>
-
-                                    </ng-container>
-
-                                </h6> -->
                                 </div>
                             </div>
                         </div>
