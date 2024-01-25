@@ -84,9 +84,9 @@
                             <hr class="primary_hr" />
                             <div class="flex justify-content-between">
                                 <div class="overview-ifo">
-                                    <p class="m-0 mb-1  text-500">Monthly Consumed </p>
-                                    <p class="m-0  text-500">{{ this.monthlyLeaves?.usedPLsInMonth}}</p>
-                                    <p class="m-0  text-500" *ngIf="this.monthlyLeaves?.usedPLsInMonth === null">0</p>
+                                    <p class="m-0 mb-1  text-primary text-500">Monthly Consumed </p>
+                                    <p class="m-0 text-gray-500  text-500">{{ this.monthlyLeaves?.usedPLsInMonth}}</p>
+                                    <p class="m-0  text-gray-500  text-500" *ngIf="this.monthlyLeaves?.usedPLsInMonth === null">0</p>
                                 </div>
 
                                 <div class="d-leave overview-ifo text-center">
@@ -105,8 +105,8 @@
                                 </div>
 
                                 <div class="overview-ifo">
-                                    <p class="m-0 mb-1  text-500">Available </p>
-                                    <p class="m-0  text-500"><b>{{
+                                    <p class="m-0 mb-1 text-primary  text-500">Available </p>
+                                    <p class="m-0 text-gray-500  text-500"><b>{{
                                             empDetails?.allottedPrivilegeLeaves-empDetails?.usedPrivilegeLeavesInYear}}</b>
                                     </p>
                                 </div>
@@ -125,7 +125,7 @@
                         <div class="card text-0  pt-2  stat_background overview-ifo ">
                             <div class="flex justify-content-between">
                                 <div class="overview-info">
-                                    <h6 class="m-0 mb-1 ">Current Balance </h6>
+                                    <h6 class="m-0  mb-1 ">Current Balance </h6>
                                     <h4 class="m-0 ">{{ empDetails?.usedCasualLeavesInYear}}/{{
                                         empDetails?.allottedCasualLeaves}}</h4>
                                 </div>
@@ -138,7 +138,7 @@
                             <hr class="primary_hr" />
                             <div class="flex justify-content-between">
                                 <div class="overview-ifo">
-                                    <p class="m-0 mb-1  text-500">Monthly Consumed </p>
+                                    <p class="m-0 mb-1 text-primary text-500">Monthly Consumed </p>
                                     <p class="m-0  text-500">{{ this.monthlyLeaves?.usedCLsInMonth}}</p>
                                     <p class="m-0  text-500" *ngIf="this.monthlyLeaves?.usedCLsInMonth === null">0</p>
                                 </div>
@@ -159,7 +159,7 @@
                                 </div>
 
                                 <div class="overview-ifo">
-                                    <p class="m-0 mb-1  text-500">Available </p>
+                                    <p class="m-0 mb-1  text-primary text-500">Available </p>
                                     <p class="m-0  text-500"><b>{{
                                             empDetails?.allottedCasualLeaves-empDetails?.usedCasualLeavesInYear}}</b>
                                     </p>

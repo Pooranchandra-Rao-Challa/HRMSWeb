@@ -133,7 +133,7 @@
             <div *ngIf="permissions?.CanDownloadAttendance">
                 <p-dropdown [options]="attendanceExcelTypes" optionLabel="label"
                     placeholder="Select AttendanceReport Type" (onChange)="DownloadAttendanceReport($event.value)"
-                    optionValue="label" class="att_dropdown w-100" >
+                    optionValue="label" class="att_dropdown w-100"  [showClear]="true" >
                 </p-dropdown>
             </div>
         </div>

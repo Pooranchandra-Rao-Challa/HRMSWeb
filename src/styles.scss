@@ -876,14 +876,14 @@ p-fieldset.allott-employee {
 .applicant-p-block-home {
     background-color: rgb(249, 245, 242);
     border-radius: 10px;
-    height: 415px;
+    height: 400px;
     overflow-x: hidden;
     overflow-y: auto;
 }
 .applicant-n-block-home {
     background-color: rgb(255, 255, 255);
     border-radius: 10px;
-    height: 377px;
+    height: 365px;
     overflow-x: hidden;
     overflow-y: auto;
 }
@@ -1264,7 +1264,7 @@ app-attendance .p-datatable-table tbody tr td:first-child {
 }
 .overview-ifo p{
     font-size: 12px;
-    color: var(--primary-color) !important;
+    // color: var(--primary-color) !important;
 }
 .overview-ifo i{
     color:var(--primary-color) !important;
