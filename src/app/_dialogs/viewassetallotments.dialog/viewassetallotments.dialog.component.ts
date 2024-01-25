@@ -32,7 +32,6 @@ export class ViewAssetAllotmentsDialogComponent {
         this.adminService.GetAssetAllotments(this.config.data.employeeId).subscribe((resp) => {
             if (resp) {
                 this.assetAllotments = resp as unknown as AssetAllotmentViewDto[];
-                console.log( this.assetAllotments);
             }
         });
     }
