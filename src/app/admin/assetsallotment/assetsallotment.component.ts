@@ -50,6 +50,8 @@ export class AssetsallotmentComponent extends Unsubscribe {
     addassetallotmentDialogComponent = AddassetallotmentDialogComponent;
     dialogRequest: DialogRequest = new DialogRequest();
     mediumDate: string = MEDIUM_DATE;
+    showSearchBar: boolean = true;
+    searchKeyword: string = '';
 
     constructor(private adminService: AdminService,
         public ref: DynamicDialogRef,
@@ -70,21 +72,26 @@ export class AssetsallotmentComponent extends Unsubscribe {
     onGlobalFilter(table: Table, event: Event) {
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
     }
-
-
+    hideSearchBar(dv: DataView) {
+        if (dv._layout === 'list') {
+            this.showSearchBar = false;
+        } else {
+            this.showSearchBar = true;
+        }
+    }
     clear(table: Table) {
         table.clear();
-        this.filter.nativeElement.value = '';
+       this.searchKeyword = '';
     }
 
     onFilter(dv: DataView, event: Event) {
         dv.filter((event.target as HTMLInputElement).value);
     }
-    clearcard(dv: DataView){
+    clearcard(dv: DataView) {
         dv.filteredValue = null;
         this.filter.nativeElement.value = '';
     }
-    
+
     openComponentDialog(content: any,
         dialogData, action: Actions = this.ActionTypes.add) {
         if (action == Actions.view && content === this.viewAssetAllotmentsDialogComponent) {
