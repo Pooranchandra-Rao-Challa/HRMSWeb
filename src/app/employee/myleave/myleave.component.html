@@ -61,7 +61,7 @@
                     <td class="text-center">
                         <span *ngIf="leave.status">
                             <ng-container *ngIf="leave.status === 'Approved'; else falseBlock">
-                                <i class="pi pi-check text-green-500"></i>
+                                <i class="pi icon-approve text-green-500"></i>
                             </ng-container>
                             <ng-template #falseBlock>
                                 <ng-container *ngIf="leave.status === 'Rejected'; else nullBlock">

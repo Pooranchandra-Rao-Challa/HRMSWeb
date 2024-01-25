@@ -76,7 +76,7 @@
                                     <h4 class="m-0 ">{{ empDetails?.usedPrivilegeLeavesInYear}}/{{
                                         empDetails?.allottedPrivilegeLeaves}}</h4>
                                 </div>
-                                <i class="pi pi-fw icon-add_leave  text-6xl att-pointer" label="Primary"
+                                <i class="pi icon-calendar  text-6xl att-pointer" label="Primary"
                                     pTooltip="Apply PL" tooltipPosition="right"
                                     (click)="openComponentDialog(employeeleaveDialogComponent, null, ActionTypes.save)"
                                     *ngIf="permissions?.CanManageSelfEmployee"></i>
@@ -129,7 +129,7 @@
                                     <h4 class="m-0 ">{{ empDetails?.usedCasualLeavesInYear}}/{{
                                         empDetails?.allottedCasualLeaves}}</h4>
                                 </div>
-                                <i class="pi pi-fw icon-add_leave text-white text-6xl att-pointer" label="Primary"
+                                <i class="pi icon-calendar text-white text-6xl att-pointer" label="Primary"
                                     pTooltip="Apply CL" tooltipPosition="right"
                                     (click)="openComponentDialog(employeeleaveDialogComponent, null, ActionTypes.save)"
                                     *ngIf="permissions?.CanManageSelfEmployee"></i>
@@ -308,24 +308,26 @@
                         *ngIf="!empDetails?.assets || empDetails?.assets.length === 0">
                         There is no Assigned Assets for this Employee
                     </div>
-                    <div class="grid p-3 mt-3 " *ngIf="empDetails?.assets && empDetails?.assets.length > 0">
-                        <div class="col-12 sm:col-4" *ngFor="let asset of empDetails?.assets">
-                            <div class="card text-0 p-3  justify-content-between h-full assets_card">
-                                <div class="overview-info text-center alloted_assets">
-                                    <p class="text-primary "><b>{{asset.assetName}}</b></p>
+                    <div class="grid p-3 mt-0 " *ngIf="empDetails?.assets && empDetails?.assets.length > 0">
+                        <div class="col-12 sm:col-4 pt-0" *ngFor="let asset of empDetails?.assets">
+                            <div class="card text-0 p-3  justify-content-between h-full card_hover">
+                                <div class="overview-info text-center alloted_assets">                                    
                                     <ng-container *ngIf="asset.thumbnail">
                                         <div class="project_img_dash">
                                             <img [src]="asset?.thumbnail !== '0' ? asset?.thumbnail : (asset?.thumbnail == '0' ? this.defaultPhotoforAssets : this.defaultPhotoforAssets)"
                                                 [alt]="asset?.thumbnail"
-                                                class="shadow-2 employee_profile_pic avatar_emp_dboard" />
+                                                class="shadow-2  my-0 mx-0 employee_profile_pic avatar_projects_dash" />
                                         </div>
                                     </ng-container>
-
-                                    <div class="text-left text-primary">
-                                        <p class="mb-0 mt-2" *ngIf="asset.assetCode"><b>Asset Code:</b>
-                                            {{asset.assetCode}} </p>
-                                        <p *ngIf="asset.assignedOn"><b>Assigned On:</b> {{asset.assignedOn | date:dateOfJoining }} </p>
+                                    <p class="text-primary mb-0 "><b>{{asset.assetName}}</b></p>
+                                    <div class="text-center ">
+                                        
+                                      
+                                        <span class=" text-gray-500" *ngIf="asset.assetCode" pTooltip="Asset Code"><b><span class="icon-barcode text-primary "></span> </b>
+                                            {{asset.assetCode}} </span>                                            
                                     </div>
+                                    <div  class="text-left"
+                                            style=" color:gray; border-top:1px solid #ccc; font-size:12px; font-weight: 700;" *ngIf="asset.assignedOn"><b>Assigned On:</b> {{asset.assignedOn | date:dateOfJoining }} </div>
                                 </div>
                             </div>
                         </div>
@@ -384,21 +386,19 @@
                         <h6 class="m-0">Assigned Projects </h6>
                     </div>
                 </div>
-                <div class=" card p-3 orange-200  applicant-n-block-home scroll_div" style="min-height:350px;">
+                <div class=" card p-3 orange-200  applicant-n-block-home scroll_div " style="min-height:350px;">
                     <div class="text-500  text-2xl text-primary text-center m-5 p-5"
                         *ngIf="!projects || projects?.length === 0">
                         There is no Assigned Projects for this Employee
                     </div>
                     <div class="grid" *ngIf="projects && projects?.length > 0">
                         <div class="col-6" *ngFor="let project of projects">
-                            <div class="card p-2 text-center"
+                            <div class="card p-2 text-center card_hover"
                                 [ngStyle]="project?.periods?.length > 0 ? {'color': 'gray'} : {}">
                                 <div class=" project_img_dash ">
                                     <img [src]="project?.projectLogo" [alt]="project?.projectLogo"
                                         class="shadow-2 my-0 mx-0 employee_profile_pic avatar_projects_dash" />
                                 </div>
-
-
                                 <h5 class="text-primary m-2">{{project.name}}</h5>
                                 <div *ngFor="let period of project?.periods" class="text-left"
                                     style=" color:gray; border-top:1px solid #ccc; font-size:12px; font-weight: 700;">
