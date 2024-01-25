@@ -507,7 +507,10 @@ p-calendar input {
 
 .project_card:hover {
     border: 1px solid #f17517 !important;
-
+}
+.card_hover:hover {
+    // border: 1px solid #f17517 !important;
+    box-shadow: 0 0 5px #f17517;
 }
 
 .recruitment {
@@ -1277,4 +1280,12 @@ app-attendance .p-datatable-table tbody tr td:first-child {
 }
 .primary_hr{
     border-top: 1px solid var(--primary-color);
+}
+
+.confirm_dialog .p-dialog-mask .p-dialog .p-dialog-footer{
+    padding:10px !important;
+}
+.confirm_dialog .p-dialog-mask .p-dialog .p-dialog-content{
+    text-align: center;
+    padding:30px;
 }
