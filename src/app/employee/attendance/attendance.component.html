@@ -128,18 +128,20 @@
         </div>
     </ng-template>
     <ng-template pTemplate="right">
-        <div *ngIf="permissions?.CanDownloadAttendance">
-            <p-dropdown [options]="attendanceExcelTypes" optionLabel="label"
-                placeholder="Select AttendanceReport Type" (onChange)="DownloadAttendanceReport($event.value)"
-                optionValue="label" class="att_dropdown" >
-            </p-dropdown>
-
+        <div class="p-input-icon-left dropdown_icon pr-2">
+            <i class="icon-csv-svgrepo-com-1"></i>
+            <div *ngIf="permissions?.CanDownloadAttendance">
+                <p-dropdown [options]="attendanceExcelTypes" optionLabel="label"
+                    placeholder="Select AttendanceReport Type" (onChange)="DownloadAttendanceReport($event.value)"
+                    optionValue="label" class="att_dropdown w-100" >
+                </p-dropdown>
+            </div>
         </div>
-        <div *ngIf="permissions?.CanDownloadAttendance">
+        <!-- <div *ngIf="permissions?.CanDownloadAttendance">
             <button type="button " pButton icon="icon-csv-svgrepo-com-1"
                 class=" mr-2 doc_button doc_button att_report_button" pTooltip="Download Attendance Report"
                 tooltipPosition="left"></button>
-        </div>
+        </div> -->
         <div class="pr-2">
             <div>
                 <div class="p-inputgroup">

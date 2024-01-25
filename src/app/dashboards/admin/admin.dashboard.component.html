@@ -108,7 +108,7 @@
                         </div>
                         <div class="mb-1">
                             <div class="grid p-3">
-                                <div class="col-12">
+                                <div class="col-12 pb-0">
                                     <div class="grid p-0">
                                         <div class="col p-0">
                                             <div class="flex align-items-center">
@@ -133,10 +133,13 @@
                                         </div>
                                         <div class="col p-0">
                                             <div class="align-items-center custom-checkbox">
-                                                <p-checkbox [(ngModel)]="isCheckboxSelected" (click)="onCheckboxClick()" [binary]="true" ></p-checkbox>
-                                                <label for="charts3" class="mx-2" id="charts-label">By Projects</label><br />
-                                                <p-multiSelect *ngIf="isCheckboxSelected" [(ngModel)]="isCheckboxSelected" optionLabel="label"
-                                                    [style]="{'min-width': '200px'}" placeholder="Choose Columns"></p-multiSelect>
+                                                <div class="col p-0">
+                                                    <p-checkbox [(ngModel)]="isCheckboxSelected" (click)="onCheckboxClick()" [binary]="true" ></p-checkbox>
+                                                <label for="charts3" class="mx-2" id="charts-label">By Projects</label>
+                                                </div>
+                                                <br/>
+                                                <p-multiSelect *ngIf="isCheckboxSelected"  [(ngModel)]="isCheckboxSelected" optionLabel="label"
+                                                    placeholder="Choose Columns"></p-multiSelect>
                                             </div>
                                         </div>
                                         <!-- For attendance section -->

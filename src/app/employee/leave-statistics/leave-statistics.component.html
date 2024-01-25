@@ -41,16 +41,20 @@
                         </div>
                     </div>
                     <div class="flex gap-2">
-                        <div *ngIf="permissions?.CanDownloadLeaves">
-                            <p-dropdown [options]="leaveReportTypes" optionLabel="label"
-                                placeholder="Select Leaves Report Type" (onChange)="DownloadLeavesReports($event.value)"
-                                optionValue="label" class="att_dropdown" [showClear]="true">
-                            </p-dropdown>
+                        <div class="p-input-icon-left dropdown_icon" >
+                            <i class="icon-csv-svgrepo-com-1 "></i>
+                            <div *ngIf="permissions?.CanDownloadLeaves">
+                                <p-dropdown [options]="leaveReportTypes" optionLabel="label"
+                                    placeholder="Select Leaves Report Type" (onChange)="DownloadLeavesReports($event.value)"
+                                    optionValue="label" class="att_dropdown w-100" [showClear]="true">
+                                </p-dropdown>
+                            </div>
                         </div>
-                        <div *ngIf="permissions?.CanDownloadLeaves">
+                        
+                        <!-- <div *ngIf="permissions?.CanDownloadLeaves">
                             <button pButton class="p-button doc_button" icon="icon-csv-svgrepo-com-1"
                                 pTooltip="Download Leaves Report" tooltipPosition="left"></button>
-                        </div>
+                        </div> -->
                         <span class="p-input-icon-left mb-2">
                             <i class="pi pi-search"></i>
                             <input pInputText type="text" id="search-input" #filter

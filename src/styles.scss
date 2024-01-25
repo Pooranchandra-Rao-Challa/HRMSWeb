@@ -1153,8 +1153,18 @@ app-attendance .p-datatable-table tbody tr td:first-child {
 .dashboardlwp {
     color: var(--lwp-b);
 }
-.att_dropdown .p-dropdown{
-    border-radius: 5px 0px 0px 5px !important;
+// .att_dropdown .p-dropdown{
+//     border-radius: 5px 0px 0px 5px !important;
+// }
+.att_dropdown > .p-dropdown.p-dropdown-clearable .p-dropdown-label{
+    padding-left:2.5rem !important;
+}
+.att_dropdown > .p-dropdown .p-dropdown-label.p-placeholder{
+    padding-left:2.5rem !important;
+}
+.dropdown_icon > i:first-of-type {
+    z-index:999;
+    top:45% !important;
 }
 .att_report_button{
     border-radius: 0px 5px 5px 0px !important;
