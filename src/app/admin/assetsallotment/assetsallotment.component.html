@@ -6,7 +6,7 @@
                 [sortOrder]="sortOrder" layout="grid">
                 <ng-template pTemplate="header">
                     <div class="flex flex-column md:flex-row md:justify-content-between gap-2">
-                        <div>
+                        <div *ngIf="showSearchBar">
                             <div class="p-inputgroup">
                                 <!-- <span class="p-inputgroup-addon"><i class="pi pi-search"></i></span> -->
                                 <input id="search-name-id" type="text" #filter pInputText
@@ -15,7 +15,7 @@
                                         class="pi pi-undo"></i></span>
                             </div>
                         </div>
-                        <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+                        <p-dataViewLayoutOptions (click)="hideSearchBar(dv)"></p-dataViewLayoutOptions>
                         <p-button id="add-btn" class="p-element p-ripple  p-component p-2 pt-0 pb-0"
                             (click)="openComponentDialog(addassetallotmentDialogComponent, null, ActionTypes.add)"
                             icon="pi pi-plus" label="Assign Asset"></p-button>
@@ -37,7 +37,7 @@
                                         icon="pi pi-filter-slash" (click)="clear(dtEmployees)"></button>
                                     <span class="p-input-icon-left mb-2">
                                         <i class="pi pi-search"></i>
-                                        <input id="search-keyword" pInputText type="text" #filter
+                                        <input id="search-keyword" pInputText type="text" [(ngModel)]="searchKeyword" #filter
                                             (input)="onGlobalFilter(dtEmployees, $event)" placeholder="Search Keyword"
                                             class="w-full" />
                                     </span>
@@ -71,14 +71,14 @@
                                         </span>
                                     </td>
                                     <td class="text-center">
-                                        <button id="view-btn" pbutton="" pripple="" type="button" label="Primary"
+                                        <button id="view-btn" pbutton="" pripple="" type="button" label="Primary" pTooltip="View" tooltipPosition="top"
                                             (click)="openComponentDialog(viewAssetAllotmentsDialogComponent, employee.employeeId, ActionTypes.view)"
                                             class="p-element p-ripple p-button-text p-button p-component view_profile_button"
                                             ng-reflect-label="Primary">
                                             <span class="p-button-label pi pi-chevron-right"></span>
                                         </button>
                                         <button id="redirect-to-add-btn" pbutton="" pripple="" type="button"
-                                            label="Primary"
+                                            label="Primary"  pTooltip="Add" tooltipPosition="top"
                                             (click)="openComponentDialog(addassetallotmentDialogComponent, employee.employeeId, ActionTypes.add)"
                                             class="p-element p-ripple p-button-text p-button p-component view_profile_button"
                                             ng-reflect-label="Primary">
@@ -109,8 +109,8 @@
                                 <div class="col-12 lg:col-8 md:col-12 p-1 px-3 employee_info">
                                     <div class="text-xl font-bold">{{ employee?.employeeName }}</div>
                                     <span class="text-500 font-medium text-md">
-                                        <i class="pi icon-intersex text-600 text-primary text-2xl  pb-2" pTooltip="Gender"
-                                            tooltipPosition="top"></i> :
+                                        <i class="pi icon-intersex text-600 text-primary text-2xl  pb-2"
+                                            pTooltip="Gender" tooltipPosition="top"></i> :
                                         {{employee.gender}}
                                     </span>
                                     <br />
