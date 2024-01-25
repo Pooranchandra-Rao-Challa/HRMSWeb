@@ -99,7 +99,6 @@ export class AssetsComponent {
 
       if (this.fileTypes.indexOf(p.FileExtension) > 0 && p.Resize || (p.Size / 1024 / 1024 < 1
         && (p.isPdf || (!p.isPdf && p.Width <= 300 && p.Height <= 300)))) {
-          debugger
         this.fbassets.get('thumbnail').setValue(p.File);
       } else {
         this.alertMessage.displayErrorMessage(p.Message);
@@ -174,7 +173,7 @@ export class AssetsComponent {
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
-
+  
   clear(table: Table) {
     table.clear();
     this.filter.nativeElement.value = '';
@@ -293,7 +292,7 @@ export class AssetsComponent {
   //     ))
   //   return existingAssetsCode.length > 0;
   // }
-
+ 
   fileChangeEvent(event: any): void {
     if (event.target.files.length) {
         this.imageToCrop = event;

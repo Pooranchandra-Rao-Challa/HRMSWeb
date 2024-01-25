@@ -97,7 +97,7 @@
                 </ng-template>
                 <ng-template let-employee pTemplate="gridItem">
                     <div class="col-12 md:col-4 lg:col-3 sm:col-6">
-                        <div class="card m-2 border-1 surface-border card-height">
+                        <div class="card m-2 border-1 surface-border card-height project_card">
                             <div class=" mb-3 grid">
                                 <div class="col-12 lg:col-4 md:col-12 p-1 text-center employee_profile_pic_div">
                                     <div class="avatar">
@@ -106,37 +106,37 @@
                                             class="shadow-2 my-1 mx-0 employee_profile_pic  avatar" />
                                     </div>
                                 </div>
-                                <div class="col-12 lg:col-8 md:col-12 p-1 px-3 employee_info">
+                                <div class="col-12 lg:col-8 md:col-12 p-1 px-3 employee_info text-color">
                                     <div class="text-xl font-bold">{{ employee?.employeeName }}</div>
-                                    <span class="text-500 font-medium text-md">
+                                    <span class="text-500 font-medium text-md text-color">
                                         <i class="pi icon-intersex text-600 text-primary text-2xl  pb-2"
                                             pTooltip="Gender" tooltipPosition="top"></i> :
                                         {{employee.gender}}
                                     </span>
                                     <br />
-                                    <span class="text-600 font-medium text-md">
+                                    <span class="text-600 font-medium text-md text-color">
                                         <i class="pi pi-id-card text-300 text-primary text-1xl pb-1" pTooltip="Code"
                                             tooltipPosition="top"></i> :
                                         {{employee?.code}}
                                     </span> <br />
-                                    <span class="text-600 font-medium text-md">
+                                    <span class="text-600 font-medium text-md text-color">
                                         <i class="pi pi-calendar text-300 text-primary text-1xl  pb-1" pTooltip="DOB"
                                             tooltipPosition="top"></i> :
                                         {{employee.certificateDOB| date: mediumDate}}
                                     </span><br />
-                                    <span class="text-600 font-medium text-md">
+                                    <span class="text-600 font-medium text-md text-color">
                                         <i class="pi pi-star text-500 text-primary text-1xl  pb-1" pTooltip="Role"
                                             tooltipPosition="top"></i> :
                                         {{employee.roleName }}
                                     </span>
-                                    <br />
-                                    <span class="text-600 font-medium text-md">
+                                    <br /> 
+                                    <span class="text-600 font-medium text-md text-color">
                                         <i class="pi pi-calendar text-500 text-primary text-1xl pb-1" pTooltip="DOJ"
                                             tooltipPosition="top"> DOJ </i> :
                                         {{employee.dateofJoin | date: mediumDate}}
                                     </span>
                                     <br />
-                                    <span class="text-600 font-medium text-md">
+                                    <span class="text-600 font-medium text-md text-color">
                                         <i class="pi pi-star text-500 text-primary text-1xl  pb-1"
                                             pTooltip="Designation" tooltipPosition="top"></i> :
                                         {{employee?.designation}}
@@ -146,13 +146,13 @@
                             </div>
                             <div class="grid">
                                 <div class="relative col-8 p-0 mb-3  employee_info">
-                                    <span class="text-600 font-medium text-md">
+                                    <span class="text-600 font-medium text-md text-color">
                                         <i class="pi pi-at text-500 text-primary text-1xl pb-1" pTooltip="Email"
                                             tooltipPosition="top"></i> :
                                         {{employee?.officeEmailId}}
                                     </span>
                                     <br />
-                                    <span class="text-600 font-medium text-md">
+                                    <span class="text-600 font-medium text-md text-color">
                                         <i class="pi pi-phone text-500 text-primary text-1xl pb-1"
                                             pTooltip="Mobile Number" tooltipPosition="top"></i> :
                                         {{employee?.mobileNumber}}

@@ -33,8 +33,8 @@ export class AssetsallotmentComponent extends Unsubscribe {
     selectedEmployeeId: number;
     globalFilterFields: string[] = ['gender', 'employeeName', 'code', 'certificateDOB', 'employeeRoleName', 'dateofJoin', 'designation', 'officeEmailId', 'mobileNumber'];
     headers: ITableHeader[] = [
-        { field: 'gender', header: 'gender', label: 'Gender' },
         { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
+        { field: 'gender', header: 'gender', label: 'Gender' },
         { field: 'code', header: 'code', label: 'Employee Code' },
         { field: 'certificateDOB', header: 'certificateDOB', label: 'Certificate DOB' },
         { field: 'roleName', header: 'roleName', label: 'Employee Role' },
@@ -81,7 +81,7 @@ export class AssetsallotmentComponent extends Unsubscribe {
     }
     clear(table: Table) {
         table.clear();
-       this.searchKeyword = '';
+        this.searchKeyword = '';
     }
 
     onFilter(dv: DataView, event: Event) {

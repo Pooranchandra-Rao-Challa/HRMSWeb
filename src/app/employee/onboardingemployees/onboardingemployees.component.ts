@@ -35,6 +35,7 @@ export class OnboardingemployeesComponent {
   selectedOption: boolean;
   showExperienceStep: boolean;
   searchKeyword: string = '';
+  showSearchBar: boolean = true;
 
   headers: ITableHeader[] = [
     { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
@@ -133,7 +134,14 @@ export class OnboardingemployeesComponent {
     }
   }
 
-
+ hideSearchBar(dv: DataView) {
+        if (dv._layout === 'list') {
+            this.showSearchBar = false;
+        } else {
+            this.showSearchBar = true;
+        }
+    }
+    
   onSortChange(event: any) {
     const value = event.value;
 

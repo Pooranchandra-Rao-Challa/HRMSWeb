@@ -31,7 +31,8 @@ export class AllEmployeesComponent {
     permissions: any;
     value: number;
     searchKeyword: string = '';
-
+    showSearchBar: boolean = true;
+    
     headers: ITableHeader[] = [
         { field: 'code', header: 'code', label: 'Employee Code' },
         { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
@@ -64,6 +65,14 @@ export class AllEmployeesComponent {
             this.employees = resp as unknown as EmployeesViewDto[];
             this.employees.forEach(employee => this.getEmployeePhoto(employee));
         });
+    }
+
+    hideSearchBar(dv: DataView) {
+        if (dv._layout === 'list') {
+            this.showSearchBar = false;
+        } else {
+            this.showSearchBar = true;
+        }
     }
 
     showDialog() {
