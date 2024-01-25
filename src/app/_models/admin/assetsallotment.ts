@@ -28,6 +28,7 @@ export interface AssetAllotmentViewDto {
     updatedBy?: string;
     assetCategory?: string;
     comment?: string;
+    thumbnail?:string;
 }
 
 export interface AssetsByAssetTypeIdViewDto {

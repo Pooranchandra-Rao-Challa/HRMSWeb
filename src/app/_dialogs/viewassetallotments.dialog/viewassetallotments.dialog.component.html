@@ -10,6 +10,11 @@
     <div class="grid">
         <div class="col-4" *ngFor="let assetAllotment of assetAllotments">
             <div class="m-2 card border-1 surface-border">
+                <div class="avatar">
+                    <img [src]="assetAllotment.thumbnail ? assetAllotment.thumbnail :this.defaultPhoto"
+                        [alt]="assetAllotment.assetName"
+                        class="shadow-2 my-1 mx-0 employee_profile_pic  avatar" />
+                </div>
                 <div class="text-xl font-bold">{{assetAllotment.assetName}}</div>
                 <span class="text-600 font-medium text-sm"> Assigned On : {{assetAllotment.assignedOn |
                     date: 'MM-dd-yyyy'}} </span>
