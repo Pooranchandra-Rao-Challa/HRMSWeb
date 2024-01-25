@@ -113,33 +113,38 @@
                                         <div class="col p-0">
                                             <div class="flex align-items-center">
                                                 <p-radioButton [(ngModel)]="chart" value="Date" id="charts1"
-                                                    (click)="getAttendanceCountsBasedOnType()"></p-radioButton>
+                                                    (click)="getAttendanceProjectChart()"></p-radioButton>
                                                 <label for="charts1" class="mx-2" id="charts-label">Date</label>
                                             </div>
                                         </div>
                                         <div class="col p-0">
                                             <div class="flex align-items-center">
                                                 <p-radioButton [(ngModel)]="chart" value="Month" id="charts2"
-                                                    (click)="getAttendanceCountsBasedOnType()"></p-radioButton>
+                                                    (click)="getAttendanceProjectChart()"></p-radioButton>
                                                 <label for="charts2" class="mx-2" id="charts-label">Month</label>
                                             </div>
                                         </div>
                                         <div class="col p-0">
                                             <div class="flex align-items-center">
                                                 <p-radioButton [(ngModel)]="chart" value="Year" id="charts3"
-                                                    (click)="getAttendanceCountsBasedOnType()"></p-radioButton>
+                                                    (click)="getAttendanceProjectChart()"></p-radioButton>
                                                 <label for="charts3" class="mx-2" id="charts-label">Year</label>
                                             </div>
                                         </div>
                                         <div class="col p-0">
                                             <div class="align-items-center custom-checkbox">
                                                 <div class="col p-0">
-                                                    <p-checkbox [(ngModel)]="isCheckboxSelected" (click)="onCheckboxClick()" [binary]="true" ></p-checkbox>
-                                                <label for="charts3" class="mx-2" id="charts-label">By Projects</label>
+                                                    <p-checkbox [(ngModel)]="isCheckboxSelected"
+                                                        (click)="onCheckboxClick()" [binary]="true"></p-checkbox>
+                                                    <label for="charts3" class="mx-2" id="charts-label">By
+                                                        Projects</label>
                                                 </div>
-                                                <br/>
-                                                <p-multiSelect *ngIf="isCheckboxSelected"  [(ngModel)]="isCheckboxSelected" optionLabel="label"
-                                                    placeholder="Choose Columns"></p-multiSelect>
+                                                <br />
+                                                <p-multiSelect *ngIf="isCheckboxSelected"
+                                                    [(ngModel)]="this.selectedProjects" optionLabel="projectName"
+                                                    [options]="attendanceCountByProject" 
+                                                    placeholder="Choose Columns" [filter]="false" filterBy="name"
+                                                    appendTo="body" (onChange)="byChangingProject()"></p-multiSelect>
                                             </div>
                                         </div>
                                         <!-- For attendance section -->
@@ -195,10 +200,11 @@
                                     [options]="barOptionsforAttendance" height="250px" width="100%"
                                     (onDataSelect)="onChartClick($event)"></p-chart>
                             </div>
-                            <div class="card" *ngIf="isCheckboxSelected" >
+                            <div class="card" *ngIf="isCheckboxSelected">
                                 <p-chart type="bar" [data]="data" [options]="options"></p-chart>
                             </div>
-                            <div class="text-center mt-5" *ngIf="(!isCheckboxSelected && attendanceCount?.length === 0)">
+                            <div class="text-center mt-5"
+                                *ngIf="(!isCheckboxSelected && attendanceCount?.length === 0)">
                                 <div class="border-round-lg pt-5 px-5 pb-5 mb-3"
                                     style="background-color: var(--primary-lighter-color)">
                                     <p>Please update today's attendance.</p>

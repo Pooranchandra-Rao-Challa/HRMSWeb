@@ -33,6 +33,7 @@ export class AdminDashboardComponent implements OnInit {
     monthFormat: string = MONTH;
     dateFormat: string = MEDIUM_DATE;
     attendanceCount: AttendanceCountBasedOnTypeViewDto[] = [];
+    attendanceCountByProject: AttendanceCountBasedOnTypeViewDto[] = [];
     notifications: NotificationsDto[] = [];
     notificationReplies: NotificationsRepliesDto[] = []
     wishesDialog: boolean = false;
@@ -51,6 +52,8 @@ export class AdminDashboardComponent implements OnInit {
     fieldset3Open = false;
     data: any;
     options: any;
+    selectedProjects: any[];
+    projectName: any;
 
     constructor(private dashboardService: DashboardService,
         private router: Router,
@@ -206,6 +209,15 @@ export class AdminDashboardComponent implements OnInit {
         this.getAttendanceCountsBasedOnType();
     }
 
+    getAttendanceProjectChart() {
+        if (this.isCheckboxSelected === true) {
+            this.getAttendanceCountsBasedOnProject();
+        }
+        else {
+            this.getAttendanceCountsBasedOnType();
+        }
+    }
+
     getAttendanceCountsBasedOnType() {
         this.attendanceCount = [];
         this.employeeCount = [];
@@ -232,46 +244,69 @@ export class AdminDashboardComponent implements OnInit {
             })
         }
     }
-    onCheckboxClick() {
-        if (this.isCheckboxSelected) {
-            // If checkbox is selected, deactivate radio buttons
-            this.chart = null;
-            this. projectsChart();
+
+    getAttendanceCountsBasedOnProject() {
+        if (this.chart === 'Date') {
+            this.selectedDate = DATE_FORMAT(new Date(this.selectedDate));
+            this.dashboardService.GetAttendanceCountBasedOnProjects(this.chart, this.selectedDate, this.isCheckboxSelected).subscribe((resp) => {
+                this.attendanceCountByProject = resp as unknown as AttendanceCountBasedOnTypeViewDto[];
+                this.selectedProjects = this.attendanceCountByProject;
+                this.projectsChart();
+            })
         }
-        // You can add additional logic here if needed
-        // ...
+        else if (this.chart === 'Month') {
+            this.selectedMonth = DATE_FORMAT_MONTH(new Date(this.selectedMonth));
+            this.dashboardService.GetAttendanceCountBasedOnProjects(this.chart, this.selectedMonth, this.isCheckboxSelected).subscribe((resp) => {
+                this.attendanceCountByProject = resp as unknown as AttendanceCountBasedOnTypeViewDto[];
+                this.selectedProjects = this.attendanceCountByProject;
+                this.projectsChart();
+            })
+        }
+        else if (this.chart === 'Year') {
+            this.dashboardService.GetAttendanceCountBasedOnProjects(this.chart, this.year, this.isCheckboxSelected).subscribe((resp) => {
+                this.attendanceCountByProject = resp as unknown as AttendanceCountBasedOnTypeViewDto[];
+                this.selectedProjects = this.attendanceCountByProject;
+                this.projectsChart();
+            })
+        }
     }
 
-    projectsChart(){
+    onCheckboxClick() {
+        if (this.isCheckboxSelected) {
+            this.getAttendanceCountsBasedOnProject();
+        }
+    }
+
+    projectsChart() {
         const documentStyle = getComputedStyle(document.documentElement);
         const textColor = documentStyle.getPropertyValue('--text-color');
         const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
         const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+        const projectNames = this.selectedProjects.map(project => project.projectName);
+        projectNames.forEach(projectName => {
+            this.projectName = projectName
+        });
 
+        const labels = ['PT', 'WFH', 'PL', 'CL', 'LWP'];
+        const datasets = projectNames.map((projectName, index) => {
+            const projectData = this.selectedProjects.find(project => project.projectName === projectName);
+            return {
+                type: 'bar',
+                label: projectName,
+                backgroundColor: this.getColorByIndex(index),
+                data: [
+                    projectData?.pt || 0,
+                    projectData?.wfh || 0,
+                    projectData?.pl || 0,
+                    projectData?.cl || 0,
+                    projectData?.lwp || 0
+                ]
+            };
+        });
         this.data = {
-            labels: ['PT', 'WFH', 'PL', 'CL', 'LWP'],
-            datasets: [
-                {
-                    type: 'bar',
-                    label: 'Dataset 1',
-                    backgroundColor: documentStyle.getPropertyValue('--blue-500'),
-                    data: [50, 25, 12, 48, 90, 76, 42]
-                },
-                {
-                    type: 'bar',
-                    label: 'Dataset 2',
-                    backgroundColor: documentStyle.getPropertyValue('--green-500'),
-                    data: [21, 84, 24, 75, 37, 65, 34]
-                },
-                {
-                    type: 'bar',
-                    label: 'Dataset 3',
-                    backgroundColor: documentStyle.getPropertyValue('--yellow-500'),
-                    data: [41, 52, 24, 74, 23, 21, 32]
-                }
-            ]
+            labels: labels,
+            datasets: datasets
         };
-
         this.options = {
             maintainAspectRatio: false,
             aspectRatio: 0.8,
@@ -281,6 +316,7 @@ export class AdminDashboardComponent implements OnInit {
                     intersect: false
                 },
                 legend: {
+                    display: false,
                     labels: {
                         color: textColor
                     }
@@ -309,9 +345,17 @@ export class AdminDashboardComponent implements OnInit {
                 }
             }
         };
-    
     }
-    
+
+    byChangingProject() {
+        this.projectsChart();
+    }
+
+    getColorByIndex(index: number): string {
+        const documentStyle = getComputedStyle(document.documentElement);
+        const colors = ['--blue-500', '--green-500', '--yellow-500', '--red-500', '--purple-500'];
+        return documentStyle.getPropertyValue(colors[index % colors.length]);
+    }
 
     inItAdminDashboard() {
         this.dashboardService.getAdminDashboard().subscribe((resp) => {
