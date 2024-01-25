@@ -42,8 +42,8 @@ export class allottedAssets {
     assetId?: number;
     assetName?: string;
     description?: string;
-    modelNumber?: string;
-    serialNumber?: string;
+    assetCode?: string;
+    assignedOn?: string;
     thumbnail?: string;
 }
 export class workingProjects {
