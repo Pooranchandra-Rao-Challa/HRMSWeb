@@ -40,6 +40,7 @@ export class ProjectRole {
     styles: ['']
 })
 export class ProjectComponent implements OnInit {
+
     @ViewChildren('filterEmployeesInput') filterEmployeesInputs: QueryList<ElementRef>;
     @ViewChild("fileUpload", { static: true }) fileUpload: ElementRef;
     confirmationRequest: ConfirmationRequestForUnassignEmployee = new ConfirmationRequestForUnassignEmployee();
@@ -66,6 +67,8 @@ export class ProjectComponent implements OnInit {
     profileImage = '';
     ProjectstatuesReportType: any[];
     imageToCrop: File;
+    // Create a dictionary to store filtered employees for each role
+    EmployeesLengthBasedOnRole: { [key: string]: EmployeesList[] } = {};
 
     @ViewChild('orgProjectChart', { read: ViewContainerRef, static: true })
     private orgProjectChartref: ViewContainerRef;
@@ -391,6 +394,7 @@ export class ProjectComponent implements OnInit {
         return this.datePipe.transform(date, 'MM/dd/yyyy')
     }
     onEditProject(project: ProjectViewDto) {
+    
         this.projectForm();
         this.projectDetails = {};
         this.editProject = true;
@@ -572,12 +576,15 @@ export class ProjectComponent implements OnInit {
                 };
             });
             this.Roles = this.Roles.reverse();
+            for (const role of this.Roles) {
+                this.EmployeesLengthBasedOnRole[role.Name] = this.getRoleEmployees(role.Name);
+            }
         });
     }
-    
+
     clearInput(roleName: string): void {
         const matchingInput = this.filterEmployeesInputs.find(input => input.nativeElement.id === `Project_Employee_Search_${roleName}`);
-        if (matchingInput) 
+        if (matchingInput)
             matchingInput.nativeElement.value = '';
     }
 
