@@ -140,13 +140,14 @@
                                                         Projects</label>
                                                 </div>
                                                 <div class="field mt-2">
-                                                    <p-multiSelect *ngIf="this.isCheckboxSelected" selectedItemsLabel="{0} columns selected"
-                                                    [(ngModel)]="this.selectedProjects" optionLabel="projectName"
-                                                    [options]="attendanceCountByProject" placeholder="Choose Projects"
-                                                    filterBy="name" appendTo="body" [showClear]="true" class="project_select"
-                                                    (onChange)="projectsChart()" ></p-multiSelect>
+                                                    <p-multiSelect *ngIf="this.isCheckboxSelected"
+                                                        selectedItemsLabel="{0} columns selected"
+                                                        [(ngModel)]="this.selectedProjects" optionLabel="projectName"
+                                                        [options]="attendanceCountByProject"
+                                                        placeholder="Choose Projects" filterBy="name" appendTo="body"
+                                                        class="project_select" (onChange)="projectsChart()">
+                                                    </p-multiSelect>
                                                 </div>
-                                              
                                             </div>
                                         </div>
                                         <!-- For attendance section -->

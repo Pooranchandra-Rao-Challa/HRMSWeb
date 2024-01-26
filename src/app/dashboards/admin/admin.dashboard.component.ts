@@ -297,6 +297,7 @@ export class AdminDashboardComponent implements OnInit {
             this.selectedDate = DATE_FORMAT(new Date(this.selectedDate));
             this.dashboardService.GetAttendanceCountBasedOnProjects(this.chart, this.selectedDate, this.isCheckboxSelected).subscribe((resp) => {
                 this.attendanceCountByProject = resp as unknown as AttendanceCountBasedOnTypeViewDto[];
+                this.selectedProjects = this.attendanceCountByProject;
                 this.projectsChart();
             })
         }
