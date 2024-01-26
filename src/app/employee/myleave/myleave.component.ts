@@ -34,6 +34,14 @@ export class MyleaveComponent {
   confirmationRequest: ConfirmationRequest = new ConfirmationRequest();
   selectedColumnHeader!: ITableHeader[];
   _selectedColumns!: ITableHeader[];
+  selectedStatus: any;
+
+  statuses: any[] = [
+    { name: 'Pending', key: 'P' },
+    { name: 'Accepted', key: 'A' },
+    { name: 'Approved', key: 'Ap' },
+    { name: 'Rejected', key: 'R' }
+  ];
 
   headers: ITableHeader[] = [
     { field: 'status', header: 'status', label: 'Status' },
@@ -64,6 +72,7 @@ export class MyleaveComponent {
 
   ngOnInit(): void {
     this.permissions = this.jwtService.Permissions;
+    this.selectedStatus = this.statuses[0];
     this.getLeaves();
     this._selectedColumns = this.selectedColumnHeader;
     this.selectedColumnHeader = [
@@ -78,7 +87,10 @@ export class MyleaveComponent {
 
   getLeaves() {
     this.employeeService.getMyLeaves(this.jwtService.EmployeeId, this.year).subscribe((resp) => {
-      this.leaves = resp as unknown as EmployeeLeaveDto[];
+      this.leaves = resp as unknown as EmployeeLeaveDto[];      
+      this.leaves = this.leaves.filter(leave => leave.status === this.selectedStatus.name);
+      console.log(this.leaves);
+
     })
   }
 

@@ -6,6 +6,15 @@
             <ng-template pTemplate="left">
                 <h4>My Leaves</h4>
             </ng-template>
+            <ng-template pTemplate="center">
+                <div *ngFor="let status of statuses" class="field-checkbox">
+                    <p-radioButton [inputId]="status.key" class="ml-3" name="status" [value]="status"
+                        [(ngModel)]="selectedStatus" (click)="getLeaves()"></p-radioButton>
+                    <label [for]="status.key" class="ml-1">{{ status.name }}</label>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="right">
+            </ng-template>
         </p-toolbar>
         <!-- p-table -->
         <p-table id="table" #dtleave [value]="leaves" dataKey="id" [rows]="10" [rowHover]="true" appendTo="body"
@@ -61,14 +70,19 @@
                     <td class="text-center">
                         <span *ngIf="leave.status">
                             <ng-container *ngIf="leave.status === 'Approved'; else falseBlock">
-                                <i class="pi icon-approve text-green-500"></i>
+                                <i class="pi icon-approve text-3xl text-green-500"></i>
                             </ng-container>
                             <ng-template #falseBlock>
-                                <ng-container *ngIf="leave.status === 'Rejected'; else nullBlock">
-                                    <i class="pi pi-times text-red-500"></i>
+                                <ng-container *ngIf="leave.status === 'Rejected'; else acceptedBlock">
+                                    <i class="pi pi-times text-xl text-red-500"></i>
                                 </ng-container>
-                                <ng-template #nullBlock>
-                                    <i class="pi pi-spin pi-spinner text-primary"></i>
+                                <ng-template #acceptedBlock>
+                                    <ng-container *ngIf="leave.status === 'Accepted'; else nullBlock">
+                                        <i class="pi icon-accept text-3xl text-primary-500"></i>
+                                    </ng-container>
+                                    <ng-template #nullBlock>
+                                        <i class="pi pi-spin text-3xl pi-spinner text-primary"></i>
+                                    </ng-template>
                                 </ng-template>
                             </ng-template>
                         </span>
@@ -105,7 +119,8 @@
                             *ngIf="col?.field == 'rejectedBy' || col?.field == 'acceptedBy' || col?.field == 'approvedBy'|| col?.field == 'createdBy'">
                             {{leave[col.field] }}
                         </span>
-                        <span *ngIf="col?.field == 'rejectedAt'||col?.field == 'acceptedAt'|| col?.field == 'approvedAt'">
+                        <span
+                            *ngIf="col?.field == 'rejectedAt'||col?.field == 'acceptedAt'|| col?.field == 'approvedAt'">
                             {{leave[col.field] | date: mediumDate }}
                         </span>
                     </td>
