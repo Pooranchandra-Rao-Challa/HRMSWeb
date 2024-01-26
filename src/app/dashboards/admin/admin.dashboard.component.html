@@ -143,8 +143,8 @@
                                                 <p-multiSelect *ngIf="this.isCheckboxSelected"
                                                     [(ngModel)]="this.selectedProjects" optionLabel="projectName"
                                                     [options]="attendanceCountByProject" placeholder="Choose Projects"
-                                                    filterBy="name" appendTo="body"
-                                                    (onChange)="projectsChart()" ></p-multiSelect>
+                                                    filterBy="name" appendTo="body" (onChange)="projectsChart()">
+                                                </p-multiSelect>
                                             </div>
                                         </div>
                                         <!-- For attendance section -->
@@ -211,13 +211,15 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="col-12 lg:col-7 md:col-6 sm:col-12 pt-0 pb-0 employee_dash_view">
                     <div class=" pb-5 pt-0 chart_card employee_card_dashboard">
                         <div class="card-headr gap-2 pb-2">
                             <div class="card-title">
                                 <h6 class="mb-2">Employee </h6>
                             </div>
+                        </div>
+                        <div *ngIf="employeeCount[0]?.projectName" class="text-center">
+                            <h6>{{ employeeCount[0]?.projectName }}</h6>
                         </div>
                         <div class="mb-1">
                             <div class="p-5 pt-0 pb-0 dashboard_employee_list">
@@ -232,7 +234,6 @@
                                                         <th class="text-center">Code</th>
                                                         <th class="text-left">Employee Name</th>
                                                         <th class="text-center">Day Work Status</th>
-                                                        <!-- <th class="text-centrer">Project Name</th> -->
                                                     </tr>
                                                 </ng-template>
                                                 <ng-template pTemplate="body" let-employee>
@@ -253,11 +254,6 @@
                                                                 {{employee?.dayWorkStatus}}
                                                             </h6>
                                                         </td>
-                                                        <!-- <td class="text-center">
-                                                            <h6 class="line-height-3 m-0 font-medium font-medium ">
-                                                                {{employee?.dayWorkStatus}}
-                                                            </h6>
-                                                        </td> -->
                                                     </tr>
                                                 </ng-template>
                                             </p-table>

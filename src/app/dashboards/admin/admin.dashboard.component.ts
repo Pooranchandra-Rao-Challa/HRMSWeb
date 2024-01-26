@@ -216,12 +216,10 @@ export class AdminDashboardComponent implements OnInit {
     transformDateIntoTime(createdAt: any): string {
         const currentDate = new Date();
         const createdDate = new Date(createdAt);
-
         const timeDifference = currentDate.getTime() - createdDate.getTime();
         const hours: number = Math.floor(timeDifference / (1000 * 60 * 60));
         const daysDifference = Math.floor(hours / 24);
         const minutes: number = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
-
         if (hours >= 24) {
             const formattedDate = this.formatDate(createdDate);
             return `${formattedDate}`;
@@ -299,7 +297,6 @@ export class AdminDashboardComponent implements OnInit {
             this.selectedDate = DATE_FORMAT(new Date(this.selectedDate));
             this.dashboardService.GetAttendanceCountBasedOnProjects(this.chart, this.selectedDate, this.isCheckboxSelected).subscribe((resp) => {
                 this.attendanceCountByProject = resp as unknown as AttendanceCountBasedOnTypeViewDto[];
-                this.selectedProjects = this.attendanceCountByProject;
                 this.projectsChart();
             })
         }
@@ -321,6 +318,7 @@ export class AdminDashboardComponent implements OnInit {
     }
 
     onCheckboxClick() {
+        this.employeeCount = [];
         if (this.isCheckboxSelected) {
             this.getAttendanceCountsBasedOnProject();
         }
@@ -332,7 +330,6 @@ export class AdminDashboardComponent implements OnInit {
         const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
         const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
         const projectNames = this.selectedProjects.map(project => project.projectName);
-
         const labels = ['PT', 'WFH', 'PL', 'CL', 'LWP'];
         const datasets = projectNames.map((projectName, index) => {
             const projectData = this.selectedProjects.find(project => project.projectName === projectName);
@@ -409,7 +406,7 @@ export class AdminDashboardComponent implements OnInit {
             const clickedProject = this.projectsbarDataforAttendance.datasets[clickedDatasetIndex];
             if (clickedProject) {
                 const projectId = clickedProject.projectId;
-                this.handleprojectChartClick(clickedLabel,projectId)
+                this.handleprojectChartClick(clickedLabel, projectId)
             }
         }
     }
@@ -428,13 +425,13 @@ export class AdminDashboardComponent implements OnInit {
                     case 'WFH':
                         if (this.chart === 'Date') {
                             this.selectedDate = DATE_FORMAT(new Date(this.selectedDate));
-                            this.dashboardService.GetEmployeeAttendanceCountByProject(this.chart, this.selectedDate, this.isCheckboxSelected,lookupDetailId, projectId)
+                            this.dashboardService.GetEmployeeAttendanceCountByProject(this.chart, this.selectedDate, this.isCheckboxSelected, lookupDetailId, projectId)
                                 .subscribe((resp) => {
-                                    this.employeeCount = resp as unknown as EmployeesofAttendanceCountsViewDto[];                                    
+                                    this.employeeCount = resp as unknown as EmployeesofAttendanceCountsViewDto[];
                                 });
                         } else if (this.chart === 'Month') {
                             this.selectedMonth = DATE_FORMAT_MONTH(new Date(this.selectedMonth));
-                            this.dashboardService.GetEmployeeAttendanceCountByProject(this.chart, this.selectedMonth,  this.isCheckboxSelected,lookupDetailId, projectId)
+                            this.dashboardService.GetEmployeeAttendanceCountByProject(this.chart, this.selectedMonth, this.isCheckboxSelected, lookupDetailId, projectId)
                                 .subscribe((resp) => {
                                     this.employeeCount = resp as unknown as EmployeesofAttendanceCountsViewDto[];
                                 });
