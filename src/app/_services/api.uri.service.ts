@@ -175,8 +175,9 @@ export const UPDATE_ADMIN_SETTINGS="AdminDashboard/UpdateAppSettings";
 // Admin Dashboard
 export const GET_ADMIN_DASHBOARD = "AdminDashboard/GetAdminDashboard";
 export const GET_ATTENDANCE_COUNT_BASED_ON_TYPE="AdminDashboard/GetAttendanceCountsBasedOnType";
-export const GET_ATTENDANCE_COUNT_BASED_ON_PROJECTS="AdminDashboard/GetAttendanceCountsBasedOnTypeByProjects"
-export const GET_EMPLOYEES_OF_ATTENDANCE_COUNT="AdminDashboard/GetEmployeesofAttendanceCounts"
+export const GET_ATTENDANCE_COUNT_BASED_ON_PROJECTS="AdminDashboard/GetAttendanceCountsBasedOnTypeByProjects";
+export const GET_EMPLOYEES_OF_ATTENDANCE_COUNT="AdminDashboard/GetEmployeesofAttendanceCounts";
+export const GET_EMPLOYEES_OF_ATTENDANCE_COUNT_BY_PROJECTS="AdminDashboard/GetEmployeesofAttendanceCountsBasedonProjectId";
 //Reports
 export const GET_MONTHLY_ATTENDANCE_REPORT = "Report/AttendanceReportBasedOnYearAndMonth";
 export const GET_YEARLY_ATTENDANCE_REPORT = "Report/AttendanceReportBasedOnYear";

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiHttpService } from './api.http.service';
 import { adminDashboardViewDto, NotificationsDto,AttendanceCountBasedOnTypeViewDto, SelfEmployeeDto, selfEmployeeMonthlyLeaves, EmployeesofAttendanceCountsViewDto, NotificationsRepliesDto, HrNotification } from '../_models/dashboard';
-import { GET_ADMIN_DASHBOARD, GET_ALLOTED_LEAVES, GET_NOTIFICATIONS, GET_NOTIFICATION_REPLIES, GET_ATTENDANCE_COUNT_BASED_ON_TYPE, GET_SELF_EMPLOYEE, GET_SELF_EMPLOYEE_MONTH_LEAVES, GET_EMPLOYEES_OF_ATTENDANCE_COUNT, POST_BIRTHDAY_WISHES, POST_HR_NOTIFICATIONS, GET_ADMIN_SETTINGS, UPDATE_ADMIN_SETTINGS, DELETE_NOTIFICATION, GET_ATTENDANCE_COUNT_BASED_ON_PROJECTS } from './api.uri.service';
+import { GET_ADMIN_DASHBOARD, GET_ALLOTED_LEAVES, GET_NOTIFICATIONS, GET_NOTIFICATION_REPLIES, GET_ATTENDANCE_COUNT_BASED_ON_TYPE, GET_SELF_EMPLOYEE, GET_SELF_EMPLOYEE_MONTH_LEAVES, GET_EMPLOYEES_OF_ATTENDANCE_COUNT, POST_BIRTHDAY_WISHES, POST_HR_NOTIFICATIONS, GET_ADMIN_SETTINGS, UPDATE_ADMIN_SETTINGS, DELETE_NOTIFICATION, GET_ATTENDANCE_COUNT_BASED_ON_PROJECTS, GET_EMPLOYEES_OF_ATTENDANCE_COUNT_BY_PROJECTS } from './api.uri.service';
 
 @Injectable({
     providedIn: 'root'
@@ -28,6 +28,9 @@ export class DashboardService extends ApiHttpService {
     }
     public GetEmployeeAttendanceCount(datatype:string,value:any,dayworkstatus:number){
         return this.getWithParams<EmployeesofAttendanceCountsViewDto>(GET_EMPLOYEES_OF_ATTENDANCE_COUNT,[datatype,value,dayworkstatus])
+    }
+    public GetEmployeeAttendanceCountByProject(datatype:string,value:any,byProject: boolean,dayworkstatus:number,projectId:number){
+        return this.getWithParams<EmployeesofAttendanceCountsViewDto>(GET_EMPLOYEES_OF_ATTENDANCE_COUNT_BY_PROJECTS,[datatype,value,byProject,dayworkstatus,projectId])
     }
     public GetNotifications(){
         return this.get<NotificationsDto>(GET_NOTIFICATIONS);

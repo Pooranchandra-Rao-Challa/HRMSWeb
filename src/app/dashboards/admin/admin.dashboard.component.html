@@ -140,11 +140,11 @@
                                                         Projects</label>
                                                 </div>
                                                 <br />
-                                                <p-multiSelect *ngIf="isCheckboxSelected"
+                                                <p-multiSelect *ngIf="this.isCheckboxSelected"
                                                     [(ngModel)]="this.selectedProjects" optionLabel="projectName"
-                                                    [options]="attendanceCountByProject" 
-                                                    placeholder="Choose Columns" [filter]="false" filterBy="name"
-                                                    appendTo="body" (onChange)="byChangingProject()"></p-multiSelect>
+                                                    [options]="attendanceCountByProject" placeholder="Choose Projects"
+                                                    filterBy="name" appendTo="body"
+                                                    (onChange)="projectsChart()" ></p-multiSelect>
                                             </div>
                                         </div>
                                         <!-- For attendance section -->
@@ -190,19 +190,17 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- <li *ngIf="this.attendanceCount?.length > 0; else noDataMessage">
-                                <p-chart type="doughnut" [data]="pieDataforAttendance" [options]="pieOptionsforAttendance"
-                                    height="200px" width="100%"></p-chart>
-                            </li> -->
                             <div class="d-leave" *ngIf="!isCheckboxSelected && this.attendanceCount?.length > 0">
                                 <p-chart class="d-leave-font" type="bar" [data]="barDataforAttendance"
                                     [options]="barOptionsforAttendance" height="250px" width="100%"
                                     (onDataSelect)="onChartClick($event)"></p-chart>
                             </div>
                             <div class="card" *ngIf="isCheckboxSelected">
-                                <p-chart type="bar" [data]="data" [options]="options"></p-chart>
+                                <p-chart type="bar" [data]="projectsbarDataforAttendance"
+                                    [options]="projectsbarOptionsforAttendance"
+                                    (onDataSelect)="onProjectChartClick($event)"></p-chart>
                             </div>
+
                             <div class="text-center mt-5"
                                 *ngIf="(!isCheckboxSelected && attendanceCount?.length === 0)">
                                 <div class="border-round-lg pt-5 px-5 pb-5 mb-3"
@@ -234,6 +232,7 @@
                                                         <th class="text-center">Code</th>
                                                         <th class="text-left">Employee Name</th>
                                                         <th class="text-center">Day Work Status</th>
+                                                        <!-- <th class="text-centrer">Project Name</th> -->
                                                     </tr>
                                                 </ng-template>
                                                 <ng-template pTemplate="body" let-employee>
@@ -254,6 +253,11 @@
                                                                 {{employee?.dayWorkStatus}}
                                                             </h6>
                                                         </td>
+                                                        <!-- <td class="text-center">
+                                                            <h6 class="line-height-3 m-0 font-medium font-medium ">
+                                                                {{employee?.dayWorkStatus}}
+                                                            </h6>
+                                                        </td> -->
                                                     </tr>
                                                 </ng-template>
                                             </p-table>

@@ -20,18 +20,18 @@ export class AdminDashboardComponent implements OnInit {
     admindashboardDtls: adminDashboardViewDto;
     barDataforAttendance: any;
     barOptionsforAttendance: any;
+    projectsbarDataforAttendance: any;
+    projectsbarOptionsforAttendance: any;
     pieOptionsforProjects: any;
     pieDataforProjects: any;
     chartFilled: boolean;
     chart: string;
-    empRadio: string;
     year: number = new Date().getFullYear();
     month: number = new Date().getMonth() + 1;
     selectedMonth: any;
     selectedDate: any;
     days: number[] = [];
     monthFormat: string = MONTH;
-    dateFormat: string = MEDIUM_DATE;
     attendanceCount: AttendanceCountBasedOnTypeViewDto[] = [];
     attendanceCountByProject: AttendanceCountBasedOnTypeViewDto[] = [];
     notifications: NotificationsDto[] = [];
@@ -40,7 +40,6 @@ export class AdminDashboardComponent implements OnInit {
     employeeCount: EmployeesofAttendanceCountsViewDto[] = [];
     isCheckboxSelected: boolean = false;
     leaveType: LookupDetailsDto[] = [];
-    filteredEmployeeCount: any;
     EmployeeId: any;
     fbWishes!: FormGroup;
     permissions: any;
@@ -50,8 +49,6 @@ export class AdminDashboardComponent implements OnInit {
     fieldset1Open = true;
     fieldset2Open = false;
     fieldset3Open = false;
-    data: any;
-    options: any;
     selectedProjects: any[];
     projectName: any;
 
@@ -84,12 +81,6 @@ export class AdminDashboardComponent implements OnInit {
 
     }
 
-    gotoPreviousDay() {
-        const previousDay = new Date(this.selectedDate);
-        previousDay.setDate(previousDay.getDate() - 1);
-        this.selectedDate = previousDay;
-        this.getAttendanceCountsBasedOnType();
-    }
     toggleFieldset(legend: string): void {
         const fieldsets = ['HR Notifications', 'Today Birthday', 'Greetings'];
 
@@ -104,16 +95,39 @@ export class AdminDashboardComponent implements OnInit {
             this[`fieldset${index + 1}Open`] = true;
         }
     }
+
+    gotoPreviousDay() {
+        const previousDay = new Date(this.selectedDate);
+        previousDay.setDate(previousDay.getDate() - 1);
+        this.selectedDate = previousDay;
+        if (this.isCheckboxSelected === false) {
+            this.getAttendanceCountsBasedOnType();
+        }
+        else {
+            this.getAttendanceCountsBasedOnProject();
+        }
+    }
+
     onDaySelect(event) {
         this.selectedDate = DATE_FORMAT(new Date(event));
-        this.getAttendanceCountsBasedOnType();
+        if (this.isCheckboxSelected === false) {
+            this.getAttendanceCountsBasedOnType();
+        }
+        else {
+            this.getAttendanceCountsBasedOnProject();
+        }
     }
 
     gotoNextDay() {
         const nextDay = new Date(this.selectedDate);
         nextDay.setDate(nextDay.getDate() + 1);
         this.selectedDate = nextDay;
-        this.getAttendanceCountsBasedOnType();
+        if (this.isCheckboxSelected === false) {
+            this.getAttendanceCountsBasedOnType();
+        }
+        else {
+            this.getAttendanceCountsBasedOnProject();
+        }
     }
 
     gotoPreviousMonth() {
@@ -124,6 +138,25 @@ export class AdminDashboardComponent implements OnInit {
             this.year--;     // Decrement the year
         }
         this.updateSelectedMonth();
+        if (this.isCheckboxSelected === false) {
+            this.getAttendanceCountsBasedOnType();
+        }
+        else {
+            this.getAttendanceCountsBasedOnProject();
+        }
+    }
+
+    onMonthSelect(event) {
+        this.selectedMonth = event;
+        this.month = this.selectedMonth.getMonth() + 1;
+        this.year = this.selectedMonth.getFullYear();
+        this.updateSelectedMonth();
+        if (this.isCheckboxSelected === false) {
+            this.getAttendanceCountsBasedOnType();
+        }
+        else {
+            this.getAttendanceCountsBasedOnProject();
+        }
     }
 
     gotoNextMonth() {
@@ -134,7 +167,44 @@ export class AdminDashboardComponent implements OnInit {
             this.year++;    // Increment the year
         }
         this.updateSelectedMonth();
-        this.getAttendanceCountsBasedOnType();
+        if (this.isCheckboxSelected === false) {
+            this.getAttendanceCountsBasedOnType();
+        }
+        else {
+            this.getAttendanceCountsBasedOnProject();
+        }
+    }
+
+    gotoPreviousYear() {
+        this.year--;
+        if (this.isCheckboxSelected === false) {
+            this.getAttendanceCountsBasedOnType();
+        }
+        else {
+            this.getAttendanceCountsBasedOnProject();
+        }
+    }
+
+    onYearSelect(event) {
+        const date = new Date(event);
+        const yearNumber = date.getFullYear();
+        this.year = yearNumber;
+        if (this.isCheckboxSelected === false) {
+            this.getAttendanceCountsBasedOnType();
+        }
+        else {
+            this.getAttendanceCountsBasedOnProject();
+        }
+    }
+
+    gotoNextYear() {
+        this.year++;
+        if (this.isCheckboxSelected === false) {
+            this.getAttendanceCountsBasedOnType();
+        }
+        else {
+            this.getAttendanceCountsBasedOnProject();
+        }
     }
 
     updateSelectedMonth() {
@@ -142,6 +212,7 @@ export class AdminDashboardComponent implements OnInit {
         this.selectedMonth.setHours(0, 0, 0, 0);
         this.getDaysInMonth(this.year, this.month);
     }
+
     transformDateIntoTime(createdAt: any): string {
         const currentDate = new Date();
         const createdDate = new Date(createdAt);
@@ -167,13 +238,6 @@ export class AdminDashboardComponent implements OnInit {
         const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'short' };
         return date.toLocaleDateString('en-US', options);
     }
-    onMonthSelect(event) {
-        this.selectedMonth = event;
-        this.month = this.selectedMonth.getMonth() + 1;
-        this.year = this.selectedMonth.getFullYear();
-        this.updateSelectedMonth();
-        this.getAttendanceCountsBasedOnType();
-    }
 
     getDaysInMonth(year: number, month: number) {
         const date = new Date(year, month - 1, 1);
@@ -192,23 +256,6 @@ export class AdminDashboardComponent implements OnInit {
         return FORMAT_MONTH(date, this.monthFormat);
     }
 
-    onYearSelect(event) {
-        const date = new Date(event);
-        const yearNumber = date.getFullYear();
-        this.year = yearNumber;
-        this.getAttendanceCountsBasedOnType();
-    }
-
-    gotoPreviousYear() {
-        this.year--;
-        this.getAttendanceCountsBasedOnType();
-    }
-
-    gotoNextYear() {
-        this.year++;
-        this.getAttendanceCountsBasedOnType();
-    }
-
     getAttendanceProjectChart() {
         if (this.isCheckboxSelected === true) {
             this.getAttendanceCountsBasedOnProject();
@@ -221,7 +268,6 @@ export class AdminDashboardComponent implements OnInit {
     getAttendanceCountsBasedOnType() {
         this.attendanceCount = [];
         this.employeeCount = [];
-        this.isCheckboxSelected = false;
         this.shouldDisplayMessage = false;
         if (this.chart === 'Date') {
             this.selectedDate = DATE_FORMAT(new Date(this.selectedDate));
@@ -246,6 +292,9 @@ export class AdminDashboardComponent implements OnInit {
     }
 
     getAttendanceCountsBasedOnProject() {
+        this.attendanceCountByProject = [];
+        this.employeeCount = [];
+        this.shouldDisplayMessage = false;
         if (this.chart === 'Date') {
             this.selectedDate = DATE_FORMAT(new Date(this.selectedDate));
             this.dashboardService.GetAttendanceCountBasedOnProjects(this.chart, this.selectedDate, this.isCheckboxSelected).subscribe((resp) => {
@@ -283,9 +332,6 @@ export class AdminDashboardComponent implements OnInit {
         const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
         const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
         const projectNames = this.selectedProjects.map(project => project.projectName);
-        projectNames.forEach(projectName => {
-            this.projectName = projectName
-        });
 
         const labels = ['PT', 'WFH', 'PL', 'CL', 'LWP'];
         const datasets = projectNames.map((projectName, index) => {
@@ -293,6 +339,7 @@ export class AdminDashboardComponent implements OnInit {
             return {
                 type: 'bar',
                 label: projectName,
+                projectId: projectData?.projectId,
                 backgroundColor: this.getColorByIndex(index),
                 data: [
                     projectData?.pt || 0,
@@ -303,18 +350,16 @@ export class AdminDashboardComponent implements OnInit {
                 ]
             };
         });
-        this.data = {
+
+        this.projectsbarDataforAttendance = {
             labels: labels,
             datasets: datasets
         };
-        this.options = {
+
+        this.projectsbarOptionsforAttendance = {
             maintainAspectRatio: false,
             aspectRatio: 0.8,
             plugins: {
-                tooltip: {
-                    mode: 'index',
-                    intersect: false
-                },
                 legend: {
                     display: false,
                     labels: {
@@ -347,14 +392,74 @@ export class AdminDashboardComponent implements OnInit {
         };
     }
 
-    byChangingProject() {
-        this.projectsChart();
+    getColorByIndex(index: number): string {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
     }
 
-    getColorByIndex(index: number): string {
-        const documentStyle = getComputedStyle(document.documentElement);
-        const colors = ['--blue-500', '--green-500', '--yellow-500', '--red-500', '--purple-500'];
-        return documentStyle.getPropertyValue(colors[index % colors.length]);
+    onProjectChartClick(event: any): void {
+        const clickedIndex = event?.element?.index;
+        const clickedDatasetIndex = event?.element?.datasetIndex;
+        if (clickedIndex !== undefined) {
+            const clickedLabel = this.projectsbarDataforAttendance.labels[clickedIndex];
+            const clickedProject = this.projectsbarDataforAttendance.datasets[clickedDatasetIndex];
+            if (clickedProject) {
+                const projectId = clickedProject.projectId;
+                this.handleprojectChartClick(clickedLabel,projectId)
+            }
+        }
+    }
+
+    handleprojectChartClick(clickedLabel: string, projectId: number): void {
+        this.lookupService.DayWorkStatus().subscribe(resp => {
+            this.leaveType = resp as unknown as LookupViewDto[];
+            const leaveType = this.leaveType.find(type => type.name === clickedLabel);
+            if (leaveType) {
+                const lookupDetailId = leaveType.lookupDetailId;
+                switch (clickedLabel) {
+                    case 'PL':
+                    case 'CL':
+                    case 'PT':
+                    case 'LWP':
+                    case 'WFH':
+                        if (this.chart === 'Date') {
+                            this.selectedDate = DATE_FORMAT(new Date(this.selectedDate));
+                            this.dashboardService.GetEmployeeAttendanceCountByProject(this.chart, this.selectedDate, this.isCheckboxSelected,lookupDetailId, projectId)
+                                .subscribe((resp) => {
+                                    this.employeeCount = resp as unknown as EmployeesofAttendanceCountsViewDto[];                                    
+                                });
+                        } else if (this.chart === 'Month') {
+                            this.selectedMonth = DATE_FORMAT_MONTH(new Date(this.selectedMonth));
+                            this.dashboardService.GetEmployeeAttendanceCountByProject(this.chart, this.selectedMonth,  this.isCheckboxSelected,lookupDetailId, projectId)
+                                .subscribe((resp) => {
+                                    this.employeeCount = resp as unknown as EmployeesofAttendanceCountsViewDto[];
+                                });
+                        } else if (this.chart === 'Year') {
+                            this.dashboardService.GetEmployeeAttendanceCountByProject(this.chart, this.year, this.isCheckboxSelected, lookupDetailId, projectId)
+                                .subscribe((resp) => {
+                                    this.employeeCount = resp as unknown as EmployeesofAttendanceCountsViewDto[];
+                                    this.employeeCount.forEach(emp => {
+                                        const date = new Date(emp.value);
+                                        if (isNaN(date.getTime())) {
+                                            emp.monthNames = 'Invalid Date';
+                                        } else {
+                                            emp.monthNames = new Intl.DateTimeFormat('en', { month: 'long' }).format(date);
+                                        }
+                                    });
+                                    this.displayHugeDataMessage();
+                                });
+                        }
+                        break;
+                    default:
+                        console.log('Unhandled click');
+                        break;
+                }
+            }
+        })
     }
 
     inItAdminDashboard() {
