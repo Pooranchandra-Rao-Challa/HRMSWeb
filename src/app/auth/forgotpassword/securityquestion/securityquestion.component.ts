@@ -25,16 +25,15 @@ export class SecurityquestionComponent {
 
     ngOnInit(): void {
         this.userName = this.activatedRoute.snapshot.queryParams['username'];
+        this.messageService.clear();
         this.initValidateUserQuestions();
     }
 
     initValidateUserQuestions() {
         this.securityService.ValidateUserQuestions(this.userName!).pipe(
             catchError((error) => {
-                this.messageService.add({ severity: 'error', key: 'myToast', summary: 'Error', detail: "Invalid User Name" });
-                this.interval = setInterval(() => {
-                    this.navigateToPrev();
-                }, 2000);
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: "Invalid User Name" });
+                this.navigateToPrev();
                 return throwError(error); // Re-throw the error to propagate it further if needed
             })
         ).subscribe({
@@ -42,8 +41,13 @@ export class SecurityquestionComponent {
                 this.userQuestions = resp as unknown as UserQuestionDto[];
                 this.userSecureQuestionsCount = this.userQuestions[0]?.userSecureQuestionsCount;
                 if (this.userQuestions.length < 1) {
-                    this.messageService.add({ severity: 'error', key: 'myToast', summary: 'Error', detail: "You have no security questions, So please contact to your admin." });
                     // this.navigateToPrev();
+                    this.messageService.add(
+                        {
+                            severity: 'error',
+                            summary: 'Error',
+                            detail: 'You have no security questions, So please contact to your admin.'
+                        });
                 }
             }
         })
@@ -61,7 +65,12 @@ export class SecurityquestionComponent {
         });
         if (flag)
             this.router.navigate(['auth/forgotpassword/changepassword'], { queryParams: { username: this.userName } })
-        else this.messageService.add({ severity: 'error', key: 'myToast', summary: 'Error', detail: "Entered Answer Is Incorrect" });
+        else
+            this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Entered Answers are Incorrect'
+            });
 
     }
 

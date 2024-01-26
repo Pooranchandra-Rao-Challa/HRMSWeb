@@ -53,11 +53,13 @@ import { SplitButtonModule } from 'primeng/splitbutton';
 import { MenuModule } from 'primeng/menu';
 import { ListboxModule } from 'primeng/listbox';
 import { Calendar } from 'primeng/calendar';
+import { MessagesModule } from 'primeng/messages';
 Calendar.prototype.getDateFormat = () => 'dd/mm/yy';
 
 @NgModule({
     exports: [
         ReactiveFormsModule,
+        MessagesModule,
         ListboxModule,
         MenuModule,
         TabMenuModule,

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 import { ForgotUserPasswordDto } from 'src/app/_models/security';
 import { SecurityService } from 'src/app/_services/security.service';
 import { ConfirmedValidator } from 'src/app/_validators/confirmValidator';
@@ -18,10 +19,12 @@ export class ChangepasswordComponent {
     constructor(private router: Router,
         private formbuilder: FormBuilder,
         private securityService: SecurityService,
+        private messageService: MessageService,
         private activatedRoute: ActivatedRoute) { }
 
     ngOnInit(): void {
         this.changePasswordForm();
+        this.messageService.clear();
         this.fbChangePassword.controls['userName'].setValue(this.activatedRoute.snapshot.queryParams['username']);
     }
 

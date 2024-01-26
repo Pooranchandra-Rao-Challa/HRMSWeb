@@ -33,7 +33,25 @@ export class HRMSAPIInterceptor implements HttpInterceptor {
                         }
                     )
                 );
-        }//else this.jwtService.Logout()
+        }
+        else if (!isLoggedIn) {
+
+            const url = isApiUrl + "Security/ValidateUserQuestions";
+
+            // Check if the request URL is the specific URL you want to skip
+            if (request.url === url) {
+                // Skip authentication and move to the next interceptor or backend
+                return next.handle(request).pipe(
+                    finalize(() => {
+                        setTimeout(() => {
+                            this.loaderService.isLoading.next(false);
+                        }, 500);
+                    })
+                );
+
+            }
+        }
+        else this.jwtService.Logout()
         //if not logged in
         return next.handle(request).pipe(
             map(resp => {
