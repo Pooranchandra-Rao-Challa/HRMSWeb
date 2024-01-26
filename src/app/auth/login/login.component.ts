@@ -27,6 +27,7 @@ export class LoginComponent implements OnInit {
 
     ngOnInit() {
         this.loginForm();
+        this.messageService.clear();
     }
 
     loginForm() {
@@ -76,9 +77,9 @@ export class LoginComponent implements OnInit {
     get dark(): boolean {
         return this.layoutService.config.colorScheme !== 'light';
     }
-    
+
     togglePasswordVisibility(): void {
         this.showPassword = !this.showPassword;
-      }
+    }
 
 }
