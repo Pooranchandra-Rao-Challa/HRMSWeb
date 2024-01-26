@@ -24,7 +24,6 @@ export class ChangepasswordComponent {
 
     ngOnInit(): void {
         this.changePasswordForm();
-        this.messageService.clear();
         this.fbChangePassword.controls['userName'].setValue(this.activatedRoute.snapshot.queryParams['username']);
     }
 
