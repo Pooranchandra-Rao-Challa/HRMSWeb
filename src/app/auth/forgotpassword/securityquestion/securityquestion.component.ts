@@ -25,7 +25,6 @@ export class SecurityquestionComponent {
 
     ngOnInit(): void {
         this.userName = this.activatedRoute.snapshot.queryParams['username'];
-        this.messageService.clear();
         this.initValidateUserQuestions();
     }
 
@@ -44,9 +43,7 @@ export class SecurityquestionComponent {
                     // this.navigateToPrev();
                     this.messageService.add(
                         {
-                            severity: 'error',
-                            summary: 'Error',
-                            detail: 'You have no security questions, So please contact to your admin.'
+                            severity: 'error', summary: 'Error', detail: 'You have no security questions, So please contact to your admin.'
                         });
                 }
             }
@@ -67,9 +64,7 @@ export class SecurityquestionComponent {
             this.router.navigate(['auth/forgotpassword/changepassword'], { queryParams: { username: this.userName } })
         else
             this.messageService.add({
-                severity: 'error',
-                summary: 'Error',
-                detail: 'Entered Answers are Incorrect'
+                severity: 'error', summary: 'Error', detail: 'Entered Answers are Incorrect'
             });
 
     }
