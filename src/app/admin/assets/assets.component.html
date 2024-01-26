@@ -323,9 +323,9 @@
       <ng-template pTemplate="rowexpansion" let-assest>
         <tr>
           <td colspan="13">
-            <div class="p-3">
-              <div class="overflow-container">
-                <p-table [value]="assest.expandassets" [columns]="AssetsTypeTable" dataKey="assetId"
+            <div class="p-3 width_vw">
+              <div class="overflow-cotainer">
+                <p-table [value]="assest.expandassets"  [scrollable]="true" scrollHeight="300px" [columns]="AssetsTypeTable" dataKey="assetId"
                   [tableStyle]="{ width: 'max-content' }" paginatorDropdownAppendTo="body" [scrollable]="true"
                   scrollDirection="both" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm">
                   <ng-template pTemplate="header">
