@@ -1,5 +1,5 @@
 import { HttpEventType } from '@angular/common/http';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Table } from 'primeng/table';
 import { EmployeeLeaveDialogComponent } from 'src/app/_dialogs/employeeleave.dialog/employeeleave.dialog.component';
@@ -42,27 +42,24 @@ export class LeaveStatisticsComponent {
   value: number;
   computedCLs: number[];
   computedPLs: number[];
-  leaveReportTypes:any[];
+  leaveReportTypes: any[];
+  selectedColumnHeader!: ITableHeader[];
+  _selectedColumns!: ITableHeader[];
 
   headers: ITableHeader[] = [
     { field: 'name', header: 'name', label: 'Employee Name' },
     { field: 'experienceInCompany', header: 'experienceInCompany', label: 'Exp In Company' },
     { field: 'dateofJoin', header: 'dateofJoin', label: 'DOJ' },
     { field: 'reportingTo', header: 'reportingTo', label: 'Reporting To' },
+    { field: 'previousYearPrivilegeLeaves', header: 'previousYearPrivilegeLeaves', label: 'Previous PL(Year)' },
     { field: 'allottedCasualLeaves', header: 'allottedCasualLeaves', label: 'Allotted CL' },
     { field: 'allottedPrivilegeLeaves', header: 'allottedPrivilegeLeaves', label: 'Allotted PL' },
-    { field: 'usedCasualLeavesInYear', header: 'usedCasualLeavesInYear', label: 'Used CL(Year)' },
-    { field: 'usedCasualLeavesInMonth', header: 'usedCasualLeavesInMonth', label: 'Used CL(Month)' },
-    { field: 'usedPrivilegeLeavesInYear', header: 'usedPrivilegeLeavesInYear', label: 'Used PL(Year)' },
-    { field: 'usedPrivilegeLeavesInMonth', header: 'usedPrivilegeLeavesInMonth', label: 'Used PL(Month)' },
-    { field: 'usedLWPInYear', header: 'usedLWPInYear', label: 'Used LWP(Year)' },
-    { field: 'usedLWPInMonth', header: 'usedLWPInMonth', label: 'Used LWP(Month)' },
-    { field: 'previousYearPrivilegeLeaves', header: 'previousYearPrivilegeLeaves', label: 'Previous PL(Year)' },
-    { field: 'absentsInYear', header: 'absentsInYear', label: 'Absent(Year)' },
-    { field: 'absentsInMonth', header: 'absentsInMonth', label: 'Absent(Month)' },
-    { field: 'workingFromHome', header: 'workingFromHome', label: 'WFH(Month)' },
     { field: 'availableCLs', header: 'availableCLs', label: 'Available CLs' },
     { field: 'availablePLs', header: 'availablePLs', label: 'Available PLs' },
+    { field: 'usedCasualLeavesInYear', header: 'usedCasualLeavesInYear', label: 'Used CL(Year)' },
+    { field: 'usedPrivilegeLeavesInYear', header: 'usedPrivilegeLeavesInYear', label: 'Used PL(Year)' },
+    { field: 'usedLWPInYear', header: 'usedLWPInYear', label: 'Used LWP(Year)' },
+    { field: 'workingFromHomeInYear', header: 'workingFromHomeInYear', label: ' Used WFH(Year)' }
   ];
   constructor(
     private globalFilterService: GlobalFilterService,
@@ -75,10 +72,26 @@ export class LeaveStatisticsComponent {
 
   }
 
+  set selectedColumns(val: any[]) {
+    this._selectedColumns = this.selectedColumnHeader.filter((col) => val.includes(col));
+  }
+  @Input() get selectedColumns(): any[] {
+    return this._selectedColumns;
+  }
+
   ngOnInit(): void {
     this.permissions = this.jwtService.Permissions;
     this.getLeaves();
     this.getLeavesReportTypeOptions();
+    this._selectedColumns = this.selectedColumnHeader;
+    this.selectedColumnHeader = [
+      { field: 'usedCasualLeavesInMonth', header: 'usedCasualLeavesInMonth', label: 'Used CL(Month)' },
+      { field: 'usedPrivilegeLeavesInMonth', header: 'usedPrivilegeLeavesInMonth', label: 'Used PL(Month)' },
+      { field: 'usedLWPInMonth', header: 'usedLWPInMonth', label: 'Used LWP(Month)' },
+      { field: 'workingFromHomeInMonth', header: 'workingFromHomeInMonth', label: 'Used WFH(Month)' },
+      { field: 'absentsInYear', header: 'absentsInYear', label: 'Absent(Year)' },
+      { field: 'absentsInMonth', header: 'absentsInMonth', label: 'Absent(Month)' },
+    ];
   }
 
   onGlobalFilter(table: Table, event: Event) {
@@ -139,19 +152,19 @@ export class LeaveStatisticsComponent {
       })
   }
 
-  downloadLeavesAsOnDate(){
+  downloadLeavesAsOnDate() {
     this.reportService.DownloadLeavesAsOnDate()
-    .subscribe((resp) => {
-      if (resp.type === HttpEventType.DownloadProgress) {
-        const percentDone = Math.round(100 * resp.loaded / resp.total);
-        this.value = percentDone;
-      }
-      if (resp.type === HttpEventType.Response) {
-        const file = new Blob([resp.body], { type: 'text/csv' });
-        const document = window.URL.createObjectURL(file);
-        FileSaver.saveAs(document, "Leaves Statistics Report As On Date.csv");
-      }
-    })
+      .subscribe((resp) => {
+        if (resp.type === HttpEventType.DownloadProgress) {
+          const percentDone = Math.round(100 * resp.loaded / resp.total);
+          this.value = percentDone;
+        }
+        if (resp.type === HttpEventType.Response) {
+          const file = new Blob([resp.body], { type: 'text/csv' });
+          const document = window.URL.createObjectURL(file);
+          FileSaver.saveAs(document, "Leaves Statistics Report As On Date.csv");
+        }
+      })
   }
 
   DownloadLeavesReports(name: string) {
