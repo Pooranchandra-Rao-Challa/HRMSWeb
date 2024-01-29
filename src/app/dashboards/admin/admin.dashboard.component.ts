@@ -361,8 +361,10 @@ export class AdminDashboardComponent implements OnInit {
             aspectRatio: 0.8,
             plugins: {
                 legend: {
-                    display: false,
+                    display: true,
+                    position: 'bottom',
                     labels: {
+                        usePointStyle: true,
                         color: textColor
                     }
                 }
@@ -420,43 +422,32 @@ export class AdminDashboardComponent implements OnInit {
             const leaveType = this.leaveType.find(type => type.name === clickedLabel);
             if (leaveType) {
                 const lookupDetailId = leaveType.lookupDetailId;
-                switch (clickedLabel) {
-                    case 'PL':
-                    case 'CL':
-                    case 'PT':
-                    case 'LWP':
-                    case 'WFH':
-                        if (this.chart === 'Date') {
-                            this.selectedDate = DATE_FORMAT(new Date(this.selectedDate));
-                            this.dashboardService.GetEmployeeAttendanceCountByProject(this.chart, this.selectedDate, this.isCheckboxSelected, lookupDetailId, projectId)
-                                .subscribe((resp) => {
-                                    this.employeeCount = resp as unknown as EmployeesofAttendanceCountsViewDto[];
-                                });
-                        } else if (this.chart === 'Month') {
-                            this.selectedMonth = DATE_FORMAT_MONTH(new Date(this.selectedMonth));
-                            this.dashboardService.GetEmployeeAttendanceCountByProject(this.chart, this.selectedMonth, this.isCheckboxSelected, lookupDetailId, projectId)
-                                .subscribe((resp) => {
-                                    this.employeeCount = resp as unknown as EmployeesofAttendanceCountsViewDto[];
-                                });
-                        } else if (this.chart === 'Year') {
-                            this.dashboardService.GetEmployeeAttendanceCountByProject(this.chart, this.year, this.isCheckboxSelected, lookupDetailId, projectId)
-                                .subscribe((resp) => {
-                                    this.employeeCount = resp as unknown as EmployeesofAttendanceCountsViewDto[];
-                                    this.employeeCount.forEach(emp => {
-                                        const date = new Date(emp.value);
-                                        if (isNaN(date.getTime())) {
-                                            emp.monthNames = 'Invalid Date';
-                                        } else {
-                                            emp.monthNames = new Intl.DateTimeFormat('en', { month: 'long' }).format(date);
-                                        }
-                                    });
-                                    this.displayHugeDataMessage();
-                                });
-                        }
-                        break;
-                    default:
-                        console.log('Unhandled click');
-                        break;
+                if (this.chart === 'Date') {
+                    this.selectedDate = DATE_FORMAT(new Date(this.selectedDate));
+                    this.dashboardService.GetEmployeeAttendanceCountByProject(this.chart, this.selectedDate, this.isCheckboxSelected, lookupDetailId, projectId)
+                        .subscribe((resp) => {
+                            this.employeeCount = resp as unknown as EmployeesofAttendanceCountsViewDto[];
+                        });
+                } else if (this.chart === 'Month') {
+                    this.selectedMonth = DATE_FORMAT_MONTH(new Date(this.selectedMonth));
+                    this.dashboardService.GetEmployeeAttendanceCountByProject(this.chart, this.selectedMonth, this.isCheckboxSelected, lookupDetailId, projectId)
+                        .subscribe((resp) => {
+                            this.employeeCount = resp as unknown as EmployeesofAttendanceCountsViewDto[];
+                        });
+                } else if (this.chart === 'Year') {
+                    this.dashboardService.GetEmployeeAttendanceCountByProject(this.chart, this.year, this.isCheckboxSelected, lookupDetailId, projectId)
+                        .subscribe((resp) => {
+                            this.employeeCount = resp as unknown as EmployeesofAttendanceCountsViewDto[];
+                            this.employeeCount.forEach(emp => {
+                                const date = new Date(emp.value);
+                                if (isNaN(date.getTime())) {
+                                    emp.monthNames = 'Invalid Date';
+                                } else {
+                                    emp.monthNames = new Intl.DateTimeFormat('en', { month: 'long' }).format(date);
+                                }
+                            });
+                            this.displayHugeDataMessage();
+                        });
                 }
             }
         })
@@ -587,43 +578,32 @@ export class AdminDashboardComponent implements OnInit {
             const leaveType = this.leaveType.find(type => type.name === clickedLabel);
             if (leaveType) {
                 const lookupDetailId = leaveType.lookupDetailId;
-                switch (clickedLabel) {
-                    case 'PL':
-                    case 'CL':
-                    case 'PT':
-                    case 'LWP':
-                    case 'WFH':
-                        if (this.chart === 'Date') {
-                            this.selectedDate = DATE_FORMAT(new Date(this.selectedDate));
-                            this.dashboardService.GetEmployeeAttendanceCount(this.chart, this.selectedDate, lookupDetailId)
-                                .subscribe((resp) => {
-                                    this.employeeCount = resp as unknown as EmployeesofAttendanceCountsViewDto[];
-                                });
-                        } else if (this.chart === 'Month') {
-                            this.selectedMonth = DATE_FORMAT_MONTH(new Date(this.selectedMonth));
-                            this.dashboardService.GetEmployeeAttendanceCount(this.chart, this.selectedMonth, lookupDetailId)
-                                .subscribe((resp) => {
-                                    this.employeeCount = resp as unknown as EmployeesofAttendanceCountsViewDto[];
-                                });
-                        } else if (this.chart === 'Year') {
-                            this.dashboardService.GetEmployeeAttendanceCount(this.chart, this.year, lookupDetailId)
-                                .subscribe((resp) => {
-                                    this.employeeCount = resp as unknown as EmployeesofAttendanceCountsViewDto[];
-                                    this.employeeCount.forEach(emp => {
-                                        const date = new Date(emp.value);
-                                        if (isNaN(date.getTime())) {
-                                            emp.monthNames = 'Invalid Date';
-                                        } else {
-                                            emp.monthNames = new Intl.DateTimeFormat('en', { month: 'long' }).format(date);
-                                        }
-                                    });
-                                    this.displayHugeDataMessage();
-                                });
-                        }
-                        break;
-                    default:
-                        console.log('Unhandled click');
-                        break;
+                if (this.chart === 'Date') {
+                    this.selectedDate = DATE_FORMAT(new Date(this.selectedDate));
+                    this.dashboardService.GetEmployeeAttendanceCount(this.chart, this.selectedDate, lookupDetailId)
+                        .subscribe((resp) => {
+                            this.employeeCount = resp as unknown as EmployeesofAttendanceCountsViewDto[];
+                        });
+                } else if (this.chart === 'Month') {
+                    this.selectedMonth = DATE_FORMAT_MONTH(new Date(this.selectedMonth));
+                    this.dashboardService.GetEmployeeAttendanceCount(this.chart, this.selectedMonth, lookupDetailId)
+                        .subscribe((resp) => {
+                            this.employeeCount = resp as unknown as EmployeesofAttendanceCountsViewDto[];
+                        });
+                } else if (this.chart === 'Year') {
+                    this.dashboardService.GetEmployeeAttendanceCount(this.chart, this.year, lookupDetailId)
+                        .subscribe((resp) => {
+                            this.employeeCount = resp as unknown as EmployeesofAttendanceCountsViewDto[];
+                            this.employeeCount.forEach(emp => {
+                                const date = new Date(emp.value);
+                                if (isNaN(date.getTime())) {
+                                    emp.monthNames = 'Invalid Date';
+                                } else {
+                                    emp.monthNames = new Intl.DateTimeFormat('en', { month: 'long' }).format(date);
+                                }
+                            });
+                            this.displayHugeDataMessage();
+                        });
                 }
             }
         })

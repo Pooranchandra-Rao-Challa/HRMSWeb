@@ -508,9 +508,15 @@ p-calendar input {
 .project_card:hover {
     border: 1px solid #f17517 !important;
 }
+
 .card_hover:hover {
     // border: 1px solid #f17517 !important;
     box-shadow: 0 0 5px #f17517;
+}
+
+.card_hover:hover .cursor-pointer,
+.card_hover:hover .text-color {
+    color: #f17517 !important;
 }
 
 .recruitment {
