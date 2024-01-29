@@ -395,12 +395,18 @@ export class AdminDashboardComponent implements OnInit {
     }
 
     getColorByIndex(index: number): string {
-        const letters = '0123456789ABCDEF';
-        let color = '#';
-        for (let i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * 16)];
-        }
-        return color;
+        // const letters = '0123456789ABCDEF';
+        // let color = '#';
+        // for (let i = 0; i < 6; i++) {
+        //     color += letters[Math.floor(Math.random() * 16)];
+        // }
+        // return color;
+        const getRandomComponent = () => Math.floor(Math.random() * 256);
+        const red = getRandomComponent();
+        const green = getRandomComponent();
+        const blue = getRandomComponent();
+
+        return `rgb(${red}, ${green}, ${blue})`;
     }
 
     onProjectChartClick(event: any): void {
