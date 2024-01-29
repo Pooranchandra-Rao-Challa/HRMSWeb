@@ -43,8 +43,8 @@
                     <div class="flex gap-2">
                         <p-multiSelect [options]="selectedColumnHeader" [(ngModel)]="selectedColumns"
                             optionLabel="label" id="lookup_ColumnSelection" selectedItemsLabel="{0} columns selected"
-                            [style]="{'min-width': '200px'}" placeholder="Choose Columns"></p-multiSelect>
-
+                            [style]="{'min-width': '200px'}" placeholder="Choose Columns" appendTo="body">
+                        </p-multiSelect>
                         <div class="p-input-icon-left dropdown_icon">
                             <i class="icon-csv-svgrepo-com-1 "></i>
                             <div *ngIf="permissions?.CanDownloadLeaves">

@@ -363,8 +363,11 @@ export class AdminDashboardComponent implements OnInit {
                     position: 'bottom',
                     labels: {
                         usePointStyle: true,
-                        color: textColor
-                    }
+                        color: textColor,
+                    },
+                    onClick: (e) => {
+                        return false;
+                    },
                 }
             },
             scales: {
@@ -538,6 +541,9 @@ export class AdminDashboardComponent implements OnInit {
                             }
                             return [];
                         },
+                    },
+                    onClick: (e) => {
+                        return false;
                     },
                 },
             },

@@ -1,5 +1,7 @@
 <nav class="layout-breadcrumb">
     <ol>
+        <li (click)="showDashboard()">Dashboard</li>
+        <li class="layout-breadcrumb-chevron">/</li>
         <ng-template ngFor let-item let-last="last" [ngForOf]="breadcrumbs$ | async">
             <li>{{ item.label }}</li>
             <li *ngIf="!last" class="layout-breadcrumb-chevron">/</li>
