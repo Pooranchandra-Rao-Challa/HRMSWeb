@@ -254,7 +254,7 @@
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-leave>
-                <tr>
+                <tr [ngClass]="{'read-only-row': leave?.isActive !== true}">
                     <td *ngIf="permissions?.CanManageHolidays">
                         <div class="flex">
                             <button *ngIf="!isPastDate(leave.fromDate)" pButton pRipple icon="pi pi-pencil"
