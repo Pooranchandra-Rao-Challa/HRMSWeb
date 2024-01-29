@@ -260,8 +260,8 @@
                         </label>
                         <input id="singleFile" #fileUpload name="myFile" type="file" [accept]="fileTypes"
                             (change)="fileChangeEvent($event)" style="display: none;" hidden />
-                        <app-image-cropper [imageChangedEvent]="imageToCrop" (done)="onCrop($event)">
-                        </app-image-cropper>
+                        <!-- <app-image-cropper [imageChangedEvent]="imageToCrop" (done)="onCrop($event)">
+                        </app-image-cropper> -->
                     </div>
                 </div>
             </div>
