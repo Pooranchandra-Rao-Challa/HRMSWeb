@@ -4,7 +4,7 @@ import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import jsPDF from 'jspdf';
 import { Table } from 'primeng/table';
-import { Observable, Subscription } from 'rxjs';
+import { Observable} from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { ConfirmationDialogService } from 'src/app/_alerts/confirmationdialog.service';
 import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
@@ -28,6 +28,8 @@ export class AssetsComponent {
   globalFilterFields: string[] = ['assetType', 'assetCategory', 'count', 'assetName', 'PurchasedDate', 'ModelNumber', 'Manufacturer',
     'SerialNumber', 'Warranty', 'AddValue', 'Description', 'Status', 'isActive'];
   @ViewChild('filter') filter!: ElementRef;
+  @ViewChild('dtAssets') dtAssets: Table;
+  @ViewChild('innerassetsdata') innerassetsdata: Table;
   assetTypes: LookupViewDto[] = [];
   assetCategories: LookupViewDto[] = [];
   assetstatus: LookupViewDto[] = [];
@@ -174,9 +176,16 @@ export class AssetsComponent {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
   
-  clear(table: Table) {
-    table.clear();
-    this.filter.nativeElement.value = '';
+  clear() {
+    this.clearTableFiltersAndSorting(this.dtAssets);
+    this.clearTableFiltersAndSorting(this.innerassetsdata);
+  }
+
+  clearTableFiltersAndSorting(table: Table) {
+    if (table) {
+      table.clear();
+      this.filter.nativeElement.value = '';
+  }
   }
 
   showDialog() {
