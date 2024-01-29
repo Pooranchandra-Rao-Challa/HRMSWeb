@@ -294,8 +294,8 @@
                             </label>
                             <input (change)="fileChangeEvent($event)" id="singleFile" #fileUpload name="myFile"
                                 type="file" [accept]="fileTypes" hidden />
-                            <app-image-cropper [imageChangedEvent]="imageToCrop" (done)="onCrop($event)">
-                            </app-image-cropper>
+                            <!-- <app-image-cropper [imageChangedEvent]="imageToCrop" (done)="onCrop($event)">
+                            </app-image-cropper> -->
                         </div>
                     </div>
                 </p-fieldset>
