@@ -181,7 +181,6 @@ export class JobOpeningsComponent {
   notEqualToZeroValidator(control: FormControl): { [key: string]: any } | null {
     const value = control.value;
 
-    // Check if the value is not equal to 0
     if (value !== null && value !== undefined && value === 0) {
       return { notEqualToZero: true };
     }

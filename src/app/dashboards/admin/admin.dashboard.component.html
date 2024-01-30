@@ -141,12 +141,23 @@
                                                         Projects</label>
                                                 </div>
                                                 <div class="field mt-2">
-                                                    <p-multiSelect *ngIf="this.isCheckboxSelected"
+                                                    <p-multiSelect
+                                                        *ngIf="this.isCheckboxSelected && (this.chart === 'Date' || this.chart === 'Month')"
                                                         selectedItemsLabel="{0} Projects Selected"
                                                         [(ngModel)]="this.selectedProjects" optionLabel="projectName"
                                                         [options]="attendanceCountByProject"
                                                         placeholder="Choose Projects" filterBy="name" appendTo="body"
                                                         class="project_select" (onChange)="projectsChart()">
+                                                    </p-multiSelect>
+                                                </div>
+                                                <div class="field mt-2"
+                                                    *ngIf="this.isCheckboxSelected && this.chart === 'Year'">
+                                                    <p-multiSelect *ngIf="this.isCheckboxSelected"
+                                                        selectedItemsLabel="{0} Projects Selected"
+                                                        [(ngModel)]="this.selectedFillterdProjects"
+                                                        optionLabel="projectName" [options]="fillterdProjects"
+                                                        placeholder="Choose Projects" filterBy="name" appendTo="body"
+                                                        class="project_select" (onChange)="yearlyProjectsChart()">
                                                     </p-multiSelect>
                                                 </div>
                                             </div>

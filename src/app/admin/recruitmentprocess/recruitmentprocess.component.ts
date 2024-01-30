@@ -74,8 +74,8 @@ export class RecruitmentProcessComponent {
   getTechnicalRound1Count(): number {
     return this.applicantsList.filter(applicant => applicant.technicalRound1At !== null).length;
   }
-  getHRRound1Count():number{
-    return this.applicantsList.filter(applicant => applicant.technicalRound1At!==null && applicant.hrRoundAt!==null).length;
+  getHRRound1Count(): number {
+    return this.applicantsList.filter(applicant => applicant.technicalRound1At !== null && applicant.hrRoundAt !== null).length;
   }
   showDialogToMoveHR(applicant) {
     this.initForm();
@@ -91,7 +91,7 @@ export class RecruitmentProcessComponent {
     })
   }
   getApplicant() {
-    this.RecruitmentService.GetApplicantDetail().subscribe((resp) => 
+    this.RecruitmentService.GetApplicantDetail().subscribe((resp) =>
       this.applicants = resp as unknown as ApplicantViewDto[]
     )
   }
@@ -177,7 +177,7 @@ export class RecruitmentProcessComponent {
     })
   }
   getJobDetails() {
-    this.adminService.GetJobDetails().subscribe((resp) => 
+    this.adminService.GetJobDetails().subscribe((resp) =>
       this.jobOpening = resp as unknown as JobOpeningsDetailsViewDto[])
   }
   initApplicants(jobOpeninginprocessId: number) {
@@ -191,7 +191,7 @@ export class RecruitmentProcessComponent {
   }
 
   getAttributeStages() {
-    this.lookupService.attributestages().subscribe((resp) => 
+    this.lookupService.attributestages().subscribe((resp) =>
       this.attributeStages = resp as unknown as LookupDetailsDto[])
   }
   viewApplicantDtls(applicantId: number) {
