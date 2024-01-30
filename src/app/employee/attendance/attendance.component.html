@@ -137,11 +137,6 @@
                 </p-dropdown>
             </div>
         </div>
-        <!-- <div *ngIf="permissions?.CanDownloadAttendance">
-            <button type="button " pButton icon="icon-csv-svgrepo-com-1"
-                class=" mr-2 doc_button doc_button att_report_button" pTooltip="Download Attendance Report"
-                tooltipPosition="left"></button>
-        </div> -->
         <div class="pr-2">
             <div>
                 <div class="p-inputgroup">
@@ -244,6 +239,11 @@
                     {{ getNonUpdateLabel(employee,i) }}
                 </ng-template>
             </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td class="md:text-center m-5" colspan="50%">No Attendance Found.</td>
         </tr>
     </ng-template>
 </p-table>
