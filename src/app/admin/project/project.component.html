@@ -132,8 +132,8 @@
                           <i class="pi pi-paperclip"></i> Choose Logo: </label>
                         <input id="singleFile" #fileUpload name="myFile" type="file" [accept]="fileTypes" hidden
                           (change)="fileChangeEvent($event)" />
-                        <app-image-cropper [imageChangedEvent]="imageToCrop" (done)="onCrop($event)">
-                        </app-image-cropper>
+                        <!-- <app-image-cropper [imageChangedEvent]="imageToCrop" (done)="onCrop($event)">
+                        </app-image-cropper> -->
                       </div>
                     </div>
                   </div>

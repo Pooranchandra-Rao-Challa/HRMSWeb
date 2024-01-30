@@ -89,8 +89,6 @@ export class MyleaveComponent {
     this.employeeService.getMyLeaves(this.jwtService.EmployeeId, this.year).subscribe((resp) => {
       this.leaves = resp as unknown as EmployeeLeaveDto[];      
       this.leaves = this.leaves.filter(leave => leave.status === this.selectedStatus.name);
-      console.log(this.leaves);
-
     })
   }
 

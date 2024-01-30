@@ -78,8 +78,6 @@ export class JwtService {
     }
 
     public get LookupKeys() {
-
-
         if (this.HasLookupKey)
             return JSON.parse(localStorage.getItem(LOOKUP_KEYS)).Lookups;
         else return {}
@@ -99,6 +97,10 @@ export class JwtService {
 
     public get GivenName(): string {
         const jwt = this.DecodedJWT;
+        if (!jwt || !jwt.GivenName) {
+            this.router.navigate([environment.LogoutUrl]);
+            return '';
+        }
         return jwt.GivenName;
     }
 
@@ -109,6 +111,10 @@ export class JwtService {
 
     public get EmployeeId(): number {
         const jwt = this.DecodedJWT;
+        if (!jwt || !jwt.EmployeeId) {
+            this.router.navigate([environment.LogoutUrl]);
+            return null; 
+        }
         return jwt.EmployeeId;
     }
 
@@ -118,6 +124,11 @@ export class JwtService {
         }
         else
             return true;
+    }
+
+    public get EmployeeRole(): string{
+        const jwt = this.DecodedJWT;
+        return jwt.Roles;
     }
 }
 

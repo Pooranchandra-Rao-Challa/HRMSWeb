@@ -17,7 +17,7 @@
             </ng-template>
         </p-toolbar>
         <!-- p-table -->
-        <p-table id="table" #dtleave [value]="leaves" dataKey="id" [rows]="10" [rowHover]="true" appendTo="body"
+        <p-table id="table" #dtleave [value]="leaves" dataKey="id" [rows]="10" [rowHover]="true" 
             [alwaysShowPaginator]="false" styleClass="p-datatable-gridlines  p-datatable-sm" [columns]="selectedColumns"
             [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
             rowExpandMode="single" [showCurrentPageReport]="true" [globalFilterFields]="globalFilterFields"
@@ -30,7 +30,7 @@
                     <div class="flex gap-2">
                         <p-multiSelect [options]="selectedColumnHeader" [(ngModel)]="selectedColumns"
                             optionLabel="label" id="lookup_ColumnSelection" selectedItemsLabel="{0} columns selected"
-                            [style]="{'min-width': '200px'}" placeholder="Choose Columns"></p-multiSelect>
+                            [style]="{'min-width': '200px'}" placeholder="Choose Columns"  appendTo="body"></p-multiSelect>
                         <span class="p-input-icon-left mb-2">
                             <i class="pi pi-search"></i>
                             <input pInputText type="text" id="search-input" #filter

@@ -1,6 +1,6 @@
 
 import { Component, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   BankDetailViewDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, employeeEducDtlsViewDto,
   employeeExperienceDtlsViewDto, EmployeeOfficedetailsviewDto, FamilyDetailsViewDto
@@ -95,7 +95,8 @@ export class ViewemployeesComponent {
     private adminService: AdminService,
     public ref: DynamicDialogRef,
     private dialogService: DialogService,
-    private confirmationDialogService: ConfirmationDialogService,) {
+    private confirmationDialogService: ConfirmationDialogService,
+    private router : Router) {
     this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
   }
 
@@ -131,6 +132,15 @@ export class ViewemployeesComponent {
       if (!this.employeePrsDtls.signDate) this.enRollEmployee = true;
       else this.showOfcAndAssetDetails = true;
     });
+  }
+
+  previous(){
+     if(this.enRollEmployee === false){
+      this.router.navigate(['employee/all-employees']);
+    }
+    else{
+      this.router.navigate(['employee/onboardingemployee']);
+    }
   }
 
   // Employee OFFICE DETAils
