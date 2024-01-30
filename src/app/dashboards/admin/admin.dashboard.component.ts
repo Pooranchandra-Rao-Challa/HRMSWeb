@@ -425,7 +425,7 @@ export class AdminDashboardComponent implements OnInit {
         const datasets = [];
         this.selectedFillterdProjects.forEach((project, index) => {
             const projectName = project.projectName;
-            const flattenedData = project.data.map(projectData => ({
+            const projectDataMonthWise = project.data.map(projectData => ({
                 cl: projectData.cl,
                 lwp: projectData.lwp,
                 pl: projectData.pl,
@@ -435,9 +435,7 @@ export class AdminDashboardComponent implements OnInit {
                 value: projectData.value,
                 wfh: projectData.wfh
             }));
-
-            // Iterate through each flattened data entry
-            flattenedData.forEach((projectData) => {
+            projectDataMonthWise.forEach((projectData) => {
                 datasets.push({
                     type: 'bar',
                     label: `${projectName} - ${this.getMonthName(projectData.value)}`,
