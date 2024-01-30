@@ -6,6 +6,15 @@
       <ng-template pTemplate="left">
         <h4>Projects</h4>
       </ng-template>
+      <ng-template pTemplate="center">
+        <div *ngIf="activeIndexForProjects===0">
+          <span class="p-input-icon-left mb-2">
+            <i class="pi pi-search"></i>
+            <input pInputText type="text" #filter id="search_projects" (input)="filterProjects($event)"
+              placeholder="Search Project" class="w-full" />
+          </span>
+        </div>
+      </ng-template>
       <ng-template pTemplate="right">
         <div *ngIf="permission?.CanDownloadProjects">
           <p-dropdown [options]="this.ProjectstatuesReportType" optionLabel="name"
@@ -343,7 +352,7 @@
                 <div class="p-fluid p-formgrid grid">
                   <div class="field col-12 md:col-4" style=" padding: 0 20px;  border-top-left-radius: 10px;
                   border-top-right-radius: 10px;">
-                    <p-tabView id="rolesTabView">
+                    <p-tabView id="rolesTabView" >
                       <p-tabPanel [header]="role.Name" *ngFor="let role of Roles" [disabled]="!role.EnableLink">
 
                         <div class="p-inputgroup col-12" *ngIf="EmployeesLengthBasedOnRole[role.Name]?.length >= 10">
@@ -415,8 +424,8 @@
     <!-- Projects View -->
     <div class="card" id="projectsview">
       <p-toast key="myToast"></p-toast>
-      <p-tabView [(activeIndex)]="activeIndex">
-        <p-tabPanel header="Project View">
+      <p-tabView [(activeIndex)]="activeIndexForProjects">
+        <p-tabPanel header="Project View" >
           <div class="grid mb-5 p-0">
             <div class="col-12 md:col-4 lg:col-3 sm:col-6" *ngFor="let project of visibleProjects; let i = index ">
               <div class="card border-1 surface-border project_card">
