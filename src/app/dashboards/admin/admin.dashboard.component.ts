@@ -350,7 +350,6 @@ export class AdminDashboardComponent implements OnInit {
                 ]
             };
         });
-
         this.projectsbarDataforAttendance = {
             labels: labels,
             datasets: datasets
@@ -550,7 +549,8 @@ export class AdminDashboardComponent implements OnInit {
                             return [];
                         },
                     },
-                    onClick: (e) => {
+                    onClick: (event, legendItem) => {
+                        this.handleChartClick(legendItem.text);
                         return false;
                     },
                 },

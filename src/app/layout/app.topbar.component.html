@@ -84,7 +84,7 @@
                             pStyleClass="@grandparent" enterClass="ng-hidden" enterActiveClass="px-scalein"
                             leaveToClass="ng-hidden" leaveActiveClass="px-fadeout"
                             (click)="openComponentDialogforLeaveConfiguration(leaveConfigurationDialogComponent, null, ActionTypes.save)"
-                            *ngIf="permissions?.CanManageLeaveConfiguration">
+                            *ngIf="permissions?.CanViewLeaveConfigurations">
                             <i class="pi pi-calendar-plus mr-2"></i>
                             <span>Leave Configuration</span>
                         </a>
