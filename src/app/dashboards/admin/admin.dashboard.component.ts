@@ -53,6 +53,8 @@ export class AdminDashboardComponent implements OnInit {
     projectName: any;
     employeeslist: boolean = false;
     OnLeaveEmployeeList: any;
+    fillterdProjects: any[] = [];
+    selectedFillterdProjects: any[] = [];
 
     constructor(private dashboardService: DashboardService,
         private router: Router,
@@ -314,10 +316,27 @@ export class AdminDashboardComponent implements OnInit {
         else if (this.chart === 'Year') {
             this.dashboardService.GetAttendanceCountBasedOnProjects(this.chart, this.year, this.isCheckboxSelected).subscribe((resp) => {
                 this.attendanceCountByProject = resp as unknown as AttendanceCountBasedOnTypeViewDto[];
-                this.selectedProjects = this.attendanceCountByProject;
-                this.projectsChart();
+                this.fillterdProjects = this.attendanceCountByProject;
+                this.updateUniqueProjects();
+                this.selectedFillterdProjects = this.fillterdProjects.slice(0, 2);
+                this.yearlyProjectsChart();
             })
         }
+    }
+    updateUniqueProjects() {
+        const uniqueProjectsData = {};
+        this.attendanceCountByProject.forEach(project => {
+            const projectName = project.projectName;
+            if (!uniqueProjectsData[projectName]) {
+                uniqueProjectsData[projectName] = {
+                    projectName: projectName,
+                    data: []
+                };
+            }
+            uniqueProjectsData[projectName].data.push(project);
+        });
+        const uniqueProjectsArray = Object.values(uniqueProjectsData);
+        this.fillterdProjects = uniqueProjectsArray;
     }
 
     onCheckboxClick() {
@@ -397,19 +416,110 @@ export class AdminDashboardComponent implements OnInit {
         };
     }
 
+    yearlyProjectsChart() {
+        const documentStyle = getComputedStyle(document.documentElement);
+        const textColor = documentStyle.getPropertyValue('--text-color');
+        const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
+        const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+        const labels = ['PT', 'WFH', 'PL', 'CL', 'LWP'];
+        const datasets = [];
+        this.selectedFillterdProjects.forEach((project, index) => {
+            const projectName = project.projectName;
+            const flattenedData = project.data.map(projectData => ({
+                cl: projectData.cl,
+                lwp: projectData.lwp,
+                pl: projectData.pl,
+                projectId: projectData.projectId,
+                projectName: projectData.projectName,
+                pt: projectData.pt,
+                value: projectData.value,
+                wfh: projectData.wfh
+            }));
+
+            // Iterate through each flattened data entry
+            flattenedData.forEach((projectData) => {
+                datasets.push({
+                    type: 'bar',
+                    label: `${projectName} - ${this.getMonthName(projectData.value)}`,
+                    projectId: projectData.projectId,
+                    backgroundColor: this.getColorByIndex(index),
+                    data: [
+                        projectData.pt || 0,
+                        projectData.wfh || 0,
+                        projectData.pl || 0,
+                        projectData.cl || 0,
+                        projectData.lwp || 0
+                    ]
+                });
+            });
+        });
+        this.projectsbarDataforAttendance = {
+            labels: labels,
+            datasets: datasets
+        };
+
+        this.projectsbarOptionsforAttendance = {
+            maintainAspectRatio: false,
+            aspectRatio: 0.6,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        usePointStyle: true,
+                        color: textColor
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    stacked: false,
+                    ticks: {
+                        color: textColorSecondary
+                    },
+                    grid: {
+                        color: surfaceBorder
+                    }
+                },
+                y: {
+                    stacked: false,
+                    ticks: {
+                        color: textColorSecondary
+                    },
+                    grid: {
+                        color: surfaceBorder
+                    }
+                }
+            }
+        };
+    }
+
+
+    getMonthName(monthValue: number): string {
+        const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        if (monthValue >= 1 && monthValue <= 12) {
+            return monthNames[monthValue - 1];
+        }
+        return '';
+    }
+
     getColorByIndex(index: number): string {
-        // const letters = '0123456789ABCDEF';
-        // let color = '#';
-        // for (let i = 0; i < 6; i++) {
-        //     color += letters[Math.floor(Math.random() * 16)];
-        // }
-        // return color;
         const getRandomComponent = () => Math.floor(Math.random() * 256);
         const red = getRandomComponent();
         const green = getRandomComponent();
         const blue = getRandomComponent();
+        const variation = 120; // Adjust this value for more or less variation
+        const randomizeComponent = (component: number) => {
+            const min = Math.max(0, component - variation);
+            const max = Math.min(255, component + variation);
+            return Math.floor(Math.random() * (max - min + 1) + min);
+        };
 
-        return `rgb(${red}, ${green}, ${blue})`;
+        const finalRed = randomizeComponent(red);
+        const finalGreen = randomizeComponent(green);
+        const finalBlue = randomizeComponent(blue);
+
+        return `rgb(${finalRed}, ${finalGreen}, ${finalBlue})`;
+
     }
 
     onProjectChartClick(event: any): void {
