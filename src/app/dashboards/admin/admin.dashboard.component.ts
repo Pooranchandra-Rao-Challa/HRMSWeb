@@ -861,11 +861,14 @@ export class AdminDashboardComponent implements OnInit {
             plugins: {
                 legend: {
                     display: true,
+                    position: 'bottom',
                     labels: {
                         display: true,
                         usePointStyle: true
                     },
-                    position: 'bottom'
+                    onClick: () => {
+                        return false;
+                    },
                 }
             }
         };
