@@ -133,11 +133,11 @@
                     </g>
                 </svg>
             </a>
-            <h2 class=" topbar_title mb-4">HRMS Admin</h2>
+            <h2 class=" topbar_title mb-4" style="white-space: pre;"> {{ "Leave Request of Employee "+employeeleavedetails?.leaveDto.employeeName}}</h2>
             <h3 *ngIf="showConfirmationMessage">
                 {{ getConfirmationMessage(employeeleavedetails?.leaveDto?.getLeaveType, employeeleavedetails?.action) }}
               </h3>
-              
+
             <div *ngIf="!showConfirmationMessage" class="flex flex-column mt-5 p-2 surface-0"
                 style=" border-radius: 5px;">
                 <table border="1" cellpadding="0" cellspacing="0" width="100%" class="mb-3 text-left"
@@ -165,10 +165,8 @@
                     </tr>
                 </table>
                 <div class="flex flex-wrap gap-2 justify-content-between">
-                    <button pButton pRipple label="Approve" *ngIf="employeeleavedetails?.action === 'Approve'"
-                        (click)="openConfirmationAlert('Reason For Approve')" class="flex-auto"></button>
-                    <button pButton pRipple label="Reject" *ngIf="employeeleavedetails?.action === 'Reject'"
-                        (click)="openConfirmationAlert('Reason For Reject')" class="flex-auto"></button>
+                    <button pButton pRipple label="{{employeeleavedetails?.action}}"
+                        (click)="openConfirmationAlert()" class="flex-auto" [disabled]="disbaleAction"></button>
                 </div>
             </div>
         </div>
