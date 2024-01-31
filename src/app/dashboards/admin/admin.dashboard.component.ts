@@ -422,6 +422,8 @@ export class AdminDashboardComponent implements OnInit {
         const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
         const labels = ['PT', 'WFH', 'PL', 'CL', 'LWP'];
         const datasets = [];
+        const legendLabels = [];
+
         this.selectedFillterdProjects.forEach((project, index) => {
             const projectName = project.projectName;
             const projectDataMonthWise = project.data.map(projectData => ({
@@ -434,11 +436,13 @@ export class AdminDashboardComponent implements OnInit {
                 value: projectData.value,
                 wfh: projectData.wfh
             }));
+
             projectDataMonthWise.forEach((projectData) => {
                 datasets.push({
                     type: 'bar',
                     label: `${projectName} - ${this.getMonthNames(projectData.value)}`,
                     projectId: projectData.projectId,
+                    stack: projectName,
                     backgroundColor: this.getColorByIndex(index),
                     data: [
                         projectData.pt || 0,
@@ -449,7 +453,10 @@ export class AdminDashboardComponent implements OnInit {
                     ]
                 });
             });
+            legendLabels.push(projectName);
+
         });
+
         this.projectsbarDataforAttendance = {
             labels: labels,
             datasets: datasets
@@ -462,9 +469,18 @@ export class AdminDashboardComponent implements OnInit {
                 legend: {
                     position: 'bottom',
                     labels: {
-                        usePointStyle: true,
-                        color: textColor
-                    }
+                        usePointStyle: false,
+                        color: textColor,
+                        display: true,
+                        boxWidth: 0,
+                        generateLabels: () => {
+                            return legendLabels.map((label, index) => ({
+                                text: label,
+                                lineDash: [],
+                                lineDashOffset: 0,
+                            }));
+                        }
+                    },
                 }
             },
             scales: {
@@ -489,6 +505,7 @@ export class AdminDashboardComponent implements OnInit {
             }
         };
     }
+
 
     getColorByIndex(index: number): string {
         const getRandomComponent = () => Math.floor(Math.random() * 256);
