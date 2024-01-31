@@ -325,7 +325,7 @@ export class AdminDashboardComponent implements OnInit {
     }
     updateUniqueProjects() {
         const uniqueProjectsData = {};
-        this.attendanceCountByProject.forEach(project => {
+        this.attendanceCountByProject?.forEach(project => {
             const projectName = project.projectName;
             if (!uniqueProjectsData[projectName]) {
                 uniqueProjectsData[projectName] = {
