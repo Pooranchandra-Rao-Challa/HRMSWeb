@@ -9,7 +9,7 @@
                         <h1 class="m-0 text-500">{{admindashboardDtls?.activeEmployees}}</h1>
                     </div>
                     <div *ngIf="permissions?.CanViewEnrollEmployees; else disabledemployee">
-                        <div (click)="navigateEmpDtls()" class="att-pointer" pTooltip="Navigate Employees"
+                        <div (click)="navigateEmpDtls()" class="att-pointer" pTooltip="View Employees"
                             tooltipPosition="top">
                             <i class="pi pi-users text-3xl"></i>
                         </div>
@@ -56,7 +56,7 @@
                         </h1>
                     </div>
                     <div *ngIf="permissions?.CanViewProjects; else disabledproject">
-                        <div (click)="navigateProjects()" class="att-pointer" pTooltip="Navigate Projects"
+                        <div (click)="navigateProjects()" class="att-pointer" pTooltip="View Projects"
                             tooltipPosition="top">
                             <i class="pi pi-clone text-3xl"></i>
                         </div>
@@ -78,7 +78,7 @@
                     </div>
                     <div *ngIf="permissions?.CanViewProjects; else disabledproject">
                         <div (click)="navigatesuspendedProjects()" class="att-pointer" tooltipPosition="top"
-                            pTooltip="Navigate Suspended Projects">
+                            pTooltip="View Suspended Projects">
                             <i class="pi pi-stop text-3xl"></i>
                         </div>
                     </div>
