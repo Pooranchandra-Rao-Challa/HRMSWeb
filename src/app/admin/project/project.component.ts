@@ -63,7 +63,8 @@ export class ProjectComponent implements OnInit {
     companyHierarchy: CompanyHierarchyViewDto[] = [];
     selectedProjectId: number = -1;
     AllotedNodes: NodeProps[] = [];
-    activeIndex: number = 0;
+    activeIndexForProjects: number = 0;
+    filteredProjects: any[] = [];
     profileImage = '';
     ProjectstatuesReportType: any[];
     imageToCrop: File;
@@ -91,7 +92,7 @@ export class ProjectComponent implements OnInit {
         this.rows = event.rows;
     }
     get visibleProjects(): any[] {
-        return this.projects.slice(this.first, this.first + this.rows);
+        return this.filteredProjects.slice(this.first, this.first + this.rows);
     }
 
     projectTreeData: TreeNode[];
@@ -131,7 +132,7 @@ export class ProjectComponent implements OnInit {
         private activatedRoute: ActivatedRoute) { }
 
     ngOnInit() {
-
+        
         this.permission = this.jwtService.Permissions;
         this.defaultPhoto = './assets/layout/images/projectsDefault.jpg';
         this.projectForm();
@@ -305,6 +306,7 @@ export class ProjectComponent implements OnInit {
     initProjects() {
         this.adminService.GetProjects().subscribe(resp => {
             this.projects = resp as unknown as ProjectViewDto[];
+            this.filteredProjects=this.projects;
             this.projects = this.projects.reverse();
             // Filter suspended projects if the showSuspendedProjects query parameter is true
             if (this.activatedRoute.snapshot.queryParams['showSuspendedProjects'] === 'true') {
@@ -394,7 +396,7 @@ export class ProjectComponent implements OnInit {
         return this.datePipe.transform(date, 'MM/dd/yyyy')
     }
     onEditProject(project: ProjectViewDto) {
-    
+
         this.projectForm();
         this.projectDetails = {};
         this.editProject = true;
@@ -994,6 +996,13 @@ export class ProjectComponent implements OnInit {
             })
     }
 
+
+    filterProjects(event: any) {
+        const searchText = event.target.value.toLowerCase();
+        this.filteredProjects = this.projects.filter(project =>
+            project.name.toLowerCase().includes(searchText)
+        );
+    }
 }
 
 

@@ -260,10 +260,12 @@
                             <button *ngIf="!isPastDate(leave.fromDate)" pButton pRipple icon="pi pi-pencil"
                                 class="p-element p-ripple p-button-text p-button p-component mr-3 p-0 "
                                 (click)="showDialog(leave, ViewDialogs.edit)"></button>
-                            <button *ngIf="!isPastDate(leave.fromDate) && leave.isActive" pButton pRipple
-                                icon="pi pi-trash" id="delete"
-                                class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
-                                (click)="showDialog(leave, ViewDialogs.delete)"></button>
+                            <span *ngIf="permissions?.CanDeleteHolidays">
+                                <button *ngIf="!isPastDate(leave.fromDate) && leave.isActive" pButton pRipple
+                                    icon="pi pi-trash" id="delete"
+                                    class="p-element p-ripple p-button-text p-button p-component col-2 p-0"
+                                    (click)="showDialog(leave, ViewDialogs.delete)"></button>
+                            </span>
                         </div>
                     </td>
                     <td *ngFor="let col of headers"

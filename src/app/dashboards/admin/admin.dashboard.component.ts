@@ -53,6 +53,8 @@ export class AdminDashboardComponent implements OnInit {
     projectName: any;
     employeeslist: boolean = false;
     OnLeaveEmployeeList: any;
+    fillterdProjects: any[] = [];
+    selectedFillterdProjects: any[] = [];
 
     constructor(private dashboardService: DashboardService,
         private router: Router,
@@ -314,10 +316,27 @@ export class AdminDashboardComponent implements OnInit {
         else if (this.chart === 'Year') {
             this.dashboardService.GetAttendanceCountBasedOnProjects(this.chart, this.year, this.isCheckboxSelected).subscribe((resp) => {
                 this.attendanceCountByProject = resp as unknown as AttendanceCountBasedOnTypeViewDto[];
-                this.selectedProjects = this.attendanceCountByProject;
-                this.projectsChart();
+                this.fillterdProjects = this.attendanceCountByProject;
+                this.updateUniqueProjects();
+                this.selectedFillterdProjects = this.fillterdProjects.slice(0, 2);
+                this.yearlyProjectsChart();
             })
         }
+    }
+    updateUniqueProjects() {
+        const uniqueProjectsData = {};
+        this.attendanceCountByProject.forEach(project => {
+            const projectName = project.projectName;
+            if (!uniqueProjectsData[projectName]) {
+                uniqueProjectsData[projectName] = {
+                    projectName: projectName,
+                    data: []
+                };
+            }
+            uniqueProjectsData[projectName].data.push(project);
+        });
+        const uniqueProjectsArray = Object.values(uniqueProjectsData);
+        this.fillterdProjects = uniqueProjectsArray;
     }
 
     onCheckboxClick() {
@@ -350,7 +369,6 @@ export class AdminDashboardComponent implements OnInit {
                 ]
             };
         });
-
         this.projectsbarDataforAttendance = {
             labels: labels,
             datasets: datasets
@@ -397,19 +415,99 @@ export class AdminDashboardComponent implements OnInit {
         };
     }
 
+    yearlyProjectsChart() {
+        const documentStyle = getComputedStyle(document.documentElement);
+        const textColor = documentStyle.getPropertyValue('--text-color');
+        const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
+        const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+        const labels = ['PT', 'WFH', 'PL', 'CL', 'LWP'];
+        const datasets = [];
+        this.selectedFillterdProjects.forEach((project, index) => {
+            const projectName = project.projectName;
+            const projectDataMonthWise = project.data.map(projectData => ({
+                cl: projectData.cl,
+                lwp: projectData.lwp,
+                pl: projectData.pl,
+                projectId: projectData.projectId,
+                projectName: projectData.projectName,
+                pt: projectData.pt,
+                value: projectData.value,
+                wfh: projectData.wfh
+            }));
+            projectDataMonthWise.forEach((projectData) => {
+                datasets.push({
+                    type: 'bar',
+                    label: `${projectName} - ${this.getMonthNames(projectData.value)}`,
+                    projectId: projectData.projectId,
+                    backgroundColor: this.getColorByIndex(index),
+                    data: [
+                        projectData.pt || 0,
+                        projectData.wfh || 0,
+                        projectData.pl || 0,
+                        projectData.cl || 0,
+                        projectData.lwp || 0
+                    ]
+                });
+            });
+        });
+        this.projectsbarDataforAttendance = {
+            labels: labels,
+            datasets: datasets
+        };
+
+        this.projectsbarOptionsforAttendance = {
+            maintainAspectRatio: false,
+            aspectRatio: 0.6,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        usePointStyle: true,
+                        color: textColor
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    stacked: true,
+                    ticks: {
+                        color: textColorSecondary
+                    },
+                    grid: {
+                        color: surfaceBorder
+                    }
+                },
+                y: {
+                    stacked: true,
+                    ticks: {
+                        color: textColorSecondary
+                    },
+                    grid: {
+                        color: surfaceBorder
+                    }
+                }
+            }
+        };
+    }
+
     getColorByIndex(index: number): string {
-        // const letters = '0123456789ABCDEF';
-        // let color = '#';
-        // for (let i = 0; i < 6; i++) {
-        //     color += letters[Math.floor(Math.random() * 16)];
-        // }
-        // return color;
         const getRandomComponent = () => Math.floor(Math.random() * 256);
         const red = getRandomComponent();
         const green = getRandomComponent();
         const blue = getRandomComponent();
+        const variation = 120; // Adjust this value for more or less variation
+        const randomizeComponent = (component: number) => {
+            const min = Math.max(0, component - variation);
+            const max = Math.min(255, component + variation);
+            return Math.floor(Math.random() * (max - min + 1) + min);
+        };
 
-        return `rgb(${red}, ${green}, ${blue})`;
+        const finalRed = randomizeComponent(red);
+        const finalGreen = randomizeComponent(green);
+        const finalBlue = randomizeComponent(blue);
+
+        return `rgb(${finalRed}, ${finalGreen}, ${finalBlue})`;
+
     }
 
     onProjectChartClick(event: any): void {
@@ -494,86 +592,182 @@ export class AdminDashboardComponent implements OnInit {
         });
     }
 
+    getMonthNames(monthNumber: any): string {
+        const date = new Date(null, monthNumber - 1, 1);
+        return date.toLocaleString('default', { month: 'long' });
+    }
+
     attendanceChart() {
         const documentStyle = getComputedStyle(document.documentElement);
         const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
-        const CasualLeaves = this.attendanceCount?.find(each => each.cl);
-        const PrevlageLeaves = this.attendanceCount?.find(each => each.pl);
-        const present = this.attendanceCount?.find(each => each.pt);
-        const leaveWithoutPay = this.attendanceCount?.find(each => each.lwp);
-        const workFromHome = this.attendanceCount?.find(each => each.wfh);
-
-        this.barDataforAttendance = {
-            labels: ['PT', 'WFH', 'PL', 'CL', 'LWP'],
-            datasets: [
-                {
-                    data: [present?.pt, workFromHome?.wfh, PrevlageLeaves?.pl, CasualLeaves?.cl, leaveWithoutPay?.lwp],
-                    backgroundColor: [documentStyle.getPropertyValue('--inofc-b'), documentStyle.getPropertyValue('--wfh-b'), documentStyle.getPropertyValue('--pl-b'), documentStyle.getPropertyValue('--cl-b'), documentStyle.getPropertyValue('--lwp-b')],
+        if (this.chart === 'Year') {
+            const monthlyData = this.attendanceCount;
+            const uniqueMonths = Array.from(new Set(monthlyData.map(item => item.value)));
+            const datasets = [];
+            uniqueMonths.forEach(month => {
+                const monthData = monthlyData.find(item => item.value === month);
+                const dataset = {
+                    label: this.getMonthNames(month),
+                    data: [monthData.pt, monthData.wfh, monthData.pl, monthData.cl, monthData.lwp],
+                    backgroundColor: [
+                        documentStyle.getPropertyValue('--inofc-b'),
+                        documentStyle.getPropertyValue('--wfh-b'),
+                        documentStyle.getPropertyValue('--pl-b'),
+                        documentStyle.getPropertyValue('--cl-b'),
+                        documentStyle.getPropertyValue('--lwp-b')
+                    ],
                     borderColor: surfaceBorder,
-                }
-            ]
-        };
-        this.barOptionsforAttendance = {
-            animation: {
-                duration: 500
-            },
-            plugins: {
-                legend: {
-                    display: true,
-                    position: 'bottom',
-                    labels: {
+                };
+                datasets.push(dataset);
+            });
+            this.barDataforAttendance = {
+                labels: ['PT', 'WFH', 'PL', 'CL', 'LWP'],
+                datasets: datasets,
+            };
+            this.barOptionsforAttendance = {
+                animation: {
+                    duration: 500
+                },
+                plugins: {
+                    legend: {
                         display: true,
-                        usePointStyle: true,
-                        generateLabels: function (chart) {
-                            const data = chart.data;
-                            if (data.labels.length && data.datasets.length) {
-                                return data.labels.reduce(function (labels, label, i) {
-                                    const dataset = data.datasets[0];
-                                    const value = dataset.data[i];
-                                    if (!isNaN(value)) {
-                                        labels.push({
-                                            text: label,
-                                            fillStyle: dataset.backgroundColor[i],
-                                            hidden: isNaN(value),
-                                            lineCap: dataset.borderCapStyle,
-                                            lineDash: dataset.borderDash,
-                                            lineDashOffset: dataset.borderDashOffset,
-                                            lineJoin: dataset.borderJoinStyle,
-                                            lineWidth: dataset.borderWidth,
-                                            strokeStyle: dataset.borderColor[i],
-                                            pointStyle: dataset.pointStyle,
-                                        });
-                                    }
-                                    return labels;
-                                }, []);
-                            }
-                            return [];
+                        position: 'bottom',
+                        labels: {
+                            display: true,
+                            usePointStyle: true,
+                            generateLabels: function (chart) {
+                                const data = chart.data;
+                                if (data.labels.length && data.datasets.length) {
+                                    return data.labels.reduce(function (labels, label, i) {
+                                        const dataset = data.datasets[0];
+                                        const value = dataset.data[i];
+                                        if (!isNaN(value)) {
+                                            labels.push({
+                                                text: label,
+                                                fillStyle: dataset.backgroundColor[i],
+                                                hidden: isNaN(value),
+                                                lineCap: dataset.borderCapStyle,
+                                                lineDash: dataset.borderDash,
+                                                lineDashOffset: dataset.borderDashOffset,
+                                                lineJoin: dataset.borderJoinStyle,
+                                                lineWidth: dataset.borderWidth,
+                                                strokeStyle: dataset.borderColor[i],
+                                                pointStyle: dataset.pointStyle,
+                                            });
+                                        }
+                                        return labels;
+                                    }, []);
+                                }
+                                return [];
+                            },
+                        },
+                        onClick: (event, legendItem) => {
+                            this.handleChartClick(legendItem.text);
+                            return false;
                         },
                     },
-                    onClick: (e) => {
-                        return false;
-                    },
                 },
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    grid: {
-                        color: surfaceBorder,
-                        drawBorder: false
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        stacked: true,
+                        grid: {
+                            color: surfaceBorder,
+                            drawBorder: false
+                        },
+                        ticks: {
+                            precision: 0
+                        }
                     },
-                    ticks: {
-                        precision: 0
-                    }
-                },
-                x: {
-                    grid: {
-                        color: surfaceBorder,
-                        drawBorder: false
+                    x: {
+                        stacked: true,
+                        grid: {
+                            color: surfaceBorder,
+                            drawBorder: false
+                        }
                     }
                 }
-            }
-        };
+            };
+        }
+        else {
+            const CasualLeaves = this.attendanceCount?.find(each => each.cl);
+            const PrevlageLeaves = this.attendanceCount?.find(each => each.pl);
+            const present = this.attendanceCount?.find(each => each.pt);
+            const leaveWithoutPay = this.attendanceCount?.find(each => each.lwp);
+            const workFromHome = this.attendanceCount?.find(each => each.wfh);
+            this.barDataforAttendance = {
+                labels: ['PT', 'WFH', 'PL', 'CL', 'LWP'],
+                datasets: [
+                    {
+                        data: [present?.pt, workFromHome?.wfh, PrevlageLeaves?.pl, CasualLeaves?.cl, leaveWithoutPay?.lwp],
+                        backgroundColor: [documentStyle.getPropertyValue('--inofc-b'), documentStyle.getPropertyValue('--wfh-b'), documentStyle.getPropertyValue('--pl-b'), documentStyle.getPropertyValue('--cl-b'), documentStyle.getPropertyValue('--lwp-b')],
+                        borderColor: surfaceBorder,
+                    }
+                ]
+            };
+            this.barOptionsforAttendance = {
+                animation: {
+                    duration: 500
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        labels: {
+                            display: true,
+                            usePointStyle: true,
+                            generateLabels: function (chart) {
+                                const data = chart.data;
+                                if (data.labels.length && data.datasets.length) {
+                                    return data.labels.reduce(function (labels, label, i) {
+                                        const dataset = data.datasets[0];
+                                        const value = dataset.data[i];
+                                        if (!isNaN(value)) {
+                                            labels.push({
+                                                text: label,
+                                                fillStyle: dataset.backgroundColor[i],
+                                                hidden: isNaN(value),
+                                                lineCap: dataset.borderCapStyle,
+                                                lineDash: dataset.borderDash,
+                                                lineDashOffset: dataset.borderDashOffset,
+                                                lineJoin: dataset.borderJoinStyle,
+                                                lineWidth: dataset.borderWidth,
+                                                strokeStyle: dataset.borderColor[i],
+                                                pointStyle: dataset.pointStyle,
+                                            });
+                                        }
+                                        return labels;
+                                    }, []);
+                                }
+                                return [];
+                            },
+                        },
+                        onClick: (event, legendItem) => {
+                            this.handleChartClick(legendItem.text);
+                            return false;
+                        },
+                    },
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: surfaceBorder,
+                            drawBorder: false
+                        },
+                        ticks: {
+                            precision: 0
+                        }
+                    },
+                    x: {
+                        grid: {
+                            color: surfaceBorder,
+                            drawBorder: false
+                        }
+                    }
+                }
+            };
+        }
     }
 
     onChartClick(event: any): void {

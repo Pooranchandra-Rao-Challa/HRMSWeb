@@ -35,11 +35,10 @@ export class HRMSAPIInterceptor implements HttpInterceptor {
                 );
         }
         else if (!isLoggedIn) {
-
             const url = isApiUrl + "Security/ValidateUserQuestions";
-
+            const url2 = isApiUrl + "Security/ForgotPassword";
             // Check if the request URL is the specific URL you want to skip
-            if (request.url === url) {
+            if (request.url === url || request.url === url2) {
                 // Skip authentication and move to the next interceptor or backend
                 return next.handle(request).pipe(
                     finalize(() => {
@@ -76,7 +75,6 @@ export class HRMSAPIInterceptor implements HttpInterceptor {
     }
 
 }
-
 
 
 

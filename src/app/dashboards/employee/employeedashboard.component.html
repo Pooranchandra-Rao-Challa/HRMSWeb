@@ -79,7 +79,7 @@
                                 <i class="pi icon-calendar  text-6xl att-pointer" label="Primary"
                                     pTooltip="Apply PL" tooltipPosition="right"
                                     (click)="openComponentDialog(employeeleaveDialogComponent, null, ActionTypes.save)"
-                                    *ngIf="permissions?.CanManageSelfEmployee"></i>
+                                    *ngIf="empDetails?.allottedPrivilegeLeaves !== 0"></i>
                             </div>
                             <hr class="primary_hr" />
                             <div class="flex justify-content-between">
@@ -132,7 +132,7 @@
                                 <i class="pi icon-calendar text-white text-6xl att-pointer" label="Primary"
                                     pTooltip="Apply CL" tooltipPosition="right"
                                     (click)="openComponentDialog(employeeleaveDialogComponent, null, ActionTypes.save)"
-                                    *ngIf="permissions?.CanManageSelfEmployee"></i>
+                                    *ngIf="empDetails?.allottedCasualLeaves !== 0"></i>
 
                             </div>
                             <hr class="primary_hr" />

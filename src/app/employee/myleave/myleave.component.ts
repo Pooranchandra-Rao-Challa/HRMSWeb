@@ -35,6 +35,9 @@ export class MyleaveComponent {
   selectedColumnHeader!: ITableHeader[];
   _selectedColumns!: ITableHeader[];
   selectedStatus: any;
+  ActionTypes = Actions;
+  employeeleaveDialogComponent = EmployeeLeaveDialogComponent;
+  dialogRequest: DialogRequest = new DialogRequest();
 
   statuses: any[] = [
     { name: 'Pending', key: 'P' },
@@ -60,6 +63,7 @@ export class MyleaveComponent {
     public ref: DynamicDialogRef,
     private jwtService: JwtService,
     public alertMessage: AlertmessageService,
+    private dialogService: DialogService,
     private confirmationDialogService: ConfirmationDialogService) {
 
   }
@@ -117,4 +121,23 @@ export class MyleaveComponent {
       }
     });
   }
+
+  
+  openComponentDialog(content: any,
+    dialogData, action: Actions = this.ActionTypes.add) {
+    if (action == Actions.save && content === this.employeeleaveDialogComponent) {
+        this.dialogRequest.dialogData = dialogData;
+        this.dialogRequest.header = "Leave";
+        this.dialogRequest.width = "60%";
+    }
+    this.ref = this.dialogService.open(content, {
+        data: this.dialogRequest.dialogData,
+        header: this.dialogRequest.header,
+        width: this.dialogRequest.width
+    });
+    this.ref.onClose.subscribe((res: any) => {
+        if (res) this.getLeaves();
+        event.preventDefault(); // Prevent the default form submission
+    });
+}
 }

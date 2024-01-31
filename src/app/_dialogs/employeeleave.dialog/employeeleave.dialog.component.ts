@@ -162,7 +162,7 @@ export class EmployeeLeaveDialogComponent {
     this.adminService.getEmployeesList().subscribe(resp => {
       this.employees = resp as unknown as EmployeesList[];
       this.currentRoute = this.router.url;
-      if (this.currentRoute === '/dashboard/employee') {
+      if (this.currentRoute === '/dashboard/employee' || this.currentRoute === '/employee/myleaves') {
         const defaultEmployeeId = this.jwtService.EmployeeId;
         this.fbLeave.get('employeeId')?.setValue(defaultEmployeeId);
         const selectedEmployee = this.employees.find(employee => String(employee.employeeId) === String(defaultEmployeeId));

@@ -21,7 +21,7 @@
                         <p-dropdown id="employeeName_Dropdown" appendTo="body" [filter]="true" [options]="employees"
                             optionLabel="employeeName" optionValue="employeeId" placeholder="Select Employee Name"
                             formControlName="employeeId" (onChange)="handleEmployeeLeaves()"
-                            [readonly]="this.currentRoute === '/dashboard/employee'"
+                            [readonly]="this.currentRoute === '/dashboard/employee' || this.currentRoute === '/employee/myleaves'"
                             [ngClass]="{'is-invalid ng-dirty': FormControls['employeeId'].touched && FormControls['employeeId'].errors}">
                         </p-dropdown>
                         <div class="flex">
@@ -138,7 +138,7 @@
 </div>
 
 <div class=" footer dialog-footer">
-    <button pButton pRipple type="submit" label="Add Leave" class="p-button-raised p-button-primary"
+    <button pButton pRipple type="submit" label="Apply Leave" class="p-button-raised p-button-primary"
         id="SubmitLeaveForm" [disabled]="fbLeave.invalid" (click)="confirmation()"></button>
 </div>
 
