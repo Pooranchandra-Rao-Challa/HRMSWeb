@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { ALERT_CODES, AlertmessageService } from 'src/app/_alerts/alertmessage.service';
 import { MaxLength } from 'src/app/_models/common';
 import { LeaveConfigurationDto } from 'src/app/_models/security';
+import { JwtService } from 'src/app/_services/jwt.service';
 import { SecurityService } from 'src/app/_services/security.service';
 
 interface Experience {
@@ -31,18 +32,21 @@ export class LeaveconfigurationDialogComponent {
   isEditClicked: boolean = false;
   maxExperience: Experience[] | undefined;
   getExperience: Experience[] | undefined;
-
+  permissions:any;
+  
   constructor(
     private formbuilder: FormBuilder,
     private securityService: SecurityService,
     public ref: DynamicDialogRef,
-    public alertMessage: AlertmessageService
+    public alertMessage: AlertmessageService,
+    private jwtService:JwtService
   ) { }
 
   ngOnInit() {
     this.leaveConfigForm()
     this.getLeaveConfiguration()
-    this.getMaxExperience()
+    this.getMaxExperience();
+    this.permissions = this.jwtService.Permissions;
   }
 
   getMaxExperience() {

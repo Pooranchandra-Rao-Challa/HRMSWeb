@@ -76,17 +76,18 @@
                                     <h4 class="m-0 ">{{ empDetails?.usedPrivilegeLeavesInYear}}/{{
                                         empDetails?.allottedPrivilegeLeaves}}</h4>
                                 </div>
-                                <i class="pi icon-calendar  text-6xl att-pointer" label="Primary"
-                                    pTooltip="Apply PL" tooltipPosition="right"
+                                <i class="pi icon-calendar  text-6xl att-pointer" label="Primary" pTooltip="Apply PL"
+                                    tooltipPosition="right"
                                     (click)="openComponentDialog(employeeleaveDialogComponent, null, ActionTypes.save)"
-                                    *ngIf="permissions?.CanManageSelfEmployee"></i>
+                                    *ngIf="(empDetails?.allottedPrivilegeLeaves-empDetails?.usedPrivilegeLeavesInYear)!== 0"></i>
                             </div>
                             <hr class="primary_hr" />
                             <div class="flex justify-content-between">
                                 <div class="overview-ifo">
                                     <p class="m-0 mb-1  text-primary text-500">Monthly Consumed </p>
                                     <p class="m-0 text-gray-500  text-500">{{ this.monthlyLeaves?.usedPLsInMonth}}</p>
-                                    <p class="m-0  text-gray-500  text-500" *ngIf="this.monthlyLeaves?.usedPLsInMonth === null">0</p>
+                                    <p class="m-0  text-gray-500  text-500"
+                                        *ngIf="this.monthlyLeaves?.usedPLsInMonth === null">0</p>
                                 </div>
 
                                 <div class="d-leave overview-ifo text-center">
@@ -132,7 +133,7 @@
                                 <i class="pi icon-calendar text-white text-6xl att-pointer" label="Primary"
                                     pTooltip="Apply CL" tooltipPosition="right"
                                     (click)="openComponentDialog(employeeleaveDialogComponent, null, ActionTypes.save)"
-                                    *ngIf="permissions?.CanManageSelfEmployee"></i>
+                                    *ngIf="(empDetails?.allottedCasualLeaves-empDetails?.usedCasualLeavesInYear) !== 0"></i>
 
                             </div>
                             <hr class="primary_hr" />
@@ -311,7 +312,7 @@
                     <div class="grid p-3 mt-0 " *ngIf="empDetails?.assets && empDetails?.assets.length > 0">
                         <div class="col-12 sm:col-4 pt-0" *ngFor="let asset of empDetails?.assets">
                             <div class="card text-0 p-3  justify-content-between h-full card_hover">
-                                <div class="overview-info text-center alloted_assets">                                    
+                                <div class="overview-info text-center alloted_assets">
                                     <ng-container *ngIf="asset.thumbnail">
                                         <div class="project_img_dash">
                                             <img [src]="asset?.thumbnail !== '0' ? asset?.thumbnail : (asset?.thumbnail == '0' ? this.defaultPhotoforAssets : this.defaultPhotoforAssets)"
@@ -321,13 +322,17 @@
                                     </ng-container>
                                     <p class="text-primary mb-0 "><b>{{asset.assetName}}</b></p>
                                     <div class="text-center ">
-                                        
-                                      
-                                        <span class=" text-gray-500" *ngIf="asset.assetCode" pTooltip="Asset Code"><b><span class="icon-barcode text-primary "></span> </b>
-                                            {{asset.assetCode}} </span>                                            
+
+
+                                        <span class=" text-gray-500" *ngIf="asset.assetCode"
+                                            pTooltip="Asset Code"><b><span class="icon-barcode text-primary "></span>
+                                            </b>
+                                            {{asset.assetCode}} </span>
                                     </div>
-                                    <div  class="text-left"
-                                            style=" color:gray; border-top:1px solid #ccc; font-size:12px; font-weight: 700;" *ngIf="asset.assignedOn"><b>Assigned On:</b> {{asset.assignedOn | date:dateOfJoining }} </div>
+                                    <div class="text-left"
+                                        style=" color:gray; border-top:1px solid #ccc; font-size:12px; font-weight: 700;"
+                                        *ngIf="asset.assignedOn"><b>Assigned On:</b> {{asset.assignedOn |
+                                        date:dateOfJoining }} </div>
                                 </div>
                             </div>
                         </div>

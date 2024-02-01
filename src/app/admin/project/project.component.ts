@@ -132,7 +132,7 @@ export class ProjectComponent implements OnInit {
         private activatedRoute: ActivatedRoute) { }
 
     ngOnInit() {
-        
+
         this.permission = this.jwtService.Permissions;
         this.defaultPhoto = './assets/layout/images/projectsDefault.jpg';
         this.projectForm();
@@ -306,12 +306,12 @@ export class ProjectComponent implements OnInit {
     initProjects() {
         this.adminService.GetProjects().subscribe(resp => {
             this.projects = resp as unknown as ProjectViewDto[];
-            this.filteredProjects=this.projects;
+            this.filteredProjects = this.projects;
             this.projects = this.projects.reverse();
             // Filter suspended projects if the showSuspendedProjects query parameter is true
             if (this.activatedRoute.snapshot.queryParams['showSuspendedProjects'] === 'true') {
-                this.projects = this.projects.filter(project => project.suspended !== null);
-            }
+                this.filteredProjects = this.projects.filter(project => project.suspended !== null);
+            };
             this.projects.forEach(project => {
                 this.getProjectLogo(project);
             })

@@ -6,89 +6,93 @@ import { EmployeeLeaveDetailsDto, EmployeeLeaveDetailsViewDto } from 'src/app/_m
 import { LeaveConfirmationService } from 'src/app/_services/leaveconfirmation.service';
 
 @Component({
-  selector: 'app-leaveconfirmation',
-  templateUrl: './leaveconfirmation.component.html',
+    selector: 'app-leaveconfirmation',
+    templateUrl: './leaveconfirmation.component.html',
 })
 
 export class LeaveconfirmationComponent {
-  employeeleavedetails: EmployeeLeaveDetailsViewDto;
-  mediumDate: string = MEDIUM_DATE;
-  protectedData: string;
-  protectedWith: string;
-  showConfirmationMessage: boolean = false;
+    employeeleavedetails: EmployeeLeaveDetailsViewDto;
+    mediumDate: string = MEDIUM_DATE;
+    protectedData: string;
+    protectedWith: string;
+    showConfirmationMessage: boolean = false;
+    disbaleAction: boolean = false;
 
-  constructor(private leaveConfirmationService: LeaveConfirmationService,
-    private activatedRoute: ActivatedRoute,
-    public alertMessage: AlertmessageService) {
-    this.protectedData = this.activatedRoute.snapshot.queryParams['key'];
-    this.protectedWith = this.activatedRoute.snapshot.queryParams['key2'];
-  }
-
-  ngOnInit(): void {
-    this.inItEmployeeLeaveDetails();
-  }
-
-  inItEmployeeLeaveDetails() {
-    this.leaveConfirmationService.getEmployeeLeaveDetails(this.protectedData, this.protectedWith).subscribe((resp) => {
-      this.employeeleavedetails = resp as unknown as EmployeeLeaveDetailsViewDto;
-    })
-  }
-
-  openConfirmationAlert(title: string) {
-    const buttonLabel = title === 'Reason For Approve' ? 'Approve' : 'Reject';
-    this.leaveConfirmationService.openDialogWithInput(title, buttonLabel).subscribe((result) => {
-      if (result && result.description !== undefined) {
-        const employeeLeaveDetails: EmployeeLeaveDetailsDto = {
-          employeeId: this.employeeleavedetails.leaveDto.employeeId,
-          leaveId: this.employeeleavedetails.leaveDto.leaveTypeId,
-          action: this.employeeleavedetails.action,
-          protectedData: this.protectedData,
-          protectedWith: this.protectedWith,
-          comments: result.description,
-        };
-        this.leaveConfirmationService.UpdateEmployeeLeaveDetails(employeeLeaveDetails).subscribe((resp) => {
-          let rdata = resp as unknown as any;
-          if (rdata.isSuccess) {
-            this.showConfirmationMessage = true;
-            const leaveType = this.employeeleavedetails?.leaveDto?.getLeaveType;
-            const action = this.employeeleavedetails.action;
-            if (action === 'Reject') {
-              if (leaveType === 'PL') {
-                this.alertMessage.displayErrorMessage(ALERT_CODES["ALC004_PL"]);
-              } else if (leaveType === 'CL') {
-                this.alertMessage.displayErrorMessage(ALERT_CODES["ALC005_CL"]);
-              } else if (leaveType === 'WFH') {
-                this.alertMessage.displayErrorMessage(ALERT_CODES["ALC006_WFH"]);
-              }
-            } else {
-              if (leaveType === 'PL') {
-                this.alertMessage.displayAlertMessage(ALERT_CODES["ALC001_PL"]);
-              } else if (leaveType === 'CL') {
-                this.alertMessage.displayAlertMessage(ALERT_CODES["ALC002_CL"]);
-              } else if (leaveType === 'WFH') {
-                this.alertMessage.displayAlertMessage(ALERT_CODES["ALC003_WFH"]);
-              }
-            }
-          } else if (!rdata.isSuccess) {
-            this.alertMessage.displayErrorMessage(rdata.message);
-          }
-        });
-      }
-    });
-  }
-
-  getConfirmationMessage(leaveType: string, action: string): string {
-    switch (leaveType) {
-      case 'CL':
-        return action === 'Approve' ? 'CL Approved Successfully' : 'CL Rejected Successfully';
-      case 'PL':
-        return action === 'Approve' ? 'PL Approved Successfully' : 'PL Rejected Successfully';
-      case 'WFH':
-        return action === 'Approve' ? 'WFH Approved Successfully' : 'WFH Rejected Successfully';
-      default:
-        return 'Confirmation Updated Successfully';
+    constructor(private leaveConfirmationService: LeaveConfirmationService,
+        private activatedRoute: ActivatedRoute,
+        public alertMessage: AlertmessageService) {
+        this.protectedData = this.activatedRoute.snapshot.queryParams['key'];
+        this.protectedWith = this.activatedRoute.snapshot.queryParams['key2'];
     }
-  }
+
+    ngOnInit(): void {
+        this.inItEmployeeLeaveDetails();
+    }
+
+    inItEmployeeLeaveDetails() {
+        this.leaveConfirmationService.getEmployeeLeaveDetails(this.protectedData, this.protectedWith).subscribe((resp) => {
+            this.employeeleavedetails = resp as unknown as EmployeeLeaveDetailsViewDto;
+        })
+    }
+
+    openConfirmationAlert() {
+        const buttonLabel = this.employeeleavedetails.action;
+        let title = `Reason For ${this.employeeleavedetails.action}`;
+        console.log(this.employeeleavedetails);
+        this.disbaleAction = true;
+        this.leaveConfirmationService.openDialogWithInput(title, buttonLabel).subscribe((result) => {
+            if (result && result.description !== undefined) {
+                const employeeLeaveDetails: EmployeeLeaveDetailsDto = {
+                    employeeId: this.employeeleavedetails.leaveDto.employeeId,
+                    leaveId: this.employeeleavedetails.leaveDto.leaveTypeId,
+                    action: this.employeeleavedetails.action,
+                    protectedData: this.protectedData,
+                    protectedWith: this.protectedWith,
+                    comments: result.description,
+                };
+                this.leaveConfirmationService.UpdateEmployeeLeaveDetails(employeeLeaveDetails).subscribe((resp) => {
+                    let rdata = resp as unknown as any;
+                    if (rdata.isSuccess) {
+                        this.showConfirmationMessage = true;
+                        const leaveType = this.employeeleavedetails?.leaveDto?.getLeaveType;
+                        const action = this.employeeleavedetails.action;
+                        if (action === 'Reject') {
+                            if (leaveType === 'PL') {
+                                this.alertMessage.displayErrorMessage(ALERT_CODES["ALC004_PL"]);
+                            } else if (leaveType === 'CL') {
+                                this.alertMessage.displayErrorMessage(ALERT_CODES["ALC005_CL"]);
+                            } else if (leaveType === 'WFH') {
+                                this.alertMessage.displayErrorMessage(ALERT_CODES["ALC006_WFH"]);
+                            }
+                        } else {
+                            if (leaveType === 'PL') {
+                                this.alertMessage.displayAlertMessage(ALERT_CODES["ALC001_PL"]);
+                            } else if (leaveType === 'CL') {
+                                this.alertMessage.displayAlertMessage(ALERT_CODES["ALC002_CL"]);
+                            } else if (leaveType === 'WFH') {
+                                this.alertMessage.displayAlertMessage(ALERT_CODES["ALC003_WFH"]);
+                            }
+                        }
+                    } else if (!rdata.isSuccess) {
+                        this.alertMessage.displayErrorMessage(rdata.message);
+                    }
+                });
+            }else this.disbaleAction = false;
+        });
+    }
+
+    getConfirmationMessage(leaveType: string, action: string): string {
+        switch (leaveType) {
+            case 'CL':
+                return action === 'Approve' ? 'CL Approved Successfully' : action === 'Accept' ? "CL Accepted Successfully" : 'CL Rejected Successfully';
+            case 'PL':
+                return action === 'Approve' ? 'PL Approved Successfully' : action === 'Accept' ? "PL Accepted Successfully" : 'PL Rejected Successfully';
+            case 'WFH':
+                return action === 'Approve' ? 'WFH Approved Successfully' : action === 'Accept' ? "WFH Accepted Successfully" : 'WFH Rejected Successfully';
+            default:
+                return 'Confirmation Updated Successfully';
+        }
+    }
 
 }
 
