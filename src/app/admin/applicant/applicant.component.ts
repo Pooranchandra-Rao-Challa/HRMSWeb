@@ -56,13 +56,32 @@ export class ApplicantComponent {
       this.applicants = [];
       if (applicants) {
         applicants.map(config => {
+          const status = this.calculateStatus(config.experienceStatus, config.pendingDetails);
           this.applicants.push({
             ...config,
-            status: config.experienceStatus === 'Fresher' ? 100 : 0
+            status: status
           });
         });
       }
     });
+  }
+
+  calculateStatus(experienceStatus: string, pendingDetails: string): number {
+    if (experienceStatus === 'Experienced') {
+      // Split the pendingDetails string into an array
+      const requiredDetails = ["ApplicantCertifications", "ApplicantEducationDetails", "ApplicantLanguageSkills", "ApplicantSkills", "ApplicantWorkExperience"];
+      const pendingDetailsArray = pendingDetails ? pendingDetails.split(', ') : [];
+
+      // Calculate the percentage based on the filled details
+      const filledDetailsPercentage = requiredDetails.reduce((total, detail) => {
+        return total + (pendingDetailsArray.includes(detail) ? 20 : 0);
+      }, 0);
+
+      // Subtract the filled details percentage from 100
+      return Math.max(100 - filledDetailsPercentage, 0);
+    } else {
+      return 100;
+    }
   }
 
   onGlobalFilter(table: Table, event: Event) {

@@ -11,9 +11,10 @@
                             <div>
                                 <div class="p-inputgroup">
                                     <!-- <span class="p-inputgroup-addon"><i class="pi pi-search"></i></span> -->
-                                    <input id="search-name-id" type="text"  #filter pInputText placeholder="Search by Name or Id"
-                                        (input)="onFilter(dv, $event)" />
-                                    <span class="p-inputgroup-addon" (click)="clearcard(dv)"><i class="pi pi-undo"></i></span>
+                                    <input id="search-name-id" type="text" #filter pInputText
+                                        placeholder="Search by Name or Id" (input)="onFilter(dv, $event)" />
+                                    <span class="p-inputgroup-addon" (click)="clearcard(dv)"><i
+                                            class="pi pi-undo"></i></span>
                                 </div>
                             </div>
                             <p-inputSwitch *ngIf="dv._layout !== 'list'" [(ngModel)]="checked"
@@ -60,8 +61,8 @@
                                         <th class="text-center" *ngFor="let col of headers"
                                             [pSortableColumn]="col.header">
                                             {{col?.label}}
-                                            <p-columnFilter type="text" [field]="col.header"
-                                                display="menu"></p-columnFilter>
+                                            <p-columnFilter type="text" [field]="col.header" display="menu">
+                                            </p-columnFilter>
                                             <p-sortIcon [field]="col.header"></p-sortIcon>
                                         </th>
                                         <th></th>
@@ -104,7 +105,7 @@
                                 <div class="col-12 md:col-6 p-0 m-0 text-center">
                                     <img [src]="applicant.photo ? applicant.photo : applicant?.gender == 'Male' ?  './assets/layout/images/men-emp.jpg' : './assets/layout/images/women-emp.jpg'"
                                         [alt]="applicant.name"
-                                        class="shadow-2 my-1 mx-0 applicant_profile_pic zoomable-img" /><br />
+                                        class="shadow-2 my-1 mx-0 applicant_profile_pic avatar" /><br />
 
                                     <div class="text-left ml-2">
                                         <span class="text-xl font-bold">
@@ -121,14 +122,16 @@
                                     </div>
                                 </div>
                                 <div class="col-12 md:col-6 text-center">
-                                        <p-knob [(ngModel)]="applicant.status" [strokeWidth]="10" [size]="60" [readonly]="true"></p-knob>
+                                    <p-knob [(ngModel)]="applicant.status" [strokeWidth]="10" [size]="60"
+                                        [readonly]="true"></p-knob>
                                     <br />
-                                    <div class=" grid mt-0 text-center" *ngIf="applicant.status == 0">
-                                        <span class="text-600 font-medium text-md text-center w-100"
+                                    <div class=" grid mt-0 text-center"
+                                        *ngIf="applicant.experienceStatus === 'Experienced'">
+                                        <span class="text-600 font-medium text-md text-center w-100 text-color"
                                             *ngIf="applicant.pendingDetails">
                                             Pending: </span>
                                         <div class="col-12 p-1 m-0">
-                                            <span class="text-600 font-medium text-md">
+                                            <span class="text-600 font-medium text-md text-color">
                                                 <ng-container *ngIf="applicant && applicant.pendingDetails">
                                                     <ng-container
                                                         *ngIf="applicant.pendingDetails.includes('ApplicantEducationDetails')">
