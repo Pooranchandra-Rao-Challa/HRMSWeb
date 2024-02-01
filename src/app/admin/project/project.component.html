@@ -352,16 +352,17 @@
                 <div class="p-fluid p-formgrid grid">
                   <div class="field col-12 md:col-4" style=" padding: 0 20px;  border-top-left-radius: 10px;
                   border-top-right-radius: 10px;">
-                    <p-tabView id="rolesTabView" >
+                    <p-tabView id="rolesTabView">
                       <p-tabPanel [header]="role.Name" *ngFor="let role of Roles" [disabled]="!role.EnableLink">
 
                         <div class="p-inputgroup col-12" *ngIf="EmployeesLengthBasedOnRole[role.Name]?.length >= 10">
                           <input pInputText type="text" class="w-full" placeholder="Search Employee"
-                            #filterEmployeesInput id="Project_Employee_Search_{{role.Name}}" 
+                            #filterEmployeesInput id="Project_Employee_Search_{{role.Name}}"
                             (keyup)="employeeSearch(role.Name, filterEmployeesInput.value)" />
-                          <span class="p-inputgroup-addon" (click)="clearInput(role.Name)"><i class="pi pi-undo"></i></span>
+                          <span class="p-inputgroup-addon" (click)="clearInput(role.Name)"><i
+                              class="pi pi-undo"></i></span>
                         </div>
-                        
+
                         <div class="col-12 drag-column">
                           <div *ngFor="let employee of getRoleEmployees(role.Name)">
                             <div class="card border-1 surface-border card-height project_employee_card mb-5"
@@ -425,50 +426,57 @@
     <div class="card" id="projectsview">
       <p-toast key="myToast"></p-toast>
       <p-tabView [(activeIndex)]="activeIndexForProjects">
-        <p-tabPanel header="Project View" >
-          <div class="grid mb-5 p-0">
-            <div class="col-12 md:col-4 lg:col-3 sm:col-6" *ngFor="let project of visibleProjects; let i = index ">
-              <div class="card border-1 surface-border project_card">
-                <button pButton pRipple icon="pi pi-pencil" *ngIf="permission?.CanManageProjects"
-                  class="p-element p-ripple p-button-text p-button-primary p-component project_edit_button"
-                  (click)="onEditProject(project)" id="project_edit_button"></button>
-                <div class="list-none m-0 p-0 text-center" (click)="showProjectDetails(project.projectId)">
-                  <!-- <div class="w-10rem h-10rem align-items-center"> -->
-                  <div class="avatar_projects">
-                    <img [src]="project.logo" alt="img" [alt]="project.name" onerror="this.onerror=null;"
-                      class="project_img avatar_projects">
-                  </div>
-                  <!-- <img [src]="project.logo" alt="img" [alt]="project.name" onerror="this.onerror=null;"
+        <p-tabPanel header="Project View">
+          <ng-template pTemplate="content">
+            <div class="grid mb-5 p-0">
+              <div class="col-12 md:col-4 lg:col-3 sm:col-6" *ngFor="let project of visibleProjects; let i = index ">
+                <div class="card border-1 surface-border project_card">
+                  <button pButton pRipple icon="pi pi-pencil" *ngIf="permission?.CanManageProjects"
+                    class="p-element p-ripple p-button-text p-button-primary p-component project_edit_button"
+                    (click)="onEditProject(project)" id="project_edit_button"></button>
+                  <div class="list-none m-0 p-0 text-center" (click)="showProjectDetails(project.projectId)">
+                    <!-- <div class="w-10rem h-10rem align-items-center"> -->
+                    <div class="avatar_projects">
+                      <img [src]="project.logo" alt="img" [alt]="project.name" onerror="this.onerror=null;"
+                        class="project_img avatar_projects">
+                    </div>
+                    <!-- <img [src]="project.logo" alt="img" [alt]="project.name" onerror="this.onerror=null;"
                     class="inline-flex w-10rem h-10rem align-items-center w-10rem justify-content-center border-black-alpha-70 mb-5"> -->
 
-                  <!-- </div> -->
-                  <div class="text-2xl mb-3 font-medium">
-                    <a class="cursor-pointer" id="Project_viewDetails">{{project.name}} </a>
-                  </div>
-                  <!-- <p class="line-height-3 mb-3">{{project.description}}</p> -->
-                  <div class="project_details p-2">
-                    <p>
-                      <span class="text-primary">Status</span>: <span
-                        class="text-color">{{this.getActiveStatus(project)}}</span>
-                    </p>
-                    <p>
-                      <span class="text-primary">Start Date</span>: <span class="text-color">{{project?.initial| date:
-                        'dd MMM, yyyy'}}</span>
-                    </p>
-                    <p>
-                      <span class="text-primary">POC Number </span>: <span
-                        class="text-color">{{project?.pocMobileNumber}}</span>
-                    </p>
-                    <p>
-                      <span class="text-primary">POC Name</span>: <span class="text-color">{{project?.pocName}}</span>
-                    </p>
+                    <!-- </div> -->
+                    <div class="text-2xl mb-3 font-medium">
+                      <a class="cursor-pointer" id="Project_viewDetails">{{project.name}} </a>
+                    </div>
+                    <!-- <p class="line-height-3 mb-3">{{project.description}}</p> -->
+                    <div class="project_details p-2">
+                      <p>
+                        <span class="text-primary">Status</span>: <span
+                          class="text-color">{{this.getActiveStatus(project)}}</span>
+                      </p>
+                      <p>
+                        <span class="text-primary">Start Date</span>: <span class="text-color">{{project?.initial| date:
+                          'dd MMM, yyyy'}}</span>
+                      </p>
+                      <p>
+                        <span class="text-primary">POC Number </span>: <span
+                          class="text-color">{{project?.pocMobileNumber}}</span>
+                      </p>
+                      <p>
+                        <span class="text-primary">POC Name</span>: <span class="text-color">{{project?.pocName}}</span>
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <p-paginator (onPageChange)="onPageChange($event)" *ngIf="projects.length>12" [first]="first" [rows]="rows"
-            [totalRecords]="projects.length" [rowsPerPageOptions]="[12, 24, 36]"></p-paginator>
+            <p-paginator (onPageChange)="onPageChange($event)" *ngIf="projects.length>12 && visibleProjects" [first]="first" [rows]="rows"
+              [totalRecords]="projects.length" [rowsPerPageOptions]="[12, 24, 36]"></p-paginator>
+          </ng-template>
+          <div *ngIf="!visibleProjects">
+            <tr class="flex justify-content-center" >
+              <td class="text-center m-3" colspan="50%">No Projects Found.</td>
+            </tr>
+          </div>       
         </p-tabPanel>
         <p-tabPanel header="Org/Project Chart View">
           <div style="float:right;padding: 20px;">

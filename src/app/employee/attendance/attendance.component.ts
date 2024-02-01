@@ -62,7 +62,7 @@ export class AttendanceComponent {
   filteredLeaveTypes: LookupDetailsDto[] = [];
   leaves: EmployeeLeaveDto[] = [];
   NotUpdatedEmployees: EmployeesList[] = [];
-  showingLeavesOfColors: boolean = false;
+  showingLeavesOfColors: boolean = true;
   infoMessage: boolean;
   DatewiseAttendanceReportDialog: boolean = false;
   ProjectwiseAttendanceReportDialog: boolean = false;

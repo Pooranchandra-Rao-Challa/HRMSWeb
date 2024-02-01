@@ -36,7 +36,7 @@
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-user>
-            <tr>
+            <tr [ngClass]="{'read-only-row': user?.isActive === false}">
                 <td *ngIf="permissions?.CanManageUsers"><button pButton pRipple icon="pi pi-pencil"
                         style="padding: 0px;" class="p-element p-ripple p-button-text p-button p-component mr-2 "
                         [disabled]="user.userName === 'SuperUser'" (click)="showUser(user)"></button></td>
