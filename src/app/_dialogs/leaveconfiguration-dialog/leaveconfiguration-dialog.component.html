@@ -1,14 +1,14 @@
 <div class=" align-items-center justify-content-center">
     <form [formGroup]="fbLeaveConfiguration">
         <div class="grid p-5 content_scroll">
-            <div class="col-6 mt-4" *ngIf="permissions?.CanManageLeaveConfiguration">
+            <div class="col-12 md:col-6 mt-4" *ngIf="permissions?.CanManageLeaveConfiguration">
                 <div class="p-fluid p-formgrid grid ">
                     <div class="field col-6 md:col-6">
                         <label class="required">Max Exp Eligibility (Months):</label>
-                        <p-dropdown appendTo="body" id="gender_dropdown"
-                            placeholder="Select Max Exp Eligibility" [autoDisplayFirst]="false"
-                            [options]="getExperience" optionLabel="name" formControlName="maxExpInMonths"
-                            optionValue="name" (ngModelChange)="onChangeAccumulationPeriod()"
+                        <p-dropdown appendTo="body" id="gender_dropdown" placeholder="Select Max Exp Eligibility"
+                            [autoDisplayFirst]="false" [options]="getExperience" optionLabel="name"
+                            formControlName="maxExpInMonths" optionValue="name"
+                            (ngModelChange)="onChangeAccumulationPeriod()"
                             [readonly]="FormControls['leaveConfigurationId'].value!== null"
                             [ngClass]="{'is-invalid ng-dirty': FormControls['maxExpInMonths'].touched && FormControls['maxExpInMonths'].errors}">
                         </p-dropdown>
@@ -79,13 +79,15 @@
                     </div>
                     <div class="col-12 md:col-12" *ngIf="!isEditClicked">
                         <div class=" button-container mt-1">
-                            <p-button type="button" [label]="this.addLeaveLabel" 
-                           [disabled]="fbLeaveConfiguration.invalid" (click)="addLeaveDetails(fbLeaveConfiguration.invalid)"></p-button>
+                            <p-button type="button" [label]="this.addLeaveLabel"
+                                [disabled]="fbLeaveConfiguration.invalid"
+                                (click)="addLeaveDetails(fbLeaveConfiguration.invalid)"></p-button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-6 roles-container" *ngIf="permissions?.CanViewLeaveConfigurations">
+            <div class="col-12 md:col-6  roles-container" *ngIf="permissions?.CanViewLeaveConfigurations"
+                [ngClass]="{'md:col-6': permissions?.CanManageLeaveConfiguration, 'md:col-12': !permissions?.CanManageLeaveConfiguration}">
                 <!-- FormArray -->
                 <p-table #dt2 [value]="leaveConfiguration" dataKey="id" [rows]="10" [rowHover]="true"
                     styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm mt-5" [paginator]="false"

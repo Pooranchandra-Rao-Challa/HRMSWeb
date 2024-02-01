@@ -325,7 +325,7 @@ export class AdminDashboardComponent implements OnInit {
     }
     updateUniqueProjects() {
         const uniqueProjectsData = {};
-        this.attendanceCountByProject.forEach(project => {
+        this.attendanceCountByProject?.forEach(project => {
             const projectName = project.projectName;
             if (!uniqueProjectsData[projectName]) {
                 uniqueProjectsData[projectName] = {
@@ -431,12 +431,10 @@ export class AdminDashboardComponent implements OnInit {
                 lwp: projectData.lwp,
                 pl: projectData.pl,
                 projectId: projectData.projectId,
-                projectName: projectData.projectName,
                 pt: projectData.pt,
                 value: projectData.value,
                 wfh: projectData.wfh
             }));
-
             projectDataMonthWise.forEach((projectData) => {
                 datasets.push({
                     type: 'bar',
@@ -454,14 +452,11 @@ export class AdminDashboardComponent implements OnInit {
                 });
             });
             legendLabels.push(projectName);
-
         });
-
         this.projectsbarDataforAttendance = {
             labels: labels,
             datasets: datasets
         };
-
         this.projectsbarOptionsforAttendance = {
             maintainAspectRatio: false,
             aspectRatio: 0.6,
@@ -524,7 +519,6 @@ export class AdminDashboardComponent implements OnInit {
         const finalBlue = randomizeComponent(blue);
 
         return `rgb(${finalRed}, ${finalGreen}, ${finalBlue})`;
-
     }
 
     onProjectChartClick(event: any): void {
@@ -861,11 +855,14 @@ export class AdminDashboardComponent implements OnInit {
             plugins: {
                 legend: {
                     display: true,
+                    position: 'bottom',
                     labels: {
                         display: true,
                         usePointStyle: true
                     },
-                    position: 'bottom'
+                    onClick: () => {
+                        return false;
+                    },
                 }
             }
         };
