@@ -9,7 +9,7 @@ import { AdminService } from 'src/app/_services/admin.service';
 import { JwtService } from 'src/app/_services/jwt.service';
 import { DataView } from 'primeng/dataview';
 import { RecruitmentService } from 'src/app/_services/recruitment.service';
-import { JobOpeningsListDto } from 'src/app/_models/recruitment';
+import { ApplicantViewDto, JobOpeningsListDto } from 'src/app/_models/recruitment';
 import { RecruitmentAttributesDTO } from 'src/app/demo/api/security';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
@@ -39,6 +39,10 @@ export class JobOpeningsComponent {
   selectedJob: JobOpeningsDetailsViewDto;
   recruitmentAttributes: RecruitmentAttributesDTO[] = [];
   selectedAttributes: any[] = [];
+  viewApplicants: boolean = false;
+  applicantsList: any;
+  jobOpeningInProcessId: any;
+  roundType: any;
 
   constructor(
     private adminService: AdminService,
@@ -159,6 +163,40 @@ export class JobOpeningsComponent {
     this.adminService.GetRecruitmentDetails(false).subscribe((resp) => {
       this.recruitmentAttributes = resp as unknown as RecruitmentAttributesDTO[];
     })
+  }
+
+  initApplicants(jobOpeningInProcessId: any, roundType: string) {
+    this.viewApplicants = true;
+    this.RecruitmentService.getApplicantsForInitialRound(jobOpeningInProcessId).subscribe(
+      (resp: any) => {
+        if (Array.isArray(resp)) {
+          if (roundType === 'initial') {
+            this.applicantsList = resp.filter((applicant: ApplicantViewDto) => {
+              return applicant.hrRoundAt == null &&
+                applicant.technicalRound1At == null;
+            });
+          } else if (roundType === 'technical') {
+            this.applicantsList = resp.filter((applicant: ApplicantViewDto) => {
+              return applicant.technicalRound1At !== null;
+            });
+          } else if (roundType === 'HR') {
+            this.applicantsList = resp.filter((applicant: ApplicantViewDto) => {
+              return applicant.hrRoundAt !== null;
+            })
+          } else if (roundType === 'Contract') {
+            this.applicantsList = resp.filter((applicant: ApplicantViewDto) => {
+              return applicant.isSelectedInHRRound !== null;
+            })
+          } else if (roundType === 'Disqualified') {
+            this.applicantsList = resp.filter((applicant: ApplicantViewDto) => {
+              return applicant.hrRoundAt == null && applicant.technicalRound1At == null && applicant.isSelectedInHRRound == null;
+            })
+          }
+        } else {
+          console.error('Invalid response type.');
+        }
+      }
+    );
   }
 
   openComponentDialog(content: any,

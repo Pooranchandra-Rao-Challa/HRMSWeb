@@ -29,13 +29,22 @@
                 <div calss="row">
                     <div class="grid">
                         <div class="col-6 mt-2 text-600 font-medium text-sm">
-                            {{ jobOpeningDetails.description }} quwe oeuir o oiweur u fu i ouer fu hfhhou rufuih
-                            iowfd
+                            {{ jobOpeningDetails.description }}
                         </div>
                         <div class="col-6 mt-2">
-                            <span>New Applicants :<b class="text-primary"> 3</b></span> <br>
-                            <span>Applicants :<b class="text-primary"> 2</b></span><br>
-                            <span>To Recruit :<b class="text-primary"> 6</b> </span>
+                            <span style="cursor: pointer;"
+                                (click)="initApplicants(jobOpeningDetails.jobOpeningInProcessId, 'initial')">Qualified
+                                Applicants :<b class="text-primary">3</b></span> <br>
+                            <span
+                                (click)="initApplicants(jobOpeningDetails.jobOpeningInProcessId, 'technical')">Technical
+                                Round Qualified Applicants :<b class="text-primary"> 2</b></span><br>
+                            <span (click)="initApplicants(jobOpeningDetails.jobOpeningInProcessId, 'HR')">HR
+                                Round Qualified Applicants :<b class="text-primary"> 6</b> </span><br>
+                            <span (click)="initApplicants(jobOpeningDetails.jobOpeningInProcessId,'Contract')">Contract
+                                Proposal Applicants :<b class="text-primary"> 6</b> </span><br>
+                            <span
+                                (click)="initApplicants(jobOpeningDetails.jobOpeningInProcessId, 'Disqualified')">Disqualified
+                                Applicants :<b class="text-primary"> 6</b> </span>
                         </div>
                     </div>
                     <!-- </div> -->
@@ -204,4 +213,54 @@
                 id="JO_doProcess_submit" label="submit" class="p-button-raised p-button-primary"></button>
         </div>
     </ng-template>
+</p-dialog>
+
+
+<p-dialog header="View Applicants" [(visible)]="viewApplicants" [modal]="true" showEffect="fade"
+    [breakpoints]="{'960px': '70%', '640px': '60%'}" [style]="{width: '60%'}">
+    <div class="content_scroll">
+        <p-table #applicantTable [value]="applicantsList" [paginator]="true" [rows]="6" [responsive]="true"
+            [alwaysShowPaginator]="false" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm mb-1">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th class="text-center">Applicant Name</th>
+                    <th class="text-center">Applicant DOB</th>
+                    <th class="text-center">Skills</th>
+                    <th class="text-center">Ph no</th>
+                    <th class="text-center">Email</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-applicant>
+                <tr>
+                    <td class="text-center">
+                        <span>
+                            <h6 class="line-height-3 m-0 font-medium font-medium ">
+                                {{applicant?.name}}
+                            </h6>
+                        </span>
+                    </td>
+                    <td class="text-center">
+                        <h6 class="line-height-3 m-0 font-medium font-medium ">
+                            {{applicant?.dob}}
+                        </h6>
+                    </td>
+                    <td class="text-center">
+                        <h6 class="line-height-3 m-0 font-medium font-medium ">
+                            {{applicant?.skills}}
+                        </h6>
+                    </td>
+                    <td class="text-center">
+                        <h6 class="line-height-3 m-0 font-medium font-medium ">
+                            {{applicant?.mobileNo}}
+                        </h6>
+                    </td>
+                    <td class="text-center">
+                        <h6 class="line-height-3 m-0 font-medium font-medium ">
+                            {{applicant?.emailId}}
+                        </h6>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
 </p-dialog>
