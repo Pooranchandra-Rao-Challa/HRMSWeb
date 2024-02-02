@@ -6,7 +6,7 @@
             <div>
                 <div class="p-inputgroup">
                     <!-- <span class="p-inputgroup-addon"><i class="pi pi-search"></i></span> -->
-                    <input id="search-name-id" type="text"  #filter pInputText placeholder="Search by Name or Id"
+                    <input id="search-name-id" type="text" #filter pInputText placeholder="Search by Name or Id"
                         (input)="onFilter(dv, $event)" />
                     <span class="p-inputgroup-addon" (click)="clearcard(dv)"><i class="pi pi-undo"></i></span>
                 </div>
@@ -32,19 +32,28 @@
                             {{ jobOpeningDetails.description }}
                         </div>
                         <div class="col-6 mt-2">
-                            <span style="cursor: pointer;"
-                                (click)="initApplicants(jobOpeningDetails.jobOpeningInProcessId, 'initial')">Qualified
-                                Applicants :<b class="text-primary">3</b></span> <br>
+                            <span style="cursor: pointer;" (click)="initApplicants(jobOpeningDetails.jobOpeningInProcessId, 'initial')">Qualified Applicants:
+                                <b class="text-primary">{{ jobOpeningDetails.initialApplicants ? jobOpeningDetails.initialApplicants : '0' }}</b>
+                            </span>
+                            <br>
+                            
                             <span
                                 (click)="initApplicants(jobOpeningDetails.jobOpeningInProcessId, 'technical')">Technical
-                                Round Qualified Applicants :<b class="text-primary"> 2</b></span><br>
+                                Round :<b class="text-primary">
+                                    {{ jobOpeningDetails.technicalApplicants ? jobOpeningDetails.technicalApplicants : '0' }}
+                                   </b></span><br>
                             <span (click)="initApplicants(jobOpeningDetails.jobOpeningInProcessId, 'HR')">HR
-                                Round Qualified Applicants :<b class="text-primary"> 6</b> </span><br>
-                            <span (click)="initApplicants(jobOpeningDetails.jobOpeningInProcessId,'Contract')">Contract
-                                Proposal Applicants :<b class="text-primary"> 6</b> </span><br>
+                                Round :<b class="text-primary">
+                                    {{ jobOpeningDetails.HRApplicants ? jobOpeningDetails.HRApplicants : '0' }}
+                                   </b> </span><br>
+                            <!-- <span (click)="initApplicants(jobOpeningDetails.jobOpeningInProcessId,'Contract')">Contract
+                                Proposal Applicants :<b class="text-primary"> 6</b> </span><br> -->
                             <span
                                 (click)="initApplicants(jobOpeningDetails.jobOpeningInProcessId, 'Disqualified')">Disqualified
-                                Applicants :<b class="text-primary"> 6</b> </span>
+                                Applicants :<b class="text-primary"> 
+                                    {{ jobOpeningDetails.DisqualifiedApplicants ? jobOpeningDetails.DisqualifiedApplicants : '0' }}
+                                  </b>
+                            </span>
                         </div>
                     </div>
                     <!-- </div> -->
