@@ -781,10 +781,10 @@ div:where(.swal2-container) div:where(.swal2-validation-message)::before {
 .job-opening-card {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    height: 300px;
+    // align-items: left;
+    // justify-content: center;
+    text-align: left;
+    min-height: 240px;
     padding: 16px;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -796,6 +796,19 @@ div:where(.swal2-container) div:where(.swal2-validation-message)::before {
     flex-direction: row;
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+.applicants .p-button{
+    width:100% !important;
+    display: inline !important;
+}
+
+.applicants .p-button i{
+  font-size: 20px !important;
+}
+
+.job-opening-card .title{
+    font-weight:bold;
 }
 
 .job-opening-card:hover .title {

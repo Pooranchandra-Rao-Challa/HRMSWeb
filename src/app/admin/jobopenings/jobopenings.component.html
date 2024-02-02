@@ -19,14 +19,17 @@
     <ng-template let-jobOpeningDetails pTemplate="gridItem">
         <div class="col-12 md:col-4 lg:col-3 sm:col-6">
             <div class="job-opening-card project_card m-2 border-1 surface-border">
+
                 <div class="title" (click)="openJobDialog(jobOpeningDetails)">
-                    {{ jobOpeningDetails.title }}
+                    {{ jobOpeningDetails.title }} &nbsp;
                 </div>
+
                 <div class="applicants">
-                    <i class="pi pi-star text-primary"></i> {{ jobOpeningDetails.designation }}
+                    <i class="pi pi-star text-primary"></i> &nbsp;  {{ jobOpeningDetails.designation }}
                 </div>
+
                 <!-- <div class="col-12"> -->
-                <div calss="row">
+                <div class="row">
                     <div class="grid">
                         <div class="col-6 mt-2 text-600 font-medium text-sm">
                             {{ jobOpeningDetails.description }}
@@ -34,17 +37,17 @@
                         <div class="col-6 mt-2">
                             <span style="cursor: pointer;"
                                 (click)="initApplicants(jobOpeningDetails.jobOpeningInProcessId, 'initial')">Qualified
-                                Applicants :<b class="text-primary">3</b></span> <br>
+                                :<b class="text-primary">3</b></span> <br>
                             <span
                                 (click)="initApplicants(jobOpeningDetails.jobOpeningInProcessId, 'technical')">Technical
-                                Round Qualified Applicants :<b class="text-primary"> 2</b></span><br>
+                                Round  :<b class="text-primary"> 2</b></span><br>
                             <span (click)="initApplicants(jobOpeningDetails.jobOpeningInProcessId, 'HR')">HR
-                                Round Qualified Applicants :<b class="text-primary"> 6</b> </span><br>
+                                Round  :<b class="text-primary"> 6</b> </span><br>
                             <span (click)="initApplicants(jobOpeningDetails.jobOpeningInProcessId,'Contract')">Contract
-                                Proposal Applicants :<b class="text-primary"> 6</b> </span><br>
+                                Proposal :<b class="text-primary"> 6</b> </span><br>
                             <span
                                 (click)="initApplicants(jobOpeningDetails.jobOpeningInProcessId, 'Disqualified')">Disqualified
-                                Applicants :<b class="text-primary"> 6</b> </span>
+                               :<b class="text-primary"> 6</b> </span>
                         </div>
                     </div>
                     <!-- </div> -->
@@ -53,7 +56,7 @@
                     <button pButton pRipple [ngClass]="{'disabled-button': isButtonDisabled(jobOpeningDetails.id)}"
                         class="p-button-primary p-button-outlined p-mr-2 " id="ProcessJobOpening"
                         (click)="showAttributeDialog(jobOpeningDetails)">
-                        <i class="icon-process text-primary font-bold text-900 font-2xl mr-2"></i> Do Process
+                        <i class="icon-process text-primary  text-900 font-2xl mr-2"></i> Do Process
                     </button>
                 </div>
             </div>
