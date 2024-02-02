@@ -118,7 +118,7 @@ export class UploadDocumentsDialogComponent {
     }
 
     uploadFile(file) {
-        let currentModule = DocumentModule.Employee;
+        let currentModule = file.fileBlob.type === 'application/pdf' ? DocumentModule.Document : DocumentModule.Employee;
         let Params = new HttpParams();
         Params = Params.set("employeeId", this.employeeId).set('title', file.title).set('module', currentModule).set('fileName', file.fileName);
         let formData = new FormData();
