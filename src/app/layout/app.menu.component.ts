@@ -145,6 +145,12 @@ export class AppMenuComponent implements OnInit {
                                 icon: 'pi pi-fw pi-align-left',
                                 routerLink: ['admin/applicant'],
                                 permission: this.jwtService.Permissions.CanViewApplicants
+                            },
+                            {
+                                label: 'Disqualified Applicants',
+                                icon: 'pi pi-fw pi-align-left',
+                                routerLink: ['admin/disqualifiedapplicant'],
+                                permission: this.jwtService.Permissions.CanViewApplicants
 
                             },
                             {
