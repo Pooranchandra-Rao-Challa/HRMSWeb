@@ -190,6 +190,7 @@ export class EmployeeLeaveDialogComponent implements OnInit {
             if(toSelect.length > 0){
                 this.fbLeave.get('leaveTypeId')?.patchValue(toSelect[0].lookupDetailId);
                 this.fbLeave.get('leaveTypeId')?.disable();
+                this.getLeaveReasonsByLeaveTypeId(toSelect[0].lookupDetailId);
             }
             this.filteredLeaveTypes = this.leaveType.filter(item => !this.filterCriteria.includes(item.name));
             this.filteringClsPls = (
@@ -270,6 +271,7 @@ export class EmployeeLeaveDialogComponent implements OnInit {
     }
 
     save(): Observable<HttpEvent<EmployeeLeaveDto[]>> {
+        this.fbLeave.get('leaveTypeId')?.enable();
         return this.employeeService.CreateEmployeeLeaveDetails(this.fbLeave.value);
     }
 
