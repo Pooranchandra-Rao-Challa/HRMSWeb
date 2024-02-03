@@ -112,8 +112,9 @@ export class JwtService {
     public get EmployeeId(): number {
         const jwt = this.DecodedJWT;
         if (!jwt || !jwt.EmployeeId) {
-            this.router.navigate([environment.LogoutUrl]);
-            return null; 
+            if(environment.production)
+                this.router.navigate([environment.LogoutUrl]);
+            return null;
         }
         return jwt.EmployeeId;
     }

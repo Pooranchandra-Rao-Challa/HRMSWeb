@@ -1,6 +1,6 @@
-import { ChangeDetectorRef, Component, OnDestroy, Renderer2, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { filter, Subscription } from 'rxjs';
+import { BehaviorSubject, filter, Subscription } from 'rxjs';
 import { LoaderService } from '../_services/loader.service';
 import { MenuService } from './app.menu.service';
 import { AppSidebarComponent } from './app.sidebar.component';
@@ -11,8 +11,9 @@ import { LayoutService } from './service/app.layout.service';
     selector: 'app-layout',
     templateUrl: './app.layout.component.html'
 })
-export class AppLayoutComponent implements OnDestroy {
+export class AppLayoutComponent implements OnDestroy,OnInit {
     overlayMenuOpenSubscription: Subscription;
+    public isLoading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
     menuOutsideClickListener: any;
 
@@ -39,7 +40,7 @@ export class AppLayoutComponent implements OnDestroy {
                 });
             }
 
-            if ((this.layoutService.isHorizontal() || this.layoutService.isSlim()|| this.layoutService.isSlimPlus()) && !this.menuScrollListener) {
+            if ((this.layoutService.isHorizontal() || this.layoutService.isSlim() || this.layoutService.isSlimPlus()) && !this.menuScrollListener) {
                 this.menuScrollListener = this.renderer.listen(this.appTopbar.appSidebar.menuContainer.nativeElement, 'scroll', event => {
                     if (this.layoutService.isDesktop()) {
                         this.hideMenu();
@@ -58,9 +59,18 @@ export class AppLayoutComponent implements OnDestroy {
         });
     }
 
+    ngOnInit(): void {
+        this.loaderService.BroadcastLoading().subscribe(value=>{
+            console.log('loading displayed');
+
+            this.isLoading.next(value);
+        });
+    }
+
     ngAfterContentChecked() {
         this.cdref.detectChanges();
-      }
+
+    }
 
     blockBodyScroll(): void {
         if (document.body.classList) {

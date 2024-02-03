@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import {  Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
@@ -6,9 +6,8 @@ import { EmployeeLeaveDialogComponent } from 'src/app/_dialogs/employeeleave.dia
 import { DATE_OF_JOINING, FORMAT_DATE, MEDIUM_DATE, ORIGINAL_DOB } from 'src/app/_helpers/date.formate.pipe';
 import { HolidaysViewDto } from 'src/app/_models/admin';
 import { Actions, DialogRequest, ITableHeader } from 'src/app/_models/common';
-import { NotificationsDto, NotificationsRepliesDto, SelfEmployeeDto, selfEmployeeMonthlyLeaves, workingProjects } from 'src/app/_models/dashboard';
+import { NotificationsDto, NotificationsRepliesDto, SelfEmployeeDto, selfEmployeeMonthlyLeaves } from 'src/app/_models/dashboard';
 import { AdminService } from 'src/app/_services/admin.service';
-import { LOGIN_URI } from 'src/app/_services/api.uri.service';
 import { DashboardService } from 'src/app/_services/dashboard.service';
 import { JwtService } from 'src/app/_services/jwt.service';
 //import { GroupByPipe } from 'src/app/_directives/groupby'
@@ -20,7 +19,7 @@ interface Year {
     selector: 'app-employeedashboard',
     templateUrl: './employeedashboard.component.html',
 })
-export class EmployeeDashboardComponent {
+export class EmployeeDashboardComponent implements OnInit {
     empDetails: SelfEmployeeDto;
     defaultPhoto: string;
     originalDOB: string = ORIGINAL_DOB;
@@ -62,10 +61,12 @@ export class EmployeeDashboardComponent {
         private jwtService: JwtService,
         private alertMessage: AlertmessageService,
         private dialogService: DialogService,
-        public ref: DynamicDialogRef, private formbuilder: FormBuilder,
+        public ref: DynamicDialogRef,
+        private formbuilder: FormBuilder,
     ) {
         this.employeeId = this.jwtService.EmployeeId
     }
+
 
     headers: ITableHeader[] = [
         { field: 'title', header: 'title', label: 'Holiday Title' },
@@ -74,6 +75,7 @@ export class EmployeeDashboardComponent {
     ];
 
     ngOnInit() {
+
         this.permissions = this.jwtService.Permissions;
         this.wishesDialog = false;
         this.getEmployeeDataBasedOnId();
@@ -211,7 +213,7 @@ export class EmployeeDashboardComponent {
     getEmployeeDataBasedOnId() {
         this.dashBoardService.GetEmployeeDetails(this.jwtService.EmployeeId).subscribe((resp) => {
             this.empDetails = resp as unknown as SelfEmployeeDto;
-            this.empDetails.assets = JSON.parse(this.empDetails.allottedAssets);            
+            this.empDetails.assets = JSON.parse(this.empDetails.allottedAssets);
             this.empDetails.empaddress = JSON.parse(this.empDetails.addresses);
             this.empDetails.projects = JSON.parse(this.empDetails.workingProjects);
 
@@ -231,7 +233,7 @@ export class EmployeeDashboardComponent {
         this.projects = [];
         projectNames.forEach(projectName => {
             let values = this.empDetails.projects.filter(fn => fn.projectName == projectName);
-            
+
             if (values.length > 0) {
                 let periods: { sinceFrom: Date, endAt: Date }[] = [];
                 values.forEach(p => {
@@ -357,7 +359,6 @@ export class EmployeeDashboardComponent {
         });
         this.ref.onClose.subscribe((res: any) => {
             if (res) this.getEmployeeDataBasedOnId();
-            event.preventDefault(); // Prevent the default form submission
         });
     }
 }

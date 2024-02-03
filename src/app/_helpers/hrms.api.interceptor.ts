@@ -1,7 +1,7 @@
 import { JwtService } from 'src/app/_services/jwt.service';
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpResponse } from '@angular/common/http';
-import { BehaviorSubject, finalize, map, Observable } from 'rxjs';
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
+import { finalize, map, Observable } from 'rxjs';
 import { LoaderService } from '../_services/loader.service';
 import { environment } from 'src/environments/environment';
 
@@ -12,7 +12,8 @@ export class HRMSAPIInterceptor implements HttpInterceptor {
         public loaderService: LoaderService) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        this.loaderService.isLoading.next(true);
+
+        this.loaderService.InitiateLoading();
         const isApiUrl = request.url.startsWith(environment.ApiUrl);
         const isLoggedIn = this.jwtService.IsLoggedIn;
 
@@ -28,7 +29,7 @@ export class HRMSAPIInterceptor implements HttpInterceptor {
                     finalize(
                         () => {
                             setTimeout(() => {
-                                this.loaderService.isLoading.next(false);
+                                this.loaderService.StopLoading();
                             }, 500);
                         }
                     )
@@ -40,17 +41,18 @@ export class HRMSAPIInterceptor implements HttpInterceptor {
             // Check if the request URL is the specific URL you want to skip
             if (request.url === url || request.url === url2) {
                 // Skip authentication and move to the next interceptor or backend
-                return next.handle(request).pipe(
+                return next.handle(request)
+                .pipe(
                     finalize(() => {
                         setTimeout(() => {
-                            this.loaderService.isLoading.next(false);
+                            this.loaderService.StopLoading();
                         }, 500);
                     })
                 );
 
-            }
-        }
-        else this.jwtService.Logout()
+            }else this.jwtService.Logout()
+        }else this.jwtService.Logout()
+
         //if not logged in
         return next.handle(request).pipe(
             map(resp => {
@@ -59,7 +61,7 @@ export class HRMSAPIInterceptor implements HttpInterceptor {
             finalize(
                 () => {
                     setTimeout(() => {
-                        this.loaderService.isLoading.next(false);
+                        this.loaderService.StopLoading();
                     }, 500);
                 }
             )
