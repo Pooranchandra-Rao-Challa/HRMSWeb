@@ -61,8 +61,6 @@ export class AppLayoutComponent implements OnDestroy,OnInit {
 
     ngOnInit(): void {
         this.loaderService.BroadcastLoading().subscribe(value=>{
-            console.log('loading displayed');
-
             this.isLoading.next(value);
         });
     }

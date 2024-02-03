@@ -10,14 +10,10 @@ export class LoaderService {
 
     constructor() { }
     public InitiateLoading(){
-        console.log('loading started');
-
         this.loading.next(true);
     }
 
     public StopLoading(){
-
-        console.log('loading stopped');
         this.loading.next(false);
     }
 
