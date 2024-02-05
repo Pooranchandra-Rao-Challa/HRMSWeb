@@ -16,6 +16,8 @@ export class HRMSAPIInterceptor implements HttpInterceptor {
         this.loaderService.InitiateLoading();
         const isApiUrl = request.url.startsWith(environment.ApiUrl);
         const isLoggedIn = this.jwtService.IsLoggedIn;
+        console.log(request.url);
+        console.log(request.url.indexOf("Attendance/UpdateLeaveStatus"));
 
         //isLogin true block
         if (isLoggedIn && isApiUrl) {
@@ -36,22 +38,27 @@ export class HRMSAPIInterceptor implements HttpInterceptor {
                 );
         }
         else if (!isLoggedIn) {
-            const url = isApiUrl + "Security/ValidateUserQuestions";
-            const url2 = isApiUrl + "Security/ForgotPassword";
+            const urls = ["/Attendance/UpdateLeaveStatus", "/Security/ValidateUserQuestions", "/Security/ForgotPassword"]
+            let rexUrls = /(?<apicall>\/hrmsapi\/(Attendance\/UpdateLeaveStatus|Security\/ValidateUserQuestions|Security\/ForgotPassword))/gi;
+            let textArray = rexUrls.exec(request.url);
+            let urlNotNeededAuthorization = ""
+            if (textArray && textArray.groups) {
+                urlNotNeededAuthorization = textArray.groups["apicall"].replace("\/hrmsapi", "");
+            }
             // Check if the request URL is the specific URL you want to skip
-            if (request.url === url || request.url === url2) {
+            if (urls.filter(fn => fn === urlNotNeededAuthorization).length == 1) {
                 // Skip authentication and move to the next interceptor or backend
                 return next.handle(request)
-                .pipe(
-                    finalize(() => {
-                        setTimeout(() => {
-                            this.loaderService.StopLoading();
-                        }, 500);
-                    })
-                );
+                    .pipe(
+                        finalize(() => {
+                            setTimeout(() => {
+                                this.loaderService.StopLoading();
+                            }, 500);
+                        })
+                    );
 
-            }else this.jwtService.Logout()
-        }else this.jwtService.Logout()
+            } else this.jwtService.Logout()
+        } else this.jwtService.Logout()
 
         //if not logged in
         return next.handle(request).pipe(
