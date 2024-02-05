@@ -64,7 +64,16 @@ export class LeaveconfirmationComponent {
                             } else if (leaveType === 'WFH') {
                                 this.alertMessage.displayErrorMessage(ALERT_CODES["ALC006_WFH"]);
                             }
-                        } else {
+                        } else if(action === 'Accept'){
+                            if (leaveType === 'PL') {
+                                this.alertMessage.displayAlertMessage(ALERT_CODES["ALC007_PL"]);
+                            } else if (leaveType === 'CL') {
+                                this.alertMessage.displayAlertMessage(ALERT_CODES["ALC008_CL"]);
+                            } else if (leaveType === 'WFH') {
+                                this.alertMessage.displayAlertMessage(ALERT_CODES["ALC009_WFH"]);
+                            }
+                        }
+                        else {
                             if (leaveType === 'PL') {
                                 this.alertMessage.displayAlertMessage(ALERT_CODES["ALC001_PL"]);
                             } else if (leaveType === 'CL') {

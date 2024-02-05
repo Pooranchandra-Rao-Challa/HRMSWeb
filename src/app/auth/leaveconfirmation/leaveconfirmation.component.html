@@ -133,10 +133,11 @@
                     </g>
                 </svg>
             </a>
-            <h2 class=" topbar_title mb-4" style="white-space: pre;"> {{ "Leave Request of Employee "+employeeleavedetails?.leaveDto.employeeName}}</h2>
+            <h2 class=" topbar_title mb-4" style="white-space: pre;"> {{ "Leave Request of Employee
+                "+employeeleavedetails?.leaveDto.employeeName}}</h2>
             <h3 *ngIf="showConfirmationMessage">
                 {{ getConfirmationMessage(employeeleavedetails?.leaveDto?.getLeaveType, employeeleavedetails?.action) }}
-              </h3>
+            </h3>
 
             <div *ngIf="!showConfirmationMessage" class="flex flex-column mt-5 p-2 surface-0"
                 style=" border-radius: 5px;">
@@ -157,7 +158,12 @@
                     </tr>
                     <tr>
                         <th class="p-2">To Date</th>
-                        <td class="p-2">{{employeeleavedetails?.leaveDto?.toDate | date: mediumDate}}</td>
+                        <td class="p-2" *ngIf="employeeleavedetails?.leaveDto?.toDate; else fromDateFallback">
+                            {{employeeleavedetails?.leaveDto?.toDate | date: mediumDate}}
+                        </td>
+                        <ng-template #fromDateFallback>
+                            <td class="p-2">{{employeeleavedetails?.leaveDto?.fromDate | date: mediumDate}}</td>
+                        </ng-template>
                     </tr>
                     <tr>
                         <th class="p-2">Leave Narration</th>
@@ -165,8 +171,8 @@
                     </tr>
                 </table>
                 <div class="flex flex-wrap gap-2 justify-content-between">
-                    <button pButton pRipple label="{{employeeleavedetails?.action}}"
-                        (click)="openConfirmationAlert()" class="flex-auto" [disabled]="disbaleAction"></button>
+                    <button pButton pRipple label="{{employeeleavedetails?.action}}" (click)="openConfirmationAlert()"
+                        class="flex-auto" [disabled]="disbaleAction"></button>
                 </div>
             </div>
         </div>

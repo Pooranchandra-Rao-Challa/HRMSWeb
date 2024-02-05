@@ -91,10 +91,10 @@ export const ALERT_CODES: { [key: string]: string } = {
     // settings
 
     //Hr Notifications
-    'HRN001':'Notification Added Successfully',
-    'HRN002':'Notification Added Failed',
-    'HRN003':'Notification Deleted Successfully',
-    'HRN004':'Notification Deletion Failed',
+    'HRN001': 'Notification Added Successfully',
+    'HRN002': 'Notification Added Failed',
+    'HRN003': 'Notification Deleted Successfully',
+    'HRN004': 'Notification Deletion Failed',
     // change password
     'SSECP001': 'Password Updated Successfully',
     'ESECP001': 'Invalid Current Password',
@@ -108,9 +108,9 @@ export const ALERT_CODES: { [key: string]: string } = {
     'SSESQ002': 'Security Questions Saved Failed',
     'SSESQ003': 'Security Questions Deleted Successfully',
     'SSESQ004': 'Security Questions Deleted Failed',
-     //Admin Settings
-     'ASS001':'Settings Updated Successfully',
-     'ASS002':'Settings Updated Failed',
+    //Admin Settings
+    'ASS001': 'Settings Updated Successfully',
+    'ASS002': 'Settings Updated Failed',
     //Projects
     'PAS001': 'Project Added Successfully',
     'PAS002': 'Project Updated Successfully',
@@ -235,6 +235,9 @@ export const ALERT_CODES: { [key: string]: string } = {
     'ALC004_PL': 'PL Rejected Successfully',
     'ALC005_CL': 'CL Rejected Successfully',
     'ALC006_WFH': 'WFH Rejected Successfully',
+    'ALC007_PL': 'PL Accepted Successfully',
+    'ALC008_CL': 'CL Accepted Successfully',
+    'ALC009_WFH': 'WFH Accepted Successfully',
     // view applicant
     'ARVAP001': 'Applicant Details Added Successfully',
     'ARVAP002': 'Applicant Details Updated Successfully',
