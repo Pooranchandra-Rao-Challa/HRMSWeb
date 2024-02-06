@@ -16,8 +16,6 @@ export class HRMSAPIInterceptor implements HttpInterceptor {
         this.loaderService.InitiateLoading();
         const isApiUrl = request.url.startsWith(environment.ApiUrl);
         const isLoggedIn = this.jwtService.IsLoggedIn;
-        console.log(request.url);
-        console.log(request.url.indexOf("Attendance/UpdateLeaveStatus"));
 
         //isLogin true block
         if (isLoggedIn && isApiUrl) {
@@ -41,7 +39,7 @@ export class HRMSAPIInterceptor implements HttpInterceptor {
             const urls = ["/Attendance/UpdateLeaveStatus", "/Security/ValidateUserQuestions", "/Security/ForgotPassword"]
             let rexUrls = /(?<apicall>\/hrmsapi\/(Attendance\/UpdateLeaveStatus|Security\/ValidateUserQuestions|Security\/ForgotPassword))/gi;
             let textArray = rexUrls.exec(request.url);
-            let urlNotNeededAuthorization = ""
+            let urlNotNeededAuthorization = "";
             if (textArray && textArray.groups) {
                 urlNotNeededAuthorization = textArray.groups["apicall"].replace("\/hrmsapi", "");
             }
