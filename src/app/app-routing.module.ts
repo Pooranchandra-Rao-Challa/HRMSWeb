@@ -15,7 +15,7 @@ const routes: Routes = [
         path: '',
         component: AppLayoutComponent,
         children: [
-            { path: 'settings', component: SettingsComponent, canDeactivate: [UnsavedChangesGuard] },
+            { path: 'settings', component: SettingsComponent,  data: { breadcrumb: 'Settings' },  canDeactivate: [UnsavedChangesGuard] },
             { path: 'dashboard', loadChildren: () => import('./dashboards/dashboards.module').then((m) => m.DashboardsModule) },
             { path: 'employee', data: { breadcrumb: 'Employee' }, loadChildren: () => import('./employee/employee.module').then((m) => m.EmployeeModule) },
             { path: 'security', data: { breadcrumb: 'Security' }, loadChildren: () => import('./security/security.module').then((m) => m.SecurityModule) },

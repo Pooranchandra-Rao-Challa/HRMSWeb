@@ -1,6 +1,6 @@
 <nav class="layout-breadcrumb">
     <ol>
-        <li (click)="showDashboard()">Dashboard</li>
+        <li (click)="showDashboard()" class="att-pointer hover:text-primary-500">Dashboard</li>
         <li class="layout-breadcrumb-chevron">/</li>
         <ng-template ngFor let-item let-last="last" [ngForOf]="breadcrumbs$ | async">
             <li>{{ item.label }}</li>
