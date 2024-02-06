@@ -1319,3 +1319,15 @@ app-attendance .p-datatable-table tbody tr td:first-child {
 .p-dataview-emptymessage{
     text-align: center !important;
 }
+
+.box_remore {
+    background-color: #fff;
+    
+  }
+  
+  .box_remore p {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
+  }
