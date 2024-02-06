@@ -12,6 +12,7 @@ import { ViewapplicantComponent } from './viewapplicant/viewapplicant.component'
 import { RecruitmentProcessComponent } from './recruitmentprocess/recruitmentprocess.component';
 import { RecruitmentdashboardComponent } from './recruitmentdashboard/recruitmentdashboard.component';
 import { RecruitmentAttributesComponent } from './recruitment/recruitmentattributes.component';
+import { DisqualifiedApplicantsComponent } from './disqualified-applicants/disqualified-applicants.component';
 
 @NgModule({
     imports: [RouterModule.forChild([
@@ -19,6 +20,7 @@ import { RecruitmentAttributesComponent } from './recruitment/recruitmentattribu
         { path: 'assetsallotment', data: { breadcrumb: 'Asset Allotments' }, component: AssetsallotmentComponent },
         { path: 'recruitmentDashboard', data: { breadcrumb: 'Recruitment' }, component: RecruitmentdashboardComponent },
         { path: 'applicant', data: { breadcrumb: 'Applicants' }, component: ApplicantComponent },
+        { path: 'disqualifiedapplicant', data: { breadcrumb: 'Disqualified Applicants' }, component: DisqualifiedApplicantsComponent },
         { path: 'recruitmentAttributes', data: { breadcrumb: 'Recruitment Attributes' }, component: RecruitmentAttributesComponent },
         { path: 'recruitmentprocess', data: { breadcrumb: 'Recruitment Process' }, component: RecruitmentProcessComponent },
         { path: 'recruitmentprocess/:jobId', data: { breadcrumb: 'Recruitment Process' }, component: RecruitmentProcessComponent },

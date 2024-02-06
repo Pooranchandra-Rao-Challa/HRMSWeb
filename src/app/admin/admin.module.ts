@@ -14,6 +14,7 @@ import { ViewapplicantComponent } from './viewapplicant/viewapplicant.component'
 import { RecruitmentProcessComponent } from './recruitmentprocess/recruitmentprocess.component';
 import { RecruitmentdashboardComponent } from './recruitmentdashboard/recruitmentdashboard.component';
 import { RecruitmentAttributesComponent } from './recruitment/recruitmentattributes.component';
+import { DisqualifiedApplicantsComponent } from './disqualified-applicants/disqualified-applicants.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { RecruitmentAttributesComponent } from './recruitment/recruitmentattribu
     ViewapplicantComponent,
     RecruitmentAttributesComponent,
     RecruitmentProcessComponent,
-    RecruitmentdashboardComponent
+    RecruitmentdashboardComponent,
+    DisqualifiedApplicantsComponent
   ],
   imports: [
     AdminRoutingModule,

@@ -19,7 +19,7 @@ export class LookupDetailsDto {
     lookupDetailId?: number;
     code?: string;
     name?: string;
-    displayName?:string;
+    displayName?: string;
     description?: string;
     isActive?: boolean;
     fkeySelfId?: number;
@@ -128,7 +128,7 @@ export class ProjectViewDto {
     address?: string;
     logo?: string;
     teamMembers?: string
-    activeStatusId?:number;
+    activeStatusId?: number;
     expandEmployees?: EmployeesList[];
     isActive?: boolean
     createdBy?: string
@@ -142,7 +142,7 @@ export class projectStatuses {
 }
 export class EmployeesList {
     employeeId?: number
-    employeeName?:string
+    employeeName?: string
     reportingToId?: number;
     photo?: string;
     fullName?: string
@@ -165,8 +165,8 @@ export class ProjectAllotments {
     projectId?: number
     reportingToId?: number
     isActive?: boolean
-    nodeId?:string;
-    parentNodeId?:string;
+    nodeId?: string;
+    parentNodeId?: string;
 }
 export class ProjectDetailsDto {
     clientId?: number
@@ -189,7 +189,7 @@ export class ClientDetailsDto {
     clientId?: number
     name?: string
     companyName?: string
-    clientName?:string
+    clientName?: string
     email?: string
     mobileNumber?: string
     cinno?: string
@@ -201,7 +201,7 @@ export class ClientDetailsDto {
 export class ClientNamesDto {
     clientId?: number;
     companyName?: string;
-    clientName?:string
+    clientName?: string
 }
 
 export interface EmployeesForAllottedAssetsViewDto {
@@ -247,11 +247,16 @@ export class EmployeeHierarchyDto {
     selfId?: number;
     reportingToId?: number;
     photo?: string;
-    nodeId?:string;
-    parentNodeId?:string;
+    nodeId?: string;
+    parentNodeId?: string;
 }
 
 export class JobOpeningsDetailsViewDto {
+    initialApplicants?: number;
+    technicalApplicants?: number;
+    HRApplicants?: number;
+    ContractApplicants?: number;
+    DisqualifiedApplicants?: number;
     id?: number;
     JobOpeningId?: number;
     title?: string;
@@ -262,6 +267,7 @@ export class JobOpeningsDetailsViewDto {
     natureOfJobId?: number;
     natureOfJob?: number;
     description?: string;
+    initial?: number
     requiredBy?: Date;
     compensationPackage?: string;
     softSkillIds?: string;
@@ -269,6 +275,7 @@ export class JobOpeningsDetailsViewDto {
     technicalSkillIds?: string;
     technicalSkills?: string;
     isActive?: boolean;
+    jobOpeningInProcessId?: number
     JobOpeningTechnicalSkillsXrefs: TechnicalSkills[];
     JobOpeningSoftSkillsXrefs: SoftSkills[];
     JobOpeningsAttributeXrefs: AttributeType[];
@@ -312,12 +319,12 @@ export class NodeProps {
     positionName?: string;
     id?: string;
     parentId?: string;
-    employeeId?:number;
-    reportingToId?:number;
+    employeeId?: number;
+    reportingToId?: number;
     projectId?: number;
     projectName?: string;
     projectDescription?: string;
-    hierarchyLevel?:string;
+    hierarchyLevel?: string;
     assetCount?: number;
     noOfWorkingDays?: number;
     noOfAbsents?: number;

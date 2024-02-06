@@ -13,6 +13,8 @@ import { ApplicantViewDto, JobOpeningsListDto } from 'src/app/_models/recruitmen
 import { RecruitmentAttributesDTO } from 'src/app/demo/api/security';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
+import { getLocaleFirstDayOfWeek } from '@angular/common';
+import { map } from 'rxjs';
 
 
 @Component({
@@ -67,8 +69,8 @@ export class JobOpeningsComponent {
     this.fbdoProcess = this.formbuilder.group({
       jobOpeninginProcessId: new FormControl(null),
       jobOpeningId: new FormControl(''),
-      maxExpertise: new FormControl('', [Validators.required,this.notEqualToZeroValidator.bind(this)]),
-      minExpertise: new FormControl('', [Validators.required,this.notEqualToZeroValidator.bind(this)]),
+      maxExpertise: new FormControl('', [Validators.required, this.notEqualToZeroValidator.bind(this)]),
+      minExpertise: new FormControl('', [Validators.required, this.notEqualToZeroValidator.bind(this)]),
       jobOpeningRas: new FormControl('', [Validators.required]),
     });
 
@@ -80,7 +82,7 @@ export class JobOpeningsComponent {
 
   getMinExpertiseControl(): FormControl {
     return this.fbdoProcess.get('minExpertise') as FormControl;
-     
+
   }
 
   getMaxExpertiseControl(): FormControl {
@@ -90,8 +92,26 @@ export class JobOpeningsComponent {
   getJobDetails() {
     this.adminService.GetJobDetails().subscribe((resp) => {
       this.jobOpening = resp as unknown as JobOpeningsDetailsViewDto[];
-    })
+      console.log(resp);
+      
+      this.jobOpening.forEach(each => {
+        if (each?.jobOpeningInProcessId) {
+          let applicantsLengths: ApplicantViewDto[];
+          this.RecruitmentService.getApplicantsForInitialRound(each?.jobOpeningInProcessId).subscribe((resp: any) => {
+            applicantsLengths = resp as unknown as ApplicantViewDto[];
+
+            each.initialApplicants = applicantsLengths.length;
+            each.technicalApplicants = applicantsLengths.filter((applicant: ApplicantViewDto) => applicant.technicalRound1At !== null).length;
+            each.HRApplicants = applicantsLengths.filter((applicant: ApplicantViewDto) => applicant.hrRoundAt !== null).length;
+            // each.ContractApplicants = applicantsLengths.filter((applicant: ApplicantViewDto) => applicant.isSelectedInHRRound !== null);
+            each.DisqualifiedApplicants = applicantsLengths.filter((applicant: ApplicantViewDto) => applicant.hrRoundAt == null && applicant.technicalRound1At == null && applicant.isSelectedInHRRound == null).length;
+          });
+        }
+
+      });
+    });
   }
+
 
   onFilter(dv: DataView, event: Event) {
     dv.filter((event.target as HTMLInputElement).value);
@@ -142,7 +162,7 @@ export class JobOpeningsComponent {
           this.router.navigate(['admin/recruitmentprocess', resp[0]?.jobOpeningInProcessId]);
           this.processButtonDisabled = true;
         }
-        else{
+        else {
           this.alertMessage.displayAlertMessage(ALERT_CODES["DPJ001"]);
         }
       })
@@ -167,33 +187,39 @@ export class JobOpeningsComponent {
 
   initApplicants(jobOpeningInProcessId: any, roundType: string) {
     this.viewApplicants = true;
+    this.applicantsList = [];
+
     this.RecruitmentService.getApplicantsForInitialRound(jobOpeningInProcessId).subscribe(
       (resp: any) => {
-        if (Array.isArray(resp)) {
-          if (roundType === 'initial') {
-            this.applicantsList = resp.filter((applicant: ApplicantViewDto) => {
-              return applicant.hrRoundAt == null &&
-                applicant.technicalRound1At == null;
-            });
-          } else if (roundType === 'technical') {
-            this.applicantsList = resp.filter((applicant: ApplicantViewDto) => {
-              return applicant.technicalRound1At !== null;
-            });
-          } else if (roundType === 'HR') {
-            this.applicantsList = resp.filter((applicant: ApplicantViewDto) => {
-              return applicant.hrRoundAt !== null;
-            })
-          } else if (roundType === 'Contract') {
-            this.applicantsList = resp.filter((applicant: ApplicantViewDto) => {
-              return applicant.isSelectedInHRRound !== null;
-            })
-          } else if (roundType === 'Disqualified') {
-            this.applicantsList = resp.filter((applicant: ApplicantViewDto) => {
-              return applicant.hrRoundAt == null && applicant.technicalRound1At == null && applicant.isSelectedInHRRound == null;
-            })
-          }
-        } else {
+        if (!Array.isArray(resp)) {
           console.error('Invalid response type.');
+          return;
+        }
+
+        switch (roundType) {
+          case 'initial': this.applicantsList = resp;
+            break;
+
+          case 'technical':
+            this.applicantsList = resp.filter((applicant: ApplicantViewDto) => applicant.technicalRound1At !== null);
+            break;
+
+          case 'HR':
+            this.applicantsList = resp.filter((applicant: ApplicantViewDto) => applicant.hrRoundAt !== null);
+            break;
+
+          case 'Contract':
+            this.applicantsList = resp.filter((applicant: ApplicantViewDto) => applicant.isSelectedInHRRound !== null);
+            break;
+
+          case 'Disqualified':
+            this.applicantsList = resp.filter((applicant: ApplicantViewDto) =>
+              applicant.hrRoundAt == null && applicant.technicalRound1At == null && applicant.isSelectedInHRRound == null
+            );
+            break;
+
+          default:
+            console.error('Invalid roundType.');
         }
       }
     );
