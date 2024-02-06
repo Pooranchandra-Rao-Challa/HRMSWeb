@@ -466,14 +466,15 @@
                 </div>
               </div>
             </div>
-            <p-paginator (onPageChange)="onPageChange($event)" *ngIf="projects.length>12 && visibleProjects" [first]="first" [rows]="rows"
+            <p-paginator (onPageChange)="onPageChange($event)"
+              *ngIf="projects.length && filteredProjects.length>12 && visibleProjects" [first]="first" [rows]="rows"
               [totalRecords]="projects.length" [rowsPerPageOptions]="[12, 24, 36]"></p-paginator>
           </ng-template>
           <div *ngIf="!visibleProjects">
-            <tr class="flex justify-content-center" >
+            <tr class="flex justify-content-center">
               <td class="text-center m-3" colspan="50%">No Projects Found.</td>
             </tr>
-          </div>       
+          </div>
         </p-tabPanel>
         <p-tabPanel header="Org/Project Chart View">
           <div style="float:right;padding: 20px;">
@@ -561,18 +562,15 @@
                     <div class="text-xl font-bold">{{employee.employeeName}}</div>
                     <div class="text-600 font-medium text-sm">EmpId: {{employee.employeeId}}</div>
                   </div>
-
                   <br />
                   <div style=" text-align:center;">
                     <button pButton pRipple type="submit" label="Unassign"
                       class="p-element p-ripple p-button-text p-button p-component p-button-primary w-100"
                       (click)="showConfirmationDialog(employee)"></button>
                   </div>
-
                 </div>
               </div>
             </div>
-
           </p-tabPanel>
         </p-tabView>
       </div>

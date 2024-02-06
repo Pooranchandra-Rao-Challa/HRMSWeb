@@ -1,7 +1,7 @@
 import { JwtService } from 'src/app/_services/jwt.service';
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpResponse } from '@angular/common/http';
-import { BehaviorSubject, finalize, map, Observable } from 'rxjs';
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
+import { finalize, map, Observable } from 'rxjs';
 import { LoaderService } from '../_services/loader.service';
 import { environment } from 'src/environments/environment';
 
@@ -12,9 +12,12 @@ export class HRMSAPIInterceptor implements HttpInterceptor {
         public loaderService: LoaderService) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        this.loaderService.isLoading.next(true);
+
+        this.loaderService.InitiateLoading();
         const isApiUrl = request.url.startsWith(environment.ApiUrl);
         const isLoggedIn = this.jwtService.IsLoggedIn;
+        console.log(request.url);
+        console.log(request.url.indexOf("Attendance/UpdateLeaveStatus"));
 
         //isLogin true block
         if (isLoggedIn && isApiUrl) {
@@ -28,29 +31,35 @@ export class HRMSAPIInterceptor implements HttpInterceptor {
                     finalize(
                         () => {
                             setTimeout(() => {
-                                this.loaderService.isLoading.next(false);
+                                this.loaderService.StopLoading();
                             }, 500);
                         }
                     )
                 );
         }
         else if (!isLoggedIn) {
-            const url = isApiUrl + "Security/ValidateUserQuestions";
-            const url2 = isApiUrl + "Security/ForgotPassword";
-            // Check if the request URL is the specific URL you want to skip
-            if (request.url === url || request.url === url2) {
-                // Skip authentication and move to the next interceptor or backend
-                return next.handle(request).pipe(
-                    finalize(() => {
-                        setTimeout(() => {
-                            this.loaderService.isLoading.next(false);
-                        }, 500);
-                    })
-                );
-
+            const urls = ["/Attendance/UpdateLeaveStatus", "/Security/ValidateUserQuestions", "/Security/ForgotPassword"]
+            let rexUrls = /(?<apicall>\/hrmsapi\/(Attendance\/UpdateLeaveStatus|Security\/ValidateUserQuestions|Security\/ForgotPassword))/gi;
+            let textArray = rexUrls.exec(request.url);
+            let urlNotNeededAuthorization = ""
+            if (textArray && textArray.groups) {
+                urlNotNeededAuthorization = textArray.groups["apicall"].replace("\/hrmsapi", "");
             }
-        }
-        else this.jwtService.Logout()
+            // Check if the request URL is the specific URL you want to skip
+            if (urls.filter(fn => fn === urlNotNeededAuthorization).length == 1) {
+                // Skip authentication and move to the next interceptor or backend
+                return next.handle(request)
+                    .pipe(
+                        finalize(() => {
+                            setTimeout(() => {
+                                this.loaderService.StopLoading();
+                            }, 500);
+                        })
+                    );
+
+            } else this.jwtService.Logout()
+        } else this.jwtService.Logout()
+
         //if not logged in
         return next.handle(request).pipe(
             map(resp => {
@@ -59,7 +68,7 @@ export class HRMSAPIInterceptor implements HttpInterceptor {
             finalize(
                 () => {
                     setTimeout(() => {
-                        this.loaderService.isLoading.next(false);
+                        this.loaderService.StopLoading();
                     }, 500);
                 }
             )

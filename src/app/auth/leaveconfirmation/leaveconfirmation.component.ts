@@ -38,7 +38,6 @@ export class LeaveconfirmationComponent {
     openConfirmationAlert() {
         const buttonLabel = this.employeeleavedetails.action;
         let title = `Reason For ${this.employeeleavedetails.action}`;
-        console.log(this.employeeleavedetails);
         this.disbaleAction = true;
         this.leaveConfirmationService.openDialogWithInput(title, buttonLabel).subscribe((result) => {
             if (result && result.description !== undefined) {
@@ -58,13 +57,22 @@ export class LeaveconfirmationComponent {
                         const action = this.employeeleavedetails.action;
                         if (action === 'Reject') {
                             if (leaveType === 'PL') {
-                                this.alertMessage.displayErrorMessage(ALERT_CODES["ALC004_PL"]);
+                                this.alertMessage.displayMessageforLeave(ALERT_CODES["ALC004_PL"]);
                             } else if (leaveType === 'CL') {
-                                this.alertMessage.displayErrorMessage(ALERT_CODES["ALC005_CL"]);
+                                this.alertMessage.displayMessageforLeave(ALERT_CODES["ALC005_CL"]);
                             } else if (leaveType === 'WFH') {
-                                this.alertMessage.displayErrorMessage(ALERT_CODES["ALC006_WFH"]);
+                                this.alertMessage.displayMessageforLeave(ALERT_CODES["ALC006_WFH"]);
                             }
-                        } else {
+                        } else if (action === 'Accept') {
+                            if (leaveType === 'PL') {
+                                this.alertMessage.displayAlertMessage(ALERT_CODES["ALC007_PL"]);
+                            } else if (leaveType === 'CL') {
+                                this.alertMessage.displayAlertMessage(ALERT_CODES["ALC008_CL"]);
+                            } else if (leaveType === 'WFH') {
+                                this.alertMessage.displayAlertMessage(ALERT_CODES["ALC009_WFH"]);
+                            }
+                        }
+                        else {
                             if (leaveType === 'PL') {
                                 this.alertMessage.displayAlertMessage(ALERT_CODES["ALC001_PL"]);
                             } else if (leaveType === 'CL') {
@@ -77,7 +85,7 @@ export class LeaveconfirmationComponent {
                         this.alertMessage.displayErrorMessage(rdata.message);
                     }
                 });
-            }else this.disbaleAction = false;
+            } else this.disbaleAction = false;
         });
     }
 

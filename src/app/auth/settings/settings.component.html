@@ -126,10 +126,11 @@
                         [modal]="true" styleClass="p-fluid" (onHide)="clearSelection()">
                         <ng-template pTemplate="content">
                             <!-- <from [formGroup]="fbSecureQue"> -->
-                            <div class="p-field mb-3"  [ngClass]="{'error': !security.question && (drop.dirty || drop.touched)}">
+                            <div class="p-field mb-3"
+                                [ngClass]="{'error': !security.question && (drop.dirty || drop.touched)}">
                                 <label class="required" for="SecurityQuestions">Security Question</label>
                                 <p-dropdown name="SecurityQuestions" id="SecurityQuestions"
-                                    placeholder="Select Question" (onChange)="onChange($event)"
+                                    placeholder="Select Security Question" (onChange)="onChange($event)"
                                     [options]="secureQuestions | async" optionValue="question" optionLabel="question"
                                     [(ngModel)]="security.question" appendTo="body" #drop="ngModel" class="pt-5">
                                 </p-dropdown>
@@ -139,10 +140,11 @@
                                     </div>
                                 </span>
                             </div>
-                            <div class="p-field mb-3"  [ngClass]="{'error': !security.answer && (answer.dirty || answer.touched)}">
+                            <div class="p-field mb-3"
+                                [ngClass]="{'error': !security.answer && (answer.dirty || answer.touched)}">
                                 <label class="required" for="Answer">Answer</label>
                                 <input type="text" pInputText name="Answer" id="Answer" placeholder="Enter Answer"
-                                [(ngModel)]="security.answer" required #answer="ngModel"/>                            
+                                    [(ngModel)]="security.answer" required #answer="ngModel" />
                                 <span *ngIf="!security.answer && (answer.dirty || answer.touched)">
                                     <div class="ng-invalid ng-touched p-error">
                                         Please Enter Answer.</div>
