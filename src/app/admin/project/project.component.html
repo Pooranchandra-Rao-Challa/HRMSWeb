@@ -8,10 +8,13 @@
       </ng-template>
       <ng-template pTemplate="center">
         <div *ngIf="activeIndexForProjects===0">
-          <span class="p-input-icon-left mb-2">
-            <i class="pi pi-search"></i>
-            <input pInputText type="text" #filter id="search_projects" (input)="filterProjects($event)"
-              placeholder="Search Project" class="w-full" />
+          <span class="p-input-icon-left mb-2" >
+              <div class="p-inputgroup">
+                <!-- <span class="p-inputgroup-addon"><i class="pi pi-search"></i></span> -->
+                <input id="search_projects" type="text" #filter pInputText placeholder="Search Project"
+                  (input)="filterProjects($event)" />
+                <span class="p-inputgroup-addon" (click)="clearcard()"><i class="pi pi-undo"></i></span>
+              </div>
           </span>
         </div>
       </ng-template>
@@ -425,12 +428,12 @@
       </ng-template>
     </p-dialog>
     <!-- Projects View -->
-    <div class="card" id="projectsview">
+    <div  class="card" id="projectsview">
       <p-toast key="myToast"></p-toast>
-      <p-tabView [(activeIndex)]="activeIndexForProjects">
+      <p-tabView [(activeIndex)]="activeIndexForProjects" >
         <p-tabPanel header="Project View">
           <ng-template pTemplate="content">
-            <div class="grid mb-5 p-0">
+            <div class="grid mb-5 p-0" #dv>
               <div class="col-12 md:col-4 lg:col-3 sm:col-6" *ngFor="let project of visibleProjects; let i = index ">
                 <div class="card border-1 surface-border project_card">
                   <button pButton pRipple icon="pi pi-pencil" *ngIf="permission?.CanManageProjects"
