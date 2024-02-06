@@ -33,7 +33,7 @@
                     <div class="grid">
                         <div class="col-12 mt-2 mb-0 pb-0 text-600 font-medium text-sm">
                             <div class="box_remore" >
-                                <p> {{ jobOpeningDetails.description }} this is to inform that i am using css to handle this content in 3 rows only due to alignment issue 
+                                <p> {{ jobOpeningDetails.description }} 
                                     
                                 </p>
                             </div>
@@ -86,17 +86,17 @@
         <div *ngIf="selectedJob">
             <div class="field col-12 col-sm-6">
                 <div class="grid">
-                    <div class="field col-6 col-sm-3">
-                        <div class="card p-1">
+                    <div class="field col-6 col-sm-3 p-1">
+                        <div class="card m-2">
                             <div class="card-body">
                                 <span class="label text-primary font-bold text-900">Description:</span><br>
                                 <div class="mt-2">
-                                    <span class="value">{{ selectedJob.description }}quwe oeuir o oiweur u fu i ouer
+                                    <span class="value">{{ selectedJob.description }}
                                     </span>
                                 </div>
                             </div>
                         </div>
-                        <div class="card p-1">
+                        <div class="card m-2 mt-3">
                             <div class="card-body">                               
                                 <div class="air">
                                     <div>
@@ -116,11 +116,11 @@
                         </div>
                         
                     </div>
-                    <div class="field col-6  col-sm-3">
-                        <div class="card ">
+                    <div class="field col-6  col-sm-3 p-1">
+                        <div class="card m-2 ">
                             <div class="card-body">
-                                <span class="label text-primary font-bold text-900">About Opening:</span>
-                                <div class="pair mt-2">
+                                <span class="label text-primary font-bold text-900">About Opening:</span><br/>
+                                <div class="pair pt-2">
                                     <span class="label text-primary font-bold text-900">Designation</span>
                                     <span class="value">: {{ selectedJob.designation }}</span>
                                 </div>

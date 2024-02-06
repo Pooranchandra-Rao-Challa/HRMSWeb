@@ -178,7 +178,7 @@ export class D3OrgChartComponent implements OnChanges, OnInit {
                             ${d.depth == 0
                         ? `<br/>
                                 <div style="max-width:200px;font-size:10px;">
-                                <div style="font-size:10px;">${d.data.projectDescription || ""}</div>
+                                <div class="box_remore" style="font-size:10px;"><p>${d.data.projectDescription || ""}</p></div>
                                 </div>`
                         : ""
                     }
