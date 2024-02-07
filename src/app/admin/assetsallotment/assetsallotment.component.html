@@ -23,7 +23,8 @@
                 </ng-template>
                 <ng-template let-employee pTemplate="listItem" let-item>
                     <ng-container *ngIf="item === employeesForAllottedAssets[0]">
-                        <p-table #dtEmployees [value]="employeesForAllottedAssets" dataKey="id" [rows]="10"
+                        <div class="col-12">
+                            <p-table #dtEmployees [value]="employeesForAllottedAssets" dataKey="id" [rows]="10"
                             [rowHover]="true"
                             styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm  pb-5"
                             [paginator]="true"
@@ -93,6 +94,8 @@
                                 </tr>
                             </ng-template>
                         </p-table>
+                        </div>
+                      
                     </ng-container>
                 </ng-template>
                 <ng-template let-employee pTemplate="gridItem">

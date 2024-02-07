@@ -8,33 +8,36 @@
       </ng-template>
       <ng-template pTemplate="center">
         <div *ngIf="activeIndexForProjects===0">
-          <span class="p-input-icon-left mb-2" >
-              <div class="p-inputgroup">
-                <!-- <span class="p-inputgroup-addon"><i class="pi pi-search"></i></span> -->
-                <input id="search_projects" type="text" #filter pInputText placeholder="Search Project"
-                  (input)="filterProjects($event)" />
-                <span class="p-inputgroup-addon" (click)="clearcard()"><i class="pi pi-undo"></i></span>
-              </div>
+          <span class="p-input-icon-left mb-2">
+            <div class="p-inputgroup">
+              <!-- <span class="p-inputgroup-addon"><i class="pi pi-search"></i></span> -->
+              <input id="search_projects" type="text" #filter pInputText placeholder="Search Project"
+                (input)="filterProjects($event)" />
+              <span class="p-inputgroup-addon" (click)="clearcard()"><i class="pi pi-undo"></i></span>
+            </div>
           </span>
         </div>
       </ng-template>
       <ng-template pTemplate="right">
-        <div class="p-input-icon-left dropdown_icon  pr-2">
-          <i class="icon-csv-svgrepo-com-1 "></i>
-          <div *ngIf="permission?.CanDownloadProjects">
-            <p-dropdown [options]="this.ProjectstatuesReportType" optionLabel="name"
-              placeholder="Select Project Report Type" (onChange)="downloadProjectReport($event.value)"
-              optionValue="eProjectStatusesId" class="att_dropdown w-100">
-            </p-dropdown>
+        <div>
+          <div class="p-input-icon-left dropdown_icon  pr-2">
+            <i class="icon-csv-svgrepo-com-1 "></i>
+            <div *ngIf="permission?.CanDownloadProjects">
+              <p-dropdown [options]="this.ProjectstatuesReportType" optionLabel="name"
+                placeholder="Select Project Report Type" (onChange)="downloadProjectReport($event.value)"
+                optionValue="eProjectStatusesId" class="att_dropdown w-100">
+              </p-dropdown>
+            </div>
           </div>
-        </div>
-        <!-- <div *ngIf="permission?.CanDownloadProjects">
+          <!-- <div *ngIf="permission?.CanDownloadProjects">
           <button type="button " pButton icon="icon-csv-svgrepo-com-1"
             class=" mr-2 doc_button doc_button att_report_button" pTooltip="Download Attendance Report"
             tooltipPosition="left"></button>
         </div> -->
-        <button pButton pRipple label="Add New Project" icon="pi pi-plus" class="p-button-primary p-mr-2"
-          id="Project_addProject" *ngIf="permission?.CanManageProjects" (click)="onEditProject(null)"></button>
+          <button pButton pRipple label="Add New Project" icon="pi pi-plus" class="p-
+        -primary p-mr-2 mt-2" id="Project_addProject" *ngIf="permission?.CanManageProjects"
+            (click)="onEditProject(null)"></button>
+        </div>
       </ng-template>
     </p-toolbar>
 
@@ -428,9 +431,9 @@
       </ng-template>
     </p-dialog>
     <!-- Projects View -->
-    <div  class="card" id="projectsview">
+    <div class="card" id="projectsview">
       <p-toast key="myToast"></p-toast>
-      <p-tabView [(activeIndex)]="activeIndexForProjects" >
+      <p-tabView [(activeIndex)]="activeIndexForProjects">
         <p-tabPanel header="Project View">
           <ng-template pTemplate="content">
             <div class="grid mb-5 p-0" #dv>

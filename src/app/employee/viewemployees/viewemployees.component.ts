@@ -255,7 +255,7 @@ export class ViewemployeesComponent {
         employeeId: parseInt(this.employeeId)
       }
       this.dialogRequest.header = "Add Asset";
-      this.dialogRequest.width = "50%";
+      this.dialogRequest.width = "60%";
     }
     //Bank Details
     else if (action == Actions.edit && content === this.BankdetailsDialogComponent) {
@@ -288,7 +288,7 @@ export class ViewemployeesComponent {
     else if (action == Actions.add && content === this.uploadDocumentsDialogComponent) {
       this.dialogRequest.dialogData = dialogData;
       this.dialogRequest.header = "Upload Documents";
-      this.dialogRequest.width = "30%";
+      this.dialogRequest.width = "40%";
     }
     //Familydetails
     else if (action == Actions.edit && content === this.FamilydetailsDialogComponent) {
