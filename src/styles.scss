@@ -1186,7 +1186,7 @@ app-attendance .p-datatable-table tbody tr td:first-child {
     padding-left:2.5rem !important;
 }
 .dropdown_icon > i:first-of-type {
-    z-index:999;
+    z-index:99;
     top:45% !important;
 }
 .att_report_button{
@@ -1331,3 +1331,14 @@ app-attendance .p-datatable-table tbody tr td:first-child {
     -webkit-box-orient: vertical;  
     overflow: hidden;
   }
+  @media (max-width: 479px) {
+    .cus_toolbar .p-button{
+        width:100% !important;
+    }
+    .cus_toolbar .p-toolbar-group-left,.p-toolbar-group-center,.p-toolbar-group-right,.p-input-icon-left,.p-dropdown,.p-multiselect{
+        width:100% !important;
+    }
+    // .p-element{
+    //     width:100% !important;
+    // }
+}

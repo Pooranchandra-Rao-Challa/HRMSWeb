@@ -63,11 +63,14 @@
                         <p-multiSelect [options]="selectedColumnHeader" [(ngModel)]="selectedColumns"
                             optionLabel="label" id="lookup_ColumnSelection" selectedItemsLabel="{0} columns selected"
                             [style]="{'min-width': '200px'}" placeholder="Choose Columns"></p-multiSelect>
-                        <span class="p-input-icon-left mb-2">
-                            <i class="pi pi-search"></i>
-                            <input pInputText type="text" id="search-input" #filter
-                                (input)="onGlobalFilter(dtleave, $event)" placeholder="Search Keyword" class="w-full" />
-                        </span>
+                        <div>
+                            <span class="p-input-icon-left mb-2 w-100 ">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text" id="search-input" #filter
+                                    (input)="onGlobalFilter(dtleave, $event)" placeholder="Search Keyword" class="w-full" />
+                            </span>
+                        </div>
+                        
                     </div>
                 </div>
             </ng-template>

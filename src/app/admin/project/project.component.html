@@ -2,12 +2,12 @@
 <div class="col-12">
   <div class="card">
     <!-- Toolbar -->
-    <p-toolbar styleClass="p-mb-4">
+    <p-toolbar class="cus_toolbar" styleClass="p-mb-4">
       <ng-template pTemplate="left">
         <h4>Projects</h4>
       </ng-template>
       <ng-template pTemplate="center">
-        <div *ngIf="activeIndexForProjects===0">
+        <div *ngIf="activeIndexForProjects===0" class="w-100">
           <span class="p-input-icon-left mb-2">
             <div class="p-inputgroup">
               <!-- <span class="p-inputgroup-addon"><i class="pi pi-search"></i></span> -->
@@ -25,17 +25,18 @@
             <div *ngIf="permission?.CanDownloadProjects">
               <p-dropdown [options]="this.ProjectstatuesReportType" optionLabel="name"
                 placeholder="Select Project Report Type" (onChange)="downloadProjectReport($event.value)"
-                optionValue="eProjectStatusesId" class="att_dropdown w-100">
+                optionValue="eProjectStatusesId" class="att_dropdown w-100" [showClear]="true">
               </p-dropdown>
             </div>
           </div>
+         
           <!-- <div *ngIf="permission?.CanDownloadProjects">
           <button type="button " pButton icon="icon-csv-svgrepo-com-1"
             class=" mr-2 doc_button doc_button att_report_button" pTooltip="Download Attendance Report"
             tooltipPosition="left"></button>
         </div> -->
           <button pButton pRipple label="Add New Project" icon="pi pi-plus" class="p-
-        -primary p-mr-2 mt-2" id="Project_addProject" *ngIf="permission?.CanManageProjects"
+        -primary p-mr-2 mt-2 xs:w-100" id="Project_addProject" *ngIf="permission?.CanManageProjects"
             (click)="onEditProject(null)"></button>
         </div>
       </ng-template>
@@ -44,8 +45,8 @@
 
     <!-- dialog -->
     <p-dialog header="Project" [(visible)]="editProject" [modal]="true" showEffect="fade"
-      [breakpoints]="{'960px': '70%', '640px': '60%'}" [style]="{width: '70%'}">
-      <div class="flex flex-column align-items-center justify-content-center">
+      [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width: '70%'}" >
+      <div class="flex-column align-items-center justify-content-center">
         <form [formGroup]="fbproject" (ngSubmit)="onSubmit()" id="Role_roleForm">
           <div class="grid">
             <div class="col-12 ">

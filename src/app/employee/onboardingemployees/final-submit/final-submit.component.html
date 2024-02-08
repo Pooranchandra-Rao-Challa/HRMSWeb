@@ -33,7 +33,7 @@
     i.e.,Mandatory are Education, Address, and Uploaded Documents.
   </div>
   <div class="grid " *ngIf="employeeObj?.pendingDetails">
-    <div class="col-4 md-4 lg-3 sm-6" *ngFor="let detail of employeeObj.pendingDetails.split(', ')">
+    <div class="col-12 lg:col-4 md:col-4 sm:col-6  md-4" *ngFor="let detail of employeeObj.pendingDetails.split(', ')">
       <div class="card border-1 surface-border"
         [ngClass]="{'text-yellow-500': shouldHighlight(detail), 'text-red-500': !shouldHighlight(detail)}"
         (click)="openAppropriateDialog(detail)">
@@ -50,7 +50,7 @@
     </div>
   </div>
   <span class="grid " *ngIf="employeeObj?.completedDetails">
-    <div class="col-4 md-4 lg-3 sm-6 " *ngFor="let detail of employeeObj.completedDetails.split(', ')"
+    <div class="col-12 lg:col-4 md:col-4 sm:col-6 md-4" *ngFor="let detail of employeeObj.completedDetails.split(', ')"
       (click)="openAppropriateDialog(detail)">
       <div class="card border-1 surface-border text-green-500">
         <ng-container [ngSwitch]="detail">

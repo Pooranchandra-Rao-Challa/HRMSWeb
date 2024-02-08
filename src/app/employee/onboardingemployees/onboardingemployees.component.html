@@ -6,6 +6,7 @@
         [sortField]="sortField" [sortOrder]="sortOrder" layout="grid" [alwaysShowPaginator]="false">
         <ng-template pTemplate="header">
           <div class="flex flex-column md:flex-row md:justify-content-between gap-2">
+
             <div *ngIf="showSearchBar">
               <div class="p-inputgroup">
                 <!-- <span class="p-inputgroup-addon"><i class="pi pi-search"></i></span> -->
@@ -14,8 +15,10 @@
                 <span class="p-inputgroup-addon" (click)="clearcard(dv)"><i class="pi pi-undo"></i></span>
               </div>
             </div>
+
             <p-dataViewLayoutOptions (click)="hideSearchBar(dv)"></p-dataViewLayoutOptions>
-            <p-button class="p-element p-ripple  p-component p-2 pt-0 pb-0" (click)="showDialog()" icon="pi pi-plus"
+
+            <p-button class="p-element p-ripple  p-component pt-0 pb-0" (click)="showDialog()" icon="pi pi-plus"
               label="Add Employee" *ngIf="permissions?.CanManageEmployee"></p-button>
           </div>
         </ng-template>
