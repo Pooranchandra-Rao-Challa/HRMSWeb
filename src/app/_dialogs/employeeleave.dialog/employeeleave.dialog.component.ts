@@ -367,7 +367,7 @@ export class EmployeeLeaveDialogComponent implements OnInit {
     const leaveReasonControl = this.fbLeave.get('leaveReasonId');
     const selectedLeaveTypeId = this.fbLeave.get('leaveTypeId').value;
     const leaveType = this.leaveType.find(item => item.lookupDetailId === selectedLeaveTypeId);
-    if (leaveType && leaveType.name === 'WFH') {
+    if (leaveType && (leaveType.name === 'WFH' || leaveType.name === 'LWP')) {
       // If leave type is 'WFH', remove validators for 'leaveReasonId'
       leaveReasonControl.clearValidators();
       leaveReasonControl.setErrors(null);
