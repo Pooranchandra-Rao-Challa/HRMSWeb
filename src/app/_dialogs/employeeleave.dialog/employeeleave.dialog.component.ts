@@ -191,7 +191,7 @@ export class EmployeeLeaveDialogComponent {
         if (item.name === 'CL' && (this.empDetails.allottedCasualLeaves - this.empDetails.usedCasualLeavesInYear) > 0) {
           return true;
         }
-        return !this.filteringClsPls.includes(item.name) && !this.filterCriteria.includes(item.name) && item.name !== 'LWP';
+        return !this.filteringClsPls.includes(item.name) && !this.filterCriteria.includes(item.name);
       });
     })
   }
@@ -353,7 +353,7 @@ export class EmployeeLeaveDialogComponent {
     const leaveReasonControl = this.fbLeave.get('leaveReasonId');
     const selectedLeaveTypeId = this.fbLeave.get('leaveTypeId').value;
     const leaveType = this.leaveType.find(item => item.lookupDetailId === selectedLeaveTypeId);
-    if (leaveType && leaveType.name === 'WFH') {
+    if (leaveType && (leaveType.name === 'WFH' || leaveType.name === 'LWP')) {
       // If leave type is 'WFH', remove validators for 'leaveReasonId'
       leaveReasonControl.clearValidators();
       leaveReasonControl.setErrors(null);
@@ -364,5 +364,15 @@ export class EmployeeLeaveDialogComponent {
       return true;
     }
   }
+
+  hideToDate() {
+    const selectedLeaveTypeId = this.fbLeave.get('leaveTypeId').value;
+    const leaveType = this.leaveType.find(item => item.lookupDetailId === selectedLeaveTypeId);
+    if (leaveType && leaveType.name === 'CL') {
+        return false;
+    } else {
+        return true;
+    }
+}
 
 }
