@@ -81,7 +81,7 @@ export class ProjectComponent implements OnInit {
     fileTypes: string = ".jpg, .jpeg, .gif,.png"
     @Output() ImageValidator = new EventEmitter<PhotoFileProperties>();
     defaultPhoto: string;
-
+    @ViewChild('filter') filter!: ElementRef;
 
     //For paginator
     first: number = 0;
@@ -1002,6 +1002,11 @@ export class ProjectComponent implements OnInit {
         this.filteredProjects = this.projects.filter(project =>
             project.name.toLowerCase().includes(searchText)
         );
+    }
+
+    clearcard() {
+        this.filter.nativeElement.value = '';
+        this.initProjects();
     }
 }
 

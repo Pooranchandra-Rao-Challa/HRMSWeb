@@ -40,12 +40,15 @@
                             {{this.year}}
                         </div>
                     </div>
-                    <div class="flex gap-2">
-                        <p-multiSelect [options]="selectedColumnHeader" [(ngModel)]="selectedColumns"
-                            optionLabel="label" id="lookup_ColumnSelection" selectedItemsLabel="{0} columns selected"
-                            [style]="{'min-width': '200px'}" placeholder="Choose Columns" appendTo="body">
-                        </p-multiSelect>
-                        <div class="p-input-icon-left dropdown_icon">
+                    <div class="lg:flex md:flex gap-2">
+                        <div class="mt-1">
+                            <p-multiSelect [options]="selectedColumnHeader" [(ngModel)]="selectedColumns"
+                                optionLabel="label" id="lookup_ColumnSelection"
+                                selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}"
+                                placeholder="Choose Columns" appendTo="body">
+                            </p-multiSelect>
+                        </div>
+                        <div class="p-input-icon-left dropdown_icon mt-1">
                             <i class="icon-csv-svgrepo-com-1 "></i>
                             <div *ngIf="permissions?.CanDownloadLeaveStatistics">
                                 <p-dropdown [options]="leaveReportTypes" optionLabel="label"
@@ -55,7 +58,7 @@
                                 </p-dropdown>
                             </div>
                         </div>
-                        <span class="p-input-icon-left mb-2">
+                        <span class="p-input-icon-left mb-2 mt-1">
                             <i class="pi pi-search"></i>
                             <input pInputText type="text" id="search-input" #filter
                                 (input)="onGlobalFilter(dtleave, $event)" placeholder="Search Keyword" class="w-full" />

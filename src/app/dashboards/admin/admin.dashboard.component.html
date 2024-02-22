@@ -242,7 +242,7 @@
                                     <ng-container *ngIf="employeeCount.length>0; else noDataTemplate">
                                         <span *ngIf="chart == 'Date'">
                                             <p-table #employeeTable [value]="employeeCount" [paginator]="true"
-                                                [rows]="6" [responsive]="true" [alwaysShowPaginator]="false"
+                                                [rows]="6"  [alwaysShowPaginator]="false"
                                                 styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm">
                                                 <ng-template pTemplate="header">
                                                     <tr>
@@ -556,7 +556,7 @@
 <p-dialog header="On Leave Employees" [(visible)]="employeeslist" [modal]="true" showEffect="fade"
     [breakpoints]="{'960px': '40%', '640px': '50%'}" class="confirmation_dialog">
     <div class="content_scroll">
-        <p-table #employeeTable [value]="OnLeaveEmployeeList" [paginator]="true" [rows]="6" [responsive]="true"
+        <p-table #employeeTable [value]="OnLeaveEmployeeList" [paginator]="true" [rows]="6"
             [alwaysShowPaginator]="false" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm mb-1">
             <ng-template pTemplate="header">
                 <tr>

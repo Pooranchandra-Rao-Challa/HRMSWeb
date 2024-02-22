@@ -92,8 +92,6 @@ export class JobOpeningsComponent {
   getJobDetails() {
     this.adminService.GetJobDetails().subscribe((resp) => {
       this.jobOpening = resp as unknown as JobOpeningsDetailsViewDto[];
-      console.log(resp);
-      
       this.jobOpening.forEach(each => {
         if (each?.jobOpeningInProcessId) {
           let applicantsLengths: ApplicantViewDto[];

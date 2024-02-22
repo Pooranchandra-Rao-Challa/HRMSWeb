@@ -7,10 +7,12 @@
                 <h4>Employee Leaves</h4>
             </ng-template>
             <ng-template pTemplate="center">
-                <div *ngFor="let status of statuses" class="field-checkbox">
-                    <p-radioButton [inputId]="status.key" class="ml-3" name="status" [value]="status"
-                        [(ngModel)]="selectedStatus" (click)="getLeaves()"></p-radioButton>
-                    <label [for]="status.key" class="ml-1">{{ status.name }}</label>
+                <div class="grid ">
+                    <div *ngFor="let status of statuses" class="field-checkbox">
+                        <p-radioButton [inputId]="status.key" class="ml-3" name="status" [value]="status"
+                            [(ngModel)]="selectedStatus" (click)="getLeaves()"></p-radioButton>
+                        <label [for]="status.key" class="ml-1">{{ status.name }}</label>
+                    </div>
                 </div>
             </ng-template>
             <ng-template pTemplate="right">
@@ -52,7 +54,7 @@
                             {{this.month}}/{{this.year}}
                         </div>
                     </div>
-                    <div class="flex gap-2">
+                    <div class="flex gap-2 mt-2">
                         <div *ngIf="permissions?.CanDownloadEmployeeLeaves">
                             <button pButton class="p-button doc_button" icon="icon-csv-svgrepo-com-1"
                                 pTooltip="Download Leaves Report" tooltipPosition="left"
@@ -61,11 +63,14 @@
                         <p-multiSelect [options]="selectedColumnHeader" [(ngModel)]="selectedColumns"
                             optionLabel="label" id="lookup_ColumnSelection" selectedItemsLabel="{0} columns selected"
                             [style]="{'min-width': '200px'}" placeholder="Choose Columns"></p-multiSelect>
-                        <span class="p-input-icon-left mb-2">
-                            <i class="pi pi-search"></i>
-                            <input pInputText type="text" id="search-input" #filter
-                                (input)="onGlobalFilter(dtleave, $event)" placeholder="Search Keyword" class="w-full" />
-                        </span>
+                        <div>
+                            <span class="p-input-icon-left mb-2 w-100 ">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text" id="search-input" #filter
+                                    (input)="onGlobalFilter(dtleave, $event)" placeholder="Search Keyword" class="w-full" />
+                            </span>
+                        </div>
+                        
                     </div>
                 </div>
             </ng-template>

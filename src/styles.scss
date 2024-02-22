@@ -781,10 +781,10 @@ div:where(.swal2-container) div:where(.swal2-validation-message)::before {
 .job-opening-card {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    height: 300px;
+    // align-items: left;
+    // justify-content: center;
+    text-align: left;
+    min-height: 240px;
     padding: 16px;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -796,6 +796,19 @@ div:where(.swal2-container) div:where(.swal2-validation-message)::before {
     flex-direction: row;
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+.applicants .p-button{
+    width:100% !important;
+    display: inline !important;
+}
+
+.applicants .p-button i{
+  font-size: 20px !important;
+}
+
+.job-opening-card .title{
+    font-weight:bold;
 }
 
 .job-opening-card:hover .title {
@@ -1173,7 +1186,7 @@ app-attendance .p-datatable-table tbody tr td:first-child {
     padding-left:2.5rem !important;
 }
 .dropdown_icon > i:first-of-type {
-    z-index:999;
+    z-index:99;
     top:45% !important;
 }
 .att_report_button{
@@ -1305,4 +1318,27 @@ app-attendance .p-datatable-table tbody tr td:first-child {
 }
 .p-dataview-emptymessage{
     text-align: center !important;
+}
+
+.box_remore {
+    background-color: #fff;
+    
+  }
+  
+  .box_remore p {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
+  }
+  @media (max-width: 479px) {
+    .cus_toolbar .p-button{
+        width:100% !important;
+    }
+    .cus_toolbar .p-toolbar-group-left,.p-toolbar-group-center,.p-toolbar-group-right,.p-input-icon-left,.p-dropdown,.p-multiselect{
+        width:100% !important;
+    }
+    // .p-element{
+    //     width:100% !important;
+    // }
 }

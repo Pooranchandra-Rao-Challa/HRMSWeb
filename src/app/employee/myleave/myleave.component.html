@@ -7,26 +7,28 @@
                 <h4>My Leaves</h4>
             </ng-template>
             <ng-template pTemplate="center">
-                <div *ngFor="let status of statuses" class="field-checkbox">
-                    <p-radioButton [inputId]="status.key" class="ml-3" name="status" [value]="status"
-                        [(ngModel)]="selectedStatus" (click)="getLeaves()"></p-radioButton>
-                    <label [for]="status.key" class="ml-1">{{ status.name }}</label>
+                <div class="grid ">
+                    <div *ngFor="let status of statuses" class="col py-1 lg:mt-5 md:mt-3 field-checkbox">
+                        <p-radioButton [inputId]="status.key" class="ml-3" name="status" [value]="status"
+                            [(ngModel)]="selectedStatus" (click)="getLeaves()"></p-radioButton>
+                        <label [for]="status.key" class="ml-1">{{ status.name }}</label>
+                    </div>
                 </div>
             </ng-template>
             <ng-template pTemplate="right">
                 <button pButton pRipple label="Apply Leave" id="addLeaveButton" icon="pi pi-plus"
-                class="p-button-primary p-mr-2"
-                (click)="openComponentDialog(employeeleaveDialogComponent, null, ActionTypes.save)"
-                *ngIf="permissions?.CanManageMyLeave"></button>
+                    class="p-button-primary p-mr-2"
+                    (click)="openComponentDialog(employeeleaveDialogComponent, null, ActionTypes.save)"
+                    *ngIf="permissions?.CanManageMyLeave"></button>
             </ng-template>
         </p-toolbar>
         <!-- p-table -->
-        <p-table id="table" #dtleave [value]="leaves" dataKey="id" [rows]="10" [rowHover]="true" 
+        <p-table id="table" #dtleave [value]="leaves" dataKey="id" [rows]="10" [rowHover]="true"
             [alwaysShowPaginator]="false" styleClass="p-datatable-gridlines  p-datatable-sm" [columns]="selectedColumns"
             [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
             rowExpandMode="single" [showCurrentPageReport]="true" [globalFilterFields]="globalFilterFields"
             paginatorDropdownAppendTo="body" scrollDirection="horizontal" [rowsPerPageOptions]="[10,25,50]"
-            [autoLayout]="true" responsiveLayout="scroll" [tableStyle]="{ width: 'max'}">
+            [autoLayout]="true" responsiveLayout="scroll" [tableStyle]="{ width: 'autoLayout'}">
             <ng-template pTemplate="caption">
                 <div class="flex justify-content-between flex-column sm:flex-row">
                     <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
@@ -34,7 +36,8 @@
                     <div class="flex gap-2">
                         <p-multiSelect [options]="selectedColumnHeader" [(ngModel)]="selectedColumns"
                             optionLabel="label" id="lookup_ColumnSelection" selectedItemsLabel="{0} columns selected"
-                            [style]="{'min-width': '200px'}" placeholder="Choose Columns"  appendTo="body"></p-multiSelect>
+                            [style]="{'min-width': '200px'}" placeholder="Choose Columns" appendTo="body">
+                        </p-multiSelect>
                         <span class="p-input-icon-left mb-2">
                             <i class="pi pi-search"></i>
                             <input pInputText type="text" id="search-input" #filter

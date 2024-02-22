@@ -1,9 +1,10 @@
+import { LoaderService } from './../../_services/loader.service';
 import { PlatformLocation } from '@angular/common';
 import { HttpErrorResponse, HttpEvent } from '@angular/common/http';
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { FORMAT_DATE } from 'src/app/_helpers/date.formate.pipe';
@@ -21,7 +22,7 @@ import { LookupService } from 'src/app/_services/lookup.service';
   selector: 'app-employeeleave.dialog',
   templateUrl: './employeeleave.dialog.component.html'
 })
-export class EmployeeLeaveDialogComponent {
+export class EmployeeLeaveDialogComponent implements OnInit {
   fbLeave!: FormGroup;
   employees: EmployeesList[] = [];
   leaveType: LookupDetailsDto[] = [];
@@ -56,6 +57,7 @@ export class EmployeeLeaveDialogComponent {
     private employeeService: EmployeeService,
     private dashBoardService: DashboardService,
     public ref: DynamicDialogRef,
+    private dialogConfig: DynamicDialogConfig,
     public alertMessage: AlertmessageService,
     private platformLocation: PlatformLocation,
     private router: Router) {
@@ -65,19 +67,22 @@ export class EmployeeLeaveDialogComponent {
     const currentYear = today.getFullYear();
     let year = new Date().getFullYear().toString(); // Set year dynamically
     this.adminService.GetHolidays(year).subscribe(
-      (response) => {
-        this.holidays = response as unknown as HolidaysViewDto[];
-        this.initializeDisabledDates(currentYear);
-      },
-      (error) => {
-        console.error(error);
+      {
+        next: (response) => {
+          this.holidays = response as unknown as HolidaysViewDto[];
+          this.initializeDisabledDates(currentYear);
+        },
+        error: (error) => {
+          console.error(error);
+        }
+
       }
     );
   }
 
   ngOnInit(): void {
-    this.getEmployees();
     this.leaveForm();
+    this.getEmployees();
   }
 
 
@@ -164,7 +169,6 @@ export class EmployeeLeaveDialogComponent {
       this.currentRoute = this.router.url;
       if (this.currentRoute === '/dashboard/employee' || this.currentRoute === '/employee/myleaves') {
         const defaultEmployeeId = this.jwtService.EmployeeId;
-        this.fbLeave.get('employeeId')?.setValue(defaultEmployeeId);
         const selectedEmployee = this.employees.find(employee => String(employee.employeeId) === String(defaultEmployeeId));
         if (selectedEmployee) {
           this.fbLeave.get('employeeId')?.patchValue(selectedEmployee.employeeId);
@@ -182,6 +186,12 @@ export class EmployeeLeaveDialogComponent {
   getLeaveTypes() {
     this.lookupService.DayWorkStatus().subscribe(resp => {
       this.leaveType = resp as unknown as LookupViewDto[];
+      let toSelect = this.leaveType.filter(fn => fn.name.toLowerCase() === String(this.dialogConfig.data).toLowerCase());
+      if (toSelect.length > 0) {
+        this.fbLeave.get('leaveTypeId')?.patchValue(toSelect[0].lookupDetailId);
+        this.fbLeave.get('leaveTypeId')?.disable();
+        this.getLeaveReasonsByLeaveTypeId(toSelect[0].lookupDetailId);
+      }
       this.filteredLeaveTypes = this.leaveType.filter(item => !this.filterCriteria.includes(item.name));
       this.filteringClsPls = (
         (this.empDetails.allottedPrivilegeLeaves - this.empDetails.usedPrivilegeLeavesInYear) > 0 &&
@@ -261,6 +271,7 @@ export class EmployeeLeaveDialogComponent {
   }
 
   save(): Observable<HttpEvent<EmployeeLeaveDto[]>> {
+    this.fbLeave.get('leaveTypeId')?.enable();
     return this.employeeService.CreateEmployeeLeaveDetails(this.fbLeave.value);
   }
 
@@ -277,19 +288,19 @@ export class EmployeeLeaveDialogComponent {
     if (leaveType.name === 'CL') {
       this.dashBoardService.GetEmployeeLeavesForMonth(this.month, empId, this.year)
         .subscribe(resp => {
-          this.monthlyLeaves = resp as unknown as selfEmployeeMonthlyLeaves[];          
+          this.monthlyLeaves = resp as unknown as selfEmployeeMonthlyLeaves[];
           this.hasPendingLeaveInMonth = this.monthlyLeaves.some(leave => leave.leaveType === 'CL' && leave.status === 'Pending');
-          const isLeaveApproved= this.monthlyLeaves.find(leave =>  leave.status === 'Approved' && leave.leaveType === 'CL');          
-          const isLeaveRejected = this.monthlyLeaves.find(leave =>  leave.status === 'Rejected' && leave.leaveType === 'CL');          
-          const isDeletedCL = this.monthlyLeaves.find(leave => leave.isDeleted === true && leave.leaveType === 'CL');          
+          const isLeaveApproved = this.monthlyLeaves.find(leave => leave.status === 'Approved' && leave.leaveType === 'CL');
+          const isLeaveRejected = this.monthlyLeaves.find(leave => leave.status === 'Rejected' && leave.leaveType === 'CL');
+          const isDeletedCL = this.monthlyLeaves.find(leave => leave.isDeleted === true && leave.leaveType === 'CL');
           const clIsNotDeleted = this.monthlyLeaves.find(leave => (leave.isDeleted === false || leave.isDeleted === null) && leave.leaveType === 'CL');
-          if(isLeaveApproved){
+          if (isLeaveApproved) {
             this.onSubmit();
           }
-          else if(isLeaveRejected){
+          else if (isLeaveRejected) {
             this.onSubmit();
           }
-          else if ((this.hasPendingLeaveInMonth && clIsNotDeleted) ||(this.hasPendingLeaveInMonth && isDeletedCL !==null && clIsNotDeleted)) {
+          else if ((this.hasPendingLeaveInMonth && clIsNotDeleted) || (this.hasPendingLeaveInMonth && isDeletedCL !== null && clIsNotDeleted)) {
             this.dialog = true;
             const leaveWithEmployeeName = this.monthlyLeaves.find(leave => leave.employeeName);
             this.empName = leaveWithEmployeeName ? leaveWithEmployeeName.employeeName : 'Unknown';
@@ -313,33 +324,36 @@ export class EmployeeLeaveDialogComponent {
     this.fbLeave.get('toDate').setValue(this.fbLeave.get('toDate').value ? FORMAT_DATE(new Date(this.fbLeave.get('toDate').value)) : null);
     this.fbLeave.get('url').setValue(this.emailURL);
     if (this.fbLeave.valid) {
-      this.save().subscribe(resp => {
-        if (resp) {
-          this.ref.close(true);
-          let result = resp as unknown as any;
-          if (!result.isSuccess || (result.isSuccess && result.message !== null)) {
-            this.alertMessage.displayErrorMessage(result.message);
-          }
-          const leaveType = this.leaveType.find(item => item.lookupDetailId === this.fbLeave.get('leaveTypeId').value);
-          if ((result.message === null && leaveType.name === 'CL') || leaveType.name === 'PL') {
-            this.alertMessage.displayAlertMessage(ALERT_CODES["ELD001"]);
-          }
-          if (leaveType && leaveType.name === 'WFH') {
-            this.alertMessage.displayAlertMessage(ALERT_CODES["WFH001"]);
-          }
-        }
-      },
-        (error: HttpErrorResponse) => {
-          if (error.status === 403) {
-            this.alertMessage.displayErrorMessage(ALERT_CODES["ELD002"]);
-          } else {
-            const leaveType = this.leaveType.find(item => item.lookupDetailId === this.fbLeave.get('leaveTypeId').value);
-            if (leaveType && leaveType.name === 'WFH') {
-              this.alertMessage.displayErrorMessage(ALERT_CODES["WFH002"]);
-            } else {
-              this.alertMessage.displayErrorMessage(ALERT_CODES["ELD002"]);
+      this.save().subscribe(
+        {
+          next: (resp) => {
+            if (resp) {
+              this.ref.close(true);
+              let result = resp as unknown as any;
+              if (!result.isSuccess || (result.isSuccess && result.message !== null)) {
+                this.alertMessage.displayErrorMessage(result.message);
+              }
+              const leaveType = this.leaveType.find(item => item.lookupDetailId === this.fbLeave.get('leaveTypeId').value);
+              if ((result.message === null && leaveType.name === 'CL') || leaveType.name === 'PL') {
+                this.alertMessage.displayAlertMessage(ALERT_CODES["ELD001"]);
+              }
+              if (leaveType && leaveType.name === 'WFH') {
+                this.alertMessage.displayAlertMessage(ALERT_CODES["WFH001"]);
+              }
             }
+          },
+          error: (error: HttpErrorResponse) => {
+            if (error.status === 403) {
+              this.alertMessage.displayErrorMessage(ALERT_CODES["ELD002"]);
+            } else {
+              const leaveType = this.leaveType.find(item => item.lookupDetailId === this.fbLeave.get('leaveTypeId').value);
+              if (leaveType && leaveType.name === 'WFH') {
+                this.alertMessage.displayErrorMessage(ALERT_CODES["WFH002"]);
+              } else {
+                this.alertMessage.displayErrorMessage(ALERT_CODES["ELD002"]);
+              }
 
+            }
           }
         });
       this.ref.close(true);
@@ -353,7 +367,7 @@ export class EmployeeLeaveDialogComponent {
     const leaveReasonControl = this.fbLeave.get('leaveReasonId');
     const selectedLeaveTypeId = this.fbLeave.get('leaveTypeId').value;
     const leaveType = this.leaveType.find(item => item.lookupDetailId === selectedLeaveTypeId);
-    if (leaveType && (leaveType.name === 'WFH' || leaveType.name === 'LWP')) {
+    if (leaveType && leaveType.name === 'WFH') {
       // If leave type is 'WFH', remove validators for 'leaveReasonId'
       leaveReasonControl.clearValidators();
       leaveReasonControl.setErrors(null);
@@ -369,10 +383,10 @@ export class EmployeeLeaveDialogComponent {
     const selectedLeaveTypeId = this.fbLeave.get('leaveTypeId').value;
     const leaveType = this.leaveType.find(item => item.lookupDetailId === selectedLeaveTypeId);
     if (leaveType && leaveType.name === 'CL') {
-        return false;
+      return false;
     } else {
-        return true;
+      return true;
     }
-}
+  }
 
 }

@@ -106,7 +106,7 @@ export class LookupsComponent implements OnInit {
     if (action == Actions.save && content === this.lookupDialogComponent) {
       this.dialogRequest.dialogData = dialogData;
       this.dialogRequest.header = "Lookup";
-      this.dialogRequest.width = "60%";
+      this.dialogRequest.width = "max-content";
     }
     this.ref = this.dialogService.open(content, {
       data: this.dialogRequest.dialogData,

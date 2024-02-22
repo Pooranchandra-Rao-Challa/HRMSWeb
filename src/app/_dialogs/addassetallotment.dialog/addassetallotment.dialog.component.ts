@@ -86,6 +86,7 @@ export class AddassetallotmentDialogComponent {
 
     saveAssetAllotment(): Observable<HttpEvent<AssetAllotmentDto>> {
         this.fbAssetAllotment.get('employeeId').enable();
+        this.fbAssetAllotment.value.assignedOn = FORMAT_DATE(this.fbAssetAllotment.value.assignedOn);
         return this.adminService.CreateAssetAllotment(this.fbAssetAllotment.value)
     }
 

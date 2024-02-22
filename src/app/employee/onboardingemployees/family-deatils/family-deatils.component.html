@@ -215,15 +215,15 @@
     </div>
 </div>
 <div class="grid mt-2">
-    <div class="field col-4 m-0 p-1 px-3">
+    <div class="field col-12 lg:col-4 md:col-6m-0 p-1 px-3">
         <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100 text-right"
             id="NavigateToUploadDocumentsBtn" (click)="navigateToPrev()">Upload Documents</button>
     </div>
-    <div class=" col-4 m-0 p-1 px-3">
+    <div class="field col-12 lg:col-4 md:col-6m-0 p-1 px-3">
         <button p-button class="p-element p-ripple p-button-info p-button p-component w-100" id="SavingFamilyDetailsBtn"
             [disabled]="this.empFamDetails.length == 0" (click)="onSubmit()">Save as Draft</button>
     </div>
-    <div class=" col-4 m-0 p-1 px-3">
+    <div class="field col-12 lg:col-4 md:col-6m-0 p-1 px-3">
         <button p-button class="p-element p-ripple p-button-primary p-button p-component w-100"
             id="NavigateToBankDetailsBtn" (click)="navigateToNext()">Bank Details </button>
     </div>

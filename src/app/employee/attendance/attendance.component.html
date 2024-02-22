@@ -128,46 +128,49 @@
         </div>
     </ng-template>
     <ng-template pTemplate="right">
-        <div class="p-input-icon-left dropdown_icon pr-2">
-            <i class="icon-csv-svgrepo-com-1"></i>
-            <div *ngIf="permissions?.CanDownloadAttendance">
-                <p-dropdown [options]="attendanceExcelTypes" optionLabel="label"
-                    placeholder="Select AttendanceReport Type" (onChange)="DownloadAttendanceReport($event.value)"
-                    optionValue="label" class="att_dropdown w-100"  [showClear]="true" >
-                </p-dropdown>
-            </div>
-        </div>
-        <div class="pr-2">
-            <div>
-                <div class="p-inputgroup">
-                    <!-- <span class="p-inputgroup-addon"><i class="pi pi-search"></i></span> -->
-                    <input pInputText type="text" class="w-full" placeholder="Employee Name" #filter
-                        id="Attendance_globalSearch" (input)="onGlobalFilter(dt1, $event)" />
-                    <span class="p-inputgroup-addon" (click)="clearcard(dt1)"><i class="pi pi-undo"></i></span>
+        <div class="lg:flex md:flex sm:flex w-100">
+            <div class="p-input-icon-left dropdown_icon pr-2 mb-1">
+                <i class="icon-csv-svgrepo-com-1"></i>
+                <div *ngIf="permissions?.CanDownloadAttendance">
+                    <p-dropdown [options]="attendanceExcelTypes" optionLabel="label"
+                        placeholder="Select AttendanceReport Type" (onChange)="DownloadAttendanceReport($event.value)"
+                        optionValue="label" class="att_dropdown w-100" [showClear]="true">
+                    </p-dropdown>
                 </div>
             </div>
-        </div>
-        <div *ngIf="canUpdatePreviousDayAttendance && NotUpdatedAttendanceDatesList?.length">
-            <p-dropdown [options]="NotUpdatedAttendanceDatesList" optionValue="date" optionLabel="date"
-                placeholder="Select a Date" [showClear]="true" (onChange)="onDropdownChange($event.value)"
-                class="mr-2 ">
-                <ng-template let-option pTemplate="selectedItem">
-                    {{ option.dayOfWeek }}, {{ option.date }}
-                </ng-template>
-                <ng-template let-option pTemplate="item">
-                    {{ option.dayOfWeek }}, {{ option.date }}
-                </ng-template>
-            </p-dropdown>
-        </div>
+            <div class="pr-2 mb-1">
+                <div>
+                    <div class="p-inputgroup">
+                        <!-- <span class="p-inputgroup-addon"><i class="pi pi-search"></i></span> -->
+                        <input pInputText type="text" class="w-full" placeholder="Employee Name" #filter
+                            id="Attendance_globalSearch" (input)="onGlobalFilter(dt1, $event)" />
+                        <span class="p-inputgroup-addon" (click)="clearcard(dt1)"><i class="pi pi-undo"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="canUpdatePreviousDayAttendance && NotUpdatedAttendanceDatesList?.length">
+                <p-dropdown [options]="NotUpdatedAttendanceDatesList" optionValue="date" optionLabel="date"
+                    placeholder="Select a Date" [showClear]="true" (onChange)="onDropdownChange($event.value)"
+                    class="pr-2 mb-1 ">
+                    <ng-template let-option pTemplate="selectedItem">
+                        {{ option.dayOfWeek }}, {{ option.date }}
+                    </ng-template>
+                    <ng-template let-option pTemplate="item">
+                        {{ option.dayOfWeek }}, {{ option.date }}
+                    </ng-template>
+                </p-dropdown>
+            </div>
 
-        <div *ngIf="permissions?.CanManageAttendance">
-            <button pButton pRipple label="Add Attendance" icon="pi pi-plus" id="Attendance_addAttendance"
-                class="p-button-primary p-mr-2" (click)="showConfirmationDialog()"></button>
-        </div>
-        <div *ngIf="permissions?.CanManageAttendance">
-            <button pButton pRipple label="" id="AddressDetails-AboutColors" icon="pi pi-info-circle"
-                class="p-button-primary ml-2 p-mr-2" [style]="{'backgroundColor':'white','color':'#f17517'}"
-                (click)="toggleTab()" tooltipPosition="top" pTooltip="Info Regarding Representation of Colors"></button>
+            <div *ngIf="permissions?.CanManageAttendance">
+                <button pButton pRipple label="Add Attendance" icon="pi pi-plus" id="Attendance_addAttendance"
+                    class="p-button-primary p-mr-2 mt-1 mb-1" (click)="showConfirmationDialog()"></button>
+            </div>
+            <div *ngIf="permissions?.CanManageAttendance">
+                <button pButton pRipple label="" id="AddressDetails-AboutColors" icon="pi pi-info-circle"
+                    class="p-button-primary ml-2 p-mr-2 mb-1" [style]="{'backgroundColor':'white','color':'#f17517'}"
+                    (click)="toggleTab()" tooltipPosition="top"
+                    pTooltip="Info Regarding Representation of Colors"></button>
+            </div>
         </div>
     </ng-template>
 </p-toolbar>

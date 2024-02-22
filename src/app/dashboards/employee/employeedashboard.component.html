@@ -78,7 +78,7 @@
                                 </div>
                                 <i class="pi icon-calendar  text-6xl att-pointer" label="Primary" pTooltip="Apply PL"
                                     tooltipPosition="right"
-                                    (click)="openComponentDialog(employeeleaveDialogComponent, null, ActionTypes.save)"
+                                    (click)="openComponentDialog(employeeleaveDialogComponent, 'PL', ActionTypes.save)"
                                     *ngIf="(empDetails?.allottedPrivilegeLeaves-empDetails?.usedPrivilegeLeavesInYear)!== 0"></i>
                             </div>
                             <hr class="primary_hr" />
@@ -132,7 +132,7 @@
                                 </div>
                                 <i class="pi icon-calendar text-white text-6xl att-pointer" label="Primary"
                                     pTooltip="Apply CL" tooltipPosition="right"
-                                    (click)="openComponentDialog(employeeleaveDialogComponent, null, ActionTypes.save)"
+                                    (click)="openComponentDialog(employeeleaveDialogComponent, 'CL', ActionTypes.save)"
                                     *ngIf="(empDetails?.allottedCasualLeaves-empDetails?.usedCasualLeavesInYear) !== 0"></i>
 
                             </div>
