@@ -217,7 +217,8 @@ export class EmployeeLeaveDialogComponent implements OnInit {
   }
 
   handleEmployeeLeaves() {
-    var employeeState = this.FormControls['employeeId'].disable;
+    this.FormControls['employeeId'].markAsTouched();
+    var employeeState = this.FormControls['employeeId'].disable
     var empId: number;
     if (employeeState) {
       empId = this.FormControls['employeeId'].value;
