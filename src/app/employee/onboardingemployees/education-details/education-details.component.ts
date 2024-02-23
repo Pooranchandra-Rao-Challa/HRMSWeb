@@ -207,6 +207,7 @@ export class EducationDetailsComponent implements OnInit {
     });
     this.addeducationdetailsshowForm = !this.addeducationdetailsshowForm;
     this.ShoweducationDetails = !this.ShoweducationDetails;
+    this.addFlag= false;
   }
 
   restrictSpaces(event: KeyboardEvent) {
@@ -232,6 +233,7 @@ export class EducationDetailsComponent implements OnInit {
   }
 
   saveeducationDetails(): Observable<HttpEvent<EducationDetailsDto[]>> {
+    debugger
     if (this.addFlag) {
       return this.employeeService.CreateEducationDetails(this.empEduDetails);
     } else

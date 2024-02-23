@@ -52,9 +52,15 @@
                             [autoDisplayFirst]="false" appendTo="body" optionLabel="addressLine1" [options]="address"
                             optionValue="addressId">
                             <ng-template let-address pTemplate="item">
-                                {{ address.addressLine1 }},{{ address.addressLine2 }},<br>
-                                {{ address.landmark }},{{address.city }},<br>
-                                {{address.state}},{{address.zipCode}},{{address.country}}
+                                {{ (address.addressLine1 || address.addressLine2 || address.landmark ||
+                                address.city || address.state || address.zipCode || address.country) ?
+                                (address.addressLine1 ? address.addressLine1 + ', <br>' : '') +
+                                (address.addressLine2 ? address.addressLine2 + ', <br>' : '') +
+                                (address.landmark ? address.landmark + ', <br>' : '') +
+                                (address.city ? address.city + ', <br>' : '') +
+                                (address.state ? address.state + ', <br>' : '') +
+                                (address.zipCode ? address.zipCode + ', <br>' : '') +
+                                (address.country ? address.country + '<br>' : '') : '' }}
                             </ng-template>
                         </p-dropdown>
                     </div>
@@ -88,7 +94,8 @@
                                         Please Enter Aadhar Number.</div>
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="FormControls['adhaarNo'].errors?.['pattern']">
-                                        Aadhar Number Should not start with 0,Please Enter valid Aadhar Number Ex:397788000234.
+                                        Aadhar Number Should not start with 0,Please Enter valid Aadhar Number
+                                        Ex:397788000234.
                                     </div>
                                 </span>
                             </div>
@@ -140,7 +147,8 @@
                     <div class="field col-12 md:col-4">
                         <label class="required" for="is_Nominee" class="ml-3">Make him/her as Nominee:</label>
                         <br>
-                        <p-checkbox [pTooltip]="fbfamilyDetails.get('isNominee').value == true ? 'Employee Can Have Only One Nominee' : null"
+                        <p-checkbox
+                            [pTooltip]="fbfamilyDetails.get('isNominee').value == true ? 'Employee Can Have Only One Nominee' : null"
                             [binary]="true" id="is_Nominee" class="mr-2" formControlName="isNominee">
                         </p-checkbox>
                     </div>
@@ -193,12 +201,14 @@
                             {{familyData.relationship?familyData.relationship:familyData[col.field]}}
                         </span>
                         <span *ngIf="col?.field == 'addressId'">
-                            {{familyData.addressLine1?familyData.addressLine1:familyData[col.field]}},
-                            {{familyData.addressLine2?familyData.addressLine2:familyData[col.field]}},
-                            {{familyData.city?familyData.city:familyData[col.field]}},
-                            {{familyData.state?familyData.state:familyData[col.field]}},
-                            {{familyData.zipCode?familyData.zipCode:familyData[col.field]}},
-                            {{familyData.country?familyData.country:familyData[col.field]}}
+                            {{ (familyData.addressLine1 || familyData.addressLine2 || familyData.city ||
+                            familyData.state || familyData.zipCode || familyData.country) ?
+                            (familyData.addressLine1 ? familyData.addressLine1 + ', ' : '') +
+                            (familyData.addressLine2 ? familyData.addressLine2 + ', ' : '') +
+                            (familyData.city ? familyData.city + ', ' : '') +
+                            (familyData.state ? familyData.state + ', ' : '') +
+                            (familyData.zipCode ? familyData.zipCode + ', ' : '') +
+                            (familyData.country ? familyData.country : '') : '' }}
                         </span>
                         <span *ngIf="col?.field == 'dob' ">
                             {{familyData[col.field]| date: mediumDate }}
