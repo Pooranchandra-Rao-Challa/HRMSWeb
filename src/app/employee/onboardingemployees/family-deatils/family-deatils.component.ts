@@ -29,13 +29,13 @@ export class FamilyDeatilsComponent implements OnInit {
   addFlag: boolean = true;
   empFamDetails: FamilyDetailsDto[] = [];
   maxDate: Date = new Date();
-  isNomineeTrue:Boolean = false;
+  isNomineeTrue: Boolean = false;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
     private formbuilder: FormBuilder,
     private lookupService: LookupService,
-    private employeeService: EmployeeService, private alertMessage: AlertmessageService) {}
+    private employeeService: EmployeeService, private alertMessage: AlertmessageService) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -64,7 +64,7 @@ export class FamilyDeatilsComponent implements OnInit {
       relationshipId: new FormControl(null, [Validators.required]),
       addressId: new FormControl(null),
       dob: new FormControl('', [Validators.required]),
-      adhaarNo: new FormControl('', [Validators.required,Validators.pattern(RG_AADHAAR)]),
+      adhaarNo: new FormControl('', [Validators.required, Validators.pattern(RG_AADHAAR)]),
       panno: new FormControl('', [Validators.pattern(RG_PANNO)]),
       mobileNumber: new FormControl('', [Validators.required, Validators.pattern(RG_PHONE_NO)]),
       isNominee: new FormControl(false),
@@ -98,22 +98,22 @@ export class FamilyDeatilsComponent implements OnInit {
     let famDetailId = this.fbfamilyDetails.get('familyInformationId').value
     if (famDetailId == null) {
       this.faFamilyDetail().push(this.generaterow(this.fbfamilyDetails.getRawValue()));
-      if(!this.isNomineeTrue){
-        if(this.fbfamilyDetails.get('isNominee').value){
+      if (!this.isNomineeTrue) {
+        if (this.fbfamilyDetails.get('isNominee').value) {
           this.fbfamilyDetails.get('isNominee').disable();
         }
       }
       for (let item of this.fbfamilyDetails.get('familyDetails').value) {
-        if (item.relationshipId !== null && item.addressId !== null ) {
+        if (item.relationshipId !== null || item.addressId !== null) {
           let relationShipName = this.relationships.filter(x => x.lookupDetailId == item.relationshipId);
-          item.relationship = relationShipName.length > 0 ? relationShipName[0].name :'';
+          item.relationship = relationShipName.length > 0 ? relationShipName[0].name : '';
           let addressName = this.address.filter(x => x.addressId == item.addressId);
-          item.addressLine1 = addressName.length > 0 ? addressName[0].addressLine1 :'';
-          item.addressLine2 = addressName.length > 0 ? addressName[0].addressLine2 :'';
-          item.zipCode = addressName.length > 0 ? addressName[0].zipCode :'';
-          item.city = addressName.length > 0 ? addressName[0].city :'';
-          item.state = addressName.length > 0 ? addressName[0].state :'';
-          item.country = addressName.length > 0 ? addressName[0].country :'';
+          item.addressLine1 = addressName.length > 0 ? addressName[0].addressLine1 : '';
+          item.addressLine2 = addressName.length > 0 ? addressName[0].addressLine2 : '';
+          item.zipCode = addressName.length > 0 ? addressName[0].zipCode : '';
+          item.city = addressName.length > 0 ? addressName[0].city : '';
+          item.state = addressName.length > 0 ? addressName[0].state : '';
+          item.country = addressName.length > 0 ? addressName[0].country : '';
           this.empFamDetails.push(item)
         }
       }
@@ -164,13 +164,13 @@ export class FamilyDeatilsComponent implements OnInit {
     const target = event.target as HTMLInputElement;
     // Prevent the first key from being a space
     if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0)
-        event.preventDefault();
+      event.preventDefault();
 
     // Restrict multiple spaces
     if (event.key === ' ' && target.selectionStart > 0 && target.value.charAt(target.selectionStart - 1) === ' ') {
-        event.preventDefault();
+      event.preventDefault();
     }
-}
+  }
   removeRow(index: number): void {
     if (index >= 0 && index < this.empFamDetails.length) {
       this.empFamDetails.splice(index, 1); // Remove 1 item at the specified index
@@ -187,12 +187,11 @@ export class FamilyDeatilsComponent implements OnInit {
   }
   onSubmit() {
     this.savefamilyDetails().subscribe(resp => {
-        this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "SFD001" : "SFD002"]);
-        this.navigateToNext();      
+      this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "SFD001" : "SFD002"]);
+      this.navigateToNext();
     })
     this.addfamilydetailsshowForm = !this.addfamilydetailsshowForm;
     this.showFamilyDetails = !this.showFamilyDetails;
-
   }
   navigateToPrev() {
     this.router.navigate(['employee/onboardingemployee/uploadfiles', this.employeeId])

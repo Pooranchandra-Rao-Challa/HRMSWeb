@@ -106,7 +106,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="field col-12 md:col-4 mb-0">
+                    <div class="field col-12 md:col-4 mb-0" *ngIf="hideToDate()">
                         <label>To Date:</label>
                         <p-calendar appendTo="body" placeholder="Select To Date" [readonlyInput]="true"
                             [showIcon]="true" formControlName="toDate" id="toDateCalendar"
