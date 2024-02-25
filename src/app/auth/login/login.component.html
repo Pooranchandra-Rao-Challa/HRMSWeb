@@ -167,7 +167,7 @@
                 (click)="togglePasswordVisibility()"></i>
             </span>
           </div>
-          <div class="flex  mb-4 p-1">
+          <div class="flex  mb-1 p-1">
             <div class="align-left w-40">
               <span *ngIf="FormControls['password'].touched && FormControls['password'].invalid">
                 <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['password'].errors?.['required']">
@@ -189,6 +189,12 @@
             [disabled]="submitted ? true : false"></button>
           <!-- <p class="font-medium text-400 m-0 mt-6">Don’t you have an account, <a href="#" class="text-primary cursor-pointer">sign in</a> --
           </p>-->
+          <div class="align-items-center text-center mt-3 mb-5 gap-5">
+            Need Help to access the Application:<br/> DOC: <a (click)="showDoc()" class="att-pointer font-medium no-underline ml-1 mr-2  align-items-left text-left" style="color: var(--primary-color)"
+          [routerLink]=""><i class="pi pi-file"></i></a> Video: <a (click)="showVideo()" class="att-pointer font-medium no-underline ml-1  align-items-left text-left" style="color: var(--primary-color)"
+          [routerLink]=""><i class="pi pi-play"></i></a>
+          </div>
+          
         </div>
       </form>
     </div>
@@ -198,4 +204,24 @@
     </div>
   </div>
 </div>
+<p-dialog header="HRMS How to Access Video" [(visible)]="Video" [modal]="true" showEffect="fade"
+[breakpoints]="{'960px': '90%', '640px': '80%'}" [style]="{ width: '50%' }">
+
+    <video width="100%" height="100%" controls>
+      <source src="assets/layout/HTA_HRMS_v3.mp4" type="video/mp4">
+      <source src="assets/layout/HTA_HRMS_v3.mp4" type="video/ogg">
+    Your browser does not support the video tag.
+    </video>
+
+</p-dialog>
+<p-dialog header="HRMS How to Access Doc" [(visible)]="Doc"  [modal]="true" showEffect="fade"
+    [breakpoints]="{'960px': '90%', '640px': '80%'}" [style]="{ width: '75%' }">
+
+    <iframe src="assets/layout/HTA_HRMS_DOC_V!.pdf" style="width:100%; height:500px;" frameborder="0"></iframe>
+  
+
+
+<!-- <iframe src="assets/layout/HTA_HRMS_DOC_V!.pptx" width="800" height="600"></iframe> -->
+
+</p-dialog>
 <!-- <app-config [minimal]="true"></app-config> -->

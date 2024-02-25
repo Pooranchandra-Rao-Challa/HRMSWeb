@@ -18,6 +18,8 @@ export class LoginComponent implements OnInit {
     submitted = false;
     fbloginForm: FormGroup;
     showPassword: boolean = false;
+    Video: boolean = false;
+    Doc: boolean = false;
 
     constructor(private layoutService: LayoutService,
         private loginService: LoginService,
@@ -28,7 +30,12 @@ export class LoginComponent implements OnInit {
     ngOnInit() {
         this.loginForm();
     }
-
+    showDoc() {
+        this.Doc = true;
+    }
+    showVideo() {
+        this.Video = true;
+    }
     loginForm() {
         this.fbloginForm = new FormGroup({
             userName: new FormControl(null),
