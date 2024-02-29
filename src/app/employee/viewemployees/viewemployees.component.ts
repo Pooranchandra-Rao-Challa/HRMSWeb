@@ -53,6 +53,8 @@ export class ViewemployeesComponent {
   // Employee  UploadedDocuments
   UploadedDocuments: any[] = [];
   document: any;
+  value: number = 2;
+  value2: number = 5;
   fileExtension: any;
   // EmployeeBankDetails
   bankDetails: BankDetailViewDto[];
