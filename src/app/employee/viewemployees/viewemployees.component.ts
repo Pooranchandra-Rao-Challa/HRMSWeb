@@ -283,7 +283,10 @@ export class ViewemployeesComponent {
       width: this.dialogRequest.width
     });
     this.ref.onClose.subscribe((res: any) => {
-      if (res) this.initViewEmpDtls();
+      if (res) {
+        this.getLeaves();
+        this.initViewEmpDtls();
+      }
       event.preventDefault(); // Prevent the default form submission
     });
   }
