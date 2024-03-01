@@ -11,6 +11,8 @@ import { ReportService } from 'src/app/_services/report.service';
 import * as FileSaver from "file-saver";
 import { JwtService } from 'src/app/_services/jwt.service';
 import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
+import { LeavestatisticsDialogComponent } from 'src/app/_dialogs/leavestatistics.dialog/leavestatistics.dialog.component';
+import { Router } from '@angular/router';
 
 enum LeavesReportType {
   CompleteLeavesReport = 'Complete Leaves Report',
@@ -31,7 +33,7 @@ export class LeaveStatisticsComponent {
   @ViewChild('filter') filter!: ElementRef;
   leavesStatistics: LeaveStatistics[] = [];
   ActionTypes = Actions;
-  employeeleaveDialogComponent = EmployeeLeaveDialogComponent;
+  leavestatisticsDialogComponent = LeavestatisticsDialogComponent;
   dialogRequest: DialogRequest = new DialogRequest();
   year: number = new Date().getFullYear();
   month: number = new Date().getMonth() + 1;
@@ -42,6 +44,7 @@ export class LeaveStatisticsComponent {
   value: number;
   computedCLs: number[];
   computedPLs: number[];
+  addDialog:boolean = false;
   leaveReportTypes: any[];
   selectedColumnHeader!: ITableHeader[];
   _selectedColumns!: ITableHeader[];
@@ -67,7 +70,8 @@ export class LeaveStatisticsComponent {
     private dialogService: DialogService,
     public ref: DynamicDialogRef,
     private reportService: ReportService,
-    private jwtService: JwtService
+    private jwtService: JwtService,
+    private router: Router
   ) {
 
   }
@@ -184,20 +188,25 @@ export class LeaveStatisticsComponent {
   }
 
   openComponentDialog(content: any,
-    dialogData, action: Actions = this.ActionTypes.add) {
-    if (action == Actions.save && content === this.employeeleaveDialogComponent) {
-      this.dialogRequest.dialogData = dialogData;
-      this.dialogRequest.header = "Leave";
-      this.dialogRequest.width = "60%";
-    }
-    this.ref = this.dialogService.open(content, {
-      data: this.dialogRequest.dialogData,
-      header: this.dialogRequest.header,
-      width: this.dialogRequest.width
-    });
-    this.ref.onClose.subscribe((res: any) => {
-      if (res) this.getLeaves();
-      event.preventDefault(); // Prevent the default form submission
-    });
+    dialogData, action: Actions = this.ActionTypes.save) {
+      if(this.year != (new Date().getFullYear())){
+       this.addDialog = true;
+      }else{
+        if (action == Actions.save && content === this.leavestatisticsDialogComponent) {
+          this.dialogRequest.dialogData = dialogData;
+          this.dialogRequest.header = "Leave Statistics";
+          this.dialogRequest.width = "60%";
+        }
+        this.ref = this.dialogService.open(content, {
+          data: this.dialogRequest.dialogData,
+          header: this.dialogRequest.header,
+          width: this.dialogRequest.width
+        });
+        this.ref.onClose.subscribe((res: any) => {
+          if (res) this.getLeaves();
+          event.preventDefault(); // Prevent the default form submission
+        });
+
+      }
   }
 }

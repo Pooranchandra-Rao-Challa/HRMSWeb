@@ -1,0 +1,85 @@
+<div class="flex flex-column align-items-center justify-content-center">
+    <form [formGroup]="fbLeaveStatistics" id="Lookup_lookupForm" class="w-100">
+        <div class="grid mt-3 p-5 content_scroll">
+            <div class="col-12 text-center" *ngIf="this.currentRoute === '/employee/leaveStatistics'">
+                <p-chip styleClass="pl-0 pr-3 mr-4">
+                    <span
+                        class="bg-primary border-circle w-2rem h-2rem flex align-items-center justify-content-center">{{leaveStatistics?.allottedCasualLeaves-leaveStatistics?.usedCasualLeavesInYear}}</span>
+                    <span class="ml-2 font-medium">Casual Leaves</span>
+                    
+                </p-chip>
+                <p-chip styleClass="pl-0 pr-3">
+                    <span
+                        class="bg-primary border-circle w-2rem h-2rem flex align-items-center justify-content-center">{{leaveStatistics?.allottedPrivilegeLeaves-leaveStatistics?.usedPrivilegeLeavesInYear}}</span>
+                    <span class="ml-2 font-medium">Privilege Leaves</span>
+                </p-chip>
+
+            </div>
+            <div class="col-12 roles-container">
+                <div class="p-fluid p-formgrid grid">
+                    <div class="field col-12 md:col-6">
+                        <label>Employee Name: </label>&nbsp;             
+                        <p-dropdown  appendTo="body" [autoDisplayFirst]="false" formControlName="employeeId" autoWidth="false"
+                        [options]="employees"   optionLabel="employeeName" optionValue="employeeId" [style]="{'width':'100%'}" [readonly]="FormControls['employeeId'].value!== null"
+                            placeholder="Select Employee Name">
+                        </p-dropdown>
+                    </div>
+                    <div class="field col-12 md:col-6">
+                        <label>Allotted CLs: </label>&nbsp; 
+                        <input pInputText 
+                            type="text" formControlName="cl"
+                            placeholder="Enter Allotted CLs" #code [maxlength]="20" numericOnly
+                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['cl'].touched && FormControls['cl'].errors }" />
+                        <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                                <span *ngIf="FormControls['cl'].touched && FormControls['cl'].invalid">
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="FormControls['cl'].errors?.['required']">
+                                        Please Enter Allotted CLs.</div>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field col-12 md:col-6">
+                        <label>Allotted PLs: </label>&nbsp; 
+                        <input pInputText
+                            type="text" formControlName="pl"
+                            placeholder="Enter Allotted PLs" #code [maxlength]="20" numericOnly
+                            (keydown)="restrictSpaces($event)"
+                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['pl'].touched && FormControls['pl'].errors }" />
+                        <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                                <span *ngIf="FormControls['pl'].touched && FormControls['pl'].invalid">
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="FormControls['pl'].errors?.['required']">
+                                        Please Enter Allotted PLs.</div>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field col-12 md:col-6">
+                        <label>Previous Year Pls: </label>&nbsp; 
+                        <input pInputText
+                            type="text" formControlName="previousYearPls" numericOnly
+                            placeholder="Enter Previous Year Pls" #code [maxlength]="20"
+                            [ngClass]="{ 'is-invalid ng-dirty': FormControls['previousYearPls'].touched && FormControls['previousYearPls'].errors }" />
+                        <div class="flex">
+                            <div class="align-left w-60" style="width:70%">
+                                <span *ngIf="FormControls['previousYearPls'].touched && FormControls['previousYearPls'].invalid">
+                                    <div class="ng-invalid ng-touched p-error"
+                                        *ngIf="FormControls['previousYearPls'].errors?.['required']">
+                                        Please Enter Previous Year Pls.</div>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class=" footer dialog-footer">
+    <button pButton pRipple type="submit" label="Save" class="p-button-raised p-button-primary"
+        [disabled]="fbLeaveStatistics.invalid" (click)="save()"></button>
+</div>

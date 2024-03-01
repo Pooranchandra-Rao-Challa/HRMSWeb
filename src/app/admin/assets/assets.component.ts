@@ -151,7 +151,7 @@ export class AssetsComponent {
   assetsForm() {
     this.fbassets = this.formbuilder.group({
       assetId: new FormControl(null),
-      code: new FormControl(null, [Validators.required, Validators.pattern(RG_ALPHA_NUMERIC), Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_20)]),
+      code: new FormControl('', [ Validators.pattern(RG_ALPHA_NUMERIC), Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_20)]),
       assetTypeId: new FormControl(null, [Validators.required]),
       assetCategoryId: new FormControl(null, [Validators.required]),
       name: new FormControl(null, [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),

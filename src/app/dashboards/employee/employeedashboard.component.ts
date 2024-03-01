@@ -1,4 +1,4 @@
-import {  Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
@@ -54,7 +54,7 @@ export class EmployeeDashboardComponent implements OnInit {
     fieldset3Open = false;
     hasBirthdayNotifications: any;
     hasHRNotifications: any;
-    defaultPhotoforAssets:any;
+    defaultPhotoforAssets: any;
 
     constructor(private dashBoardService: DashboardService,
         private adminService: AdminService,
@@ -64,7 +64,9 @@ export class EmployeeDashboardComponent implements OnInit {
         public ref: DynamicDialogRef,
         private formbuilder: FormBuilder,
     ) {
-        this.employeeId = this.jwtService.EmployeeId
+        this.employeeId = this.jwtService.EmployeeId;
+        this.selectedMonth = FORMAT_DATE(new Date(this.year, this.month - 1, 1));
+        this.selectedMonth.setHours(0, 0, 0, 0);
     }
 
 
@@ -225,32 +227,32 @@ export class EmployeeDashboardComponent implements OnInit {
         })
     }
 
-   updateProjects() {
-    if (this.empDetails && this.empDetails.projects) {
-        let projectNames = this.empDetails.projects
-            .map((item) => item.projectName)
-            .filter((value, index, self) => self.indexOf(value) === index);
-        this.projects = [];
-        projectNames.forEach(projectName => {
-            let values = this.empDetails.projects.filter(fn => fn.projectName == projectName);
+    updateProjects() {
+        if (this.empDetails && this.empDetails.projects) {
+            let projectNames = this.empDetails.projects
+                .map((item) => item.projectName)
+                .filter((value, index, self) => self.indexOf(value) === index);
+            this.projects = [];
+            projectNames.forEach(projectName => {
+                let values = this.empDetails.projects.filter(fn => fn.projectName == projectName);
 
-            if (values.length > 0) {
-                let periods: { sinceFrom: Date, endAt: Date }[] = [];
-                values.forEach(p => {
-                    periods.push({ sinceFrom: p.sinceFrom, endAt: p.endAt });
-                });
+                if (values.length > 0) {
+                    let periods: { sinceFrom: Date, endAt: Date }[] = [];
+                    values.forEach(p => {
+                        periods.push({ sinceFrom: p.sinceFrom, endAt: p.endAt });
+                    });
 
-                this.projects.push({
-                    projectId: values[0].projectId,
-                    description: values[0].projectDescription,
-                    name: projectName,
-                    projectLogo: values[0].projectLogo,
-                    periods: periods
-                });
-            }
-        });
+                    this.projects.push({
+                        projectId: values[0].projectId,
+                        description: values[0].projectDescription,
+                        name: projectName,
+                        projectLogo: values[0].projectLogo,
+                        periods: periods
+                    });
+                }
+            });
+        }
     }
-}
 
 
     gotoPreviousMonthPLs() {

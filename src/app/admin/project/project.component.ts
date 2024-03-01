@@ -198,7 +198,7 @@ export class ProjectComponent implements OnInit {
         this.fbproject = this.formbuilder.group({
             clientId: [null],
             projectId: [null],
-            code: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_4), Validators.maxLength(MAX_LENGTH_20)]),
+            code: new FormControl('', [Validators.minLength(MIN_LENGTH_4), Validators.maxLength(MAX_LENGTH_20)]),
             name: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
             description: new FormControl('', [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_256)]),
             logo: [],

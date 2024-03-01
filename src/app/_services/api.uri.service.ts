@@ -195,3 +195,4 @@ export const GET_PROJECT_ALLOTMENTS_REPORT = "Report/AllottedMembersInProjectRep
 //Leave Statistics
 export const GET_LEAVE_STATISTICS = "Attendance/GetLeaveStatistics";
 export const GET_ALL_EMPLOYEES_REPORT = "Report/EmployeesDetailsReport";
+export const CREATE_LEAVE_STATISTICS ="Attendance/UpdateLeaveAccumulation";

@@ -3,7 +3,7 @@ import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   BankDetailViewDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, employeeEducDtlsViewDto,
-  employeeExperienceDtlsViewDto, EmployeeOfficedetailsviewDto, FamilyDetailsViewDto
+  employeeExperienceDtlsViewDto, EmployeeOfficedetailsviewDto, FamilyDetailsViewDto, LeaveStatistics
 } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { AssetAllotmentViewDto } from 'src/app/_models/admin/assetsallotment';
@@ -27,6 +27,7 @@ import { JwtService } from 'src/app/_services/jwt.service';
 import { ConfirmationDialogService } from 'src/app/_alerts/confirmationdialog.service';
 import jsPDF from 'jspdf';
 import { FinalsubmitDialogComponent } from 'src/app/_dialogs/finalsubmit-dialog/finalsubmit-dialog.component';
+import { LeavestatisticsDialogComponent } from 'src/app/_dialogs/leavestatistics.dialog/leavestatistics.dialog.component';
 
 @Component({
   selector: 'app-viewemployees',
@@ -86,8 +87,12 @@ export class ViewemployeesComponent {
   empbasicDetails = new EmployeeBasicDetailDto();
   selectedOption: boolean;
   confirmationRequest: ConfirmationRequest = new ConfirmationRequest();
+  leavestatisticsDialogComponent = LeavestatisticsDialogComponent;
+  leavesStatistics: LeaveStatistics[];
+  computedCLs: number[];
+  computedPLs: number[];
+  year: number = new Date().getFullYear();
 
-  
   
   constructor(
     private jwtService: JwtService,
@@ -105,6 +110,7 @@ export class ViewemployeesComponent {
   ngOnInit(): void {
     this.permissions = this.jwtService.Permissions;
     this.initViewEmpDtls();
+    this.getLeaves();
     this.initofficeEmpDtls();
     this.initGetEducationDetails();
     this.initGetWorkExperience();
@@ -242,6 +248,43 @@ export class ViewemployeesComponent {
   initGetFamilyDetails() {
     this.employeeService.getFamilyDetails(this.employeeId).subscribe((resp) => {
       this.familyDetails = resp as unknown as FamilyDetailsViewDto[];
+    });
+  }
+  
+  getLeaves() {
+    this.employeeService.getLeaveStatistics(this.year).subscribe((resp) => {
+      const leaveStatistics=resp as unknown as LeaveStatistics[];
+      this.leavesStatistics= leaveStatistics.filter(stat => stat.employeeId == this.employeeId);
+      this.availableLeaves();
+    });
+  }
+  
+  availableLeaves() {
+    this.computedCLs = this.leavesStatistics.map(leave => leave.allottedCasualLeaves - leave.usedCasualLeavesInYear);
+    this.computedPLs = this.leavesStatistics.map(leave =>
+      leave.allottedPrivilegeLeaves + leave.previousYearPrivilegeLeaves - leave.usedPrivilegeLeavesInYear
+    );
+    this.leavesStatistics.forEach((item, index) => {
+      item.availableCLs = this.computedCLs[index];
+      item.availablePLs = this.computedPLs[index];
+    });
+  }
+
+  openLeaveStatisticsComponentDialog(content: any,
+    dialogData, action: Actions = this.ActionTypes.save) {
+    if (action == Actions.save && content === this.leavestatisticsDialogComponent) {
+      this.dialogRequest.dialogData = dialogData;
+      this.dialogRequest.header = "Leave Statistics";
+      this.dialogRequest.width = "60%";
+    }
+    this.ref = this.dialogService.open(content, {
+      data: this.dialogRequest.dialogData,
+      header: this.dialogRequest.header,
+      width: this.dialogRequest.width
+    });
+    this.ref.onClose.subscribe((res: any) => {
+      if (res) this.initViewEmpDtls();
+      event.preventDefault(); // Prevent the default form submission
     });
   }
 

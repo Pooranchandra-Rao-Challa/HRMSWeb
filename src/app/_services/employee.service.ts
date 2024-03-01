@@ -36,9 +36,10 @@ import {
   Get_NotUpdated_AttendanceDates_List,
   GET_ALL_EMPLOYEES_FOR_REPORT,
   DELETE_LEAVE_DETAILS,
+  CREATE_LEAVE_STATISTICS,
 
 } from './api.uri.service';
-import { ExperienceDetailsDto, SkillArea, AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments, employeeExperienceDtlsViewDto, FamilyDetailsViewDto, employeeAttendanceDto, EmployeeLeaveDto, EmployeeAttendanceList, CompanyHierarchyViewDto, EmployeeProfilePicViewDto, LeaveStatistics, EmployeeLeaveOnDateDto, EmployeeReportDtlDto } from '../_models/employes';
+import { ExperienceDetailsDto, SkillArea, AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments, employeeExperienceDtlsViewDto, FamilyDetailsViewDto, employeeAttendanceDto, EmployeeLeaveDto, EmployeeAttendanceList, CompanyHierarchyViewDto, EmployeeProfilePicViewDto, LeaveStatistics, EmployeeLeaveOnDateDto, EmployeeReportDtlDto, LeaveAccumulationDto } from '../_models/employes';
 
 import { ApiHttpService } from './api.http.service';
 import { LookupViewDto } from '../_models/admin';
@@ -258,8 +259,12 @@ export class EmployeeService extends ApiHttpService {
   }
   public getLeaveStatistics(year: number) {
     return this.getWithParams<LeaveStatistics[]>(GET_LEAVE_STATISTICS, [year])
-
   }
+
+  public CreateLeaveStatistics(leaveStatisticsDetails: LeaveAccumulationDto){
+    return this.post<LeaveAccumulationDto[]>(CREATE_LEAVE_STATISTICS,leaveStatisticsDetails)
+  }
+
   public getEmployeeLeaveOnDate(leaveParams) {
     return this.post<EmployeeLeaveOnDateDto[]>(GET_EMPLOYEE_LEAVE_ONDATE, leaveParams)
   }
