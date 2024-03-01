@@ -5,13 +5,13 @@
                 <p-chip styleClass="pl-0 pr-3 mr-4">
                     <span
                         class="bg-primary border-circle w-2rem h-2rem flex align-items-center justify-content-center">{{leaveStatistics?.allottedCasualLeaves-leaveStatistics?.usedCasualLeavesInYear}}</span>
-                    <span class="ml-2 font-medium">Casual Leaves</span>
+                    <span class="ml-2 font-medium">Available Casual Leaves</span>
                     
                 </p-chip>
                 <p-chip styleClass="pl-0 pr-3">
                     <span
                         class="bg-primary border-circle w-2rem h-2rem flex align-items-center justify-content-center">{{leaveStatistics?.allottedPrivilegeLeaves-leaveStatistics?.usedPrivilegeLeavesInYear}}</span>
-                    <span class="ml-2 font-medium">Privilege Leaves</span>
+                    <span class="ml-2 font-medium">Available Privilege Leaves</span>
                 </p-chip>
 
             </div>
@@ -80,6 +80,6 @@
 </div>
 
 <div class=" footer dialog-footer">
-    <button pButton pRipple type="submit" label="Save" class="p-button-raised p-button-primary"
+    <button pButton pRipple type="submit" label="Update Leave Statistics" class="p-button-raised p-button-primary"
         [disabled]="fbLeaveStatistics.invalid" (click)="save()"></button>
 </div>
