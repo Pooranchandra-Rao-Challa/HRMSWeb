@@ -1342,3 +1342,8 @@ app-attendance .p-datatable-table tbody tr td:first-child {
     //     width:100% !important;
     // }
 }
+
+.color_hover:hover{
+    cursor:pointer;
+    color: var(--primary-color);
+}

@@ -84,7 +84,7 @@
             </ng-template>
             <ng-template pTemplate="body" let-leave let-columns="columns">
                 <tr>
-                    <td (click)="openComponentDialog(leavestatisticsDialogComponent, leave, ActionTypes.save)">{{leave.name}}</td>
+                    <td class="color_hover" (click)="openComponentDialog(leavestatisticsDialogComponent, leave, ActionTypes.save)">{{leave.name}}</td>
                     <td>{{leave.experienceInCompany}}</td>
                     <td>{{leave.dateofJoin | date:mediumDate}}</td>
                     <td>{{leave.reportingTo}}</td>

@@ -89,8 +89,8 @@ export class ViewemployeesComponent {
   confirmationRequest: ConfirmationRequest = new ConfirmationRequest();
   leavestatisticsDialogComponent = LeavestatisticsDialogComponent;
   leavesStatistics: LeaveStatistics[];
-  computedCLs: number[];
-  computedPLs: number[];
+  computedCLs: any;
+  computedPLs: any;
   year: number = new Date().getFullYear();
 
   
