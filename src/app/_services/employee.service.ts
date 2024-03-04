@@ -37,9 +37,10 @@ import {
   GET_ALL_EMPLOYEES_FOR_REPORT,
   DELETE_LEAVE_DETAILS,
   CREATE_LEAVE_STATISTICS,
+  GET_PROJECT_DETAILS_URI,
 
 } from './api.uri.service';
-import { ExperienceDetailsDto, SkillArea, AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments, employeeExperienceDtlsViewDto, FamilyDetailsViewDto, employeeAttendanceDto, EmployeeLeaveDto, EmployeeAttendanceList, CompanyHierarchyViewDto, EmployeeProfilePicViewDto, LeaveStatistics, EmployeeLeaveOnDateDto, EmployeeReportDtlDto, LeaveAccumulationDto } from '../_models/employes';
+import { ExperienceDetailsDto, SkillArea, AddressDetailsDto, BankDetailsDto, Countries, EducationDetailsDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, EmployeeOfficedetailsDto, EmployeeOfficedetailsviewDto, EmployeesViewDto, FamilyDetailsDto, States, UploadDocuments, employeeExperienceDtlsViewDto, FamilyDetailsViewDto, employeeAttendanceDto, EmployeeLeaveDto, EmployeeAttendanceList, CompanyHierarchyViewDto, EmployeeProfilePicViewDto, LeaveStatistics, EmployeeLeaveOnDateDto, EmployeeReportDtlDto, LeaveAccumulationDto, EmployeeProjectsViewDto } from '../_models/employes';
 
 import { ApiHttpService } from './api.http.service';
 import { LookupViewDto } from '../_models/admin';
@@ -216,9 +217,11 @@ export class EmployeeService extends ApiHttpService {
 
   public GetBankDetails(employeeId: number) {
     return this.getWithId<any[]>(GET_BANKDETAILS_URI, [employeeId])
-
   }
 
+  public GetProjectDetails(employeeId: number) {
+    return this.getWithId<EmployeeProjectsViewDto[]>(GET_PROJECT_DETAILS_URI, [employeeId])
+  }
 
   public updateViewEmpPersDtls(empBasicDtls: EmployeeBasicDetailDto) {
     return this.post<EmployeeBasicDetailDto>(UPDATE_EMPLOYEE_BASED_ON_ID_URI, empBasicDtls);
@@ -280,4 +283,6 @@ export class EmployeeService extends ApiHttpService {
   public DeleteleaveDetails(employeeLeaveId:number){
     return this.getWithId(DELETE_LEAVE_DETAILS,employeeLeaveId);
   }
+
+
 }

@@ -233,7 +233,6 @@ export class EducationDetailsComponent implements OnInit {
   }
 
   saveeducationDetails(): Observable<HttpEvent<EducationDetailsDto[]>> {
-    debugger
     if (this.addFlag) {
       return this.employeeService.CreateEducationDetails(this.empEduDetails);
     } else

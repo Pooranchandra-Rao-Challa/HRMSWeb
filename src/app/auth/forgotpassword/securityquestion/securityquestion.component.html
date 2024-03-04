@@ -1,7 +1,7 @@
 <div class="content-container col-12 text-left" *ngIf="userQuestions.length > 0">
     <div class="grid">
         <form class="col-12">
-            <div class="grid m-0 p-0" *ngIf="this.userSecureQuestionsCount > 2">
+            <div class="grid m-0 p-0" *ngIf="this.userSecureQuestionsCount > 2" >
                 <!-- <p >Refresh Questions</p> -->
                 <!-- <i class="pi pi-sync" style="font-size: 2rem" ></i> -->
                 <div class="col text-left p-0 pt-3">
@@ -16,7 +16,7 @@
                 </div>
 
             </div>
-            <div class="col-12 p-0" *ngFor="let question of userQuestions">
+            <div class="col-12 p-0" *ngFor="let question of userQuestions" [ngClass]="{'error':!question.userAnswer && (useranswer.dirty || useranswer.touched)}">
                 <label class="block text-900 font-medium text-md required mb-1 mt-5">{{question.question}}</label>
                 <input id="useranswer" [(ngModel)]="question.userAnswer" #useranswer="ngModel" [ngModelOptions]="{standalone:true}"  [maxLength]="256"
                     type="text" placeholder="Enter Answer" pInputText class="w-full md:w-100" required>

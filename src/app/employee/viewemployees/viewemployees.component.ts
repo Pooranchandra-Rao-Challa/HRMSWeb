@@ -3,7 +3,7 @@ import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   BankDetailViewDto, EmployeAdressViewDto, EmployeeBasicDetailDto, EmployeeBasicDetailViewDto, employeeEducDtlsViewDto,
-  employeeExperienceDtlsViewDto, EmployeeOfficedetailsviewDto, FamilyDetailsViewDto, LeaveStatistics
+  employeeExperienceDtlsViewDto, EmployeeOfficedetailsviewDto, EmployeeProjectsViewDto, FamilyDetailsViewDto, LeaveStatistics
 } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { AssetAllotmentViewDto } from 'src/app/_models/admin/assetsallotment';
@@ -92,8 +92,9 @@ export class ViewemployeesComponent {
   computedCLs: any;
   computedPLs: any;
   year: number = new Date().getFullYear();
+  projectDetails: EmployeeProjectsViewDto[] = [];
+  projects: { projectName: string, logo: string, description: string, projectId: number, periods: { sinceFrom: Date, endAt: Date }[] }[] = [];
 
-  
   constructor(
     private jwtService: JwtService,
     private alertMessage: AlertmessageService,
@@ -103,7 +104,7 @@ export class ViewemployeesComponent {
     public ref: DynamicDialogRef,
     private dialogService: DialogService,
     private confirmationDialogService: ConfirmationDialogService,
-    private router : Router) {
+    private router: Router) {
     this.employeeId = this.activatedRoute.snapshot.queryParams['employeeId'];
   }
 
@@ -119,9 +120,9 @@ export class ViewemployeesComponent {
     this.initUploadedDocuments();
     this.initBankDetails();
     this.initviewAssets();
-
+    this.initProjectDetails();
   }
-  
+
   onEmployeeEnroll() {
     this.finalSubmitdialogComponent.ngOnInit();
     this.dialog = true;
@@ -142,11 +143,11 @@ export class ViewemployeesComponent {
     });
   }
 
-  previous(){
-     if(this.enRollEmployee === false){
+  previous() {
+    if (this.enRollEmployee === false) {
       this.router.navigate(['employee/all-employees']);
     }
-    else{
+    else {
       this.router.navigate(['employee/onboardingemployee']);
     }
   }
@@ -184,7 +185,7 @@ export class ViewemployeesComponent {
   //Upload Documents
   initUploadedDocuments() {
     this.employeeService.GetUploadedDocuments(this.employeeId).subscribe((resp) => {
-      this.UploadedDocuments = resp as unknown as any[]; 
+      this.UploadedDocuments = resp as unknown as any[];
     });
   }
 
@@ -240,6 +241,43 @@ export class ViewemployeesComponent {
       this.hasTemporaryAddres = this.address.some(addr => addr.addressType === 'Temporary Address');
     });
   }
+
+  // projectDetails
+  initProjectDetails() {
+    this.employeeService.GetProjectDetails(this.employeeId).subscribe((resp) => {
+      this.projectDetails = resp as unknown as EmployeeProjectsViewDto[];
+      this.updateProjects();
+    });
+  }
+
+  updateProjects() {
+    if (this.projectDetails) {
+      let projectNames = this.projectDetails
+        .map((item) => item.projectName)
+        .filter((value, index, self) => self.indexOf(value) === index);
+      this.projects = [];
+      projectNames.forEach(projectName => {
+        let values = this.projectDetails.filter(fn => fn.projectName == projectName);
+
+        if (values.length > 0) {
+          let periods: { sinceFrom: Date, endAt: Date }[] = [];
+          values.forEach(p => {
+            periods.push({ sinceFrom: p.sinceFrom, endAt: p.endAt });
+          });
+
+          this.projects.push({
+            projectId: values[0].projectId,
+            description: values[0].description,
+            projectName: projectName,
+            logo: values[0].logo,
+            periods: periods
+          });
+        }
+      });
+    }
+  }
+
+
   onChangeAddressChecked() {
     this.initGetAddress()
   }
@@ -250,15 +288,15 @@ export class ViewemployeesComponent {
       this.familyDetails = resp as unknown as FamilyDetailsViewDto[];
     });
   }
-  
+
   getLeaves() {
     this.employeeService.getLeaveStatistics(this.year).subscribe((resp) => {
-      const leaveStatistics=resp as unknown as LeaveStatistics[];
-      this.leavesStatistics= leaveStatistics.filter(stat => stat.employeeId == this.employeeId);
+      const leaveStatistics = resp as unknown as LeaveStatistics[];
+      this.leavesStatistics = leaveStatistics.filter(stat => stat.employeeId == this.employeeId);
       this.availableLeaves();
     });
   }
-  
+
   availableLeaves() {
     this.computedCLs = this.leavesStatistics.map(leave => leave.allottedCasualLeaves - leave.usedCasualLeavesInYear);
     this.computedPLs = this.leavesStatistics.map(leave =>

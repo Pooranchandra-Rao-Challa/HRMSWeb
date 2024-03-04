@@ -4,9 +4,9 @@
       <div class="col-12 roles-container">
         <div class="p-fluid p-formgrid grid content_scroll">
           <div class="field col-12 md:col-4">
-            <label class="required">Time In:</label>
+            <label class="required">Shift Time In:</label>
             <p-calendar class="cursor-pointer" [timeOnly]="true" [showIcon]="true" icon="pi pi-clock"
-              placeholder="Select Time In" [showSeconds]="false" dataType="string" [readonlyInput]="true"
+              placeholder="Select Shift Time In" [showSeconds]="false" dataType="string" [readonlyInput]="true"
               formControlName="strTimeIn" id="time_in" appendTo="body"
               [ngClass]="{ 'is-invalid ng-dirty': EmpOfficeFormControls['strTimeIn'].touched && EmpOfficeFormControls['strTimeIn'].errors }">
             </p-calendar>
@@ -15,16 +15,16 @@
                 <span *ngIf="EmpOfficeFormControls['strTimeIn'].touched && EmpOfficeFormControls['strTimeIn'].invalid">
                   <div class="ng-invalid ng-touched p-error"
                     *ngIf="EmpOfficeFormControls['strTimeIn'].errors?.['required']">
-                    Please Select Time In.
+                    Please Select Shift Time In.
                   </div>
                 </span>
               </div>
             </div>
           </div>
           <div class="field col-12 md:col-4">
-            <label class="required">Time Out: </label>
+            <label class="required">Shift Time Out:</label>
             <p-calendar class="cursor-pointer" [timeOnly]="true" [showIcon]="true" icon="pi pi-clock"
-              placeholder="Select Time Out" [showSeconds]="false" dataType="string" [readonlyInput]="true"
+              placeholder="Select Shift Time Out" [showSeconds]="false" dataType="string" [readonlyInput]="true"
               formControlName="strTimeOut" id="time_out" appendTo="body"
               [ngClass]="{ 'is-invalid ng-dirty': EmpOfficeFormControls['strTimeOut'].touched && EmpOfficeFormControls['strTimeOut'].errors }">
             </p-calendar>
@@ -34,7 +34,7 @@
                   *ngIf="EmpOfficeFormControls['strTimeOut'].touched && EmpOfficeFormControls['strTimeOut'].invalid">
                   <div class="ng-invalid ng-touched p-error"
                     *ngIf="EmpOfficeFormControls['strTimeOut'].errors?.['required']">
-                    Please Select Time Out.
+                    Please Select Shift Time Out.
                   </div>
                 </span>
               </div>
