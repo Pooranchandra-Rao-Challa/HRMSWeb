@@ -1,5 +1,5 @@
 import { LoaderService } from './../../_services/loader.service';
-import { PlatformLocation } from '@angular/common';
+import { PlatformLocation,formatDate } from '@angular/common';
 import { HttpErrorResponse, HttpEvent } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -189,7 +189,7 @@ export class EmployeeLeaveDialogComponent implements OnInit {
       let toSelect = this.leaveType.filter(fn => fn.name.toLowerCase() === String(this.dialogConfig.data).toLowerCase());
       if (toSelect.length > 0) {
         this.fbLeave.get('leaveTypeId')?.patchValue(toSelect[0].lookupDetailId);
-        this.fbLeave.get('leaveTypeId')?.disable();
+        this.fbLeave.get('leaveTypeId').markAsTouched();
         this.getLeaveReasonsByLeaveTypeId(toSelect[0].lookupDetailId);
       }
       this.filteredLeaveTypes = this.leaveType.filter(item => !this.filterCriteria.includes(item.name));
@@ -321,8 +321,8 @@ export class EmployeeLeaveDialogComponent implements OnInit {
   }
 
   onSubmit() {
-    this.fbLeave.get('fromDate').setValue(FORMAT_DATE(new Date(this.fbLeave.get('fromDate').value)));
-    this.fbLeave.get('toDate').setValue(this.fbLeave.get('toDate').value ? FORMAT_DATE(new Date(this.fbLeave.get('toDate').value)) : null);
+    this.fbLeave.get('fromDate').setValue(formatDate(new Date(this.fbLeave.get('fromDate').value),'yyyy-MM-dd', 'en'));    
+    this.fbLeave.get('toDate').setValue(this.fbLeave.get('toDate').value ? formatDate(new Date(this.fbLeave.get('toDate').value),'yyyy-MM-dd', 'en') : null);
     this.fbLeave.get('url').setValue(this.emailURL);
     if (this.fbLeave.valid) {
       this.save().subscribe(
@@ -344,16 +344,8 @@ export class EmployeeLeaveDialogComponent implements OnInit {
             }
           },
           error: (error: HttpErrorResponse) => {
-            if (error.status === 403) {
-              this.alertMessage.displayErrorMessage(ALERT_CODES["ELD002"]);
-            } else {
-              const leaveType = this.leaveType.find(item => item.lookupDetailId === this.fbLeave.get('leaveTypeId').value);
-              if (leaveType && leaveType.name === 'WFH') {
-                this.alertMessage.displayErrorMessage(ALERT_CODES["WFH002"]);
-              } else {
-                this.alertMessage.displayErrorMessage(ALERT_CODES["ELD002"]);
-              }
-
+            if (error) {
+              this.alertMessage.displayErrorMessage(error.message);
             }
           }
         });

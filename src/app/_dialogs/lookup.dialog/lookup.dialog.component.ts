@@ -81,7 +81,7 @@ export class LookupDialogComponent {
     this.addfields = [];
     this.fblookup = this.formbuilder.group({
       lookupId: [null],
-      code: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_NUMERIC), Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_20)]),
+      code: new FormControl('', [Validators.pattern(RG_ALPHA_NUMERIC), Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_20)]),
       fkeySelfId: new FormControl(fkeyselfid),
       name: new FormControl('', [Validators.required, Validators.pattern(RG_ALPHA_ONLY), Validators.minLength(MIN_LENGTH_2)]),
       isActive: new FormControl(true, [Validators.required]),
@@ -125,7 +125,7 @@ export class LookupDialogComponent {
       lookupId: [lookupDetail.lookupId],
       lookupDetailId: [lookupDetail.lookupDetailId],
       fkeySelfId: [lookupDetail.fkeySelfId],
-      code: new FormControl(lookupDetail.code, [Validators.required, Validators.minLength(2)]),
+      code: new FormControl(lookupDetail.code, [Validators.minLength(2)]),
       name: new FormControl(lookupDetail.name, [Validators.required, Validators.minLength(2)]),
       description: new FormControl(lookupDetail.description),
       isActive: new FormControl(lookupDetail.isActive, [Validators.required])
@@ -146,7 +146,7 @@ export class LookupDialogComponent {
 
   addLookupDetails() {
     this.ShowlookupDetails = true;
-    this.falookUpDetails = this.fblookup.get("lookUpDetails") as FormArray
+    this.falookUpDetails = this.fblookup.get("lookUpDetails") as FormArray;
     this.falookUpDetails.insert(0,this.generaterow())
     this.setDefaultIsActiveForAllRows();
   }

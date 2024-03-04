@@ -39,7 +39,7 @@
                         <p-dropdown placeholder="Select Leave Type" formControlName="leaveTypeId"
                             [options]="filteredLeaveTypes" optionLabel="name" optionValue="lookupDetailId"
                             id="leaveTypes_Dropdown"
-                            (onChange)="getLeaveReasonsByLeaveTypeId($event.value)"
+                            (onChange)="getLeaveReasonsByLeaveTypeId($event.value)"   [readonly]="this.currentRoute === '/dashboard/employee'"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['leaveTypeId'].touched && FormControls['leaveTypeId'].errors }">
                         </p-dropdown>
                         <div class="flex">
@@ -77,7 +77,7 @@
                                     FormControls['leaveTypeId'].invalid && FormControls['leaveReasonId'].touched">
                                         Please Select Leave Type First.</div>
                                     <div class="ng-invalid ng-touched p-error"
-                                        *ngIf=" FormControls['leaveTypeId'].touched && FormControls['leaveReasonId'].errors?.['required'] &&  FormControls['leaveTypeId'].valid">
+                                        *ngIf=" FormControls['leaveTypeId'].touched && FormControls['leaveReasonId'].errors?.['required'] && FormControls['leaveTypeId'].valid">
                                         Please Select Leave Reason.</div>
                                 </span>
                             </div>

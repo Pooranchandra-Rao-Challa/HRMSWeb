@@ -20,6 +20,7 @@ import { LookupService } from 'src/app/_services/lookup.service';
 import { ReportService } from 'src/app/_services/report.service';
 import { MAX_LENGTH_256 } from 'src/app/_shared/regex';
 import * as FileSaver from "file-saver";
+import { Dropdown } from 'primeng/dropdown';
 
 enum AttendanceReportTypes {
   MonthlyAttendanceReport = 'Monthly Attendance Report',
@@ -36,6 +37,7 @@ enum AttendanceReportTypes {
 })
 export class AttendanceComponent {
   @ViewChild('filter') filter!: ElementRef;
+  @ViewChild('dropdown') dropdown: Dropdown;
   month: number = new Date().getMonth() + 1;
   DatedFormat: string = ATTENDANCE_DATE
   days: number[] = [];
@@ -198,6 +200,9 @@ export class AttendanceComponent {
         this.getNotUpdatedEmployeesList(this.NotUpdatedAttendanceDate, false);
       else
         this.CheckPreviousDayAttendance();
+      this.NotUpdatedAttendanceDate = null;
+      if (this.dropdown)
+        this.dropdown.clear(null);
     });
   }
 
@@ -239,7 +244,7 @@ export class AttendanceComponent {
   }
 
   getLeaves() {
-    this.employeeService.getEmployeeLeaveDetails(this.month, this.year,this.jwtService.EmployeeId).subscribe((resp) =>
+    this.employeeService.getEmployeeLeaveDetails(this.month, this.year, this.jwtService.EmployeeId).subscribe((resp) =>
       this.leaves = resp as unknown as EmployeeLeaveDto[]
     );
   }
@@ -250,10 +255,10 @@ export class AttendanceComponent {
         if (response) {
           this.alertMessage.displayAlertMessage(ALERT_CODES["EAAS001"]);
           this.confirmationDialog = false;
-          this.initAttendance();
         }
         else
           this.alertMessage.displayErrorMessage(ALERT_CODES["EAAS002"]);
+        this.initAttendance();
       }
     );
   }
@@ -281,6 +286,7 @@ export class AttendanceComponent {
       })
       EmployeesList.push(this.fbAttendance.value)
     })
+    this.NotUpdatedAttendanceDate = null;
     this.saveAttendance(EmployeesList);
   }
 
@@ -473,7 +479,7 @@ export class AttendanceComponent {
     const DayWorkItem = this.LeaveTypes.find(each => each.lookupDetailId === this.fbleave.get('leaveTypeId').value);
     let fromDate = FORMAT_DATE(this.fbleave.get('fromDate').value);
 
-    if (DayWorkItem.name !== 'PL' && DayWorkItem.name !== 'CL' && DayWorkItem.name !== 'WFH') {
+    if (DayWorkItem.name !== 'PL' && DayWorkItem.name !== 'CL' && DayWorkItem.name !== 'WFH' && DayWorkItem.name !== 'LWP') {
       this.fbAttendance.patchValue({
         employeeId: this.fbleave.get('employeeId').value,
         dayWorkStatusId: DayWorkItem.lookupDetailId,
@@ -490,7 +496,6 @@ export class AttendanceComponent {
         rejected: false
       });
       this.saveEmployeeLeave();
-
     }
     this.dialog = false;
   }
@@ -499,36 +504,43 @@ export class AttendanceComponent {
   saveEmployeeLeave() {
     let fromDate = FORMAT_DATE(this.fbleave.get('fromDate').value);
     this.fbleave.get('isFromAttendance').setValue(true);
-    this.employeeService.CreateEmployeeLeaveDetails(this.fbleave.value).subscribe(resp => {
-      let rdata = resp as unknown as any;
-      if (!rdata.isSuccess)
-        this.alertMessage.displayErrorMessage(rdata.message);
-      else
-        if (resp) {
-          if (rdata.message)
-            this.alertMessage.displayAlertMessage(rdata.message)
-          else
-            this.alertMessage.displayAlertMessage(ALERT_CODES["ELD001"]);
+    this.employeeService.CreateEmployeeLeaveDetails(this.fbleave.value).subscribe({
+      next: (resp) => {
+        let rdata = resp as unknown as any;
+        console.log(resp);
 
-          const StatusId = this.LeaveTypes.find(each => each.name == "PT").lookupDetailId;
-          this.fbAttendance.patchValue({
-            employeeId: this.fbleave.get('employeeId').value,
-            dayWorkStatusId: StatusId,
-            date: fromDate,
-            notReported: false
-          });
-          this.saveAttendance([this.fbAttendance.value]);
-        }
-      this.initAttendance();
-      this.getLeaves();
-    });
+        if (!rdata.isSuccess)
+          this.alertMessage.displayErrorMessage(rdata.message);
+        else
+          if (resp) {
+            if (rdata.message)
+              this.alertMessage.displayAlertMessage(rdata.message)
+            else
+              this.alertMessage.displayAlertMessage(ALERT_CODES["ELD001"]);
+
+            const StatusId = this.LeaveTypes.find(each => each.name == "PT").lookupDetailId;
+            this.fbAttendance.patchValue({
+              employeeId: this.fbleave.get('employeeId').value,
+              dayWorkStatusId: StatusId,
+              date: fromDate,
+              notReported: false
+            });
+            this.saveAttendance([this.fbAttendance.value]);
+          }
+        this.initAttendance();
+        this.getLeaves();
+      },
+      error: (err) => {
+        this.alertMessage.displayErrorMessage(err.message)
+      }
+    })
   }
 
   checkLeaveType(id) {
     const leaveReasonControl = this.fbleave.get('leaveReasonId');
     this.fbleave.get('note').setValue('');
     const StatusId = this.LeaveTypes.find(each => each.lookupDetailId === this.fbleave.get('leaveTypeId').value);
-    if (StatusId.name != 'PT' && StatusId.name != 'AT' && StatusId.name != 'LWP' && StatusId.name != 'WFH') {
+    if (StatusId.name != 'PT' && StatusId.name != 'AT' && StatusId.name != 'WFH') {
       this.fbleave.get('note').setValue('Leave is Updated through Attendance form by Admin the approve is generated Automatically.');
       this.filteredLeaveReasons = this.leaveReasons.filter(fn => fn.fkeySelfId == id)
       leaveReasonControl.setValidators([Validators.required]);

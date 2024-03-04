@@ -346,9 +346,9 @@ export class employeeAttendanceDto {
 	EmployeeName?: string;
 	dates?: { [date: string]: string | {} };
 }
-export class NotUpdatedAttendanceDatesListDto{
-	date?:string;
-	dayOfWeek?:string
+export class NotUpdatedAttendanceDatesListDto {
+	date?: string;
+	dayOfWeek?: string
 }
 
 export class EmployeeLeaveDto {
@@ -357,18 +357,18 @@ export class EmployeeLeaveDto {
 	employeeName?: string;
 	code?: string;
 	fromDate?: Date;
-	notReported?:boolean
+	notReported?: boolean
 	toDate?: Date;
 	leaveTypeId?: number;
-	leaveReasonId?:number;
-	isHalfDayLeave?:boolean;
-	isDeleted?:boolean;
-	isLeaveUsed?:boolean;
-	isFromAttendance?:boolean;
+	leaveReasonId?: number;
+	isHalfDayLeave?: boolean;
+	isDeleted?: boolean;
+	isLeaveUsed?: boolean;
+	isFromAttendance?: boolean;
 	leaveType?: string;
 	note?: string;
-	previousWorkStatusId?:number
-	dayWorkStatusId?:number
+	previousWorkStatusId?: number
+	dayWorkStatusId?: number
 	acceptedBy?: number;
 	acceptedAt?: Date;
 	approvedBy?: number;
@@ -389,7 +389,7 @@ export class EmployeeAttendanceList {
 	date: Date
 	dayWorkStatusId?: number;
 	NotReported: boolean;
-	isHalfDayLeave:boolean
+	isHalfDayLeave: boolean
 }
 
 export class CompanyHierarchyViewDto {
@@ -399,10 +399,10 @@ export class CompanyHierarchyViewDto {
 	roleId?: number;
 	roleName?: string;
 	hierarchyLevel?: number;
-    employeeId?: number;
-    employeeName?: string;
-    photo?: string;
-    designation?: string;
+	employeeId?: number;
+	employeeName?: string;
+	photo?: string;
+	designation?: string;
 }
 
 export class EmployeeLeaveDetailsViewDto {
@@ -437,52 +437,60 @@ export class EmployeeProfilePicViewDto {
 	employeePhoto?: string;
 	employeeGender?: string;
 }
-export class LeaveStatistics{
-	employeeId?:number;
-	code?:string;
-	name?:string;
-	gender?:string;
-	mobileNumber?:string;
-	originalDOB?:Date;
-	isAFresher?:boolean;
-	nationality?:string;
-	experienceInCompany?:string;
-	dateofJoin?:Date;
-	emailId?:string;
-	bloodGroup?:string;
-	designation?:string;
-	officeEmailId?:string;
-	reportingToId?:number;
-	reportingTo ?:string;
-	allottedCasualLeaves?:number;
-	usedCasualLeavesInYear?:number;
-	usedCasualLeavesInMonth?:number;
-	allottedPrivilegeLeaves ?:number;
-	usedPrivilegeLeavesInYear ?:number;
-	usedPrivilegeLeavesInMonth ?:number;
-	previousYearPrivilegeLeaves ?:number;
-	absentsInYear?:number;
-	absentsInMonth?:number;
-	usedLWPInYear?:number;
-	usedLWPInMonth?:number;
-    workingFromHome?:number;
-	availableCLs?:any;
-	availablePLs?:any;
+export class LeaveStatistics {
+	employeeId?: number;
+	code?: string;
+	name?: string;
+	gender?: string;
+	mobileNumber?: string;
+	originalDOB?: Date;
+	isAFresher?: boolean;
+	nationality?: string;
+	experienceInCompany?: string;
+	dateofJoin?: Date;
+	emailId?: string;
+	bloodGroup?: string;
+	designation?: string;
+	officeEmailId?: string;
+	reportingToId?: number;
+	reportingTo?: string;
+	allottedCasualLeaves?: number;
+	usedCasualLeavesInYear?: number;
+	usedCasualLeavesInMonth?: number;
+	allottedPrivilegeLeaves?: number;
+	usedPrivilegeLeavesInYear?: number;
+	usedPrivilegeLeavesInMonth?: number;
+	previousYearPrivilegeLeaves?: number;
+	absentsInYear?: number;
+	absentsInMonth?: number;
+	usedLWPInYear?: number;
+	usedLWPInMonth?: number;
+	workingFromHome?: number;
+	availableCLs?: any;
+	availablePLs?: any;
 }
 
-export class EmployeeLeaveOnDateDto
-{
-    employeeId?: number
-    leaveTypeId?: number
-    leaveReasonId?: number
-    note?: string
-    isHalfDayLeave?: Boolean
-    comments?: string
-    fromDate?: Date
-    toDate?: Date
+export class LeaveAccumulationDto {
+	leaveAccumulationId?: number;
+	employeeId?: number;
+	cl?: number;
+	pl?: number;
+	year?: number;
+	months?: number;
+	previousYearPls?: number;
+}
+export class EmployeeLeaveOnDateDto {
+	employeeId?: number
+	leaveTypeId?: number
+	leaveReasonId?: number
+	note?: string
+	isHalfDayLeave?: Boolean
+	comments?: string
+	fromDate?: Date
+	toDate?: Date
 }
 
-export class EmployeeReportDtlDto{
+export class EmployeeReportDtlDto {
 	employeeId?: number;
 	employeeName?: string;
 	employeeCode?: string;
