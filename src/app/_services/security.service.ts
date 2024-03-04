@@ -2,11 +2,12 @@ import { Injectable } from "@angular/core";
 // import { ForgotUserPasswordDto, UserQuestionDto, UserViewDto } from "../_models/security";
 import { ApiHttpService } from "./api.http.service";
 import {
+    CHANGE_PASSWORD_FOR_FIRSTLOGIN,
     CHANGE_PASSWORD_URI, CREATE_LEAVE_CONFIGURATION, CREATE_ROLE_URI, CREATE_SECURITY_QUESTIONS_URI, DELETE_USER_QUESTIONS_URI, Delete_USER_URI, FORGOT_PASSWORD_URI, GET_ALL_USER_QUESTIONS_URI, GET_LEAVE_CONFIGURATION, GET_PERMISSIONS_URI, GET_ROLES_URI, GET_ROLE_PERMISSIONS_URI,
     GET_SECURITY_QUESTIONS_URI, GET_USERS_URI, UPDATE_ROLE_URI, UPDATE_USER_QUESTIONS_URI, UPDATE_USER_URI, VALIDATE_USER_QUESTIONS_URI,
 } from "./api.uri.service";
 import {
-    ChangePasswordDto, CreateUserQuestionDto, ForgotUserPasswordDto, LeaveConfigurationDto, RoleDto, RolePermissionDto, RoleViewDto, SecureQuestionDto, UserQuestionDto, UserUpdateDto,
+    ChangePasswordDto, CreateUserQuestionDto, FirstLoginDto, ForgotUserPasswordDto, LeaveConfigurationDto, RoleDto, RolePermissionDto, RoleViewDto, SecureQuestionDto, UserQuestionDto, UserUpdateDto,
     UserViewDto
 } from "../_models/security";
 import { HttpHeaders } from "@angular/common/http";
@@ -80,6 +81,10 @@ export class SecurityService extends ApiHttpService {
     }
     public CreateLeaveConfiguration(leaveconfiguration: LeaveConfigurationDto[]) {
         return this.post<LeaveConfigurationDto[]>(CREATE_LEAVE_CONFIGURATION, leaveconfiguration)
+    }
+
+    public ChangepasswordforFirsLogin(firstLogin: FirstLoginDto){
+        return this.post<FirstLoginDto>(CHANGE_PASSWORD_FOR_FIRSTLOGIN,firstLogin);
     }
 
 }

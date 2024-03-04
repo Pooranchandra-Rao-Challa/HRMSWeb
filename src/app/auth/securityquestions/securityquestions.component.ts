@@ -1,14 +1,16 @@
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Component, ViewChild } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
-import { CreateUserQuestionDto, SecureQuestionDto } from 'src/app/_models/security';
+import { CreateUserQuestionDto, FirstLoginDto, SecureQuestionDto, userQuestionDto } from 'src/app/_models/security';
 import { JwtService } from 'src/app/_services/jwt.service';
 import { SecurityService } from 'src/app/_services/security.service';
 import { Table } from 'primeng/table';
 import { Router } from '@angular/router';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { environment } from 'src/environments/environment';
+import { HttpEvent } from '@angular/common/http';
+import { ConfirmedValidator } from 'src/app/_validators/confirmValidator';
 
 export interface IHeader {
     field: string;
@@ -41,6 +43,8 @@ export class SecurityquestionsComponent {
     securityDialog: boolean = false;
     submitted: boolean = true;
     qstnSubmitLabel: String = "Add";
+    hide: boolean = true;
+    fbChangePassword!: FormGroup;
 
     constructor(
         private formbuilder: FormBuilder,
@@ -69,8 +73,22 @@ export class SecurityquestionsComponent {
 
     ngOnInit(): void {
         this.initGetSecureQuestions();
+        this.changePasswordForm();
     }
 
+    changePasswordForm() {
+        this.fbChangePassword = this.formbuilder.group({
+            password: new FormControl('', Validators.required),
+            confirmPassword: new FormControl('', Validators.required),
+            userAnswers: new FormControl('')
+        }, {
+            validator: ConfirmedValidator('password', 'confirmPassword')
+        });
+    }
+
+    get FormControls() {
+        return this.fbChangePassword.controls;
+    }
     editSecurity(s: SecurityDto) {
         Object.assign(this.security, s);
         Object.assign(this.oldSecurity, s);
@@ -105,6 +123,10 @@ export class SecurityquestionsComponent {
         this.resetSecureQuestions();
     }
 
+    onClick() {
+        this.hide = false;
+        this.alertMessage.displayAlertMessage(ALERT_CODES["SSECP001"]);
+    }
     saveSecurity() {
         this.submitted = true;
         if (this.security.Answer?.trim() && this.security.id) {
@@ -119,28 +141,27 @@ export class SecurityquestionsComponent {
     }
 
     onSubmit() {
-        const username = this.jwtService.GivenName;
         const userId = this.jwtService.UserId;
-        const createUserQuestions: CreateUserQuestionDto[] = this.securityDto.map(security => {
-            return {
-                question: security.SecurityQuestions,
-                answer: security.Answer,
-                username: username,
+        let userAnswers = [];
+        this.securityDto.forEach(security => {
+            userAnswers.push({
                 userId: userId,
                 questionId: security.id,
-            };
+                answer: security.Answer,
+            });
         });
+        let ChangePassword = {
+            password: this.fbChangePassword.get('password').value,
+            confirmPassword: this.fbChangePassword.get('confirmPassword').value,
+            userAnswers: userAnswers
+        }
         this.securityService
-            .CreateSecurityQuestions(createUserQuestions)
+            .ChangepasswordforFirsLogin(ChangePassword)
             .subscribe((resp) => {
                 if (resp) {
                     this.alertMessage.displayAlertMessage(ALERT_CODES["SCUQ001"]);
                     this.securityDto = [];
-                    let redirectUrl = environment.AdminDashboard;
-                    if (this.jwtService.IsSelfEmployee)
-                        redirectUrl = environment.EmployeeDashboard;
-                    this.router.navigate([redirectUrl]);
-                    // this.router.navigate(['./dashboard/admin']);
+                    this.router.navigate(['./auth/login']);
                 }
                 else {
                     this.alertMessage.displayErrorMessage(ALERT_CODES["SCUQ002"]);

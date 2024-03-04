@@ -37,6 +37,9 @@ export const DELETE_USER_QUESTIONS_URI = "Security/DeleteUserQuestions";
 export const GET_LEAVE_CONFIGURATION = "Security/GetLeaveConfigurationData";
 export const CREATE_LEAVE_CONFIGURATION = "Security/UpdateLeaveConfiguration";
 
+//Change password for first time login of employee
+export const CHANGE_PASSWORD_FOR_FIRSTLOGIN="Security/UpdateUserOnFirstLogin";
+
 // BEGIN LOOKUPS
 
 export const LOOKUP_ASSET_TYPE_URI = "Lookup/AssetTypes";
