@@ -109,10 +109,9 @@
             class="p-element p-ripple p-button-text p-button p-component mr-2 float-button"
             *ngIf="permissions?.CanManageEmployee"
             (click)="openComponentDialog(officedetailsDialogComponent,employeeofficeDtls,ActionTypes.save)"></button>
-          <div class="col-12">
-            <span class="text-primary font-bold text-900">Shift Timings:</span> {{employeeofficeDtls?.timeIn}} -
-            {{employeeofficeDtls?.timeOut}}
-          </div>
+            <div class="col-12">
+              <span class="text-primary font-bold text-900">Work Duration:</span> {{employeeofficeDtls?.timeIn}} - {{employeeofficeDtls?.timeOut}}
+            </div>
           <!-- <div class="col-12">
             <span class="text-primary font-bold text-900">Time In:</span> {{employeeofficeDtls?.timeIn}}
           </div>
