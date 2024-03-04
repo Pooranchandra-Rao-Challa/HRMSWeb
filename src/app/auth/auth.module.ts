@@ -11,6 +11,7 @@ import { ToastModule } from 'primeng/toast';
 import { AlertmessageService } from '../_alerts/alertmessage.service';;
 import { ConfirmationDialogService } from '../_alerts/confirmationdialog.service';
 import { LeaveconfirmationComponent } from './leaveconfirmation/leaveconfirmation.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -24,6 +25,7 @@ import { LeaveconfirmationComponent } from './leaveconfirmation/leaveconfirmatio
         SettingsComponent,
         LeaveconfirmationComponent,],
     imports: [
+        ReactiveFormsModule,
         AuthRoutingModule,
         SharedModule,
         ToastModule,

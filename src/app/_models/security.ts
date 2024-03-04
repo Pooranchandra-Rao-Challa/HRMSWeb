@@ -99,4 +99,18 @@ export class LeaveConfigurationDto {
   sl?: number;
   accumulationPeriod?: number;
 }
+export class FirstLoginDto
+{
+    password?:string;
+    confirmPassword?:string;
+    userAnswers?:userQuestionDto[];
+}
+  
+ export class userQuestionDto
+{
+    userQuestionId?:number;
+    userId?:string;
+    questionId?:number;
+    answer?:string;
+}
 

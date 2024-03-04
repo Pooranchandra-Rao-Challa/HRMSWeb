@@ -17,7 +17,7 @@ import { SettingsComponent } from './settings/settings.component';
             { path: 'login', loadChildren: () => import('./login/login.module').then((m) => m.LoginModule) },
             { path: 'forgotpassword', loadChildren: () => import('./forgotpassword/forgotpassword.module').then((m) => m.ForgotPasswordModule) },
             { path: 'newpassword', data: { breadcrumb: 'NewPassword' }, component: NewPasswordComponent },
-            { path: 'security',data:{breadcrumb:'Security Quesitons'},component:SecurityquestionsComponent},
+            { path: 'security', data: { breadcrumb: 'Security Quesitons' }, component: SecurityquestionsComponent },
             { path: 'lockscreen', data: { breadcrumb: 'LockScreen' }, component: LockScreenComponent },
             { path: 'leaveconfirmation', data: { breadcrumb: 'leave Confirmation' }, component: LeaveconfirmationComponent },
             { path: '**', redirectTo: '/notfound' }

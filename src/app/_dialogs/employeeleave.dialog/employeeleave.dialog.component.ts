@@ -335,7 +335,7 @@ export class EmployeeLeaveDialogComponent implements OnInit {
                 this.alertMessage.displayErrorMessage(result.message);
               }
               const leaveType = this.leaveType.find(item => item.lookupDetailId === this.fbLeave.get('leaveTypeId').value);
-              if ((result.message === null && leaveType.name === 'CL') || leaveType.name === 'PL') {
+              if ((result.message === null && leaveType.name === 'CL') || leaveType.name === 'PL' || leaveType.name === 'LWP') {
                 this.alertMessage.displayAlertMessage(ALERT_CODES["ELD001"]);
               }
               if (leaveType && leaveType.name === 'WFH') {
