@@ -495,3 +495,12 @@ export class EmployeeReportDtlDto {
 	employeeName?: string;
 	employeeCode?: string;
 }
+export class EmployeeProjectsViewDto {
+	description?: string;
+	endAt?: Date;
+	logo?: string;
+	projectId?: number;
+	projectName?: string;
+	sinceFrom?: Date;
+	periods?: any;
+}

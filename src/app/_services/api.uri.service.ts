@@ -111,6 +111,7 @@ export const GET_EMPLOYEE_PROFILE_PIC = "Employee/GetEmployeeBasicInfo";
 export const GET_EMPLOYEE_PHOTO = "Employee/GetEmployeePhoto";
 export const GET_ALL_EMPLOYEES_FOR_REPORT ="Employee/GetEmployeesForReporting";
 export const DELETE_LEAVE_DETAILS ="Attendance/DeleteLeave";
+export const GET_PROJECT_DETAILS_URI ="Employee/GetAllottedProjectsForEmployee";
 //Attendence
 
 export const GET_ATTENDENCE = "Attendance/GetMonthlyAttendanceReport";

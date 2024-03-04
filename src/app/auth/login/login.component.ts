@@ -38,8 +38,8 @@ export class LoginComponent implements OnInit {
     }
     loginForm() {
         this.fbloginForm = new FormGroup({
-            userName: new FormControl(null),
-            password: new FormControl(null)
+            userName: new FormControl(null, Validators.required),
+            password: new FormControl(null, Validators.required)
         });
     }
 
@@ -68,7 +68,7 @@ export class LoginComponent implements OnInit {
                     },
                     error: (error) => {
                         if (error.statusCode === '400') {
-                            this.messageService.add({ severity: 'error', key: 'myToast', detail: 'Enter UserName & Password' });
+                            this.messageService.add({ severity: 'error', key: 'myToast', detail: 'Mandatory Fields Are Required With Valid Data' });
                         } else {
                             this.messageService.add({ severity: 'error', key: 'myToast', detail: error.message });
                         }

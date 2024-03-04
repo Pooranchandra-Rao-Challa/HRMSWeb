@@ -75,7 +75,6 @@ export class RecruitmentService extends ApiHttpService {
   }
 
   public CreateApplicantTechnicalSkill(TechnicalSkill: ApplicantSkillDto[]) {
-    debugger
     return this.post<ApplicantSkillDto[]>(CREATE_VIEW_APPLICANT_TECHNICAL_SKILL, TechnicalSkill)
   }
   public UpdateApplicantTechnicalSkill(TechnicalSkill: ApplicantSkillDto[]) {

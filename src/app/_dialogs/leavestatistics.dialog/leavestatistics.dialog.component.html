@@ -25,7 +25,7 @@
                         </p-dropdown>
                     </div>
                     <div class="field col-12 md:col-6">
-                        <label>Allotted CLs: </label>&nbsp; 
+                        <label class="required">Allotted CLs: </label>&nbsp; 
                         <input pInputText 
                             type="text" formControlName="cl"
                             placeholder="Enter Allotted CLs" #code [maxlength]="20" numericOnly
@@ -41,7 +41,7 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-6">
-                        <label>Allotted PLs: </label>&nbsp; 
+                        <label class="required">Allotted PLs: </label>&nbsp; 
                         <input pInputText
                             type="text" formControlName="pl"
                             placeholder="Enter Allotted PLs" #code [maxlength]="20" numericOnly
@@ -58,7 +58,7 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-6">
-                        <label>Previous Year Pls: </label>&nbsp; 
+                        <label class="required">Previous Year Pls: </label>&nbsp; 
                         <input pInputText
                             type="text" formControlName="previousYearPls" numericOnly
                             placeholder="Enter Previous Year Pls" #code [maxlength]="20"

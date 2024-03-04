@@ -1,6 +1,6 @@
 import { HttpEvent } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable } from 'rxjs';
@@ -43,11 +43,11 @@ export class LeavestatisticsDialogComponent {
     this.fbLeaveStatistics = this.formbuilder.group({
       leaveAccumulationId: [null],
       employeeId: new FormControl(''),
-      cl: new FormControl(''),
-      pl: new FormControl(''),
+      cl: new FormControl('',Validators.required),
+      pl: new FormControl('',Validators.required),
       year: new FormControl(this.year),
       months: new FormControl(1),
-      previousYearPls: new FormControl(''),
+      previousYearPls: new FormControl('',Validators.required),
     });
   }
 
