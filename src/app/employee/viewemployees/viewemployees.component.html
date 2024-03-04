@@ -421,7 +421,7 @@
       </div>
     </p-tabPanel>
 
-    <p-tabPanel header="Assigned Projects">
+    <p-tabPanel header="Assigned Projects" *ngIf="enRollEmployee === false">
       <div class="grid">
         <div class="card p-5 orange-200  applicant-n-block-home scroll_div " style="min-height:350px;">
           <div class="text-500  text-2xl text-primary text-center m-5 p-5" *ngIf="!projects || projects?.length === 0">

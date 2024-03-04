@@ -121,7 +121,6 @@ export class SecurityquestionsComponent {
 
     onPasswordUpdate() {
         this.hide = false;
-        //this.alertMessage.displayAlertMessage(ALERT_CODES["SSECP001"]);
     }
     saveSecurity() {
         this.submitted = true;
