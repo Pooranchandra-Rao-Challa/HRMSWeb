@@ -69,6 +69,9 @@ export class LoginComponent implements OnInit {
                     error: (error) => {
                         if (error.statusCode === '400') {
                             this.messageService.add({ severity: 'error', key: 'myToast', detail: 'Mandatory Fields Are Required With Valid Data' });
+                            Object.values(this.fbloginForm.controls).forEach(control => {
+                                control.markAsTouched();
+                            });
                         } else {
                             this.messageService.add({ severity: 'error', key: 'myToast', detail: error.message });
                         }

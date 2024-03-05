@@ -41,6 +41,8 @@ export class SecurityquestionsComponent {
     qstnSubmitLabel: String = "Add";
     hide: boolean = true;
     fbChangePassword!: FormGroup;
+    showPassword: boolean = false;
+    showconfirmPassword: boolean = false;
 
     constructor(
         private formbuilder: FormBuilder,
@@ -163,6 +165,18 @@ export class SecurityquestionsComponent {
                 }
             })
     }
+
+    togglePasswordVisibility(field: string): void {
+        switch (field) {
+            case 'password':
+                this.showPassword = !this.showPassword;
+                break;
+            case 'confirmPassword':
+                this.showconfirmPassword = !this.showconfirmPassword;
+                break;
+        }
+    }
+
 }
 
 

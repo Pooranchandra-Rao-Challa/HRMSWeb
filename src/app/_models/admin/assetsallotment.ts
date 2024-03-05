@@ -17,6 +17,7 @@ export interface AssetAllotmentViewDto {
     assetAllotmentId?: number;
     assetId?: number;
     assetName?: string;
+    assetCode?: string;
     assignedOn?: Date;
     employeeId?: number;
     revokedOn?: Date;
