@@ -225,7 +225,7 @@
               [disabled]="securityDto.length<2" class=" p-mr-2 m-5 mx-0 w-100 sQuestion" (click)="onSubmit()"></button>
           </div>
         </div>
-       
+
         <div class="flex flex-column mt-0 w-100" *ngIf="hide=== true">
           <p-toast key="myToast"></p-toast>
           <h2 class="text-900 font-bold text-2xl text-center lg:text-3xl mb-0 mt-0">Change Password</h2>
@@ -271,14 +271,13 @@
                 </div>
                 <div class="grid mt-3">
 
-                  <div class="col-12"><button id="submit-button" pButton pRipple label="Submit" class="w-full p-3 text-md" [disabled]="this.fbChangePassword.invalid"
-                      (click)="onClick()"></button></div>
-                </div>
-              </form>
-            </div>
+                <div class="col-12"><button id="submit-button" pButton pRipple label="Submit" class="w-full p-3 text-md" [disabled]="this.fbChangePassword.invalid"
+                    (click)="onPasswordUpdate()"></button></div>
+              </div>
+            </form>
           </div>
         </div>
-      
+
     </div>
   </div>
 </div>

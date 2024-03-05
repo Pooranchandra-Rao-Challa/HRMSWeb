@@ -1,15 +1,11 @@
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { Component, ViewChild } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MessageService } from 'primeng/api';
-import { CreateUserQuestionDto, FirstLoginDto, SecureQuestionDto, userQuestionDto } from 'src/app/_models/security';
+import { SecureQuestionDto } from 'src/app/_models/security';
 import { JwtService } from 'src/app/_services/jwt.service';
 import { SecurityService } from 'src/app/_services/security.service';
-import { Table } from 'primeng/table';
 import { Router } from '@angular/router';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
-import { environment } from 'src/environments/environment';
-import { HttpEvent } from '@angular/common/http';
 import { ConfirmedValidator } from 'src/app/_validators/confirmValidator';
 
 export interface IHeader {
@@ -123,7 +119,7 @@ export class SecurityquestionsComponent {
         this.resetSecureQuestions();
     }
 
-    onClick() {
+    onPasswordUpdate() {
         this.hide = false;
     }
     saveSecurity() {
@@ -149,13 +145,13 @@ export class SecurityquestionsComponent {
                 answer: security.Answer,
             });
         });
-        let ChangePassword = {
+        let firstLoginDto = {
             password: this.fbChangePassword.get('password').value,
             confirmPassword: this.fbChangePassword.get('confirmPassword').value,
             userAnswers: userAnswers
         }
         this.securityService
-            .ChangepasswordforFirsLogin(ChangePassword)
+            .ChangepasswordforFirsLogin(firstLoginDto)
             .subscribe((resp) => {
                 if (resp) {
                     this.alertMessage.displayAlertMessage(ALERT_CODES["SCUQ001"]);
