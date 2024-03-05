@@ -16,6 +16,7 @@
                         class="shadow-2 my-1 mx-0 employee_profile_pic  avatar" />
                 </div>
                 <div class="text-xl font-bold">{{assetAllotment.assetName}}</div>
+                <div class="text-900 font-medium text-primary">{{assetAllotment.assetCode}}</div>
                 <span class="text-600 font-medium text-sm"> Assigned On : {{assetAllotment.assignedOn |
                     date: 'MM-dd-yyyy'}} </span>
                 <button id="unassign-asset-btn" pButton pRipple type="submit" label="Unassign"

@@ -15,6 +15,8 @@ import { ConfirmedValidator } from 'src/app/_validators/confirmValidator';
 export class ChangepasswordComponent {
     fbChangePassword!: FormGroup;
     changePassword: ForgotUserPasswordDto = {}
+    showPassword: boolean = false;
+    showconfirmPassword: boolean = false;
 
     constructor(private router: Router,
         private formbuilder: FormBuilder,
@@ -56,6 +58,17 @@ export class ChangepasswordComponent {
         }
         else {
             this.fbChangePassword.markAllAsTouched();
+        }
+    }
+
+    togglePasswordVisibility(field: string): void {
+        switch (field) {
+            case 'password':
+                this.showPassword = !this.showPassword;
+                break;
+            case 'confirmPassword':
+                this.showconfirmPassword = !this.showconfirmPassword;
+                break;
         }
     }
 
