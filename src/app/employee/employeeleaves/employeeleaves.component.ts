@@ -109,7 +109,7 @@ export class EmployeeLeavesComponent {
   }
 
   getLeaves() {
-    this.employeeService.getEmployeeLeaveDetails(this.month, this.year, this.jwtService.EmployeeId).subscribe((resp ) => {
+    this.employeeService.getEmployeeLeaveDetails(this.month, this.year, this.jwtService.EmployeeId).subscribe((resp) => {
       this.leaves = resp as unknown as EmployeeLeaveDto[];
       this.leaves = this.leaves.filter(leave => leave.status === this.selectedStatus.name);
     });
@@ -134,6 +134,7 @@ export class EmployeeLeavesComponent {
       fromDate: new FormControl('', [Validators.required]),
       toDate: new FormControl(),
       leaveTypeId: new FormControl('', [Validators.required]),
+      isHalfDayLeave: new FormControl(''),
       note: new FormControl('', [Validators.required]),
       acceptedBy: new FormControl(''),
       acceptedAt: new FormControl(null),
@@ -208,6 +209,7 @@ export class EmployeeLeavesComponent {
           fromDate: this.leaveData.fromDate ? FORMAT_DATE(new Date(this.leaveData.fromDate)) : null,
           toDate: this.leaveData.toDate ? FORMAT_DATE(new Date(this.leaveData.toDate)) : null,
           leaveTypeId: this.leaveData.leaveTypeId,
+          isHalfDayLeave: this.leaveData.isHalfDayLeave,
           note: this.leaveData.note,
           acceptedBy: acceptedBy,
           acceptedAt: this.selectedAction === 'Reason For Accept' ? currentDate : (this.leaveData.acceptedAt ? FORMAT_DATE(new Date(this.leaveData.acceptedAt)) : currentDate),

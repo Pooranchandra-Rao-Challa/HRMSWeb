@@ -636,14 +636,18 @@ export class AttendanceComponent {
     this.filter.nativeElement.value = '';
   }
   DownloadAttendanceReport(name: string) {
-    if (name == AttendanceReportTypes.DatewiseAttendanceReport)
+    if (name == AttendanceReportTypes.DatewiseAttendanceReport){
+      this.fbDatewiseAttendanceReport.reset()
       this.DatewiseAttendanceReportDialog = true;
+    }
     else if (name == AttendanceReportTypes.MonthlyAttendanceReport)
       this.downloadMonthlyAttendanceReport()
     else if (name == AttendanceReportTypes.YearlyAttendanceReport)
       this.downloadYearlyAttendanceReport()
-    else if (name == AttendanceReportTypes.ProjectwiseAttendanceReport)
+    else if (name == AttendanceReportTypes.ProjectwiseAttendanceReport){
+      this.fbProjectwiseAttendanceReport.reset();
       this.ProjectwiseAttendanceReportDialog = true;
+    }
   }
   downloadProjectwiseAttendanceReport() {
     const fromDateValue = this.fbProjectwiseAttendanceReport.get('fromDate').value;
