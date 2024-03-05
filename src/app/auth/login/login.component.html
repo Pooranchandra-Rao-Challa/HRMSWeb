@@ -162,7 +162,7 @@
               class="w-full md:w-25rem text-color-secondary surface-50" placeholder="Password"
               formControlName="password" maxlength="20"
               [ngClass]="{ 'is-invalid ng-dirty': FormControls['password'].touched && FormControls['password'].errors }" />
-            <span class="p-input-icon-right">
+            <span class="p-input-icon-right mb-1">
               <i class="pi" [ngClass]="{ 'pi-eye': !showPassword, 'pi-eye-slash': showPassword }"
                 (click)="togglePasswordVisibility()"></i>
             </span>

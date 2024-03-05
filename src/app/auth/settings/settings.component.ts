@@ -30,8 +30,11 @@ export class SettingsComponent {
     confirmationRequest: ConfirmationRequest = new ConfirmationRequest();
     addFlag: boolean;
     deletedUserQuestionId: number;
-    fbCofig!:FormGroup;
-
+    fbCofig!: FormGroup;
+    showPassword: boolean = false;
+    shownewPassword: boolean = false;
+    showconfirmPassword: boolean = false;
+    
     constructor(
         private formbuilder: FormBuilder,
         private securityService: SecurityService,
@@ -44,6 +47,7 @@ export class SettingsComponent {
         // Function to update isUpdating value
         this.updateStatusService.setIsUpdating(this.isUpdating);
     }
+
 
     ngOnInit(): void {
         this.initGetSecureQuestions();
@@ -181,7 +185,7 @@ export class SettingsComponent {
         });
         this.securityService.UpdateSecurityQuestions(this.userQuestions).subscribe((resp) => {
             if (resp) {
-                this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag? "SSESQ001":"SSESQ005"]);
+                this.alertMessage.displayAlertMessage(ALERT_CODES[this.addFlag ? "SSESQ001" : "SSESQ005"]);
                 this.getUserQuestionsAndAnswers();
                 this.isUpdating = false;
                 // Function to update isUpdating value
@@ -205,4 +209,19 @@ export class SettingsComponent {
             this.updateStatusService.setIsUpdating(this.isUpdating);
         }
     }
+
+    togglePasswordVisibility(field: string): void {
+        switch (field) {
+          case 'password':
+            this.showPassword = !this.showPassword;
+            break;
+          case 'newPassword':
+            this.shownewPassword = !this.shownewPassword;
+            break;
+          case 'confirmPassword':
+            this.showconfirmPassword = !this.showconfirmPassword;
+            break;
+        }
+      }
+      
 }

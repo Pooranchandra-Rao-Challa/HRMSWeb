@@ -83,6 +83,8 @@ export class EmployeeLeavesComponent {
     public alertMessage: AlertmessageService,
     private leaveConfirmationService: LeaveConfirmationService,
     private confirmationDialogService: ConfirmationDialogService) {
+      this.selectedMonth = FORMAT_DATE(new Date(this.year, this.month - 1, 1));
+      this.selectedMonth.setHours(0, 0, 0, 0);
   }
 
   set selectedColumns(val: any[]) {
