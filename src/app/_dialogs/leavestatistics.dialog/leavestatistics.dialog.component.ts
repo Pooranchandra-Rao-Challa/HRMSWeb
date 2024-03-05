@@ -9,6 +9,7 @@ import { EmployeesList } from 'src/app/_models/admin';
 import { LeaveAccumulationDto, LeaveStatistics } from 'src/app/_models/employes';
 import { AdminService } from 'src/app/_services/admin.service';
 import { EmployeeService } from 'src/app/_services/employee.service';
+import { JwtService } from 'src/app/_services/jwt.service';
 
 @Component({
   selector: 'app-leavestatistics.dialog',
@@ -22,6 +23,7 @@ export class LeavestatisticsDialogComponent {
   year: number = new Date().getFullYear();
   leaveStatistics: any;
   currentRoute: any;
+  permissions: any;
 
   constructor(private formbuilder: FormBuilder,
     private employeeService: EmployeeService,
@@ -29,9 +31,11 @@ export class LeavestatisticsDialogComponent {
     private config: DynamicDialogConfig,
     public alertMessage: AlertmessageService,
     public ref: DynamicDialogRef,
-    private router: Router) { }
+    private router: Router,
+    private jwtService: JwtService,) { }
 
   ngOnInit(): void {
+    this.permissions = this.jwtService.Permissions;
     this.leavestatisticsForm();
     this.getEmployees();
     this.currentRoute = this.router.url;

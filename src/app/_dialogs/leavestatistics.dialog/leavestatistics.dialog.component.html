@@ -79,7 +79,7 @@
     </form>
 </div>
 
-<div class=" footer dialog-footer">
+<div class=" footer dialog-footer" *ngIf="permissions?.CanManageLeaveStatistic">
     <button pButton pRipple type="submit" label="Update Leave Statistics" class="p-button-raised p-button-primary"
-        [disabled]="fbLeaveStatistics.invalid" (click)="save()"></button>
+        [disabled]="fbLeaveStatistics.invalid" (click)="save()" ></button>
 </div>
