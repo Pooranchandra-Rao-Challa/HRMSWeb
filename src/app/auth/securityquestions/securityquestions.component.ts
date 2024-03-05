@@ -44,6 +44,7 @@ export class SecurityquestionsComponent {
     showPassword: boolean = false;
     showconfirmPassword: boolean = false;
 
+
     constructor(
         private formbuilder: FormBuilder,
         private securityService: SecurityService,
@@ -168,12 +169,12 @@ export class SecurityquestionsComponent {
 
     togglePasswordVisibility(field: string): void {
         switch (field) {
-          case 'password':
-            this.showPassword = !this.showPassword;
-            break;
-          case 'confirmPassword':
-            this.showconfirmPassword = !this.showconfirmPassword;
-            break;
+            case 'password':
+                this.showPassword = !this.showPassword;
+                break;
+            case 'confirmPassword':
+                this.showconfirmPassword = !this.showconfirmPassword;
+                break;
         }
       }
 
