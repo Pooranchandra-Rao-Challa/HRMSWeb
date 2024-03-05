@@ -87,6 +87,7 @@ export const ALERT_CODES: { [key: string]: string } = {
     // securityquestions screen
     'SCUQ001': 'Security Questions Added Successfully',
     'SCUQ002': 'Security Questions Added Failed',
+    'SCUQ003': 'Password Updated & Security Questions Added Successfully',
 
     // settings
 
@@ -143,10 +144,10 @@ export const ALERT_CODES: { [key: string]: string } = {
     //Basic Details
     'SBD001': 'Basic Details Added Successfully',
     'SBD002': 'Basic Details Updated Successfully',
-    //Educaiton Details 
+    //Educaiton Details
     'SEDU001': 'Education Details Added Successfully',
     'SEDU002': 'Education Details Updated Successfully',
-    //Family Details 
+    //Family Details
     'SFD001': 'Family Details Added Successfully',
     'SFD002': 'Family Details Updated Successfully',
     //Bank Details
@@ -241,7 +242,7 @@ export const ALERT_CODES: { [key: string]: string } = {
     'ARVAP001': 'Applicant Details Added Successfully',
     'ARVAP002': 'Applicant Details Updated Successfully',
     'ARVAP003': 'Applicant Details saved Failed',
-    //Applicant 
+    //Applicant
     'AP001': 'Applicant Added Successfully',
     'AP002': 'Applicant Updated Successfully',
     //Recruitment Attributes

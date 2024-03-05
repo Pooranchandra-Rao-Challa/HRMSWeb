@@ -43,7 +43,7 @@ export class SecurityquestionsComponent {
     fbChangePassword!: FormGroup;
     showPassword: boolean = false;
     showconfirmPassword: boolean = false;
-    
+
     constructor(
         private formbuilder: FormBuilder,
         private securityService: SecurityService,
@@ -156,7 +156,7 @@ export class SecurityquestionsComponent {
             .ChangepasswordforFirsLogin(firstLoginDto)
             .subscribe((resp) => {
                 if (resp) {
-                    this.alertMessage.displayAlertMessage(ALERT_CODES["SCUQ001"]);
+                    this.alertMessage.displayAlertMessage(ALERT_CODES["SCUQ003"]);
                     this.securityDto = [];
                     this.router.navigate(['./auth/login']);
                 }
@@ -176,7 +176,7 @@ export class SecurityquestionsComponent {
             break;
         }
       }
-      
+
 }
 
 

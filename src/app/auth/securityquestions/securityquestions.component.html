@@ -161,10 +161,10 @@
               responsiveLayout="scroll" [tableStyle]="{ width: 'autoLayout'}">
               <ng-template pTemplate="header">
                 <tr>
-                  <th></th>
-                  <th pSortableColumn="SecurityQuestions">SecurityQuestions
+                  <th scope="securityQ"></th>
+                  <th  scope="securityQ" pSortableColumn="SecurityQuestions">SecurityQuestions
                   </th>
-                  <th pSortableColumn="Answer">Answer
+                  <th  scope="securityQ" pSortableColumn="Answer">Answer
                   </th>
                 </tr>
               </ng-template>

@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
             .subscribe(
                 {
                     next: (resp: LogInSuccessModel) => {
-                        if (resp.isLoginSuccess && resp.hasSecureQuestions) {
+                        if (resp.isLoginSuccess && resp.hasSecureQuestions && !resp.isFirstTimeLogin) {
                             this.messageService.add({ severity: 'success', key: 'myToast', summary: 'Success!', detail: 'Signing in...!' });
                             let redirectUrl = environment.AdminDashboard;
                             if (this.jWTService.IsSelfEmployee)
@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit {
                             this.router.navigate([redirectUrl]);
                             this.loginService.startRefreshTokenTimer();
                         }
-                        else if (resp.isLoginSuccess && !resp.hasSecureQuestions) {
+                        else if (resp.isLoginSuccess && (!resp.hasSecureQuestions || resp.isFirstTimeLogin)) {
                             this.router.navigate(['./auth/security']);
                         } else {
                             this.submitted = false;
