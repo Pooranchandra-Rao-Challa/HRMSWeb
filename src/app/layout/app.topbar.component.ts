@@ -40,6 +40,11 @@ export class AppTopbarComponent {
     EmployeeId: number;
     permissions: any;
     attributeStages: RecruitmentStageDetailsDto[];
+    Help: boolean = false;
+
+    showHelp() {
+        this.Help = true;
+    }
 
     constructor(public layoutService: LayoutService,
         private jwtService: JwtService,

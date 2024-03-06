@@ -1,12 +1,12 @@
 <form [formGroup]="fbEnroll" *ngIf="displayDialog === true">
   <div class="mt-5 pt-5" id="hrms">
     <div class="grid content_scroll roles-container">
-      <div class=" col-12 md:col-4 lg:col-2">
+      <div class=" col-12 md:col-4 lg:col-4">
         <label class="required">Employee Code:</label><br />
         <input type="text" id="employeeCode" pInputText placeholder="Enter Employee Code"
         formControlName="employeeCode" #employeeCode alphaNumeric [maxlength]="8" [minlength]="8"
         [ngClass]="{ 'is-invalid ng-dirty': FormControls['employeeCode'].touched && FormControls['employeeCode'].errors }"
-        (keydown)="restrictSpaces($event)" />
+        (keydown)="restrictSpaces($event)" class="w-100"/>
         <div class="flex">
           <div class="align-left w-60" style="width:70%">
             <span *ngIf="FormControls['employeeCode'].touched && FormControls['employeeCode'].invalid">
