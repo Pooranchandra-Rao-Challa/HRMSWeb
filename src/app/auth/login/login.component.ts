@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
             .subscribe(
                 {
                     next: (resp: LogInSuccessModel) => {
-                        if (resp.isLoginSuccess && resp.hasSecureQuestions) {
+                        if (resp.isLoginSuccess && resp.hasSecureQuestions && !resp.isFirstTimeLogin) {
                             this.messageService.add({ severity: 'success', key: 'myToast', summary: 'Success!', detail: 'Signing in...!' });
                             let redirectUrl = environment.AdminDashboard;
                             if (this.jWTService.IsSelfEmployee)
@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit {
                             this.router.navigate([redirectUrl]);
                             this.loginService.startRefreshTokenTimer();
                         }
-                        else if (resp.isLoginSuccess && !resp.hasSecureQuestions) {
+                        else if (resp.isLoginSuccess && (!resp.hasSecureQuestions || resp.isFirstTimeLogin)) {
                             this.router.navigate(['./auth/security']);
                         } else {
                             this.submitted = false;
@@ -69,6 +69,9 @@ export class LoginComponent implements OnInit {
                     error: (error) => {
                         if (error.statusCode === '400') {
                             this.messageService.add({ severity: 'error', key: 'myToast', detail: 'Mandatory Fields Are Required With Valid Data' });
+                            Object.values(this.fbloginForm.controls).forEach(control => {
+                                control.markAsTouched();
+                            });
                         } else {
                             this.messageService.add({ severity: 'error', key: 'myToast', detail: error.message });
                         }

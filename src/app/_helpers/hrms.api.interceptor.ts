@@ -16,9 +16,19 @@ export class HRMSAPIInterceptor implements HttpInterceptor {
         this.loaderService.InitiateLoading();
         const isApiUrl = request.url.startsWith(environment.ApiUrl);
         const isLoggedIn = this.jwtService.IsLoggedIn;
+        const isFirstTimeLogin = this.jwtService.IsFirstTimeLogin;
+
+        const urls = ["/Attendance/UpdateLeaveStatus", "/Security/ValidateUserQuestions", "/Security/ForgotPassword","/Security/Login","/Lookup/LookupKeys","/Security/SecureQuestions","Security/UpdateUserOnFirstLogin"];
+        let rexUrls = /(?<apicall>\/hrmsapi\/(Attendance\/UpdateLeaveStatus|Security\/ValidateUserQuestions|Security\/ForgotPassword|Security\/Login|Lookup\/LookupKeys|Security\/SecureQuestions|Security\/UpdateUserOnFirstLogin))/gi;
+        let textArray = rexUrls.exec(request.url);
+        let urlNotNeededAuthorization = "";
+        if (textArray && textArray.groups) {
+            urlNotNeededAuthorization = textArray.groups["apicall"].replace("\/hrmsapi", "");
+        }
 
         //isLogin true block
-        if (isLoggedIn && isApiUrl) {
+        if (isLoggedIn && isApiUrl && (!isFirstTimeLogin
+            || urlNotNeededAuthorization)) {
             let authReq = request;
             const token = this.jwtService.JWTToken;
             if (token != null) {
@@ -36,13 +46,6 @@ export class HRMSAPIInterceptor implements HttpInterceptor {
                 );
         }
         else if (!isLoggedIn) {
-            const urls = ["/Attendance/UpdateLeaveStatus", "/Security/ValidateUserQuestions", "/Security/ForgotPassword"]
-            let rexUrls = /(?<apicall>\/hrmsapi\/(Attendance\/UpdateLeaveStatus|Security\/ValidateUserQuestions|Security\/ForgotPassword))/gi;
-            let textArray = rexUrls.exec(request.url);
-            let urlNotNeededAuthorization = "";
-            if (textArray && textArray.groups) {
-                urlNotNeededAuthorization = textArray.groups["apicall"].replace("\/hrmsapi", "");
-            }
             // Check if the request URL is the specific URL you want to skip
             if (urls.filter(fn => fn === urlNotNeededAuthorization).length == 1) {
                 // Skip authentication and move to the next interceptor or backend
@@ -57,7 +60,6 @@ export class HRMSAPIInterceptor implements HttpInterceptor {
 
             } else this.jwtService.Logout()
         } else this.jwtService.Logout()
-
         //if not logged in
         return next.handle(request).pipe(
             map(resp => {
@@ -74,10 +76,6 @@ export class HRMSAPIInterceptor implements HttpInterceptor {
     };
 
     private addTokenHeader(request: HttpRequest<any>, token: string) {
-        /* for Spring Boot back-end */
-        // return request.clone({ headers: request.headers.set(TOKEN_HEADER_KEY, 'Bearer ' + token) });
-
-        /* for Node.js Express back-end */
         return request.clone({ headers: request.headers.set(TOKEN_HEADER_KEY, token) });
     }
 

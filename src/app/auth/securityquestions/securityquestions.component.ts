@@ -41,6 +41,9 @@ export class SecurityquestionsComponent {
     qstnSubmitLabel: String = "Add";
     hide: boolean = true;
     fbChangePassword!: FormGroup;
+    showPassword: boolean = false;
+    showconfirmPassword: boolean = false;
+
 
     constructor(
         private formbuilder: FormBuilder,
@@ -154,7 +157,7 @@ export class SecurityquestionsComponent {
             .ChangepasswordforFirsLogin(firstLoginDto)
             .subscribe((resp) => {
                 if (resp) {
-                    this.alertMessage.displayAlertMessage(ALERT_CODES["SCUQ001"]);
+                    this.alertMessage.displayAlertMessage(ALERT_CODES["SCUQ003"]);
                     this.securityDto = [];
                     this.router.navigate(['./auth/login']);
                 }
@@ -163,6 +166,18 @@ export class SecurityquestionsComponent {
                 }
             })
     }
+
+    togglePasswordVisibility(field: string): void {
+        switch (field) {
+            case 'password':
+                this.showPassword = !this.showPassword;
+                break;
+            case 'confirmPassword':
+                this.showconfirmPassword = !this.showconfirmPassword;
+                break;
+        }
+      }
+
 }
 
 

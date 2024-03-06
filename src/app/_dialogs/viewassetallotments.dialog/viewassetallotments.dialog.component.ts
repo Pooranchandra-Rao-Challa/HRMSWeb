@@ -17,7 +17,7 @@ export class ViewAssetAllotmentsDialogComponent {
     unassignassetDialogComponent = UnassignassetDialogComponent;
     dialogRequest: DialogRequest = new DialogRequest();
     defaultPhoto: string;
-    
+
     constructor(private adminService: AdminService,
         public ref: DynamicDialogRef,
         private config: DynamicDialogConfig,
@@ -30,9 +30,7 @@ export class ViewAssetAllotmentsDialogComponent {
 
     initAssetAllotments() {
         this.adminService.GetAssetAllotments(this.config.data.employeeId).subscribe((resp) => {
-            if (resp) {
-                this.assetAllotments = resp as unknown as AssetAllotmentViewDto[];
-            }
+            this.assetAllotments = resp as unknown as AssetAllotmentViewDto[];
         });
     }
 

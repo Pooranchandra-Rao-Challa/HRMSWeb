@@ -296,9 +296,9 @@
             <div class="p-fluid p-formgrid">
                 <div style="margin-bottom: 15px;">
                     <label class="required">From Date:</label>&nbsp;
-                    <p-calendar formControlName="fromDate" id="Attendance_Report_fromDate" appendTo="body"
+                    <p-calendar formControlName="fromDate" id="Attendance_datewise_Report_fromDate" appendTo="body"
                         [ngClass]="{ 'is-invalid ng-dirty': FormReportControls['fromDate'].touched && FormReportControls['fromDate'].errors }"
-                        placeholder="Select From Date" [showIcon]="true">
+                        placeholder="Select From Date" [showIcon]="true" [maxDate]="maxDate">
                     </p-calendar>
                     <div class="flex">
                         <div class="align-left w-60" style="width:70%">
@@ -313,16 +313,22 @@
                 </div>
                 <div style="margin-bottom: 15px;">
                     <label class="required">To Date:</label>&nbsp;
-                    <p-calendar formControlName="toDate" id="Attendance_Report_fromDate" appendTo="body"
+                    <p-calendar formControlName="toDate" id="Attendance_datewise_Report_toDate" appendTo="body"
                         [ngClass]="{ 'is-invalid ng-dirty': FormReportControls['toDate'].touched && FormReportControls['toDate'].errors }"
-                        placeholder="Select To Date" [showIcon]="true" [maxDate]="maxDate">
+                        placeholder="Select To Date" [showIcon]="true" [maxDate]="maxDate"
+                        [minDate]="FormReportControls['fromDate'].value">
                     </p-calendar>
                     <div class="flex">
                         <div class="align-left w-60" style="width:70%">
+
                             <span *ngIf="FormReportControls['toDate'].touched && FormReportControls['toDate'].invalid">
-                                <div class="ng-invalid ng-touched p-error"
-                                    *ngIf="FormReportControls['toDate'].errors?.['required']">
-                                    Please Select From Date.</div>
+                                <div class="ng-invalid ng-touched p-error" *ngIf="FormReportControls['fromDate'].untouched && FormReportControls['toDate'].touched ||
+                                FormReportControls['fromDate'].invalid&& FormReportControls['toDate'].touched">
+                                    Please Select From Date First.</div>
+                                <div class="ng-invalid ng-touched p-error" *ngIf="FormReportControls['fromDate'].touched 
+                                &&FormReportControls['toDate'].errors?.['required']
+                                &&FormReportControls['fromDate'].valid">
+                                    Please Select To Date.</div>
                             </span>
                         </div>
                     </div>
@@ -335,7 +341,7 @@
     <ng-template pTemplate="footer">
         <div style="float:right" class="p-2">
             <button pButton type="button" class="btn btn-primary" [disabled]="!this.fbDatewiseAttendanceReport.valid"
-                label="Submit" (click)="downloadDatewiseAttendanceReport()" id="Attendance_DatewiseReport"></button>
+                label="Submit" (click)="downloadDatewiseAttendanceReport()" id="Attendance_DatewiseReport_submit"></button>
         </div>
     </ng-template>
 </p-dialog>
@@ -347,7 +353,7 @@
                     <label class="required">Project:</label>&nbsp;
                     <p-dropdown formControlName="projectId" [options]="this.projects" optionLabel="name"
                         [ngClass]="{ 'is-invalid ng-dirty': FormProjectReportControls['projectId'].touched && FormProjectReportControls['projectId'].errors }"
-                        id="Attendance_leaveType" optionValue="projectId" placeholder="Select Project" appendTo="body">
+                        id="Attendance_projectWise_Report_fromDate" optionValue="projectId" placeholder="Select Project" appendTo="body">
                     </p-dropdown>
                     <div class="flex">
                         <div class="align-left w-60" style="width:70%">
@@ -362,9 +368,9 @@
                 </div>
                 <div style="margin-bottom: 15px;">
                     <label class="required">From Date:</label>&nbsp;
-                    <p-calendar formControlName="fromDate" id="Attendance_Report_fromDate" appendTo="body"
+                    <p-calendar formControlName="fromDate" id="Attendance_projectWise_Report_fromDate" appendTo="body"
                         [ngClass]="{ 'is-invalid ng-dirty': FormProjectReportControls['fromDate'].touched && FormProjectReportControls['fromDate'].errors }"
-                        placeholder="Select From Date" [showIcon]="true">
+                        placeholder="Select From Date" [showIcon]="true" [maxDate]="maxDate">
                     </p-calendar>
                     <div class="flex">
                         <div class="align-left w-60" style="width:70%">
@@ -379,17 +385,23 @@
                 </div>
                 <div style="margin-bottom: 15px;">
                     <label class="required">To Date:</label>&nbsp;
-                    <p-calendar formControlName="toDate" id="Attendance_Report_fromDate" appendTo="body"
+                    <p-calendar formControlName="toDate" id="Attendance_projectWise_Report_fromDate" appendTo="body"
                         [ngClass]="{ 'is-invalid ng-dirty': FormProjectReportControls['toDate'].touched && FormProjectReportControls['toDate'].errors }"
-                        placeholder="Select To Date" [showIcon]="true" [maxDate]="maxDate">
+                        placeholder="Select To Date" [showIcon]="true" [maxDate]="maxDate"
+                        [minDate]="FormProjectReportControls['fromDate'].value">
                     </p-calendar>
                     <div class="flex">
                         <div class="align-left w-60" style="width:70%">
                             <span
                                 *ngIf="FormProjectReportControls['toDate'].touched && FormProjectReportControls['toDate'].invalid">
                                 <div class="ng-invalid ng-touched p-error"
-                                    *ngIf="FormProjectReportControls['toDate'].errors?.['required']">
-                                    Please Select From Date.</div>
+                                    *ngIf="FormProjectReportControls['fromDate'].untouched && FormProjectReportControls['toDate'].touched ||
+                                FormProjectReportControls['fromDate'].invalid&& FormProjectReportControls['toDate'].touched">
+                                    Please Select From Date First.</div>
+                                <div class="ng-invalid ng-touched p-error" *ngIf="FormProjectReportControls['fromDate'].touched 
+                                    &&FormProjectReportControls['toDate'].errors?.['required']
+                                    &&FormProjectReportControls['fromDate'].valid">
+                                    Please Select To Date.</div>
                             </span>
                         </div>
                     </div>
@@ -403,7 +415,7 @@
         <div style="float:right" class="p-2">
             <button pButton type="button" class="btn btn-primary" [disabled]="!this.fbProjectwiseAttendanceReport.valid"
                 label="Submit" (click)="downloadProjectwiseAttendanceReport()"
-                id="Attendance_ProjectwiseReport"></button>
+                id="Attendance_ProjectwiseReport_submit"></button>
         </div>
     </ng-template>
 </p-dialog>

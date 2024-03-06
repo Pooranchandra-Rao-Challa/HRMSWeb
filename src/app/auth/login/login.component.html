@@ -160,9 +160,9 @@
             <i class="pi pi-lock"></i>
             <input id="password" type="{{ showPassword ? 'text' : 'password' }}" pInputText
               class="w-full md:w-25rem text-color-secondary surface-50" placeholder="Password"
-              formControlName="password" maxlength="20"
+              formControlName="password" maxlength="25" minlength="8"
               [ngClass]="{ 'is-invalid ng-dirty': FormControls['password'].touched && FormControls['password'].errors }" />
-            <span class="p-input-icon-right">
+            <span class="p-input-icon-right mb-1">
               <i class="pi" [ngClass]="{ 'pi-eye': !showPassword, 'pi-eye-slash': showPassword }"
                 (click)="togglePasswordVisibility()"></i>
             </span>
@@ -172,8 +172,8 @@
               <span *ngIf="FormControls['password'].touched && FormControls['password'].invalid">
                 <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['password'].errors?.['required']">
                   Please Enter Password.</div>
-                <!-- <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['password'].errors?.['minlength']">
-                  Password Min Length Is 8.</div> -->
+                <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['password'].errors?.['minlength']">
+                  Password Min Length Is 8.</div>
               </span>
             </div>
           </div>

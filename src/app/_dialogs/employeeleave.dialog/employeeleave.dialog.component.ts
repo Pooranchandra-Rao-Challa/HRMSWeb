@@ -1,5 +1,5 @@
 import { LoaderService } from './../../_services/loader.service';
-import { PlatformLocation,formatDate } from '@angular/common';
+import { PlatformLocation, formatDate } from '@angular/common';
 import { HttpErrorResponse, HttpEvent } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -287,21 +287,32 @@ export class EmployeeLeaveDialogComponent implements OnInit {
     }
     const leaveType = this.leaveType.find(item => item.lookupDetailId === this.fbLeave.get('leaveTypeId').value);
     if (leaveType.name === 'CL') {
+      debugger
       this.dashBoardService.GetEmployeeLeavesForMonth(this.month, empId, this.year)
         .subscribe(resp => {
           this.monthlyLeaves = resp as unknown as selfEmployeeMonthlyLeaves[];
-          this.hasPendingLeaveInMonth = this.monthlyLeaves.some(leave => leave.leaveType === 'CL' && leave.status === 'Pending');
-          const isLeaveApproved = this.monthlyLeaves.find(leave => leave.status === 'Approved' && leave.leaveType === 'CL');
-          const isLeaveRejected = this.monthlyLeaves.find(leave => leave.status === 'Rejected' && leave.leaveType === 'CL');
+          this.hasPendingLeaveInMonth = this.monthlyLeaves.some(leave => leave.leaveType === 'CL' && leave.status === 'Pending' && (leave.isDeleted === false || leave.isDeleted === null));
+          const isLeaveApproved = this.monthlyLeaves.find(leave => leave.status === 'Approved' && leave.isDeleted !== true && leave.leaveType === 'CL');
+          const isLeaveRejected = this.monthlyLeaves.find(leave => leave.status === 'Rejected' && leave.status === 'Rejected' && leave.leaveType === 'CL');
           const isDeletedCL = this.monthlyLeaves.find(leave => leave.isDeleted === true && leave.leaveType === 'CL');
+          const isHalfDayLeave =  this.monthlyLeaves.find(leave => leave.status === 'Pending' && leave.isHalfDayLeave == true && leave.isDeleted !== true && leave.leaveType === 'CL');
           const clIsNotDeleted = this.monthlyLeaves.find(leave => (leave.isDeleted === false || leave.isDeleted === null) && leave.leaveType === 'CL');
           if (isLeaveApproved) {
             this.onSubmit();
           }
-          else if (isLeaveRejected) {
+          else if (isLeaveRejected && this.hasPendingLeaveInMonth === false ) {
             this.onSubmit();
           }
-          else if ((this.hasPendingLeaveInMonth && clIsNotDeleted) || (this.hasPendingLeaveInMonth && isDeletedCL !== null && clIsNotDeleted)) {
+          else if (this.hasPendingLeaveInMonth !==false && isHalfDayLeave) {
+            this.onSubmit();
+          }
+          else if (isLeaveRejected && this.hasPendingLeaveInMonth !==false) {
+            this.dialog = true;
+            const leaveWithEmployeeName = this.monthlyLeaves.find(leave => leave.employeeName);
+            this.empName = leaveWithEmployeeName ? leaveWithEmployeeName.employeeName : 'Unknown';
+            this.monthName = new Date(this.year, this.month - 1, 1).toLocaleString('default', { month: 'long' });
+          }
+          else if ((this.hasPendingLeaveInMonth && clIsNotDeleted) || (this.hasPendingLeaveInMonth && isDeletedCL !== null && clIsNotDeleted !== null)) {
             this.dialog = true;
             const leaveWithEmployeeName = this.monthlyLeaves.find(leave => leave.employeeName);
             this.empName = leaveWithEmployeeName ? leaveWithEmployeeName.employeeName : 'Unknown';
@@ -321,8 +332,8 @@ export class EmployeeLeaveDialogComponent implements OnInit {
   }
 
   onSubmit() {
-    this.fbLeave.get('fromDate').setValue(formatDate(new Date(this.fbLeave.get('fromDate').value),'yyyy-MM-dd', 'en'));    
-    this.fbLeave.get('toDate').setValue(this.fbLeave.get('toDate').value ? formatDate(new Date(this.fbLeave.get('toDate').value),'yyyy-MM-dd', 'en') : null);
+    this.fbLeave.get('fromDate').setValue(formatDate(new Date(this.fbLeave.get('fromDate').value), 'yyyy-MM-dd', 'en'));
+    this.fbLeave.get('toDate').setValue(this.fbLeave.get('toDate').value ? formatDate(new Date(this.fbLeave.get('toDate').value), 'yyyy-MM-dd', 'en') : null);
     this.fbLeave.get('url').setValue(this.emailURL);
     if (this.fbLeave.valid) {
       this.save().subscribe(
