@@ -154,8 +154,10 @@ export class EmployeeDashboardComponent implements OnInit {
     initNotifications() {
         this.dashBoardService.GetNotifications().subscribe(resp => {
             this.notifications = resp as unknown as NotificationsDto[];
-            this.hasBirthdayNotifications = this.notifications?.some(employee => employee.messageType === 'Birthday');
-            this.hasHRNotifications = this.notifications?.some(employee => employee.messageType !== 'Birthday');
+            if(Array.isArray(this.notifications)){
+                this.hasBirthdayNotifications = this.notifications?.some(employee => employee.messageType === 'Birthday');
+                this.hasHRNotifications = this.notifications.some(employee => employee.messageType !== 'Birthday');
+            }
         })
     }
     initNotificationsBasedOnId() {

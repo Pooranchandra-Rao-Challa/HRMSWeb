@@ -11,7 +11,6 @@ import { PasswordModule } from 'primeng/password';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { SecurityService } from 'src/app/_services/security.service';
-import { Dialog } from 'primeng/dialog';
 import { PrimengModule } from 'src/app/_shared/primeng.module';
 
 
