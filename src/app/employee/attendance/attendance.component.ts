@@ -210,7 +210,7 @@ export class AttendanceComponent {
     this.employeeService.GetNotUpdatedAttendanceDatesList(this.month, this.year).subscribe((resp) => {
       const NotUpdatedAttendanceDatesList = resp as unknown as NotUpdatedAttendanceDatesListDto[];
       this.NotUpdatedAttendanceDatesList = [] as unknown as NotUpdatedAttendanceDatesListDto[];
-      if (NotUpdatedAttendanceDatesList)
+      if (NotUpdatedAttendanceDatesList && Array.isArray(NotUpdatedAttendanceDatesList))
         NotUpdatedAttendanceDatesList.forEach(item => {
           if (item?.date) {
             this.NotUpdatedAttendanceDatesList.push({
