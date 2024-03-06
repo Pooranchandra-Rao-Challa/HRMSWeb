@@ -1,7 +1,23 @@
 <form [formGroup]="fbEnroll" *ngIf="displayDialog === true">
   <div class="mt-5 pt-5" id="hrms">
     <div class="grid content_scroll roles-container">
-      <div class=" col-12 md:col-4 lg:col-2"></div>
+      <div class=" col-12 md:col-4 lg:col-2">
+        <label class="required">Employee Code:</label><br />
+        <input type="text" id="employeeCode" pInputText placeholder="Enter Employee Code"
+        formControlName="employeeCode" #employeeCode alphaNumeric [maxlength]="8" [minlength]="8"
+        [ngClass]="{ 'is-invalid ng-dirty': FormControls['employeeCode'].touched && FormControls['employeeCode'].errors }"
+        (keydown)="restrictSpaces($event)" />
+        <div class="flex">
+          <div class="align-left w-60" style="width:70%">
+            <span *ngIf="FormControls['employeeCode'].touched && FormControls['employeeCode'].invalid">
+              <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['employeeCode'].errors?.['minlength']">
+                Employee Code Min & Max length is 8.</div>
+              <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['employeeCode'].errors?.['required']">
+                Please Enter Employee Code.</div>
+            </span>
+          </div>
+        </div>
+      </div>
       <div class=" col-12 md:col-4 lg:col-4">
         <label class="required">Role:</label><br />
         <p-dropdown id="roles_dropdown" [autoDisplayFirst]="false" optionLabel="name" [options]="roles"
