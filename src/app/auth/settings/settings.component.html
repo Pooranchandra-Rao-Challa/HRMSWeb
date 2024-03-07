@@ -36,7 +36,7 @@
                                 class="w-full md:w-100  mb-2"
                                 pattern="^(?!.* )(?=.*\d)(?=.*[A-Z])(?=.*[!@#$%^&*_=+-]).{8,25}$" [maxlength]="25"
                                 [ngClass]="{ 'is-invalid ng-dirty': FormControls['newPassword'].touched && FormControls['newPassword'].errors }">
-                            <span class="p-input-icon-right">
+                            <span class="p-input-icon-right mb-1">
                                 <i class="pi" [ngClass]="{ 'pi-eye': !shownewPassword, 'pi-eye-slash': shownewPassword }"
                                 (click)="togglePasswordVisibility('newPassword')"></i>
                             </span>
@@ -50,7 +50,6 @@
                                 Password must be 1 lower & upper case
                                 characters and numbers with special characters between 8 to 25 length</div>
                         </span>
-
                         <label for="confirmPassword"
                             class="block text-900 font-medium text-md required mb-1 mt-2">Confirm
                             Password:</label>

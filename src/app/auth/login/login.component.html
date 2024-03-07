@@ -138,8 +138,8 @@
         <div class="flex flex-column mt-4">
           <span class="p-input-icon-left w-full mb-1 ">
             <i class="pi pi-envelope"></i>
-            <input id="email" type="text" pInputText class="w-full md:w-25rem text-color-secondary surface-50 "
-              placeholder="User Name" formControlName="userName"
+            <input pInputText id="userName" type="text"  class="w-full md:w-25rem text-color-secondary surface-50 "
+              placeholder="User Name" formControlName="userName" alphaNumeric maxlength="8" minlength="8" 
               [ngClass]="{ 'is-invalid ng-dirty': FormControls['userName'].touched && FormControls['userName'].errors}" />
           </span>
           <div class="flex mb-4 p-1">
@@ -147,11 +147,9 @@
               <span *ngIf="FormControls['userName'].touched && FormControls['userName'].invalid">
                 <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['userName'].errors?.['required']">
                   Please Enter User Name.</div>
-                <!-- <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['userName'].errors?.['minlength']">
-                  User Name Min Length Is 5.</div>
-                <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['userName'].errors?.['maxlength']">
-                  User Name Max Length Is 50.</div>
-                <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['userName'].errors?.['pattern']">
+                <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['userName'].errors?.['minlength']">
+                  User Name Min Length Is 8.</div>
+                <!-- <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['userName'].errors?.['pattern']">
                   User Name Should Contains Alphabets & Numbers.</div> -->
               </span>
             </div>
