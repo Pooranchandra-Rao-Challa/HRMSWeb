@@ -12,12 +12,15 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EmployeeProfilePicViewDto } from '../_models/employes';
 import { RecruitmentattributeDialogComponent } from '../_dialogs/recruitmentattribute.dialog/recruitmentattribute.dialog.component';
 import { LeaveconfigurationDialogComponent } from '../_dialogs/leaveconfiguration-dialog/leaveconfiguration-dialog.component';
+
 import { RecruitmentStageDetailsDto } from '../demo/api/security';
 import { LookupService } from '../_services/lookup.service';
 import { LookupDetailsDto } from '../_models/admin';
 import { EmployeeService } from '../_services/employee.service';
 import { HrNotificationsComponent } from '../_dialogs/hr-notifications/hr-notifications.component';
 import { AdminSettingsComponent } from '../_dialogs/admin-settings/admin-settings.component';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { StarRatingComponent } from '../_dialogs/star-rating/star-rating.component';
 
 @Component({
     selector: 'app-topbar',
@@ -31,16 +34,19 @@ export class AppTopbarComponent {
     isUpdating: boolean;
     ActionTypes = Actions;
     lookupDialogComponent = LookupDialogComponent;
-    hrNotificationsComponent=HrNotificationsComponent;
+    hrNotificationsComponent = HrNotificationsComponent;
     leaveConfigurationDialogComponent = LeaveconfigurationDialogComponent;
     recruitmentattributeDialogComponent = RecruitmentattributeDialogComponent;
-    adminSettingsDialogComponent=AdminSettingsComponent;
+    adminSettingsDialogComponent = AdminSettingsComponent;
     dialogRequest: DialogRequest = new DialogRequest();
     employeeDtls = new EmployeeProfilePicViewDto();
     EmployeeId: number;
     permissions: any;
     attributeStages: RecruitmentStageDetailsDto[];
     Help: boolean = false;
+    feedBack: boolean = false;
+
+    fbFeedBackForm!: FormGroup;
 
     showHelp() {
         this.Help = true;
@@ -52,7 +58,7 @@ export class AppTopbarComponent {
         private unsavedChangesGuard: UnsavedChangesGuard,
         private loginService: LoginService,
         private updateStatusService: UpdateStatusService,
-        private dialogService: DialogService,
+        private dialogService: DialogService, private formbuilder: FormBuilder,
         public ref: DynamicDialogRef, private lookupService: LookupService,
         private employeeService: EmployeeService,) {
         this.loggedInUser = this.jwtService.GivenName;
@@ -64,7 +70,38 @@ export class AppTopbarComponent {
         if (this.EmployeeId) {
             this.initViewEmpDtls();
         }
+        this.initFeedBack();
     }
+
+    initFeedBack() {
+        this.fbFeedBackForm = this.formbuilder.group({
+            employeeId: [],
+            rating: new FormControl('', [Validators.required]),
+            comment: new FormControl('', [Validators.required]),
+            updatedThrough: new FormControl('', [Validators.required]),
+        });
+    }
+    get FormControls() { return this.fbFeedBackForm.controls; }
+    feedBackDialog() {
+        this.feedBack = true;
+        this.fbFeedBackForm.reset();
+        this.fbFeedBackForm.get('employeeId').setValue(this.jwtService.EmployeeId);
+        this.fbFeedBackForm.get('updatedThrough').setValue("web");
+    }
+
+    getRating(): FormControl {
+        return this.fbFeedBackForm.get('rating') as FormControl;
+    }
+    notEqualToZeroValidator(control: FormControl): { [key: string]: any } | null {
+        const value = control.value;
+
+        if (value !== null && value !== undefined && value === 0) {
+            return { notEqualToZero: true };
+        }
+
+        return null; // Validation passed
+    }
+
 
     initViewEmpDtls() {
         this.employeeService.getEmployeeProfileInfo(this.EmployeeId).subscribe((resp) => {
@@ -83,6 +120,7 @@ export class AppTopbarComponent {
     onConfigButtonClick() {
         this.layoutService.showConfigSidebar();
     }
+
 
     logOut() {
         // Set the flag before initiating the logout action
@@ -108,33 +146,33 @@ export class AppTopbarComponent {
     }
     getAttributeStages(): RecruitmentStageDetailsDto[] {
         this.lookupService.attributestages().subscribe((resp) => {
-          let attributeStages = resp as unknown as LookupDetailsDto[];
-          this.attributeStages = [];
-          if (attributeStages)
-            attributeStages.forEach(item => {
-              this.attributeStages.push({
-                rAWSXrefId: null,
-                recruitmentStageId: item.lookupDetailId,
-                recruitmentStage: item.name,
-                assigned: false
-              });
-            })
+            let attributeStages = resp as unknown as LookupDetailsDto[];
+            this.attributeStages = [];
+            if (attributeStages)
+                attributeStages.forEach(item => {
+                    this.attributeStages.push({
+                        rAWSXrefId: null,
+                        recruitmentStageId: item.lookupDetailId,
+                        recruitmentStage: item.name,
+                        assigned: false
+                    });
+                })
         })
         return this.attributeStages
-      }
-      openComponentDialogforRecruitmentAttributes(content: any, dialogData, 
+    }
+    openComponentDialogforRecruitmentAttributes(content: any, dialogData,
         action: Actions = this.ActionTypes.add) {
         if (action === Actions.save && content === this.recruitmentattributeDialogComponent) {
-          this.dialogRequest.dialogData = dialogData || {
-            RecruitmentStageDetails: this.getAttributeStages()
-          };
-          this.dialogRequest.header = "Attributes";
-          this.dialogRequest.width = "60%";
+            this.dialogRequest.dialogData = dialogData || {
+                RecruitmentStageDetails: this.getAttributeStages()
+            };
+            this.dialogRequest.header = "Attributes";
+            this.dialogRequest.width = "60%";
         }
         this.ref = this.dialogService.open(content, {
-          data: this.dialogRequest.dialogData,
-          header: this.dialogRequest.header,
-          width: this.dialogRequest.width
+            data: this.dialogRequest.dialogData,
+            header: this.dialogRequest.header,
+            width: this.dialogRequest.width
         });
         // this.ref.onClose.subscribe((res: any) => {
         //   if (res) {
@@ -142,8 +180,8 @@ export class AppTopbarComponent {
         //   }
         //   event.preventDefault(); // Prevent the default form submission
         // });
-      }
-   
+    }
+
 
     openComponentDialog(content: any,
         dialogData, action: Actions = this.ActionTypes.add) {

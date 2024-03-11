@@ -13,8 +13,13 @@
     <div class="topbar-end">
 
         <ul class="topbar-menu">
-           
-            <button pButton pRipple (click)="showHelp()" class="p-element p-ripple p-button-help p-button-text p-button p-component"> <i class="pi pi-fw pi-info-circle"></i> &nbsp; Help</button>
+
+            <button pButton pRipple (click)="feedBackDialog()"
+                class="p-element p-ripple p-button-help p-button-text p-button p-component"> <i
+                    class="pi pi-fw pi-info-circle"></i> &nbsp; Feedback</button>
+            <button pButton pRipple (click)="showHelp()"
+                class="p-element p-ripple p-button-help p-button-text p-button p-component"> <i
+                    class="pi pi-fw pi-info-circle"></i> &nbsp; Help</button>
             <h6 class="m-2" *ngIf="!this.EmployeeId">{{loggedInUser}}</h6>
             <h6 class="m-2">{{employeeDtls?.employeeName}}</h6>
             <li class="topbar-item">
@@ -42,7 +47,7 @@
                         </a>
                     </li>
                     <li role="menuitem" class="m-0 mb-3">
-                        <a  class="flex align-items-center hover:text-primary-500 transition-duration-200 topbar-menu-item"
+                        <a class="flex align-items-center hover:text-primary-500 transition-duration-200 topbar-menu-item"
                             pStyleClass="@grandparent" enterClass="ng-hidden" enterActiveClass="px-scalein"
                             leaveToClass="ng-hidden" leaveActiveClass="px-fadeout"
                             (click)="openHRComponentDialog(hrNotificationsComponent, null, ActionTypes.save)"
@@ -52,7 +57,7 @@
                         </a>
                     </li>
                     <li role="menuitem" class="m-0 mb-3">
-                        <a  class="flex align-items-center hover:text-primary-500 transition-duration-200 topbar-menu-item"
+                        <a class="flex align-items-center hover:text-primary-500 transition-duration-200 topbar-menu-item"
                             pStyleClass="@grandparent" enterClass="ng-hidden" enterActiveClass="px-scalein"
                             leaveToClass="ng-hidden" leaveActiveClass="px-fadeout"
                             (click)="openAdminSettingsComponentDialog(adminSettingsDialogComponent, null, ActionTypes.save)"
@@ -62,7 +67,7 @@
                         </a>
                     </li>
                     <li role="menuitem" class="m-0 mb-3">
-                        <a  class="flex align-items-center hover:text-primary-500 transition-duration-200 topbar-menu-item"
+                        <a class="flex align-items-center hover:text-primary-500 transition-duration-200 topbar-menu-item"
                             pStyleClass="@grandparent" enterClass="ng-hidden" enterActiveClass="px-scalein"
                             leaveToClass="ng-hidden" leaveActiveClass="px-fadeout"
                             (click)="openComponentDialog(lookupDialogComponent, null, ActionTypes.save)"
@@ -106,27 +111,79 @@
         </ul>
     </div>
 </div>
-<p-dialog header="HRMS how to use" [(visible)]="Help"  [modal]="true" showEffect="fade"
+<p-dialog header="HRMS how to use" [(visible)]="Help" [modal]="true" showEffect="fade"
     [breakpoints]="{'960px': '90%', '640px': '80%'}" [style]="{ width: '75%' }">
     <p-tabView>
         <p-tabPanel header="Document">
-           
-                <iframe src="assets/layout/HTU_HRMS_DOC.pdf" style="width:100%; height:400px;" frameborder="0"></iframe>
-            
+
+            <iframe src="assets/layout/HTU_HRMS_DOC.pdf" style="width:100%; height:400px;" frameborder="0"></iframe>
+
         </p-tabPanel>
         <p-tabPanel header="Video">
             <video width="100%" height="400px" controls>
                 <source src="assets/layout/HRMS_how_to_use.mp4" type="video/mp4">
                 <source src="assets/layout/HRMS_how_to_use.mp4" type="video/ogg">
-              Your browser does not support the video tag.
-              </video>
+                Your browser does not support the video tag.
+            </video>
         </p-tabPanel>
-       
+
     </p-tabView>
-    
-  
 
 
-<!-- <iframe src="assets/layout/HTA_HRMS_DOC_V!.pptx" width="800" height="600"></iframe> -->
 
+
+    <!-- <iframe src="assets/layout/HTA_HRMS_DOC_V!.pptx" width="800" height="600"></iframe> -->
+
+</p-dialog>
+<p-dialog header="Feedback" [(visible)]="feedBack" [modal]="true" showEffect="fade"
+    [breakpoints]="{'960px': '70%', '640px': '80%'}">
+    <div class="flex flex-column align-items-center justify-content-center">
+        <form [formGroup]="fbFeedBackForm">
+
+            <div class="p-fluid p-formgrid">
+                <div style="margin-bottom: 15px;">
+                    <label class="required mb-5">Rating:</label>&nbsp;
+                    &nbsp;
+                    <!-- <br/> <app-star-rating [control]="getRating()"></app-star-rating> -->
+                    <app-star-rating [control]="getRating()" [ngClass]="{ 'is-invalid ng-dirty': FormControls['rating'].touched &&
+                    FormControls['rating'].errors }">
+                    </app-star-rating>
+                    <div class="flex">
+                        <div class="align-left w-60" style="width:70%">
+                            <span *ngIf="FormControls['rating'].touched && FormControls['rating'].invalid">
+                                <div class="ng-invalid ng-touched p-error"
+                                    *ngIf="FormControls['rating'].errors?.['required']">
+                                    Please Select Rating.</div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label class="required">Comment:</label>&nbsp;
+                    <textarea rows="5" cols="30" pInputTextarea formControlName="comment" #note
+                        [ngClass]="{ 'is-invalid ng-dirty': FormControls['comment'].touched && FormControls['comment'].errors }"
+                        [maxlength]="256" placeholder="Enter Comment" id="comment"></textarea>
+                    <div class="flex">
+                        <div class="align-left w-60" style="width:70%">
+                            <span *ngIf="FormControls['comment'].touched && FormControls['comment'].invalid">
+                                <div class="ng-invalid ng-touched p-error"
+                                    *ngIf="FormControls['comment'].errors?.['required']">
+                                    Please Enter CommentP.</div>
+                            </span>
+                        </div>
+                        <div class="align-right w-40" style="width:30%; text-align:right;">
+                            <small>{{note.value.length}}/256</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <ng-template pTemplate="footer">
+        <div class="flex justify-content-center p-3" style="float:right">
+            <button pButton pRipple type="submit" class="p-button-raised p-button-primary" id="save_feedBack"
+                (click)="logOut()" [disabled]="!this.fbFeedBackForm.valid" label="Save"></button>
+        </div>
+    </ng-template>
 </p-dialog>
