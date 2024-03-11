@@ -25,6 +25,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { HrNotificationsComponent } from './hr-notifications/hr-notifications.component';
 import { AdminSettingsComponent } from './admin-settings/admin-settings.component';
 import { LeavestatisticsDialogComponent } from './leavestatistics.dialog/leavestatistics.dialog.component';
+import { FeedbackComponent } from './feedback/feedback.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { LeavestatisticsDialogComponent } from './leavestatistics.dialog/leavest
     ImageCropComponent,
     HrNotificationsComponent,
     AdminSettingsComponent,
-    LeavestatisticsDialogComponent
+    LeavestatisticsDialogComponent,
+    FeedbackComponent
 
   ],
   imports: [SharedModule,

@@ -21,6 +21,7 @@ import { HrNotificationsComponent } from '../_dialogs/hr-notifications/hr-notifi
 import { AdminSettingsComponent } from '../_dialogs/admin-settings/admin-settings.component';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { StarRatingComponent } from '../_dialogs/star-rating/star-rating.component';
+import { FeedbackComponent } from '../_dialogs/feedback/feedback.component';
 
 @Component({
     selector: 'app-topbar',
@@ -36,6 +37,7 @@ export class AppTopbarComponent {
     lookupDialogComponent = LookupDialogComponent;
     hrNotificationsComponent = HrNotificationsComponent;
     leaveConfigurationDialogComponent = LeaveconfigurationDialogComponent;
+    feedbackComponent=FeedbackComponent;
     recruitmentattributeDialogComponent = RecruitmentattributeDialogComponent;
     adminSettingsDialogComponent = AdminSettingsComponent;
     dialogRequest: DialogRequest = new DialogRequest();
@@ -70,38 +72,9 @@ export class AppTopbarComponent {
         if (this.EmployeeId) {
             this.initViewEmpDtls();
         }
-        this.initFeedBack();
     }
 
-    initFeedBack() {
-        this.fbFeedBackForm = this.formbuilder.group({
-            employeeId: [],
-            rating: new FormControl('', [Validators.required]),
-            comment: new FormControl('', [Validators.required]),
-            updatedThrough: new FormControl('', [Validators.required]),
-        });
-    }
-    get FormControls() { return this.fbFeedBackForm.controls; }
-    feedBackDialog() {
-        this.feedBack = true;
-        this.fbFeedBackForm.reset();
-        this.fbFeedBackForm.get('employeeId').setValue(this.jwtService.EmployeeId);
-        this.fbFeedBackForm.get('updatedThrough').setValue("web");
-    }
-
-    getRating(): FormControl {
-        return this.fbFeedBackForm.get('rating') as FormControl;
-    }
-    notEqualToZeroValidator(control: FormControl): { [key: string]: any } | null {
-        const value = control.value;
-
-        if (value !== null && value !== undefined && value === 0) {
-            return { notEqualToZero: true };
-        }
-
-        return null; // Validation passed
-    }
-
+ 
 
     initViewEmpDtls() {
         this.employeeService.getEmployeeProfileInfo(this.EmployeeId).subscribe((resp) => {
@@ -202,6 +175,19 @@ export class AppTopbarComponent {
             this.dialogRequest.dialogData = dialogData;
             this.dialogRequest.header = "HR Notifications";
             this.dialogRequest.width = "70%";
+        }
+        this.ref = this.dialogService.open(content, {
+            data: this.dialogRequest.dialogData,
+            header: this.dialogRequest.header,
+            width: this.dialogRequest.width
+        });
+    }
+    openfeedBackDialog(content: any,
+        dialogData, action: Actions = this.ActionTypes.add) {
+        if (action == Actions.save && content === this.feedbackComponent) {
+            this.dialogRequest.dialogData = dialogData;
+            this.dialogRequest.header = "Feedback";
+            this.dialogRequest.width = "30%";
         }
         this.ref = this.dialogService.open(content, {
             data: this.dialogRequest.dialogData,
