@@ -4,13 +4,13 @@
             <div class="col-12 text-center" *ngIf="this.currentRoute === '/employee/leaveStatistics'">
                 <p-chip styleClass="pl-0 pr-3 mr-4">
                     <span
-                        class="bg-primary border-circle w-2rem h-2rem flex align-items-center justify-content-center">{{leaveStatistics?.allottedCasualLeaves-leaveStatistics?.usedCasualLeavesInYear}}</span>
+                        class="bg-primary border-circle w-2rem h-2rem flex align-items-center justify-content-center">{{leaveStatistics?.availableCLs}}</span>
                     <span class="ml-2 font-medium">Available Casual Leaves</span>
                     
                 </p-chip>
                 <p-chip styleClass="pl-0 pr-3">
                     <span
-                        class="bg-primary border-circle w-2rem h-2rem flex align-items-center justify-content-center">{{(leaveStatistics?.allottedPrivilegeLeaves+leaveStatistics?.previousYearPrivilegeLeaves)-leaveStatistics?.usedPrivilegeLeavesInYear}}</span>
+                        class="bg-primary border-circle w-2rem h-2rem flex align-items-center justify-content-center">{{leaveStatistics?.availablePLs}}</span>
                     <span class="ml-2 font-medium">Available Privilege Leaves</span>
                 </p-chip>
 
