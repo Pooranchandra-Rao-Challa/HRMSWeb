@@ -10,7 +10,7 @@
                 </p-chip>
                 <p-chip styleClass="pl-0 pr-3">
                     <span
-                        class="bg-primary border-circle w-2rem h-2rem flex align-items-center justify-content-center">{{leaveStatistics?.allottedPrivilegeLeaves-leaveStatistics?.usedPrivilegeLeavesInYear}}</span>
+                        class="bg-primary border-circle w-2rem h-2rem flex align-items-center justify-content-center">{{(leaveStatistics?.allottedPrivilegeLeaves+leaveStatistics?.previousYearPrivilegeLeaves)-leaveStatistics?.usedPrivilegeLeavesInYear}}</span>
                     <span class="ml-2 font-medium">Available Privilege Leaves</span>
                 </p-chip>
 
