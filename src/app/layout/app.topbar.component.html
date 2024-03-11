@@ -13,6 +13,8 @@
     <div class="topbar-end">
 
         <ul class="topbar-menu">
+           
+            <button pButton pRipple (click)="showHelp()" class="p-element p-ripple p-button-help p-button-text p-button p-component"> <i class="pi pi-fw pi-info-circle"></i> &nbsp; Help</button>
             <h6 class="m-2" *ngIf="!this.EmployeeId">{{loggedInUser}}</h6>
             <h6 class="m-2">{{employeeDtls?.employeeName}}</h6>
             <li class="topbar-item">
@@ -104,3 +106,27 @@
         </ul>
     </div>
 </div>
+<p-dialog header="HRMS how to use" [(visible)]="Help"  [modal]="true" showEffect="fade"
+    [breakpoints]="{'960px': '90%', '640px': '80%'}" [style]="{ width: '75%' }">
+    <p-tabView>
+        <p-tabPanel header="Document">
+           
+                <iframe src="assets/layout/HTU_HRMS_DOC.pdf" style="width:100%; height:400px;" frameborder="0"></iframe>
+            
+        </p-tabPanel>
+        <p-tabPanel header="Video">
+            <video width="100%" height="400px" controls>
+                <source src="assets/layout/HRMS_how_to_use.mp4" type="video/mp4">
+                <source src="assets/layout/HRMS_how_to_use.mp4" type="video/ogg">
+              Your browser does not support the video tag.
+              </video>
+        </p-tabPanel>
+       
+    </p-tabView>
+    
+  
+
+
+<!-- <iframe src="assets/layout/HTA_HRMS_DOC_V!.pptx" width="800" height="600"></iframe> -->
+
+</p-dialog>

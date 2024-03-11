@@ -23,6 +23,7 @@ import { ButtonModule } from 'primeng/button';
 import { StyleClassModule } from 'primeng/styleclass';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { CommonDialogModule } from '../_dialogs/common.dialog.module';
+import { PrimengModule } from '../_shared/primeng.module';
 
 @NgModule({
     declarations: [AppLayoutComponent, AppBreadcrumbComponent, AppSidebarComponent, AppTopbarComponent, AppProfileSidebarComponent, AppMenuComponent, AppMenuitemComponent],
@@ -43,7 +44,8 @@ import { CommonDialogModule } from '../_dialogs/common.dialog.module';
         AppConfigModule,
         ButtonModule,
         ProgressSpinnerModule,
-        CommonDialogModule
+        CommonDialogModule,
+        PrimengModule
     ]
 })
 export class AppLayoutModule {}

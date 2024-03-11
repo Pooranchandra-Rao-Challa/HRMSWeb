@@ -12,6 +12,8 @@ import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { SecurityService } from 'src/app/_services/security.service';
 import { PrimengModule } from 'src/app/_shared/primeng.module';
+import { SharedModule } from 'src/app/_shared/shared.module';
+
 
 
 @NgModule({
@@ -25,7 +27,8 @@ import { PrimengModule } from 'src/app/_shared/primeng.module';
         PasswordModule,
         ReactiveFormsModule,
         PrimengModule,
-        ToastModule],
+        ToastModule,
+        SharedModule],
     declarations: [LoginComponent],
     providers: [MessageService, SecurityService],
 })

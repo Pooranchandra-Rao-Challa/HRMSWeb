@@ -6,6 +6,7 @@ import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.s
 import { RoleViewDto } from 'src/app/_models/security';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { SecurityService } from 'src/app/_services/security.service';
+import { MAX_LENGTH_8, MIN_LENGTH_8 } from 'src/app/_shared/regex';
 @Component({
   selector: 'app-final-submit',
   templateUrl: './final-submit.component.html',
@@ -31,7 +32,8 @@ export class FinalSubmitComponent {
   ngOnInit() {
     this.fbEnroll = this.formbuilder.group({
       employeeId: [this.employeeId],
-      roleId: new FormControl(null, [Validators.required])
+      roleId: new FormControl(null, [Validators.required]),
+      employeeCode: new FormControl("", [Validators.required, Validators.minLength(MIN_LENGTH_8), Validators.maxLength(MAX_LENGTH_8)]),
     })
     this.getRoles();
     const isEnrolled = false;
@@ -51,6 +53,18 @@ export class FinalSubmitComponent {
     });
   }
 
+
+  restrictSpaces(event: KeyboardEvent) {
+    const target = event.target as HTMLInputElement;
+    // Prevent the first key from being a space
+    if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0)
+      event.preventDefault();
+
+    // Restrict multiple spaces
+    if (event.key === ' ' && target.selectionStart > 0 && target.value.charAt(target.selectionStart - 1) === ' ') {
+      event.preventDefault();
+    }
+  }
   getRoles() {
     this.securityService.GetRoles().subscribe(resp => {
       this.roles = resp as unknown as RoleViewDto[];
