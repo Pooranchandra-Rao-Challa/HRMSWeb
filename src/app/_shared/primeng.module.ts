@@ -54,6 +54,7 @@ import { MenuModule } from 'primeng/menu';
 import { ListboxModule } from 'primeng/listbox';
 import { Calendar } from 'primeng/calendar';
 import { MessagesModule } from 'primeng/messages';
+import { DividerModule } from 'primeng/divider';
 Calendar.prototype.getDateFormat = () => 'dd/mm/yy';
 
 @NgModule({
@@ -110,7 +111,8 @@ Calendar.prototype.getDateFormat = () => 'dd/mm/yy';
         DragDropModule,
         TimelineModule,
         KnobModule,
-        ChipModule
+        ChipModule,
+        DividerModule
     ]
 
 })
