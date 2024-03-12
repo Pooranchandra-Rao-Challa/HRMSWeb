@@ -132,7 +132,7 @@
             <i class="icon-csv-svgrepo-com-1"></i>
             <div *ngIf="permissions?.CanDownloadAttendance">
                 <p-dropdown [options]="attendanceExcelTypes" optionLabel="label"
-                    placeholder="Select AttendanceReport Type" (onChange)="DownloadAttendanceReport($event.value)"
+                    placeholder="Select Attendance Report Type" (onChange)="DownloadAttendanceReport($event.value)"
                     optionValue="label" class="att_dropdown w-100"  [showClear]="true" >
                 </p-dropdown>
             </div>
@@ -290,7 +290,7 @@
     </ng-template>
 </p-dialog>
 
-<p-dialog header="DateWise Attendance Report" [(visible)]="DatewiseAttendanceReportDialog">
+<p-dialog header="Datewise Attendance Report" [(visible)]="DatewiseAttendanceReportDialog">
     <div class="flex flex-column align-items-center justify-content-center">
         <form [formGroup]="fbDatewiseAttendanceReport">
             <div class="p-fluid p-formgrid">
@@ -345,7 +345,7 @@
         </div>
     </ng-template>
 </p-dialog>
-<p-dialog header="ProjectWise Attendance Report" [(visible)]="ProjectwiseAttendanceReportDialog">
+<p-dialog header="Projectwise Attendance Report" [(visible)]="ProjectwiseAttendanceReportDialog">
     <div class="flex flex-column align-items-center justify-content-center">
         <form [formGroup]="fbProjectwiseAttendanceReport">
             <div class="p-fluid p-formgrid">

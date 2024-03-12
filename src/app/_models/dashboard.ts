@@ -31,6 +31,7 @@ export class SelfEmployeeDto {
     empaddress?: addresses[];
 }
 export class selfEmployeeMonthlyLeaves {
+    employeeLeaveId?:number;
     employeeName?: string;
     leaveType?: string;
     status?: string;
@@ -38,6 +39,7 @@ export class selfEmployeeMonthlyLeaves {
     isHalfDayLeave?:boolean;
     usedCLsInMonth?: number
     usedPLsInMonth?: number
+    isLeaveUsed?: boolean;
 }
 export class allottedAssets {
     assetId?: number;
