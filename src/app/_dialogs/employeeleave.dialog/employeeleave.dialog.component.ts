@@ -324,7 +324,6 @@ export class EmployeeLeaveDialogComponent implements OnInit {
           const isLeaveApproved = this.monthlyLeaves.find(leave => leave.status === 'Approved' && leave.isDeleted !== true && leave.leaveType === 'CL');
           const isLeaveRejected = this.monthlyLeaves.find(leave => leave.status === 'Rejected' && leave.status === 'Rejected' && leave.leaveType === 'CL');
           const isDeletedCL = this.monthlyLeaves.find(leave => leave.isDeleted === true && leave.leaveType === 'CL');
-          // const halfDayLeaves = this.monthlyLeaves.filter(leave => leave.status === 'Pending' && leave.isHalfDayLeave === true && leave.isDeleted !== true && leave.leaveType === 'CL');
           const isHalfDayLeave = this.monthlyLeaves.filter(leave => leave.status === 'Pending' && leave.isHalfDayLeave == true && leave.isDeleted !== true && leave.leaveType === 'CL');
           const clIsNotDeleted = this.monthlyLeaves.find(leave => (leave.isDeleted === false || leave.isDeleted === null) && leave.leaveType === 'CL');
           if (isLeaveApproved) {
@@ -333,10 +332,7 @@ export class EmployeeLeaveDialogComponent implements OnInit {
           else if (isLeaveRejected && this.hasPendingLeaveInMonth === false) {
             this.onSubmit();
           }
-          else if(this.hasPendingLeaveInMonth && isHalfDayLeave.length === 1){
-            this.onSubmit();
-          }
-          else if (isLeaveRejected && this.hasPendingLeaveInMonth !== false) {
+          else if ((isHalfDayLeave.length ===1)||(isLeaveRejected && this.hasPendingLeaveInMonth !== false)) {
             this.dialog = true;
             const leaveWithEmployeeName = this.monthlyLeaves.find(leave => leave.employeeName);
             this.empName = leaveWithEmployeeName ? leaveWithEmployeeName.employeeName : 'Unknown';
