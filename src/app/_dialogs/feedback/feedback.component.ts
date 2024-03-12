@@ -2,6 +2,7 @@ import { formatDate } from '@angular/common';
 import { HttpEvent } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable } from 'rxjs';
 import { AlertmessageService } from 'src/app/_alerts/alertmessage.service';
 import { FeedbackDto } from 'src/app/_models/admin';
@@ -19,7 +20,12 @@ export class FeedbackComponent {
   fbFeedBackForm!: FormGroup;
 
   constructor(
-    private jwtService: JwtService, private formbuilder: FormBuilder,private adminService:AdminService,private alertMessage:AlertmessageService) {
+    private jwtService: JwtService, 
+    private formbuilder: FormBuilder,
+    private adminService:AdminService,
+    private alertMessage:AlertmessageService,
+    public ref: DynamicDialogRef,
+    ) {
     this.EmployeeId = this.jwtService.EmployeeId;
   }
 
@@ -61,6 +67,7 @@ export class FeedbackComponent {
       else if(result.isSuccess == false){
         this.alertMessage.displayErrorMessage(result.message);
       }
+      this.ref.close(true);
     });
   }
 
