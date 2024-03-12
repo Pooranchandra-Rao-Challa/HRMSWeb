@@ -332,6 +332,12 @@ export class EmployeeLeaveDialogComponent implements OnInit {
           else if (isLeaveRejected && this.hasPendingLeaveInMonth === false) {
             this.onSubmit();
           }
+          else if(isHalfDayLeave.length === 1 && this.fbLeave.get('isHalfDayLeave').value == false){
+            this.dialog = true;
+            const leaveWithEmployeeName = this.monthlyLeaves.find(leave => leave.employeeName);
+            this.empName = leaveWithEmployeeName ? leaveWithEmployeeName.employeeName : 'Unknown';
+            this.monthName = new Date(this.year, this.month - 1, 1).toLocaleString('default', { month: 'long' });
+          }
           else if (this.hasPendingLeaveInMonth && isHalfDayLeave.length === 1){
             this.onSubmit();
           }
