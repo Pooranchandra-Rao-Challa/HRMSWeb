@@ -40,7 +40,7 @@ export class FeedbackComponent {
       employeeId: new FormControl(''),
       rating: new FormControl('', [Validators.required]),
       comments: new FormControl('', [Validators.required]),
-      updatedBy: new FormControl('web'),
+      updatedBy: new FormControl('Web'),
       updatedAt: new FormControl(null)
     });
   }
