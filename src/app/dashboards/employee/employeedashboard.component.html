@@ -76,10 +76,14 @@
                                     <h4 class="m-0 ">{{ empDetails?.usedPrivilegeLeavesInYear}}/{{
                                         empDetails?.allottedPrivilegeLeaves}}</h4>
                                 </div>
-                                <i class="pi icon-calendar  text-6xl att-pointer" label="Primary" pTooltip="Apply PL"
-                                    tooltipPosition="right"
-                                    (click)="openComponentDialog(employeeleaveDialogComponent, 'PL', ActionTypes.save)"
-                                    *ngIf="empDetails?.allottedPrivilegeLeaves > 0 && empDetails?.usedPrivilegeLeavesInYear !== empDetails?.allottedPrivilegeLeaves"></i>
+                                <div class="overview-info">
+                                    <h6 class="m-0 mb-1 ">Apply PL </h6>
+                                    <i class="pi icon-calendar  text-6xl att-pointer" label="Primary"
+                                        pTooltip="Apply PL" tooltipPosition="right"
+                                        (click)="openComponentDialog(employeeleaveDialogComponent, 'PL', ActionTypes.save)"
+                                        *ngIf="empDetails?.allottedPrivilegeLeaves > 0 && empDetails?.usedPrivilegeLeavesInYear !== empDetails?.allottedPrivilegeLeaves"></i>
+                                   
+                                </div>
                             </div>
                             <hr class="primary_hr" />
                             <div class="flex justify-content-between">
@@ -128,10 +132,14 @@
                                     <h4 class="m-0 ">{{ empDetails?.usedCasualLeavesInYear}}/{{
                                         empDetails?.allottedCasualLeaves}}</h4>
                                 </div>
-                                <i class="pi icon-calendar text-white text-6xl att-pointer" label="Primary"
-                                    pTooltip="Apply CL" tooltipPosition="right"
-                                    (click)="openComponentDialog(employeeleaveDialogComponent, 'CL', ActionTypes.save)"
-                                    *ngIf="empDetails?.allottedCasualLeaves > 0 && empDetails?.usedCasualLeavesInYear !== empDetails?.allottedCasualLeaves"></i>
+                                <div class="overview-info">
+                                    <h6 class="m-0 mb-1 ">Apply CL </h6>
+                                    <i class="pi icon-calendar text-white text-6xl att-pointer" label="Primary"
+                                        pTooltip="Apply CL" tooltipPosition="right"
+                                        (click)="openComponentDialog(employeeleaveDialogComponent, 'CL', ActionTypes.save)"
+                                        *ngIf="empDetails?.allottedCasualLeaves > 0 && empDetails?.usedCasualLeavesInYear !== empDetails?.allottedCasualLeaves"></i>
+                                    
+                                </div>
 
                             </div>
                             <hr class="primary_hr" />
