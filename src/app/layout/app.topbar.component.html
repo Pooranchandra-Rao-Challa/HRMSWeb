@@ -15,8 +15,8 @@
         <ul class="topbar-menu">
 
             <button pButton pRipple (click)="openfeedBackDialog(feedbackComponent, null, ActionTypes.save)"
-                class="p-element p-ripple p-button-help p-button-text p-button p-component"> <i
-                    class="pi pi-fw pi-info-circle"></i> &nbsp; Feedback</button>
+                class="p-element p-ripple p-button-info p-button-text p-button p-component"> <i
+                    class="pi pi-fw pi-star"></i> &nbsp; Feedback</button>
             <button pButton pRipple (click)="showHelp()"
                 class="p-element p-ripple p-button-help p-button-text p-button p-component"> <i
                     class="pi pi-fw pi-info-circle"></i> &nbsp; Help</button>
@@ -111,7 +111,7 @@
         </ul>
     </div>
 </div>
-<p-dialog header="HRMS how to use" [(visible)]="Help" [modal]="true" showEffect="fade"
+<p-dialog header="How to use HRMS - Video & Document" [(visible)]="Help" [modal]="true" showEffect="fade"
     [breakpoints]="{'960px': '90%', '640px': '80%'}" [style]="{ width: '75%' }">
     <p-tabView>
         <p-tabPanel header="Document">
