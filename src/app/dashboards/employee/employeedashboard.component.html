@@ -73,7 +73,7 @@
                             <div class="flex justify-content-between ">
                                 <div class="overview-info">
                                     <h6 class="m-0 mb-1 ">Current Balance </h6>
-                                    <h4 class="m-0 ">{{ empDetails?.usedPrivilegeLeavesInYear}}/{{
+                                    <h4 class="m-0 mt-2">{{ empDetails?.usedPrivilegeLeavesInYear}}/{{
                                         empDetails?.allottedPrivilegeLeaves}}</h4>
                                 </div>
                                 <div class="overview-info">
@@ -129,7 +129,7 @@
                             <div class="flex justify-content-between">
                                 <div class="overview-info">
                                     <h6 class="m-0  mb-1 ">Current Balance </h6>
-                                    <h4 class="m-0 ">{{ empDetails?.usedCasualLeavesInYear}}/{{
+                                    <h4 class="m-0 mt-2">{{ empDetails?.usedCasualLeavesInYear}}/{{
                                         empDetails?.allottedCasualLeaves}}</h4>
                                 </div>
                                 <div class="overview-info">
@@ -197,7 +197,7 @@
                                         <div class="flex justify-content-between align-items-center mb-1">
                                             <div class="flex align-items-center  w-100 gap-1">
                                                 <span
-                                                    class="mt-1 text-900 block text-sm line-height-2  overflow-hidden text-overflow-ellipsis"
+                                                    class="mt-1 text-900 block text-md line-height-2  overflow-hidden text-overflow-ellipsis"
                                                     style="width:80%;">
                                                     {{employee?.message}}
                                                 </span>
@@ -326,14 +326,15 @@
                                                 class="shadow-2  my-0 mx-0 employee_profile_pic avatar_projects_dash" />
                                         </div>
                                     </ng-container>
-                                    <p class="text-primary mb-0 "><b>{{asset.assetName}}</b></p>
-                                    <div class="text-center ">
-
-
-                                        <span class=" text-gray-500" *ngIf="asset.assetCode"
-                                            pTooltip="Asset Code"><b><span class="icon-barcode text-primary "></span>
+                                    <p class="text-primary mb-0 "><b>Asset Type:<span class="text-gray-500">{{asset.assetType}}</span></b></p>
+                                    <p class="text-primary mb-0 "><b>Asset Name:<span class="text-gray-500">{{asset.assetName}}</span></b></p>
+                                    <div class="text-center">
+                                        <span class=" text-gray-500" *ngIf="asset.assetCode">
+                                            <!-- <b><span class="icon-barcode text-primary "></span>
                                             </b>
-                                            {{asset.assetCode}} </span>
+                                            {{asset.assetCode}}  -->
+                                            <p class="text-primary mb-0 "><b>Asset Code:<span class="text-gray-500">{{asset.assetCode}}</span></b></p>
+                                        </span>
                                     </div>
                                     <div class="text-left"
                                         style=" color:gray; border-top:1px solid #ccc; font-size:12px; font-weight: 700;"
