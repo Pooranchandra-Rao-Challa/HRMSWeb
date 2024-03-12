@@ -234,14 +234,14 @@
               <form class="col-12" [formGroup]="fbChangePassword">
                 <div class="col-12 p-0">
                   <label for="password" class="block text-900 font-medium text-md required mb-1 mt-5">Password:</label>
-                  <input id="password" type="{{ showPassword ? 'text' : 'password' }}" formControlName="password" placeholder="Password" pInputText
-                    class="w-full md:w-100  mb-2" pattern="^(?!.* )(?=.*\d)(?=.*[A-Z])(?=.*[!@#$%^&*_=+-]).{8,25}$"
+                  <p-password [toggleMask]="true" id="password"  formControlName="password" placeholder="Password" 
+                    class="w-full md:w-100  mb-2 p-password_cus" pattern="^(?!.* )(?=.*\d)(?=.*[A-Z])(?=.*[!@#$%^&*_=+-]).{8,25}$"
                     [maxlength]="25"
-                    [ngClass]="{ 'is-invalid ng-dirty': FormControls['password'].touched && FormControls['password'].errors }">
-                    <span class="p-input-icon-right mb-1">
+                    [ngClass]="{ 'is-invalid ng-dirty': FormControls['password'].touched && FormControls['password'].errors }"></p-password>
+                    <!-- <span class="p-input-icon-right mb-1">
                       <i class="pi" [ngClass]="{ 'pi-eye': !showPassword, 'pi-eye-slash': showPassword }"
                       (click)="togglePasswordVisibility('password')"></i>
-                  </span>
+                  </span> -->
                   <span *ngIf="FormControls['password'].touched && FormControls['password'].invalid">
                     <div class="ng-invalid ng-touched p-error" *ngIf="FormControls['password'].errors?.['required']">
                       Please Enter New Password.</div>
@@ -253,15 +253,15 @@
 
                   <label for="confirmPassword" class="block text-900 font-medium text-md required mb-1 mt-2">Confirm
                     Password:</label>
-                  <input id="confirm-password" formControlName="confirmPassword" type="{{ showconfirmPassword ? 'text' : 'password' }}"
-                    formControlName="confirmPassword" placeholder="Confirm Password" pInputText
-                    class="w-full md:w-100  mb-2" pattern="^(?!.* )(?=.*\d)(?=.*[A-Z])(?=.*[!@#$%^&*_=+-]).{8,25}$"
+                    <p-password [toggleMask]="true" id="confirm-password" formControlName="confirmPassword" 
+                    formControlName="confirmPassword" placeholder="Confirm Password" 
+                    class="w-full md:w-100  mb-2 p-password_cus" pattern="^(?!.* )(?=.*\d)(?=.*[A-Z])(?=.*[!@#$%^&*_=+-]).{8,25}$"
                     [maxlength]="25"
-                    [ngClass]="{ 'is-invalid ng-dirty': FormControls['confirmPassword'].touched && FormControls['confirmPassword'].errors }">
-                    <span class="p-input-icon-right mb-1">
+                    [ngClass]="{ 'is-invalid ng-dirty': FormControls['confirmPassword'].touched && FormControls['confirmPassword'].errors }"></p-password>
+                    <!-- <span class="p-input-icon-right mb-1">
                       <i class="pi" [ngClass]="{ 'pi-eye': !showconfirmPassword, 'pi-eye-slash': showconfirmPassword }"
                       (click)="togglePasswordVisibility('confirmPassword')"></i>
-                  </span>
+                  </span> -->
                   <span *ngIf="FormControls['confirmPassword'].touched && FormControls['confirmPassword'].invalid">
                     <div class="ng-invalid ng-touched p-error"
                       *ngIf="FormControls['confirmPassword'].errors?.['required']">
