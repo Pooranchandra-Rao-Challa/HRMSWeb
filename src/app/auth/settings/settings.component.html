@@ -35,7 +35,21 @@
                                 formControlName="newPassword" placeholder="Enter New Password" 
                                 class="w-full  mb-2  p-password_cus"
                                 pattern="^(?!.* )(?=.*\d)(?=.*[A-Z])(?=.*[!@#$%^&*_=+-]).{8,25}$" [maxlength]="25"
-                                [ngClass]="{ 'is-invalid ng-dirty': FormControls['newPassword'].touched && FormControls['newPassword'].errors }"></p-password>
+                                [ngClass]="{ 'is-invalid ng-dirty': FormControls['newPassword'].touched && FormControls['newPassword'].errors }">
+                                <ng-template pTemplate="header">
+                                    <h6>Pick a password</h6>
+                                </ng-template>
+                                <ng-template pTemplate="footer">
+                                    <p-divider></p-divider>
+                                    <p class="mt-2">Suggestions</p>
+                                    <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+                                        <li>At least one lowercase</li>
+                                        <li>At least one uppercase</li>
+                                        <li>At least one numeric</li>
+                                        <li>Minimum 8 characters</li>
+                                    </ul>
+                                </ng-template>
+                            </p-password>
                             <!-- <span class="p-input-icon-right mb-1">
                                 <i class="pi" [ngClass]="{ 'pi-eye': !shownewPassword, 'pi-eye-slash': shownewPassword }"
                                 (click)="togglePasswordVisibility('newPassword')"></i>
@@ -59,7 +73,21 @@
                                 placeholder="Enter Confirm Password"  class="mb-2 p-password_cus"
                                 inputStyle="w-full"
                                 pattern="^(?!.* )(?=.*\d)(?=.*[A-Z])(?=.*[!@#$%^&*_=+-]).{8,25}$" [maxlength]="25"
-                                [ngClass]="{ 'is-invalid ng-dirty': FormControls['confirmPassword'].touched && FormControls['confirmPassword'].errors }"></p-password>
+                                [ngClass]="{ 'is-invalid ng-dirty': FormControls['confirmPassword'].touched && FormControls['confirmPassword'].errors }">
+                                <ng-template pTemplate="header">
+                                    <h6>Pick a password</h6>
+                                </ng-template>
+                                <ng-template pTemplate="footer">
+                                    <p-divider></p-divider>
+                                    <p class="mt-2">Suggestions</p>
+                                    <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+                                        <li>At least one lowercase</li>
+                                        <li>At least one uppercase</li>
+                                        <li>At least one numeric</li>
+                                        <li>Minimum 8 characters</li>
+                                    </ul>
+                                </ng-template>
+                            </p-password>
                             <!-- <span class="p-input-icon-right mb-1">
                                 <i class="pi" [ngClass]="{ 'pi-eye': !showconfirmPassword, 'pi-eye-slash': showconfirmPassword }"
                                 (click)="togglePasswordVisibility('confirmPassword')"></i>
