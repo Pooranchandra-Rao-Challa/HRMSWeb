@@ -218,6 +218,10 @@ export class EmployeeDashboardComponent implements OnInit {
         this.dashBoardService.GetEmployeeDetails(this.jwtService.EmployeeId).subscribe((resp) => {
             this.empDetails = resp as unknown as SelfEmployeeDto;
             this.empDetails.assets = JSON.parse(this.empDetails.allottedAssets);
+            console.log(this.empDetails);
+            
+            console.log(this.empDetails.assets);
+            
             this.empDetails.empaddress = JSON.parse(this.empDetails.addresses);
             this.empDetails.projects = JSON.parse(this.empDetails.workingProjects);
 

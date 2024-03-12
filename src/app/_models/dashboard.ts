@@ -46,6 +46,7 @@ export class allottedAssets {
     assetCode?: string;
     assignedOn?: string;
     thumbnail?: string;
+    assetType?: string;
 }
 export class workingProjects {
     projectId?: number;
