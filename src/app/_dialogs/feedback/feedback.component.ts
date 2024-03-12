@@ -1,5 +1,11 @@
+import { formatDate } from '@angular/common';
+import { HttpEvent } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { AlertmessageService } from 'src/app/_alerts/alertmessage.service';
+import { FeedbackDto } from 'src/app/_models/admin';
+import { AdminService } from 'src/app/_services/admin.service';
 import { JwtService } from 'src/app/_services/jwt.service';
 
 @Component({
@@ -9,11 +15,11 @@ import { JwtService } from 'src/app/_services/jwt.service';
 export class FeedbackComponent {
   EmployeeId: number;
   permissions: any;
-  feedBack: boolean = false;
-
+  // feedBack: boolean = false;
   fbFeedBackForm!: FormGroup;
+
   constructor(
-    private jwtService: JwtService, private formbuilder: FormBuilder,) {
+    private jwtService: JwtService, private formbuilder: FormBuilder,private adminService:AdminService,private alertMessage:AlertmessageService) {
     this.EmployeeId = this.jwtService.EmployeeId;
   }
 
@@ -21,24 +27,41 @@ export class FeedbackComponent {
     this.permissions = this.jwtService.Permissions;
     this.initFeedBack();
   }
+
   initFeedBack() {
     this.fbFeedBackForm = this.formbuilder.group({
-      employeeId: [],
+      feedbackId:[null],
+      employeeId: new FormControl(''),
       rating: new FormControl('', [Validators.required]),
-      comment: new FormControl('', [Validators.required]),
-      updatedThrough: new FormControl('', [Validators.required]),
+      comments: new FormControl('', [Validators.required]),
+      updatedBy: new FormControl('web'),
+      updatedAt: new FormControl(null)
     });
   }
   get FormControls() { return this.fbFeedBackForm.controls; }
-  feedBackDialog() {
-    this.feedBack = true;
-    this.fbFeedBackForm.reset();
-    this.fbFeedBackForm.get('employeeId').setValue(this.jwtService.EmployeeId);
-    this.fbFeedBackForm.get('updatedThrough').setValue("web");
 
+  // feedBackDialog() {
+  //   this.feedBack = true;
+  //   this.fbFeedBackForm.reset();
+  //   this.fbFeedBackForm.get('employeeId').setValue(this.jwtService.EmployeeId);
+  //   this.fbFeedBackForm.get('updatedThrough').setValue("web");
+  // }
+  
+  save(): Observable<HttpEvent<FeedbackDto[]>> {
+    return this.adminService.UpdateFeedback(this.fbFeedBackForm.value);
   }
-  save(){
 
+  onSubmit(){
+    this.fbFeedBackForm.get('employeeId').setValue(this.jwtService.EmployeeId);
+    this.save().subscribe((resp:any)=>{
+      let result = resp as unknown as any;
+      if (result.isSuccess == true) {
+        this.alertMessage.displayAlertMessage(result.message);
+      }
+      else if(result.isSuccess == false){
+        this.alertMessage.displayErrorMessage(result.message);
+      }
+    });
   }
 
   getRating(): FormControl {

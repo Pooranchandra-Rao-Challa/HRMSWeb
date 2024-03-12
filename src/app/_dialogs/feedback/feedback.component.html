@@ -20,14 +20,14 @@
             </div>
             <div style="margin-bottom: 15px;">
                 <label class="required">Comment:</label>&nbsp;
-                <textarea rows="5" cols="30" pInputTextarea formControlName="comment" #note
-                    [ngClass]="{ 'is-invalid ng-dirty': FormControls['comment'].touched && FormControls['comment'].errors }"
+                <textarea rows="5" cols="30" pInputTextarea formControlName="comments" #note
+                    [ngClass]="{ 'is-invalid ng-dirty': FormControls['comments'].touched && FormControls['comments'].errors }"
                     [maxlength]="256" placeholder="Enter Comment" id="comment"></textarea>
                 <div class="flex">
                     <div class="align-left w-60" style="width:70%">
-                        <span *ngIf="FormControls['comment'].touched && FormControls['comment'].invalid">
+                        <span *ngIf="FormControls['comments'].touched && FormControls['comments'].invalid">
                             <div class="ng-invalid ng-touched p-error"
-                                *ngIf="FormControls['comment'].errors?.['required']">
+                                *ngIf="FormControls['comments'].errors?.['required']">
                                 Please Enter CommentP.</div>
                         </span>
                     </div>
@@ -40,9 +40,7 @@
 
     </form>
 </div>
-<ng-template pTemplate="footer">
-    <div class="flex justify-content-center p-3" style="float:right">
-        <button pButton pRipple type="submit" class="p-button-raised p-button-primary" id="save_feedBack"
-            (click)="save()" [disabled]="!this.fbFeedBackForm.valid" label="Save"></button>
-    </div>
-</ng-template>
+<div class=" footer dialog-footer">
+    <button pButton pRipple type="submit" class="p-button-raised p-button-primary" id="save_feedBack"
+        (click)="onSubmit()" [disabled]="!this.fbFeedBackForm.valid" label="Update Feedback"></button>
+</div>

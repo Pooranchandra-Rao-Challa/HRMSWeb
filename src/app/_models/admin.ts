@@ -387,3 +387,12 @@ export class ApplicantLanguageSkills {
     canWrite?: boolean;
     canSpeak?: boolean;
 }
+
+export class FeedbackDto{
+    feedbackId?:number;
+    employeeId?:number;
+    rating?:number;
+    comments?:string;
+    updatedBy?:string;
+    updatedAt?:Date;
+}
