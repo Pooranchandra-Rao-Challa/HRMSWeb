@@ -44,10 +44,11 @@ export class LeaveStatisticsComponent {
   value: number;
   computedCLs: number[];
   computedPLs: number[];
-  addDialog:boolean = false;
+  addDialog: boolean = false;
   leaveReportTypes: any[];
   selectedColumnHeader!: ITableHeader[];
   _selectedColumns!: ITableHeader[];
+  items: any[];
 
   headers: ITableHeader[] = [
     { field: 'name', header: 'name', label: 'Employee Name' },
@@ -73,7 +74,21 @@ export class LeaveStatisticsComponent {
     private jwtService: JwtService,
     private router: Router
   ) {
+    this.items = [
+      {
+        label: 'Update',
+        icon: 'pi pi-refresh',
+        command: () => {
+          this.update();
+        }
+      },
+    ];
+  }
 
+  save(severity: string) {
+  }
+
+  update() {
   }
 
   set selectedColumns(val: any[]) {
@@ -187,26 +202,33 @@ export class LeaveStatisticsComponent {
     }
   }
 
+  DownloadLeavesPdf(name: string) {
+    if (name == LeavesReportType.CompleteLeavesReport)
+      this.downloadLeavesReport();
+    else if (name == LeavesReportType.AsOnDateLeavesReport)
+      this.downloadLeavesAsOnDate();
+  }
+
   openComponentDialog(content: any,
     dialogData, action: Actions = this.ActionTypes.save) {
-      if(this.year != (new Date().getFullYear())){
-       this.addDialog = true;
-      }else{
-        if (action == Actions.save && content === this.leavestatisticsDialogComponent) {
-          this.dialogRequest.dialogData = dialogData;
-          this.dialogRequest.header = "Leave Statistics";
-          this.dialogRequest.width = "60%";
-        }
-        this.ref = this.dialogService.open(content, {
-          data: this.dialogRequest.dialogData,
-          header: this.dialogRequest.header,
-          width: this.dialogRequest.width
-        });
-        this.ref.onClose.subscribe((res: any) => {
-          if (res) this.getLeaves();
-          event.preventDefault(); // Prevent the default form submission
-        });
-
+    if (this.year != (new Date().getFullYear())) {
+      this.addDialog = true;
+    } else {
+      if (action == Actions.save && content === this.leavestatisticsDialogComponent) {
+        this.dialogRequest.dialogData = dialogData;
+        this.dialogRequest.header = "Leave Statistics";
+        this.dialogRequest.width = "60%";
       }
+      this.ref = this.dialogService.open(content, {
+        data: this.dialogRequest.dialogData,
+        header: this.dialogRequest.header,
+        width: this.dialogRequest.width
+      });
+      this.ref.onClose.subscribe((res: any) => {
+        if (res) this.getLeaves();
+        event.preventDefault(); // Prevent the default form submission
+      });
+
+    }
   }
 }

@@ -55,6 +55,10 @@
                         </div>
                     </div>
                     <div class="flex gap-2 mt-2">
+                        <div>
+                            <button pButton class="p-button doc_button mx-2" icon="pi pi-file-pdf"
+                                pTooltip="Download Leaves Pdf" tooltipPosition="left"></button>
+                        </div>
                         <div *ngIf="permissions?.CanDownloadEmployeeLeaves">
                             <button pButton class="p-button doc_button" icon="icon-csv-svgrepo-com-1"
                                 pTooltip="Download Leaves Report" tooltipPosition="left"
