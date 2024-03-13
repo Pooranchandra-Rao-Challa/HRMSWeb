@@ -3,7 +3,7 @@
     <div class="col-12">
         <div class="flex flex-column sm:flex-row align-items-center gap-3 mb-5">
             <div class="flex flex-column align-items-center sm:align-items-start">
-                <h4 class="text-800 font-medium m-0 mb-1">Welcome {{ empDetails?.employeeName}}</h4>
+                <!-- <h4 class="text-800 font-medium m-0 mb-1">Welcome {{ empDetails?.employeeName}}</h4> -->
                 <!-- <p class="text-600 m-0">Your last login was on 01/02/2023 at 10:24 am</p> -->
             </div>
         </div>
@@ -76,13 +76,12 @@
                                     <h4 class="m-0 mt-2">{{ empDetails?.usedPrivilegeLeavesInYear}}/{{
                                         empDetails?.allottedPrivilegeLeaves}}</h4>
                                 </div>
-                                <div class="overview-info">
+                                <div class="overview-info"
+                                    *ngIf="empDetails?.allottedPrivilegeLeaves > 0 && empDetails?.usedPrivilegeLeavesInYear !== empDetails?.allottedPrivilegeLeaves">
                                     <h6 class="m-0 mb-1 ">Apply PL </h6>
                                     <i class="pi icon-calendar  text-6xl att-pointer" label="Primary"
                                         pTooltip="Apply PL" tooltipPosition="right"
-                                        (click)="openComponentDialog(employeeleaveDialogComponent, 'PL', ActionTypes.save)"
-                                        *ngIf="empDetails?.allottedPrivilegeLeaves > 0 && empDetails?.usedPrivilegeLeavesInYear !== empDetails?.allottedPrivilegeLeaves"></i>
-                                   
+                                        (click)="openComponentDialog(employeeleaveDialogComponent, 'PL', ActionTypes.save)"></i>
                                 </div>
                             </div>
                             <hr class="primary_hr" />
@@ -132,15 +131,13 @@
                                     <h4 class="m-0 mt-2">{{ empDetails?.usedCasualLeavesInYear}}/{{
                                         empDetails?.allottedCasualLeaves}}</h4>
                                 </div>
-                                <div class="overview-info">
+                                <div class="overview-info"
+                                    *ngIf="empDetails?.allottedCasualLeaves > 0 && empDetails?.usedCasualLeavesInYear !== empDetails?.allottedCasualLeaves">
                                     <h6 class="m-0 mb-1 ">Apply CL </h6>
                                     <i class="pi icon-calendar text-white text-6xl att-pointer" label="Primary"
                                         pTooltip="Apply CL" tooltipPosition="right"
-                                        (click)="openComponentDialog(employeeleaveDialogComponent, 'CL', ActionTypes.save)"
-                                        *ngIf="empDetails?.allottedCasualLeaves > 0 && empDetails?.usedCasualLeavesInYear !== empDetails?.allottedCasualLeaves"></i>
-                                    
+                                        (click)="openComponentDialog(employeeleaveDialogComponent, 'CL', ActionTypes.save)"></i>
                                 </div>
-
                             </div>
                             <hr class="primary_hr" />
                             <div class="flex justify-content-between">
@@ -307,7 +304,7 @@
             <div class="col-12 md:col-6 lg:col-5 p-3">
                 <div class="card-headr chart_head gap-2 ">
                     <div class="card-title text-center">
-                        <h6 class="m-0">Alloted Assets </h6>
+                        <h6 class="m-0">Allocated Assets </h6>
                     </div>
                 </div>
                 <div class="applicant-n-block-home">
@@ -328,29 +325,31 @@
                                     </ng-container>
                                     <div class="text-center">
                                         <span class=" text-gray-500" *ngIf="asset.assetCode">
-                                            <b><span class="icon-settings_display text-primary"  pTooltip="Asset Type"></span>
+                                            <b><span class="icon-settings_display text-primary"
+                                                    pTooltip="Asset Type"></span>
                                             </b>
-                                            {{asset.assetType}} 
+                                            {{asset.assetType}}
                                             <!-- <p class="text-primary mb-0 "><b>Asset Code :<span class="text-gray-400">{{asset.assetCode}}</span></b></p> -->
                                         </span>
-                                       
-                                      
+
+
                                         <!-- <p class="text-primary mb-0 "><b>Asset Type :<span class="text-gray-400">{{asset.assetType}}</span></b></p>
                                         <p class="text-primary mb-0 "><b>Asset Name :<span class="text-gray-400">{{asset.assetName}}</span></b></p>
                                          -->
                                     </div>
                                     <div class="text-left">
-                                        
+
                                         <span class=" text-gray-500" *ngIf="asset.assetCode">
                                             <b><span class="icon-barcode text-primary " pTooltip="Asset Code"></span>
                                             </b>
-                                            {{asset.assetCode}} 
+                                            {{asset.assetCode}}
                                             <!-- <p class="text-primary mb-0 "><b>Asset Code :<span class="text-gray-400">{{asset.assetCode}}</span></b></p> -->
-                                        </span><br/>
+                                        </span><br />
                                         <span class=" text-gray-500" *ngIf="asset.assetCode">
-                                            <b><span class="icon-address-card-o text-primary "  pTooltip="Asset Name">  </span>
+                                            <b><span class="icon-address-card-o text-primary " pTooltip="Asset Name">
+                                                </span>
                                             </b>
-                                            {{asset.assetName}} 
+                                            {{asset.assetName}}
                                             <!-- <p class="text-primary mb-0 "><b>Asset Code :<span class="text-gray-400">{{asset.assetCode}}</span></b></p> -->
                                         </span>
                                         <!-- <p class="text-primary mb-0 "><b>Asset Type :<span class="text-gray-400">{{asset.assetType}}</span></b></p>
