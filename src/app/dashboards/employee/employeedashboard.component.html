@@ -270,19 +270,19 @@
                                         style="background-color: var(--primary-lighter-color)">
                                         <div class="flex justify-content-between align-items-center mb-1">
                                             <div class="flex align-items-center gap-1">
-                                                <h6 class="line-height-3 m-0 font-medium font-medium">
+                                                <span
+                                                    class="mt-1 text-600 block text-sm line-height-2  overflow-hidden text-overflow-ellipsis">
                                                     Birthday Wishes
-                                                    from <b>{{employee?.employeeName}}.</b></h6>
+                                                    from {{employee?.employeeName}}.</span>
                                                 <p-tag styleClass="m-0 mr-2 px-2 text-xs bg-orange-300"
                                                     *ngIf="employee.code" class="inline-block"
                                                     value="{{employee?.code}}"></p-tag>
                                             </div>
                                         </div>
                                         <div class="flex justify-content-between align-items-center">
-                                            <span
-                                                class="mt-1 text-400 block text-sm line-height-2  overflow-hidden text-overflow-ellipsis">
+                                            <h6 class="line-height-3 m-0 font-medium font-medium">
                                                 {{employee?.message}}
-                                            </span>
+                                            </h6>
                                         </div>
                                     </li>
                                 </div>
@@ -304,7 +304,7 @@
             <div class="col-12 md:col-6 lg:col-5 p-3">
                 <div class="card-headr chart_head gap-2 ">
                     <div class="card-title text-center">
-                        <h6 class="m-0">Allocated  Assets </h6>
+                        <h6 class="m-0">Allocated Assets </h6>
                     </div>
                 </div>
                 <div class="applicant-n-block-home">
@@ -458,7 +458,8 @@
         <div class="col-12 ">
 
             <textarea id="mytextarea" type="text" #Wishes rows="3" placeholder="Enter Wishes" pInputTextarea
-                formControlName="message" class="freeze_text-area col-12 mb-1" [maxLength]="256"   (keydown)="restrictSpaces($event)">
+                formControlName="message" class="freeze_text-area col-12 mb-1" [maxLength]="256"
+                (keydown)="restrictSpaces($event)">
             </textarea>
             <div class="align-right w-40" style="width:100%; text-align:right;">
                 <small>{{Wishes.value.length}}/256</small>
@@ -467,7 +468,8 @@
     </form>
     <ng-template pTemplate="footer">
         <div style="float:right" class="p-2">
-            <button pButton type="button" class="btn btn-primary" label="Send Wishes" (click)="onSubmit()" [disabled]="fbWishes.invalid"></button>
+            <button pButton type="button" class="btn btn-primary" label="Send Wishes" (click)="onSubmit()"
+                [disabled]="fbWishes.invalid"></button>
         </div>
     </ng-template>
 </p-dialog>
