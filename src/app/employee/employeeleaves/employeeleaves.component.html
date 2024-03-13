@@ -81,7 +81,7 @@
             <ng-template pTemplate="header" let-columns>
                 <tr>
                     <th class="text-center" *ngIf="permissions?.CanDeleteLeaves">Delete</th>
-                    <th class="text-center" *ngIf="permissions?.CanManageLeave" pFrozenColumn alignFrozen="right"
+                    <th class="text-center" pFrozenColumn alignFrozen="right"
                         [frozen]="true" pFrozenColumn> Actions
                     </th>
                     <th *ngFor="let col of headers" [pSortableColumn]="col.header">
