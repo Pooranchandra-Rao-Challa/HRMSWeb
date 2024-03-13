@@ -13,6 +13,7 @@ import { JwtService } from 'src/app/_services/jwt.service';
 import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { LeavestatisticsDialogComponent } from 'src/app/_dialogs/leavestatistics.dialog/leavestatistics.dialog.component';
 import { Router } from '@angular/router';
+import { PrimeNGConfig,MenuItem } from 'primeng/api';
 
 enum LeavesReportType {
   CompleteLeavesReport = 'Complete Leaves Report',
@@ -27,6 +28,7 @@ enum LeavesReportType {
   ]
 })
 export class LeaveStatisticsComponent {
+  items: MenuItem[] | undefined;
   globalFilterFields: string[] = ['name', 'experienceInCompany', 'dateofJoin', 'reportingTo', 'allottedCasualLeaves', 'allottedPrivilegeLeaves',
     'usedCasualLeavesInYear', 'usedCasualLeavesInMonth', 'usedPrivilegeLeavesInYear', 'usedPrivilegeLeavesInMonth', 'usedLWPInYear',
     'usedLWPInMonth', 'previousYearPrivilegeLeaves', 'absentsInYear', 'absentsInMonth'];
@@ -48,7 +50,7 @@ export class LeaveStatisticsComponent {
   leaveReportTypes: any[];
   selectedColumnHeader!: ITableHeader[];
   _selectedColumns!: ITableHeader[];
-  items: any[];
+  // items: any[];
 
   headers: ITableHeader[] = [
     { field: 'name', header: 'name', label: 'Employee Name' },
@@ -65,6 +67,7 @@ export class LeaveStatisticsComponent {
     { field: 'usedLWPInYear', header: 'usedLWPInYear', label: 'Used LWP(Year)' },
     { field: 'workingFromHomeInYear', header: 'workingFromHomeInYear', label: ' Used WFH(Year)' }
   ];
+  
   constructor(
     private globalFilterService: GlobalFilterService,
     private employeeService: EmployeeService,
@@ -72,7 +75,8 @@ export class LeaveStatisticsComponent {
     public ref: DynamicDialogRef,
     private reportService: ReportService,
     private jwtService: JwtService,
-    private router: Router
+    private router: Router,
+    private primengConfig: PrimeNGConfig
   ) {
     this.items = [
       {
@@ -99,6 +103,7 @@ export class LeaveStatisticsComponent {
   }
 
   ngOnInit(): void {
+    this.primengConfig.ripple = true;
     this.permissions = this.jwtService.Permissions;
     this.getLeaves();
     this.getLeavesReportTypeOptions();
