@@ -539,7 +539,7 @@
     <form [formGroup]="fbWishes">
         <div class="col-12 ">
             <textarea id="mytextarea" type="text" #Wishes rows="3" placeholder="Enter Wishes" pInputTextarea
-                formControlName="message" class="freeze_text-area col-12 mb-1" [maxLength]="256">
+                formControlName="message" class="freeze_text-area col-12 mb-1" [maxLength]="256" (keydown)="restrictSpaces($event)">
             </textarea>
             <div class="align-right w-40" style="width:100%; text-align:right;">
                 <small>{{Wishes.value.length}}/256</small>
@@ -548,7 +548,7 @@
     </form>
     <ng-template pTemplate="footer">
         <div style="float:right" class="p-2">
-            <button pButton type="button" class="btn btn-primary" label="Send Wishes" (click)="onSubmit()"></button>
+            <button pButton type="button" class="btn btn-primary" label="Send Wishes" (click)="onSubmit()" [disabled]="fbWishes.invalid"></button>
         </div>
     </ng-template>
 </p-dialog>

@@ -122,6 +122,18 @@ export class EmployeeDashboardComponent implements OnInit {
         }
     }
 
+    restrictSpaces(event: KeyboardEvent) {
+        const target = event.target as HTMLInputElement;
+        // Prevent the first key from being a space
+        if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0)
+          event.preventDefault();
+    
+        // Restrict multiple spaces
+        if (event.key === ' ' && target.selectionStart > 0 && target.value.charAt(target.selectionStart - 1) === ' ') {
+          event.preventDefault();
+        }
+      }
+
     initializeYears(): void {
         const currentYear = new Date().getFullYear().toString();
         this.adminService.GetYearsFromHolidays().subscribe((years) => {
