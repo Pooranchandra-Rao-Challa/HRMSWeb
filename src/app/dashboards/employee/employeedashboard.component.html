@@ -307,7 +307,7 @@
             <div class="col-12 md:col-6 lg:col-5 p-3">
                 <div class="card-headr chart_head gap-2 ">
                     <div class="card-title text-center">
-                        <h6 class="m-0">Alloted Assets </h6>
+                        <h6 class="m-0">Allocated  Assets </h6>
                     </div>
                 </div>
                 <div class="applicant-n-block-home">
@@ -395,7 +395,7 @@
                                         <span
                                             *ngIf="col?.field != 'fromDate' && col?.field != 'toDate'">{{holiday[col.field]}}</span>
                                         <span *ngIf="col?.field == 'fromDate' || col?.field == 'toDate'">
-                                            {{holiday[col.field] |date: mediumDate }}
+                                            {{holiday[col.field] |date: 'mediumDate' }}
                                         </span>
                                         <span *ngIf="col?.field === 'toDate'">
                                             <span *ngIf="holiday[col.field] === null">
