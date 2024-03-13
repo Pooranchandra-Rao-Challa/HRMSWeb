@@ -49,6 +49,11 @@
                             </p-multiSelect>
                         </div>
                         <div class="p-input-icon-left dropdown_icon mt-1">
+                            <div>
+                                <p-splitButton icon="pi pi-plus" (onClick)="save('info')" [model]="items"></p-splitButton>
+                            </div>
+                        </div>
+                        <div class="p-input-icon-left dropdown_icon mt-1">
                             <i class="icon-csv-svgrepo-com-1 "></i>
                             <div *ngIf="permissions?.CanDownloadLeaveStatistics">
                                 <p-dropdown [options]="leaveReportTypes" optionLabel="label"
