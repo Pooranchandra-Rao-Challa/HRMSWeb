@@ -101,123 +101,129 @@
         </div>
     </ng-template>
 </p-dialog>
+<div class="col-12  p-0">
+    <div class="card">
 
+        <!-- Toolbar -->
+        <p-toolbar styleClass="p-mb-4">
+            <ng-template pTemplate="left">
+                <h4>Attendance</h4>
+            </ng-template>
 
-<!-- Toolbar -->
-<p-toolbar styleClass="p-mb-4">
-    <ng-template pTemplate="left">
-        <h4>Attendance</h4>
-    </ng-template>
-
-    <ng-template pTemplate="center">
-        <div class="pr-2">
-            <p-button icon="pi pi-angle-left mr-2" (click)="gotoPreviousMonth()" id="Attendance_previousMonth">
-            </p-button>
-        </div>
-        <div>
-            <p-calendar styleClass="only-icon" [(ngModel)]="selectedMonth" [showIcon]="true" view="month"
-                id="Attendance_selectMonth" [yearNavigator]="true" yearRange="2000:2030" [readonlyInput]="true"
-                inputId="monthpicker" (onSelect)="onMonthSelect($event)">
-            </p-calendar>
-        </div>
-        <div class="pl-2">
-            <p-button icon="pi pi-angle-right ml-2" (click)="gotoNextMonth()" id="Attendance_nextMonth"></p-button>
-        </div>
-        <div class="pl-2">
-            {{this.month}}/{{this.year}}
-        </div>
-    </ng-template>
-    <ng-template pTemplate="right">
-        <div class="p-input-icon-left dropdown_icon pr-2">
-            <i class="icon-csv-svgrepo-com-1"></i>
-            <div *ngIf="permissions?.CanDownloadAttendance">
-                <p-dropdown [options]="attendanceExcelTypes" optionLabel="label"
-                    placeholder="Select Attendance Report Type" (onChange)="DownloadAttendanceReport($event.value)"
-                    optionValue="label" class="att_dropdown w-100"  [showClear]="true" >
-                </p-dropdown>
-            </div>
-        </div>
-        <div class="pr-2">
-            <div>
-                <div class="p-inputgroup">
-                    <!-- <span class="p-inputgroup-addon"><i class="pi pi-search"></i></span> -->
-                    <input pInputText type="text" class="w-full" placeholder="Employee Name" #filter
-                        id="Attendance_globalSearch" (input)="onGlobalFilter(dt1, $event)" />
-                    <span class="p-inputgroup-addon" (click)="clearcard(dt1)"><i class="pi pi-undo"></i></span>
+            <ng-template pTemplate="center">
+                <div class="pr-2">
+                    <p-button icon="pi pi-angle-left mr-2" (click)="gotoPreviousMonth()" id="Attendance_previousMonth">
+                    </p-button>
                 </div>
-            </div>
-        </div>
-        <div *ngIf="canUpdatePreviousDayAttendance && NotUpdatedAttendanceDatesList?.length">
-            <p-dropdown #dropdown  [options]="NotUpdatedAttendanceDatesList" optionValue="date" optionLabel="date"
-                placeholder="Select a Date" [showClear]="true" (onChange)="onDropdownChange($event.value)"
-                class="mr-2 ">
-                <ng-template let-option pTemplate="selectedItem">
-                    {{ option.dayOfWeek }}, {{ option.date }}
-                </ng-template>
-                <ng-template let-option pTemplate="item">
-                    {{ option.dayOfWeek }}, {{ option.date }}
-                </ng-template>
-            </p-dropdown>
-        </div>
+                <div>
+                    <p-calendar styleClass="only-icon" [(ngModel)]="selectedMonth" [showIcon]="true" view="month"
+                        id="Attendance_selectMonth" [yearNavigator]="true" yearRange="2000:2030" [readonlyInput]="true"
+                        inputId="monthpicker" (onSelect)="onMonthSelect($event)">
+                    </p-calendar>
+                </div>
+                <div class="pl-2">
+                    <p-button icon="pi pi-angle-right ml-2" (click)="gotoNextMonth()"
+                        id="Attendance_nextMonth"></p-button>
+                </div>
+                <div class="pl-2">
+                    {{this.month}}/{{this.year}}
+                </div>
+            </ng-template>
+            <ng-template pTemplate="right">
+                <div class="p-input-icon-left dropdown_icon pr-2">
+                    <i class="icon-csv-svgrepo-com-1"></i>
+                    <div *ngIf="permissions?.CanDownloadAttendance">
+                        <p-dropdown [options]="attendanceExcelTypes" optionLabel="label"
+                            placeholder="Select Attendance Report Type"
+                            (onChange)="DownloadAttendanceReport($event.value)" optionValue="label"
+                            class="att_dropdown w-100" [showClear]="true">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="pr-2">
+                    <div>
+                        <div class="p-inputgroup">
+                            <!-- <span class="p-inputgroup-addon"><i class="pi pi-search"></i></span> -->
+                            <input pInputText type="text" class="w-full" placeholder="Employee Name" #filter
+                                id="Attendance_globalSearch" (input)="onGlobalFilter(dt1, $event)" />
+                            <span class="p-inputgroup-addon" (click)="clearcard(dt1)"><i class="pi pi-undo"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="canUpdatePreviousDayAttendance && NotUpdatedAttendanceDatesList?.length">
+                    <p-dropdown #dropdown [options]="NotUpdatedAttendanceDatesList" optionValue="date"
+                        optionLabel="date" placeholder="Select a Date" [showClear]="true"
+                        (onChange)="onDropdownChange($event.value)" class="mr-2 ">
+                        <ng-template let-option pTemplate="selectedItem">
+                            {{ option.dayOfWeek }}, {{ option.date }}
+                        </ng-template>
+                        <ng-template let-option pTemplate="item">
+                            {{ option.dayOfWeek }}, {{ option.date }}
+                        </ng-template>
+                    </p-dropdown>
+                </div>
 
-        <div *ngIf="permissions?.CanManageAttendance">
-            <button pButton pRipple label="Add Attendance" icon="pi pi-plus" id="Attendance_addAttendance"
-                class="p-button-primary p-mr-2" (click)="showConfirmationDialog()"></button>
-        </div>
-        <div *ngIf="permissions?.CanManageAttendance">
-            <button pButton pRipple label="" id="AddressDetails-AboutColors" icon="pi pi-info-circle"
-                class="p-button-primary ml-2 p-mr-2" [style]="{'backgroundColor':'white','color':'#f17517'}"
-                (click)="toggleTab()" tooltipPosition="top" pTooltip="Info Regarding Representation of Colors"></button>
-        </div>
-    </ng-template>
-</p-toolbar>
-<!-- p-table -->
-<p-table [rowHover]="true" styleClass="p-datatable-striped p-datatable-gridlines top_note_bar" responsiveLayout="scroll"
-    [tableStyle]="{'min-width': '50rem'}" *ngIf="showingLeavesOfColors" id="attendance">
-    <ng-template pTemplate="header">
-        <tr class="fadeinup" p-overlayPanel>
-            <td class="woff"> WO </td>
-            <td colspan="2">Weekoff </td>
-            <td class="pt"> PT </td>
-            <td colspan="2"> Present </td>
-            <td class="nu"> NU</td>
-            <td colspan="2">Not Updated</td>
-            <td class="hd">HD</td>
-            <td colspan="2">Holiday</td>
-            <td class="at"> AT </td>
-            <td colspan="2">Absent</td>
-            <td class="cl">CL</td>
-            <td colspan="2">Casual Leave</td>
-            <td class="pl">PL</td>
-            <td colspan="2">Privileged Leave</td>
-            <td class="el">LWP</td>
-            <td colspan="2">Leave Without Pay</td>
-            <td class="pl_pt">PL/PT</td>
-            <td colspan="2">Halfday Leave</td>
-            <td class="cl_pt">CL/PT</td>
-            <td colspan="2">Halfday Leave</td>
-            <td class="wfh">WFH</td>
-            <td colspan="2">Work From Home</td>
-        </tr>
-    </ng-template>
-</p-table>
+                <div *ngIf="permissions?.CanManageAttendance">
+                    <button pButton pRipple label="Add Attendance" icon="pi pi-plus" id="Attendance_addAttendance"
+                        class="p-button-primary p-mr-2" (click)="showConfirmationDialog()"></button>
+                </div>
+                <div *ngIf="permissions?.CanManageAttendance">
+                    <button pButton pRipple label="" id="AddressDetails-AboutColors" icon="pi pi-info-circle"
+                        class="p-button-primary ml-2 p-mr-2" [style]="{'backgroundColor':'white','color':'#f17517'}"
+                        (click)="toggleTab()" tooltipPosition="top"
+                        pTooltip="Info Regarding Representation of Colors"></button>
+                </div>
+            </ng-template>
+        </p-toolbar>
+        <!-- p-table -->
+        <p-table [rowHover]="true" styleClass="p-datatable-striped p-datatable-gridlines top_note_bar"
+            responsiveLayout="scroll" [tableStyle]="{'min-width': '50rem'}" *ngIf="showingLeavesOfColors"
+            id="attendance">
+            <ng-template pTemplate="header">
+                <tr class="fadeinup" p-overlayPanel>
+                    <td class="woff"> WO </td>
+                    <td colspan="2">Weekoff </td>
+                    <td class="pt"> PT </td>
+                    <td colspan="2"> Present </td>
+                    <td class="nu"> NU</td>
+                    <td colspan="2">Not Updated</td>
+                    <td class="hd">HD</td>
+                    <td colspan="2">Holiday</td>
+                    <td class="at"> AT </td>
+                    <td colspan="2">Absent</td>
+                    <td class="cl">CL</td>
+                    <td colspan="2">Casual Leave</td>
+                    <td class="pl">PL</td>
+                    <td colspan="2">Privileged Leave</td>
+                    <td class="el">LWP</td>
+                    <td colspan="2">Leave Without Pay</td>
+                    <td class="pl_pt">PL/PT</td>
+                    <td colspan="2">Halfday Leave</td>
+                    <td class="cl_pt">CL/PT</td>
+                    <td colspan="2">Halfday Leave</td>
+                    <td class="wfh">WFH</td>
+                    <td colspan="2">Work From Home</td>
+                </tr>
+            </ng-template>
+        </p-table>
 
-<p-table #dt1 [value]="employeeAttendanceList" [rowHover]="true" paginatorDropdownAppendTo="body" [rows]="10"
-    [rowHover]="true" [alwaysShowPaginator]="false" [paginator]="true"
-    styleClass="p-datatable-striped p-datatable-gridlines attendance_table" responsiveLayout="scroll"
-    [globalFilterFields]="globalFilterFields" [tableStyle]="{'min-width': '50rem'}" [rowsPerPageOptions]="[10,25,50]">
+        <p-table #dt1 [value]="employeeAttendanceList" [rowHover]="true" paginatorDropdownAppendTo="body" [rows]="10"
+            [rowHover]="true" [alwaysShowPaginator]="false" [paginator]="true"
+            styleClass="p-datatable-striped p-datatable-gridlines attendance_table" responsiveLayout="scroll"
+            [globalFilterFields]="globalFilterFields" [tableStyle]="{'min-width': '50rem'}"
+            [rowsPerPageOptions]="[10,25,50]">
 
-    <ng-template pTemplate="header">
-        <tr>
-            <th>Employees</th>
-            <th *ngFor="let i of days" [style]="{'text-align':'center'}">{{i}}</th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-employee>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Employees</th>
+                    <th *ngFor="let i of days" [style]="{'text-align':'center'}">{{i}}</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-employee>
 
-        <tr>
-            <td>{{employee.EmployeeName}} ({{employee.Code}})</td>
-            <td *ngFor="let i of days" [ngClass]="{'woff': getAttendance(employee, i) === 'WOff',
+                <tr>
+                    <td>{{employee.EmployeeName}} ({{employee.Code}})</td>
+                    <td *ngFor="let i of days" [ngClass]="{'woff': getAttendance(employee, i) === 'WOff',
                         'pt': employee[getFormattedDate(i)] === 'PT',
                         'nu': employee[getFormattedDate(i)] === 'NU',
                         'hd': employee[getFormattedDate(i)] === 'HD',
@@ -229,24 +235,28 @@
                         'pl_pt': employee[getFormattedDate(i)] === 'PL/PT',
                         'wfh': employee[getFormattedDate(i)] === 'WFH',
                        }">
-                <!-- To display updated attendance days -->
-                <span (click)="openDialog(employee,getFormattedDate(i),employee[getFormattedDate(i)],i)"
-                    *ngIf="canUpdateAttendance(employee,i);else CannotUpdateAttendance" class="att-pointer">
-                    {{ employee[getFormattedDate(i)]}}
-                </span>
-                <!-- To display holidays, Weekly Off and Non updated attendance days-->
-                <ng-template #CannotUpdateAttendance>
-                    {{ getNonUpdateLabel(employee,i) }}
-                </ng-template>
-            </td>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="emptymessage">
-        <tr>
-            <td class="md:text-center m-5" colspan="50%">No Attendance Found.</td>
-        </tr>
-    </ng-template>
-</p-table>
+                        <!-- To display updated attendance days -->
+                        <span (click)="openDialog(employee,getFormattedDate(i),employee[getFormattedDate(i)],i)"
+                            *ngIf="canUpdateAttendance(employee,i);else CannotUpdateAttendance" class="att-pointer">
+                            {{ employee[getFormattedDate(i)]}}
+                        </span>
+                        <!-- To display holidays, Weekly Off and Non updated attendance days-->
+                        <ng-template #CannotUpdateAttendance>
+                            {{ getNonUpdateLabel(employee,i) }}
+                        </ng-template>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td class="md:text-center m-5" colspan="50%">No Attendance Found.</td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+
+    </div>
+</div>
 <p-dialog header="Statistics of {{this.notUpdatedDates| date:DatedFormat}} Attendance:"
     [(visible)]="confirmationDialog">
     <div class="flex justify-content-center m-3">
@@ -341,7 +351,8 @@
     <ng-template pTemplate="footer">
         <div style="float:right" class="p-2">
             <button pButton type="button" class="btn btn-primary" [disabled]="!this.fbDatewiseAttendanceReport.valid"
-                label="Submit" (click)="downloadDatewiseAttendanceReport()" id="Attendance_DatewiseReport_submit"></button>
+                label="Submit" (click)="downloadDatewiseAttendanceReport()"
+                id="Attendance_DatewiseReport_submit"></button>
         </div>
     </ng-template>
 </p-dialog>
@@ -353,7 +364,8 @@
                     <label class="required">Project:</label>&nbsp;
                     <p-dropdown formControlName="projectId" [options]="this.projects" optionLabel="name"
                         [ngClass]="{ 'is-invalid ng-dirty': FormProjectReportControls['projectId'].touched && FormProjectReportControls['projectId'].errors }"
-                        id="Attendance_projectWise_Report_fromDate" optionValue="projectId" placeholder="Select Project" appendTo="body">
+                        id="Attendance_projectWise_Report_fromDate" optionValue="projectId" placeholder="Select Project"
+                        appendTo="body">
                     </p-dropdown>
                     <div class="flex">
                         <div class="align-left w-60" style="width:70%">

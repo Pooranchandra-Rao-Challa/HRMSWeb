@@ -116,7 +116,7 @@
             </p-tabPanel>
 
             <p-tabPanel header="Edit Security Questions" class="line-height-3 m-0 col-12">
-                <div class="cad p-5 pt-0">
+                <div class="cad p-0 pt-0">
                     <div class="note">
                         <p class="head_note">Note:</p>
                         <ol>
@@ -151,10 +151,10 @@
                         <ng-template pTemplate="body" let-securityQuestion>
                             <tr>
                                 <td><button pButton pRipple icon="pi pi-pencil" id="edit-dialog"
-                                        class="p-element p-ripple p-button-text p-button p-component m-2"
+                                        class="p-element p-ripple p-button-text p-button p-component m-2 p-0"
                                         (click)="editSecurityQuestion(securityQuestion)"></button>
                                     <button pButton pRipple icon="pi pi-trash" id="delete"
-                                        class="p-element p-ripple p-button-text p-button p-component m-2"
+                                        class="p-element p-ripple p-button-text p-button p-component m-2 p-0"
                                         (click)="deleteSecurityQuestion(securityQuestion.userQuestionId)"
                                         *ngIf="userQuestions.length>2"></button>
                                 </td>
