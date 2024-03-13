@@ -394,7 +394,7 @@
                                         <span
                                             *ngIf="col?.field != 'fromDate' && col?.field != 'toDate'">{{holiday[col.field]}}</span>
                                         <span *ngIf="col?.field == 'fromDate' || col?.field == 'toDate'">
-                                            {{holiday[col.field] |date: 'mediumDate' }}
+                                            {{holiday[col.field] |date: 'mediumDate'}}
                                         </span>
                                         <span *ngIf="col?.field === 'toDate'">
                                             <span *ngIf="holiday[col.field] === null">
