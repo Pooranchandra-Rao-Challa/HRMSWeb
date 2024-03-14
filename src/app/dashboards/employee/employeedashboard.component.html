@@ -88,9 +88,9 @@
                             <div class="flex justify-content-between">
                                 <div class="overview-ifo">
                                     <p class="m-0 mb-1  text-primary text-500">Monthly Consumed </p>
-                                    <p class="m-0 text-gray-500  text-500">{{ this.monthlyLeaves?.usedPLsInMonth}}</p>
+                                    <p class="m-0 text-gray-500  text-500">{{this.usedPLsInMonth}}</p>
                                     <p class="m-0  text-gray-500  text-500"
-                                        *ngIf="this.monthlyLeaves?.usedPLsInMonth === null">0</p>
+                                        *ngIf="this.usedPLsInMonth === undefined">0</p>
                                 </div>
 
                                 <div class="d-leave overview-ifo text-center">
@@ -99,7 +99,7 @@
                                     </p>
                                     <i class="pi pi-angle-left d-leave-font " (click)="gotoPreviousMonthPLs()">
                                     </i>
-                                    <p-calendar styleClass="only-icon dashboard_mon" [(ngModel)]="selectedMonth"
+                                    <p-calendar styleClass="only-icon dashboard_mon" [(ngModel)]="selectedMonthforPL"
                                         [showIcon]="true" view="month" [yearNavigator]="true" yearRange="2000:2030"
                                         [readonlyInput]="true" inputId="monthpicker"
                                         (onSelect)="onMonthSelectPLs($event)" pTooltip="Monthly PL's"
@@ -143,8 +143,8 @@
                             <div class="flex justify-content-between">
                                 <div class="overview-ifo">
                                     <p class="m-0 mb-1 text-primary text-500">Monthly Consumed </p>
-                                    <p class="m-0  text-500">{{ this.monthlyLeaves?.usedCLsInMonth}}</p>
-                                    <p class="m-0  text-500" *ngIf="this.monthlyLeaves?.usedCLsInMonth === null">0</p>
+                                    <p class="m-0  text-500">{{ this.usedCLsInMonth}}</p>
+                                    <p class="m-0  text-500" *ngIf="this.usedCLsInMonth === undefined">0</p>
                                 </div>
 
                                 <div class="d-leave overview-ifo text-center">
@@ -153,7 +153,7 @@
                                     </p>
                                     <i class="pi pi-angle-left d-leave-font  " (click)="gotoPreviousMonthCLs()">
                                     </i>
-                                    <p-calendar styleClass="only-icon dashboard_mon" [(ngModel)]="selectedMonth"
+                                    <p-calendar styleClass="only-icon dashboard_mon" [(ngModel)]="selectedMonthforCL"
                                         [showIcon]="true" view="month" [yearNavigator]="true" yearRange="2000:2030"
                                         [readonlyInput]="true" inputId="monthpicker"
                                         (onSelect)="onMonthSelectCLs($event)" pTooltip="Monthly CL's"
