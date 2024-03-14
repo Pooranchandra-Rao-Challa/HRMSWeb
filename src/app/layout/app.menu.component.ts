@@ -15,7 +15,7 @@ export class AppMenuComponent implements OnInit {
 
     GroupPermission(groupName: string): boolean {
         switch (groupName) {
-            case 'Dashboards':
+            case 'Dashboard':
                 return this.jwtService.Permissions.CanViewAdminDashboards || this.jwtService.Permissions.CanViewHrDashboards || this.jwtService.Permissions.CanViewSelfEmployees
             case 'Security':
                 return this.jwtService.Permissions.CanViewUsers || this.jwtService.Permissions.CanViewRoles
@@ -38,9 +38,9 @@ export class AppMenuComponent implements OnInit {
         console.log(this.jwtService.Permissions);
         this.model = [
             {
-                label: 'Dashboards',
+                label: 'Dashboard',
                 icon: 'pi pi-home',
-                permission: this.GroupPermission('Dashboards'),
+                permission: this.GroupPermission('Dashboard'),
                 items: [
                     {
                         label: 'Admin',

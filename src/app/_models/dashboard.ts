@@ -10,6 +10,7 @@ export class SelfEmployeeDto {
     nationality?: string;
     dateofJoin?: Date;
     designation?: string;
+    experienceInCompany?:string;
     officeEmailId?: string;
     reportingToId?: number;
     reportingTo?: string;

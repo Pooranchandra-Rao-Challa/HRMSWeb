@@ -126,6 +126,8 @@ export class LeaveStatisticsComponent {
   clear(table: Table) {
     table.clear();
     this.filter.nativeElement.value = '';
+    this.selectedColumns=[];
+    this.leaveReportTypes=[];
   }
 
   getLeaves() {
