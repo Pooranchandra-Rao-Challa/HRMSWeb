@@ -234,8 +234,6 @@ export class EmployeeDashboardComponent implements OnInit {
             this.empDetails.assets = JSON.parse(this.empDetails.allottedAssets);
             this.empDetails.empaddress = JSON.parse(this.empDetails.addresses);
             this.empDetails.projects = JSON.parse(this.empDetails.workingProjects);
-            console.log(this.empDetails);
-
             this.updateProjects();
 
             /^male$/gi.test(this.empDetails.gender)

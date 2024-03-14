@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
-import { FORMAT_DATE } from 'src/app/_helpers/date.formate.pipe';
+import { DATE_OF_JOINING, FORMAT_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { EmployeesList, HolidaysViewDto, LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
 import { MaxLength } from 'src/app/_models/common';
 import { SelfEmployeeDto, selfEmployeeMonthlyLeaves } from 'src/app/_models/dashboard';
@@ -48,6 +48,8 @@ export class EmployeeLeaveDialogComponent implements OnInit {
   empName: string;
   monthName: string;
   hasPendingLeaveInMonth: any;
+  dates: any;
+  fromDate: string = DATE_OF_JOINING;
 
   constructor(
     private formbuilder: FormBuilder,
@@ -283,9 +285,6 @@ export class EmployeeLeaveDialogComponent implements OnInit {
   }
 
   deleteleaveDetails() {
-    let employeeLeaveId = this.fbLeave.get('employeeLeaveId').value;
-    console.log(employeeLeaveId);
-
     var employeeState = this.FormControls['employeeId'].disable;
     var empId: number;
     if (employeeState) {
@@ -294,22 +293,18 @@ export class EmployeeLeaveDialogComponent implements OnInit {
     else {
       empId = this.jwtService.EmployeeId;
     }
-    this.dashBoardService.GetEmployeeLeavesForMonth(this.month, empId, this.year)
-      .subscribe(resp => {
-        let leaveDetails = resp as unknown as selfEmployeeMonthlyLeaves[];
-        const isDeletedCL = leaveDetails.filter(leave => leave.isDeleted !== true && leave.leaveType === 'CL' && leave.isLeaveUsed === false);
-        isDeletedCL.forEach(leave => {
-          this.employeeService.DeleteleaveDetails(leave.employeeLeaveId).subscribe((resp) => {
-            if (resp) {
-              this.alertMessage.displayAlertMessage(ALERT_CODES["ELA003"]);
-            }
-            else {
-              this.alertMessage.displayErrorMessage(ALERT_CODES["ELA004"]);
-            }
-          })
-        });
-        this.onSubmit();
-      });
+    const isDeletedCL = this.monthlyLeaves.filter(leave => leave.isDeleted !== true && leave.leaveType === 'CL' && leave.isLeaveUsed === false);
+    isDeletedCL.forEach(leave => {
+      this.employeeService.DeleteleaveDetails(leave.employeeLeaveId).subscribe((resp) => {
+        if (resp) {
+          this.alertMessage.displayAlertMessage(ALERT_CODES["ELA003"]);
+        }
+        else {
+          this.alertMessage.displayErrorMessage(ALERT_CODES["ELA004"]);
+        }
+      })
+    });
+    this.onSubmit();
   }
 
   save(): Observable<HttpEvent<EmployeeLeaveDto[]>> {
@@ -343,26 +338,32 @@ export class EmployeeLeaveDialogComponent implements OnInit {
           else if (isLeaveRejected && this.hasPendingLeaveInMonth === false) {
             this.onSubmit();
           }
-          else if(isHalfDayLeave.length === 1 && this.fbLeave.get('isHalfDayLeave').value == false){
+          else if (isHalfDayLeave.length === 1 && this.fbLeave.get('isHalfDayLeave').value == false) {
             this.dialog = true;
             const leaveWithEmployeeName = this.monthlyLeaves.find(leave => leave.employeeName);
-            this.empName = leaveWithEmployeeName ? leaveWithEmployeeName.employeeName : 'Unknown';
-            this.monthName = new Date(this.year, this.month - 1, 1).toLocaleString('default', { month: 'long' });
+            this.empName = leaveWithEmployeeName ? leaveWithEmployeeName.employeeName : '';
+            const leavewithFromDate = this.monthlyLeaves.find(leave => leave.fromDate && leave.leaveType === 'CL');
+            // this.monthName = new Date(this.year, this.month - 1, 1).toLocaleString('default', { month: 'long' });
+            this.dates = leavewithFromDate ? leavewithFromDate.fromDate : '';
           }
-          else if (this.hasPendingLeaveInMonth && isHalfDayLeave.length === 1){
+          else if (this.hasPendingLeaveInMonth && isHalfDayLeave.length === 1) {
             this.onSubmit();
           }
           else if ((isLeaveRejected && this.hasPendingLeaveInMonth !== false)) {
             this.dialog = true;
             const leaveWithEmployeeName = this.monthlyLeaves.find(leave => leave.employeeName);
-            this.empName = leaveWithEmployeeName ? leaveWithEmployeeName.employeeName : 'Unknown';
-            this.monthName = new Date(this.year, this.month - 1, 1).toLocaleString('default', { month: 'long' });
+            this.empName = leaveWithEmployeeName ? leaveWithEmployeeName.employeeName : '';
+            const leavewithFromDate = this.monthlyLeaves.find(leave => leave.fromDate && leave.leaveType === 'CL');
+            // this.monthName = new Date(this.year, this.month - 1, 1).toLocaleString('default', { month: 'long' });
+            this.dates = leavewithFromDate ? leavewithFromDate.fromDate : '';
           }
           else if ((this.hasPendingLeaveInMonth && isHalfDayLeave.length === 2) || (this.hasPendingLeaveInMonth && clIsNotDeleted) || (this.hasPendingLeaveInMonth && isDeletedCL !== null && clIsNotDeleted !== null)) {
             this.dialog = true;
             const leaveWithEmployeeName = this.monthlyLeaves.find(leave => leave.employeeName);
-            this.empName = leaveWithEmployeeName ? leaveWithEmployeeName.employeeName : 'Unknown';
-            this.monthName = new Date(this.year, this.month - 1, 1).toLocaleString('default', { month: 'long' });
+            this.empName = leaveWithEmployeeName ? leaveWithEmployeeName.employeeName : '';
+            const leavewithFromDate = this.monthlyLeaves.find(leave => leave.fromDate && leave.leaveType === 'CL');
+            // this.monthName = new Date(this.year, this.month - 1, 1).toLocaleString('default', { month: 'long' });
+            this.dates = leavewithFromDate ? leavewithFromDate.fromDate : '';
           }
           else if (this.hasPendingLeaveInMonth && isDeletedCL) {
             this.onSubmit();
@@ -389,7 +390,7 @@ export class EmployeeLeaveDialogComponent implements OnInit {
               this.ref.close(true);
               let result = resp as unknown as any;
               if (!result.isSuccess || (result.isSuccess && result.message !== null)) {
-                this.alertMessage.displayErrorMessage(result.message);
+                this.alertMessage.displayMessage(result.message);
               }
               const leaveType = this.leaveType.find(item => item.lookupDetailId === this.fbLeave.get('leaveTypeId').value);
               if ((result.message === null && leaveType.name === 'CL') || leaveType.name === 'PL' || leaveType.name === 'LWP') {
