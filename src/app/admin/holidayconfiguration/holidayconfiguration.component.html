@@ -111,8 +111,7 @@
                                 <!-- FotmArray -->
                                 <div class="col-12 scrolling_content">
                                     <div class="col-12 scrolling_content">
-                                        <p-table #dt2 [value]="faholdyDetail().controls"
-                                            [autoLayout]="true">
+                                        <p-table #dt2 [value]="faholdyDetail().controls" [autoLayout]="true">
                                             <ng-template pTemplate="header">
                                                 <tr>
                                                     <th>Holiday Title</th>
@@ -230,6 +229,8 @@
                             [(ngModel)]="selectedYear" (onChange)="initHoliday()" optionLabel="year"></p-dropdown>
                     </div>
                     <div class="flex gap-2">
+                        <button (click)="exportPdf()" pButton class="p-button doc_button mx-2" pTooltip="Download PDF"
+                            icon="pi pi-file-pdf"></button>
                         <div *ngIf="permissions?.CanDownloadHolidays">
                             <button pButton class="p-button doc_button" icon="icon-csv-svgrepo-com-1"
                                 pTooltip="Download Holidays Report" tooltipPosition="left"
