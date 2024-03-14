@@ -60,7 +60,7 @@ export class EmployeeLeavesComponent {
   ];
 
   headers: ITableHeader[] = [
-    { field: 'status', header: 'status', label: 'Status' },
+    // { field: 'status', header: 'status', label: 'Status' },
     { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
     { field: 'leaveType', header: 'leaveType', label: 'Leave Type' },
     { field: 'fromDate', header: 'fromDate', label: 'From Date' },
@@ -125,6 +125,7 @@ export class EmployeeLeavesComponent {
   clear(table: Table) {
     table.clear();
     this.filter.nativeElement.value = '';
+    this.selectedColumns = [];
   }
 
   leaveForm() {

@@ -36,7 +36,7 @@ export class EmployeeDashboardComponent implements OnInit {
     monthlyCLs: number = new Date().getMonth() + 1;
     yearlyCLs: number = new Date().getFullYear();
     selectedMonthforPL: Date;
-    selectedMonthforCL:Date;
+    selectedMonthforCL: Date;
     days: number[] = [];
     monthlyLeaves: selfEmployeeMonthlyLeaves;
     selectedYear: any | undefined;
@@ -234,6 +234,7 @@ export class EmployeeDashboardComponent implements OnInit {
             this.empDetails.assets = JSON.parse(this.empDetails.allottedAssets);
             this.empDetails.empaddress = JSON.parse(this.empDetails.addresses);
             this.empDetails.projects = JSON.parse(this.empDetails.workingProjects);
+            console.log(this.empDetails);
 
             this.updateProjects();
 

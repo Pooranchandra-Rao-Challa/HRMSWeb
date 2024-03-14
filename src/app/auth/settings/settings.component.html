@@ -34,7 +34,7 @@
                             <p-password [toggleMask]="true" id="new-password"
                                 formControlName="newPassword" placeholder="Enter New Password" 
                                 class="w-full  mb-2  p-password_cus" [maxLength]="25"
-                                pattern="^(?!.* )(?=.*\d)(?=.*[A-Z])(?=.*[!@#$%^&*_=+-]).{8,25}$" [maxlength]="25"
+                                pattern="^(?!.* )(?=.*\d)(?=.*[A-Z])(?=*[!@#$%^&*_=+.-]).{8,25}$" [maxlength]="25"
                                 [ngClass]="{ 'is-invalid ng-dirty': FormControls['newPassword'].touched && FormControls['newPassword'].errors }">
                                 <ng-template pTemplate="header">
                                     <h6>Pick a password</h6>
@@ -72,7 +72,7 @@
                                formControlName="confirmPassword"
                                 placeholder="Enter Confirm Password"  class="mb-2 p-password_cus"
                                 inputStyle="w-full" [maxLength]="25"
-                                pattern="^(?!.* )(?=.*\d)(?=.*[A-Z])(?=.*[!@#$%^&*_=+-]).{8,25}$" [maxlength]="25"
+                                pattern="^(?!.* )(?=.*\d)(?=.*[A-Z])(?=*[!@#$%^&*_=+.-]).{8,25}$" [maxlength]="25"
                                 [ngClass]="{ 'is-invalid ng-dirty': FormControls['confirmPassword'].touched && FormControls['confirmPassword'].errors }">
                                 <ng-template pTemplate="header">
                                     <h6>Pick a password</h6>

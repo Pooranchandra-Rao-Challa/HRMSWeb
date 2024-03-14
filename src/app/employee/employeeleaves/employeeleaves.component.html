@@ -71,18 +71,18 @@
                             <span class="p-input-icon-left mb-2 w-100 ">
                                 <i class="pi pi-search"></i>
                                 <input pInputText type="text" id="search-input" #filter
-                                    (input)="onGlobalFilter(dtleave, $event)" placeholder="Search Keyword" class="w-full" />
+                                    (input)="onGlobalFilter(dtleave, $event)" placeholder="Search Keyword"
+                                    class="w-full" />
                             </span>
                         </div>
-                        
+
                     </div>
                 </div>
             </ng-template>
             <ng-template pTemplate="header" let-columns>
                 <tr>
                     <th class="text-center">Delete</th>
-                    <th class="text-center" pFrozenColumn alignFrozen="right"
-                        [frozen]="true" pFrozenColumn> Actions
+                    <th class="text-center" pFrozenColumn alignFrozen="right" [frozen]="true" pFrozenColumn> Actions
                     </th>
                     <th *ngFor="let col of headers" [pSortableColumn]="col.header">
                         {{col?.label}}
@@ -111,7 +111,7 @@
                     <td pFrozenColumn alignFrozen="right" [frozen]="true" class="text-center"
                         *ngIf="permissions?.CanManageLeave">
                         <div class="flex"
-                            *ngIf="leave.status === 'Accepted' || leave.status === 'Pending' && leave.isDeleted !== true">
+                            *ngIf="leave.status === 'Accepted' || leave.status === 'Pending' && leave.isDeleted !== true ">
 
                             <span *ngIf="leave.acceptedAt === null && permissions?.CanAcceptLeave">
                                 <button pButton pRipple icon="pi icon-accept" id="Leave_Accepted_Button"
@@ -130,8 +130,8 @@
                             </span>
                         </div>
                     </td>
-                    <td class="text-center">
-                        <span *ngIf="leave.status">
+                    <!-- <td class="text-center">
+                        <span *ngIf="leave.status && leave?.isDeleted !== true">
                             <ng-container *ngIf="leave.status === 'Approved'; else falseBlock">
                                 <i class="pi icon-approve text-3xl text-green-500"></i>
                             </ng-container>
@@ -149,7 +149,7 @@
                                 </ng-template>
                             </ng-template>
                         </span>
-                    </td>
+                    </td> -->
                     <td>{{leave.employeeName}}</td>
                     <td class="text-center">{{leave.leaveType}}</td>
                     <td class="text-center">{{leave.fromDate |date: mediumDate}}</td>
@@ -161,17 +161,23 @@
                     <td class="text-wrap">{{leave.note}}</td>
                     <td class="text-center">
                         <span *ngIf="leave.isHalfDayLeave || !leave.isHalfDayLeave">
-                            <i class="fa"
+                            <!-- <i class="fa"
                                 [ngClass]="{'fa-check': leave['isHalfDayLeave'], 'fa-close': !leave['isHalfDayLeave']}"
                                 [style.color]="leave['isHalfDayLeave'] ? '#119e2f' : '#e24c4c'"
-                                style="font-size:18px; vertical-align: sub;"></i>
+                                style="font-size:18px; vertical-align: sub;"></i> -->
+                            <span [style.color]="leave.isHalfDayLeave ? '#119e2f' : '#e24c4c'">
+                                {{ leave.isHalfDayLeave ? 'Yes' : 'No' }}
+                            </span>
                         </span>
                     </td>
                     <td class="text-center">
                         <span *ngIf="leave.isDeleted || !leave.isDeleted">
-                            <i class="fa" [ngClass]="{'fa-check': leave['isDeleted'], 'fa-close': !leave['isDeleted']}"
+                            <!-- <i class="fa" [ngClass]="{'fa-check': leave['isDeleted'], 'fa-close': !leave['isDeleted']}"
                                 [style.color]="leave['isDeleted'] ? '#119e2f' : '#e24c4c'"
-                                style="font-size:18px; vertical-align: sub;"></i>
+                                style="font-size:18px; vertical-align: sub;"></i> -->
+                                <span [style.color]="leave.isDeleted ? '#119e2f' : '#e24c4c'">
+                                    {{ leave.isDeleted ? 'Yes' : 'No' }}
+                                </span>
                         </span>
                     </td>
                     <td class="text-center">{{leave.acceptedAt |date: mediumDate}}</td>
