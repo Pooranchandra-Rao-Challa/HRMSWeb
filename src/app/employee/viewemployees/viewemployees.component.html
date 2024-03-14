@@ -45,8 +45,8 @@
       </div>
     </div>
     <!-- Confirmation Dialog -->
-    <p-dialog [(visible)]="dialog" header="Enroll Employee" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '70%', '640px': '80%'}"
-      [style]="{width:'40%'}">
+    <p-dialog [(visible)]="dialog" header="Enroll Employee" [modal]="true" showEffect="fade"
+      [breakpoints]="{'960px': '70%', '640px': '80%'}" [style]="{width:'40%'}">
       <app-finalsubmit-dialog></app-finalsubmit-dialog>
     </p-dialog>
     <div class="col-12 lg:col-6 py-3 lg:pl-2">
@@ -81,15 +81,21 @@
         </div>
         <div class="col-12 lg:col-6 ">
           <span class="text-primary font-bold text-900">Is Active:</span>&nbsp;
-          <i class="fa fa-close" style="font-size:24px; color:#e24c4c; vertical-align: sub;"
+          <!-- <i class="fa fa-close" style="font-size:24px; color:#e24c4c; vertical-align: sub;"
             *ngIf="!employeePrsDtls?.isActive"></i><i class="fa fa-check"
-            style="font-size:24px; color:#119e2f; vertical-align: sub;" *ngIf="employeePrsDtls?.isActive"></i>
+            style="font-size:24px; color:#119e2f; vertical-align: sub;" *ngIf="employeePrsDtls?.isActive"></i> -->
+          <span *ngIf="employeePrsDtls?.isActive" [style.color]="employeePrsDtls?.isActive ? '#119e2f' : '#e24c4c'">
+            {{employeePrsDtls?.isActive ? 'Yes' : 'No' }}
+          </span>
         </div>
         <div class="col-12 lg:col-6 ">
           <span class="text-primary font-bold text-900">Is A Fresher:</span>&nbsp;
-          <i class="fa fa-close" style="font-size:24px; color:#e24c4c; vertical-align: sub;"
+          <!-- <i class="fa fa-close" style="font-size:24px; color:#e24c4c; vertical-align: sub;"
             *ngIf="!employeePrsDtls?.isAFresher"></i><i class="fa fa-check"
-            style="font-size:24px; color:#119e2f; vertical-align: sub;" *ngIf="employeePrsDtls?.isAFresher"></i>
+            style="font-size:24px; color:#119e2f; vertical-align: sub;" *ngIf="employeePrsDtls?.isAFresher"></i> -->
+          <span *ngIf="employeePrsDtls?.isAFresher" [style.color]="employeePrsDtls?.isAFresher ? '#119e2f' : '#e24c4c'">
+            {{employeePrsDtls?.isAFresher ? 'Yes' : 'No' }}
+          </span>
         </div>
         <div class="col-12 lg:col-6 ">
           <span class="text-primary font-bold text-900">Email ID:</span> {{employeePrsDtls?.emailId}}
@@ -109,9 +115,12 @@
             class="p-element p-ripple p-button-text p-button p-component mr-2 float-button"
             *ngIf="permissions?.CanManageEmployee"
             (click)="openComponentDialog(officedetailsDialogComponent,employeeofficeDtls,ActionTypes.save)"></button>
-            <div class="col-12">
-              <span class="text-primary font-bold text-900">Work Duration:</span> {{employeeofficeDtls?.timeIn}} - {{employeeofficeDtls?.timeOut}}
-            </div>
+          <div class="col-12">
+            <span class="text-primary font-bold text-900">Work Duration:</span>
+            <span *ngIf="employeeofficeDtls?.timeIn && employeeofficeDtls?.timeOut">
+              {{employeeofficeDtls?.timeIn}} - {{employeeofficeDtls?.timeOut}}
+            </span>
+          </div>
           <!-- <div class="col-12">
             <span class="text-primary font-bold text-900">Time In:</span> {{employeeofficeDtls?.timeIn}}
           </div>
@@ -132,16 +141,28 @@
             <span class="text-primary font-bold text-900">Reported To:</span> {{employeeofficeDtls?.reportingTo}}
           </div>
           <div class="col-6">
-            <span class="text-primary font-bold text-900">PF :</span> &nbsp; <i class="fa fa-close"
+            <span class="text-primary font-bold text-900">PF :</span> &nbsp;
+            <!-- <i class="fa fa-close"
               style="font-size:24px; color:#e24c4c; vertical-align: sub;"
               *ngIf="!employeeofficeDtls?.isPFEligible"></i><i class="fa fa-check"
-              style="font-size:24px; color:#119e2f; vertical-align: sub;" *ngIf="employeeofficeDtls?.isPFEligible"></i>
+              style="font-size:24px; color:#119e2f; vertical-align: sub;" *ngIf="employeeofficeDtls?.isPFEligible"></i> -->
+            <span *ngIf="employeeofficeDtls?.isPFEligible !== undefined">
+              <span [style.color]="employeeofficeDtls?.isPFEligible ? '#119e2f' : '#e24c4c'">
+                {{ employeeofficeDtls?.isPFEligible ? 'Yes' : 'No' }}
+              </span>
+            </span>
           </div>
           <div class="col-6">
-            <span class="text-primary font-bold text-900">ESI:</span> &nbsp; <i class="fa fa-close"
+            <span class="text-primary font-bold text-900">ESI:</span> &nbsp;
+            <!-- <i class="fa fa-close"
               style="font-size:24px; color:#e24c4c; vertical-align: sub;"
               *ngIf="!employeeofficeDtls?.isESIEligible"></i><i class="fa fa-check"
-              style="font-size:24px; color:#119e2f; vertical-align: sub;" *ngIf="employeeofficeDtls?.isESIEligible"></i>
+              style="font-size:24px; color:#119e2f; vertical-align: sub;" *ngIf="employeeofficeDtls?.isESIEligible"></i> -->
+            <span *ngIf="employeeofficeDtls?.isESIEligible !== undefined">
+              <span [style.color]="employeeofficeDtls?.isESIEligible ? '#119e2f' : '#e24c4c'">
+                {{ employeeofficeDtls?.isESIEligible ? 'Yes' : 'No' }}
+              </span>
+            </span>
           </div>
           <br />
         </div>

@@ -12,7 +12,6 @@
                         class="bg-primary border-circle w-2rem h-2rem flex align-items-center justify-content-center">{{empDetails?.allottedPrivilegeLeaves-empDetails?.usedPrivilegeLeavesInYear}}</span>
                     <span class="ml-2 font-medium">Privilege Leaves</span>
                 </p-chip>
-
             </div>
             <div class="col-12 roles-container">
                 <div class="p-fluid p-formgrid grid">
@@ -84,7 +83,7 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4 mb-0" *ngIf="hideLeavereason()">
-                        <label>Is HalfDay Leave:</label>
+                        <label>Is Half Day Leave:</label>
                         <br>
                         <p-checkbox formControlName="isHalfDayLeave" [binary]="true" inputId="binary"
                             (onChange)="onChangeIsHalfDay()"></p-checkbox>

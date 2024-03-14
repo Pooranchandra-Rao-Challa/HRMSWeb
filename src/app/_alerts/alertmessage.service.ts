@@ -104,11 +104,11 @@ export const ALERT_CODES: { [key: string]: string } = {
     'SMR002': 'Role Updated Successfully',
 
     // updatesecurityquestions
-    'SSESQ001': 'Security Questions Added Successfully',
-    'SSESQ005': 'Security Questions Update Successfully',
-    'SSESQ002': 'Security Questions Saved Failed',
-    'SSESQ003': 'Security Questions Deleted Successfully',
-    'SSESQ004': 'Security Questions Deleted Failed',
+    'SSESQ001': 'Security Question Added Successfully',
+    'SSESQ005': 'Security Question Updated Successfully',
+    'SSESQ002': 'Security Question Saved Failed',
+    'SSESQ003': 'Security Question Deleted Successfully',
+    'SSESQ004': 'Security Question Deleted Failed',
     //Admin Settings
     'ASS001': 'Settings Updated Successfully',
     'ASS002': 'Settings Updated Failed',

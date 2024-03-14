@@ -35,12 +35,22 @@
                     <span class="inline-flex align-items-left mb-2">
                         <i class="pi pi-calendar text-primary text-700 mr-2" pTooltip="Date Of Birth"
                             tooltipPosition="top"></i>
-                        <span class="text-700 mr-2">{{ empDetails?.originalDOB | date:originalDOB}}</span>
+                        <span class="text-700 mr-2">{{ empDetails?.originalDOB | date:dateOfJoining}}</span>
+                    </span><br />
+                    <span class="inline-flex align-items-left mb-2">
+                        <i class="pi pi-calendar text-primary text-700 mr-2" pTooltip="Designation"
+                            tooltipPosition="top"></i>
+                        <span class="text-700 mr-2">{{ empDetails?.designation}}</span>
                     </span><br />
                     <span class="inline-flex align-items-left mb-2">
                         <i class="pi pi-calendar text-primary text-700 mr-2" pTooltip="Date Of Joining"
                             tooltipPosition="top"></i>
                         <span class="text-700 mr-2">{{ empDetails?.dateofJoin | date:dateOfJoining}}</span>
+                    </span><br />
+                    <span class="inline-flex align-items-left mb-2">
+                        <i class="pi pi-calendar text-primary text-700 mr-2" pTooltip="Experience In Company"
+                            tooltipPosition="top"></i>
+                        <span class="text-700 mr-2">{{ empDetails?.experienceInCompany}}</span>
                     </span><br />
                     <span class="inline-flex align-items-left mb-2" *ngIf=" empDetails?.reportingTo">
                         <i class="pi icon-POC text-700 font-bold text-primary mr-2" pTooltip="Reporting To"
@@ -73,8 +83,13 @@
                             <div class="flex justify-content-between ">
                                 <div class="overview-info">
                                     <h6 class="m-0 mb-1 ">Current Balance </h6>
-                                    <h4 class="m-0 mt-2">{{ empDetails?.usedPrivilegeLeavesInYear}}/{{
-                                        empDetails?.allottedPrivilegeLeaves}}</h4>
+                                    <h4 class="m-0 mt-2">
+                                        <span pTooltip="Allocated Privilege Leaves" tooltipPosition="bottom">
+                                            {{empDetails?.allottedPrivilegeLeaves}}
+                                        </span>/
+                                        <span pTooltip="Used Privilege Leaves" tooltipPosition="bottom">
+                                            {{ empDetails?.usedPrivilegeLeavesInYear}}</span>
+                                    </h4>
                                 </div>
                                 <div class="overview-info"
                                     *ngIf="empDetails?.allottedPrivilegeLeaves > 0 && empDetails?.usedPrivilegeLeavesInYear !== empDetails?.allottedPrivilegeLeaves">
@@ -89,8 +104,8 @@
                                 <div class="overview-ifo">
                                     <p class="m-0 mb-1  text-primary text-500">Monthly Consumed </p>
                                     <p class="m-0 text-gray-500  text-500">{{this.usedPLsInMonth}}</p>
-                                    <p class="m-0  text-gray-500  text-500"
-                                        *ngIf="this.usedPLsInMonth === undefined">0</p>
+                                    <p class="m-0  text-gray-500  text-500" *ngIf="this.usedPLsInMonth === undefined">0
+                                    </p>
                                 </div>
 
                                 <div class="d-leave overview-ifo text-center">
@@ -128,8 +143,13 @@
                             <div class="flex justify-content-between">
                                 <div class="overview-info">
                                     <h6 class="m-0  mb-1 ">Current Balance </h6>
-                                    <h4 class="m-0 mt-2">{{ empDetails?.usedCasualLeavesInYear}}/{{
-                                        empDetails?.allottedCasualLeaves}}</h4>
+                                    <h4 class="m-0 mt-2">
+                                        <span pTooltip="Allocated Casual Leaves" tooltipPosition="bottom">
+                                            {{ empDetails?.allottedCasualLeaves}}
+                                        </span>/
+                                        <span pTooltip="Used Casual Leaves" tooltipPosition="bottom">
+                                            {{ empDetails?.usedCasualLeavesInYear}}</span>
+                                    </h4>
                                 </div>
                                 <div class="overview-info"
                                     *ngIf="empDetails?.allottedCasualLeaves > 0 && empDetails?.usedCasualLeavesInYear !== empDetails?.allottedCasualLeaves">
@@ -215,7 +235,7 @@
                                 </div>
                             </ng-template>
                         </p-fieldset><br />
-                        <p-fieldset legend="Today Birthday" [toggleable]="true" [collapsed]="!fieldset2Open"
+                        <p-fieldset legend="Today Birthdays" [toggleable]="true" [collapsed]="!fieldset2Open"
                             (onAfterToggle)="toggleFieldset('Today Birthday')"
                             class="line-height-3 m-0 dashboard_fieldset ">
                             <div class="overflow-auto" style="max-height:10rem;">
@@ -394,11 +414,11 @@
                                         <span
                                             *ngIf="col?.field != 'fromDate' && col?.field != 'toDate'">{{holiday[col.field]}}</span>
                                         <span *ngIf="col?.field == 'fromDate' || col?.field == 'toDate'">
-                                            {{holiday[col.field] |date: 'mediumDate'}}
+                                            {{holiday[col.field] |date:dateOfJoining}}
                                         </span>
                                         <span *ngIf="col?.field === 'toDate'">
                                             <span *ngIf="holiday[col.field] === null">
-                                                {{ holiday['fromDate'] | date: 'mediumDate' }}
+                                                {{ holiday['fromDate'] | date:dateOfJoining }}
                                             </span>
                                         </span>
                                     </td>
@@ -439,8 +459,8 @@
                                     style=" color:gray; border-top:1px solid #ccc; font-size:12px; font-weight: 700;">
                                     <span class="icon-start_time">
                                         <!--{{period.endAt  ? ' - '+period.endAt : "  Continuing"}}-->
-                                        {{period.sinceFrom | date: 'yyyy-MM-dd'}} - {{ period.endAt ? (period.endAt |
-                                        date: 'yyyy-MM-dd') : "Progress"}}
+                                        {{period.sinceFrom | date:dateOfJoining}} - {{ period.endAt ? (period.endAt |
+                                        date:dateOfJoining) : "Progress"}}
                                     </span>
                                 </div>
                             </div>
