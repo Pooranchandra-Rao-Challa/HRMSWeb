@@ -37,7 +37,7 @@
                 styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm pb-5" [paginator]="true"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                 [showCurrentPageReport]="true" [alwaysShowPaginator]="false" [globalFilterFields]="globalFilterFields"
-                [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]">
+                [rowsPerPageOptions]="[10,25,50]" [autoLayout]="true" responsiveLayout="scroll" [resizableColumns]="true" >
                 <ng-template pTemplate="caption">
                   <div class="flex justify-content-between flex-column sm:flex-row">
                     <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
@@ -66,7 +66,7 @@
                     <td class="text-center">
                       <img
                         [src]="employee.photo ? employee.photo : employee?.gender == 'Male' ?  './assets/layout/images/men-emp.jpg' : './assets/layout/images/women-emp.jpg'"
-                        [alt]="employee.employeeName" class="my-4 md:my-0 w-10 md:w-10rem shadow-2 mr-2" />
+                        [alt]="employee.employeeName" class="my-4 md:my-0 w-10 md:w-2rem shadow-2 mr-2" />
                     </td>
                     <td class="text-center" *ngFor="let col of headers">
                       <span

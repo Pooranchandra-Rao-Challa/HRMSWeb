@@ -38,8 +38,10 @@ export class selfEmployeeMonthlyLeaves {
     status?: string;
     isDeleted?: boolean;
     isHalfDayLeave?:boolean;
-    usedCLsInMonth?: number
-    usedPLsInMonth?: number
+    usedCLsInMonth?: number;
+    usedPLsInMonth?: number;
+    fromDate?:Date;
+    toDate?:Date;
     isLeaveUsed?: boolean;
 }
 export class allottedAssets {

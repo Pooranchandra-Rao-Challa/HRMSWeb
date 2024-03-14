@@ -216,8 +216,7 @@
             [alwaysShowPaginator]="false" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
             [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
             [showCurrentPageReport]="true" [globalFilterFields]="globalFilterFields" paginatorDropdownAppendTo="body"
-            [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]" [autoLayout]="true"
-            responsiveLayout="scroll" [tableStyle]="{ width: 'max'}">
+            [autoLayout]="true"  [rowsPerPageOptions]="[10,25,50]" [autoLayout]="true" responsiveLayout="scroll" [resizableColumns]="true"  >
             <ng-template pTemplate="caption">
                 <div class="flex justify-content-between flex-column sm:flex-row">
                     <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"

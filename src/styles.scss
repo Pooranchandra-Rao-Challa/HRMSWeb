@@ -1360,3 +1360,24 @@ app-attendance .p-datatable-table tbody tr td:first-child {
 #comment , #mytextarea{
     resize: none;
 }
+.dicon{
+    min-width:15px;
+    line-height: 1.5;
+}
+.dtext{
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+.ui-table table {
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.p-element .p-splitbutton-defaultbutton{
+    display: none !important;
+}
