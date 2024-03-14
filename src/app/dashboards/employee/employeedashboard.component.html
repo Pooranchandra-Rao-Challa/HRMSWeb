@@ -330,7 +330,7 @@
                 <div class="applicant-n-block-home">
                     <div class="text-500  text-2xl text-primary text-center m-5 p-5"
                         *ngIf="!empDetails?.assets || empDetails?.assets.length === 0">
-                        There is no Assigned Assets for this Employee
+                        There is no Allocated Assets for this Employee
                     </div>
                     <div class="grid p-3 mt-0 " *ngIf="empDetails?.assets && empDetails?.assets.length > 0">
                         <div class="col-12 sm:col-4 pt-0" *ngFor="let asset of empDetails?.assets">
