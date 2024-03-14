@@ -342,7 +342,7 @@ export class EmployeeLeaveDialogComponent implements OnInit {
             this.dialog = true;
             const leaveWithEmployeeName = this.monthlyLeaves.find(leave => leave.employeeName);
             this.empName = leaveWithEmployeeName ? leaveWithEmployeeName.employeeName : '';
-            const leavewithFromDate = this.monthlyLeaves.find(leave => leave.fromDate);
+            const leavewithFromDate = this.monthlyLeaves.find(leave => leave.fromDate && leave.leaveType === 'CL');
             // this.monthName = new Date(this.year, this.month - 1, 1).toLocaleString('default', { month: 'long' });
             this.dates = leavewithFromDate ? leavewithFromDate.fromDate : '';
           }
@@ -353,7 +353,7 @@ export class EmployeeLeaveDialogComponent implements OnInit {
             this.dialog = true;
             const leaveWithEmployeeName = this.monthlyLeaves.find(leave => leave.employeeName);
             this.empName = leaveWithEmployeeName ? leaveWithEmployeeName.employeeName : '';
-            const leavewithFromDate = this.monthlyLeaves.find(leave => leave.fromDate);
+            const leavewithFromDate = this.monthlyLeaves.find(leave => leave.fromDate && leave.leaveType === 'CL');
             // this.monthName = new Date(this.year, this.month - 1, 1).toLocaleString('default', { month: 'long' });
             this.dates = leavewithFromDate ? leavewithFromDate.fromDate : '';
           }
@@ -361,7 +361,7 @@ export class EmployeeLeaveDialogComponent implements OnInit {
             this.dialog = true;
             const leaveWithEmployeeName = this.monthlyLeaves.find(leave => leave.employeeName);
             this.empName = leaveWithEmployeeName ? leaveWithEmployeeName.employeeName : '';
-            const leavewithFromDate = this.monthlyLeaves.find(leave => leave.fromDate);
+            const leavewithFromDate = this.monthlyLeaves.find(leave => leave.fromDate && leave.leaveType === 'CL');
             // this.monthName = new Date(this.year, this.month - 1, 1).toLocaleString('default', { month: 'long' });
             this.dates = leavewithFromDate ? leavewithFromDate.fromDate : '';
           }
