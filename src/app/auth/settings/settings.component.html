@@ -192,7 +192,7 @@
                                 [ngClass]="{'error': !security.answer && (answer.dirty || answer.touched)}">
                                 <label class="required" for="Answer">Answer</label>
                                 <input type="text" pInputText name="Answer" id="Answer" placeholder="Enter Answer"
-                                    [(ngModel)]="security.answer" required #answer="ngModel"
+                                    [(ngModel)]="security.answer" required #answer="ngModel" [maxLength]="50"
                                     (keydown)="restrictSpaces($event)"/>
                                 <span *ngIf="!security.answer && (answer.dirty || answer.touched)">
                                     <div class="ng-invalid ng-touched p-error">
