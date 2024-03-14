@@ -208,7 +208,7 @@
               <div class="p-field mb-3" [ngClass]="{'error': !security.Answer && (answer.dirty || answer.touched)}">
                 <label for="Answer">Answer</label>
                 <input type="text" pInputText name="Answer" id="Answer" [(ngModel)]="security.Answer" required
-                  class="mt-3" #answer="ngModel" placeholder="Enter Answer" />
+                  class="mt-3" #answer="ngModel" placeholder="Enter Answer" [maxLength]="50" />
                 <small class="p-invalid p-error" *ngIf="!security.Answer && (answer.dirty || answer.touched)">Please
                   Enter Answer</small>
               </div>

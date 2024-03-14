@@ -17,6 +17,7 @@
                         </div>
                         <br />
                         <h4 class="m-5 mb-2 mt-0 text-primary">{{ empDetails?.employeeName}}</h4>
+                        <h6 class="m-5 mb-2 mt-0 text-green-500">{{ empDetails?.designation}}</h6>
                     </div>
                     <span class="inline-flex align-items-left mb-2">
                         <i class="pi icon-intersex text-primary text-700 mr-2" pTooltip="Gender"
@@ -33,22 +34,22 @@
                         <span class="text-700 mr-2">{{ empDetails?.mobileNumber}}</span>
                     </span><br />
                     <span class="inline-flex align-items-left mb-2">
-                        <i class="pi pi-calendar text-primary text-700 mr-2" pTooltip="Date Of Birth"
+                        <i class="pi icon-birthday-cake text-primary text-700 mr-2" pTooltip="Date Of Birth"
                             tooltipPosition="top"></i>
                         <span class="text-700 mr-2">{{ empDetails?.originalDOB | date:dateOfJoining}}</span>
                     </span><br />
-                    <span class="inline-flex align-items-left mb-2">
+                    <!-- <span class="inline-flex align-items-left mb-2">
                         <i class="pi pi-calendar text-primary text-700 mr-2" pTooltip="Designation"
                             tooltipPosition="top"></i>
-                        <span class="text-700 mr-2">{{ empDetails?.designation}}</span>
-                    </span><br />
+                        <span class="text-700 mr-2"></span>
+                    </span><br /> -->
                     <span class="inline-flex align-items-left mb-2">
-                        <i class="pi pi-calendar text-primary text-700 mr-2" pTooltip="Date Of Joining"
+                        <i class="pi icon-dateofjoining text-primary text-700 mr-2" pTooltip="Date Of Joining"
                             tooltipPosition="top"></i>
                         <span class="text-700 mr-2">{{ empDetails?.dateofJoin | date:dateOfJoining}}</span>
                     </span><br />
                     <span class="inline-flex align-items-left mb-2">
-                        <i class="pi pi-calendar text-primary text-700 mr-2" pTooltip="Experience In Company"
+                        <i class="pi icon-experiance text-primary text-700 mr-2" pTooltip="Experience In Company"
                             tooltipPosition="top"></i>
                         <span class="text-700 mr-2">{{ empDetails?.experienceInCompany}}</span>
                     </span><br />
@@ -235,7 +236,7 @@
                                 </div>
                             </ng-template>
                         </p-fieldset><br />
-                        <p-fieldset legend="Today Birthday" [toggleable]="true" [collapsed]="!fieldset2Open"
+                        <p-fieldset legend="Today Birthdays" [toggleable]="true" [collapsed]="!fieldset2Open"
                             (onAfterToggle)="toggleFieldset('Today Birthday')"
                             class="line-height-3 m-0 dashboard_fieldset ">
                             <div class="overflow-auto" style="max-height:10rem;">
