@@ -360,6 +360,7 @@ export class EmployeeLeaveDto {
 	notReported?: boolean
 	toDate?: Date;
 	leaveTypeId?: number;
+	leaveReason?:string;
 	leaveReasonId?: number;
 	isHalfDayLeave?: boolean;
 	isDeleted?: boolean;
@@ -373,6 +374,8 @@ export class EmployeeLeaveDto {
 	acceptedAt?: Date;
 	approvedBy?: number;
 	approvedAt?: Date;
+	rejectedAt?:Date;
+	rejectedBy?:number;
 	rejected?: boolean;
 	comments?: String;
 	status?: string;

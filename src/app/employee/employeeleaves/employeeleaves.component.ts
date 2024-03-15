@@ -18,6 +18,8 @@ import { EmployeeLeaveDialogComponent } from 'src/app/_dialogs/employeeleave.dia
 import { ReportService } from 'src/app/_services/report.service';
 import * as FileSaver from "file-saver";
 import { ConfirmationDialogService } from 'src/app/_alerts/confirmationdialog.service';
+import * as pdfMake from 'pdfmake/build/pdfmake';
+import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 @Component({
   selector: 'app-employeeleaves',
   templateUrl: './employeeleaves.component.html',
@@ -50,7 +52,8 @@ export class EmployeeLeavesComponent {
   confirmationRequest: ConfirmationRequest = new ConfirmationRequest();
   selectedStatus: any;
   value: number;
-  employeeRole:any;
+  employeeRole: any;
+
 
   statuses: any[] = [
     { name: 'Pending', key: 'P' },
@@ -85,6 +88,7 @@ export class EmployeeLeavesComponent {
     private confirmationDialogService: ConfirmationDialogService) {
     this.selectedMonth = FORMAT_DATE(new Date(this.year, this.month - 1, 1));
     this.selectedMonth.setHours(0, 0, 0, 0);
+    pdfMake.vfs = pdfFonts.pdfMake.vfs;
   }
 
   set selectedColumns(val: any[]) {
@@ -95,8 +99,8 @@ export class EmployeeLeavesComponent {
   }
 
   ngOnInit(): void {
-    this.permissions = this.jwtService.Permissions; 
-    this.employeeRole= this.jwtService.EmployeeRole;
+    this.permissions = this.jwtService.Permissions;
+    this.employeeRole = this.jwtService.EmployeeRole;
     this.selectedStatus = this.statuses[0];
     this.getLeaves();
     this.getDaysInMonth(this.year, this.month);
@@ -247,6 +251,113 @@ export class EmployeeLeavesComponent {
 
   save(): Observable<HttpEvent<EmployeeLeaveDto[]>> {
     return this.employeeService.UpdateEmployeeLeaveDetails(this.fbLeave.value);
+  }
+
+  getBase64ImageFromURL(url: string) {
+    return new Promise((resolve, reject) => {
+      var img = new Image();
+      img.setAttribute("crossOrigin", "anonymous");
+      img.onload = () => {
+        var canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        var ctx = canvas.getContext("2d");
+        ctx!.drawImage(img, 0, 0);
+        var dataURL = canvas.toDataURL("image/jpg");
+        resolve(dataURL);
+      };
+      img.onerror = error => {
+        reject(error);
+      };
+      img.src = url;
+    });
+  }
+
+  async generatePdf(data: any) {
+    const pageSize = { width: 841.89, height: 595.28 };
+    const headerImage = await this.getBase64ImageFromURL('assets/layout/images/head.JPG');
+    const footerSize = { width: 841.90, height: 40.99 };
+    const footerImage = await this.getBase64ImageFromURL('assets/layout/images/footer.JPG')
+    const createLine = () => [{ type: 'line', x1: 0, y1: 0, x2: 495.28, y2: 0, lineWidth: 2 }];
+
+    // const createFooter = () => ({
+    //   margin: [0, 0, 0, 0],
+    //   height: 40,
+    //   background: '#41b6a6',
+    //   color: '#fff',
+    //   width: 595.28,
+    //   columns: [
+    //     { canvas: [{ type: 'rect', x: 0, y: 0, w: 595.28, h: 40, color: '#41b6a6' }] },
+    //     { text: '@ 2022 EHR One, LLC', fontSize: 14, color: '#fff', absolutePosition: { x: 20, y: 10 }},
+    //     { image: 'assets/layout/images/footer.JPG', width: 40, height: 40, absolutePosition: { x: 550, y: 0 }},
+    //   ],
+    // });
+
+    const docDefinition = {
+      pageOrientation: 'landscape', // Set page orientation to landscape
+      // pageSize: { width: 841.89, height: 595.28 },
+      // pageMargins: [120, 0, 0, 0], // [left, top, right, bottom]
+      header: () => ({
+        stack: [
+          { image: headerImage, width: pageSize.width, height: pageSize.height * 0.15, margin: [0, 0, 0, 0] },
+          { canvas: [{ type: 'line', x1: 0, y1: 5, x2: pageSize.width, y2: 5, lineWidth: 2, color: 'gray' }], absolutePosition: { x: 0, y: 83 } }
+        ]
+      }),
+      footer: () => ({ image: footerImage, width: footerSize.width, height: footerSize.height }),
+      content: [
+        {
+          text: 'Employee Leaves',
+          bold: true,
+          alignment: 'center',
+          color: '#ff810e',
+          margin: 120,
+          style: 'header',
+        },
+        {
+          style: 'tableExample',
+          table: {
+            widths: [29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29],
+            body: [
+              ['Employee ID', 'Employee Name', 'Code', 'From Date', 'To Date', 'Leave Reason', 'Half Day Leave', 'Rejected', 'AcceptedAt', 'AcceptedBy', 'ApprovedAt', 'ApprovedBy', 'RejectedAt', 'RejectedBy', 'Deleted', 'Leave Used', 'Note', 'Status', 'Created At', 'Created By'
+              ],
+              ...this.leaves.map(leave => [
+                leave.code,
+                leave.employeeName,
+                leave.leaveType,
+                leave.fromDate,
+                leave.toDate,
+                leave.leaveReason,
+                leave.isHalfDayLeave,
+                leave.rejected,
+                leave.acceptedAt,
+                leave.acceptedBy,
+                leave.approvedAt,
+                leave.approvedBy,
+                leave.rejectedAt,
+                leave.rejectedBy,
+                leave.isDeleted,
+                leave.isLeaveUsed,
+                leave.note,
+                leave.status,
+                leave.createdAt,
+                leave.createdBy
+              ])
+            ]
+          }
+          // layout: 'noBorders' // Remove borders around the table
+        },
+      ],
+      styles: {
+        header: { fontSize: 24 },
+        subheader: { fontSize: 20, alignment: 'center' },
+        borderedText: { border: [1, 1, 1, 1], borderColor: 'rgb(0, 0, 255)', fillColor: '#eeeeee', width: 100, height: 150, margin: [12, 20, 0, 0] },
+        defaultStyle: { font: 'Typography', fontSize: 12 },
+        tableExample: { margin: [0, -120, 0, 0] },
+        tableHeader: { bold: true, fontSize: 13, color: 'black' }
+      },
+    };
+
+    pdfMake.createPdf(docDefinition).download('SuperBill.pdf');
   }
 
   downloadEmployeeLeavesReport() {
