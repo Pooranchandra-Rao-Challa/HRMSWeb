@@ -17,8 +17,14 @@
                         </div>
                         <br />
                         <h4 class="m-5 mb-2 mt-0 text-primary">{{ empDetails?.employeeName}}</h4>
-                        <h6 class="m-5 mb-2 mt-0 text-green-500">{{ empDetails?.designation}}</h6>
+                        <h6 class="m-5 mb-2 mt-0 text-green-500"  pTooltip="Designation" tooltipPosition="bottom">{{ empDetails?.designation}}</h6>
+                        <!-- <h6 class="m-5 mb-2 mt-0 text-green-500"  pTooltip="Employee Id" tooltipPosition="bottom"></h6> -->
                     </div>
+                    <span class="inline-flex align-items-left mb-2">
+                        <i class="pi icon-experiance text-primary text-700 mr-2 dicon" pTooltip="Employee Id"
+                            tooltipPosition="top"></i>
+                        <span class="text-700 mr-2 dtext">{{ empDetails?.code}}</span>
+                    </span><br />
                     <span class="inline-flex align-items-left mb-2">
                         <i class="pi icon-intersex text-primary text-700 mr-2  dicon" pTooltip="Gender"
                             tooltipPosition="top"></i>
@@ -27,6 +33,11 @@
                     <span class="inline-flex align-items-left mb-2">
                         <i class="pi pi-envelope text-primary text-700 mr-2 dicon" pTooltip="Email" tooltipPosition="top"></i>
                         <span class="text-700 mr-2 dtext">{{ empDetails?.officeEmailId}}</span>
+                    </span><br />
+                    <span class="inline-flex align-items-left mb-2">
+                        <i class="pi icon-dateofjoining text-primary text-700 mr-2 dicon" pTooltip="Date Of Joining"
+                            tooltipPosition="top"></i>
+                        <span class="text-700 mr-2 dtext">{{ empDetails?.dateofJoin | date:dateOfJoining}}</span>
                     </span><br />
                     <span class="inline-flex align-items-left mb-2">
                         <i class="pi pi-mobile text-primary text-700 mr-2 dicon" pTooltip="Mobile Number"
@@ -38,28 +49,23 @@
                             tooltipPosition="top"></i>
                         <span class="text-700 mr-2 dtext">{{ empDetails?.originalDOB | date:dateOfJoining}}</span>
                     </span><br />
-                    <!-- <span class="inline-flex align-items-left mb-2">
-                        <i class="pi pi-calendar text-primary text-700 mr-2 dicon" pTooltip="Designation"
-                            tooltipPosition="top"></i>
-                        <span class="text-700 mr-2"></span>
-                    </span><br /> -->
-                    <span class="inline-flex align-items-left mb-2">
-                        <i class="pi icon-dateofjoining text-primary text-700 mr-2 dicon" pTooltip="Date Of Joining"
-                            tooltipPosition="top"></i>
-                        <span class="text-700 mr-2 dtext">{{ empDetails?.dateofJoin | date:dateOfJoining}}</span>
-                    </span><br />
-                    <span class="inline-flex align-items-left mb-2">
-                        <i class="pi icon-experiance text-primary text-700 mr-2 dicon" pTooltip="Experience In Company"
-                            tooltipPosition="top"></i>
-                        <span class="text-700 mr-2 dtext">{{ empDetails?.experienceInCompany}}</span>
-                    </span><br />
                     <span class="inline-flex align-items-left mb-2" *ngIf=" empDetails?.reportingTo">
                         <i class="pi icon-POC text-700 font-bold text-primary mr-2 dicon" pTooltip="Reporting To"
                             tooltipPosition="top"></i>
                         <span class="text-700 mr-2 dtext">
                             <span>{{ empDetails?.reportingTo}}</span>
                         </span>
-                    </span>
+                    </span><br />
+                    <!-- <span class="inline-flex align-items-left mb-2">
+                        <i class="pi pi-calendar text-primary text-700 mr-2 dicon" pTooltip="Designation"
+                            tooltipPosition="top"></i>
+                        <span class="text-700 mr-2"></span>
+                    </span><br /> -->
+                    <span class="inline-flex align-items-left mb-2">
+                        <i class="pi icon-experiance text-primary text-700 mr-2 dicon" pTooltip="Experience In Company"
+                            tooltipPosition="top"></i>
+                        <span class="text-700 mr-2 dtext">{{ empDetails?.experienceInCompany}}</span>
+                    </span><br />
                     <!-- <span class="inline-flex align-items-left mb-2">
                         <i class="pi pi-send text-700 text-primary mr-2" pTooltip="Address"
                             tooltipPosition="top"></i>
@@ -83,17 +89,16 @@
                         <div class="card text-0  pt-2 stat_background overview-ifo">
                             <div class="flex justify-content-between ">
                                 <div class="overview-info">
-                                    <h6 class="m-0 mb-1 ">Current Balance </h6>
+                                    <h6 class="m-0 mb-1 ">Used/Allocated</h6>
                                     <h4 class="m-0 mt-2">
-                                        <span pTooltip="Allocated Privilege Leaves" tooltipPosition="bottom">{{empDetails?.allottedPrivilegeLeaves}}</span>/<span pTooltip="Used Privilege Leaves" tooltipPosition="bottom">{{ empDetails?.usedPrivilegeLeavesInYear}}</span>
+                                        <span pTooltip="Used Privilege Leaves" tooltipPosition="bottom">{{ empDetails?.usedPrivilegeLeavesInYear}}</span>/<span pTooltip="Allocated Privilege Leaves" tooltipPosition="bottom">{{empDetails?.allottedPrivilegeLeaves}}</span>
                                     </h4>
                                 </div>
-                                <div class="overview-info"
-                                    *ngIf="empDetails?.allottedPrivilegeLeaves > 0 && empDetails?.usedPrivilegeLeavesInYear !== empDetails?.allottedPrivilegeLeaves">
-                                    <h6 class="m-0 mb-1 ">Apply PL </h6>
-                                    <i class="pi icon-calendar  text-6xl att-pointer" label="Primary"
-                                        pTooltip="Apply PL" tooltipPosition="right"
-                                        (click)="openComponentDialog(employeeleaveDialogComponent, 'PL', ActionTypes.save)"></i>
+                                <div class="overview-ifo">
+                                    <p class="m-0 mb-1 text-primary  text-500">Available </p>
+                                    <p class="m-0 text-gray-500  text-500"><b>{{
+                                            empDetails?.allottedPrivilegeLeaves-empDetails?.usedPrivilegeLeavesInYear}}</b>
+                                    </p>
                                 </div>
                             </div>
                             <hr class="primary_hr" />
@@ -119,12 +124,12 @@
                                     </p-calendar>
                                     <i class="pi pi-angle-right d-leave-font " (click)="gotoNextMonthPLs()"></i>
                                 </div>
-
-                                <div class="overview-ifo">
-                                    <p class="m-0 mb-1 text-primary  text-500">Available </p>
-                                    <p class="m-0 text-gray-500  text-500"><b>{{
-                                            empDetails?.allottedPrivilegeLeaves-empDetails?.usedPrivilegeLeavesInYear}}</b>
-                                    </p>
+                                <div class="overview-info"
+                                    *ngIf="empDetails?.allottedPrivilegeLeaves > 0 && empDetails?.usedPrivilegeLeavesInYear !== empDetails?.allottedPrivilegeLeaves">
+                                    <h6 class="m-0 mb-1 ">Apply PL </h6>
+                                    <i class="pi icon-calendar  text-6xl att-pointer" label="Primary"
+                                        pTooltip="Apply PL" tooltipPosition="right"
+                                        (click)="openComponentDialog(employeeleaveDialogComponent, 'PL', ActionTypes.save)"></i>
                                 </div>
                             </div>
 
@@ -139,17 +144,16 @@
                         <div class="card text-0  pt-2  stat_background overview-ifo ">
                             <div class="flex justify-content-between">
                                 <div class="overview-info">
-                                    <h6 class="m-0  mb-1 ">Current Balance </h6>
+                                    <h6 class="m-0  mb-1 ">Used/Allocated</h6>
                                     <h4 class="m-0 mt-2">
-                                        <span pTooltip="Allocated Casual Leaves" tooltipPosition="bottom">{{ empDetails?.allottedCasualLeaves}}</span>/<span pTooltip="Used Casual Leaves" tooltipPosition="bottom">{{ empDetails?.usedCasualLeavesInYear}}</span>
+                                        <span pTooltip="Used Casual Leaves" tooltipPosition="bottom">{{ empDetails?.usedCasualLeavesInYear}}</span>/<span pTooltip="Allocated Casual Leaves" tooltipPosition="bottom">{{ empDetails?.allottedCasualLeaves}}</span>
                                     </h4>
                                 </div>
-                                <div class="overview-info"
-                                    *ngIf="empDetails?.allottedCasualLeaves > 0 && empDetails?.usedCasualLeavesInYear !== empDetails?.allottedCasualLeaves">
-                                    <h6 class="m-0 mb-1 ">Apply CL </h6>
-                                    <i class="pi icon-calendar text-white text-6xl att-pointer" label="Primary"
-                                        pTooltip="Apply CL" tooltipPosition="right"
-                                        (click)="openComponentDialog(employeeleaveDialogComponent, 'CL', ActionTypes.save)"></i>
+                                <div class="overview-ifo">
+                                    <p class="m-0 mb-1  text-primary text-500">Available </p>
+                                    <p class="m-0  text-500"><b>{{
+                                            empDetails?.allottedCasualLeaves-empDetails?.usedCasualLeavesInYear}}</b>
+                                    </p>
                                 </div>
                             </div>
                             <hr class="primary_hr" />
@@ -174,15 +178,14 @@
                                     </p-calendar>
                                     <i class="pi pi-angle-right d-leave-font " (click)="gotoNextMonthCLs()"></i>
                                 </div>
-
-                                <div class="overview-ifo">
-                                    <p class="m-0 mb-1  text-primary text-500">Available </p>
-                                    <p class="m-0  text-500"><b>{{
-                                            empDetails?.allottedCasualLeaves-empDetails?.usedCasualLeavesInYear}}</b>
-                                    </p>
+                                <div class="overview-info"
+                                    *ngIf="empDetails?.allottedCasualLeaves > 0 && empDetails?.usedCasualLeavesInYear !== empDetails?.allottedCasualLeaves">
+                                    <h6 class="m-0 mb-1 ">Apply CL </h6>
+                                    <i class="pi icon-calendar text-white text-6xl att-pointer" label="Primary"
+                                        pTooltip="Apply CL" tooltipPosition="right"
+                                        (click)="openComponentDialog(employeeleaveDialogComponent, 'CL', ActionTypes.save)"></i>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>

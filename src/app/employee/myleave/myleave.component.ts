@@ -52,7 +52,7 @@ export class MyleaveComponent {
     { field: 'fromDate', header: 'fromDate', label: 'From Date' },
     { field: 'toDate', header: 'toDate', label: 'To Date' },
     { field: 'isHalfDayLeave', header: 'isHalfDayLeave', label: 'Half Day Leave' },
-    { field: 'isDeleted', header: 'isDeleted', label: 'Declined' },
+    { field: 'isDeleted', header: 'isDeleted', label: 'Deleted' },
     { field: 'acceptedAt', header: 'acceptedAt', label: 'Accepted At' },
     { field: 'approvedAt', header: 'approvedAt', label: 'Approved At' },
   ];

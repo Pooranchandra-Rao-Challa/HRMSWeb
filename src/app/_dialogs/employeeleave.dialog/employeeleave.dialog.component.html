@@ -113,17 +113,17 @@
                         </p-calendar>
                     </div>
                     <div class="field col-12 md:col-6 mb-0">
-                        <label class="required">Leave Narration:</label>
+                        <label class="required">Leave Reason Description:</label>
                         <textarea class="form-control freeze_text-area" pInputTextarea formControlName="note"
-                            placeholder="Enter Leave Narration" #description [maxlength]="256" id="Description"
-                            (keydown)="restrictSpaces($event)"
+                            (keydown)="restrictSpaces($event)" placeholder="Enter Leave Reason Description" #description
+                            [maxlength]="256" id="Description"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['note'].touched && FormControls['note'].errors }"></textarea>
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                                 <span *ngIf="FormControls['note'].touched && FormControls['note'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="FormControls['note'].errors?.['required']">
-                                        Please Enter Leave Narration.</div>
+                                        Please Enter Leave Reason Description.</div>
                                 </span>
                             </div>
                             <div class="align-right w-40" style="width:30%; text-align:right;">

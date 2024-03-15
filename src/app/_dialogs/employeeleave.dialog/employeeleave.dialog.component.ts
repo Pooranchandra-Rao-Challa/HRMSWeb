@@ -210,7 +210,7 @@ export class EmployeeLeaveDialogComponent implements OnInit {
 
   getLeaveReasonsByLeaveTypeId(id: number) {
     this.lookupService.LeaveReasons(id).subscribe(resp => {
-      this.leaveReasons = resp as unknown as LookupViewDto[];   
+      this.leaveReasons = resp as unknown as LookupViewDto[];
       this.leaveReasons.sort((a, b) => {
         const reasonA = a.name.toUpperCase();
         const reasonB = b.name.toUpperCase();
@@ -222,7 +222,7 @@ export class EmployeeLeaveDialogComponent implements OnInit {
         }
         return 0;
       });
-     })
+    })
   }
 
   onClose() {
@@ -275,6 +275,18 @@ export class EmployeeLeaveDialogComponent implements OnInit {
     return this.fbLeave.controls;
   }
 
+  restrictSpaces(event: KeyboardEvent) {
+    const target = event.target as HTMLInputElement;
+    // Prevent the first key from being a space
+    if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0)
+      event.preventDefault();
+
+    // Restrict multiple spaces
+    if (event.key === ' ' && target.selectionStart > 0 && target.value.charAt(target.selectionStart - 1) === ' ') {
+      event.preventDefault();
+    }
+  }
+
   onChangeIsHalfDay() {
     const isHalfDayLeave = this.fbLeave.get('isHalfDayLeave').value;
     if (!isHalfDayLeave) {
@@ -293,18 +305,37 @@ export class EmployeeLeaveDialogComponent implements OnInit {
     else {
       empId = this.jwtService.EmployeeId;
     }
-    const isDeletedCL = this.monthlyLeaves.filter(leave => leave.isDeleted !== true && leave.leaveType === 'CL' && leave.isLeaveUsed === false);
-    isDeletedCL.forEach(leave => {
-      this.employeeService.DeleteleaveDetails(leave.employeeLeaveId).subscribe((resp) => {
-        if (resp) {
-          this.alertMessage.displayAlertMessage(ALERT_CODES["ELA003"]);
-        }
-        else {
-          this.alertMessage.displayErrorMessage(ALERT_CODES["ELA004"]);
+    const isPL = this.monthlyLeaves.filter(leave => leave.isDeleted !== true && leave.leaveType === 'PL' && leave.status === 'Pending');
+    if (isPL.length >0) {
+      isPL.forEach(pl => {
+        const plfromDate = formatDate(new Date(pl.fromDate), 'yyyy-MM-dd', 'en');
+        const leavefromDate = formatDate(new Date(this.fbLeave.get('fromDate').value), 'yyyy-MM-dd', 'en');
+        if (leavefromDate == plfromDate) {
+          const fromDate = this.fbLeave.get('fromDate').value;
+          const formattedFromDate = new Date(fromDate).toLocaleDateString('en', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric'
+          });
+          this.alertMessage.displayMessage(`You have already PL on ${formattedFromDate}. So, your leave request is not valid`);
         }
       })
-    });
-    this.onSubmit();
+      this.ref.close(true);
+    }
+    else {
+      const isDeletedCL = this.monthlyLeaves.filter(leave => leave.isDeleted !== true && leave.leaveType === 'CL' && leave.isLeaveUsed === false);
+      isDeletedCL.forEach(leave => {
+        this.employeeService.DeleteleaveDetails(leave.employeeLeaveId).subscribe((resp) => {
+          if (resp) {
+            this.alertMessage.displayAlertMessage(ALERT_CODES["ELA003"]);
+          }
+          else {
+            this.alertMessage.displayErrorMessage(ALERT_CODES["ELA004"]);
+          }
+        })
+      });
+      this.onSubmit();
+    }
   }
 
   save(): Observable<HttpEvent<EmployeeLeaveDto[]>> {
@@ -439,16 +470,5 @@ export class EmployeeLeaveDialogComponent implements OnInit {
       return true;
     }
   }
-  restrictSpaces(event: KeyboardEvent) {
-    const target = event.target as HTMLInputElement;
-    // Prevent the first key from being a space
-    if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0)
-      event.preventDefault();
 
-    // Restrict multiple spaces
-    if (event.key === ' ' && target.selectionStart > 0 && target.value.charAt(target.selectionStart - 1) === ' ') {
-      event.preventDefault();
-    }
-  }
-  
 }
