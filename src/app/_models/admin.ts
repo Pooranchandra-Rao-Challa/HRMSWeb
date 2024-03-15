@@ -125,6 +125,7 @@ export class ProjectViewDto {
     working?: Date;
     completed?: Date;
     suspended?: Date;
+    amc?:Date;
     address?: string;
     logo?: string;
     teamMembers?: string

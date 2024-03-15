@@ -50,13 +50,13 @@
                 <div class="card bg-gray-400 text-white flex justify-content-between pt-4 h-full"
                     style="min-width: 17rem">
                     <div class="overview-info">
-                        <h6 class="m-0 mb-1 text-white">Total Projects</h6>
+                        <h6 class="m-0 mb-1 text-white">Ongoing Projects</h6>
                         <h1 class="m-0 text-white">
                             {{ admindashboardDtls?.totalprojectsCount }}
                         </h1>
                     </div>
                     <div *ngIf="permissions?.CanViewProjects; else disabledproject">
-                        <div (click)="navigateProjects()" class="att-pointer" pTooltip="View Projects"
+                        <div (click)="navigateProjects()" class="att-pointer" pTooltip="View Ongoing Projects"
                             tooltipPosition="top">
                             <i class="pi pi-clone text-3xl"></i>
                         </div>
@@ -72,13 +72,13 @@
                 <div class="card bg-gray-600 text-white flex justify-content-between pt-4 h-full"
                     style="min-width: 17rem">
                     <div class="overview-info">
-                        <h6 class="m-0 mb-1 text-white">Suspended Projects</h6>
-                        <h1 class="m-0 text-white">{{admindashboardDtls?.savedsupsendedProjects[0]?.projectStatusCount}}
+                        <h6 class="m-0 mb-1 text-white">Amc Projects</h6>
+                        <h1 class="m-0 text-white">{{admindashboardDtls?.savedAmcProjects}}
                         </h1>
                     </div>
                     <div *ngIf="permissions?.CanViewProjects; else disabledproject">
-                        <div (click)="navigatesuspendedProjects()" class="att-pointer" tooltipPosition="top"
-                            pTooltip="View Suspended Projects">
+                        <div (click)="navigateamcProjects()" class="att-pointer" pTooltip="View AMC Projects"
+                            tooltipPosition="top">
                             <i class="pi pi-stop text-3xl"></i>
                         </div>
                     </div>
@@ -242,7 +242,7 @@
                                     <ng-container *ngIf="employeeCount.length>0; else noDataTemplate">
                                         <span *ngIf="chart == 'Date'">
                                             <p-table #employeeTable [value]="employeeCount" [paginator]="true"
-                                                [rows]="6"  [alwaysShowPaginator]="false"
+                                                [rows]="6" [alwaysShowPaginator]="false"
                                                 styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm">
                                                 <ng-template pTemplate="header">
                                                     <tr>
@@ -393,7 +393,6 @@
             </div>
         </div>
         <div class="card pb-5 pt-5  chart_card employee_card_dashboard2">
-
             <div class="mb-0">
                 <ul class="list-none p-0 m-1">
                     <li *ngIf="this.admindashboardDtls?.savedactiveProjects?.length > 0; else noProjectsMessage">
@@ -539,7 +538,8 @@
     <form [formGroup]="fbWishes">
         <div class="col-12 ">
             <textarea id="mytextarea" type="text" #Wishes rows="3" placeholder="Enter Wishes" pInputTextarea
-                formControlName="message" class="freeze_text-area col-12 mb-1" [maxLength]="256" (keydown)="restrictSpaces($event)">
+                formControlName="message" class="freeze_text-area col-12 mb-1" [maxLength]="256"
+                (keydown)="restrictSpaces($event)">
             </textarea>
             <div class="align-right w-40" style="width:100%; text-align:right;">
                 <small>{{Wishes.value.length}}/256</small>
@@ -548,7 +548,8 @@
     </form>
     <ng-template pTemplate="footer">
         <div style="float:right" class="p-2">
-            <button pButton type="button" class="btn btn-primary" label="Send Wishes" (click)="onSubmit()" [disabled]="fbWishes.invalid"></button>
+            <button pButton type="button" class="btn btn-primary" label="Send Wishes" (click)="onSubmit()"
+                [disabled]="fbWishes.invalid"></button>
         </div>
     </ng-template>
 </p-dialog>

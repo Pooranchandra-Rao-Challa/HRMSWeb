@@ -258,8 +258,8 @@
           <button pButton label="Clear" id="btn-clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
             (click)="clear()"></button>
           <div class="flex">
-            <!-- <button (click)="exportPdf()" pButton class="p-button doc_button mx-2" pTooltip="Download PDF"
-              icon="pi pi-file-pdf"></button> -->
+            <button (click)="exportPdf()" pButton class="p-button doc_button mx-2" pTooltip="Download PDF"
+              icon="pi pi-file-pdf"></button>
             <div *ngIf="permissions?.CanDownloadAssets">
               <button pButton class="p-button doc_button mx-2" icon="icon-csv-svgrepo-com-1" pTooltip="Download CSV"
                 (click)="downloadAssetsReport()" tooltipPosition="left"></button>
@@ -317,12 +317,12 @@
           </td>
         </tr>
       </ng-template>
-      <ng-template pTemplate="rowexpansion" let-assest>
+      <ng-template pTemplate="rowexpansion" let-assets>
         <tr>
           <td colspan="13">
             <div class="p-3 width_vw">
               <div class="overflow-cotainer">
-                <p-table #innerassetsdata [value]="assest.expandassets" [scrollable]="true" scrollHeight="300px"
+                <p-table #innerassetsdata [value]="assets.expandassets" [scrollable]="true" scrollHeight="300px"
                   [columns]="AssetsTypeTable" dataKey="assetId" [tableStyle]="{ width: 'max-content' }"
                   paginatorDropdownAppendTo="body" [scrollable]="true" scrollDirection="both"
                   styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm">
