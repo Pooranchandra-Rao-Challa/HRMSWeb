@@ -67,7 +67,7 @@ export class EmployeeLeavesComponent {
     { field: 'toDate', header: 'toDate', label: 'To Date' },
     { field: 'note', header: 'note', label: 'Leave Description' },
     { field: 'isHalfDayLeave', header: 'isHalfDayLeave', label: 'Half Day Leave' },
-    { field: 'isDeleted', header: 'isDeleted', label: 'Declined' },
+    { field: 'isDeleted', header: 'isDeleted', label: 'Deleted' },
     { field: 'acceptedAt', header: 'acceptedAt', label: 'Accepted At' },
     { field: 'approvedAt', header: 'approvedAt', label: 'Approved At' },
   ];
@@ -264,21 +264,21 @@ export class EmployeeLeavesComponent {
       })
   }
 
-  deleteleaveDetails(employeeLeaveId) {
-    this.confirmationDialogService.comfirmationDialog(this.confirmationRequest).subscribe(userChoice => {
-      if (userChoice) {
-        this.employeeService.DeleteleaveDetails(employeeLeaveId).subscribe((resp) => {
-          if (resp) {
-            this.alertMessage.displayAlertMessage(ALERT_CODES["ELA003"]);
-            this.getLeaves();
-          }
-          else {
-            this.alertMessage.displayErrorMessage(ALERT_CODES["ELA004"]);
-          }
-        })
-      }
-    });
-  }
+  // deleteleaveDetails(employeeLeaveId) {
+  //   this.confirmationDialogService.comfirmationDialog(this.confirmationRequest).subscribe(userChoice => {
+  //     if (userChoice) {
+  //       this.employeeService.DeleteleaveDetails(employeeLeaveId).subscribe((resp) => {
+  //         if (resp) {
+  //           this.alertMessage.displayAlertMessage(ALERT_CODES["ELA003"]);
+  //           this.getLeaves();
+  //         }
+  //         else {
+  //           this.alertMessage.displayErrorMessage(ALERT_CODES["ELA004"]);
+  //         }
+  //       })
+  //     }
+  //   });
+  // }
 
   openComponentDialog(content: any,
     dialogData, action: Actions = this.ActionTypes.add) {
