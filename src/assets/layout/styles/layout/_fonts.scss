@@ -52,7 +52,9 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-
+  .pdf_group .pi-chevron-down:before{
+    content: "\e917";
+  }
   .icon-birthday-cake:before {
     content: "\e926";
   }

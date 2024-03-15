@@ -1381,3 +1381,6 @@ app-attendance .p-datatable-table tbody tr td:first-child {
 .p-element .p-splitbutton-defaultbutton{
     display: none !important;
 }
+.pdf_group .pi-chevron-down:before{
+    content: "\e98d";
+  }
