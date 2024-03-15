@@ -402,8 +402,7 @@ export class HolidayconfigurationComponent {
     const docDefinition = {
       header: () => ({ image: headerImage, width: pageSize.width, height: pageSize.height * 0.15 , margin: [0, 0, 0, 0] }),
       content: [
-        { text: 'Holidays List\n\n', style: 'header', margin: [0,90, 0, 0], alignment: 'center' },
-        // { margin: [0, 20,0, 0],...holidaysContent },
+        { text: 'Holidays List\n', style: 'header', margin: [0,90, 0, 0], alignment: 'center' },
         holidaysContent
       ],
       styles: {
@@ -415,31 +414,30 @@ export class HolidayconfigurationComponent {
     };
     pdfMake.createPdf(docDefinition).download('Holidays.pdf');
   }
-
+  
   generateHolidaysContent(): any {
-    // Construct the content from the holidays data
-    const content = [];
-    content.push([
-      { text: 'Holiday Name', style: 'subheader' },
-      { text: 'From Date', style: 'subheader' },
-      { text: 'To Date', style: 'subheader' },
-      { text: 'Is Active', style: 'subheader' }
-    ]);
-    // Iterate over holidays and add them to the content
-    for (const holiday of this.holidays) {
-      const rowData = [];
-      rowData.push(holiday.title || '');
-      rowData.push(holiday.fromDate ? new Date(holiday.fromDate).toLocaleDateString() : '');
-      rowData.push(holiday.toDate ? new Date(holiday.toDate).toLocaleDateString() : '');
-      rowData.push(holiday.isActive != null ? holiday.isActive : '');
-      content.push(rowData);
-    }
+    const content = [
+        [
+            { text: 'Holiday Name', style: 'subheader' },
+            { text: 'From Date', style: 'subheader' },
+            { text: 'To Date', style: 'subheader' },
+            { text: 'Is Active', style: 'subheader' }
+        ],
+        ...this.holidays.map(holiday => [
+            holiday.title || '',
+            holiday.fromDate ? new Date(holiday.fromDate).toLocaleDateString() : '',
+            holiday.toDate ? new Date(holiday.toDate).toLocaleDateString() : '',
+            holiday.isActive != null ? holiday.isActive : ''
+        ])
+    ];
+
     return {
-      table: {
-        headerRows: 1,
-        widths: [155,110,110,100],
-        body: content,
-      },
+        table: {
+            headerRows: 1,
+            widths: [155, 110, 110, 100],
+            body: content,
+        },
     };
-  }
+}
+
 }

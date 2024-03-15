@@ -113,7 +113,8 @@ export class adminDashboardViewDto {
     savedabsentEmployees?: absentEmployees[];
     calculatedLeaveCount: number;
     totalprojectsCount: number;
-    activeEmployeesInOffice?: string
+    activeEmployeesInOffice?: string;
+    savedAmcProjects?:number;
 }
 
 export class AttendanceCountBasedOnTypeViewDto{

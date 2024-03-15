@@ -297,7 +297,6 @@ export class EmployeeLeaveDialogComponent implements OnInit {
   }
 
   deleteleaveDetails() {
-    debugger
     var employeeState = this.FormControls['employeeId'].disable;
     var empId: number;
     if (employeeState) {

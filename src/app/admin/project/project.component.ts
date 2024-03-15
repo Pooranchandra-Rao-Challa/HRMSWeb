@@ -131,9 +131,9 @@ export class ProjectComponent implements OnInit {
         private d3NodeChanger: D3NodeChangeNotifier, private viewContainerRef: ViewContainerRef,
         private cdr: ChangeDetectorRef, private reportService: ReportService,
         private imageCropService: ImagecropService,
-        private activatedRoute: ActivatedRoute) { 
-            pdfMake.vfs = pdfFonts.pdfMake.vfs;
-        }
+        private activatedRoute: ActivatedRoute) {
+        pdfMake.vfs = pdfFonts.pdfMake.vfs;
+    }
 
     ngOnInit() {
 
@@ -311,11 +311,16 @@ export class ProjectComponent implements OnInit {
         this.adminService.GetProjects().subscribe(resp => {
             this.projects = resp as unknown as ProjectViewDto[];
             this.filteredProjects = this.projects;
+            console.log(this.filteredProjects);
+
             this.projects = this.projects.reverse();
             // Filter suspended projects if the showSuspendedProjects query parameter is true
-            if (this.activatedRoute.snapshot.queryParams['showSuspendedProjects'] === 'true') {
-                this.filteredProjects = this.projects.filter(project => project.suspended !== null);
-            };
+            if (this.activatedRoute.snapshot.queryParams['showAmcProjects'] === 'true') {
+                this.filteredProjects = this.projects.filter(project => project.amc !== null);
+            }
+            if (this.activatedRoute.snapshot.queryParams['showOngoingProjects'] === 'true') {
+                this.filteredProjects = this.projects.filter(project => project.working !== null && project.amc == null && project.completed == null && project.suspended == null);
+            }
             this.projects.forEach(project => {
                 this.getProjectLogo(project);
             })
@@ -973,7 +978,7 @@ export class ProjectComponent implements OnInit {
 
     downloadProjectReport(id: number) {
         this.reportService.DownloadProjects(id)
-            .subscribe((resp) => { 
+            .subscribe((resp) => {
                 if (resp.type === HttpEventType.DownloadProgress) {
                     const percentDone = Math.round(100 * resp.loaded / resp.total);
                     this.value = percentDone;
@@ -1015,60 +1020,60 @@ export class ProjectComponent implements OnInit {
 
     getBase64ImageFromURL(url: string) {
         return new Promise((resolve, reject) => {
-          var img = new Image();
-          img.setAttribute("crossOrigin", "anonymous");
-    
-          img.onload = () => {
-            var canvas = document.createElement("canvas");
-            canvas.width = img.width;
-            canvas.height = img.height;
-            var ctx = canvas.getContext("2d");
-            ctx!.drawImage(img, 0, 0);
-            var dataURL = canvas.toDataURL("image/png");
-            resolve(dataURL);
-          };
-    
-          img.onerror = error => {
-            reject(error);
-          };
-    
-          img.src = url;
+            var img = new Image();
+            img.setAttribute("crossOrigin", "anonymous");
+
+            img.onload = () => {
+                var canvas = document.createElement("canvas");
+                canvas.width = img.width;
+                canvas.height = img.height;
+                var ctx = canvas.getContext("2d");
+                ctx!.drawImage(img, 0, 0);
+                var dataURL = canvas.toDataURL("image/png");
+                resolve(dataURL);
+            };
+
+            img.onerror = error => {
+                reject(error);
+            };
+
+            img.src = url;
         });
-      }
+    }
 
     async generatePdf(data: any) {
         const pageSize = { width: 595.28, height: 841.89 };
         const headerImage = await this.getBase64ImageFromURL('../../assets/logo-header-mailer.png');
         const createLine = () => [{ type: 'line', x1: 0, y1: 0, x2: 495.28, y2: 0, lineWidth: 2 }];
-    
+
         const createFooter = () => ({
-          margin: [0, 0, 0, 0],
-          height: 40,
-          background: '#41b6a6',
-          color: '#fff',
-          width: 595.28,
-          columns: [
-            { canvas: [{ type: 'rect', x: 0, y: 0, w: 595.28, h: 40, color: '#41b6a6' }] },
-            { text: '@ 2022 EHR One, LLC', fontSize: 14, color: '#fff', absolutePosition: { x: 20, y: 10 } },
-          ],
+            margin: [0, 0, 0, 0],
+            height: 40,
+            background: '#41b6a6',
+            color: '#fff',
+            width: 595.28,
+            columns: [
+                { canvas: [{ type: 'rect', x: 0, y: 0, w: 595.28, h: 40, color: '#41b6a6' }] },
+                { text: '@ 2022 EHR One, LLC', fontSize: 14, color: '#fff', absolutePosition: { x: 20, y: 10 } },
+            ],
         });
-    
+
         const docDefinition = {
-          header: () => ({ image: headerImage, width: pageSize.width, height: pageSize.height * 0.20, margin: [0, 0, 0, 0] }),
-          footer: createFooter,
-          content: [
-            
-          ],
-          styles: {
-            header: { fontSize: 24 },
-            subheader: { fontSize: 20, alignment: 'center' },
-            borderedText: { border: [1, 1, 1, 1], borderColor: 'rgb(0, 0, 255)', fillColor: '#eeeeee', width: 100, height: 150, margin: [12, 20, 0, 0] },
-            defaultStyle: { font: 'Typography', fontSize: 12 },
-          },
+            header: () => ({ image: headerImage, width: pageSize.width, height: pageSize.height * 0.20, margin: [0, 0, 0, 0] }),
+            footer: createFooter,
+            content: [
+
+            ],
+            styles: {
+                header: { fontSize: 24 },
+                subheader: { fontSize: 20, alignment: 'center' },
+                borderedText: { border: [1, 1, 1, 1], borderColor: 'rgb(0, 0, 255)', fillColor: '#eeeeee', width: 100, height: 150, margin: [12, 20, 0, 0] },
+                defaultStyle: { font: 'Typography', fontSize: 12 },
+            },
         };
-    
+
         pdfMake.createPdf(docDefinition).download('SuperBill.pdf');
-      }
+    }
 }
 
 
