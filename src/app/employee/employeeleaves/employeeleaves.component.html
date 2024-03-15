@@ -80,7 +80,7 @@
             </ng-template>
             <ng-template pTemplate="header" let-columns>
                 <tr>
-                    <th class="text-center">Delete</th>
+                    <th class="text-center" *ngIf="this.employeeRole === 'HR Admin'">Delete</th>
                     <th class="text-center" pFrozenColumn alignFrozen="right" [frozen]="true" pFrozenColumn> Actions
                     </th>
                     <th *ngFor="let col of headers" [pSortableColumn]="col.header">
@@ -99,9 +99,9 @@
             </ng-template>
             <ng-template pTemplate="body" let-leave let-columns="columns">
                 <tr [ngClass]="{'read-only-row': leave?.isDeleted == true}">
-                    <td class="text-center">
+                    <td class="text-center" *ngIf="this.employeeRole === 'HR Admin'">
                         <div
-                            *ngIf="permissions?.CanDeleteLeaves && leave?.isLeaveUsed !== true &&  leave?.isDeleted !== true && this.employeeRole !== 'Project Manager'">
+                            *ngIf="permissions?.CanDeleteLeaves && leave?.isLeaveUsed !== true &&  leave?.isDeleted !== true">
                             <button pButton pRipple icon="pi pi-trash" id="delete"
                                 class="p-element p-ripple p-button-outlined p-button-danger p-button p-0"
                                 (click)="deleteleaveDetails(leave.employeeLeaveId)"></button>
