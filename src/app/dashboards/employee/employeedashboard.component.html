@@ -16,15 +16,10 @@
                                 class="shadow-2 my-1 mx-0 employee_profile_pic avatar_emp_dboard" />
                         </div>
                         <br />
-                        <h4 class="m-5 mb-2 mt-0 text-primary">{{ empDetails?.employeeName}}</h4>
-                        <h6 class="m-5 mb-2 mt-0 text-green-500"  pTooltip="Designation" tooltipPosition="bottom">{{ empDetails?.designation}}</h6>
-                        <h6 class="m-5 mb-2 mt-0 text-green-500"  pTooltip="Employee Id" tooltipPosition="bottom">{{ empDetails?.code}}</h6>
+                        <h4 class="m-5 mb-0 mt-0 text-primary">{{ empDetails?.employeeName}}</h4>
+                        <h6 class="m-5  mb-0 mt-0 text-green-500 text-md"  pTooltip="Designation" tooltipPosition="bottom">{{ empDetails?.designation}}</h6>
+                        <h6 class="m-5 mb-2 mt-0 text-green-500 text-md"  pTooltip="Employee Id" tooltipPosition="bottom">{{ empDetails?.code}}</h6>
                     </div>
-                    <span class="inline-flex align-items-left mb-2">
-                        <i class="pi icon-intersex text-primary text-700 mr-2  dicon" pTooltip="Gender"
-                            tooltipPosition="top"></i>
-                        <span class="text-700 mr-2 dtext">{{ empDetails?.gender}}</span>
-                    </span><br />
                     <span class="inline-flex align-items-left mb-2">
                         <i class="pi pi-envelope text-primary text-700 mr-2 dicon" pTooltip="Email" tooltipPosition="top"></i>
                         <span class="text-700 mr-2 dtext">{{ empDetails?.officeEmailId}}</span>
@@ -34,16 +29,6 @@
                             tooltipPosition="top"></i>
                         <span class="text-700 mr-2 dtext">{{ empDetails?.mobileNumber}}</span>
                     </span><br />
-                    <span class="inline-flex align-items-left mb-2">
-                        <i class="pi icon-birthday-cake text-primary text-700 mr-2 dicon" pTooltip="Date Of Birth"
-                            tooltipPosition="top"></i>
-                        <span class="text-700 mr-2 dtext">{{ empDetails?.originalDOB | date:dateOfJoining}}</span>
-                    </span><br />
-                    <!-- <span class="inline-flex align-items-left mb-2">
-                        <i class="pi pi-calendar text-primary text-700 mr-2 dicon" pTooltip="Designation"
-                            tooltipPosition="top"></i>
-                        <span class="text-700 mr-2"></span>
-                    </span><br /> -->
                     <span class="inline-flex align-items-left mb-2">
                         <i class="pi icon-dateofjoining text-primary text-700 mr-2 dicon" pTooltip="Date Of Joining"
                             tooltipPosition="top"></i>
@@ -60,7 +45,24 @@
                         <span class="text-700 mr-2 dtext">
                             <span>{{ empDetails?.reportingTo}}</span>
                         </span>
-                    </span>
+                    </span><br/>
+                    <span class="inline-flex align-items-left mb-2">
+                        <i class="pi icon-intersex text-primary text-700 mr-2  dicon" pTooltip="Gender"
+                            tooltipPosition="top"></i>
+                        <span class="text-700 mr-2 dtext">{{ empDetails?.gender}}</span>
+                    </span><br />
+                    
+                    <span class="inline-flex align-items-left mb-2">
+                        <i class="pi icon-birthday-cake text-primary text-700 mr-2 dicon" pTooltip="Date Of Birth"
+                            tooltipPosition="top"></i>
+                        <span class="text-700 mr-2 dtext">{{ empDetails?.originalDOB | date:dateOfJoining}}</span>
+                    </span><br />
+                    <!-- <span class="inline-flex align-items-left mb-2">
+                        <i class="pi pi-calendar text-primary text-700 mr-2 dicon" pTooltip="Designation"
+                            tooltipPosition="top"></i>
+                        <span class="text-700 mr-2"></span>
+                    </span><br /> -->
+                  
                     <!-- <span class="inline-flex align-items-left mb-2">
                         <i class="pi pi-send text-700 text-primary mr-2" pTooltip="Address"
                             tooltipPosition="top"></i>
