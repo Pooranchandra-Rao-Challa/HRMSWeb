@@ -18,7 +18,6 @@ import { EmployeeLeaveDialogComponent } from 'src/app/_dialogs/employeeleave.dia
 import { ReportService } from 'src/app/_services/report.service';
 import * as FileSaver from "file-saver";
 import { ConfirmationDialogService } from 'src/app/_alerts/confirmationdialog.service';
-
 @Component({
   selector: 'app-employeeleaves',
   templateUrl: './employeeleaves.component.html',
@@ -51,6 +50,7 @@ export class EmployeeLeavesComponent {
   confirmationRequest: ConfirmationRequest = new ConfirmationRequest();
   selectedStatus: any;
   value: number;
+  employeeRole:any;
 
   statuses: any[] = [
     { name: 'Pending', key: 'P' },
@@ -83,8 +83,8 @@ export class EmployeeLeavesComponent {
     public alertMessage: AlertmessageService,
     private leaveConfirmationService: LeaveConfirmationService,
     private confirmationDialogService: ConfirmationDialogService) {
-      this.selectedMonth = FORMAT_DATE(new Date(this.year, this.month - 1, 1));
-      this.selectedMonth.setHours(0, 0, 0, 0);
+    this.selectedMonth = FORMAT_DATE(new Date(this.year, this.month - 1, 1));
+    this.selectedMonth.setHours(0, 0, 0, 0);
   }
 
   set selectedColumns(val: any[]) {
@@ -95,7 +95,8 @@ export class EmployeeLeavesComponent {
   }
 
   ngOnInit(): void {
-    this.permissions = this.jwtService.Permissions;
+    this.permissions = this.jwtService.Permissions; 
+    this.employeeRole= this.jwtService.EmployeeRole;
     this.selectedStatus = this.statuses[0];
     this.getLeaves();
     this.getDaysInMonth(this.year, this.month);

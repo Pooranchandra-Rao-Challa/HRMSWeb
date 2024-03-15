@@ -17,7 +17,8 @@
                         </div>
                         <br />
                         <h4 class="m-5 mb-2 mt-0 text-primary">{{ empDetails?.employeeName}}</h4>
-                        <h6 class="m-5 mb-2 mt-0 text-green-500">{{ empDetails?.designation}}</h6>
+                        <h6 class="m-5 mb-2 mt-0 text-green-500"  pTooltip="Designation" tooltipPosition="bottom">{{ empDetails?.designation}}</h6>
+                        <h6 class="m-5 mb-2 mt-0 text-green-500"  pTooltip="Employee Id" tooltipPosition="bottom">{{ empDetails?.code}}</h6>
                     </div>
                     <span class="inline-flex align-items-left mb-2">
                         <i class="pi icon-intersex text-primary text-700 mr-2" pTooltip="Gender"
@@ -85,7 +86,7 @@
                                 <div class="overview-info">
                                     <h6 class="m-0 mb-1 ">Current Balance </h6>
                                     <h4 class="m-0 mt-2">
-                                        <span pTooltip="Allocated Privilege Leaves" tooltipPosition="bottom">{{empDetails?.allottedPrivilegeLeaves}}</span>/<span pTooltip="Used Privilege Leaves" tooltipPosition="bottom">{{ empDetails?.usedPrivilegeLeavesInYear}}</span>
+                                        <span pTooltip="Used Privilege Leaves" tooltipPosition="bottom">{{ empDetails?.usedPrivilegeLeavesInYear}}</span>/<span pTooltip="Allocated Privilege Leaves" tooltipPosition="bottom">{{empDetails?.allottedPrivilegeLeaves}}</span>
                                     </h4>
                                 </div>
                                 <div class="overview-info"
@@ -141,7 +142,7 @@
                                 <div class="overview-info">
                                     <h6 class="m-0  mb-1 ">Current Balance </h6>
                                     <h4 class="m-0 mt-2">
-                                        <span pTooltip="Allocated Casual Leaves" tooltipPosition="bottom">{{ empDetails?.allottedCasualLeaves}}</span>/<span pTooltip="Used Casual Leaves" tooltipPosition="bottom">{{ empDetails?.usedCasualLeavesInYear}}</span>
+                                        <span pTooltip="Used Casual Leaves" tooltipPosition="bottom">{{ empDetails?.usedCasualLeavesInYear}}</span>/<span pTooltip="Allocated Casual Leaves" tooltipPosition="bottom">{{ empDetails?.allottedCasualLeaves}}</span>
                                     </h4>
                                 </div>
                                 <div class="overview-info"

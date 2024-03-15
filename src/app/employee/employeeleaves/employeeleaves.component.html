@@ -102,7 +102,7 @@
                 <tr [ngClass]="{'read-only-row': leave?.isDeleted == true}">
                     <td class="text-center">
                         <div
-                            *ngIf="permissions?.CanDeleteLeaves && leave?.isLeaveUsed !== true &&  leave?.isDeleted !== true">
+                            *ngIf="permissions?.CanDeleteLeaves && leave?.isLeaveUsed !== true &&  leave?.isDeleted !== true && this.employeeRole !== 'Project Manager'">
                             <button pButton pRipple icon="pi pi-trash" id="delete"
                                 class="p-element p-ripple p-button-outlined p-button-danger p-button p-0"
                                 (click)="deleteleaveDetails(leave.employeeLeaveId)"></button>
@@ -112,7 +112,6 @@
                         *ngIf="permissions?.CanManageLeave">
                         <div class="flex"
                             *ngIf="leave.status === 'Accepted' || leave.status === 'Pending' && leave.isDeleted !== true ">
-
                             <span *ngIf="leave.acceptedAt === null && permissions?.CanAcceptLeave">
                                 <button pButton pRipple icon="pi icon-accept" id="Leave_Accepted_Button"
                                     class="p-element p-ripple  p-button  p-button-outlined p-button-success mr-2 p-0"
@@ -123,7 +122,7 @@
                                     class="p-element p-ripple  p-button  p-button-outlined p-button-success mr-3 p-0"
                                     (click)="openSweetAlert('Reason For Approve',leave)"></button>
                             </span>
-                            <span *ngIf="permissions?.CanApproveLeave || permissions?.CanAcceptLeave">
+                            <span *ngIf="leave.acceptedAt === null && (permissions?.CanApproveLeave || permissions?.CanAcceptLeave)">
                                 <button pButton pRipple icon="pi pi-times" id="Levave_Rejected_Button"
                                     class="p-element p-ripple p-button-outlined p-button-danger p-button  p-0"
                                     (click)="openSweetAlert('Reason For Reject',leave)"></button>
