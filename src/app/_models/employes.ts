@@ -8,7 +8,9 @@ export class EmployeesViewDto {
 	officeEmailId?: any
 	employeeRoleName?: any
 	mobileNumber?: string
-	photo?: any
+	photo?: any;
+	designation?:string;
+	reportingTo?:string;
 }
 export class EmployeeBasicDetailDto {
 	employeeId?: number;

@@ -156,8 +156,6 @@ export class ViewemployeesComponent {
   initofficeEmpDtls() {
     this.employeeService.EmployeeOfficedetailsviewDto(this.employeeId).subscribe((resp) => {
       this.employeeofficeDtls = resp as unknown as EmployeeOfficedetailsviewDto;
-      console.log(this.employeeofficeDtls);
-      
     });
   }
 

@@ -397,10 +397,13 @@ export class HolidayconfigurationComponent {
   async exportPdf() {
     const pageSize = { width: 595.28, height: 841.89 };
     const headerImage = await this.getBase64ImageFromURL('assets/layout/images/head.JPG');
+    const footerSize = { width: 841.90, height: 40.99 };
+    const footerImage = await this.getBase64ImageFromURL('assets/layout/images/footer.JPG')
     const holidaysContent = this.generateHolidaysContent(); 
 
     const docDefinition = {
       header: () => ({ image: headerImage, width: pageSize.width, height: pageSize.height * 0.15 , margin: [0, 0, 0, 0] }),
+      footer: () => ({ image: footerImage, width: footerSize.width, height: footerSize.height }),
       content: [
         { text: 'Holidays List\n', style: 'header', margin: [0,90, 0, 0], alignment: 'center' },
         holidaysContent
@@ -412,7 +415,7 @@ export class HolidayconfigurationComponent {
         defaultStyle: { font: 'Typography', fontSize: 12 },
       },
     };
-    pdfMake.createPdf(docDefinition).download('Holidays.pdf');
+    pdfMake.createPdf(docDefinition).download('HolidaysReport.pdf');
   }
   
   generateHolidaysContent(): any {

@@ -73,8 +73,9 @@ export class AssetsComponent {
     { field: 'count', header: 'count', label: 'Count' },
   ];
   AssetsTypeTable: ITableHeader[] = [
+    { field: 'employeecode', header: 'employeecode', label: 'Employee Code' },
     { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
-    { field: 'code', header: 'code', label: 'Code' },
+    { field: 'code', header: 'code', label: 'Assets Code' },
     { field: 'name', header: 'name', label: 'Asset Name' },
     { field: 'purchasedDate', header: 'purchasedDate', label: 'Purchased Date' },
     { field: 'modelNumber', header: 'modelNumber', label: 'Model Number' },
@@ -144,10 +145,9 @@ export class AssetsComponent {
   initAssets(assetId: number) {
     this.adminService.GetAssets(assetId).subscribe((resp) => {
       this.assets = resp as unknown as AssetsViewDto[];
+      console.log( this.assets);
       this.assets.forEach(element => {
         element.expandassets = JSON.parse(element.assets) as unknown as AssetsDetailsViewDto[];
-        console.log(element.expandassets);
-
       });
     })
   }
@@ -464,54 +464,61 @@ export class AssetsComponent {
   }
 
   async exportPdf() {
-    const pageSize = { width: 595.28, height: 841.89 };
-    const headerImage = await this.getBase64ImageFromURL('assets/layout/images/head.JPG');
+    // const pageSize = { width: 595.28, height: 841.89 };
+    const pageSize = { width: 841.89, height: 595.28 };
+    const headerImage = await this.getBase64ImageFromURL('assets/layout/images/head.JPG')
+    const footerSize = { width: 841.90, height: 40.99 };
+    const footerImage = await this.getBase64ImageFromURL('assets/layout/images/footer.JPG')
     const AssetsList = this.generateAssetsList();
-
     const docDefinition = {
+      pageOrientation: 'landscape',
+      pageSize: pageSize,
       header: () => ({ image: headerImage, width: pageSize.width, height: pageSize.height * 0.15, margin: [0, 0, 0, 0] }),
+      footer: () => ({image: footerImage, width: footerSize.width, height: footerSize.height, margin: [0, 10, 0, 0] }),
       content: [
-        { text: 'Assets List\n', style: 'header', margin: [0, 90, 0, 0], alignment: 'center' },
+        { text: 'Assets List\n', style: 'header', alignment: 'center', color: '#ff810e', },
         AssetsList
       ],
+      pageMargins: [50, 90, 40, 40],
       styles: {
-        header: { fontSize: 24 },
-        subheader: { fontSize: 15, alignment: 'center' },
+        header: { fontSize: 25 },
+        subheader: { fontSize: 15, alignment: 'center', color: '#ff810e', },
         borderedText: { border: [1, 1, 1, 1], borderColor: 'rgb(0, 0, 255)', fillColor: '#eeeeee', width: 100, height: 150, margin: [12, 20, 0, 0] },
         defaultStyle: { font: 'Typography', fontSize: 12 },
       },
     };
-    pdfMake.createPdf(docDefinition).download('Assets.pdf');
+    pdfMake.createPdf(docDefinition).download('AssetsReport.pdf');
   }
-  
+
   generateAssetsList(): any {
     const content = [
       [
-          { text: 'Assets Code', style: 'subheader' },
-          { text: 'Assets Name', style: 'subheader' },
-          { text: 'Asset Type', style: 'subheader' },
-          { text: 'Asset Category', style: 'subheader' },
-          { text: 'Purchased Date', style: 'subheader' },
-          { text: 'Employee Name', style: 'subheader' },
+        { text: 'Assets Code', style: 'subheader' },
+        { text: 'Assets Name', style: 'subheader' },
+        { text: 'Asset Type', style: 'subheader' },
+        { text: 'Asset Category', style: 'subheader' },
+        { text: 'Purchased Date', style: 'subheader' },
+        { text: 'Employee Name', style: 'subheader' },
+        {  text: 'Employee Code', style: 'subheader'},
       ],
       ...this.assets.flatMap(asset => {
-          return asset.expandassets.map(assetDtls => ([
-              assetDtls.code || '',
-              assetDtls.name || '',
-              assetDtls.assetType || '',
-              assetDtls.assetCategory || '',
-              assetDtls.purchasedDate ? new Date(assetDtls.purchasedDate).toLocaleDateString() : '',
-              assetDtls.employeeName || '',
-          ]));
+        return asset.expandassets.map(assetDtls => ([
+          assetDtls.code || '',
+          assetDtls.name || '',
+          assetDtls.assetType || '',
+          assetDtls.assetCategory || '',
+          assetDtls.purchasedDate ? new Date(assetDtls.purchasedDate).toLocaleDateString() : '',
+          assetDtls.employeeName || '',
+          assetDtls.employeecode || ''
+        ]));
       })
-  ];
-  return {
+    ];
+    return {
       table: {
-          headerRows: 1,
-          body: content,
+        headerRows: 1,
+        body: content,
       },
-  };
-  
+    };
   }
 
 }
