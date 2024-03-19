@@ -4,7 +4,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { EmployeeLeaveDialogComponent } from 'src/app/_dialogs/employeeleave.dialog/employeeleave.dialog.component';
 import { DATE_OF_JOINING, FORMAT_DATE, MEDIUM_DATE, ORIGINAL_DOB } from 'src/app/_helpers/date.formate.pipe';
-import { HolidaysViewDto } from 'src/app/_models/admin';
+import { HolidaysViewDto, ProjectDetailsDto } from 'src/app/_models/admin';
 import { Actions, DialogRequest, ITableHeader } from 'src/app/_models/common';
 import { NotificationsDto, NotificationsRepliesDto, SelfEmployeeDto, selfEmployeeMonthlyLeaves } from 'src/app/_models/dashboard';
 import { AdminService } from 'src/app/_services/admin.service';
@@ -113,6 +113,13 @@ export class EmployeeDashboardComponent implements OnInit {
             });
         }
     }
+
+    getProjectLogo(project: ProjectDetailsDto) {
+        return this.adminService.GetProjectLogo(project.projectId).subscribe((resp) => {
+            project.logo = (resp as any).ImageData;
+        })
+    }
+
     toggleFieldset(legend: string): void {
         const fieldsets = ['HR Notifications', 'Today Birthday', 'Greetings'];
 
