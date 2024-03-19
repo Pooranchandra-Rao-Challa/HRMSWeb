@@ -17,12 +17,18 @@ export class LeaveconfirmationComponent {
     protectedWith: string;
     showConfirmationMessage: boolean = false;
     disbaleAction: boolean = false;
+    isAccepted: boolean = false;
+    isApproved: boolean = false;
+    isReject: boolean = false;
+    action: string = "";
+    actionFrom: string = "";
 
     constructor(private leaveConfirmationService: LeaveConfirmationService,
         private activatedRoute: ActivatedRoute,
         public alertMessage: AlertmessageService) {
         this.protectedData = this.activatedRoute.snapshot.queryParams['key'];
         this.protectedWith = this.activatedRoute.snapshot.queryParams['key2'];
+        this.actionFrom = this.activatedRoute.snapshot.queryParams['actionFrom'];
     }
 
     ngOnInit(): void {
@@ -32,6 +38,11 @@ export class LeaveconfirmationComponent {
     inItEmployeeLeaveDetails() {
         this.leaveConfirmationService.getEmployeeLeaveDetails(this.protectedData, this.protectedWith).subscribe((resp) => {
             this.employeeleavedetails = resp as unknown as EmployeeLeaveDetailsViewDto;
+            this.action = this.employeeleavedetails.action;
+            this.isReject = this.employeeleavedetails.leaveDto.rejected == true;
+            this.isAccepted = this.employeeleavedetails.leaveDto.acceptedAt != null;
+            this.isApproved = this.employeeleavedetails.leaveDto.approvedAt != null;
+
         })
     }
 
@@ -101,7 +112,43 @@ export class LeaveconfirmationComponent {
                 return 'Confirmation Updated Successfully';
         }
     }
+    get Messsage(): string {
+        if (this.isReject) {
+            return "The leave is rejected"
+        } else if(this.isAccepted){
+           return "The leave is accepted"
+        } else if(this.isApproved ){
+            return "The leave is approved";
+        }
+        return  "";
+    }
 
+    get ToDisableButton(): boolean {
+        if (this.action == 'Reject' && this.recordState == 'void') {
+            return false;
+        } else if (this.action == 'Accept' && this.recordState == 'void') {
+            return false;
+        } else if (this.action == 'Approve' && this.recordState == "allowApprove") {
+            return false;
+        } else if (this.action == 'Reject' && this.actionFrom == 'Accept' && this.recordState == "allowApprove") {
+            return true;
+        } else if (this.action == 'Reject' && this.actionFrom == 'Approve' && this.recordState == "allowApprove") {
+            return false;
+        } else if (this.action == 'Accept' && this.recordState == 'notAllowAnyAction') {
+            return true;
+        } else if (this.action == 'Reject' && this.recordState == 'notAllowAnyAction') {
+            return true;
+        } else if (this.action == 'Approve' && this.recordState == 'notAllowAnyAction') {
+            return true;
+        } else return true;
+    }
+
+    get recordState(): string {
+        if (!this.isReject && !this.isAccepted && !this.isApproved) return "void";
+        else if (!this.isReject && this.isAccepted && !this.isApproved) return "allowApprove";
+        else if (!this.isReject && this.isAccepted && this.isApproved) return "notAllowAnyAction";
+        else return "notAllowAnyAction";
+    }
 }
 
 

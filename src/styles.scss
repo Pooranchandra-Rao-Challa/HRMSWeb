@@ -1206,7 +1206,7 @@ app-attendance .p-datatable-table tbody tr td:first-child {
 }
 .chart-info .pi{
     font-size:12px;
-    
+
 }
 .chart-info{
     font-size:12px;
@@ -1243,7 +1243,7 @@ app-attendance .p-datatable-table tbody tr td:first-child {
 }
 .dashboard_fieldset .p-fieldset .p-fieldset-content {
     padding:0px !important;
-   
+
    }
 .dashboard_employee_list{
     min-height:330px;
@@ -1322,13 +1322,13 @@ app-attendance .p-datatable-table tbody tr td:first-child {
 
 .box_remore {
     background-color: #fff;
-    
+
   }
-  
+
   .box_remore p {
     display: -webkit-box;
     -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;  
+    -webkit-box-orient: vertical;
     overflow: hidden;
   }
   @media (max-width: 479px) {
@@ -1354,4 +1354,11 @@ app-attendance .p-datatable-table tbody tr td:first-child {
 }
 .p-password_cus .p-password , .p-password-input{
     width:100%;
+}
+
+.app-leave-confirmation{
+    color: rgb(249 144 92);
+    font-size: 14pt;
+    padding: 10px;
+    font-weight: 600;
 }

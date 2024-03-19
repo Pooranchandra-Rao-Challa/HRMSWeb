@@ -408,6 +408,7 @@ export class CompanyHierarchyViewDto {
 export class EmployeeLeaveDetailsViewDto {
 	comment?: string;
 	action?: string;
+    actionFrom?: string;
 	leaveDto?: leaveDto;
 }
 
@@ -419,6 +420,11 @@ export class leaveDto {
 	fromDate?: Date;
 	toDate?: Date;
 	note?: string;
+    acceptedBy?: number;
+	acceptedAt?: Date;
+	approvedBy?: number;
+	approvedAt?: Date;
+	rejected?: boolean;
 }
 
 export class EmployeeLeaveDetailsDto {
