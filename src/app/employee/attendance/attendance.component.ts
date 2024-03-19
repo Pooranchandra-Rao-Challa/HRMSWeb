@@ -21,7 +21,8 @@ import { ReportService } from 'src/app/_services/report.service';
 import { MAX_LENGTH_256 } from 'src/app/_shared/regex';
 import * as FileSaver from "file-saver";
 import { Dropdown } from 'primeng/dropdown';
-
+import * as pdfMake from 'pdfmake/build/pdfmake';
+import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 enum AttendanceReportTypes {
   MonthlyAttendanceReport = 'Monthly Attendance Report',
   YearlyAttendanceReport = 'Yearly Attendance Report',
@@ -91,6 +92,7 @@ export class AttendanceComponent {
     private lookupService: LookupService) {
     this.selectedMonth = FORMAT_DATE(new Date(this.year, this.month - 1, 1));
     this.selectedMonth.setHours(0, 0, 0, 0);
+    pdfMake.vfs = pdfFonts.pdfMake.vfs;
   }
 
   ngOnInit() {
@@ -111,11 +113,13 @@ export class AttendanceComponent {
     this.fbProjectwiseAttendanceReport = this.formbuilder.group({
       projectId: new FormControl('', [Validators.required]),
       fromDate: new FormControl('', [Validators.required]),
-      toDate: new FormControl('', [Validators.required])
+      toDate: new FormControl('', [Validators.required]),
+      reportType: new FormControl('', [Validators.required]),
     })
     this.fbDatewiseAttendanceReport = this.formbuilder.group({
       fromDate: new FormControl('', [Validators.required]),
-      toDate: new FormControl('', [Validators.required])
+      toDate: new FormControl('', [Validators.required]),
+      reportType: new FormControl('', [Validators.required]),
     })
     this.fbAttendance = this.formbuilder.group({
       attendanceId: new FormControl(0),
@@ -541,7 +545,7 @@ export class AttendanceComponent {
     this.fbleave.get('note').setValue('');
     const StatusId = this.LeaveTypes.find(each => each.lookupDetailId === this.fbleave.get('leaveTypeId').value);
     if (StatusId.name != 'PT' && StatusId.name != 'AT' && StatusId.name != 'WFH') {
-      this.fbleave.get('note').setValue('Leave is Updated through Attendance form by Admin the approve is generated Automatically.');
+      this.fbleave.get('note').setValue('Leave is Updated through Attendance form by the Admin and Approved Automatically.');
       this.filteredLeaveReasons = this.leaveReasons.filter(fn => fn.fkeySelfId == id)
       leaveReasonControl.setValidators([Validators.required]);
     }
@@ -635,17 +639,25 @@ export class AttendanceComponent {
     dt1.filteredValue = null;
     this.filter.nativeElement.value = '';
   }
-  DownloadAttendanceReport(name: string) {
-    if (name == AttendanceReportTypes.DatewiseAttendanceReport){
+  DownloadAttendanceReport(name: string, type: string) {
+    if (name == AttendanceReportTypes.DatewiseAttendanceReport) {
       this.fbDatewiseAttendanceReport.reset()
+      this.fbDatewiseAttendanceReport.get('reportType').setValue(type);
       this.DatewiseAttendanceReportDialog = true;
     }
-    else if (name == AttendanceReportTypes.MonthlyAttendanceReport)
-      this.downloadMonthlyAttendanceReport()
-    else if (name == AttendanceReportTypes.YearlyAttendanceReport)
-      this.downloadYearlyAttendanceReport()
-    else if (name == AttendanceReportTypes.ProjectwiseAttendanceReport){
+    else if (name == AttendanceReportTypes.MonthlyAttendanceReport) {
+      if (type == "excel")
+        this.downloadMonthlyAttendanceReport()
+      else
+        this.downloadMonthlyPDFReport();
+    }
+    else if (name == AttendanceReportTypes.YearlyAttendanceReport) {
+      if (type == "excel")
+        this.downloadYearlyAttendanceReport()
+    }
+    else if (name == AttendanceReportTypes.ProjectwiseAttendanceReport) {
       this.fbProjectwiseAttendanceReport.reset();
+      this.fbProjectwiseAttendanceReport.get('reportType').setValue(type);
       this.ProjectwiseAttendanceReportDialog = true;
     }
   }
@@ -744,4 +756,175 @@ export class AttendanceComponent {
     let dayWorkingStatus = this.getAttendance(employee, rowIndex)
     return dayWorkingStatus == 'NE' ? '' : dayWorkingStatus;
   }
+
+  downloadMonthlyPDFReport() {
+    this.reportService.DownloadMonthlyPDFReport(this.month, this.year).subscribe(resp => {
+      this.generatePdf(resp, 'Monthly');
+      console.log(resp);
+
+    })
+  }
+
+  getBase64ImageFromURL(url: string) {
+    return new Promise((resolve, reject) => {
+      var img = new Image();
+      img.onload = () => {
+        var canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        var ctx = canvas.getContext("2d");
+        ctx!.drawImage(img, 0, 0);
+        var dataURL = canvas.toDataURL("image/png");
+        resolve(dataURL);
+      };
+
+      img.onerror = error => {
+        reject(error);
+      };
+
+      img.src = url;
+    });
+  }
+  getAttendanceReport(data: any[]): {} {
+    let columns = ['Id', 'Name', 'Present', 'Absents', 'UsedCLs', 'UsedPLs', 'LWPs', 'WFH'];
+    let rows = data.map(rowData => {
+      return columns.map(column => {
+        return { text: rowData[column], style: 'tableData' };
+      });
+    });
+
+    let headerRows = [
+      [
+        { text: 'ID', style: 'tableHeader', rowSpan: 2 }, // rowspan for ID
+        { text: 'Name', style: 'tableHeader', rowSpan: 2 }, // rowspan for Name
+        { text: 'Present', style: 'tableHeader' },
+        { text: 'Absent', style: 'tableHeader' },
+        { text: 'Casual Leaves', style: 'tableHeader' },
+        { text: 'Privilege Leave', style: 'tableHeader' },
+        { text: 'Leave Without Pay', style: 'tableHeader' },
+        { text: 'Work From Home', style: 'tableHeader' }
+      ],
+      [
+        {}, // Empty cell to fill the space of ID column
+        {}, // Empty cell to fill the space of Name column
+        { text: 'PT', style: 'tableHeader' },
+        { text: 'AT', style: 'tableHeader' },
+        { text: 'CL', style: 'tableHeader' },
+        { text: 'PL', style: 'tableHeader' },
+        { text: 'LWP', style: 'tableHeader' },
+        { text: 'WFH', style: 'tableHeader' }
+      ]
+    ];
+
+    return {
+      style: "tableHeader",
+      table: {
+        headerRows: 2,
+        body: [...headerRows, ...rows]
+      },
+      margin: [0, 10, 0, 0]
+    };
+  }
+  async formatKeyAndValues() {
+    try {
+      const headerImage1 = await this.getBase64ImageFromURL('../../assets/layout/images/Calibrage_logo1.png');
+      const headerImage2 = await this.getBase64ImageFromURL('../../assets/layout/images/head_right.PNG');
+      const pageWidth = 595.28; // Standard A4 page width in pdfmake
+      const imageWidth = (pageWidth / 3) - 10; // Adjusted width for each image (subtracting 10 for margins)
+      const spacerWidth = (pageWidth / 3) - 10; // Adjusted width for spacer (subtracting 10 for margins)
+      const createLine = () => [{ type: 'line', x1: 0, y1: 0, x2: 439.28, y2: 0, lineWidth: 0.5, lineColor: '#f3743f' }];
+
+      let row = {
+        columns: [
+          {
+            image: headerImage1,
+            width: imageWidth,
+            alignment: 'left',
+            margin: [0, 0, 0, 0] // Remove any margins
+          },
+          {
+            width: spacerWidth,
+            text: '', // Empty spacer column
+            alignment: 'center' // Remove any margins
+          },
+          {
+            image: headerImage2,
+            width: imageWidth,
+            alignment: 'right',
+            margin: [0, 0, 0, 0] // Remove any margins
+          },
+        ],
+        alignment: 'justify',
+        margin: [20, 0, 20, 0] // Remove any margins
+      };
+
+      // Add canvas element
+      const line = { canvas: createLine(), margin: [0, -10, 0, 10], color: '#f3743f' };
+      const content = [row, line]; // Array containing both row and line objects
+
+      return content;
+    } catch (error) {
+      console.error("Error occurred while formatting key and values:", error);
+      throw error; // Propagate the error
+    }
+  }
+
+
+
+
+  async generatePdf(data: any, pdftype: string) {
+    const pageSize = { width: 595.28, height: 841.89 };
+    const waterMark = await this.getBase64ImageFromURL('../../assets/layout/images/transparent_logo.png');
+
+    const header = await this.formatKeyAndValues();
+    const createFooter = (currentPage: number) => ({
+      margin: [0, 0, 0, 0],
+      height: 20,
+      background: '#fff',
+      color: '#fff',
+      width: 595.28,
+      columns: [
+        { canvas: [{ type: 'rect', x: 0, y: 0, w: 595.28, h: 20, color: '#ff810e' }] },
+        {
+          text: [
+            { text: `${currentPage}` }],
+          absolutePosition: { x: 5, y: 5 }, // Adjust the position as needed
+          alignment: 'center',
+          color: '#000000',
+        }
+      ],
+    });
+
+
+    const docDefinition = {
+      header: () => (header),
+      footer: createFooter,
+      background: [{
+        image: waterMark,
+        absolutePosition: { x: (pageSize.width - 200) / 2, y: (pageSize.height - 200) / 2 },
+      }],
+      content: [
+        {
+          text: `${pdftype} Attendance Report`,
+          style: 'header'// Adjust as needed
+        },
+        this.getAttendanceReport(data)
+      ],
+      pageMargins: [40, 110, 40, 20],
+      styles: {
+        header: { fontSize: 24, backgroundColor: '#ff810e', alignment: 'center' },
+        tableHeader: { alignment: 'center', },
+        tableData: {
+          bold: false,
+          fontSize: 10, heights: 'auto',
+        },
+        subheader: { fontSize: 20, alignment: 'center' },
+        borderedText: { border: [1, 1, 1, 1], borderColor: 'rgb(0, 0, 255)', fillColor: '#eeeeee', width: 100, height: 150, margin: [12, 20, 0, 0] },
+        defaultStyle: { font: 'Typography', fontSize: 12 },
+      },
+    };
+    pdfMake.createPdf(docDefinition).download(`${pdftype}Projects.pdf`);
+  }
+
+
 }

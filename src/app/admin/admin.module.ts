@@ -15,7 +15,7 @@ import { RecruitmentProcessComponent } from './recruitmentprocess/recruitmentpro
 import { RecruitmentdashboardComponent } from './recruitmentdashboard/recruitmentdashboard.component';
 import { RecruitmentAttributesComponent } from './recruitment/recruitmentattributes.component';
 import { DisqualifiedApplicantsComponent } from './disqualified-applicants/disqualified-applicants.component';
-
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 @NgModule({
   declarations: [
     LookupsComponent,
@@ -35,7 +35,7 @@ import { DisqualifiedApplicantsComponent } from './disqualified-applicants/disqu
   imports: [
     AdminRoutingModule,
     SharedModule,
-    CommonDialogModule
+    CommonDialogModule,OverlayPanelModule
   ]
 })
 export class AdminModule { }

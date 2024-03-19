@@ -1,6 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { catchError, map } from 'rxjs/operators';
+import { HttpEvent, HttpResponse } from '@angular/common/http';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { EmployeeLeaveDialogComponent } from 'src/app/_dialogs/employeeleave.dialog/employeeleave.dialog.component';
 import { DATE_OF_JOINING, FORMAT_DATE, MEDIUM_DATE, ORIGINAL_DOB } from 'src/app/_helpers/date.formate.pipe';
@@ -10,6 +12,8 @@ import { NotificationsDto, NotificationsRepliesDto, SelfEmployeeDto, selfEmploye
 import { AdminService } from 'src/app/_services/admin.service';
 import { DashboardService } from 'src/app/_services/dashboard.service';
 import { JwtService } from 'src/app/_services/jwt.service';
+import { Observable, of } from 'rxjs';
+import { LOGIN_URI } from 'src/app/_services/api.uri.service';
 //import { GroupByPipe } from 'src/app/_directives/groupby'
 interface Year {
     year: string;
@@ -58,6 +62,7 @@ export class EmployeeDashboardComponent implements OnInit {
     defaultPhotoforAssets: any;
     usedPLsInMonth: number;
     usedCLsInMonth: number;
+    hasBirthdayWishes: any
 
     constructor(private dashBoardService: DashboardService,
         private adminService: AdminService,
@@ -101,6 +106,7 @@ export class EmployeeDashboardComponent implements OnInit {
             message: new FormControl('', [Validators.required]),
             notificationId: new FormControl('', [Validators.required]),
             employeeId: new FormControl('', [Validators.required]),
+            employeeName:new FormControl('', [Validators.required]),
             isActive: new FormControl(true),
         })
     }
@@ -175,6 +181,8 @@ export class EmployeeDashboardComponent implements OnInit {
     initNotifications() {
         this.dashBoardService.GetNotifications().subscribe(resp => {
             this.notifications = resp as unknown as NotificationsDto[];
+            console.log(resp);
+
             if (Array.isArray(this.notifications)) {
                 this.hasBirthdayNotifications = this.notifications?.some(employee => employee.messageType === 'Birthday');
                 this.hasHRNotifications = this.notifications.some(employee => employee.messageType !== 'Birthday');
@@ -184,6 +192,7 @@ export class EmployeeDashboardComponent implements OnInit {
     initNotificationsBasedOnId() {
         this.dashBoardService.GetNotificationsBasedOnId(this.jwtService.EmployeeId).subscribe(resp => {
             this.notificationReplies = resp as unknown as NotificationsRepliesDto[];
+            console.log(resp);
         })
     }
     transformDateIntoTime(createdAt: any): string {
@@ -215,15 +224,17 @@ export class EmployeeDashboardComponent implements OnInit {
         this.fbWishes.reset();
         this.wishesDialog = true;
         this.fbWishes.get('notificationId').setValue(data.notificationId);
+        this.fbWishes.get('employeeName').setValue(data.employeeName);
         this.fbWishes.get('employeeId').setValue(this.jwtService.EmployeeId);
         this.fbWishes.get('isActive').setValue(true);
     }
     onSubmit() {
         this.dashBoardService.sendBithdayWishes(this.fbWishes.value).subscribe(resp => {
             let rdata = resp as unknown as any;
-            if (rdata.isSuccess)
-                this.alertMessage.displayAlertMessage(ALERT_CODES["ADW001"])
-
+            if (rdata.isSuccess){
+                this.alertMessage.displayAlertMessage(`Wishes Sent to ${this.fbWishes.get('employeeName').value} Successfully.`)
+                this.initNotifications();
+            }
             else if (!rdata.isSuccess)
                 this.alertMessage.displayErrorMessage(rdata.message);
 
@@ -379,32 +390,30 @@ export class EmployeeDashboardComponent implements OnInit {
             if (res) this.getEmployeeDataBasedOnId();
         });
     }
+    
+    private statusCache: { [key: string]: Observable<any[]> } = {};
+
+    getStatus(employeeId): Observable<any[]> {
+      if (this.statusCache[employeeId]) {
+        return this.statusCache[employeeId];
+      }
+      
+      const statusObservable = this.dashBoardService.GetNotificationsBasedOnId(employeeId).pipe(
+        map((response: any) => {
+          if (Array.isArray(response)) {
+            return response.filter(notification => notification.employeeId ===  parseInt(this.employeeId, 10));
+          } else {
+            return [];
+          }
+        }),
+        catchError(error => {
+          console.error('Error fetching notifications:', error);
+          return of([]); 
+        })
+      );
+      
+      this.statusCache[employeeId] = statusObservable;
+      return statusObservable;
+    }
+      
 }
-// class Group<T> {
-//     key:string;
-//     members:T[] = [];
-//     constructor(key:string) {
-//         this.key = key;
-//     }
-// }
-
-
-// function groupBy<T>(list:T[], func:(x:T)=>string): Group<T>[] {
-//     let res:Group<T>[] = [];
-//     let group:Group<T> = null;
-//     list.forEach((o)=>{
-//         let groupName = func(o);
-//         if (group === null) {
-//             group = new Group<T>(groupName);
-//         }
-//         if (groupName != group.key) {
-//             res.push(group);
-//             group = new Group<T>(groupName);
-//         }
-//         group.members.push(o)
-//     });
-//     if (group != null) {
-//         res.push(group);
-//     }
-//     return res
-// }

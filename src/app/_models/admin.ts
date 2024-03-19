@@ -110,7 +110,9 @@ export class ProjectStatus {
 }
 export class ProjectViewDto {
     projectId?: number;
+    employeeCode?:string
     code?: string;
+    designationName?:string
     name?: string;
     startDate?: string;
     description?: string;
@@ -147,8 +149,10 @@ export class EmployeesList {
     employeeName?: string
     reportingToId?: number;
     photo?: string;
-    fullName?: string
+    employeeCode?:string
     code?: string;
+    designationName?:string
+    fullName?: string
     designation?: string;
     dateofJoin?: Date;
     reportingTo?: string;

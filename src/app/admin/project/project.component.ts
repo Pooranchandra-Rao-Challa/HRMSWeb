@@ -299,6 +299,8 @@ export class ProjectComponent implements OnInit {
         this.adminService.getProjectWithId(id).subscribe(resp => {
             this.projectDetails = resp[0] as unknown as ProjectViewDto;
             this.projectDetails.expandEmployees = JSON.parse(this.projectDetails.teamMembers);
+            console.log(this.projectDetails.expandEmployees);
+            
         });
     }
     cancelSelection(event: Event): void {
@@ -314,6 +316,8 @@ export class ProjectComponent implements OnInit {
             console.log(this.filteredProjects);
 
             this.projects = this.projects.reverse();
+            console.log(this.filteredProjects);
+
             // Filter suspended projects if the showSuspendedProjects query parameter is true
             if (this.activatedRoute.snapshot.queryParams['showAmcProjects'] === 'true') {
                 this.filteredProjects = this.projects.filter(project => project.amc !== null);
@@ -1021,7 +1025,11 @@ export class ProjectComponent implements OnInit {
         this.filter.nativeElement.value = '';
         this.initProjects();
     }
-
+    getProjects(pdftype): any {
+        return pdftype !== 'All' ? 
+            this.projects.filter(project => project[pdftype.toLowerCase()] !== null) : this.projects;
+    }
+    
     getBase64ImageFromURL(url: string) {
         return new Promise((resolve, reject) => {
             var img = new Image();
@@ -1044,10 +1052,10 @@ export class ProjectComponent implements OnInit {
             img.src = url;
         });
     }
-
-    async generatePdf(data: any) {
+    async generatePdf(pdftype: string) {
+        const projectsList = await this.getProjects(pdftype);
         const pageSize = { width: 595.28, height: 841.89 };
-        const headerImage = await this.getBase64ImageFromURL('../../assets/logo-header-mailer.png');
+        const headerImage = await this.getBase64ImageFromURL('../../assets/layout/images/head.JPG');
         const createLine = () => [{ type: 'line', x1: 0, y1: 0, x2: 495.28, y2: 0, lineWidth: 2 }];
 
         const createFooter = () => ({
@@ -1063,7 +1071,7 @@ export class ProjectComponent implements OnInit {
         });
 
         const docDefinition = {
-            header: () => ({ image: headerImage, width: pageSize.width, height: pageSize.height * 0.20, margin: [0, 0, 0, 0] }),
+            header: () => ({ image: headerImage, width: pageSize.width, height: pageSize.height * 0.15, margin: [0, 0, 0, 0] }),
             footer: createFooter,
             content: [
 
@@ -1076,7 +1084,7 @@ export class ProjectComponent implements OnInit {
             },
         };
 
-        pdfMake.createPdf(docDefinition).download('SuperBill.pdf');
+        pdfMake.createPdf(docDefinition).download(`${pdftype}Projects.pdf`);
     }
 }
 
