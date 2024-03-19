@@ -167,6 +167,7 @@ export const UPDATE_RESULT = "Recruitment/UpdateFilteredApplicantForHRRound";
 //self Employee
 
 export const GET_SELF_EMPLOYEE = "Employee/GetSelfEmployeeData";
+export const GET_SELF_EMPLOYEE_PROJECT_DETAILS = "Employee/GetProjectsForSelfEmployee";
 export const GET_SELF_EMPLOYEE_MONTH_LEAVES = "Attendance/GetLeavesForSelfInMonth";
 export const GET_ALLOTED_LEAVES = "Attendance/GetAllottedLeavesBasedOnEId"
 export const GET_NOTIFICATIONS="Notification/GetNotifications";

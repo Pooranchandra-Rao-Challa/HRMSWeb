@@ -274,38 +274,84 @@ export class EmployeeLeavesComponent {
     });
   }
 
+   async formatKeyAndValues() {
+    try {
+        const headerImage1 = await this.getBase64ImageFromURL('../../assets/layout/images/Calibrage_logo1.png');
+        const headerImage2 = await this.getBase64ImageFromURL('../../assets/layout/images/head_right.PNG');
+        const pageWidth = 841.89; 
+        const imageWidth = (pageWidth / 4) - 10; 
+        const createLine = () => [{ type: 'line', x1: 0, y1: 0, x2: 689.85, y2: 0, lineWidth: 0.5, lineColor: '#f3743f' }];
+
+        let row = {
+            columns: [
+                {
+                    image: headerImage1,
+                    width: imageWidth,
+                    alignment: 'left',
+                    margin: [0, 0, 0, 0] // Remove any margins
+                },
+                {
+                    width: '*',
+                    text: '', // Empty spacer column
+                    alignment: 'center' // Remove any margins
+                },
+                {
+                    image: headerImage2,
+                    width: imageWidth,
+                    alignment: 'right',
+                    margin: [0, 0, 0, 0] // Remove any margins
+                },
+            ],
+            alignment: 'justify',
+            margin: [0, 0, 0, 0] // Remove any margins
+        };
+
+        // Add canvas element
+        const line = { canvas: createLine(), margin: [0, -10, 0, 10], color: '#f3743f' };
+        const content = [row]; // Array containing both row and line objects
+
+        return content;
+    } catch (error) {
+        console.error("Error occurred while formatting key and values:", error);
+        throw error; // Propagate the error
+    }
+}
+
+
   async generatePdf(data: any) {
     const pageSize = { width: 841.89, height: 600 };
-    const headerImage = await this.getBase64ImageFromURL('assets/layout/images/head.JPG');
-    const footerSize = { width: 841.90, height: 40.99 };
-    const footerImage = await this.getBase64ImageFromURL('assets/layout/images/footer.JPG')
+    const waterMark = await this.getBase64ImageFromURL('../../assets/layout/images/transparent_logo.png');
+
     const currentDate = new Date().toLocaleString().replace(/[/\\?%*:|"<>.]/g, '.');
     const check = await this.getBase64ImageFromURL('assets/layout/images/check.jpg');
     const cancle = await this.getBase64ImageFromURL('assets/layout/images/cancle.jpg');
-
+    const header = await this.formatKeyAndValues();
+    const createFooter = (currentPage: number) => ({
+      margin: [0, 0, 0, 0],
+      height: 20,
+      background: '#fff',
+      color: '#fff',
+      width:841.89,
+      columns: [
+        { canvas: [{ type: 'rect', x: 0, y: 0, w:841.89, h: 20, color: '#ff810e' }] },
+        {
+          text: [
+            { text: `${currentPage}` }],
+          absolutePosition: { x: 5, y: 5 }, // Adjust the position as needed
+          alignment: 'center',
+          color: '#000000',
+        }
+      ],
+    });
     const docDefinition = {
       pageOrientation: 'landscape',
-      pageMargins: [30, 90, 40, 55],
-      header: () => {
-        return {
-          stack: [
-            { image: headerImage, width: pageSize.width, height: pageSize.height * 0.15, margin: [0, 0, 0, 0] },
-            { canvas: [{ type: 'line', x1: 0, y1: 5, x2: pageSize.width, y2: 5, lineWidth: 2, color: 'gray' }], absolutePosition: { x: 0, y: 83 } }
-          ]
-        };
-      },
-      footer: (currentPage: number, pageCount: number) => {
-        return {
-          stack: [
-            {
-              columns: [
-                { image: footerImage, width: footerSize.width, height: footerSize.height },
-                { text: `Page ${currentPage} of ${pageCount}`, alignment: 'left' }
-              ]
-            }
-          ]
-        };
-      },
+      pageMargins: [30, 90, 40, 20],
+      header: () => (header),
+      footer: createFooter,
+      background: [{
+        image: waterMark,
+        absolutePosition: { x: (pageSize.width - 200) / 2, y: (pageSize.height - 200) / 2 },
+      }],
       content: [
         {
           text: 'Employee Leaves',
@@ -317,6 +363,7 @@ export class EmployeeLeavesComponent {
         {
           table: {
             widths: [54, 100, 47, 47, 47, 56, 47, 47, 47, 47, 47, 47, 47],
+            headerRows: 1,
             body: [
               [
                 { text: 'Employee ID', style: 'tableHeader' },

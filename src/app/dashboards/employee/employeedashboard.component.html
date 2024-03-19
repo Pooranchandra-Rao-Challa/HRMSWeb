@@ -17,7 +17,8 @@
                         </div>
                         <br />
                         <h4 class="m-5 mb-2 mt-0 text-primary">{{ empDetails?.employeeName}}</h4>
-                        <h6 class="m-5 mb-2 mt-0 text-green-500"  pTooltip="Designation" tooltipPosition="bottom">{{ empDetails?.designation}}</h6>
+                        <h6 class="m-5 mb-2 mt-0 text-green-500" pTooltip="Designation" tooltipPosition="bottom">{{
+                            empDetails?.designation}}</h6>
                         <!-- <h6 class="m-5 mb-2 mt-0 text-green-500"  pTooltip="Employee Id" tooltipPosition="bottom"></h6> -->
                     </div>
                     <span class="inline-flex align-items-left mb-2">
@@ -31,7 +32,8 @@
                         <span class="text-700 mr-2 dtext">{{ empDetails?.gender}}</span>
                     </span><br />
                     <span class="inline-flex align-items-left mb-2">
-                        <i class="pi pi-envelope text-primary text-700 mr-2 dicon" pTooltip="Email" tooltipPosition="top"></i>
+                        <i class="pi pi-envelope text-primary text-700 mr-2 dicon" pTooltip="Email"
+                            tooltipPosition="top"></i>
                         <span class="text-700 mr-2 dtext">{{ empDetails?.officeEmailId}}</span>
                     </span><br />
                     <span class="inline-flex align-items-left mb-2">
@@ -91,7 +93,10 @@
                                 <div class="overview-info">
                                     <h6 class="m-0 mb-1 ">Used/Allocated</h6>
                                     <h4 class="m-0 mt-2">
-                                        <span pTooltip="Used Privilege Leaves" tooltipPosition="bottom">{{ empDetails?.usedPrivilegeLeavesInYear}}</span>/<span pTooltip="Allocated Privilege Leaves" tooltipPosition="bottom">{{empDetails?.allottedPrivilegeLeaves}}</span>
+                                        <span pTooltip="Used Privilege Leaves" tooltipPosition="bottom">{{
+                                            empDetails?.usedPrivilegeLeavesInYear}}</span>/<span
+                                            pTooltip="Allocated Privilege Leaves"
+                                            tooltipPosition="bottom">{{empDetails?.allottedPrivilegeLeaves}}</span>
                                     </h4>
                                 </div>
                                 <div class="overview-ifo">
@@ -146,7 +151,10 @@
                                 <div class="overview-info">
                                     <h6 class="m-0  mb-1 ">Used/Allocated</h6>
                                     <h4 class="m-0 mt-2">
-                                        <span pTooltip="Used Casual Leaves" tooltipPosition="bottom">{{ empDetails?.usedCasualLeavesInYear}}</span>/<span pTooltip="Allocated Casual Leaves" tooltipPosition="bottom">{{ empDetails?.allottedCasualLeaves}}</span>
+                                        <span pTooltip="Used Casual Leaves" tooltipPosition="bottom">{{
+                                            empDetails?.usedCasualLeavesInYear}}</span>/<span
+                                            pTooltip="Allocated Casual Leaves" tooltipPosition="bottom">{{
+                                            empDetails?.allottedCasualLeaves}}</span>
                                     </h4>
                                 </div>
                                 <div class="overview-ifo">
@@ -437,7 +445,7 @@
                 </div>
 
             </div>
-            <div class="col-12 md:col-6 lg:col-3 p-3">
+            <div class="col-12 md:col-6 lg:col-3 p-3" >
                 <div class="card-headr chart_head gap-2 ">
                     <div class="card-title text-center">
                         <h6 class="m-0">Assigned Projects </h6>
@@ -453,14 +461,14 @@
                             <div class="card p-2 text-center card_hover"
                                 [ngStyle]="project?.periods?.length > 0 ? {'color': 'gray'} : {}">
                                 <div class=" project_img_dash ">
-                                    <img [src]="project?.projectLogo" [alt]="project?.projectLogo"
+                                    <img [src]="project?.logo" [alt]="project?.logo"
                                         class="shadow-2 my-0 mx-0 employee_profile_pic avatar_projects_dash" />
                                 </div>
-                                <h5 class="text-primary m-2">{{project.name}}</h5>
+                                <h5 class="text-primary m-2" (click)="openDialog(project.projectId)">{{project.projectName}}</h5>
                                 <div *ngFor="let period of project?.periods" class="text-left"
                                     style=" color:gray; border-top:1px solid #ccc; font-size:12px; font-weight: 700;">
                                     <span class="icon-start_time">
-                                        <!--{{period.endAt  ? ' - '+period.endAt : "  Continuing"}}-->
+                                        <!-- {{period.endAt  ? ' - '+period.endAt : "  Continuing"}} -->
                                         {{period.sinceFrom | date:dateOfJoining}} - {{ period.endAt ? (period.endAt |
                                         date:dateOfJoining) : "Progress"}}
                                     </span>
@@ -494,4 +502,20 @@
                 [disabled]="fbWishes.invalid"></button>
         </div>
     </ng-template>
+</p-dialog>
+
+
+<p-dialog header="Team Members" [(visible)]="teamMembersDialog" [modal]="true" showEffect="fade"
+    [breakpoints]="{'960px': '40%', '640px': '50%'}" class="confirmation_dialog">
+    <div class="grid">
+        <div *ngFor="let employees of this.projectsData">
+            <div class="card border-1 surface-border" *ngFor="let employee of employees.members">
+                <div>
+                    <div class="text-xl font-bold">{{employee.employeeName}}</div>
+                    <div class="text-600 font-medium text-sm">EmpID: {{employee.employeeCode}}</div>
+                    <div class="text-600 font-medium text-sm">Designation: {{employee.designationName}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
 </p-dialog>
