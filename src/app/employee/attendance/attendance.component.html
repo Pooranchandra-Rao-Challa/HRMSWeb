@@ -68,21 +68,21 @@
                     </p-calendar>
                 </div>
                 <div style="margin-bottom: 15px;" *ngIf="isLeaveTypeSelected(FormControls['leaveTypeId'].value)">
-                    <label>Is HalfDay Leave:</label>&nbsp;
+                    <label>Half Day Leave:</label>&nbsp;
                     <p-checkbox formControlName="isHalfDayLeave" id="Attendance_isHalfDayLeave" [binary]="true"
                         inputId="binary"></p-checkbox>
                 </div>
                 <div style="margin-bottom: 15px;" *ngIf="isLeaveTypeSelected(FormControls['leaveTypeId'].value)">
-                    <label>Leave Narration:</label>&nbsp;
+                    <label>Leave Reason Description:</label>&nbsp;
                     <textarea rows="5" cols="30" pInputTextarea formControlName="note" #note
-                        [maxlength]="maxLength.description" placeholder="Enter Leave Narration"
+                        [maxlength]="maxLength.description" placeholder="Enter Leave Reason Description"
                         (keydown)="restrictSpaces($event)" id="Attendance_leaveNarration"></textarea>
                     <div class="flex">
                         <div class="align-left w-60" style="width:70%">
                             <span *ngIf="FormControls['note'].touched && FormControls['note'].invalid">
                                 <div class="ng-invalid ng-touched p-error"
                                     *ngIf="FormControls['note'].errors?.['maxlength']">
-                                    Leave Narration Max Characters Is 256.</div>
+                                    Leave Reason Description Max Characters Is 256.</div>
                             </span>
                         </div>
                         <div class="align-right w-40" style="width:30%; text-align:right;">
@@ -122,20 +122,27 @@
                     </p-calendar>
                 </div>
                 <div class="pl-2">
-                    <p-button icon="pi pi-angle-right ml-2" (click)="gotoNextMonth()"
-                        id="Attendance_nextMonth"></p-button>
+                    <p-button icon="pi pi-angle-right ml-2" (click)="gotoNextMonth()" id="Attendance_nextMonth">
+                    </p-button>
                 </div>
                 <div class="pl-2">
                     {{this.month}}/{{this.year}}
                 </div>
             </ng-template>
             <ng-template pTemplate="right">
+                <button pButton type="button" pButton pRipple icon="pi pi-file-pdf"
+                    (click)="overlay.toggle($event)"></button>
+                <p-overlayPanel #overlay [dismissable]="true">
+                    <ul *ngFor="let item of this.attendanceExcelTypes">
+                        <li (click)="DownloadAttendanceReport(item.label,'pdf')">{{item.label}}</li>
+                    </ul>
+                </p-overlayPanel>
                 <div class="p-input-icon-left dropdown_icon pr-2">
                     <i class="icon-csv-svgrepo-com-1"></i>
                     <div *ngIf="permissions?.CanDownloadAttendance">
                         <p-dropdown [options]="attendanceExcelTypes" optionLabel="label"
                             placeholder="Select Attendance Report Type"
-                            (onChange)="DownloadAttendanceReport($event.value)" optionValue="label"
+                            (onChange)="DownloadAttendanceReport($event.value,'excel')" optionValue="label"
                             class="att_dropdown w-100" [showClear]="true">
                         </p-dropdown>
                     </div>

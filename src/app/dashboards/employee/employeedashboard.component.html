@@ -85,7 +85,10 @@
                                 <div class="overview-info">
                                     <h6 class="m-0 mb-1 ">Current Balance </h6>
                                     <h4 class="m-0 mt-2">
-                                        <span pTooltip="Allocated Privilege Leaves" tooltipPosition="bottom">{{empDetails?.allottedPrivilegeLeaves}}</span>/<span pTooltip="Used Privilege Leaves" tooltipPosition="bottom">{{ empDetails?.usedPrivilegeLeavesInYear}}</span>
+                                        <span pTooltip="Allocated Privilege Leaves"
+                                            tooltipPosition="bottom">{{empDetails?.allottedPrivilegeLeaves}}</span>/<span
+                                            pTooltip="Used Privilege Leaves" tooltipPosition="bottom">{{
+                                            empDetails?.usedPrivilegeLeavesInYear}}</span>
                                     </h4>
                                 </div>
                                 <div class="overview-info"
@@ -141,7 +144,10 @@
                                 <div class="overview-info">
                                     <h6 class="m-0  mb-1 ">Current Balance </h6>
                                     <h4 class="m-0 mt-2">
-                                        <span pTooltip="Allocated Casual Leaves" tooltipPosition="bottom">{{ empDetails?.allottedCasualLeaves}}</span>/<span pTooltip="Used Casual Leaves" tooltipPosition="bottom">{{ empDetails?.usedCasualLeavesInYear}}</span>
+                                        <span pTooltip="Allocated Casual Leaves" tooltipPosition="bottom">{{
+                                            empDetails?.allottedCasualLeaves}}</span>/<span
+                                            pTooltip="Used Casual Leaves" tooltipPosition="bottom">{{
+                                            empDetails?.usedCasualLeavesInYear}}</span>
                                     </h4>
                                 </div>
                                 <div class="overview-info"
@@ -249,12 +255,18 @@
                                                         {{employee?.employeeName}}</h6>
 
                                                 </div>
-                                                <div style="width:30%;"
-                                                    *ngIf="this.employeeId != employee?.employeeId && this.permissions.CanSendBirthdayWishes">
-                                                    <button type="button" pButton icon="pi icon-redeem"
-                                                        class="p-button-rounded p-button-text p-button-sm flex-shrink-0"
-                                                        (click)="showBirthdayDialog(employee)">&nbsp; Send Greetings
-                                                    </button>
+                                                <div style="width:30%;">
+                                                    <div
+                                                        *ngIf="this.employeeId != employee?.employeeId && this.permissions.CanSendBirthdayWishes">
+                                                        <div
+                                                            *ngIf="(getStatus(employee?.employeeId) | async) as notifications">
+                                                            <button type="button" pButton icon="pi icon-redeem"
+                                                                class="p-button-rounded p-button-text p-button-sm flex-shrink-0"
+                                                                (click)="showBirthdayDialog(employee)"
+                                                                *ngIf="notifications.length == 0">&nbsp; Send Greetings
+                                                            </button>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </li>
