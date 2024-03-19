@@ -986,7 +986,9 @@ export class ProjectComponent implements OnInit {
                 if (resp.type === HttpEventType.Response) {
                     const file = new Blob([resp.body], { type: 'text/csv' });
                     const document = window.URL.createObjectURL(file);
-                    FileSaver.saveAs(document, "ProjectsReport.csv");
+                    const currentDate = new Date().toLocaleString().replace(/[/\\?%*:|"<>.]/g, '-');
+                    const csvName = `ProjectsReport${currentDate}.csv`;
+                    FileSaver.saveAs(document, csvName);
                 }
             })
     }
@@ -1000,7 +1002,9 @@ export class ProjectComponent implements OnInit {
                 if (resp.type === HttpEventType.Response) {
                     const file = new Blob([resp.body], { type: 'text/csv' });
                     const document = window.URL.createObjectURL(file);
-                    FileSaver.saveAs(document, "ProjectAllotmentsReport.csv");
+                    const currentDate = new Date().toLocaleString().replace(/[/\\?%*:|"<>.]/g, '-');
+                    const csvName = `ProjectAllotmentsReport${currentDate}.csv`;
+                    FileSaver.saveAs(document, csvName);
                 }
             })
     }

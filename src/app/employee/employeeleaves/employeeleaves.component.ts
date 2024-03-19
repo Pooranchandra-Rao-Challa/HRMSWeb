@@ -10,9 +10,9 @@ import { EmployeeService } from 'src/app/_services/employee.service';
 import { Observable } from 'rxjs';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
-import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
+import { DATE_OF_JOINING, FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
-import { NgPluralCase } from '@angular/common';
+import { DatePipe, NgPluralCase } from '@angular/common';
 import { LeaveConfirmationService } from 'src/app/_services/leaveconfirmation.service';
 import { EmployeeLeaveDialogComponent } from 'src/app/_dialogs/employeeleave.dialog/employeeleave.dialog.component';
 import { ReportService } from 'src/app/_services/report.service';
@@ -63,14 +63,12 @@ export class EmployeeLeavesComponent {
   ];
 
   headers: ITableHeader[] = [
-    // { field: 'status', header: 'status', label: 'Status' },
     { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
     { field: 'leaveType', header: 'leaveType', label: 'Leave Type' },
     { field: 'fromDate', header: 'fromDate', label: 'From Date' },
     { field: 'toDate', header: 'toDate', label: 'To Date' },
     { field: 'note', header: 'note', label: 'Leave Description' },
     { field: 'isHalfDayLeave', header: 'isHalfDayLeave', label: 'Half Day Leave' },
-    { field: 'isDeleted', header: 'isDeleted', label: 'Deleted' },
     { field: 'acceptedAt', header: 'acceptedAt', label: 'Accepted At' },
     { field: 'approvedAt', header: 'approvedAt', label: 'Approved At' },
   ];
@@ -85,6 +83,7 @@ export class EmployeeLeavesComponent {
     private jwtService: JwtService,
     public alertMessage: AlertmessageService,
     private leaveConfirmationService: LeaveConfirmationService,
+    private datePipe: DatePipe,
     private confirmationDialogService: ConfirmationDialogService) {
     this.selectedMonth = FORMAT_DATE(new Date(this.year, this.month - 1, 1));
     this.selectedMonth.setHours(0, 0, 0, 0);
@@ -274,90 +273,116 @@ export class EmployeeLeavesComponent {
   }
 
   async generatePdf(data: any) {
-    const pageSize = { width: 841.89, height: 595.28 };
+    const pageSize = { width: 841.89, height: 600 };
     const headerImage = await this.getBase64ImageFromURL('assets/layout/images/head.JPG');
     const footerSize = { width: 841.90, height: 40.99 };
     const footerImage = await this.getBase64ImageFromURL('assets/layout/images/footer.JPG')
-    const createLine = () => [{ type: 'line', x1: 0, y1: 0, x2: 495.28, y2: 0, lineWidth: 2 }];
-
-    // const createFooter = () => ({
-    //   margin: [0, 0, 0, 0],
-    //   height: 40,
-    //   background: '#41b6a6',
-    //   color: '#fff',
-    //   width: 595.28,
-    //   columns: [
-    //     { canvas: [{ type: 'rect', x: 0, y: 0, w: 595.28, h: 40, color: '#41b6a6' }] },
-    //     { text: '@ 2022 EHR One, LLC', fontSize: 14, color: '#fff', absolutePosition: { x: 20, y: 10 }},
-    //     { image: 'assets/layout/images/footer.JPG', width: 40, height: 40, absolutePosition: { x: 550, y: 0 }},
-    //   ],
-    // });
+    const currentDate = new Date().toLocaleString().replace(/[/\\?%*:|"<>.]/g, '.');
+    const check = await this.getBase64ImageFromURL('assets/layout/images/check.jpg');
+    const cancle = await this.getBase64ImageFromURL('assets/layout/images/cancle.jpg');
 
     const docDefinition = {
-      pageOrientation: 'landscape', // Set page orientation to landscape
-      // pageSize: { width: 841.89, height: 595.28 },
-      // pageMargins: [120, 0, 0, 0], // [left, top, right, bottom]
-      header: () => ({
-        stack: [
-          { image: headerImage, width: pageSize.width, height: pageSize.height * 0.15, margin: [0, 0, 0, 0] },
-          { canvas: [{ type: 'line', x1: 0, y1: 5, x2: pageSize.width, y2: 5, lineWidth: 2, color: 'gray' }], absolutePosition: { x: 0, y: 83 } }
-        ]
-      }),
-      footer: () => ({ image: footerImage, width: footerSize.width, height: footerSize.height }),
+      pageOrientation: 'landscape',
+      pageMargins: [30, 90, 40, 55],
+      header: () => {
+        return {
+          stack: [
+            { image: headerImage, width: pageSize.width, height: pageSize.height * 0.15, margin: [0, 0, 0, 0] },
+            { canvas: [{ type: 'line', x1: 0, y1: 5, x2: pageSize.width, y2: 5, lineWidth: 2, color: 'gray' }], absolutePosition: { x: 0, y: 83 } }
+          ]
+        };
+      },
+      footer: (currentPage: number, pageCount: number) => {
+        return {
+          stack: [
+            {
+              columns: [
+                { image: footerImage, width: footerSize.width, height: footerSize.height },
+                { text: `Page ${currentPage} of ${pageCount}`, alignment: 'left' }
+              ]
+            }
+          ]
+        };
+      },
       content: [
         {
           text: 'Employee Leaves',
           bold: true,
           alignment: 'center',
           color: '#ff810e',
-          margin: 120,
           style: 'header',
         },
         {
-          style: 'tableExample',
           table: {
-            widths: [29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29],
+            widths: [54, 100, 47, 47, 47, 56, 47, 47, 47, 47, 47, 47, 47],
             body: [
-              ['Employee ID', 'Employee Name', 'Code', 'From Date', 'To Date', 'Leave Reason', 'Half Day Leave', 'Rejected', 'AcceptedAt', 'AcceptedBy', 'ApprovedAt', 'ApprovedBy', 'RejectedAt', 'RejectedBy', 'Deleted', 'Leave Used', 'Note', 'Status', 'Created At', 'Created By'
+              [
+                { text: 'Employee ID', style: 'tableHeader' },
+                { text: 'Employee Name', style: 'tableHeader' },
+                { text: 'Leave Type', style: 'tableHeader' },
+                { text: 'From Date', style: 'tableHeader' },
+                { text: 'To Date', style: 'tableHeader' },
+                { text: 'Leave Reason', style: 'tableHeader' },
+                { text: 'Half Day Leave', style: 'tableHeader' },
+                { text: 'Deleted', style: 'tableHeader' },
+                { text: 'Leave Used', style: 'tableHeader' },
+                { text: 'Note', style: 'tableHeader' },
+                { text: 'Status', style: 'tableHeader' },
+                { text: 'Created By', style: 'tableHeader' },
+                { text: 'Created At', style: 'tableHeader' }
+                // , 'Rejected', 'AcceptedAt', 'AcceptedBy', 'ApprovedAt','ApprovedBy', 'RejectedAt', 'RejectedBy', 
               ],
-              ...this.leaves.map(leave => [
+              ...data.map(leave => [
                 leave.code,
                 leave.employeeName,
                 leave.leaveType,
-                leave.fromDate,
-                leave.toDate,
+                this.datePipe.transform(leave.fromDate, DATE_OF_JOINING),
+                this.datePipe.transform(leave.toDate, DATE_OF_JOINING),
                 leave.leaveReason,
-                leave.isHalfDayLeave,
-                leave.rejected,
-                leave.acceptedAt,
-                leave.acceptedBy,
-                leave.approvedAt,
-                leave.approvedBy,
-                leave.rejectedAt,
-                leave.rejectedBy,
-                leave.isDeleted,
-                leave.isLeaveUsed,
+                {
+                  image: leave.isHalfDayLeave ? check : cancle,
+                  width: leave.isHalfDayLeave ? 23 : 11,
+                  height: leave.isHalfDayLeave ? 23 : 11,
+                  alignment: 'center',
+                },
+                // leave.isHalfDayLeave ? 'Yes' : 'No',
+                // leave.rejected,
+                // leave.acceptedAt,
+                // leave.acceptedBy,
+                // leave.approvedAt,
+                // leave.approvedBy,
+                // leave.rejectedAt,
+                // leave.rejectedBy,
+                {
+                  image: leave.isDeleted ? check : cancle,
+                  width: leave.isDeleted ? 23 : 11,
+                  height: leave.isDeleted ? 23 : 11,
+                  alignment: 'center',
+                },
+                {
+                  image: leave.isLeaveUsed ? check : cancle,
+                  width: leave.isLeaveUsed ? 23 : 11,
+                  height: leave.isLeaveUsed ? 23 : 11,
+                  alignment: 'center',
+                },
                 leave.note,
                 leave.status,
-                leave.createdAt,
-                leave.createdBy
+                leave.createdBy,
+                this.datePipe.transform(leave.createdAt, DATE_OF_JOINING)
               ])
             ]
-          }
-          // layout: 'noBorders' // Remove borders around the table
+          },
         },
       ],
       styles: {
         header: { fontSize: 24 },
-        subheader: { fontSize: 20, alignment: 'center' },
-        borderedText: { border: [1, 1, 1, 1], borderColor: 'rgb(0, 0, 255)', fillColor: '#eeeeee', width: 100, height: 150, margin: [12, 20, 0, 0] },
+        // color: '#ff810e',
         defaultStyle: { font: 'Typography', fontSize: 12 },
-        tableExample: { margin: [0, -120, 0, 0] },
-        tableHeader: { bold: true, fontSize: 13, color: 'black' }
+        tableHeader: { bold: true, fillColor: '#dbdbdb', alignment: 'center' },
       },
     };
-
-    pdfMake.createPdf(docDefinition).download('SuperBill.pdf');
+    const pdfName = `EmployeeLeavesReport${currentDate}.pdf`;
+    pdfMake.createPdf(docDefinition).download(pdfName);
   }
 
   downloadEmployeeLeavesReport() {
@@ -370,7 +395,9 @@ export class EmployeeLeavesComponent {
         if (resp.type === HttpEventType.Response) {
           const file = new Blob([resp.body], { type: 'text/csv' });
           const document = window.URL.createObjectURL(file);
-          FileSaver.saveAs(document, "LeavesReport.csv");
+          const currentDate = new Date().toLocaleString().replace(/[/\\?%*:|"<>.]/g, '-');
+          const csvName = `LeavesReport${currentDate}.csv`;
+          FileSaver.saveAs(document, csvName);
         }
       })
   }

@@ -434,7 +434,9 @@ export class AssetsComponent {
         if (resp.type === HttpEventType.Response) {
           const file = new Blob([resp.body], { type: 'text/csv' });
           const document = window.URL.createObjectURL(file);
-          FileSaver.saveAs(document, "AssetsReport.csv");
+          const currentDate = new Date().toLocaleString().replace(/[/\\?%*:|"<>.]/g, '-');
+          const csvName = `AssetsReport${currentDate}.csv`;
+          FileSaver.saveAs(document, csvName);
         }
       })
   }

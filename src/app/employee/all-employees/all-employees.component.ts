@@ -32,7 +32,7 @@ export class AllEmployeesComponent {
     value: number;
     searchKeyword: string = '';
     showSearchBar: boolean = true;
-    
+
     headers: ITableHeader[] = [
         { field: 'code', header: 'code', label: 'Employee Code' },
         { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
@@ -109,7 +109,9 @@ export class AllEmployeesComponent {
                 if (resp.type === HttpEventType.Response) {
                     const file = new Blob([resp.body], { type: 'text/csv' });
                     const document = window.URL.createObjectURL(file);
-                    FileSaver.saveAs(document, "EmployeeReport.csv");
+                    const currentDate = new Date().toLocaleString().replace(/[/\\?%*:|"<>.]/g, '-');
+                    const csvName = `EmployeeReport${currentDate}.csv`;
+                    FileSaver.saveAs(document, csvName);
                 }
             })
     }

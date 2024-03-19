@@ -80,16 +80,18 @@ export class LeaveStatisticsComponent {
   ) {
     this.items = [
       {
-        label: 'Update',
-        icon: 'pi pi-refresh',
+        label: 'Complete Leaves Report',
+        command: () => {
+          this.update();
+        }
+      },
+      {
+        label: 'As On Date Leaves Report',
         command: () => {
           this.update();
         }
       },
     ];
-  }
-
-  save(severity: string) {
   }
 
   update() {
@@ -127,7 +129,6 @@ export class LeaveStatisticsComponent {
     table.clear();
     this.filter.nativeElement.value = '';
     this.selectedColumns=[];
-    this.leaveReportTypes=[];
   }
 
   getLeaves() {
@@ -173,7 +174,9 @@ export class LeaveStatisticsComponent {
         if (resp.type === HttpEventType.Response) {
           const file = new Blob([resp.body], { type: 'text/csv' });
           const document = window.URL.createObjectURL(file);
-          FileSaver.saveAs(document, "Leaves Statistics Report.csv");
+          const currentDate = new Date().toLocaleString().replace(/[/\\?%*:|"<>.]/g, '-');
+          const csvName = `Leaves Statistics Report${currentDate}.csv`;
+          FileSaver.saveAs(document, csvName);
         }
       })
   }
@@ -188,7 +191,9 @@ export class LeaveStatisticsComponent {
         if (resp.type === HttpEventType.Response) {
           const file = new Blob([resp.body], { type: 'text/csv' });
           const document = window.URL.createObjectURL(file);
-          FileSaver.saveAs(document, "Leaves Statistics Report As On Date.csv");
+          const currentDate = new Date().toLocaleString().replace(/[/\\?%*:|"<>.]/g, '-');
+          const csvName = `Leaves Statistics Report As On Date${currentDate}.csv`;
+          FileSaver.saveAs(document, csvName);
         }
       })
   }

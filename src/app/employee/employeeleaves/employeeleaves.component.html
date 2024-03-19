@@ -128,26 +128,6 @@
                             </span>
                         </div>
                     </td>
-                    <!-- <td class="text-center">
-                        <span *ngIf="leave.status && leave?.isDeleted !== true">
-                            <ng-container *ngIf="leave.status === 'Approved'; else falseBlock">
-                                <i class="pi icon-approve text-3xl text-green-500"></i>
-                            </ng-container>
-                            <ng-template #falseBlock>
-                                <ng-container *ngIf="leave.status === 'Rejected'; else acceptedBlock">
-                                    <i class="pi pi-times text-xl text-red-500"></i>
-                                </ng-container>
-                                <ng-template #acceptedBlock>
-                                    <ng-container *ngIf="leave.status === 'Accepted'; else nullBlock">
-                                        <i class="pi icon-accept text-3xl text-primary-500"></i>
-                                    </ng-container>
-                                    <ng-template #nullBlock>
-                                        <i class="pi pi-spin text-3xl pi-spinner text-primary"></i>
-                                    </ng-template>
-                                </ng-template>
-                            </ng-template>
-                        </span>
-                    </td> -->
                     <td>{{leave.employeeName}}</td>
                     <td class="text-center">{{leave.leaveType}}</td>
                     <td class="text-center">{{leave.fromDate |date: mediumDate}}</td>
@@ -166,16 +146,6 @@
                             <span [style.color]="leave.isHalfDayLeave ? '#119e2f' : '#e24c4c'">
                                 {{ leave.isHalfDayLeave ? 'Yes' : 'No' }}
                             </span>
-                        </span>
-                    </td>
-                    <td class="text-center">
-                        <span *ngIf="leave.isDeleted || !leave.isDeleted">
-                            <!-- <i class="fa" [ngClass]="{'fa-check': leave['isDeleted'], 'fa-close': !leave['isDeleted']}"
-                                [style.color]="leave['isDeleted'] ? '#119e2f' : '#e24c4c'"
-                                style="font-size:18px; vertical-align: sub;"></i> -->
-                                <span [style.color]="leave.isDeleted ? '#119e2f' : '#e24c4c'">
-                                    {{ leave.isDeleted ? 'Yes' : 'No' }}
-                                </span>
                         </span>
                     </td>
                     <td class="text-center">{{leave.acceptedAt |date: mediumDate}}</td>

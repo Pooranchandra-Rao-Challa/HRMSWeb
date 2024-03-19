@@ -366,7 +366,9 @@ export class HolidayconfigurationComponent {
         if (resp.type === HttpEventType.Response) {
           const file = new Blob([resp.body], { type: 'text/csv' });
           const document = window.URL.createObjectURL(file);
-          FileSaver.saveAs(document, "HolidaysReport.csv");
+          const currentDate = new Date().toLocaleString().replace(/[/\\?%*:|"<>.]/g, '-');
+          const csvName = `HolidaysReport${currentDate}.csv`;
+          FileSaver.saveAs(document, csvName);
         }
       })
   }
