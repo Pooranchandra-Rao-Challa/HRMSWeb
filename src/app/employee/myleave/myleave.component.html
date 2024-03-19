@@ -28,13 +28,13 @@
             [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
             rowExpandMode="single" [showCurrentPageReport]="true" [globalFilterFields]="globalFilterFields"
             paginatorDropdownAppendTo="body" scrollDirection="horizontal" [rowsPerPageOptions]="[10,25,50]"
-            [autoLayout]="true" responsiveLayout="scroll" [tableStyle]="{ width: 'autoLayout'}">
+            [autoLayout]="true" responsiveLayout="scroll" [resizableColumns]="true">
             <ng-template pTemplate="caption">
                 <div class="flex justify-content-between flex-column sm:flex-row">
                     <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
                         (click)="clear(dtleave)" id="clear-btn"></button>
                     <div class="flex gap-2">
-                        <p-multiSelect [options]="selectedColumnHeader" [(ngModel)]="selectedColumns" 
+                        <p-multiSelect [options]="selectedColumnHeader" [(ngModel)]="selectedColumns"
                             optionLabel="label" id="lookup_ColumnSelection" selectedItemsLabel="{0} columns selected"
                             [style]="{'min-width': '200px'}" placeholder="Choose Columns" appendTo="body">
                         </p-multiSelect>
@@ -51,7 +51,14 @@
                     <th>Actions</th>
                     <th *ngFor="let col of headers" [pSortableColumn]="col.header">
                         {{col?.label}}
-                        <p-columnFilter type="text" [field]="col.header" id="Leaves_ColumnFilter" display="menu">
+                        <p-columnFilter type="text" [field]="col.header" id="Leaves_ColumnFilter" display="menu"
+                            *ngIf="!(col?.header=='fromDate' || col?.header=='toDate')">
+                        </p-columnFilter>
+                        <p-columnFilter type="date" field="date" display="menu" *ngIf="col?.header=='fromDate' || col?.header=='toDate'">
+                            <ng-template pTemplate="filter" let-value >
+                                <p-calendar  [ngModel]="value" dateFormat="dd-MMM-yyyy" >
+                                </p-calendar> 
+                             </ng-template>
                         </p-columnFilter>
                         <p-sortIcon [field]="col.header"></p-sortIcon>
                     </th>
@@ -95,7 +102,8 @@
                         </span>
                     </td> -->
                     <td class="text-center">{{leave.leaveType}}</td>
-                    <td class="text-center">{{leave.fromDate |date: mediumDate}}</td>
+                    <td class="text-center">
+                        {{leave.fromDate |date: mediumDate}}</td>
                     <td class="text-center">{{leave.toDate |date: mediumDate}}
                         <span *ngIf="leave.toDate === null">
                             {{leave.fromDate |date: mediumDate}}
@@ -107,19 +115,9 @@
                                 [ngClass]="{'fa-check': leave['isHalfDayLeave'], 'fa-close': !leave['isHalfDayLeave']}"
                                 [style.color]="leave['isHalfDayLeave'] ? '#119e2f' : '#e24c4c'"
                                 style="font-size:18px; vertical-align: sub;"></i> -->
-                                <span [style.color]="leave.isHalfDayLeave ? '#119e2f' : '#e24c4c'">
-                                    {{ leave.isHalfDayLeave ? 'Yes' : 'No' }}
-                                </span>
-                        </span>
-                    </td>
-                    <td class="text-center">
-                        <span *ngIf="leave.isDeleted||!leave.isDeleted">
-                            <!-- <i class="fa" [ngClass]="{Yes: leave['isDeleted'], 'fa-close': !leave['isDeleted']}"
-                                [style.color]="leave['isDeleted'] ? '#119e2f' : '#e24c4c'"
-                                style="font-size:18px; vertical-align: sub;"></i> -->
-                                <span [style.color]="leave.isDeleted ? '#119e2f' : '#e24c4c'">
-                                    {{ leave.isDeleted ? 'Yes' : 'No' }}
-                                </span>
+                            <span [style.color]="leave.isHalfDayLeave ? '#119e2f' : '#e24c4c'">
+                                {{ leave.isHalfDayLeave ? 'Yes' : 'No' }}
+                            </span>
                         </span>
                     </td>
                     <td class="text-center">{{leave.acceptedAt |date: mediumDate}}</td>

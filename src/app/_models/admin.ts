@@ -39,6 +39,7 @@ export class AssetsViewDto {
 }
 
 export class AssetsDetailsViewDto {
+    employeecode:string;
     employeeName: string;
     assetId?: number;
     code?: string;
@@ -127,6 +128,7 @@ export class ProjectViewDto {
     working?: Date;
     completed?: Date;
     suspended?: Date;
+    amc?:Date;
     address?: string;
     logo?: string;
     teamMembers?: string

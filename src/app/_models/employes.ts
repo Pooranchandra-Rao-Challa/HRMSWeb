@@ -8,7 +8,9 @@ export class EmployeesViewDto {
 	officeEmailId?: any
 	employeeRoleName?: any
 	mobileNumber?: string
-	photo?: any
+	photo?: any;
+	designation?:string;
+	reportingTo?:string;
 }
 export class EmployeeBasicDetailDto {
 	employeeId?: number;
@@ -360,6 +362,7 @@ export class EmployeeLeaveDto {
 	notReported?: boolean
 	toDate?: Date;
 	leaveTypeId?: number;
+	leaveReason?:string;
 	leaveReasonId?: number;
 	isHalfDayLeave?: boolean;
 	isDeleted?: boolean;
@@ -373,6 +376,8 @@ export class EmployeeLeaveDto {
 	acceptedAt?: Date;
 	approvedBy?: number;
 	approvedAt?: Date;
+	rejectedAt?:Date;
+	rejectedBy?:number;
 	rejected?: boolean;
 	comments?: String;
 	status?: string;
@@ -408,6 +413,7 @@ export class CompanyHierarchyViewDto {
 export class EmployeeLeaveDetailsViewDto {
 	comment?: string;
 	action?: string;
+    actionFrom?: string;
 	leaveDto?: leaveDto;
 }
 
@@ -419,6 +425,11 @@ export class leaveDto {
 	fromDate?: Date;
 	toDate?: Date;
 	note?: string;
+    acceptedBy?: number;
+	acceptedAt?: Date;
+	approvedBy?: number;
+	approvedAt?: Date;
+	rejected?: boolean;
 }
 
 export class EmployeeLeaveDetailsDto {

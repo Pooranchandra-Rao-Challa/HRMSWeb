@@ -10,7 +10,9 @@ import { JwtService } from 'src/app/_services/jwt.service';
 import { ReportService } from 'src/app/_services/report.service';
 import * as FileSaver from "file-saver";
 import { HttpEventType } from '@angular/common/http';
-
+import * as pdfMake from 'pdfmake/build/pdfmake';
+import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+import { style } from '@angular/animations';
 @Component({
     selector: 'app-all-employees',
     templateUrl: './all-employees.component.html',
@@ -32,7 +34,7 @@ export class AllEmployeesComponent {
     value: number;
     searchKeyword: string = '';
     showSearchBar: boolean = true;
-    
+
     headers: ITableHeader[] = [
         { field: 'code', header: 'code', label: 'Employee Code' },
         { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
@@ -41,11 +43,12 @@ export class AllEmployeesComponent {
         { field: 'officeEmailId', header: 'officeEmailId', label: 'Email' },
         { field: 'mobileNumber', header: 'mobileNumber', label: 'Phone No' },
         { field: 'dateofJoin', header: 'dateofJoin', label: 'Date of Joining' },
-
     ];
 
     constructor(private EmployeeService: EmployeeService,
-        private router: Router, private jwtService: JwtService, private reportService: ReportService) { }
+        private router: Router, private jwtService: JwtService, private reportService: ReportService) {
+        pdfMake.vfs = pdfFonts.pdfMake.vfs;
+    }
 
     ngOnInit() {
 
@@ -63,6 +66,7 @@ export class AllEmployeesComponent {
         const isEnrolled = true;
         this.EmployeeService.GetEmployeesBasedonstatus(isEnrolled, selectedEmployeeStatus).subscribe(resp => {
             this.employees = resp as unknown as EmployeesViewDto[];
+            console.log(this.employees);
             this.employees.forEach(employee => this.getEmployeePhoto(employee));
         });
     }
@@ -98,6 +102,13 @@ export class AllEmployeesComponent {
     viewEmployeeDtls(employeeId: number) {
         this.router.navigate(['employee/viewemployees'], { queryParams: { employeeId: employeeId } });
     }
+
+    getEmployeePhoto(employee: EmployeesViewDto) {
+        return this.EmployeeService.getEmployeePhoto(employee.employeeId).subscribe((resp) => {
+            employee.photo = (resp as any).ImageData;
+        })
+    }
+
     downloadEmployeesReport() {
         const employeeStatusValue = this.selectedEmployeeStatus?.value;
         this.reportService.DownloadEmployees(employeeStatusValue)
@@ -109,14 +120,108 @@ export class AllEmployeesComponent {
                 if (resp.type === HttpEventType.Response) {
                     const file = new Blob([resp.body], { type: 'text/csv' });
                     const document = window.URL.createObjectURL(file);
-                    FileSaver.saveAs(document, "EmployeeReport.csv");
+                    const currentDate = new Date().toLocaleString().replace(/[/\\?%*:|"<>.]/g, '-');
+                    const csvName = `EmployeeReport${currentDate}.csv`;
+                    FileSaver.saveAs(document, csvName);
                 }
             })
     }
 
-    getEmployeePhoto(employee: EmployeesViewDto) {
-        return this.EmployeeService.getEmployeePhoto(employee.employeeId).subscribe((resp) => {
-            employee.photo = (resp as any).ImageData;
-        })
+
+
+    getBase64ImageFromURL(url: string) {
+        return new Promise((resolve, reject) => {
+            var img = new Image();
+            img.setAttribute("crossOrigin", "anonymous");
+
+            img.onload = () => {
+                var canvas = document.createElement("canvas");
+                canvas.width = img.width;
+                canvas.height = img.height;
+                var ctx = canvas.getContext("2d");
+                ctx!.drawImage(img, 0, 0);
+                var dataURL = canvas.toDataURL("image/png");
+                resolve(dataURL);
+            };
+
+            img.onerror = error => {
+                reject(error);
+            };
+
+            img.src = url;
+        });
     }
+
+    async downloadEmployeespdf() {
+        // const pageSize = { width: 595.28, height: 841.89 };
+        const pageSize = { width: 841.89, height: 595.28 };
+        const headerImage = await this.getBase64ImageFromURL('assets/layout/images/head.JPG')
+        const footerSize = { width: 841.90, height: 40.99 };
+        const footerImage = await this.getBase64ImageFromURL('assets/layout/images/footer.JPG')
+        const watermarkImage = await this.getBase64ImageFromURL('favicon.ico')
+        const EmployeesList = this.generateEmployeesList();
+
+        const docDefinition = {
+            pageOrientation: 'landscape',
+            pageSize: pageSize,
+            header: () => ({ image: headerImage, width: pageSize.width, height: pageSize.height * 0.15, margin: [0, 0, 0, 0] }),
+            footer: () => ({ image: footerImage, width: footerSize.width, height: footerSize.height, margin: [0, 10, 0, 0] }),
+            background: [{
+                image: watermarkImage, width: 200, height: 200,
+                absolutePosition: { x: (pageSize.width - 200) / 2, y: (pageSize.height - 200) / 2 },
+                opacity: 0.3, // Adjust the opacity to make the watermark light
+            }],
+            content: [
+                { text: 'Employees List\n', style: 'header', alignment: 'center', color: '#F15F23' },
+                EmployeesList
+            ],
+            pageMargins: [30, 90, 40, 55],
+            styles: {
+                header: { fontSize: 25 },
+                subheader: { fontSize: 13, alignment: 'center', color: '#ff810e', },
+                borderedText: { border: [1, 1, 1, 1], borderColor: 'rgb(0, 0, 255)', fillColor: '#eeeeee', width: 100, height: 150, margin: [12, 20, 0, 0] },
+                defaultStyle: { font: 'Typography', fontSize: 12 },
+            },
+        };
+        pdfMake.createPdf(docDefinition).download('EmployeeReport.pdf');
+    }
+
+    generateEmployeesList() {
+        const content = [
+            [
+                { text: 'Employee Code', style: 'subheader' },
+                { text: 'Employee Name', style: 'subheader' },
+                { text: 'Certificate DOB', style: 'subheader' },
+                { text: 'Gender', style: 'subheader' },
+                { text: 'Date of Joining', style: 'subheader' },
+                { text: 'Employee Role', style: 'subheader' },
+                { text: 'Designation', style: 'subheader' },
+                { text: 'Reporting To', style: 'subheader' },
+                { text: 'Office Email', style: 'subheader' },
+                { text: 'Mobile Number', style: 'subheader' },
+
+            ],
+            ...this.employees.map(employee => [
+                employee.code || '',
+                employee.employeeName || '',
+                employee.certificateDOB ? new Date(employee.certificateDOB).toLocaleDateString() : '',
+                employee.gender || '',
+                employee.dateofJoin ? new Date(employee.dateofJoin).toLocaleDateString() : '',
+                employee.employeeRoleName || '',
+                employee.designation || '',
+                employee.reportingTo || '',
+                employee.officeEmailId || '',
+                employee.mobileNumber || '',
+            ])
+        ];
+        return {
+            table: {
+                headerRows: 1,
+                widths: [60, 80, 60, 50, 60, 70, 70, 70, 100, 70],
+                body: content,
+                fontSize: 10,
+            },
+        };
+    }
+
 }

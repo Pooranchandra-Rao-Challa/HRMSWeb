@@ -37,8 +37,8 @@
                         <label class="required">Leave Type:</label>
                         <p-dropdown placeholder="Select Leave Type" formControlName="leaveTypeId"
                             [options]="filteredLeaveTypes" optionLabel="name" optionValue="lookupDetailId"
-                            id="leaveTypes_Dropdown"
-                            (onChange)="getLeaveReasonsByLeaveTypeId($event.value)"   [readonly]="this.currentRoute === '/dashboard/employee'"
+                            id="leaveTypes_Dropdown" (onChange)="getLeaveReasonsByLeaveTypeId($event.value)"
+                            [readonly]="this.currentRoute === '/dashboard/employee'"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['leaveTypeId'].touched && FormControls['leaveTypeId'].errors }">
                         </p-dropdown>
                         <div class="flex">
@@ -83,7 +83,7 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-4 mb-0" *ngIf="hideLeavereason()">
-                        <label>Is Half Day Leave:</label>
+                        <label>Half Day Leave:</label>
                         <br>
                         <p-checkbox formControlName="isHalfDayLeave" [binary]="true" inputId="binary"
                             (onChange)="onChangeIsHalfDay()"></p-checkbox>
@@ -113,16 +113,17 @@
                         </p-calendar>
                     </div>
                     <div class="field col-12 md:col-6 mb-0">
-                        <label class="required">Leave Narration:</label>
+                        <label class="required">Leave Reason Description:</label>
                         <textarea class="form-control freeze_text-area" pInputTextarea formControlName="note"
-                            placeholder="Enter Leave Narration" #description [maxlength]="256" id="Description"
+                            (keydown)="restrictSpaces($event)" placeholder="Enter Leave Reason Description" #description
+                            [maxlength]="256" id="Description"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['note'].touched && FormControls['note'].errors }"></textarea>
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
                                 <span *ngIf="FormControls['note'].touched && FormControls['note'].invalid">
                                     <div class="ng-invalid ng-touched p-error"
                                         *ngIf="FormControls['note'].errors?.['required']">
-                                        Please Enter Leave Narration.</div>
+                                        Please Enter Leave Reason Description.</div>
                                 </span>
                             </div>
                             <div class="align-right w-40" style="width:30%; text-align:right;">
@@ -143,15 +144,17 @@
 
 
 <p-dialog header="Confirmation" [(visible)]="dialog" [modal]="true" showEffect="fade"
-[breakpoints]="{'960px': '40%', '640px': '50%'}" class="confirmation_dialog">
+    [breakpoints]="{'960px': '40%', '640px': '50%'}" class="confirmation_dialog">
     <p class="p-5">
-        Already '{{this.empName}}' applied for a CL in this '{{this.dates |date:fromDate}}' and there are not approved, So do you
+        Already '{{this.empName}}' applied for a CL in this '{{this.dates |date:fromDate}}' and there are not approved,
+        So do you
         need to revert this CL,
         Please confirm this by Clicking 'Confirm' else 'Cancel'.
     </p>
     <ng-template pTemplate="footer">
         <div style="float:right" class="p-2">
-            <button pButton type="button" class="btn btn-primary" label="Confirm" (click)="deleteleaveDetails()"></button>
+            <button pButton type="button" class="btn btn-primary" label="Confirm"
+                (click)="deleteleaveDetails()"></button>
             <button pButton type="button" class="btn btn-primary" label="Cancel" (click)="onClose()"></button>
         </div>
     </ng-template>

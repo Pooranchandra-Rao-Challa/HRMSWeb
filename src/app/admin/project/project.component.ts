@@ -313,13 +313,18 @@ export class ProjectComponent implements OnInit {
         this.adminService.GetProjects().subscribe(resp => {
             this.projects = resp as unknown as ProjectViewDto[];
             this.filteredProjects = this.projects;
+            console.log(this.filteredProjects);
+
             this.projects = this.projects.reverse();
             console.log(this.filteredProjects);
 
             // Filter suspended projects if the showSuspendedProjects query parameter is true
-            if (this.activatedRoute.snapshot.queryParams['showSuspendedProjects'] === 'true') {
-                this.filteredProjects = this.projects.filter(project => project.suspended !== null);
-            };
+            if (this.activatedRoute.snapshot.queryParams['showAmcProjects'] === 'true') {
+                this.filteredProjects = this.projects.filter(project => project.amc !== null);
+            }
+            if (this.activatedRoute.snapshot.queryParams['showOngoingProjects'] === 'true') {
+                this.filteredProjects = this.projects.filter(project => project.working !== null && project.amc == null && project.completed == null && project.suspended == null);
+            }
             this.projects.forEach(project => {
                 this.getProjectLogo(project);
             })
@@ -985,7 +990,9 @@ export class ProjectComponent implements OnInit {
                 if (resp.type === HttpEventType.Response) {
                     const file = new Blob([resp.body], { type: 'text/csv' });
                     const document = window.URL.createObjectURL(file);
-                    FileSaver.saveAs(document, "ProjectsReport.csv");
+                    const currentDate = new Date().toLocaleString().replace(/[/\\?%*:|"<>.]/g, '-');
+                    const csvName = `ProjectsReport${currentDate}.csv`;
+                    FileSaver.saveAs(document, csvName);
                 }
             })
     }
@@ -999,7 +1006,9 @@ export class ProjectComponent implements OnInit {
                 if (resp.type === HttpEventType.Response) {
                     const file = new Blob([resp.body], { type: 'text/csv' });
                     const document = window.URL.createObjectURL(file);
-                    FileSaver.saveAs(document, "ProjectAllotmentsReport.csv");
+                    const currentDate = new Date().toLocaleString().replace(/[/\\?%*:|"<>.]/g, '-');
+                    const csvName = `ProjectAllotmentsReport${currentDate}.csv`;
+                    FileSaver.saveAs(document, csvName);
                 }
             })
     }

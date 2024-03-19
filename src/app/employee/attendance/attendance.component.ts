@@ -677,7 +677,9 @@ export class AttendanceComponent {
         if (resp.type === HttpEventType.Response) {
           const file = new Blob([resp.body], { type: 'text/csv' });
           const document = window.URL.createObjectURL(file);
-          FileSaver.saveAs(document, "ProjectwiseAttendanceReport.csv");
+          const currentDate = new Date().toLocaleString().replace(/[/\\?%*:|"<>.]/g, '-');
+          const csvName = `ProjectwiseAttendanceReport${currentDate}.csv`;
+          FileSaver.saveAs(document, csvName);
           this.ProjectwiseAttendanceReportDialog = false;
         }
       })
@@ -698,7 +700,9 @@ export class AttendanceComponent {
         if (resp.type === HttpEventType.Response) {
           const file = new Blob([resp.body], { type: 'text/csv' });
           const document = window.URL.createObjectURL(file);
-          FileSaver.saveAs(document, "DatewiseAttendanceReport.csv");
+          const currentDate = new Date().toLocaleString().replace(/[/\\?%*:|"<>.]/g, '-');
+          const csvName = `DatewiseAttendanceReport${currentDate}.csv`;
+          FileSaver.saveAs(document, csvName);
           this.DatewiseAttendanceReportDialog = false;
         }
       })
@@ -714,7 +718,9 @@ export class AttendanceComponent {
         if (resp.type === HttpEventType.Response) {
           const file = new Blob([resp.body], { type: 'text/csv' });
           const document = window.URL.createObjectURL(file);
-          FileSaver.saveAs(document, "YearlyAttendanceReport.csv");
+          const currentDate = new Date().toLocaleString().replace(/[/\\?%*:|"<>.]/g, '-');
+          const csvName = `YearlyAttendanceReport${currentDate}.csv`;
+          FileSaver.saveAs(document, csvName);
         }
       })
   }
@@ -729,7 +735,9 @@ export class AttendanceComponent {
         if (resp.type === HttpEventType.Response) {
           const file = new Blob([resp.body], { type: 'text/csv' });
           const document = window.URL.createObjectURL(file);
-          FileSaver.saveAs(document, "MonthlyAttendanceReport.csv");
+          const currentDate = new Date().toLocaleString().replace(/[/\\?%*:|"<>.]/g, '-');
+          const csvName = `MonthlyAttendanceReport${currentDate}.csv`;
+          FileSaver.saveAs(document, csvName);
         }
       })
   }

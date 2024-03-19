@@ -50,8 +50,13 @@
                         </div>
                         <div class="p-input-icon-left dropdown_icon mt-1">
                             <div>
-                                <p-menu #menu [model]="items" [popup]="true"></p-menu>
-                                <button pButton type="button" (click)="menu.toggle($event)" icon="pi pi-bars" label="Show"></button>
+                                <p-splitButton  class="pdf_group" icon="pi pi-plus"[model]="items">
+                                    <ng-template pTemplate="dropdownicon">
+                                        <i class="pi icon-pdf-svgrepo-com-2"></i>
+                                      </ng-template>
+                                </p-splitButton>
+                                <!-- <p-menu #menu [model]="items" [popup]="true"></p-menu>
+                                <button pButton type="button" (click)="menu.toggle($event)" icon="pi pi-bars" label="Show"></button> -->
                                 <!-- <p-splitButton class="pdf_group" icon="pi icon-pdf-svgrepo-com-2" (onClick)="save('info')" [model]="items">
                                     <ng-template pTemplate="dropdownicon">
                                         <i class="pi icon-pdf-svgrepo-com-2"></i>

@@ -10,15 +10,16 @@ import { EmployeeService } from 'src/app/_services/employee.service';
 import { Observable } from 'rxjs';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
-import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
+import { DATE_OF_JOINING, FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
-import { NgPluralCase } from '@angular/common';
+import { DatePipe, NgPluralCase } from '@angular/common';
 import { LeaveConfirmationService } from 'src/app/_services/leaveconfirmation.service';
 import { EmployeeLeaveDialogComponent } from 'src/app/_dialogs/employeeleave.dialog/employeeleave.dialog.component';
 import { ReportService } from 'src/app/_services/report.service';
 import * as FileSaver from "file-saver";
 import { ConfirmationDialogService } from 'src/app/_alerts/confirmationdialog.service';
-
+import * as pdfMake from 'pdfmake/build/pdfmake';
+import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 @Component({
   selector: 'app-employeeleaves',
   templateUrl: './employeeleaves.component.html',
@@ -51,6 +52,8 @@ export class EmployeeLeavesComponent {
   confirmationRequest: ConfirmationRequest = new ConfirmationRequest();
   selectedStatus: any;
   value: number;
+  employeeRole: any;
+
 
   statuses: any[] = [
     { name: 'Pending', key: 'P' },
@@ -60,14 +63,12 @@ export class EmployeeLeavesComponent {
   ];
 
   headers: ITableHeader[] = [
-    // { field: 'status', header: 'status', label: 'Status' },
     { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
     { field: 'leaveType', header: 'leaveType', label: 'Leave Type' },
     { field: 'fromDate', header: 'fromDate', label: 'From Date' },
     { field: 'toDate', header: 'toDate', label: 'To Date' },
     { field: 'note', header: 'note', label: 'Leave Description' },
     { field: 'isHalfDayLeave', header: 'isHalfDayLeave', label: 'Half Day Leave' },
-    { field: 'isDeleted', header: 'isDeleted', label: 'Declined' },
     { field: 'acceptedAt', header: 'acceptedAt', label: 'Accepted At' },
     { field: 'approvedAt', header: 'approvedAt', label: 'Approved At' },
   ];
@@ -82,9 +83,11 @@ export class EmployeeLeavesComponent {
     private jwtService: JwtService,
     public alertMessage: AlertmessageService,
     private leaveConfirmationService: LeaveConfirmationService,
+    private datePipe: DatePipe,
     private confirmationDialogService: ConfirmationDialogService) {
-      this.selectedMonth = FORMAT_DATE(new Date(this.year, this.month - 1, 1));
-      this.selectedMonth.setHours(0, 0, 0, 0);
+    this.selectedMonth = FORMAT_DATE(new Date(this.year, this.month - 1, 1));
+    this.selectedMonth.setHours(0, 0, 0, 0);
+    pdfMake.vfs = pdfFonts.pdfMake.vfs;
   }
 
   set selectedColumns(val: any[]) {
@@ -96,6 +99,7 @@ export class EmployeeLeavesComponent {
 
   ngOnInit(): void {
     this.permissions = this.jwtService.Permissions;
+    this.employeeRole = this.jwtService.EmployeeRole;
     this.selectedStatus = this.statuses[0];
     this.getLeaves();
     this.getDaysInMonth(this.year, this.month);
@@ -248,6 +252,139 @@ export class EmployeeLeavesComponent {
     return this.employeeService.UpdateEmployeeLeaveDetails(this.fbLeave.value);
   }
 
+  getBase64ImageFromURL(url: string) {
+    return new Promise((resolve, reject) => {
+      var img = new Image();
+      img.setAttribute("crossOrigin", "anonymous");
+      img.onload = () => {
+        var canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        var ctx = canvas.getContext("2d");
+        ctx!.drawImage(img, 0, 0);
+        var dataURL = canvas.toDataURL("image/jpg");
+        resolve(dataURL);
+      };
+      img.onerror = error => {
+        reject(error);
+      };
+      img.src = url;
+    });
+  }
+
+  async generatePdf(data: any) {
+    const pageSize = { width: 841.89, height: 600 };
+    const headerImage = await this.getBase64ImageFromURL('assets/layout/images/head.JPG');
+    const footerSize = { width: 841.90, height: 40.99 };
+    const footerImage = await this.getBase64ImageFromURL('assets/layout/images/footer.JPG')
+    const currentDate = new Date().toLocaleString().replace(/[/\\?%*:|"<>.]/g, '.');
+    const check = await this.getBase64ImageFromURL('assets/layout/images/check.jpg');
+    const cancle = await this.getBase64ImageFromURL('assets/layout/images/cancle.jpg');
+
+    const docDefinition = {
+      pageOrientation: 'landscape',
+      pageMargins: [30, 90, 40, 55],
+      header: () => {
+        return {
+          stack: [
+            { image: headerImage, width: pageSize.width, height: pageSize.height * 0.15, margin: [0, 0, 0, 0] },
+            { canvas: [{ type: 'line', x1: 0, y1: 5, x2: pageSize.width, y2: 5, lineWidth: 2, color: 'gray' }], absolutePosition: { x: 0, y: 83 } }
+          ]
+        };
+      },
+      footer: (currentPage: number, pageCount: number) => {
+        return {
+          stack: [
+            {
+              columns: [
+                { image: footerImage, width: footerSize.width, height: footerSize.height },
+                { text: `Page ${currentPage} of ${pageCount}`, alignment: 'left' }
+              ]
+            }
+          ]
+        };
+      },
+      content: [
+        {
+          text: 'Employee Leaves',
+          bold: true,
+          alignment: 'center',
+          color: '#ff810e',
+          style: 'header',
+        },
+        {
+          table: {
+            widths: [54, 100, 47, 47, 47, 56, 47, 47, 47, 47, 47, 47, 47],
+            body: [
+              [
+                { text: 'Employee ID', style: 'tableHeader' },
+                { text: 'Employee Name', style: 'tableHeader' },
+                { text: 'Leave Type', style: 'tableHeader' },
+                { text: 'From Date', style: 'tableHeader' },
+                { text: 'To Date', style: 'tableHeader' },
+                { text: 'Leave Reason', style: 'tableHeader' },
+                { text: 'Half Day Leave', style: 'tableHeader' },
+                { text: 'Deleted', style: 'tableHeader' },
+                { text: 'Leave Used', style: 'tableHeader' },
+                { text: 'Note', style: 'tableHeader' },
+                { text: 'Status', style: 'tableHeader' },
+                { text: 'Created By', style: 'tableHeader' },
+                { text: 'Created At', style: 'tableHeader' }
+                // , 'Rejected', 'AcceptedAt', 'AcceptedBy', 'ApprovedAt','ApprovedBy', 'RejectedAt', 'RejectedBy', 
+              ],
+              ...data.map(leave => [
+                leave.code,
+                leave.employeeName,
+                leave.leaveType,
+                this.datePipe.transform(leave.fromDate, DATE_OF_JOINING),
+                this.datePipe.transform(leave.toDate, DATE_OF_JOINING),
+                leave.leaveReason,
+                {
+                  image: leave.isHalfDayLeave ? check : cancle,
+                  width: leave.isHalfDayLeave ? 23 : 11,
+                  height: leave.isHalfDayLeave ? 23 : 11,
+                  alignment: 'center',
+                },
+                // leave.isHalfDayLeave ? 'Yes' : 'No',
+                // leave.rejected,
+                // leave.acceptedAt,
+                // leave.acceptedBy,
+                // leave.approvedAt,
+                // leave.approvedBy,
+                // leave.rejectedAt,
+                // leave.rejectedBy,
+                {
+                  image: leave.isDeleted ? check : cancle,
+                  width: leave.isDeleted ? 23 : 11,
+                  height: leave.isDeleted ? 23 : 11,
+                  alignment: 'center',
+                },
+                {
+                  image: leave.isLeaveUsed ? check : cancle,
+                  width: leave.isLeaveUsed ? 23 : 11,
+                  height: leave.isLeaveUsed ? 23 : 11,
+                  alignment: 'center',
+                },
+                leave.note,
+                leave.status,
+                leave.createdBy,
+                this.datePipe.transform(leave.createdAt, DATE_OF_JOINING)
+              ])
+            ]
+          },
+        },
+      ],
+      styles: {
+        header: { fontSize: 24 },
+        // color: '#ff810e',
+        defaultStyle: { font: 'Typography', fontSize: 12 },
+        tableHeader: { bold: true, fillColor: '#dbdbdb', alignment: 'center' },
+      },
+    };
+    const pdfName = `EmployeeLeavesReport${currentDate}.pdf`;
+    pdfMake.createPdf(docDefinition).download(pdfName);
+  }
+
   downloadEmployeeLeavesReport() {
     this.reportService.DownloadEmployeeLeaves(this.month, this.year, this.jwtService.EmployeeId)
       .subscribe((resp) => {
@@ -258,26 +395,28 @@ export class EmployeeLeavesComponent {
         if (resp.type === HttpEventType.Response) {
           const file = new Blob([resp.body], { type: 'text/csv' });
           const document = window.URL.createObjectURL(file);
-          FileSaver.saveAs(document, "LeavesReport.csv");
+          const currentDate = new Date().toLocaleString().replace(/[/\\?%*:|"<>.]/g, '-');
+          const csvName = `LeavesReport${currentDate}.csv`;
+          FileSaver.saveAs(document, csvName);
         }
       })
   }
 
-  deleteleaveDetails(employeeLeaveId) {
-    this.confirmationDialogService.comfirmationDialog(this.confirmationRequest).subscribe(userChoice => {
-      if (userChoice) {
-        this.employeeService.DeleteleaveDetails(employeeLeaveId).subscribe((resp) => {
-          if (resp) {
-            this.alertMessage.displayAlertMessage(ALERT_CODES["ELA003"]);
-            this.getLeaves();
-          }
-          else {
-            this.alertMessage.displayErrorMessage(ALERT_CODES["ELA004"]);
-          }
-        })
-      }
-    });
-  }
+  // deleteleaveDetails(employeeLeaveId) {
+  //   this.confirmationDialogService.comfirmationDialog(this.confirmationRequest).subscribe(userChoice => {
+  //     if (userChoice) {
+  //       this.employeeService.DeleteleaveDetails(employeeLeaveId).subscribe((resp) => {
+  //         if (resp) {
+  //           this.alertMessage.displayAlertMessage(ALERT_CODES["ELA003"]);
+  //           this.getLeaves();
+  //         }
+  //         else {
+  //           this.alertMessage.displayErrorMessage(ALERT_CODES["ELA004"]);
+  //         }
+  //       })
+  //     }
+  //   });
+  // }
 
   openComponentDialog(content: any,
     dialogData, action: Actions = this.ActionTypes.add) {
