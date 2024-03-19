@@ -17,7 +17,11 @@
             <div class="flex">
               <div *ngIf="permissions?.CanDownloadEmployees">
                 <span>
-                  <button pButton class="p-button doc_button mr-2" icon="icon-csv-svgrepo-com-1" pTooltip="Download CSV"
+                  <button pButton class="p-button doc_button mr-2" icon="pi pi-file-pdf" pTooltip="Download Employees PDF"
+                    tooltipPosition="left" (click)="downloadEmployeespdf()"></button>
+                </span>
+                <span>
+                  <button pButton class="p-button doc_button mr-2" icon="icon-csv-svgrepo-com-1" pTooltip="Download Employees CSV"
                     tooltipPosition="left" (click)="downloadEmployeesReport()"></button>
                 </span>
               </div>
@@ -127,8 +131,8 @@
                   <br />
                   <span class="text-600 font-medium text-md text-color">
                     <i class="pi pi-star text-500 text-primary text-1xl  pb-1"
-                    pTooltip="Role" tooltipPosition="top"></i> :
-                    {{employee?.employeeRoleName }}
+                    pTooltip="Designation" tooltipPosition="top"></i> :
+                    {{employee?.designation }}
                   </span>
                   <br />
                   <span class="text-600 font-medium text-md text-color">
