@@ -895,14 +895,14 @@ p-fieldset.allott-employee {
 .applicant-p-block-home {
     background-color: rgb(249, 245, 242);
     border-radius: 10px;
-    height: 400px;
+    height: 445px;
     overflow-x: hidden;
     overflow-y: auto;
 }
 .applicant-n-block-home {
     background-color: rgb(255, 255, 255);
     border-radius: 10px;
-    height: 365px;
+    height: 410px;
     overflow-x: hidden;
     overflow-y: auto;
 }
@@ -1032,8 +1032,8 @@ p-fieldset.allott-employee {
 }
 
 .avatar_emp_dboard {
-    height: 9rem;
-    width: 100px;
+    height: 7rem;
+    width: 80px;
     position: relative;
     display: inline-block;
     margin-bottom: 10px;
@@ -1143,13 +1143,13 @@ app-attendance .p-datatable-table tbody tr td:first-child {
     color:#8a4301  !important;
 }
 
-@media (min-width: 960px){
+@media (min-width: 1241px){
     /*visibilities according to the platform*/
 	.ShowOnMobile{display:none; opacity:0;}
 	.ShowOnDesktop{display:inherit; opacity:1;}
 }
 /* Portrait tablet to landscape and desktop */
-@media (max-width: 959px) {
+@media (max-width: 1240px) {
 	.ShowOnMobile{display:inherit; opacity:1;}
 	.ShowOnDesktop{display:none; opacity:0;}
 }
@@ -1356,9 +1356,31 @@ app-attendance .p-datatable-table tbody tr td:first-child {
     width:100%;
 }
 
-.app-leave-confirmation{
-    color: rgb(249 144 92);
-    font-size: 14pt;
-    padding: 10px;
-    font-weight: 600;
+
+#comment , #mytextarea{
+    resize: none;
 }
+.dicon{
+    min-width:15px;
+    line-height: 1.5;
+}
+.dtext{
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+.ui-table table {
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.p-element .p-splitbutton-defaultbutton{
+    display: none !important;
+}
+.pdf_group .pi-chevron-down:before{
+    content: "\e98d";
+  }

@@ -86,12 +86,10 @@ export class AdminDashboardComponent implements OnInit {
 
     toggleFieldset(legend: string): void {
         const fieldsets = ['HR Notifications', 'Today Birthday', 'Greetings'];
-
         // Close all fieldsets
         this.fieldset1Open = false;
         this.fieldset2Open = false;
         this.fieldset3Open = false;
-
         // Open the selected fieldset
         const index = fieldsets.indexOf(legend);
         if (index !== -1) {
@@ -175,6 +173,18 @@ export class AdminDashboardComponent implements OnInit {
         }
         else {
             this.getAttendanceCountsBasedOnProject();
+        }
+    }
+
+    restrictSpaces(event: KeyboardEvent) {
+        const target = event.target as HTMLInputElement;
+        // Prevent the first key from being a space
+        if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0)
+            event.preventDefault();
+
+        // Restrict multiple spaces
+        if (event.key === ' ' && target.selectionStart > 0 && target.value.charAt(target.selectionStart - 1) === ' ') {
+            event.preventDefault();
         }
     }
 
@@ -573,7 +583,7 @@ export class AdminDashboardComponent implements OnInit {
     inItAdminDashboard() {
         this.dashboardService.getAdminDashboard().subscribe((resp) => {
             this.admindashboardDtls = resp[0] as unknown as adminDashboardViewDto;
-            // Parse and check if leave counts are available
+            // check if leave counts are available
             if (this.admindashboardDtls?.employeeLeaveCounts) {
                 this.admindashboardDtls.savedemployeeLeaveCounts = JSON.parse(this.admindashboardDtls.employeeLeaveCounts) || [];
             } else {
@@ -583,15 +593,15 @@ export class AdminDashboardComponent implements OnInit {
                 return sum + leaveTypeData.leaveTypeCount;
             }, 0);
             this.admindashboardDtls.calculatedLeaveCount = leaveTypeCountsSum;
-
-            // Parse and check if active projects are available
+            // check if active projects are available
             this.admindashboardDtls.savedactiveProjects = JSON.parse(this.admindashboardDtls?.activeProjects) || [];
-            const activeProjectssum = this.admindashboardDtls?.savedactiveProjects.reduce((sum, activeProjectsData) => {
-                return sum + activeProjectsData.projectStatusCount;
-            }, 0);
-            this.admindashboardDtls.totalprojectsCount = activeProjectssum;
+            const workingProjectsCount = this.admindashboardDtls?.savedactiveProjects
+                .find(activeProjectsData => activeProjectsData.projectStatus === 'Working');
+            this.admindashboardDtls.totalprojectsCount = workingProjectsCount.projectStatusCount;
+            const AmcProjectsCount = this.admindashboardDtls?.savedactiveProjects
+                .find(activeProjectsData => activeProjectsData.projectStatus === 'AMC');
+            this.admindashboardDtls.savedAmcProjects = AmcProjectsCount.projectStatusCount;
 
-            // Parse and check if suspended projects are available
             this.admindashboardDtls.savedsupsendedProjects = JSON.parse(this.admindashboardDtls?.supsendedProjects) || [];
             this.admindashboardDtls.savedemployeeBirthdays = JSON.parse(this.admindashboardDtls?.employeeBirthdays) || [];
             this.admindashboardDtls.savedemployeesOnLeave = JSON.parse(this.admindashboardDtls?.employeesOnLeave) || [];
@@ -875,10 +885,10 @@ export class AdminDashboardComponent implements OnInit {
         this.OnLeaveEmployeeList = this.admindashboardDtls?.savedemployeesOnLeave;
     }
     navigateProjects() {
-        this.router.navigate(['admin/project'])
+        this.router.navigate(['admin/project'], { queryParams: { showOngoingProjects: true }})
     }
-    navigatesuspendedProjects() {
-        this.router.navigate(['admin/project'], { queryParams: { showSuspendedProjects: true } });
+    navigateamcProjects() {
+        this.router.navigate(['admin/project'], { queryParams: { showAmcProjects: true } });
     }
     initNotifications() {
         this.dashboardService.GetNotifications().subscribe(resp => {

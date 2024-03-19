@@ -99,6 +99,7 @@ export class LookupsComponent implements OnInit {
   clearTableFiltersAndSorting(table: Table) {
     table.clear();
     this.filter.nativeElement.value = '';
+    this.selectedColumns=[];
   }
 
   openComponentDialog(content: any,

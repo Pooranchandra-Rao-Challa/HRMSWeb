@@ -16,7 +16,8 @@ import { GlobalFilterService } from 'src/app/_services/global.filter.service';
 import { formatDate } from '@angular/common';
 import { ReportService } from 'src/app/_services/report.service';
 import * as FileSaver from "file-saver";
-
+import * as pdfMake from 'pdfmake/build/pdfmake';
+import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 interface Year {
   year: string;
 }
@@ -63,7 +64,9 @@ export class HolidayconfigurationComponent {
     private jwtService: JwtService,
     private reportService: ReportService,
     private confirmationDialogService: ConfirmationDialogService,
-    private globalFilterService: GlobalFilterService) { }
+    private globalFilterService: GlobalFilterService) {
+    pdfMake.vfs = pdfFonts.pdfMake.vfs;
+  }
 
   // Define table headers
   headers: ITableHeader[] = [
@@ -367,4 +370,77 @@ export class HolidayconfigurationComponent {
         }
       })
   }
+
+  getBase64ImageFromURL(url: string) {
+    return new Promise((resolve, reject) => {
+      var img = new Image();
+      img.setAttribute("crossOrigin", "anonymous");
+
+      img.onload = () => {
+        var canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        var ctx = canvas.getContext("2d");
+        ctx!.drawImage(img, 0, 0);
+        var dataURL = canvas.toDataURL("image/png");
+        resolve(dataURL);
+      };
+
+      img.onerror = error => {
+        reject(error);
+      };
+
+      img.src = url;
+    });
+  }
+
+  async exportPdf() {
+    const pageSize = { width: 595.28, height: 841.89 };
+    const headerImage = await this.getBase64ImageFromURL('assets/layout/images/head.JPG');
+    const footerSize = { width: 841.90, height: 40.99 };
+    const footerImage = await this.getBase64ImageFromURL('assets/layout/images/footer.JPG')
+    const holidaysContent = this.generateHolidaysContent(); 
+
+    const docDefinition = {
+      header: () => ({ image: headerImage, width: pageSize.width, height: pageSize.height * 0.15 , margin: [0, 0, 0, 0] }),
+      footer: () => ({ image: footerImage, width: footerSize.width, height: footerSize.height }),
+      content: [
+        { text: 'Holidays List\n', style: 'header', margin: [0,90, 0, 0], alignment: 'center' },
+        holidaysContent
+      ],
+      styles: {
+        header: { fontSize: 24 },
+        subheader: { fontSize: 15, alignment: 'center' },
+        borderedText: { border: [1, 1, 1, 1], borderColor: 'rgb(0, 0, 255)', fillColor: '#eeeeee', width: 100, height: 150, margin: [12, 20, 0, 0] },
+        defaultStyle: { font: 'Typography', fontSize: 12 },
+      },
+    };
+    pdfMake.createPdf(docDefinition).download('HolidaysReport.pdf');
+  }
+  
+  generateHolidaysContent(): any {
+    const content = [
+        [
+            { text: 'Holiday Name', style: 'subheader' },
+            { text: 'From Date', style: 'subheader' },
+            { text: 'To Date', style: 'subheader' },
+            { text: 'Is Active', style: 'subheader' }
+        ],
+        ...this.holidays.map(holiday => [
+            holiday.title || '',
+            holiday.fromDate ? new Date(holiday.fromDate).toLocaleDateString() : '',
+            holiday.toDate ? new Date(holiday.toDate).toLocaleDateString() : '',
+            holiday.isActive != null ? holiday.isActive : ''
+        ])
+    ];
+
+    return {
+        table: {
+            headerRows: 1,
+            widths: [155, 110, 110, 100],
+            body: content,
+        },
+    };
+}
+
 }

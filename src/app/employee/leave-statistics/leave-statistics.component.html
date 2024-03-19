@@ -1,4 +1,4 @@
-<div class="col-12">
+<div class="col-12  p-0">
     <div class="card" id="main-card">
         <!-- Toolbar -->
         <p-toolbar styleClass="p-mb-4">
@@ -47,6 +47,22 @@
                                 selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}"
                                 placeholder="Choose Columns" appendTo="body">
                             </p-multiSelect>
+                        </div>
+                        <div class="p-input-icon-left dropdown_icon mt-1">
+                            <div>
+                                <p-splitButton  class="pdf_group" icon="pi pi-plus" (onClick)="save('info')" [model]="items">
+                                    <ng-template pTemplate="dropdownicon">
+                                        <i class="pi icon-pdf-svgrepo-com-2"></i>
+                                      </ng-template>
+                                </p-splitButton>
+                                <!-- <p-menu #menu [model]="items" [popup]="true"></p-menu>
+                                <button pButton type="button" (click)="menu.toggle($event)" icon="pi pi-bars" label="Show"></button> -->
+                                <!-- <p-splitButton class="pdf_group" icon="pi icon-pdf-svgrepo-com-2" (onClick)="save('info')" [model]="items">
+                                    <ng-template pTemplate="dropdownicon">
+                                        <i class="pi icon-pdf-svgrepo-com-2"></i>
+                                      </ng-template>
+                                </p-splitButton> -->
+                            </div>
                         </div>
                         <div class="p-input-icon-left dropdown_icon mt-1">
                             <i class="icon-csv-svgrepo-com-1 "></i>

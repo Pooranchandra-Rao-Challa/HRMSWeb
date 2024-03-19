@@ -10,6 +10,7 @@ export class SelfEmployeeDto {
     nationality?: string;
     dateofJoin?: Date;
     designation?: string;
+    experienceInCompany?:string;
     officeEmailId?: string;
     reportingToId?: number;
     reportingTo?: string;
@@ -37,8 +38,10 @@ export class selfEmployeeMonthlyLeaves {
     status?: string;
     isDeleted?: boolean;
     isHalfDayLeave?:boolean;
-    usedCLsInMonth?: number
-    usedPLsInMonth?: number
+    usedCLsInMonth?: number;
+    usedPLsInMonth?: number;
+    fromDate?:Date;
+    toDate?:Date;
     isLeaveUsed?: boolean;
 }
 export class allottedAssets {
@@ -110,7 +113,8 @@ export class adminDashboardViewDto {
     savedabsentEmployees?: absentEmployees[];
     calculatedLeaveCount: number;
     totalprojectsCount: number;
-    activeEmployeesInOffice?: string
+    activeEmployeesInOffice?: string;
+    savedAmcProjects?:number;
 }
 
 export class AttendanceCountBasedOnTypeViewDto{

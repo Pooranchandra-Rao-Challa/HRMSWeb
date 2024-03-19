@@ -4,7 +4,7 @@ import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import jsPDF from 'jspdf';
 import { Table } from 'primeng/table';
-import { Observable} from 'rxjs';
+import { Observable } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { ConfirmationDialogService } from 'src/app/_alerts/confirmationdialog.service';
 import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
@@ -19,7 +19,8 @@ import { ValidateFileThenUpload } from 'src/app/_validators/upload.validators';
 import { ImagecropService } from 'src/app/_services/_imagecrop.service';
 import { ReportService } from 'src/app/_services/report.service';
 import * as FileSaver from "file-saver";
-
+import * as pdfMake from 'pdfmake/build/pdfmake';
+import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 @Component({
   selector: 'app-assets',
   templateUrl: './assets.component.html'
@@ -61,7 +62,8 @@ export class AssetsComponent {
   constructor(private adminService: AdminService, private formbuilder: FormBuilder,
     private alertMessage: AlertmessageService, private lookupService: LookupService,
     private confirmationDialogService: ConfirmationDialogService, private jwtService: JwtService, private imageCropService: ImagecropService,
-    private reportService:ReportService,) {
+    private reportService: ReportService,) {
+    pdfMake.vfs = pdfFonts.pdfMake.vfs;
   }
 
 
@@ -71,8 +73,9 @@ export class AssetsComponent {
     { field: 'count', header: 'count', label: 'Count' },
   ];
   AssetsTypeTable: ITableHeader[] = [
+    { field: 'employeecode', header: 'employeecode', label: 'Employee Code' },
     { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
-    { field: 'code', header: 'code', label: 'Code' },
+    { field: 'code', header: 'code', label: 'Assets Code' },
     { field: 'name', header: 'name', label: 'Asset Name' },
     { field: 'purchasedDate', header: 'purchasedDate', label: 'Purchased Date' },
     { field: 'modelNumber', header: 'modelNumber', label: 'Model Number' },
@@ -122,7 +125,7 @@ export class AssetsComponent {
       }
     });
   }
-  cancelSelection(event: Event): void{
+  cancelSelection(event: Event): void {
     event.preventDefault();
     this.fbassets.get('thumbnail').setValue(null);
   }
@@ -142,6 +145,7 @@ export class AssetsComponent {
   initAssets(assetId: number) {
     this.adminService.GetAssets(assetId).subscribe((resp) => {
       this.assets = resp as unknown as AssetsViewDto[];
+      console.log( this.assets);
       this.assets.forEach(element => {
         element.expandassets = JSON.parse(element.assets) as unknown as AssetsDetailsViewDto[];
       });
@@ -151,7 +155,7 @@ export class AssetsComponent {
   assetsForm() {
     this.fbassets = this.formbuilder.group({
       assetId: new FormControl(null),
-      code: new FormControl('', [ Validators.pattern(RG_ALPHA_NUMERIC), Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_20)]),
+      code: new FormControl('', [Validators.pattern(RG_ALPHA_NUMERIC), Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_20)]),
       assetTypeId: new FormControl(null, [Validators.required]),
       assetCategoryId: new FormControl(null, [Validators.required]),
       name: new FormControl(null, [Validators.required, Validators.minLength(MIN_LENGTH_2), Validators.maxLength(MAX_LENGTH_50)]),
@@ -162,7 +166,7 @@ export class AssetsComponent {
       warranty: new FormControl(null, Validators.maxLength(MAX_LENGTH_3)),
       addValue: new FormControl(null, Validators.maxLength(MAX_LENGTH_7)),
       description: new FormControl(null, Validators.maxLength(MAX_LENGTH_256)),
-      thumbnail:new FormControl(),
+      thumbnail: new FormControl(),
       statusId: new FormControl(null, [Validators.required]),
       isActive: (true),
     });
@@ -175,7 +179,7 @@ export class AssetsComponent {
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
-  
+
   clear() {
     this.clearTableFiltersAndSorting(this.dtAssets);
     this.clearTableFiltersAndSorting(this.innerassetsdata);
@@ -185,7 +189,7 @@ export class AssetsComponent {
     if (table) {
       table.clear();
       this.filter.nativeElement.value = '';
-  }
+    }
   }
 
   showDialog() {
@@ -273,7 +277,7 @@ export class AssetsComponent {
       this.alertMessage.displayErrorMessage(
         `Assets Code :"${this.fbassets.value.code}" Already Exists.`
       );
-    }  else {
+    } else {
       this.save();
     }
     // else if (this.isUniqueAssetsName()) {
@@ -281,7 +285,7 @@ export class AssetsComponent {
     //     `Assets Name :"${this.fbassets.value.name}" Already Exists.`
     //   );
     // }
-    
+
   }
 
   isUniqueAssetsCode() {
@@ -301,129 +305,128 @@ export class AssetsComponent {
   //     ))
   //   return existingAssetsCode.length > 0;
   // }
- 
+
   fileChangeEvent(event: any): void {
     if (event.target.files.length) {
-        this.imageToCrop = event;
+      this.imageToCrop = event;
     } else {
-        this.profileImage = '';
+      this.profileImage = '';
     }
-}
+  }
 
-onCrop(image: File): void {
+  onCrop(image: File): void {
     this.imageCropService.onCrop(image, this.fbassets, 'photo');
-}
-
-  exportPdf() {
-    const doc = new jsPDF('l', 'mm', 'a4');
-    this.addLetterhead(doc);
-    this.addBodyContent(doc);
-    this.addFooter(doc);
-    doc.save('assets.pdf');
-  }
-  addLetterhead(doc: jsPDF) {
-    const headerBackgroundColor = [255, 242, 229];
-    doc.setFillColor.apply(doc, headerBackgroundColor);
-    const rectangleWidth = doc.internal.pageSize.width;
-    const rectangleHeight = 40;
-    doc.rect(0, 0, rectangleWidth, rectangleHeight, 'F');
-
-    const logoWidth = 35;
-    const logoHeight = 30;
-    const logoX = 15;
-    const logoY = 4;
-    doc.addImage('assets/layout/images/calibrage-logo.png', 'PNG', logoX, logoY, logoWidth, logoHeight);
-
-    const additionalTextX = 60;
-    const additionalTextY = 35;
-    const additionalText = 'Tel:+91-40-48525410  Web:WWW.calibrage.in  Email:info@calibrage.in';
-    doc.setFontSize(12);
-    doc.setTextColor(0, 0, 0); // Set text color (black in RGB)
-    doc.text(additionalText, additionalTextX, additionalTextY);
-
-    // Set the position for the address text on the left side
-    const addressX = 220; // Adjust the space between logo and address
-    const addressY = 10; // Adjust the vertical position as needed
-    const addressText =
-      'Calibrage Info System Pvt.Ltd _ Inrhythm Solutions building, _ 4th Floor-4A, PL NO:1023,_Gurukul Society,_Madhapur, Hyderabad-500081.';
-    const fontSize = 12;
-    doc.setFontSize(fontSize);
-    const addressParts = addressText.split('_');
-
-    // Adjust the line height
-    const lineHeight = fontSize * 0.5;
-    doc.setLineHeightFactor(lineHeight);
-
-    // Add each part of the address text on a new line without adding space
-    addressParts.forEach((part, index) => {
-      const yPos = addressY + index * lineHeight;
-      doc.text(part.trim(), addressX, yPos);
-    });
-    doc.setLineHeightFactor(1.2);
   }
 
-  addBodyContent(doc: jsPDF) {
-    const head = [['Asset Type', 'Asset Category', 'Count', 'Employee Name', 'Asset Code', 'Asset Name', 'Purchased Date', 'Model Number', 'Manufacturer',
-      'Serial Number', 'Warranty', 'AddValue', 'Description', 'Status']];
+  // exportPdf() {
+  //   const doc = new jsPDF('l', 'mm', 'a4');
+  //   this.addLetterhead(doc);
+  //   this.addBodyContent(doc);
+  //   this.addFooter(doc);
+  //   doc.save('assets.pdf');
+  // }
+  // addLetterhead(doc: jsPDF) {
+  //   const headerBackgroundColor = [255, 242, 229];
+  //   doc.setFillColor.apply(doc, headerBackgroundColor);
+  //   const rectangleWidth = doc.internal.pageSize.width;
+  //   const rectangleHeight = 40;
+  //   doc.rect(0, 0, rectangleWidth, rectangleHeight, 'F');
 
-    autoTable(doc, {
-      head: head,
-      body: this.toPdfFormat(),
-      startY: 45, // Adjust the starting Y position for the body content
-      headStyles: { fillColor: [255, 129, 14] }
-    });
-  }
+  //   const logoWidth = 35;
+  //   const logoHeight = 30;
+  //   const logoX = 15;
+  //   const logoY = 4;
+  //   doc.addImage('assets/layout/images/calibrage-logo.png', 'PNG', logoX, logoY, logoWidth, logoHeight);
 
-  addFooter(doc: jsPDF) {
-    // Customize the footer as needed
-    const footerText = 'Authorized Signature';
-    doc.setFontSize(12);
-    doc.text(footerText, 243, doc.internal.pageSize.height - 25);
+  //   const additionalTextX = 60;
+  //   const additionalTextY = 35;
+  //   const additionalText = 'Tel:+91-40-48525410  Web:WWW.calibrage.in  Email:info@calibrage.in';
+  //   doc.setFontSize(12);
+  //   doc.setTextColor(0, 0, 0); // Set text color (black in RGB)
+  //   doc.text(additionalText, additionalTextX, additionalTextY);
 
-  }
+  //   // Set the position for the address text on the left side
+  //   const addressX = 220; // Adjust the space between logo and address
+  //   const addressY = 10; // Adjust the vertical position as needed
+  //   const addressText =
+  //     'Calibrage Info System Pvt.Ltd _ Inrhythm Solutions building, _ 4th Floor-4A, PL NO:1023,_Gurukul Society,_Madhapur, Hyderabad-500081.';
+  //   const fontSize = 12;
+  //   doc.setFontSize(fontSize);
+  //   const addressParts = addressText.split('_');
 
-  toPdfFormat() {
-    let data = [];
-    for (let i = 0; i < this.assets.length; i++) {
-      const asset = this.assets[i];
-      const expandAssets = asset.expandassets;
-      // Generate an array with empty strings as needed
-      const numberOfEmptyStrings = 11;
-      const mainGridEmptyStrings = Array(numberOfEmptyStrings).fill('');
-      data.push([
-        asset.assetType,
-        asset.assetCategory,
-        asset.count,
-        ...mainGridEmptyStrings]);
+  //   // Adjust the line height
+  //   const lineHeight = fontSize * 0.5;
+  //   doc.setLineHeightFactor(lineHeight);
 
-      // Push data from expandassets
-      for (let j = 0; j < expandAssets.length; j++) {
-        const expandAsset = expandAssets[j];
-        const numberOfEmptyStrings = 3;
-        const innerGridEmptyStrings = Array(numberOfEmptyStrings).fill('');
-        data.push([
-          ...innerGridEmptyStrings,
-          expandAsset.employeeName,
-          expandAsset.code,
-          expandAsset.name,
-          expandAsset.purchasedDate,
-          expandAsset.modelNumber,
-          expandAsset.manufacturer,
-          expandAsset.serialNumber,
-          expandAsset.warranty,
-          expandAsset.addValue,
-          expandAsset.description,
-          expandAsset.status,
-        ]);
-      }
-    }
-    return data;
-  }
+  //   // Add each part of the address text on a new line without adding space
+  //   addressParts.forEach((part, index) => {
+  //     const yPos = addressY + index * lineHeight;
+  //     doc.text(part.trim(), addressX, yPos);
+  //   });
+  //   doc.setLineHeightFactor(1.2);
+  // }
 
-  downloadAssetsReport(){
+  // addBodyContent(doc: jsPDF) {
+  //   const head = [['Asset Type', 'Asset Category', 'Count', 'Employee Name', 'Asset Code', 'Asset Name', 'Purchased Date', 'Model Number', 'Manufacturer',
+  //     'Serial Number', 'Warranty', 'AddValue', 'Description', 'Status']];
+
+  //   autoTable(doc, {
+  //     head: head,
+  //     body: this.toPdfFormat(),
+  //     startY: 45, // Adjust the starting Y position for the body content
+  //     headStyles: { fillColor: [255, 129, 14] }
+  //   });
+  // }
+
+  // addFooter(doc: jsPDF) {
+  //   // Customize the footer as needed
+  //   const footerText = 'Authorized Signature';
+  //   doc.setFontSize(12);
+  //   doc.text(footerText, 243, doc.internal.pageSize.height - 25);
+
+  // }
+
+  // toPdfFormat() {
+  //   let data = [];
+  //   for (let i = 0; i < this.assets.length; i++) {
+  //     const asset = this.assets[i];
+  //     const expandAssets = asset.expandassets;
+  //     // Generate an array with empty strings as needed
+  //     const numberOfEmptyStrings = 11;
+  //     const mainGridEmptyStrings = Array(numberOfEmptyStrings).fill('');
+  //     data.push([
+  //       asset.assetType,
+  //       asset.assetCategory,
+  //       asset.count,
+  //       ...mainGridEmptyStrings]);
+
+  //     // Push data from expandassets
+  //     for (let j = 0; j < expandAssets.length; j++) {
+  //       const expandAsset = expandAssets[j];
+  //       const numberOfEmptyStrings = 3;
+  //       const innerGridEmptyStrings = Array(numberOfEmptyStrings).fill('');
+  //       data.push([
+  //         ...innerGridEmptyStrings,
+  //         expandAsset.employeeName,
+  //         expandAsset.code,
+  //         expandAsset.name,
+  //         expandAsset.purchasedDate,
+  //         expandAsset.modelNumber,
+  //         expandAsset.manufacturer,
+  //         expandAsset.serialNumber,
+  //         expandAsset.warranty,
+  //         expandAsset.addValue,
+  //         expandAsset.description,
+  //         expandAsset.status,
+  //       ]);
+  //     }
+  //   }
+  //   return data;
+  // }
+
+  downloadAssetsReport() {
     this.reportService.DownloadAssets(this.selectedAssetTypeId)
-    .subscribe((resp)=>
-      {
+      .subscribe((resp) => {
         if (resp.type === HttpEventType.DownloadProgress) {
           const percentDone = Math.round(100 * resp.loaded / resp.total);
           this.value = percentDone;
@@ -433,6 +436,89 @@ onCrop(image: File): void {
           const document = window.URL.createObjectURL(file);
           FileSaver.saveAs(document, "AssetsReport.csv");
         }
-    })
+      })
   }
+
+
+  getBase64ImageFromURL(url: string) {
+    return new Promise((resolve, reject) => {
+      var img = new Image();
+      img.setAttribute("crossOrigin", "anonymous");
+
+      img.onload = () => {
+        var canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        var ctx = canvas.getContext("2d");
+        ctx!.drawImage(img, 0, 0);
+        var dataURL = canvas.toDataURL("image/png");
+        resolve(dataURL);
+      };
+
+      img.onerror = error => {
+        reject(error);
+      };
+
+      img.src = url;
+    });
+  }
+
+  async exportPdf() {
+    // const pageSize = { width: 595.28, height: 841.89 };
+    const pageSize = { width: 841.89, height: 595.28 };
+    const headerImage = await this.getBase64ImageFromURL('assets/layout/images/head.JPG')
+    const footerSize = { width: 841.90, height: 40.99 };
+    const footerImage = await this.getBase64ImageFromURL('assets/layout/images/footer.JPG')
+    const AssetsList = this.generateAssetsList();
+    const docDefinition = {
+      pageOrientation: 'landscape',
+      pageSize: pageSize,
+      header: () => ({ image: headerImage, width: pageSize.width, height: pageSize.height * 0.15, margin: [0, 0, 0, 0] }),
+      footer: () => ({image: footerImage, width: footerSize.width, height: footerSize.height, margin: [0, 10, 0, 0] }),
+      content: [
+        { text: 'Assets List\n', style: 'header', alignment: 'center', color: '#ff810e', },
+        AssetsList
+      ],
+      pageMargins: [50, 90, 40, 40],
+      styles: {
+        header: { fontSize: 25 },
+        subheader: { fontSize: 15, alignment: 'center', color: '#ff810e', },
+        borderedText: { border: [1, 1, 1, 1], borderColor: 'rgb(0, 0, 255)', fillColor: '#eeeeee', width: 100, height: 150, margin: [12, 20, 0, 0] },
+        defaultStyle: { font: 'Typography', fontSize: 12 },
+      },
+    };
+    pdfMake.createPdf(docDefinition).download('AssetsReport.pdf');
+  }
+
+  generateAssetsList(): any {
+    const content = [
+      [
+        { text: 'Assets Code', style: 'subheader' },
+        { text: 'Assets Name', style: 'subheader' },
+        { text: 'Asset Type', style: 'subheader' },
+        { text: 'Asset Category', style: 'subheader' },
+        { text: 'Purchased Date', style: 'subheader' },
+        { text: 'Employee Name', style: 'subheader' },
+        {  text: 'Employee Code', style: 'subheader'},
+      ],
+      ...this.assets.flatMap(asset => {
+        return asset.expandassets.map(assetDtls => ([
+          assetDtls.code || '',
+          assetDtls.name || '',
+          assetDtls.assetType || '',
+          assetDtls.assetCategory || '',
+          assetDtls.purchasedDate ? new Date(assetDtls.purchasedDate).toLocaleDateString() : '',
+          assetDtls.employeeName || '',
+          assetDtls.employeecode || ''
+        ]));
+      })
+    ];
+    return {
+      table: {
+        headerRows: 1,
+        body: content,
+      },
+    };
+  }
+
 }

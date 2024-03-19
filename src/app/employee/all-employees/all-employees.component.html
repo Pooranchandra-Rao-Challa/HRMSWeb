@@ -1,5 +1,5 @@
 <div class="grid">
-  <div class="col-12">
+  <div class="col-12  ">
     <div class="card">
       <p-dataView #dv [value]="employees" [paginator]="dv._layout ==  'grid' && dv.rows > 10" [rows]="12"
         filterBy="employeeName,code,employeeRoleName,dateofJoin,officeEmailId,mobileNumber,certificateDOB,gender"
@@ -17,7 +17,11 @@
             <div class="flex">
               <div *ngIf="permissions?.CanDownloadEmployees">
                 <span>
-                  <button pButton class="p-button doc_button mr-2" icon="icon-csv-svgrepo-com-1" pTooltip="Download CSV"
+                  <button pButton class="p-button doc_button mr-2" icon="pi pi-file-pdf" pTooltip="Download Employees PDF"
+                    tooltipPosition="left" (click)="downloadEmployeespdf()"></button>
+                </span>
+                <span>
+                  <button pButton class="p-button doc_button mr-2" icon="icon-csv-svgrepo-com-1" pTooltip="Download Employees CSV"
                     tooltipPosition="left" (click)="downloadEmployeesReport()"></button>
                 </span>
               </div>
@@ -37,7 +41,7 @@
                 styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm pb-5" [paginator]="true"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                 [showCurrentPageReport]="true" [alwaysShowPaginator]="false" [globalFilterFields]="globalFilterFields"
-                [autoLayout]="true" responsiveLayout="scroll" [rowsPerPageOptions]="[10,25,50]">
+                [rowsPerPageOptions]="[10,25,50]" [autoLayout]="true" responsiveLayout="scroll" [resizableColumns]="true" >
                 <ng-template pTemplate="caption">
                   <div class="flex justify-content-between flex-column sm:flex-row">
                     <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
@@ -66,7 +70,7 @@
                     <td class="text-center">
                       <img
                         [src]="employee.photo ? employee.photo : employee?.gender == 'Male' ?  './assets/layout/images/men-emp.jpg' : './assets/layout/images/women-emp.jpg'"
-                        [alt]="employee.employeeName" class="my-4 md:my-0 w-10 md:w-10rem shadow-2 mr-2" />
+                        [alt]="employee.employeeName" class="my-4 md:my-0 w-10 md:w-2rem shadow-2 mr-2" />
                     </td>
                     <td class="text-center" *ngFor="let col of headers">
                       <span
@@ -127,8 +131,8 @@
                   <br />
                   <span class="text-600 font-medium text-md text-color">
                     <i class="pi pi-star text-500 text-primary text-1xl  pb-1"
-                    pTooltip="Role" tooltipPosition="top"></i> :
-                    {{employee?.employeeRoleName }}
+                    pTooltip="Designation" tooltipPosition="top"></i> :
+                    {{employee?.designation }}
                   </span>
                   <br />
                   <span class="text-600 font-medium text-md text-color">

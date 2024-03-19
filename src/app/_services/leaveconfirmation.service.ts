@@ -32,9 +32,23 @@ export class LeaveConfirmationService extends ApiHttpService {
         title: 'swal_title',
         footer: 'swal-footer',
       },
+      didOpen: () => {
+        const textarea = Swal.getInput();
+      if (textarea) {
+        textarea.addEventListener('mousedown', (event) => {
+          // Check if the mousedown event target is the textarea
+          if (textarea) {
+            event.preventDefault();
+          }
+        });
+        textarea.addEventListener('mouseenter', () => {
+          textarea.focus(); // Focus the textarea when mouse enters
+        });
+      }
+      }
     }).then((result) => {
       if (result.isConfirmed) {
-        const textareaValue = (document.getElementById('textarea') as HTMLTextAreaElement).value;;
+        const textareaValue = (document.getElementById('textarea') as HTMLTextAreaElement).value;
         this.result.next({ confirmed: true, description: textareaValue });
       } else {
         this.result.next({ confirmed: false });
@@ -43,19 +57,14 @@ export class LeaveConfirmationService extends ApiHttpService {
     document.querySelector('.swal-button--confirm')?.addEventListener('click', () => {
       const result = Swal.getPopup().querySelector('textarea');
       const textareaValue = result ? result.value.trim() : '';
-      if (textareaValue.length > 0) {
-        if (textareaValue.length < 8 || textareaValue.length > 256) {
-          if (textareaValue.length < 8) {
-            Swal.showValidationMessage('Please Enter Description Minimum 8 Characters');
-          } else {
-            Swal.showValidationMessage('Please Enter Description Maximum 256 Characters');
-          }
-          return false;
-        }
+      if (textareaValue.length === 0 || textareaValue.length < 8 || textareaValue.length > 256) {
+        Swal.showValidationMessage('Please Enter a Description between 8 and 256 Characters');
+        return false;
+      } else {
+        this.result.next({ confirmed: true, description: textareaValue });
+        Swal.close();
+        return true;
       }
-      this.result.next({ confirmed: true, description: textareaValue });
-      Swal.close();
-      return true;
     });
     document.querySelector('.swal-button--cancel')?.addEventListener('click', () => {
       Swal.close();

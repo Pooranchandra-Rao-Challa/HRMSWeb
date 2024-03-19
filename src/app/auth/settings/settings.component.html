@@ -10,13 +10,13 @@
                             Password:</label>
                         <div>
                             <input id="password" type="{{ showPassword ? 'text' : 'password' }}"
-                                formControlName="password" placeholder="Enter Current Password" pInputText
+                                formControlName="password" placeholder="Current Password" pInputText
                                 class="w-full md:w-100  mb-2"
-                                pattern="^(?!.* )(?=.*\d)(?=.*[A-Z])(?=.*[!@#$%^&*_=+-]).{8,25}$" [maxlength]="25"
+                                pattern="^(?!.* )(?=.*\d)(?=.*[A-Z])(?=.*[!@#$%^&*_=+-.]).{8,25}$" [maxlength]="25"
                                 [ngClass]="{ 'is-invalid ng-dirty': FormControls['password'].touched && FormControls['password'].errors }">
                             <span class="p-input-icon-right mb-1">
                                 <i class="pi" [ngClass]="{ 'pi-eye': !showPassword, 'pi-eye-slash': showPassword }"
-                                (click)="togglePasswordVisibility('password')"></i>
+                                    (click)="togglePasswordVisibility('password')"></i>
                             </span>
                         </div>
                         <span *ngIf="FormControls['password'].touched && FormControls['password'].invalid">
@@ -31,10 +31,9 @@
                         <label for="newPassword" class="block text-900 font-medium text-md required mb-1 mt-2">New
                             Password:</label>
                         <div>
-                            <p-password [toggleMask]="true" id="new-password"
-                                formControlName="newPassword" placeholder="Enter New Password" 
-                                class="w-full  mb-2  p-password_cus"
-                                pattern="^(?!.* )(?=.*\d)(?=.*[A-Z])(?=.*[!@#$%^&*_=+-]).{8,25}$" [maxlength]="25"
+                            <p-password [toggleMask]="true" id="new-password" formControlName="newPassword"
+                                placeholder="New Password" class="w-full  mb-2  p-password_cus" [maxLength]="25"
+                                pattern="^(?!.* )(?=.*\d)(?=.*[A-Z])(?=.*[!@#$%^&*_=+-.]).{8,25}$" [maxlength]="25"
                                 [ngClass]="{ 'is-invalid ng-dirty': FormControls['newPassword'].touched && FormControls['newPassword'].errors }">
                                 <ng-template pTemplate="header">
                                     <h6>Pick a password</h6>
@@ -65,14 +64,12 @@
                                 characters and numbers with special characters between 8 to 25 length</div>
                         </span>
                         <label for="confirmPassword"
-                            class="block text-900 font-medium text-md required mb-1 mt-2">Confirm
-                            Password:</label>
+                            class="block text-900 font-medium text-md required mb-1 mt-2">Confirm New Password:</label>
                         <div>
                             <p-password [toggleMask]="true" id="confirm-password" formControlName="confirmPassword"
-                               formControlName="confirmPassword"
-                                placeholder="Enter Confirm Password"  class="mb-2 p-password_cus"
-                                inputStyle="w-full"
-                                pattern="^(?!.* )(?=.*\d)(?=.*[A-Z])(?=.*[!@#$%^&*_=+-]).{8,25}$" [maxlength]="25"
+                                formControlName="confirmPassword" placeholder="Confirm New Password"
+                                class="mb-2 p-password_cus" inputStyle="w-full" [maxLength]="25"
+                                pattern="^(?!.* )(?=.*\d)(?=.*[A-Z])(?=.*[!@#$%^&*_=+-.]).{8,25}$" [maxlength]="25"
                                 [ngClass]="{ 'is-invalid ng-dirty': FormControls['confirmPassword'].touched && FormControls['confirmPassword'].errors }">
                                 <ng-template pTemplate="header">
                                     <h6>Pick a password</h6>
@@ -83,6 +80,7 @@
                                     <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
                                         <li>At least one lowercase</li>
                                         <li>At least one uppercase</li>
+                                        <li>At least one special character</li>
                                         <li>At least one numeric</li>
                                         <li>Minimum 8 characters</li>
                                     </ul>
@@ -97,7 +95,7 @@
                             *ngIf="FormControls['confirmPassword'].touched && FormControls['confirmPassword'].invalid">
                             <div class="ng-invalid ng-touched p-error"
                                 *ngIf="FormControls['confirmPassword'].errors?.['required']">
-                                Please Enter Confirm Password.</div>
+                                Please Enter Confirm New Password.</div>
                             <div class="ng-invalid ng-touched p-error"
                                 *ngIf="FormControls['confirmPassword'].errors?.['pattern']">
                                 Confirm Password must be 1 lower & upper case
@@ -115,7 +113,7 @@
             </p-tabPanel>
 
             <p-tabPanel header="Edit Security Questions" class="line-height-3 m-0 col-12">
-                <div class="cad p-5 pt-0">
+                <div class="cad p-0 pt-0">
                     <div class="note">
                         <p class="head_note">Note:</p>
                         <ol>
@@ -150,10 +148,10 @@
                         <ng-template pTemplate="body" let-securityQuestion>
                             <tr>
                                 <td><button pButton pRipple icon="pi pi-pencil" id="edit-dialog"
-                                        class="p-element p-ripple p-button-text p-button p-component m-2"
+                                        class="p-element p-ripple p-button-text p-button p-component m-2 p-0"
                                         (click)="editSecurityQuestion(securityQuestion)"></button>
                                     <button pButton pRipple icon="pi pi-trash" id="delete"
-                                        class="p-element p-ripple p-button-text p-button p-component m-2"
+                                        class="p-element p-ripple p-button-text p-button p-component m-2 p-0"
                                         (click)="deleteSecurityQuestion(securityQuestion.userQuestionId)"
                                         *ngIf="userQuestions.length>2"></button>
                                 </td>
@@ -191,7 +189,8 @@
                                 [ngClass]="{'error': !security.answer && (answer.dirty || answer.touched)}">
                                 <label class="required" for="Answer">Answer</label>
                                 <input type="text" pInputText name="Answer" id="Answer" placeholder="Enter Answer"
-                                    [(ngModel)]="security.answer" required #answer="ngModel" />
+                                    [(ngModel)]="security.answer" required #answer="ngModel" [maxLength]="50"
+                                    (keydown)="restrictSpaces($event)" />
                                 <span *ngIf="!security.answer && (answer.dirty || answer.touched)">
                                     <div class="ng-invalid ng-touched p-error">
                                         Please Enter Answer.</div>

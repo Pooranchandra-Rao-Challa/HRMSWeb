@@ -21,8 +21,9 @@
             <div style="margin-bottom: 15px;">
                 <label class="required">Comment:</label>&nbsp;
                 <textarea rows="5" cols="30" pInputTextarea formControlName="comments" #note
+                    (keydown)="restrictSpaces($event)"
                     [ngClass]="{ 'is-invalid ng-dirty': FormControls['comments'].touched && FormControls['comments'].errors }"
-                    [maxlength]="256" placeholder="Enter Comment" id="comment"></textarea>
+                    placeholder="Enter Comment" id="comment"></textarea>
                 <div class="flex">
                     <div class="align-left w-60" style="width:70%">
                         <span *ngIf="FormControls['comments'].touched && FormControls['comments'].invalid">
@@ -30,9 +31,6 @@
                                 *ngIf="FormControls['comments'].errors?.['required']">
                                 Please Enter Comment.</div>
                         </span>
-                    </div>
-                    <div class="align-right w-40" style="width:30%; text-align:right;">
-                        <small>{{note.value.length}}/256</small>
                     </div>
                 </div>
             </div>

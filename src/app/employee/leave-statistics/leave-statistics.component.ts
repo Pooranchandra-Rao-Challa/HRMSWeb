@@ -13,6 +13,7 @@ import { JwtService } from 'src/app/_services/jwt.service';
 import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { LeavestatisticsDialogComponent } from 'src/app/_dialogs/leavestatistics.dialog/leavestatistics.dialog.component';
 import { Router } from '@angular/router';
+import { PrimeNGConfig,MenuItem } from 'primeng/api';
 
 enum LeavesReportType {
   CompleteLeavesReport = 'Complete Leaves Report',
@@ -27,6 +28,7 @@ enum LeavesReportType {
   ]
 })
 export class LeaveStatisticsComponent {
+  items: MenuItem[] | undefined;
   globalFilterFields: string[] = ['name', 'experienceInCompany', 'dateofJoin', 'reportingTo', 'allottedCasualLeaves', 'allottedPrivilegeLeaves',
     'usedCasualLeavesInYear', 'usedCasualLeavesInMonth', 'usedPrivilegeLeavesInYear', 'usedPrivilegeLeavesInMonth', 'usedLWPInYear',
     'usedLWPInMonth', 'previousYearPrivilegeLeaves', 'absentsInYear', 'absentsInMonth'];
@@ -44,19 +46,20 @@ export class LeaveStatisticsComponent {
   value: number;
   computedCLs: number[];
   computedPLs: number[];
-  addDialog:boolean = false;
+  addDialog: boolean = false;
   leaveReportTypes: any[];
   selectedColumnHeader!: ITableHeader[];
   _selectedColumns!: ITableHeader[];
+  // items: any[];
 
   headers: ITableHeader[] = [
     { field: 'name', header: 'name', label: 'Employee Name' },
     { field: 'experienceInCompany', header: 'experienceInCompany', label: 'Exp In Company' },
     { field: 'dateofJoin', header: 'dateofJoin', label: 'DOJ' },
     { field: 'reportingTo', header: 'reportingTo', label: 'Reporting To' },
-    { field: 'previousYearPrivilegeLeaves', header: 'previousYearPrivilegeLeaves', label: 'Previous PL(Year)' },
-    { field: 'allottedCasualLeaves', header: 'allottedCasualLeaves', label: 'Allotted CL' },
-    { field: 'allottedPrivilegeLeaves', header: 'allottedPrivilegeLeaves', label: 'Allotted PL' },
+    { field: 'previousYearPrivilegeLeaves', header: 'previousYearPrivilegeLeaves', label: 'Carry Forward PLs' },
+    { field: 'allottedCasualLeaves', header: 'allottedCasualLeaves', label: 'Allocated CL' },
+    { field: 'allottedPrivilegeLeaves', header: 'allottedPrivilegeLeaves', label: 'Allocated PL' },
     { field: 'availableCLs', header: 'availableCLs', label: 'Available CLs' },
     { field: 'availablePLs', header: 'availablePLs', label: 'Available PLs' },
     { field: 'usedCasualLeavesInYear', header: 'usedCasualLeavesInYear', label: 'Used CL(Year)' },
@@ -64,6 +67,7 @@ export class LeaveStatisticsComponent {
     { field: 'usedLWPInYear', header: 'usedLWPInYear', label: 'Used LWP(Year)' },
     { field: 'workingFromHomeInYear', header: 'workingFromHomeInYear', label: ' Used WFH(Year)' }
   ];
+  
   constructor(
     private globalFilterService: GlobalFilterService,
     private employeeService: EmployeeService,
@@ -71,9 +75,24 @@ export class LeaveStatisticsComponent {
     public ref: DynamicDialogRef,
     private reportService: ReportService,
     private jwtService: JwtService,
-    private router: Router
+    private router: Router,
+    private primengConfig: PrimeNGConfig
   ) {
+    this.items = [
+      {
+        label: 'Update',
+        icon: 'pi pi-refresh',
+        command: () => {
+          this.update();
+        }
+      },
+    ];
+  }
 
+  save(severity: string) {
+  }
+
+  update() {
   }
 
   set selectedColumns(val: any[]) {
@@ -84,6 +103,7 @@ export class LeaveStatisticsComponent {
   }
 
   ngOnInit(): void {
+    this.primengConfig.ripple = true;
     this.permissions = this.jwtService.Permissions;
     this.getLeaves();
     this.getLeavesReportTypeOptions();
@@ -106,6 +126,8 @@ export class LeaveStatisticsComponent {
   clear(table: Table) {
     table.clear();
     this.filter.nativeElement.value = '';
+    this.selectedColumns=[];
+    this.leaveReportTypes=[];
   }
 
   getLeaves() {
@@ -187,26 +209,33 @@ export class LeaveStatisticsComponent {
     }
   }
 
+  DownloadLeavesPdf(name: string) {
+    if (name == LeavesReportType.CompleteLeavesReport)
+      this.downloadLeavesReport();
+    else if (name == LeavesReportType.AsOnDateLeavesReport)
+      this.downloadLeavesAsOnDate();
+  }
+
   openComponentDialog(content: any,
     dialogData, action: Actions = this.ActionTypes.save) {
-      if(this.year != (new Date().getFullYear())){
-       this.addDialog = true;
-      }else{
-        if (action == Actions.save && content === this.leavestatisticsDialogComponent) {
-          this.dialogRequest.dialogData = dialogData;
-          this.dialogRequest.header = "Leave Statistics";
-          this.dialogRequest.width = "60%";
-        }
-        this.ref = this.dialogService.open(content, {
-          data: this.dialogRequest.dialogData,
-          header: this.dialogRequest.header,
-          width: this.dialogRequest.width
-        });
-        this.ref.onClose.subscribe((res: any) => {
-          if (res) this.getLeaves();
-          event.preventDefault(); // Prevent the default form submission
-        });
-
+    if (this.year != (new Date().getFullYear())) {
+      this.addDialog = true;
+    } else {
+      if (action == Actions.save && content === this.leavestatisticsDialogComponent) {
+        this.dialogRequest.dialogData = dialogData;
+        this.dialogRequest.header = "Leave Statistics";
+        this.dialogRequest.width = "60%";
       }
+      this.ref = this.dialogService.open(content, {
+        data: this.dialogRequest.dialogData,
+        header: this.dialogRequest.header,
+        width: this.dialogRequest.width
+      });
+      this.ref.onClose.subscribe((res: any) => {
+        if (res) this.getLeaves();
+        event.preventDefault(); // Prevent the default form submission
+      });
+
+    }
   }
 }

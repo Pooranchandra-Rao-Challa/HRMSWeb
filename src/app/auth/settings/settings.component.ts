@@ -130,6 +130,18 @@ export class SettingsComponent {
         });
     }
 
+    restrictSpaces(event: KeyboardEvent) {
+        const target = event.target as HTMLInputElement;
+        // Prevent the first key from being a space
+        if (event.key === ' ' && (<HTMLInputElement>event.target).selectionStart === 0)
+            event.preventDefault();
+
+        // Restrict multiple spaces
+        if (event.key === ' ' && target.selectionStart > 0 && target.value.charAt(target.selectionStart - 1) === ' ') {
+            event.preventDefault();
+        }
+    }
+
     filterSecureQuestions(security: UserQuestionDto = {}) {
         if (this.userQuestions && this.allSecureQuestions) {
             const filteredQuestions = this.allSecureQuestions.filter((secureQuestion) => {

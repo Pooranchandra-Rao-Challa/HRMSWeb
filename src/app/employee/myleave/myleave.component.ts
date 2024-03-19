@@ -47,12 +47,12 @@ export class MyleaveComponent {
   ];
 
   headers: ITableHeader[] = [
-    { field: 'status', header: 'status', label: 'Status' },
+    // { field: 'status', header: 'status', label: 'Status' },
     { field: 'leaveType', header: 'leaveType', label: 'Leave Type' },
     { field: 'fromDate', header: 'fromDate', label: 'From Date' },
     { field: 'toDate', header: 'toDate', label: 'To Date' },
     { field: 'isHalfDayLeave', header: 'isHalfDayLeave', label: 'Half Day Leave' },
-    { field: 'isDeleted', header: 'isDeleted', label: 'Declined' },
+    { field: 'isDeleted', header: 'isDeleted', label: 'Deleted' },
     { field: 'acceptedAt', header: 'acceptedAt', label: 'Accepted At' },
     { field: 'approvedAt', header: 'approvedAt', label: 'Approved At' },
   ];
@@ -104,6 +104,7 @@ export class MyleaveComponent {
   clear(table: Table) {
     table.clear();
     this.filter.nativeElement.value = '';
+    this.selectedColumns = [];
   }
 
   deleteleaveDetails(employeeLeaveId) {
