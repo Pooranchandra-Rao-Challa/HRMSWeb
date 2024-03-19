@@ -20,6 +20,7 @@ import * as FileSaver from "file-saver";
 import { ConfirmationDialogService } from 'src/app/_alerts/confirmationdialog.service';
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-employeeleaves',
   templateUrl: './employeeleaves.component.html',
@@ -53,7 +54,7 @@ export class EmployeeLeavesComponent {
   selectedStatus: any;
   value: number;
   employeeRole: any;
-
+  currentRoute: any;
 
   statuses: any[] = [
     { name: 'Pending', key: 'P' },
@@ -84,6 +85,7 @@ export class EmployeeLeavesComponent {
     public alertMessage: AlertmessageService,
     private leaveConfirmationService: LeaveConfirmationService,
     private datePipe: DatePipe,
+    private router: Router,
     private confirmationDialogService: ConfirmationDialogService) {
     this.selectedMonth = FORMAT_DATE(new Date(this.year, this.month - 1, 1));
     this.selectedMonth.setHours(0, 0, 0, 0);
@@ -198,9 +200,9 @@ export class EmployeeLeavesComponent {
     }
   }
 
-  openSweetAlert(title: string, leaves: EmployeeLeaveDto) {
+  openSweetAlert(title: string, leaves: EmployeeLeaveDto, currentRoute) {
     const buttonLabel = title === 'Reason For Approve' ? 'Approve' : (title === 'Reason For Accept' ? 'Accept' : 'Reject')
-    this.leaveConfirmationService.openDialogWithInput(title, buttonLabel).subscribe((result) => {
+    this.leaveConfirmationService.openDialogWithInput(title, buttonLabel, currentRoute).subscribe((result) => {
       if (result && result.description !== undefined) {
         this.leaveData = leaves;
         this.selectedAction = title;
