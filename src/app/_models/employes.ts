@@ -368,6 +368,7 @@ export class EmployeeLeaveDto {
 	isDeleted?: boolean;
 	isLeaveUsed?: boolean;
 	isFromAttendance?: boolean;
+	confirmedToSplitWFH?:boolean;
 	leaveType?: string;
 	note?: string;
 	previousWorkStatusId?: number

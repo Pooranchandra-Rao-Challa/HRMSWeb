@@ -159,3 +159,17 @@
         </div>
     </ng-template>
 </p-dialog>
+
+<p-dialog header="Confirmation" [(visible)]="dialogforWFH" [modal]="true" showEffect="fade"
+    [breakpoints]="{'960px': '40%', '640px': '50%'}" class="confirmation_dialog">
+    <p class="p-5">
+        Your leave request is within the WFH span. will you want to split this,Please confirm this by Clicking 'Confirm'
+        else 'Cancel'.
+    </p>
+    <ng-template pTemplate="footer">
+        <div style="float:right" class="p-2">
+            <button pButton type="button" class="btn btn-primary" label="Confirm" (click)="onSubmit()"></button>
+            <button pButton type="button" class="btn btn-primary" label="Cancel" (click)="onClose()"></button>
+        </div>
+    </ng-template>
+</p-dialog>
