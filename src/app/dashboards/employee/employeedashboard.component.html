@@ -100,10 +100,10 @@
                                     </h4>
                                 </div>
                                 <div class="overview-ifo">
-                                    <p class="m-0 mb-1 text-primary  text-500">Available </p>
-                                    <p class="m-0 text-gray-500  text-500"><b>{{
+                                    <h6 class="m-0 mb-1 ">Available </h6>
+                                    <h4 class="m-0 mt-2"><b>{{
                                             empDetails?.allottedPrivilegeLeaves-empDetails?.usedPrivilegeLeavesInYear}}</b>
-                                    </p>
+                                    </h4>
                                 </div>
                             </div>
                             <hr class="primary_hr" />
@@ -131,8 +131,8 @@
                                 </div>
                                 <div class="overview-info"
                                     *ngIf="empDetails?.allottedPrivilegeLeaves > 0 && empDetails?.usedPrivilegeLeavesInYear !== empDetails?.allottedPrivilegeLeaves">
-                                    <h6 class="m-0 mb-1 ">Apply PL </h6>
-                                    <i class="pi icon-calendar  text-6xl att-pointer" label="Primary"
+                                    <p class="m-0 mb-1 text-primary  text-500">Apply PL </p>
+                                    <i class="pi icon-calendar text-4xl att-pointer" label="Primary"
                                         pTooltip="Apply PL" tooltipPosition="right"
                                         (click)="openComponentDialog(employeeleaveDialogComponent, 'PL', ActionTypes.save)"></i>
                                 </div>
@@ -158,10 +158,10 @@
                                     </h4>
                                 </div>
                                 <div class="overview-ifo">
-                                    <p class="m-0 mb-1  text-primary text-500">Available </p>
-                                    <p class="m-0  text-500"><b>{{
+                                    <h6 class="m-0 mb-1 ">Available </h6>
+                                    <h4 class="m-0 mt-2"><b>{{
                                             empDetails?.allottedCasualLeaves-empDetails?.usedCasualLeavesInYear}}</b>
-                                    </p>
+                                    </h4>
                                 </div>
                             </div>
                             <hr class="primary_hr" />
@@ -188,8 +188,8 @@
                                 </div>
                                 <div class="overview-info"
                                     *ngIf="empDetails?.allottedCasualLeaves > 0 && empDetails?.usedCasualLeavesInYear !== empDetails?.allottedCasualLeaves">
-                                    <h6 class="m-0 mb-1 ">Apply CL </h6>
-                                    <i class="pi icon-calendar text-white text-6xl att-pointer" label="Primary"
+                                    <p class="m-0 mb-1 text-primary  text-500">Apply CL </p>
+                                    <i class="pi icon-calendar text-white text-4xl att-pointer" label="Primary"
                                         pTooltip="Apply CL" tooltipPosition="right"
                                         (click)="openComponentDialog(employeeleaveDialogComponent, 'CL', ActionTypes.save)"></i>
                                 </div>
@@ -507,11 +507,11 @@
 
 <p-dialog header="Team Members" [(visible)]="teamMembersDialog" [modal]="true" showEffect="fade"
     [breakpoints]="{'960px': '40%', '640px': '50%'}" class="confirmation_dialog">
-    <div class="grid">
-        <div *ngFor="let employees of this.projectsData">
-            <div class="card border-1 surface-border" *ngFor="let employee of employees.members">
-                <div>
-                    <div class="text-xl font-bold">{{employee.employeeName}}</div>
+    <div class="flex flex-column align-items-center justify-content-center">
+        <div class="grid mt-1" *ngFor="let employees of this.projectsData">
+            <div class="col-6"  *ngFor="let employee of employees.members" >
+                <div class="card border-1 surface-border" style="min-height:150px;">
+                    <div class="text-xl font-bold text-primary">{{employee.employeeName}}</div>
                     <div class="text-600 font-medium text-sm">EmpID: {{employee.employeeCode}}</div>
                     <div class="text-600 font-medium text-sm">Designation: {{employee.designationName}}</div>
                 </div>
