@@ -211,17 +211,6 @@ export class EmployeeLeaveDialogComponent implements OnInit {
   getLeaveReasonsByLeaveTypeId(id: number) {
     this.lookupService.LeaveReasons(id).subscribe(resp => {
       this.leaveReasons = resp as unknown as LookupViewDto[];
-      this.leaveReasons.sort((a, b) => {
-        const reasonA = a.name.toUpperCase();
-        const reasonB = b.name.toUpperCase();
-        if (reasonA < reasonB) {
-          return -1;
-        }
-        if (reasonA > reasonB) {
-          return 1;
-        }
-        return 0;
-      });
     })
   }
 

@@ -53,8 +53,6 @@ export class LeaveconfirmationComponent {
         let title = `Reason For ${this.employeeleavedetails.action}`;
         this.disbaleAction = true;
         this.leaveConfirmationService.openDialogWithInput(title, buttonLabel, this.currentRoute).subscribe((result) => {
-            console.log(result);
-            
             if (result && result.description !== undefined) {
                 const employeeLeaveDetails: EmployeeLeaveDetailsDto = {
                     employeeId: this.employeeleavedetails.leaveDto.employeeId,
