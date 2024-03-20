@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { EmployeeLeaveDetailsDto, EmployeeLeaveDetailsViewDto } from 'src/app/_models/employes';
@@ -22,10 +22,12 @@ export class LeaveconfirmationComponent {
     isReject: boolean = false;
     action: string = "";
     actionFrom: string = "";
+    currentRoute: any;
 
     constructor(private leaveConfirmationService: LeaveConfirmationService,
         private activatedRoute: ActivatedRoute,
-        public alertMessage: AlertmessageService) {
+        public alertMessage: AlertmessageService,
+        private router: Router,) {
         this.protectedData = this.activatedRoute.snapshot.queryParams['key'];
         this.protectedWith = this.activatedRoute.snapshot.queryParams['key2'];
         this.actionFrom = this.activatedRoute.snapshot.queryParams['actionFrom'];
@@ -50,7 +52,7 @@ export class LeaveconfirmationComponent {
         const buttonLabel = this.employeeleavedetails.action;
         let title = `Reason For ${this.employeeleavedetails.action}`;
         this.disbaleAction = true;
-        this.leaveConfirmationService.openDialogWithInput(title, buttonLabel).subscribe((result) => {
+        this.leaveConfirmationService.openDialogWithInput(title, buttonLabel, this.currentRoute).subscribe((result) => {
             if (result && result.description !== undefined) {
                 const employeeLeaveDetails: EmployeeLeaveDetailsDto = {
                     employeeId: this.employeeleavedetails.leaveDto.employeeId,
@@ -59,43 +61,49 @@ export class LeaveconfirmationComponent {
                     protectedData: this.protectedData,
                     protectedWith: this.protectedWith,
                     comments: result.description,
+                    username: result.username,
+                    password: result.password
                 };
-                this.leaveConfirmationService.UpdateEmployeeLeaveDetails(employeeLeaveDetails).subscribe((resp) => {
-                    let rdata = resp as unknown as any;
-                    if (rdata.isSuccess) {
-                        this.showConfirmationMessage = true;
-                        const leaveType = this.employeeleavedetails?.leaveDto?.getLeaveType;
-                        const action = this.employeeleavedetails.action;
-                        if (action === 'Reject') {
-                            if (leaveType === 'PL') {
-                                this.alertMessage.displayMessageforLeave(ALERT_CODES["ALC004_PL"]);
-                            } else if (leaveType === 'CL') {
-                                this.alertMessage.displayMessageforLeave(ALERT_CODES["ALC005_CL"]);
-                            } else if (leaveType === 'WFH') {
-                                this.alertMessage.displayMessageforLeave(ALERT_CODES["ALC006_WFH"]);
+                this.leaveConfirmationService.UpdateEmployeeLeaveDetails(employeeLeaveDetails).subscribe(
+                    (resp) => {
+                        let rdata = resp as any;
+                        if (rdata.isSuccess) {
+                            this.showConfirmationMessage = true;
+                            const leaveType = this.employeeleavedetails?.leaveDto?.getLeaveType;
+                            const action = this.employeeleavedetails.action;
+                            if (action === 'Reject') {
+                                if (leaveType === 'PL') {
+                                    this.alertMessage.displayMessageforLeave(ALERT_CODES["ALC004_PL"]);
+                                } else if (leaveType === 'CL') {
+                                    this.alertMessage.displayMessageforLeave(ALERT_CODES["ALC005_CL"]);
+                                } else if (leaveType === 'WFH') {
+                                    this.alertMessage.displayMessageforLeave(ALERT_CODES["ALC006_WFH"]);
+                                }
+                            } else if (action === 'Accept') {
+                                if (leaveType === 'PL') {
+                                    this.alertMessage.displayAlertMessage(ALERT_CODES["ALC007_PL"]);
+                                } else if (leaveType === 'CL') {
+                                    this.alertMessage.displayAlertMessage(ALERT_CODES["ALC008_CL"]);
+                                } else if (leaveType === 'WFH') {
+                                    this.alertMessage.displayAlertMessage(ALERT_CODES["ALC009_WFH"]);
+                                }
+                            } else {
+                                if (leaveType === 'PL') {
+                                    this.alertMessage.displayAlertMessage(ALERT_CODES["ALC001_PL"]);
+                                } else if (leaveType === 'CL') {
+                                    this.alertMessage.displayAlertMessage(ALERT_CODES["ALC002_CL"]);
+                                } else if (leaveType === 'WFH') {
+                                    this.alertMessage.displayAlertMessage(ALERT_CODES["ALC003_WFH"]);
+                                }
                             }
-                        } else if (action === 'Accept') {
-                            if (leaveType === 'PL') {
-                                this.alertMessage.displayAlertMessage(ALERT_CODES["ALC007_PL"]);
-                            } else if (leaveType === 'CL') {
-                                this.alertMessage.displayAlertMessage(ALERT_CODES["ALC008_CL"]);
-                            } else if (leaveType === 'WFH') {
-                                this.alertMessage.displayAlertMessage(ALERT_CODES["ALC009_WFH"]);
-                            }
+                        } else {
+                            this.alertMessage.displayErrorMessage(rdata.message);
                         }
-                        else {
-                            if (leaveType === 'PL') {
-                                this.alertMessage.displayAlertMessage(ALERT_CODES["ALC001_PL"]);
-                            } else if (leaveType === 'CL') {
-                                this.alertMessage.displayAlertMessage(ALERT_CODES["ALC002_CL"]);
-                            } else if (leaveType === 'WFH') {
-                                this.alertMessage.displayAlertMessage(ALERT_CODES["ALC003_WFH"]);
-                            }
-                        }
-                    } else if (!rdata.isSuccess) {
-                        this.alertMessage.displayErrorMessage(rdata.message);
+                    },
+                    (error) => {
+                        this.alertMessage.displayErrorMessage(error.message);
                     }
-                });
+                );
             } else this.disbaleAction = false;
         });
     }
@@ -115,12 +123,12 @@ export class LeaveconfirmationComponent {
     get Messsage(): string {
         if (this.isReject) {
             return "The leave is rejected"
-        } else if(this.isAccepted){
-           return "The leave is accepted"
-        } else if(this.isApproved ){
+        } else if (this.isAccepted) {
+            return "The leave is accepted"
+        } else if (this.isApproved) {
             return "The leave is approved";
         }
-        return  "";
+        return "";
     }
 
     get ToDisableButton(): boolean {

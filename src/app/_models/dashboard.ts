@@ -10,7 +10,7 @@ export class SelfEmployeeDto {
     nationality?: string;
     dateofJoin?: Date;
     designation?: string;
-    experienceInCompany?:string;
+    experienceInCompany?: string;
     officeEmailId?: string;
     reportingToId?: number;
     reportingTo?: string;
@@ -31,17 +31,35 @@ export class SelfEmployeeDto {
     addresses?: string;
     empaddress?: addresses[];
 }
+export class projectsForSelfEmployeeViewDto {
+    projectId?: number;
+    projectName?: string;
+    description?: string;
+    sinceFrom?: Date;
+    endAt?: Date;
+    members?:teamMembers[];
+    teamMembers?: string;
+    logo?:string;
+}
+
+export class teamMembers{
+    employeeId?:number;
+    employeeCode?:string;
+    employeeName?:string;
+    designationName?:string;
+    reportingTo?:string;
+}
 export class selfEmployeeMonthlyLeaves {
-    employeeLeaveId?:number;
+    employeeLeaveId?: number;
     employeeName?: string;
     leaveType?: string;
     status?: string;
     isDeleted?: boolean;
-    isHalfDayLeave?:boolean;
+    isHalfDayLeave?: boolean;
     usedCLsInMonth?: number;
     usedPLsInMonth?: number;
-    fromDate?:Date;
-    toDate?:Date;
+    fromDate?: Date;
+    toDate?: Date;
     isLeaveUsed?: boolean;
 }
 export class allottedAssets {
@@ -62,31 +80,31 @@ export class workingProjects {
     endAt?: Date;
 }
 export class NotificationsDto {
-    code?:string;
+    code?: string;
     employeeId?: number
     employeeName?: string
     message?: string
     messageType?: string
     messageTypeId?: number
-    createdAt?:any
+    createdAt?: any
 }
 export class NotificationsRepliesDto {
-    code?:string
+    code?: string
     employeeId?: number
     employeeName?: string
-    isActive?:boolean
+    isActive?: boolean
     message?: string
     messageType?: string
     messageTypeId?: number
-    notificationId?:number
-    notificationMessage?:string
-    notificationReplyId?:number
+    notificationId?: number
+    notificationMessage?: string
+    notificationReplyId?: number
 }
-export class HrNotification{
+export class HrNotification {
     employeeId?: number
     message?: string
     messageTypeId?: string
-    notifyTill?:Date
+    notifyTill?: Date
 }
 export class addresses {
     addressId?: number;
@@ -114,27 +132,27 @@ export class adminDashboardViewDto {
     calculatedLeaveCount: number;
     totalprojectsCount: number;
     activeEmployeesInOffice?: string;
-    savedAmcProjects?:number;
+    savedAmcProjects?: number;
 }
 
-export class AttendanceCountBasedOnTypeViewDto{
-    value?:string;
-    lwp?:number;
-    pt?:number;
-    cl?:number;
-    pl?:number;
-    wfh?:number;
-    projectId?:number;
-    projectName?:string;
+export class AttendanceCountBasedOnTypeViewDto {
+    value?: string;
+    lwp?: number;
+    pt?: number;
+    cl?: number;
+    pl?: number;
+    wfh?: number;
+    projectId?: number;
+    projectName?: string;
 }
 
-export class EmployeesofAttendanceCountsViewDto{
-    value?:string;
-    dayWorkStatus?:string;
-    employeeName?:string;
-    code?:string;
-    monthNames?:string;
-    projectName?:string;
+export class EmployeesofAttendanceCountsViewDto {
+    value?: string;
+    dayWorkStatus?: string;
+    employeeName?: string;
+    code?: string;
+    monthNames?: string;
+    projectName?: string;
 }
 
 export class activeProjects {

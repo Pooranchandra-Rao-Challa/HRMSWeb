@@ -6,9 +6,9 @@ import { HttpEvent, HttpResponse } from '@angular/common/http';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { EmployeeLeaveDialogComponent } from 'src/app/_dialogs/employeeleave.dialog/employeeleave.dialog.component';
 import { DATE_OF_JOINING, FORMAT_DATE, MEDIUM_DATE, ORIGINAL_DOB } from 'src/app/_helpers/date.formate.pipe';
-import { HolidaysViewDto } from 'src/app/_models/admin';
+import { HolidaysViewDto, ProjectDetailsDto, ProjectViewDto } from 'src/app/_models/admin';
 import { Actions, DialogRequest, ITableHeader } from 'src/app/_models/common';
-import { NotificationsDto, NotificationsRepliesDto, SelfEmployeeDto, selfEmployeeMonthlyLeaves } from 'src/app/_models/dashboard';
+import { NotificationsDto, NotificationsRepliesDto, projectsForSelfEmployeeViewDto, SelfEmployeeDto, selfEmployeeMonthlyLeaves } from 'src/app/_models/dashboard';
 import { AdminService } from 'src/app/_services/admin.service';
 import { DashboardService } from 'src/app/_services/dashboard.service';
 import { JwtService } from 'src/app/_services/jwt.service';
@@ -53,7 +53,7 @@ export class EmployeeDashboardComponent implements OnInit {
     employeeId: any;
     wishesDialog: boolean;
     years: any
-    projects: { name: string, projectLogo: string, description: string, projectId: number, periods: { sinceFrom: Date, endAt: Date }[] }[] = [];
+    projects: { projectName: string, logo: any, description: string, projectId: number, periods: { sinceFrom: Date, endAt: Date }[] }[] = [];
     fieldset1Open = true;
     fieldset2Open = false;
     fieldset3Open = false;
@@ -62,7 +62,9 @@ export class EmployeeDashboardComponent implements OnInit {
     defaultPhotoforAssets: any;
     usedPLsInMonth: number;
     usedCLsInMonth: number;
-    hasBirthdayWishes: any
+    hasBirthdayWishes: any;
+    projectsData: projectsForSelfEmployeeViewDto[] = [];
+    teamMembersDialog: boolean = false;
 
     constructor(private dashBoardService: DashboardService,
         private adminService: AdminService,
@@ -106,9 +108,74 @@ export class EmployeeDashboardComponent implements OnInit {
             message: new FormControl('', [Validators.required]),
             notificationId: new FormControl('', [Validators.required]),
             employeeId: new FormControl('', [Validators.required]),
-            employeeName:new FormControl('', [Validators.required]),
+            employeeName: new FormControl('', [Validators.required]),
             isActive: new FormControl(true),
         })
+    }
+
+    getEmployeeDataBasedOnId() {
+        this.dashBoardService.GetEmployeeDetails(this.jwtService.EmployeeId).subscribe((resp) => {
+            this.empDetails = resp as unknown as SelfEmployeeDto;
+            this.empDetails.assets = JSON.parse(this.empDetails.allottedAssets);
+            this.empDetails.empaddress = JSON.parse(this.empDetails.addresses);
+            this.getEmployeeProjectData();
+            /^male$/gi.test(this.empDetails.gender)
+                ? this.defaultPhoto = './assets/layout/images/men-emp.jpg'
+                : this.defaultPhoto = './assets/layout/images/women-emp.jpg'
+        })
+    }
+
+    getEmployeeProjectData() {
+        this.dashBoardService.GetEmployeeProjectDetails(this.jwtService.EmployeeId).subscribe((resp) => {
+            this.projectsData = resp as unknown as projectsForSelfEmployeeViewDto[];
+            this.projectsData.forEach(project => {
+                project.members = JSON.parse(project.teamMembers);
+            });
+            this.updateProjects();
+        })
+    }
+
+    async updateProjects() {
+        if (this.empDetails && this.projectsData) {
+            let projectNames = this.projectsData
+                .map((item) => item.projectName)
+                .filter((value, index, self) => self.indexOf(value) === index);
+            this.projects = [];
+            for (const projectName of projectNames) {
+                let values = this.projectsData.filter(fn => fn.projectName == projectName);
+                if (values.length > 0) {
+                    let periods: { sinceFrom: Date, endAt: Date }[] = [];
+                    values.forEach(p => {
+                        periods.push({ sinceFrom: p.sinceFrom, endAt: p.endAt });
+                    });
+                    const logo = await this.getProjectLogo(values[0]);
+                    this.projects.push({
+                        projectId: values[0].projectId,
+                        description: values[0].description,
+                        projectName: projectName,
+                        logo: logo,
+                        periods: periods
+                    });
+                }
+            }
+        }
+    }
+
+    async getProjectLogo(project) {
+        try {
+            const resp = await this.adminService.GetProjectLogo(project.projectId).toPromise();
+            return (resp as any).ImageData;
+        } catch (error) {
+            console.error("Error occurred while fetching project logo:", error);
+            return ''; // Return an empty string or handle the error accordingly
+        }
+    }
+
+    openDialog(projectId: number) {
+        let project = this.projectsData.find(project => project.projectId === projectId);
+        if (project && project.endAt === null && project.members !== null) {
+            this.teamMembersDialog = true;
+        }
     }
 
     getHoliday(): void {
@@ -119,6 +186,7 @@ export class EmployeeDashboardComponent implements OnInit {
             });
         }
     }
+
     toggleFieldset(legend: string): void {
         const fieldsets = ['HR Notifications', 'Today Birthday', 'Greetings'];
 
@@ -174,8 +242,6 @@ export class EmployeeDashboardComponent implements OnInit {
     initNotifications() {
         this.dashBoardService.GetNotifications().subscribe(resp => {
             this.notifications = resp as unknown as NotificationsDto[];
-            console.log(resp);
-
             if (Array.isArray(this.notifications)) {
                 this.hasBirthdayNotifications = this.notifications?.some(employee => employee.messageType === 'Birthday');
                 this.hasHRNotifications = this.notifications.some(employee => employee.messageType !== 'Birthday');
@@ -185,7 +251,6 @@ export class EmployeeDashboardComponent implements OnInit {
     initNotificationsBasedOnId() {
         this.dashBoardService.GetNotificationsBasedOnId(this.jwtService.EmployeeId).subscribe(resp => {
             this.notificationReplies = resp as unknown as NotificationsRepliesDto[];
-            console.log(resp);
         })
     }
     transformDateIntoTime(createdAt: any): string {
@@ -224,7 +289,7 @@ export class EmployeeDashboardComponent implements OnInit {
     onSubmit() {
         this.dashBoardService.sendBithdayWishes(this.fbWishes.value).subscribe(resp => {
             let rdata = resp as unknown as any;
-            if (rdata.isSuccess){
+            if (rdata.isSuccess) {
                 this.alertMessage.displayAlertMessage(`Wishes Sent to ${this.fbWishes.get('employeeName').value} Successfully.`)
                 this.initNotifications();
             }
@@ -237,47 +302,6 @@ export class EmployeeDashboardComponent implements OnInit {
     }
     onClose() {
         this.wishesDialog = false;
-    }
-
-    getEmployeeDataBasedOnId() {
-        this.dashBoardService.GetEmployeeDetails(this.jwtService.EmployeeId).subscribe((resp) => {
-            this.empDetails = resp as unknown as SelfEmployeeDto;
-            this.empDetails.assets = JSON.parse(this.empDetails.allottedAssets);
-            this.empDetails.empaddress = JSON.parse(this.empDetails.addresses);
-            this.empDetails.projects = JSON.parse(this.empDetails.workingProjects);
-            this.updateProjects();
-
-            /^male$/gi.test(this.empDetails.gender)
-                ? this.defaultPhoto = './assets/layout/images/men-emp.jpg'
-                : this.defaultPhoto = './assets/layout/images/women-emp.jpg'
-        })
-    }
-
-    updateProjects() {
-        if (this.empDetails && this.empDetails.projects) {
-            let projectNames = this.empDetails.projects
-                .map((item) => item.projectName)
-                .filter((value, index, self) => self.indexOf(value) === index);
-            this.projects = [];
-            projectNames.forEach(projectName => {
-                let values = this.empDetails.projects.filter(fn => fn.projectName == projectName);
-
-                if (values.length > 0) {
-                    let periods: { sinceFrom: Date, endAt: Date }[] = [];
-                    values.forEach(p => {
-                        periods.push({ sinceFrom: p.sinceFrom, endAt: p.endAt });
-                    });
-
-                    this.projects.push({
-                        projectId: values[0].projectId,
-                        description: values[0].projectDescription,
-                        name: projectName,
-                        projectLogo: values[0].projectLogo,
-                        periods: periods
-                    });
-                }
-            });
-        }
     }
 
 
@@ -383,30 +407,30 @@ export class EmployeeDashboardComponent implements OnInit {
             if (res) this.getEmployeeDataBasedOnId();
         });
     }
-    
+
     private statusCache: { [key: string]: Observable<any[]> } = {};
 
     getStatus(employeeId): Observable<any[]> {
-      if (this.statusCache[employeeId]) {
-        return this.statusCache[employeeId];
-      }
-      
-      const statusObservable = this.dashBoardService.GetNotificationsBasedOnId(employeeId).pipe(
-        map((response: any) => {
-          if (Array.isArray(response)) {
-            return response.filter(notification => notification.employeeId ===  parseInt(this.employeeId, 10));
-          } else {
-            return [];
-          }
-        }),
-        catchError(error => {
-          console.error('Error fetching notifications:', error);
-          return of([]); 
-        })
-      );
-      
-      this.statusCache[employeeId] = statusObservable;
-      return statusObservable;
+        if (this.statusCache[employeeId]) {
+            return this.statusCache[employeeId];
+        }
+
+        const statusObservable = this.dashBoardService.GetNotificationsBasedOnId(employeeId).pipe(
+            map((response: any) => {
+                if (Array.isArray(response)) {
+                    return response.filter(notification => notification.employeeId === parseInt(this.employeeId, 10));
+                } else {
+                    return [];
+                }
+            }),
+            catchError(error => {
+                console.error('Error fetching notifications:', error);
+                return of([]);
+            })
+        );
+
+        this.statusCache[employeeId] = statusObservable;
+        return statusObservable;
     }
-      
+
 }

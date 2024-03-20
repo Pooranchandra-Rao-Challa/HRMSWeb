@@ -441,6 +441,8 @@ export class EmployeeLeaveDetailsDto {
 	protectedData?: string;
 	protectedWith?: string;
 	action?: string;
+	username?:string;
+	password?:string;
 }
 export class EmployeeProfilePicViewDto {
 	employeeId?: number;
