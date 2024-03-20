@@ -184,6 +184,9 @@ export const GET_EMPLOYEES_OF_ATTENDANCE_COUNT="AdminDashboard/GetEmployeesofAtt
 export const GET_EMPLOYEES_OF_ATTENDANCE_COUNT_BY_PROJECTS="AdminDashboard/GetEmployeesofAttendanceCountsBasedonProjectId";
 //Reports
 export const GET_MONTHLY_ATTENDANCE_PDFREPORT="Report/AttendanceReportOnYearAndMonth"
+export const GET_YEARLY_ATTENDANCE_PDFREPORT="Report/AttendanceReportOnYear"
+export const GET_DATEWISE_ATTENDANCE_PDFREPORT="Report/AttendanceReportOnDates"
+export const GET_PROJECTWISE_ATTENDANCE_PDFREPORT="Report/AttendanceReportOnProjectId"
 export const GET_MONTHLY_ATTENDANCE_REPORT = "Report/AttendanceReportBasedOnYearAndMonth";
 export const GET_YEARLY_ATTENDANCE_REPORT = "Report/AttendanceReportBasedOnYear";
 export const GET_DATEWISE_ATTENDANCE_REPORT="Report/AttendanceReportBasedOnDates";

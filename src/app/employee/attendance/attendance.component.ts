@@ -23,6 +23,7 @@ import * as FileSaver from "file-saver";
 import { Dropdown } from 'primeng/dropdown';
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+import { MenuItem } from 'primeng/api';
 enum AttendanceReportTypes {
   MonthlyAttendanceReport = 'Monthly Attendance Report',
   YearlyAttendanceReport = 'Yearly Attendance Report',
@@ -78,7 +79,7 @@ export class AttendanceComponent {
   canUpdatePreviousDayAttendance: boolean = false;
   maxDate: Date = new Date();
   attendanceExcelTypes: any[];
-
+  items: MenuItem[] | undefined;
   constructor(
     private adminService: AdminService,
     private reportService: ReportService,
@@ -93,6 +94,32 @@ export class AttendanceComponent {
     this.selectedMonth = FORMAT_DATE(new Date(this.year, this.month - 1, 1));
     this.selectedMonth.setHours(0, 0, 0, 0);
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
+    this.items = [
+      {
+        label: 'Monthly Attendance Report',
+        command: () => {
+          this.DownloadAttendanceReport('Monthly Attendance Report', 'pdf');
+        }
+      },
+      {
+        label: 'Yearly Attendance Report',
+        command: () => {
+          this.DownloadAttendanceReport('Yearly Attendance Report', 'pdf');
+        }
+      },
+      {
+        label: 'Datewise Attendance Report',
+        command: () => {
+          this.DownloadAttendanceReport('Datewise Attendance Report', 'pdf');
+        }
+      },
+      {
+        label: 'Projectwise Attendance Report',
+        command: () => {
+          this.DownloadAttendanceReport('Projectwise Attendance Report', 'pdf');
+        }
+      },
+    ];
   }
 
   ngOnInit() {
@@ -640,6 +667,8 @@ export class AttendanceComponent {
     this.filter.nativeElement.value = '';
   }
   DownloadAttendanceReport(name: string, type: string) {
+    this.ProjectwiseAttendanceReportDialog = false;
+    this.DatewiseAttendanceReportDialog = false;
     if (name == AttendanceReportTypes.DatewiseAttendanceReport) {
       this.fbDatewiseAttendanceReport.reset()
       this.fbDatewiseAttendanceReport.get('reportType').setValue(type);
@@ -654,6 +683,8 @@ export class AttendanceComponent {
     else if (name == AttendanceReportTypes.YearlyAttendanceReport) {
       if (type == "excel")
         this.downloadYearlyAttendanceReport()
+      else
+        this.downloadYearlyPDFReport();
     }
     else if (name == AttendanceReportTypes.ProjectwiseAttendanceReport) {
       this.fbProjectwiseAttendanceReport.reset();
@@ -664,6 +695,7 @@ export class AttendanceComponent {
   downloadProjectwiseAttendanceReport() {
     const fromDateValue = this.fbProjectwiseAttendanceReport.get('fromDate').value;
     const toDateValue = this.fbProjectwiseAttendanceReport.get('toDate').value;
+    if (this.fbProjectwiseAttendanceReport.get('reportType').value == "excel") {
     this.reportService.DownloadProjectwiseAttendanceReport(
       formatDate(new Date(fromDateValue), 'yyyy-MM-dd', 'en'),
       formatDate(new Date(toDateValue), 'yyyy-MM-dd', 'en'),
@@ -680,32 +712,54 @@ export class AttendanceComponent {
           const currentDate = new Date().toLocaleString().replace(/[/\\?%*:|"<>.]/g, '-');
           const csvName = `ProjectwiseAttendanceReport${currentDate}.csv`;
           FileSaver.saveAs(document, csvName);
-          this.ProjectwiseAttendanceReportDialog = false;
+         
         }
       })
+    }
+    else if (this.fbProjectwiseAttendanceReport.get('reportType').value == "pdf") {
+      this.reportService.DownloadProjectwisePDFReport(
+        formatDate(new Date(fromDateValue), 'yyyy-MM-d', 'en'),
+        formatDate(new Date(toDateValue), 'yyyy-MM-d', 'en'),
+        this.fbProjectwiseAttendanceReport.get('projectId').value
+      ).subscribe(resp => {
+        this.generatePdf(resp, 'Projectwise');
+      })
+    }
+    this.ProjectwiseAttendanceReportDialog = false;
   }
 
   downloadDatewiseAttendanceReport() {
     const fromDateValue = this.fbDatewiseAttendanceReport.get('fromDate').value;
     const toDateValue = this.fbDatewiseAttendanceReport.get('toDate').value;
-    this.reportService.DownloadDatewiseAttendanceReport(
-      formatDate(new Date(fromDateValue), 'yyyy-MM-d', 'en'),
-      formatDate(new Date(toDateValue), 'yyyy-MM-d', 'en'),
-    )
-      .subscribe((resp) => {
-        if (resp.type === HttpEventType.DownloadProgress) {
-          const percentDone = Math.round(100 * resp.loaded / resp.total);
-          this.value = percentDone;
-        }
-        if (resp.type === HttpEventType.Response) {
-          const file = new Blob([resp.body], { type: 'text/csv' });
-          const document = window.URL.createObjectURL(file);
-          const currentDate = new Date().toLocaleString().replace(/[/\\?%*:|"<>.]/g, '-');
-          const csvName = `DatewiseAttendanceReport${currentDate}.csv`;
-          FileSaver.saveAs(document, csvName);
-          this.DatewiseAttendanceReportDialog = false;
-        }
+    if (this.fbDatewiseAttendanceReport.get('reportType').value == "excel") {
+      this.reportService.DownloadDatewiseAttendanceReport(
+        formatDate(new Date(fromDateValue), 'yyyy-MM-d', 'en'),
+        formatDate(new Date(toDateValue), 'yyyy-MM-d', 'en'),
+      )
+        .subscribe((resp) => {
+          if (resp.type === HttpEventType.DownloadProgress) {
+            const percentDone = Math.round(100 * resp.loaded / resp.total);
+            this.value = percentDone;
+          }
+          if (resp.type === HttpEventType.Response) {
+            const file = new Blob([resp.body], { type: 'text/csv' });
+            const document = window.URL.createObjectURL(file);
+            const currentDate = new Date().toLocaleString().replace(/[/\\?%*:|"<>.]/g, '-');
+            const csvName = `DatewiseAttendanceReport${currentDate}.csv`;
+            FileSaver.saveAs(document, csvName);
+            
+          }
+        })
+    }
+    else if (this.fbDatewiseAttendanceReport.get('reportType').value == "pdf") {
+      this.reportService.DownloadDatewisePDFReport(
+        formatDate(new Date(fromDateValue), 'yyyy-MM-d', 'en'),
+        formatDate(new Date(toDateValue), 'yyyy-MM-d', 'en'),
+      ).subscribe(resp => {
+        this.generatePdf(resp, 'Datewise');
       })
+    }
+    this.DatewiseAttendanceReportDialog = false;
   }
 
   downloadYearlyAttendanceReport() {
@@ -760,8 +814,11 @@ export class AttendanceComponent {
   downloadMonthlyPDFReport() {
     this.reportService.DownloadMonthlyPDFReport(this.month, this.year).subscribe(resp => {
       this.generatePdf(resp, 'Monthly');
-      console.log(resp);
-
+    })
+  }
+  downloadYearlyPDFReport() {
+    this.reportService.DownloadYearlyPDFReport(this.year).subscribe(resp => {
+      this.generatePdf(resp, 'Yearly');
     })
   }
 
@@ -786,7 +843,7 @@ export class AttendanceComponent {
     });
   }
   getAttendanceReport(data: any[]): {} {
-    let columns = ['Id', 'Name', 'Present', 'Absents', 'UsedCLs', 'UsedPLs', 'LWPs', 'WFH'];
+    let columns = ['Employee Id', 'Employee Name', 'Present', 'Absents', 'Used CLs', 'Used PLs', 'LWPs', 'WFH'];
     let rows = data.map(rowData => {
       return columns.map(column => {
         return { text: rowData[column], style: 'tableData' };
@@ -795,24 +852,24 @@ export class AttendanceComponent {
 
     let headerRows = [
       [
-        { text: 'ID', style: 'tableHeader', rowSpan: 2 }, // rowspan for ID
-        { text: 'Name', style: 'tableHeader', rowSpan: 2 }, // rowspan for Name
-        { text: 'Present', style: 'tableHeader' },
-        { text: 'Absent', style: 'tableHeader' },
-        { text: 'Casual Leaves', style: 'tableHeader' },
-        { text: 'Privilege Leave', style: 'tableHeader' },
-        { text: 'Leave Without Pay', style: 'tableHeader' },
-        { text: 'Work From Home', style: 'tableHeader' }
+        { text: 'ID', style: 'tableHeader', rowSpan: 2, margin: [0, 23, 0, 0], }, // rowspan for ID
+        { text: 'Name', style: 'tableHeader', rowSpan: 2, margin: [0, 23, 0, 0], }, // rowspan for Name
+        { text: 'Present', style: 'tableHeader', margin: [0, 12, 0, 0] },
+        { text: 'Absent', style: 'tableHeader', margin: [0, 12, 0, 0] },
+        { text: 'Casual Leaves', style: 'tableHeader', margin: [0, 7, 0, 0] },
+        { text: 'Privilege Leave', style: 'tableHeader', margin: [0, 7, 0, 0] },
+        { text: 'Leave Without Pay', style: 'tableHeader', },
+        { text: 'Work From Home', style: 'tableHeader', }
       ],
       [
         {}, // Empty cell to fill the space of ID column
         {}, // Empty cell to fill the space of Name column
         { text: 'PT', style: 'tableHeader' },
         { text: 'AT', style: 'tableHeader' },
-        { text: 'CL', style: 'tableHeader' },
+        { text: 'CL', style: 'tableHeader'},
         { text: 'PL', style: 'tableHeader' },
-        { text: 'LWP', style: 'tableHeader' },
-        { text: 'WFH', style: 'tableHeader' }
+        { text: 'LWP', style: 'tableHeader'},
+        { text: 'WFH', style: 'tableHeader'}
       ]
     ];
 
@@ -822,8 +879,18 @@ export class AttendanceComponent {
         headerRows: 2,
         body: [...headerRows, ...rows]
       },
-      margin: [0, 10, 0, 0]
+      margin: [0, 10, 0, 0],
+      layout: {
+        fillColor: function (rowIndex, node, columnIndex) {
+          // Apply a different fill color only to header rows
+          if (rowIndex < 2) {
+            return '#dbd7d7'; // Set the desired fill color for header rows
+          }
+          return null; // Return null for other rows to maintain default behavior
+        }
+      }
     };
+
   }
   async formatKeyAndValues() {
     try {
@@ -859,7 +926,7 @@ export class AttendanceComponent {
       };
 
       // Add canvas element
-      const line = { canvas: createLine(), margin: [0, -10, 0, 10], color: '#f3743f' };
+      const line = { canvas: createLine(), margin: [0, -10, 0, 10], color: '#f3743f', absolutePosition: { x: 0, y: 0 } };
       const content = [row, line]; // Array containing both row and line objects
 
       return content;
@@ -912,8 +979,8 @@ export class AttendanceComponent {
       ],
       pageMargins: [40, 110, 40, 20],
       styles: {
-        header: { fontSize: 24, backgroundColor: '#ff810e', alignment: 'center' },
-        tableHeader: { alignment: 'center', },
+        header: { fontSize: 24, backgroundColor: '#ff810e', alignment: 'center', verticalAlign: 'middle' },
+        tableHeader: { alignment: 'center', valign: 'middle' },
         tableData: {
           bold: false,
           fontSize: 10, heights: 'auto',
@@ -923,7 +990,8 @@ export class AttendanceComponent {
         defaultStyle: { font: 'Typography', fontSize: 12 },
       },
     };
-    pdfMake.createPdf(docDefinition).download(`${pdftype}Projects.pdf`);
+    const currentDate = new Date().toLocaleString().replace(/[/\\?%*:|"<>.]/g, '-');
+    pdfMake.createPdf(docDefinition).download(`${pdftype}Attendance${currentDate}.pdf`);
   }
 
 

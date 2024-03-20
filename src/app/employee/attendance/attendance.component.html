@@ -130,13 +130,15 @@
                 </div>
             </ng-template>
             <ng-template pTemplate="right">
-                <button pButton type="button" pButton pRipple icon="pi pi-file-pdf"
-                    (click)="overlay.toggle($event)"></button>
-                <p-overlayPanel #overlay [dismissable]="true">
-                    <ul *ngFor="let item of this.attendanceExcelTypes">
-                        <li (click)="DownloadAttendanceReport(item.label,'pdf')">{{item.label}}</li>
-                    </ul>
-                </p-overlayPanel>
+                <div class="p-input-icon-left dropdown_icon mt-1">
+                    <div>
+                        <p-splitButton  class="pdf_group" icon="pi pi-plus"[model]="items">
+                            <ng-template pTemplate="dropdownicon">
+                                <i class="pi icon-pdf-svgrepo-com-2"></i>
+                              </ng-template>
+                        </p-splitButton>
+                    </div>
+                </div>
                 <div class="p-input-icon-left dropdown_icon pr-2">
                     <i class="icon-csv-svgrepo-com-1"></i>
                     <div *ngIf="permissions?.CanDownloadAttendance">
