@@ -53,6 +53,8 @@ export class LeaveconfirmationComponent {
         let title = `Reason For ${this.employeeleavedetails.action}`;
         this.disbaleAction = true;
         this.leaveConfirmationService.openDialogWithInput(title, buttonLabel, this.currentRoute).subscribe((result) => {
+            console.log(result);
+            
             if (result && result.description !== undefined) {
                 const employeeLeaveDetails: EmployeeLeaveDetailsDto = {
                     employeeId: this.employeeleavedetails.leaveDto.employeeId,
@@ -78,6 +80,8 @@ export class LeaveconfirmationComponent {
                                     this.alertMessage.displayMessageforLeave(ALERT_CODES["ALC005_CL"]);
                                 } else if (leaveType === 'WFH') {
                                     this.alertMessage.displayMessageforLeave(ALERT_CODES["ALC006_WFH"]);
+                                } else if (leaveType === 'LWP') {
+                                    this.alertMessage.displayMessageforLeave(ALERT_CODES["ALC0012_LWP"]);
                                 }
                             } else if (action === 'Accept') {
                                 if (leaveType === 'PL') {
@@ -86,6 +90,8 @@ export class LeaveconfirmationComponent {
                                     this.alertMessage.displayAlertMessage(ALERT_CODES["ALC008_CL"]);
                                 } else if (leaveType === 'WFH') {
                                     this.alertMessage.displayAlertMessage(ALERT_CODES["ALC009_WFH"]);
+                                } else if (leaveType === 'LWP') {
+                                    this.alertMessage.displayAlertMessage(ALERT_CODES["ALC0011_LWP"]);
                                 }
                             } else {
                                 if (leaveType === 'PL') {
@@ -94,8 +100,11 @@ export class LeaveconfirmationComponent {
                                     this.alertMessage.displayAlertMessage(ALERT_CODES["ALC002_CL"]);
                                 } else if (leaveType === 'WFH') {
                                     this.alertMessage.displayAlertMessage(ALERT_CODES["ALC003_WFH"]);
+                                } else if (leaveType === 'LWP') {
+                                    this.alertMessage.displayAlertMessage(ALERT_CODES["ALC0010_LWP"]);
                                 }
                             }
+
                         } else {
                             this.alertMessage.displayErrorMessage(rdata.message);
                         }
@@ -116,6 +125,8 @@ export class LeaveconfirmationComponent {
                 return action === 'Approve' ? 'PL Approved Successfully' : action === 'Accept' ? "PL Accepted Successfully" : 'PL Rejected Successfully';
             case 'WFH':
                 return action === 'Approve' ? 'WFH Approved Successfully' : action === 'Accept' ? "WFH Accepted Successfully" : 'WFH Rejected Successfully';
+            case 'LWP':
+                return action === 'Approve' ? 'LWP Approved Successfully' : action === 'Accept' ? "LWP Accepted Successfully" : 'LWP Rejected Successfully';
             default:
                 return 'Confirmation Updated Successfully';
         }

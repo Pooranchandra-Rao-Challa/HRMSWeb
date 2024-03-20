@@ -751,9 +751,12 @@ label {
 }
 
 .validation-error {
-    color: red
+    color: red;
+    
 }
-
+.validation-brerror{
+    border: 1px solid red;
+}
 div:where(.swal2-container) div:where(.swal2-popup) {
     padding: 0px !important;
 }
