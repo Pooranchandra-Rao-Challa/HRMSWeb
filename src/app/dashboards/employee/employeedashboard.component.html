@@ -464,7 +464,7 @@
                                     <img [src]="project?.logo" [alt]="project?.logo"
                                         class="shadow-2 my-0 mx-0 employee_profile_pic avatar_projects_dash" />
                                 </div>
-                                <h5 class="text-primary m-2" (click)="openDialog(project.projectId)">{{project.projectName}}</h5>
+                                <h5 class="text-primary m-2 att-pointer" (click)="openDialog(project.projectId)">{{project.projectName}}</h5>
                                 <div *ngFor="let period of project?.periods" class="text-left"
                                     style=" color:gray; border-top:1px solid #ccc; font-size:12px; font-weight: 700;">
                                     <span class="icon-start_time">
