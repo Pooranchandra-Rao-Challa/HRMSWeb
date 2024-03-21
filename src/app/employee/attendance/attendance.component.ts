@@ -696,25 +696,25 @@ export class AttendanceComponent {
     const fromDateValue = this.fbProjectwiseAttendanceReport.get('fromDate').value;
     const toDateValue = this.fbProjectwiseAttendanceReport.get('toDate').value;
     if (this.fbProjectwiseAttendanceReport.get('reportType').value == "excel") {
-    this.reportService.DownloadProjectwiseAttendanceReport(
-      formatDate(new Date(fromDateValue), 'yyyy-MM-dd', 'en'),
-      formatDate(new Date(toDateValue), 'yyyy-MM-dd', 'en'),
-      this.fbProjectwiseAttendanceReport.get('projectId').value
-    )
-      .subscribe((resp) => {
-        if (resp.type === HttpEventType.DownloadProgress) {
-          const percentDone = Math.round(100 * resp.loaded / resp.total);
-          this.value = percentDone;
-        }
-        if (resp.type === HttpEventType.Response) {
-          const file = new Blob([resp.body], { type: 'text/csv' });
-          const document = window.URL.createObjectURL(file);
-          const currentDate = new Date().toLocaleString().replace(/[/\\?%*:|"<>.]/g, '-');
-          const csvName = `ProjectwiseAttendanceReport${currentDate}.csv`;
-          FileSaver.saveAs(document, csvName);
-         
-        }
-      })
+      this.reportService.DownloadProjectwiseAttendanceReport(
+        formatDate(new Date(fromDateValue), 'yyyy-MM-dd', 'en'),
+        formatDate(new Date(toDateValue), 'yyyy-MM-dd', 'en'),
+        this.fbProjectwiseAttendanceReport.get('projectId').value
+      )
+        .subscribe((resp) => {
+          if (resp.type === HttpEventType.DownloadProgress) {
+            const percentDone = Math.round(100 * resp.loaded / resp.total);
+            this.value = percentDone;
+          }
+          if (resp.type === HttpEventType.Response) {
+            const file = new Blob([resp.body], { type: 'text/csv' });
+            const document = window.URL.createObjectURL(file);
+            const currentDate = new Date().toLocaleString().replace(/[/\\?%*:|"<>.]/g, '-');
+            const csvName = `ProjectwiseAttendanceReport${currentDate}.csv`;
+            FileSaver.saveAs(document, csvName);
+
+          }
+        })
     }
     else if (this.fbProjectwiseAttendanceReport.get('reportType').value == "pdf") {
       this.reportService.DownloadProjectwisePDFReport(
@@ -747,7 +747,7 @@ export class AttendanceComponent {
             const currentDate = new Date().toLocaleString().replace(/[/\\?%*:|"<>.]/g, '-');
             const csvName = `DatewiseAttendanceReport${currentDate}.csv`;
             FileSaver.saveAs(document, csvName);
-            
+
           }
         })
     }
@@ -756,6 +756,7 @@ export class AttendanceComponent {
         formatDate(new Date(fromDateValue), 'yyyy-MM-d', 'en'),
         formatDate(new Date(toDateValue), 'yyyy-MM-d', 'en'),
       ).subscribe(resp => {
+
         this.generatePdf(resp, 'Datewise');
       })
     }
@@ -843,17 +844,17 @@ export class AttendanceComponent {
     });
   }
   getAttendanceReport(data: any[]): {} {
-    let columns = ['Employee Id', 'Employee Name', 'Present', 'Absents', 'Used CLs', 'Used PLs', 'LWPs', 'WFH'];
+    let columns = ['Employee Code', 'Employee Name', 'Present', 'Absents', 'Used CLs', 'Used PLs', 'LWPs', 'WFH'];
     let rows = data.map(rowData => {
       return columns.map(column => {
-        return { text: rowData[column], style: 'tableData' };
+        return { text: rowData[column], style: column == "Employee Name" ? 'tableNames' : 'tableData' };
       });
     });
 
     let headerRows = [
       [
-        { text: 'ID', style: 'tableHeader', rowSpan: 2, margin: [0, 23, 0, 0], }, // rowspan for ID
-        { text: 'Name', style: 'tableHeader', rowSpan: 2, margin: [0, 23, 0, 0], }, // rowspan for Name
+        { text: 'Emp ID', style: 'tableHeader', rowSpan: 2, margin: [0, 23, 0, 0], }, // rowspan for ID
+        { text: 'Emp Name', style: 'tableHeader', rowSpan: 2, margin: [0, 23, 0, 0], }, // rowspan for Name
         { text: 'Present', style: 'tableHeader', margin: [0, 12, 0, 0] },
         { text: 'Absent', style: 'tableHeader', margin: [0, 12, 0, 0] },
         { text: 'Casual Leaves', style: 'tableHeader', margin: [0, 7, 0, 0] },
@@ -866,10 +867,10 @@ export class AttendanceComponent {
         {}, // Empty cell to fill the space of Name column
         { text: 'PT', style: 'tableHeader' },
         { text: 'AT', style: 'tableHeader' },
-        { text: 'CL', style: 'tableHeader'},
+        { text: 'CL', style: 'tableHeader' },
         { text: 'PL', style: 'tableHeader' },
-        { text: 'LWP', style: 'tableHeader'},
-        { text: 'WFH', style: 'tableHeader'}
+        { text: 'LWP', style: 'tableHeader' },
+        { text: 'WFH', style: 'tableHeader' }
       ]
     ];
 
@@ -879,20 +880,19 @@ export class AttendanceComponent {
         headerRows: 2,
         body: [...headerRows, ...rows]
       },
-      margin: [0, 10, 0, 0],
+      margin: [0, 10, 0, 20],
       layout: {
         fillColor: function (rowIndex, node, columnIndex) {
-          // Apply a different fill color only to header rows
           if (rowIndex < 2) {
-            return '#dbd7d7'; // Set the desired fill color for header rows
+            return '#dbd7d7'; 
           }
-          return null; // Return null for other rows to maintain default behavior
+          return null; 
         }
       }
     };
 
   }
-  async formatKeyAndValues() {
+  async pdfHeader() {
     try {
       const headerImage1 = await this.getBase64ImageFromURL('../../assets/layout/images/Calibrage_logo1.png');
       const headerImage2 = await this.getBase64ImageFromURL('../../assets/layout/images/head_right.PNG');
@@ -925,43 +925,72 @@ export class AttendanceComponent {
         margin: [20, 0, 20, 0] // Remove any margins
       };
 
-      // Add canvas element
-      const line = { canvas: createLine(), margin: [0, -10, 0, 10], color: '#f3743f', absolutePosition: { x: 0, y: 0 } };
-      const content = [row, line]; // Array containing both row and line objects
 
-      return content;
+      return row;
     } catch (error) {
       console.error("Error occurred while formatting key and values:", error);
       throw error; // Propagate the error
     }
   }
 
-
-
-
   async generatePdf(data: any, pdftype: string) {
+    let fromDate, toDate, ProjectName = null;
+    fromDate = this.fbDatewiseAttendanceReport?.get('fromDate').value;
+    toDate = this.fbDatewiseAttendanceReport?.get('toDate').value;
+    const filteredProjects = this.projects.filter(each => each?.projectId === this.fbProjectwiseAttendanceReport?.get('projectId').value);
+    ProjectName = filteredProjects.length > 0 ? filteredProjects[0].name : '';
+
     const pageSize = { width: 595.28, height: 841.89 };
     const waterMark = await this.getBase64ImageFromURL('../../assets/layout/images/transparent_logo.png');
+    const header = await this.pdfHeader();
+    const content: any[] = [
+      {
+        text: `${pdftype} Attendance Report`,
+        style: 'header'
+      },
+      this.formatKeyAndValues1("Employee Count", data.length),
+      this.getAttendanceReport(data)
+    ];
 
-    const header = await this.formatKeyAndValues();
+    if (pdftype == "Monthly") {
+      content.splice(1, 0, this.formatKeyAndValues1("Month", this.month, false));
+      content.splice(2, 0, this.formatKeyAndValues1("Year", this.year, false));
+    }
+    else if (pdftype == "Yearly") {
+      content.splice(1, 0, this.formatKeyAndValues1("Year", this.year, false));
+    }
+    else if (pdftype == "Datewise") {
+      content.splice(1, 0, this.formatKeyAndValues1("From Date", fromDate, true));
+      content.splice(2, 0, this.formatKeyAndValues1("To Date", toDate, true));
+    }
+    else if (pdftype == "Projectwise") {
+      content.splice(1, 0, this.formatKeyAndValues1("Project Name", ProjectName, false));
+      content.splice(2, 0, this.formatKeyAndValues1("Month", this.month, false));
+      content.splice(3, 0, this.formatKeyAndValues1("Year", this.year, false));
+      content.splice(4, 0, this.formatKeyAndValues1("From Date", fromDate, true));
+      content.splice(5, 0, this.formatKeyAndValues1("To Date", toDate, true));
+    }
     const createFooter = (currentPage: number) => ({
       margin: [0, 0, 0, 0],
       height: 20,
-      background: '#fff',
-      color: '#fff',
+      background: '#ff810e',
       width: 595.28,
       columns: [
-        { canvas: [{ type: 'rect', x: 0, y: 0, w: 595.28, h: 20, color: '#ff810e' }] },
+        { canvas: [{ type: 'rect', x: 0, y: 0, w: 530.28, h: 20, color: '#ff810e' }] },
         {
-          text: [
-            { text: `${currentPage}` }],
-          absolutePosition: { x: 5, y: 5 }, // Adjust the position as needed
-          alignment: 'center',
-          color: '#000000',
+          stack: [
+            {
+              text: 'Copyrights © 2024 Calibrage Info Systems Pvt Ltd.',
+              fontSize: 11, color: '#fff', absolutePosition: { x: 20, y: 3 }
+            },
+            {
+              text: `Page ${currentPage}`,
+              color: '#000000', background: '#fff', margin: [0, 0, 0, 0], fontSize: 12, absolutePosition: { x: 540, y: 3 },
+            }
+          ],
         }
       ],
     });
-
 
     const docDefinition = {
       header: () => (header),
@@ -970,29 +999,35 @@ export class AttendanceComponent {
         image: waterMark,
         absolutePosition: { x: (pageSize.width - 200) / 2, y: (pageSize.height - 200) / 2 },
       }],
-      content: [
-        {
-          text: `${pdftype} Attendance Report`,
-          style: 'header'// Adjust as needed
-        },
-        this.getAttendanceReport(data)
-      ],
-      pageMargins: [40, 110, 40, 20],
+      content,
+      pageMargins: [40, 90, 40, 20],
       styles: {
-        header: { fontSize: 24, backgroundColor: '#ff810e', alignment: 'center', verticalAlign: 'middle' },
+        header: { fontSize: 20, backgroundColor: '#ff810e', alignment: 'center', margin: [0, 0, 0, 5] },
         tableHeader: { alignment: 'center', valign: 'middle' },
-        tableData: {
-          bold: false,
-          fontSize: 10, heights: 'auto',
-        },
-        subheader: { fontSize: 20, alignment: 'center' },
-        borderedText: { border: [1, 1, 1, 1], borderColor: 'rgb(0, 0, 255)', fillColor: '#eeeeee', width: 100, height: 150, margin: [12, 20, 0, 0] },
+        tableData: {bold: false,fontSize: 10, heights: 'auto'},
+        tableNames: {alignment: 'left', bold: false,fontSize: 10, heights: 'auto'},
         defaultStyle: { font: 'Typography', fontSize: 12 },
       },
     };
     const currentDate = new Date().toLocaleString().replace(/[/\\?%*:|"<>.]/g, '-');
     pdfMake.createPdf(docDefinition).download(`${pdftype}Attendance${currentDate}.pdf`);
   }
+  formatKeyAndValues1(key: string, value: any, applyDateFormat: boolean = false) {
+    console.log(applyDateFormat);
 
+    let textValue = applyDateFormat ? formatDate(value, 'dd-MM-yyyy', 'en-US') : value;
+    let row = {
+      stack: [
+        {
+          columns: [
+            { width: '30%', text: key, bold: true, },
+            { width: '70%', text: ': ' + textValue, bold: false, },
+          ],
+          style: 'keyValueStyles'
+        }
+      ], margin: [0, 2, 0, 0]
+    };
+    return row;
+  }
 
 }

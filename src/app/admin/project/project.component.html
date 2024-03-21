@@ -10,7 +10,6 @@
         <div *ngIf="activeIndexForProjects===0" class="w-100">
           <span class="p-input-icon-left mb-2">
             <div class="p-inputgroup">
-              <!-- <span class="p-inputgroup-addon"><i class="pi pi-search"></i></span> -->
               <input id="search_projects" type="text" #filter pInputText placeholder="Search Project"
                 (input)="filterProjects($event)" />
               <span class="p-inputgroup-addon" (click)="clearcard()"><i class="pi pi-undo"></i></span>
@@ -20,14 +19,15 @@
       </ng-template>
       <ng-template pTemplate="right">
         <div>
-          <button pButton type="button" pButton pRipple icon="pi pi-file-pdf" (click)="overlay.toggle($event)"></button>
-          <p-overlayPanel #overlay [dismissable]="true">
-            <ul *ngFor="let item of this.ProjectstatuesReportType">
-              <li (click)="generatePdf(item.name)">item.name</li>
-            </ul>
-          </p-overlayPanel>
-          <!-- <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="generatePdf()"
-            class="p-button-warning mr-2" pTooltip="PDF" tooltipPosition="bottom"></button> -->
+          <div class="p-input-icon-left dropdown_icon pr-2">
+
+            <p-splitButton class="pdf_group" icon="pi pi-plus" [model]="items">
+              <ng-template pTemplate="dropdownicon">
+                <i class="pi icon-pdf-svgrepo-com-2"></i>
+              </ng-template>
+            </p-splitButton>
+
+          </div>
 
           <div class="p-input-icon-left dropdown_icon  pr-2">
             <i class="icon-csv-svgrepo-com-1 "></i>
@@ -388,21 +388,17 @@
 
                               </div>
                               <div class="project-employee-detail">
-                                <!-- <h5 class="mb-2">{{employee.fullName}}</h5> -->
                                 <p-tag styleClass="mr-2 hrms-tag-employees" icon="pi pi-user"
                                   [value]="employee.fullName"></p-tag>
-                                <!-- <i class="pi pi-tag product-category-icon"></i> -->
                                 <div class="product-category">{{employee.code}}</div>
                                 <div class="product-category">{{employee.dateofJoin | date :
                                   'longDate' }}</div>
                                 <div>{{employee.designation}}</div>
-                                <!-- <div class="mb-2">{{employee.reportingTo}}</div> -->
                               </div>
                               <div class="hrms-project-list-detail" style="display: grid;">
                                 <span class="title">Allotted Projects</span>
                                 <p-tag styleClass="mr-2 hrms-tag-allotted-projects" icon="pi pi-user-plus"
                                   [value]="employee.reportingTo"></p-tag>
-                                <!-- <p-tag [value]="employee.reportingTo" ></p-tag> -->
                               </div>
                             </div>
                           </div>
@@ -458,7 +454,6 @@
                     <div class="text-2xl mb-3 font-medium">
                       <a class="cursor-pointer" id="Project_viewDetails">{{project.name}} </a>
                     </div>
-                    <!-- <p class="line-height-3 mb-3">{{project.description}}</p> -->
                     <div class="project_details p-2">
                       <p>
                         <span class="text-primary">Status</span>: <span
