@@ -9,7 +9,7 @@ import { NodeProps } from 'src/app/_models/admin'
 import { AdminService } from 'src/app/_services/admin.service';
 import { JwtService } from 'src/app/_services/jwt.service';
 import { MAX_LENGTH_20, MAX_LENGTH_256, MAX_LENGTH_50, MIN_LENGTH_2, MIN_LENGTH_20, MIN_LENGTH_21, MIN_LENGTH_4, RG_PHONE_NO } from 'src/app/_shared/regex';
-import { MessageService, TreeNode } from 'primeng/api';
+import { MenuItem, MessageService, TreeNode } from 'primeng/api';
 import * as go from 'gojs';
 import { CompanyHierarchyViewDto, EmployeesViewDto } from 'src/app/_models/employes';
 import { EmployeeService } from 'src/app/_services/employee.service';
@@ -84,7 +84,7 @@ export class ProjectComponent implements OnInit {
     @Output() ImageValidator = new EventEmitter<PhotoFileProperties>();
     defaultPhoto: string;
     @ViewChild('filter') filter!: ElementRef;
-
+    items: MenuItem[] | undefined;
     //For paginator
     first: number = 0;
     rows: number = 12;
@@ -133,10 +133,36 @@ export class ProjectComponent implements OnInit {
         private imageCropService: ImagecropService,
         private activatedRoute: ActivatedRoute) {
         pdfMake.vfs = pdfFonts.pdfMake.vfs;
+        this.items = [
+            {
+                label: 'All Projects',
+                command: () => { this.downloadProjectPDfReport('All'); }
+            },
+            {
+                label: 'Initial Projects',
+                command: () => { this.downloadProjectPDfReport('Initial'); }
+            },
+            {
+                label: 'Working Projects',
+                command: () => { this.downloadProjectPDfReport('Working'); }
+            },
+            {
+                label: 'Completed Projects',
+                command: () => { this.downloadProjectPDfReport('Completed'); }
+            },
+            {
+                label: 'Suspended Projects',
+                command: () => { this.downloadProjectPDfReport('Suspended'); }
+            },
+            {
+                label: 'AMC Projects',
+                command: () => { this.downloadProjectPDfReport('AMC'); }
+            },
+
+        ];
     }
 
     ngOnInit() {
-
         this.permission = this.jwtService.Permissions;
         this.defaultPhoto = './assets/layout/images/projectsDefault.jpg';
         this.projectForm();
@@ -300,7 +326,7 @@ export class ProjectComponent implements OnInit {
             this.projectDetails = resp[0] as unknown as ProjectViewDto;
             this.projectDetails.expandEmployees = JSON.parse(this.projectDetails.teamMembers);
             console.log(this.projectDetails.expandEmployees);
-            
+
         });
     }
     cancelSelection(event: Event): void {
@@ -1026,10 +1052,10 @@ export class ProjectComponent implements OnInit {
         this.initProjects();
     }
     getProjects(pdftype): any {
-        return pdftype !== 'All' ? 
+        return pdftype !== 'All' ?
             this.projects.filter(project => project[pdftype.toLowerCase()] !== null) : this.projects;
     }
-    
+
     getBase64ImageFromURL(url: string) {
         return new Promise((resolve, reject) => {
             var img = new Image();
@@ -1052,32 +1078,66 @@ export class ProjectComponent implements OnInit {
             img.src = url;
         });
     }
+    async pdfHeader() {
+        try {
+            const headerImage1 = await this.getBase64ImageFromURL('../../assets/layout/images/Calibrage_logo1.png');
+            const headerImage2 = await this.getBase64ImageFromURL('../../assets/layout/images/head_right.PNG');
+            const pageWidth = 595.28;
+            const imageWidth = (pageWidth / 3) - 10;
+            const spacerWidth = (pageWidth / 3) - 10;
+            let row = {
+                columns: [
+                    { image: headerImage1, width: imageWidth, alignment: 'left', margin: [0, 0, 0, 0] },
+                    { width: spacerWidth, text: '', alignment: 'center' },
+                    { image: headerImage2, width: imageWidth, alignment: 'right', margin: [0, 0, 0, 0] },
+                ],
+                alignment: 'justify',
+                margin: [20, 0, 20, 0] // Remove any margins
+            };
+            return row;
+        } catch (error) {
+            console.error("Error occurred while formatting key and values:", error);
+            throw error; // Propagate the error
+        }
+    }
     async generatePdf(pdftype: string) {
-        const projectsList = await this.getProjects(pdftype);
-        const pageSize = { width: 595.28, height: 841.89 };
-        const headerImage = await this.getBase64ImageFromURL('../../assets/layout/images/head.JPG');
-        const createLine = () => [{ type: 'line', x1: 0, y1: 0, x2: 495.28, y2: 0, lineWidth: 2 }];
 
-        const createFooter = () => ({
+        const waterMark = await this.getBase64ImageFromURL('../../assets/layout/images/transparent_logo.png');
+        const pageSize = { width: 595.28, height: 841.89 };
+        const header = await this.pdfHeader();
+        const createFooter = (currentPage: number) => ({
             margin: [0, 0, 0, 0],
-            height: 40,
-            background: '#41b6a6',
-            color: '#fff',
+            height: 20,
+            background: '#ff810e',
             width: 595.28,
             columns: [
-                { canvas: [{ type: 'rect', x: 0, y: 0, w: 595.28, h: 40, color: '#41b6a6' }] },
-                { text: '@ 2022 EHR One, LLC', fontSize: 14, color: '#fff', absolutePosition: { x: 20, y: 10 } },
+                { canvas: [{ type: 'rect', x: 0, y: 0, w: 530.28, h: 20, color: '#ff810e' }] },
+                {
+                    stack: [
+                        { text: 'Copyrights © 2024 Calibrage Info Systems Pvt Ltd.', fontSize: 12, color: '#fff', absolutePosition: { x: 20, y: 3 }, },
+                        { text: `Page ${currentPage}`, color: '#000000', background: '#fff', margin: [0, 0, 0, 0], fontSize: 12, absolutePosition: { x: 540, y: 3 } }
+                    ],
+                }
             ],
         });
 
         const docDefinition = {
-            header: () => ({ image: headerImage, width: pageSize.width, height: pageSize.height * 0.15, margin: [0, 0, 0, 0] }),
+            header: () => (header),
             footer: createFooter,
+            background: [{
+                image: waterMark,
+                absolutePosition: { x: (pageSize.width - 200) / 2, y: (pageSize.height - 200) / 2 },
+            }],
+            pageMargins: [40, 90, 40, 20],
             content: [
-
+                {
+                    text: `${pdftype} Projects Report`,
+                    style: 'header'
+                },
+                this.pdfProjectsListDesign()
             ],
             styles: {
-                header: { fontSize: 24 },
+                header: { fontSize: 20, backgroundColor: '#ff810e', alignment: 'center', margin: [0, 0, 0, 5] },
                 subheader: { fontSize: 20, alignment: 'center' },
                 borderedText: { border: [1, 1, 1, 1], borderColor: 'rgb(0, 0, 255)', fillColor: '#eeeeee', width: 100, height: 150, margin: [12, 20, 0, 0] },
                 defaultStyle: { font: 'Typography', fontSize: 12 },
@@ -1085,6 +1145,17 @@ export class ProjectComponent implements OnInit {
         };
 
         pdfMake.createPdf(docDefinition).download(`${pdftype}Projects.pdf`);
+    }
+
+    async downloadProjectPDfReport(projectName) {
+        const projectsList = await this.getProjects(projectName);
+        console.log(projectsList);
+        
+        // this.generatePdf(projectName)
+    }
+
+    pdfProjectsListDesign(){
+
     }
 }
 

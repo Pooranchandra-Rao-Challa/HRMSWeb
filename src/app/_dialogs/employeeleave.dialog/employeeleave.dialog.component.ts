@@ -1,13 +1,13 @@
 import { LoaderService } from './../../_services/loader.service';
 import { PlatformLocation, formatDate } from '@angular/common';
 import { HttpErrorResponse, HttpEvent } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
-import { DATE_OF_JOINING, FORMAT_DATE } from 'src/app/_helpers/date.formate.pipe';
+import { DATE_OF_JOINING } from 'src/app/_helpers/date.formate.pipe';
 import { EmployeesList, HolidaysViewDto, LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
 import { MaxLength } from 'src/app/_models/common';
 import { SelfEmployeeDto, selfEmployeeMonthlyLeaves } from 'src/app/_models/dashboard';
@@ -35,14 +35,13 @@ export class EmployeeLeaveDialogComponent implements OnInit {
   disabledDates: Date[] = [];
   holidays: HolidaysViewDto[] = [];
   minDate: Date = new Date(new Date());
-  maxDate: Date = new Date(new Date()); // Set the maxDate to a future date
+  maxDate: Date = new Date(new Date()); 
   emailURL: string;
   errorMessage: string;
   empDetails: SelfEmployeeDto;
   currentRoute: any;
   year: number = new Date().getFullYear();
   month: number = new Date().getMonth() + 1;
-  monthlyLeaves: selfEmployeeMonthlyLeaves[] = [];
   yearlyLeaves: selfEmployeeMonthlyLeaves[] = [];
   dialog: boolean = false;
   dialogforWFH: boolean = false;
@@ -50,9 +49,9 @@ export class EmployeeLeaveDialogComponent implements OnInit {
   empName: string;
   monthName: string;
   hasPendingLeaveInMonth: any;
+  isHalfDayLeave: any;
   dates: any;
   fromDate: string = DATE_OF_JOINING;
-  workFromHome: any;
 
   constructor(
     private formbuilder: FormBuilder,
@@ -224,8 +223,8 @@ export class EmployeeLeaveDialogComponent implements OnInit {
 
   handleEmployeeLeaves() {
     this.FormControls['employeeId'].markAsTouched();
-    var employeeState = this.FormControls['employeeId'].disable
-    var empId: number;
+    let employeeState = this.FormControls['employeeId'].disable
+    let empId: number;
     if (employeeState) {
       empId = this.FormControls['employeeId'].value;
     }
@@ -299,7 +298,7 @@ export class EmployeeLeaveDialogComponent implements OnInit {
     else {
       empId = this.jwtService.EmployeeId;
     }
-    const isPL = this.monthlyLeaves.filter(leave => leave.isDeleted !== true && leave.leaveType === 'PL' && leave.status === 'Pending' && new Date(leave.fromDate).getMonth() + 1 === this.month);
+    const isPL = this.yearlyLeaves.filter(leave => leave.isDeleted !== true && leave.leaveType === 'PL' && leave.status === 'Pending' && new Date(leave.fromDate).getMonth() + 1 === this.month);
     if (isPL.length > 0) {
       isPL.forEach(pl => {
         const plfromDate = formatDate(new Date(pl.fromDate), 'yyyy-MM-dd', 'en');
@@ -317,7 +316,7 @@ export class EmployeeLeaveDialogComponent implements OnInit {
       this.ref.close(true);
     }
     else {
-      const isDeletedCL = this.monthlyLeaves.filter(leave => leave.isDeleted !== true && leave.leaveType === 'CL' && leave.isLeaveUsed === false);
+      const isDeletedCL = this.yearlyLeaves.filter(leave => leave.isDeleted !== true && leave.leaveType === 'CL' && leave.isLeaveUsed === false && new Date(leave.fromDate).getMonth() + 1 === this.month);
       isDeletedCL.forEach(leave => {
         this.employeeService.DeleteleaveDetails(leave.employeeLeaveId).subscribe((resp) => {
           if (resp) {
@@ -338,8 +337,8 @@ export class EmployeeLeaveDialogComponent implements OnInit {
   }
 
   confirmation() {
-    var employeeState = this.FormControls['employeeId'].disable;
-    var empId: number;
+    let employeeState = this.FormControls['employeeId'].disable;
+    let empId: number;
     if (employeeState) {
       empId = this.FormControls['employeeId'].value;
     }
@@ -347,25 +346,23 @@ export class EmployeeLeaveDialogComponent implements OnInit {
       empId = this.jwtService.EmployeeId;
     }
     const leaveType = this.leaveType.find(item => item.lookupDetailId === this.fbLeave.get('leaveTypeId').value);
-    console.log(this.monthlyLeaves);
     this.dashBoardService.GetEmployeeLeaves(empId, this.year)
       .subscribe(resp => {
         this.yearlyLeaves = resp as unknown as selfEmployeeMonthlyLeaves[];
-        this.workFromHome = this.yearlyLeaves.find(leave => leave.isDeleted !== true && leave.leaveType === 'WFH' && leave.status !== 'Rejected');
-      });
-    if (leaveType.name === 'CL') {
-      this.dashBoardService.GetEmployeeLeaves(empId, this.year)
-        .subscribe(resp => {
-          this.monthlyLeaves = resp as unknown as selfEmployeeMonthlyLeaves[];
-          const fromDate = formatDate(new Date(this.workFromHome.fromDate), 'yyyy-MM-dd', 'en');
-          const toDate = formatDate(new Date(this.workFromHome.toDate), 'yyyy-MM-dd', 'en');
-          const formDateValue = formatDate(new Date(this.fbLeave.get('fromDate').value), 'yyyy-MM-dd', 'en');
-          this.hasPendingLeaveInMonth = this.monthlyLeaves.some(leave => leave.leaveType === 'CL' && leave.status === 'Pending' && (leave.isDeleted === false || leave.isDeleted === null) && new Date(leave.fromDate).getMonth() + 1 === this.month);
-          const isLeaveApproved = this.monthlyLeaves.find(leave => leave.status === 'Approved' && leave.isDeleted !== true && leave.leaveType === 'CL' && new Date(leave.fromDate).getMonth() + 1 === this.month);
-          const isLeaveRejected = this.monthlyLeaves.find(leave => leave.status === 'Rejected' && leave.status === 'Rejected' && leave.leaveType === 'CL' && new Date(leave.fromDate).getMonth() + 1 === this.month);
-          const isDeletedCL = this.monthlyLeaves.find(leave => leave.isDeleted === true && leave.leaveType === 'CL' && new Date(leave.fromDate).getMonth() + 1 === this.month);
-          const isHalfDayLeave = this.monthlyLeaves.filter(leave => leave.status === 'Pending' && leave.isHalfDayLeave == true && leave.isDeleted !== true && leave.leaveType === 'CL' && new Date(leave.fromDate).getMonth() + 1 === this.month);
-          const clIsNotDeleted = this.monthlyLeaves.find(leave => (leave.isDeleted === false || leave.isDeleted === null) && leave.leaveType === 'CL' && new Date(leave.fromDate).getMonth() + 1 === this.month);
+        
+        const workFromHome = this.yearlyLeaves.find(leave => leave.isDeleted !== true && leave.leaveType === 'WFH' && leave.status !== 'Rejected');
+        const fromDate = workFromHome?.fromDate ? formatDate(new Date(workFromHome?.fromDate), 'yyyy-MM-dd', 'en') : null;
+        const toDate = workFromHome?.toDate ? formatDate(new Date(workFromHome?.toDate), 'yyyy-MM-dd', 'en') : null;
+        const formDateValue = formatDate(new Date(this.fbLeave.get('fromDate').value), 'yyyy-MM-dd', 'en');
+
+        if (leaveType.name === 'CL') {
+          this.yearlyLeaves = resp as unknown as selfEmployeeMonthlyLeaves[];
+          this.hasPendingLeaveInMonth = this.yearlyLeaves.some(leave => leave.leaveType === 'CL' && leave.status === 'Pending' && (leave.isDeleted === false || leave.isDeleted === null) && new Date(leave.fromDate).getMonth() + 1 === this.month);
+          const isLeaveApproved = this.yearlyLeaves.find(leave => leave.status === 'Approved' && leave.isDeleted !== true && leave.leaveType === 'CL' && new Date(leave.fromDate).getMonth() + 1 === this.month);
+          const isLeaveRejected = this.yearlyLeaves.find(leave => leave.status === 'Rejected' && leave.status === 'Rejected' && leave.leaveType === 'CL' && new Date(leave.fromDate).getMonth() + 1 === this.month);
+          const isDeletedCL = this.yearlyLeaves.find(leave => leave.isDeleted === true && leave.leaveType === 'CL' && new Date(leave.fromDate).getMonth() + 1 === this.month);
+          this.isHalfDayLeave = this.yearlyLeaves.filter(leave => leave.status === 'Pending' && leave.isHalfDayLeave == true && leave.isDeleted !== true && leave.leaveType === 'CL' && new Date(leave.fromDate).getMonth() + 1 === this.month);
+          const clIsNotDeleted = this.yearlyLeaves.find(leave => (leave.isDeleted === false || leave.isDeleted === null) && leave.leaveType === 'CL' && new Date(leave.fromDate).getMonth() + 1 === this.month);
           if (isLeaveApproved) {
             this.onSubmit();
           }
@@ -375,28 +372,28 @@ export class EmployeeLeaveDialogComponent implements OnInit {
           else if (isLeaveRejected && this.hasPendingLeaveInMonth === false) {
             this.onSubmit();
           }
-          else if (isHalfDayLeave.length === 1 && this.fbLeave.get('isHalfDayLeave').value == false) {
+          else if (this.isHalfDayLeave.length === 1 && this.fbLeave.get('isHalfDayLeave').value == false) {
             this.dialog = true;
-            const leaveWithEmployeeName = this.monthlyLeaves.find(leave => leave.employeeName);
+            const leaveWithEmployeeName = this.yearlyLeaves.find(leave => leave.employeeName);
             this.empName = leaveWithEmployeeName ? leaveWithEmployeeName.employeeName : '';
-            const leavewithFromDate = this.monthlyLeaves.find(leave => leave.fromDate && leave.leaveType === 'CL' && new Date(leave.fromDate).getMonth() + 1 === this.month);
+            const leavewithFromDate = this.yearlyLeaves.find(leave => leave.fromDate && leave.leaveType === 'CL' && new Date(leave.fromDate).getMonth() + 1 === this.month);
             this.dates = leavewithFromDate ? leavewithFromDate.fromDate : '';
           }
-          else if (this.hasPendingLeaveInMonth && isHalfDayLeave.length === 1) {
+          else if (this.hasPendingLeaveInMonth && this.isHalfDayLeave.length === 1) {
             this.onSubmit();
           }
           else if ((isLeaveRejected && this.hasPendingLeaveInMonth !== false)) {
             this.dialog = true;
-            const leaveWithEmployeeName = this.monthlyLeaves.find(leave => leave.employeeName);
+            const leaveWithEmployeeName = this.yearlyLeaves.find(leave => leave.employeeName);
             this.empName = leaveWithEmployeeName ? leaveWithEmployeeName.employeeName : '';
-            const leavewithFromDate = this.monthlyLeaves.find(leave => leave.fromDate && leave.leaveType === 'CL' && new Date(leave.fromDate).getMonth() + 1 === this.month);
+            const leavewithFromDate = this.yearlyLeaves.find(leave => leave.fromDate && leave.leaveType === 'CL' && new Date(leave.fromDate).getMonth() + 1 === this.month);
             this.dates = leavewithFromDate ? leavewithFromDate.fromDate : '';
           }
-          else if ((this.hasPendingLeaveInMonth && isHalfDayLeave.length === 2) || (this.hasPendingLeaveInMonth && clIsNotDeleted) || (this.hasPendingLeaveInMonth && isDeletedCL !== null && clIsNotDeleted !== null)) {
+          else if ((this.hasPendingLeaveInMonth && this.isHalfDayLeave.length === 2) || (this.hasPendingLeaveInMonth && clIsNotDeleted) || (this.hasPendingLeaveInMonth && isDeletedCL !== null && clIsNotDeleted !== null)) {
             this.dialog = true;
-            const leaveWithEmployeeName = this.monthlyLeaves.find(leave => leave.employeeName);
+            const leaveWithEmployeeName = this.yearlyLeaves.find(leave => leave.employeeName);
             this.empName = leaveWithEmployeeName ? leaveWithEmployeeName.employeeName : '';
-            const leavewithFromDate = this.monthlyLeaves.find(leave => leave.fromDate && leave.leaveType === 'CL' && new Date(leave.fromDate).getMonth() + 1 === this.month);
+            const leavewithFromDate = this.yearlyLeaves.find(leave => leave.fromDate && leave.leaveType === 'CL' && new Date(leave.fromDate).getMonth() + 1 === this.month);
             this.dates = leavewithFromDate ? leavewithFromDate.fromDate : '';
           }
           else if (this.hasPendingLeaveInMonth && isDeletedCL) {
@@ -405,16 +402,18 @@ export class EmployeeLeaveDialogComponent implements OnInit {
           else {
             this.onSubmit();
           }
-        });
-    }
-    else {
-      this.onSubmit();
-    }
+        }
+        else if ((leaveType.name === 'PL' || leaveType.name === 'LWP') && (formDateValue >= fromDate && formDateValue <= toDate)) {
+          this.dialogforWFH = true;
+        }
+        else {
+          this.onSubmit();
+        }
+      });
   }
 
   onSubmit() {
     if (this.dialogforWFH === true) {
-      console.log(this.dialogforWFH);
       this.fbLeave.get('confirmedToSplitWFH').setValue(true);
     }
     this.fbLeave.get('fromDate').setValue(formatDate(new Date(this.fbLeave.get('fromDate').value), 'yyyy-MM-dd', 'en'));
