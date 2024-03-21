@@ -151,33 +151,88 @@ export class AllEmployeesComponent {
         });
     }
 
-    async downloadEmployeespdf() {
-        // const pageSize = { width: 595.28, height: 841.89 };
+    async pdfHeader() {
+        try {
+            const headerImage1 = await this.getBase64ImageFromURL('assets/layout/images/Calibrage_logo1.png');
+            const headerImage2 = await this.getBase64ImageFromURL('assets/layout/images/head_right.PNG');
+            const pageWidth = 841.89;
+            const imageWidth = (pageWidth / 4) - 10;
+            const createLine = () => [{ type: 'line', x1: 0, y1: 0, x2: 689.85, y2: 0, lineWidth: 0.5, lineColor: '#f3743f' }];
+
+            let row = {
+                columns: [
+                    {
+                        image: headerImage1,
+                        width: imageWidth,
+                        alignment: 'left',
+                        margin: [20, 0, 0, 0] // Remove any margins
+                    },
+                    {
+                        width: '*',
+                        text: '', // Empty spacer column
+                        alignment: 'center' // Remove any margins
+                    },
+                    {
+                        image: headerImage2,
+                        width: imageWidth,
+                        alignment: 'right',
+                        margin: [0, 0, 5, 0] // Remove any margins
+                    },
+                ],
+                alignment: 'justify',
+                margin: [0, 0, 0, 0] // Remove any margins
+            };
+            return row;
+        } catch (error) {
+            console.error("Error occurred while formatting key and values:", error);
+            throw error; // Propagate the error
+        }
+    }
+
+    async downloadEmployeespdf(selectedEmployeeStatus) {
         const pageSize = { width: 841.89, height: 595.28 };
-        const headerImage = await this.getBase64ImageFromURL('assets/layout/images/head.JPG')
-        const footerSize = { width: 841.90, height: 40.99 };
-        const footerImage = await this.getBase64ImageFromURL('assets/layout/images/footer.JPG')
-        const watermarkImage = await this.getBase64ImageFromURL('favicon.ico')
+        const headerImage = await this.pdfHeader();
+        const watermarkImage = await this.getBase64ImageFromURL('assets/layout/images/transparent_logo.png')
         const EmployeesList = this.generateEmployeesList();
+        const createFooter = (currentPage: number, pageSize: any) => ({
+            margin: [0, 20, 0, 0],
+            height: 20,
+            background: '#ff810e',
+            width: pageSize.width,
+            columns: [
+                { canvas: [{ type: 'rect', x: 0, y: 0, w: pageSize.width - 65, h: 20, color: '#ff810e' }] },
+                {
+                    stack: [
+                        {
+                            text: 'Copyrights © 2024 Calibrage Info Systems Pvt Ltd.',
+                            fontSize: 11, color: '#fff', absolutePosition: { x: 20, y: 24 }
+                        },
+                        {
+                            text: `Page ${currentPage}`,
+                            color: '#000000', background: '#fff', margin: [0, 0, 0, 0], fontSize: 12, absolutePosition: { x: pageSize.width - 45, y: 24 },
+                        }
+                    ],
+                }
+            ],
+        });
 
         const docDefinition = {
             pageOrientation: 'landscape',
             pageSize: pageSize,
-            header: () => ({ image: headerImage, width: pageSize.width, height: pageSize.height * 0.15, margin: [0, 0, 0, 0] }),
-            footer: () => ({ image: footerImage, width: footerSize.width, height: footerSize.height, margin: [0, 10, 0, 0] }),
+            header: () => (headerImage),
+            footer: (currentPage: number) => createFooter(currentPage, pageSize),
             background: [{
                 image: watermarkImage, width: 200, height: 200,
                 absolutePosition: { x: (pageSize.width - 200) / 2, y: (pageSize.height - 200) / 2 },
-                opacity: 0.3, // Adjust the opacity to make the watermark light
             }],
             content: [
-                { text: 'Employees List\n', style: 'header', alignment: 'center', color: '#F15F23' },
+                { text: selectedEmployeeStatus.label, style: 'header', alignment: 'center' },
                 EmployeesList
             ],
-            pageMargins: [30, 90, 40, 55],
+            pageMargins: [30, 90, 40, 40],
             styles: {
                 header: { fontSize: 25 },
-                subheader: { fontSize: 13, alignment: 'center', color: '#ff810e', },
+                tableHeader: { fontSize: 13, alignment: 'center', fillColor: '#dbdbdb' },
                 borderedText: { border: [1, 1, 1, 1], borderColor: 'rgb(0, 0, 255)', fillColor: '#eeeeee', width: 100, height: 150, margin: [12, 20, 0, 0] },
                 defaultStyle: { font: 'Typography', fontSize: 12 },
             },
@@ -188,17 +243,16 @@ export class AllEmployeesComponent {
     generateEmployeesList() {
         const content = [
             [
-                { text: 'Employee Code', style: 'subheader' },
-                { text: 'Employee Name', style: 'subheader' },
-                { text: 'Certificate DOB', style: 'subheader' },
-                { text: 'Gender', style: 'subheader' },
-                { text: 'Date of Joining', style: 'subheader' },
-                { text: 'Employee Role', style: 'subheader' },
-                { text: 'Designation', style: 'subheader' },
-                { text: 'Reporting To', style: 'subheader' },
-                { text: 'Office Email', style: 'subheader' },
-                { text: 'Mobile Number', style: 'subheader' },
-
+                { text: 'Employee Code', style: 'tableHeader' },
+                { text: 'Employee Name', style: 'tableHeader' },
+                { text: 'Certificate DOB', style: 'tableHeader' },
+                { text: 'Gender', style: 'tableHeader' },
+                { text: 'Date of Joining', style: 'tableHeader' },
+                { text: 'Employee Role', style: 'tableHeader' },
+                { text: 'Designation', style: 'tableHeader' },
+                { text: 'Reporting To', style: 'tableHeader' },
+                { text: 'Office Email', style: 'tableHeader' },
+                { text: 'Mobile Number', style: 'tableHeader' },
             ],
             ...this.employees.map(employee => [
                 employee.code || '',
@@ -218,7 +272,6 @@ export class AllEmployeesComponent {
                 headerRows: 1,
                 widths: [60, 80, 60, 50, 60, 70, 70, 70, 100, 70],
                 body: content,
-                fontSize: 10,
             },
         };
     }

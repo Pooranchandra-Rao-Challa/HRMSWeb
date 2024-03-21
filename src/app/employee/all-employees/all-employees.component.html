@@ -18,7 +18,7 @@
               <div *ngIf="permissions?.CanDownloadEmployees">
                 <span>
                   <button pButton class="p-button doc_button mr-2" icon="pi pi-file-pdf" pTooltip="Download Employees PDF"
-                    tooltipPosition="left" (click)="downloadEmployeespdf()"></button>
+                    tooltipPosition="left" (click)="downloadEmployeespdf(selectedEmployeeStatus)"></button>
                 </span>
                 <span>
                   <button pButton class="p-button doc_button mr-2" icon="icon-csv-svgrepo-com-1" pTooltip="Download Employees CSV"

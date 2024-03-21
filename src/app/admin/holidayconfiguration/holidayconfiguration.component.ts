@@ -7,13 +7,13 @@ import { Observable, filter } from 'rxjs';
 import { ALERT_CODES, AlertmessageService } from 'src/app/_alerts/alertmessage.service';
 import { ConfirmationRequest, ITableHeader, MaxLength } from 'src/app/_models/common';
 import { HolidayDto, HolidaysViewDto } from 'src/app/_models/admin';
-import { FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
+import { DATE_OF_JOINING, FORMAT_DATE, MEDIUM_DATE } from 'src/app/_helpers/date.formate.pipe';
 import { DateValidators } from 'src/app/_validators/dateRangeValidator';
 import { MIN_LENGTH_2, RG_ALPHA_ONLY } from 'src/app/_shared/regex';
 import { JwtService } from 'src/app/_services/jwt.service';
 import { ConfirmationDialogService } from 'src/app/_alerts/confirmationdialog.service';
 import { GlobalFilterService } from 'src/app/_services/global.filter.service';
-import { formatDate } from '@angular/common';
+import { DatePipe, formatDate } from '@angular/common';
 import { ReportService } from 'src/app/_services/report.service';
 import * as FileSaver from "file-saver";
 import * as pdfMake from 'pdfmake/build/pdfmake';
@@ -64,7 +64,8 @@ export class HolidayconfigurationComponent {
     private jwtService: JwtService,
     private reportService: ReportService,
     private confirmationDialogService: ConfirmationDialogService,
-    private globalFilterService: GlobalFilterService) {
+    private globalFilterService: GlobalFilterService,
+    private datePipe: DatePipe) {
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
   }
 
@@ -395,54 +396,123 @@ export class HolidayconfigurationComponent {
       img.src = url;
     });
   }
+  async pdfHeader() {
+    try {
+      const headerImage1 = await this.getBase64ImageFromURL('../../assets/layout/images/Calibrage_logo1.png');
+      const headerImage2 = await this.getBase64ImageFromURL('../../assets/layout/images/head_right.PNG');
+      const pageWidth = 595.28; // Standard A4 page width in pdfmake
+      const imageWidth = (pageWidth / 3) - 10; // Adjusted width for each image (subtracting 10 for margins)
+      const spacerWidth = (pageWidth / 3) - 10; // Adjusted width for spacer (subtracting 10 for margins)
 
+      let row = {
+        columns: [
+          {
+            image: headerImage1,
+            width: imageWidth,
+            alignment: 'left',
+            margin: [0, 0, 0, 0] // Remove any margins
+          },
+          {
+            width: spacerWidth,
+            text: '', // Empty spacer column
+            alignment: 'center' // Remove any margins
+          },
+          {
+            image: headerImage2,
+            width: imageWidth,
+            alignment: 'right',
+            margin: [0, 0, 0, 0] // Remove any margins
+          },
+        ],
+        alignment: 'justify',
+        margin: [20, 0, 20, 0] // Remove any margins
+      };
+
+
+      return row;
+    } catch (error) {
+      console.error("Error occurred while formatting key and values:", error);
+      throw error; // Propagate the error
+    }
+  }
   async exportPdf() {
     const pageSize = { width: 595.28, height: 841.89 };
-    const headerImage = await this.getBase64ImageFromURL('assets/layout/images/head.JPG');
-    const footerSize = { width: 841.90, height: 40.99 };
-    const footerImage = await this.getBase64ImageFromURL('assets/layout/images/footer.JPG')
-    const holidaysContent = this.generateHolidaysContent(); 
+    const headerImage = await this.pdfHeader();
+    const waterMark = await this.getBase64ImageFromURL('../../assets/layout/images/transparent_logo.png');
+    const holidaysContent = await this.generateHolidaysContent();
+    const createFooter = (currentPage: number) => ({
+      margin: [0, 0, 0, 0],
+      height: 20,
+      background: '#ff810e',
+      width: 595.28,
+      columns: [
+        { canvas: [{ type: 'rect', x: 0, y: 0, w: 530.28, h: 20, color: '#ff810e' }] },
+        {
+          stack: [
+            {
+              text: 'Copyrights © 2024 Calibrage Info Systems Pvt Ltd.',
+              fontSize: 11, color: '#fff', absolutePosition: { x: 20, y: 3 }
+            },
+            {
+              text: `Page ${currentPage}`,
+              color: '#000000', background: '#fff', margin: [0, 0, 0, 0], fontSize: 12, absolutePosition: { x: 540, y: 3 },
+            }
+          ],
+        }
+      ],
+    });
 
     const docDefinition = {
-      header: () => ({ image: headerImage, width: pageSize.width, height: pageSize.height * 0.15 , margin: [0, 0, 0, 0] }),
-      footer: () => ({ image: footerImage, width: footerSize.width, height: footerSize.height }),
+      header: () => (headerImage),
+      footer: (currentPage: number) => createFooter(currentPage),
+      background: [{
+        image: waterMark,
+        absolutePosition: { x: (pageSize.width - 200) / 2, y: (pageSize.height - 200) / 2 },
+      }],
       content: [
-        { text: 'Holidays List\n', style: 'header', margin: [0,90, 0, 0], alignment: 'center' },
+        { text: 'Holidays List\n', style: 'header', alignment: 'center' },
         holidaysContent
       ],
+      pageMargins: [40, 90, 40, 20],
       styles: {
         header: { fontSize: 24 },
-        subheader: { fontSize: 15, alignment: 'center' },
+        tableheader: { fontSize: 15, alignment: 'center', fillColor: '#dbdbdb' },
         borderedText: { border: [1, 1, 1, 1], borderColor: 'rgb(0, 0, 255)', fillColor: '#eeeeee', width: 100, height: 150, margin: [12, 20, 0, 0] },
         defaultStyle: { font: 'Typography', fontSize: 12 },
       },
     };
-    pdfMake.createPdf(docDefinition).download('HolidaysReport.pdf');
+    const currentDate = new Date().toLocaleString().replace(/[/\\?%*:|"<>.]/g, '-');
+    pdfMake.createPdf(docDefinition).download(`HolidaysReport ${currentDate}.pdf`);;
   }
-  
-  generateHolidaysContent(): any {
+
+  async generateHolidaysContent() {
+    const check = await this.getBase64ImageFromURL('assets/layout/images/check.jpg');
+    const cancle = await this.getBase64ImageFromURL('assets/layout/images/cancle.jpg');
     const content = [
-        [
-            { text: 'Holiday Name', style: 'subheader' },
-            { text: 'From Date', style: 'subheader' },
-            { text: 'To Date', style: 'subheader' },
-            { text: 'Is Active', style: 'subheader' }
-        ],
-        ...this.holidays.map(holiday => [
-            holiday.title || '',
-            holiday.fromDate ? new Date(holiday.fromDate).toLocaleDateString() : '',
-            holiday.toDate ? new Date(holiday.toDate).toLocaleDateString() : '',
-            holiday.isActive != null ? holiday.isActive : ''
-        ])
+      [
+        { text: 'Holiday Name', style: 'tableheader' },
+        { text: 'From Date', style: 'tableheader' },
+        { text: 'To Date', style: 'tableheader' },
+        { text: 'Is Active', style: 'tableheader' }
+      ],
+      ...this.holidays.map(holiday => [
+        { text: holiday.title || '' },
+        { text: this.datePipe.transform(holiday.fromDate, DATE_OF_JOINING) || '', alignment: 'center' },
+        { text: this.datePipe.transform(holiday.toDate, DATE_OF_JOINING) || '', alignment: 'center' },
+        {
+          image: holiday.isActive ? check : cancle, width: holiday.isActive ? 23 : 11,
+          height: holiday.isActive ? 23 : 11, alignment: 'center'
+        }
+      ])
     ];
 
     return {
-        table: {
-            headerRows: 1,
-            widths: [155, 110, 110, 100],
-            body: content,
-        },
+      table: {
+        headerRows: 1,
+        widths: [155, 110, 110, 100],
+        body: content,
+      },
     };
-}
+  }
 
 }
