@@ -39,7 +39,7 @@ export class AssetsViewDto {
 }
 
 export class AssetsDetailsViewDto {
-    employeecode:string;
+    employeeCode:string;
     employeeName: string;
     assetId?: number;
     code?: string;

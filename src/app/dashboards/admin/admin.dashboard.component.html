@@ -28,8 +28,7 @@
                         <h6 class="m-0 mb-1 text-0">Today Employees On Leaves</h6>
                         <h1 class="m-0 text-0"
                             [ngClass]="{'text-white': admindashboardDtls?.calculatedLeaveCount, 'text-14': !admindashboardDtls?.calculatedLeaveCount}">
-                            {{ admindashboardDtls?.calculatedLeaveCount ? admindashboardDtls?.calculatedLeaveCount :
-                            (chartFilled ? 'Today, there is no employee leaves.' : 'Please update todays attendance to view employees leaves.') }}
+                            {{ admindashboardDtls?.calculatedLeaveCount ? admindashboardDtls?.calculatedLeaveCount : 'Please update today\'s attendance to view employees leaves.' }}
                         </h1>
                     </div>
                     <div
@@ -471,9 +470,12 @@
                                     </div>
                                     <div style="width:30%;"
                                         *ngIf="EmployeeId && EmployeeId != employee?.employeeId && permissions?.CanSendBirthdayWishes">
-                                        <button type="button" pButton icon="pi icon-redeem"
-                                            class="p-button-rounded p-button-text p-button-sm flex-shrink-0"
-                                            (click)="showBirthdayDialog(employee)">&nbsp; Send Greetings </button>
+                                        <div *ngIf="(getStatus(employee?.employeeId) | async) as notifications">
+                                            <button type="button" pButton icon="pi icon-redeem"
+                                                class="p-button-rounded p-button-text p-button-sm flex-shrink-0"
+                                                (click)="showBirthdayDialog(employee)"
+                                                *ngIf="notifications.length == 0">&nbsp; Send Greetings </button>
+                                        </div>
                                     </div>
                                 </div>
 
