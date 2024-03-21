@@ -43,12 +43,6 @@
                         </p-dropdown>
                         <div class="flex">
                             <div class="align-left w-60" style="width:70%">
-                                <!-- <span
-                                    *ngIf="FormControls['leaveTypeId'].touched && FormControls['leaveTypeId'].invalid">
-                                    <div class="ng-invalid ng-touched p-error"
-                                        *ngIf="FormControls['leaveTypeId'].errors?.['required']">
-                                        Please Select Leave Type.</div>
-                                </span> -->
                                 <span
                                     *ngIf="FormControls['leaveTypeId'].touched && FormControls['leaveTypeId'].invalid">
                                     <div class="ng-invalid ng-touched p-error" *ngIf=" FormControls['employeeId'].untouched && FormControls['leaveTypeId'].touched ||
@@ -145,12 +139,29 @@
 
 <p-dialog header="Confirmation" [(visible)]="dialog" [modal]="true" showEffect="fade"
     [breakpoints]="{'960px': '40%', '640px': '50%'}" class="confirmation_dialog">
-    <p class="p-5">
-        Already '{{this.empName}}' applied for a CL in this '{{this.dates |date:fromDate}}' and there are not approved,
-        So do you
-        need to revert this CL,
-        Please confirm this by Clicking 'Confirm' else 'Cancel'.
-    </p>
+    <div *ngIf="hasPendingLeaveInMonth && isHalfDayLeave.length === 2">
+        <p class="p-5">
+            Kindly confirm whether '{{empName}}' wishes to retract the previously submitted credit limit application
+            for the month of March on this <span *ngFor="let leave of isHalfDayLeave; let i = index">
+                <ng-container *ngIf="i !== 0">
+                    <span> and </span>
+                </ng-container>
+                {{ leave.fromDate | date:'mediumDate' }}
+            </span> you have Half Day CLs which have not yet been approved.Please click 'Confirm' to proceed with the
+            reversion or 'Cancel' to
+            maintain the current application status.
+        </p>
+    </div>
+
+    <div *ngIf="!(this.hasPendingLeaveInMonth && this.isHalfDayLeave.length === 2)">
+        <p class="p-5">
+            Kindly confirm whether '{{this.empName}}' wish to retract the previously submitted credit limit application
+            for the month
+            of March on this '{{this.dates |date:fromDate}}' which has not yet been approved. Please click 'Confirm' to
+            proceed with the reversion or 'Cancel'
+            to maintain the current application status.
+        </p>
+    </div>
     <ng-template pTemplate="footer">
         <div style="float:right" class="p-2">
             <button pButton type="button" class="btn btn-primary" label="Confirm"
