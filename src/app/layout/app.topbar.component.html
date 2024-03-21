@@ -27,8 +27,13 @@
             <li class="topbar-item">
                 <a pStyleClass="@next" enterClass="ng-hidden" enterActiveClass="px-scalein" leaveToClass="ng-hidden"
                     leaveActiveClass="px-fadeout" [hideOnOutsideClick]="true" pRipple class="cursor-pointer">
-                    <img [src]="employeeDtls?.employeePhoto ? employeeDtls?.employeePhoto : employeeDtls?.employeeGender == 'Male' ?  './assets/layout/images/men-emp.jpg' : './assets/layout/images/women-emp.jpg'"
-                        [alt]="employeeDtls?.employeeName" class="border-round-xl" />
+                    <!-- <img [src]="employeeDtls?.employeePhoto ? employeeDtls?.employeePhoto : employeeDtls?.employeeGender == 'Male' ?  './assets/layout/images/men-emp.jpg' : './assets/layout/images/women-emp.jpg'"
+                        [alt]="employeeDtls?.employeeName" class=" border-round-2xl  avatar_topbar" /> -->
+
+                        <div class="avatar_topbar border-round-xl">
+                            <img [src]="employeeDtls?.employeePhoto ? employeeDtls?.employeePhoto : employeeDtls?.employeeGender == 'Male' ?  './assets/layout/images/men-emp.jpg' : './assets/layout/images/women-emp.jpg'" [alt]="employeeDtls?.employeeName"
+                                class="shadow-2  border-round-2xl avatar_topbar" />
+                        </div>
                 </a>
                 <ul [class]="'topbar-menu active-topbar-menu p-4 w-15rem   z-5 ng-hidden'">
                     <!-- <li role="menuitem" class="m-0 mb-3">
