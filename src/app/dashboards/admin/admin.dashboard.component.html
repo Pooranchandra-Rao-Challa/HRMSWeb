@@ -25,11 +25,11 @@
                 <div class="card text-0 flex justify-content-between pt-4 h-full"
                     style="background-color: var(--primary-color); min-width: 17rem">
                     <div class="overview-info">
-                        <h6 class="m-0 mb-1 text-0">Today On Leaves</h6>
+                        <h6 class="m-0 mb-1 text-0">Today Employees On Leaves</h6>
                         <h1 class="m-0 text-0"
                             [ngClass]="{'text-white': admindashboardDtls?.calculatedLeaveCount, 'text-14': !admindashboardDtls?.calculatedLeaveCount}">
                             {{ admindashboardDtls?.calculatedLeaveCount ? admindashboardDtls?.calculatedLeaveCount :
-                            (chartFilled ? 'Today, there is no employee leaves.' : 'Please update today attendance to view today leaves.') }}
+                            (chartFilled ? 'Today, there is no employee leaves.' : 'Please update todays attendance to view employees leaves.') }}
                         </h1>
                     </div>
                     <div
@@ -486,7 +486,7 @@
                         <li class="list-none border-round-lg pt-2 px-3 pb-2 mb-3"
                             style="background-color: var(--primary-lighter-color)">
                             <div class="text-center m-3">
-                                <p class="m-0">Today, there is no Employee birthdays .</p>
+                                <p class="m-0">Today, there is no Employee Birthdays.</p>
                             </div>
                         </li>
                     </ng-template>

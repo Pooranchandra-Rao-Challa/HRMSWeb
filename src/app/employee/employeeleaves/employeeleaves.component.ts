@@ -357,7 +357,6 @@ export class EmployeeLeavesComponent {
           text: 'Employee Leaves',
           bold: true,
           alignment: 'center',
-          color: '#ff810e',
           style: 'header',
         },
         {

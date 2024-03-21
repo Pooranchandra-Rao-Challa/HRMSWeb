@@ -1,4 +1,4 @@
-import { HttpParams } from '@angular/common/http';
+
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, Subject, take } from 'rxjs';
@@ -20,11 +20,11 @@ export class LeaveConfirmationService extends ApiHttpService {
       title: title,
       html: this.getDialogContent(currentRoute),
       footer: `
-      <div>
-      <button class="swal-button swal-button--confirm">${buttonLabel}</button>
-      <button class="swal-button swal-button--cancel">Cancel</button>
-    </div>
-      `,
+            <div>
+                <button class="swal-button swal-button--confirm">${buttonLabel}</button>
+                <button class="swal-button swal-button--cancel">Cancel</button>
+            </div>
+        `,
       showCancelButton: false,
       showConfirmButton: false,
       allowOutsideClick: false,
@@ -33,61 +33,44 @@ export class LeaveConfirmationService extends ApiHttpService {
         footer: 'swal-footer',
       },
       didOpen: () => {
-        const textarea = document.getElementById('description') as HTMLTextAreaElement;
-        if (textarea) {
-          textarea.addEventListener('mousedown', (event) => {
-            // Check if the mousedown event target is the textarea
-            if (textarea) {
-              event.preventDefault();
-            }
+        const usernameInput = document.getElementById('username') as HTMLInputElement;
+        const passwordInput = document.getElementById('password') as HTMLInputElement;
+        const descriptionInput = document.getElementById('description') as HTMLTextAreaElement;
+        if (usernameInput) {
+          usernameInput.addEventListener('input', () => {
+            this.clearValidationErrors(usernameInput);
           });
-          textarea.addEventListener('mouseenter', () => {
-            textarea.focus(); // Focus the textarea when mouse enters
+        }
+        if (passwordInput) {
+          passwordInput.addEventListener('input', () => {
+            this.clearValidationErrors(passwordInput);
+          });
+        }
+        if (descriptionInput) {
+          descriptionInput.addEventListener('input', () => {
+            this.clearValidationErrors(descriptionInput);
+          });
+          descriptionInput.addEventListener('mousedown', (event) => {
+            event.preventDefault();
+          });
+          descriptionInput.addEventListener('mouseenter', () => {
+            descriptionInput.focus(); // Focus the textarea when mouse enters
           });
         }
       }
     });
-
     document.querySelector('.swal-button--confirm')?.addEventListener('click', () => {
       const username = (document.getElementById('username') as HTMLInputElement)?.value || '';
       const password = (document.getElementById('password') as HTMLInputElement)?.value || '';
       const description = (document.getElementById('description') as HTMLTextAreaElement)?.value || '';
-      const usernameInput = document.getElementById('username') as HTMLElement;
-      const passwordInput = document.getElementById('password') as HTMLElement;
-      const descriptionInput = document.getElementById('description') as HTMLElement;
-
-      // Remove previous validation errors
-      document.querySelectorAll('.validation-error').forEach(element => element.remove());
-
-      if (currentRoute === this.router) {
-        if (username.length === 0) {
-          usernameInput.insertAdjacentHTML('afterend', '<div class="validation-error">Please enter your username</div>');
-        }
-
-        if (password.length === 0) {
-          passwordInput.insertAdjacentHTML('afterend', '<div class="validation-error">Please enter your password</div>');
-        }
-      }
-
-      if (description.length === 0 || description.length < 8 || description.length > 256) {
-        descriptionInput.insertAdjacentHTML('afterend', '<div class="validation-error">Please enter a description between 8 and 256 characters</div>');
-      }
-
-      if ((currentRoute === this.router && (username.length === 0 || password.length === 0)) || description.length === 0 || description.length < 8 || description.length > 256) {
-        return false; // Prevent form submission
-      } else {
-        // Clear any existing validation errors
-        document.querySelectorAll('.validation-error').forEach(element => element.remove());
+      if (this.validateInputs(username, password, description, currentRoute)) {
         this.result.next({ confirmed: true, username: username, password: password, description: description });
         Swal.close();
-        return true;
       }
     });
-
     document.querySelector('.swal-button--cancel')?.addEventListener('click', () => {
       Swal.close();
     });
-
     return this.result.asObservable().pipe(take(1));
   }
 
@@ -97,15 +80,15 @@ export class LeaveConfirmationService extends ApiHttpService {
       <div class="grid m-0 text-left">
         <div class="col-12 pt-0">
           <label for="username" class="swal2-label required">User Name:</label><br/>
-          <input id="username" class="swal2-input w-100 m-0" placeholder="Enter your username">
+          <input id="username" class="swal2-input w-100 m-0" placeholder="Enter User Name" autocomplete="username" maxlength="8">
         </div>
         <div class="col-12 pt-0">
           <label for="password" class="swal2-label required">Password</label><br/>
-          <input id="password" type="password" class="swal2-input w-100 m-0" placeholder="Enter your password">
+          <input id="password" type="password" class="swal2-input w-100 m-0" placeholder="Enter Password" maxlength="25" autocomplete="new-password">
         </div>
         <div class="col-12 pt-0">
           <label for="description" class="swal2-label required">Description:</label><br/>
-          <textarea id="description" class="swal2-textarea w-100 m-0" placeholder="Enter description"></textarea>
+          <textarea id="description" class="swal2-textarea w-100 m-0" placeholder="Enter Description" maxlength="256"></textarea>
         </div>
       </div>
     `;
@@ -114,12 +97,63 @@ export class LeaveConfirmationService extends ApiHttpService {
       <div class="grid m-0 text-left">
         <div class="col-12 pt-0">
           <label for="description" class="swal2-label required">Description:</label><br/>
-          <textarea id="description" class="swal2-textarea w-100 m-0" placeholder="Enter description"></textarea>
+          <textarea id="description" class="swal2-textarea w-100 m-0" placeholder="Enter Description"></textarea>
         </div>
       </div>
     `;
     }
   }
+
+  private clearValidationErrors(inputElement: HTMLElement): void {
+    if (inputElement) {
+      const validationErrorElement = inputElement.nextElementSibling as HTMLElement;
+      if (validationErrorElement && validationErrorElement.classList.contains('validation-error')) {
+        validationErrorElement.remove();
+        inputElement.classList.remove('validation-brerror');
+      }
+    }
+  }
+
+  private validateInputs(username: string, password: string, description: string, currentRoute): boolean {
+    const usernameInput = document.getElementById('username') as HTMLInputElement;
+    const passwordInput = document.getElementById('password') as HTMLInputElement;
+    const descriptionInput = document.getElementById('description') as HTMLTextAreaElement;
+    this.clearValidationErrors(usernameInput);
+    this.clearValidationErrors(passwordInput);
+    this.clearValidationErrors(descriptionInput);
+    let isValid = true;
+    if (currentRoute === this.router) {
+      if (username.length === 0) {
+        usernameInput.insertAdjacentHTML('afterend', '<div class="validation-error">Please Enter User Name.</div>');
+        usernameInput.classList.add('validation-brerror');
+        isValid = false;
+      } else if (username.length < 8) {
+        usernameInput.insertAdjacentHTML('afterend', '<div class="validation-error">User Name Min Length Is 8.</div>');
+        usernameInput.classList.add('validation-brerror');
+        isValid = false;
+      }
+      if (password.length === 0) {
+        passwordInput.insertAdjacentHTML('afterend', '<div class="validation-error">Please Enter Password</div>');
+        passwordInput.classList.add('validation-brerror');
+        isValid = false;
+      } else if (password.length < 8) {
+        passwordInput.insertAdjacentHTML('afterend', '<div class="validation-error">Password Min Length Is 8.</div>');
+        passwordInput.classList.add('validation-brerror');
+        isValid = false;
+      }
+    }
+    if (description.length === 0) {
+      descriptionInput.insertAdjacentHTML('afterend', '<div class="validation-error">Please Enter Description</div>');
+      descriptionInput.classList.add('validation-brerror');
+      isValid = false;
+    } else if (description.length < 8) {
+      descriptionInput.insertAdjacentHTML('afterend', '<div class="validation-error">Description Min Length Is 8.</div>');
+      descriptionInput.classList.add('validation-brerror');
+      isValid = false;
+    }
+    return isValid;
+  }
+
 
   public getEmployeeLeaveDetails(protectedData: string, protectedWith: string) {
     return this.getWithParams<EmployeeLeaveDetailsViewDto[]>(GET_EMPLOYEE_MAIL_DETAILS, [protectedData, protectedWith]);
@@ -130,3 +164,5 @@ export class LeaveConfirmationService extends ApiHttpService {
   }
 
 }
+
+
