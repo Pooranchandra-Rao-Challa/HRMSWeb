@@ -17,10 +17,10 @@
                 <div class="p-fluid p-formgrid grid">
                     <div class="field col-12 md:col-4 mb-0">
                         <label class="required">Employee Name:</label>
-                        <p-dropdown id="employeeName_Dropdown" appendTo="body" [filter]="true" [options]="employees"
+                        <p-dropdown id="employeeName_Dropdown"  class="dropdown_cus" appendTo="body" [filter]="true" [options]="employees"
                             optionLabel="employeeName" optionValue="employeeId" placeholder="Select Employee Name"
                             formControlName="employeeId" (onChange)="handleEmployeeLeaves()"
-                            [readonly]="this.currentRoute === '/dashboard/employee' || this.currentRoute === '/employee/myleaves'"
+                            [disabled]="this.currentRoute === '/dashboard/employee' || this.currentRoute === '/employee/myleaves'"
                             [ngClass]="{'is-invalid ng-dirty': FormControls['employeeId'].touched && FormControls['employeeId'].errors}">
                         </p-dropdown>
                         <div class="flex">
@@ -38,7 +38,7 @@
                         <p-dropdown placeholder="Select Leave Type" formControlName="leaveTypeId"
                             [options]="filteredLeaveTypes" optionLabel="name" optionValue="lookupDetailId"
                             id="leaveTypes_Dropdown" (onChange)="getLeaveReasonsByLeaveTypeId($event.value)"
-                            [readonly]="this.currentRoute === '/dashboard/employee'"
+                            [disabled]="this.currentRoute === '/dashboard/employee'"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['leaveTypeId'].touched && FormControls['leaveTypeId'].errors }">
                         </p-dropdown>
                         <div class="flex">
@@ -63,7 +63,7 @@
                     </div>
                     <div class="field col-12 md:col-4 mb-0" *ngIf="hideLeavereason()">
                         <label class="required">Leave Reason:</label>
-                        <p-dropdown placeholder="Select Leave Reason" formControlName="leaveReasonId"
+                        <p-dropdown placeholder="Select Leave Reason" class="dropdown_cus" formControlName="leaveReasonId"
                             [options]="leaveReasons" optionLabel="name" optionValue="lookupDetailId"
                             id="leaveTypes_Dropdown"
                             [ngClass]="{ 'is-invalid ng-dirty': FormControls['leaveReasonId'].touched && FormControls['leaveReasonId'].errors }">
