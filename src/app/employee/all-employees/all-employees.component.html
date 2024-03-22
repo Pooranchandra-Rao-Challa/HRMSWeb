@@ -17,17 +17,22 @@
             <div class="flex">
               <div *ngIf="permissions?.CanDownloadEmployees">
                 <span>
-                  <button pButton class="p-button doc_button mr-2" icon="pi pi-file-pdf" pTooltip="Download Employees PDF"
-                    tooltipPosition="left" (click)="downloadEmployeespdf(selectedEmployeeStatus)"></button>
+                  <button pButton class="p-button doc_button mr-2" icon="icon-csv-svgrepo-com-1"
+                    pTooltip="Download Employees CSV" tooltipPosition="left"
+                    (click)="downloadEmployeesReport()"></button>
                 </span>
                 <span>
-                  <button pButton class="p-button doc_button mr-2" icon="icon-csv-svgrepo-com-1" pTooltip="Download Employees CSV"
-                    tooltipPosition="left" (click)="downloadEmployeesReport()"></button>
+                  <button pButton class="p-button doc_button mr-2" icon="pi pi-file-pdf"
+                    pTooltip="Download Employees PDF" tooltipPosition="left"
+                    (click)="downloadEmployeespdf(selectedEmployeeStatus,selectedColumns)"></button>
                 </span>
               </div>
               <div class="mx-2">
-                <p-dropdown [options]="employeeStatusOptions" [(ngModel)]="selectedEmployeeStatus"
-               optionLabel="label" (ngModelChange)="initEmployees(selectedEmployeeStatus.value)"></p-dropdown>
+                <p-multiSelect optionLabel="text" [options]="PDFheaders" [(ngModel)]="selectedColumns"
+                  id="lookup_ColumnSelection" selectedItemsLabel="{0} columns selected" placeholder="Choose Columns">
+                </p-multiSelect>&nbsp;
+                <p-dropdown [options]="employeeStatusOptions" [(ngModel)]="selectedEmployeeStatus" optionLabel="label"
+                  (ngModelChange)="initEmployees(selectedEmployeeStatus.value)"></p-dropdown>
               </div>
             </div>
           </div>
@@ -41,15 +46,16 @@
                 styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm pb-5" [paginator]="true"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                 [showCurrentPageReport]="true" [alwaysShowPaginator]="false" [globalFilterFields]="globalFilterFields"
-                [rowsPerPageOptions]="[10,25,50]" [autoLayout]="true" responsiveLayout="scroll" [resizableColumns]="true" >
+                [rowsPerPageOptions]="[10,25,50]" [autoLayout]="true" responsiveLayout="scroll"
+                [resizableColumns]="true">
                 <ng-template pTemplate="caption">
                   <div class="flex justify-content-between flex-column sm:flex-row">
                     <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
                       (click)="clear(dtEmployees)"></button>
                     <span class="p-input-icon-left mb-2">
                       <i class="pi pi-search"></i>
-                      <input pInputText type="text" [(ngModel)]="searchKeyword" #filter id="search" (input)="onGlobalFilter(dtEmployees, $event)"
-                        placeholder="Search Keyword" class="w-full" />
+                      <input pInputText type="text" [(ngModel)]="searchKeyword" #filter id="search"
+                        (input)="onGlobalFilter(dtEmployees, $event)" placeholder="Search Keyword" class="w-full" />
                     </span>
                   </div>
                 </ng-template>
@@ -74,7 +80,7 @@
                     </td>
                     <td class="text-center" *ngFor="let col of headers">
                       <span
-                        *ngIf="col?.field == 'code' || col?.field == 'employeeName' || col?.field == 'employeeRoleName'||col?.field == 'gender'  || col?.field == 'mobileNumber'||col?.field =='officeEmailId' || col?.field == 'createdBy'">
+                        *ngIf="col?.field == 'code' || col?.field == 'employeeName' || col?.field == 'designation'||col?.field == 'gender'  || col?.field == 'mobileNumber'||col?.field =='officeEmailId' || col?.field == 'createdBy'">
                         {{employee[col.field]}}
                       </span>
                       <span *ngIf="col.field == 'dateofJoin'">
@@ -85,7 +91,8 @@
                         (click)="viewEmployeeDtls(employee?.employeeId)"
                         class="p-element p-ripple p-button-text p-button p-component view_profile_button"
                         ng-reflect-label="Primary">
-                        <span class="p-button-label pi pi-chevron-right" pTooltip="View Employee" tooltipPosition="top"></span>
+                        <span class="p-button-label pi pi-chevron-right" pTooltip="View Employee"
+                          tooltipPosition="top"></span>
                       </button>
                     </td>
                   </tr>
@@ -106,38 +113,38 @@
                 <div class="col-12 lg:col-4 md:col-12 p-1  text-center employee_profile_pic_div">
                   <div class="avatar">
                     <img
-                    [src]="employee.photo ? employee.photo : employee?.gender == 'Male' ?  './assets/layout/images/men-emp.jpg' : './assets/layout/images/women-emp.jpg'"
-                    [alt]="employee.employeeName" class="shadow-2 my-1 mx-0  employee_profile_pic  avatar" />
+                      [src]="employee.photo ? employee.photo : employee?.gender == 'Male' ?  './assets/layout/images/men-emp.jpg' : './assets/layout/images/women-emp.jpg'"
+                      [alt]="employee.employeeName" class="shadow-2 my-1 mx-0  employee_profile_pic  avatar" />
                   </div>
                 </div>
                 <div class="col-12 lg:col-8 md:col-12 p-1 px-3 employee_info">
                   <div class="text-xl font-bold text-color mb-2">{{ employee?.employeeName }}</div>
                   <span class="text-500 font-medium text-md text-color">
-                    <i class="pi icon-intersex text-600 text-primary text-2xl  pb-2"
-                    pTooltip="Gender" tooltipPosition="top"></i> :
+                    <i class="pi icon-intersex text-600 text-primary text-2xl  pb-2" pTooltip="Gender"
+                      tooltipPosition="top"></i> :
                     {{employee?.gender}}
-                  </span><br/>
+                  </span><br />
                   <span class="text-600 font-medium text-md text-color">
-                    <i class="pi pi-id-card text-300 text-primary text-1xl pb-1"
-                    pTooltip="Code" tooltipPosition="top"></i> :
+                    <i class="pi pi-id-card text-300 text-primary text-1xl pb-1" pTooltip="Code"
+                      tooltipPosition="top"></i> :
                     {{employee?.code}}
                   </span>
                   <br />
                   <span class="text-600 font-medium text-md text-color">
-                    <i class="pi pi-calendar text-300 text-primary text-1xl  pb-1"
-                    pTooltip="DOB" tooltipPosition="top"></i> :
+                    <i class="pi pi-calendar text-300 text-primary text-1xl  pb-1" pTooltip="DOB"
+                      tooltipPosition="top"></i> :
                     {{employee?.certificateDOB| date: mediumDate}}
                   </span>
                   <br />
                   <span class="text-600 font-medium text-md text-color">
-                    <i class="pi pi-star text-500 text-primary text-1xl  pb-1"
-                    pTooltip="Designation" tooltipPosition="top"></i> :
+                    <i class="pi pi-star text-500 text-primary text-1xl  pb-1" pTooltip="Designation"
+                      tooltipPosition="top"></i> :
                     {{employee?.designation }}
                   </span>
                   <br />
                   <span class="text-600 font-medium text-md text-color">
-                    <i class="pi pi-calendar text-500 text-primary text-1xl pb-1"
-                    pTooltip="DOJ" tooltipPosition="top"> DOJ </i> :
+                    <i class="pi pi-calendar text-500 text-primary text-1xl pb-1" pTooltip="DOJ" tooltipPosition="top">
+                      DOJ </i> :
                     {{employee?.dateofJoin | date: mediumDate}}
                   </span>
                   <br />
@@ -146,24 +153,24 @@
               <div class="grid">
                 <div class="relative col-9 p-0 mb-3  employee_info">
                   <span class="text-600 font-medium text-md text-color">
-                    <i class="pi pi-at text-500 text-primary text-1xl pb-1"
-                    pTooltip="Email" tooltipPosition="top"></i> :
+                    <i class="pi pi-at text-500 text-primary text-1xl pb-1" pTooltip="Email" tooltipPosition="top"></i>
+                    :
                     {{employee?.officeEmailId}}
                   </span>
                   <br />
                   <span class="text-600 font-medium text-md text-color">
-                    <i class="pi pi-phone text-500 text-primary text-1xl pb-1"
-                    pTooltip="MObile Number" tooltipPosition="top"></i> :
+                    <i class="pi pi-phone text-500 text-primary text-1xl pb-1" pTooltip="Mobile Number"
+                      tooltipPosition="top"></i> :
                     {{employee?.mobileNumber}}
                   </span>
                   <br />
                 </div>
                 <div class="mb-3 col-3 p-0">
-                  <button pbutton="" type="button" label="Primary"
-                    (click)="viewEmployeeDtls(employee?.employeeId)"
+                  <button pbutton="" type="button" label="Primary" (click)="viewEmployeeDtls(employee?.employeeId)"
                     class="p-element p-ripple p-button-text p-button p-component view_profile_button"
                     ng-reflect-label="Primary">
-                    <span class="p-button-label pi pi-chevron-right" pTooltip="View Employee" tooltipPosition="top" ></span>
+                    <span class="p-button-label pi pi-chevron-right" pTooltip="View Employee"
+                      tooltipPosition="top"></span>
                   </button>
                 </div>
               </div>

@@ -49,7 +49,7 @@ export class AssetsComponent {
   permissions: any;
   isSubmitting: boolean = false;
   minDateValue: Date = new Date();
-  selectedAssetTypeId: number = 0;
+  selectedAssetTypeId: any = 0;
   id: number
   @ViewChild("fileUpload", { static: true }) fileUpload: ElementRef;
   fileTypes: string = ".pdf, .jpg, .jpeg, .png, .gif"
@@ -102,8 +102,6 @@ export class AssetsComponent {
     this.initAssetCategories();
     this.initStatus();
     this.ImageValidator.subscribe((p: PhotoFileProperties) => {
-      //console.log(p);
-
       if (this.fileTypes.indexOf(p.FileExtension) > 0 && p.Resize || (p.Size / 1024 / 1024 < 1
         && (p.isPdf || (!p.isPdf && p.Width <= 300 && p.Height <= 300)))) {
         this.fbassets.get('thumbnail').setValue(p.File);
@@ -149,8 +147,6 @@ export class AssetsComponent {
       this.assets = resp as unknown as AssetsViewDto[];
       this.assets.forEach(element => {
         element.expandassets = JSON.parse(element.assets) as unknown as AssetsDetailsViewDto[];
-        console.log(element.expandassets);
-
       });
     })
   }
@@ -384,8 +380,17 @@ export class AssetsComponent {
       throw error; // Propagate the error
     }
   }
+
   async exportPdf(selectedAssetTypeId) {
-    const pageSize = { width: 841.89, height: 595.28 };
+    let pageSize;
+    let pageOrientation;
+    if (this.selectedAssetTypeId !== '2') {
+      pageSize = { width: 841.89, height: 595.28 };
+      pageOrientation = 'landscape';
+    } else {
+      pageSize = { width: 595.28, height: 841.89 };
+      pageOrientation = 'portrait';
+    }
     const headerImage = await this.pdfHeader();
     const watermarkImage = await this.getBase64ImageFromURL('assets/layout/images/transparent_logo.png')
     const AssetsList = this.generateAssetsList();
@@ -419,7 +424,7 @@ export class AssetsComponent {
     });
 
     const docDefinition = {
-      pageOrientation: 'landscape',
+      pageOrientation: pageOrientation,
       pageSize: pageSize,
       header: () => (headerImage),
       footer: (currentPage: number) => createFooter(currentPage, pageSize),
@@ -439,32 +444,56 @@ export class AssetsComponent {
         defaultStyle: { font: 'Typography', fontSize: 12 },
       },
     };
-    pdfMake.createPdf(docDefinition).download('AssetsReport.pdf');
+    const currentDate = new Date().toLocaleString().replace(/[/\\?%*:|"<>.]/g, '-');
+    pdfMake.createPdf(docDefinition).download(`AssetsReport ${currentDate}.pdf`);;
   }
 
   generateAssetsList(): any {
-    const content = [
-      [
-        { text: 'Employee Name', style: 'subheader' },
-        { text: 'Employee Code', style: 'subheader' },
-        { text: 'Assets Code', style: 'subheader' },
-        { text: 'Assets Name', style: 'subheader' },
-        { text: 'Asset Type', style: 'subheader' },
-        { text: 'Asset Category', style: 'subheader' },
-        { text: 'Purchased Date', style: 'subheader' },
-      ],
-      ...this.assets.flatMap(asset => {
-        return asset.expandassets.map(assetDtls => ([
-          { text: assetDtls.employeeName || '' },
-          { text: assetDtls.employeeCode || '', alignment: 'center' },
-          { text: assetDtls.code || '', alignment: 'center' },
-          { text: assetDtls.name || '', alignment: 'center' },
-          { text: assetDtls.assetType || '', alignment: 'center' },
-          { text: assetDtls.assetCategory || '', alignment: 'center' },
-          { text: assetDtls.purchasedDate ? this.datePipe.transform(new Date(assetDtls.purchasedDate), DATE_OF_JOINING) : '', alignment: 'center' },
-        ]));
-      })
-    ]
+    let content = [];
+    if (this.selectedAssetTypeId !== '2') {
+      content = [
+        [
+          { text: 'Employee Name', style: 'subheader' },
+          { text: 'Employee Code', style: 'subheader' },
+          { text: 'Assets Name', style: 'subheader' },
+          { text: 'Assets Code', style: 'subheader' },
+          { text: 'Asset Type', style: 'subheader' },
+          { text: 'Asset Category', style: 'subheader' },
+          { text: 'Purchased Date', style: 'subheader' },
+
+        ],
+        ...this.assets.flatMap(asset => {
+          return asset.expandassets.map(assetDtls => ([
+            { text: assetDtls.employeeName || '' },
+            { text: assetDtls.employeeCode || '', alignment: 'center' },
+            { text: assetDtls.name || '', alignment: 'center' },
+            { text: assetDtls.code || '', alignment: 'center' },
+            { text: assetDtls.assetType || '', alignment: 'center' },
+            { text: assetDtls.assetCategory || '', alignment: 'center' },
+            { text: assetDtls.purchasedDate ? this.datePipe.transform(new Date(assetDtls.purchasedDate), DATE_OF_JOINING) : '', alignment: 'center' },
+          ]));
+        })
+      ];
+    } else {
+      content = [
+        [
+          { text: 'Assets Name', style: 'subheader' },
+          { text: 'Assets Code', style: 'subheader' },
+          { text: 'Asset Type', style: 'subheader' },
+          { text: 'Asset Category', style: 'subheader' },
+          { text: 'Purchased Date', style: 'subheader' },
+        ],
+        ...this.assets.flatMap(asset => {
+          return asset.expandassets.map(assetDtls => ([
+            { text: assetDtls.name || '' },
+            { text: assetDtls.code || '', alignment: 'center' },
+            { text: assetDtls.assetType || '', alignment: 'center' },
+            { text: assetDtls.assetCategory || '', alignment: 'center' },
+            { text: assetDtls.purchasedDate ? this.datePipe.transform(new Date(assetDtls.purchasedDate), DATE_OF_JOINING) : '', alignment: 'center' },
+          ]));
+        })
+      ];
+    }
     return {
       table: {
         headerRows: 1,
@@ -472,5 +501,6 @@ export class AssetsComponent {
       },
     };
   }
+
 
 }

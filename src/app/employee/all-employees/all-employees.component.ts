@@ -13,6 +13,11 @@ import { HttpEventType } from '@angular/common/http';
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import { style } from '@angular/animations';
+interface PDFHeader {
+    text: string;
+    style: string;
+    field: string;
+}
 @Component({
     selector: 'app-all-employees',
     templateUrl: './all-employees.component.html',
@@ -34,12 +39,25 @@ export class AllEmployeesComponent {
     value: number;
     searchKeyword: string = '';
     showSearchBar: boolean = true;
+    selectedColumns: PDFHeader[] = [];
+    PDFheaders: PDFHeader[] = [
+        { text: 'Employee Name', field: 'employeeName', style: 'tableHeader' },
+        { text: 'Employee Code', field: 'code', style: 'tableHeader' },
+        { text: 'Certificate DOB', field: 'certificateDOB', style: 'tableHeader' },
+        { text: 'Gender', field: 'gender', style: 'tableHeader' },
+        { text: 'Date of Joining', field: 'dateofJoin', style: 'tableHeader' },
+        { text: 'Employee Role', field: 'employeeRoleName', style: 'tableHeader' },
+        { text: 'Designation', field: 'designation', style: 'tableHeader' },
+        { text: 'Reporting To', field: 'reportingTo', style: 'tableHeader' },
+        { text: 'Office Email', field: 'officeEmailId', style: 'tableHeader' },
+        { text: 'Mobile Number', field: 'mobileNumber', style: 'tableHeader' },
+    ];
 
     headers: ITableHeader[] = [
         { field: 'code', header: 'code', label: 'Employee Code' },
         { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
         { field: 'gender', header: 'gender', label: 'Gender' },
-        { field: 'employeeRoleName', header: 'employeeRoleName', label: 'Employee Role Name' },
+        { field: 'designation', header: 'designation', label: 'Designation' },
         { field: 'officeEmailId', header: 'officeEmailId', label: 'Email' },
         { field: 'mobileNumber', header: 'mobileNumber', label: 'Phone No' },
         { field: 'dateofJoin', header: 'dateofJoin', label: 'Date of Joining' },
@@ -48,10 +66,10 @@ export class AllEmployeesComponent {
     constructor(private EmployeeService: EmployeeService,
         private router: Router, private jwtService: JwtService, private reportService: ReportService) {
         pdfMake.vfs = pdfFonts.pdfMake.vfs;
+        this.selectedColumns = this.PDFheaders.slice(0, 5);
     }
 
     ngOnInit() {
-
         this.permissions = this.jwtService.Permissions;
         this.initEmployees(this.selectedEmployeeStatus.value)
         this.employeeStatusOptions = [
@@ -189,8 +207,16 @@ export class AllEmployeesComponent {
         }
     }
 
-    async downloadEmployeespdf(selectedEmployeeStatus) {
-        const pageSize = { width: 841.89, height: 595.28 };
+    async downloadEmployeespdf(selectedEmployeeStatus, selectedColumns) {
+        let pageSize;
+        let pageOrientation;
+        if (Array.isArray(selectedColumns) ? selectedColumns.length !== 5 : 'selectedColumns.length') {
+            pageSize = { width: 841.89, height: 595.28 };
+            pageOrientation = 'landscape';
+        } else {
+            pageSize = { width: 595.28, height: 841.89 };
+            pageOrientation = 'portrait';
+        }
         const headerImage = await this.pdfHeader();
         const watermarkImage = await this.getBase64ImageFromURL('assets/layout/images/transparent_logo.png')
         const EmployeesList = this.generateEmployeesList();
@@ -217,7 +243,7 @@ export class AllEmployeesComponent {
         });
 
         const docDefinition = {
-            pageOrientation: 'landscape',
+            pageOrientation: pageOrientation,
             pageSize: pageSize,
             header: () => (headerImage),
             footer: (currentPage: number) => createFooter(currentPage, pageSize),
@@ -239,41 +265,43 @@ export class AllEmployeesComponent {
         };
         pdfMake.createPdf(docDefinition).download('EmployeeReport.pdf');
     }
-
     generateEmployeesList() {
         const content = [
-            [
-                { text: 'Employee Code', style: 'tableHeader' },
-                { text: 'Employee Name', style: 'tableHeader' },
-                { text: 'Certificate DOB', style: 'tableHeader' },
-                { text: 'Gender', style: 'tableHeader' },
-                { text: 'Date of Joining', style: 'tableHeader' },
-                { text: 'Employee Role', style: 'tableHeader' },
-                { text: 'Designation', style: 'tableHeader' },
-                { text: 'Reporting To', style: 'tableHeader' },
-                { text: 'Office Email', style: 'tableHeader' },
-                { text: 'Mobile Number', style: 'tableHeader' },
-            ],
-            ...this.employees.map(employee => [
-                employee.code || '',
-                employee.employeeName || '',
-                employee.certificateDOB ? new Date(employee.certificateDOB).toLocaleDateString() : '',
-                employee.gender || '',
-                employee.dateofJoin ? new Date(employee.dateofJoin).toLocaleDateString() : '',
-                employee.employeeRoleName || '',
-                employee.designation || '',
-                employee.reportingTo || '',
-                employee.officeEmailId || '',
-                employee.mobileNumber || '',
-            ])
+            this.selectedColumns.map(header => ({ text: header.text, style: 'tableHeader' })),
+            ...this.employees.map(employee => this.selectedColumns.map(header => {
+                switch (header.field) {
+                    case 'employeeName':
+                        return employee.employeeName || '';
+                    case 'code':
+                        return employee.code || '';
+                    case 'certificateDOB':
+                        return employee.certificateDOB ? new Date(employee.certificateDOB).toLocaleDateString() : '';
+                    case 'gender':
+                        return employee.gender || '';
+                    case 'dateofJoin':
+                        return employee.dateofJoin ? new Date(employee.dateofJoin).toLocaleDateString() : '';
+                    case 'employeeRoleName':
+                        return employee.employeeRoleName || '';
+                    case 'designation':
+                        return employee.designation || '';
+                    case 'reportingTo':
+                        return employee.reportingTo || '';
+                    case 'officeEmailId':
+                        return employee.officeEmailId || '';
+                    case 'mobileNumber':
+                        return employee.mobileNumber || '';
+                    default:
+                        return '';
+                }
+            }))
         ];
         return {
             table: {
                 headerRows: 1,
-                widths: [60, 80, 60, 50, 60, 70, 70, 70, 100, 70],
                 body: content,
             },
         };
     }
+
 
 }
