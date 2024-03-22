@@ -63,7 +63,7 @@
                                 pTooltip="Download Leaves Report" tooltipPosition="left"
                                 (click)="downloadEmployeeLeavesReport()"></button>
                         </div>
-                        <p-multiSelect [options]="selectedColumnHeader" [(ngModel)]="selectedColumns"
+                        <p-multiSelect [options]="selectedColumnHeader" [(ngModel)]="selectedColumns"  appendTo="body"
                             optionLabel="label" id="lookup_ColumnSelection" selectedItemsLabel="{0} columns selected"
                             [style]="{'min-width': '200px'}" placeholder="Choose Columns"></p-multiSelect>
                         <div>

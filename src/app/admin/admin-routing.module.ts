@@ -17,7 +17,7 @@ import { DisqualifiedApplicantsComponent } from './disqualified-applicants/disqu
 @NgModule({
     imports: [RouterModule.forChild([
         { path: 'assets', data: { breadcrumb: 'Assets' }, component: AssetsComponent },
-        { path: 'assetsallotment', data: { breadcrumb: 'Asset Allotments' }, component: AssetsallotmentComponent },
+        { path: 'assetsallotment', data: { breadcrumb: 'Assets Allotment' }, component: AssetsallotmentComponent },
         { path: 'recruitmentDashboard', data: { breadcrumb: 'Recruitment' }, component: RecruitmentdashboardComponent },
         { path: 'applicant', data: { breadcrumb: 'Applicants' }, component: ApplicantComponent },
         { path: 'disqualifiedapplicant', data: { breadcrumb: 'Disqualified Applicants' }, component: DisqualifiedApplicantsComponent },
@@ -28,7 +28,7 @@ import { DisqualifiedApplicantsComponent } from './disqualified-applicants/disqu
         { path: 'jobopenings', data: { breadcrumb: 'Job Openings' }, component: JobOpeningsComponent },
         { path: 'lookups', data: { breadcrumb: 'lookups' }, component: LookupsComponent },
         { path: 'recruitmentDashboard', data: { breadcrumb: 'Recruitment' }, component: RecruitmentdashboardComponent },
-        { path: 'project', data: { breadcrumb: 'Project' }, component: ProjectComponent },
+        { path: 'project', data: { breadcrumb: 'Projects' }, component: ProjectComponent },
         { path: 'd3-org-chart', component: D3OrgChartComponent },
         { path: 'viewapplicant', data: { breadcrumb: 'View Applicant' }, component: ViewapplicantComponent },
 
