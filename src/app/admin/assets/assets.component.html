@@ -259,7 +259,7 @@
             (click)="clear()"></button>
           <div class="flex">
             <div *ngIf="permissions?.CanDownloadAssets">
-              <button (click)="exportPdf()" pButton class="p-button doc_button mx-2" pTooltip="Download Assets PDF"
+              <button (click)="exportPdf(selectedAssetTypeId)" pButton class="p-button doc_button mx-2" pTooltip="Download Assets PDF"
               icon="pi pi-file-pdf"></button>
               <button pButton class="p-button doc_button mx-2" icon="icon-csv-svgrepo-com-1" pTooltip="Download Assets CSV"
                 (click)="downloadAssetsReport()" tooltipPosition="left"></button>

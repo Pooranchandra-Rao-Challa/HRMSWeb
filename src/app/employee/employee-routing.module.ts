@@ -22,7 +22,7 @@ const routes: Routes = [];
 @NgModule({
   imports: [
     RouterModule.forChild([
-      { path: 'all-employees', data: { breadcrumb: 'Enrolled Employee' }, component: AllEmployeesComponent },
+      { path: 'all-employees', data: { breadcrumb: 'Enrolled Employees' }, component: AllEmployeesComponent },
       { path: 'employeeleaves', data: { breadcrumb: 'Employee Leaves' }, component: EmployeeLeavesComponent },
       { path: 'myleaves', data: { breadcrumb: 'My Leaves' }, component: MyleaveComponent },
       { path: 'notifications', data: { breadcrumb: 'Notification' }, component: NotificationsComponent },

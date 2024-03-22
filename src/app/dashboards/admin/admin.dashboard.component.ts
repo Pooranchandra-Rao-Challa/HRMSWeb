@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { catchError, map, Observable, of } from 'rxjs';
 import { AlertmessageService, ALERT_CODES } from 'src/app/_alerts/alertmessage.service';
 import { DATE_FORMAT, DATE_FORMAT_MONTH, FORMAT_DATE, FORMAT_MONTH, MEDIUM_DATE, MONTH, ORIGINAL_DOB } from 'src/app/_helpers/date.formate.pipe';
 import { LookupDetailsDto, LookupViewDto } from 'src/app/_models/admin';
@@ -81,7 +82,6 @@ export class AdminDashboardComponent implements OnInit {
         if (this.jwtService.EmployeeId) {
             this.initNotificationsBasedOnId()
         }
-
     }
 
     toggleFieldset(legend: string): void {
@@ -940,6 +940,28 @@ export class AdminDashboardComponent implements OnInit {
 
     onClose() {
         this.wishesDialog = false;
+    }
+    private statusCache: { [key: string]: Observable<any[]> } = {};
+
+    getStatus(employeeId): Observable<any[]> {
+        if (this.statusCache[employeeId]) {
+            return this.statusCache[employeeId];
+        }
+        const statusObservable = this.dashboardService.GetNotificationsBasedOnId(employeeId).pipe(
+            map((response: any) => {
+                if (Array.isArray(response)) {
+                    return response.filter(notification => notification.employeeId === parseInt(this.EmployeeId, 10));
+                } else {
+                    return [];
+                }
+            }),
+            catchError(error => {
+                console.error('Error fetching notifications:', error);
+                return of([]);
+            })
+        );
+        this.statusCache[employeeId] = statusObservable;
+        return statusObservable;
     }
 
 }

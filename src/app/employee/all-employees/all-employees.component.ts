@@ -13,6 +13,11 @@ import { HttpEventType } from '@angular/common/http';
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import { style } from '@angular/animations';
+interface PDFHeader {
+    text: string;
+    style: string;
+    field: string;
+}
 @Component({
     selector: 'app-all-employees',
     templateUrl: './all-employees.component.html',
@@ -34,12 +39,25 @@ export class AllEmployeesComponent {
     value: number;
     searchKeyword: string = '';
     showSearchBar: boolean = true;
+    selectedColumns: PDFHeader[] = [];
+    PDFheaders: PDFHeader[] = [
+        { text: 'Employee Name', field: 'employeeName', style: 'tableHeader' },
+        { text: 'Employee Code', field: 'code', style: 'tableHeader' },
+        { text: 'Certificate DOB', field: 'certificateDOB', style: 'tableHeader' },
+        { text: 'Gender', field: 'gender', style: 'tableHeader' },
+        { text: 'Date of Joining', field: 'dateofJoin', style: 'tableHeader' },
+        { text: 'Employee Role', field: 'employeeRoleName', style: 'tableHeader' },
+        { text: 'Designation', field: 'designation', style: 'tableHeader' },
+        { text: 'Reporting To', field: 'reportingTo', style: 'tableHeader' },
+        { text: 'Office Email', field: 'officeEmailId', style: 'tableHeader' },
+        { text: 'Mobile Number', field: 'mobileNumber', style: 'tableHeader' },
+    ];
 
     headers: ITableHeader[] = [
         { field: 'code', header: 'code', label: 'Employee Code' },
         { field: 'employeeName', header: 'employeeName', label: 'Employee Name' },
         { field: 'gender', header: 'gender', label: 'Gender' },
-        { field: 'employeeRoleName', header: 'employeeRoleName', label: 'Employee Role Name' },
+        { field: 'designation', header: 'designation', label: 'Designation' },
         { field: 'officeEmailId', header: 'officeEmailId', label: 'Email' },
         { field: 'mobileNumber', header: 'mobileNumber', label: 'Phone No' },
         { field: 'dateofJoin', header: 'dateofJoin', label: 'Date of Joining' },
@@ -48,10 +66,10 @@ export class AllEmployeesComponent {
     constructor(private EmployeeService: EmployeeService,
         private router: Router, private jwtService: JwtService, private reportService: ReportService) {
         pdfMake.vfs = pdfFonts.pdfMake.vfs;
+        this.selectedColumns = this.PDFheaders.slice(0, 5);
     }
 
     ngOnInit() {
-
         this.permissions = this.jwtService.Permissions;
         this.initEmployees(this.selectedEmployeeStatus.value)
         this.employeeStatusOptions = [
@@ -151,76 +169,139 @@ export class AllEmployeesComponent {
         });
     }
 
-    async downloadEmployeespdf() {
-        // const pageSize = { width: 595.28, height: 841.89 };
-        const pageSize = { width: 841.89, height: 595.28 };
-        const headerImage = await this.getBase64ImageFromURL('assets/layout/images/head.JPG')
-        const footerSize = { width: 841.90, height: 40.99 };
-        const footerImage = await this.getBase64ImageFromURL('assets/layout/images/footer.JPG')
-        const watermarkImage = await this.getBase64ImageFromURL('favicon.ico')
+    async pdfHeader() {
+        try {
+            const headerImage1 = await this.getBase64ImageFromURL('assets/layout/images/Calibrage_logo1.png');
+            const headerImage2 = await this.getBase64ImageFromURL('assets/layout/images/head_right.PNG');
+            const pageWidth = 841.89;
+            const imageWidth = (pageWidth / 4) - 10;
+            const createLine = () => [{ type: 'line', x1: 0, y1: 0, x2: 689.85, y2: 0, lineWidth: 0.5, lineColor: '#f3743f' }];
+
+            let row = {
+                columns: [
+                    {
+                        image: headerImage1,
+                        width: imageWidth,
+                        alignment: 'left',
+                        margin: [20, 0, 0, 0] // Remove any margins
+                    },
+                    {
+                        width: '*',
+                        text: '', // Empty spacer column
+                        alignment: 'center' // Remove any margins
+                    },
+                    {
+                        image: headerImage2,
+                        width: imageWidth,
+                        alignment: 'right',
+                        margin: [0, 0, 5, 0] // Remove any margins
+                    },
+                ],
+                alignment: 'justify',
+                margin: [0, 0, 0, 0] // Remove any margins
+            };
+            return row;
+        } catch (error) {
+            console.error("Error occurred while formatting key and values:", error);
+            throw error; // Propagate the error
+        }
+    }
+
+    async downloadEmployeespdf(selectedEmployeeStatus, selectedColumns) {
+        let pageSize;
+        let pageOrientation;
+        if (Array.isArray(selectedColumns) ? selectedColumns.length !== 5 : 'selectedColumns.length') {
+            pageSize = { width: 841.89, height: 595.28 };
+            pageOrientation = 'landscape';
+        } else {
+            pageSize = { width: 595.28, height: 841.89 };
+            pageOrientation = 'portrait';
+        }
+        const headerImage = await this.pdfHeader();
+        const watermarkImage = await this.getBase64ImageFromURL('assets/layout/images/transparent_logo.png')
         const EmployeesList = this.generateEmployeesList();
+        const createFooter = (currentPage: number, pageSize: any) => ({
+            margin: [0, 20, 0, 0],
+            height: 20,
+            background: '#ff810e',
+            width: pageSize.width,
+            columns: [
+                { canvas: [{ type: 'rect', x: 0, y: 0, w: pageSize.width - 65, h: 20, color: '#ff810e' }] },
+                {
+                    stack: [
+                        {
+                            text: 'Copyrights © 2024 Calibrage Info Systems Pvt Ltd.',
+                            fontSize: 11, color: '#fff', absolutePosition: { x: 20, y: 24 }
+                        },
+                        {
+                            text: `Page ${currentPage}`,
+                            color: '#000000', background: '#fff', margin: [0, 0, 0, 0], fontSize: 12, absolutePosition: { x: pageSize.width - 45, y: 24 },
+                        }
+                    ],
+                }
+            ],
+        });
 
         const docDefinition = {
-            pageOrientation: 'landscape',
+            pageOrientation: pageOrientation,
             pageSize: pageSize,
-            header: () => ({ image: headerImage, width: pageSize.width, height: pageSize.height * 0.15, margin: [0, 0, 0, 0] }),
-            footer: () => ({ image: footerImage, width: footerSize.width, height: footerSize.height, margin: [0, 10, 0, 0] }),
+            header: () => (headerImage),
+            footer: (currentPage: number) => createFooter(currentPage, pageSize),
             background: [{
                 image: watermarkImage, width: 200, height: 200,
                 absolutePosition: { x: (pageSize.width - 200) / 2, y: (pageSize.height - 200) / 2 },
-                opacity: 0.3, // Adjust the opacity to make the watermark light
             }],
             content: [
-                { text: 'Employees List\n', style: 'header', alignment: 'center', color: '#F15F23' },
+                { text: selectedEmployeeStatus.label, style: 'header', alignment: 'center' },
                 EmployeesList
             ],
-            pageMargins: [30, 90, 40, 55],
+            pageMargins: [30, 90, 40, 40],
             styles: {
                 header: { fontSize: 25 },
-                subheader: { fontSize: 13, alignment: 'center', color: '#ff810e', },
+                tableHeader: { fontSize: 13, alignment: 'center', fillColor: '#dbdbdb' },
                 borderedText: { border: [1, 1, 1, 1], borderColor: 'rgb(0, 0, 255)', fillColor: '#eeeeee', width: 100, height: 150, margin: [12, 20, 0, 0] },
                 defaultStyle: { font: 'Typography', fontSize: 12 },
             },
         };
         pdfMake.createPdf(docDefinition).download('EmployeeReport.pdf');
     }
-
     generateEmployeesList() {
         const content = [
-            [
-                { text: 'Employee Code', style: 'subheader' },
-                { text: 'Employee Name', style: 'subheader' },
-                { text: 'Certificate DOB', style: 'subheader' },
-                { text: 'Gender', style: 'subheader' },
-                { text: 'Date of Joining', style: 'subheader' },
-                { text: 'Employee Role', style: 'subheader' },
-                { text: 'Designation', style: 'subheader' },
-                { text: 'Reporting To', style: 'subheader' },
-                { text: 'Office Email', style: 'subheader' },
-                { text: 'Mobile Number', style: 'subheader' },
-
-            ],
-            ...this.employees.map(employee => [
-                employee.code || '',
-                employee.employeeName || '',
-                employee.certificateDOB ? new Date(employee.certificateDOB).toLocaleDateString() : '',
-                employee.gender || '',
-                employee.dateofJoin ? new Date(employee.dateofJoin).toLocaleDateString() : '',
-                employee.employeeRoleName || '',
-                employee.designation || '',
-                employee.reportingTo || '',
-                employee.officeEmailId || '',
-                employee.mobileNumber || '',
-            ])
+            this.selectedColumns.map(header => ({ text: header.text, style: 'tableHeader' })),
+            ...this.employees.map(employee => this.selectedColumns.map(header => {
+                switch (header.field) {
+                    case 'employeeName':
+                        return employee.employeeName || '';
+                    case 'code':
+                        return employee.code || '';
+                    case 'certificateDOB':
+                        return employee.certificateDOB ? new Date(employee.certificateDOB).toLocaleDateString() : '';
+                    case 'gender':
+                        return employee.gender || '';
+                    case 'dateofJoin':
+                        return employee.dateofJoin ? new Date(employee.dateofJoin).toLocaleDateString() : '';
+                    case 'employeeRoleName':
+                        return employee.employeeRoleName || '';
+                    case 'designation':
+                        return employee.designation || '';
+                    case 'reportingTo':
+                        return employee.reportingTo || '';
+                    case 'officeEmailId':
+                        return employee.officeEmailId || '';
+                    case 'mobileNumber':
+                        return employee.mobileNumber || '';
+                    default:
+                        return '';
+                }
+            }))
         ];
         return {
             table: {
                 headerRows: 1,
-                widths: [60, 80, 60, 50, 60, 70, 70, 70, 100, 70],
                 body: content,
-                fontSize: 10,
             },
         };
     }
+
 
 }

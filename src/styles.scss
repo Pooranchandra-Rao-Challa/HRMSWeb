@@ -216,8 +216,11 @@ input:-moz-read-only {
 
 input:read-only {
     background-color: #f9f9f9;
-    // border:0px;
 }
+input:read-only:hover {
+    border-color:#d4d6d9 !important;
+}
+
 
 .cropper {
     width: 100px !important;
@@ -237,9 +240,18 @@ input:read-only {
     -ms-user-select: none;
     user-select: none;
 }
-
+// .p-dropdown:not(.p-disabled):hover{
+//     background-color: #f9f9f9;
+//     border-color:#d4d6d9 !important;
+//     box-shadow: 0 0 0 0.1rem #d4d6d9 !important;
+// }
+// .dropdown_cus:read-only{
+//     opacity:0.5 !important;
+// }
 input:read-only:focus {
     background-color: #f9f9f9;
+    border-color:#d4d6d9 !important;
+    box-shadow: 0 0 0 0.1rem #d4d6d9 !important;
     // border:0px;
 }
 
@@ -468,8 +480,8 @@ p-calendar input {
 }
 
 .layout-topbar .topbar-menu li.topbar-item img {
-    width: 1.8rem !important;
-    height: unset !important;
+    // width: 1.8rem !important;
+    // height: unset !important;
 }
 
 .show-iframe {
@@ -1045,6 +1057,14 @@ p-fieldset.allott-employee {
     position: relative;
     display: inline-block;
     margin-bottom: 10px;
+}
+
+.avatar_topbar {
+    height: 2rem !important;
+    width: 2rem !important; 
+    position: relative;
+    display: inline-block;
+    // margin-bottom: 10px;
 }
 
 .project_img {

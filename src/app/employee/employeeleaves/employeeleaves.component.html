@@ -54,7 +54,7 @@
                         </div>
                     </div>
                     <div class="flex gap-2 mt-2">
-                        <div>
+                        <div *ngIf="permissions?.CanDownloadEmployeeLeaves">
                             <button pButton class="p-button doc_button mx-2" icon="pi pi-file-pdf"
                                 pTooltip="Download Leaves Pdf" tooltipPosition="left" (click)="generatePdf(leaves)"></button>
                         </div>
@@ -63,7 +63,7 @@
                                 pTooltip="Download Leaves Report" tooltipPosition="left"
                                 (click)="downloadEmployeeLeavesReport()"></button>
                         </div>
-                        <p-multiSelect [options]="selectedColumnHeader" [(ngModel)]="selectedColumns"
+                        <p-multiSelect [options]="selectedColumnHeader" [(ngModel)]="selectedColumns"  appendTo="body"
                             optionLabel="label" id="lookup_ColumnSelection" selectedItemsLabel="{0} columns selected"
                             [style]="{'min-width': '200px'}" placeholder="Choose Columns"></p-multiSelect>
                         <div>

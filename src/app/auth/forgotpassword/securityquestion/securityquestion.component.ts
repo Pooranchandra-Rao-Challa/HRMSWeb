@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { catchError, throwError } from 'rxjs';
+import { AlertmessageService } from 'src/app/_alerts/alertmessage.service';
 import { UserQuestionDto } from 'src/app/_models/security';
 import { SecurityService } from 'src/app/_services/security.service';
 
@@ -20,7 +21,8 @@ export class SecurityquestionComponent {
     constructor(private router: Router,
         private securityService: SecurityService,
         private messageService: MessageService,
-        private activatedRoute: ActivatedRoute) { }
+        private activatedRoute: ActivatedRoute,
+        public alertMessage: AlertmessageService,) { }
 
 
     ngOnInit(): void {
@@ -29,25 +31,27 @@ export class SecurityquestionComponent {
     }
 
     initValidateUserQuestions() {
-        this.securityService.ValidateUserQuestions(this.userName!).pipe(
-            catchError((error) => {
-                this.messageService.add({ severity: 'error', summary: 'Error', detail: "Invalid User Name" });
-                this.navigateToPrev();
-                return throwError(error); // Re-throw the error to propagate it further if needed
-            })
-        ).subscribe({
+        this.securityService.ValidateUserQuestions(this.userName).subscribe({
             next: (resp) => {
                 this.userQuestions = resp as unknown as UserQuestionDto[];
                 this.userSecureQuestionsCount = this.userQuestions[0]?.userSecureQuestionsCount;
                 if (this.userQuestions.length < 1) {
-                    // this.navigateToPrev();
-                    this.messageService.add(
-                        {
-                            severity: 'error', summary: 'Error', detail: 'You have no security questions, So please contact to your admin.'
-                        });
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: 'Error',
+                        detail: 'You have no security questions. Please contact your admin.'
+                    });
                 }
+            },
+            error: (error) => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Error',
+                    detail: error.message,
+                });
+                this.navigateToPrev();
             }
-        })
+        });
     }
 
     navigateToPrev() {
