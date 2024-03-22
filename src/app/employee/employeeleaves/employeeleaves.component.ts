@@ -276,48 +276,48 @@ export class EmployeeLeavesComponent {
     });
   }
 
-   async formatKeyAndValues() {
+  async formatKeyAndValues() {
     try {
-        const headerImage1 = await this.getBase64ImageFromURL('../../assets/layout/images/Calibrage_logo1.png');
-        const headerImage2 = await this.getBase64ImageFromURL('../../assets/layout/images/head_right.PNG');
-        const pageWidth = 841.89; 
-        const imageWidth = (pageWidth / 4) - 10; 
-        const createLine = () => [{ type: 'line', x1: 0, y1: 0, x2: 689.85, y2: 0, lineWidth: 0.5, lineColor: '#f3743f' }];
+      const headerImage1 = await this.getBase64ImageFromURL('../../assets/layout/images/Calibrage_logo1.png');
+      const headerImage2 = await this.getBase64ImageFromURL('../../assets/layout/images/head_right.PNG');
+      const pageWidth = 841.89;
+      const imageWidth = (pageWidth / 4) - 10;
+      const createLine = () => [{ type: 'line', x1: 0, y1: 0, x2: 689.85, y2: 0, lineWidth: 0.5, lineColor: '#f3743f' }];
 
-        let row = {
-            columns: [
-                {
-                    image: headerImage1,
-                    width: imageWidth,
-                    alignment: 'left',
-                    margin: [0, 0, 0, 0] // Remove any margins
-                },
-                {
-                    width: '*',
-                    text: '', // Empty spacer column
-                    alignment: 'center' // Remove any margins
-                },
-                {
-                    image: headerImage2,
-                    width: imageWidth,
-                    alignment: 'right',
-                    margin: [0, 0, 0, 0] // Remove any margins
-                },
-            ],
-            alignment: 'justify',
+      let row = {
+        columns: [
+          {
+            image: headerImage1,
+            width: imageWidth,
+            alignment: 'left',
             margin: [0, 0, 0, 0] // Remove any margins
-        };
+          },
+          {
+            width: '*',
+            text: '', // Empty spacer column
+            alignment: 'center' // Remove any margins
+          },
+          {
+            image: headerImage2,
+            width: imageWidth,
+            alignment: 'right',
+            margin: [0, 0, 0, 0] // Remove any margins
+          },
+        ],
+        alignment: 'justify',
+        margin: [0, 0, 0, 0] // Remove any margins
+      };
 
-        // Add canvas element
-        const line = { canvas: createLine(), margin: [0, -10, 0, 10], color: '#f3743f' };
-        const content = [row]; // Array containing both row and line objects
+      // Add canvas element
+      const line = { canvas: createLine(), margin: [0, -10, 0, 10], color: '#f3743f' };
+      const content = [row]; // Array containing both row and line objects
 
-        return content;
+      return content;
     } catch (error) {
-        console.error("Error occurred while formatting key and values:", error);
-        throw error; // Propagate the error
+      console.error("Error occurred while formatting key and values:", error);
+      throw error; // Propagate the error
     }
-}
+  }
 
 
   async generatePdf(data: any) {
@@ -331,20 +331,125 @@ export class EmployeeLeavesComponent {
     const createFooter = (currentPage: number) => ({
       margin: [0, 0, 0, 0],
       height: 20,
-      background: '#fff',
-      color: '#fff',
-      width:841.89,
+      background: '#ff810e',
+      width: 841.89,
       columns: [
-        { canvas: [{ type: 'rect', x: 0, y: 0, w:841.89, h: 20, color: '#ff810e' }] },
+        { canvas: [{ type: 'rect', x: 0, y: 0, w: 780, h: 20, color: '#ff810e' }] },
         {
-          text: [
-            { text: `${currentPage}` }],
-          absolutePosition: { x: 5, y: 5 }, // Adjust the position as needed
-          alignment: 'center',
-          color: '#000000',
+          stack: [
+            {
+              text: 'Copyrights © 2024 Calibrage Info Systems Pvt Ltd.',
+              fontSize: 11, color: '#fff', absolutePosition: { x: 20, y: 3 }
+            },
+            {
+              text: `Page ${currentPage}`,
+              color: '#000000', background: '#fff', margin: [0, 0, 0, 0], fontSize: 12, absolutePosition: { x: 790.05, y: 3 },
+            }
+          ],
         }
       ],
     });
+    const getLeaveTable = () => {
+      const columns = [
+        { text: 'Employee ID', style: 'tableHeader', width: pageSize.width * 0.08 },
+        { text: 'Employee Name', style: 'tableHeader', width: pageSize.width * 0.15 },
+        { text: 'Leave Type', style: 'tableHeader', width: pageSize.width * 0.05 },
+        { text: 'From Date', style: 'tableHeader', width: pageSize.width * 0.06 },
+        { text: 'To Date', style: 'tableHeader', width: pageSize.width * 0.06 },
+        { text: 'Leave Reason', style: 'tableHeader', width: pageSize.width * 0.07 },
+        { text: 'Half Day Leave', style: 'tableHeader', width: pageSize.width * 0.055 },
+        { text: 'Deleted', style: 'tableHeader', width: pageSize.width * 0.055 },
+        { text: 'Leave Used', style: 'tableHeader', width: pageSize.width * 0.055 },
+        { text: 'Note', style: 'tableHeader', width: pageSize.width * 0.06 },
+        { text: 'Status', style: 'tableHeader', width: pageSize.width * 0.06 },
+      ];
+
+      if (this.selectedStatus.name === 'Accepted') {
+        columns.push(
+          { text: 'Accepted By', style: 'tableHeader', width: pageSize.width * 0.04 },
+          { text: 'Accepted At', style: 'tableHeader', width: pageSize.width * 0.04 }
+        );
+      } else if (this.selectedStatus.name === 'Approved') {
+        columns.push(
+          { text: 'Approved By', style: 'tableHeader', width: pageSize.width * 0.04 },
+          { text: 'Approved At', style: 'tableHeader', width: pageSize.width * 0.04 }
+        );
+      } else if (this.selectedStatus.name === 'Rejected') {
+        columns.push(
+          { text: 'Rejected By', style: 'tableHeader', width: pageSize.width * 0.04 },
+          { text: 'Rejected At', style: 'tableHeader', width: pageSize.width * 0.04 }
+        );
+      }
+
+      if (this.selectedStatus.name === 'Pending') {
+        columns.push(
+          { text: 'Created By', style: 'tableHeader', width: pageSize.width * 0.06 },
+          { text: 'Created At', style: 'tableHeader', width: pageSize.width * 0.06 }
+        );
+      }
+
+      const body = [
+        columns,
+        ...data.map(leave => {
+          const row = [
+            { text: leave.code, fontSize: 9 },
+            { text: leave.employeeName, fontSize: 9 },
+            { text: leave.leaveType, fontSize: 9 },
+            { text: this.datePipe.transform(leave.fromDate, DATE_OF_JOINING), fontSize: 9 },
+            { text: this.datePipe.transform(leave.toDate, DATE_OF_JOINING), fontSize: 9 },
+            { text: leave.leaveReason, fontSize: 9 },
+            {
+              image: leave.isHalfDayLeave ? check : cancle,
+              width: leave.isHalfDayLeave ? 23 : 11,
+              height: leave.isHalfDayLeave ? 23 : 11,
+              alignment: 'center',
+            },
+            {
+              image: leave.isDeleted ? check : cancle,
+              width: leave.isDeleted ? 23 : 11,
+              height: leave.isDeleted ? 23 : 11,
+              alignment: 'center',
+            },
+            {
+              image: leave.isLeaveUsed ? check : cancle,
+              width: leave.isLeaveUsed ? 23 : 11,
+              height: leave.isLeaveUsed ? 23 : 11,
+              alignment: 'center',
+            },
+            { text: leave.note, fontSize: 9 },
+            { text: leave.status, fontSize: 9 },
+
+          ];
+
+          if (this.selectedStatus.name === 'Accepted') {
+            row.push(
+              { text: leave.acceptedBy, fontSize: 9 },
+              { text: this.datePipe.transform(leave.acceptedAt, DATE_OF_JOINING), fontSize: 9 }
+            );
+          } else if (this.selectedStatus.name === 'Approved') {
+            row.push(
+              { text: leave.approvedBy, fontSize: 9 },
+              { text: this.datePipe.transform(leave.approvedAt, DATE_OF_JOINING), fontSize: 9 }
+            );
+          } else if (this.selectedStatus.name === 'Rejected') {
+            row.push(
+              { text: leave.rejectedBy, fontSize: 9 },
+              { text: this.datePipe.transform(leave.rejectedAt, DATE_OF_JOINING), fontSize: 9 }
+            );
+          }
+          if (this.selectedStatus.name === 'Pending') {
+            row.push(
+              { text: leave.createdBy, fontSize: 9 },
+              { text: this.datePipe.transform(leave.createdAt, DATE_OF_JOINING), fontSize: 9 }
+            );
+          }
+          return row;
+        })];
+
+      return { table: { headerRows: 1, body } };
+    };
+
+    const leavesData = getLeaveTable();
     const docDefinition = {
       pageOrientation: 'landscape',
       pageMargins: [30, 90, 40, 20],
@@ -356,82 +461,20 @@ export class EmployeeLeavesComponent {
       }],
       content: [
         {
-          text: 'Employee Leaves',
-          bold: true,
+          text: 'Employee Leaves Report',
           alignment: 'center',
           style: 'header',
         },
-        {
-          table: {
-            widths: [54, 100, 47, 47, 47, 56, 47, 47, 47, 47, 47, 47, 47],
-            headerRows: 1,
-            body: [
-              [
-                { text: 'Employee ID', style: 'tableHeader' },
-                { text: 'Employee Name', style: 'tableHeader' },
-                { text: 'Leave Type', style: 'tableHeader' },
-                { text: 'From Date', style: 'tableHeader' },
-                { text: 'To Date', style: 'tableHeader' },
-                { text: 'Leave Reason', style: 'tableHeader' },
-                { text: 'Half Day Leave', style: 'tableHeader' },
-                { text: 'Deleted', style: 'tableHeader' },
-                { text: 'Leave Used', style: 'tableHeader' },
-                { text: 'Note', style: 'tableHeader' },
-                { text: 'Status', style: 'tableHeader' },
-                { text: 'Created By', style: 'tableHeader' },
-                { text: 'Created At', style: 'tableHeader' }
-                // , 'Rejected', 'AcceptedAt', 'AcceptedBy', 'ApprovedAt','ApprovedBy', 'RejectedAt', 'RejectedBy', 
-              ],
-              ...data.map(leave => [
-                leave.code,
-                leave.employeeName,
-                leave.leaveType,
-                this.datePipe.transform(leave.fromDate, DATE_OF_JOINING),
-                this.datePipe.transform(leave.toDate, DATE_OF_JOINING),
-                leave.leaveReason,
-                {
-                  image: leave.isHalfDayLeave ? check : cancle,
-                  width: leave.isHalfDayLeave ? 23 : 11,
-                  height: leave.isHalfDayLeave ? 23 : 11,
-                  alignment: 'center',
-                },
-                // leave.isHalfDayLeave ? 'Yes' : 'No',
-                // leave.rejected,
-                // leave.acceptedAt,
-                // leave.acceptedBy,
-                // leave.approvedAt,
-                // leave.approvedBy,
-                // leave.rejectedAt,
-                // leave.rejectedBy,
-                {
-                  image: leave.isDeleted ? check : cancle,
-                  width: leave.isDeleted ? 23 : 11,
-                  height: leave.isDeleted ? 23 : 11,
-                  alignment: 'center',
-                },
-                {
-                  image: leave.isLeaveUsed ? check : cancle,
-                  width: leave.isLeaveUsed ? 23 : 11,
-                  height: leave.isLeaveUsed ? 23 : 11,
-                  alignment: 'center',
-                },
-                leave.note,
-                leave.status,
-                leave.createdBy,
-                this.datePipe.transform(leave.createdAt, DATE_OF_JOINING)
-              ])
-            ]
-          },
-        },
+        leavesData,
+        { text: '', margin: [0, 0, 0, 60] },
       ],
       styles: {
         header: { fontSize: 24 },
-        // color: '#ff810e',
         defaultStyle: { font: 'Typography', fontSize: 12 },
-        tableHeader: { bold: true, fillColor: '#dbdbdb', alignment: 'center' },
+        tableHeader: { bold: true, fillColor: '#dbd7d7', fontSize: 10, alignment: 'center' },
       },
     };
-    const pdfName = `EmployeeLeavesReport${currentDate}.pdf`;
+    const pdfName = `Employee Leaves Report${currentDate}.pdf`;
     pdfMake.createPdf(docDefinition).download(pdfName);
   }
 

@@ -87,13 +87,13 @@ export class LeaveStatisticsComponent {
       {
         label: 'Complete Leaves Report',
         command: () => {
-          this.generatePdf();
+          this.generatePdfForCompleteLeaveStatistics();
         }
       },
       {
         label: 'As On Date Leaves Report',
         command: () => {
-          this.generatePdf();
+          this.generatePdfForLeavesAsOnDate();
         }
       },
     ];
@@ -231,31 +231,31 @@ export class LeaveStatisticsComponent {
     }
   }
 
-
-  async generatePdf() {
+  async generatePdfForCompleteLeaveStatistics() {
     const pageSize = { width: 841.89, height: 600 };
+    const fontSize = 8;
     const waterMark = await this.getBase64ImageFromURL('../../assets/layout/images/transparent_logo.png');
 
     const currentDate = new Date().toLocaleString().replace(/[/\\?%*:|"<>.]/g, '.');
-    const check = await this.getBase64ImageFromURL('assets/layout/images/check.jpg');
-    const cancle = await this.getBase64ImageFromURL('assets/layout/images/cancle.jpg');
     const header = await this.formatKeyAndValues();
-    console.log(this.leavesStatistics);
-
     const createFooter = (currentPage: number) => ({
       margin: [0, 0, 0, 0],
       height: 20,
-      background: '#fff',
-      color: '#fff',
+      background: '#ff810e',
       width: 841.89,
       columns: [
-        { canvas: [{ type: 'rect', x: 0, y: 0, w: 841.89, h: 20, color: '#ff810e' }] },
+        { canvas: [{ type: 'rect', x: 0, y: 0, w: 780, h: 20, color: '#ff810e' }] },
         {
-          text: [
-            { text: `${currentPage}` }],
-          absolutePosition: { x: 5, y: 5 }, // Adjust the position as needed
-          alignment: 'center',
-          color: '#000000',
+          stack: [
+            {
+              text: 'Copyrights © 2024 Calibrage Info Systems Pvt Ltd.',
+              fontSize: 11, color: '#fff', absolutePosition: { x: 20, y: 3 }
+            },
+            {
+              text: `Page ${currentPage}`,
+              color: '#000000', background: '#fff', margin: [0, 0, 0, 0], fontSize: 12, absolutePosition: { x: 790.05, y: 3 },
+            }
+          ],
         }
       ],
     });
@@ -270,25 +270,23 @@ export class LeaveStatisticsComponent {
       }],
       content: [
         {
-          text: 'Leave Statistics',
-          bold: true,
+          text: 'Leave Statistics Report',
           alignment: 'center',
-          color: '#ff810e',
           style: 'header',
         },
         {
           table: {
-            // widths: [54, 100, 47, 47, 47, 56, 47, 47, 47, 47, 47, 47, 47, 47, 47, 47, 47, 47],
+            widths: [54, 60, 45, 40, 45, 40, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28],
             headerRows: 2,
             body: [
               [
-                { text: 'Employee ID', style: 'tableHeader', rowSpan: 2 },
-                { text: 'Employee Name', style: 'tableHeader', rowSpan: 2 },
+                { text: 'Emp ID', style: 'tableHeader', rowSpan: 2 },
+                { text: 'Emp Name', style: 'tableHeader', rowSpan: 2 },
                 { text: 'Date OfJoining', style: 'tableHeader', rowSpan: 2 },
                 { text: 'Designation', style: 'tableHeader', rowSpan: 2 },
                 { text: 'Office EmailId', style: 'tableHeader', rowSpan: 2 },
                 { text: 'Reporting To', style: 'tableHeader', rowSpan: 2 },
-                { text: 'Experience In Company', style: 'tableHeader', rowSpan: 2 },
+                { text: 'Exp In Company', style: 'tableHeader', rowSpan: 2 },
                 { text: 'Allocated CLs', style: 'tableHeader', rowSpan: 2 },
                 { text: 'Used CLs', colSpan: 2, style: 'tableHeader' },
                 {},
@@ -322,37 +320,153 @@ export class LeaveStatisticsComponent {
                 { text: 'Month', style: 'tableHeader' }
               ],
               ...this.leavesStatistics.map(leave => [
-                leave.code,
-                leave.name,
-                this.datePipe.transform(leave.dateofJoin, DATE_OF_JOINING),
-                leave.designation,
-                leave.officeEmailId,
-                leave.reportingTo,
-                leave.experienceInCompany,
-                leave.allottedCasualLeaves,
-                leave.usedCasualLeavesInYear,
-                leave.usedCasualLeavesInMonth,
-                leave.allottedPrivilegeLeaves,
-                leave.previousYearPrivilegeLeaves,
-                leave.usedPrivilegeLeavesInYear,
-                leave.usedPrivilegeLeavesInMonth,
-                leave.absentsInYear,
-                leave.absentsInMonth,
-                leave.usedLWPInYear,
-                leave.usedLWPInMonth
+                { text: leave.code, fontSize },
+                { text: leave.name, fontSize },
+                { text: this.datePipe.transform(leave.dateofJoin, DATE_OF_JOINING), fontSize },
+                { text: leave.designation, fontSize },
+                { text: leave.officeEmailId, fontSize },
+                { text: leave.reportingTo, fontSize },
+                { text: leave.experienceInCompany, fontSize },
+                { text: leave.allottedCasualLeaves, fontSize },
+                { text: leave.usedCasualLeavesInYear, fontSize },
+                { text: leave.usedCasualLeavesInMonth, fontSize },
+                { text: leave.allottedPrivilegeLeaves, fontSize },
+                { text: leave.previousYearPrivilegeLeaves, fontSize },
+                { text: leave.usedPrivilegeLeavesInYear, fontSize },
+                { text: leave.usedPrivilegeLeavesInMonth, fontSize },
+                { text: leave.absentsInYear, fontSize },
+                { text: leave.absentsInMonth, fontSize },
+                { text: leave.usedLWPInYear, fontSize },
+                { text: leave.usedLWPInMonth, fontSize }
               ])
             ]
           },
         },
+        { text: '', margin: [0, 0, 0, 80] },
       ],
       styles: {
         header: { fontSize: 24 },
-        // color: '#ff810e',
+        defaultStyle: { font: 'Typography', fontSize: 12 },
+        tableHeader: { bold: true, fillColor: '#dbd7d7', fontSize: 10, alignment: 'center' },
+      },
+    };
+    const pdfName = `Leave Statistics Report${currentDate}.pdf`;
+    pdfMake.createPdf(docDefinition).download(pdfName);
+  }
+
+  async formatKeyAndValuesAsonDate() {
+    try {
+      const headerImage1 = await this.getBase64ImageFromURL('../../assets/layout/images/Calibrage_logo1.png');
+      const headerImage2 = await this.getBase64ImageFromURL('../../assets/layout/images/head_right.PNG');
+      const pageWidth = 595.28;
+      const imageWidth = (pageWidth / 4) - 10;
+      const createLine = () => [{ type: 'line', x1: 0, y1: 0, x2: 439.28, y2: 0, lineWidth: 0.5, lineColor: '#f3743f' }];
+
+      let row = {
+        columns: [
+          {
+            image: headerImage1,
+            width: imageWidth,
+            alignment: 'left',
+            margin: [0, 0, 0, 0] // Remove any margins
+          },
+          {
+            width: '*',
+            text: '', // Empty spacer column
+            alignment: 'center' // Remove any margins
+          },
+          {
+            image: headerImage2,
+            width: imageWidth,
+            alignment: 'right',
+            margin: [0, 0, 0, 0] // Remove any margins
+          },
+        ],
+        alignment: 'justify',
+        margin: [0, 0, 0, 0] // Remove any margins
+      };
+
+      // Add canvas element
+      const line = { canvas: createLine(), margin: [0, -10, 0, 10], color: '#f3743f' };
+      const content = [row]; // Array containing both row and line objects
+
+      return content;
+    } catch (error) {
+      console.error("Error occurred while formatting key and values:", error);
+      throw error; // Propagate the error
+    }
+  }
+
+  async generatePdfForLeavesAsOnDate() {
+    const pageSize = { width: 595.28, height: 841.89 };
+    const waterMark = await this.getBase64ImageFromURL('../../assets/layout/images/transparent_logo.png');
+    const currentDate = new Date().toLocaleString().replace(/[/\\?%*:|"<>.]/g, '.');
+    const header = await this.formatKeyAndValuesAsonDate();
+    const createFooter = (currentPage: number) => ({
+      margin: [0, 0, 0, 0],
+      height: 20,
+      background: '#ff810e',
+      width:595.28,
+      columns: [
+        { canvas: [{ type: 'rect', x: 0, y: 0, w: 530.28, h: 20, color: '#ff810e' }] },
+        {
+          stack: [
+            {
+              text: 'Copyrights © 2024 Calibrage Info Systems Pvt Ltd.',
+              fontSize: 11, color: '#fff', absolutePosition: { x: 20, y: 3 }
+            },
+            {
+              text: `Page ${currentPage}`,
+              color: '#000000', background: '#fff', margin: [0, 0, 0, 0], fontSize: 12, absolutePosition: { x: 540, y: 3 },
+            }
+          ],
+        }
+      ],
+    });
+    const tableColumnWidths = pageSize.width * 2 / 10;
+    const docDefinition = {
+      pageMargins: [30, 90, 40, 20],
+      header: () => (header),
+      footer: createFooter,
+      background: [{
+        image: waterMark,
+        absolutePosition: { x: (pageSize.width - 200) / 2, y: (pageSize.height - 200) / 2 },
+      }],
+      content: [
+        {
+          text: 'Leave Statistics Report As On Date',
+          alignment: 'center',
+          style: 'header',
+        },
+        {
+          table: {
+            widths: [tableColumnWidths, tableColumnWidths * 1.2, tableColumnWidths, tableColumnWidths],
+            headerRows: 1,
+            body: [
+              [
+                { text: 'Employee ID', style: 'tableHeader' },
+                { text: 'Employee Name', style: 'tableHeader' },
+                { text: 'Allocated CLs', style: 'tableHeader' },
+                { text: 'Allocated PLs', style: 'tableHeader' },
+              ],
+              ...this.leavesStatistics.map(leave => [
+                { text: leave.code, alignment: 'center' },
+                { text: leave.name },
+                { text: leave.allottedCasualLeaves, alignment: 'center' },
+                { text: leave.allottedPrivilegeLeaves, alignment: 'center' }
+              ])
+            ]
+          },
+        },
+        { text: '', margin: [0, 0, 0, 60] },
+      ],
+      styles: {
+        header: { fontSize: 24 },
         defaultStyle: { font: 'Typography', fontSize: 12 },
         tableHeader: { bold: true, fillColor: '#dbd7d7', alignment: 'center' },
       },
     };
-    const pdfName = `Leave Statistics Report${currentDate}.pdf`;
+    const pdfName = `Leave Statistics Report As on Date${currentDate}.pdf`;
     pdfMake.createPdf(docDefinition).download(pdfName);
   }
 

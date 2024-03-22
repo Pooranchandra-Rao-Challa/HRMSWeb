@@ -49,7 +49,7 @@
                             </p-multiSelect>
                         </div>
                         <div class="p-input-icon-left dropdown_icon mt-1">
-                            <div>
+                            <div *ngIf="permissions?.CanDownloadLeaveStatistics">
                                 <p-splitButton  class="pdf_group" icon="pi pi-plus"[model]="items" pTooltip="Download Leave Statistics Pdf" tooltipPosition="bottom">
                                     <ng-template pTemplate="dropdownicon">
                                         <i class="pi icon-pdf-svgrepo-com-2"></i>

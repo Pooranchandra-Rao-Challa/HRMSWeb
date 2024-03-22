@@ -145,7 +145,7 @@
                         <p-dropdown [options]="attendanceExcelTypes" optionLabel="label"
                             placeholder="Select Attendance Report Type"
                             (onChange)="DownloadAttendanceReport($event.value,'excel')" optionValue="label"
-                            class="att_dropdown w-100" [showClear]="true">
+                            class="att_dropdown w-100" [showClear]="true"  appendTo="body">
                         </p-dropdown>
                     </div>
                 </div>
@@ -161,7 +161,7 @@
                 </div>
                 <div *ngIf="canUpdatePreviousDayAttendance && NotUpdatedAttendanceDatesList?.length">
                     <p-dropdown #dropdown [options]="NotUpdatedAttendanceDatesList" optionValue="date"
-                        optionLabel="date" placeholder="Select a Date" [showClear]="true"
+                        optionLabel="date" placeholder="Select a Date" [showClear]="true"  appendTo="body"
                         (onChange)="onDropdownChange($event.value)" class="mr-2 ">
                         <ng-template let-option pTemplate="selectedItem">
                             {{ option.dayOfWeek }}, {{ option.date }}
@@ -267,7 +267,7 @@
     </div>
 </div>
 <p-dialog header="Statistics of {{this.notUpdatedDates| date:DatedFormat}} Attendance:"
-    [(visible)]="confirmationDialog">
+    [(visible)]="confirmationDialog" [modal]="true" showEffect="fade">
     <div class="flex justify-content-center m-3">
         <i class="pi pi-exclamation-triangle" style="font-size: 24px;"></i>&nbsp;&nbsp;
         <p *ngIf="isTodayDate(this.notUpdatedDates)">When You Perform 'Confirm' Action the below shown Statistics will
@@ -309,7 +309,7 @@
     </ng-template>
 </p-dialog>
 
-<p-dialog header="Datewise Attendance Report" [(visible)]="DatewiseAttendanceReportDialog">
+<p-dialog header="Datewise Attendance Report" [(visible)]="DatewiseAttendanceReportDialog" [modal]="true" showEffect="fade">
     <div class="flex flex-column align-items-center justify-content-center">
         <form [formGroup]="fbDatewiseAttendanceReport">
             <div class="p-fluid p-formgrid">
@@ -365,7 +365,7 @@
         </div>
     </ng-template>
 </p-dialog>
-<p-dialog header="Projectwise Attendance Report" [(visible)]="ProjectwiseAttendanceReportDialog">
+<p-dialog header="Project Wise Attendance Report" [(visible)]="ProjectwiseAttendanceReportDialog" [modal]="true" showEffect="fade">
     <div class="flex flex-column align-items-center justify-content-center">
         <form [formGroup]="fbProjectwiseAttendanceReport">
             <div class="p-fluid p-formgrid">
