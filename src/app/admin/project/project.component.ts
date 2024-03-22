@@ -1051,16 +1051,10 @@ export class ProjectComponent implements OnInit {
         this.filter.nativeElement.value = '';
         this.initProjects();
     }
-    getProjects(pdftype): any {
-        return pdftype !== 'All' ?
-            this.projects.filter(project => project[pdftype.toLowerCase()] !== null) : this.projects;
-    }
 
     getBase64ImageFromURL(url: string) {
         return new Promise((resolve, reject) => {
             var img = new Image();
-            img.setAttribute("crossOrigin", "anonymous");
-
             img.onload = () => {
                 var canvas = document.createElement("canvas");
                 canvas.width = img.width;
@@ -1100,7 +1094,26 @@ export class ProjectComponent implements OnInit {
             throw error; // Propagate the error
         }
     }
-    async generatePdf(pdftype: string) {
+    async downloadProjectPDfReport(pdftype) {
+        const projectstatus = await this.ProjectstatuesReportType.filter(each => each.name === pdftype);
+        let projectsList;
+
+        if (projectstatus[0].eProjectStatusesId !== 0)
+            projectsList = this.projects.filter(each => each.activeStatusId === projectstatus[0].eProjectStatusesId);
+        else
+            projectsList = this.projects;
+
+        this.generatePdf(projectsList, pdftype); // Assuming generatePdf is an async function
+    }
+    async generatePdf(data: any, pdftype: string) {
+        const content: any[] = [
+            {
+                text: `${pdftype} Projects Report`,
+                style: 'header'
+            }
+        ];
+        const promiseResult = await this.pdfProjectsListDesign(data)
+        content.push(promiseResult);
 
         const waterMark = await this.getBase64ImageFromURL('../../assets/layout/images/transparent_logo.png');
         const pageSize = { width: 595.28, height: 841.89 };
@@ -1129,34 +1142,109 @@ export class ProjectComponent implements OnInit {
                 absolutePosition: { x: (pageSize.width - 200) / 2, y: (pageSize.height - 200) / 2 },
             }],
             pageMargins: [40, 90, 40, 20],
-            content: [
-                {
-                    text: `${pdftype} Projects Report`,
-                    style: 'header'
-                },
-                this.pdfProjectsListDesign()
-            ],
+            content: content,
             styles: {
                 header: { fontSize: 20, backgroundColor: '#ff810e', alignment: 'center', margin: [0, 0, 0, 5] },
-                subheader: { fontSize: 20, alignment: 'center' },
-                borderedText: { border: [1, 1, 1, 1], borderColor: 'rgb(0, 0, 255)', fillColor: '#eeeeee', width: 100, height: 150, margin: [12, 20, 0, 0] },
                 defaultStyle: { font: 'Typography', fontSize: 12 },
+                keyValueStyles: { fontSize: 10 },
+                card: { margin: [0, 2], border: '1px solid #ccc', borderRadius: 5, padding: 10 }
             },
         };
 
         pdfMake.createPdf(docDefinition).download(`${pdftype}Projects.pdf`);
     }
-
-    async downloadProjectPDfReport(projectName) {
-        const projectsList = await this.getProjects(projectName);
-        console.log(projectsList);
-        
-        // this.generatePdf(projectName)
+    async pdfProjectsListDesign(projects) {
+        const content = [];
+        const defaultImage = await this.getBase64ImageFromURL('../../assets/layout/images/projectsDefault.jpg');
+        const itemsPerPage = 4;
+        let pageIndex = 0;
+    
+        for (let i = 0; i < projects.length; i += itemsPerPage) {
+            const pageProjects = projects.slice(i, i + itemsPerPage);
+    
+            const pageContent = [];
+    
+            for (const project of pageProjects) {
+                const logoPath = project.logo ? project.logo : defaultImage;
+    
+                const cardContent = {
+                    table: {
+                        widths: ['*'],
+                        body: [
+                            [
+                                {
+                                    stack: [
+                                        {
+                                            columns: [
+                                                {
+                                                    stack: [
+                                                        {
+                                                            canvas: [
+                                                                {type: 'rect', x: 0, y: 0, w: 70, h: 70, r: 5, lineColor: '#ff810e'}
+                                                            ],
+                                                            alignment: 'center', margin: [0, 5, 0, 0]
+                                                        },
+                                                        {
+                                                            image: logoPath, width: 67, height: 67, fit: [67, 67], alignment: 'center', margin: [-69, -69, 0, 0] 
+                                                        },
+                                                        {
+                                                            stack: [
+                                                                { text: project.name, fontSize: 12, bold: true, margin: [0, 2, 0, 0] },
+                                                                { text: project.code, fontSize: 10, margin: [0, 2, 0, 0] }
+                                                            ],
+                                                            relativePosition: { x: 0, y: 3 }
+                                                        }
+                                                    ],
+                                                    alignment: 'center',width: '25%',
+                                                },
+                                                {
+                                                    width: '75%',
+                                                    stack: [
+                                                        this.formatKeyAndValues("Description", project.description),
+                                                        this.formatKeyAndValues("Client Name", project.clientName),
+                                                        this.formatKeyAndValues("Company Name", project.companyName),
+                                                        this.formatKeyAndValues("POC Name", project.pocName),
+                                                        this.formatKeyAndValues("POC Mobile No", project.pocMobileNumber),
+                                                        this.formatKeyAndValues("CIN No", project.cinno),
+                                                        this.formatKeyAndValues("Address", project.address),
+                                                        this.formatKeyAndValues("Email", project.email),
+                                                    ],
+                                                    alignment: 'center'
+                                                },
+                                            ],
+                                            style: 'card' 
+                                        },
+                                    ],
+                                    style: 'borderedText',margin: [0, 3, 0, 3],border: [true, true, true, true],borderColor: '#f0d7c7',fillColor: '#faefe8',fillOpacity: 0.5, hLineColor: '#f0d7c7'
+                                }
+                            ]
+                        ]
+                    },
+                    margin: [0, 7],
+                };
+                pageContent.push(cardContent);
+            }
+            content.push({ stack: pageContent, pageBreak: 'after' });
+        }
+        return { stack: content };
     }
 
-    pdfProjectsListDesign(){
-
+    formatKeyAndValues(key: string, value: any) {
+        let row = {
+            stack: [
+                {
+                    columns: [
+                        { width: '30%', text: key, bold: true, alignment: 'left' },
+                        { width: '2%', text: ': ', bold: true, alignment: 'left' },
+                        { width: '68%', text: value, bold: false, alignment: 'left' },
+                    ],
+                    style: 'keyValueStyles'
+                }
+            ], margin: [0, 2, 0, 0]
+        };
+        return row;
     }
+
 }
 
 

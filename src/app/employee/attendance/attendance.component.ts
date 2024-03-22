@@ -965,10 +965,8 @@ export class AttendanceComponent {
     }
     else if (pdftype == "Projectwise") {
       content.splice(1, 0, this.formatKeyAndValues1("Project Name", ProjectName, false));
-      content.splice(2, 0, this.formatKeyAndValues1("Month", this.month, false));
-      content.splice(3, 0, this.formatKeyAndValues1("Year", this.year, false));
-      content.splice(4, 0, this.formatKeyAndValues1("From Date", fromDate, true));
-      content.splice(5, 0, this.formatKeyAndValues1("To Date", toDate, true));
+      content.splice(2, 0, this.formatKeyAndValues1("From Date", fromDate, true));
+      content.splice(3, 0, this.formatKeyAndValues1("To Date", toDate, true));
     }
     const createFooter = (currentPage: number) => ({
       margin: [0, 0, 0, 0],

@@ -1459,3 +1459,7 @@ app-attendance .p-datatable-table tbody tr td:first-child {
 .pdf_group .pi-chevron-down:before {
     content: "\e98d";
 }
+
+.roundedImage {
+  border-radius: 10px; /* Adjust the value to change the roundness */
+}
